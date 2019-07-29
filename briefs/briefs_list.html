@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Quản trị - Danh mục tỉnh</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
+
+    <!-- MetisMenu CSS -->
+    <link href="../assets/js/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../assets/css/sb-admin-2.css" rel="stylesheet">
+    <link href="../assets/css/site.css" rel="stylesheet">
+    <!-- Custom Fonts -->
+    <link href="../assets/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <script src="../assets/js/jquery.min.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="">
+                    <img src="../Assets/Images/logo.png" />
+                </a>
+            </div>
+
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li>
+                            <a href="#"><i class="fa fa-user fa-fw"></i>Thông tin cá nhân</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-gear fa-fw"></i>Đổi mật khẩu</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="logout.php"><i class="fa fa-sign-out fa-fw"></i>Đăng xuất</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li>
+                            <a href="/"><i class="fa fa-dashboard fa-fw"></i>Bảng điều khiển</a>
+                        </li>
+
+                        <li>
+                            <a href="#"><i class="fa fa-user-circle fa-fw"></i>Danh mục<span
+                                    class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="#"><i class="fa fa-id-card"></i> HỒ SƠ<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                            <a href="./briefs_list.html"><i class="fa fa-list fa-fw"></i>DANH SÁCH HỒ SƠ</a>
+                                            <a href="../briefs/briefs_add.html"><i class="fa fa-user-plus"></i></i>THÊM HỒ
+                                                SƠ</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="/provinces"><i class="fa fa-certificate"></i>CHỨNG CHỈ</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="#"><i class="fa fa-home fa-fw"></i>Phòng ban<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/department/index"><i class="fa fa-list fa-fw"></i>Danh sách phòng ban</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="#"><i class="fa fa-book fa-fw"></i>Người dùng<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/accounts/index"><i class="fa fa-list fa-fw"></i>Danh sách người dùng</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="/logout"><i class="fa fa-users fa-fw"></i>Đăng xuất</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="well well-md searchBox row">
+                    <div class="col-md-6">
+                        <div class="active-cyan-3 active-cyan-4 mb-4">
+                            <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+
+                    </div>
+                </div>
+                <div class="well well-md row">
+                     <div>
+                         <table class="table table-hover">
+                             <thead>
+                                 <tr>
+                                     <th>Số thứ tự</th>
+                                     <th>Mã nhân viên</th>
+                                     <th>Tên</th>
+                                     <th>Năm sinh</th>
+                                     <th>Giới tính</th>
+                                     <th>Số điện thoại</th>
+                                     <th>Phân xưởng</th>
+                                     <th>Chỉnh Sửa</th>
+                                     <th>Xoá</th>
+                                 </tr>
+                             </thead>
+                             <tbody>
+                                 <tr>
+                                     <td>1</td>
+                                     <td>CST211</td>
+                                     <td>Nguyễn Văn A</td>
+                                     <td>19/07/1987</td>
+                                     <td>Nam</td>
+                                     <td>012345678</td>
+                                     <td>Phân xưởng cơ khí</td>
+                                     <td><a href="./briefs_edit.html"><i class="fa fa-edit fa-2x"></i></td><a>
+                                     <td><i class="fa fa-user-times fa-2x" style="color:red"></i></td>
+                                 </tr>
+                                 <tr>
+                                     <td>2</td>
+                                     <td>ABC123</td>
+                                     <td>Nguyễn Văn B</td>
+                                     <td>19/05/1984</td>
+                                     <td>Nam</td>
+                                     <td>012345678</td>
+                                     <td>Phân xưởng đào lò</td>
+                                     <td><i class="fa fa-edit fa-2x"></i></td>
+                                     <td><i class="fa fa-user-times fa-2x" style="color:red"></i></td>
+                                 </tr>
+                                 <tr>
+                                     <td>3</td>
+                                     <td>NWD234</td>
+                                     <td>Nguyễn Thị C</td>
+                                     <td>19/07/1991</td>
+                                     <td>Nữ</td>
+                                     <td>012348132</td>
+                                     <td>Phân xưởng phục vụ</td>
+                                     <td><i class="fa fa-edit fa-2x"></i></td>
+                                     <td><i class="fa fa-user-times fa-2x" style="color:red"></i></td>
+                                 </tr>
+                                 <tr>
+                                     <td>4</td>
+                                     <td>ANK987</td>
+                                     <td>Lê Văn G</td>
+                                     <td>19/07/1976</td>
+                                     <td>Nam</td>
+                                     <td>012345678</td>
+                                     <td>Phân xưởng xây dựng</td>
+                                     <td><i class="fa fa-edit fa-2x"></i></td>
+                                     <td><i class="fa fa-user-times fa-2x" style="color:red"></i></td>
+                                 </tr>
+                                 <tr>
+                                     <td>5</td>
+                                     <td>KII987</td>
+                                     <td>Đào Văn Q</td>
+                                     <td>19/07/1976</td>
+                                     <td>Nam</td>
+                                     <td>0123456456</td>
+                                     <td>Phân xưởng cơ khí</td>
+                                     <td><i class="fa fa-edit fa-2x"></i></td>
+                                     <td><i class="fa fa-user-times fa-2x" style="color:red"></i></td>
+                                 </tr>
+                                 <tr>
+                                     <td>6</td>
+                                     <td>DSQ976</td>
+                                     <td>Hàn Thị Tơ </td>
+                                     <td>19/07/1985</td>
+                                     <td>Nữ</td>
+                                     <td>012345678</td>
+                                     <td>Phân xưởng dụng cụ</td>
+                                     <td><i class="fa fa-edit fa-2x"></i></td>
+                                     <td><i class="fa fa-user-times fa-2x" style="color:red"></i></td>
+                                 </tr>
+                                 <tr>
+                                     <td>7</td>
+                                     <td>DRA234</td>
+                                     <td>Cư Bá A</td>
+                                     <td>19/07/1987</td>
+                                     <td>Nam</td>
+                                     <td>012345943</td>
+                                     <td>Phân xưởng xây dựng</td>
+                                     <td><i class="fa fa-edit fa-2x"></i></td>
+                                     <td><i class="fa fa-user-times fa-2x" style="color:red"></i></td>
+                                 </tr>
+                                 <tr>
+                                     <td>8</td>
+                                     <td>CST211</td>
+                                     <td>Nguyễn Văn A</td>
+                                     <td>19/07/1987</td>
+                                     <td>Nam</td>
+                                     <td>012345678</td>
+                                     <td>Phân xưởng cơ khí</td>
+                                     <td><i class="fa fa-edit fa-2x"></i></td>
+                                     <td><i class="fa fa-user-times fa-2x" style="color:red"></i></td>
+                                 </tr>
+                                 <tr>
+                                     <td>9</td>
+                                     <td>ABC123</td>
+                                     <td>Nguyễn Văn B</td>
+                                     <td>19/05/1984</td>
+                                     <td>Nam</td>
+                                     <td>012345678</td>
+                                     <td>Phân xưởng đào lò</td>
+                                     <td><i class="fa fa-edit fa-2x"></i></td>
+                                     <td><i class="fa fa-user-times fa-2x" style="color:red"></i></td>
+                                 </tr>
+                                 <tr>
+                                     <td>10</td>
+                                     <td>NWD234</td>
+                                     <td>Nguyễn Thị C</td>
+                                     <td>19/07/1991</td>
+                                     <td>Nữ</td>
+                                     <td>012348132</td>
+                                     <td>Phân xưởng phục vụ</td>
+                                     <td><i class="fa fa-edit fa-2x"></i></td>
+                                     <td><i class="fa fa-user-times fa-2x" style="color:red"></i></td>
+                                 </tr>
+                                 <tr>
+                                     <td>11</td>
+                                     <td>ANK987</td>
+                                     <td>Lê Văn G</td>
+                                     <td>19/07/1976</td>
+                                     <td>Nam</td>
+                                     <td>012345678</td>
+                                     <td>Phân xưởng xây dựng</td>
+                                     <td><i class="fa fa-edit fa-2x"></i></td>
+                                     <td><i class="fa fa-user-times fa-2x" style="color:red"></i></td>
+                                 </tr>
+                                 <tr>
+                                     <td>12</td>
+                                     <td>ANK987</td>
+                                     <td>Lê Văn G</td>
+                                     <td>19/07/1976</td>
+                                     <td>Nam</td>
+                                     <td>012345678</td>
+                                     <td>Phân xưởng xây dựng</td>
+                                     <td><i class="fa fa-edit fa-2x"></i></td>
+                                     <td><i class="fa fa-user-times fa-2x" style="color:red"></i></td>
+                                 </tr>
+                             </tbody>
+                         </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="../assets/js/metisMenu/metisMenu.min.js"></script>
+    <script src="../assets/js/sb-admin-2.js"></script>
+    <script src="../assets/js/jquery.validate.min.js"></script>
+</body>
+
+</html>
