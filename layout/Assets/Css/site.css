@@ -1,0 +1,41 @@
+.page-admin-header {
+    margin-top: 10px;
+    font-weight: bold;
+    margin-bottom: 50px;
+}
+
+a:visited {
+    color: #fff;
+}
+
+a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.nav .dropdown-toggle {
+    color: #337ab7;
+}
+
+.table a:visited {
+    color: #333;
+}
+
+.table a {
+    color: #333;
+}
+
+#page-wrapper a:visited {
+    color: #333;
+    font-weight: bold;
+}
+
+#page-wrapper a {
+    color: #333;
+    font-weight: bold;
+}
+
+.btn-custom {
+    color: #fff;
+    background-color: #4e73df;
+}
