@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Quản trị - Danh mục tỉnh</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
+
+    <!-- MetisMenu CSS -->
+    <link href="../assets/js/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../assets/css/sb-admin-2.css" rel="stylesheet">
+    <link href="../assets/css/site.css" rel="stylesheet">
+    <!-- Custom Fonts -->
+    <link href="../assets/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <script src="../assets/js/jquery.min.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="">
+                    <img src="../Assets/Images/logo.png" />
+                </a>
+            </div>
+
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li>
+                            <a href="#"><i class="fa fa-user fa-fw"></i>Thông tin cá nhân</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-gear fa-fw"></i>Đổi mật khẩu</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="logout.php"><i class="fa fa-sign-out fa-fw"></i>Đăng xuất</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li>
+                            <a href="/"><i class="fa fa-dashboard fa-fw"></i>Bảng điều khiển</a>
+                        </li>
+
+                        <li>
+                            <a href="#"><i class="fa fa-user-circle fa-fw"></i>Danh mục<span
+                                    class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="#"><i class="fa fa-id-card"></i> HỒ SƠ<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                            <a href="./briefs_list.html"><i class="fa fa-list fa-fw"></i>DANH SÁCH HỒ
+                                                SƠ</a>
+                                            <a href="../briefs/briefs_add.html"><i class="fa fa-user-plus"></i></i>THÊM
+                                                HỒ
+                                                SƠ</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="/provinces"><i class="fa fa-certificate"></i>CHỨNG CHỈ</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="#"><i class="fa fa-home fa-fw"></i>Phòng ban<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/department/index"><i class="fa fa-list fa-fw"></i>Danh sách phòng ban</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="#"><i class="fa fa-book fa-fw"></i>Người dùng<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/accounts/index"><i class="fa fa-list fa-fw"></i>Danh sách người dùng</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="/logout"><i class="fa fa-users fa-fw"></i>Đăng xuất</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div id="page-wrapper">
+            <div class="row">
+                <div>
+                    <div class="text-center">
+                        <div class="btn-custom form-control"><label>Thêm hồ sơ</label></div>
+                    </div>
+                    <div>
+                        <h3>Thông tin cá nhân</h3>
+                        <div class="col-md-12">
+                            <div class="col-md-8">
+                                <label>Họ và tên khai sinh</label>
+                                <input class="form-control" type="text" placeholder="Tên khai sinh" />
+
+                            </div>
+                            <div class="col-md-4">
+                                <label>Các tên gọi khác</label>
+                                <input class="form-control" type="text" placeholder="Tên khác" />
+                            </div>
+                            <div class="col-md-4">
+                                <label>Giới tính</label>
+                                <select class="form-control">
+                                    <option>Nam</option>
+                                    <option>Nữ</option>
+                                </select>
+                            </div>
+                            <div class="col-md-8">
+                                <label>Cấp ủy hiện tại</label>
+                                <input class="form-control" type="text" placeholder="Cấp ủy" />
+                            </div>
+                            <div class="col-md-4">
+                                <label>Cấp ủy kiêm</label>
+                                <input class="form-control" type="text" placeholder="Cấp ủy kiêm" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Chức vụ</label>
+                                <input class="form-control" type="text" placeholder="Chức vụ" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Phụ cấp chức vụ</label>
+                                <input class="form-control" type="text" placeholder="Phụ cấp" />
+                            </div>
+                            <div class="col-md-4">
+                                <label>Ngày sinh</label>
+                                <input class="form-control" type="date" />
+                            </div>
+                            <div class="col-md-4">
+                                <label>Nơi sinh</label>
+                                <input class="form-control" type="text" placeholder="Nơi sinh" />
+                            </div>
+                            <div class="col-md-4">
+                                <label>Dân tộc</label>
+                                <input class="form-control" type="text" placeholder="Dân tộc" />
+                            </div>
+                            <div class="col-md-8">
+                                <label>Quê quán</label>
+                                <input class="form-control" type="text" placeholder="Quê quán" />
+                            </div>
+                            <div class="col-md-4">
+                                <label>Tôn giáo</label>
+                                <input class="form-control" type="text" placeholder="Tôn giáo" />
+                            </div>
+                            <div class="col-md-8">
+                                <label>Nơi ở hiện nay</label>
+                                <input class="form-control" type="text" placeholder="Nơi ở hiện nay" />
+                            </div>
+                            <div class="col-md-4">
+                                <label>Số điện thoại</label>
+                                <input class="form-control" type="text" placeholder="Số điện thoại" />
+                            </div>
+                            <div class="col-md-12">
+                                <label>Thành phần gia đình xuất thân</label>
+                                <input class="form-control" type="text" placeholder="Thành phần gia đình" />
+                            </div>
+                            <div class="col-md-12">
+                                <label>Nghề nghiệp trược khi được tuyển dụng</label>
+                                <input class="form-control" type="text" placeholder="Nghề trước khi tuyển dụng" />
+                            </div>
+                            <div class="col-md-4">
+                                <label>Ngày được tuyển dụng</label>
+                                <input class="form-control" type="date" />
+                            </div>
+                            <div class="col-md-4">
+                                <label>Tại cơ quan</label>
+                                <input class="form-control" type="text" placeholder="Cơ quan" />
+                            </div>
+                            <div class="col-md-4">
+                                <label>Ngày vào nơi đang công tác</label>
+                                <input class="form-control" type="date" />
+                            </div>
+                        </div>
+                        <h3>Lý lịch chính trị</h3>
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <label>Ngày tham gia cách mạng</label>
+                                <input class="form-control" type="date" />
+                            </div>
+                            <div class="col-md-5">
+                                <label>Ngày vào Đảng Cộng sản Việt Nam</label>
+                                <input class="form-control" type="date" />
+                            </div>
+                            <div class="col-md-3">
+                                <label>Ngày chính thức</label>
+                                <input class="form-control" type="date" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Ngày vào tổ chức chính trị xã hội</label>
+                                <input class="form-control" type="date" />
+                            </div>
+                            <div class="col-md-6">
+                                <br /><br />
+                                <i>(Ngày vào đoàn TNCSHCM, Công đoàn, Hội, ...)</i>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Ngày nhập ngũ</label>
+                                <input class="form-control" type="date" />
+                            </div>
+                            <div class="col-md-3">
+                                <label>Ngày xuất ngũ</label>
+                                <input class="form-control" type="date" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Quân hàm, chức vụ cao nhất(Năm)</label>
+                                <input type="text" class="form-control" placeholder="Quân hàm, chức vụ" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Trình độ học vấn</label><i>(Giáo dục phổ thông (lớp mấy))</i>
+                                <input type="text" class="form-control" placeholder="Trình độ học vấn" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Học hàm, học vị cao nhất</label><i>(GS, PGS, TS,...)</i>
+                                <input type="text" class="form-control" placeholder="Học hàm, học vị" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Lý luận chính trị</label><i>(Cử nhân/Cao cấp, Trung cấp, Sơ cấp)</i>
+                                <input type="text" class="form-control" placeholder="Lý luận trính trị" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Ngoại ngữ</label>
+                                <input type="text" class="form-control" placeholder="Ngoại ngữ" />
+                            </div>
+                        </div>
+                        <h3>Thành tích cá nhân</h3>
+                        <div class="col-md-12">
+                            <div class="col-md-12">
+                                <label>Công tác chính đang làm</label>
+                                <input type="text" class="form-control" placeholder="Công tác chính" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Ngạch công chức</label>
+                                <input type="text" class="form-control" placeholder="Công tác chính" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Mã số</label>
+                                <input type="text" class="form-control" placeholder="Mã số" />
+                            </div>
+                            <div class="col-md-4">
+                                <label>Bậc lương</label>
+                                <select class="form-control">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Hệ số</label>
+                                <input type="text" class="form-control" placeholder="Hệ số" />
+                            </div>
+                            <div class="col-md-4">
+                                <label>Từ tháng</label>
+                                <input type="text" class="form-control" placeholder="Tháng" />
+                            </div>
+                            <div class="col-md-12">
+                                <label>Danh hiệu được phong</label><i>(Năm nào)</i>
+                                <input type="text" class="form-control" placeholder="Danh hiệu" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Sở trường công tác</label>
+                                <input type="text" class="form-control" placeholder="Sở trường" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Công việc đã làm lâu nhất</label>
+                                <input type="text" class="form-control" placeholder="Công việc" />
+                            </div>
+                            <div class="col-md-12">
+                                <label>Khen thưởng</label><i>(Huân, huy chương, năm nào)</i>
+                                <input type="text" class="form-control" placeholder="Khen thưởng" />
+                            </div>
+                            <div class="col-md-12">
+                                <label>Kỷ luật</label><i>(Năm nào, lí do, hình thức,...</i>
+                                <input class="form-control" type="text" placeholder="Kỷ luật" />
+                            </div>
+
+                        </div>
+                        <h3>Sức khỏe</h3>
+                        <div class="col-md-12">
+                            <div class="col-md-12">
+                                <label>Tình trạng sức khỏe</label>
+                                <select class="form-control">
+                                    <option>Khỏe</option>
+                                    <option>Bình thường</option>
+                                    <option>Yếu</option>
+                                    <option>Bệnh mãn tính(ghi rõ)</option>
+                                </select>
+                                <input type="text" class="form-control" placeholder="Bệnh mãn tính (nếu có)" />
+                            </div>
+                            <div class="col-md-4">
+                                <label>Chiều cao</label><i>(m)</i>
+                                <input type="number" class="form-control" placeholder="Cao (m)" />
+                            </div>
+                            <div class="col-md-4">
+                                <label>Cân nặng</label><i>(kg)</i>
+                                <input type="number" class="form-control" placeholder="Nặng (kg)" />
+                            </div>
+                            <div class="col-md-4">
+                                <label>Nhóm máu</label>
+                                <input type="text" class="form-control" placeholder="Nhóm máu" />
+                            </div>
+                            <div class="col-md-4">
+                                <label>Số chứng minh nhân dân</label><i>(m)</i>
+                                <input type="number" class="form-control" placeholder="CMT nhân dân" />
+                            </div>
+                            <div class="col-md-4">
+                                <label>Thương binh loại</label><i>(m)</i>
+                                <input type="number" class="form-control" placeholder="Loại" />
+                            </div>
+                            <div class="col-md-4">
+                                <label>Gia đình liệt sĩ</label><i>(m)</i>
+                                <input type="text" class="form-control" placeholder="Liệt sĩ" />
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <br />
+                                <button class="btn-custom btn-custom" style="margin-left: 90px">Thêm</button>
+                            </div>
+                            <div class="col-md-4"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="../assets/js/bootstrap.min.js"></script>
+        <script src="../assets/js/metisMenu/metisMenu.min.js"></script>
+        <script src="../assets/js/sb-admin-2.js"></script>
+        <script src="../assets/js/jquery.validate.min.js"></script>
+</body>
+
+</html>
