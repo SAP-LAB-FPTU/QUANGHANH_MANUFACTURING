@@ -114,11 +114,16 @@
             </div>
         </nav>
         <div id="page-wrapper">
-            <div class="row">
+            <div class="row border border-primary">
                 <div class="well well-md searchBox row">
                     <div class="col-md-6">
-                        <div class="active-cyan-3 active-cyan-4 mb-4">
-                            <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+                        <div class="row">
+                            <div class="active-cyan-3 active-cyan-4 mb-4 col-md-9">
+                                <input class="form-control" type="text" placeholder="Tìm kiếm theo mã nhân viên, tên " aria-label="Search">
+                            </div>
+                            <div class="col-md-3">
+                                <button type="button" class="btn btn-primary">Tìm kiếm</button>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -137,8 +142,9 @@
                                      <th>Giới tính</th>
                                      <th>Số điện thoại</th>
                                      <th>Phân xưởng</th>
-                                     <th>Chỉnh Sửa</th>
-                                     <th>Xoá</th>
+                                     <th>Trạng thái</th>
+                                     <th></th>
+                                     <th></th>
                                  </tr>
                              </thead>
                              <tbody>
@@ -150,8 +156,9 @@
                                      <td>Nam</td>
                                      <td>012345678</td>
                                      <td>Phân xưởng cơ khí</td>
-                                     <td><a href="./briefs_edit.html"><i class="fa fa-edit fa-2x"></i></td><a>
-                                     <td><i class="fa fa-user-times fa-2x" style="color:red"></i></td>
+                                     <td><button type="button" class="btn btn-success btn-sm" disabled>Đang đi làm</button></td>
+                                     <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                     <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
                                  </tr>
                                  <tr>
                                      <td>2</td>
@@ -161,8 +168,9 @@
                                      <td>Nam</td>
                                      <td>012345678</td>
                                      <td>Phân xưởng đào lò</td>
-                                     <td><i class="fa fa-edit fa-2x"></i></td>
-                                     <td><i class="fa fa-user-times fa-2x" style="color:red"></i></td>
+                                    <td><button type="button" class="btn btn-warning btn-sm" disabled>Nghỉ vô lý do</button></td>
+                                     <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                     <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
                                  </tr>
                                  <tr>
                                      <td>3</td>
@@ -172,8 +180,8 @@
                                      <td>Nữ</td>
                                      <td>012348132</td>
                                      <td>Phân xưởng phục vụ</td>
-                                     <td><i class="fa fa-edit fa-2x"></i></td>
-                                     <td><i class="fa fa-user-times fa-2x" style="color:red"></i></td>
+                                     <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                     <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
                                  </tr>
                                  <tr>
                                      <td>4</td>
@@ -183,8 +191,8 @@
                                      <td>Nam</td>
                                      <td>012345678</td>
                                      <td>Phân xưởng xây dựng</td>
-                                     <td><i class="fa fa-edit fa-2x"></i></td>
-                                     <td><i class="fa fa-user-times fa-2x" style="color:red"></i></td>
+                                     <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                     <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
                                  </tr>
                                  <tr>
                                      <td>5</td>
@@ -194,8 +202,8 @@
                                      <td>Nam</td>
                                      <td>0123456456</td>
                                      <td>Phân xưởng cơ khí</td>
-                                     <td><i class="fa fa-edit fa-2x"></i></td>
-                                     <td><i class="fa fa-user-times fa-2x" style="color:red"></i></td>
+                                     <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                     <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
                                  </tr>
                                  <tr>
                                      <td>6</td>
@@ -205,8 +213,8 @@
                                      <td>Nữ</td>
                                      <td>012345678</td>
                                      <td>Phân xưởng dụng cụ</td>
-                                     <td><i class="fa fa-edit fa-2x"></i></td>
-                                     <td><i class="fa fa-user-times fa-2x" style="color:red"></i></td>
+                                     <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                     <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
                                  </tr>
                                  <tr>
                                      <td>7</td>
@@ -216,8 +224,8 @@
                                      <td>Nam</td>
                                      <td>012345943</td>
                                      <td>Phân xưởng xây dựng</td>
-                                     <td><i class="fa fa-edit fa-2x"></i></td>
-                                     <td><i class="fa fa-user-times fa-2x" style="color:red"></i></td>
+                                     <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                     <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
                                  </tr>
                                  <tr>
                                      <td>8</td>
@@ -227,8 +235,8 @@
                                      <td>Nam</td>
                                      <td>012345678</td>
                                      <td>Phân xưởng cơ khí</td>
-                                     <td><i class="fa fa-edit fa-2x"></i></td>
-                                     <td><i class="fa fa-user-times fa-2x" style="color:red"></i></td>
+                                     <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                     <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
                                  </tr>
                                  <tr>
                                      <td>9</td>
@@ -238,8 +246,8 @@
                                      <td>Nam</td>
                                      <td>012345678</td>
                                      <td>Phân xưởng đào lò</td>
-                                     <td><i class="fa fa-edit fa-2x"></i></td>
-                                     <td><i class="fa fa-user-times fa-2x" style="color:red"></i></td>
+                                     <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                     <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
                                  </tr>
                                  <tr>
                                      <td>10</td>
@@ -249,8 +257,8 @@
                                      <td>Nữ</td>
                                      <td>012348132</td>
                                      <td>Phân xưởng phục vụ</td>
-                                     <td><i class="fa fa-edit fa-2x"></i></td>
-                                     <td><i class="fa fa-user-times fa-2x" style="color:red"></i></td>
+                                     <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                     <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
                                  </tr>
                                  <tr>
                                      <td>11</td>
@@ -260,8 +268,8 @@
                                      <td>Nam</td>
                                      <td>012345678</td>
                                      <td>Phân xưởng xây dựng</td>
-                                     <td><i class="fa fa-edit fa-2x"></i></td>
-                                     <td><i class="fa fa-user-times fa-2x" style="color:red"></i></td>
+                                     <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                     <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
                                  </tr>
                                  <tr>
                                      <td>12</td>
@@ -271,8 +279,8 @@
                                      <td>Nam</td>
                                      <td>012345678</td>
                                      <td>Phân xưởng xây dựng</td>
-                                     <td><i class="fa fa-edit fa-2x"></i></td>
-                                     <td><i class="fa fa-user-times fa-2x" style="color:red"></i></td>
+                                     <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                     <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
                                  </tr>
                              </tbody>
                          </table>
