@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Theo dõi bảo hiểm</title>
+    <title>Theo dõi bảo hành</title>
     <style>
         .no-gutter>[class*='col-'] {
             padding-right: 0;
@@ -87,7 +87,7 @@
                                     <a href="Chi_tiet_su_co.html"><i class="fa"></i> Chi tiết sự cố</a>
                                     <a href="Lich_su_chung_su_co.html"><i class="fa"></i> Lịch sử chung sự
                                         cố</a>
-                                    <a href="Theo_doi_bao_hiem.html"><i class="fa"></i> Theo dõi bảo hiểm</a>
+                                    <a href="Theo_doi_bao_hiem.html"><i class="fa"></i> Theo dõi bảo hành</a>
                                     <a href="Theo_doi_BH_theo_ky_han.html"><i class="fa"></i> Theo dõi bảo
                                         hành kỳ hạn</a>
                                     <a href="Theo_doi_kiem_dinh.html"><i class="fa"></i> Theo dõi kiểm định</a>
@@ -123,7 +123,7 @@
                 <div class="col-md-12" style="border: 1px solid black; margin:20px 10px; padding-bottom:30px;">
                     <div class="col-md-12" style="margin-bottom:40px">
                         <div class="col-md-4">
-                            <h3>Danh sách bảo hiểm</h3>
+                            <h3>Danh sách bảo hành</h3>
                         </div>
                         <div class="col-md-3">
                             <input list="size" class="form-control" placeholder="Nhập từ khóa để tìm kiếm"
@@ -148,12 +148,17 @@
                         </div>
                         <div class="col-md-2">
                             <button type="submit"
-                                style="margin-top:20px;border: 1px solid #ccc;height:33px; border-radius: 10%">Tìm kiếm</button>
+                                style="margin-top:20px;border: 1px solid #ccc;height:33px; border-radius: 10%">Tìm
+                                kiếm</button>
                         </div>
                         <div class="col-md-3">
-                            <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">Thêm</button>
-                            <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">Tải lên</button>
-                            <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">Tải về</button>
+                            <a href="#addEmployeeModal" data-toggle="modal"><button class="btn btn-custom" type="submit"
+                                    style="margin-top:20px; margin-right: 20px"
+                                    onclick="document.getElementById('date').valueAsDate = new Date()">Thêm</button></a>
+                            <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">Tải
+                                lên</button>
+                            <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">Tải
+                                về</button>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -177,10 +182,10 @@
                                 <td>Mã tài sản</td>
                                 <td>Số seri</td>
                                 <td>Tên tài sản</td>
-                                <td>Mã bảo hiểm</td>
+                                <td>Mã bảo hành</td>
                                 <td>Ngày có hiệu lực</td>
                                 <td>Ngày hết hạn</td>
-                                <td>Bảo hiểm còn lại</td>
+                                <td>bảo hành còn lại</td>
                                 <td>In báo cáo</td>
                                 <td>Chỉnh sửa</td>
                             </tr>
@@ -193,10 +198,12 @@
                                 <td>19/08/2017</td>
                                 <td>19/08/2019</td>
                                 <td>Còn hạn</td>
-                                <td><button style="padding:3px 12px; margin-left:15px;border:none"><i class="fa fa-print"></i></button></td>
+                                <td><button style="padding:3px 12px; margin-left:15px;border:none"><i
+                                            class="fa fa-print"></i></button></td>
                                 <td>
+                                    <a href="#delete" data-toggle="modal"><button
+                                            class="btn btn-danger">Xóa</button></a>
                                     <button type="button" class="btn btn-custom">Sửa</button>
-                                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
                                 </td>
                             </tr>
                             <tr>
@@ -208,10 +215,12 @@
                                 <td>16/05/2015</td>
                                 <td>16/05/2019</td>
                                 <td>Hết hạn</td>
-                                <td><button style="padding:3px 12px; margin-left:15px;border:none"><i class="fa fa-print"></i></button></td>
+                                <td><button style="padding:3px 12px; margin-left:15px;border:none"><i
+                                            class="fa fa-print"></i></button></td>
                                 <td>
+                                    <a href="#delete" data-toggle="modal"><button
+                                            class="btn btn-danger">Xóa</button></a>
                                     <button type="button" class="btn btn-custom">Sửa</button>
-                                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
                                 </td>
                             </tr>
                             <tr>
@@ -223,10 +232,12 @@
                                 <td>19/05/2013</td>
                                 <td>19/05/2017</td>
                                 <td>Hết hạn</td>
-                                <td><button style="padding:3px 12px; margin-left:15px;border:none"><i class="fa fa-print"></i></button></td>
+                                <td><button style="padding:3px 12px; margin-left:15px;border:none"><i
+                                            class="fa fa-print"></i></button></td>
                                 <td>
+                                    <a href="#delete" data-toggle="modal"><button
+                                            class="btn btn-danger">Xóa</button></a>
                                     <button type="button" class="btn btn-custom">Sửa</button>
-                                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
                                 </td>
                             </tr>
                             <tr>
@@ -238,10 +249,12 @@
                                 <td>13/06/2015</td>
                                 <td>13/06/2018</td>
                                 <td>Hết hạn</td>
-                                <td><button style="padding:3px 12px; margin-left:15px;border:none"><i class="fa fa-print"></i></button></td>
+                                <td><button style="padding:3px 12px; margin-left:15px;border:none"><i
+                                            class="fa fa-print"></i></button></td>
                                 <td>
+                                    <a href="#delete" data-toggle="modal"><button
+                                            class="btn btn-danger">Xóa</button></a>
                                     <button type="button" class="btn btn-custom">Sửa</button>
-                                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
                                 </td>
                             </tr>
                             <tr>
@@ -253,10 +266,12 @@
                                 <td>07/09/2019</td>
                                 <td>07/09/2022</td>
                                 <td>Còn hạn</td>
-                                <td><button style="padding:3px 12px; margin-left:15px;border:none"><i class="fa fa-print"></i></button></td>
+                                <td><button style="padding:3px 12px; margin-left:15px;border:none"><i
+                                            class="fa fa-print"></i></button></td>
                                 <td>
+                                    <a href="#delete" data-toggle="modal"><button
+                                            class="btn btn-danger">Xóa</button></a>
                                     <button type="button" class="btn btn-custom">Sửa</button>
-                                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
                                 </td>
                             </tr>
                             <tr>
@@ -268,10 +283,12 @@
                                 <td>15/12/2018</td>
                                 <td>15/12/2023</td>
                                 <td>Còn hạn</td>
-                                <td><button style="padding:3px 12px; margin-left:15px;border:none"><i class="fa fa-print"></i></button></td>
+                                <td><button style="padding:3px 12px; margin-left:15px;border:none"><i
+                                            class="fa fa-print"></i></button></td>
                                 <td>
+                                    <a href="#delete" data-toggle="modal"><button
+                                            class="btn btn-danger">Xóa</button></a>
                                     <button type="button" class="btn btn-custom">Sửa</button>
-                                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
                                 </td>
                             </tr>
                             <tr>
@@ -283,10 +300,12 @@
                                 <td>12/04/2018</td>
                                 <td>12/04/2021</td>
                                 <td>Còn hạn</td>
-                                <td><button style="padding:3px 12px; margin-left:15px;border:none"><i class="fa fa-print"></i></button></td>
+                                <td><button style="padding:3px 12px; margin-left:15px;border:none"><i
+                                            class="fa fa-print"></i></button></td>
                                 <td>
+                                    <a href="#delete" data-toggle="modal"><button
+                                            class="btn btn-danger">Xóa</button></a>
                                     <button type="button" class="btn btn-custom">Sửa</button>
-                                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
                                 </td>
                             </tr>
                             <tr>
@@ -298,10 +317,12 @@
                                 <td>17/10/2016</td>
                                 <td>17/10/2020</td>
                                 <td>Còn hạn</td>
-                                <td><button style="padding:3px 12px; margin-left:15px;border:none"><i class="fa fa-print"></i></button></td>
+                                <td><button style="padding:3px 12px; margin-left:15px;border:none"><i
+                                            class="fa fa-print"></i></button></td>
                                 <td>
+                                    <a href="#delete" data-toggle="modal"><button
+                                            class="btn btn-danger">Xóa</button></a>
                                     <button type="button" class="btn btn-custom">Sửa</button>
-                                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
                                 </td>
                             </tr>
                             <tr>
@@ -313,10 +334,12 @@
                                 <td>14/12/2017</td>
                                 <td>14/12/2019</td>
                                 <td>Còn hạn</td>
-                                <td><button style="padding:3px 12px; margin-left:15px;border:none"><i class="fa fa-print"></i></button></td>
+                                <td><button style="padding:3px 12px; margin-left:15px;border:none"><i
+                                            class="fa fa-print"></i></button></td>
                                 <td>
+                                    <a href="#delete" data-toggle="modal"><button
+                                            class="btn btn-danger">Xóa</button></a>
                                     <button type="button" class="btn btn-custom">Sửa</button>
-                                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
                                 </td>
                             </tr>
                             <tr>
@@ -328,24 +351,86 @@
                                 <td>17/11/2015</td>
                                 <td>17/11/2020</td>
                                 <td>Còn hạn</td>
-                                <td><button style="padding:3px 12px; margin-left:15px;border:none"><i class="fa fa-print"></i></button></td>
+                                <td><button style="padding:3px 12px; margin-left:15px;border:none"><i
+                                            class="fa fa-print"></i></button></td>
                                 <td>
+                                    <a href="#delete" data-toggle="modal"><button
+                                            class="btn btn-danger">Xóa</button></a>
                                     <button type="button" class="btn btn-custom">Sửa</button>
-                                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
                                 </td>
                             </tr>
                         </table>
                         <div class="col-md-4 col-md-offset-4" style="text-align:center">
-                            <button type="submit" style="margin-top:20px;padding:6px 12px;border:none"><i class="fa fa-arrow-left"></i></button>
-                            <a style="padding:8px 14px;border:1px solid #ccc;border-radius:4px;cursor:pointer;text-decoration:none">1</a>
-                            <a style="padding:8px 14px;border:1px solid #ccc;border-radius:4px;cursor:pointer;text-decoration:none">2</a>
-                            <button type="submit" style="margin-top:20px;padding:6px 12px;border:none"><i class="fa fa-arrow-right"></i></button>
+                            <button type="submit" style="margin-top:20px;padding:6px 12px;border:none"><i
+                                    class="fa fa-arrow-left"></i></button>
+                            <a
+                                style="padding:8px 14px;border:1px solid #ccc;border-radius:4px;cursor:pointer;text-decoration:none">1</a>
+                            <a
+                                style="padding:8px 14px;border:1px solid #ccc;border-radius:4px;cursor:pointer;text-decoration:none">2</a>
+                            <button type="submit" style="margin-top:20px;padding:6px 12px;border:none"><i
+                                    class="fa fa-arrow-right"></i></button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Edit Modal HTML -->
+    <div id="addEmployeeModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body col-lg-12">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="id">Mã tài sản: </label>
+                                <input type="text" class="form-control" id="id" />
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Tên tài sản: </label>
+                                <input type="text" class="form-control" id="name" />
+                            </div>
+                            <div class="form-group">
+                                <label for="depreciation">Số seri: </label>
+                                <input type="number" class="form-control" id="depreciation" />
+                            </div>
+                            <div class="form-group">
+                                <label for="date">Ngày nhập: </label>
+                                <input type="date" class="form-control" id="date" />
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="receiver">Bộ phận bàn giao: </label>
+                                <input type="text" class="form-control" id="receiver" />
+                            </div>
+                            <div class="form-group">
+                                <label for="reason">Lý do bảo hành: </label>
+                                <input type="text" class="form-control" id="reason" />
+                            </div>
+                            <div class="form-group">
+                                <label for="status">Tình trạng: </label>
+                                <input type="text" class="form-control" id="status" />
+                            </div>
+                            <div class="form-group">
+                                <label for="location">Nơi bảo hành: </label>
+                                <input type="text" class="form-control" id="location" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-danger" style="float: left;">Nhập lại</button>
+                        <button type="submit" class="btn btn-primary" style="float: left;">Lưu</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Delete Modal HTML -->
     <div id="delete" class="modal fade">
         <div class="modal-dialog">
@@ -372,4 +457,5 @@
     <script src="../assets/js/sb-admin-2.js"></script>
     <script src="../assets/js/jquery.validate.min.js"></script>
 </body>
+
 </html>
