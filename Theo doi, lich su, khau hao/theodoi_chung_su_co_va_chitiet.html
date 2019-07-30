@@ -1,0 +1,302 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Quản trị - Danh mục tỉnh</title>
+    <style>
+        .no-gutter > [class*='col-'] {
+            padding-right: 0;
+            padding-left: 0;
+        }
+
+        a:active {
+            background-color: cornflowerblue;
+        }
+    </style>
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+
+    <!-- MetisMenu CSS -->
+    <link href="assets/js/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="assets/css/sb-admin-2.css" rel="stylesheet">
+    <link href="assets/css/site.css" rel="stylesheet">
+    <!-- Custom Fonts -->
+    <link href="assets/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <script src="assets/js/jquery.min.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="">
+                    <img src="Assets/Images/logo.png" />
+                </a>
+            </div>
+
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li>
+                            <a href="#"><i class="fa fa-user fa-fw"></i>Thông tin cá nhân</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-gear fa-fw"></i>Đổi mật khẩu</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="logout.php"><i class="fa fa-sign-out fa-fw"></i>Đăng xuất</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li>
+                            <a href="/"><i class="fa fa-dashboard fa-fw"></i>Bảng điều khiển</a>
+                        </li>
+
+                        <li>
+                            <a href="#"><i class="fa fa-list"></i> Theo dõi, lịch sử, khấu hao<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="Chi%20tiet%20khau%20hao%20tai%20san.html"><i class="fa"></i> Chi tiết khấu hao tài sản</a>
+                                    <a href="Chi%20tiet%20su%20co.html"><i class="fa"></i> Chi tiết sự cố</a>
+                                    <a href="Lich%20su%20chung%20su%20co.html"><i class="fa"></i> Lịch sử chung sự cố</a>
+                                    <a href="Theo%20doi%20bao%20hiem.html"><i class="fa"></i> Theo dõi bảo hiểm</a>
+                                    <a href="Theo%20doi%20BH%20theo%20ky%20han.html"><i class="fa"></i> Theo dõi bảo hành kỳ hạn</a>
+                                    <a href="Theo%20doi%20kiem%20dinh.html"><i class="fa"></i> Theo dõi kiểm định</a>
+                                    <a href="Theo%20doi%20nhien%20lieu.html"><i class="fa"></i> Theo dõi nhiên liệu</a>
+                                    <a href="Theo%20doi%20thiet%20bi%20het%20khau%20hao.html"><i class="fa"></i> Theo dõi thiết bị hết khấu hao</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="#"><i class="glyphicon glyphicon-user"></i> Người dùng<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="#"><i class="glyphicon glyphicon-user"></i> Thông tin người dùng</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="glyphicon glyphicon-user"></i> Chỉnh sửa thông tin</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="#"><i class="fa fa-users fa-fw"></i> Đăng xuất</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-md-12" style="border: 1px solid black; margin:20px 10px; padding-bottom:30px;">
+                    <div class="col-md-12" style="margin-bottom:50px">
+                        <div class="no-gutter">
+                            <div class="col-md-4 col-md-offset-4">
+                                <input type="text" class="form-control" placeholder="Nhập từ khóa để tìm kiếm" style="margin-top:20px;float:left" />
+                            </div>
+                        </div>
+                        <div class="no-gutter">
+                            <div class="col-md-1">
+                                <button type="submit" style="margin-top:20px;border: 1px solid #ccc;height:33px;"><i class="fa fa-search" style="padding:6px 12px; border-radius:4px;"></i></button>
+                            </div>
+                        </div>
+                        <div class="col-md-3" style="text-align:right">
+                            <button type="submit" style="margin-top:20px;margin-right:12px;"><i class="glyphicon glyphicon-plus-sign" style="padding:6px 12px"></i></button>
+                            <button type="submit" style="margin-top:20px;margin-right:12px"><i class="glyphicon glyphicon-save" style="padding:6px 12px;"></i></button>
+                            <button type="submit" style="margin-top:20px;margin-right:12px"><i class="glyphicon glyphicon-open" style="padding:6px 12px;"></i></button>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="page-admin-header">
+                            <h1 style="font-weight:600;color:#4e73df;font-size:40px;">Theo dõi chung sự cố và chi tiết</h1>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <table class="table table-hover" style="margin-top:30px; text-align:center">
+                            <tr>
+                                <td>STT</td>
+                                <td>Tên thiết bị</td>
+                                <td>Số hiệu</td>
+                                <td>Ngày sữa chửa</td>
+                                <td>Ngày hoàn thành</td>
+                                <td>Chi phí</td>
+                                <td>Phân xưởng đang sử dụng</td>
+                                <td>Lí do sửa</td>
+                                <td>Chi tiết</td>
+                                <td>In báo cáo</td>
+                                <td>Chỉnh sửa</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>Máy khoan</td>
+                                <td>MK12</td>
+                                <td>12-07-2019</td>
+                                <td>19-07-2019</td>
+                                <td>100.000<sup>đ</sup></td>
+                                <td>Lò than 1</td>
+                                <td>Hỏng nguồn</td>
+                                <td><button type="button" class="btn btn-custom">Chi tiết</button></td>
+                                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
+                                <td>
+                                    <button type="button" class="btn btn-custom">Sửa</button>
+                                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Máy xúc hầm lò</td>
+                                <td>MA1</td>
+                                <td>12-05-2019</td>
+                                <td>23-05-2019</td>
+                                <td>400.000<sup>đ</sup></td>
+                                <td>Lò than 2</td>
+                                <td>Hỏng nguồn</td>
+                                <td><button type="button" class="btn btn-custom">Chi tiết</button></td>
+                                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
+                                <td>
+                                    <button type="button" class="btn btn-custom">Sửa</button>
+                                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Máy nén khí</td>
+                                <td>TNSD</td>
+                                <td>24-05-2019</td>
+                                <td>01-06-2019</td>
+                                <td>800.000<sup>đ</sup></td>
+                                <td>Phân xưởng 2</td>
+                                <td>Hỏng con quay</td>
+                                <td><button type="button" class="btn btn-custom">Chi tiết</button></td>
+                                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
+                                <td>
+                                    <button type="button" class="btn btn-custom">Sửa</button>
+                                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Máy bơm</td>
+                                <td>MNS</td>
+                                <td>04-07-2019</td>
+                                <td>12-07-2019</td>
+                                <td>700.000<sup>đ</sup></td>
+                                <td>Lò than 2</td>
+                                <td>Hỏng van</td>
+                                <td><button type="button" class="btn btn-custom">Chi tiết</button></td>
+                                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
+                                <td>
+                                    <button type="button" class="btn btn-custom">Sửa</button>
+                                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>Động cơ 22kw</td>
+                                <td>TOSA</td>
+                                <td>24-05-2019</td>
+                                <td>12-06-2019</td>
+                                <td>1.200.000<sup>đ</sup></td>
+                                <td>Lò than 1</td>
+                                <td>Không rõ</td>
+                                <td><button type="button" class="btn btn-custom">Chi tiết</button></td>
+                                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
+                                <td>
+                                    <button type="button" class="btn btn-custom">Sửa</button>
+                                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td>Máy tời</td>
+                                <td>SCK</td>
+                                <td>04-04-2019</td>
+                                <td>12-04-2019</td>
+                                <td>500.000<sup>đ</sup></td>
+                                <td>Phân xưởng 2</td>
+                                <td>Gãy trục</td>
+                                <td><button type="button" class="btn btn-custom">Chi tiết</button></td>
+                                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
+                                <td>
+                                    <button type="button" class="btn btn-custom">Sửa</button>
+                                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td>Máy xúc thủy lực</td>
+                                <td>NFGA</td>
+                                <td>27-06-2019</td>
+                                <td>10-07-2019</td>
+                                <td>1.400.000<sup>đ</sup></td>
+                                <td>Phân xưởng 1</td>
+                                <td>Hỏng bánh xe</td>
+                                <td><button type="button" class="btn btn-custom">Chi tiết</button></td>
+                                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
+                                <td>
+                                    <button type="button" class="btn btn-custom">Sửa</button>
+                                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="col-md-4 col-md-offset-4" style="text-align:center">
+                            <button type="submit" style="margin-top:20px;padding:6px 12px;border:none"><i class="fa fa-arrow-left"></i></button>
+                            <a style="padding:8px 14px;border:1px solid #ccc;border-radius:4px;cursor:pointer;text-decoration:none;background-color:cornflowerblue">1</a>
+                            <a style="padding:8px 14px;border:1px solid #ccc;border-radius:4px;cursor:pointer;text-decoration:none">2</a>
+                            <button type="submit" style="margin-top:20px;padding:6px 12px;border:none"><i class="fa fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="delete" class="modal fade">
+        <div class="modal-dialog">
+            <form action=" " method="POST">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Thông báo</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Bạn muốn xóa bản ghi này không?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-default">Yes</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/metisMenu/metisMenu.min.js"></script>
+    <script src="assets/js/sb-admin-2.js"></script>
+    <script src="assets/js/jquery.validate.min.js"></script>
+</body>
+</html>
