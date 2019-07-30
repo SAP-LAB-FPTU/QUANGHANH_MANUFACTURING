@@ -1,6 +1,6 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,14 +8,15 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Quản trị - Danh mục tỉnh</title>
+    <title>Theo dõi bảo hiểm</title>
     <style>
-        .no-gutter > [class*='col-'] {
-        padding-right:0;
-        padding-left:0;
-}
-        a:active{
-            background-color:cornflowerblue;
+        .no-gutter>[class*='col-'] {
+            padding-right: 0;
+            padding-left: 0;
+        }
+
+        a:active {
+            background-color: cornflowerblue;
         }
     </style>
     <!-- Bootstrap Core CSS -->
@@ -46,7 +47,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="#">
-                    <img src="../Assets/Images/logo.png" />
+                    <img src="../assets/Images/logo.png" />
                 </a>
             </div>
 
@@ -77,34 +78,41 @@
                         </li>
 
                         <li>
-                            <a href="#"><i class="fa fa-user-circle fa-fw"></i>Danh mục<span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-list"></i> Theo dõi, lịch sử, khấu hao<span
+                                    class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="/provinces"><i class="fa fa-list fa-fw"></i>Danh mục tỉnh</a>
+                                    <a href="Chi_tiet_khau_hao_tai_san.html"><i class="fa"></i> Chi tiết khấu
+                                        hao tài sản</a>
+                                    <a href="Chi_tiet_su_co.html"><i class="fa"></i> Chi tiết sự cố</a>
+                                    <a href="Lich_su_chung_su_co.html"><i class="fa"></i> Lịch sử chung sự
+                                        cố</a>
+                                    <a href="Theo_doi_bao_hiem.html"><i class="fa"></i> Theo dõi bảo hiểm</a>
+                                    <a href="Theo_doi_BH_theo_ky_han.html"><i class="fa"></i> Theo dõi bảo
+                                        hành kỳ hạn</a>
+                                    <a href="Theo_doi_kiem_dinh.html"><i class="fa"></i> Theo dõi kiểm định</a>
+                                    <a href="Theo_doi_nhien_lieu.html"><i class="fa"></i> Theo dõi nhiên liệu</a>
+                                    <a href="Theo_doi_thiet_bi_het_khau_hao.html"><i class="fa"></i> Theo
+                                        dõi thiết bị hết khấu hao</a>
                                 </li>
                             </ul>
                         </li>
 
                         <li>
-                            <a href="#"><i class="fa fa-home fa-fw"></i>Phòng ban<span class="fa arrow"></span></a>
+                            <a href="#"><i class="glyphicon glyphicon-user"></i> Người dùng<span
+                                    class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="/department/index"><i class="fa fa-list fa-fw"></i>Danh sách phòng ban</a>
+                                    <a href="#"><i class="glyphicon glyphicon-user"></i> Thông tin người dùng</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="glyphicon glyphicon-user"></i> Chỉnh sửa thông tin</a>
                                 </li>
                             </ul>
                         </li>
 
                         <li>
-                            <a href="#"><i class="fa fa-book fa-fw"></i>Người dùng<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="/accounts/index"><i class="fa fa-list fa-fw"></i>Danh sách người dùng</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="/logout"><i class="fa fa-users fa-fw"></i>Đăng xuất</a>
+                            <a href="#"><i class="fa fa-users fa-fw"></i> Đăng xuất</a>
                         </li>
                     </ul>
                 </div>
@@ -113,34 +121,59 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-md-12" style="border: 1px solid black; margin:20px 10px; padding-bottom:30px;">
-                    <div class="col-md-12" style="margin-bottom:80px">
+                    <div class="col-md-12" style="margin-bottom:40px">
                         <div class="col-md-4">
-                            <h3>Theo dõi bảo hiểm</h3>
+                            <h3>Danh sách bảo hiểm</h3>
                         </div>
-                        <div class="no-gutter">
-                            <div class="col-md-4">
-                                <input type="text" class="form-control" placeholder="Nhập từ khóa để tìm kiếm" style="margin-top:20px;float:left" />
-                            </div>
+                        <div class="col-md-3">
+                            <input list="size" class="form-control" placeholder="Nhập từ khóa để tìm kiếm"
+                                style="margin-top:20px;float:left">
+                            <datalist id="size">
+                                <option value="Băng tải khung">Băng tải khung</option>
+                                <option value="Máng cào SGB 420/22">Máng cào SGB 420/22</option>
+                                <option value="Máy xúc lật">Máy xúc lật</option>
+                                <option value="Sàng tuyền">Sàng tuyền</option>
+                                <option value="Máy nén khí">Máy nén khí</option>
+                                <option value="Máy bơm">Máy bơm</option>
+                                <option value="Ô tô trung xa, phục vụ">Ô tô trung xa, phục vụ</option>
+                                <option value="Xe goòng">Xe goòng</option>
+                                <option value="Tàu điện">Tàu điện</option>
+                                <option value="Máy gạt">Máy gạt</option>
+                                <option value="Máy xúc hầm lò">Máy xúc hầm lò</option>
+                                <option value="Máy xúc thủy lực">Máy xúc thủy lực</option>
+                                <option value="Máy khoan lộ thiên">Máy khoan lộ thiên</option>
+                                <option value="Máy khoan hầm lò">Máy khoan hầm lò</option>
+                                <option value="Cáp tời">Cáp tời</option>
+                            </datalist>
                         </div>
-                        <div class="no-gutter">
-                            <div class="col-md-1">
-                                <button type="submit" style="margin-top:20px;border: 1px solid #ccc;height:33px;"><i class="fa fa-search" style="padding:6px 12px; border-radius:4px;"></i></button>
-                            </div>
+                        <div class="col-md-2">
+                            <button type="submit"
+                                style="margin-top:20px;border: 1px solid #ccc;height:33px; border-radius: 10%">Tìm kiếm</button>
                         </div>
-                        <div class="col-md-1">
-                            <button type="submit" style="margin-top:20px;"><i class="fa fa-plus" style="padding:6px 12px;"></i></button>
-                        </div>
-                        <div class="col-md-1">
-                            <button type="submit" style="margin-top:20px;"><i class="fa fa-upload" style="padding:6px 12px;"></i></button>
-                        </div>
-                        <div class="col-md-1">
-                            <button type="submit" style="margin-top:20px;"><i class="fa fa-download" style="padding:6px 12px;"></i></button>
+                        <div class="col-md-3">
+                            <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">Thêm</button>
+                            <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">Tải lên</button>
+                            <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">Tải về</button>
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <form class="form-horizontal">
+                            <label class="control-label col-xs-4" for="usr">Hiển chị số dòng/trang</label>
+                            <div class="col-xs-8">
+                                <input list="sizes">
+                                <datalist id="sizes">
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="15">15</option>
+                                </datalist>
+                            </div>
+                        </form>
+                    </div>
+
                     <div class="col-md-12">
                         <table class="table table-hover" style="margin-top:30px; text-align:center">
                             <tr>
-                                <td>ID tài sản</td>
+                                <td>STT</td>
                                 <td>Mã tài sản</td>
                                 <td>Số seri</td>
                                 <td>Tên tài sản</td>
