@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Web_App.Models.Province>
+
+@{
+    ViewBag.Title = "Danh sách tỉnh";
+    ViewBag.HeaderTitle = "Danh sách tỉnh";
+}
+
+@section RightAction{
+    <span class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>@Html.ActionLink("Thêm mới", "Create", "Provinces")</span>
+}
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th class="header">#</th>
+            <th>Tên tỉnh</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>#</td>
+                <td>@item.ProvinceName</td>
+                <td>
+                    <a href="@Url.Action("Details", "Provinces", new { id = item.ID })" class="btn default btn-xs black">
+                        <i class="fa fa-info"></i> Chi tiết
+                    </a>
+
+                    <a href="@Url.Action("Edit", "Provinces", new { id = item.ID })" class="btn default btn-xs black">
+                        <i class="fa fa-edit"></i> Sửa
+                    </a>
+
+                    <a class="btn default btn-xs black" href="@Url.Action("Delete", "Provinces", new { id = item.ID })" onclick="return confirm('Bạn muốn xóa bản ghi này không?')">
+                        <i class="fa fa-trash-o"></i> Xóa
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

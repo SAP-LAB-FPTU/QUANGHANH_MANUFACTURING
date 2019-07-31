@@ -1,0 +1,26 @@
+﻿@model Web_App.Models.Province
+
+@{
+    ViewBag.Title = "Danh sách tỉnh";
+    ViewBag.HeaderTitle = "Danh sách tỉnh";
+}
+
+@section RightAction{
+    @Html.ActionLink("Về danh sách", "Index")
+}
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dd>
+            @Html.DisplayFor(model => model.ProvinceName)
+        </dd>
+        <dd>
+            @Html.ActionLink("Sửa thông tin tỉnh", "Edit", new { id = Model.ID })
+        </dd>
+    </dl>
+</div>
+
+<div>
+    @Html.ActionLink("Về danh sách", "Index")
+</div>

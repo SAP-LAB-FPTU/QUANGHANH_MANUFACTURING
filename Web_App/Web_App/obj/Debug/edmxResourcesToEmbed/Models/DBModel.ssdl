@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QuangThanhModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'QuangThanh.dbo.Account' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Account">
+    <Key>
+      <PropertyRef Name="ID" />
+      <PropertyRef Name="Username" />
+      <PropertyRef Name="Password" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Username" Type="varchar" MaxLength="45" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="45" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Province">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProvinceName" Type="nvarchar" MaxLength="45" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="QuangThanhModelStoreContainer">
+    <EntitySet Name="Province" EntityType="Self.Province" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Account" EntityType="Self.Account" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Account].[ID] AS [ID], 
+    [Account].[Username] AS [Username], 
+    [Account].[Password] AS [Password]
+    FROM [dbo].[Account] AS [Account]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>
