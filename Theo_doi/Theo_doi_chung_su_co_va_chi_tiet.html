@@ -151,7 +151,7 @@
                                 style="margin-top:20px;border: 1px solid #ccc;height:33px; border-radius: 10%">Tìm kiếm</button>
                         </div>
                         <div class="col-md-3">
-                            <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">Thêm</button>
+                            <a href="#addEmployeeModal" data-toggle="modal"><button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px" onclick="document.getElementById('date').valueAsDate = new Date()">Thêm</button></a>
                             <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">Tải lên</button>
                             <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">Tải về</button>
                         </div>
@@ -309,6 +309,68 @@
             </div>
         </div>
     </div>
+    
+    <!-- Edit Modal HTML -->
+    <div id="addEmployeeModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body col-lg-12">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="date">Ngày sửa chữa: </label>
+                                <input type="date" class="form-control" id="date" />
+                            </div>
+                            <div class="form-group">
+                                <label for="id">Mã tài sản: </label>
+                                <input type="text" class="form-control" id="id" />
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Tên tài sản: </label>
+                                <input type="text" class="form-control" id="name" />
+                            </div>
+                            <div class="form-group">
+                                <label for="depreciation">Số seri: </label>
+                                <input type="number" class="form-control" id="depreciation" />
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="receiver">Bộ phận bàn giao: </label>
+                                <input type="text" class="form-control" id="receiver" />
+                            </div>
+                            <div class="form-group">
+                                <label for="reason">Lý do sửa chữa: </label>
+                                <input type="text" class="form-control" id="reason" />
+                            </div>
+                            <div class="form-group">
+                                <label for="status">Tình trạng: </label>
+                                <select id="status" class="form-control">
+                                    <optgroup label="Có sẵn">
+                                        <option value="ready">Chờ huy động</option>
+                                        <option value="fixing">Chờ sửa chữa</option>
+                                    </optgroup>
+                                    <optgroup label="Không có sẵn">
+                                        <option value="sale">Chờ thanh lý</option>
+                                        <option value="sold">Đã thanh lý</option>
+                                        <option value="using">Đang sử dụng</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-danger" style="float: left;">Nhập lại</button>
+                        <button type="submit" class="btn btn-primary" style="float: left;">Lưu</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Delete Modal HTML -->
     <div id="delete" class="modal fade">
             <div class="modal-dialog">

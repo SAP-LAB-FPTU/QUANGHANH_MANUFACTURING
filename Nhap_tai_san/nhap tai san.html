@@ -120,10 +120,6 @@
                     <form>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="date">Ngày: </label>
-                                <input type="date" class="form-control" id="date" />
-                            </div>
-                            <div class="form-group">
                                 <label for="id">Mã tài sản: </label>
                                 <input type="text" class="form-control" id="id" />
                             </div>
@@ -132,21 +128,33 @@
                                 <input type="text" class="form-control" id="name" />
                             </div>
                             <div class="form-group">
-                                <label for="number">Số hiệu tài sản: </label>
-                                <input type="text" class="form-control" id="number" />
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
                                 <label for="serial">Số seri: </label>
                                 <input type="number" class="form-control" id="serial" />
                             </div>
                             <div class="form-group">
-                                <label for="supplier">Nhà cung cấp: </label>
-                                <input type="text" class="form-control" id="supplier" />
+                                <label for="guarantee">Bảo hành (tháng): </label>
+                                <input type="number" class="form-control" id="guarantee" />
                             </div>
                             <div class="form-group">
-                                <label for="depreciation">Phần trăm khấu hao/tháng: </label>
+                                <label for="expiry">Hạn dùng (tháng): </label>
+                                <input type="number" class="form-control" id="expiry" />
+                            </div>
+                            <div class="form-group">
+                                <label for="date">Ngày đưa vào sử dụng: </label>
+                                <input type="date" class="form-control" id="date" />
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="manufacture">Nhà sản xuất: </label>
+                                <input type="text" class="form-control" id="manufacture" />
+                            </div>
+                            <div class="form-group">
+                                <label for="price">Giá nhập: </label>
+                                <input type="number" class="form-control" id="price" placeholder="vnđ" />
+                            </div>
+                            <div class="form-group">
+                                <label for="depreciation">Tỷ lệ hao mòn (%/năm): </label>
                                 <input type="number" class="form-control" id="depreciation" placeholder="%" />
                             </div>
                             <div class="form-group">
@@ -162,6 +170,10 @@
                                         <option value="using">Đang sử dụng</option>
                                     </optgroup>
                                 </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="detail">Mô tả: </label>
+                                <textarea rows="4" class="form-control" id="detail"></textarea>
                             </div>
                         </div>
                         <div class="col-lg-12">
