@@ -1,0 +1,29 @@
+﻿<Properties StartupConfiguration="{59A74D56-7100-4BE4-9A11-DA6BBE58CBA8}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Web_App/Views/Shared/_Layout.cshtml">
+    <Files>
+      <File FileName="Web_App/Views/Shared/_Layout.cshtml" Line="74" Column="50" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Web_App" expanded="True">
+            <Node name="Web_App" expanded="True">
+              <Node name="Views" expanded="True">
+                <Node name="Shared" expanded="True">
+                  <Node name="_Layout.cshtml" selected="True" />
+                </Node>
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.Web__App PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
