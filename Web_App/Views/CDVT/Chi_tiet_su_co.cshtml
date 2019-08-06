@@ -1,0 +1,465 @@
+﻿
+@{
+    Layout = "~/Views/CDVT/_Layout_CDVT.cshtml";
+}
+
+
+<div class="col-md-12" style="border: 1px solid black; margin:20px 10px; padding-bottom:30px;">
+    <div class="col-md-12" style="margin-bottom:40px">
+        <div class="col-md-4">
+            <h3>Chi tiết sự cố</h3>
+        </div>
+        <div class="col-md-3">
+            <input list="size" class="form-control" placeholder="Nhập từ khóa để tìm kiếm"
+                   style="margin-top:20px;float:left">
+            <datalist id="size">
+                <option value="Băng tải khung">Băng tải khung</option>
+                <option value="Máng cào SGB 420/22">Máng cào SGB 420/22</option>
+                <option value="Máy xúc lật">Máy xúc lật</option>
+                <option value="Sàng tuyền">Sàng tuyền</option>
+                <option value="Máy nén khí">Máy nén khí</option>
+                <option value="Máy bơm">Máy bơm</option>
+                <option value="Ô tô trung xa, phục vụ">Ô tô trung xa, phục vụ</option>
+                <option value="Xe goòng">Xe goòng</option>
+                <option value="Tàu điện">Tàu điện</option>
+                <option value="Máy gạt">Máy gạt</option>
+                <option value="Máy xúc hầm lò">Máy xúc hầm lò</option>
+                <option value="Máy xúc thủy lực">Máy xúc thủy lực</option>
+                <option value="Máy khoan lộ thiên">Máy khoan lộ thiên</option>
+                <option value="Máy khoan hầm lò">Máy khoan hầm lò</option>
+                <option value="Cáp tời">Cáp tời</option>
+            </datalist>
+        </div>
+        <div class="col-md-2">
+            <button type="submit"
+                    style="margin-top:20px;border: 1px solid #ccc;height:33px; border-radius: 10%">
+                Tìm kiếm
+            </button>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">Thêm</button>
+            <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">Tải lên</button>
+            <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">Tải về</button>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <form class="form-horizontal">
+            <label class="control-label col-xs-4" for="usr">Hiển chị số dòng/trang</label>
+            <div class="col-xs-8">
+                <input list="sizes">
+                <datalist id="sizes">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                </datalist>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-12">
+        <table class="table table-bordered table-hover" style="margin-top:30px; text-align:center;zoom: 75%;">
+            <tr>
+                <td rowspan="2">STT</td>
+                <td rowspan="2">Mã thiết bị</td>
+                <td rowspan="2">Số seri</td>
+                <td rowspan="2">Tên thiết bị</td>
+                <td rowspan="2">Vị trí</td>
+                <td rowspan="2">Đơn vị chịu trách nhiệm</td>
+                <td colspan="4">Nội dung sự cố</td>
+                <td rowspan="2">In báo cáo</td>
+                <td rowspan="2"></td>
+            </tr>
+            <tr>
+                <td>Thời gian bắt đầu sự cố</td>
+                <td>Thời gian kết thúc sự cố</td>
+                <td>Thời gian dừng hoạt động</td>
+                <td>Lý do sự cố</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>BT</td>
+                <td>245</td>
+                <td>Băng tải khung</td>
+                <td>Lò DV-110V7.3</td>
+                <td>Khai thác 3</td>
+                <td>2:15AM 15/7/2019</td>
+                <td>4:15AM 15/7/2019</td>
+                <td>2:00</td>
+                <td>Rách 0.1m dây băng</td>
+                <td>
+                    <button style="padding:3px 12px; margin-left:15px;border:none">
+                        <i class="fa fa-print"></i>
+                    </button>
+                </td>
+                <td>
+                    <a href="#delete" data-toggle="modal">
+                        <button class="btn btn-danger">
+                            Xóa
+                        </button>
+                    </a>
+                    <button type="submit" class="btn btn-custom">Sửa</button>
+                </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>MC</td>
+                <td>4032</td>
+                <td>Máng cào SGB 420/22</td>
+                <td>Lò DV-110V7.3</td>
+                <td>Khai thác 1</td>
+                <td>1:00PM 10/7/2019</td>
+                <td>1:30PM 10/7/2019</td>
+                <td>0:30</td>
+                <td>Trượt con lăn</td>
+                <td>
+                    <button style="padding:3px 12px; margin-left:15px;border:none">
+                        <i class="fa fa-print"></i>
+                    </button>
+                </td>
+                <td>
+                    <a href="#delete" data-toggle="modal">
+                        <button class="btn btn-danger">
+                            Xóa
+                        </button>
+                    </a>
+                    <button type="submit" class="btn btn-custom">Sửa</button>
+                </td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>MX</td>
+                <td>2080</td>
+                <td>Máy xúc lật</td>
+                <td>Lò DV-110V7.3</td>
+                <td>Khai thác 4</td>
+                <td>2:00PM 3/6/2019</td>
+                <td>5:00PM 3/6/2019</td>
+                <td>5:00</td>
+                <td>Mẻ bánh xích</td>
+                <td>
+                    <button style="padding:3px 12px; margin-left:15px;border:none">
+                        <i class="fa fa-print"></i>
+                    </button>
+                </td>
+                <td>
+                    <a href="#delete" data-toggle="modal">
+                        <button class="btn btn-danger">
+                            Xóa
+                        </button>
+                    </a>
+                    <button type="submit" class="btn btn-custom">Sửa</button>
+                </td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>ST</td>
+                <td>116</td>
+                <td>Sàng tuyền</td>
+                <td>Lò BC-110V7.3</td>
+                <td>Khai thác 5</td>
+                <td>10:00AM 15/5/2019</td>
+                <td>10:10AM 15/5/2019</td>
+                <td>0:10</td>
+                <td>Kẹt máy</td>
+                <td>
+                    <button style="padding:3px 12px; margin-left:15px;border:none">
+                        <i class="fa fa-print"></i>
+                    </button>
+                </td>
+                <td>
+                    <a href="#delete" data-toggle="modal">
+                        <button class="btn btn-danger">
+                            Xóa
+                        </button>
+                    </a>
+                    <button type="submit" class="btn btn-custom">Sửa</button>
+                </td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>NK</td>
+                <td>600</td>
+                <td>Máy nén khí</td>
+                <td>Lò BC-110V7.3</td>
+                <td>Khai thác 5</td>
+                <td>11:00AM 10/5/2019</td>
+                <td>11:50AM 10/5/2019</td>
+                <td>0:50</td>
+                <td>Đứt dây dẫn khí</td>
+                <td>
+                    <button style="padding:3px 12px; margin-left:15px;border:none">
+                        <i class="fa fa-print"></i>
+                    </button>
+                </td>
+                <td>
+                    <a href="#delete" data-toggle="modal">
+                        <button class="btn btn-danger">
+                            Xóa
+                        </button>
+                    </a>
+                    <button type="submit" class="btn btn-custom">Sửa</button>
+                </td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>MB</td>
+                <td>173</td>
+                <td>Máy bơm</td>
+                <td>Lò BC-110V7.3</td>
+                <td>Khai thác 1</td>
+                <td>6:00AM 2/5/2019</td>
+                <td>7:00AM 2/5/2019</td>
+                <td>1:00</td>
+                <td>Hỏng phao điện</td>
+                <td>
+                    <button style="padding:3px 12px; margin-left:15px;border:none">
+                        <i class="fa fa-print"></i>
+                    </button>
+                </td>
+                <td>
+                    <a href="#delete" data-toggle="modal">
+                        <button class="btn btn-danger">
+                            Xóa
+                        </button>
+                    </a>
+                    <button type="submit" class="btn btn-custom">Sửa</button>
+                </td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>OTX</td>
+                <td>557</td>
+                <td>Ô tô trung xa, phục vụ</td>
+                <td>Lò BC-110V7.3</td>
+                <td>Khai thác 1</td>
+                <td>8:00AM 20/4/2019</td>
+                <td>9:30AM 20/4/2019</td>
+                <td>1:30</td>
+                <td>Thủng lốp</td>
+                <td>
+                    <button style="padding:3px 12px; margin-left:15px;border:none">
+                        <i class="fa fa-print"></i>
+                    </button>
+                </td>
+                <td>
+                    <a href="#delete" data-toggle="modal">
+                        <button class="btn btn-danger">
+                            Xóa
+                        </button>
+                    </a>
+                    <button type="submit" class="btn btn-custom">Sửa</button>
+                </td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>XG</td>
+                <td>72</td>
+                <td>Xe goòng</td>
+                <td>Lò MK-110V7.3</td>
+                <td>Khai thác 2</td>
+                <td>8:10PM 15/4/2019</td>
+                <td>9:30PM 15/4/2019</td>
+                <td>1:20</td>
+                <td>Rụng bánh</td>
+                <td>
+                    <button style="padding:3px 12px; margin-left:15px;border:none">
+                        <i class="fa fa-print"></i>
+                    </button>
+                </td>
+                <td>
+                    <a href="#delete" data-toggle="modal">
+                        <button class="btn btn-danger">
+                            Xóa
+                        </button>
+                    </a>
+                    <button type="submit" class="btn btn-custom">Sửa</button>
+                </td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>TD</td>
+                <td>852</td>
+                <td>Tàu điện</td>
+                <td>Lò BC-110V7.3</td>
+                <td>Khai thác 7</td>
+                <td>8:00AM 4/4/2019</td>
+                <td>12:30AM 4/4/2019</td>
+                <td>4:30</td>
+                <td>Cạn điện ắc-quy</td>
+                <td>
+                    <button style="padding:3px 12px; margin-left:15px;border:none">
+                        <i class="fa fa-print"></i>
+                    </button>
+                </td>
+                <td>
+                    <a href="#delete" data-toggle="modal">
+                        <button class="btn btn-danger">
+                            Xóa
+                        </button>
+                    </a>
+                    <button type="submit" class="btn btn-custom">Sửa</button>
+                </td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>MG</td>
+                <td>60</td>
+                <td>Máy gạt</td>
+                <td>Lò BC-110V7.3</td>
+                <td>Khai thác 1</td>
+                <td>10:00AM 31/3/2019</td>
+                <td>12:30AM 31/3/2019</td>
+                <td>2:30</td>
+                <td>Hỏng gale đỡ</td>
+                <td>
+                    <button style="padding:3px 12px; margin-left:15px;border:none">
+                        <i class="fa fa-print"></i>
+                    </button>
+                </td>
+                <td>
+                    <a href="#delete" data-toggle="modal">
+                        <button class="btn btn-danger">
+                            Xóa
+                        </button>
+                    </a>
+                    <button type="submit" class="btn btn-custom">Sửa</button>
+                </td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td>MXHL</td>
+                <td>328</td>
+                <td>Máy xúc hầm lò</td>
+                <td>Lò BC-110V7.3</td>
+                <td>Khai thác 1</td>
+                <td>8:00AM 17/3/2019</td>
+                <td>9:30AM 17/3/2019</td>
+                <td>1:30</td>
+                <td>Kẹt dầu thủy lực</td>
+                <td>
+                    <button style="padding:3px 12px; margin-left:15px;border:none">
+                        <i class="fa fa-print"></i>
+                    </button>
+                </td>
+                <td>
+                    <a href="#delete" data-toggle="modal">
+                        <button class="btn btn-danger">
+                            Xóa
+                        </button>
+                    </a>
+                    <button type="submit" class="btn btn-custom">Sửa</button>
+                </td>
+            </tr>
+            <tr>
+                <td>12</td>
+                <td>MXTL</td>
+                <td>72</td>
+                <td>Máy xúc thủy lực</td>
+                <td>Lò BC-110V7.3</td>
+                <td>Khai thác 1</td>
+                <td>10:00AM 1/3/2019</td>
+                <td>9:30PM 1/3/2019</td>
+                <td>11:30</td>
+                <td>Động cơ yếu</td>
+                <td>
+                    <button style="padding:3px 12px; margin-left:15px;border:none">
+                        <i class="fa fa-print"></i>
+                    </button>
+                </td>
+                <td>
+                    <a href="#delete" data-toggle="modal">
+                        <button class="btn btn-danger">
+                            Xóa
+                        </button>
+                    </a>
+                    <button type="submit" class="btn btn-custom">Sửa</button>
+                </td>
+            </tr>
+            <tr>
+                <td>13</td>
+                <td>MKLT</td>
+                <td>116</td>
+                <td>Máy khoan lộ thiên</td>
+                <td>Lò BC-110V7.3</td>
+                <td>Khai thác 1</td>
+                <td>11:00AM 11/2/2019</td>
+                <td>12:00AM 11/2/2019</td>
+                <td>1:00</td>
+                <td>Hỏng chổi than</td>
+                <td>
+                    <button style="padding:3px 12px; margin-left:15px;border:none">
+                        <i class="fa fa-print"></i>
+                    </button>
+                </td>
+                <td>
+                    <a href="#delete" data-toggle="modal">
+                        <button class="btn btn-danger">
+                            Xóa
+                        </button>
+                    </a>
+                    <button type="submit" class="btn btn-custom">Sửa</button>
+                </td>
+            </tr>
+            <tr>
+                <td>14</td>
+                <td>MKHL</td>
+                <td>412</td>
+                <td>Máy khoan hầm lò</td>
+                <td>Lò BC-110V7.3</td>
+                <td>Khai thác 1</td>
+                <td>12:00PM 3/2/2019</td>
+                <td>13:30PM 3/2/2019</td>
+                <td>1:30</td>
+                <td>Gãy mũi khoan</td>
+                <td>
+                    <button style="padding:3px 12px; margin-left:15px;border:none">
+                        <i class="fa fa-print"></i>
+                    </button>
+                </td>
+                <td>
+                    <a href="#delete" data-toggle="modal">
+                        <button class="btn btn-danger">
+                            Xóa
+                        </button>
+                    </a>
+                    <button type="submit" class="btn btn-custom">Sửa</button>
+                </td>
+            </tr>
+            <tr>
+                <td>15</td>
+                <td>CT</td>
+                <td>1610</td>
+                <td>Cáp tời</td>
+                <td>Lò BC-110V7.3</td>
+                <td>Khai thác 1</td>
+                <td>8:00AM 25/1/2019</td>
+                <td>9:30AM 25/1/2019</td>
+                <td>1:30</td>
+                <td>Đứt 0.5m cáp tời</td>
+                <td>
+                    <button style="padding:3px 12px; margin-left:15px;border:none">
+                        <i class="fa fa-print"></i>
+                    </button>
+                </td>
+                <td>
+                    <a href="#delete" data-toggle="modal">
+                        <button class="btn btn-danger">
+                            Xóa
+                        </button>
+                    </a>
+                    <button type="submit" class="btn btn-custom">Sửa</button>
+                </td>
+            </tr>
+        </table>
+        <div class="col-md-4 col-md-offset-4" style="text-align:center">
+            <button type="submit" style="margin-top:20px;padding:6px 12px;border:none">
+                <i class="fa fa-arrow-left"></i>
+            </button>
+            <a style="padding:8px 14px;border:1px solid #ccc;border-radius:4px;cursor:pointer;text-decoration:none">1</a>
+            <a style="padding:8px 14px;border:1px solid #ccc;border-radius:4px;cursor:pointer;text-decoration:none">2</a>
+            <button type="submit" style="margin-top:20px;padding:6px 12px;border:none">
+                <i class="fa fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+</div>

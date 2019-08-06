@@ -1,0 +1,346 @@
+﻿@{
+    ViewBag.Title = "Ed";
+    Layout = "~/Views/Shared/_TCLD_Layout.cshtml";
+}
+
+<div class="row" style="padding-bottom: 20px">
+    <div>
+        <div class="text-center">
+            <div class="btn-custom form-control"><label>Thông tin chi tiết</label></div>
+        </div>
+        <div>
+            <h3>Thông tin cá nhân</h3>
+            <script>
+                var flag = false;
+                function abc(name) {
+
+                    $(document).ready(function () {
+                        if (!flag) {
+                            $("input." + name).prop("disabled", false);
+                            $("select." + name).prop("disabled", false);
+                            flag = true;
+                        } else {
+                            $("input." + name).prop("disabled", true);
+                            $("select." + name).prop("disabled", true);
+                            flag = false;
+                        }
+
+                    });
+                }
+            </script>
+            <div class="col-sm-12">
+                <h4>Trạng thái làm việc: <label style="color:red">Nghỉ quá 5 ngày</label> <a href="@Url.Content("~/TCLD/TestBriefs/History")" style="color: red">(Lịch sử làm việc)</a></h4>
+                <div class="col-sm-8">
+                    <label>Họ và tên khai sinh</label>
+                    &nbsp;<a class="1 fa fa-pencil" onclick="abc('1')"></a>
+                    <input class="1 form-control" disabled type="text" value="Hoang Văn Tinh" placeholder="Tên khai sinh" />
+                </div>
+
+                <div class="col-sm-4" style="margin-bottom: -50px">
+                    <img src="~/images/avatar.png" alt="" width="190" height="190" style="margin-top:-100px; margin-left: 30px"><br>
+                    <label style="margin-left: 100px;color: red">MS: 1234</label>
+                </div>
+                <div class="col-sm-4">
+                    <label>Các tên gọi khác</label>
+                    &nbsp;<a class="2 fa fa-pencil" onclick="abc('2')"></a>
+                    <input class="2 form-control" type="text" placeholder="Tên khác" value="Không" disabled />
+                </div>
+                <div class="col-sm-4">
+                    <label>Giới tính</label>
+                    &nbsp;<a class="3 fa fa-pencil" onclick="abc('3')"></a>
+                    <select class="3 form-control" disabled>
+                        <option selected>Nam</option>
+                        <option>Nữ</option>
+                    </select>
+                </div>
+                <div class="col-sm-8">
+                    <label>Cấp ủy hiện tại</label>
+                    &nbsp;<a class="4 fa fa-pencil" onclick="abc('4')"></a>
+                    <input class="4 form-control" type="text" placeholder="Cấp ủy" value="Không" disabled />
+                </div>
+                <div class="col-sm-4">
+                    <label>Cấp ủy kiêm</label>
+                    &nbsp;<a class="5 fa fa-pencil" onclick="abc('5')"></a>
+                    <input class="5 form-control" type="text" placeholder="Cấp ủy kiêm" value="Không" disabled />
+                </div>
+                <div class="col-sm-6">
+                    <label>Chức vụ</label>
+                    &nbsp;<a class="6 fa fa-pencil" onclick="abc('6')"></a>
+                    <input class="6 form-control" type="text" placeholder="Chức vụ" value="Không" disabled />
+                </div>
+                <div class="col-sm-6">
+                    <label>Phụ cấp chức vụ</label>
+                    &nbsp;<a class="7 fa fa-pencil" onclick="abc('7')"></a>
+                    <input class="7 form-control" type="text" placeholder="Phụ cấp" value="Không" disabled />
+                </div>
+                <div class="col-sm-4">
+                    <label>Ngày sinh</label>
+                    &nbsp;<a class="8 fa fa-pencil" onclick="abc('8')"></a>
+                    <input class="8 form-control" type="date" value="1985-05-17" disabled />
+                </div>
+                <div class="col-sm-4">
+                    <label>Nơi sinh</label>
+                    &nbsp;<a class="9 fa fa-pencil" onclick="abc('9')"></a>
+                    <input class="9 form-control" type="text" placeholder="Nơi sinh" value="Hà Nội" disabled />
+                </div>
+                <div class="col-sm-4">
+                    <label>Dân tộc</label>
+                    &nbsp;<a class="10 fa fa-pencil" onclick="abc('10')"></a>
+                    <input class="10 form-control" disabled type="text" placeholder="Dân tộc" value="Kinh" />
+                </div>
+                <div class="col-sm-8">
+                    <label>Quê quán</label>
+                    &nbsp;<a class="11 fa fa-pencil" onclick="abc('11')"></a>
+                    <input class="11 form-control" type="text" disabled placeholder="Quê quán" value="Thanh Hóa" />
+                </div>
+                <div class="col-sm-4">
+                    <label>Tôn giáo</label>
+                    &nbsp;<a class="12 fa fa-pencil" onclick="abc('12')"></a>
+                    <input class="12 form-control" disabled type="text" placeholder="Tôn giáo" value="Không" />
+                </div>
+                <div class="col-sm-8">
+                    <label>Nơi ở hiện nay</label>
+                    &nbsp;<a class="13 fa fa-pencil" onclick="abc('13')"></a>
+                    <input class="13 form-control" disabled type="text" placeholder="Nơi ở hiện nay" value="Cẩm Phả - Quảng Ninh" />
+                </div>
+                <div class="col-sm-4">
+                    <label>Số điện thoại</label>
+                    &nbsp;<a class="14 fa fa-pencil" onclick="abc('14')"></a>
+                    <input class="14 form-control" type="text" disabled placeholder="Số điện thoại" value="0123456789" />
+                </div>
+                <div class="col-sm-12">
+                    <label>Thành phần gia đình xuất thân</label>
+                    &nbsp;<a class="15 fa fa-pencil" onclick="abc('15')"></a>
+                    <input class="15 form-control" type="text" disabled placeholder="Thành phần gia đình" value="Trí thức" />
+                </div>
+                <div class="col-sm-12">
+                    <label>Nghề nghiệp trược khi được tuyển dụng</label>
+                    &nbsp;<a class="16 fa fa-pencil" onclick="abc('16')"></a>
+                    <input class="16 form-control" type="text" disabled placeholder="Nghề trước khi tuyển dụng" value="Sinh viên/Bộ đội xuất ngũ" />
+                </div>
+                <div class="col-sm-4">
+                    <label>Ngày được tuyển dụng</label>
+                    &nbsp;<a class="17 fa fa-pencil" onclick="abc('17')"></a>
+                    <input class="17 form-control" type="date" disabled value="2000-05-05" />
+                </div>
+                <div class="col-sm-4">
+                    <label>Tại cơ quan</label>
+                    &nbsp;<a class="18 fa fa-pencil" onclick="abc('18')"></a>
+                    <input class="18 form-control" type="text" disabled placeholder="Cơ quan" value="Đại học Bách Khoa" />
+                </div>
+                <div class="col-sm-4">
+                    <label>Ngày vào nơi đang công tác</label>
+                    &nbsp;<a class="19 fa fa-pencil" onclick="abc('19')"></a>
+                    <input class="19 form-control" type="date" disabled value="2000-05-05" />
+                </div>
+            </div>
+            <h3>Lý lịch chính trị</h3>
+            <div class="col-sm-12">
+                <div class="col-sm-4">
+                    <label>Ngày tham gia cách mạng</label>
+                    &nbsp;<a class="20 fa fa-pencil" onclick="abc('20')"></a>
+                    <input class="20 form-control" type="date" disabled value="2000-05-05" />
+                </div>
+                <div class="col-sm-5">
+                    <label>Ngày vào Đảng Cộng sản Việt Nam</label>
+                    &nbsp;<a class="21 fa fa-pencil" onclick="abc('21')"></a>
+                    <input class="21 form-control" type="date" disabled value="2005-05-05" />
+                </div>
+                <div class="col-sm-3">
+                    <label>Ngày chính thức</label>
+                    &nbsp;<a class="22 fa fa-pencil" onclick="abc('22')"></a>
+                    <input class="22 form-control" type="date" disabled value="2006-05-05" />
+                </div>
+                <div class="col-sm-6">
+                    <label>Ngày vào tổ chức chính trị xã hội</label>
+                    &nbsp;<a class="23 fa fa-pencil" onclick="abc('23')"></a>
+                    <input class="23 form-control" type="date" disabled value="1999-05-05" />
+                </div>
+                <div class="col-sm-6">
+                    <label>Tổ chức</label><i>(Đoàn TNCSHCM, Công đoàn, Hội, ...)</i>
+                    &nbsp;<a class="24 fa fa-pencil" onclick="abc('24')"></a>
+                    <input class="24 form-control" type="text" disabled value="Đoàn TNCS Hồ Chí Minh" />
+                </div>
+                <div class="col-sm-3">
+                    <label>Ngày nhập ngũ</label>
+                    &nbsp;<a class="25 fa fa-pencil" onclick="abc('25')"></a>
+                    <input class="25 form-control" disabled type="date" />
+                </div>
+                <div class="col-sm-3">
+                    <label>Ngày xuất ngũ</label>
+                    &nbsp;<a class="26 fa fa-pencil" onclick="abc('26')"></a>
+                    <input class="26 form-control" disabled type="date" />
+                </div>
+                <div class="col-sm-6">
+                    <label>Quân hàm, chức vụ cao nhất(Năm)</label>
+                    &nbsp;<a class="27 fa fa-pencil" onclick="abc('27')"></a>
+                    <input type="text" class="27 form-control" disabled placeholder="Quân hàm, chức vụ" value="Không" />
+                </div>
+                <div class="col-sm-6">
+                    <label>Trình độ học vấn</label><i>(Giáo dục phổ thông (lớp mấy))</i>
+                    &nbsp;<a class="28 fa fa-pencil" onclick="abc('28')"></a>
+                    <select class="28 form-control" disabled>
+                        <option>Tiểu học</option>
+                        <option>THCS</option>
+                        <option>THPT</option>
+                        <option>Trung cấp</option>
+                        <option selected>Đại học</option>
+                    </select>
+                </div>
+                <div class="col-sm-6">
+                    <label>Học hàm, học vị cao nhất</label><i>(GS, PGS, TS,...)</i>
+                    &nbsp;<a class="29 fa fa-pencil" onclick="abc('29')"></a>
+                    <input type="text" class="29 form-control" disabled placeholder="Học hàm, học vị" value="Không" />
+                </div>
+                <div class="col-sm-6">
+                    <label>Lý luận chính trị</label><i>(Cử nhân/Cao cấp, Trung cấp, Sơ cấp)</i>
+                    &nbsp;<a class="30 fa fa-pencil" onclick="abc('30')"></a>
+                    <input type="text" class=" 30 form-control" disabled placeholder="Lý luận trính trị" value="Không" />
+                </div>
+                <div class="col-sm-6">
+                    <label>Ngoại ngữ</label>
+                    &nbsp;<a class="31 fa fa-pencil" onclick="abc('31')"></a>
+                    <input type="text" class="31 form-control" disabled placeholder="Ngoại ngữ" value="Tiếng Anh D" />
+                </div>
+            </div>
+            <h3>Thành tích cá nhân</h3>
+            <div class="col-sm-12">
+                <div class="col-sm-12">
+                    <label>Công tác chính đang làm</label>
+                    &nbsp;<a class="32 fa fa-pencil" onclick="abc('32')"></a>
+                    <input type="text" class="32 form-control" disabled placeholder="Công tác chính" value="Tự do" />
+                </div>
+                <div class="col-sm-6">
+                    <label>Ngạch công chức</label>
+                    &nbsp;<a class="33 fa fa-pencil" onclick="abc('33')"></a>
+                    <input type="text" class="33 form-control" disabled placeholder="Ngạnh công chức" value="Không" />
+                </div>
+                <div class="col-sm-6">
+                    <label>Mã số</label>
+                    &nbsp;<a class="34 fa fa-pencil" onclick="abc('34')"></a>
+                    <input type="text" class="34 form-control" disabled placeholder="Mã số" value="Không" />
+                </div>
+                <div class="col-sm-4">
+                    <label>Bậc lương</label>
+                    &nbsp;<a class="35 fa fa-pencil" onclick="abc('35')"></a>
+                    <select class="35 form-control" disabled>
+                        <option selected>Không có</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <label>Hệ số</label>
+                    &nbsp;<a class="36 fa fa-pencil" onclick="abc('36')"></a>
+                    <input type="text" disabled class="36 form-control" placeholder="Hệ số" value="Không" />
+                </div>
+                <div class="col-sm-4">
+                    <label>Từ tháng</label>
+                    &nbsp;<a class="37 fa fa-pencil" onclick="abc('37')"></a>
+                    <select class="37 form-control" disabled>
+                        <option>Không có</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                        <option>8</option>
+                        <option>9</option>
+                        <option>10</option>
+                        <option>11</option>
+                        <option>12</option>
+                    </select>
+                </div>
+                <div class="col-sm-12">
+                    <label>Danh hiệu được phong</label><i>(Năm nào)</i>
+                    &nbsp;<a class="38 fa fa-pencil" onclick="abc('38')"></a>
+                    <input type="text" disabled class="38 form-control" placeholder="Danh hiệu" value="Không" />
+                </div>
+                <div class="col-sm-6">
+                    <label>Sở trường công tác</label>
+                    &nbsp;<a class="39 fa fa-pencil" onclick="abc('39')"></a>
+                    <input type="text" disabled class="39 form-control" placeholder="Sở trường" value="Không" />
+                </div>
+                <div class="col-sm-6">
+                    <label>Công việc đã làm lâu nhất</label>
+                    &nbsp;<a class="40 fa fa-pencil" onclick="abc('40')"></a>
+                    <input type="text" disabled class="40 form-control" placeholder="Công việc" value="Sinh viên" />
+                </div>
+                <div class="col-sm-12">
+                    <label>Khen thưởng</label><i>(Huân, huy chương, năm nào)</i>
+                    &nbsp;<a class="41 fa fa-pencil" onclick="abc('41')"></a>
+                    <input type="text" disabled class="41 form-control" placeholder="Khen thưởng" value="Không" />
+                </div>
+                <div class="col-sm-12">
+                    <label>Kỷ luật</label><i>(Năm nào, lí do, hình thức,...</i>
+                    &nbsp;<a class="42 fa fa-pencil" onclick="abc('42')"></a>
+                    <input class="42 form-control" disabled type="text" placeholder="Kỷ luật" value="Không" />
+                </div>
+            </div>
+            <h3>Sức khỏe</h3>
+            <div class="col-sm-12">
+                <div class="col-sm-12">
+                    <label>Tình trạng sức khỏe</label>
+                    &nbsp;<a class="43 fa fa-pencil" onclick="abc('43')"></a>
+                    <select class="43 form-control" disabled>
+                        <option selected>Khỏe</option>
+                        <option>Bình thường</option>
+                        <option>Yếu</option>
+                        <option>Bệnh mãn tính(ghi rõ)</option>
+                    </select>
+                    <input type="text" disabled class="43 form-control" placeholder="Bệnh mãn tính (nếu có)" value="Không" />
+                </div>
+                <div class="col-sm-4">
+                    <label>Chiều cao</label><i>(m)</i>
+                    &nbsp;<a class="44 fa fa-pencil" onclick="abc('44')"></a>
+                    <input type="number" disabled class="44 form-control" placeholder="Cao (m)" value="1.8" />
+                </div>
+                <div class="col-sm-4">
+                    <label>Cân nặng</label><i>(kg)</i>
+                    &nbsp;<a class="45 fa fa-pencil" onclick="abc('45')"></a>
+                    <input type="number" disabled class="45 form-control" placeholder="Nặng (kg)" value="80" />
+                </div>
+                <div class="col-sm-4">
+                    <label>Nhóm máu</label>
+                    &nbsp;<a class="46 fa fa-pencil" onclick="abc('46')"></a>
+                    <input type="text" disabled class="46 form-control" placeholder="Nhóm máu" value="O+" />
+                </div>
+                <div class="col-sm-4">
+                    <label>Số chứng minh nhân dân</label>
+                    &nbsp;<a class="47 fa fa-pencil" onclick="abc('47')"></a>
+                    <input type="number" disabled class="47 form-control" placeholder="CMT nhân dân" value="012345678978" />
+                </div>
+                <div class="col-sm-4">
+                    <label>Thương binh loại</label>
+                    &nbsp;<a class="48 fa fa-pencil" onclick="abc('48')"></a>
+                    <select class="48 form-control" disabled>
+                        <option>Không</option>
+                        <option>1/4(Thương tật 81% trở lên)</option>
+                        <option>2/4(Thương tật từ 61% trở lên)</option>
+                        <option>3/4(Thương tật từ 41% trở lên)</option>
+                        <option>4/4(Thương tật từ 21% trở lên)</option>
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <label>Gia đình liệt sĩ</label>
+                    &nbsp;<a class="49 fa fa-pencil" onclick="abc('49')"></a>
+                    <input type="text" disabled class="49 form-control" placeholder="Liệt sĩ" value="Không" />
+                </div>
+
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
+                    <br />
+                    <button class="btn btn-custom">Cập nhật</button>
+                    <button class="btn btn-danger">Xóa</button>
+                </div>
+                <div class="col-sm-4"></div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+

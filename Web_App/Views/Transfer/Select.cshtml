@@ -1,0 +1,149 @@
+﻿@{
+    ViewBag.Title = "Select";
+    Layout = "~/Views/Shared/_TCLD_Layout.cshtml";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<style>
+    #myTable {
+        position: relative;
+    }
+
+    #myTable2 {
+        position: relative;
+    }
+
+    td #buttonChon {
+        position: absolute;
+        right: 0;
+    }
+
+    td #buttonBoChon {
+        position: absolute;
+        right: 0;
+    }
+</style>
+<div class="row">
+    <div class="text-center">
+        <div class="btn-custom form-control"><label>Điều động nhân viên</label></div>
+    </div>
+
+    <div id="table-wrapper">
+        <div class="well well-md">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="active-cyan-3 active-cyan-4 mb-4 col-md-9">
+                        <input class="form-control" type="text" placeholder="Tìm kiếm theo mã nhân viên, tên" aria-label="Search">
+                    </div>
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-primary">Tìm kiếm</button>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                </div>
+            </div>
+        </div>
+
+        <div class="well well-md">
+            <div class="row">
+                <table id="myTable" class="table table-hover">
+                    <tr>
+                        <th>Số thứ tự</th>
+                        <th>Mã nhân viên</th>
+                        <th>Họ và tên</th>
+                        <th>Phân xưởng hiện tại</th>
+                        <th>Chức vụ hiện tại</th>
+                        <th>Tình trạng sức khỏe</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td id="stt">1</td>
+                        <td id="maso">2179</td>
+                        <td id="ten">Nguyễn Xuân Thoảng</td>
+                        <td id="phanxuong">Phân xưởng cơ khí</td>
+                        <td id="chucvu">Thợ Sửa chữa</td>
+                        <td><button class="btn btn-warning btn-sm" disabled>Tốt</button></td>
+                        <td><button id="buttonChon" class="btn btn-custom" value="2179">Chọn</button></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>7751</td>
+                        <td>Nguyễn Văn Hùng</td>
+                        <td>Phân xưởng phục vụ</td>
+                        <td>Kế toán</td>
+                        <td><button class="btn btn-warning btn-sm" disabled>Tốt</button></td>
+                        <td><button id="buttonChon" class="btn btn-custom" value="7751">Chọn</button></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>3506</td>
+                        <td>Nguyễn Văn Hùng</td>
+                        <td>Phân xưởng đào lò</td>
+                        <td>Kế toán</td>
+                        <td><button class="btn btn-warning btn-sm" disabled>Tốt</button></td>
+                        <td><button id="buttonChon" class="btn btn-custom" value="3506">Chọn</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="table-wrapper2">
+    </div>
+</div>
+<script>
+    var currentRow;
+    var col1;
+    var col2;
+    var col3;
+    var col4;
+    var x;
+    $(document).ready(function () {
+        $("#myTable").on('click', '#buttonChon', function () {
+            //invisibile when the first loading, visible when user choose button "Chọn"
+            var outlineTable = "<table id='myTable2' class='table table-hover'><thead><tr><th>Mã nhân viên</th><th>Họ và tên</th><th>Phân xưởng hiện tại</th><th>Chức vụ hiện tại</th><th></th></tr></thead><tbody id='body-table-wrapper2'></tbody><tr id='buttonTienHanhDieuChuyen'></tr></table>";
+            var count = $("#table-wrapper2 > table").length;
+            if (count == 0) {
+                $("#table-wrapper2").html(outlineTable);
+            }
+
+            //disabled buttton "Chọn" when it's clicked
+            $(this).attr('disabled', 'disabled');
+
+            //add row to below table when click button "Chọn"
+            currentRow = $(this).closest("tr");
+
+            col1 = currentRow.find("td:eq(1)").text();
+            col2 = currentRow.find("td:eq(2)").text();
+            col3 = currentRow.find("td:eq(3)").text();
+            col4 = currentRow.find("td:eq(4)").text();
+
+            $("#body-table-wrapper2").append("<tr id='" + col1 + "'><td>" + col1 + "</td><td>" + col2 + "</td><td>" + col3 + "</td><td>" + col4 + "</td><td><button id='buttonBoChon' class='btn btn-custom' value='" + col1 + "'>Bỏ chọn</button></td></tr>");
+            $("#buttonTienHanhDieuChuyen").html("<td></td><td></td><td></td><td></td><td><button class='btn btn-custom'>Tiến hành điều động</button></td>");
+
+            //remove row when click "Bỏ Chọn" and check if remove all then table will be invisible
+            $('#myTable2').on('click', '#buttonBoChon', function () {
+
+                //enabled button "Chọn" when click "Bỏ Chọn"
+                //if ($(this).val() == $("#buttonChon").val()) {
+                //    $("#buttonChon").removeAttr('disabled','disabled');
+                //}
+
+                //remove the row clicked "Bỏ Chọn"
+                x = $(this).closest("tr").find("td:eq(0)").text();
+                $('#myTable2 > tbody > tr').remove('#' + x);
+
+                //invisible table or button "Tiến hành điều động" if remove all row
+                var count = $('#myTable2 > #body-table-wrapper2 > tr').length;
+                if (count == 0) {
+                    $("#buttonTienHanhDieuDong").html("");
+                    $("#table-wrapper2").html("");
+                }
+
+            });
+        });
+    });
+</script>
+
+
+

@@ -1,0 +1,210 @@
+﻿
+@{
+    Layout = "~/Views/CDVT/_Layout_CDVT.cshtml";
+}
+
+<div class="col-md-12" style="border: 1px solid black; margin:20px 10px; padding-bottom:30px;">
+    <div class="col-md-12" style="margin-bottom:40px">
+        <div class="col-md-4">
+            <h3>Khấu hao thiết bị</h3>
+        </div>
+        <div class="col-md-3">
+            <input list="size" class="form-control" placeholder="Nhập từ khóa để tìm kiếm"
+                   style="margin-top:20px;float:left">
+            <datalist id="size">
+                <option value="Băng tải khung">Băng tải khung</option>
+                <option value="Máng cào SGB 420/22">Máng cào SGB 420/22</option>
+                <option value="Máy xúc lật">Máy xúc lật</option>
+                <option value="Sàng tuyền">Sàng tuyền</option>
+                <option value="Máy nén khí">Máy nén khí</option>
+                <option value="Máy bơm">Máy bơm</option>
+                <option value="Ô tô trung xa, phục vụ">Ô tô trung xa, phục vụ</option>
+                <option value="Xe goòng">Xe goòng</option>
+                <option value="Tàu điện">Tàu điện</option>
+                <option value="Máy gạt">Máy gạt</option>
+                <option value="Máy xúc hầm lò">Máy xúc hầm lò</option>
+                <option value="Máy xúc thủy lực">Máy xúc thủy lực</option>
+                <option value="Máy khoan lộ thiên">Máy khoan lộ thiên</option>
+                <option value="Máy khoan hầm lò">Máy khoan hầm lò</option>
+                <option value="Cáp tời">Cáp tời</option>
+            </datalist>
+        </div>
+        <div class="col-md-2">
+            <button type="submit"
+                    style="margin-top:20px;border: 1px solid #ccc;height:33px; border-radius: 10%">
+                Tìm kiếm
+            </button>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 10px">Thêm</button>
+            <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 10px">Tải lên</button>
+            <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 10px">Tải về</button>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <form class="form-horizontal">
+            <label class="control-label col-xs-4" for="usr">Hiển chị số dòng/trang</label>
+            <div class="col-xs-8">
+                <input list="sizes">
+                <datalist id="sizes">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                </datalist>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-12">
+    </div>
+    <div class="col-md-12">
+        <table class="table table-hover" style="margin-top:30px; text-align:center; zoom:90%">
+            <tr>
+                <td>STT</td>
+                <td>Mã thiết bị</td>
+                <td>Số seri</td>
+                <td>Tên thiết bị</td>
+                <td>Ngày bắt đầu sử dụng</td>
+                <td>Ngày hết khấu hao</td>
+                <td>In báo cáo</td>
+                <td>Chỉnh sửa</td>
+            </tr>
+            <tr style="background-color:tomato">
+                <td>1</td>
+                <td>MA1</td>
+                <td>123427612</td>
+                <td>Máy xúc hầm lò</td>
+                <td>03-04-2018</td>
+                <td>12-07-2019</td>
+                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
+                <td>
+                    <button type="button" class="btn btn-custom">Sửa</button>
+                    <a href="#delete" data-toggle="modal"><button class="btn btn-custom">Xóa</button></a>
+                </td>
+            </tr>
+            <tr style="background-color:tomato">
+                <td>2</td>
+                <td>TNSD</td>
+                <td>75645412</td>
+                <td>Máy nén khí</td>
+                <td>12-07-2017</td>
+                <td>20-05-2019</td>
+                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
+                <td>
+                    <button type="button" class="btn btn-custom">Sửa</button>
+                    <a href="#delete" data-toggle="modal"><button class="btn btn-custom">Xóa</button></a>
+                </td>
+            </tr>
+            <tr style="background-color:tomato">
+                <td>3</td>
+                <td>MNS</td>
+                <td>6427612</td>
+                <td>Máy bơm</td>
+                <td>27-04-2017</td>
+                <td>12-07-2019</td>
+                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
+                <td>
+                    <button type="button" class="btn btn-custom">Sửa</button>
+                    <a href="#delete" data-toggle="modal"><button class="btn btn-custom">Xóa</button></a>
+                </td>
+            </tr>
+            <tr style="background-color:tomato">
+                <td>4</td>
+                <td>TOSA</td>
+                <td>78312</td>
+                <td>Động cơ 22kw</td>
+                <td>23-02-2017</td>
+                <td>20-07-2019</td>
+                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
+                <td>
+                    <button type="button" class="btn btn-custom">Sửa</button>
+                    <a href="#delete" data-toggle="modal"><button class="btn btn-custom">Xóa</button></a>
+                </td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>HTV</td>
+                <td>31112</td>
+                <td>Lò hơi</td>
+                <td>17-02-2017</td>
+                <td>17-12-2019</td>
+                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
+                <td>
+                    <button type="button" class="btn btn-custom">Sửa</button>
+                    <a href="#delete" data-toggle="modal"><button class="btn btn-custom">Xóa</button></a>
+                </td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>SCK</td>
+                <td>6512</td>
+                <td>Máy tời</td>
+                <td>24-06-2018</td>
+                <td>14-12-2020</td>
+                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
+                <td>
+                    <button type="button" class="btn btn-custom">Sửa</button>
+                    <a href="#delete" data-toggle="modal"><button class="btn btn-custom">Xóa</button></a>
+                </td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>LHK</td>
+                <td>341512</td>
+                <td>Giàn mềm</td>
+                <td>04-06-2018</td>
+                <td>14-10-2020</td>
+                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
+                <td>
+                    <button type="button" class="btn btn-custom">Sửa</button>
+                    <a href="#delete" data-toggle="modal"><button class="btn btn-custom">Xóa</button></a>
+                </td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>NFG</td>
+                <td>561512</td>
+                <td>Máy xúc thủy lực</td>
+                <td>12-11-2018</td>
+                <td>02-08-2020</td>
+                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
+                <td>
+                    <button type="button" class="btn btn-custom">Sửa</button>
+                    <a href="#delete" data-toggle="modal"><button class="btn btn-custom">Xóa</button></a>
+                </td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>MKI</td>
+                <td>12189</td>
+                <td>Trang bị bảo hộ</td>
+                <td>24-04-2019</td>
+                <td>14-12-2020</td>
+                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
+                <td>
+                    <button type="button" class="btn btn-custom">Sửa</button>
+                    <a href="#delete" data-toggle="modal"><button class="btn btn-custom">Xóa</button></a>
+                </td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>ANFN</td>
+                <td>4367</td>
+                <td>Máy khoan</td>
+                <td>04-05-2019</td>
+                <td>12-10-2020</td>
+                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
+                <td>
+                    <button type="button" class="btn btn-custom">Sửa</button>
+                    <a href="#delete" data-toggle="modal"><button class="btn btn-custom">Xóa</button></a>
+                </td>
+            </tr>
+        </table>
+        <div class="col-md-4 col-md-offset-4" style="text-align:center">
+            <button type="submit" style="margin-top:20px;padding:6px 12px;border:none"><i class="fa fa-arrow-left"></i></button>
+            <a style="padding:8px 14px;border:1px solid #ccc;border-radius:4px;cursor:pointer;text-decoration:none;background-color:cornflowerblue">1</a>
+            <a style="padding:8px 14px;border:1px solid #ccc;border-radius:4px;cursor:pointer;text-decoration:none">2</a>
+            <button type="submit" style="margin-top:20px;padding:6px 12px;border:none"><i class="fa fa-arrow-right"></i></button>
+        </div>
+    </div>
+</div>

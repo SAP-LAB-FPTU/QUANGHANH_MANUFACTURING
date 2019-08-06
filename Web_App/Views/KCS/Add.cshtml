@@ -1,0 +1,296 @@
+﻿
+@{
+    ViewBag.Title = "Nhập xuất kho";
+    Layout = "~/Views/KCS/_Layout_KCS.cshtml";
+}
+
+<div class="wizard col-md-12">
+    <div class="step active">
+        <div class="col-md-12 col-xs-12">
+            <div class="col-md-6 col-xs-6">
+                <h4>Nhập - Xuất Than</h4>
+            </div>
+            <div class="col-md-6 col-xs-6">
+                <button type="submit" class="btn btn-custom">Nhập từ excel</button>
+            </div>
+        </div>
+        
+        <div class="col-md-12 col-xs-12" style="padding-top:30px">
+            <div class="col-md-6 col-xs-6">
+                <div class="form-group">
+                    <label for="date">Ngày thực hiện</label>
+                    <input type="date" class="form-control" id="date" />
+                </div>
+            </div>
+            <div class="col-md-6 col-xs-6">
+                <div class="form-group">
+                    <label for="manager">Cụm sàng tuyển</label>
+                    <input type="text" class="form-control" id="manager" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <fieldset style="border: 1px solid black; margin-top:30px;">
+                <legend style="width: auto; margin-left: 30px; border-bottom: none">Than nhập kho SX</legend>
+                <table class="table text-center">
+                    <tr>
+                        <td class="text-center"></td>
+                        <td class="text-center">Số lượng</td>
+                        <td class="text-center">Ak</td>
+                        <td class="text-center" width="100px">%</td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Hầm lò</td>
+                        <td><input type="number" /></td>
+                        <td><input type="number" /></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Lộ thiên</td>
+                        <td><input type="number" /></td>
+                        <td><input type="number" /></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Than nhập</td>
+                        <td><input type="number" /></td>
+                        <td><input type="number" /></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th colspan="4">Tổng</th>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+    </div>
+    <div class="step" style="display:none">
+        <div class="col-md-12">
+            <fieldset style="border: 1px solid black; margin-top:30px;">
+                <legend style="width: auto; margin-left: 30px; border-bottom: none">Than sạch sản xuất</legend>
+                <table class="table text-center">
+                    <tr>
+                        <td class="text-center"></td>
+                        <td class="text-center">Số lượng</td>
+                        <td class="text-center">Ak</td>
+                        <td class="text-center" width="100px">%</td>
+                    </tr>
+                    <tr>
+                        <th colspan="4">Than TCVN</th>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Cục 4a.2</td>
+                        <td><input type="number" /></td>
+                        <td><input type="number" /></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Cục 5a.2</td>
+                        <td><input type="number" /></td>
+                        <td><input type="number" /></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Cục 4a.1</td>
+                        <td><input type="number" /></td>
+                        <td><input type="number" /></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Cục 3c.1</td>
+                        <td><input type="number" /></td>
+                        <td><input type="number" /></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Cục 5a.1</td>
+                        <td><input type="number" /></td>
+                        <td><input type="number" /></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Cục 5b.1</td>
+                        <td><input type="number" /></td>
+                        <td><input type="number" /></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Cục 6a.1</td>
+                        <td><input type="number" /></td>
+                        <td><input type="number" /></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Cục 6b.1</td>
+                        <td><input type="number" /></td>
+                        <td><input type="number" /></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th colspan="4">Than TCVN</th>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Than bùn 3c</td>
+                        <td><input type="number" /></td>
+                        <td><input type="number" /></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Cục xô 1b</td>
+                        <td><input type="number" /></td>
+                        <td><input type="number" /></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Cục xô 1c</td>
+                        <td><input type="number" /></td>
+                        <td><input type="number" /></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>Đá Thảo</th>
+                        <td><input type="number" /></td>
+                        <td><input type="number" /></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th colspan="4">Tổng</th>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+    </div>
+    <div class="step" style="display:none">
+        <div class="col-md-12">
+            <fieldset style="border: 1px solid black; margin-top:30px;">
+                <legend style="width: auto; margin-left: 30px; border-bottom: none">Than sạch xuất kho</legend>
+                <table class="table text-center">
+                    <tr>
+                        <td class="text-center"></td>
+                        <td class="text-center">Số lượng</td>
+                        <td class="text-center">Ak</td>
+                    </tr>
+                    <tr>
+                        <th colspan="4">Than TCVN</th>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Cục 4a.2</td>
+                        <td><input type="number" /></td>
+                        <td><input type="number" /></td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Cục 5a.2</td>
+                        <td><input type="number" /></td>
+                        <td><input type="number" /></td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Cục 4a.1</td>
+                        <td><input type="number" /></td>
+                        <td><input type="number" /></td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Cục 3c.1</td>
+                        <td><input type="number" /></td>
+                        <td><input type="number" /></td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Cục 5a.1</td>
+                        <td><input type="number" /></td>
+                        <td><input type="number" /></td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Cục 5b.1</td>
+                        <td><input type="number" /></td>
+                        <td><input type="number" /></td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Cục 6a.1</td>
+                        <td><input type="number" /></td>
+                        <td><input type="number" /></td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Cục 6b.1</td>
+                        <td><input type="number" /></td>
+                        <td><input type="number" /></td>
+                    </tr>
+                    <tr>
+                        <th colspan="4">Than TCVN</th>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Than bùn 3c</td>
+                        <td><input type="number" /></td>
+                        <td><input type="number" /></td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Cục xô 1b</td>
+                        <td><input type="number" /></td>
+                        <td><input type="number" /></td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Cục xô 1c</td>
+                        <td><input type="number" /></td>
+                        <td><input type="number" /></td>
+                    </tr>
+                    <tr>
+                        <th colspan="4">Tổng</th>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="text-right"><a href="List" class="btn btn-custom" style="color:white">Lưu</a></td>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+    </div>
+
+    <div class="col-md-12 col-xl-12" style="margin-top: 30px">
+
+    </div>
+    <input type="button" class="prev btn btn-custom" style="display: none" value="Trang trước" />
+    <input type="button" class="next btn btn-custom" value="Trang kế" />
+</div>
+
+
+
+<script type="text/javascript">
+$(function() {
+    $('.wizard .prev').click(function() {
+        var wizard = $(this).parent('.wizard');
+
+        $('.step.active', wizard).hide();
+
+        var currentStep = $('.step.active', wizard);
+        currentStep.hide();
+        currentStep.removeClass('active');
+
+        var newStep = currentStep.prev('.step', wizard);
+        newStep.addClass('active');
+        newStep.show();
+
+        if ($('.step:first', wizard)[0] == newStep[0]) {
+            $(this).hide();
+        }
+
+        $('.next', wizard).show();
+    });
+
+    $('.wizard .next').click(function() {
+        var wizard = $(this).parent('.wizard');
+
+        $('.step.active', wizard).hide();
+
+        var currentStep = $('.step.active', wizard);
+        currentStep.hide();
+        currentStep.removeClass('active');
+
+        var newStep = currentStep.next('.step', wizard);
+        newStep.addClass('active');
+        newStep.show();
+
+        if ($('.step:last', wizard)[0] == newStep[0]) {
+            $(this).hide();
+        }
+
+        $('.prev', wizard).show();
+    });
+});
+</script>

@@ -1,0 +1,437 @@
+﻿@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_TCLD_Layout.cshtml";
+}
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+            <div class="row border border-primary">
+                <div class="well well-md searchBox row">
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div class="active-cyan-3 active-cyan-4 mb-4 col-xs-9 col-md-9 col-sm-9">
+                                <input class="form-control" type="text" placeholder="Tìm kiếm theo mã nhân viên" aria-label="Search" id ="searchArea">
+                            </div>
+                            <div class="col-md-3">
+                                <button type="button" class="btn btn-primary">Tìm kiếm</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+
+                    </div>
+                </div>
+                <div class="well well-md row">
+                    <div>
+                        <table class="table table-hover" id="data">
+                            <thead>
+                                <tr>
+                                    <th>Số thứ tự</th>
+                                    <th>Mã nhân viên</th>
+                                    <th>Tên</th>
+                                    <th>Năm sinh</th>
+                                    <th>Giới tính</th>
+                                    <th>Số điện thoại</th>
+                                    <th>Phân xưởng</th>
+                                    <th>Trạng thái</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td><a href="/">2179</a></td>
+                                    <td><a href="/">Nguyễn Xuân Thoàng</a></td>
+                                    <td>19/07/1987</td>
+                                    <td>Nam</td>
+                                    <td>091346578</td>
+                                    <td>Phân xưởng cơ khí</td>
+                                    <td><button type="button" class="btn btn-success btn-sm" disabled>Đang đi làm</button></td>
+                                    <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal">Xoá</button></td>
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <b>XOÁ NHÂN VIÊN MANG MÃ QH123</b>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-primary"
+                                                        data-dismiss="modal">HUỶ</button>
+                                                    <button type="button" class="btn btn-danger">XOÁ</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td><a href="/">7751</a></td>
+                                    <td><a href="/">Nguyễn Văn Hùng</a></td>
+                                    <td>19/05/1984</td>
+                                    <td>Nam</td>
+                                    <td>094234658</td>
+                                    <td>Phân xưởng cơ khí</td>
+                                    <td><button type="button" class="btn btn-warning btn-sm" disabled>Nghỉ vô lý do</button></td>
+                                    <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td><a href="/">3506</a></td>
+                                    <td><a href="/">Nguyễn Văn Hùng</a></td>
+                                    <td>19/07/1991</td>
+                                    <td>Nam</td>
+                                    <td>091758725</td>
+                                    <td>Phân xưởng cơ khí</td>
+                                    <td><button type="button" class="btn btn-success btn-sm" disabled>Đang đi làm</button></td>
+                                    <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td><a href="/">2041</a></td>
+                                    <td><a href="/">Nguyễn Văn Hưng</a></td>
+                                    <td>19/07/1976</td>
+                                    <td>Nam</td>
+                                    <td>098765243</td>
+                                    <td>Phân xưởng xây dựng</td>
+                                    <td><button type="button" class="btn btn-success btn-sm" disabled>Đang đi làm</button></td>
+                                    <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td><a href="/">4472</a></td>
+                                    <td><a href="/">Nguyễn Văn Hoa</a></td>
+                                    <td>19/07/1976</td>
+                                    <td>Nữ</td>
+                                    <td>091874526</td>
+                                    <td>Phân xưởng cơ khí</td>
+                                    <td><button type="button" class="btn btn-success btn-sm" disabled>Đang đi làm</button></td>
+                                    <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td><a href="/">7430</a></td>
+                                    <td><a href="/">Đông Văn Đai</a></td>
+                                    <td>19/07/1985</td>
+                                    <td>Nam</td>
+                                    <td>098645724</td>
+                                    <td>Phân xưởng cơ khí</td>
+                                    <td><button type="button" class="btn btn-warning btn-sm" disabled>Nghỉ vô lý do</button></td>
+                                    <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
+                                </tr>
+                                <tr>
+                                    <td>7</td>
+                                    <td><a href="/">7564</a></td>
+                                    <td><a href="/">Nguyễn Văn Sơn</a></td>
+                                    <td>19/07/1987</td>
+                                    <td>Nam</td>
+                                    <td>092347561</td>
+                                    <td>Phân xưởng phục vụ</td>
+                                    <td><button type="button" class="btn btn-warning btn-sm" disabled>Nghỉ vô lý do</button></td>
+                                    <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
+                                </tr>
+                                <tr>
+                                    <td>8</td>
+                                    <td><a href="/">7598</a></td>
+                                    <td><a href="/">Đăng Tung</a></td>
+                                    <td>19/07/1987</td>
+                                    <td>Nam</td>
+                                    <td>094526347</td>
+                                    <td>Phân xưởng cơ khí</td>
+                                    <td><button type="button" class="btn btn-success btn-sm" disabled>Đang đi làm</button></td>
+                                    <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
+                                </tr>
+                                <tr>
+                                    <td>9</td>
+                                    <td><a href="/">5132</a></td>
+                                    <td><a href="/">Lệnh Văn Hương</a></td>
+                                    <td>19/05/1984</td>
+                                    <td>Nữ</td>
+                                    <td>091234655</td>
+                                    <td>Phân xưởng cơ khí</td>
+                                    <td><button type="button" class="btn btn-success btn-sm" disabled>Đang đi làm</button></td>
+                                    <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
+                                </tr>
+                                <tr>
+                                    <td>10</td>
+                                    <td><a href="/">3352</a></td>
+                                    <td><a href="/">Phạm Văn Phú</a></td>
+                                    <td>19/07/1991</td>
+                                    <td>Nam</td>
+                                    <td>095476253</td>
+                                    <td>Phân xưởng phục vụ</td>
+                                    <td><button type="button" class="btn btn-success btn-sm" disabled>Đang đi làm</button></td>
+                                    <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
+                                </tr>
+                                <tr>
+                                    <td>11</td>
+                                    <td><a href="/">6771</a></td>
+                                    <td><a href="/">Nguyễn Hữu Thinh</a></td>
+                                    <td>19/07/1976</td>
+                                    <td>Nam</td>
+                                    <td>083657462/td>
+                                    <td>Phân xưởng xây dựng</td>
+                                    <td><button type="button" class="btn btn-success btn-sm" disabled>Đang đi làm</button></td>
+                                    <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
+                                </tr>
+                                <tr>
+                                    <td>12</td>
+                                    <td><a href="/">7962</a></td>
+                                    <td><a href="/">Nguyễn Tiền Nhật</a></td>
+                                    <td>19/07/1976</td>
+                                    <td>Nam</td>
+                                    <td>084572635</td>
+                                    <td>Phân xưởng cơ khí</td>
+                                    <td><button type="button" class="btn btn-success btn-sm" disabled>Đang đi làm</button></td>
+                                    <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
+                                </tr>
+                                <tr>
+                                    <td>13</td>
+                                    <td><a href="/">1674</a></td>
+                                    <td><a href="/">Nguyễn Văn Hùng</a></td>
+                                    <td>09/07/1974</td>
+                                    <td>Nam</td>
+                                    <td>097645243</td>
+                                    <td>Phân xưởng đào lò</td>
+                                    <td><button type="button" class="btn btn-success btn-sm" disabled>Đang đi làm</button></td>
+                                    <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
+                                </tr>
+                                <tr>
+                                    <td>14</td>
+                                    <td><a href="/">4075</a></td>
+                                    <td><a href="/">Trần Văn Thương</a></td>
+                                    <td>04/06/1986</td>
+                                    <td>Nam</td>
+                                    <td>091234657</td>
+                                    <td>Phân xưởng xây dựng</td>
+                                    <td><button type="button" class="btn btn-success btn-sm" disabled>Đang đi làm</button></td>
+                                    <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
+                                </tr>
+                                <tr>
+                                    <td>15</td>
+                                    <td><a href="/">8742</a></td>
+                                    <td><a href="/">Vũ Ba Chơ</a></td>
+                                    <td>12/07/1988</td>
+                                    <td>Nam</td>
+                                    <td>094765745</td>
+                                    <td>Phân xưởng đào lò</td>
+                                    <td><button type="button" class="btn btn-success btn-sm" disabled>Đang đi làm</button></td>
+                                    <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
+                                </tr>
+                                <tr>
+                                    <td>16</td>
+                                    <td><a href="/">8747</a></td>
+                                    <td><a href="/">Vũ Tiến Đạt</a></td>
+                                    <td>18/05/1989</td>
+                                    <td>Nam</td>
+                                    <td>093465723</td>
+                                    <td>Phân xưởng cơ khí</td>
+                                    <td><button type="button" class="btn btn-success btn-sm" disabled>Đang đi làm</button></td>
+                                    <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
+                                </tr>
+                                <tr>
+                                    <td>17</td>
+                                    <td><a href="/">4475</a></td>
+                                    <td><a href="/">Nguyễn Văn Hợp</a></td>
+                                    <td>10/08/1979</td>
+                                    <td>Nam</td>
+                                    <td>098743456</td>
+                                    <td>Phân xưởng phục vụ</td>
+                                    <td><button type="button" class="btn btn-success btn-sm" disabled>Đang đi làm</button></td>
+                                    <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
+                                </tr>
+                                <tr>
+                                    <td>18</td>
+                                    <td><a href="/">615</a></td>
+                                    <td><a href="/">Ban Văn Nghị</a></td>
+                                    <td>21/09/1990</td>
+                                    <td>Nam</td>
+                                    <td>084572635</td>
+                                    <td>Phân xưởng xây dựng</td>
+                                    <td><button type="button" class="btn btn-success btn-sm" disabled>Đang đi làm</button></td>
+                                    <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
+                                </tr>
+                                <tr>
+                                    <td>19</td>
+                                    <td><a href="/">5229</a></td>
+                                    <td><a href="/">Nguyễn Quang Chinh</a></td>
+                                    <td>19/07/1976</td>
+                                    <td>Nam</td>
+                                    <td>094875436</td>
+                                    <td>Phân xưởng xây dựng</td>
+                                    <td><button type="button" class="btn btn-success btn-sm" disabled>Đang đi làm</button></td>
+                                    <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
+                                </tr>
+                                <tr>
+                                    <td>20</td>
+                                    <td><a href="/">5445</a></td>
+                                    <td><a href="/">Nguyễn Duy Hiệp</a></td>
+                                    <td>20/05/1981</td>
+                                    <td>Nam</td>
+                                    <td>091246579</td>
+                                    <td>Phân xưởng phục vụ</td>
+                                    <td><button type="button" class="btn btn-warning btn-sm" disabled>Đang đi làm</button></td>
+                                    <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
+                                </tr>
+                                <tr>
+                                    <td>21</td>
+                                    <td><a href="/">8111</a></td>
+                                    <td><a href="/">Hoang Văn Tinh</a></td>
+                                    <td>17/05/1985</td>
+                                    <td>Nam</td>
+                                    <td>092345642</td>
+                                    <td>Phân xưởng phục vụ</td>
+                                    <td><button type="button" class="btn btn-success btn-sm" disabled>Đang đi làm</button></td>
+                                    <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
+                                </tr>
+                                <tr>
+                                    <td>22</td>
+                                    <td><a href="/">2126</a></td>
+                                    <td><a href="/">Nguyễn Đức Tạo</a></td>
+                                    <td>19/06/1985</td>
+                                    <td>Nam</td>
+                                    <td>094657845</td>
+                                    <td>Phân xưởng cơ khí</td>
+                                    <td><button type="button" class="btn btn-success btn-sm" disabled>Đang đi làm</button></td>
+                                    <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
+                                </tr>
+                                <tr>
+                                    <td>23</td>
+                                    <td><a href="/">4775</a></td>
+                                    <td><a href="/">Lục Văn Nhay</a></td>
+                                    <td>02/07/1982</td>
+                                    <td>Nam</td>
+                                    <td>091245673</td>
+                                    <td>Phân xưởng phục vụ</td>
+                                    <td><button type="button" class="btn btn-success btn-sm" disabled>Đang đi làm</button></td>
+                                    <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
+                                </tr>
+                                <tr>
+                                    <td>24</td>
+                                    <td><a href="/">7834</a></td>
+                                    <td><a href="/">Đỗ Văn Chinh</a></td>
+                                    <td>07/10/1983</td>
+                                    <td>Nam</td>
+                                    <td>094576245</td>
+                                    <td>Phân xưởng đào lò</td>
+                                    <td><button type="button" class="btn btn-success btn-sm" disabled>Đang đi làm</button></td>
+                                    <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
+                                </tr>
+                                <tr>
+                                    <td>25</td>
+                                    <td><a href="/">5214</a></td>
+                                    <td><a href="/">Vũ Văn Công</a></td>
+                                    <td>05/05/1990</td>
+                                    <td>Nam</td>
+                                    <td>091345623</td>
+                                    <td>Phân xưởng cơ khí</td>
+                                    <td><button type="button" class="btn btn-success btn-sm" disabled>Đang đi làm</button></td>
+                                    <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
+                                </tr>
+                                <tr>
+                                    <td>26</td>
+                                    <td><a href="/">2005</a></td>
+                                    <td><a href="/">Nguyễn Văn Bầy</a></td>
+                                    <td>10/01/1989</td>
+                                    <td>Nam</td>
+                                    <td>0976452745</td>
+                                    <td>Phân xưởng cơ khí</td>
+                                    <td><button type="button" class="btn btn-success btn-sm" disabled>Đang đi làm</button></td>
+                                    <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
+                                </tr>
+                                <tr>
+                                    <td>27</td>
+                                    <td><a href="/">2080</a></td>
+                                    <td><a href="/">Nguyễn Văn Trai</a></td>
+                                    <td>18/02/1987</td>
+                                    <td>Nam</td>
+                                    <td>092346273</td>
+                                    <td>Phân xưởng đào lò</td>
+                                    <td><button type="button" class="btn btn-success btn-sm" disabled>Đang đi làm</button></td>
+                                    <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
+                                </tr>
+                                <tr>
+                                    <td>28</td>
+                                    <td><a href="/">5213</a></td>
+                                    <td><a href="/">Lê Ánh Ngọc</a></td>
+                                    <td>02/04/1984</td>
+                                    <td>Nữ</td>
+                                    <td>091236475</td>
+                                    <td>Phân xưởng phục vụ</td>
+                                    <td><button type="button" class="btn btn-success btn-sm" disabled>Đang đi làm</button></td>
+                                    <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
+                                </tr>
+                                <tr>
+                                    <td>29</td>
+                                    <td><a href="/">7494</a></td>
+                                    <td><a href="/">Trần Trọng Thi</a></td>
+                                    <td>11/04/1978</td>
+                                    <td>Nam</td>
+                                    <td>098746253</td>
+                                    <td>Phân xưởng cơ khí</td>
+                                    <td><button type="button" class="btn btn-success btn-sm" disabled>Đang đi làm</button></td>
+                                    <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
+                                </tr>
+                                <tr>
+                                    <td>30</td>
+                                    <td><a href="/">4789</a></td>
+                                    <td><a href="/">Nguyễn Văn Thư</a></td>
+                                    <td>19/06/1989</td>
+                                    <td>Nữ</td>
+                                    <td>095364523</td>
+                                    <td>Phân xưởng phục vụ</td>
+                                    <td><button type="button" class="btn btn-success btn-sm" disabled>Đang đi làm</button></td>
+                                    <td><button type="button" class="btn btn-primary btn-sm">Chỉnh sửa</button></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm">Xoá</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+    @*<script>
+      $( function() {
+        var availableTags = ["Nguyễn Xuân Thoàng", "Nguyễn Văn Hùng", "Nguyễn Văn Hùng", "Nguyễn Văn Hưng", "Nguyễn VănHoa", "Đông Văn Đai",
+         "Nguyễn Văn Sơn", "Đăng Tung", "Lệnh Văn Hương", "Phạm Văn Phú", "Nguyễn Hữu Thinh", "Nguyễn Tiền Nhật", "NguyễnVăn Hùng"
+        ,"Trần Văn Thương", "Vũ Ba Chơ", "Vũ Tiến Đạt", "Nguyễn Văn Hợp", "Ban Văn Nghị", "Nguyễn Quang Chinh", "Nguyễn Duy Hiệp",
+        "Hoang Văn Tinh", "Nguyễn Đức Tạo", "Lục Văn Nhay", "Đỗ Văn Chinh", "Vũ Văn Công", "Nguyễn Văn Bầy", "Nguyễn Văn Trai", "Lê Ánh Ngọc", "Trần Trọng Thi", "Nguyễn Văn Thư"];
+        $( "#searchArea" ).autocomplete({
+          source: availableTags
+        });
+      } );
+  </script>*@

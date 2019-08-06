@@ -1,0 +1,117 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Đăng nhập</title>
+    <style>
+        .no-gutter > [class*='col-'] {
+            padding-right: 0;
+            padding-left: 0;
+        }
+
+        a:active {
+            background-color: cornflowerblue;
+        }
+    </style>
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
+
+    <!-- MetisMenu CSS -->
+    <link href="../assets/js/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../assets/css/sb-admin-2.css" rel="stylesheet">
+    <link href="../assets/css/site.css" rel="stylesheet">
+    <!-- Custom Fonts -->
+    <link href="../assets/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <script src="../assets/js/jquery.min.js" type="text/javascript"></script>
+
+    <script>
+        function f1() {
+            var e = document.getElementById("ddlViewBy");
+            var strUser = e.options[e.selectedIndex].value;
+            document.getElementById("link").href=strUser;
+        }
+    </script>
+</head>
+
+<body style="background-color: #ffffff">
+    <div class="col-md-12 text-center" style="margin-top: 50px">
+        <img src="~/images/logoQH.png" width="100" height="100">
+    </div>
+    <div class="col-md-12 text-center" style="margin-top: 10px">
+        <p>Đăng nhập vào phần mềm</p>
+    </div>
+    <div class="col-md-12 text-center" style="margin-top: 20px">
+        <div class="table-bordered" style="margin: 0 auto; width: 300px;">
+            <table style="margin: 0 auto; margin-top: 30px; margin-bottom: 30px;">
+                <tr style="border-block-end: 1px solid  #ddd">
+                    <td>
+                        <div class="glyphicon glyphicon-phone"></div>
+                    </td>
+                    <td>
+                        <input style="border: none;margin-left: 30px " type="tel" name="phonenum"
+                               placeholder="Số điện thoại" />
+                    </td>
+                </tr>
+                <tr style="height: 15px">
+                    <td colspan="2"></td>
+                </tr>
+                <tr style="border-block-end: 1px solid  #ddd">
+                    <td>
+                        <div class="glyphicon glyphicon-lock"></div>
+                    </td>
+                    <td>
+                        <input style="border: none;margin-left: 30px " type="tel" name="phonenum"
+                               placeholder="Mật khẩu" />
+                    </td>
+                </tr>
+                <tr style="height: 15px">
+                    <td colspan="2"></td>
+                </tr>
+                <tr style="height: 15px">
+                    <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <td class="text-center" colspan="2">
+                        <a id="link" href="#" onclick="f1()" class="btn btn-primary" style="width: 200px">Đăng nhập</a>
+                    </td>
+                </tr>
+                <tr style="height: 15px">
+                    <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <td class="text-center" colspan="2">
+                        <a style="color: #337ab7" href="#">Quên mật khẩu?</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-3">
+            <select id="ddlViewBy" class="form-control" placeholder="Chọn hoặc nhập phòng ban">
+                <option value="/KCS/Index">Phòng KCS</option>
+                <option value="/CDVT/Index">Phòng CĐVT</option>
+                <option value="/TCLD/Index">Phòng TCLĐ</option>
+            </select>
+            <p>Mục này sẽ bị xóa sau giai đoạn thử nghiệm</p>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="../assets/js/metisMenu/metisMenu.min.js"></script>
+    <script src="../assets/js/sb-admin-2.js"></script>
+    <script src="../assets/js/jquery.validate.min.js"></script>
+</body>
+
+</html>
