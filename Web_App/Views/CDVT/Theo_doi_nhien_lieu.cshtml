@@ -1,6 +1,7 @@
 ﻿
 @{
-    Layout = "~/Views/CDVT/_Layout_CDVT.cshtml";
+    ViewBag.Title = "Theo dõi nhiên liệu";
+    Layout = "~/Views/Shared/_CDVT_Layout.cshtml";
 }
 
 <div class="col-md-12" style="border: 1px solid black; margin:20px 10px; padding-bottom:30px;">
@@ -37,19 +38,18 @@
         </div>
         <div class="col-md-3">
             <a href="#addEmployeeModal" data-toggle="modal"><button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px" onclick="document.getElementById('date').valueAsDate = new Date()">Thêm</button></a>
-            <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">Tải lên</button>
-            <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">Tải về</button>
+            <button style="padding:6px 12px;margin-top:20px;" class="btn btn-custom">In báo cáo</button>
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
         <form class="form-horizontal">
-            <label class="control-label col-xs-4" for="usr">Hiển chị số dòng/trang</label>
+            <label class="control-label col-xs-2" for="usr">Năm</label>
             <div class="col-xs-8">
-                <input list="sizes">
+                <input list="sizes" class="form-control" value="2019">
                 <datalist id="sizes">
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="15">15</option>
+                    <option value="2017">2017</option>
+                    <option value="2018">2018</option>
+                    <option value="2019">2019</option>
                 </datalist>
             </div>
         </form>
@@ -58,74 +58,114 @@
     <div class="col-md-12">
         <table class="table table-hover" style="margin-top:30px; text-align:center">
             <tr>
-                <td>Ngày</td>
-                <td>Mã thiết bị sử dụng</td>
-                <td>Tên thiết bị sử dụng</td>
-                <td>Loại nhiên liệu tiêu thụ</td>
-                <td>Lượng tiêu thụ</td>
-                <td>Đơn vị</td>
-                <td>In báo cáo</td>
-                <td>Chỉnh sửa</td>
+                <th style="text-align:center">Tháng</th>
+                <th>Mã thiết bị sử dụng</th>
+                <th>Tên thiết bị sử dụng</th>
+                <th>Loại nhiên liệu tiêu thụ</th>
+                <th>Lượng tiêu thụ</th>
+                <th>Đơn vị</th>
+                <th>Chỉnh sửa</th>
             </tr>
             <tr>
-                <td>30-7-2019</td>
-                <td>23213141</td>
-                <td>Ô tô trung xa, phục vụ</td>
-                <td>Dầu nhũ hóa</td>
-                <td>190</td>
-                <td>Lít</td>
-                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
-                <td>
-                    <button type="button" class="btn btn-custom">Sửa</button>
-                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
-                </td>
-            </tr>
-            <tr>
-                <td>30-7-2019</td>
-                <td>23211141</td>
-                <td>Ô tô trung xa, phục vụ</td>
-                <td>Dầu mỡ</td>
-                <td>3</td>
-                <td>Kg</td>
-                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
-                <td>
-                    <button type="button" class="btn btn-custom">Sửa</button>
-                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
-                </td>
-            </tr>
-            <tr>
-                <td>30-7-2019</td>
-                <td>23214187</td>
-                <td>Ô tô trung xa, phục vụ</td>
-                <td>Dầu mỡ</td>
-                <td>9</td>
-                <td>Lít</td>
-                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
-                <td>
-                    <button type="button" class="btn btn-custom">Sửa</button>
-                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
-                </td>
-            </tr>
-            <tr>
-                <td>30-7-2019</td>
+                <td>6-2019</td>
                 <td>63149187</td>
                 <td>Ô tô trung xa, phục vụ</td>
                 <td>Xăng</td>
                 <td>300</td>
                 <td>Lít</td>
-                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
                 <td>
                     <button type="button" class="btn btn-custom">Sửa</button>
                     <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
                 </td>
             </tr>
+            <tr>
+                <td>6-2019</td>
+                <td>23213141</td>
+                <td>Ô tô trung xa, phục vụ</td>
+                <td>Dầu nhũ hóa</td>
+                <td>190</td>
+                <td>Lít</td>
+                <td>
+                    <button type="button" class="btn btn-custom">Sửa</button>
+                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
+                </td>
+            </tr>
+            <tr>
+                <td>6-2019</td>
+                <td>23214187</td>
+                <td>Ô tô trung xa, phục vụ</td>
+                <td>Dầu mỡ</td>
+                <td>9</td>
+                <td>Lít</td>
+                <td>
+                    <button type="button" class="btn btn-custom">Sửa</button>
+                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
+                </td>
+            </tr>
+            <tr>
+                <td>7-2019</td>
+                <td>63149187</td>
+                <td>Ô tô trung xa, phục vụ</td>
+                <td>Xăng</td>
+                <td>300</td>
+                <td>Lít</td>
+                <td>
+                    <button type="button" class="btn btn-custom">Sửa</button>
+                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
+                </td>
+            </tr>
+            <tr>
+                <td>7-2019</td>
+                <td>23213141</td>
+                <td>Ô tô trung xa, phục vụ</td>
+                <td>Dầu nhũ hóa</td>
+                <td>190</td>
+                <td>Lít</td>
+                <td>
+                    <button type="button" class="btn btn-custom">Sửa</button>
+                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
+                </td>
+            </tr>
+            <tr>
+                <td>7-2019</td>
+                <td>23214187</td>
+                <td>Ô tô trung xa, phục vụ</td>
+                <td>Dầu mỡ</td>
+                <td>9</td>
+                <td>Lít</td>
+                <td>
+                    <button type="button" class="btn btn-custom">Sửa</button>
+                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
+                </td>
+            </tr>
+            <tr style="color:crimson">
+                <th>Tổng</th>
+                <td></td>
+                <td></td>
+                <th>Xăng</th>
+                <th>600</th>
+                <th>Lít</th>
+                <td></td>
+            </tr>
+            <tr style="color:crimson">
+                <th></th>
+                <td></td>
+                <td></td>
+                <th>Dầu nhũ hóa</th>
+                <th>380</th>
+                <th>Lít</th>
+                <td></td>
+            </tr>
+            <tr style="color:crimson">
+                <th></th>
+                <td></td>
+                <td></td>
+                <th>Dầu mỡ</th>
+                <th>18</th>
+                <th>Lít</th>
+                <td></td>
+            </tr>
         </table>
-        <div class="col-md-4 col-md-offset-4" style="text-align:center">
-            <button type="submit" style="margin-top:20px;padding:6px 12px;border:none"><i class="fa fa-arrow-left"></i></button>
-            <a style="padding:8px 14px;border:1px solid #ccc;border-radius:4px;cursor:pointer;text-decoration:none;background-color:cornflowerblue">1</a>
-            <a style="padding:8px 14px;border:1px solid #ccc;border-radius:4px;cursor:pointer;text-decoration:none">2</a>
-            <button type="submit" style="margin-top:20px;padding:6px 12px;border:none"><i class="fa fa-arrow-right"></i></button>
-        </div>
     </div>
 </div>
 
@@ -142,7 +182,7 @@
                     <div class="col-lg-6">
                         <div class="form-group">
                             <label for="date">Ngày: </label>
-                            <input type="date" class="form-control" id="date" />
+                            <input type="month" class="form-control" id="date" />
                         </div>
                         <div class="form-group">
                             <label for="id">Mã thiết bị: </label>

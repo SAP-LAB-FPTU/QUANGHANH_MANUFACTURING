@@ -408,6 +408,13 @@
     <Content Include="Views\Shared\_CDVT_Layout.cshtml" />
     <Content Include="Views\Shared\_KCS_Layout.cshtml" />
     <Content Include="Views\Shared\_TCLD_Layout.cshtml" />
+    <Content Include="Views\CDVT\Bao_duong_o_to.cshtml" />
+    <Content Include="Views\CDVT\Bao_duong_thiet_bi.cshtml" />
+    <Content Include="Views\CDVT\Chi_tiet_o_to.cshtml" />
+    <Content Include="Views\CDVT\Chi_tiet_sua_chua.cshtml" />
+    <Content Include="Views\CDVT\Chi_tiet_thiet_bi_may.cshtml" />
+    <Content Include="Views\CDVT\Danh_sach_chung.cshtml" />
+    <Content Include="Views\CDVT\Theo_doi_chung_oto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />

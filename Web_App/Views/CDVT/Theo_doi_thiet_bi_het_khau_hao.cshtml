@@ -1,6 +1,6 @@
-﻿
-@{
-    Layout = "~/Views/CDVT/_Layout_CDVT.cshtml";
+﻿@{
+    ViewBag.Title = "Theo dõi thiết bị hết khấu hao";
+    Layout = "~/Views/Shared/_CDVT_Layout.cshtml";
 }
 
 <div class="col-md-12" style="border: 1px solid black; margin:20px 10px; padding-bottom:30px;">
@@ -8,7 +8,7 @@
         <div class="col-md-4">
             <h3>Khấu hao thiết bị</h3>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2" style="height:45px">
             <input list="size" class="form-control" placeholder="Nhập từ khóa để tìm kiếm"
                    style="margin-top:20px;float:left">
             <datalist id="size">
@@ -35,10 +35,11 @@
                 Tìm kiếm
             </button>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 10px">Thêm</button>
             <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 10px">Tải lên</button>
             <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 10px">Tải về</button>
+            <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 10px">In báo cáo</button>
         </div>
     </div>
     <div class="col-md-6">
@@ -54,71 +55,65 @@
             </div>
         </form>
     </div>
-
     <div class="col-md-12">
     </div>
     <div class="col-md-12">
-        <table class="table table-hover" style="margin-top:30px; text-align:center; zoom:90%">
+        <table class="table table-hover table-bordered" style="margin-top:30px; text-align:center; zoom:90%">
             <tr>
-                <td>STT</td>
-                <td>Mã thiết bị</td>
-                <td>Số seri</td>
-                <td>Tên thiết bị</td>
-                <td>Ngày bắt đầu sử dụng</td>
-                <td>Ngày hết khấu hao</td>
-                <td>In báo cáo</td>
-                <td>Chỉnh sửa</td>
+                <th class="text-center">STT</th>
+                <th class="text-center">Mã thiết bị</th>
+                <th class="text-center">Số seri</th>
+                <th class="text-center">Tên thiết bị</th>
+                <th class="text-center">Ngày bắt đầu sử dụng</th>
+                <th class="text-center">Ngày hết khấu hao</th>
+                <th></th>
             </tr>
-            <tr style="background-color:tomato">
+            <tr>
                 <td>1</td>
                 <td>MA1</td>
                 <td>123427612</td>
                 <td>Máy xúc hầm lò</td>
                 <td>03-04-2018</td>
                 <td>12-07-2019</td>
-                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
                 <td>
+                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
                     <button type="button" class="btn btn-custom">Sửa</button>
-                    <a href="#delete" data-toggle="modal"><button class="btn btn-custom">Xóa</button></a>
                 </td>
             </tr>
-            <tr style="background-color:tomato">
+            <tr>
                 <td>2</td>
                 <td>TNSD</td>
                 <td>75645412</td>
                 <td>Máy nén khí</td>
                 <td>12-07-2017</td>
                 <td>20-05-2019</td>
-                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
                 <td>
+                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
                     <button type="button" class="btn btn-custom">Sửa</button>
-                    <a href="#delete" data-toggle="modal"><button class="btn btn-custom">Xóa</button></a>
                 </td>
             </tr>
-            <tr style="background-color:tomato">
+            <tr>
                 <td>3</td>
                 <td>MNS</td>
                 <td>6427612</td>
                 <td>Máy bơm</td>
                 <td>27-04-2017</td>
                 <td>12-07-2019</td>
-                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
                 <td>
+                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
                     <button type="button" class="btn btn-custom">Sửa</button>
-                    <a href="#delete" data-toggle="modal"><button class="btn btn-custom">Xóa</button></a>
                 </td>
             </tr>
-            <tr style="background-color:tomato">
+            <tr>
                 <td>4</td>
                 <td>TOSA</td>
                 <td>78312</td>
                 <td>Động cơ 22kw</td>
                 <td>23-02-2017</td>
                 <td>20-07-2019</td>
-                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
                 <td>
+                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
                     <button type="button" class="btn btn-custom">Sửa</button>
-                    <a href="#delete" data-toggle="modal"><button class="btn btn-custom">Xóa</button></a>
                 </td>
             </tr>
             <tr>
@@ -128,10 +123,9 @@
                 <td>Lò hơi</td>
                 <td>17-02-2017</td>
                 <td>17-12-2019</td>
-                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
                 <td>
+                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
                     <button type="button" class="btn btn-custom">Sửa</button>
-                    <a href="#delete" data-toggle="modal"><button class="btn btn-custom">Xóa</button></a>
                 </td>
             </tr>
             <tr>
@@ -141,10 +135,9 @@
                 <td>Máy tời</td>
                 <td>24-06-2018</td>
                 <td>14-12-2020</td>
-                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
                 <td>
+                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
                     <button type="button" class="btn btn-custom">Sửa</button>
-                    <a href="#delete" data-toggle="modal"><button class="btn btn-custom">Xóa</button></a>
                 </td>
             </tr>
             <tr>
@@ -154,10 +147,9 @@
                 <td>Giàn mềm</td>
                 <td>04-06-2018</td>
                 <td>14-10-2020</td>
-                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
                 <td>
+                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
                     <button type="button" class="btn btn-custom">Sửa</button>
-                    <a href="#delete" data-toggle="modal"><button class="btn btn-custom">Xóa</button></a>
                 </td>
             </tr>
             <tr>
@@ -167,10 +159,9 @@
                 <td>Máy xúc thủy lực</td>
                 <td>12-11-2018</td>
                 <td>02-08-2020</td>
-                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
                 <td>
+                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
                     <button type="button" class="btn btn-custom">Sửa</button>
-                    <a href="#delete" data-toggle="modal"><button class="btn btn-custom">Xóa</button></a>
                 </td>
             </tr>
             <tr>
@@ -180,10 +171,9 @@
                 <td>Trang bị bảo hộ</td>
                 <td>24-04-2019</td>
                 <td>14-12-2020</td>
-                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
                 <td>
+                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
                     <button type="button" class="btn btn-custom">Sửa</button>
-                    <a href="#delete" data-toggle="modal"><button class="btn btn-custom">Xóa</button></a>
                 </td>
             </tr>
             <tr>
@@ -193,10 +183,9 @@
                 <td>Máy khoan</td>
                 <td>04-05-2019</td>
                 <td>12-10-2020</td>
-                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
                 <td>
+                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
                     <button type="button" class="btn btn-custom">Sửa</button>
-                    <a href="#delete" data-toggle="modal"><button class="btn btn-custom">Xóa</button></a>
                 </td>
             </tr>
         </table>

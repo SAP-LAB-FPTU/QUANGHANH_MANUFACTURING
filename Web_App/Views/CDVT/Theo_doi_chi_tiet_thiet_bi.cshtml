@@ -8,7 +8,7 @@
         <div class="col-md-4">
             <h3>Danh sách chi tiết thiết bị</h3>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2" style="height:45px">
             <input list="size" class="form-control" placeholder="Nhập từ khóa để tìm kiếm"
                    style="margin-top:20px;float:left">
             <datalist id="size">
@@ -35,10 +35,11 @@
                 Tìm kiếm
             </button>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <a href="#addEmployeeModal" data-toggle="modal"><button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">Thêm</button></a>
             <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">Tải lên</button>
             <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">Tải về</button>
+            <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">In báo cáo</button>
         </div>
     </div>
     <div class="col-md-6">
@@ -59,16 +60,15 @@
         <table class="table table-bordered table-hover"
                style="margin-top:30px; text-align:center;zoom: 80%;">
             <tr>
-                <td>STT</td>
-                <td>Mã thiết bị</td>
-                <td>Tên thiết bị</td>
-                <td>Số hiệu</td>
-                <td>Ngày hoạt động</td>
-                <td>Số ca hoạt động</td>
-                <td>Sản lượng thực hiện</td>
-                <td>Vị trí</td>
-                <td>Phân xưởng sử dụng</td>
-                <td>In báo cáo</td>
+                <th class="text-center">STT</th>
+                <th class="text-center">Mã thiết bị</th>
+                <th class="text-center">Tên thiết bị</th>
+                <th class="text-center">Số hiệu</th>
+                <th class="text-center">Ngày hoạt động</th>
+                <th class="text-center">Số ca hoạt động</th>
+                <th class="text-center">Sản lượng thực hiện</th>
+                <th class="text-center">Vị trí</th>
+                <th class="text-center">Phân xưởng sử dụng</th>
                 <td></td>
             </tr>
             <tr>
@@ -81,11 +81,6 @@
                 <td>10</td>
                 <td>Phân xưởng 1</td>
                 <td>9</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -106,11 +101,6 @@
                 <td>Phân xưởng 2</td>
                 <td>7</td>
                 <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
-                <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
                             Xóa
@@ -129,11 +119,6 @@
                 <td>12</td>
                 <td>Phân xưởng 3</td>
                 <td>7</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -154,11 +139,6 @@
                 <td>Phân xưởng 6</td>
                 <td>7</td>
                 <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
-                <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
                             Xóa
@@ -177,11 +157,6 @@
                 <td>10</td>
                 <td>Phân xưởng 6</td>
                 <td>7</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -202,11 +177,6 @@
                 <td>Phân xưởng 1</td>
                 <td>7</td>
                 <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
-                <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
                             Xóa
@@ -225,11 +195,6 @@
                 <td>10</td>
                 <td>Phân xưởng 2</td>
                 <td>7</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -250,11 +215,6 @@
                 <td>Phân xưởng 9</td>
                 <td>7</td>
                 <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
-                <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
                             Xóa
@@ -273,11 +233,6 @@
                 <td>10</td>
                 <td>Phân xưởng 2</td>
                 <td>7</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -298,11 +253,6 @@
                 <td>Phân xưởng 4</td>
                 <td>7</td>
                 <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
-                <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
                             Xóa
@@ -321,11 +271,6 @@
                 <td>10</td>
                 <td>Phân xưởng 5</td>
                 <td>7</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -346,11 +291,6 @@
                 <td>Phân xưởng 2</td>
                 <td>7</td>
                 <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
-                <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
                             Xóa
@@ -369,11 +309,6 @@
                 <td>10</td>
                 <td>Phân xưởng 5</td>
                 <td>7</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -394,11 +329,6 @@
                 <td>Phân xưởng 4</td>
                 <td>7</td>
                 <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
-                <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
                             Xóa
@@ -417,11 +347,6 @@
                 <td>10</td>
                 <td>Phân xưởng 8</td>
                 <td>7</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">

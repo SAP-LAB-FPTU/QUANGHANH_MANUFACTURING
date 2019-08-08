@@ -8,7 +8,7 @@
         <div class="col-md-4">
             <h3>Danh sách chung về sự cố và sửa chữa</h3>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2" style="height:45px">
             <input list="size" class="form-control" placeholder="Nhập từ khóa để tìm kiếm"
                    style="margin-top:20px;float:left">
             <datalist id="size">
@@ -35,10 +35,11 @@
                 Tìm kiếm
             </button>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <a href="#addEmployeeModal" data-toggle="modal"><button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px" onclick="document.getElementById('date').valueAsDate = new Date()">Thêm</button></a>
             <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">Tải lên</button>
             <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">Tải về</button>
+            <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">In báo cáo</button>
         </div>
     </div>
     <div class="col-md-6">
@@ -56,19 +57,18 @@
     </div>
 
     <div class="col-md-12">
-        <table class="table table-hover" style="margin-top:30px; text-align:center">
+        <table class="table table-hover table-bordered" style="margin-top:30px; text-align:center">
             <tr>
-                <td>STT</td>
-                <td>Tên thiết bị</td>
-                <td>Số hiệu</td>
-                <td>Ngày sữa chửa</td>
-                <td>Ngày hoàn thành</td>
-                <td>Chi phí</td>
-                <td>Phân xưởng đang sử dụng</td>
-                <td>Lí do sửa</td>
-                <td>Chi tiết</td>
-                <td>In báo cáo</td>
-                <td>Chỉnh sửa</td>
+                <th class="text-center">STT</th>
+                <th class="text-center">Tên thiết bị</th>
+                <th class="text-center">Số hiệu</th>
+                <th class="text-center">Ngày sữa chửa</th>
+                <th class="text-center">Ngày hoàn thành</th>
+                <th class="text-center">Chi phí</th>
+                <th class="text-center">Phân xưởng đang sử dụng</th>
+                <th class="text-center">Lí do sửa</th>
+                <th class="text-center">Chi tiết</th>
+                <th></th>
             </tr>
             <tr>
                 <td>1</td>
@@ -80,10 +80,9 @@
                 <td>Lò than 1</td>
                 <td>Hỏng nguồn</td>
                 <td><button type="button" class="btn btn-custom">Chi tiết</button></td>
-                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
                 <td>
-                    <button type="button" class="btn btn-custom">Sửa</button>
                     <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
+                    <button type="button" class="btn btn-custom">Sửa</button>
                 </td>
             </tr>
             <tr>
@@ -96,10 +95,9 @@
                 <td>Lò than 2</td>
                 <td>Hỏng nguồn</td>
                 <td><button type="button" class="btn btn-custom">Chi tiết</button></td>
-                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
                 <td>
-                    <button type="button" class="btn btn-custom">Sửa</button>
                     <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
+                    <button type="button" class="btn btn-custom">Sửa</button>
                 </td>
             </tr>
             <tr>
@@ -112,10 +110,9 @@
                 <td>Phân xưởng 2</td>
                 <td>Hỏng con quay</td>
                 <td><button type="button" class="btn btn-custom">Chi tiết</button></td>
-                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
                 <td>
-                    <button type="button" class="btn btn-custom">Sửa</button>
                     <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
+                    <button type="button" class="btn btn-custom">Sửa</button>
                 </td>
             </tr>
             <tr>
@@ -128,10 +125,9 @@
                 <td>Lò than 2</td>
                 <td>Hỏng van</td>
                 <td><button type="button" class="btn btn-custom">Chi tiết</button></td>
-                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
                 <td>
-                    <button type="button" class="btn btn-custom">Sửa</button>
                     <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
+                    <button type="button" class="btn btn-custom">Sửa</button>
                 </td>
             </tr>
             <tr>
@@ -144,10 +140,9 @@
                 <td>Lò than 1</td>
                 <td>Không rõ</td>
                 <td><button type="button" class="btn btn-custom">Chi tiết</button></td>
-                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
                 <td>
-                    <button type="button" class="btn btn-custom">Sửa</button>
                     <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
+                    <button type="button" class="btn btn-custom">Sửa</button>
                 </td>
             </tr>
             <tr>
@@ -160,10 +155,9 @@
                 <td>Phân xưởng 2</td>
                 <td>Gãy trục</td>
                 <td><button type="button" class="btn btn-custom">Chi tiết</button></td>
-                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
                 <td>
-                    <button type="button" class="btn btn-custom">Sửa</button>
                     <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
+                    <button type="button" class="btn btn-custom">Sửa</button>
                 </td>
             </tr>
             <tr>
@@ -176,10 +170,9 @@
                 <td>Phân xưởng 1</td>
                 <td>Hỏng bánh xe</td>
                 <td><button type="button" class="btn btn-custom">Chi tiết</button></td>
-                <td><button style="padding:6px 12px;border:none"><i class="glyphicon glyphicon-print"></i></button></td>
                 <td>
-                    <button type="button" class="btn btn-custom">Sửa</button>
                     <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
+                    <button type="button" class="btn btn-custom">Sửa</button>
                 </td>
             </tr>
         </table>

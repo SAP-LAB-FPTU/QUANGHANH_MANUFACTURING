@@ -8,7 +8,7 @@
         <div class="col-md-4">
             <h3>Khấu hao thiết bị</h3>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2" style="height:45px">
             <input list="size" class="form-control" placeholder="Nhập từ khóa để tìm kiếm"
                     style="margin-top:20px;float:left">
             <datalist id="size">
@@ -35,10 +35,11 @@
                 Tìm kiếm
             </button>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">Thêm</button>
             <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">Tải lên</button>
             <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">Tải về</button>
+            <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">In báo cáo</button>
         </div>
     </div>
     <div class="col-md-6">
@@ -58,15 +59,14 @@
     <div class="col-md-12">
         <table class="table table-bordered table-hover" style="margin-top:30px; text-align:center; zoom:90%">
             <tr>
-                <td>STT</td>
-                <td>Mã thiết bị</td>
-                <td>Số hiệu</td>
-                <td>Tên thiết bị</td>
-                <td>Thời gian hoạt động (tháng)</td>
-                <td>Khấu hao dự tính (%)</td>
-                <td>Khấu hao thực (%)</td>
-                <td>Khấu hao/năm (%)</td>
-                <td>In báo cáo</td>
+                <th class="text-center">STT</th>
+                <th class="text-center">Mã thiết bị</th>
+                <th class="text-center">Số hiệu</th>
+                <th class="text-center">Tên thiết bị</th>
+                <th class="text-center">Thời gian hoạt động (tháng)</th>
+                <th class="text-center">Khấu hao dự tính (%)</th>
+                <th class="text-center">Khấu hao thực (%)</th>
+                <th class="text-center">Khấu hao/năm (%)</th>
                 <td></td>
             </tr>
             <tr>
@@ -78,11 +78,6 @@
                 <td>8</td>
                 <td>10</td>
                 <td>9</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -102,11 +97,6 @@
                 <td>6</td>
                 <td>7</td>
                 <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
-                <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
                             Xóa
@@ -124,11 +114,6 @@
                 <td>6</td>
                 <td>12</td>
                 <td>7</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -148,11 +133,6 @@
                 <td>10</td>
                 <td>7</td>
                 <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
-                <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
                             Xóa
@@ -170,11 +150,6 @@
                 <td>5</td>
                 <td>10</td>
                 <td>7</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -194,11 +169,6 @@
                 <td>10</td>
                 <td>7</td>
                 <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
-                <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
                             Xóa
@@ -216,11 +186,6 @@
                 <td>5</td>
                 <td>10</td>
                 <td>7</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -240,11 +205,6 @@
                 <td>10</td>
                 <td>7</td>
                 <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
-                <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
                             Xóa
@@ -262,11 +222,6 @@
                 <td>5</td>
                 <td>10</td>
                 <td>7</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -286,11 +241,6 @@
                 <td>10</td>
                 <td>7</td>
                 <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
-                <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
                             Xóa
@@ -308,11 +258,6 @@
                 <td>5</td>
                 <td>10</td>
                 <td>7</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -332,11 +277,6 @@
                 <td>10</td>
                 <td>7</td>
                 <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
-                <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
                             Xóa
@@ -354,11 +294,6 @@
                 <td>5</td>
                 <td>10</td>
                 <td>7</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -378,11 +313,6 @@
                 <td>10</td>
                 <td>7</td>
                 <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
-                <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
                             Xóa
@@ -400,11 +330,6 @@
                 <td>5</td>
                 <td>10</td>
                 <td>7</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">

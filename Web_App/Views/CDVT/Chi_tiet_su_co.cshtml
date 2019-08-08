@@ -1,15 +1,14 @@
-﻿
-@{
-    Layout = "~/Views/CDVT/_Layout_CDVT.cshtml";
+﻿@{
+    ViewBag.Title = "Chi tiết sự cố";
+    Layout = "~/Views/Shared/_CDVT_Layout.cshtml";
 }
-
 
 <div class="col-md-12" style="border: 1px solid black; margin:20px 10px; padding-bottom:30px;">
     <div class="col-md-12" style="margin-bottom:40px">
         <div class="col-md-4">
             <h3>Chi tiết sự cố</h3>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2" style="height:45px">
             <input list="size" class="form-control" placeholder="Nhập từ khóa để tìm kiếm"
                    style="margin-top:20px;float:left">
             <datalist id="size">
@@ -36,10 +35,11 @@
                 Tìm kiếm
             </button>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">Thêm</button>
             <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">Tải lên</button>
             <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">Tải về</button>
+            <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">In báo cáo</button>
         </div>
     </div>
     <div class="col-md-6">
@@ -55,19 +55,17 @@
             </div>
         </form>
     </div>
-
     <div class="col-md-12">
         <table class="table table-bordered table-hover" style="margin-top:30px; text-align:center;zoom: 75%;">
             <tr>
-                <td rowspan="2">STT</td>
-                <td rowspan="2">Mã thiết bị</td>
-                <td rowspan="2">Số seri</td>
-                <td rowspan="2">Tên thiết bị</td>
-                <td rowspan="2">Vị trí</td>
-                <td rowspan="2">Đơn vị chịu trách nhiệm</td>
-                <td colspan="4">Nội dung sự cố</td>
-                <td rowspan="2">In báo cáo</td>
-                <td rowspan="2"></td>
+                <th class="text-center" rowspan="2">STT</th>
+                <th class="text-center" rowspan="2">Mã thiết bị</th>
+                <th class="text-center" rowspan="2">Số seri</th>
+                <th class="text-center" rowspan="2">Tên thiết bị</th>
+                <th class="text-center" rowspan="2">Vị trí</th>
+                <th class="text-center" rowspan="2">Đơn vị chịu trách nhiệm</th>
+                <th class="text-center" colspan="4">Nội dung sự cố</th>
+                <th class="text-center" rowspan="2"></th>
             </tr>
             <tr>
                 <td>Thời gian bắt đầu sự cố</td>
@@ -86,11 +84,6 @@
                 <td>4:15AM 15/7/2019</td>
                 <td>2:00</td>
                 <td>Rách 0.1m dây băng</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -112,11 +105,6 @@
                 <td>0:30</td>
                 <td>Trượt con lăn</td>
                 <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
-                <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
                             Xóa
@@ -136,11 +124,6 @@
                 <td>5:00PM 3/6/2019</td>
                 <td>5:00</td>
                 <td>Mẻ bánh xích</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -162,11 +145,6 @@
                 <td>0:10</td>
                 <td>Kẹt máy</td>
                 <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
-                <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
                             Xóa
@@ -186,11 +164,6 @@
                 <td>11:50AM 10/5/2019</td>
                 <td>0:50</td>
                 <td>Đứt dây dẫn khí</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -212,11 +185,6 @@
                 <td>1:00</td>
                 <td>Hỏng phao điện</td>
                 <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
-                <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
                             Xóa
@@ -236,11 +204,6 @@
                 <td>9:30AM 20/4/2019</td>
                 <td>1:30</td>
                 <td>Thủng lốp</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -262,11 +225,6 @@
                 <td>1:20</td>
                 <td>Rụng bánh</td>
                 <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
-                <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
                             Xóa
@@ -286,11 +244,6 @@
                 <td>12:30AM 4/4/2019</td>
                 <td>4:30</td>
                 <td>Cạn điện ắc-quy</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -312,11 +265,6 @@
                 <td>2:30</td>
                 <td>Hỏng gale đỡ</td>
                 <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
-                <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
                             Xóa
@@ -336,11 +284,6 @@
                 <td>9:30AM 17/3/2019</td>
                 <td>1:30</td>
                 <td>Kẹt dầu thủy lực</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -362,11 +305,6 @@
                 <td>11:30</td>
                 <td>Động cơ yếu</td>
                 <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
-                <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
                             Xóa
@@ -386,11 +324,6 @@
                 <td>12:00AM 11/2/2019</td>
                 <td>1:00</td>
                 <td>Hỏng chổi than</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -412,11 +345,6 @@
                 <td>1:30</td>
                 <td>Gãy mũi khoan</td>
                 <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
-                <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
                             Xóa
@@ -436,11 +364,6 @@
                 <td>9:30AM 25/1/2019</td>
                 <td>1:30</td>
                 <td>Đứt 0.5m cáp tời</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">

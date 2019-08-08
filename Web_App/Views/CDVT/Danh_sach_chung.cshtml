@@ -1,0 +1,251 @@
+﻿@{
+    ViewBag.Title = "Danh Sách Chung Máy Móc";
+    Layout = "~/Views/Shared/_CDVT_Layout.cshtml";
+}
+
+<div class="col-md-12" style="border: 1px solid black; margin:20px 10px; padding-bottom:30px;">
+    <div class="col-md-12" style="margin-bottom:40px">
+        <div class="col-md-4">
+            <h3>Danh sách chung máy móc</h3>
+        </div>
+        <div class="col-md-3">
+            <input list="size" class="form-control" placeholder="Nhập từ khóa để tìm kiếm"
+                   style="margin-top:20px;float:left">
+            <datalist id="size">
+                <option value="Băng tải khung">Băng tải khung</option>
+                <option value="Máng cào SGB 420/22">Máng cào SGB 420/22</option>
+                <option value="Máy xúc lật">Máy xúc lật</option>
+                <option value="Sàng tuyền">Sàng tuyền</option>
+                <option value="Máy nén khí">Máy nén khí</option>
+                <option value="Máy bơm">Máy bơm</option>
+                <option value="Ô tô trung xa, phục vụ">Ô tô trung xa, phục vụ</option>
+                <option value="Xe goòng">Xe goòng</option>
+                <option value="Tàu điện">Tàu điện</option>
+                <option value="Máy gạt">Máy gạt</option>
+                <option value="Máy xúc hầm lò">Máy xúc hầm lò</option>
+                <option value="Máy xúc thủy lực">Máy xúc thủy lực</option>
+                <option value="Máy khoan lộ thiên">Máy khoan lộ thiên</option>
+                <option value="Máy khoan hầm lò">Máy khoan hầm lò</option>
+                <option value="Cáp tời">Cáp tời</option>
+            </datalist>
+        </div>
+        <div class="col-md-2">
+            <button type="submit"
+                    style="margin-top:20px;border: 1px solid #ccc;height:33px; border-radius: 10%">
+                Tìm kiếm
+            </button>
+        </div>
+        <div class="col-md-3">
+            <a href="#addEmployeeModal" data-toggle="modal"><button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">Thêm mới</button></a>
+            <button style="padding:6px 12px;margin-top:20px;" class="btn btn-custom">In báo cáo</button>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <table class="table table-bordered" style="margin-top:30px; text-align:center;zoom: 80%;">
+            <tr>
+                <th rowspan="2">STT</th>
+                <th colspan="9" style="text-align:center">Thông tin thiết bị</th>
+                <th rowspan="2">Ngày đưa vào sử dụng</th>
+                <th rowspan="2">Ngày bảo dưỡng gần nhất</th>
+                <th rowspan="2">Tổng giờ hoạt động(tính từ lần bảo dưỡng gần nhất)</th>
+                <th rowspan="2">Vị trí hiện tại</th>
+                <th rowspan="2">Tình trạng hiện tại(bảo dưỡng, sửa chữa)</th>
+                <th rowspan="2"></th>
+            </tr>
+            <tr>
+                <th>Mã</th>
+                <th>Tên</th>
+                <th>Số hiệu</th>
+                <th>Nhà cung cấp</th>
+                <th>Loại thiết bị</th>
+                <th>Ngày nhập</th>
+                <th>Nguyên giá</th>
+                <th>Khấu hao ước tính</th>
+                <th>Khấu hao hiện tại</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>SFC</td>
+                <td>Máy xúc lật</td>
+                <td>AH12</td>
+                <td>TC MOTOR</td>
+                <td>Máy móc</td>
+                <td>04-12-2018</td>
+                <td>120.000.000</td>
+                <td>12%</td>
+                <td>104.000.000</td>
+                <td>10-12-2018</td>
+                <td>04-05-2019</td>
+                <td>324 giờ</td>
+                <td>Phân xưởng 1</td>
+                <td>Ổn định</td>
+                <td>
+                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
+                    <button type="submit" class="btn btn-custom">Sửa</button>
+                </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>DAS</td>
+                <td>Máy gạt</td>
+                <td>BH4</td>
+                <td>TC MOTOR</td>
+                <td>Máy móc</td>
+                <td>12-03-2019</td>
+                <td>130.000.000</td>
+                <td>15%</td>
+                <td>112.000.000</td>
+                <td>20-03-2019</td>
+                <td>21-08-2019</td>
+                <td>267 giờ</td>
+                <td>Lò than 2</td>
+                <td>Ổn định</td>
+                <td>
+                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
+                    <button type="submit" class="btn btn-custom">Sửa</button>
+                </td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>SFS</td>
+                <td>Máy bơm</td>
+                <td>AF2</td>
+                <td>TC MOTOR</td>
+                <td>Máy móc</td>
+                <td>05-04-2019</td>
+                <td>12.000.000</td>
+                <td>8%</td>
+                <td>10.200.000</td>
+                <td>20-05-2019</td>
+                <td>None</td>
+                <td>589 giờ</td>
+                <td>Khai thác 2</td>
+                <td>Ổn định</td>
+                <td>
+                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
+                    <button type="submit" class="btn btn-custom">Sửa</button>
+                </td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>RTF</td>
+                <td>Máy nén khí</td>
+                <td>BH5</td>
+                <td>TC MOTOR</td>
+                <td>Máy móc</td>
+                <td>22-07-2018</td>
+                <td>24.500.000</td>
+                <td>18%</td>
+                <td>21.600.000</td>
+                <td>02-08-2018</td>
+                <td>12-02-2019</td>
+                <td>421 giờ</td>
+                <td>Phân xưởng 1</td>
+                <td>Ổn định</td>
+                <td>
+                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
+                    <button type="submit" class="btn btn-custom">Sửa</button>
+                </td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>DOC</td>
+                <td>Ô tô vận chuyển</td>
+                <td>VC2</td>
+                <td>TC MOTOR</td>
+                <td>Ô tô</td>
+                <td>22-07-2018</td>
+                <td>220.000.000</td>
+                <td>26%</td>
+                <td>198.000.000</td>
+                <td>02-08-2018</td>
+                <td>24-02-2019</td>
+                <td>892 giờ</td>
+                <td>Lò than 2</td>
+                <td>Ổn định</td>
+                <td>
+                    <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Xóa</button></a>
+                    <button type="submit" class="btn btn-custom">Sửa</button>
+                </td>
+            </tr>
+        </table>
+        <div class="col-md-4 col-md-offset-4" style="text-align:center">
+            <button type="submit" style="margin-top:20px;padding:6px 12px;border:none"><i class="fa fa-arrow-left"></i></button>
+            <a style="padding:8px 14px;border:1px solid #ccc;border-radius:4px;cursor:pointer;text-decoration:none">1</a>
+            <a style="padding:8px 14px;border:1px solid #ccc;border-radius:4px;cursor:pointer;text-decoration:none">2</a>
+            <button type="submit" style="margin-top:20px;padding:6px 12px;border:none"><i class="fa fa-arrow-right"></i></button>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal HTML -->
+<div id="addEmployeeModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <h4 class="modal-title">Thêm mới máy móc</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body col-lg-12">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Mã</label>
+                            <input type="text" class="form-control" id="id" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Tên</label>
+                            <input type="text" class="form-control" id="name" />
+                        </div>
+                        <div class="form-group">
+                            <label for="occur">Số hiệu</label>
+                            <input type="text" class="form-control" id="occur" />
+                        </div>
+                        <div class="form-group">
+                            <label for="finish">Nhà cung cấp</label><br />
+                            <input type="text" class="form-control" id="occur" />
+                        </div>
+                        <div class="form-group">
+                            <label for="reason">Loại thiết bị</label>
+                            <input type="text" class="form-control" id="reason" />
+                        </div>
+                        <div class="form-group">
+                            <label for="reason">Ngày nhập</label>
+                            <input type="date" class="form-control" id="reason" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="reason">Nguyên giá</label>
+                            <input type="text" class="form-control" id="reason" />
+                        </div>
+                        <div class="form-group">
+                            <label for="reason">Khấu hao ước tính (%)</label>
+                            <input type="text" class="form-control" id="reason" />
+                        </div>
+                        <div class="form-group">
+                            <label>Ngày đưa vào sử dụng</label>
+                            <input type="date" class="form-control" id="id" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Tổng giờ hoạt động(tính từ lần bảo dưỡng gần nhất)</label>
+                            <input type="text" class="form-control" id="name" />
+                        </div>
+                        <div class="form-group">
+                            <label for="occur">Vị trí hiện tại</label>
+                            <input type="text" class="form-control" id="occur" />
+                        </div>
+                        <div class="form-group">
+                            <label for="finish">Tình trạng hiện tại(bảo dưỡng, sửa chữa)</label><br />
+                            <input type="text" class="form-control" id="occur" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,5 +1,4 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -44,7 +43,9 @@
                     Than Quang Hanh
                 </a>
             </div>
-
+            <div class="navbar-text text-right" style="width:15%">
+                <b>Phòng CĐVT</b>
+            </div>
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -72,9 +73,6 @@
                     </a>
                     <ul class="dropdown-menu dropdown-user">
                         <li>
-                            <a href="/Authentication/Index"><i class="fa fa-user fa-fw"></i>Đăng nhập</a>
-                        </li>
-                        <li>
                             <a href="#"><i class="fa fa-user fa-fw"></i>Thông tin tài khoản</a>
                         </li>
                         <li>
@@ -82,7 +80,7 @@
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="logout.php"><i class="fa fa-sign-out fa-fw"></i>Đăng xuất</a>
+                            <a href="/"><i class="fa fa-sign-out fa-fw"></i>Đăng xuất</a>
                         </li>
 
                     </ul>
@@ -110,42 +108,60 @@
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li>
-                            <a href="/"><i class="fa fa-dashboard fa-fw"></i>Phòng Cơ Điện Vận Tải</a>
+                            <a href="/CDVT/Index"><i class="fa fa-dashboard fa-fw"></i> Trang chủ</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-list"></i> Theo dõi, lịch sử, khấu hao<span class="fa arrow"></span></a>
+                            <a href="/CDVT/Danh_sach_chung"><i class="fa fa-list"></i>Danh sách chung</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-list"></i>Thiết bị máy<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="/CDVT/List/List1"><i class="fa"></i> Chi tiết khấu hao thiết bị</a>
+                                    <a href="/CDVT/Chi_tiet_thiet_bi_may">Chi tiết thiết bị máy</a>
                                 </li>
                                 <li>
-                                    <a href="/CDVT/List/List2"><i class="fa"></i> Chi tiết sự cố</a>
-                                </li>
-                                <li>
-                                    <a href="/CDVT/List/List3"><i class="fa"></i> Lịch sử chung sự cố</a>
-                                </li>
-                                <li>
-                                    <a href="/CDVT/List/List4"><i class="fa"></i> Theo dõi bảo hành</a>
-                                </li>
-                                <li>
-                                    <a href="/CDVT/List/List5"><i class="fa"></i> Theo dõi bảo hành kỳ hạn</a>
-                                </li>
-                                <li>
-                                    <a href="/CDVT/List/List6"><i class="fa"></i> Theo dõi chi tiết thiết bị</a>
-                                </li>
-                                <li>
-                                    <a href="/CDVT/List/List7"><i class="fa"></i> Theo dõi chung sự cố và chi tiết</a>
-                                </li>
-                                <li>
-                                    <a href="/CDVT/List/List8"><i class="fa"></i> Theo dõi kiểm định</a>
-                                </li>
-                                <li>
-                                    <a href="/CDVT/List/List9"><i class="fa"></i> Theo dõi nhiên liệu</a>
-                                </li>
-                                <li>
-                                    <a href="/CDVT/List/List10"><i class="fa"></i> Theo dõi thiết bị hết khấu hao</a>
+                                    <a href="/CDVT/Bao_duong_thiet_bi">Bảo dưỡng</a>
                                 </li>
                             </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-list"></i>Thiết bị ô tô<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/CDVT/Chi_tiet_o_to">Chi tiết thiết bị ô tô</a>
+                                </li>
+                                <li>
+                                    <a href="/CDVT/Bao_duong_o_to">Bảo dưỡng</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-list"></i>Sửa chữa, sự cố<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/CDVT/Chi_tiet_sua_chua">Chi tiết sửa chữa</a>
+                                </li>
+                                <li>
+                                    <a href="/CDVT/Chi_tiet_su_co">Chi tiết sự cố</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-list"></i>Kiểm định<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/CDVT/Theo_doi_kiem_dinh">Theo dõi kiểm định</a>
+                                </li>
+                                <li>
+                                    <a href="/CDVT/Theo_doi_thiet_bi_het_khau_hao">Hết khấu hao</a>
+                                </li>
+                                <li>
+                                    <a href="/CDVT/Theo_doi_bao_hiem_ky_han">Bảo hiểm</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="/CDVT/Theo_doi_nhien_lieu"><i class="fa fa-list"></i>Nhiên liệu</a>
                         </li>
                     </ul>
                 </div>
@@ -162,6 +178,27 @@
                 <div class="col-lg-12">
                     @RenderBody()
                 </div>
+            </div>
+        </div>
+    </div>
+    <!-- Delete Modal HTML -->
+    <div id="delete" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form>
+                    <div class="modal-header">
+                        <h4 class="modal-title">Xóa bản ghi</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Bạn có muốn xóa dữ liệu của bản ghi này không?</p>
+                        <p class="text-warning"><small>Hành động này không thể khôi phục được</small></p>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Quay trở về">
+                        <input type="submit" class="btn btn-danger" value="Xóa">
+                    </div>
+                </form>
             </div>
         </div>
     </div>

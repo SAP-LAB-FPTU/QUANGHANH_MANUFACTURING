@@ -1,6 +1,6 @@
-﻿
-@{
-    Layout = "~/Views/CDVT/_Layout_CDVT.cshtml";
+﻿@{
+    ViewBag.Title = "Theo dõi kiểm định";
+    Layout = "~/Views/Shared/_CDVT_Layout.cshtml";
 }
 
 <div class="col-md-12" style="border: 1px solid black; margin:20px 10px; padding-bottom:30px;">
@@ -8,7 +8,7 @@
         <div class="col-md-4">
             <h3>Danh sách kiểm định</h3>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2" style="height:45px">
             <input list="size" class="form-control" placeholder="Nhập từ khóa để tìm kiếm"
                    style="margin-top:20px;float:left">
             <datalist id="size">
@@ -35,10 +35,11 @@
                 Tìm kiếm
             </button>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <a href="#addEmployeeModal" data-toggle="modal"><button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px" onclick="document.getElementById('date').valueAsDate = new Date()">Thêm</button></a>
             <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">Tải lên</button>
             <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">Tải về</button>
+            <button class="btn btn-custom" type="submit" style="margin-top:20px; margin-right: 20px">In báo cáo</button>
         </div>
     </div>
     <div class="col-md-6">
@@ -54,45 +55,36 @@
             </div>
         </form>
     </div>
-
     <div class="col-md-12">
         <table class="table table-bordered table-hover"
                style="margin-top:30px; text-align:center;zoom: 75%;">
             <tr>
-                <td rowspan="2">STT</td>
-                <td rowspan="2">Ngày kiểm định</td>
-                <td rowspan="2">Đợt kiểm định</td>
-                <td rowspan="2">Mã đợt kiểm định</td>
-                <td rowspan="2">Nhân viên kiểm định</td>
-                <td rowspan="2">Đơn vị được kiểm định</td>
-                <td rowspan="2">Nội dung kiểm định</td>
-                <td colspan="4">Thiết bị kiểm định</td>
-                <td rowspan="2">In báo cáo</td>
+                <th class="text-center" rowspan="2">STT</th>
+                <th class="text-center" rowspan="2">Ngày kiểm định</th>
+                <th class="text-center" rowspan="2">Đợt kiểm định</th>
+                <th class="text-center" rowspan="2">Mã đợt kiểm định</th>
+                <th class="text-center" rowspan="2">Cơ quan kiểm định</th>
+                <th class="text-center" colspan="5">Thiết bị kiểm định</th>
                 <td rowspan="2"></td>
             </tr>
             <tr>
                 <td>Mã thiết bị</td>
                 <td>Tên thiết bị</td>
                 <td>Số hiệu</td>
-                <td>Tình trạng</td>
+                <td>Chất lượng</td>
+                <td>Hạn kiểm định</td>
             </tr>
             <tr>
                 <td>1</td>
                 <td>15/7/2019</td>
                 <td>002</td>
                 <td>KT02-19</td>
-                <td>Ngô Doãn Cường</td>
-                <td>Khai thác 3</td>
                 <td>Kiểm tra tình trạng thiết bị</td>
                 <td>BT</td>
                 <td>Băng tải khung</td>
                 <td>245</td>
                 <td>Tốt</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
+                <td>15/7/2020</td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -107,18 +99,12 @@
                 <td>15/7/2019</td>
                 <td>002</td>
                 <td>KT02-19</td>
-                <td>Ngô Doãn Cường</td>
-                <td>Khai thác 1</td>
                 <td>Kiểm tra tình trạng thiết bị</td>
                 <td>MC</td>
                 <td>Máng cào SGB 420/22</td>
                 <td>4032</td>
                 <td>Tốt</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
+                <td>15/7/2020</td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -133,18 +119,12 @@
                 <td>15/7/2019</td>
                 <td>002</td>
                 <td>KT02-19</td>
-                <td>Ngô Doãn Cường</td>
-                <td>Khai thác 2</td>
                 <td>Kiểm tra tình trạng thiết bị</td>
                 <td>MX</td>
                 <td>Máy xúc lật</td>
                 <td>2080</td>
                 <td>Tốt</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
+                <td>15/7/2020</td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -159,18 +139,12 @@
                 <td>15/7/2019</td>
                 <td>002</td>
                 <td>KT02-19</td>
-                <td>Ngô Doãn Cường</td>
-                <td>Khai thác 2</td>
                 <td>Kiểm tra tình trạng thiết bị</td>
                 <td>ST</td>
                 <td>Sàng tuyền</td>
                 <td>A3415</td>
                 <td>Đang sửa chữa</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
+                <td>15/7/2020</td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -185,18 +159,12 @@
                 <td>15/7/2019</td>
                 <td>002</td>
                 <td>KT02-19</td>
-                <td>Ngô Doãn Cường</td>
-                <td>Khai thác 3</td>
                 <td>Kiểm tra tình trạng thiết bị</td>
                 <td>NK</td>
                 <td>Máy nén khí</td>
                 <td>600</td>
                 <td>Tốt</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
+                <td>15/7/2020</td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -211,18 +179,12 @@
                 <td>15/7/2019</td>
                 <td>002</td>
                 <td>KT02-19</td>
-                <td>Ngô Doãn Cường</td>
-                <td>Khai thác 2</td>
                 <td>Kiểm tra tình trạng thiết bị</td>
                 <td>MB</td>
                 <td>Máy bơm</td>
                 <td>173</td>
                 <td>Đã hỏng</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
+                <td>15/7/2020</td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -237,18 +199,12 @@
                 <td>15/4/2019</td>
                 <td>001</td>
                 <td>KT01-19</td>
-                <td>Bùi Văn Xuân</td>
-                <td>Khai thác 2</td>
                 <td>Kiểm tra tình trạng thiết bị</td>
                 <td>OTX</td>
                 <td>Ô tô trung xa, phục vụ</td>
                 <td>557</td>
                 <td>Tốt</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
+                <td>15/7/2020</td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -263,18 +219,12 @@
                 <td>15/4/2019</td>
                 <td>001</td>
                 <td>KT01-19</td>
-                <td>Bùi Văn Xuân</td>
-                <td>Khai thác 2</td>
                 <td>Kiểm tra tình trạng thiết bị</td>
                 <td>XG</td>
                 <td>Xe goòng</td>
                 <td>72</td>
                 <td>Tốt</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
+                <td>15/7/2020</td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -289,18 +239,12 @@
                 <td>15/4/2019</td>
                 <td>001</td>
                 <td>KT01-19</td>
-                <td>Bùi Văn Xuân</td>
-                <td>Khai thác 2</td>
                 <td>Kiểm tra tình trạng thiết bị</td>
                 <td>TD</td>
                 <td>Tàu điện</td>
                 <td>852</td>
                 <td>Đang sửa chữa</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
+                <td>15/7/2020</td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -315,18 +259,12 @@
                 <td>15/4/2019</td>
                 <td>001</td>
                 <td>KT01-19</td>
-                <td>Bùi Văn Xuân</td>
-                <td>Khai thác 2</td>
                 <td>Kiểm tra tình trạng thiết bị</td>
                 <td>MG</td>
                 <td>Máy gạt</td>
                 <td>60</td>
                 <td>Tốt</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
+                <td>15/7/2020</td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -341,18 +279,12 @@
                 <td>15/4/2019</td>
                 <td>001</td>
                 <td>KT01-19</td>
-                <td>Bùi Văn Xuân</td>
-                <td>Khai thác 2</td>
                 <td>Kiểm tra tình trạng thiết bị</td>
                 <td>MXHL</td>
                 <td>Máy xúc hầm lò</td>
                 <td>328</td>
                 <td>Đang sửa chữa</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
+                <td>15/7/2020</td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -367,18 +299,12 @@
                 <td>15/4/2019</td>
                 <td>001</td>
                 <td>KT01-19</td>
-                <td>Bùi Văn Xuân</td>
-                <td>Khai thác 2</td>
                 <td>Kiểm tra tình trạng thiết bị</td>
                 <td>MXTL</td>
                 <td>Máy xúc thủy lực</td>
                 <td>72</td>
                 <td>Tốt</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
+                <td>15/7/2020</td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -393,18 +319,12 @@
                 <td>15/4/2019</td>
                 <td>001</td>
                 <td>KT01-19</td>
-                <td>Bùi Văn Xuân</td>
-                <td>Khai thác 2</td>
                 <td>Kiểm tra tình trạng thiết bị</td>
                 <td>MKLT</td>
                 <td>12:00AM 11/2/2019</td>
                 <td>116</td>
                 <td>Tốt</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
+                <td>15/7/2020</td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -419,18 +339,12 @@
                 <td>15/4/2019</td>
                 <td>001</td>
                 <td>KT01-19</td>
-                <td>Bùi Văn Xuân</td>
-                <td>Khai thác 2</td>
                 <td>Kiểm tra tình trạng thiết bị</td>
                 <td>MKHL</td>
                 <td>Máy khoan hầm lò</td>
                 <td>412</td>
                 <td>Tốt</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
+                <td>15/7/2020</td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -445,18 +359,12 @@
                 <td>15/4/2019</td>
                 <td>001</td>
                 <td>KT01-19</td>
-                <td>Bùi Văn Xuân</td>
-                <td>Khai thác 2</td>
                 <td>Kiểm tra tình trạng thiết bị</td>
                 <td>CT</td>
                 <td>Cáp tời</td>
                 <td>1610</td>
                 <td>Tốt</td>
-                <td>
-                    <button style="padding:3px 12px; margin-left:15px;border:none">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </td>
+                <td>15/7/2020</td>
                 <td>
                     <a href="#delete" data-toggle="modal">
                         <button class="btn btn-danger">
@@ -479,7 +387,6 @@
         </div>
     </div>
 </div>
-
 <!-- Edit Modal HTML -->
 <div id="addEmployeeModal" class="modal fade">
     <div class="modal-dialog">
