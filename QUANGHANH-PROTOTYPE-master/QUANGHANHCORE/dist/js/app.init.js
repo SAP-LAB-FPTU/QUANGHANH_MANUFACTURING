@@ -7,8 +7,8 @@ $(function() {
         NavbarBg: 'skin6', // You can change the Value to be skin1/skin2/skin3/skin4/skin5/skin6
         SidebarType: 'full', // You can change it full / mini-sidebar / iconbar / overlay
         SidebarColor: 'skin5', // You can change the Value to be skin1/skin2/skin3/skin4/skin5/skin6
-        SidebarPosition: true, // it can be true / false
-        HeaderPosition: true, // it can be true / false
+        SidebarPosition: false, // it can be true / false
+        HeaderPosition: false, // it can be true / false
         BoxedLayout: false, // it can be true / false 
     });
 });
