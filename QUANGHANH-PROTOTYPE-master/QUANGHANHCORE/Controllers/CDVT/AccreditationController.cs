@@ -8,6 +8,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
 {
     public class AccreditationController : Controller
     {
+        [Route("CDVT/Accreditation")]
         public IActionResult Accreditation()
         {
             return View("Views/CDVT/Accreditation.cshtml");

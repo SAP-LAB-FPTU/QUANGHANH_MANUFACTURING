@@ -86,7 +86,9 @@
                         <!-- Notification icon scss in header.scss -->
                         <!-- ============================================================== -->
                         <li>
-                            <a class="dropdown-trigger" href="javascript: void(0);" data-target="noti_dropdown"><i class="material-icons">notifications</i></a>
+                            <a class="dropdown-trigger" href="javascript: void(0);" data-target="noti_dropdown">
+                                <i class="material-icons">notifications</i>
+                            </a>
                             <ul id="noti_dropdown" class="mailbox dropdown-content">
                                 <li>
                                     <div class="drop-title">Thông Báo</div>
@@ -95,7 +97,9 @@
                                     <div class="message-center">
                                         <!-- Message -->
                                         <a href="#">
-                                            <span class="btn-floating btn-large red"><i class="material-icons">link</i></span>
+                                            <span class="btn-floating btn-large red">
+                                                <i class="material-icons">link</i>
+                                            </span>
                                             <span class="mail-contnet">
                                                 <h5>Phòng Kinh Doanh</h5>
                                                 <span class="mail-desc">Danh sách các thiết bị mới nhập</span> <span class="time">9:30 AM</span>
@@ -103,7 +107,9 @@
                                         </a>
                                         <!-- Message -->
                                         <a href="#">
-                                            <span class="btn-floating btn-large blue"><i class="material-icons">date_range</i></span>
+                                            <span class="btn-floating btn-large blue">
+                                                <i class="material-icons">date_range</i>
+                                            </span>
                                             <span class="mail-contnet">
                                                 <h5>Các sự kiện</h5>
                                                 <span class="mail-desc">Đặt lịch họp cho trưởng phòng</span>
@@ -113,7 +119,9 @@
                                     </div>
                                 </li>
                                 <li>
-                                    <a class="center-align" href="javascript:void(0);"> <strong>Xoá thông báo</strong> </a>
+                                    <a class="center-align" href="javascript:void(0);">
+                                        <strong>Xoá thông báo</strong>
+                                    </a>
                                 </li>
                             </ul>
                         </li>
@@ -121,7 +129,9 @@
                         <!-- Comment topbar icon scss in header.scss -->
                         <!-- ============================================================== -->
                         <li>
-                            <a class="dropdown-trigger" href="javascript: void(0);" data-target="msg_dropdown"><i class="material-icons">comment</i></a>
+                            <a class="dropdown-trigger" href="javascript: void(0);" data-target="msg_dropdown">
+                                <i class="material-icons">comment</i>
+                            </a>
                             <ul id="msg_dropdown" class="mailbox dropdown-content">
                                 <li>
                                     <div class="drop-title">Bạn có 4 tin nhắn mới</div>
@@ -179,7 +189,9 @@
                                     </div>
                                 </li>
                                 <li>
-                                    <a class="center-align" href="javascript:void(0);"> <strong>Xoá tin nhắn</strong> </a>
+                                    <a class="center-align" href="javascript:void(0);">
+                                        <strong>Xoá tin nhắn</strong>
+                                    </a>
                                 </li>
                             </ul>
                         </li>
@@ -201,7 +213,9 @@
                         <!-- Profile icon scss in header.scss -->
                         <!-- ============================================================== -->
                         <li>
-                            <a class="dropdown-trigger" href="javascript: void(0);" data-target="user_dropdown"><img src="../../assets/images/users/2.jpg" alt="user" class="circle profile-pic"></a>
+                            <a class="dropdown-trigger" href="javascript: void(0);" data-target="user_dropdown">
+                                <img src="../../assets/images/users/2.jpg" alt="user" class="circle profile-pic">
+                            </a>
                             <ul id="user_dropdown" class="mailbox dropdown-content dropdown-user">
                                 <li>
                                     <div class="dw-user-box">
@@ -209,7 +223,7 @@
                                         <div class="u-text">
                                             <h4>Trần Thị Thương</h4>
                                             <p>thuong.cdvt@gmail.com</p>
-                                            <a class="waves-effect waves-light btn-small red white-text">Xem Hồ Sơ</a>
+                                            <span class="new badge red" data-badge-caption="Chuyên Viên CĐVT"></span>
                                         </div>
                                     </div>
                                 </li>
@@ -222,7 +236,7 @@
                                 <li><a href="@Url.Content("/Login")"><i class="material-icons">power_settings_new</i>Đăng Xuất</a></li>
                             </ul>
                         </li>
-                        <li><a href="">Trần Thị Thương <span class="new badge red" data-badge-caption="Chuyên Viên TCLĐ"></span></a></li>
+                        <li><a href="">Trần Thị Thương </a></li>
                     </ul>
                     <!-- ============================================================== -->
                     <!-- Right topbar icon scss in header.scss -->
@@ -242,31 +256,54 @@
                     <ul class="collapsible">
                         <li>
                             <a href="/CDVT">
-                                <i class="material-icons">home</i><span class="hide-menu"> Cơ điện vận tải</span>
+                                <i class="material-icons">home</i><span class="hide-menu">
+                                    Cơ điện
+                                    vận tải
+                                </span>
                             </a>
                         </li>
                         <li>
 
                         <li>
                             <a href="/CDVT/GeneralList">
-                                <i class="material-icons">featured_play_list</i><span class="hide-menu"> Danh sách chung</span>
+                                <i class="material-icons">featured_play_list</i><span class="hide-menu">
+                                    Danh
+                                    sách chung
+                                </span>
                             </a>
                         </li>
                         <li>
-                        <li>
                             <a href="javascript: void(0);" class="collapsible-header has-arrow">
-                                <i class="material-icons">all_inclusive</i><span class="hide-menu"> Thiết bị máy móc</span>
+                                <i class="material-icons">assignment</i><span class="hide-menu">Quản lý thiết bị</span>
                             </a>
                             <div class="collapsible-body">
                                 <ul>
                                     <li>
-                                        <a href="/CDVT/Machine/Details">
-                                            <i class="material-icons">adjust</i><span class="hide-menu"> Chi tiết thiết bị máy</span>
+                                        <a href="index.html">
+                                            <i class="material-icons">adjust</i><span class="hide-menu">
+                                                Thiết bị lộ thiên
+                                            </span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="/CDVT/Machine/Maintenance">
-                                            <i class="material-icons">adjust</i><span class="hide-menu"> Bảo dưỡng</span>
+                                        <a href="index.html">
+                                            <i class="material-icons">adjust</i><span class="hide-menu">
+                                                Thiết bị hầm lò
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="index.html">
+                                            <i class="material-icons">adjust</i><span class="hide-menu">
+                                                Thiết bị truyền dẫn
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="index.html">
+                                            <i class="material-icons">adjust</i><span class="hide-menu">
+                                                Thiết bị sàng tuyển
+                                            </span>
                                         </a>
                                     </li>
                                 </ul>
@@ -274,38 +311,70 @@
                         </li>
                         <li>
                             <a href="javascript: void(0);" class="collapsible-header has-arrow">
-                                <i class="material-icons">drive_eta</i><span class="hide-menu"> Thiết bị ô tô</span>
+                                <i class="material-icons">assignment</i><span class="hide-menu">Quản lý ô tô</span>
                             </a>
                             <div class="collapsible-body">
                                 <ul>
                                     <li>
                                         <a href="/CDVT/Car/Details">
-                                            <i class="material-icons">adjust</i><span class="hide-menu"> Chi tiết thiết bị ô tô</span>
+                                            <i class="material-icons">adjust</i><span class="hide-menu">
+                                                Danh sách ô tô
+                                            </span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="/CDVT/Car/Maintenance">
-                                            <i class="material-icons">adjust</i><span class="hide-menu"> Bảo dưỡng</span>
+                                        <a href="/CDVT/Accreditation">
+                                            <i class="material-icons">adjust</i><span class="hide-menu">
+                                                Kiểm định ô tô
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="Bao_duong_oto.html">
+                                            <i class="material-icons">adjust</i><span class="hide-menu">
+                                                Bảo dưỡng ô tô
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/CDVT/Accident">
+                                            <i class="material-icons">adjust</i><span class="hide-menu">
+                                                Sửa chữa, sự cố ô tô
+                                            </span>
                                         </a>
                                     </li>
                                 </ul>
                             </div>
                         </li>
                         <li>
+                            <a href="Lich_su_hoat_dong.html">
+                                <i class="material-icons">featured_play_list</i><span class="hide-menu">
+                                    Lịch sử hoạt động
+                                </span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="/CDVT/Accident">
-                                <i class="material-icons">build</i><span class="hide-menu"> Sửa chữa , sự cố</span>
+                                <i class="material-icons">featured_play_list</i><span class="hide-menu">
+                                    Sửa chữa, sự cố
+                                </span>
                             </a>
                         </li>
                         <li>
-                            <a href="/CDVT/Accreditation">
-                                <i class="material-icons">playlist_add_check</i><span class="hide-menu">Theo dõi kiểm định</span>
+                            <a href="Nhien_lieu_tieu_thu.html">
+                                <i class="material-icons">featured_play_list</i><span class="hide-menu">
+                                    Nhiên liệu tiêu thụ
+                                </span>
                             </a>
                         </li>
                         <li>
-                            <a href="/CDVT/Consumption">
-                                <i class="material-icons">battery_charging_full</i><span class="hide-menu">Nhiên liệu tiêu thụ</span>
+                            <a href="Bao_duong_may.html">
+                                <i class="material-icons">featured_play_list</i><span class="hide-menu">
+                                    Bảo dưỡng
+                                </span>
                             </a>
                         </li>
+
                         <li>
                             <a href="javascript: void(0);" class="collapsible-header has-arrow">
                                 <i class="material-icons">assignment</i><span class="hide-menu">Báo cáo</span>
@@ -314,34 +383,52 @@
                                 <ul>
                                     <li>
                                         <a href="index.html">
-                                            <i class="material-icons">adjust</i><span class="hide-menu"> Báo cáo sửa chữa</span>
+                                            <i class="material-icons">adjust</i><span class="hide-menu">
+                                                Báo cáo
+                                                sửa chữa
+                                            </span>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="index.html">
-                                            <i class="material-icons">adjust</i><span class="hide-menu"> Báo cáo sự cố</span>
+                                            <i class="material-icons">adjust</i><span class="hide-menu">
+                                                Báo cáo
+                                                sự cố
+                                            </span>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="index.html">
-                                            <i class="material-icons">adjust</i><span class="hide-menu"> Báo cáo bảo dưỡng</span>
+                                            <i class="material-icons">adjust</i><span class="hide-menu">
+                                                Báo cáo
+                                                bảo dưỡng
+                                            </span>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="index.html">
-                                            <i class="material-icons">adjust</i><span class="hide-menu"> Báo cáo khấu hao</span>
+                                            <i class="material-icons">adjust</i><span class="hide-menu">
+                                                Báo cáo
+                                                khấu hao
+                                            </span>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="index.html">
-                                            <i class="material-icons">adjust</i><span class="hide-menu"> Báo cáo kiểm định</span>
+                                            <i class="material-icons">adjust</i><span class="hide-menu">
+                                                Báo cáo
+                                                kiểm định
+                                            </span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="index.html">
-                                            <i class="material-icons">adjust</i><span class="hide-menu"> Báo cáo nhiên liệu</span>
+                                        <a href="/CDVT/Consumption">
+                                            <i class="material-icons">adjust</i><span class="hide-menu">
+                                                Báo cáo
+                                                nhiên liệu
+                                            </span>
                                         </a>
-                                    </li>>
+                                    </li>
                                 </ul>
                             </div>
                         </li>

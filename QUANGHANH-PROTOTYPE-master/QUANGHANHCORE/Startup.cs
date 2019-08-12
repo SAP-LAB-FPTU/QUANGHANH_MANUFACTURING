@@ -67,10 +67,6 @@ namespace QUANGHANHCORE
                     template: "Login/"
                 );
                 routes.MapRoute(
-                    name: "generallist",
-                    template: "CDVT/{controller=GeneralList}/{action=GeneralList}/{id?}"
-                );
-                routes.MapRoute(
                     name: "cardetails",
                     template: "CDVT/{controller=Car}/{action=Details}"
                 );
@@ -85,18 +81,6 @@ namespace QUANGHANHCORE
                 routes.MapRoute(
                     name: "machinemaintenance",
                     template: "CDVT/{controller=Machine}/{action=Maintenance}"
-                );
-                routes.MapRoute(
-                    name: "accident",
-                    template: "CDVT/{controller=Accident}/{action=Accident}"
-                );
-                routes.MapRoute(
-                    name: "accreditation",
-                    template: "CDVT/{controller=Accreditation}/{action=Accreditation}"
-                );
-                routes.MapRoute(
-                    name: "consumption",
-                    template: "CDVT/{controller=Consumption}/{action=Consumption}"
                 );
             });
         }

@@ -8,6 +8,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
 {
     public class ConsumptionController : Controller
     {
+        [Route("CDVT/Consumption")]
         public IActionResult Consumption()
         {
             return View("Views/CDVT/Consumption.cshtml");

@@ -4,198 +4,207 @@
     Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
 }
 
-<div class="row">
+<div class="row table_container">
     <div class="col s12">
         <div class="center">
             <h1 class="centered"><b>Danh sách chung</b></h1>
         </div>
-        <div class="col l6 m8 s12" style="float: left;">
-            <ul>
-                <li class="myli" style="display: inline-block">
-                    <a href="#myadd"
-                       class="waves-effect waves-light btn btn-round green modal-trigger">Thêm thiết bị</a>
-                </li>
-                <li class="myli" style="display: inline-block">
-                    <a class="waves-effect waves-light btn btn-round green">Tải lên</a>
-                </li>
-                <li class="myli" style="display: inline-block">
-                    <a class="waves-effect waves-light btn btn-round green">In báo cáo</a>
-                </li>
-            </ul>
-        </div>
-        <div class="col l3"></div>
-        <div class="col l3 m4 s12">
-            <a class='dropdown-trigger btn' href='#' data-target='dropdown1' style="width:250px">Xem theo</a>
-        </div>
+
+        <ul class="right">
+            <li class="myli" style="display: inline-block">
+                <a href="#myadd"
+                   class="waves-effect waves-light btn btn-round green modal-trigger">
+                    Thêm
+                    thiết bị
+                </a>
+            </li>
+            <li class="myli" style="display: inline-block">
+                <a class="waves-effect waves-light btn btn-round green">Tải lên</a>
+            </li>
+            <li class="myli" style="display: inline-block">
+                <a class="waves-effect waves-light btn btn-round green">In báo cáo</a>
+            </li>
+        </ul>
+        <ul class="left">
+            <li>
+                <a class='dropdown-trigger btn' href='#' data-target='dropdown1'
+                   style="width:250px">
+                    Xem
+                    theo
+                </a>
+            </li>
+        </ul>
 
         <div style="height: 35px"></div>
-        <div class="col l12 m12 s12 table_container">
-            <table class="table-bordered striped centered" style="margin-top:30px; text-align:center;">
-                <thead>
-                    <tr>
-                        <th>STT</th>
-                        <th>Mã</th>
-                        <th>Tên</th>
-                        <th>Số hiệu</th>
-                        <th>Nhà cung cấp</th>
-                        <th>Loại thiết bị</th>
-                        <th style="min-width:100px">Ngày nhập</th>
-                        <th>Nguyên giá</th>
-                        <th>Khấu hao ước tính</th>
-                        <th>Khấu hao hiện tại</th>
-                        <th>Thời hạn bảo hiểm(tháng)</th>
-                        <th style="min-width:100px">Ngày đưa vào sử dụng</th>
-                        <th style="min-width:100px">Ngày bảo dưỡng gần nhất</th>
-                        <th>Tổng giờ hoạt động(tính từ lần bảo dưỡng gần nhất)</th>
-                        <th>Vị trí hiện tại</th>
-                        <th>Tình trạng hiện tại</th>
-                        <th colspan="3"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>SFC</td>
-                        <td>Máy xúc lật</td>
-                        <td>AH12</td>
-                        <td>TC MOTOR</td>
-                        <td>Máy móc</td>
-                        <td>04-12-2018</td>
-                        <td>120.000.000</td>
-                        <td>12%</td>
-                        <td>104.000.000</td>
-                        <td>5</td>
-                        <td>10-12-2018</td>
-                        <td>04-05-2019</td>
-                        <td>324 giờ</td>
-                        <td>Phân xưởng 1</td>
-                        <td>Ổn định</td>
-                        <td>
-                            <a href="#myaleart"
-                               class="waves-effect waves-light btn btn-round red modal-trigger">Xóa</a>
-                        </td>
-                        <td>
-                            <a href="#myedit" class="waves-effect waves-light btn btn-round blue modal-trigger">Sửa</a>
-                        </td>
-                        <td>
-                            <a class="waves-effect waves-light btn btn-round blue">Chi&nbsp;tiết</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>DAS</td>
-                        <td>Máy gạt</td>
-                        <td>BH4</td>
-                        <td>TC MOTOR</td>
-                        <td>Máy móc</td>
-                        <td>12-03-2019</td>
-                        <td>130.000.000</td>
-                        <td>15%</td>
-                        <td>112.000.000</td>
-                        <td>5</td>
-                        <td>20-03-2019</td>
-                        <td>21-08-2019</td>
-                        <td>267 giờ</td>
-                        <td>Lò than 2</td>
-                        <td>Đang bảo dưỡng</td>
-                        <td>
-                            <a href="#myaleart"
-                               class="waves-effect waves-light btn btn-round red modal-trigger">Xóa</a>
-                        </td>
-                        <td>
-                            <a href="#myedit" class="waves-effect waves-light btn btn-round blue modal-trigger">Sửa</a>
-                        </td>
-                        <td>
-                            <a class="waves-effect waves-light btn btn-round blue">Chi tiết</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>SFS</td>
-                        <td>Máy bơm</td>
-                        <td>AF2</td>
-                        <td>TC MOTOR</td>
-                        <td>Máy móc</td>
-                        <td>05-04-2019</td>
-                        <td>12.000.000</td>
-                        <td>8%</td>
-                        <td>10.200.000</td>
-                        <td>5</td>
-                        <td>20-05-2019</td>
-                        <td>None</td>
-                        <td>589 giờ</td>
-                        <td>Khai thác 2</td>
-                        <td>Đang sửa chữa</td>
-                        <td>
-                            <a href="#myaleart"
-                               class="waves-effect waves-light btn btn-round red modal-trigger">Xóa</a>
-                        </td>
-                        <td>
-                            <a href="#myedit" class="waves-effect waves-light btn btn-round blue modal-trigger">Sửa</a>
-                        </td>
-                        <td>
-                            <a class="waves-effect waves-light btn btn-round blue">Chi tiết</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>RTF</td>
-                        <td>Máy nén khí</td>
-                        <td>BH5</td>
-                        <td>TC MOTOR</td>
-                        <td>Máy móc</td>
-                        <td>22-07-2018</td>
-                        <td>24.500.000</td>
-                        <td>18%</td>
-                        <td>21.600.000</td>
-                        <td>5</td>
-                        <td>02-08-2018</td>
-                        <td>12-02-2019</td>
-                        <td>421 giờ</td>
-                        <td>Phân xưởng 1</td>
-                        <td>Đang gặp sự cố</td>
-                        <td>
-                            <a href="#myaleart"
-                               class="waves-effect waves-light btn btn-round red modal-trigger">Xóa</a>
-                        </td>
-                        <td>
-                            <a href="#myedit" class="waves-effect waves-light btn btn-round blue modal-trigger">Sửa</a>
-                        </td>
-                        <td>
-                            <a class="waves-effect waves-light btn btn-round blue">Chi tiết</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>DOC</td>
-                        <td>Ô tô vận chuyển</td>
-                        <td>VC2</td>
-                        <td>TC MOTOR</td>
-                        <td>Ô tô</td>
-                        <td>22-07-2018</td>
-                        <td>220.000.000</td>
-                        <td>26%</td>
-                        <td>198.000.000</td>
-                        <td>5</td>
-                        <td>02-08-2018</td>
-                        <td>24-02-2019</td>
-                        <td>892 giờ</td>
-                        <td>Lò than 2</td>
-                        <td>Mới mua</td>
-                        <td>
-                            <a href="#myaleart"
-                               class="waves-effect waves-light btn btn-round red modal-trigger">Xóa</a>
-                        </td>
-                        <td>
-                            <a href="#myedit" class="waves-effect waves-light btn btn-round blue modal-trigger">Sửa</a>
-                        </td>
-                        <td>
-                            <a href="Chi_tiet_o_to.html" class="waves-effect waves-light btn btn-round blue">Chi tiết</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <table class="table table-bordered striped table-responsive centered"
+               style="margin-top:30px; text-align:center;">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Mã</th>
+                    <th>Tên</th>
+                    <th>Số hiệu</th>
+                    <th>Nhà cung cấp</th>
+                    <th>Loại thiết bị</th>
+                    <th>Ngày nhập</th>
+                    <th>Nguyên giá</th>
+                    <th>Khấu hao ước tính</th>
+                    <th>Khấu hao hiện tại</th>
+                    <th>Thời hạn bảo hiểm(tháng)</th>
+                    <th>Ngày đưa vào sử dụng</th>
+                    <th>Ngày bảo dưỡng gần nhất</th>
+                    <th>Tổng giờ hoạt động(tính từ lần bảo dưỡng gần nhất)</th>
+                    <th>Vị trí hiện tại</th>
+                    <th>Tình trạng hiện tại</th>
+                    <th colspan="3"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>SFC</td>
+                    <td>Máy khoan Atlas Copco</td>
+                    <td>ECM660-IV</td>
+                    <td>TC MOTOR</td>
+                    <td>khai thác lộ thiên</td>
+                    <td>04-12-2018</td>
+                    <td>120.000.000</td>
+                    <td>12%</td>
+                    <td>104.000.000</td>
+                    <td>5</td>
+                    <td>10-12-2018</td>
+                    <td>04-05-2019</td>
+                    <td>324 giờ</td>
+                    <td>Phân xưởng 1</td>
+                    <td>Ổn định</td>
+                    <td>
+                        <a href="#myaleart"
+                           class="waves-effect waves-light btn btn-round red modal-trigger">Xóa</a>
+                    </td>
+                    <td>
+                        <a href="#myedit"
+                           class="waves-effect waves-light btn btn-round blue modal-trigger">Sửa</a>
+                    </td>
+                    <td>
+                        <a class="waves-effect waves-light btn btn-round blue">Chi&nbsp;tiết</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>DAS</td>
+                    <td>Băng tải B1000</td>
+                    <td>MS4203</td>
+                    <td>TC MOTOR</td>
+                    <td>khai thác hầm lò</td>
+                    <td>12-03-2019</td>
+                    <td>130.000.000</td>
+                    <td>15%</td>
+                    <td>112.000.000</td>
+                    <td>5</td>
+                    <td>20-03-2019</td>
+                    <td>21-08-2019</td>
+                    <td>267 giờ</td>
+                    <td>Lò than 2</td>
+                    <td>Đang bảo dưỡng</td>
+                    <td>
+                        <a href="#myaleart"
+                           class="waves-effect waves-light btn btn-round red modal-trigger">Xóa</a>
+                    </td>
+                    <td>
+                        <a href="#" id="editbtn"
+                           class="waves-effect waves-light btn btn-round blue">Sửa</a>
+                    </td>
+                    <td>
+                        <a class="waves-effect waves-light btn btn-round blue">Chi tiết</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>SFS</td>
+                    <td>Trạm biến áp 35/6kV</td>
+                    <td>AF2</td>
+                    <td>TC MOTOR</td>
+                    <td>Cung cấp điện truyền dẫn</td>
+                    <td>05-04-2019</td>
+                    <td>12.000.000</td>
+                    <td>8%</td>
+                    <td>10.200.000</td>
+                    <td>5</td>
+                    <td>20-05-2019</td>
+                    <td>None</td>
+                    <td>589 giờ</td>
+                    <td>Khai thác 2</td>
+                    <td>Đang sửa chữa</td>
+                    <td>
+                        <a href="#myaleart"
+                           class="waves-effect waves-light btn btn-round red modal-trigger">Xóa</a>
+                    </td>
+                    <td>
+                        <a class="waves-effect waves-light btn btn-round blue">Sửa</a>
+                    </td>
+                    <td>
+                        <a class="waves-effect waves-light btn btn-round blue">Chi tiết</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>RTF</td>
+                    <td>Băng tải cấp liệu</td>
+                    <td>số 1</td>
+                    <td>TC MOTOR</td>
+                    <td>Sàng tuyển</td>
+                    <td>22-07-2018</td>
+                    <td>24.500.000</td>
+                    <td>18%</td>
+                    <td>21.600.000</td>
+                    <td>5</td>
+                    <td>02-08-2018</td>
+                    <td>12-02-2019</td>
+                    <td>421 giờ</td>
+                    <td>Phân xưởng 1</td>
+                    <td>Đang gặp sự cố</td>
+                    <td>
+                        <a href="#myaleart"
+                           class="waves-effect waves-light btn btn-round red modal-trigger">Xóa</a>
+                    </td>
+                    <td>
+                        <a class="waves-effect waves-light btn btn-round blue">Sửa</a>
+                    </td>
+                    <td>
+                        <a class="waves-effect waves-light btn btn-round blue">Chi tiết</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>DOC</td>
+                    <td>Xe cẩu</td>
+                    <td>14M-1464</td>
+                    <td>TC MOTOR</td>
+                    <td>khai thác lộ thiên</td>
+                    <td>22-07-2018</td>
+                    <td>220.000.000</td>
+                    <td>26%</td>
+                    <td>198.000.000</td>
+                    <td>5</td>
+                    <td>02-08-2018</td>
+                    <td>24-02-2019</td>
+                    <td>892 giờ</td>
+                    <td>Lò than 2</td>
+                    <td>Mới mua</td>
+                    <td>
+                        <a href="#myaleart"
+                           class="waves-effect waves-light btn btn-round red modal-trigger">Xóa</a>
+                    </td>
+                    <td>
+                        <a class="waves-effect waves-light btn btn-round blue">Sửa</a>
+                    </td>
+                    <td>
+                        <a href="Chi_tiet_o_to.html"
+                           class="waves-effect waves-light btn btn-round blue">Chi tiết</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
@@ -232,6 +241,10 @@
                     <div class="col s12 m6">
                         <div class="form-group">
                             <label for="id">Tên thiết bị : </label>
+                            <input type="text" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="id">Loại thiết bị : </label>
                             <input type="text" class="form-control" />
                         </div>
                         <div class="form-group">
@@ -332,6 +345,10 @@
 </div>
 
 <ul id='dropdown1' class='dropdown-content'>
+    <li><a href="#!">Danh sách thiết bị lộ thiên</a></li>
+    <li><a href="#!">Danh sách thiết bị hầm lò</a></li>
+    <li><a href="#!">Danh sách thiết bị truyền dẫn</a></li>
+    <li><a href="#!">Danh sách thiết bị sàng tuyển</a></li>
     <li><a href="#!">Danh sách hết bảo hiểm</a></li>
     <li><a href="#!">Danh sách hết khấu hao</a></li>
     <li><a href="#!">Danh sách đang bảo dưỡng</a></li>
@@ -339,10 +356,22 @@
     <li><a href="#!">Danh sách đang gặp sự cố</a></li>
 </ul>
 <div class="fixed-action-btn" style="bottom: 20px; right: 20px;">
-    <a class="btn-floating btn-large teal"><i class="material-icons">menu</i></a>
+    <a class="btn-floating btn-large red"><i class="material-icons">settings</i></a>
     <ul>
-        <li><a class="btn-floating red"><i class="material-icons">assignment</i></a></li>
-        <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
-        <li><a href="#myadd" class="btn-floating blue modal-trigger"><i class="material-icons">add</i></a></li>
+        <li>
+            <a class="btn-floating red tooltipped" data-position="left" data-tooltip="In báo cáo">
+                <i class="material-icons">assignment</i>
+            </a>
+        </li>
+        <li>
+            <a class="btn-floating green tooltipped" data-position="left" data-tooltip="Tải lên">
+                <i class="material-icons">publish</i>
+            </a>
+        </li>
+        <li>
+            <a class="btn-floating blue tooltipped" data-position="left" data-tooltip="Thêm">
+                <i class="material-icons">add</i>
+            </a>
+        </li>
     </ul>
 </div>

@@ -12698,11 +12698,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\1160\\Desktop\\QUANGHANH-PROTOTYPE-master\\QUANGHANHCORE\\QUANGHANHCORE.csproj",
+      "projectUniqueName": "C:\\Users\\1160\\Documents\\GitHub\\QUANGHANH-PROTOTYPE\\QUANGHANH-PROTOTYPE-master\\QUANGHANHCORE\\QUANGHANHCORE.csproj",
       "projectName": "QUANGHANHCORE",
-      "projectPath": "C:\\Users\\1160\\Desktop\\QUANGHANH-PROTOTYPE-master\\QUANGHANHCORE\\QUANGHANHCORE.csproj",
+      "projectPath": "C:\\Users\\1160\\Documents\\GitHub\\QUANGHANH-PROTOTYPE\\QUANGHANH-PROTOTYPE-master\\QUANGHANHCORE\\QUANGHANHCORE.csproj",
       "packagesPath": "C:\\Users\\1160\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\1160\\Desktop\\QUANGHANH-PROTOTYPE-master\\QUANGHANHCORE\\obj\\",
+      "outputPath": "C:\\Users\\1160\\Documents\\GitHub\\QUANGHANH-PROTOTYPE\\QUANGHANH-PROTOTYPE-master\\QUANGHANHCORE\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
