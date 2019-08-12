@@ -1,0 +1,80 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\css\pages\authentication.css" />
+    <Content Remove="wwwroot\css\pages\dashboard1.css" />
+    <Content Remove="wwwroot\css\pages\dashboard2.css" />
+    <Content Remove="wwwroot\css\pages\dashboard3.css" />
+    <Content Remove="wwwroot\css\pages\data-table.css" />
+    <Content Remove="wwwroot\css\pages\easy-pie-chart.css" />
+    <Content Remove="wwwroot\css\pages\email.css" />
+    <Content Remove="wwwroot\css\pages\error-pages.css" />
+    <Content Remove="wwwroot\css\pages\float-chart.css" />
+    <Content Remove="wwwroot\css\pages\footable-page.css" />
+    <Content Remove="wwwroot\css\pages\form-page.css" />
+    <Content Remove="wwwroot\css\pages\landingpage.css" />
+    <Content Remove="wwwroot\css\pages\pages.css" />
+    <Content Remove="wwwroot\css\pages\pricing-page.css" />
+    <Content Remove="wwwroot\css\pages\taskboard.css" />
+    <Content Remove="wwwroot\css\pages\timeline-vertical-horizontal.css" />
+    <Content Remove="wwwroot\css\pages\user-card.css" />
+    <Content Remove="wwwroot\css\TABLE_BORDERED.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="$(AspNetCoreAppRuntimeFrameworkVersion)">
+      <IsImplicitlyDefined>true</IsImplicitlyDefined>
+      <PrivateAssets>All</PrivateAssets>
+      <Publish>true</Publish>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="bootstrap" Version="4.3.1" />
+    <PackageReference Include="jQuery" Version="3.4.1" />
+    <PackageReference Include="jQuery.UI" Version="1.12.1.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\TCLD\" />
+    <Folder Include="Controllers\KCS\" />
+    <Folder Include="Controllers\DIEUKHIEN\" />
+    <Folder Include="Views\TCLD\" />
+    <Folder Include="Views\LogIn\" />
+    <Folder Include="Views\KCS\" />
+    <Folder Include="Views\TCLD\Report\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\css\pages\authentication.css" />
+    <None Include="wwwroot\css\pages\dashboard1.css" />
+    <None Include="wwwroot\css\pages\dashboard2.css" />
+    <None Include="wwwroot\css\pages\dashboard3.css" />
+    <None Include="wwwroot\css\pages\data-table.css" />
+    <None Include="wwwroot\css\pages\easy-pie-chart.css" />
+    <None Include="wwwroot\css\pages\email.css" />
+    <None Include="wwwroot\css\pages\error-pages.css" />
+    <None Include="wwwroot\css\pages\float-chart.css" />
+    <None Include="wwwroot\css\pages\footable-page.css" />
+    <None Include="wwwroot\css\pages\form-page.css" />
+    <None Include="wwwroot\css\pages\landingpage.css" />
+    <None Include="wwwroot\css\pages\pages.css" />
+    <None Include="wwwroot\css\pages\pricing-page.css" />
+    <None Include="wwwroot\css\pages\taskboard.css" />
+    <None Include="wwwroot\css\pages\timeline-vertical-horizontal.css" />
+    <None Include="wwwroot\css\pages\user-card.css" />
+    <None Include="wwwroot\css\TABLE_BORDERED.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\CDVT\Machine\Details.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\CDVT\Machine\Maintenance.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+</Project>

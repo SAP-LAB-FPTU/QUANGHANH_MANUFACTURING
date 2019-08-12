@@ -1,0 +1,80 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/duynguyen/Projects/QUANGHANHCORE/QUANGHANHCORE/QUANGHANHCORE.csproj": {}
+  },
+  "projects": {
+    "/Users/duynguyen/Projects/QUANGHANHCORE/QUANGHANHCORE/QUANGHANHCORE.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/duynguyen/Projects/QUANGHANHCORE/QUANGHANHCORE/QUANGHANHCORE.csproj",
+        "projectName": "QUANGHANHCORE",
+        "projectPath": "/Users/duynguyen/Projects/QUANGHANHCORE/QUANGHANHCORE/QUANGHANHCORE.csproj",
+        "packagesPath": "/Users/duynguyen/.nuget/packages/",
+        "outputPath": "/Users/duynguyen/Projects/QUANGHANHCORE/QUANGHANHCORE/obj/",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "/Users/duynguyen/.config/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.1": {
+          "dependencies": {
+            "Microsoft.AspNetCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.1.1, )",
+              "autoReferenced": true
+            },
+            "Microsoft.AspNetCore.Razor.Design": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.1.2, )"
+            },
+            "Microsoft.NETCore.App": {
+              "target": "Package",
+              "version": "[2.1.0, )",
+              "autoReferenced": true
+            },
+            "bootstrap": {
+              "target": "Package",
+              "version": "[4.3.1, )"
+            },
+            "jQuery": {
+              "target": "Package",
+              "version": "[3.4.1, )"
+            },
+            "jQuery.UI": {
+              "target": "Package",
+              "version": "[1.12.1.1, )"
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    }
+  }
+}

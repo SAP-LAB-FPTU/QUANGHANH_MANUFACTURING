@@ -1,0 +1,84 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+
+<html>
+<head>
+    <link href="../../assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
+    <link href="../../assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css" rel="stylesheet">
+    <link href="../../dist/css/style.css" rel="stylesheet">
+    <link href="../../css/LogIn.css" rel="stylesheet">
+    <script>
+    function f1() {
+        var e = document.getElementById("ddlViewBy");
+        var strUser = e.options[e.selectedIndex].value;
+        console.log(strUser);
+        document.getElementById("link").href = strUser;
+    }
+    </script>
+</head>
+<body>
+    <!-- Form-->
+    <div class="form">
+        <div class="form-toggle"></div>
+        <div class="form-panel one">
+            <div class="form-header">
+                <h1>Than Quang Hanh</h1>
+            </div>
+            <div class="form-content">
+                <form id="loginForm" action="">
+                    <div class="form-group"><label for="username">TÊN ĐĂNG NHẬP</label><input @*id="username" type="text" name="username"*@ /></div>
+                    <div class="form-group"><label for="password">MẬT KHẨU</label><input @*id="password" type="password" name="password"*@ /></div>
+                    <div class="form-group"><label class="form-remember"><input type="checkbox" />Lưu Đăng Nhập</label><a class="form-recovery" href="#">Forgot Password?</a></div>
+                    @*<div class="form-group"><button id="link">Log In</button></div>*@
+                    <a class="waves-effect waves-light btn blue" id="loginButton" href="">Đăng Nhập</a>
+                </form>
+            </div>
+        </div>
+        @*<div class="form-panel two">
+            <div class="form-header">
+                <h1>Register Account</h1>
+            </div>
+            <div class="form-content">
+                <form>
+                    <div class="form-group"><label for="username">Username</label><input id="username" type="text" name="username" required="required" /></div>
+                    <div class="form-group"><label for="password">Password</label><input id="password" type="password" name="password" required="required" /></div>
+                    <div class="form-group"><label for="cpassword">Confirm Password</label><input id="cpassword" type="password" name="cpassword" required="required" /></div>
+                    <div class="form-group"><label for="email">Email Address</label><input id="email" type="email" name="email" required="required" /></div>
+                    <div class="form-group"><button type="submit">Register</button></div>
+                </form>
+            </div>
+        </div>*@
+        <div class="col-md-3">
+            <select id="ddlViewBy" class="form-control" placeholder="Chọn hoặc nhập phòng ban">
+                <option value="/KCS">Phòng KCS</option>
+                <option value="/CDVT" selected="selected">Phòng CĐVT</option>
+                <option value="/TCLD">Phòng TCLĐ</option>
+            </select>
+            <p>Mục này sẽ bị xóa sau giai đoạn thử nghiệm</p>
+        </div>
+    </div>
+    <script src="../../assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="../../dist/js/materialize.min.js"></script>
+    <script src="../../assets/libs/perfect-scrollbar/dist/js/perfect-scrollbar.jquery.min.js"></script>
+    <!-- ============================================================== -->
+    <!-- Apps -->
+    <!-- ============================================================== -->
+    <script src="../../dist/js/app.js"></script>
+    <script src="../../dist/js/app.init.js"></script>
+    <script src="../../dist/js/app-style-switcher.js"></script>
+    <!-- ============================================================== -->
+    <!-- Custom js -->
+    <!-- ============================================================== -->
+    <script src="../../dist/js/custom.min.js"></script>
+    <!-- ============================================================== -->
+    <!-- This page plugin js -->
+    <!-- ============================================================== -->
+    <script src="../../assets/extra-libs/prism/prism.js"></script>
+    <script src="../../js/LogIn.js"></script>
+</body>
+
+</html>
