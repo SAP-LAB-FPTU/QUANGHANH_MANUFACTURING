@@ -103,14 +103,11 @@ C:\Users\1160\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH-PROTOTYPE-master\QU
 C:\Users\1160\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH-PROTOTYPE-master\QUANGHANHCORE\bin\Debug\netcoreapp2.1\QUANGHANHCORE.Views.dll
 C:\Users\1160\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH-PROTOTYPE-master\QUANGHANHCORE\bin\Debug\netcoreapp2.1\QUANGHANHCORE.Views.pdb
 C:\Users\1160\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH-PROTOTYPE-master\QUANGHANHCORE\obj\Debug\netcoreapp2.1\Razor\Views\CDVT\Accident.g.cshtml.cs
-C:\Users\1160\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH-PROTOTYPE-master\QUANGHANHCORE\obj\Debug\netcoreapp2.1\Razor\Views\CDVT\Accreditation.g.cshtml.cs
 C:\Users\1160\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH-PROTOTYPE-master\QUANGHANHCORE\obj\Debug\netcoreapp2.1\Razor\Views\CDVT\Car\Details.g.cshtml.cs
-C:\Users\1160\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH-PROTOTYPE-master\QUANGHANHCORE\obj\Debug\netcoreapp2.1\Razor\Views\CDVT\Car\Maintenance.g.cshtml.cs
 C:\Users\1160\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH-PROTOTYPE-master\QUANGHANHCORE\obj\Debug\netcoreapp2.1\Razor\Views\CDVT\Consumption.g.cshtml.cs
 C:\Users\1160\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH-PROTOTYPE-master\QUANGHANHCORE\obj\Debug\netcoreapp2.1\Razor\Views\CDVT\GeneralList.g.cshtml.cs
 C:\Users\1160\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH-PROTOTYPE-master\QUANGHANHCORE\obj\Debug\netcoreapp2.1\Razor\Views\CDVT\Index.g.cshtml.cs
 C:\Users\1160\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH-PROTOTYPE-master\QUANGHANHCORE\obj\Debug\netcoreapp2.1\Razor\Views\CDVT\Machine\Details.g.cshtml.cs
-C:\Users\1160\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH-PROTOTYPE-master\QUANGHANHCORE\obj\Debug\netcoreapp2.1\Razor\Views\CDVT\Machine\Maintenance.g.cshtml.cs
 C:\Users\1160\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH-PROTOTYPE-master\QUANGHANHCORE\obj\Debug\netcoreapp2.1\Razor\Views\Home\About.g.cshtml.cs
 C:\Users\1160\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH-PROTOTYPE-master\QUANGHANHCORE\obj\Debug\netcoreapp2.1\Razor\Views\Home\Contact.g.cshtml.cs
 C:\Users\1160\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH-PROTOTYPE-master\QUANGHANHCORE\obj\Debug\netcoreapp2.1\Razor\Views\Home\Index.g.cshtml.cs
@@ -131,3 +128,8 @@ C:\Users\1160\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH-PROTOTYPE-master\QU
 C:\Users\1160\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH-PROTOTYPE-master\QUANGHANHCORE\obj\Debug\netcoreapp2.1\QUANGHANHCORE.RazorTargetAssemblyInfo.cs
 C:\Users\1160\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH-PROTOTYPE-master\QUANGHANHCORE\obj\Debug\netcoreapp2.1\QUANGHANHCORE.Views.pdb
 C:\Users\1160\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH-PROTOTYPE-master\QUANGHANHCORE\obj\Debug\netcoreapp2.1\QUANGHANHCORE.csproj.CopyComplete
+C:\Users\1160\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH-PROTOTYPE-master\QUANGHANHCORE\obj\Debug\netcoreapp2.1\Razor\Views\CDVT\Car\Accreditation.g.cshtml.cs
+C:\Users\1160\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH-PROTOTYPE-master\QUANGHANHCORE\obj\Debug\netcoreapp2.1\Razor\Views\CDVT\Maintenance.g.cshtml.cs
+C:\Users\1160\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH-PROTOTYPE-master\QUANGHANHCORE\obj\Debug\netcoreapp2.1\Razor\Views\CDVT\Activities.g.cshtml.cs
+C:\Users\1160\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH-PROTOTYPE-master\QUANGHANHCORE\obj\Debug\netcoreapp2.1\Razor\Views\CDVT\Car\Accident.g.cshtml.cs
+C:\Users\1160\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH-PROTOTYPE-master\QUANGHANHCORE\obj\Debug\netcoreapp2.1\Razor\Views\CDVT\Car\Maintenance.g.cshtml.cs

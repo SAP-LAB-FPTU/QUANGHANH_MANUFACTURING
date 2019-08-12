@@ -70,10 +70,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Views\CDVT\Machine\Details.cshtml">
+    <Content Update="Views\CDVT\Car\Accident.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\CDVT\Machine\Maintenance.cshtml">
+    <Content Update="Views\CDVT\Car\Maintenance.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\CDVT\Machine\Details.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
   </ItemGroup>

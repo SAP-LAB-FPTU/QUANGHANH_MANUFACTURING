@@ -71,16 +71,8 @@ namespace QUANGHANHCORE
                     template: "CDVT/{controller=Car}/{action=Details}"
                 );
                 routes.MapRoute(
-                    name: "carmaintenance",
-                    template: "CDVT/{controller=Car}/{action=Maintenance}"
-                );
-                routes.MapRoute(
                     name: "machinedetails",
-                    template: "CDVT/{controller=Machine}/{action=Details}"
-                );
-                routes.MapRoute(
-                    name: "machinemaintenance",
-                    template: "CDVT/{controller=Machine}/{action=Maintenance}"
+                    template: "CDVT/{controller=Car}/{action=Accident}"
                 );
             });
         }

@@ -1,55 +1,70 @@
 ﻿
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Maintenance";
     Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
 }
 
 <div class="row table_container">
     <div class="col s12">
         <div class="center">
-            <h1 class="centered"><b>Chi tiết ô tô</b></h1>
+            <h1 class="centered"><b>Lịch sử bảo dưỡng máy móc</b></h1>
         </div>
-        <div class="col s12" style="float: left;">
-            <ul>
-                <li class="myli" style="display: inline-block">
-                    <a href="#myadd"
-                       class="waves-effect waves-light btn btn-round green modal-trigger">Thêm</a>
-                </li>
-                <li class="myli" style="display: inline-block">
-                    <a class="waves-effect waves-light btn btn-round green">Tải lên</a>
-                </li>
-                <li class="myli" style="display: inline-block">
-                    <a class="waves-effect waves-light btn btn-round green">In báo cáo</a>
-                </li>
-                <li class="myli" style="display: inline-block">
-                    <a href="#myinfo"
-                       class="waves-effect waves-light btn btn-round green modal-trigger">Thông tin xe</a>
-                </li>
-            </ul>
-        </div>
+        <ul class="left">
+            <table>
+                <tr style="border-bottom: none">
+                    <td>Lần bảo dưỡng</td>
+                    <td>
+                        <input type="number">
+                    </td>
+                </tr>
+                <tr style="border-bottom: none">
+                    <td>Từ ngày: <input type="date"></td>
+                    <td>Đến ngày: <input type="date"></td>
+                    <td><input type="submit" value="Tìm kiếm"></td>
+                </tr>
+            </table>
+        </ul>
+        <ul class="right">
+            <li class="myli">
+                <a href="#myadd" data-toggle="modal"
+                   class="waves-effect waves-light btn btn-round green modal-trigger">Thêm</a>
+            </li>
+            <li class="myli">
+                <a class="waves-effect waves-light btn btn-round green">Tải lên</a>
+            </li>
+            <li class="myli">
+                <a class="waves-effect waves-light btn btn-round green">In báo cáo</a>
+            </li>
+            <li class="myli">
+                <a href="#myinfo" data-toggle="modal"
+                   class="waves-effect waves-light btn btn-round green modal-trigger">
+                    Thông tin
+                    máy
+                </a>
+            </li>
+        </ul>
         <div style="height: 35px"></div>
-        <table class="table table-bordered striped table-responsive centered" style="margin-top:30px; text-align:center;">
+        <table class="table table-bordered striped table-responsive centered"
+               style="margin-top:30px; text-align:center;">
             <thead>
                 <tr>
-                    <th>Ngày hoạt động</td>
-                    <th>Số giờ hoạt động trong ngày</td>
-                    <th>Ngày bảo dưỡng gần nhất</td>
-                    <th>Công việc trong ngày</td>
-                    <th>Sản lượng</td>
-                    <th>Vị trí</td>
-                    <th>Phân xưởng sử dụng</td>
+                    <th>Lần bảo dưỡng</th>
+                    <th>Loại bảo hành</th>
+                    <th>Thời Gian Hết Bảo Hành( Tháng )</th>
+                    <th>Bảo Hành Lần Cuối</th>
+                    <th>Ước Tính Thời Gian BH (Ngày)</th>
+                    <th>Kinh Phí Ước Tính</th>
                     <th colspan="2"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
+                    <td>5</td>
+                    <td>125 giờ</td>
+                    <td>2</td>
                     <td>1/1/2019</td>
-                    <td>10</td>
-                    <td>1/12/2018</td>
-                    <td>Chở than khai thác</td>
-                    <td>10 tấn</td>
-                    <td>Lò 1</td>
-                    <td>Phân xưởng 1</td>
+                    <td>2</td>
+                    <td>9.000.000đ</td>
                     <td>
                         <a href="#myaleart"
                            class="waves-effect waves-light btn btn-round red modal-trigger">Xóa</a>
@@ -60,13 +75,12 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>2/1/2019</td>
-                    <td>10</td>
-                    <td>1/12/2018</td>
-                    <td>Chở than khai thác</td>
-                    <td>10 tấn</td>
-                    <td>Lò 1</td>
-                    <td>Phân xưởng 1</td>
+                    <td>4</td>
+                    <td>250 giờ</td>
+                    <td>5</td>
+                    <td>1/1/2019</td>
+                    <td>3</td>
+                    <td>8.000.000đ</td>
                     <td>
                         <a href="#myaleart"
                            class="waves-effect waves-light btn btn-round red modal-trigger">Xóa</a>
@@ -77,13 +91,12 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>3/1/2019</td>
-                    <td>10</td>
-                    <td>1/12/2018</td>
-                    <td>Chở than khai thác</td>
-                    <td>10 tấn</td>
-                    <td>Lò 1</td>
-                    <td>Phân xưởng 1</td>
+                    <td>3</td>
+                    <td>500 giờ</td>
+                    <td>4</td>
+                    <td>1/1/2019</td>
+                    <td>4</td>
+                    <td>12.000.000đ</td>
                     <td>
                         <a href="#myaleart"
                            class="waves-effect waves-light btn btn-round red modal-trigger">Xóa</a>
@@ -94,13 +107,12 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>4/1/2019</td>
-                    <td>10</td>
-                    <td>1/12/2018</td>
-                    <td>Chở than khai thác</td>
-                    <td>10 tấn</td>
-                    <td>Lò 1</td>
-                    <td>Phân xưởng 1</td>
+                    <td>2</td>
+                    <td>2000 giờ</td>
+                    <td>1</td>
+                    <td>1/1/2019</td>
+                    <td>1</td>
+                    <td>7.000.000đ</td>
                     <td>
                         <a href="#myaleart"
                            class="waves-effect waves-light btn btn-round red modal-trigger">Xóa</a>
@@ -111,13 +123,12 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>5/1/2019</td>
-                    <td>10</td>
-                    <td>1/12/2018</td>
-                    <td>Chở than khai thác</td>
-                    <td>10 tấn</td>
-                    <td>Lò 1</td>
-                    <td>Phân xưởng 1</td>
+                    <td>1</td>
+                    <td>tiểu tu</td>
+                    <td>3</td>
+                    <td>1/1/2019</td>
+                    <td>1</td>
+                    <td>6.000.000đ</td>
                     <td>
                         <a href="#myaleart"
                            class="waves-effect waves-light btn btn-round red modal-trigger">Xóa</a>
@@ -135,48 +146,37 @@
 <div class="modal fade" id="myadd">
     <div class="modal-content">
         <div class="modal-header">
-            <h3 class="modal-title">Nhập thiết bị mới</h3>
+            <h3 class="modal-title">Thêm bảo dưỡng máy móc</h3>
         </div>
         <div class="modal-body">
             <form>
                 <div class="row">
                     <div class="col s12 m6">
                         <div class="form-group">
-                            <label for="date">Mã thiết bị : </label>
+                            <label for="name">Loại bảo hành : </label>
                             <input type="text" class="form-control" />
                         </div>
                         <div class="form-group">
-                            <label for="id">Số hiệu : </label>
+                            <label for="supplier">Thời Gian Hết Bảo Hành( Tháng ) </label>
                             <input type="text" class="form-control" />
                         </div>
                         <div class="form-group">
-                            <label for="name">Ngày nhập : </label>
-                            <input type="date" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label for="name">Khấu hao ước tính : </label>
+                            <label for="supplier">Ước Tính Thời Gian BH (Ngày) : </label>
                             <input type="text" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label for="supplier">Ghi chú: </label>
-                            <input type="number" class="form-control" />
                         </div>
                     </div>
                     <div class="col s12 m6">
                         <div class="form-group">
-                            <label for="id">Tên thiết bị : </label>
-                            <input type="text" class="form-control" />
+                            <label for="supplier">Lần bảo dưỡng : </label>
+                            <input type="number" class="form-control" />
                         </div>
                         <div class="form-group">
-                            <label for="supplier">Nhà cung cấp :</label>
+                            <label for="id">Bảo Hành Lần Cuối : </label>
                             <input type="text" class="form-control" />
                         </div>
+
                         <div class="form-group">
-                            <label for="name">Nguyên giá : </label>
-                            <input type="text" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label for="number">Tình trạng: </label>
+                            <label for="supplier">Kinh Phí Ước Tính : </label>
                             <input type="text" class="form-control" />
                         </div>
                     </div>
@@ -186,6 +186,74 @@
         <div class="modal-footer">
             <button type="submit" class="btn blue darken-2 modal-close save-category">Lưu</button>
             <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
+        </div>
+    </div>
+</div>
+<div id="myinfo" class="modal">
+    <div class="card">
+        <div class="card-content">
+            <table>
+                <tr>
+                    <td>Mã</td>
+                    <td>SFC</td>
+                </tr>
+                <tr>
+                    <td>Tên</td>
+                    <td>Máy xúc lật</td>
+                </tr>
+                <tr>
+                    <td>Số hiệu</td>
+                    <td>AH12</td>
+                </tr>
+                <tr>
+                    <td>Loại thiết bị</td>
+                    <td>Thiết bị khai thác trong lò</td>
+                </tr>
+                <tr>
+                    <td>Nhà cung cấp</td>
+                    <td>TC MOTOR</td>
+                </tr>
+                <tr>
+                    <td>Ngày nhập</td>
+                    <td>04-12-2018</td>
+                </tr>
+                <tr>
+                    <td>Nguyên giá</td>
+                    <td>120.000.000</td>
+                </tr>
+                <tr>
+                    <td>Khấu hao ước tính</td>
+                    <td>12%</td>
+                </tr>
+                <tr>
+                    <td>Khấu hao hiện tại</td>
+                    <td>104.000.000</td>
+                </tr>
+                <tr>
+                    <td>Thời hạn bảo hiểm(tháng)</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>Ngày đưa vào sử dụng</td>
+                    <td>10-12-2018</td>
+                </tr>
+                <tr>
+                    <td>Ngày bảo dưỡng gần nhất</td>
+                    <td>04-05-2019</td>
+                </tr>
+                <tr>
+                    <td>Tổng giờ hoạt động(tính từ lần bảo dưỡng gần nhất)</td>
+                    <td>324 giờ</td>
+                </tr>
+                <tr>
+                    <td>Vị trí hiện tại</td>
+                    <td>Phân xưởng 1</td>
+                </tr>
+                <tr>
+                    <td>Tình trạng hiện tại</td>
+                    <td>Ổn định</td>
+                </tr>
+            </table>
         </div>
     </div>
 </div>
@@ -199,37 +267,32 @@
                 <div class="row">
                     <div class="col s12 m6">
                         <div class="form-group">
-                            <label for="date">Ngày hoạt động : </label>
-                            <input type="text" class="form-control" value="1/1/2019" />
+                            <label for="name">Loại bảo hành : </label>
+                            <input type="text" class="form-control" value="245" />
                         </div>
                         <div class="form-group">
-                            <label for="id">Số giờ hoạt động trong ngày : </label>
-                            <input type="text" class="form-control" value="10" />
+                            <label for="supplier">Thời Gian Hết Bảo Hành( Tháng ) </label>
+                            <input type="text" class="form-control" value="2" />
                         </div>
                         <div class="form-group">
-                            <label for="name">Ngày bảo dưỡng gần nhất : </label>
-                            <input type="text" class="form-control" value="1/12/2018" />
-                        </div>
-                        <div class="form-group">
-                            <label for="name">Công việc trong ngày : </label>
-                            <input type="text" class="form-control" value="Chở than khai thác" />
+                            <label for="supplier">Ước Tính Thời Gian BH (Ngày) : </label>
+                            <input type="text" class="form-control" value="2" />
                         </div>
                     </div>
                     <div class="col s12 m6">
                         <div class="form-group">
-                            <label for="supplier">Sản lượng </label>
-                            <input type="text" class="form-control" value="10 tấn" />
+                            <label for="supplier">Lần bảo dưỡng : </label>
+                            <input type="text" class="form-control" value="" />
+                        </div>
+                        <div class="form-group">
+                            <label for="id">Bảo Hành Lần Cuối : </label>
+                            <input type="text" class="form-control" value="1/1/2019" />
                         </div>
 
                         <div class="form-group">
-                            <label for="id">Vị trí : </label>
-                            <input type="text" class="form-control" value="Lò 1" />
+                            <label for="supplier">Kinh Phí Ước Tính : </label>
+                            <input type="text" class="form-control" value="9.000.000đ" />
                         </div>
-                        <div class="form-group">
-                            <label for="supplier">Phân xưởng sử dụng : </label>
-                            <input type="text" class="form-control" value="Phân xưởng 1" />
-                        </div>
-
                     </div>
                 </div>
             </form>

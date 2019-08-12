@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace QUANGHANHCORE.Controllers.CDVT
 {
-    public class AccreditationController : Controller
+    public class MaintenanceController : Controller
     {
-        [Route("CDVT/Car/Accreditation")]
-        public IActionResult Accreditation()
+        [Route("CDVT/Maintenance")]
+        public IActionResult Maintenance()
         {
-            return View("Views/CDVT/Car/Accreditation.cshtml");
+            return View("Views/CDVT/Maintenance.cshtml");
         }
     }
 }

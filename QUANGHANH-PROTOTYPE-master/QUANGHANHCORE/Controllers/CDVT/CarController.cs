@@ -16,5 +16,9 @@ namespace QUANGHANHCORE.Views.CDVT
         {
             return View("Views/CDVT/Car/Maintenance.cshtml");
         }
+        public IActionResult Accident()
+        {
+            return View("Views/CDVT/Car/Accident.cshtml");
+        }
     }
 }
