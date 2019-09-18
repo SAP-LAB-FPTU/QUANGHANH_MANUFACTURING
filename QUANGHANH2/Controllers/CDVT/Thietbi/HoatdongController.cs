@@ -76,8 +76,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                                          input_channel = p.input_channel,
                                          Equipment_category_id = p.Equipment_category_id,
                                          department_id = p.department_id,
-                                         department_name = p.department_name,
-                                         category_name = p.category_name
+                                         //department_name = p.department_name,
+                                         //category_name = p.category_name
                                      }).ToList();
                     int k = 0;
                     for (int i = 2; i <= equipList.Count; i++)
@@ -98,8 +98,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                             excelWorksheet.Cells[i, 14].Value = equipList.ElementAt(k).mark_code; 
                             excelWorksheet.Cells[i, 15].Value = equipList.ElementAt(k).quality_type; 
                             excelWorksheet.Cells[i, 16].Value = equipList.ElementAt(k).input_channel; 
-                            excelWorksheet.Cells[i, 17].Value = equipList.ElementAt(k).category_name; 
-                            excelWorksheet.Cells[i, 18].Value = equipList.ElementAt(k).department_name; 
+                            //excelWorksheet.Cells[i, 17].Value = equipList.ElementAt(k).category_name; 
+                            //excelWorksheet.Cells[i, 18].Value = equipList.ElementAt(k).department_name; 
                             k++;
                     }
                     excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath("/excel/CDVT/download/baocaohoatdong.xlsx")));
@@ -188,8 +188,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                                                  input_channel = p.input_channel,
                                                  Equipment_category_id = p.Equipment_category_id,
                                                  department_id = p.department_id,
-                                                 department_name = p.department_name,
-                                                 category_name = p.category_name
+                                                 //department_name = p.department_name,
+                                                 //category_name = p.category_name
                                              }).ToList();
                 int totalrows = equipList.Count;
                 int totalrowsafterfiltering = equipList.Count;

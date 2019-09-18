@@ -14,6 +14,7 @@ namespace QUANGHANH2.Models
     
     public partial class Documentary_repair_details
     {
+        public string equipment_repair_status { get; set; }
         public string repair_type { get; set; }
         public string repair_reason { get; set; }
         public System.DateTime finish_date_plan { get; set; }

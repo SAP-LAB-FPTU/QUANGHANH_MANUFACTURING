@@ -12,15 +12,12 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Documentary_maintain_details
+    public partial class sysdiagram
     {
-        public string equipment_maintain_status { get; set; }
-        public string maintain_type { get; set; }
-        public System.DateTime finish_date_plan { get; set; }
-        public string documentary_id { get; set; }
-        public string equipmentId { get; set; }
-    
-        public virtual Documentary Documentary { get; set; }
-        public virtual Equipment Equipment { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

@@ -17,9 +17,10 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Department()
         {
-            this.Documentary_moveline_details = new HashSet<Documentary_moveline_details>();
+            this.Documentaries = new HashSet<Documentary>();
             this.Equipments = new HashSet<Equipment>();
             this.Incidents = new HashSet<Incident>();
+            this.NhanViens = new HashSet<NhanVien>();
         }
     
         public string department_id { get; set; }
@@ -27,10 +28,12 @@ namespace QUANGHANH2.Models
         public string department_type { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documentary_moveline_details> Documentary_moveline_details { get; set; }
+        public virtual ICollection<Documentary> Documentaries { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Equipment> Equipments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Incident> Incidents { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<NhanVien> NhanViens { get; set; }
     }
 }

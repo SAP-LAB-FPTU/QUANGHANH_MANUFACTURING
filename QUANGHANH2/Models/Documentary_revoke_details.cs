@@ -12,10 +12,9 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Documentary_Inspection_details
+    public partial class Documentary_revoke_details
     {
-        public System.DateTime start_date { get; set; }
-        public System.DateTime end_date { get; set; }
+        public string equipment_revoke_status { get; set; }
         public string documentary_id { get; set; }
         public string equipmentId { get; set; }
     

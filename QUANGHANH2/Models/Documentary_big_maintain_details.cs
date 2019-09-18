@@ -14,6 +14,7 @@ namespace QUANGHANH2.Models
     
     public partial class Documentary_big_maintain_details
     {
+        public string equipment_big_maintain_status { get; set; }
         public string remodel_type { get; set; }
         public System.DateTime end_date { get; set; }
         public string next_remodel_type { get; set; }

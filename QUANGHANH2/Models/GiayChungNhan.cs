@@ -12,15 +12,11 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Documentary_maintain_details
+    public partial class GiayChungNhan
     {
-        public string equipment_maintain_status { get; set; }
-        public string maintain_type { get; set; }
-        public System.DateTime finish_date_plan { get; set; }
-        public string documentary_id { get; set; }
-        public string equipmentId { get; set; }
-    
-        public virtual Documentary Documentary { get; set; }
-        public virtual Equipment Equipment { get; set; }
+        public int MaChungNhan { get; set; }
+        public string TenChungNhan { get; set; }
+        public Nullable<System.DateTime> ThoiHan { get; set; }
+        public string KieuChungNhan { get; set; }
     }
 }

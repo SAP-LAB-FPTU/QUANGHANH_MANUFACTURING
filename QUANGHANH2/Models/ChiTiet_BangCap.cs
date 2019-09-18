@@ -12,13 +12,14 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Supply_plan
+    public partial class ChiTiet_BangCap
     {
-        public int quantity { get; set; }
-        public string supply_id { get; set; }
-        public string documentary_id { get; set; }
+        public string SoHieu { get; set; }
+        public int MaBangCap { get; set; }
+        public Nullable<System.DateTime> NgayCap { get; set; }
+        public string MaNV { get; set; }
     
-        public virtual Documentary Documentary { get; set; }
-        public virtual Supply Supply { get; set; }
+        public virtual BangCap BangCap { get; set; }
+        public virtual NhanVien NhanVien { get; set; }
     }
 }

@@ -19,7 +19,6 @@ namespace QUANGHANH2.Models
         public Nullable<System.DateTime> end_time { get; set; }
         public string detail_location { get; set; }
         public string reason { get; set; }
-        public string incident_type { get; set; }
         public string equipmentId { get; set; }
         public string department_id { get; set; }
     

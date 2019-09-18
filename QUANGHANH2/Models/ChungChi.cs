@@ -12,25 +12,23 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Supply
+    public partial class ChungChi
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Supply()
+        public ChungChi()
         {
-            this.Fuel_activities_consumption = new HashSet<Fuel_activities_consumption>();
-            this.Supply_Documentary_Equipment = new HashSet<Supply_Documentary_Equipment>();
-            this.Equipments = new HashSet<Equipment>();
+            this.ChungChi_NhanVien = new HashSet<ChungChi_NhanVien>();
+            this.NhiemVus = new HashSet<NhiemVu>();
         }
     
-        public string supply_id { get; set; }
-        public string supply_name { get; set; }
-        public string unit { get; set; }
+        public int MaChungChi { get; set; }
+        public string TenChungChi { get; set; }
+        public Nullable<double> ThoiHan { get; set; }
+        public string KieuChungChi { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Fuel_activities_consumption> Fuel_activities_consumption { get; set; }
+        public virtual ICollection<ChungChi_NhanVien> ChungChi_NhanVien { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Supply_Documentary_Equipment> Supply_Documentary_Equipment { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Equipment> Equipments { get; set; }
+        public virtual ICollection<NhiemVu> NhiemVus { get; set; }
     }
 }

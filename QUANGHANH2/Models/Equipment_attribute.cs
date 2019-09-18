@@ -15,6 +15,7 @@ namespace QUANGHANH2.Models
     public partial class Equipment_attribute
     {
         public string Equipment_attribute_id { get; set; }
+        public string Equipment_attribute_name { get; set; }
         public int value { get; set; }
         public string unit { get; set; }
         public string equipmentId { get; set; }
