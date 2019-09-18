@@ -1,0 +1,148 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
+}
+
+<div class="col s12 m12 l12">
+    <div class="card">
+        <div class="card-content">
+            <div class="row">
+                <h3 class="center"><b>DANH SÁCH CBCNV XIN LĨNH BẢO HỘ LAO ĐỘNG</b></h3>
+                @*<div class="center">
+                    <a href="javascript:void(0);" class="btn blue darken-2 dropdown-trigger" data-target="phanxuong">Tất cả</a>
+                    <a href="javascript:void(0);" class="btn blue darken-2 dropdown-trigger" data-target="khoangthoigian">6 THÁNG ĐẦU</a>
+                    <input class="datepicker-here" data-language="vi" data-view="years" value="Năm 2019" />
+                </div>
+                <a href="javascript:void(0);" class="btn blue darken-2 dropdown-trigger center" id="xacnhan">Xác nhận</a>*@
+                <hr />
+                <div class="center">
+                    <a href="javascript:void(0);" class="btn blue darken-2 dropdown-trigger" data-target="phanxuong">Tất cả phân xưởng</a>
+                    <a href="javascript:void(0);" class="btn blue darken-2 dropdown-trigger" data-target="khoangthoigian">6 THÁNG ĐẦU</a>
+                    <input class="datepicker-here center btn blue darken-2 white-text" style="height: 36px; border-radius: 2px" data-language="vi"
+                           data-min-view="years"
+                           data-view="years"
+                           data-date-format="Năm yyyy" value="Năm 2019" />
+                </div>
+                <div class="center">
+                    <a href="javascript:void(0);" class="btn blue darken-2 center input-field" id="xacnhan">Xác nhận</a>
+                </div>
+
+                <div class="col s12 m12 l12">
+                    <table class="table-bordered responsive-table">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">STT</th>
+                                <th rowspan="2">Phân xưởng</th>
+                                <th>Quần áo mưa</th>
+                                <th>Khăn mặt</th>
+                                <th>Găng tay</th>
+                                <th>Khẩu trang</th>
+                                <th>Nón lá</th>
+                                <th rowspan="2">Người lập</th>
+                            </tr>
+                            <tr>
+                                <th>(Bộ)</th>
+                                <th>(Cái)</th>
+                                <th>(Đôi)</th>
+                                <th>(Cái)</th>
+                                <th>(Cái)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Khai thác 1</td>
+                                <td>0</td>
+                                <td>177</td>
+                                <td>441</td>
+                                <td>384</td>
+                                <td>1</td>
+                                <td>Nguyễn Thị Bé</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Khai thác 2</td>
+                                <td>4</td>
+                                <td>174</td>
+                                <td>345</td>
+                                <td>234</td>
+                                <td>3</td>
+                                <td>Vũ Đình Thụy</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Vận tải 1</td>
+                                <td>5</td>
+                                <td>184</td>
+                                <td>254</td>
+                                <td>374</td>
+                                <td>2</td>
+                                <td>Hà Trọng Tuyến</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Khai thác 3</td>
+                                <td>0</td>
+                                <td>154</td>
+                                <td>221</td>
+                                <td>432</td>
+                                <td>6</td>
+                                <td>Lê Văn Minh</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>Vận tải 3</td>
+                                <td>6</td>
+                                <td>187</td>
+                                <td>453</td>
+                                <td>374</td>
+                                <td>2</td>
+                                <td>Hà Trọng Tuyến</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <br />
+            <div class="col l12 s12 m12 center">
+                <ul class="pagination">
+                    <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                    <li class="active"><a href="#!">1</a></li>
+                    <li class="waves-effect"><a href="#!">2</a></li>
+                    <li class="waves-effect"><a href="#!">3</a></li>
+                    <li class="waves-effect"><a href="#!">4</a></li>
+                    <li class="waves-effect"><a href="#!">5</a></li>
+                    <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ul id='phanxuong' class='dropdown-content'>
+    <li><a class="dropdown-child-px" href="#!" name="All">Tất cả</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="DL3">Đào lò 3</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="DL5">Đào lò 5</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="DL7">Đào lò 7</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="DL8">Đào lò 8</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT1">Khai Thác 1</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT2">Khai Thác 2</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT3">Khai Thác 3</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT4">Khai Thác 4</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT5">Khai Thác 5</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT6">Khai Thác 6</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT7">Khai Thác 7</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT8">Khai Thác 8</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT9">Khai Thác 9</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT10">Khai Thác 10</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT11">Khai Thác 11</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="VTL1">Vận tải 1</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="VTL2">Vận tải 2</a></li>
+</ul>
+
+<ul id="khoangthoigian" class="dropdown-content">
+    <li><a class="dropdown-child-time" href="#!" name="half-first">6 tháng đầu</a></li>
+    <li><a class="dropdown-child-time" href="#!" name="half-last">6 tháng cuối</a></li>
+    <li><a class="dropdown-child-time" href="#!" name="all">Cả năm</a></li>
+</ul>
+
+

@@ -1,0 +1,307 @@
+﻿@{
+    ViewData["Title"] = "new_dashboard";
+    Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
+}
+<link type="text/css" rel="stylesheet" href="~/assets/libs/jsgrid/dist/jsgrid.min.css" />
+<link type="text/css" rel="stylesheet" href="~/assets/libs/jsgrid/dist/jsgrid-theme.min.css" />
+<link href="~/assets/extra-libs/css-chart/css-chart.css" rel="stylesheet">
+<link href="~/dist/dashboard_Tuan/customDashboard.css" rel="stylesheet">
+<link href="~/assets/extra-libs/prism/prism.css" rel="stylesheet" />
+<div class="row">
+    <div class="col l12 m12 s12">
+        <div class="card">
+            <div class="card-content">
+                <div class="row">
+                    <div class="center black-text">
+                        <h3><b>BÁO CÁO NHANH NĂNG SUẤT, LAO ĐỘNG</b></h3>
+                        <h5>
+                            <i class="fas fa-calendar-alt icon"></i>
+                            <input type='text' class='datepicker-here center' data-language='vi' />
+                        </h5>
+                    </div>
+                    <hr />
+                    <div class="col s12">
+                        <ul class="tabs">
+                            <li class="tab col l6 s6">
+                                <a class="active" href="#baocaonhanh">Báo cáo nhanh theo ngày</a>
+                            </li>
+                            <li class="tab col l6 s6">
+                                <a href="#chitiet">Chi tiết báo cáo nhanh</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Báo cáo nhanh -->
+
+<div class="row" id="baocaonhanh">
+    <div class="col l6 m6 s12">
+        <div class="card warning-gradient card-hover" id="notice">
+            <div class="card-content">
+                <div class="d-flex no-block align-items-center">
+                    <div>
+                        <h3 class="white-text m-b-5">Xảy ra 1 sự cố</h3>
+                        <h6 class="white-text op-1">Đang xử lý</h6>
+                        <h6 class="white-text op-1"></h6>
+                        <br />
+                    </div>
+                    <div class="ml-auto">
+                        <span class="white-text display-6">
+                            <i class="material-icons dp48">report_problem</i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col l6 m6 s12">
+        <div class="card warning-gradient card-hover" id="notice">
+            <div class="card-content">
+                <div class="d-flex no-block align-items-center">
+                    <div>
+                        <h3 class="white-text m-b-5">1 nhân viên hêt hạn chứng chỉ</h3>
+                        <h6 class="white-text op-1">Chứng chỉ</h6>
+                        <h6 class="white-text op-1"></h6>
+                        <br>
+                    </div>
+                    <div class="ml-auto">
+                        <span class="white-text display-6">
+                            <img src="~/images/icons/certificate_icon.png" />
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col l6 m6 s12">
+        <div class="card info-gradient card-hover">
+            <div class="card-content">
+                <div class="d-flex no-block align-items-center">
+                    <div>
+                        <h3 class="white-text m-b-5">3 lượt huy động</h3>
+                        <h6 class="white-text op-1">Huy động</h6>
+                        <h6 class="white-text op-1"></h6>
+                        <br />
+                    </div>
+                    <div class="ml-auto">
+                        <span class="white-text display-6">
+                            <i class="fas fa-users"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col l6 m6 s12">
+        <div class="card info-gradient card-hover">
+            <div class="card-content">
+                <div class="d-flex no-block align-items-center">
+                    <div>
+                        <h3 class="white-text m-b-5">3 vụ tai nạn nhẹ</h3>
+                        <h6 class="white-text op-1">Công tác an toàn</h6>
+                        <h6 class="white-text op-1"></h6>
+                        <br>
+                    </div>
+                    <div class="ml-auto">
+                        <span class="white-text display-6">
+                            <img src="~/images/icons/accident_icon.png" />
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col l6 m6 s12">
+        <div class="card success-gradient card-hover">
+            <div class="card-content">
+                <div class="d-flex no-block align-items-center">
+                    <div>
+                        <h3 class="white-text m-b-5">33%</h3>
+                        <h6 class="white-text op-1">Mức độ doanh thu hiện tại so với tháng</h6>
+                        <h6 class="white-text op-1"></h6>
+                        <br>
+                    </div>
+                    <div class="ml-auto">
+                        <span class="white-text display-6">
+                            <i class="fas fa-dollar-sign"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col l6 m6 s12">
+        <div class="card success-gradient card-hover">
+            <div class="card-content">
+                <div class="d-flex no-block align-items-center">
+                    <div>
+                        <h3 class="white-text m-b-5">12 công nhân</h3>
+                        <h6 class="white-text op-1">Nghỉ vô lý do</h6>
+                        <h6 class="white-text op-1"></h6>
+                        <br>
+                    </div>
+                    <div class="ml-auto">
+                        <span class="white-text display-6">
+                            <i class="fas fa-bed"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col l6 s12 m6">
+            <div class="card">
+                <div class="card-content analytics-info">
+                    <h5 class="card-title">Báo cáo tỷ lệ huy động trong ngày 19/10</h5>
+                    <div id="basic-pie" style="height:400px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 l6 m6">
+            <div class="card">
+                <div class="card-content analytics-info">
+                    <h5 class="card-title">Biểu đồ năng suất lao động trong ngày 19/10</h5>
+                    <div id="basic-line" style="height:400px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col l6 s12">
+                <div class="card">
+                    <div class="card-content analytics-info">
+                        <h5 class="card-title">Lao động nghỉ VLD</h5>
+                        <div id="table_nghidai" style="height:400px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col l6 s12">
+                <div class="card">
+                    <div class="card-content">
+                        <h5 class="card-title">Báo cáo sản lượng</h5>
+                        <div id="table_sanluong"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col l12 s12">
+                <div class="card">
+                    <div class="card-content analytics-info">
+                        <h5 class="card-title">Biểu đồ nhân lực trong ngày 19/10</h5>
+                        <div id="basic-bar" style="height:400px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Chi tiet -->
+
+<div class="row" id="chitiet">
+    <div class="col s12 m12 l12">
+        <div class="card">
+            <div class="card-content">
+                <div class="center">
+                    <h5 class="black-text m-b-5">Báo cáo nhanh theo ngày</h5>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered centered">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Đơn vị</th>
+                                <th>Lũy kế NSLĐ</th>
+                                <th>Tổng nhân lực</th>
+                                <th>Điểm lương phân phối cho người lao động</th>
+                                <th>Điểm lương bình quân</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="black-text text-darken-4">
+                                <td>1</td>
+                                <td><a href="@Url.Content("/phong-tcld/bao-cao-nhanh-lao-dong-tien-luong-vtl1")">Vận tải lò 1</a></td>
+                                <td>13,5</td>
+                                <td>181</td>
+                                <td>70768</td>
+                                <td>463</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td><a href="@Url.Content("/phong-tcld/bao-cao-nhanh-lao-dong-tien-luong-vtl1")">Khai thác 1</a></td>
+                                <td>15.5</td>
+                                <td>194</td>
+                                <td>74623</td>
+                                <td>4533</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td><a href="@Url.Content("/phong-tcld/bao-cao-nhanh-lao-dong-tien-luong-vtl1")">Khai thác 2</a></td>
+                                <td>17</td>
+                                <td>121</td>
+                                <td>70763</td>
+                                <td>445</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td><a href="@Url.Content("/phong-tcld/bao-cao-nhanh-lao-dong-tien-luong-vtl1")">Khai thác 3</a></td>
+                                <td>15</td>
+                                <td>121</td>
+                                <td>70763</td>
+                                <td>445</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td><a href="@Url.Content("/phong-tcld/bao-cao-nhanh-lao-dong-tien-luong-vtl1")">Khai thác 6</a></td>
+                                <td>13</td>
+                                <td>99</td>
+                                <td>70763</td>
+                                <td>445</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Editable -->
+<script type="text/javascript" src="~/assets/libs/jsgrid/dist/jsgrid.min.js"></script>
+<script src="~/dist/dashboard_Tuan/jsgrid-init_Tuan.js"></script>
+<!--chart-->
+<script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
+<script src="~/assets/libs/chart.js/dist/Chart.min.js"></script>
+<script src="~/assets/extra-libs/c3/d3.min.js"></script>
+<script src="~/assets/extra-libs/c3/c3.min.js"></script>
+<!-- line chart -->
+<script src="~/dist/js/pages/c3-chart/bar-pie/c3-pie.js"></script>
+<script src="~/js/Custom JS/TCLD/beo_bar_chart.js"></script>
+<script src="~/js/Custom JS/TCLD/beo_line_chart.js"></script>
+<!--Custom js QUANGHANH-->
+<script src="~/js/Custom JS/TCLD/QuickReport.js"></script>
+<script src="~/js/tcld_dashboard/QuickReport_barchart.js"></script>
+<script src="~/js/tcld_dashboard/QuickReport_piechart.js"></script>
+<script src="~/assets/extra-libs/prism/prism.js"></script>
+
+
+<!-- Table -->
+<script src="~/js/Custom JS/TCLD/db_issue.js"></script>
+<script src="~/js/Custom JS/TCLD/table_init.js"></script>
+<!--Auto -->
+<script>
+    $(document).ready(function () {
+        $('.datepicker-inline').remove();
+    });
+    $(document).ready(function () {
+        var date = new Date();
+        var d = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+        $(".datepicker-here").val(d);
+    });
+</script>
+

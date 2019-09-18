@@ -1,0 +1,174 @@
+﻿
+@{
+    ViewData["Title"] = "History";
+    Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
+}
+<link rel="stylesheet" href="~/css/tuan_css/css/history_css/StyleSheet.css" />
+<link rel="stylesheet" href="~/css/tuan_css/css/baocaoluong_css/style.css" />
+<link rel="stylesheet" type="text/css" href="~/assets/libs/pickadate/lib/themes/default.css">
+<link rel="stylesheet" type="text/css" href="~/assets/libs/pickadate/lib/themes/default.date.css">
+<link rel="stylesheet" type="text/css" href="~/assets/libs/pickadate/lib/themes/default.time.css">
+
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <h3 class="report_title center">
+                <B>LỊCH SỬ LÀM VIỆC</B>
+            </h3>
+            <hr />
+        </div>
+        <div class="row">
+            <div class="col l10 s12 m12">
+                <table class="table-bordered">
+                    <tr>
+                        <th>Mã nhân viên:</th>
+                        <td>3506</td>
+                    </tr>
+                    <tr>
+                        <th>Họ và tên: </th>
+                        <td>Nguyễn Văn Hùng</td>
+                    </tr>
+                    <tr>
+                        <th>Giới tính: </th>
+                        <td>Nam</td>
+                    </tr>
+                    <tr>
+                        <th>Ngày sinh: </th>
+                        <td>19/07/1991</td>
+                    </tr>
+                    <tr>
+                        <th>Địa chỉ: </th>
+                        <td>Tổ 2, khu Vũng Bún, Phường Trung Sơn Trầm, Thị xã Sơn Tây, Hà Nội</td>
+                    </tr>
+                    <tr>
+                        <th>Chức vụ: </th>
+                        <td>Công nhân</td>
+                    </tr>
+                    <tr>
+                        <th>Bộ phận: </th>
+                        <td>Phân xưởng cơ khí</td>
+                    </tr>
+                    <tr>
+                        <th>Ngày gần nhất đi làm: </th>
+                        <td>29/06/2019</td>
+                    </tr>
+                    <tr>
+                        <th>Khen thưởng: </th>
+                        <td>Năng suất làm việc tốt</td>
+                    </tr>
+                    <tr>
+                        <th>Kỷ luật: </th>
+                        <td>Không có</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col l2 s12 m12 center middle">
+                <img class="avatar middle" src="~/images/avatar.png" style="width: 150px; height: 150px" />
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-content">
+        <div class="center">
+            <h3><b>LỊCH SỬ ĐI LÀM</b></h3>
+        </div>
+        <div class="col l4 m6 s12">
+            <div class="input-field">
+                <input class="datepicker-here form-control" data-language='vi' placeholder="mm/dd/yyyy" />
+            </div>
+        </div>
+        <div class="col l12 s12">
+            <table class="table table-bordered striped table-responsive">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Ngày đi làm</th>
+                        <th>Ca làm</th>
+                        <th>Ghi chú</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>29/06/2019</td>
+                        <td>2,3,4</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>28/06/2019</td>
+                        <td>2,3,4</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>27/06/2019</td>
+                        <td>2,3,4</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>26/06/2019</td>
+                        <td>2,3,4</td>
+                        <td></td>
+                    <tr>
+                        <td>5</td>
+                        <td>25/06/2019</td>
+                        <td>3,4,5</td>
+                        <td></td>
+                    <tr>
+                        <td>6</td>
+                        <td>24/06/2019</td>
+                        <td>1,2,5</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>23/06/2019</td>
+                        <td>3,4,5</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>22/06/2019</td>
+                        <td>2,3,4</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td>21/06/2019</td>
+                        <td>2,3,4</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>20/06/2019</td>
+                        <td>2,3,4</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br />
+        <div class="col l12 s12 m12 center paging_container">
+            <ul class="pagination">
+                <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                <li class="active"><a href="#!">1</a></li>
+                <li class="waves-effect"><a href="#!">2</a></li>
+                <li class="waves-effect"><a href="#!">3</a></li>
+                <li class="waves-effect"><a href="#!">4</a></li>
+                <li class="waves-effect"><a href="#!">5</a></li>
+                <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script src="~/assets/libs/pickadate/lib/compressed/picker.js"></script>
+<script src="~/assets/libs/pickadate/lib/compressed/picker.date.js"></script>
+<script src="~/assets/libs/pickadate/lib/compressed/picker.time.js"></script>
+<script src="~/assets/libs/pickadate/lib/compressed/legacy.js"></script>
+<script src="~/assets/libs/moment/moment.js"></script>
+<script src="~/assets/libs/daterangepicker/daterangepicker.js"></script>
+<script src="~/dist/js/pages/forms/datetimepicker/datetimepicker.init.js"></script>

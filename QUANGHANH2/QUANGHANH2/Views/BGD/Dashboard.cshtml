@@ -1,0 +1,691 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout_BGD2.cshtml";
+}
+
+<link href="~/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
+<link href="~/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css" rel="stylesheet">
+<link href="~/dist/css/style.css" rel="stylesheet">
+<link type="text/css" rel="stylesheet" href="~/assets/libs/jsgrid/dist/jsgrid.min.css" />
+<link type="text/css" rel="stylesheet" href="~/assets/libs/jsgrid/dist/jsgrid-theme.min.css" />
+<link href="~/assets/extra-libs/css-chart/css-chart.css" rel="stylesheet">
+<link href="~/dist/dashboard_Tuan/customDashboard.css" rel="stylesheet">
+
+<link href="~/dist/css/pages/dashboard1.css" rel="stylesheet">
+
+<link href="~/assets/extra-libs/prism/prism.css" rel="stylesheet" />
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+<link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
+<link href="~/css/Custom css/BGD/dashboard.css" rel="stylesheet" type="text/css">
+<script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
+<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
+<script src="~/assets/extra-libs/prism/prism.js"></script>
+<script src="../../assets/extra-libs/sparkline/sparkline.js"></script>
+<script src="../../dist/js/pages/sparkline/jquery.charts-sparkline.js"></script>
+
+<div class="row">
+    <div class="col l12 m12 s12">
+        <div class="card">
+            <div class="card-content">
+                <h3 class="center">
+                    <b>BÁO CÁO NHANH NGÀY </b><i class="fas fa-calendar-alt icon"></i>
+                    <input type='text' class='datepicker-here center' data-language='vi' />
+                </h3>
+                <!--Date here-->
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col l4 m6 s12">
+        <div class="card green darken-1">
+            <div class="card-content info-card orange-gradient">
+                <div class="align-items-center">
+                    <div class="m-t-10">
+                        <h5 class="font-medium info-title">Than hầm lò </h5>
+                    </div>
+                    <div class="ml-auto m-t-15">
+                        <div class="crypto"></div>
+                    </div>
+                </div>
+                <div class="l12">
+                    <h6 class="">Tiến độ kế hoạch (tháng): </h6>
+                    <div class="progress progress-striped active">
+                        <div role="progressbar progress-striped" style="width: 30%; height:20px" class="progress-bar progress-bar-default center">
+                            <span class="progress-pecentage">30%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="l12">
+                    <h6 class="">Tiến độ kế hoạch (ngày): <b> <span class="red-text"> không hoàn thành. </span> </b> </h6>
+                    <div class="progress progress-striped active">
+                        <div role="progressbar progress-striped" style="width: 82%; height:20px" class="progress-bar progress-bar-default center">
+                            <span class="progress-pecentage">82%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center m-t-30">
+                    <div class="col s4 center detail-info">
+                        <span class="font-14 ">Thực hiện</span>
+                        <div><p class="font-medium">4410</p></div>
+                    </div>
+                    <div class="col s4 center detail-info">
+                        <span class="font-14">Luỹ kế</span>
+                        <div><p class="font-medium">42597</p></div>
+                    </div>
+                    <div class="col s4 center">
+                        <span class="font-14">KH còn lại</span>
+                        <p class="font-medium">6088T</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col l4 m6 s12 extend-height">
+        <div class="card green darken-1">
+            <div class="card-content info-card">
+                <div class="align-items-center">
+                    <div class="m-t-10">
+                        <h5 class="font-medium">Than lộ thiên </h5>
+                    </div>
+                    <div class="ml-auto m-t-15">
+                        <div class="crypto"></div>
+                    </div>
+                </div>
+                <div class="l12 row">
+                    <div class="col s6 m6 l6">
+                        <h6 class="">Tiến độ kế hoạch (tháng):</h6>
+                        <div class="progress progress-striped active">
+                            <div role="progressbar progress-striped" style="width: 21%; height:20px" class="progress-bar progress-bar-default center">
+                                <span class="progress-pecentage">21%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s6 m6 l6">
+                        <h6 class="">Tiến độ kế hoạch (ngày): @*<b> <span class="red-text"> không hoàn thành. </span> </b>*@</h6>
+                        <div class="progress progress-striped active">
+                            <div role="progressbar progress-striped" style="width: 55%; height:20px" class="progress-bar progress-bar-default center">
+                                <span class="progress-pecentage">55%</span>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="row text-center m-t-30">
+                        <div class="col s4 center detail-info">
+                            <span class="font-14 ">Thực hiện</span>
+                            <p class="font-medium">550</p>
+                        </div>
+                        <div class="col s4 center detail-info">
+                            <span class="font-14">Luỹ kế</span>
+                            <p class="font-medium">7358</p>
+                        </div>
+                        <div class="col s4 center">
+                            <span class="font-14">KH còn lại</span>
+                            <p class="font-medium">1728T</p>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <div class="col l4 m6 s12">
+        <div class="card green darken-1">
+            <div class="card-content info-card">
+                <div class="align-items-center">
+                    <div class="m-t-10">
+                        <h5 class="font-medium">Than sản xuất ( hầm lò + lộ thiên ) </h5>
+                        <h6 class="">Tiến độ kế hoạch (tháng):</h6>
+                    </div>
+                    <div class="ml-auto m-t-15">
+                        <div class="crypto"></div>
+                    </div>
+                </div>
+                <div class="l12">
+                    <div class="progress progress-striped active">
+                        <div role="progressbar progress-striped" style="width: 29%; height:20px" class="progress-bar progress-bar center">
+                            <span class="progress-pecentage">29%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center m-t-30">
+                    <div class="col s4 center detail-info">
+                        <span class="font-14 ">Thực hiện</span>
+                        <p class="font-medium">4960 / 6000 T</p>
+                    </div>
+                    <div class="col s4 center detail-info">
+                        <span class="font-14">Luỹ kế</span>
+                        <p class="font-medium">49955 / 175000 T</p>
+                    </div>
+                    <div class="col s4 center">
+                        <span class="font-14">KH còn lại</span>
+                        <p class="font-medium">7815T</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col l4 m6 s12">
+        <div class="card green darken-1">
+            <div class="card-content info-card">
+                <div class="align-items-center">
+                    <div class="m-t-10">
+                        <h5 class="font-medium">Mét lò đào </h5>
+                        <h6 class="">Tiến độ kế hoạch (tháng):</h6>
+                    </div>
+                    <div class="ml-auto m-t-15">
+                        <div class="crypto"></div>
+                    </div>
+                </div>
+                <div class="l12">
+                    <div class="progress progress-striped active">
+                        <div role="progressbar progress-striped" style="width: 38%; height:20px" class="progress-bar progress-bar center">
+                            <span class="progress-pecentage">38%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center m-t-30">
+                    <div class="col s4 center detail-info">
+                        <span class="font-14 ">Thực hiện</span>
+                        <p class="font-medium">71.2 / 72.1 M</p>
+                    </div>
+                    <div class="col s4 center detail-info">
+                        <span class="font-14">Luỹ kế</span>
+                        <p class="font-medium">702.4 / 1860 M</p>
+                    </div>
+                    <div class="col s4 center">
+                        <span class="font-14">KH còn lại</span>
+                        <p class="font-medium">72.4M</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col l4 m6 s12 extend-height">
+        <div class="card green darken-1">
+            <div class="card-content info-card">
+                <div class="align-items-center">
+                    <div class="m-t-10">
+                        <h5 class="font-medium">Mét lò neo </h5>
+                        <h6 class="">Tiến độ kế hoạch (tháng):</h6>
+                    </div>
+                    <div class="ml-auto m-t-15">
+                        <div class="crypto"></div>
+                    </div>
+                </div>
+                <div class="l12">
+                    <div class="progress progress-striped active">
+                        <div role="progressbar progress-striped" style="width: 29%; height:20px" class="progress-bar progress-bar center">
+                            <span class="progress-pecentage">29%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center m-t-30">
+                    <div class="col s4 center detail-info">
+                        <span class="font-14 ">Thực hiện</span>
+                        <p class="font-medium">3.0 / 6.0 </p>
+                    </div>
+                    <div class="col s4 center detail-info">
+                        <span class="font-14">Luỹ kế</span>
+                        <p class="font-medium">67.8 / 230 </p>
+                    </div>
+                    <div class="col s4 center">
+                        <span class="font-14">KH còn lại</span>
+                        <p class="font-medium">10.1M</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col l4 m6 s12">
+        <div class="card green darken-1">
+            <div class="card-content info-card">
+                <div class="align-items-center">
+                    <div class="m-t-10">
+                        <h5 class="font-medium">Mét lò xén </h5>
+                        <h6 class="">Tiến độ kế hoạch (tháng):</h6>
+                    </div>
+                    <div class="ml-auto m-t-15">
+                        <div class="crypto"></div>
+                    </div>
+                </div>
+                <div class="l12">
+                    <div class="progress progress-striped active">
+                        <div role="progressbar progress-striped" style="width: 30%; height:20px" class="progress-bar progress-bar center">
+                            <span class="progress-pecentage">30%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center m-t-30">
+                    <div class="col s4 center detail-info">
+                        <span class="font-14 ">Thực hiện</span>
+                        <p class="font-medium">5700 / 6000 T</p>
+                    </div>
+                    <div class="col s4 center detail-info">
+                        <span class="font-14">Luỹ kế</span>
+                        <p class="font-medium">55080 / 160000 T</p>
+                    </div>
+                    <div class="col s4 center">
+                        <span class="font-14">KH còn lại</span>
+                        <p class="font-medium">6558T</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col l4 m6 s12">
+        <div class="card green darken-1">
+            <div class="card-content info-card">
+                <div class="align-items-center">
+                    <div class="m-t-10">
+                        <h5 class="font-medium">Than nhập Dương Huy </h5>
+                        <h6 class="">Tiến độ kế hoạch (tháng):</h6>
+                    </div>
+                    <div class="ml-auto m-t-15">
+                        <div class="crypto"></div>
+                    </div>
+                </div>
+                <div class="l12">
+                    <div class="progress progress-striped active">
+                        <div role="progressbar progress-striped" style="width: 34%; height:20px" class="progress-bar progress-bar center">
+                            <span class="progress-pecentage">34%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center m-t-30">
+                    <div class="col s4 center detail-info">
+                        <span class="font-14 ">Thực hiện</span>
+                        <p class="font-medium">4410 / 5000 T</p>
+                    </div>
+                    <div class="col s4 center detail-info">
+                        <span class="font-14">Luỹ kế</span>
+                        <p class="font-medium">42597 / 140000 T</p>
+                    </div>
+                    <div class="col s4 center">
+                        <span class="font-14">KH còn lại</span>
+                        <p class="font-medium">6088T</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col l4 m6 s12 extend-height">
+        <div class="card green darken-1">
+            <div class="card-content info-card">
+                <div class="align-items-center">
+                    <div class="m-t-10">
+                        <h5 class="font-medium">Than tiêu thụ </h5>
+                        <h6 class="">Tiến độ kế hoạch (tháng):</h6>
+                    </div>
+                    <div class="ml-auto m-t-15">
+                        <div class="crypto"></div>
+                    </div>
+                </div>
+                <div class="l12">
+                    <div class="progress progress-striped active">
+                        <div role="progressbar progress-striped" style="width: 35%; height:20px" class="progress-bar progress-bar center">
+                            <span class="progress-pecentage">35%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center m-t-30">
+                    <div class="col s4 center detail-info">
+                        <span class="font-14 ">Thực hiện</span>
+                        <p class="font-medium">8672 / 11000 T</p>
+                    </div>
+                    <div class="col s4 center detail-info">
+                        <span class="font-14">Luỹ kế</span>
+                        <p class="font-medium">97955 / 279500 T</p>
+                    </div>
+                    <div class="col s4 center">
+                        <span class="font-14">KH còn lại</span>
+                        <p class="font-medium">11347T</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col l4 m6 s12">
+        <div class="card green darken-1">
+            <div class="card-content info-card">
+                <div class="align-items-center">
+                    <div class="m-t-10">
+                        <h5 class="font-medium">Doanh thu </h5>
+                        <h6 class="">Tiến độ kế hoạch (tháng):</h6>
+                    </div>
+                    <div class="ml-auto m-t-15">
+                        <div class="crypto"></div>
+                    </div>
+                </div>
+                <div class="l12">
+                    <div class="progress progress-striped active">
+                        <div role="progressbar progress-striped" style="width: 33%; height:20px" class="progress-bar progress-bar center">
+                            <span class="progress-pecentage">33%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center m-t-30">
+                    <div class="col s4 center detail-info">
+                        <span class="font-14 ">Thực hiện</span>
+                        <p class="font-medium">10.8 / 12.7 T</p>
+                    </div>
+                    <div class="col s4 center detail-info">
+                        <span class="font-14">Luỹ kế</span>
+                        <p class="font-medium">128.8 / 387.6 T</p>
+                    </div>
+                    <div class="col s4 center">
+                        <span class="font-14">KH còn lại</span>
+                        <p class="font-medium">16.2 tỷ</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col l4 m6 s12">
+        <div class="card green darken-1">
+            <div class="card-content info-card">
+                <div class="align-items-center">
+                    <div class="m-t-10">
+                        <h5 class="font-medium">Than sàng tuyển </h5>
+                        <h6 class="">Tiến độ kế hoạch (tháng):</h6>
+                    </div>
+                    <div class="ml-auto m-t-15">
+                        <div class="crypto"></div>
+                    </div>
+                </div>
+                <div class="l12">
+                    <div class="progress progress-striped active">
+                        <div role="progressbar progress-striped" style="width: 35%; height:20px" class="progress-bar progress-bar center">
+                            <span class="progress-pecentage">35%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center m-t-30">
+                    <div class="col s4 center detail-info">
+                        <span class="font-14 ">Thực hiện</span>
+                        <p class="font-medium">9216 / 10000 T</p>
+                    </div>
+                    <div class="col s4 center detail-info">
+                        <span class="font-14">Luỹ kế</span>
+                        <p class="font-medium">97632 / 278500 T</p>
+                    </div>
+                    <div class="col s4 center">
+                        <span class="font-14">KH còn lại</span>
+                        <p class="font-medium">11304T</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col l4 m6 s12 extend-height">
+        <div class="card green darken-1">
+            <div class="card-content info-card">
+                <div class="align-items-center">
+                    <div class="m-t-10">
+                        <h5 class="font-medium">Đá xít kho </h5>
+                        <h6 class="">Tiến độ kế hoạch (tháng):</h6>
+                    </div>
+                    <div class="ml-auto m-t-15">
+                        <div class="crypto"></div>
+                    </div>
+                </div>
+                <div class="l12">
+                    <div class="progress progress-striped active">
+                        <div role="progressbar progress-striped" style="width: 38%; height:20px" class="progress-bar progress-bar center">
+                            <span class="progress-pecentage">38%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <div class="col s4 center detail-info">
+                        <span class="font-14 ">Thực hiện</span>
+                        <p class="font-medium">1870 / 1500 T</p>
+                    </div>
+                    <div class="col s4 center detail-info">
+                        <span class="font-14">Luỹ kế</span>
+                        <p class="font-medium">21531 / 56500 T</p>
+                    </div>
+                    <div class="col s4 center">
+                        <span class="font-14">KH còn lại</span>
+                        <p class="font-medium">2186T</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col l4 m6 s12">
+        <div class="card green darken-1">
+            <div class="card-content info-card">
+                <div class="align-items-center">
+                    <div class="m-t-10">
+                        <h5 class="font-medium">Đất đá bóc tự làm</h5>
+                    </div>
+                </div>
+                <div>
+                    <h4> Được 442 chuyến= 3094 m3 </h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<div class="row">
+    <div class="col s12">
+        <div class="card">
+            <div class="card-content">
+                <div class="d-flex align-items-center">
+                    <div>
+                        <h5 class="card-title">Báo cáo chi tiết khai thác than</h5>
+                    </div>
+                    <div class="ml-auto">
+                        <ul class="list-inline font-12 dl m-r-10">
+                            <!-- <li class="cyan-text"><i class="fa fa-circle"></i>Hôm qua</li>
+                            <li class="blue-text text-accent-4"><i class="fa fa-circle"></i> Hôm nay</li> -->
+                        </ul>
+                    </div>
+                </div>
+                <!-- Sales Summery -->
+                <div class="p-t-20">
+                    <div class="row">
+                        <div class="col s12">
+                            <div id="sales" style="height: 332px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col s12 l8">
+        <div class="card">
+            <div class="card-content">
+                <h5 class="card-title">Báo cáo chi tiết đào lò</h5>
+                <div id="basic-area" style="height:400px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col s12 l4">
+        <div class="card card-hover">
+            <div class="card-content">
+                <div class="d-flex align-items-center detail_report_card">
+                    <div class="m-r-20">
+                        <h1 class=""><i class="ti-light-bulb"></i></h1>
+                    </div>
+                    <div>
+                        <h3 class="card-title">Mét lò đào</h3>
+                        <h6 class="card-subtitle"></h6>
+                    </div>
+                </div>
+                <div class="row d-flex align-items-center  detail_report_card">
+                    <div class="col s6">
+                        <h4><b class="font-light m-t-10">ML Neo: </b><b>30%</b></h4>
+                        <br>
+                        <h4><b class="font-light m-t-10">ML Xén: </b><b>40%</b></h4>
+                    </div>
+                    <div class="col s6 right-align">
+                        <div class="p-t-10 p-b-10">
+                            <div class="spark-count" style="height:65px"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-hover">
+            <div class="card-content">
+                <div class="d-flex align-items-center">
+                    <div class="m-r-20">
+                        <h1 class=""><i class="ti-pie-chart"></i></h1>
+                    </div>
+                    <div>
+                        <h3 class="card-title">Kế hoạch</h3>
+                        <h6 class="card-subtitle"></h6>
+                    </div>
+                </div>
+                <div class="row d-flex align-items-center">
+                    <div class="col s6">
+                        <h4><b class="font-light m-t-10">ML Neo: </b><b>40%</b></h4>
+                        <br>
+                        <h4><b class="font-light m-t-10">ML Xén: </b><b>50%</b></h4>
+                    </div>
+                    <div class="col s6 p-t-10 p-b-20 right-align">
+                        <div class="p-t-10 p-b-10 m-r-20">
+                            <div class="spark-count2" style="height:65px"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col s12 m6 l6">
+        <div class="card">
+            <div class="card-content">
+                <h5 class="card-title">Báo cáo chi tiết than nhập</h5>
+                <div id="chart_than_nhap" style="height:400px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col s12 m6 l6">
+        <div class="card">
+            <div class="card-content">
+                <h5 class="card-title">Báo cáo chi tiết than tiêu thụ</h5>
+                <div id="chart_than_tieu_thu" style="height:400px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col s12 m6 l6">
+        <div class="card">
+            <div class="card-content">
+                <h5 class="card-title">Báo cáo chi tiết than sàng tuyển</h5>
+                <div id="chart_than_sang_tuyen" style="height:400px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col s12 m6 l6">
+        <div class="card">
+            <div class="card-content">
+                <h5 class="card-title">Báo cáo chi tiết đá xít xuất kho</h5>
+                <div id="chart_than_da_xit_xuat_kho" style="height:400px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col s12">
+        <div class="card">
+            <div class="card-content">
+                <h5 class="card-title">Báo cáo chi tiết đất đá bóc tự làm</h5>
+                <div id="chart_dat_da_boc" style="height:400px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ============================================================== -->
+<!-- Sales -->
+<!-- ============================================================== -->
+<div class="row">
+    <div class="col l6 s12">
+        <div class="card">
+            <div class="card-content">
+                <h4 class="card-title">Báo cáo sự cố</h4>
+                <div id="table_suco"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col l6 s12">
+        <div class="card">
+            <div class="card-content">
+                <h4 class="card-title">Báo cáo phân xưởng hoàn thành kế hoạch</h4>
+                <div id="table_hoanthanh"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col l6 s12">
+        <div class="card">
+            <div class="card-content">
+                <h4 class="card-title">Báo cáo các phân xưởng không hoàn thành kế hoạch</h4>
+                <div id="table_khonghoanthanh"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col l6 s12">
+        <div class="card">
+            <div class="card-content">
+                <h4 class="card-title">Tiến độ thi công</h4>
+                <div id="table_tiendothicong"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col s12 m6 l6">
+        <div class="card">
+            <div class="card-content analytics-info">
+                <h5 class="card-title center">Báo cáo nhân lực đi làm các PX</h5>
+                <div id="basic-bar2" style="height:400px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col s12 m6 l6">
+        <div class="card">
+            <div class="card-content analytics-info">
+                <h5 class="card-title center">Báo cáo nhân lực nghỉ các PX</h5>
+                <div id="basic-bar3" style="height:400px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/dist/js/custom.min.js"></script>
+<!-- ============================================================== -->
+<!-- This page plugin js -->
+<!-- ============================================================== -->
+<script src="~/assets/libs/chartist/dist/chartist.min.js"></script>
+<script src="~/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+<script src="~/assets/extra-libs/sparkline/sparkline.js"></script>
+<script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
+<script src="~/dist/dashboard_Tuan/dashBoardChart_tuan.js"></script>
+<script src="~/dist/dashboard_Tuan/dashBoardChart2_tuan.js"></script>
+<!-- Editable -->
+<script src="~/dist/dashboard_Tuan/db_Tuan.js"></script>
+<script type="text/javascript" src="~/assets/libs/jsgrid/dist/jsgrid.min.js"></script>
+<script src="~/dist/dashboard_Tuan/jsgrid-init_Tuan.js"></script>
+<!--chart-->
+<script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
+<script src="~/assets/libs/chart.js/dist/Chart.min.js"></script>
+<script src="../../assets/extra-libs/sparkline/sparkline.js"></script>
+
+<script>$(document).ready(function () {
+        $('.datepicker-inline').remove();
+    });
+    $(document).ready(function () {
+        var date = new Date();
+        var d = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+        $(".datepicker-here").val(d);
+    });</script>

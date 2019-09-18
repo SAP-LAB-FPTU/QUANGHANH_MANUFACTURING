@@ -1,0 +1,513 @@
+﻿@{
+    ViewData["Title"] = "new_dashboard";
+    Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
+}
+<link href="~/assets/Custom css/TCLD/Brief/ManageBrief/Inside.css" rel="stylesheet" />
+<div class="row">
+    <div class="col l12 m12 s12">
+        <div class="card">
+            <div class="card-content">
+                <div class="row">
+                    <div class="center black-text">
+                        <h3><b>QUẢN LÝ HỒ SƠ</b></h3>
+                    </div>
+                    <hr />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-content">
+        <div class="col s12 btn-mg">
+            <a class="btn waves-effect waves-light blue" id="btn-fix">Chỉnh sửa</a>
+            <a class="btn waves-effect waves-light blue modal-trigger" id="btn-save" href="#modal1">Lưu</a>
+        </div>
+        <div class="row">
+            <div class="col l6 table_hoso">
+                <table class="table table-bordered table-responsive centered highlight">
+                    <thead>
+                        <tr>
+                            <th rowspan="3" height="273px">Đếm</th>
+                            <th rowspan="3" width="10%">Họ tên</th>
+                            <th rowspan="3">Số thẻ</th>
+                            <th rowspan="3" id="color_hoso">Quản lý hồ sơ</th>
+                            <th rowspan="3">Đơn vị tuyển dụng</th>
+                            <th rowspan="3">Đơn vị hiện đang làm việc</th>
+                            <th rowspan="3">Ngày tháng năm sinh</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Cao Thành Duy</td>
+                            <td>8056</td>
+                            <td id="color_hoso"><b>HSN</b></td>
+                            <td>CKSC</td>
+                            <td></td>
+                            <td>9/6/1994</td>
+
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Nguyễn Văn Thảo</td>
+                            <td>8071</td>
+                            <td id="color_hoso"></td>
+                            <td>KT9</td>
+                            <td></td>
+                            <td>25/10/1988</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Nguyễn Văn Thảo</td>
+                            <td>8071</td>
+                            <td id="color_hoso"></td>
+                            <td>KT9</td>
+                            <td></td>
+                            <td>25/10/1988</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col l6" style="overflow-x:auto!important">
+                <table class="table table-bordered table-responsive centered highlight">
+                    <thead>
+                        <tr>
+                            <th rowspan="3" id="color_hoso">Ngày nhận HS</th>
+                            <th rowspan="3" id="color_hoso">Người giao HS</th>
+                            <th rowspan="3" id="color_hoso">SYLL tuyển dụng</th>
+                            <th colspan="3" rowspan="1" id="color_hoso">SYLL bổ sung</th>
+                            <th colspan="3" rowspan="1" id="color_hoso">Giấy KS</th>
+                            <th rowspan="3" id="color_hoso">Cam kết tuyển dụng mới vào công ty</th>
+                            <th colspan="7" rowspan="1">Giấy CMND,Thẻ căn cước Công dân</th>
+                            <th colspan="6" rowspan="1">QĐ tiếp nhận,tuyển dụng vào Công ty</th>
+                            <th colspan="4" rowspan="1" id="color_hoso">Hợp đồng lao động</th>
+                            <th colspan="4" rowspan="1" id="color_hoso">Tờ khai cấp sổ BHXH</th>
+                            <th colspan="4" rowspan="1" id="color_hoso">QĐ xuất ngũ(Bộ đội)</th>
+                            <th rowspan="3">Số điện thoại NLĐ</th>
+                            <th rowspan="1" colspan="14" id="color_hoso">TUYỂN LẠI-ĐI LÀM NƠI KHÁC CHUYỂN ĐẾN CÔNG TY</th>
+                            <th rowspan="3">Nguyên quán</th>
+                            <th rowspan="3">Nơi thường trú</th>
+                            <th rowspan="1" colspan="4" id="color_hoso">Bố đẻ</th>
+                            <th rowspan="1" colspan="4" id="color_hoso">Mẹ đẻ</th>
+                            <th rowspan="1" colspan="4" id="color_hoso">Vợ(Chồng)</th>
+                            <th rowspan="1" colspan="6" id="color_hoso">Con</th>
+                            <th rowspan="3">Văn hóa</th>
+                            <th rowspan="1" colspan="3" id="color_hoso">Bằng</th>
+                            <th rowspan="1" colspan="3" id="color_hoso">Chứng chỉ</th>
+                            <th rowspan="1" colspan="3" id="color_hoso">Giấy chứng nhận</th>
+                            <th rowspan="1" colspan="3" id="color_hoso">Bảng điểm<br>(KQHT)</th>
+                            <th rowspan="3">Số hiệu bằng,chứng chỉ,GCN</th>
+                            <th colspan="4" id="color_hoso">Thời gian đào tạo</th>
+                            <th rowspan="3" id="color_hoso">Trường</th>
+                            <th rowspan="3" id="color_hoso">Năm ra trường</th>
+                            <th rowspan="3" id="color_hoso">Trình độ</th>
+                            <th rowspan="3" id="color_hoso">Chuyên ngành</th>
+                            <th rowspan="3" id="color_hoso">Tên ngành</th>
+                            <th rowspan="3" id="color_hoso">NLĐ học theo chỉ tiêu Công ty đào tạo</th>
+                            <th rowspan="3" id="color_hoso">Ngày nhận bằng</th>
+                            <th rowspan="3" id="color_hoso">Người bàn giao bằng nhập kho</th>
+                        </tr>
+                        <tr>
+                            <th rowspan="2" id="color_hoso">Đợt 1<br>Năm 2016</th>
+                            <th rowspan="2" id="color_hoso">Đợt 2<br>Năm 2016</th>
+                            <th rowspan="2" id="color_hoso">Đợt 3<br>Năm 2016</th>
+                            <th rowspan="2" id="color_hoso">Gốc</th>
+                            <th rowspan="2" id="color_hoso">Sao,công chứng</th>
+                            <th rowspan="2" id="color_hoso">Photo</th>
+                            <th rowspan="2" id="color_hoso">Gốc</th>
+                            <th rowspan="2" id="color_hoso">Sao,công chứng</th>
+                            <th rowspan="2" id="color_hoso">Photo</th>
+                            <th rowspan="2">Số CMT,Số thẻ căn cước</th>
+                            <th rowspan="2">Nơi cấp CMT,TCC</th>
+                            <th rowspan="2">Dân tộc</th>
+                            <th rowspan="2">Ngày cấp CMT,Thẻ CC</th>
+                            <th rowspan="2">Số QĐTN</th>
+                            <th rowspan="2">Ngày QĐTN</th>
+                            <th rowspan="2">Ngày đi làm</th>
+                            <th rowspan="2">Bậc</th>
+                            <th rowspan="2">Mức lương</th>
+                            <th rowspan="2">Hệ số</th>
+                            <th rowspan="2" id="color_hoso">Gốc</th>
+                            <th rowspan="2" id="color_hoso">Dấu đỏ</th>
+                            <th rowspan="2" id="color_hoso">Sao,Công chứng</th>
+                            <th rowspan="2" id="color_hoso">Photo</th>
+                            <th rowspan="2" id="color_hoso">Gốc</th>
+                            <th rowspan="2" id="color_hoso">Dấu đỏ</th>
+                            <th rowspan="2" id="color_hoso">Sao,công chứng</th>
+                            <th rowspan="2" id="color_hoso">Photo</th>
+                            <th rowspan="2" id="color_hoso">Gốc</th>
+                            <th rowspan="2" id="color_hoso">Dấu đỏ</th>
+                            <th rowspan="2" id="color_hoso">Sao,công chứng</th>
+                            <th rowspan="2" id="color_hoso">Photo</th>
+                            <th colspan="7" id="color_hoso">QĐ Tiếp nhận đơn vị cũ</th>
+                            <th colspan="7" id="color_hoso">QĐ chấm dứt HĐ đơn vị cũ</th>
+                            <th rowspan="2" id="color_hoso">Họ và tên</th>
+                            <th rowspan="2" id="color_hoso">Ngày tháng năm sinh</th>
+                            <th rowspan="2" id="color_hoso">Nơi thường trú</th>
+                            <th rowspan="2" id="color_hoso">Số điện thoại</th>
+                            <th rowspan="2" id="color_hoso">Họ và tên</th>
+                            <th rowspan="2" id="color_hoso">Ngày tháng năm sinh</th>
+                            <th rowspan="2" id="color_hoso">Nơi thường trú</th>
+                            <th rowspan="2" id="color_hoso">Số điện thoại</th>
+                            <th rowspan="2" id="color_hoso">Họ và tên</th>
+                            <th rowspan="2" id="color_hoso">Ngày tháng năm sinh</th>
+                            <th rowspan="2" id="color_hoso">Nơi thường trú</th>
+                            <th rowspan="2" id="color_hoso">Số điện thoại</th>
+                            <th colspan="2" id="color_hoso">Con thứ 1</th>
+                            <th colspan="2" id="color_hoso">Con thứ 2</th>
+                            <th colspan="2" id="color_hoso">Con thứ 3</th>
+                            <th rowspan="2" id="color_hoso">Gốc</th>
+                            <th rowspan="2" id="color_hoso">Sao,CC</th>
+                            <th rowspan="2" id="color_hoso">Photo</th>
+                            <th rowspan="2" id="color_hoso">Gốc</th>
+                            <th rowspan="2" id="color_hoso">Sao,CC</th>
+                            <th rowspan="2" id="color_hoso">Photo</th>
+                            <th rowspan="2" id="color_hoso">Gốc</th>
+                            <th rowspan="2" id="color_hoso">Sao,CC</th>
+                            <th rowspan="2" id="color_hoso">Photo</th>
+                            <th rowspan="2" id="color_hoso">Gốc</th>
+                            <th rowspan="2" id="color_hoso">Sao,CC</th>
+                            <th rowspan="2" id="color_hoso">Photo</th>
+                            <th rowspan="2" id="color_hoso">Từ tháng</th>
+                            <th rowspan="2" id="color_hoso">Năm</th>
+                            <th rowspan="2" id="color_hoso">Đến tháng</th>
+                            <th rowspan="2" id="color_hoso">Năm</th>
+                        </tr>
+                        <tr>
+                            <th id="color_hoso">Số QĐTN Gốc</th>
+                            <th id="color_hoso">Số QĐTN Dấu đỏ</th>
+                            <th id="color_hoso">Số QĐTN Sao,<br>Công chứng</th>
+                            <th id="color_hoso">Số QĐTN Photo</th>
+                            <th id="color_hoso">Ngày tháng QĐTN</th>
+                            <th id="color_hoso">Ngày đi làm</th>
+                            <th id="color_hoso">Đơn vị ký QĐTN</th>
+                            <th id="color_hoso">Số QĐCD Gốc</th>
+                            <th id="color_hoso">Số QĐCD Dấu đỏ</th>
+                            <th id="color_hoso">Số QĐCD Sao,<br>Công chứng</th>
+                            <th id="color_hoso">Số QĐCD Photo</th>
+                            <th id="color_hoso">Ngày tháng QĐCD</th>
+                            <th id="color_hoso">Ngày chấm dứt</th>
+                            <th id="color_hoso">Đơn vị ký QĐCD</th>
+                            <th id="color_hoso">Họ và tên</th>
+                            <th id="color_hoso">Năm sinh</th>
+                            <th id="color_hoso">Họ và tên</th>
+                            <th id="color_hoso">Năm sinh</th>
+                            <th id="color_hoso">Họ và tên</th>
+                            <th id="color_hoso">Năm sinh</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"><label><input type="checkbox" checked id="checkbox_hoso" /><span></span></label></td>
+                            <td id="color_hoso"><label><input type="checkbox" checked id="checkbox_hoso" /><span></span></label></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"><label><input type="checkbox" checked id="checkbox_hoso" /><span></span></label></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"><label><input type="checkbox" checked id="checkbox_hoso" /><span></span></label></td>
+                            <td id="color_hoso"><label><input type="checkbox" checked id="checkbox_hoso" /><span></span></label></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td>101121668</td>
+                            <td>Quảng Ninh</td>
+                            <td>Kinh</td>
+                            <td>22/3/2008</td>
+                            <td>7859</td>
+                            <td>6/7/2015</td>
+                            <td>7/7/2015</td>
+                            <td></td>
+                            <td></td>
+                            <td>2.48</td>
+                            <td id="color_hoso"><label><input type="checkbox" checked id="checkbox_hoso" /><span></span></label></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"><label><input type="checkbox" checked id="checkbox_hoso" /><span></span></label></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td>01659166660</td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td>Dương Quan,Thủy Nguyên,Hải Phòng</td>
+                            <td>Cẩm Thủy, Cẩm Phả, Quảng Ninh</td>
+                            <td id="color_hoso">Cao Thành Chiến</td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso">Trần Thị Hằng</td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td>10</td>
+                            <td id="color_hoso"><label><input type="checkbox" checked id="checkbox_hoso" /><span></span></label></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td>00001042</td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso">130</td>
+                            <td id="color_hoso">2015</td>
+                            <td id="color_hoso">12</td>
+                            <td id="color_hoso">120</td>
+                            <td id="color_hoso">Kỹ thuật cơ điện mỏ hầm lò</td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                        </tr>
+                        <tr>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"><label><input type="checkbox" checked id="checkbox_hoso" /><span></span></label></td>
+                            <td id="color_hoso"><label><input type="checkbox" checked id="checkbox_hoso" /><span></span></label></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"><label><input type="checkbox" checked id="checkbox_hoso" /><span></span></label></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"><label><input type="checkbox" checked id="checkbox_hoso" /><span></span></label></td>
+                            <td id="color_hoso"><label><input type="checkbox" checked id="checkbox_hoso" /><span></span></label></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td>142410813</td>
+                            <td>Hải Dương</td>
+                            <td>Kinh</td>
+                            <td>08/06/2015</td>
+                            <td>8841</td>
+                            <td>27/7/2015</td>
+                            <td>28/7/2015</td>
+                            <td></td>
+                            <td></td>
+                            <td>2.48</td>
+                            <td id="color_hoso"><label><input type="checkbox" checked id="checkbox_hoso" /><span></span></label></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"><label><input type="checkbox" checked id="checkbox_hoso" /><span></span></label></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td>01639865603</td>
+                            <td id="color_hoso"><label><input type="checkbox" checked id="checkbox_hoso" /><span></span></label></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"><label><input type="checkbox" checked id="checkbox_hoso" /><span></span></label></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td>Thôn Trúc Văn, Minh Đức, Tứ Kỳ, Hải Dương</td>
+                            <td>Cẩm Thủy, Cẩm Phả, Quảng Ninh</td>
+                            <td id="color_hoso">Nguyễn Văn Nghĩa</td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso">Ngô Thị Ngư</td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso">Lê Thị Hoài</td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td>10</td>
+                            <td id="color_hoso"><label><input type="checkbox" checked id="checkbox_hoso" /><span></span></label></td>
+                            <td id="color_hoso"><label><input type="checkbox" checked id="checkbox_hoso" /><span></span></label></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td>000995181</td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso">1</td>
+                            <td id="color_hoso">2008</td>
+                            <td id="color_hoso">6</td>
+                            <td id="color_hoso">20403</td>
+                            <td id="color_hoso">Sửa chữa cơ điện mỏ hầm lò</td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                        </tr>
+                        <tr>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"><label><input type="checkbox" checked id="checkbox_hoso" /><span></span></label></td>
+                            <td id="color_hoso"><label><input type="checkbox" checked id="checkbox_hoso" /><span></span></label></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"><label><input type="checkbox" checked id="checkbox_hoso" /><span></span></label></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"><label><input type="checkbox" checked id="checkbox_hoso" /><span></span></label></td>
+                            <td id="color_hoso"><label><input type="checkbox" checked id="checkbox_hoso" /><span></span></label></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td>142410813</td>
+                            <td>Hải Dương</td>
+                            <td>Kinh</td>
+                            <td>08/06/2015</td>
+                            <td>8841</td>
+                            <td>27/7/2015</td>
+                            <td>28/7/2015</td>
+                            <td></td>
+                            <td></td>
+                            <td>2.48</td>
+                            <td id="color_hoso"><label><input type="checkbox" checked id="checkbox_hoso" /><span></span></label></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"><label><input type="checkbox" checked id="checkbox_hoso" /><span></span></label></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td>01639865603</td>
+                            <td id="color_hoso"><label><input type="checkbox" checked id="checkbox_hoso" /><span></span></label></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"><label><input type="checkbox" checked id="checkbox_hoso" /><span></span></label></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td>Thôn Trúc Văn, Minh Đức, Tứ Kỳ, Hải Dương</td>
+                            <td>Cẩm Thủy, Cẩm Phả, Quảng Ninh</td>
+                            <td id="color_hoso">Nguyễn Văn Nghĩa</td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso">Ngô Thị Ngư</td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso">Lê Thị Hoài</td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td>10</td>
+                            <td id="color_hoso"><label><input type="checkbox" checked id="checkbox_hoso" /><span></span></label></td>
+                            <td id="color_hoso"><label><input type="checkbox" checked id="checkbox_hoso" /><span></span></label></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td>000995181</td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso">1</td>
+                            <td id="color_hoso">2011</td>
+                            <td id="color_hoso">7</td>
+                            <td id="color_hoso">502</td>
+                            <td id="color_hoso">Hàn</td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                            <td id="color_hoso"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <h3><b>Bạn có chắc chắn muốn lưu không?</b></h3>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn blue" id="btn_agrr">Đồng ý</a>
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn red">Hủy bỏ</a>
+    </div>
+</div>
+<script src="~/js/Custom JS/TCLD/Brief/ManageBrief/Brief_Inside.js"></script>

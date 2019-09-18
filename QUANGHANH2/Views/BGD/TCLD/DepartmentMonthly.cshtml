@@ -1,0 +1,1353 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Views/Shared/_Layout_BGD2.cshtml";
+}
+<link rel="stylesheet" type="text/css" href="~/assets/extra-libs/c3/c3.min.css">
+<link href="~/assets/extra-libs/prism/prism.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/css/tuan_css/css/baocaoluong_css/style.css" />
+<link href="~/assets/extra-libs/css-chart/css-chart.css" rel="stylesheet">
+<link href="~/dist/css/pages/easy-pie-chart.css" rel="stylesheet">
+<link rel="stylesheet" href="~/css/tuan_css/css/baocaoluong_css/style.css" />
+
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <h3 class="report_title">
+                <B>BÁO CÁO THỰC HIỆN LAO ĐỘNG, TIỀN LƯƠNG CÔNG NHÂN TRỰC TIẾP</B>
+                <br />
+                <i class="fas fa-calendar-alt icon"></i>
+                <input type="text"
+                       class="datepicker-here center"
+                       data-language='vi'
+                       data-min-view="months"
+                       data-view="months"
+                       data-date-format="MM yyyy" value="Tháng 6 2019" />
+                <br /><br />
+                Đơn vị:                     <a class='dropdown-trigger btn' id="time" href='#' data-target='dropdown_px'
+                                               style="width:250px;background-color:#273146">
+                    VTL1    
+                </a>
+            </h3>
+            <hr />
+        </div>
+        <div class="row">
+            <div class="col s12" style="margin-bottom:20px">
+                <div class="left">
+                    <a class='dropdown-trigger btn' id="time2" href='#' data-target='dropdown_time'
+                       style="width:250px;background-color:#273146">
+                        Xem theo ngày
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col m12 l12 s12">
+                <ul class="tabs">
+                    <li class="tab col m6 l6 s6"><a class="active" href="#bieudo">BIỂU ĐỒ</a></li>
+                    <li class="tab col l6 m6 s6"><a href="#bangchitiet">BẢNG BÁO CÁO CHI TIẾT</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <div id="bieudo" class="col s12">
+                    <div class="chart_container">
+                        <div class="row">
+                            <div class="col l4 m12 s12  center">
+                                <div class="card">
+                                    <div class="card-content analytics-info">
+                                        <h5 class="card-title">Tổng số lao động</h5>
+                                        <br> <br />
+                                        <div class="summary_number"><h3><b>174</b></h3></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col l4 m12 s12  center">
+                                <div class="card">
+                                    <div class="card-content analytics-info">
+                                        <h5 class="card-title">Tỉ lệ huy động trung bình</h5>
+                                        <div class="chart easy-pie-chart-1" data-percent="85"> <span class="percent">8/100</span> </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col l4 m12 s12 center">
+                                <div class="card">
+                                    <div class="card-content analytics-info">
+                                        <h5 class="card-title">Tổng số lao động nghỉ ốm dài</h5>
+                                        <br> <br />
+                                        <div class="summary_number"><h3><b>0</b></h3></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col l12 s12">
+                                <div class="card">
+                                    <div class="card-content analytics-info">
+                                        <h5 class="card-title center">Lao động tham gia sản xuất theo từng ngày</h5>
+                                        <div id="bar-basic" style="height:1200px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col l12">
+                                <div class="card">
+                                    <div class="card-content analytics-info">
+                                        <h5 class="card-title center">Lao động bình quân theo từng ngày</h5>
+                                        <div id="basic-bar" style="height:400px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col l12">
+                                <div class="card">
+                                    <div class="card-content analytics-info">
+                                        <h5 class="card-title center">Phần trăm huy động bình quân theo từng ngày (%)</h5>
+                                        <div id="basic-bar2" style="height:400px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col l12">
+                                <div class="card">
+                                    <div class="card-content analytics-info">
+                                        <h5 class="card-title center">Lao động nghỉ dài theo từng ngày</h5>
+                                        <div id="basic-bar3" style="height:400px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div id="bangchitiet" class="col s12">
+                <div class="report_container">
+                    <div class="row">
+                        <div class="col l3 s12">
+                            <div class="thang">
+                                <div class="filter_label">Tháng: </div>
+                                <!-- Dropdown Trigger -->
+                                <a class='dropdown-trigger btn' href='#' data-target='dropdown2'>
+                                    Chọn
+                                    tháng
+                                </a>
+                                <!-- Dropdown Structure -->
+                                <ul id='dropdown2' class='dropdown-content'>
+                                    <li><a href="#!">Tháng 01</a></li>
+                                    <li><a href="#!">Tháng 02</a></li>
+                                    <li><a href="#!">Tháng 03</a></li>
+                                    <li><a href="#!">Tháng 04</a></li>
+                                    <li><a href="#!">Tháng 05</a></li>
+                                    <li><a href="#!">Tháng 06</a></li>
+                                    <li><a href="#!">Tháng 07</a></li>
+                                    <li><a href="#!">Tháng 08</a></li>
+                                    <li><a href="#!">Tháng 09</a></li>
+                                    <li><a href="#!">Tháng 10</a></li>
+                                    <li><a href="#!">Tháng 11</a></li>
+                                    <li><a href="#!">Tháng 12</a></li>
+                                </ul>
+                                <a class='dropdown-trigger btn' href='#' data-target='dropdown4'>
+                                    Chọn
+                                    năm
+                                </a>
+                                <!-- Dropdown Structure -->
+                                <ul id='dropdown4' class='dropdown-content'>
+                                    <li><a href="#!">2019</a></li>
+                                    <li><a href="#!">2018</a></li>
+                                    <li><a href="#!">2017</a></li>
+                                    <li><a href="#!">2015</a></li>
+                                    <li><a href="#!">2014</a></li>
+                                    <li><a href="#!">2013</a></li>
+                                    <li><a href="#!">2012</a></li>
+                                    <li><a href="#!">2011</a></li>
+                                    <li><a href="#!">2012</a></li>
+                                    <li><a href="#!">2011</a></li>
+                                    <li><a href="#!">2010</a></li>
+                                    <li><a href="#!">2009</a></li>
+                                </ul>
+
+                            </div>
+                        </div>
+                        <div class="col l2 s12">
+                            <div class="sap_xep">
+                                <div>
+                                    <!-- Dropdown Trigger -->
+                                    <div class="filter_label">Sắp xếp theo: </div>
+                                    <a class='dropdown-trigger btn' href='#' data-target='dropdown3'>
+                                        Chọn tiêu
+                                        chí
+                                    </a>
+                                    <!-- Dropdown Structure -->
+                                    <ul id='dropdown3' class='dropdown-content'>
+                                        <li><a href="#!">Điểm lương</a></li>
+                                        <li><a href="#!">Tỉ lệ huy động</a></li>
+                                        <li><a href="#!">LĐ vắng</a></li>
+                                        <li><a href="#!">LĐ nghỉ dài</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row table_container">
+                        <div class="col l12">
+                            <table class="table table-bordered striped table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="3">Ngày</th>
+
+                                        <th colspan="4" rowspan="2" data-target="modal1" class="modal-trigger clickable_cell" id="ldtdd_tong">
+                                            LĐTT THEO DANH SÁCH
+                                        </th>
+                                        <th colspan="4" rowspan="2" data-target="modal1" class="modal-trigger clickable_cell total_col" id="ldnghidai_tong">
+                                            LĐTT NGHỈ DÀI
+                                        </th>
+                                        <th rowspan="3" rowspan="2" data-target="modal1" class="modal-trigger clickable_cell total_col" id="tonglaodong">TỔNG LĐ SAU KHI TRỪ</th>
+                                        <th colspan="5" data-target="modal1" class="modal-trigger clickable_cell" id="ldbq_tong">
+                                            LĐ THỰC HIỆN TRONG NGÀY
+                                        </th>
+                                        <th rowspan="3">TỶ LỆ HUY ĐỘNG (%)</th>
+                                        <th colspan="4" rowspan="2">SẢN LƯỢNG TH</th>
+                                        <th colspan="2" rowspan="2">ĐIỂM LƯƠNG</th>
+                                        <th rowspan="3">Ghi chú</th>
+                                    </tr>
+                                    <tr>
+                                        <th rowspan="2" data-target="modal1" class="modal-trigger clickable_cell" id="ldbq_dilam">
+                                            LĐBQ đi làm
+                                        </th>
+                                        <th colspan="4" data-target="modal1" class="modal-trigger clickable_cell" id="ldbq_ldvang_tong">
+                                            LĐ vắng
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th data-target="modal1" class="modal-trigger clickable_cell" id="ldtdd_kt">KT</th>
+                                        <th data-target="modal1" class="modal-trigger clickable_cell" id="ldtdd_cd">CĐ</th>
+                                        <th data-target="modal1" class="modal-trigger clickable_cell" id="ldtdd_hstt">HSTT</th>
+                                        <th data-target="modal1" class="modal-trigger clickable_cell" id="ldtdd_tong">Tổng</th>
+                                        <th data-target="modal1" class="modal-trigger clickable_cell" id="ldnghidai_vld">VLD</th>
+                                        <th data-target="modal1" class="modal-trigger clickable_cell" id="ldnghidai_thhd">THHĐ</th>
+                                        <th data-target="modal1" class="modal-trigger clickable_cell" id="ldnghidai_om">Ốm, TNLĐ</th>
+                                        <th data-target="modal1" class="modal-trigger clickable_cell total_col" id="ldnghidai_tong">Tổng</th>
+                                        <th data-target="modal1" class="modal-trigger clickable_cell" id="ldbq_ldvang_vld">VLD</th>
+                                        <th data-target="modal1" class="modal-trigger clickable_cell" id="ldbq_ldvang_om">Ốm</th>
+                                        <th data-target="modal1" class="modal-trigger clickable_cell" id="ldbq_ldvang_khac">Khác</th>
+                                        <th data-target="modal1" class="total_col modal-trigger clickable_cell" id="ldbq_ldvang_tong">Tổng</th>
+                                        <th>Than</th>
+                                        <th>Đá</th>
+                                        <th>Mét lò</th>
+                                        <th>Xén</th>
+                                        <th>TLBQ ngày công (1000đ)</th>
+                                        <th class="total_col">Tổng số</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><a href="@Url.Action("nang-suat-lao-dong-va-tien-luong-theo-ngay","nang-suat-lao-dong-va-tien-luong")">1</a></td>
+                                        <td>101</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">174</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">148</td>
+                                        <td>3</td>
+                                        <td>6</td>
+                                        <td>17</td>
+                                        <td class="total_col">26</td>
+                                        <td class="tilehuydong">85</td>
+                                        <td>2880</td>
+                                        <td>98</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">469</td>
+                                        <td>69404</td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><a href="@Url.Action("nang-suat-lao-dong-va-tien-luong-theo-ngay","nang-suat-lao-dong-va-tien-luong")">2</a></td>
+                                        <td>101</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">174</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">97</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col">0</td>
+                                        <td class="tilehuydong"></td>
+                                        <td>1405</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">651</td>
+                                        <td>63174</td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><a href="@Url.Action("nang-suat-lao-dong-va-tien-luong-theo-ngay","nang-suat-lao-dong-va-tien-luong")">3</a></td>
+                                        <td>101</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">174</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">151</td>
+                                        <td>2</td>
+                                        <td>6</td>
+                                        <td>15</td>
+                                        <td class="total_col">23</td>
+                                        <td class="tilehuydong">85</td>
+                                        <td>2720</td>
+                                        <td>108</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">466</td>
+                                        <td>70397</td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><a href="@Url.Action("nang-suat-lao-dong-va-tien-luong-theo-ngay","nang-suat-lao-dong-va-tien-luong")">4</a></td>
+                                        <td>101</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">174</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">152</td>
+                                        <td>2</td>
+                                        <td>6</td>
+                                        <td>14</td>
+                                        <td class="total_col">22</td>
+                                        <td class="tilehuydong">87</td>
+                                        <td>3126</td>
+                                        <td>138</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">462</td>
+                                        <td>70254</td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><a href="@Url.Action("nang-suat-lao-dong-va-tien-luong-theo-ngay","nang-suat-lao-dong-va-tien-luong")">5</a></td>
+                                        <td>101</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">174</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">150</td>
+                                        <td>2</td>
+                                        <td>7</td>
+                                        <td>15</td>
+                                        <td class="total_col">24</td>
+                                        <td class="tilehuydong">86</td>
+                                        <td>3005</td>
+                                        <td>80</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">468</td>
+                                        <td>70224</td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><a href="@Url.Action("nang-suat-lao-dong-va-tien-luong-theo-ngay","nang-suat-lao-dong-va-tien-luong")">6</a></td>
+                                        <td>101</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">174</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">150</td>
+                                        <td>2</td>
+                                        <td>6</td>
+                                        <td>16</td>
+                                        <td class="total_col">24</td>
+                                        <td class="tilehuydong">86</td>
+                                        <td>2816</td>
+                                        <td>115</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">471</td>
+                                        <td>70663</td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>7</td>
+                                        <td>101</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">174</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">147</td>
+                                        <td>6</td>
+                                        <td>5</td>
+                                        <td>16</td>
+                                        <td class="total_col">27</td>
+                                        <td class="tilehuydong">84</td>
+                                        <td>2653</td>
+                                        <td>151</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">437</td>
+                                        <td>64273</td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>8</td>
+                                        <td>101</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">174</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">151</td>
+                                        <td>5</td>
+                                        <td>5</td>
+                                        <td>13</td>
+                                        <td class="total_col">23</td>
+                                        <td class="tilehuydong">87</td>
+                                        <td>2550</td>
+                                        <td>115</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">416</td>
+                                        <td>62872</td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>9</td>
+                                        <td>101</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">174</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">89</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col">0</td>
+                                        <td class="tilehuydong"></td>
+                                        <td>1952</td>
+                                        <td>80</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">723</td>
+                                        <td>64375</td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>10</td>
+                                        <td>101</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">174</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">152</td>
+                                        <td>2</td>
+                                        <td>5</td>
+                                        <td>15</td>
+                                        <td class="total_col">22</td>
+                                        <td class="tilehuydong">87</td>
+                                        <td>2606</td>
+                                        <td>90</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">451</td>
+                                        <td>68542</td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>11</td>
+                                        <td>101</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">174</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">152</td>
+                                        <td>2</td>
+                                        <td>5</td>
+                                        <td>15</td>
+                                        <td class="total_col">22</td>
+                                        <td class="tilehuydong">87</td>
+                                        <td>2666</td>
+                                        <td>84</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">415</td>
+                                        <td>63075</td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>12</td>
+                                        <td>101</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">174</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">150</td>
+                                        <td></td>
+                                        <td>5</td>
+                                        <td>18</td>
+                                        <td class="total_col">23</td>
+                                        <td class="tilehuydong">86</td>
+                                        <td>2659</td>
+                                        <td>125</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">416</td>
+                                        <td>62385</td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>13</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">175</td>
+                                        <td class="ldbq_di_lam">150</td>
+                                        <td>2</td>
+                                        <td>6</td>
+                                        <td>17</td>
+                                        <td class="total_col">25</td>
+                                        <td class="tilehuydong">86</td>
+                                        <td>2729</td>
+                                        <td>48</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">455</td>
+                                        <td>68312</td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>14</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">175</td>
+                                        <td class="ldbq_di_lam">146</td>
+                                        <td>4</td>
+                                        <td>7</td>
+                                        <td>18</td>
+                                        <td class="total_col">29</td>
+                                        <td class="tilehuydong">83</td>
+                                        <td>2730</td>
+                                        <td>80</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">427</td>
+                                        <td>62360</td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>15</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">175</td>
+                                        <td class="ldbq_di_lam">147</td>
+                                        <td>3</td>
+                                        <td>7</td>
+                                        <td>18</td>
+                                        <td class="total_col">28</td>
+                                        <td class="tilehuydong">84</td>
+                                        <td>3069</td>
+                                        <td>82</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">470</td>
+                                        <td>69089</td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>16</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">175</td>
+                                        <td class="ldbq_di_lam">82</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col">0</td>
+                                        <td class="tilehuydong"></td>
+                                        <td>1370</td>
+                                        <td>86</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">729</td>
+                                        <td>59786</td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>17</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">175</td>
+                                        <td class="ldbq_di_lam">147</td>
+                                        <td>2</td>
+                                        <td>7</td>
+                                        <td>19</td>
+                                        <td class="total_col">28</td>
+                                        <td class="tilehuydong">84</td>
+                                        <td>2285</td>
+                                        <td>86</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">424</td>
+                                        <td>62304</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>18</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">175</td>
+                                        <td class="ldbq_di_lam">149</td>
+                                        <td>3</td>
+                                        <td>6</td>
+                                        <td>17</td>
+                                        <td class="total_col">26</td>
+                                        <td class="tilehuydong">85</td>
+                                        <td>2496</td>
+                                        <td>72</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">435</td>
+                                        <td>64824</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>19</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">175</td>
+                                        <td class="ldbq_di_lam">152</td>
+                                        <td>2</td>
+                                        <td>7</td>
+                                        <td>14</td>
+                                        <td class="total_col">23</td>
+                                        <td class="tilehuydong">87</td>
+                                        <td>2042</td>
+                                        <td>62</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">406</td>
+                                        <td>61753</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>20</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">175</td>
+                                        <td class="ldbq_di_lam">148</td>
+                                        <td>2</td>
+                                        <td>7</td>
+                                        <td>18</td>
+                                        <td class="total_col">27</td>
+                                        <td class="tilehuydong">85</td>
+                                        <td>2285</td>
+                                        <td>154</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">403</td>
+                                        <td>59681</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>21</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">175</td>
+                                        <td class="ldbq_di_lam">149</td>
+                                        <td>2</td>
+                                        <td>6</td>
+                                        <td>18</td>
+                                        <td class="total_col">26</td>
+                                        <td class="tilehuydong">85</td>
+                                        <td>1949</td>
+                                        <td>70</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">382</td>
+                                        <td>56976</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>22</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">147</td>
+                                        <td>2</td>
+                                        <td>7</td>
+                                        <td>18</td>
+                                        <td class="total_col">27</td>
+                                        <td class="tilehuydong">84</td>
+                                        <td>1811</td>
+                                        <td>85</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">340</td>
+                                        <td>49921</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>23</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">72</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col"></td>
+                                        <td class="tilehuydong"></td>
+                                        <td>2016</td>
+                                        <td>68</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">631</td>
+                                        <td>45467</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>24</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">144</td>
+                                        <td>5</td>
+                                        <td>6</td>
+                                        <td>19</td>
+                                        <td class="total_col">30</td>
+                                        <td class="tilehuydong">83</td>
+                                        <td>2013</td>
+                                        <td>45</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">382</td>
+                                        <td>54982</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>25</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">144</td>
+                                        <td>5</td>
+                                        <td>6</td>
+                                        <td>19</td>
+                                        <td class="total_col">30</td>
+                                        <td class="tilehuydong">83</td>
+                                        <td>2013</td>
+                                        <td>45</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">382</td>
+                                        <td>54982</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>26</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">148</td>
+                                        <td>2</td>
+                                        <td>6</td>
+                                        <td>18</td>
+                                        <td class="total_col">26</td>
+                                        <td class="tilehuydong">85</td>
+                                        <td>1914</td>
+                                        <td>305</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">409</td>
+                                        <td>60530</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>27</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">152</td>
+                                        <td>2</td>
+                                        <td>6</td>
+                                        <td>14</td>
+                                        <td class="total_col">22</td>
+                                        <td class="tilehuydong">87</td>
+                                        <td>1722</td>
+                                        <td>359</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">435</td>
+                                        <td>66112</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>28</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">147</td>
+                                        <td>4</td>
+                                        <td>6</td>
+                                        <td>17</td>
+                                        <td class="total_col">27</td>
+                                        <td class="tilehuydong">84</td>
+                                        <td>1846</td>
+                                        <td>305</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">425</td>
+                                        <td>62405</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>29</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">146</td>
+                                        <td>2</td>
+                                        <td>6</td>
+                                        <td>20</td>
+                                        <td class="total_col">28</td>
+                                        <td class="tilehuydong">84</td>
+                                        <td>1885</td>
+                                        <td>355</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">410</td>
+                                        <td>59916</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>30</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">76</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col">0</td>
+                                        <td class="tilehuydong"></td>
+                                        <td>1232</td>
+                                        <td>155</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">600</td>
+                                        <td>45579</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>31</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">123</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">0</td>
+                                        <td class="ldbq_di_lam"></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col">0</td>
+                                        <td class="tilehuydong"></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq"></td>
+                                        <td></td>
+                                        <td></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="total_row">Công</td>
+                                        <td class="total_row">3039</td>
+                                        <td class="total_row">2190</td>
+                                        <td class="total_row">0</td>
+                                        <td class="total_row">5229</td>
+                                        <td class="total_row">0</td>
+                                        <td class="total_row">0</td>
+                                        <td class="total_row">0</td>
+                                        <td class="total_row">0</td>
+                                        <td class="total_row">5232</td>
+                                        <td class="total_row">4135</td>
+                                        <td class="total_row">683</td>
+                                        <td class="total_row">152</td>
+                                        <td class="total_row">418</td>
+                                        <td class="total_row">638</td>
+                                        <td class="total_row tilehuydong_trungbinh">79</td>
+                                        <td class="total_row">68448</td>
+                                        <td class="total_row">3736</td>
+                                        <td class="total_row">0</td>
+                                        <td class="total_row">0</td>
+                                        <td class="total_row">451</td>
+                                        <td class="total_row">1864617</td>
+                                        <td class="total_row"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="total_row">Bình quân</td>
+                                        <td class="total_row">101</td>
+                                        <td class="total_row">73</td>
+                                        <td class="total_row">0</td>
+                                        <td class="total_row">174</td>
+                                        <td class="total_row">0</td>
+                                        <td class="total_row">0</td>
+                                        <td class="total_row">0</td>
+                                        <td class="total_row">0</td>
+                                        <td class="total_row">174</td>
+                                        <td class="total_row">149</td>
+                                        <td class="total_row">3</td>
+                                        <td class="total_row">6</td>
+                                        <td class="total_row">17</td>
+                                        <td class="total_row">26</td>
+                                        <td class="total_row tilehuydong_trungbinh">85</td>
+                                        <td class="total_row"></td>
+                                        <td class="total_row"></td>
+                                        <td class="total_row">0</td>
+                                        <td class="total_row">0</td>
+                                        <td class="total_row">451</td>
+                                        <td class="total_row"></td>
+                                        <td class="total_row"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="export_btn_container">
+                                <a class="waves-effect waves-light btn blue">In báo cáo</a>
+                                <a class="waves-effect waves-light btn blue">Xuất ra file excel</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col l12">
+                            <h3>ĐÁNH GIÁ: </h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="summary_container">
+                            <div class="col l12 s12 summary_right">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <th class="total_row">Lao động TT có mặt đến 30/6: </th>
+                                            <td class="total_row">174</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Lao động thực hiện bình quân theo danh sách</th>
+                                            <td>174</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Lao động huy động đi làm THBQ:</th>
+                                            <td>149 người/ngày</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Lao động bố trí nghỉ các loại BQ: </th>
+                                            <td>26 người/ngày</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Tỉ lệ huy động:</th>
+                                            <td>85%</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Tỷ lệ thực hiện BQ đạt:</th>
+                                            <td>451,000đ/công</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <h4 class="modal_title"></h4>
+        <div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col s12">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="row">
+                                    <div class="col s12">
+                                        <table class="striped responsive-table" id="data">
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align: center">Số thứ tự</th>
+                                                    <th style="text-align: center">Mã nhân viên</th>
+                                                    <th style="text-align: center">Tên</th>
+                                                    <th style="text-align: center">Năm sinh</th>
+                                                    <th style="text-align: center">Giới tính</th>
+                                                    <th style="text-align: center">Số điện thoại</th>
+                                                    <th style="text-align: center">Phân xưởng</th>
+                                                    <th style="text-align: center"></th>
+                                                    <th style="text-align: center"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td style="text-align: center">1</td>
+                                                    <td style="text-align: center"><a href="/">2179</a></td>
+                                                    <td style="text-align: center">
+                                                        <a href="/">
+                                                            Nguyễn Xuân
+                                                            Thoàng
+                                                        </a>
+                                                    </td>
+                                                    <td style="text-align: center">19/07/1987</td>
+                                                    <td style="text-align: center">Nam</td>
+                                                    <td style="text-align: center">091346578</td>
+                                                    <td style="text-align: center">Phân xưởng cơ khí</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align: center">2</td>
+                                                    <td style="text-align: center"><a href="/">7751</a></td>
+                                                    <td style="text-align: center">
+                                                        <a href="/">
+                                                            Nguyễn Văn
+                                                            Hùng
+                                                        </a>
+                                                    </td>
+                                                    <td style="text-align: center">19/05/1984</td>
+                                                    <td style="text-align: center">Nam</td>
+                                                    <td style="text-align: center">094234658</td>
+                                                    <td style="text-align: center">Phân xưởng cơ khí</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align: center">3</td>
+                                                    <td style="text-align: center"><a href="/">3506</a></td>
+                                                    <td style="text-align: center">
+                                                        <a href="/">
+                                                            Nguyễn Văn
+                                                            Hùng
+                                                        </a>
+                                                    </td>
+                                                    <td style="text-align: center">19/07/1991</td>
+                                                    <td style="text-align: center">Nam</td>
+                                                    <td style="text-align: center">091758725</td>
+                                                    <td style="text-align: center">Phân xưởng cơ khí</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align: center">4</td>
+                                                    <td style="text-align: center"><a href="/">2041</a></td>
+                                                    <td style="text-align: center">
+                                                        <a href="/">
+                                                            Nguyễn Văn
+                                                            Hưng
+                                                        </a>
+                                                    </td>
+                                                    <td style="text-align: center">19/07/1976</td>
+                                                    <td style="text-align: center">Nam</td>
+                                                    <td style="text-align: center">098765243</td>
+                                                    <td style="text-align: center">Phân xưởng xây dựng</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align: center">5</td>
+                                                    <td style="text-align: center"><a href="/">4472</a></td>
+                                                    <td style="text-align: center">
+                                                        <a href="/">
+                                                            Nguyễn Văn
+                                                            Hoa
+                                                        </a>
+                                                    </td>
+                                                    <td style="text-align: center">19/07/1976</td>
+                                                    <td style="text-align: center">Nữ</td>
+                                                    <td style="text-align: center">091874526</td>
+                                                    <td style="text-align: center">Phân xưởng cơ khí</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align: center">6</td>
+                                                    <td style="text-align: center"><a href="/">7430</a></td>
+                                                    <td style="text-align: center">
+                                                        <a href="/">Đông Văn Đai</a>
+                                                    </td>
+                                                    <td style="text-align: center">19/07/1985</td>
+                                                    <td style="text-align: center">Nam</td>
+                                                    <td style="text-align: center">098645724</td>
+                                                    <td style="text-align: center">Phân xưởng cơ khí</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Done</a>
+    </div>
+</div>
+<ul id='dropdown_time' class='dropdown-content'>
+    <li><a class="dropdown-child-time" href="#!" name="day">Xem theo ngày</a></li>
+    <li><a class="dropdown-child-time" href="#!" name="month">Xem theo tháng</a></li>
+</ul>
+<ul id='dropdown_px' class='dropdown-content'>
+    <li><a class="dropdown-child" href="#!" name="All">Tất cả</a></li>
+    <li><a class="dropdown-child" href="#!" name="DL3">Đào lò 3</a></li>
+    <li><a class="dropdown-child" href="#!" name="DL5">Đào lò 5</a></li>
+    <li><a class="dropdown-child" href="#!" name="DL7">Đào lò 7</a></li>
+    <li><a class="dropdown-child" href="#!" name="DL8">Đào lò 8</a></li>
+    <li><a class="dropdown-child" href="#!" name="KT1">Khai Thác 1</a></li>
+    <li><a class="dropdown-child" href="#!" name="KT2">Khai Thác 2</a></li>
+    <li><a class="dropdown-child" href="#!" name="KT3">Khai Thác 3</a></li>
+    <li><a class="dropdown-child" href="#!" name="KT4">Khai Thác 4</a></li>
+    <li><a class="dropdown-child" href="#!" name="KT5">Khai Thác 5</a></li>
+    <li><a class="dropdown-child" href="#!" name="KT6">Khai Thác 6</a></li>
+    <li><a class="dropdown-child" href="#!" name="KT7">Khai Thác 7</a></li>
+    <li><a class="dropdown-child" href="#!" name="KT8">Khai Thác 8</a></li>
+    <li><a class="dropdown-child" href="#!" name="KT9">Khai Thác 9</a></li>
+    <li><a class="dropdown-child" href="#!" name="KT10">Khai Thác 10</a></li>
+    <li><a class="dropdown-child" href="#!" name="KT11">Khai Thác 11</a></li>
+    <li><a class="dropdown-child" href="#!" name="VTL1">Vận tải 1</a></li>
+    <li><a class="dropdown-child" href="#!" name="VTL2">Vận tải 2</a></li>
+</ul>
+<script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
+@*<script src="~/dist/js/pages/echarts/bar/bar.js"></script>*@
+<script src="~/js/tuan_js/myChart2.js"></script>
+<script>
+    $('.clickable_cell').click(function () {
+        var idName = $(this).attr('id');
+        switch (idName) {
+            case 'ldtdd_kt':
+                $('.modal_title').html('LAO ĐỘNG KHAI THÁC THỰC TẾ THEO DANH SÁCH');
+                break;
+            case 'ldtdd_cd':
+                $('.modal_title').html('LAO ĐỘNG CƠ ĐIỆN THỰC TẾ THEO DANH SÁCH');
+                break;
+            case 'ldtdd_hstt':
+                $('.modal_title').html('LAO ĐỘNG HSTT THỰC TẾ THEO DANH SÁCH');
+                break;
+            case 'ldtdd_tong':
+                $('.modal_title').html('TỔNG LAO ĐỘNG THỰC TẾ THEO DANH SÁCH');
+                break;
+            case 'ldnghidai_vld':
+                $('.modal_title').html('DANH SÁCH LAO ĐỘNG NGHỈ DÀI VÔ LÝ DO');
+                break;
+            case 'ldnghidai_thhd':
+                $('.modal_title').html('DANH SÁCH LAO ĐỘNG NGHỈ DÀI THHĐ');
+                break;
+            case 'ldnghidai_om':
+                $('.modal_title').html('DANH SÁCH LAO ĐỘNG NGHỈ DÀI ỐM, TNLĐ');
+                break;
+            case 'ldnghidai_tong':
+                $('.modal_title').html('TỔNG LAO ĐỘNG NGHỈ DÀI');
+                break;
+            case 'tonglaodong':
+                $('.modal_title').html('TỔNG LAO ĐỘNG SAU KHI TRỪ');
+                break;
+            case 'ldbq_tong':
+                $('.modal_title').html('TỔNG LAO ĐỘNG THỰC HIỆN BQ');
+                break;
+            case 'ldbq_dilam':
+                $('.modal_title').html('DANH SÁCH LAO ĐỘNG BQ ĐI LÀM');
+                break;
+            case 'ldbq_ldvang_vld':
+                $('.modal_title').html('DANH SÁCH LAO ĐỘNG THỰC HIỆN BQ NGHỈ VÔ LÝ DO');
+                break;
+            case 'ldbq_ldvang_om':
+                $('.modal_title').html('DANH SÁCH LAO ĐỘNG THỰC HIỆN BQ NGHỈ ỐM');
+                break;
+            case 'ldbq_ldvang_khac':
+                $('.modal_title').html('DANH SÁCH LAO ĐỘNG THỰC HIỆN BQ NGHỈ VỚI LÝ DO KHÁC');
+                break;
+            case 'ldbq_ldvang_tong':
+                $('.modal_title').html('DANH SÁCH TỔNG HỢP LAO ĐỘNG THỰC HIỆN BQ NGHỈ');
+                break;
+            default:
+                break;
+        }
+    });
+    var elem = document.querySelector('.modal');
+    var instance = M.Modal.init(elem, options);
+</script>
+
+<script src="~/assets/libs/chart.js/dist/Chart.min.js"></script>
+<script src="~/assets/extra-libs/prism/prism.js"></script>
+<!-- This page plugin js -->
+<!-- ============================================================== -->
+<script src="~/assets/extra-libs/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js"></script>
+<script src="~/assets/extra-libs/jquery.easy-pie-chart/easy-pie-chart.init.js"></script>
+<script src="~/assets/extra-libs/sparkline/sparkline.js"></script>
+<script src="~/dist/js/pages/sparkline/jquery.charts-sparkline.js"></script>
+
+<script src="~/js/Custom JS/button_watch_by.js"></script>

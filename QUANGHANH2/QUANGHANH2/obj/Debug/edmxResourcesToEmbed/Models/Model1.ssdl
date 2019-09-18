@@ -1,0 +1,233 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QUANGHANHABCModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Category_attribute_value">
+    <Key>
+      <PropertyRef Name="equipmentId" />
+      <PropertyRef Name="Equipment_category_id" />
+      <PropertyRef Name="Equipment_category_attribute_id" />
+    </Key>
+    <Property Name="Value" Type="int" Nullable="false" />
+    <Property Name="equipmentId" Type="nvarchar" MaxLength="1" Nullable="false" />
+    <Property Name="Equipment_category_id" Type="nvarchar" MaxLength="1" Nullable="false" />
+    <Property Name="Equipment_category_attribute_id" Type="nvarchar" MaxLength="1" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Department">
+    <Key>
+      <PropertyRef Name="department_id" />
+    </Key>
+    <Property Name="department_id" Type="nvarchar" MaxLength="1" Nullable="false" />
+    <Property Name="department_name" Type="nvarchar" MaxLength="1" Nullable="false" />
+    <Property Name="department_type" Type="nvarchar" MaxLength="1" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Equipment">
+    <Key>
+      <PropertyRef Name="equipmentId" />
+    </Key>
+    <Property Name="equipmentId" Type="nvarchar" MaxLength="1" Nullable="false" />
+    <Property Name="equipment_name" Type="nvarchar" MaxLength="1" Nullable="false" />
+    <Property Name="supplier" Type="nvarchar" MaxLength="1" Nullable="false" />
+    <Property Name="date_import" Type="date" Nullable="false" />
+    <Property Name="depreciation_estimate" Type="float" Nullable="false" />
+    <Property Name="depreciation_present" Type="float" Nullable="false" />
+    <Property Name="durationOfInspection" Type="date" Nullable="false" />
+    <Property Name="durationOfInsurance" Type="date" Nullable="false" />
+    <Property Name="usedDay" Type="date" Nullable="false" />
+    <Property Name="nearest_Maintenance_Day" Type="date" Nullable="false" />
+    <Property Name="total_operating_hours" Type="int" Nullable="false" />
+    <Property Name="current_Status" Type="nvarchar" MaxLength="1" Nullable="false" />
+    <Property Name="fabrication_number" Type="nvarchar" MaxLength="1" />
+    <Property Name="quality_type" Type="nvarchar" MaxLength="1" Nullable="false" />
+    <Property Name="input_channel" Type="nvarchar" MaxLength="1" Nullable="false" />
+    <Property Name="Equipment_category_id" Type="nvarchar" MaxLength="1" Nullable="false" />
+    <Property Name="department_id" Type="nvarchar" MaxLength="1" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Equipment_attribute">
+    <Key>
+      <PropertyRef Name="Equipment_attribute_id" />
+      <PropertyRef Name="equipmentId" />
+    </Key>
+    <Property Name="Equipment_attribute_id" Type="nvarchar" MaxLength="1" Nullable="false" />
+    <Property Name="value" Type="int" Nullable="false" />
+    <Property Name="unit" Type="nvarchar" MaxLength="1" Nullable="false" />
+    <Property Name="equipmentId" Type="nvarchar" MaxLength="1" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Equipment_category">
+    <Key>
+      <PropertyRef Name="Equipment_category_id" />
+    </Key>
+    <Property Name="Equipment_category_id" Type="nvarchar" MaxLength="1" Nullable="false" />
+    <Property Name="Equipment_category_name" Type="nvarchar" MaxLength="1" Nullable="false" />
+    <Property Name="divce_type" Type="nvarchar" MaxLength="1" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Equipment_category_attribute">
+    <Key>
+      <PropertyRef Name="Equipment_category_attribute_id" />
+    </Key>
+    <Property Name="Equipment_category_attribute_id" Type="nvarchar" MaxLength="1" Nullable="false" />
+    <Property Name="Equipment_category_attribute_name" Type="nvarchar" MaxLength="1" Nullable="false" />
+    <Property Name="unit" Type="nvarchar" MaxLength="1" Nullable="false" />
+    <Property Name="Equipment_category_id" Type="nvarchar" MaxLength="1" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <Association Name="FK__Category___equip__1B0907CE">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+    <End Role="Category_attribute_value" Type="Self.Category_attribute_value" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment">
+        <PropertyRef Name="equipmentId" />
+      </Principal>
+      <Dependent Role="Category_attribute_value">
+        <PropertyRef Name="equipmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Category___Equip__1BFD2C07">
+    <End Role="Equipment_category" Type="Self.Equipment_category" Multiplicity="1" />
+    <End Role="Category_attribute_value" Type="Self.Category_attribute_value" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment_category">
+        <PropertyRef Name="Equipment_category_id" />
+      </Principal>
+      <Dependent Role="Category_attribute_value">
+        <PropertyRef Name="Equipment_category_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Category___Equip__1CF15040">
+    <End Role="Equipment_category_attribute" Type="Self.Equipment_category_attribute" Multiplicity="1" />
+    <End Role="Category_attribute_value" Type="Self.Category_attribute_value" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment_category_attribute">
+        <PropertyRef Name="Equipment_category_attribute_id" />
+      </Principal>
+      <Dependent Role="Category_attribute_value">
+        <PropertyRef Name="Equipment_category_attribute_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Equipment__depar__182C9B23">
+    <End Role="Department" Type="Self.Department" Multiplicity="1" />
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="department_id" />
+      </Principal>
+      <Dependent Role="Equipment">
+        <PropertyRef Name="department_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Equipment__Equip__1273C1CD">
+    <End Role="Equipment_category" Type="Self.Equipment_category" Multiplicity="1" />
+    <End Role="Equipment_category_attribute" Type="Self.Equipment_category_attribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment_category">
+        <PropertyRef Name="Equipment_category_id" />
+      </Principal>
+      <Dependent Role="Equipment_category_attribute">
+        <PropertyRef Name="Equipment_category_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Equipment__Equip__173876EA">
+    <End Role="Equipment_category" Type="Self.Equipment_category" Multiplicity="1" />
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment_category">
+        <PropertyRef Name="Equipment_category_id" />
+      </Principal>
+      <Dependent Role="Equipment">
+        <PropertyRef Name="Equipment_category_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Equipment__equip__1FCDBCEB">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+    <End Role="Equipment_attribute" Type="Self.Equipment_attribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment">
+        <PropertyRef Name="equipmentId" />
+      </Principal>
+      <Dependent Role="Equipment_attribute">
+        <PropertyRef Name="equipmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="QUANGHANHABCModelStoreContainer">
+    <EntitySet Name="Category_attribute_value" EntityType="Self.Category_attribute_value" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Equipment" EntityType="Self.Equipment" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Equipment_attribute" EntityType="Self.Equipment_attribute" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Equipment_category" EntityType="Self.Equipment_category" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Equipment_category_attribute" EntityType="Self.Equipment_category_attribute" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Category___equip__1B0907CE" Association="Self.FK__Category___equip__1B0907CE">
+      <End Role="Equipment" EntitySet="Equipment" />
+      <End Role="Category_attribute_value" EntitySet="Category_attribute_value" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Category___Equip__1BFD2C07" Association="Self.FK__Category___Equip__1BFD2C07">
+      <End Role="Equipment_category" EntitySet="Equipment_category" />
+      <End Role="Category_attribute_value" EntitySet="Category_attribute_value" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Category___Equip__1CF15040" Association="Self.FK__Category___Equip__1CF15040">
+      <End Role="Equipment_category_attribute" EntitySet="Equipment_category_attribute" />
+      <End Role="Category_attribute_value" EntitySet="Category_attribute_value" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Equipment__depar__182C9B23" Association="Self.FK__Equipment__depar__182C9B23">
+      <End Role="Department" EntitySet="Department" />
+      <End Role="Equipment" EntitySet="Equipment" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Equipment__Equip__1273C1CD" Association="Self.FK__Equipment__Equip__1273C1CD">
+      <End Role="Equipment_category" EntitySet="Equipment_category" />
+      <End Role="Equipment_category_attribute" EntitySet="Equipment_category_attribute" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Equipment__Equip__173876EA" Association="Self.FK__Equipment__Equip__173876EA">
+      <End Role="Equipment_category" EntitySet="Equipment_category" />
+      <End Role="Equipment" EntitySet="Equipment" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Equipment__equip__1FCDBCEB" Association="Self.FK__Equipment__equip__1FCDBCEB">
+      <End Role="Equipment" EntitySet="Equipment" />
+      <End Role="Equipment_attribute" EntitySet="Equipment_attribute" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

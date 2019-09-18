@@ -1,0 +1,19 @@
+﻿.table {
+    width: 100%;
+}
+
+#relation {
+    width: 10%;
+}
+
+#name {
+    width: 25%;
+}
+
+#birthdate {
+    width: 15%;
+}
+
+#resume {
+    width: 50%;
+}

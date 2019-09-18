@@ -1,0 +1,257 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QUANGHANHABCModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Category_attribute_value">
+    <Key>
+      <PropertyRef Name="equipmentId" />
+      <PropertyRef Name="Equipment_category_id" />
+      <PropertyRef Name="Equipment_category_attribute_id" />
+    </Key>
+    <Property Name="Value" Type="Int32" Nullable="false" />
+    <Property Name="equipmentId" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Equipment_category_id" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Equipment_category_attribute_id" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Equipment" Relationship="Self.FK__Category___equip__1B0907CE" FromRole="Category_attribute_value" ToRole="Equipment" />
+    <NavigationProperty Name="Equipment_category" Relationship="Self.FK__Category___Equip__1BFD2C07" FromRole="Category_attribute_value" ToRole="Equipment_category" />
+    <NavigationProperty Name="Equipment_category_attribute" Relationship="Self.FK__Category___Equip__1CF15040" FromRole="Category_attribute_value" ToRole="Equipment_category_attribute" />
+  </EntityType>
+  <EntityType Name="Department">
+    <Key>
+      <PropertyRef Name="department_id" />
+    </Key>
+    <Property Name="department_id" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="department_name" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="department_type" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Equipments" Relationship="Self.FK__Equipment__depar__182C9B23" FromRole="Department" ToRole="Equipment" />
+  </EntityType>
+  <EntityType Name="Equipment">
+    <Key>
+      <PropertyRef Name="equipmentId" />
+    </Key>
+    <Property Name="equipmentId" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="equipment_name" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="supplier" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="date_import" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="depreciation_estimate" Type="Double" Nullable="false" />
+    <Property Name="depreciation_present" Type="Double" Nullable="false" />
+    <Property Name="durationOfInspection" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="durationOfInsurance" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="usedDay" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="nearest_Maintenance_Day" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="total_operating_hours" Type="Int32" Nullable="false" />
+    <Property Name="current_Status" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="fabrication_number" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+    <Property Name="quality_type" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="input_channel" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Equipment_category_id" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="department_id" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Category_attribute_value" Relationship="Self.FK__Category___equip__1B0907CE" FromRole="Equipment" ToRole="Category_attribute_value" />
+    <NavigationProperty Name="Department" Relationship="Self.FK__Equipment__depar__182C9B23" FromRole="Equipment" ToRole="Department" />
+    <NavigationProperty Name="Equipment_category" Relationship="Self.FK__Equipment__Equip__173876EA" FromRole="Equipment" ToRole="Equipment_category" />
+    <NavigationProperty Name="Equipment_attribute" Relationship="Self.FK__Equipment__equip__1FCDBCEB" FromRole="Equipment" ToRole="Equipment_attribute" />
+  </EntityType>
+  <EntityType Name="Equipment_attribute">
+    <Key>
+      <PropertyRef Name="Equipment_attribute_id" />
+      <PropertyRef Name="equipmentId" />
+    </Key>
+    <Property Name="Equipment_attribute_id" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="value" Type="Int32" Nullable="false" />
+    <Property Name="unit" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="equipmentId" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Equipment" Relationship="Self.FK__Equipment__equip__1FCDBCEB" FromRole="Equipment_attribute" ToRole="Equipment" />
+  </EntityType>
+  <EntityType Name="Equipment_category">
+    <Key>
+      <PropertyRef Name="Equipment_category_id" />
+    </Key>
+    <Property Name="Equipment_category_id" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Equipment_category_name" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="divce_type" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Category_attribute_value" Relationship="Self.FK__Category___Equip__1BFD2C07" FromRole="Equipment_category" ToRole="Category_attribute_value" />
+    <NavigationProperty Name="Equipments" Relationship="Self.FK__Equipment__Equip__173876EA" FromRole="Equipment_category" ToRole="Equipment" />
+    <NavigationProperty Name="Equipment_category_attribute" Relationship="Self.FK__Equipment__Equip__1273C1CD" FromRole="Equipment_category" ToRole="Equipment_category_attribute" />
+  </EntityType>
+  <EntityType Name="Equipment_category_attribute">
+    <Key>
+      <PropertyRef Name="Equipment_category_attribute_id" />
+    </Key>
+    <Property Name="Equipment_category_attribute_id" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Equipment_category_attribute_name" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="unit" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Equipment_category_id" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Category_attribute_value" Relationship="Self.FK__Category___Equip__1CF15040" FromRole="Equipment_category_attribute" ToRole="Category_attribute_value" />
+    <NavigationProperty Name="Equipment_category" Relationship="Self.FK__Equipment__Equip__1273C1CD" FromRole="Equipment_category_attribute" ToRole="Equipment_category" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK__Category___equip__1B0907CE">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+    <End Role="Category_attribute_value" Type="Self.Category_attribute_value" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment">
+        <PropertyRef Name="equipmentId" />
+      </Principal>
+      <Dependent Role="Category_attribute_value">
+        <PropertyRef Name="equipmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Category___Equip__1BFD2C07">
+    <End Role="Equipment_category" Type="Self.Equipment_category" Multiplicity="1" />
+    <End Role="Category_attribute_value" Type="Self.Category_attribute_value" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment_category">
+        <PropertyRef Name="Equipment_category_id" />
+      </Principal>
+      <Dependent Role="Category_attribute_value">
+        <PropertyRef Name="Equipment_category_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Category___Equip__1CF15040">
+    <End Role="Equipment_category_attribute" Type="Self.Equipment_category_attribute" Multiplicity="1" />
+    <End Role="Category_attribute_value" Type="Self.Category_attribute_value" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment_category_attribute">
+        <PropertyRef Name="Equipment_category_attribute_id" />
+      </Principal>
+      <Dependent Role="Category_attribute_value">
+        <PropertyRef Name="Equipment_category_attribute_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Equipment__depar__182C9B23">
+    <End Role="Department" Type="Self.Department" Multiplicity="1" />
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="department_id" />
+      </Principal>
+      <Dependent Role="Equipment">
+        <PropertyRef Name="department_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Equipment__Equip__173876EA">
+    <End Role="Equipment_category" Type="Self.Equipment_category" Multiplicity="1" />
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment_category">
+        <PropertyRef Name="Equipment_category_id" />
+      </Principal>
+      <Dependent Role="Equipment">
+        <PropertyRef Name="Equipment_category_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Equipment__equip__1FCDBCEB">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+    <End Role="Equipment_attribute" Type="Self.Equipment_attribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment">
+        <PropertyRef Name="equipmentId" />
+      </Principal>
+      <Dependent Role="Equipment_attribute">
+        <PropertyRef Name="equipmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Equipment__Equip__1273C1CD">
+    <End Role="Equipment_category" Type="Self.Equipment_category" Multiplicity="1" />
+    <End Role="Equipment_category_attribute" Type="Self.Equipment_category_attribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment_category">
+        <PropertyRef Name="Equipment_category_id" />
+      </Principal>
+      <Dependent Role="Equipment_category_attribute">
+        <PropertyRef Name="Equipment_category_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="QUANGHANHABCEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Category_attribute_value" EntityType="Self.Category_attribute_value" />
+    <EntitySet Name="Departments" EntityType="Self.Department" />
+    <EntitySet Name="Equipments" EntityType="Self.Equipment" />
+    <EntitySet Name="Equipment_attribute" EntityType="Self.Equipment_attribute" />
+    <EntitySet Name="Equipment_category" EntityType="Self.Equipment_category" />
+    <EntitySet Name="Equipment_category_attribute" EntityType="Self.Equipment_category_attribute" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <AssociationSet Name="FK__Category___equip__1B0907CE" Association="Self.FK__Category___equip__1B0907CE">
+      <End Role="Equipment" EntitySet="Equipments" />
+      <End Role="Category_attribute_value" EntitySet="Category_attribute_value" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Category___Equip__1BFD2C07" Association="Self.FK__Category___Equip__1BFD2C07">
+      <End Role="Equipment_category" EntitySet="Equipment_category" />
+      <End Role="Category_attribute_value" EntitySet="Category_attribute_value" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Category___Equip__1CF15040" Association="Self.FK__Category___Equip__1CF15040">
+      <End Role="Equipment_category_attribute" EntitySet="Equipment_category_attribute" />
+      <End Role="Category_attribute_value" EntitySet="Category_attribute_value" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Equipment__depar__182C9B23" Association="Self.FK__Equipment__depar__182C9B23">
+      <End Role="Department" EntitySet="Departments" />
+      <End Role="Equipment" EntitySet="Equipments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Equipment__Equip__173876EA" Association="Self.FK__Equipment__Equip__173876EA">
+      <End Role="Equipment_category" EntitySet="Equipment_category" />
+      <End Role="Equipment" EntitySet="Equipments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Equipment__equip__1FCDBCEB" Association="Self.FK__Equipment__equip__1FCDBCEB">
+      <End Role="Equipment" EntitySet="Equipments" />
+      <End Role="Equipment_attribute" EntitySet="Equipment_attribute" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Equipment__Equip__1273C1CD" Association="Self.FK__Equipment__Equip__1273C1CD">
+      <End Role="Equipment_category" EntitySet="Equipment_category" />
+      <End Role="Equipment_category_attribute" EntitySet="Equipment_category_attribute" />
+    </AssociationSet>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(QUANGHANHABCModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(QUANGHANHABCModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+  </EntityContainer>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+</Schema>

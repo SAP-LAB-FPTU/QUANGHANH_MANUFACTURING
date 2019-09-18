@@ -1,0 +1,545 @@
+﻿
+@{
+    ViewData["Title"] = "Accident";
+    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+}
+
+<div class="row table_container">
+    <div class="col s12">
+        <div class="center">
+            <h1 class="centered"><b>Chi tiết sự cố</b></h1>
+        </div>
+        <ul class="left">
+            <table>
+                <tr style="border-bottom: none">
+                    <td>Lần gặp sự cố</td>
+                    <td>
+                        <input type="number">
+                    </td>
+                </tr>
+                <tr style="border-bottom: none">
+                    <td>Từ ngày: <input type="date"></td>
+                    <td>Đến ngày: <input type="date"></td>
+                    <td><input type="submit" value="Tìm kiếm"></td>
+                </tr>
+            </table>
+        </ul>
+        <ul class="right">
+            <li class="myli">
+                <a href="#myadd" data-toggle="modal"
+                   class="waves-effect waves-light btn btn-round green modal-trigger">Thêm</a>
+            </li>
+            <li class="myli">
+                <a class="waves-effect waves-light btn btn-round green">Tải lên</a>
+            </li>
+            <li class="myli">
+                <a class="waves-effect waves-light btn btn-round green">In báo cáo</a>
+            </li>
+            <li class="myli">
+                <a href="#myinfo" data-toggle="modal"
+                   class="waves-effect waves-light btn btn-round green modal-trigger">
+                    Thông tin
+                    máy
+                </a>
+            </li>
+        </ul>
+
+        <table class="table table-bordered striped table-responsive centered"
+               style="margin-top:30px; text-align:center;">
+            <thead>
+                <tr>
+                    <th class="text-center" rowspan="2">Lần gặp sự cố</th>
+                    <th class="text-center" rowspan="2">Vị trí</th>
+                    <th class="text-center" rowspan="2">Đơn vị chịu trách nhiệm</th>
+                    <th class="text-center" colspan="4">Nội dung sự cố</th>
+                    <th class="text-center" rowspan="2" colspan="2"></th>
+
+
+                </tr>
+                <tr>
+                    <th>Thời gian bắt đầu sự cố</th>
+                    <th>Thời gian kết thúc sự cố</th>
+                    <th>Thời gian dừng hoạt động</th>
+                    <th>Lý do sự cố</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr>
+                    <td>15</td>
+                    <td>Lò DV-110V7.3</td>
+                    <td>Khai thác 3</td>
+                    <td>2:15AM 15/7/2019</td>
+                    <td>4:15AM 15/7/2019</td>
+                    <td>2:00</td>
+                    <td>Rách 0.1m dây băng</td>
+                    <td>
+                        <a href="#myaleart"
+                           class="waves-effect waves-light btn btn-round red modal-trigger">Xóa</a>
+                    </td>
+                    <td>
+                        <a href="#myedit"
+                           class="waves-effect waves-light btn btn-round blue modal-trigger">Sửa</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>14</td>
+                    <td>Lò DV-110V7.3</td>
+                    <td>Khai thác 1</td>
+                    <td>1:00PM 10/7/2019</td>
+                    <td>1:30PM 10/7/2019</td>
+                    <td>0:30</td>
+                    <td>Trượt con lăn</td>
+                    <td>
+                        <a href="#myaleart"
+                           class="waves-effect waves-light btn btn-round red modal-trigger">Xóa</a>
+                    </td>
+                    <td>
+                        <a href="#myedit"
+                           class="waves-effect waves-light btn btn-round blue modal-trigger">Sửa</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>Lò DV-110V7.3</td>
+                    <td>Khai thác 4</td>
+                    <td>2:00PM 3/6/2019</td>
+                    <td>5:00PM 3/6/2019</td>
+                    <td>5:00</td>
+                    <td>Mẻ bánh xích</td>
+                    <td>
+                        <a href="#myaleart"
+                           class="waves-effect waves-light btn btn-round red modal-trigger">Xóa</a>
+                    </td>
+                    <td>
+                        <a href="#myedit"
+                           class="waves-effect waves-light btn btn-round blue modal-trigger">Sửa</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>Lò BC-110V7.3</td>
+                    <td>Khai thác 5</td>
+                    <td>10:00AM 15/5/2019</td>
+                    <td>10:10AM 15/5/2019</td>
+                    <td>0:10</td>
+                    <td>Kẹt máy</td>
+                    <td>
+                        <a href="#myaleart"
+                           class="waves-effect waves-light btn btn-round red modal-trigger">Xóa</a>
+                    </td>
+                    <td>
+                        <a href="#myedit"
+                           class="waves-effect waves-light btn btn-round blue modal-trigger">Sửa</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>Lò BC-110V7.3</td>
+                    <td>Khai thác 5</td>
+                    <td>11:00AM 10/5/2019</td>
+                    <td>11:50AM 10/5/2019</td>
+                    <td>0:50</td>
+                    <td>Đứt dây dẫn khí</td>
+                    <td>
+                        <a href="#myaleart"
+                           class="waves-effect waves-light btn btn-round red modal-trigger">Xóa</a>
+                    </td>
+                    <td>
+                        <a href="#myedit"
+                           class="waves-effect waves-light btn btn-round blue modal-trigger">Sửa</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>Lò BC-110V7.3</td>
+                    <td>Khai thác 1</td>
+                    <td>6:00AM 2/5/2019</td>
+                    <td>7:00AM 2/5/2019</td>
+                    <td>1:00</td>
+                    <td>Hỏng phao điện</td>
+                    <td>
+                        <a href="#myaleart"
+                           class="waves-effect waves-light btn btn-round red modal-trigger">Xóa</a>
+                    </td>
+                    <td>
+                        <a href="#myedit"
+                           class="waves-effect waves-light btn btn-round blue modal-trigger">Sửa</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>Lò BC-110V7.3</td>
+                    <td>Khai thác 1</td>
+                    <td>8:00AM 20/4/2019</td>
+                    <td>9:30AM 20/4/2019</td>
+                    <td>1:30</td>
+                    <td>Thủng lốp</td>
+                    <td>
+                        <a href="#myaleart"
+                           class="waves-effect waves-light btn btn-round red modal-trigger">Xóa</a>
+                    </td>
+                    <td>
+                        <a href="#myedit"
+                           class="waves-effect waves-light btn btn-round blue modal-trigger">Sửa</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>Lò MK-110V7.3</td>
+                    <td>Khai thác 2</td>
+                    <td>8:10PM 15/4/2019</td>
+                    <td>9:30PM 15/4/2019</td>
+                    <td>1:20</td>
+                    <td>Rụng bánh</td>
+                    <td>
+                        <a href="#myaleart"
+                           class="waves-effect waves-light btn btn-round red modal-trigger">Xóa</a>
+                    </td>
+                    <td>
+                        <a href="#myedit"
+                           class="waves-effect waves-light btn btn-round blue modal-trigger">Sửa</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>Lò BC-110V7.3</td>
+                    <td>Khai thác 7</td>
+                    <td>8:00AM 4/4/2019</td>
+                    <td>12:30AM 4/4/2019</td>
+                    <td>4:30</td>
+                    <td>Cạn điện ắc-quy</td>
+                    <td>
+                        <a href="#myaleart"
+                           class="waves-effect waves-light btn btn-round red modal-trigger">Xóa</a>
+                    </td>
+                    <td>
+                        <a href="#myedit"
+                           class="waves-effect waves-light btn btn-round blue modal-trigger">Sửa</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>Lò BC-110V7.3</td>
+                    <td>Khai thác 1</td>
+                    <td>10:00AM 31/3/2019</td>
+                    <td>12:30AM 31/3/2019</td>
+                    <td>2:30</td>
+                    <td>Hỏng gale đỡ</td>
+                    <td>
+                        <a href="#myaleart"
+                           class="waves-effect waves-light btn btn-round red modal-trigger">Xóa</a>
+                    </td>
+                    <td>
+                        <a href="#myedit"
+                           class="waves-effect waves-light btn btn-round blue modal-trigger">Sửa</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Lò BC-110V7.3</td>
+                    <td>Khai thác 1</td>
+                    <td>8:00AM 17/3/2019</td>
+                    <td>9:30AM 17/3/2019</td>
+                    <td>1:30</td>
+                    <td>Kẹt dầu thủy lực</td>
+                    <td>
+                        <a href="#myaleart"
+                           class="waves-effect waves-light btn btn-round red modal-trigger">Xóa</a>
+                    </td>
+                    <td>
+                        <a href="#myedit"
+                           class="waves-effect waves-light btn btn-round blue modal-trigger">Sửa</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Lò BC-110V7.3</td>
+                    <td>Khai thác 1</td>
+                    <td>10:00AM 1/3/2019</td>
+                    <td>9:30PM 1/3/2019</td>
+                    <td>11:30</td>
+                    <td>Động cơ yếu</td>
+                    <td>
+                        <a href="#myaleart"
+                           class="waves-effect waves-light btn btn-round red modal-trigger">Xóa</a>
+                    </td>
+                    <td>
+                        <a href="#myedit"
+                           class="waves-effect waves-light btn btn-round blue modal-trigger">Sửa</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Lò BC-110V7.3</td>
+                    <td>Khai thác 1</td>
+                    <td>11:00AM 11/2/2019</td>
+                    <td>12:00AM 11/2/2019</td>
+                    <td>1:00</td>
+                    <td>Hỏng chổi than</td>
+                    <td>
+                        <a href="#myaleart"
+                           class="waves-effect waves-light btn btn-round red modal-trigger">Xóa</a>
+                    </td>
+                    <td>
+                        <a href="#myedit"
+                           class="waves-effect waves-light btn btn-round blue modal-trigger">Sửa</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Lò BC-110V7.3</td>
+                    <td>Khai thác 1</td>
+                    <td>12:00PM 3/2/2019</td>
+                    <td>13:30PM 3/2/2019</td>
+                    <td>1:30</td>
+                    <td>Gãy mũi khoan</td>
+                    <td>
+                        <a href="#myaleart"
+                           class="waves-effect waves-light btn btn-round red modal-trigger">Xóa</a>
+                    </td>
+                    <td>
+                        <a href="#myedit"
+                           class="waves-effect waves-light btn btn-round blue modal-trigger">Sửa</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Lò BC-110V7.3</td>
+                    <td>Khai thác 1</td>
+                    <td>8:00AM 25/1/2019</td>
+                    <td>9:30AM 25/1/2019</td>
+                    <td>1:30</td>
+                    <td>Đứt 0.5m cáp tời</td>
+                    <td>
+                        <a href="#myaleart"
+                           class="waves-effect waves-light btn btn-round red modal-trigger">Xóa</a>
+                    </td>
+                    <td>
+                        <a href="#myedit"
+                           class="waves-effect waves-light btn btn-round blue modal-trigger">Sửa</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="myinfo" class="modal">
+    <div class="card">
+        <div class="card-content">
+            <table>
+                <tr>
+                    <td>Mã</td>
+                    <td>SFC</td>
+                </tr>
+                <tr>
+                    <td>Tên</td>
+                    <td>Máy xúc lật</td>
+                </tr>
+                <tr>
+                    <td>Số hiệu</td>
+                    <td>AH12</td>
+                </tr>
+                <tr>
+                    <td>Loại thiết bị</td>
+                    <td>Thiết bị khai thác trong lò</td>
+                </tr>
+                <tr>
+                    <td>Nhà cung cấp</td>
+                    <td>TC MOTOR</td>
+                </tr>
+                <tr>
+                    <td>Ngày nhập</td>
+                    <td>04-12-2018</td>
+                </tr>
+                <tr>
+                    <td>Nguyên giá</td>
+                    <td>120.000.000</td>
+                </tr>
+                <tr>
+                    <td>Khấu hao ước tính</td>
+                    <td>12%</td>
+                </tr>
+                <tr>
+                    <td>Khấu hao hiện tại</td>
+                    <td>104.000.000</td>
+                </tr>
+                <tr>
+                    <td>Thời hạn bảo hiểm(tháng)</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>Ngày đưa vào sử dụng</td>
+                    <td>10-12-2018</td>
+                </tr>
+                <tr>
+                    <td>Ngày bảo dưỡng gần nhất</td>
+                    <td>04-05-2019</td>
+                </tr>
+                <tr>
+                    <td>Tổng giờ hoạt động(tính từ lần bảo dưỡng gần nhất)</td>
+                    <td>324 giờ</td>
+                </tr>
+                <tr>
+                    <td>Vị trí hiện tại</td>
+                    <td>Phân xưởng 1</td>
+                </tr>
+                <tr>
+                    <td>Tình trạng hiện tại</td>
+                    <td>Ổn định</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myadd">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Thêm sự cố</h3>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="row">
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="id">Thời gian bắt đầu sự cố : </label>
+                            <input type="text" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Vị trí: </label>
+                            <input type="text" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier">Đơn vị chịu trách nhiệm : </label>
+                            <input type="number" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="supplier">Thời gian kết thúc sự cố :</label>
+                            <input type="text" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Thời gian dừng hoạt động : </label>
+                            <input type="number" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="number">Lý do sự cố: </label>
+                            <input type="text" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn blue darken-2 modal-close save-category">Lưu</button>
+            <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myedit">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Sửa</h3>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="row">
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="date">Mã thiết bị : </label>
+                            <input type="text" class="form-control" value="BT" />
+                        </div>
+                        <div class="form-group">
+                            <label for="id">Số seri : </label>
+                            <input type="text" class="form-control" value="245" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Tên thiết bị : </label>
+                            <input type="text" class="form-control" value="Băng tải khung" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Vị trí : </label>
+                            <input type="text" class="form-control" value="Lò DV-110V7.3" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="supplier">Đơn vị chịu trách nhiệm </label>
+                            <input type="text" class="form-control" value="Khai thác 3" />
+                        </div>
+                    </div>
+                    <div class="col s12 m6">
+
+                        <div class="form-group">
+                            <label for="id">Thời gian bắt đầu sự cố : </label>
+                            <input type="text" class="form-control" value="2:15AM 15/7/2019" />
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier">Thời gian kết thúc sự cố : </label>
+                            <input type="text" class="form-control" value="4:15AM 15/7/2019	" />
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier">Thời gian dừng hoạt động : </label>
+                            <input type="text" class="form-control" value="2:00" />
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier">Lý do sự cố : </label>
+                            <input type="text" class="form-control" value="Rách 0.1m dây băng" />
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn blue darken-2 modal-close save-category">Lưu</button>
+            <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
+        </div>
+    </div>
+</div>
+<div id="myaleart" class="modal">
+    <div class="card">
+        <div class="card-content">
+            <div class="card-title">
+                Xóa mục này?
+            </div>
+            <div class="col s3">
+                Dữ liệu sẽ không thể phục hồi sau thao tác này
+                <div class="col s4 offset-s8" style="margin-top:30px">
+                    <a class="waves-effect waves-light btn btn-round red">Xác nhận</a>
+                    <a class="waves-effect waves-light btn btn-round blue">Thoát</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<ul id='dropdown1' class='dropdown-content'>
+    <li><a href="#!">Danh sách hết bảo hiểm</a></li>
+    <li><a href="#!">Danh sách hết khấu hao</a></li>
+    <li><a href="#!">Danh sách đang bảo dưỡng</a></li>
+    <li><a href="#!">Danh sách đang sửa chữa</a></li>
+    <li><a href="#!">Danh sách đang gặp sự cố</a></li>
+</ul>
+<div class="fixed-action-btn" style="bottom: 20px; right: 20px;">
+    <a class="btn-floating btn-large red"><i class="material-icons">settings</i></a>
+    <ul>
+        <li>
+            <a class="btn-floating red tooltipped" data-position="left" data-tooltip="In báo cáo">
+                <i class="material-icons">assignment</i>
+            </a>
+        </li>
+        <li>
+            <a class="btn-floating green tooltipped" data-position="left" data-tooltip="Tải lên">
+                <i class="material-icons">publish</i>
+            </a>
+        </li>
+        <li>
+            <a class="btn-floating blue tooltipped" data-position="left" data-tooltip="Thêm">
+                <i class="material-icons">add</i>
+            </a>
+        </li>
+    </ul>
+</div>
