@@ -1,0 +1,527 @@
+﻿@{
+    ViewData["Title"] = "Add";
+    Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
+}
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+<link href="~/assets/Custom css/TCLD/Brief/AddBrief.css" rel="stylesheet" />
+<div class="row">
+    <div class="col m12">
+        <div class="card">
+            <div class="card-content">
+                <div class="row">
+                    <h3 class="center black-text"><b>THÊM HỒ SƠ</b></h3>
+                    <hr />
+                    <div class="col m12">
+                        <ul class="tabs">
+                            <li class="tab col s12 m3 l2"><a class="active tooltipped" href="#thongtincoban" data-position="bottom" data-delay="50" data-tooltip="Thông tin cơ  bản">Thông tin cơ bản</a></li>
+                            <li class="tab col s12 m3 l2"><a class=" tooltipped" href="#lylichchinhtri" data-position="bottom" data-delay="50" data-tooltip="Lý lịch chính trị">Lý lịch chính trị</a></li>
+                            <li class="tab col s12 m2 l2"><a class=" tooltipped" href="#thanhtichcanhan" data-position="bottom" data-delay="50" data-tooltip="Thành tích">Thành tích</a></li>
+                            <li class="tab col s12 m2 l2"><a class=" tooltipped" href="#suckhoe" data-position="bottom" data-delay="50" data-tooltip="Sức khỏe">Sức khỏe</a></li>
+                            <li class="tab col s12 m2 l2"><a class=" tooltipped" href="#hoctaplamviec" data-position="bottom" data-delay="50" data-tooltip="Quá trình học tập và làm việc">Quá trình học tập và làm việc</a></li>
+                            <li class="tab col s12 m2 l2"><a class=" tooltipped" href="#giadinh" data-position="bottom" data-delay="50" data-tooltip="Quan hệ gia đình và diễn biến quá trình lương">Quan hệ gia đình và diễn biến quá trình lương</a></li>
+                        </ul>
+                    </div>
+                    <!--chi tiet co ban-->
+                    <div id="thongtincoban" class="col m12">
+                        <div class="row input-field">
+                            <div class="input-field col m8">
+                                <div class="input-field col m12">
+                                    <div class="col m4">
+                                        <label class='custom-label'>Mã Nhân Viên</label>
+                                        <input class="form-control" type="text" placeholder="Mã" required />
+                                    </div>
+                                    <div class="col m8">
+                                        <label class='custom-label'>Họ và tên khai sinh</label>
+                                        <input class="form-control" type="text" placeholder="Tên khai sinh" required />
+                                    </div>
+                                </div>
+                                <div class="input-field col m12">
+                                    <div class="col m12">
+                                        <label class='custom-label'>Các tên gọi khác</label>
+                                        <input class=" form-control" type="text" placeholder="Tên khác" />
+                                    </div>
+                                </div>
+
+                                <div class="input-field col m12">
+                                    <div class="col m12">
+                                        <label class='custom-label'>Giới tính</label>
+                                        <select class="custom-select" required>
+                                            <option value="1">Nam</option>
+                                            <option value="0">Nữ</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="center col m4">
+                                <img src="/images/avatar.png" width="130" height="130"><br />
+                                <a class="btn btn blue darken-2 btn-small center">Chọn ảnh</a>
+                            </div>
+                        </div>
+                        <div class="input-field col m12">
+                            <div class="col m8">
+                                <label class='custom-label'>Cấp ủy hiện tại</label>
+                                <input class=" form-control" type="text" placeholder="Cấp ủy" />
+                            </div>
+                            <div class="col m4">
+                                <label class='custom-label'>Cấp ủy kiêm</label>
+                                <input class=" form-control" type="text" placeholder="Cấp ủy kiêm" />
+                            </div>
+                        </div>
+                        <div class="input-field col m12">
+                            <div class="col m6">
+                                <label class='custom-label'>Chức vụ</label>
+                                <input class=" form-control" type="text" placeholder="Chức vụ" />
+                            </div>
+                            <div class="col m6">
+                                <label class='custom-label'>Phụ cấp chức vụ</label>
+                                <input class=" form-control" type="text" placeholder="Phụ cấp" />
+                            </div>
+                        </div>
+                        <div class="input-field col m12">
+                            <div class="col m4">
+                                <label class='custom-label'>Ngày sinh</label>
+                                <input class=" form-control" type="date" required />
+                            </div>
+                            <div class="col m4">
+                                <label class='custom-label'>Nơi sinh</label>
+                                <input class=" form-control" type="text" placeholder="Nơi sinh" required />
+                            </div>
+                            <div class="col m4">
+                                <label class='custom-label'>Dân tộc</label>
+                                <input class=" form-control" type="text" placeholder="Dân tộc" required />
+                            </div>
+                        </div>
+                        <div class="input-field col m12">
+                            <div class="col m8">
+                                <label class='custom-label'>Quê quán</label>
+                                <input class=" form-control" type="text" placeholder="Quê quán" required />
+                            </div>
+                            <div class="col m4">
+                                <label class='custom-label'>Tôn giáo</label>
+                                <input class=" form-control" type="text" placeholder="Tôn giáo" />
+                            </div>
+                        </div>
+                        <div class="input-field col m12">
+                            <div class="col m8">
+                                <label class='custom-label'>Nơi ở hiện nay</label>
+                                <input class=" form-control" type="text" placeholder="Nơi ở hiện nay" required />
+                            </div>
+                            <div class="col m4">
+                                <label class='custom-label'>Số điện thoại</label>
+                                <input class=" form-control" type="text" placeholder="Số điện thoại" />
+                            </div>
+                        </div>
+                        <div class="input-field col m12">
+                            <div class="col m12">
+                                <label class='custom-label'>Thành phần gia đình xuất thân</label>
+                                <input class=" form-control" type="text" placeholder="Thành phần gia đình" />
+                            </div>
+                        </div>
+                        <div class="input-field col m12">
+                            <div class="col m12">
+                                <label class='custom-label'>Nghề nghiệp trược khi được tuyển dụng</label>
+                                <input class=" form-control" type="text" placeholder="Nghề trước khi tuyển dụng" />
+                            </div>
+                        </div>
+                        <div class="input-field col m12">
+                            <div class="col m4">
+                                <label class='custom-label'>Ngày được tuyển dụng</label>
+                                <input class=" form-control" type="date" />
+                            </div>
+                            <div class="col m4">
+                                <label class='custom-label'>Tại cơ quan</label>
+                                <input class=" form-control" type="text" placeholder="Cơ quan" />
+                            </div>
+                            <div class="col m4">
+                                <label class='custom-label'>Ngày vào nơi đang công tác</label>
+                                <input class=" form-control" type="date" />
+                            </div>
+                        </div>
+                    </div>
+                    <!--Lý lịch chính trị-->
+                    <div id="lylichchinhtri" class="col m12">
+                        <div class="input-field col m12">
+                            <div class="col m4">
+                                <label class='custom-label'>Ngày tham gia cách mạng</label>
+                                <input class=" form-control" type="date" />
+                            </div>
+                            <div class="col m4">
+                                <label class='custom-label'>Ngày vào Đảng Cộng sản Việt Nam</label>
+                                <input class=" form-control" type="date" />
+                            </div>
+                            <div class="col m4">
+                                <label class='custom-label'>Ngày chính thức</label>
+                                <input class=" form-control" type="date" />
+                            </div>
+                        </div>
+                        <div class="input-field col m12">
+                            <div class="col m6">
+                                <label class='custom-label'>Ngày vào tổ chức chính trị xã hội</label>
+                                <input class=" form-control" type="date" />
+                            </div>
+                            <div class="col m6">
+                                <label class='custom-label'>Tổ chức</label><i>(Đoàn TNCSHCM, Công đoàn, Hội, ...)</i>
+                                <input class=" form-control" type="text" />
+                            </div>
+                        </div>
+                        <div class="input-field col m12">
+                            <div class="col m3">
+                                <label class='custom-label'>Ngày nhập ngũ</label>
+                                <input class=" form-control" type="date" />
+                            </div>
+                            <div class="col m3">
+                                <label class='custom-label'>Ngày xuất ngũ</label>
+                                <input class=" form-control" type="date" />
+                            </div>
+                            <div class="col m6">
+                                <label class='custom-label'>Quân hàm, chức vụ cao nhất(Năm)</label>
+                                <input type="text" class=" form-control" placeholder="Quân hàm, chức vụ" />
+                            </div>
+                        </div>
+                        <div class="input-field col m12">
+                            <div class="col m6">
+                                <label class='custom-label'>Trình độ học vấn</label><i>(Giáo dục phổ thông (lớp mấy))</i>
+                                <select class="custom-select">
+                                    <option>Tiểu học</option>
+                                    <option>THCS</option>
+                                    <option>THPT</option>
+                                    <option>Trung cấp</option>
+                                    <option>Đại học</option>
+                                </select>
+                            </div>
+                            <div class="col m6">
+                                <label class='custom-label'>Học hàm, học vị cao nhất</label><i>(GS, PGS, TS,...)</i>
+                                <input type="text" class=" form-control" placeholder="Học hàm, học vị" />
+                            </div>
+                        </div>
+                        <div class="input-field col m12">
+                            <div class="col m6">
+                                <label class='custom-label'>Lý luận chính trị</label><i>(Cử nhân/Cao cấp, Trung cấp,...)</i>
+                                <input type="text" class=" form-control" placeholder="Lý luận trính trị" />
+                            </div>
+                            <div class="col m6">
+                                <label class='custom-label'>Ngoại ngữ</label>
+                                <input type="text" class=" form-control" placeholder="Ngoại ngữ" />
+                            </div>
+                        </div>
+                    </div>
+                    <!--Thành tích cá nhân-->
+                    <div id="thanhtichcanhan" class="col m12">
+                        <div class="row">
+                            <div class="input-field col m12">
+                                <div class="col m12">
+                                    <label class='custom-label'>Công tác chính đang làm</label>
+                                    <input type="text" class=" form-control" placeholder="Công tác chính" />
+                                </div>
+                            </div>
+                            <div class="input-field col m12">
+                                <div class="col m6">
+                                    <label class='custom-label'>Ngạch công chức</label>
+                                    <input type="text" class=" form-control" placeholder="Ngạnh công chức" />
+                                </div>
+                                <div class="col m6">
+                                    <label class='custom-label'>Mã số</label>
+                                    <input type="text" class=" form-control" placeholder="Mã số" />
+                                </div>
+                            </div>
+                            <div class="input-field col m12">
+                                <div class="col m4">
+                                    <label class='custom-label'>Bậc lương</label>
+                                    <select class="custom-select">
+                                        <option>Không có</option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                    </select>
+                                </div>
+                                <div class="col m4">
+                                    <label class='custom-label'>Hệ số</label>
+                                    <input type="text" class=" form-control" placeholder="Hệ số" />
+                                </div>
+                                <div class="col m4">
+                                    <label class='custom-label'>Từ tháng</label>
+                                    <select class="custom-select">
+                                        <option>Không có</option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                        <option>6</option>
+                                        <option>7</option>
+                                        <option>8</option>
+                                        <option>9</option>
+                                        <option>10</option>
+                                        <option>11</option>
+                                        <option>12</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="input-field col m12">
+                                <div class="col m12">
+                                    <label class='custom-label'>Danh hiệu được phong</label><i>(Năm nào)</i>
+                                    <input type="text" class=" form-control" placeholder="Danh hiệu" />
+                                </div>
+                            </div>
+                            <div class="input-field col m12">
+                                <div class="col m6">
+                                    <label class='custom-label'>Sở trường công tác</label>
+                                    <input type="text" class=" form-control" placeholder="Sở trường" />
+                                </div>
+                                <div class="col m6">
+                                    <label class='custom-label'>Công việc đã làm lâu nhất</label>
+                                    <input type="text" class=" form-control" placeholder="Công việc" />
+                                </div>
+                            </div>
+                            <div class="input-field col m12">
+                                <div class="col m12">
+                                    <label class='custom-label'>Khen thưởng</label><i>(Huân, huy chương, năm nào)</i>
+                                    <input type="text" class=" form-control" placeholder="Khen thưởng" />
+                                </div>
+                            </div>
+                            <div class="input-field col m12">
+                                <div class="col m12">
+                                    <label class='custom-label'>Kỷ luật</label><i>(Năm nào, lí do, hình thức,...</i>
+                                    <input class=" form-control" type="text" placeholder="Kỷ luật" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Sức khỏe-->
+                    <div id="suckhoe" class="col m12">
+                        <div class="row">
+                            <div class="input-field col m12">
+                                <div class="col m3">
+                                    <label class='custom-label'>Tình trạng sức khỏe</label>
+                                    <select class="custom-select" required>
+                                        <option>Khỏe</option>
+                                        <option>Bình thường</option>
+                                        <option>Yếu</option>
+                                        <option>Bệnh mãn tính(ghi rõ)</option>
+                                    </select>
+                                </div>
+                                <div class="col m9">
+                                    <label class='custom-label'>Chi tiết</label>
+                                    <input type="text" class=" form-control" placeholder="Bệnh mãn tính (nếu có)" />
+                                </div>
+                            </div>
+                            <div class="input-field col m12">
+                                <div class="col m4">
+                                    <label class='custom-label'>Chiều cao</label><i>(m)</i>
+                                    <input type="number" class=" form-control" placeholder="Cao (m)" />
+                                </div>
+                                <div class="col m4">
+                                    <label class='custom-label'>Cân nặng</label><i>(kg)</i>
+                                    <input type="number" class=" form-control" placeholder="Nặng (kg)" />
+                                </div>
+                                <div class="col m4">
+                                    <label class='custom-label'>Nhóm máu</label>
+                                    <input type="text" class=" form-control" placeholder="Nhóm máu" />
+                                </div>
+                            </div>
+                            <div class="input-field col m12">
+                                <div class="col m4">
+                                    <label class='custom-label'>Số chứng minh nhân dân</label>
+                                    <input type="number" class=" form-control" placeholder="CMT nhân dân" />
+                                </div>
+                                <div class="col m4">
+                                    <label class='custom-label'>Ngày cấp</label>
+                                    <input id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="dd/mm/yyyy" />
+                                </div>
+                                <div class="col m4">
+                                    <label class='custom-label'>Nơi cấp CMT</label>
+                                    <input type="text" class=" form-control" placeholder="Nơi cấp" />
+                                </div>
+                            </div>
+                            <div class="input-field col m12">
+                                <div class="col m4">
+                                    <label class='custom-label'>Thương binh loại</label>
+                                    <select class="custom-select">
+                                        <option>Không</option>
+                                        <option>1/4(Thương tật 81% trở lên)</option>
+                                        <option>2/4(Thương tật từ 61% trở lên)</option>
+                                        <option>3/4(Thương tật từ 41% trở lên)</option>
+                                        <option>4/4(Thương tật từ 21% trở lên)</option>
+                                    </select>
+                                </div>
+                                <div class="col m4">
+                                    <label class='custom-label'>Gia đình liệt sĩ</label>
+                                    <input type="text" class=" form-control" placeholder="Liệt sĩ" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Quá trình học tập và làm việc-->
+                    <div id="hoctaplamviec" class="col l12">
+                        <div class="row" style="margin-top:10px"><label class="custom-label">A.Đào tạo, bồi dưỡng về chuyên môn, nghiệp vụ, lý luận chính trị, ngoại ngữ, tin học</label></div>
+                        <div class="row" style="margin-top:15px">
+                            <table class="table table-bordered centered table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th width="20%">Tên trường</th>
+                                        <th width="20%">Chuyên ngành đào<br>tạo, bồi dưỡng</th>
+                                        <th width="20%">Từ tháng, năm -<br>đến tháng, năm</th>
+                                        <th width="20%">Hình thức đào tạo</th>
+                                        <th width="20%">Văn bằng, chứng chỉ,<br>trình độ gì</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table-htlv1">
+                                    <tr>
+                                        <td contenteditable="true" id="col11" class="editable"></td>
+                                        <td contenteditable="true" id="col12" class="editable"></td>
+                                        <td id="col13">
+                                            <div class="row">
+                                                <div class="col l3"> <label class="custom-label">Từ:</label></div>
+                                                <div class="col l9"><input id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></div>
+                                            </div>
+                                            <div class="row" style="margin-top:5px">
+                                                <div class="col l3"> <label class="custom-label">Đến:</label></div>
+                                                <div class="col l9"><input id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></div>
+                                            </div>
+                                        </td>
+                                        <td contenteditable="true" id="col14" class="editable"></td>
+                                        <td contenteditable="true" id="col15" class="editable"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col m12">
+                            <div class="col m12 center div_them">
+                                <a id="buttonThem1" class="btn blue darken-2" style="margin-top:15px;margin-bottom:15px">Thêm</a>
+                            </div>
+                        </div>
+                        <!------------------------------------------------------------------------------------->
+
+                        <div class="col m12">
+                            <hr />
+                        </div>
+                        <div class="row">
+                            <label class="custom-label">B.Tóm tắt quá trình công tác</label>
+                        </div>
+                        <div class="row" style="margin-top:15px">
+                            <table class="table table-bordered centered table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th width="25%">Từ tháng,năm đến<br>tháng,năm</th>
+                                        <th width="25%">Chức danh</th>
+                                        <th width="25%">Chức vụ</th>
+                                        <th width="25%">Đơn vị công tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table-htlv2">
+                                    <tr>
+                                        <td id="col11">
+                                            <div class="row">
+                                                <div class="col l3"> <label class="custom-label">Từ:</label></div>
+                                                <div class="col l9"><input id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></div>
+                                            </div>
+                                            <div class="row" style="margin-top:5px">
+                                                <div class="col l3"> <label class="custom-label">Đến:</label></div>
+                                                <div class="col l9"><input id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></div>
+                                            </div>
+                                        </td>
+                                        <td contenteditable="true" id="col12" class="editable"></td>
+                                        <td contenteditable="true" id="col13" class="editable"></td>
+                                        <td contenteditable="true" id="col14" class="editable"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col m12 center div_them2">
+                            <a id="buttonThem2" class="btn blue darken-2" style="margin-top:15px;margin-bottom:15px">Thêm</a>
+                        </div>
+                    </div>
+
+                    <!--Quan hệ gia đình-->
+                    
+                    <div id="giadinh" class="col m12">
+                        <div class="row" style="margin-top:10px;margin-bottom:10px"><label class="custom-label">A.Quan hệ gia đình</label></div>
+                        <div class="row">
+                            <table class="table table-bordered centered table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th width="20%">Gia đình</th>
+                                        <th width="20%">Ngày sinh</th>
+                                        <th width="20%">Họ và tên</th>
+                                        <th width="20%">Mối quan hệ</th>
+                                        <th width="20%">Lý lịch</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table-gd">
+                                    <tr>
+                                        <td id="col11">
+                                            <select class="custom-select">
+                                                <option value="Bản thân">Bản thân</option>
+                                                <option value="Nhà vợ">Nhà vợ</option>
+                                                <option value="Nhà chồng">Nhà chồng</option>
+                                            </select>
+                                        </td>
+                                        <td id="col12">
+                                            <input id="ns" type="text" class="datepicker-here datepicker-add center form-control resize-form" data-language="vi" placeholder="dd/mm/yyyy" />
+                                        </td>
+                                        <td contenteditable="true" id="col13" class="editable"></td>
+                                        <td contenteditable="true" id="col14" class="editable"></td>
+                                        <td contenteditable="true" id="col15" class="editable"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col m12 center div_them3" style="margin-top:10px;margin-bottom:10px">
+                            <a id="buttonThem3" class="btn blue darken-2">Thêm</a>
+                        </div>
+                        <div class="row" style="margin-top:10px;margin-bottom:10px"><label class="custom-label">B.Diễn biến quá trình lương của cán bộ, công chức</label></div>
+                        <div class="row">
+                            <table class="table table-bordered centered table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th width="30%">Tháng/Năm</th>
+                                        <th width="35%">Mã ngành/Bậc</th>
+                                        <th width="35%">Hệ số lương</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="qt-luong">
+                                    <tr>
+                                        <td id="col11"><input id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></td>
+                                        <td contenteditable="true" id="col12" class="editable"></td>
+                                        <td contenteditable="true" id="col13" class="editable"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col m12 center div_them4" style="margin-top:10px">
+                            <a id="buttonThem4" class="btn blue darken-2">Thêm</a>
+                        </div>
+                    </div>
+                    <!--------------------------------------------------------------------------------->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--floating button-->
+<a href="#addBrief" class="float modal-trigger" id="menu-share">
+    <i class="material-icons my-float">save</i>
+</a>
+<div class="modal open" id="addBrief">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Xác nhận thêm hồ sơ nhân viên</h3>
+            </div>
+            <div class="modal-body">
+                <p class="green-text">Bạn có muốn thêm hồ sơ nhân viên ?</p>
+            </div>
+            <div class="modal-footer">
+                <a href="@Url.Action("danh-sach-nhan-vien","phong-tcld/quan-ly-nhan-vien")" class="btn blue darken-2 modal-close" id="update">Thêm</a>
+                <a class="btn red modal-close">Hủy</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/Custom JS/TCLD/Brief/Briefs_Add.js"></script>
+<!--Custom Datepicker JS-->
+<script src="~/js/Custom JS/Disable_input_material.js"></script>
+<script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
+<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>

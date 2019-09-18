@@ -1,0 +1,134 @@
+﻿@{
+    ViewData["Title"] = "PlaceAndTime";
+    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+}
+
+<link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+<link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
+<script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
+<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
+<div class="col m12">
+    <div class="card">
+        <div class="card-content">
+            <div class="row">
+                <h3 class="center"><b>ĐẠI TRUNG TU THIẾT BỊ</b></h3>
+                <div class="col l6 m6 s12">
+                    <div class="row">
+                        <div class="col l8 m8 s12 offset-l1 offset-m1 input-field">
+                            <input type="text" placeholder="Tìm kiếm theo phân xưởng" class='form-control' id="searchArea"
+                                   multiple />
+                        </div>
+                        <div class="col l8 m8 s12 offset-l1 offset-m1 input-field">
+                            <input type="text" placeholder="Tìm kiếm theo mã thiết bị" class='form-control' id="searchArea"
+                                   multiple />
+                        </div>
+                        <div class="col l8 m8 s12 offset-l1 offset-m1 input-field">
+                            <input type="text" placeholder="Tìm kiếm theo tên thiết bị" class='form-control' id="searchArea"
+                                   multiple />
+                        </div>
+                    </div>
+                </div>
+                <div class="col l6 m6 s12">
+                    <div class="row center">
+                        <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
+                            <i class="fas fa-calendar-alt icon"></i>
+                            <input type='text' class='datepicker-here center' id="minMaxDate" data-language='vi' value="Ngày ra quyết định (từ)" style="height: 24px" />
+                        </div>
+                        <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
+                            <i class="fas fa-calendar-alt icon"></i>
+                            <input type='text' class='datepicker-here center' id="minMaxDate" data-language='vi' value="Ngày ra quyết định (đến)" style="height: 24px" />
+                        </div>
+                        <div class="col l8 m8 s6 offset-l2 offset-m2 input-field">
+                            <button class="btn blue darken-2 btn-small" id="searchButton1">Tìm kiếm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="table-wrapper">
+                <div>
+                    <div class="row">
+                        <table id="myTable" class="striped responsive-table">
+                            <tr>
+                                <th>Số thứ tự</th>
+                                <th>Mã thiết bị</th>
+                                <th>Tên thiết bị</th>
+                                <th>Vị trí hiện tại</th>
+                                <th>Phân xưởng quản lí</th>
+                                <th>Tình trạng thiết bị</th>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>GH2</td>
+                                <td>Máy xúc</td>
+                                <td>Lò 1</td>
+                                <td>Phân xưởng 1</td>
+                                <td>Đến hạn trung tu</td>
+                                <td class="right"><a id="buttonChon" class="GH2 btn blue darken-2">Chọn</a></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>MM1</td>
+                                <td>Máy khoan</td>
+                                <td>Lò 1</td>
+                                <td>Phân xưởng 1</td>
+                                <td>Đến hạn trung tu</td>
+                                <td class="right"><a id="buttonChon" class="MM1 btn blue darken-2">Chọn</a></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>AH14</td>
+                                <td>Máng cào</td>
+                                <td>Lò 1</td>
+                                <td>Phân xưởng 1</td>
+                                <td>Đến hạn trung tu</td>
+                                <td class="right"><a id="buttonChon" class="AH14 btn blue darken-2">Chọn</a></td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>AK43</td>
+                                <td>Máy nén khí</td>
+                                <td>Lò 1</td>
+                                <td>Phân xưởng 1</td>
+                                <td>Gần hạn trung tu</td>
+                                <td class="right"><a id="buttonChon" class="AK43 btn blue darken-2">Chọn</a></td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>GH4</td>
+                                <td>Xe chuyên chở</td>
+                                <td>Lò 1</td>
+                                <td>Phân xưởng 1</td>
+                                <td>Gần hạn trung tu</td>
+                                <td class="right"><a id="buttonChon" class="GH4 btn blue darken-2">Chọn</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col m12" id="table2" hidden="hidden">
+    <div class="card">
+        <div class="card-content">
+            <div>
+                <div class="row">
+                    <div id="table-wrapper2">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+<script type="text/javascript" src="~/js/Custom JS/CDVT/Work/sctx.js"></script>
+

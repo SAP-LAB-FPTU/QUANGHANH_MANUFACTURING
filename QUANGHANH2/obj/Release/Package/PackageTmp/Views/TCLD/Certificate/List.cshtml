@@ -1,0 +1,453 @@
+﻿@{
+    ViewData["Title"] = "List";
+    Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
+}
+<link href="~/assets/Custom css/TCLD/Certificate/Certificate.css" rel="stylesheet" />
+<link href="~/lib/mutiple select/slimselect.css" rel="stylesheet" />
+
+<div class="user-roll card" id="vld-antoan">
+    <div class="card-content">
+        <div class="row">
+            <h3 class="black-text"><b>DANH SÁCH CHỨNG CHỈ LAO ĐỘNG</b></h3>
+            <div class="center">
+                <div class="col s12 m12 l5 input-field">
+                    <select class="form-control">
+                        <option selected disabled>Loại chứng chỉ</option>
+                        <option>Chứng chỉ an toàn</option>
+                        <option>Chứng chỉ lao động</option>
+                    </select>
+                </div>
+                <div class="col s12 m12 l5 input-field">
+                    <input class="form-control" placeholder="Mã chứng chỉ" />
+                </div>
+                <div class="col l2 m12 s12 input-field">
+                    <button class="btn blue darken-2 btn-small" id="searchButton">Tìm kiếm</button>
+                </div>
+            </div>
+        </div>
+
+        <hr />
+        <div class="col s12 m12 l12">
+            <ul class="tabs">
+                <li class="tab col m6 l6 s12"><a class="active" href="#chungchicongty">Chứng chỉ của cả công ty</a></li>
+                <li class="tab col m6 l6 s12"><a href="#chungchicuanhanvien">Chứng chỉ của nhân viên</a></li>
+            </ul>
+        </div>
+        <!---->
+        <div id="chungchicongty">
+            <div class="row">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="row">
+                            <a class="btn btn-small blue darken-2 modal-trigger btn-mg" href="#modal3">Thêm chứng chỉ</a>
+                            <a class="btn btn-small blue darken-2 btn-mg" href="~/excel/TCLD/Certificate/Chứng chỉ của cả công ty.xlsx">Xuất ra file excel</a>
+                        </div>
+                        <table class="table table-bordered table-responsive centered highlight">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Mã</th>
+                                    <th>Tên</th>
+                                    <th>Loại</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>AT223</td>
+                                    <td><a href="@Url.Content("/phong-tcld/chung-chi/danh-sach-nhan-vien-co-chung-chi-kiem-dinh-ky-thuat-an-toan-lao-dong")">Chứng chỉ kiểm định kỹ thuật an toan lao động</a></td>
+                                    <td>Chứng chỉ an toàn</td>
+                                    <td><a class="waves-effect waves-light btn-small blue darken-2 modal-trigger" href="#chinhsuachungchicongty">Chỉnh sửa</a></td>
+                                    <td><a class="waves-effect waves-light btn-small red modal-trigger" href="#xoachungchicongty">Xóa</a></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>AT224</td>
+                                    <td>Chứng chỉ kiểm định viên</td>
+                                    <td>Chứng chỉ lao động</td>
+                                    <td><a class="waves-effect waves-light btn-small blue darken-2 modal-trigger" href="#chinhsuachungchicongty">Chỉnh sửa</a></td>
+                                    <td><a class="waves-effect waves-light btn-small red modal-trigger" href="#xoachungchicongty">Xóa</a></td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>AT225</td>
+                                    <td>Chứng chỉ sơ cấp</td>
+                                    <td>Chứng chỉ lao động</td>
+                                    <td><a class="waves-effect waves-light btn-small blue darken-2 modal-trigger" href="#chinhsuachungchicongty">Chỉnh sửa</a></td>
+                                    <td><a class="waves-effect waves-light btn-small red modal-trigger" href="#xoachungchicongty">Xóa</a></td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>AT226</td>
+                                    <td>Chứng chỉ trung cấp</td>
+                                    <td>Chứng chỉ lao động</td>
+                                    <td><a class="waves-effect waves-light btn-small blue darken-2 modal-trigger" href="#chinhsuachungchicongty">Chỉnh sửa</a></td>
+                                    <td><a class="waves-effect waves-light btn-small red modal-trigger" href="#xoachungchicongty">Xóa</a></td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>AT227</td>
+                                    <td>Chứng chỉ cao cấp</td>
+                                    <td>Chứng chỉ lao động</td>
+                                    <td><a class="waves-effect waves-light btn-small blue darken-2 modal-trigger" href="#chinhsuachungchicongty">Chỉnh sửa</a></td>
+                                    <td><a class="waves-effect waves-light btn-small red modal-trigger" href="#xoachungchicongty">Xóa</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br />
+                        <div class="col l12 s12 m12 center paging_container">
+                            <ul class="pagination">
+                                <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                                <li class="active"><a href="#!">1</a></li>
+                                <li class="waves-effect"><a href="#!">2</a></li>
+                                <li class="waves-effect"><a href="#!">3</a></li>
+                                <li class="waves-effect"><a href="#!">4</a></li>
+                                <li class="waves-effect"><a href="#!">5</a></li>
+                                <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!---->
+        <div id="chungchicuanhanvien">
+            <div class="row">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="row">
+                            <a class="btn btn-small blue darken-2 modal-trigger btn-mg" href="#modal4">Thêm chứng chỉ cho 1 nhân viên</a>
+                            <a class="btn btn-small blue darken-2 btn-mg" href="~/excel/TCLD/Certificate/Chứng chỉ của cả công ty.xlsx">Xuất ra file excel</a>
+                        </div>
+
+                        <table class="table table-bordered table-responsive centered highlight">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Mã nhân viên</th>
+                                    <th>Họ và tên</th>
+                                    <th>Phân xưởng</th>
+                                    <th>Mã chứng chỉ</th>
+                                    <th>Tên chứng chỉ</th>
+                                    <th>Trạng thái</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>2179</td>
+                                    <td>Nguyễn Xuân Thoàng</td>
+                                    <td>Phân xưởng cơ khí</td>
+                                    <td>AT223</td>
+                                    <td>Chứng chỉ kiểm định kỹ thuật an toan lao động</td>
+                                    <td>Còn hạn</td>
+                                    <td><a class="btn blue darken-2 modal-trigger" href="#chinhsuachungchicanhan">Sửa</a></td>
+                                    <td><a class="btn red darken-2 modal-trigger" href="#xoachungchicanhan">Xóa</a></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>2179</td>
+                                    <td>Nguyễn Xuân Thoàng</td>
+                                    <td>Phân xưởng cơ khí</td>
+                                    <td>AT224</td>
+                                    <td>Chứng chỉ kiểm định viên</td>
+                                    <td>Còn hạn</td>
+                                    <td><a class="btn blue darken-2 modal-trigger" href="#chinhsuachungchicanhan">Sửa</a></td>
+                                    <td><a class="btn red darken-2 modal-trigger" href="#xoachungchicanhan">Xóa</a></td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>7751</td>
+                                    <td>Nguyễn Văn Hùng</td>
+                                    <td>Phân xưởng cơ khí</td>
+                                    <td>AT224</td>
+                                    <td>Chứng chỉ kiểm định viên</td>
+                                    <td class="red-text">Hết hạn</td>
+                                    <td><a class="btn blue darken-2 modal-trigger" href="#chinhsuachungchicanhan">Sửa</a></td>
+                                    <td><a class="btn red darken-2 modal-trigger" href="#xoachungchicanhan">Xóa</a></td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>7751</td>
+                                    <td>Nguyễn Văn Hùng</td>
+                                    <td>Phân xưởng cơ khí</td>
+                                    <td>AT223</td>
+                                    <td>Chứng chỉ kiểm định kỹ thuật an toan lao động</td>
+                                    <td>Còn hạn</td>
+                                    <td><a class="btn blue darken-2 modal-trigger" href="#chinhsuachungchicanhan">Sửa</a></td>
+                                    <td><a class="btn red darken-2 modal-trigger" href="#xoachungchicanhan">Xóa</a></td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>7751</td>
+                                    <td>Nguyễn Văn Hùng</td>
+                                    <td>Phân xưởng cơ khí</td>
+                                    <td>AT226</td>
+                                    <td>Chứng chỉ trung cấp</td>
+                                    <td class="red-text">Hết hạn</td>
+                                    <td><a class="btn blue darken-2 modal-trigger" href="#chinhsuachungchicanhan">Sửa</a></td>
+                                    <td><a class="btn red darken-2 modal-trigger" href="#xoachungchicanhan">Xóa</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br />
+                        <div class="col l12 s12 m12 center paging_container">
+                            <ul class="pagination">
+                                <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                                <li class="active"><a href="#!">1</a></li>
+                                <li class="waves-effect"><a href="#!">2</a></li>
+                                <li class="waves-effect"><a href="#!">3</a></li>
+                                <li class="waves-effect"><a href="#!">4</a></li>
+                                <li class="waves-effect"><a href="#!">5</a></li>
+                                <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal3" class="modal">
+    <div class="modal-content">
+        <div class="modal-container">
+            <!-- Page Content goes here -->
+            <div class="row">
+                <div class="col s12 center">
+                    <h3 class="font-medium">Thêm chứng chỉ</h3>
+                </div>
+            </div>
+            <form class="row">
+                <div class="col s3 m3 l3">
+                    <div class="select-header">
+                        <strong><i class="fas fa-calendar-alt icon"></i>&nbsp;Chọn ngày</strong>
+                    </div>
+                    <input class='datepicker-here center form-control resize-form' data-language='vi' value="dd/mm/yyyy" />
+                </div>
+                <div class="col s9 m9 l9">
+                    <div class="select-header">
+                        <strong><i class="fas fa-certificate"></i>&nbsp;Chứng chỉ</strong>
+                    </div>
+                    <select id="demo" multiple>
+                        <option value="1">Chứng chỉ kiểm định kỹ thuật an toan lao động</option>
+                        <option value="2">Chứng chỉ kiểm định viên</option>
+                        <option value="3">Chứng chỉ sơ cấp</option>
+                        <option value="3">Chứng chỉ trung cấp</option>
+                        <option value="3">Chứng chỉ cao cấp</option>
+                    </select>
+                </div>
+            </form>
+            <!--Certificate-name-->
+            <form>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <div class="select-header">
+                            <strong for="worker-numb"><i class="far fa-id-card" aria-hidden="true"></i>&nbsp;Số thẻ công nhân:</strong>
+                        </div>
+                        <input id="worker-numb" class="form-control" type="text" placeholder="">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <div class="select-header">
+                            <strong for="worker-name"><i class="fas fa-user" aria-hidden="true"></i>&nbsp;Họ và tên:</strong>
+                        </div>
+                        <input id="worker-name" class="form-control" placeholder="" type="text" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <div class="select-header">
+                            <Strong for="worker-unit"><i class="fas fa-crosshairs"></i>&nbsp;Đơn vị:</Strong>
+                        </div>
+                        <input id="worker-unit" class="form-control" placeholder="" type="text" disabled>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <!--Button-->
+        <a href="javascript:void(0);" id="dinhkem" class="btn blue darken-2 left">Đính kèm</a>
+        <a class="waves-effect waves-light btn red modal-close">Hủy</a>
+        <a class="waves-effect waves-light btn blue darken-2" id="add">Lưu</a>
+    </div>
+</div>
+
+<div id="modal4" class="modal">
+    <div class="modal-content">
+        <div class="modal-container">
+            <!-- Page Content goes here -->
+            <div class="row">
+                <div class="col s12 center">
+                    <h3 class="font-medium">Thêm chứng chỉ cho một nhân viên</h3>
+                </div>
+            </div>
+            <form class="row">
+                <div class="col l12">
+                    <div class="col l3">
+                        <strong>Mã chứng chỉ</strong>
+                    </div>
+                    <div class="col l6">
+                        <input id="worker-unit" class="form-control" placeholder="" type="text">
+                    </div>
+                </div>
+                <div class="col l12" style="margin-top:10px">
+                    <div class="col l3">
+                        <strong>Tên chứng chỉ</strong>
+                    </div>
+                    <div class="col l6">
+                        <input id="worker-unit" class="form-control" placeholder="" type="text">
+                    </div>
+                </div>
+                <div class="col l12" style="margin-top:10px">
+                    <div class="col l3">
+                        <strong>Loại chứng chỉ</strong>
+                    </div>
+                    <div class="col l6">
+                        <input id="worker-unit" class="form-control" placeholder="" type="text">
+                    </div>
+                </div>
+            </form>
+            <!--Certificate-name-->
+        </div>
+    </div>
+    <div class="modal-footer">
+        <!--                Button-->
+        <a class="waves-effect waves-light btn red modal-close">Hủy</a>
+        <a class="waves-effect waves-light btn blue darken-2">Lưu</a>
+    </div>
+</div>
+
+
+
+<div id="xoachungchicanhan" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Xác nhận xóa chứng chỉ</h3>
+        </div>
+        <div class="modal-body">
+            <p class="red-text">Bạn có muốn xóa chứng chỉ này?</p>
+        </div>
+        <div class="modal-footer">
+            <a class="btn blue darken-2 modal-close">Xóa</a>
+            <a class="btn red modal-close">Hủy</a>
+        </div>
+    </div>
+</div>
+
+<div id="chinhsuachungchicanhan" class="modal">
+    <div class="modal-content">
+        <div class="modal-container">
+            <!-- Page Content goes here -->
+            <div class="row">
+                <div class="col s12 center">
+                    <h3 class="font-medium">Sửa chứng chỉ</h3>
+                </div>
+            </div>
+            <form class="row">
+                <div class="input-field col s4 m4 l4">
+                    <div class="select-header">
+                        <strong><i class="fas fa-calendar-alt icon"></i>&nbsp;Chọn ngày</strong>
+                    </div>
+                    <input type='text' class='datepicker-here center form-control resize-form' data-language='vi' value="19/10/2019" />
+                </div>
+                <div class="input-field col s4 m4 l4">
+                    <div class="select-header">
+                        <strong>Tình trạng</strong>
+                        <input type="text" class="form-control" value="Còn hạn" />
+                    </div>
+                </div>
+                <div class="input-field col s4 m4 l4">
+                    <a href="javascript:void(0);" class="btn blue darken-2">Đính kèm</a>
+                </div>
+            </form>
+            <!--Certificate-name-->
+            <form>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <div class="select-header">
+                            <strong for="worker-numb"><i class="far fa-id-card" aria-hidden="true"></i>&nbsp;Số thẻ công nhân:</strong>
+                        </div>
+                        <input id="worker-numb" class="form-control" type="text" placeholder="SA1320" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <div class="select-header">
+                            <strong for="worker-name"><i class="fas fa-user" aria-hidden="true"></i>&nbsp;Họ và tên:</strong>
+                        </div>
+                        <input id="worker-name" class="form-control" placeholder="Nguyễn Văn Long" type="text" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <div class="select-header">
+                            <strong for="worker-unit"><i class="fas fa-crosshairs"></i>&nbsp;Đơn vị:</strong>
+                        </div>
+                        <input id="worker-unit" class="form-control" placeholder="Đào lò 3" type="text" disabled>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <!--                Button-->
+        <a class="waves-effect waves-light btn red modal-close">Hủy</a>
+        <a class="waves-effect waves-light btn blue darken-2">Lưu</a>
+    </div>
+</div>
+
+
+<div id="xoachungchicongty" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Xác nhận xóa chứng chỉ</h3>
+        </div>
+        <div class="modal-body">
+            <p class="red-text">Bạn có muốn xóa chứng chỉ này?</p>
+        </div>
+        <div class="modal-footer">
+            <a class="btn blue darken-2 modal-close">Xóa</a>
+            <a class="btn red modal-close">Hủy</a>
+        </div>
+    </div>
+</div>
+
+<div id="chinhsuachungchicongty" class="modal">
+    <div class="modal-content">
+        <div class="modal-container">
+            <!-- Page Content goes here -->
+            <div class="row">
+                <div class="col s12 center">
+                    <h3 class="font-medium">Chứng chỉ kiểm định kỹ thuật an toan lao động</h3>
+                </div>
+            </div>
+            <form class="row">
+                <div class="input-field col s4 m4 l4">
+                    <a href="javascript:void(0);" class="btn blue darken-2">Đính kèm</a>
+                </div>
+                <div class="input-field col s12 m12 l12">
+                    <textarea placeholder="Nội dung chứng chỉ"></textarea>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <!--Button-->
+        <a class="waves-effect waves-light btn red modal-close">Hủy</a>
+        <a class="waves-effect waves-light btn blue darken-2">Lưu</a>
+    </div>
+</div>
+
+
+<script src="~/js/Custom JS/TCLD/Certificate/certificate.js"></script>
+<script src="~/js/Custom JS/form-input-border.js"></script>
+<script src="~/lib/mutiple select/slimselect.js"></script>
+<script src="~/js/Custom JS/TCLD/Certificate/formValidation.js"></script>
+

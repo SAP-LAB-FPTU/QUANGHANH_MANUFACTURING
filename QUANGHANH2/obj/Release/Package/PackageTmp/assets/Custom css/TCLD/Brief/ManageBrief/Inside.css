@@ -1,0 +1,17 @@
+﻿#color_hoso {
+   background: #f2f2f2!important;
+}
+#btn-fix {
+    margin-bottom: 10px !important;
+    margin-left:34px;
+}
+#btn-save {
+    margin-bottom: 10px !important;
+    margin-left: 34px;
+}
+.table_hoso > table > tbody > tr > td{
+    height:151px;
+}
+.table_hoso > table{
+    margin-left:22px;
+}

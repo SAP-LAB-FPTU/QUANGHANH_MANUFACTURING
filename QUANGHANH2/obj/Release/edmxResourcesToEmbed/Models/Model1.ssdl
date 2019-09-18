@@ -1,0 +1,775 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QUANGHANHABCModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Acceptance">
+    <Key>
+      <PropertyRef Name="acceptance_id" />
+    </Key>
+    <Property Name="acceptance_id" Type="int" Nullable="false" />
+    <Property Name="acceptance_date" Type="date" Nullable="false" />
+    <Property Name="documentary_id" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Category_attribute_value">
+    <Key>
+      <PropertyRef Name="equipmentId" />
+      <PropertyRef Name="Equipment_category_id" />
+      <PropertyRef Name="Equipment_category_attribute_id" />
+    </Key>
+    <Property Name="Value" Type="int" Nullable="false" />
+    <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Equipment_category_id" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Equipment_category_attribute_id" Type="nvarchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Department">
+    <Key>
+      <PropertyRef Name="department_id" />
+    </Key>
+    <Property Name="department_id" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="department_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="department_type" Type="nvarchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Documentary">
+    <Key>
+      <PropertyRef Name="documentary_id" />
+    </Key>
+    <Property Name="documentary_id" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="date_created" Type="date" Nullable="false" />
+    <Property Name="person_created" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="reason" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="out/in_come" Type="nvarchar" MaxLength="150" />
+    <Property Name="documentary_status" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Documentary_big_maintain_details">
+    <Key>
+      <PropertyRef Name="documentary_id" />
+      <PropertyRef Name="equipmentId" />
+    </Key>
+    <Property Name="remodel_type" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="end_date" Type="date" Nullable="false" />
+    <Property Name="next_remodel_type" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="next_end_time" Type="date" Nullable="false" />
+    <Property Name="documentary_id" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Documentary_Inspection_details">
+    <Key>
+      <PropertyRef Name="documentary_id" />
+      <PropertyRef Name="equipmentId" />
+    </Key>
+    <Property Name="start_date" Type="date" Nullable="false" />
+    <Property Name="end_date" Type="date" Nullable="false" />
+    <Property Name="documentary_id" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Documentary_liquidation_details">
+    <Key>
+      <PropertyRef Name="documentary_id" />
+      <PropertyRef Name="equipmentId" />
+    </Key>
+    <Property Name="buyer" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="documentary_id" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Documentary_maintain_details">
+    <Key>
+      <PropertyRef Name="documentary_id" />
+      <PropertyRef Name="equipmentId" />
+    </Key>
+    <Property Name="maintain_type" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="finish_date_plan" Type="date" Nullable="false" />
+    <Property Name="documentary_id" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Documentary_moveline_details">
+    <Key>
+      <PropertyRef Name="documentary_id" />
+      <PropertyRef Name="equipmentId" />
+      <PropertyRef Name="department_id" />
+    </Key>
+    <Property Name="department_detail" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="date_to" Type="date" Nullable="false" />
+    <Property Name="documentary_id" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="department_id" Type="nvarchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Documentary_repair_details">
+    <Key>
+      <PropertyRef Name="documentary_id" />
+      <PropertyRef Name="equipmentId" />
+    </Key>
+    <Property Name="repair_type" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="repair_reason" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="finish_date_plan" Type="date" Nullable="false" />
+    <Property Name="documentary_id" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Documentary_revoke_details">
+    <Key>
+      <PropertyRef Name="documentary_id" />
+      <PropertyRef Name="equipmentId" />
+    </Key>
+    <Property Name="documentary_id" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Equipment">
+    <Key>
+      <PropertyRef Name="equipmentId" />
+    </Key>
+    <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="equipment_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="supplier" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="date_import" Type="date" Nullable="false" />
+    <Property Name="depreciation_estimate" Type="float" Nullable="false" />
+    <Property Name="depreciation_present" Type="float" Nullable="false" />
+    <Property Name="durationOfInspection" Type="date" Nullable="false" />
+    <Property Name="durationOfInsurance" Type="date" Nullable="false" />
+    <Property Name="usedDay" Type="date" Nullable="false" />
+    <Property Name="nearest_Maintenance_Day" Type="date" Nullable="false" />
+    <Property Name="total_operating_hours" Type="int" Nullable="false" />
+    <Property Name="current_Status" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="fabrication_number" Type="float" />
+    <Property Name="mark_code" Type="nvarchar" MaxLength="150" />
+    <Property Name="quality_type" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="input_channel" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Equipment_category_id" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="department_id" Type="nvarchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Equipment_attribute">
+    <Key>
+      <PropertyRef Name="Equipment_attribute_id" />
+      <PropertyRef Name="equipmentId" />
+    </Key>
+    <Property Name="Equipment_attribute_id" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="value" Type="int" Nullable="false" />
+    <Property Name="unit" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Equipment_category">
+    <Key>
+      <PropertyRef Name="Equipment_category_id" />
+    </Key>
+    <Property Name="Equipment_category_id" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Equipment_category_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="divce_type" Type="nvarchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Equipment_category_attribute">
+    <Key>
+      <PropertyRef Name="Equipment_category_attribute_id" />
+    </Key>
+    <Property Name="Equipment_category_attribute_id" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Equipment_category_attribute_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="unit" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Equipment_category_id" Type="nvarchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Fuel_activities_consumption">
+    <Key>
+      <PropertyRef Name="date" />
+      <PropertyRef Name="equipmentId" />
+      <PropertyRef Name="fuel_type" />
+    </Key>
+    <Property Name="consumption_value" Type="int" Nullable="false" />
+    <Property Name="date" Type="date" Nullable="false" />
+    <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="fuel_type" Type="nvarchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Incident">
+    <Key>
+      <PropertyRef Name="incident_id" />
+    </Key>
+    <Property Name="incident_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="start_time" Type="datetime" Nullable="false" />
+    <Property Name="end_time" Type="datetime" />
+    <Property Name="detail_location" Type="nvarchar" MaxLength="150" />
+    <Property Name="reason" Type="nvarchar" MaxLength="150" />
+    <Property Name="incident_type" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="department_id" Type="nvarchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Quantity_activities">
+    <Key>
+      <PropertyRef Name="activity" />
+      <PropertyRef Name="date" />
+      <PropertyRef Name="equipmentId" />
+    </Key>
+    <Property Name="activity" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="hours_per_day" Type="int" Nullable="false" />
+    <Property Name="date" Type="date" Nullable="false" />
+    <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Supply">
+    <Key>
+      <PropertyRef Name="supply_id" />
+    </Key>
+    <Property Name="supply_id" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="supply_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="unit" Type="nvarchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Supply_plan">
+    <Key>
+      <PropertyRef Name="supply_id" />
+      <PropertyRef Name="documentary_id" />
+    </Key>
+    <Property Name="quantity" Type="int" Nullable="false" />
+    <Property Name="supply_id" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="documentary_id" Type="nvarchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Upgrading_attribute">
+    <Key>
+      <PropertyRef Name="equipmentId" />
+      <PropertyRef Name="supply_id" />
+    </Key>
+    <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="supply_id" Type="nvarchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__Acceptanc__docum__6B24EA82">
+    <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
+    <End Role="Acceptance" Type="Self.Acceptance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Documentary">
+        <PropertyRef Name="documentary_id" />
+      </Principal>
+      <Dependent Role="Acceptance">
+        <PropertyRef Name="documentary_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Acceptanc__equip__6C190EBB">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+    <End Role="Acceptance" Type="Self.Acceptance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment">
+        <PropertyRef Name="equipmentId" />
+      </Principal>
+      <Dependent Role="Acceptance">
+        <PropertyRef Name="equipmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Category___equip__267ABA7A">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+    <End Role="Category_attribute_value" Type="Self.Category_attribute_value" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment">
+        <PropertyRef Name="equipmentId" />
+      </Principal>
+      <Dependent Role="Category_attribute_value">
+        <PropertyRef Name="equipmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Category___Equip__276EDEB3">
+    <End Role="Equipment_category" Type="Self.Equipment_category" Multiplicity="1" />
+    <End Role="Category_attribute_value" Type="Self.Category_attribute_value" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment_category">
+        <PropertyRef Name="Equipment_category_id" />
+      </Principal>
+      <Dependent Role="Category_attribute_value">
+        <PropertyRef Name="Equipment_category_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Category___Equip__286302EC">
+    <End Role="Equipment_category_attribute" Type="Self.Equipment_category_attribute" Multiplicity="1" />
+    <End Role="Category_attribute_value" Type="Self.Category_attribute_value" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment_category_attribute">
+        <PropertyRef Name="Equipment_category_attribute_id" />
+      </Principal>
+      <Dependent Role="Category_attribute_value">
+        <PropertyRef Name="Equipment_category_attribute_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Documenta__depar__5629CD9C">
+    <End Role="Department" Type="Self.Department" Multiplicity="1" />
+    <End Role="Documentary_moveline_details" Type="Self.Documentary_moveline_details" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="department_id" />
+      </Principal>
+      <Dependent Role="Documentary_moveline_details">
+        <PropertyRef Name="department_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Documenta__docum__37A5467C">
+    <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
+    <End Role="Documentary_repair_details" Type="Self.Documentary_repair_details" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Documentary">
+        <PropertyRef Name="documentary_id" />
+      </Principal>
+      <Dependent Role="Documentary_repair_details">
+        <PropertyRef Name="documentary_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Documenta__docum__3D5E1FD2">
+    <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
+    <End Role="Documentary_liquidation_details" Type="Self.Documentary_liquidation_details" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Documentary">
+        <PropertyRef Name="documentary_id" />
+      </Principal>
+      <Dependent Role="Documentary_liquidation_details">
+        <PropertyRef Name="documentary_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Documenta__docum__4316F928">
+    <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
+    <End Role="Documentary_maintain_details" Type="Self.Documentary_maintain_details" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Documentary">
+        <PropertyRef Name="documentary_id" />
+      </Principal>
+      <Dependent Role="Documentary_maintain_details">
+        <PropertyRef Name="documentary_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Documenta__docum__48CFD27E">
+    <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
+    <End Role="Documentary_big_maintain_details" Type="Self.Documentary_big_maintain_details" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Documentary">
+        <PropertyRef Name="documentary_id" />
+      </Principal>
+      <Dependent Role="Documentary_big_maintain_details">
+        <PropertyRef Name="documentary_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Documenta__docum__4E88ABD4">
+    <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
+    <End Role="Documentary_Inspection_details" Type="Self.Documentary_Inspection_details" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Documentary">
+        <PropertyRef Name="documentary_id" />
+      </Principal>
+      <Dependent Role="Documentary_Inspection_details">
+        <PropertyRef Name="documentary_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Documenta__docum__5441852A">
+    <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
+    <End Role="Documentary_moveline_details" Type="Self.Documentary_moveline_details" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Documentary">
+        <PropertyRef Name="documentary_id" />
+      </Principal>
+      <Dependent Role="Documentary_moveline_details">
+        <PropertyRef Name="documentary_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Documenta__docum__5AEE82B9">
+    <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
+    <End Role="Documentary_revoke_details" Type="Self.Documentary_revoke_details" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Documentary">
+        <PropertyRef Name="documentary_id" />
+      </Principal>
+      <Dependent Role="Documentary_revoke_details">
+        <PropertyRef Name="documentary_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Documenta__equip__38996AB5">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+    <End Role="Documentary_repair_details" Type="Self.Documentary_repair_details" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment">
+        <PropertyRef Name="equipmentId" />
+      </Principal>
+      <Dependent Role="Documentary_repair_details">
+        <PropertyRef Name="equipmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Documenta__equip__3E52440B">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+    <End Role="Documentary_liquidation_details" Type="Self.Documentary_liquidation_details" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment">
+        <PropertyRef Name="equipmentId" />
+      </Principal>
+      <Dependent Role="Documentary_liquidation_details">
+        <PropertyRef Name="equipmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Documenta__equip__440B1D61">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+    <End Role="Documentary_maintain_details" Type="Self.Documentary_maintain_details" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment">
+        <PropertyRef Name="equipmentId" />
+      </Principal>
+      <Dependent Role="Documentary_maintain_details">
+        <PropertyRef Name="equipmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Documenta__equip__49C3F6B7">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+    <End Role="Documentary_big_maintain_details" Type="Self.Documentary_big_maintain_details" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment">
+        <PropertyRef Name="equipmentId" />
+      </Principal>
+      <Dependent Role="Documentary_big_maintain_details">
+        <PropertyRef Name="equipmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Documenta__equip__4F7CD00D">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+    <End Role="Documentary_Inspection_details" Type="Self.Documentary_Inspection_details" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment">
+        <PropertyRef Name="equipmentId" />
+      </Principal>
+      <Dependent Role="Documentary_Inspection_details">
+        <PropertyRef Name="equipmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Documenta__equip__5535A963">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+    <End Role="Documentary_moveline_details" Type="Self.Documentary_moveline_details" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment">
+        <PropertyRef Name="equipmentId" />
+      </Principal>
+      <Dependent Role="Documentary_moveline_details">
+        <PropertyRef Name="equipmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Documenta__equip__5BE2A6F2">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+    <End Role="Documentary_revoke_details" Type="Self.Documentary_revoke_details" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment">
+        <PropertyRef Name="equipmentId" />
+      </Principal>
+      <Dependent Role="Documentary_revoke_details">
+        <PropertyRef Name="equipmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Equipment__depar__1BFD2C07">
+    <End Role="Department" Type="Self.Department" Multiplicity="1" />
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="department_id" />
+      </Principal>
+      <Dependent Role="Equipment">
+        <PropertyRef Name="department_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Equipment__Equip__0519C6AF">
+    <End Role="Equipment_category" Type="Self.Equipment_category" Multiplicity="1" />
+    <End Role="Equipment_category_attribute" Type="Self.Equipment_category_attribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment_category">
+        <PropertyRef Name="Equipment_category_id" />
+      </Principal>
+      <Dependent Role="Equipment_category_attribute">
+        <PropertyRef Name="Equipment_category_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Equipment__Equip__1B0907CE">
+    <End Role="Equipment_category" Type="Self.Equipment_category" Multiplicity="1" />
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment_category">
+        <PropertyRef Name="Equipment_category_id" />
+      </Principal>
+      <Dependent Role="Equipment">
+        <PropertyRef Name="Equipment_category_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Equipment__equip__2D27B809">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+    <End Role="Equipment_attribute" Type="Self.Equipment_attribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment">
+        <PropertyRef Name="equipmentId" />
+      </Principal>
+      <Dependent Role="Equipment_attribute">
+        <PropertyRef Name="equipmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Fuel_acti__equip__60A75C0F">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+    <End Role="Fuel_activities_consumption" Type="Self.Fuel_activities_consumption" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment">
+        <PropertyRef Name="equipmentId" />
+      </Principal>
+      <Dependent Role="Fuel_activities_consumption">
+        <PropertyRef Name="equipmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Fuel_acti__fuel___619B8048">
+    <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
+    <End Role="Fuel_activities_consumption" Type="Self.Fuel_activities_consumption" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Supply">
+        <PropertyRef Name="supply_id" />
+      </Principal>
+      <Dependent Role="Fuel_activities_consumption">
+        <PropertyRef Name="fuel_type" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Incident__depart__20C1E124">
+    <End Role="Department" Type="Self.Department" Multiplicity="1" />
+    <End Role="Incident" Type="Self.Incident" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="department_id" />
+      </Principal>
+      <Dependent Role="Incident">
+        <PropertyRef Name="department_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Incident__equipm__21B6055D">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+    <End Role="Incident" Type="Self.Incident" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment">
+        <PropertyRef Name="equipmentId" />
+      </Principal>
+      <Dependent Role="Incident">
+        <PropertyRef Name="equipmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Quantity___equip__66603565">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+    <End Role="Quantity_activities" Type="Self.Quantity_activities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment">
+        <PropertyRef Name="equipmentId" />
+      </Principal>
+      <Dependent Role="Quantity_activities">
+        <PropertyRef Name="equipmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Supply_pl__docum__164452B1">
+    <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
+    <End Role="Supply_plan" Type="Self.Supply_plan" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Documentary">
+        <PropertyRef Name="documentary_id" />
+      </Principal>
+      <Dependent Role="Supply_plan">
+        <PropertyRef Name="documentary_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Supply_pl__suppl__15502E78">
+    <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
+    <End Role="Supply_plan" Type="Self.Supply_plan" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Supply">
+        <PropertyRef Name="supply_id" />
+      </Principal>
+      <Dependent Role="Supply_plan">
+        <PropertyRef Name="supply_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Upgrading__equip__31EC6D26">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+    <End Role="Upgrading_attribute" Type="Self.Upgrading_attribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment">
+        <PropertyRef Name="equipmentId" />
+      </Principal>
+      <Dependent Role="Upgrading_attribute">
+        <PropertyRef Name="equipmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Upgrading__suppl__32E0915F">
+    <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
+    <End Role="Upgrading_attribute" Type="Self.Upgrading_attribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Supply">
+        <PropertyRef Name="supply_id" />
+      </Principal>
+      <Dependent Role="Upgrading_attribute">
+        <PropertyRef Name="supply_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="QUANGHANHABCModelStoreContainer">
+    <EntitySet Name="Acceptance" EntityType="Self.Acceptance" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Category_attribute_value" EntityType="Self.Category_attribute_value" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Documentary" EntityType="Self.Documentary" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Documentary_big_maintain_details" EntityType="Self.Documentary_big_maintain_details" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Documentary_Inspection_details" EntityType="Self.Documentary_Inspection_details" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Documentary_liquidation_details" EntityType="Self.Documentary_liquidation_details" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Documentary_maintain_details" EntityType="Self.Documentary_maintain_details" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Documentary_moveline_details" EntityType="Self.Documentary_moveline_details" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Documentary_repair_details" EntityType="Self.Documentary_repair_details" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Documentary_revoke_details" EntityType="Self.Documentary_revoke_details" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Equipment" EntityType="Self.Equipment" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Equipment_attribute" EntityType="Self.Equipment_attribute" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Equipment_category" EntityType="Self.Equipment_category" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Equipment_category_attribute" EntityType="Self.Equipment_category_attribute" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Fuel_activities_consumption" EntityType="Self.Fuel_activities_consumption" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Incident" EntityType="Self.Incident" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Quantity_activities" EntityType="Self.Quantity_activities" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Supply" EntityType="Self.Supply" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Supply_plan" EntityType="Self.Supply_plan" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Upgrading_attribute" EntityType="Self.Upgrading_attribute" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Acceptanc__docum__6B24EA82" Association="Self.FK__Acceptanc__docum__6B24EA82">
+      <End Role="Documentary" EntitySet="Documentary" />
+      <End Role="Acceptance" EntitySet="Acceptance" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Acceptanc__equip__6C190EBB" Association="Self.FK__Acceptanc__equip__6C190EBB">
+      <End Role="Equipment" EntitySet="Equipment" />
+      <End Role="Acceptance" EntitySet="Acceptance" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Category___equip__267ABA7A" Association="Self.FK__Category___equip__267ABA7A">
+      <End Role="Equipment" EntitySet="Equipment" />
+      <End Role="Category_attribute_value" EntitySet="Category_attribute_value" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Category___Equip__276EDEB3" Association="Self.FK__Category___Equip__276EDEB3">
+      <End Role="Equipment_category" EntitySet="Equipment_category" />
+      <End Role="Category_attribute_value" EntitySet="Category_attribute_value" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Category___Equip__286302EC" Association="Self.FK__Category___Equip__286302EC">
+      <End Role="Equipment_category_attribute" EntitySet="Equipment_category_attribute" />
+      <End Role="Category_attribute_value" EntitySet="Category_attribute_value" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Documenta__depar__5629CD9C" Association="Self.FK__Documenta__depar__5629CD9C">
+      <End Role="Department" EntitySet="Department" />
+      <End Role="Documentary_moveline_details" EntitySet="Documentary_moveline_details" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Documenta__docum__37A5467C" Association="Self.FK__Documenta__docum__37A5467C">
+      <End Role="Documentary" EntitySet="Documentary" />
+      <End Role="Documentary_repair_details" EntitySet="Documentary_repair_details" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Documenta__docum__3D5E1FD2" Association="Self.FK__Documenta__docum__3D5E1FD2">
+      <End Role="Documentary" EntitySet="Documentary" />
+      <End Role="Documentary_liquidation_details" EntitySet="Documentary_liquidation_details" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Documenta__docum__4316F928" Association="Self.FK__Documenta__docum__4316F928">
+      <End Role="Documentary" EntitySet="Documentary" />
+      <End Role="Documentary_maintain_details" EntitySet="Documentary_maintain_details" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Documenta__docum__48CFD27E" Association="Self.FK__Documenta__docum__48CFD27E">
+      <End Role="Documentary" EntitySet="Documentary" />
+      <End Role="Documentary_big_maintain_details" EntitySet="Documentary_big_maintain_details" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Documenta__docum__4E88ABD4" Association="Self.FK__Documenta__docum__4E88ABD4">
+      <End Role="Documentary" EntitySet="Documentary" />
+      <End Role="Documentary_Inspection_details" EntitySet="Documentary_Inspection_details" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Documenta__docum__5441852A" Association="Self.FK__Documenta__docum__5441852A">
+      <End Role="Documentary" EntitySet="Documentary" />
+      <End Role="Documentary_moveline_details" EntitySet="Documentary_moveline_details" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Documenta__docum__5AEE82B9" Association="Self.FK__Documenta__docum__5AEE82B9">
+      <End Role="Documentary" EntitySet="Documentary" />
+      <End Role="Documentary_revoke_details" EntitySet="Documentary_revoke_details" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Documenta__equip__38996AB5" Association="Self.FK__Documenta__equip__38996AB5">
+      <End Role="Equipment" EntitySet="Equipment" />
+      <End Role="Documentary_repair_details" EntitySet="Documentary_repair_details" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Documenta__equip__3E52440B" Association="Self.FK__Documenta__equip__3E52440B">
+      <End Role="Equipment" EntitySet="Equipment" />
+      <End Role="Documentary_liquidation_details" EntitySet="Documentary_liquidation_details" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Documenta__equip__440B1D61" Association="Self.FK__Documenta__equip__440B1D61">
+      <End Role="Equipment" EntitySet="Equipment" />
+      <End Role="Documentary_maintain_details" EntitySet="Documentary_maintain_details" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Documenta__equip__49C3F6B7" Association="Self.FK__Documenta__equip__49C3F6B7">
+      <End Role="Equipment" EntitySet="Equipment" />
+      <End Role="Documentary_big_maintain_details" EntitySet="Documentary_big_maintain_details" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Documenta__equip__4F7CD00D" Association="Self.FK__Documenta__equip__4F7CD00D">
+      <End Role="Equipment" EntitySet="Equipment" />
+      <End Role="Documentary_Inspection_details" EntitySet="Documentary_Inspection_details" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Documenta__equip__5535A963" Association="Self.FK__Documenta__equip__5535A963">
+      <End Role="Equipment" EntitySet="Equipment" />
+      <End Role="Documentary_moveline_details" EntitySet="Documentary_moveline_details" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Documenta__equip__5BE2A6F2" Association="Self.FK__Documenta__equip__5BE2A6F2">
+      <End Role="Equipment" EntitySet="Equipment" />
+      <End Role="Documentary_revoke_details" EntitySet="Documentary_revoke_details" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Equipment__depar__1BFD2C07" Association="Self.FK__Equipment__depar__1BFD2C07">
+      <End Role="Department" EntitySet="Department" />
+      <End Role="Equipment" EntitySet="Equipment" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Equipment__Equip__0519C6AF" Association="Self.FK__Equipment__Equip__0519C6AF">
+      <End Role="Equipment_category" EntitySet="Equipment_category" />
+      <End Role="Equipment_category_attribute" EntitySet="Equipment_category_attribute" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Equipment__Equip__1B0907CE" Association="Self.FK__Equipment__Equip__1B0907CE">
+      <End Role="Equipment_category" EntitySet="Equipment_category" />
+      <End Role="Equipment" EntitySet="Equipment" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Equipment__equip__2D27B809" Association="Self.FK__Equipment__equip__2D27B809">
+      <End Role="Equipment" EntitySet="Equipment" />
+      <End Role="Equipment_attribute" EntitySet="Equipment_attribute" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Fuel_acti__equip__60A75C0F" Association="Self.FK__Fuel_acti__equip__60A75C0F">
+      <End Role="Equipment" EntitySet="Equipment" />
+      <End Role="Fuel_activities_consumption" EntitySet="Fuel_activities_consumption" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Fuel_acti__fuel___619B8048" Association="Self.FK__Fuel_acti__fuel___619B8048">
+      <End Role="Supply" EntitySet="Supply" />
+      <End Role="Fuel_activities_consumption" EntitySet="Fuel_activities_consumption" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Incident__depart__20C1E124" Association="Self.FK__Incident__depart__20C1E124">
+      <End Role="Department" EntitySet="Department" />
+      <End Role="Incident" EntitySet="Incident" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Incident__equipm__21B6055D" Association="Self.FK__Incident__equipm__21B6055D">
+      <End Role="Equipment" EntitySet="Equipment" />
+      <End Role="Incident" EntitySet="Incident" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Quantity___equip__66603565" Association="Self.FK__Quantity___equip__66603565">
+      <End Role="Equipment" EntitySet="Equipment" />
+      <End Role="Quantity_activities" EntitySet="Quantity_activities" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Supply_pl__docum__164452B1" Association="Self.FK__Supply_pl__docum__164452B1">
+      <End Role="Documentary" EntitySet="Documentary" />
+      <End Role="Supply_plan" EntitySet="Supply_plan" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Supply_pl__suppl__15502E78" Association="Self.FK__Supply_pl__suppl__15502E78">
+      <End Role="Supply" EntitySet="Supply" />
+      <End Role="Supply_plan" EntitySet="Supply_plan" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Upgrading__equip__31EC6D26" Association="Self.FK__Upgrading__equip__31EC6D26">
+      <End Role="Equipment" EntitySet="Equipment" />
+      <End Role="Upgrading_attribute" EntitySet="Upgrading_attribute" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Upgrading__suppl__32E0915F" Association="Self.FK__Upgrading__suppl__32E0915F">
+      <End Role="Supply" EntitySet="Supply" />
+      <End Role="Upgrading_attribute" EntitySet="Upgrading_attribute" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
