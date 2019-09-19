@@ -26,9 +26,13 @@ namespace QUANGHANH2.Models
         }
     
         public virtual DbSet<Acceptance> Acceptances { get; set; }
+        public virtual DbSet<Account> Accounts { get; set; }
+        public virtual DbSet<Account_Right> Account_Right { get; set; }
+        public virtual DbSet<Account_Right_Detail> Account_Right_Detail { get; set; }
         public virtual DbSet<Activity> Activities { get; set; }
         public virtual DbSet<BangCap> BangCaps { get; set; }
         public virtual DbSet<Category_attribute_value> Category_attribute_value { get; set; }
+        public virtual DbSet<ChamDut_NhanVien> ChamDut_NhanVien { get; set; }
         public virtual DbSet<ChiTiet_BangCap> ChiTiet_BangCap { get; set; }
         public virtual DbSet<ChiTiet_CongViec_NhanVien> ChiTiet_CongViec_NhanVien { get; set; }
         public virtual DbSet<ChungChi> ChungChis { get; set; }
@@ -36,6 +40,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<ChuyenNganh> ChuyenNganhs { get; set; }
         public virtual DbSet<CongViec> CongViecs { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
+        public virtual DbSet<DiemDanh_NangSuatLaoDong> DiemDanh_NangSuatLaoDong { get; set; }
         public virtual DbSet<DieuDong_NV> DieuDong_NV { get; set; }
         public virtual DbSet<Documentary> Documentaries { get; set; }
         public virtual DbSet<Documentary_big_maintain_details> Documentary_big_maintain_details { get; set; }
@@ -51,11 +56,14 @@ namespace QUANGHANH2.Models
         public virtual DbSet<Equipment_Inspection> Equipment_Inspection { get; set; }
         public virtual DbSet<Fuel_activities_consumption> Fuel_activities_consumption { get; set; }
         public virtual DbSet<GiayChungNhan> GiayChungNhans { get; set; }
+        public virtual DbSet<GiayChungNhan_NhanVien> GiayChungNhan_NhanVien { get; set; }
         public virtual DbSet<GiayTo> GiayToes { get; set; }
         public virtual DbSet<HoSo> HoSoes { get; set; }
         public virtual DbSet<Incident> Incidents { get; set; }
         public virtual DbSet<LichSuBoSungSYLL> LichSuBoSungSYLLs { get; set; }
+        public virtual DbSet<Module> Modules { get; set; }
         public virtual DbSet<Nganh> Nganhs { get; set; }
+        public virtual DbSet<NguoiUyQuyenLayHoSo_BaoHiem> NguoiUyQuyenLayHoSo_BaoHiem { get; set; }
         public virtual DbSet<NhanVien> NhanViens { get; set; }
         public virtual DbSet<NhiemVu> NhiemVus { get; set; }
         public virtual DbSet<QuanHeGiaDinh> QuanHeGiaDinhs { get; set; }
@@ -64,7 +72,6 @@ namespace QUANGHANH2.Models
         public virtual DbSet<QuyetDinh> QuyetDinhs { get; set; }
         public virtual DbSet<Supply> Supplies { get; set; }
         public virtual DbSet<Supply_Documentary_Equipment> Supply_Documentary_Equipment { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TrinhDo> TrinhDoes { get; set; }
         public virtual DbSet<Truong> Truongs { get; set; }
         public virtual DbSet<ChiTiet_NhiemVu_NhanVien> ChiTiet_NhiemVu_NhanVien { get; set; }

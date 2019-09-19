@@ -13,11 +13,13 @@ using OfficeOpenXml;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Globalization;
+using QUANGHANH2.SupportClass;
 
 namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
 {
     public class HoatdongController : Controller
     {
+        
         [Route("phong-cdvt/huy-dong/export")]
         public void export()
         {
@@ -109,7 +111,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 
             }
         }
-
+        [Auther(RightID = "6")]
         [Route("phong-cdvt/huy-dong")]
         [HttpGet]
         public ActionResult Index()
