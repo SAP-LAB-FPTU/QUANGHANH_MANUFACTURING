@@ -35,7 +35,7 @@ namespace QUANGHANH2.SupportClass
                 if (!Check)
                 {
                     string url = (string)filterContext.HttpContext.Session["url"];
-                    filterContext.Result = new RedirectResult("/"+url);
+                    filterContext.Result = new RedirectResult("/" + url);
                     //filterContext.Result = new ViewResult() { ViewName = "Permisssion" };
                 }
             }
