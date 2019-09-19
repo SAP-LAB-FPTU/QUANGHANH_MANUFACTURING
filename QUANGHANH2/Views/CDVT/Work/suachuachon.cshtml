@@ -151,7 +151,6 @@
                     data: $(form).serialize(),
                     success: function (data) {
                         dataTable.ajax.reload();
-
                         $.notify(data.message, {
                             globalPosition: "top center",
                             className: "success"
