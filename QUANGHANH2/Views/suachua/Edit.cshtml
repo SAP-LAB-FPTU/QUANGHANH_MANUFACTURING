@@ -1,0 +1,103 @@
+﻿@model QUANGHANH2.Models.Documentary
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = null;
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+@using (Html.BeginForm("ABC", "suachua", FormMethod.Post, new
+{
+    enctype = "multipart/form-data",
+    onSubmit = "return  (this);",
+    data_restUrl = Url.Action("ABC", "suachua")
+}))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.documentary_id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.date_created, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.date_created, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.date_created, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.tempId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.tempId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.tempId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.person_created, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.person_created, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.person_created, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.reason, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.reason, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.reason, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.out_in_come, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.out_in_come, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.out_in_come, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <br />
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="submit" class="btn light-blue lighten-1 modal-close">Lưu</button>
+
+                <button type="button" id="Delete" class="btn light-blue lighten-1 modal-close" value="@Html.Raw(ViewBag.DocID)">Xóa</button>
+
+                <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
+
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+            $("#Delete").click(function () {
+                if (confirm("Bạn có chắc chắn xóa không?")) {
+                    var docID = $("#Delete").val().toString();
+                    var ListId =[docID];
+
+                    alert(ListId);
+                    $.ajax({
+                        type: "POST",
+                        url: "/suachua/DeleteDoc",
+                        data: '{docID: ' + JSON.stringify(ListId) + '}',
+                        contentType: "application/json",
+                        dataType: "script",
+                        success: function (response) {
+                            alert("Xóa thành công rồi nhé!");
+                            location.reload(true);
+                        }
+                    });
+                }
+            });
+    </script>
+
+}
