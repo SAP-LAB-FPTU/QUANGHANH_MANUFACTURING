@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="8d548cc2fe8a457391b10f8490bdbcd0" Name="Diagram1">
+      <Diagram DiagramId="a3f7d8d0ccee4ff1949614cc663fb4b1" Name="Diagram1">
         <EntityTypeShape EntityType="QUANGHANHABCModel.Acceptance" Width="1.5" PointX="5.25" PointY="34.625" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Activity" Width="1.5" PointX="11" PointY="40.625" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.BangCap" Width="1.5" PointX="3" PointY="63" IsExpanded="true" />
@@ -32,17 +32,17 @@
         <EntityTypeShape EntityType="QUANGHANHABCModel.Fuel_activities_consumption" Width="1.5" PointX="12.5" PointY="51" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.GiayChungNhan" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.GiayTo" Width="1.5" PointX="5.25" PointY="61.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.HoSo" Width="1.5" PointX="5.25" PointY="64.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.HoSo" Width="1.5" PointX="12.375" PointY="55" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Incident" Width="1.5" PointX="13.25" PointY="44.375" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.LichSuBoSungSYLL" Width="1.5" PointX="7.5" PointY="65" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Nganh" Width="1.5" PointX="1.5" PointY="67.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.NhanVien" Width="1.5" PointX="3" PointY="47.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.NhanVien" Width="1.5" PointX="10.375" PointY="52.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.NhiemVu" Width="1.5" PointX="6" PointY="77.375" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.QuanHeGiaDinh" Width="1.5" PointX="5.25" PointY="68.25" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Quantity_activities" Width="1.5" PointX="13.25" PointY="41.25" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.QuaTrinhCongTac" Width="1.5" PointX="5.25" PointY="71.125" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.QuyetDinh" Width="1.5" PointX="3" PointY="70.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Supply" Width="1.5" PointX="10.25" PointY="59.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Supply" Width="1.5" PointX="5.625" PointY="59.375" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Supply_Documentary_Equipment" Width="1.5" PointX="11.25" PointY="34.25" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.TrinhDo" Width="1.5" PointX="0.75" PointY="64.125" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Truong" Width="1.5" PointX="0.75" PointY="70.375" IsExpanded="true" />

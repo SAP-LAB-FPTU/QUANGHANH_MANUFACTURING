@@ -47,6 +47,15 @@
 
                         <div class="wrap-input100 validate-input" data-validate="">
                             <input type="text" list="accounts" class="input100" name="username" placeholder="Tên đăng nhập" id="username" />
+                            <datalist id="accounts">
+                                <option>tcld</option>
+                                <option>kcs</option>
+                                <option>cdvt</option>
+                                <option>dk</option>
+                                <option>bgd</option>
+                                <option>pxkt</option>
+                            </datalist>
+                            <!--<input class="input100" type="text" name="email" id="username" placeholder="Tên đăng nhập">-->
                             <span class="focus-input100"></span>
                             <span class="symbol-input100">
                                 <i class="fa fa-user-circle" aria-hidden="true"></i>
@@ -59,13 +68,13 @@
                                 <i class="fa fa-lock" aria-hidden="true"></i>
                             </span>
                         </div>
-                        <h1 style="color: red;" class="h6 mb-3 font-weight-normal" id="Notification">@ViewData["Notification"]</h1>
+                        <h1 style="color:red" class="h6 mb-3 font-weight-normal" id="Notification"> @ViewData["Notification"]</h1>
                         <div class="container-login100-form-btn">
+                            @*<input class="login100-form-btn" id="loginButton" value="Đăng nhập">*@
                             <button class="login100-form-btn" id="loginButton" type="submit">
                                 Đăng nhập
                             </button>
                         </div>
-
                         <div class="text-center p-t-136">
                             <a class="txt2" href="#">
                                 <i class="" aria-hidden="true"></i>
