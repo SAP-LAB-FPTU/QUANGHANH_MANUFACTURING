@@ -30,3 +30,44 @@ LuongSauDuyet float,
 DuBaoNguyCo nvarchar(1000),
 GiaiPhapNguyCo nvarchar(1000)
 )
+--fix LoaiQuyetDinh's length in QuyetDinh table
+alter table QuyetDinh
+alter column LoaiQuyetDinh nvarchar(100)
+
+--add table ChamDut_NhanVien
+create table ChamDut_NhanVien
+(
+SoQuyetDinh nvarchar(50) not null foreign key references QuyetDinh(SoQuyetDinh),
+MaNV nvarchar(50) not null foreign key references NhanVien(MaNV),
+LoaiChamDut nvarchar(100),
+NgayChamDut date,
+DonViKhiChamDut nvarchar(100)
+primary key (SoQuyetDinh, MaNV)
+)
+--add table NguoiUyQuyenLayHoSo_BaoHiem
+create table NguoiUyQuyenLayHoSo_BaoHiem
+(
+MaUyQuyen int not null primary key identity(1,1),
+HoTen nvarchar(100),
+QuanHe nvarchar(100),
+SoCMND nvarchar(100),
+SoDienThoai nvarchar(100)
+)
+
+--alter table NhanVien to add MaUyQuyen references to NguoiUyQuyenLayHoSo_BaoHiem table
+alter table NhanVien
+add MaUyQuyen int foreign key references NguoiUyQuyenLayHoSo_BaoHiem(MaUyQuyen),
+SoBHXH nvarchar(100),
+NgayTraBHXH date
+
+alter table ChiTiet_BangCap
+add NgayTra date
+
+alter table ChungChi_NhanVien
+add NgayTra date
+
+alter table GiayChungNhan_NhanVien
+add NgayTra date
+
+alter table GiayTo
+add NgayTra date

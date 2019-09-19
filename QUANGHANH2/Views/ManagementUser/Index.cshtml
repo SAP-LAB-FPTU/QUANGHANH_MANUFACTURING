@@ -1,0 +1,991 @@
+﻿@model QUANGHANH2.Models.Account
+@{
+    ViewBag.Title = "Quản lý tài khoản";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<style>
+    label {
+        font-weight: 500;
+        font-size: 14px !important;
+        color: black !important;
+        margin-top:5px !important;
+    }
+</style>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/assets/images/favicon.png">
+    <title>Cơ Điện Vận Tải</title>
+    <!-- chartist CSS -->
+    <link href="~/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
+    <link href="~/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css" rel="stylesheet">
+    <link href="~/dist/css/style.css" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!-- ============================================================== -->
+    <!-- All Required js -->
+    <!-- ============================================================== -->
+    <script src="~/assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="~/dist/js/materialize.min.js"></script>
+    <script src="~/assets/libs/perfect-scrollbar/dist/js/perfect-scrollbar.jquery.min.js"></script>
+    <!-- ============================================================== -->
+    <!-- Apps -->
+    <!-- ============================================================== -->
+    <script src="~/dist/js/app.js"></script>
+    <script src="~/dist/js/app.init.js"></script>
+    <script src="~/dist/js/app-style-switcher.js"></script>
+    <!-- ============================================================== -->
+    <!-- Custom js -->
+    <!-- ============================================================== -->
+    <script src="~/dist/js/custom.min.js"></script>
+    <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
+    <!-- ============================================================== -->
+    <!-- This page plugin js -->
+    <!-- ============================================================== -->
+    <script src="~/assets/libs/chartist/dist/chartist.min.js"></script>
+    <script src="~/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+    <script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
+    <script src="~/assets/extra-libs/sparkline/sparkline.js"></script>
+    <script src="~/dist/js/pages/dashboards/dashboard1.js"></script>
+    <script src="~/js/Flexible_user_icon.js"></script>
+    <script src="~/js/Custom JS/form-input-border.js"></script>
+    @*START------------SCRIPT FOR DATATABLES*@
+    <link rel="stylesheet" type="text/css" href="~/Content/DataTables/DataTables-1.10.18/css/dataTables.bootstrap4.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/DataTables/Select-1.3.0/css/select.bootstrap4.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/DataTables/dataTables.checkboxes.css">
+    <script type="text/javascript" charset="utf8" src="~/Content/DataTables/DataTables-1.10.18/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Content/DataTables/DataTables-1.10.18/js/dataTables.bootstrap4.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Content/DataTables/Select-1.3.0/js/dataTables.select.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Content/DataTables/dataTables.checkboxesCustomForAccount.min.js"></script>
+    <script>
+        var table;
+        $(document).ready(function () {
+            table = $('#table_account').DataTable({
+                columnDefs: [{
+                    targets: 0,
+                    data: "ID",
+
+                    checkboxes: {
+                        'selectRow': true
+                    }
+                },
+                { "visible": false, "targets": 1 }],
+                select: {
+                    style: 'multi'
+                },
+                "processing": true,
+                "serverSide": true,
+                ajax: {
+                    url: "/ManagementUser/Index",
+                    type: 'POST',
+                },
+                columns: [
+                    {
+                        "data": null,
+                        "defaultContent": ""
+                    },
+                    { "data": "ID" },
+                    {
+                        "data": "Username",
+                        "render": function (data, type, row, meta) {
+                            if (type === 'display') {
+                                data = '<a href="/ManagementUser/Index?username=' + data + '">' + data + '</a>';
+                            }
+
+                            return data;
+                        }
+                    },
+                    { "data": "Name" },
+                ],
+                order: [[1, 'asc']],
+                orderCellsTop: true,
+
+                drawCallback: function (settings, json) {
+                    var colIdx = 1;
+                    var table = $('#table_account').DataTable();
+                    var IDs = table.column(colIdx).data();
+
+                    $(IDs).each(function (index, value) {
+                        if (value === 1) {
+                            $(table.row(index).node()).addClass('not-selectable');
+                            $(table.row(index).node()).children('td').children('input').remove();
+                        }
+                    });
+
+                    // Deselect unselectable rows (that can still be selected by using the shift key)...
+                    table.on('select', function (e, dt, type, indexes) {
+                        if (type === 'row') {
+                            var rows = table.rows(indexes).nodes();
+
+                            $.each($(rows), function () {
+                                if ($(this).hasClass('not-selectable')) table.row($(this)).deselect();
+                            })
+                        }
+                    });
+                },
+            });
+
+        });
+
+    </script>
+    @*END------------SCRIPT FOR DATATABLES*@
+</head>
+
+<body>
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">Hhihi Admin</p>
+        </div>
+    </div>
+    <header class="topbar">
+        <nav>
+            <div class="nav-wrapper">
+                <a href="javascript:void(0)" class="brand-logo">
+                    <span class="icon">
+                        <img class="light-logo" src="/assets/images/logo-light-icon.png">
+                    </span>
+                    <span class="text">
+                        <img class="light-logo" src="/assets/images/logo-light-text.png">
+                    </span>
+                </a>
+                <ul class="left">
+                </ul>
+                <ul class="right">
+                    <li>
+                        <a class="dropdown-trigger" href="javascript: void(0);" data-target="user_dropdown"><img src="/assets/images/users/2.jpg" alt="user" class="circle profile-pic"></a>
+                        <ul id="user_dropdown" class="mailbox dropdown-content dropdown-user">
+                            <li>
+                                <div class="dw-user-box">
+                                    <div class="u-img"><img src="/assets/images/users/2.jpg" alt="user"></div>
+                                    <div class="u-text">
+                                        <h4>@Session["Name"]</h4>
+                                        <p>@Session["username"]</p>
+                                        <a class="waves-effect waves-light btn-small red white-text">Xem Hồ Sơ</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#"><i class="small material-icons">account_circle</i> Hồ Sơ Của Tôi</a></li>
+                            <li><a href="#"><i class="small material-icons">inbox</i> Tin nhắn</a></li>
+                            <li><a href="@Url.Action("Index","ManagementUser")"><i class="small material-icons">vpn_key</i> Phân quyền</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#"><i class="small material-icons">settings</i> Cài Đặt Tài Khoản</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="@Url.Action("","Logout")"><i class="small material-icons">power_settings_new</i>Đăng Xuất</a></li>
+                        </ul>
+                    </li>
+                    <li id="user-icon"><a href="" style="color:black">@Session["Name"] <span class="new badge red" data-badge-caption="@Session["Position"]"></span></a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!-- ============================================================== -->
+    <form>
+        <div class="card">
+            <div class="card-content">
+                <div class="row" style="float:left; width:50%;">
+                    <h3>Người dùng hiện thời</h3>
+                    <table id="table_account" class="table table-bordered datatables striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>ID</th>
+                                <th>Tài khoản người dùng</th>
+                                <th>Họ tên</th>
+                            </tr>
+                        </thead>
+
+                    </table>
+                    <button type="button" class="btn btn-danger blue" onclick="getSelected()">Xóa</button>
+                </div>
+                <div class="row" style="float:right; width:50%;">
+                    <h4 style="padding-left : 3rem">Thông tin chi tiết</h4>
+
+                    <div class="row" style="padding-left : 3rem">
+                        <label class="control-label text-right">Họ tên</label>
+                        <input type="text" class="form-control" value="@Model.Name" id="txtName">
+                    </div>
+                    <div class="row" style="padding-left : 3rem">
+                        <label class="control-label col-3 align-self-center text-right">Tên đăng nhập</label>
+                        <input type="text" class="form-control col 12" value="@Model.Username" id="txtUsername">
+                    </div>
+                    <div class="row" style="padding-left : 3rem">
+                        <label class="control-label col-3 align-self-center text-right">Chức vụ</label>
+                        <input type="text" class="form-control col 12" value="@Model.Position" id="txtPosition">
+                    </div>
+                    <div class="row" style="padding-left : 3rem">
+                        <label class="control-label col-3 align-self-center text-right">Mật khẩu</label>
+                        <input type="password" class="form-control col" id="txtPassword">
+                    </div>
+                    <div class="row" style="padding-left : 3rem">
+                        <label class="control-label col-3 align-self-center text-right">Nhập lại mật khẩu</label>
+                        <input type="password" class="form-control col" id="txtRepeatPassword">
+                    </div>
+
+                    <h4 style="padding-left: 3rem;padding-top:15px;color:black">Quyền truy cập vào các phòng ban</h4>
+
+
+                    <div class="row">
+                        <div class="col s12">
+                            <table class="table" style="margin-left:10px">
+                                <tr>
+                                    <td><label>Cơ Điện Vận Tải</label></td>
+                                    <td>
+                                        <select class="form-control" id="module1" style="width:600px">
+                                            <option value="0">Không</option>
+                                            @if (@Model.CDVT)
+                                            {
+                                                <option value="1" selected>Có</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="1">Có</option>
+                                            }
+                                        </select>
+                                    </td>
+                                    <td><a href="#!" onclick="ShowRight(1)">Các quyền</a></td>
+                                </tr>
+                                <tr>
+                                    <td><label>Tổ Chức Lao Động</label></td>
+                                    <td>
+                                        <select class="form-control" id="module2">
+                                            <option value="0">Không</option>
+                                            @if (@Model.TCLD)
+                                            {
+                                                <option value="1" selected>Có</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="1">Có</option>
+                                            }
+                                        </select>
+                                    </td>
+                                    <td><a href="#!" onclick="ShowRight(2)">Các quyền</a></td>
+                                </tr>
+                                <tr>
+                                    <td><label>Ban Giám Đốc</label></td>
+                                    <td>
+                                        <select class="form-control" id="module5">
+                                            <option value="0">Không</option>
+                                            @if (@Model.BGD)
+                                            {
+                                                <option value="1" selected>Có</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="1">Có</option>
+                                            }
+                                        </select>
+                                    </td>
+                                    <td><a href="#!" onclick="ShowRight(5)">Các quyền</a></td>
+                                </tr>
+                                <tr>
+                                    <td><label>KCS</label></td>
+                                    <td>
+                                        <select class="form-control" id="module3">
+                                            <option value="0">Không</option>
+                                            @if (@Model.KCS)
+                                            {
+                                                <option value="1" selected>Có</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="1">Có</option>
+                                            }
+                                        </select>
+                                    </td>
+                                    <td><a href="#!" onclick="ShowRight(3)">Các quyền</a></td>
+                                </tr>
+                                <tr>
+                                    <td><label>Phân Xưởng Khai Thác</label></td>
+                                    <td>
+                                        <select class="form-control" id="module6">
+                                            <option value="0">Không</option>
+                                            @if (@Model.PXKT)
+                                            {
+                                                <option value="1" selected>Có</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="1">Có</option>
+                                            }
+                                        </select>
+                                    </td>
+                                    <td><a href="#!" onclick="ShowRight(6)">Các quyền</a></td>
+                                </tr>
+                                <tr>
+                                    <td><label>Phòng Điều Khiển</label></td>
+                                    <td>
+                                        <select class="form-control" id="module4">
+                                            <option value="0">Không</option>
+                                            @if (@Model.DK)
+                                            {
+                                                <option value="1" selected>Có</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="1">Có</option>
+                                            }
+                                        </select>
+                                    </td>
+                                    <td><a href="#!" onclick="ShowRight(4)">Các quyền</a></td>
+                                </tr>
+                                <tr>
+                                    <td><label>Quyền quản lí</label></td>
+                                    <td>
+                                        <select class="form-control" id="module7">
+                                            <option value="0">Không</option>
+                                            @if (@Model.ADMIN)
+                                            {
+                                                <option value="1" selected>Có</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="1">Có</option>
+                                            }
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="col">
+                                            @if (@Model.ID != null)
+                                            {
+                                                <button type="button" class="btn btn-primary float-right blue" onclick="UpdateUser()">Cập nhật</button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" class="btn btn-primary float-right blue" onclick="AddNewUser()">Tạo mới</button>
+                                            }
+                                        </div>
+                                        <button type="button" class="btn btn-primary blue" onclick="Reset()">Đặt lại</button>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            .
+        </div>
+        <input type="hidden" id="txtID" value="@Model.ID" />
+        <div class="modal" tabindex="-1" role="dialog" id="modalNotifyUpdate">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Thông tin tài khoản</h5>
+                        @*<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>*@
+                    </div>
+                    <div class="modal-body">
+                        <p id="notifyMessageUpdate" style="color: green;"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary modal-close blue" onclick="reloadUpdate()">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" tabindex="-1" role="dialog" id="modalNotify">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Thông tin tài khoản</h5>
+                        @*<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>*@
+                    </div>
+                    <div class="modal-body">
+                        <p id="notifyMessage" style="color:red;"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary modal-close blue" data-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" tabindex="-1" role="dialog" id="modalNotifyDelete">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Thông tin tài khoản</h5>
+                        @*<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>*@
+                    </div>
+                    <div class="modal-body">
+                        <p style="color:red;">Bạn chắc chắn muốn xóa người dùng </p><strong id="notifyMessageDelete"></strong>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger red " onclick="DeleteUser()">Xóa</button>
+                        <button type="button" class="btn btn-secondary modal-close blue" data-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" tabindex="-1" role="dialog" id="modalRight">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="titleRight">Các quyền trong Phòng ban</h4>
+                        @*<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>*@
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col s12 m5">
+                                <div class="center"><label><strong>Các quyền cấp</strong></label></div>
+                                <select class="form-control" multiple id="acceptRights" style="height: 360px !important;"></select>
+                            </div>
+                            <div class="col s12 m2 center">
+                                <button class="btn btn-primary blue" type="button" style="margin-bottom: 1rem;margin-top:100px;" onclick="Accept()">&lt;&lt;&lt;</button><button class="btn btn-primary blue" type="button" onclick="Deny()">&gt;&gt;&gt;</button>
+                            </div>
+                            <div class="col s12 m5">
+                                <div class="center"><label><strong>Các quyền không được cấp</strong></label></div>
+                                <select class="form-control" multiple id="denyRights" style="height: 360px !important;"></select>
+                            </div>
+                        </div>
+
+                        <input type="hidden" id="moduleID" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary blue modal-close" data-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" value="@Model.ID" id="UserID" />
+    </form>
+</body>
+</html>
+
+<script>
+    $(document).ready(function () {
+        GetRightFromDBNotFill(1);
+        GetRightFromDBNotFill(2);
+        GetRightFromDBNotFill(3);
+        GetRightFromDBNotFill(4);
+        GetRightFromDBNotFill(5);
+        GetRightFromDBNotFill(6);
+    });
+
+    function AddNewUser() {
+        if (right1 == null || right2 == null || right3 == null || right4 == null || right5 == null || right6 == null) {
+
+            document.getElementById("notifyMessage").innerHTML = "Vui lòng chờ!";
+            $("#modalNotify").modal();
+        }
+        var module1 = $('#module1').val();
+        var module2 = $('#module2').val();
+        var module3 = $('#module3').val();
+        var module4 = $('#module4').val();
+        var module5 = $('#module5').val();
+        var module6 = $('#module6').val();
+        var module7 = $('#module7').val();
+        if (module1 == null) {
+            module1 = 0;
+        }
+        if (module2 == null) {
+            module2 = 0;
+        }
+        if (module3 == null) {
+            module3 = 0;
+        }
+        if (module4 == null) {
+            module4 = 0;
+        }
+        if (module5 == null) {
+            module5 = 0;
+        }
+        if (module6 == null) {
+            module6 = 0;
+        }
+        if (module7 == null) {
+            module7 = 0;
+        }
+        var rights = GetAcceptRights(right1) +
+            GetAcceptRights(right2) +
+            GetAcceptRights(right3) +
+            GetAcceptRights(right4) +
+            GetAcceptRights(right5) +
+            GetAcceptRights(right6);
+        var empObj = {
+            Name: document.getElementById("txtName").value,
+            Username: document.getElementById("txtUsername").value,
+            Position: document.getElementById("txtPosition").value,
+            Password: document.getElementById("txtPassword").value,
+            RepeatPassword: document.getElementById("txtRepeatPassword").value,
+            module1: module1,
+            module2: module2,
+            module3: module3,
+            module4: module4,
+            module5: module5,
+            module6: module6,
+            module7: module7,
+            rights: rights.substring(0, rights.length - 1),
+        }
+        $.ajax({
+            url: "/ManagementUser/AddNewUser",
+            data: JSON.stringify(empObj),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            success: function (result) {
+                switch (result.CodeError) {
+                    case 0:
+                        $("#modalNotifyUpdate").modal('open');
+                        document.getElementById("notifyMessageUpdate").innerHTML = result.Data;
+                        break;
+                    case 1:
+                        $("#modalNotify").modal('open');
+                        document.getElementById("notifyMessage").innerHTML = result.Data;
+                        break;
+                    case 2:
+                        $("#modalNotify").modal('open');
+                        document.getElementById("notifyMessage").innerHTML = result.Data;
+                        break;
+                    default:
+
+
+                }
+            },
+            error: function (errormessage) {
+
+            }
+        });
+    }
+
+        function UpdateUser() {
+        if (right1 == null || right2 == null || right3 == null || right4 == null || right5 == null || right6 == null) {
+
+            document.getElementById("notifyMessage").innerHTML = "Vui lòng chờ!";
+            $("#modalNotify").modal('open');
+        }
+        var module1 = $('#module1').val();
+        var module2 = $('#module2').val();
+        var module3 = $('#module3').val();
+        var module4 = $('#module4').val();
+        var module5 = $('#module5').val();
+        var module6 = $('#module6').val();
+        var module7 = $('#module7').val();
+        if (module1 == null) {
+            module1 = 0;
+        }
+        if (module2 == null) {
+            module2 = 0;
+        }
+        if (module3 == null) {
+            module3 = 0;
+        }
+        if (module4 == null) {
+            module4 = 0;
+        }
+        if (module5 == null) {
+            module5 = 0;
+        }
+        if (module6 == null) {
+            module6 = 0;
+            }
+        if (module7== null) {
+            module7 = 0;
+        }
+        var rights = GetAcceptRights(right1) +
+            GetAcceptRights(right2) +
+            GetAcceptRights(right3) +
+            GetAcceptRights(right4) +
+            GetAcceptRights(right5) +
+            GetAcceptRights(right6);
+        var empObj = {
+            ID: document.getElementById("txtID").value,
+            Name: document.getElementById("txtName").value,
+            Username: document.getElementById("txtUsername").value,
+            Position: document.getElementById("txtPosition").value,
+            Password: document.getElementById("txtPassword").value,
+            RepeatPassword: document.getElementById("txtRepeatPassword").value,
+            module1: module1,
+            module2: module2,
+            module3: module3,
+            module4: module4,
+            module5: module5,
+            module6: module6,
+            module7: module7,
+            rights: rights.substring(0, rights.length - 1),
+        }
+        $.ajax({
+            url: "/ManagementUser/UpdateUser",
+            data: JSON.stringify(empObj),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            success: function (result) {
+                switch (result.CodeError) {
+                    case 0:
+                        $("#modalNotifyUpdate").modal('open');
+                        document.getElementById("notifyMessageUpdate").innerHTML = result.Data;
+                        break;
+                    case 1:
+                        $("#modalNotify").modal('open');
+                        document.getElementById("notifyMessage").innerHTML = result.Data;
+                        break;
+                    case 2:
+                        $("#modalNotify").modal('open');
+                        document.getElementById("notifyMessage").innerHTML = result.Data;
+                        break;
+                    default:
+                        
+
+                }
+            },
+            error: function (errormessage) {
+
+            }
+        });
+    }
+
+    function GetAcceptRights(right) {
+        var rights = "";
+        var accept = right.Accept;
+        for (var i in accept) {
+            rights += accept[i].ID + ",";
+        }
+        return rights;
+    }
+
+        function reloadUpdate() {
+        window.location.href = "/ManagementUser/Index"
+    }
+        function Reset() {
+        window.location.href = "/ManagementUser/Index";
+    }
+
+        var newstrUIDs = "";
+
+    function getSelected() {
+        var strUIDs = "";
+        var users = "";
+        var selectedIds = table.columns().checkboxes.selected()[0];
+        selectedIds.forEach(function (selectedId) {
+            strUIDs += selectedId.ID + ",";
+            users += selectedId.Username + ",";
+        });
+        newstrUIDs = strUIDs.substring(0, strUIDs.length - 1);
+        users = users.substring(0, users.length - 1);
+        if (users != "") {
+            $("#modalNotifyDelete").modal('open');
+            document.getElementById("notifyMessageDelete").innerText = users;
+        }
+    }
+
+    function DeleteUser() {
+        var empObj = {
+            strUIDs: newstrUIDs
+        };
+        $.ajax({
+            url: "/ManagementUser/DeleteUser",
+            data: JSON.stringify(empObj),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                if (result != "") {
+                    window.location.href = "/ManagementUser/Index?DeleteSuccess=false";
+                } else {
+                    window.location.href = "/ManagementUser/Index?DeleteSuccess=true";
+                }
+            },
+            error: function (errormessage) {
+
+            }
+        });
+    }
+
+    var right1 = null;
+    var right2 = null;
+    var right3 = null;
+    var right4 = null;
+    var right5 = null;
+    var right6 = null;
+
+    function ShowRight(moduleID) {
+        if (moduleID == 1) {
+            document.getElementById("titleRight").innerText = "Các quyền trong Cơ Điện Vận Tải";
+            if (right1 == null) {
+                GetRightFromDB(1);
+            }
+            else {
+                FillData(right1, 1);
+            }
+        }
+        if (moduleID == 2) {
+            document.getElementById("titleRight").innerText = "Các quyền trong Tổ Chức Lao Động";
+            if (right2 == null) {
+                GetRightFromDB(2);
+            }
+            else {
+                FillData(right2, 2);
+            }
+        }
+        if (moduleID == 3) {
+            document.getElementById("titleRight").innerText = "Các quyền trong KCS";
+            if (right3 == null) {
+                GetRightFromDB(3);
+            }
+            else {
+                FillData(right3, 3);
+            }
+        }
+        if (moduleID == 4) {
+            document.getElementById("titleRight").innerText = "Các quyền trong phòng Điều Khiển";
+            if (right4 == null) {
+                GetRightFromDB(4);
+            }
+            else {
+                FillData(right4, 4);
+            }
+        }
+        if (moduleID == 5) {
+            document.getElementById("titleRight").innerText = "Các quyền trong Ban Giám Đốc";
+            if (right5 == null) {
+                GetRightFromDB(5);
+            }
+            else {
+                FillData(right5, 5);
+            }
+        }
+        if (moduleID == 6) {
+            document.getElementById("titleRight").innerText = "Các quyền trong Phân Xưởng Khai Thác";
+            if (right6 == null) {
+                GetRightFromDB(6);
+            }
+            else {
+                FillData(right6, 6);
+            }
+        }
+        $("#modalRight").modal('open');
+    }
+    function GetRightFromDB(moduleID) {
+        var empObj = {
+            module: moduleID,
+            UserID: document.getElementById("UserID").value
+        };
+        $.ajax({
+            url: "/ManagementUser/GetRightInModule",
+            data: JSON.stringify(empObj),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                if (moduleID == 1) {
+                    right1 = result;
+                    FillData(right1, 1);
+                }
+                if (moduleID == 2) {
+                    right2 = result;
+                    FillData(right2, 2);
+                }
+                if (moduleID == 3) {
+                    right3 = result;
+                    FillData(right3, 3);
+                }
+                if (moduleID == 4) {
+                    right4 = result;
+                    FillData(right4, 4);
+                }
+                if (moduleID == 5) {
+                    right5 = result;
+                    FillData(right5, 5);
+                }
+                if (moduleID == 6) {
+                    right6 = result;
+                    FillData(right6, 6);
+                }
+            },
+            error: function (errormessage) {
+
+            }
+        });
+    }
+    function GetRightFromDBNotFill(moduleID) {
+        var empObj = {
+            module: moduleID,
+            UserID: document.getElementById("UserID").value
+        };
+        $.ajax({
+            url: "/ManagementUser/GetRightInModule",
+            data: JSON.stringify(empObj),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                if (moduleID == 1) {
+                    right1 = result;
+                }
+                if (moduleID == 2) {
+                    right2 = result;
+                }
+                if (moduleID == 3) {
+                    right3 = result;
+                }
+                if (moduleID == 4) {
+                    right4 = result;
+                }
+                if (moduleID == 5) {
+                    right5 = result;
+                }
+                if (moduleID == 6) {
+                    right6 = result;
+                }
+            },
+            error: function (errormessage) {
+
+            }
+        });
+    }
+    function FillData(right, moduleID) {
+        var htmlAccept = "";
+        var accept = right.Accept;
+        for (var i in accept) {
+            htmlAccept += "<option value='" + accept[i].ID + "'>" + accept[i].GroupID + " - " + accept[i].Right + "</option>";
+        }
+        document.getElementById("acceptRights").innerHTML = htmlAccept;
+
+        var htmlDeny = "";
+        var deny = right.Deny;
+        for (var i in deny) {
+            htmlDeny += "<option value='" + deny[i].ID + "'>" + deny[i].GroupID + " - " + deny[i].Right + "</option>";
+        }
+        document.getElementById("denyRights").innerHTML = htmlDeny;
+
+        document.getElementById("moduleID").value = moduleID;
+    }
+    function Accept() {
+        var denyRightsID = $('#denyRights').val();
+        var denyRights = $("#denyRights :selected").toArray();
+
+        for (var id in denyRights) {
+            switch (document.getElementById("moduleID").value) {
+                case '1':
+                    right1.Deny.splice(denyRights[id].index, 1);
+                    var item = {
+                        ID: denyRightsID[id],
+                        Right: denyRights[id].innerText
+                    };
+                    right1.Accept.push(item);
+                    break;
+                case '2':
+                    right2.Deny.splice(denyRights[id].index, 1);
+                    var item = {
+                        ID: denyRightsID[id],
+                        Right: denyRights[id].innerText
+                    };
+                    right2.Accept.push(item);
+                    break;
+                case '3':
+                    right3.Deny.splice(denyRights[id].index, 1);
+                    var item = {
+                        ID: denyRightsID[id],
+                        Right: denyRights[id].innerText
+                    };
+                    right3.Accept.push(item);
+                    break;
+                case '4':
+                    right4.Deny.splice(denyRights[id].index, 1);
+                    var item = {
+                        ID: denyRightsID[id],
+                        Right: denyRights[id].innerText
+                    };
+                    right4.Accept.push(item);
+                    break;
+                case '5':
+                    right5.Deny.splice(denyRights[id].index, 1);
+                    var item = {
+                        ID: denyRightsID[id],
+                        Right: denyRights[id].innerText
+                    };
+                    right5.Accept.push(item);
+                    break;
+                case '6':
+                    right6.Deny.splice(denyRights[id].index, 1);
+                    var item = {
+                        ID: denyRightsID[id],
+                        Right: denyRights[id].innerText
+                    };
+                    right6.Accept.push(item);
+                    break;
+                default:
+            }
+            $("#denyRights option[value='" + denyRightsID[id] + "']").remove();
+            $("#acceptRights").append("<option value='" + denyRightsID[id] + "'>" + denyRights[id].innerText + "</option>");
+            $("#acceptRights").scrollTop(9999999);
+        }
+    }
+    function Deny() {
+        var acceptRightsID = $('#acceptRights').val();
+        var acceptRights = $("#acceptRights :selected").toArray();
+
+        for (var id in acceptRights) {
+            switch (document.getElementById("moduleID").value) {
+                case '1':
+                    right1.Accept.splice(acceptRights[id].index, 1);
+                    var item = {
+                        ID: acceptRightsID[id],
+                        LocName: acceptRights[id].innerText
+                    };
+                    right1.Deny.push(item);
+                    break;
+                case '2':
+                    right2.Accept.splice(acceptRights[id].index, 1);
+                    var item = {
+                        ID: acceptRightsID[id],
+                        LocName: acceptRights[id].innerText
+                    };
+                    right2.Deny.push(item);
+                    break;
+                case '3':
+                    right3.Accept.splice(acceptRights[id].index, 1);
+                    var item = {
+                        ID: acceptRightsID[id],
+                        LocName: acceptRights[id].innerText
+                    };
+                    right3.Deny.push(item);
+                    break;
+                case '4':
+                    right4.Accept.splice(acceptRights[id].index, 1);
+                    var item = {
+                        ID: acceptRightsID[id],
+                        LocName: acceptRights[id].innerText
+                    };
+                    right4.Deny.push(item);
+                    break;
+                case '5':
+                    right5.Accept.splice(acceptRights[id].index, 1);
+                    var item = {
+                        ID: acceptRightsID[id],
+                        LocName: acceptRights[id].innerText
+                    };
+                    right5.Deny.push(item);
+                    break;
+                case '6':
+                    right6.Accept.splice(acceptRights[id].index, 1);
+                    var item = {
+                        ID: acceptRightsID[id],
+                        LocName: acceptRights[id].innerText
+                    };
+                    right6.Deny.push(item);
+                    break;
+                default:
+            }
+            $("#acceptRights option[value='" + acceptRightsID[id] + "']").remove();
+            $("#denyRights").append("<option value='" + acceptRightsID[id] + "'>" + acceptRights[id].innerText + "</option>");
+            $("#denyRights").scrollTop(9999999);
+        }
+    }
+</script>
