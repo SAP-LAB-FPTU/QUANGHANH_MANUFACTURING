@@ -18,6 +18,7 @@ namespace QUANGHANH2.Models
         public Nullable<System.DateTime> NgayCap { get; set; }
         public string MaNV { get; set; }
         public int MaChungChi { get; set; }
+        public Nullable<System.DateTime> NgayTra { get; set; }
     
         public virtual ChungChi ChungChi { get; set; }
         public virtual NhanVien NhanVien { get; set; }

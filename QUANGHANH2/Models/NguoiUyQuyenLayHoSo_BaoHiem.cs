@@ -12,20 +12,21 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class GiayChungNhan
+    public partial class NguoiUyQuyenLayHoSo_BaoHiem
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public GiayChungNhan()
+        public NguoiUyQuyenLayHoSo_BaoHiem()
         {
-            this.GiayChungNhan_NhanVien = new HashSet<GiayChungNhan_NhanVien>();
+            this.NhanViens = new HashSet<NhanVien>();
         }
     
-        public int MaChungNhan { get; set; }
-        public string TenChungNhan { get; set; }
-        public Nullable<System.DateTime> ThoiHan { get; set; }
-        public string KieuChungNhan { get; set; }
+        public int MaUyQuyen { get; set; }
+        public string HoTen { get; set; }
+        public string QuanHe { get; set; }
+        public string SoCMND { get; set; }
+        public string SoDienThoai { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GiayChungNhan_NhanVien> GiayChungNhan_NhanVien { get; set; }
+        public virtual ICollection<NhanVien> NhanViens { get; set; }
     }
 }

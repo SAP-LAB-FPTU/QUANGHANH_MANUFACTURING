@@ -17,6 +17,7 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public QuyetDinh()
         {
+            this.ChamDut_NhanVien = new HashSet<ChamDut_NhanVien>();
             this.DieuDong_NV = new HashSet<DieuDong_NV>();
         }
     
@@ -25,6 +26,8 @@ namespace QUANGHANH2.Models
         public Nullable<System.DateTime> NgayQuyetDinh { get; set; }
         public string TrangThai { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ChamDut_NhanVien> ChamDut_NhanVien { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DieuDong_NV> DieuDong_NV { get; set; }
     }
