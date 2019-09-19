@@ -20,8 +20,9 @@
         </div>
         <hr />
         <div class="col s12 m12 l12">
+
             <ul class="tabs">
-                <li class="tab col m6 l6 s12"><a href="#chungchicongty">Chứng chỉ của cả công ty</a></li>
+                <li class="tab col m6 l6 s12"><a href="#chungchicongty" >Chứng chỉ của cả công ty</a></li>
                 <li class="tab col m6 l6 s12"><a href="#chungchicuanhanvien">Chứng chỉ của nhân viên</a></li>
             </ul>
         </div>
@@ -34,18 +35,21 @@
                             <a class="btn btn-small blue darken-2 modal-trigger btn-mg" data-target="myadd">Thêm chứng chỉ</a>
                             <a class="btn btn-small blue darken-2 btn-mg" href="~/excel/TCLD/Certificate/Chứng chỉ của cả công ty.xlsx">Xuất ra file excel</a>
                         </div>
-                        <table id="table_chungchi" class="table table-bordered table-responsive centered highlight">
-                            <thead>
-                                <tr>
-                                    <th>Mã chứng chỉ</th>
-                                    <th>Tên chứng chỉ</th>
-                                    <th>Thời hạn</th>
-                                    <th>Kiểu chứng chỉ</th>
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                        </table>
+                        <div class="table-responsive">
+                            <table id="table_chungchi" class="table table-bordered  centered highlight">
+                                <thead>
+                                    <tr>
+                                        <th>Mã chứng chỉ</th>
+                                        <th>Tên chứng chỉ</th>
+                                        <th>Thời hạn</th>
+                                        <th>Kiểu chứng chỉ</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -59,20 +63,21 @@
                             <a class="btn btn-small blue darken-2 modal-trigger btn-mg" data-target="add_cir_emp">Thêm chứng chỉ cho 1 nhân viên</a>
                             <a class="btn btn-small blue darken-2 btn-mg" href="~/excel/TCLD/Certificate/Chứng chỉ của cả công ty.xlsx">Xuất ra file excel</a>
                         </div>
-                        <table id="table_cirt_emp" class="table table-bordered table-responsive centered highlight">
-                            <thead>
-                                <tr>
-                                    <th>Số hiệu</th>
-                                    <th>Tên nhân viên</th>
-                                    <th>Tên chứng chỉ</th>
-                                    <th>Ngày cấp</th>
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                        </table>
-                        <br />
-
+                        <div class="table-responsive">
+                            <table id="table_cirt_emp" class="table table-bordered  centered highlight">
+                                <thead>
+                                    <tr>
+                                        <th>Số hiệu</th>
+                                        <th>Tên nhân viên</th>
+                                        <th>Tên chứng chỉ</th>
+                                        <th>Ngày cấp</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                            <br />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -167,6 +172,7 @@
         var searchId;
         $(document).ready(function () {
             dataTable = $("#table_chungchi").DataTable({
+
                 "ajax": {
                     "url": "/phong-tcld/chung-chi/danh-sach-chung-chi",
                     "type": "POST",
@@ -186,7 +192,6 @@
                     },
                     "orderable": false,
                     "searchable": false,
-                    "width": "150px"
                     },
                     {
                     "data": "MaChungChi", "render": function (data) {
@@ -194,7 +199,6 @@
                     },
                     "orderable": false,
                     "searchable": false,
-                    "width": "150px",
                 },
 
                 ],
@@ -202,6 +206,7 @@
 
                     "emptyTable": "No data found, Please click on <b>Add New</b> Button"
                 },
+                "autoWidth": false,
 
             });
             dataCertificateEmp = $("#table_cirt_emp").DataTable({
@@ -224,7 +229,7 @@
                         },
                         "orderable": false,
                         "searchable": false,
-                        "width": "150px"
+
                     },
                     {
                         "data": "SoHieu", "render": function (data) {
@@ -232,7 +237,6 @@
                         },
                         "orderable": false,
                         "searchable": false,
-                        "width": "150px",
                     },
 
                 ],

@@ -14,13 +14,16 @@ namespace QUANGHANH2.Models
     
     public partial class Activity
     {
-        public int activity_id { get; set; }
-        public string activity_name { get; set; }
-        public Nullable<double> quantity { get; set; }
-        public Nullable<int> hours_per_day { get; set; }
-        public Nullable<System.DateTime> date { get; set; }
-        public string equipmentId { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Activity()
+        {
+            this.Quantity_activities = new HashSet<Quantity_activities>();
+        }
     
-        public virtual Equipment Equipment { get; set; }
+        public string activityid { get; set; }
+        public string activityname { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Quantity_activities> Quantity_activities { get; set; }
     }
 }
