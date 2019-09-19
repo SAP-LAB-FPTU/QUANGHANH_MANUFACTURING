@@ -30,3 +30,17 @@ LuongSauDuyet float,
 DuBaoNguyCo nvarchar(1000),
 GiaiPhapNguyCo nvarchar(1000)
 )
+--fix LoaiQuyetDinh's length in QuyetDinh table
+alter table QuyetDinh
+alter column LoaiQuyetDinh nvarchar(100)
+
+--add table ChamDut_NhanVien
+create table ChamDut_NhanVien
+(
+SoQuyetDinh nvarchar(50) not null foreign key references QuyetDinh(SoQuyetDinh),
+MaNV nvarchar(50) not null foreign key references NhanVien(MaNV),
+LoaiChamDut nvarchar(100),
+NgayChamDut date,
+DonViKhiChamDut nvarchar(100)
+primary key (SoQuyetDinh, MaNV)
+)
