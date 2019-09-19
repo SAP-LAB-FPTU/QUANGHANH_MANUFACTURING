@@ -1,4 +1,4 @@
-﻿@model QUANGHANH2.Models.Account
+@model QUANGHANH2.Models.Account
 @{
     ViewBag.Title = "Quản lý tài khoản";
     Layout = null;
@@ -431,15 +431,14 @@
                 </div>
             </div>
         </div>
-
-        <div class="modal" tabindex="-1" role="dialog" id="modalRight">
+        @*
+        aa    
+        *@
+        <div class="modal" tabindex="-1" style="width:80%;" id="modalRight">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title" id="titleRight">Các quyền trong Phòng ban</h4>
-                        @*<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>*@
                     </div>
                     <div class="modal-body">
                         <div class="row">
@@ -448,7 +447,7 @@
                                 <select class="form-control" multiple id="acceptRights" style="height: 360px !important;"></select>
                             </div>
                             <div class="col s12 m2 center">
-                                <button class="btn btn-primary blue" type="button" style="margin-bottom: 1rem;margin-top:100px;" onclick="Accept()">&lt;&lt;&lt;</button><button class="btn btn-primary blue" type="button" onclick="Deny()">&gt;&gt;&gt;</button>
+                                <div class="center" style="margin-top:100px"><button class="btn btn-primary blue" type="button" style="margin-right:10px;" onclick="Accept()">&lt;&lt;&lt;</button><button class="btn btn-primary blue" type="button" onclick="Deny()">&gt;&gt;&gt;</button></div>
                             </div>
                             <div class="col s12 m5">
                                 <div class="center"><label><strong>Các quyền không được cấp</strong></label></div>
