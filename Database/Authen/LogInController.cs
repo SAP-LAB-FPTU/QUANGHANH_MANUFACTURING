@@ -13,7 +13,7 @@ namespace QUANGHANHCORE.Controllers
 
     public class LogInController : Controller
     {
-        private QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+        private QUANGHANHABCEntities1 db = new QUANGHANHABCEntities1();
         // GET: /<controller>/
         [HttpGet]
         public ActionResult Index()
