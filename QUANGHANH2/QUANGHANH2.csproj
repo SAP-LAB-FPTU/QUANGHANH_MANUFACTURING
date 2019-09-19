@@ -6886,6 +6886,7 @@
     <Content Include="Views\TCLD\Shutdown\NotYet.cshtml" />
     <Content Include="Views\TCLD\Transfer\Temporary.cshtml" />
     <Content Include="Views\TCLD\CommonRecord.cshtml" />
+    <Content Include="Views\suachua\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
