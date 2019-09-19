@@ -102,9 +102,6 @@ namespace QUANGHANH2.Models
         public virtual ICollection<QuanHeGiaDinh> QuanHeGiaDinhs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QuaTrinhCongTac> QuaTrinhCongTacs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DiemDanh_NangSuatLaoDong> DiemDanh_NangSuatLaoDong { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GiayChungNhan_NhanVien> GiayChungNhan_NhanVien { get; set; }
+       
     }
 }
