@@ -18,6 +18,7 @@ namespace QUANGHANH2.Models
         public Equipment()
         {
             this.Acceptances = new HashSet<Acceptance>();
+            this.Activities = new HashSet<Activity>();
             this.Category_attribute_value = new HashSet<Category_attribute_value>();
             this.Documentary_big_maintain_details = new HashSet<Documentary_big_maintain_details>();
             this.Documentary_liquidation_details = new HashSet<Documentary_liquidation_details>();
@@ -29,7 +30,6 @@ namespace QUANGHANH2.Models
             this.Equipment_Inspection = new HashSet<Equipment_Inspection>();
             this.Fuel_activities_consumption = new HashSet<Fuel_activities_consumption>();
             this.Incidents = new HashSet<Incident>();
-            this.Quantity_activities = new HashSet<Quantity_activities>();
             this.Supply_Documentary_Equipment = new HashSet<Supply_Documentary_Equipment>();
             this.Supplies = new HashSet<Supply>();
         }
@@ -56,6 +56,8 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Acceptance> Acceptances { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Activity> Activities { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Category_attribute_value> Category_attribute_value { get; set; }
         public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -79,8 +81,6 @@ namespace QUANGHANH2.Models
         public virtual ICollection<Fuel_activities_consumption> Fuel_activities_consumption { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Incident> Incidents { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Quantity_activities> Quantity_activities { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Supply_Documentary_Equipment> Supply_Documentary_Equipment { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

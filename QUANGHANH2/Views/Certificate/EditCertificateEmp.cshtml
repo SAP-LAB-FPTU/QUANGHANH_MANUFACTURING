@@ -1,0 +1,60 @@
+﻿@model QUANGHANH2.Models.ChungChi_NhanVien
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>EditCertificateEmp</title>
+</head>
+<body>
+    <div id="edit-modal-body-emp">
+    @using (Html.BeginForm("EditCertificateEmp", "Certificate", FormMethod.Post, new { onSubmit = "return SubmitForm(this) " }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>ChungChi_NhanVien</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.SoHieu)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.NgayCap, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.NgayCap, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.NgayCap, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.MaNV, "MaNV", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("MaNV", (IEnumerable<SelectListItem>)ViewBag.List_nhanvien, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.MaNV, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.MaChungChi, "MaChungChi", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("MaChungChi", (IEnumerable<SelectListItem>)ViewBag.List_chungchi, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.MaChungChi, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+
+    </div>
+</body>
+</html>
