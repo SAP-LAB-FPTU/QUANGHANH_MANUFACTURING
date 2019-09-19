@@ -12,18 +12,21 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Activity
+    public partial class NguoiUyQuyenLayHoSo_BaoHiem
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Activity()
+        public NguoiUyQuyenLayHoSo_BaoHiem()
         {
-            this.Quantity_activities = new HashSet<Quantity_activities>();
+            this.NhanViens = new HashSet<NhanVien>();
         }
     
-        public string activityid { get; set; }
-        public string activityname { get; set; }
+        public int MaUyQuyen { get; set; }
+        public string HoTen { get; set; }
+        public string QuanHe { get; set; }
+        public string SoCMND { get; set; }
+        public string SoDienThoai { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Quantity_activities> Quantity_activities { get; set; }
+        public virtual ICollection<NhanVien> NhanViens { get; set; }
     }
 }

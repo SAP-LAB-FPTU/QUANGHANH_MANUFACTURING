@@ -108,7 +108,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
 
-                var query = db.Documentaries.SqlQuery("Select doc.reason,doc.documentary_id, doc.date_created,doc.person_created,doc.[out/in_come] as out_in_come,doc.documentary_status,doc.documentary_type, doc.department_id from Documentary doc where documentary_id = '" + id + "'").FirstOrDefault<Documentary>();
+                NewDocumentary query = db.Database.SqlQuery<NewDocumentary>("Select doc.reason,doc.documentary_id, doc.date_created,doc.person_created,doc.[out/in_come] as out_in_come,doc.documentary_status,doc.documentary_type, doc.department_id from Documentary doc where documentary_id = '" + id + "'").First();
                 ViewBag.DocID = id;
                 query.tempId = id;
                 //   return View(db.Documentaries.Where(x => x.documentary_id == id).FirstOrDefault<Documentary>());
@@ -220,7 +220,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
         public int documentary_status { get; set; }
 
         public int count { get; set; }
-        public int tempId { get; set; }
+        public string tempId { get; set; }
 
 
     }

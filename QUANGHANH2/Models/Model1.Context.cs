@@ -32,6 +32,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<Activity> Activities { get; set; }
         public virtual DbSet<BangCap> BangCaps { get; set; }
         public virtual DbSet<Category_attribute_value> Category_attribute_value { get; set; }
+        public virtual DbSet<ChamDut_NhanVien> ChamDut_NhanVien { get; set; }
         public virtual DbSet<ChiTiet_BangCap> ChiTiet_BangCap { get; set; }
         public virtual DbSet<ChiTiet_CongViec_NhanVien> ChiTiet_CongViec_NhanVien { get; set; }
         public virtual DbSet<ChungChi> ChungChis { get; set; }
@@ -62,9 +63,11 @@ namespace QUANGHANH2.Models
         public virtual DbSet<LichSuBoSungSYLL> LichSuBoSungSYLLs { get; set; }
         public virtual DbSet<Module> Modules { get; set; }
         public virtual DbSet<Nganh> Nganhs { get; set; }
+        public virtual DbSet<NguoiUyQuyenLayHoSo_BaoHiem> NguoiUyQuyenLayHoSo_BaoHiem { get; set; }
         public virtual DbSet<NhanVien> NhanViens { get; set; }
         public virtual DbSet<NhiemVu> NhiemVus { get; set; }
         public virtual DbSet<QuanHeGiaDinh> QuanHeGiaDinhs { get; set; }
+        public virtual DbSet<Quantity_activities> Quantity_activities { get; set; }
         public virtual DbSet<QuaTrinhCongTac> QuaTrinhCongTacs { get; set; }
         public virtual DbSet<QuyetDinh> QuyetDinhs { get; set; }
         public virtual DbSet<Supply> Supplies { get; set; }
