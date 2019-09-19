@@ -275,6 +275,7 @@
     <Compile Include="Models\ChungChi_NhanVien.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ChungChi_NhanVien_Model.cs" />
     <Compile Include="Models\ChuyenNganh.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -6886,6 +6887,11 @@
     <Content Include="Views\TCLD\Shutdown\NotYet.cshtml" />
     <Content Include="Views\TCLD\Transfer\Temporary.cshtml" />
     <Content Include="Views\TCLD\CommonRecord.cshtml" />
+    <Content Include="Views\Certificate\AddCertificate.cshtml" />
+    <Content Include="Views\Certificate\EditCertificate.cshtml" />
+    <Content Include="Views\Certificate\SearchCertificate.cshtml" />
+    <Content Include="Views\Certificate\AddCertificateEmployee.cshtml" />
+    <Content Include="Views\Certificate\EditCertificateEmp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
