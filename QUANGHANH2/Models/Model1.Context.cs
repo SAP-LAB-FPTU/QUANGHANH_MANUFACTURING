@@ -68,5 +68,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<TrinhDo> TrinhDoes { get; set; }
         public virtual DbSet<Truong> Truongs { get; set; }
         public virtual DbSet<ChiTiet_NhiemVu_NhanVien> ChiTiet_NhiemVu_NhanVien { get; set; }
+        public virtual DbSet<DiemDanh_NangSuatLaoDong> DiemDanh_NangSuatLaoDong { get; set; }
+        public virtual DbSet<GiayChungNhan_NhanVien> GiayChungNhan_NhanVien { get; set; }
     }
 }

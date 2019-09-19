@@ -58,20 +58,19 @@
                     </div>
                 </div>
                 <div class="col s12 left" style="margin-bottom:20px">
-                    @{
-                        foreach (var item in right)
-                        {
-                            if (item.Equals("83"))
-                            {
+                 
                                 <a href="/phong-cdvt/sua-chua" class="waves-effect waves-light btn blue darken-1 blue">Thêm</a>
 
-                            }
-                        }
-                    }
+                     
                     <a href="javascript:void(0);" id="ExportExcel" class="waves-effect waves-light btn blue darken-1 blue">Xuất Excel</a>
                 </div>
                 <div class="col s12">
                     <table id="DocumnetaryTable" class="striped centered responsive-table mytable table-bordered">
+
+
+
+
+
 
                         <thead>
                             <tr>
@@ -189,7 +188,7 @@
                     { "data": "out_in_come" , "name" :"out_in_come" },
                     {
                         "data": "documentary_id", "render": function (data) {
-                             return "<a class='btn btn-default btn-sm modal-trigger' data-target='myedit'onclick=Edit('@Url.Action("Edit","suachua")/" + data + "')>Chỉnh Sửa</a>";
+                             return "<a class='btn btn-default btn-sm modal-trigger' data-target='myedit'onclick=Edit('@Url.Action("Edit","suachuaQD")/" + data + "')>Chỉnh Sửa</a>";
                                     },
                         "orderable": false,
                         "searchable":false,
@@ -282,7 +281,7 @@
 
         $("#ExportExcel").click(function () {
             $.ajax({
-                url: '@Url.Action("ExportExcel","suachua")',
+                url: '@Url.Action("ExportExcel","suachuaQD")',
                 type: 'POST',
                 success: {
 

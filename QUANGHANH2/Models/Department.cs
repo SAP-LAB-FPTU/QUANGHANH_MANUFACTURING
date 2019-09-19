@@ -21,6 +21,7 @@ namespace QUANGHANH2.Models
             this.Equipments = new HashSet<Equipment>();
             this.Incidents = new HashSet<Incident>();
             this.NhanViens = new HashSet<NhanVien>();
+            this.DiemDanh_NangSuatLaoDong = new HashSet<DiemDanh_NangSuatLaoDong>();
         }
     
         public string department_id { get; set; }
@@ -35,5 +36,7 @@ namespace QUANGHANH2.Models
         public virtual ICollection<Incident> Incidents { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<NhanVien> NhanViens { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DiemDanh_NangSuatLaoDong> DiemDanh_NangSuatLaoDong { get; set; }
     }
 }

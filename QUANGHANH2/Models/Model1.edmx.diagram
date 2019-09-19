@@ -103,6 +103,12 @@
         <AssociationConnector Association="QUANGHANHABCModel.FK_ChiTiet_NhiemVu_NhanVien_NhiemVu" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__Supply_Do__suppl__3864608B" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.Upgrading_attribute" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.DiemDanh_NangSuatLaoDong" Width="1.5" PointX="11.25" PointY="54.875" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.GiayChungNhan_NhanVien" Width="1.5" PointX="5.25" PointY="25.375" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK__DiemDanh___MaDon__5CA1C101" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK__DiemDanh_N__MaNV__5D95E53A" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK__GiayChung__MaChu__56E8E7AB" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK__GiayChungN__MaNV__57DD0BE4" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
