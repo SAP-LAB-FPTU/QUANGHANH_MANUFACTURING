@@ -12,15 +12,19 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Quantity_activities
+    public partial class Account
     {
-        public double quantity { get; set; }
-        public string activityid { get; set; }
-        public int hours_per_day { get; set; }
-        public System.DateTime date { get; set; }
-        public string equipmentId { get; set; }
-    
-        public virtual Activity Activity { get; set; }
-        public virtual Equipment Equipment { get; set; }
+        public string ID { get; set; }
+        public string Name { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string Position { get; set; }
+        public bool CDVT { get; set; }
+        public bool TCLD { get; set; }
+        public bool BGD { get; set; }
+        public bool DK { get; set; }
+        public bool KCS { get; set; }
+        public bool PXKT { get; set; }
+        public bool ADMIN { get; set; }
     }
 }

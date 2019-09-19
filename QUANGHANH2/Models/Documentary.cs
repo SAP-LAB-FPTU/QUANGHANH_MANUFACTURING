@@ -11,8 +11,7 @@ namespace QUANGHANH2.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations.Schema;
-
+    
     public partial class Documentary
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -37,9 +36,7 @@ namespace QUANGHANH2.Models
         public string reason { get; set; }
         public string out_in_come { get; set; }
         public int documentary_status { get; set; }
-        [NotMapped]
-        public string tempId { get; set; }
-
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Acceptance> Acceptances { get; set; }
         public virtual Department Department { get; set; }

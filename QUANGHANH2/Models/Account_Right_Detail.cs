@@ -12,15 +12,10 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Activity
+    public partial class Account_Right_Detail
     {
-        public int activity_id { get; set; }
-        public string activity_name { get; set; }
-        public Nullable<double> quantity { get; set; }
-        public Nullable<int> hours_per_day { get; set; }
-        public Nullable<System.DateTime> date { get; set; }
-        public string equipmentId { get; set; }
-    
-        public virtual Equipment Equipment { get; set; }
+        public int ID { get; set; }
+        public string AccountID { get; set; }
+        public int RightID { get; set; }
     }
 }
