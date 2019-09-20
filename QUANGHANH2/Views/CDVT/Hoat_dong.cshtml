@@ -5,7 +5,7 @@
     ViewData["Title"] = "GeneralList";
     Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
 }
-
+@{List<string> right = (List<string>)Session["RightIDs"]; }
 <link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
 <link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
@@ -93,9 +93,28 @@
                 <div class="col s12" style="margin-bottom:20px">
                     <div class="left" style="text-align:left !important">
                         <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="myadd" onclick="PopupForm('@Url.Action("AddOrEdit","Hoatdong")')"><i class="fa fa-plus"></i> Thêm</a>
-                        <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="myadd3" @*onclick="PopupForm('@Url.Action("AddOrEdit","Hoatdong")')*@"><i class="fa fa-plus"></i> Thêm nhóm thiết bị</a>
+                        <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="myadd3" @*onclick="PopupForm('@Url.Action("AddOrEdit","Hoatdong")')*@><i class="fa fa-plus"></i> Thêm nhóm thiết bị</a>
                         <a class="waves-effect waves-light btn-small blue modal-trigger" id="export-button">Xuất ra Excel</a>
                         <a class="waves-effect waves-light btn-small blue modal-trigger" href="#kiemdinh">Cập nhật ngày kiểm định</a>
+
+                        @*@{
+                            foreach (var item in right)
+                            {
+                                if (item.Equals("1"))
+                                {
+                                }
+                                if (item.Equals("114"))
+                                {
+                                }
+                                if (item.Equals("3"))
+                                {
+                                }
+                                if (item.Equals("2"))
+                                {
+                                }
+
+                            }
+                        }*@
                     </div>
                     <div class="right">
                         <a class='dropdown-trigger btn' id="filter" href='#' data-target='dropdown1'
@@ -152,23 +171,25 @@
                         <div class="card mymanu card-hover" style="height: 200px">
                             <div class="card-content center-align table_container" style="overflow-x: auto !important">
                                 <div class="row">
-                                    <div class="col s12">
-                                        <h6 class="card-subtitle center-align m-b-0 white-text">Tổng</h6>
-                                        <h2 class="font-light font-medium m-b-0 white-text" style="padding-top: 10px"> 10700 </h2>
-                                    </div>
-                                    <div class="col s12">
-                                        <div class="progress">
-                                            <div class="determinate amber darken+5" style="width: 100%"></div>
+                                    
+                                        <div class="col s12">
+                                            <h6 class="card-subtitle center-align m-b-0 white-text">Tổng</h6>
+                                            <h2 class="font-light font-medium m-b-0 white-text" style="padding-top: 10px"> @ViewBag.Thongke.total </h2>
                                         </div>
-                                    </div>
-                                    <div class="col s6 center-align">
-                                        <h5 class="card-subtitle white-text">Đang hoạt động</h5>
-                                        <h5 class="white-text">7000</h5>
-                                    </div>
-                                    <div class="col s6 center-align">
-                                        <h6 class="card-subtitle white-text">Không hoạt động</h6>
-                                        <h5 class="white-text">3700</h5>
-                                    </div>
+                                        <div class="col s12">
+                                            <div class="progress">
+                                                <div class="determinate amber darken+5" style="width: 100%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col s6 center-align">
+                                            <h5 class="card-subtitle white-text">Đang hoạt động</h5>
+                                            <h5 class="white-text">7000</h5>
+                                        </div>
+                                        <div class="col s6 center-align">
+                                            <h6 class="card-subtitle white-text">Không hoạt động</h6>
+                                            <h5 class="white-text">3700</h5>
+                                        </div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -180,7 +201,7 @@
                                 <div class="row">
                                     <div class="col s12">
                                         <h6 class="card-subtitle center-align white-text">Sửa chữa</h6>
-                                        <h4 class=" center-align white-text"> 500 </h4>
+                                        <h4 class=" center-align white-text"> @ViewBag.Thongke.total_repair </h4>
                                     </div>
 
                                     <div class="col s12">
@@ -207,7 +228,7 @@
                                 <div class="row">
                                     <div class="col s12">
                                         <h6 class="card-subtitle center-align white-text">Bảo dưỡng </h6>
-                                        <h4 class=" center-align white-text"> 900</h4>
+                                        <h4 class=" center-align white-text"> @ViewBag.Thongke.total_maintain</h4>
                                     </div>
 
                                     <div class="col s12">
@@ -235,7 +256,7 @@
                                 <div class="row">
                                     <div class="col s12">
                                         <h6 class="card-subtitle center-align white-text">Kiểm định</h6>
-                                        <h4 class=" center-align white-text"> 1000</h4>
+                                        <h4 class=" center-align white-text"> @ViewBag.Thongke.total_KD</h4>
                                     </div>
 
                                     <div class="col s12">
@@ -262,7 +283,7 @@
                                 <div class="row">
                                     <div class="col s12">
                                         <h6 class="card-subtitle center-align white-text">Thanh lý</h6>
-                                        <h4 class=" center-align white-text"> 300 </h4>
+                                        <h4 class=" center-align white-text"> @ViewBag.Thongke.total_TL </h4>
                                     </div>
 
                                     <div class="col s12">
@@ -290,7 +311,7 @@
                                 <div class="row">
                                     <div class="col s12 center-align" style="padding-top: 45px">
                                         <h6 class="card-subtitle white-text">Thu hồi</h6>
-                                        <h4 class="font-medium m-b-0 white-text"> 1000 </h4>
+                                        <h4 class="font-medium m-b-0 white-text"> @ViewBag.Thongke.total_TH </h4>
                                     </div>
                                 </div>
                             </div>
@@ -432,7 +453,7 @@
                     <div class="col s12 m6">
                         <div class="form-group">
                             <label for="number">Ngày kiểm định: </label>
-                            <input type="date" class="form-control" />
+                            <input type="datetime" class="form-control datepicker-here" />
                         </div>
                     </div>
                 </div>
@@ -491,7 +512,11 @@
             $("#searchButton2").hide();
         }
     });
-
+     $('.Datemv').datepicker({
+        language: 'vi',
+        maxDate: new Date(),
+        minDate: new Date("1/1/1900")
+    })
     $('.maxDate').datepicker({
         language: 'vi',
         maxDate: new Date(),
@@ -584,7 +609,7 @@
                     { "data": "supplier", "name": "supplier" },
                     {
                         "data": "date_import", "name": "date_import", "render": function (data) {
-                            return dateFormat2(data);
+                             return dateFormat(new Date(parseInt((data).match(/\d+/)[0]))) +" ";
                         },
                        
                     },
@@ -592,22 +617,22 @@
                     { "data": "depreciation_present" , "name" : "depreciation_present" },
                     {
                          "data": "durationOfInspection", "name": "durationOfInspection", "render": function (data) {
-                            return dateFormat(new Date(parseInt((data).match(/\d+/)[0]))) +" ";
+                             return dateFormat(new Date(parseInt((data).match(/\d+/)[0]))) +" ";
                         },
                     },
                     {
                          "data": "durationOfInsurance", "name": "durationOfInsurance", "render": function (data) {
-                            return dateFormat(new Date(parseInt((data).match(/\d+/)[0]))) +" ";
+                             return dateFormat(new Date(parseInt((data).match(/\d+/)[0]))) +" ";
                         },
                     },
                     {
                          "data": "usedDay", "name": "usedDay", "render": function (data) {
-                            return dateFormat(new Date(parseInt((data).match(/\d+/)[0]))) +" ";
+                             return dateFormat(new Date(parseInt((data).match(/\d+/)[0]))) +" ";
                         },
                     },
                     {
-                         "data": "nearest_Maintenance_Day", "name": "nearest_Maintenance_Day", "render": function (data) {
-                            return dateFormat(new Date(parseInt((data).match(/\d+/)[0]))) +" ";
+                        "data": "nearest_Maintenance_Day", "name": "nearest_Maintenance_Day", "render": function (data) {
+                             return dateFormat(new Date(parseInt((data).match(/\d+/)[0]))) +" ";
                         },
                     },
                     { "data": "total_operating_hours" , "name" : "total_operating_hours"},
@@ -629,7 +654,7 @@
                     },
                     {
                         "data": "equipmentId", "render": function (data) {
-                            return "<a class='waves-effect waves-light btn-small red' style='margin-left:5px' onclick=Delete('@Url.Action("Delete","Hoatdong")/" + data + "')><i class='fa fa-trash'></i>Xóa</a>";
+                            return "<a class='waves-effect waves-light btn-small blue' style='margin-left:5px' onclick=Delete('@Url.Action("Delete","Hoatdong")/" + data + "')><i class='fa fa-trash'></i>Xóa</a>";
                         },
                         "orderable": false,
                         "searchable":false,
@@ -646,8 +671,9 @@
         });
 
          $("#searchButton1").click(function () {
-                $("#pre-load").show();
-                dataTable.destroy();
+             $("#pre-load").show(); 
+             dataTable.destroy();
+
                 dataTable = $('#equipmentTable').DataTable({
                     "language": {
                         "equipmentTable": "Không tìm thấy dữ liệu"
@@ -680,7 +706,7 @@
                     { "data": "supplier", "name": "supplier" },
                     {
                         "data": "date_import", "name": "date_import", "render": function (data) {
-                            return dateFormat2(data);
+                            return dateFormat(new Date(parseInt((data).match(/\d+/)[0]))) +" ";
                         },
                        
                     },
@@ -715,7 +741,7 @@
                     { "data": "Equipment_category_name", "name" : "Equipment_category_name"},
                     { "data": "department_name" , "name" : "department_name"},
                     //
-                      {
+                     {
                         "data": "equipmentId", "render": function (data) {
                             return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='myedit' onclick=Edit('@Url.Action("Edit","Hoatdong")/" + data + "')><i class='fa fa-pencil'></i>Chỉnh&nbsp;sửa</a>";
                         },
@@ -725,7 +751,7 @@
                     },
                     {
                         "data": "equipmentId", "render": function (data) {
-                            return "<a class='waves-effect waves-light btn-small red' style='margin-left:5px' onclick=Delete('@Url.Action("Delete","Hoatdong")/" + data + "')><i class='fa fa-trash'></i>Xóa</a>";
+                            return "<a class='waves-effect waves-light btn-small blue' style='margin-left:5px' onclick=Delete('@Url.Action("Delete","Hoatdong")/" + data + "')><i class='fa fa-trash'></i>Xóa</a>";
                         },
                         "orderable": false,
                         "searchable":false,
@@ -737,6 +763,7 @@
                     "rowId": "incident_id",
                     "lengthChange": false,
                     "searching": false,
+                    "bInfo": false,
                     "initComplete": function (settings, json) {
                         $.notify("Tìm kiếm thành công", {
                             globalPosition: "top center",
@@ -766,7 +793,7 @@
             $.get(url)
             .done(function (response) {
                 formDiv.html(response);
-                 //hihii
+
                     Popup = formDiv.dialog({
                     autoOpen: true,
                     resizable: false,
