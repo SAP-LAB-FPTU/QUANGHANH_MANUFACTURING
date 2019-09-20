@@ -146,51 +146,51 @@
 <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 
 <script>
-        var datatable_hs, stt;
-        $(document).ready(function () {
-            datatable_hs = $('#hoso_detail').DataTable({
-                "ajax": {
-                    "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/chi-tiet-ho-so",
-                    "type": "POST",
-                    "datatype": "json"
-                },
-                "columns": [
-                    { "data": "nguoiGiuHoSo", "name": "nguoiGiuHoSo" },
-                    { "data": "ngayNhanHoSo", "name": "ngayNhanHoSo" },
-                    { "data": "nguoiGiaoHoSo", "name": "nguoiGiaoHoSo" },
-                    { "data": "camKetTuyenDung", "name": "camKetTuyenDung" },
-                    { "data": "quyetDinhTiepNhan", "name": "quyetDinhTiepNhan" },
-                    { "data": "nguoiBanGiaoBangNhapKho", "name": "nguoiBanGiaoBangNhapKho" },
-                                    {
+    var datatable_hs, stt;
+    $(document).ready(function () {
+        datatable_hs = $('#hoso_detail').DataTable({
+            "ajax": {
+                "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/chi-tiet-ho-so",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "nguoiGiuHoSo", "name": "nguoiGiuHoSo" },
+                { "data": "ngayNhanHoSo", "name": "ngayNhanHoSo" },
+                { "data": "nguoiGiaoHoSo", "name": "nguoiGiaoHoSo" },
+                { "data": "camKetTuyenDung", "name": "camKetTuyenDung" },
+                { "data": "quyetDinhTiepNhan", "name": "quyetDinhTiepNhan" },
+                { "data": "nguoiBanGiaoBangNhapKho", "name": "nguoiBanGiaoBangNhapKho" },
+                {
                     "data": "MaNV", "render": function (data) {
-                        return "<a class='waves-effect waves-light btn-small red modal-trigger' data-target='myedit_suahoso' style='margin-left:5px' onclick=getEditHs('"+data+"') ><i class=''></i> Sửa</a>";
+                        return "<a class='waves-effect waves-light btn-small red modal-trigger' data-target='myedit_suahoso' style='margin-left:5px' onclick=getEditHs('" + data + "') ><i class=''></i> Sửa</a>";
                     },
                     "orderable": false,
                     "searchable": false,
                     "width": "150px"
                 }
-                ],
-                "serverSide": "true",
-                "scrollCollapse": false,
-                "order": [0, "asc"]
-            });
-
-            datatable_hs.ajax.reload();
+            ],
+            "serverSide": "true",
+            "scrollCollapse": false,
+            "order": [0, "asc"]
         });
 
-        function getEditHs(id) {
-            alter(id);
-            if (id != null) {
-                $.ajax({
-                    type: "GET",
-                    url: '@Url.Action("EditHoSo", "Brief")/' + id,
-                    success: function (data) {
-                        $("#hoso_edit_model").html(data)
-                    }
+        datatable_hs.ajax.reload();
+    });
 
-                });
-            }
+    function getEditHs(id) {
+        alter(id);
+        if (id != null) {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("EditHoSo", "Brief")/' + id,
+                success: function (data) {
+                    $("#hoso_edit_model").html(data)
+                }
+
+            });
         }
+    }
 </script>
 
 <script>
@@ -248,19 +248,19 @@
 
         datatable.ajax.reload();
     });
-            function editBangCap(id) {
-            alter(id);
-            if (id != null) {
-                $.ajax({
-                    type: "GET",
-                    url: '@Url.Action("EditChiTietbangCap", "Brief")/' + id,
-                    success: function (data) {
-                        $("#edit_chitietbangcap").html(data)
-                    }
+    function editBangCap(id) {
+        alter(id);
+        if (id != null) {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("EditChiTietbangCap", "Brief")/' + id,
+                success: function (data) {
+                    $("#edit_chitietbangcap").html(data)
+                }
 
-                });
-            }
+            });
         }
+    }
 </script>
 
 <script>
@@ -294,19 +294,19 @@
 
         datatable_quanhe.ajax.reload();
     });
-            function editBangCap(id) {
-            alter(id);
-            if (id != null) {
-                $.ajax({
-                    type: "GET",
-                    url: '@Url.Action("EditChiTietbangCap", "Brief")/' + id,
-                    success: function (data) {
-                        $("#edit_chitietbangcap").html(data)
-                    }
+    function editBangCap(id) {
+        alter(id);
+        if (id != null) {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("EditChiTietbangCap", "Brief")/' + id,
+                success: function (data) {
+                    $("#edit_chitietbangcap").html(data)
+                }
 
-                });
-            }
+            });
         }
+    }
 </script>
 
 
