@@ -211,11 +211,13 @@ foreign key (departmentid) references Department(department_id)
 --them bảng vat tu bao duong hang ngay
 create table Maintain_Car_Detail
 (
+maintaindetailid int identity (1,1),
 maintainid int not null,
 supplyid nvarchar(150) not null,
 quantity int not null,
 supplyType int not null,
 supplyStatus int not null,
+primary key (maintaindetailid),
 foreign key (supplyid) references Supply(supply_id),
 foreign key (maintainid) references Maintain_Car(maintainid)
 )
