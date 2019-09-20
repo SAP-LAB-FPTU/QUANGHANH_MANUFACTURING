@@ -964,7 +964,11 @@ error 6004: The table 'QUANGHANHABC.dbo.Documentary_Inspection_details' is refer
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Equipment__depar__3B40CD36">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
           <ReferentialConstraint>
+            <Principal Role="Department">
               <PropertyRef Name="department_id" />
             </Principal>
             <Dependent Role="Equipment">
