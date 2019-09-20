@@ -130,6 +130,7 @@
     <NavigationProperty Name="Equipments" Relationship="Self.FK__Equipment__depar__25518C17" FromRole="Department" ToRole="Equipment" />
     <NavigationProperty Name="Incidents" Relationship="Self.FK__Incident__depart__2EDAF651" FromRole="Department" ToRole="Incident" />
     <NavigationProperty Name="NhanViens" Relationship="Self.FK_NhanVien_Department" FromRole="Department" ToRole="NhanVien" />
+    <NavigationProperty Name="DiemDanh_NangSuatLaoDong" Relationship="QUANGHANHABCModel.FK__DiemDanh___MaDon__5CA1C101" FromRole="Department" ToRole="DiemDanh_NangSuatLaoDong" />
   </EntityType>
   <EntityType Name="DieuDong_NV">
     <Key>
@@ -359,6 +360,7 @@
     <Property Name="TenChungNhan" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="ThoiHan" Type="DateTime" Precision="0" />
     <Property Name="KieuChungNhan" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="GiayChungNhan_NhanVien" Relationship="QUANGHANHABCModel.FK__GiayChung__MaChu__56E8E7AB" FromRole="GiayChungNhan" ToRole="GiayChungNhan_NhanVien" />
   </EntityType>
   <EntityType Name="GiayTo">
     <Key>
@@ -483,6 +485,8 @@
     <NavigationProperty Name="ChiTiet_NhiemVu_NhanVien" Relationship="Self.FK__ChiTiet_Nh__MaNV__123EB7A3" FromRole="NhanVien" ToRole="ChiTiet_NhiemVu_NhanVien" />
     <NavigationProperty Name="QuanHeGiaDinhs" Relationship="Self.FK__QuanHeGiaD__MaNV__32AB8735" FromRole="NhanVien" ToRole="QuanHeGiaDinh" />
     <NavigationProperty Name="QuaTrinhCongTacs" Relationship="Self.FK__QuaTrinhCo__MaNV__3587F3E0" FromRole="NhanVien" ToRole="QuaTrinhCongTac" />
+    <NavigationProperty Name="DiemDanh_NangSuatLaoDong" Relationship="QUANGHANHABCModel.FK__DiemDanh_N__MaNV__5D95E53A" FromRole="NhanVien" ToRole="DiemDanh_NangSuatLaoDong" />
+    <NavigationProperty Name="GiayChungNhan_NhanVien" Relationship="QUANGHANHABCModel.FK__GiayChungN__MaNV__57DD0BE4" FromRole="NhanVien" ToRole="GiayChungNhan_NhanVien" />
   </EntityType>
   <EntityType Name="NhiemVu">
     <Key>
@@ -1526,5 +1530,101 @@
       <End Role="Equipment" EntitySet="Equipments" />
       <End Role="Supply" EntitySet="Supplies" />
     </AssociationSet>
+    <EntitySet Name="DiemDanh_NangSuatLaoDong" EntityType="QUANGHANHABCModel.DiemDanh_NangSuatLaoDong" />
+    <EntitySet Name="GiayChungNhan_NhanVien" EntityType="QUANGHANHABCModel.GiayChungNhan_NhanVien" />
+    <AssociationSet Name="FK__DiemDanh___MaDon__5CA1C101" Association="QUANGHANHABCModel.FK__DiemDanh___MaDon__5CA1C101">
+      <End Role="Department" EntitySet="Departments" />
+      <End Role="DiemDanh_NangSuatLaoDong" EntitySet="DiemDanh_NangSuatLaoDong" />
+    </AssociationSet>
+    <AssociationSet Name="FK__DiemDanh_N__MaNV__5D95E53A" Association="QUANGHANHABCModel.FK__DiemDanh_N__MaNV__5D95E53A">
+      <End Role="NhanVien" EntitySet="NhanViens" />
+      <End Role="DiemDanh_NangSuatLaoDong" EntitySet="DiemDanh_NangSuatLaoDong" />
+    </AssociationSet>
+    <AssociationSet Name="FK__GiayChung__MaChu__56E8E7AB" Association="QUANGHANHABCModel.FK__GiayChung__MaChu__56E8E7AB">
+      <End Role="GiayChungNhan" EntitySet="GiayChungNhans" />
+      <End Role="GiayChungNhan_NhanVien" EntitySet="GiayChungNhan_NhanVien" />
+    </AssociationSet>
+    <AssociationSet Name="FK__GiayChungN__MaNV__57DD0BE4" Association="QUANGHANHABCModel.FK__GiayChungN__MaNV__57DD0BE4">
+      <End Role="NhanVien" EntitySet="NhanViens" />
+      <End Role="GiayChungNhan_NhanVien" EntitySet="GiayChungNhan_NhanVien" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="DiemDanh_NangSuatLaoDong">
+    <Key>
+      <PropertyRef Name="MaDiemDanh" />
+    </Key>
+    <Property Name="MaDiemDanh" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MaNV" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="NgayDiemDanh" Type="DateTime" Precision="0" />
+    <Property Name="CaDiemDanh" Type="Int32" />
+    <Property Name="ThoiGianThucTeDiemDanh" Type="DateTime" Precision="3" />
+    <Property Name="MaDonVi" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="NangSuatLaoDong" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="HeSoChiaLuong" Type="Double" />
+    <Property Name="LuongTruocDuyet" Type="Double" />
+    <Property Name="LuongSauDuyet" Type="Double" />
+    <Property Name="DuBaoNguyCo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="GiaiPhapNguyCo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Department" Relationship="QUANGHANHABCModel.FK__DiemDanh___MaDon__5CA1C101" FromRole="DiemDanh_NangSuatLaoDong" ToRole="Department" />
+    <NavigationProperty Name="NhanVien" Relationship="QUANGHANHABCModel.FK__DiemDanh_N__MaNV__5D95E53A" FromRole="DiemDanh_NangSuatLaoDong" ToRole="NhanVien" />
+  </EntityType>
+  <EntityType Name="GiayChungNhan_NhanVien">
+    <Key>
+      <PropertyRef Name="SoHieu" />
+    </Key>
+    <Property Name="SoHieu" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="NgayCap" Type="DateTime" Precision="0" />
+    <Property Name="MaNV" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MaChungNhan" Type="Int32" />
+    <NavigationProperty Name="GiayChungNhan" Relationship="QUANGHANHABCModel.FK__GiayChung__MaChu__56E8E7AB" FromRole="GiayChungNhan_NhanVien" ToRole="GiayChungNhan" />
+    <NavigationProperty Name="NhanVien" Relationship="QUANGHANHABCModel.FK__GiayChungN__MaNV__57DD0BE4" FromRole="GiayChungNhan_NhanVien" ToRole="NhanVien" />
+  </EntityType>
+  <Association Name="FK__DiemDanh___MaDon__5CA1C101">
+    <End Type="QUANGHANHABCModel.Department" Role="Department" Multiplicity="1" />
+    <End Type="QUANGHANHABCModel.DiemDanh_NangSuatLaoDong" Role="DiemDanh_NangSuatLaoDong" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="department_id" />
+      </Principal>
+      <Dependent Role="DiemDanh_NangSuatLaoDong">
+        <PropertyRef Name="MaDonVi" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__DiemDanh_N__MaNV__5D95E53A">
+    <End Type="QUANGHANHABCModel.NhanVien" Role="NhanVien" Multiplicity="1" />
+    <End Type="QUANGHANHABCModel.DiemDanh_NangSuatLaoDong" Role="DiemDanh_NangSuatLaoDong" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NhanVien">
+        <PropertyRef Name="MaNV" />
+      </Principal>
+      <Dependent Role="DiemDanh_NangSuatLaoDong">
+        <PropertyRef Name="MaNV" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__GiayChung__MaChu__56E8E7AB">
+    <End Type="QUANGHANHABCModel.GiayChungNhan" Role="GiayChungNhan" Multiplicity="0..1" />
+    <End Type="QUANGHANHABCModel.GiayChungNhan_NhanVien" Role="GiayChungNhan_NhanVien" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GiayChungNhan">
+        <PropertyRef Name="MaChungNhan" />
+      </Principal>
+      <Dependent Role="GiayChungNhan_NhanVien">
+        <PropertyRef Name="MaChungNhan" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__GiayChungN__MaNV__57DD0BE4">
+    <End Type="QUANGHANHABCModel.NhanVien" Role="NhanVien" Multiplicity="0..1" />
+    <End Type="QUANGHANHABCModel.GiayChungNhan_NhanVien" Role="GiayChungNhan_NhanVien" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NhanVien">
+        <PropertyRef Name="MaNV" />
+      </Principal>
+      <Dependent Role="GiayChungNhan_NhanVien">
+        <PropertyRef Name="MaNV" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

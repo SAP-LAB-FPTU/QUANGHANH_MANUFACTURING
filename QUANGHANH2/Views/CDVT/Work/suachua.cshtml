@@ -99,15 +99,15 @@
                         { "data": "department_id", "name": "department_id" },
                         { "data": "current_Status", "name": "current_Status" },
                         {
-                        "data": "equipmentId", "render": function (data) {
-                if (arrCarSelected != null) {
-                    for (let i = 0; i < arrCarSelected.length; i++)
-                        if (arrCarSelected[i] == data) {
-                            return "<label><input class='my_checkbox'  name='abc' id ='" + data + "' value='" + data + "' type ='checkbox' onclick=updateList('" + data + "') checked><span></span></label>";
-                        }
-                }
-                return "<label><input class='my_checkbox'  name='abc' id ='" + data + "' value='" + data + "' type ='checkbox' onclick=updateList('" + data + "')><span></span></label>";
-            },
+                            "data": "equipmentId", "render": function (data) {
+                                if (arrCarSelected != null) {
+                                    for (let i = 0; i < arrCarSelected.length; i++)
+                                        if (arrCarSelected[i] == data) {
+                                            return "<label><input class='my_checkbox'  name='abc' id ='" + data + "' value='" + data + "' type ='checkbox' onclick=updateList('" + data + "') checked><span></span></label>";
+                                        }
+                                }
+                                return "<label><input class='my_checkbox'  name='abc' id ='" + data + "' value='" + data + "' type ='checkbox' onclick=updateList('" + data + "')><span></span></label>";
+                            },
                         "orderable": false,
                         "searchable": false,
                         "width": "150px"
@@ -118,7 +118,7 @@
 
             });
 
-
+            
             function changeState(value, state) {
                 $.ajax({
                 type: "POST",
@@ -134,6 +134,8 @@
                 });
             }
         });
+
+
 
         //function updateList(id) {
         //        isExist = false;
@@ -163,6 +165,8 @@
                 console.log(arrCarSelected)
             }
         }
+
+
 
         function SaveStatus() {
             $.ajax({
