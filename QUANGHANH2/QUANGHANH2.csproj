@@ -6973,6 +6973,7 @@
     <Content Include="Views\Certificate\EditCertificateEmp.cshtml" />
     <Content Include="Views\ManagementUser\Index.cshtml" />
     <Content Include="Views\TCLD\Brief\ManageBrief\InsideDetail.cshtml" />
+    <Content Include="Views\PX\PXKT\NSLD.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
