@@ -71,3 +71,78 @@ add NgayTra date
 
 alter table GiayTo
 add NgayTra date
+
+--20/09/2019
+--San xuat
+--add table TieuChi
+create table TieuChi
+(
+MaTieuChi int not null primary key identity(1,1),
+TenTieuChi nvarchar(100),
+DonViDo nvarchar(100)
+)
+
+--add table VatLieuSanXuat
+create table VatLieuSanXuat
+(
+MaVatLieu int not null primary key identity(1,1),
+LoaiVatLieu nvarchar(100),
+TenVatLieu nvarchar(100)
+)
+
+--add table TieuChi_VatLieuSanXuat
+create table TieuChi_VatLieuSanXuat
+(
+MaTieuChi_VatLieuSanXuat int not null primary key identity(1,1),
+MaTieuChi int not null foreign key references TieuChi(MaTieuChi),
+MaVatLieu int not null foreign key references VatLieuSanXuat(MaVatLieu)
+)
+
+--add table ThucHien_TieuChi
+create table ThucHien_TieuChi
+(
+MaThucHien int not null primary key identity(1,1),
+MaPhongBan nvarchar(150) not null foreign key references Department(department_id),
+MaTieuChi int not null foreign key references TieuChi(MaTieuChi),
+NgayThucHien date,
+CaThucHien int,
+SanLuongThucHien float
+)
+
+--add table ThucHien_TieuChi_VatLieuSanXuat
+create table ThucHien_TieuChi_VatLieuSanXuat
+(
+MaThucHien int not null foreign key references ThucHien_TieuChi(MaThucHien),
+MaTieuChi_VatLieuSanXuat int not null foreign key references TieuChi_VatLieuSanXuat(MaTieuChi_VatLieuSanXuat),
+primary key (MaThucHien, MaTieuChi_VatLieuSanXuat)
+)
+
+--add table KeHoach_TieuChi
+create table KeHoach_TieuChi
+(
+MaKeHoach int not null primary key identity(1,1),
+MaPhongBan nvarchar(150) not null foreign key references Department(department_id),
+MaTieuChi int not null foreign key references TieuChi(MaTieuChi),
+ThangKeHoach int,
+NamKeHoach int,
+SoNgayLamViec int,
+SanLuongKeHoach float
+)
+
+--add table KeHoach_TieuChi_VatLieuSanXuat
+create table KeHoach_TieuChi_VatLieuSanXuat
+(
+MaKeHoach int not null foreign key references KeHoach_TieuChi(MaKeHoach),
+MaTieuChi_VatLieuSanXuat int not null foreign key references TieuChi_VatLieuSanXuat(MaTieuChi_VatLieuSanXuat),
+TietDienDao float,
+primary key (MaKeHoach, MaTieuChi_VatLieuSanXuat)
+)
+
+--add table GhiChu
+create table GhiChu
+(
+MaGhiChu int not null primary key identity(1,1),
+MaThucHien int not null foreign key references ThucHien_TieuChi(MaThucHien),
+MaKeHoach int not null foreign key references KeHoach_TieuChi(MaKeHoach),
+NoiDungGhiChu nvarchar(max)
+)

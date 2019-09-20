@@ -2,6 +2,12 @@
     ViewData["Title"] = "List";
     Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
 }
+<link href="~/dist/css/pages/data-table.css" rel="stylesheet">
+
+@{
+    ViewBag.Title = "Add";
+    List<string> right = (List<string>)Session["RightIDs"];
+}
 
 <div class="col s12 m12 l12">
     <div class="card">
@@ -12,16 +18,16 @@
                 <div class="col s12 m12 l12">
                     <div class="row center">
                         <div class="col l2 m12 s12 input-field">
-                            <input type="text" placeholder="Mã nhân viên" class='form-control autocomplete_MNV' id="searchArea" multiple />
+                            <input type="text" placeholder="Mã nhân viên" class='form-control autocomplete_MNV' id="searchMaNV" multiple />
                         </div>
                         <div class="col l2 m12 s12 input-field">
-                            <input type="text" placeholder="Tên nhân viên" class='form-control autocomplete_Name' id="searchArea" multiple />
+                            <input type="text" placeholder="Tên nhân viên" class='form-control autocomplete_Name' id="searchTenNV" multiple />
                         </div>
                         <div class="col l2 m12 s12 input-field">
-                            <select class="form-control" id="gender">
-                                <option value="" disabled selected>Giới tính</option>
-                                <option value="1">Nam</option>
-                                <option value="2">Nữ</option>
+                            <select class="form-control" id="searchGioiTinh">
+                                <option value="" selected>Giới tính</option>
+                                <option value="true">Nam</option>
+                                <option value="false">Nữ</option>
                             </select>
                         </div>
                         <div class="col l2 m12 s12 input-field">
@@ -58,7 +64,7 @@
                 <div class="left col s6 m4 l6">
                     <div class="row">
                         <div class="col s2 m2 l2">
-                            <a class="btn btn-small blue darken-2 modal-trigger input-field" href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/them-nhan-vien")">Thêm</a>
+                            <a class="btn btn-small blue darken-2 modal-trigger input-field" href="@Url.Action("them-nhan-vien", "phong-tcld/quan-ly-nhan-vien")">Thêm</a>
                         </div>
                         <div class="col s3 m3 l3">
                             <a class="btn btn-small blue darken-2 input-field" id="danhsachhosonhanvien" href="~/excel/TCLD/Brief/Danh sách hồ sơ nhân viên.xlsx"><i class="fas fa-file-excel"></i>&nbsp;Excel</a>
@@ -68,527 +74,49 @@
 
                 <div>
 
-                    <div class="col s12 m12 l12">
-                        <table class="striped table-bordered responsive-table" id="data">
+                    <div class="col s12 m12 l12 table-responsive">
+
+                        <table id="test-table" class="tcld table-bordered mytablr" style="width:100%; margin-top: 20px; max-height:600px!important">
                             <thead>
                                 <tr>
-                                    <th class="center">Số thứ tự</th>
-                                    <th class="center">Mã nhân viên</th>
-                                    <th class="center">Tên</th>
-                                    <th class="center">Năm sinh</th>
-                                    <th class="center">Giới tính</th>
-                                    <th class="center">Số điện thoại</th>
-                                    <th class="center">Phân xưởng</th>
-                                    <th class="center green-text">Trạng thái</th>
-                                    <th class="center"></th>
-                                    <th class="center"></th>
-                                    <th class="center"></th>
+                                    <th>
+                                        Mã nhân viên
+                                    </th>
+                                    <th>
+                                        Tên nhân viên
+                                    </th>
+                                    <th>
+                                        Ngày sinh
+                                    </th>
+                                    <th>
+                                        Giới tính
+                                    </th>
+                                    <th>
+                                        Số điện thoại
+                                    </th>
+                                    <th>
+                                        Tên phân xưởng
+                                    </th>
+                                    <th>
+                                        Trạng thái làm việc
+                                    </th>
+                                    <th>
+                                    </th>
+                                    <th></th>
+                                    <th></th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="center">1</td>
-                                    <td class="center"><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/xem-chi-tiet-nhan-vien")">2179</a></td>
-                                    <td class="center"><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/xem-chi-tiet-nhan-vien")">Nguyễn Xuân Thoàng</a></td>
-                                    <td class="center">19/07/1987</td>
-                                    <td class="center">Nam</td>
-                                    <td class="center">091346578</td>
-                                    <td class="center">Phân xưởng cơ khí</td>
-                                    <td class="center">Đang đi làm</td>
-                                    <td class="center"><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien")" class="waves-effect waves-light btn blue darken-2 btn-small"><span class="ti-pencil-alt">&nbsp;Sửa</span></a></td>
-
-                                    <td class="center">
-                                        <a class="dropdown-trigger btn blue darken-2 btn-small" data-target="dropdown1"><span class="fas fa-history">&nbsp;Xem</span></a>
-                                    </td>
-                                    <td class="center"><a href="#deleteBriefs" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle"></span><span>&nbsp;TLHĐ</span></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="center">2</td>
-                                    <td class="center"><a href="/">7751</a></td>
-                                    <td class="center"><a href="/">Nguyễn Văn Hùng</a></td>
-                                    <td class="center">19/05/1984</td>
-                                    <td class="center">Nam</td>
-                                    <td class="center">094234658</td>
-                                    <td class="center">Phân xưởng cơ khí</td>
-                                    <td class="center">Đang thực tập</td>
-                                    <td class="center"><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien")" class="waves-effect waves-light btn blue darken-2 btn-small btn-small"><span class="ti-pencil-alt">&nbsp;Sửa</span></a></td>
-
-                                    <td class="center">
-                                        <a class="dropdown-trigger btn blue darken-2 btn-small" data-target="dropdown1"><span class="fas fa-history">&nbsp;Xem</span></a>
-                                    </td>
-                                    <td class="center"><a href="#deleteBriefs" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle"></span><span>&nbsp;TLHĐ</span></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="center">3</td>
-                                    <td class="center"><a href="/">3506</a></td>
-                                    <td class="center"><a href="/">Nguyễn Văn Hùng</a></td>
-                                    <td class="center">19/07/1991</td>
-                                    <td class="center">Nam</td>
-                                    <td class="center">091758725</td>
-                                    <td class="center">Phân xưởng cơ khí</td>
-                                    <td class="center">Đang đi học</td>
-                                    <td class="center"><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien")" class="waves-effect waves-light btn blue darken-2 btn-small btn-small"><span class="ti-pencil-alt">&nbsp;Sửa</span></a></td>
-
-                                    <td class="center">
-                                        <a class="dropdown-trigger btn blue darken-2 btn-small" data-target="dropdown1"><span class="fas fa-history">&nbsp;Xem</span></a>
-                                    </td>
-                                    <td class="center"><a href="#deleteBriefs" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle"></span><span>&nbsp;TLHĐ</span></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="center">4</td>
-                                    <td class="center"><a href="/">2041</a></td>
-                                    <td class="center"><a href="/">Nguyễn Văn Hưng</a></td>
-                                    <td class="center">19/07/1976</td>
-                                    <td class="center">Nam</td>
-                                    <td class="center">098765243</td>
-                                    <td class="center">Phân xưởng xây dựng</td>
-                                    <td class="center">Đang đi làm</td>
-                                    <td class="center"><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien")" class="waves-effect waves-light btn blue darken-2 btn-small btn-small"><span class="ti-pencil-alt">&nbsp;Sửa</span></a></td>
-
-                                    <td class="center">
-                                        <a class="dropdown-trigger btn blue darken-2 btn-small" data-target="dropdown1"><span class="fas fa-history">&nbsp;Xem</span></a>
-                                    </td>
-                                    <td class="center"><a href="#deleteBriefs" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle"></span><span>&nbsp;TLHĐ</span></a></td>
-
-                                </tr>
-                                <tr>
-                                    <td class="center">5</td>
-                                    <td class="center"><a href="/">4472</a></td>
-                                    <td class="center"><a href="/">Nguyễn Văn Hoa</a></td>
-                                    <td class="center">19/07/1976</td>
-                                    <td class="center">Nữ</td>
-                                    <td class="center">091874526</td>
-                                    <td class="center">Phân xưởng cơ khí</td>
-                                    <td class="center">Đang đi làm</td>
-                                    <td class="center"><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien")" class="waves-effect waves-light btn blue darken-2 btn-small btn-small"><span class="ti-pencil-alt">&nbsp;Sửa</span></a></td>
-
-                                    <td class="center">
-                                        <a class="dropdown-trigger btn blue darken-2 btn-small" data-target="dropdown1"><span class="fas fa-history">&nbsp;Xem</span></a>
-                                    </td>
-                                    <td class="center"><a href="#deleteBriefs" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle"></span><span>&nbsp;TLHĐ</span></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="center">6</td>
-                                    <td class="center"><a href="/">7430</a></td>
-                                    <td class="center"><a href="/">Đông Văn Đai</a></td>
-                                    <td class="center">19/07/1985</td>
-                                    <td class="center">Nam</td>
-                                    <td class="center">098645724</td>
-                                    <td class="center">Phân xưởng cơ khí</td>
-                                    <td class="center">Đang đi làm</td>
-                                    <td class="center"><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien")" class="waves-effect waves-light btn blue darken-2 btn-small btn-small"><span class="ti-pencil-alt">&nbsp;Sửa</span></a></td>
-
-                                    <td class="center">
-                                        <a class="dropdown-trigger btn blue darken-2 btn-small" data-target="dropdown1"><span class="fas fa-history">&nbsp;Xem</span></a>
-                                    </td>
-                                    <td class="center"><a href="#deleteBriefs" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle"></span><span>&nbsp;TLHĐ</span></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="center">7</td>
-                                    <td class="center"><a href="/">7564</a></td>
-                                    <td class="center"><a href="/">Nguyễn Văn Sơn</a></td>
-                                    <td class="center">19/07/1987</td>
-                                    <td class="center">Nam</td>
-                                    <td class="center">092347561</td>
-                                    <td class="center">Phân xưởng phục vụ</td>
-                                    <td class="center">Đang đi làm</td>
-                                    <td class="center"><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien")" class="waves-effect waves-light btn blue darken-2 btn-small btn-small"><span class="ti-pencil-alt">&nbsp;Sửa</span></a></td>
-
-                                    <td class="center">
-                                        <a class="dropdown-trigger btn blue darken-2 btn-small" data-target="dropdown1"><span class="fas fa-history">&nbsp;Xem</span></a>
-                                    </td>
-                                    <td class="center"><a href="#deleteBriefs" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle"></span><span>&nbsp;TLHĐ</span></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="center">8</td>
-                                    <td class="center"><a href="/">7598</a></td>
-                                    <td class="center"><a href="/">Đăng Tung</a></td>
-                                    <td class="center">19/07/1987</td>
-                                    <td class="center">Nam</td>
-                                    <td class="center">094526347</td>
-                                    <td class="center">Phân xưởng cơ khí</td>
-                                    <td class="center">Đang đi làm</td>
-                                    <td class="center"><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien")" class="waves-effect waves-light btn blue darken-2 btn-small btn-small"><span class="ti-pencil-alt">&nbsp;Sửa</span></a></td>
-
-                                    <td class="center">
-                                        <a class="dropdown-trigger btn blue darken-2 btn-small" data-target="dropdown1"><span class="fas fa-history">&nbsp;Xem</span></a>
-                                    </td>
-                                    <td class="center"><a href="#deleteBriefs" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle"></span><span>&nbsp;TLHĐ</span></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="center">9</td>
-                                    <td class="center"><a href="/">5132</a></td>
-                                    <td class="center"><a href="/">Lệnh Văn Hương</a></td>
-                                    <td class="center">19/05/1984</td>
-                                    <td class="center">Nữ</td>
-                                    <td class="center">091234655</td>
-                                    <td class="center">Phân xưởng cơ khí</td>
-                                    <td class="center">Đang đi làm</td>
-                                    <td class="center"><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien")" class="waves-effect waves-light btn blue darken-2 btn-small btn-small"><span class="ti-pencil-alt">&nbsp;Sửa</span></a></td>
-
-                                    <td class="center">
-                                        <a class="dropdown-trigger btn blue darken-2 btn-small" data-target="dropdown1"><span class="fas fa-history">&nbsp;Xem</span></a>
-                                    </td>
-                                    <td class="center"><a href="#deleteBriefs" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle"></span><span>&nbsp;TLHĐ</span></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="center">10</td>
-                                    <td class="center"><a href="/">3352</a></td>
-                                    <td class="center"><a href="/">Phạm Văn Phú</a></td>
-                                    <td class="center">19/07/1991</td>
-                                    <td class="center">Nam</td>
-                                    <td class="center">095476253</td>
-                                    <td class="center">Phân xưởng phục vụ</td>
-                                    <td class="center">Đang đi làm</td>
-                                    <td class="center"><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien")" class="waves-effect waves-light btn blue darken-2 btn-small btn-small"><span class="ti-pencil-alt">&nbsp;Sửa</span></a></td>
-
-                                    <td class="center">
-                                        <a class="dropdown-trigger btn blue darken-2 btn-small" data-target="dropdown1"><span class="fas fa-history">&nbsp;Xem</span></a>
-                                    </td>
-                                    <td class="center"><a href="#deleteBriefs" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle"></span><span>&nbsp;TLHĐ</span></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="center">11</td>
-                                    <td class="center"><a href="/">6771</a></td>
-                                    <td class="center"><a href="/">Nguyễn Hữu Thinh</a></td>
-                                    <td class="center">19/07/1976</td>
-                                    <td class="center">Nam</td>
-                                    <td class="center">083657462/td>
-                                    <td class="center">Phân xưởng xây dựng</td>
-                                    <td class="center">Đang đi làm</td>
-                                    <td class="center"><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien")" class="waves-effect waves-light btn blue darken-2 btn-small btn-small"><span class="ti-pencil-alt">&nbsp;Sửa</span></a></td>
-
-                                    <td class="center">
-                                        <a class="dropdown-trigger btn blue darken-2 btn-small" data-target="dropdown1"><span class="fas fa-history">&nbsp;Xem</span></a>
-                                    </td>
-                                    <td class="center"><a href="#deleteBriefs" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle"></span><span>&nbsp;TLHĐ</span></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="center">12</td>
-                                    <td class="center"><a href="/">7962</a></td>
-                                    <td class="center"><a href="/">Nguyễn Tiền Nhật</a></td>
-                                    <td class="center">19/07/1976</td>
-                                    <td class="center">Nam</td>
-                                    <td class="center">084572635</td>
-                                    <td class="center">Phân xưởng cơ khí</td>
-                                    <td class="center">Đang đi làm</td>
-                                    <td class="center"><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien")" class="waves-effect waves-light btn blue darken-2 btn-small btn-small"><span class="ti-pencil-alt">&nbsp;Sửa</span></a></td>
-
-                                    <td class="center">
-                                        <a class="dropdown-trigger btn blue darken-2 btn-small" data-target="dropdown1"><span class="fas fa-history">&nbsp;Xem</span></a>
-                                    </td>
-                                    <td class="center"><a href="#deleteBriefs" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle"></span><span>&nbsp;TLHĐ</span></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="center">13</td>
-                                    <td class="center"><a href="/">1674</a></td>
-                                    <td class="center"><a href="/">Nguyễn Văn Hùng</a></td>
-                                    <td class="center">09/07/1974</td>
-                                    <td class="center">Nam</td>
-                                    <td class="center">097645243</td>
-                                    <td class="center">Phân xưởng đào lò</td>
-                                    <td class="center">Đang đi làm</td>
-                                    <td class="center"><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien")" class="waves-effect waves-light btn blue darken-2 btn-small btn-small"><span class="ti-pencil-alt">&nbsp;Sửa</span></a></td>
-
-                                    <td class="center">
-                                        <a class="dropdown-trigger btn blue darken-2 btn-small" data-target="dropdown1"><span class="fas fa-history">&nbsp;Xem</span></a>
-                                    </td>
-                                    <td class="center"><a href="#deleteBriefs" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle"></span><span>&nbsp;TLHĐ</span></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="center">14</td>
-                                    <td class="center"><a href="/">4075</a></td>
-                                    <td class="center"><a href="/">Trần Văn Thương</a></td>
-                                    <td class="center">04/06/1986</td>
-                                    <td class="center">Nam</td>
-                                    <td class="center">091234657</td>
-                                    <td class="center">Phân xưởng xây dựng</td>
-                                    <td class="center">Đang đi làm</td>
-                                    <td class="center"><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien")" class="waves-effect waves-light btn blue darken-2 btn-small btn-small"><span class="ti-pencil-alt">&nbsp;Sửa</span></a></td>
-
-                                    <td class="center">
-                                        <a class="dropdown-trigger btn blue darken-2 btn-small" data-target="dropdown1"><span class="fas fa-history">&nbsp;Xem</span></a>
-                                    </td>
-                                    <td class="center"><a href="#deleteBriefs" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle"></span><span>&nbsp;TLHĐ</span></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="center">15</td>
-                                    <td class="center"><a href="/">8742</a></td>
-                                    <td class="center"><a href="/">Vũ Ba Chơ</a></td>
-                                    <td class="center">12/07/1988</td>
-                                    <td class="center">Nam</td>
-                                    <td class="center">094765745</td>
-                                    <td class="center">Phân xưởng đào lò</td>
-                                    <td class="center">Đang đi làm</td>
-                                    <td class="center"><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien")" class="waves-effect waves-light btn blue darken-2 btn-small btn-small"><span class="ti-pencil-alt">&nbsp;Sửa</span></a></td>
-
-                                    <td class="center">
-                                        <a class="dropdown-trigger btn blue darken-2 btn-small" data-target="dropdown1"><span class="fas fa-history">&nbsp;Xem</span></a>
-                                    </td>
-                                    <td class="center"><a href="#deleteBriefs" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle"></span><span>&nbsp;TLHĐ</span></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="center">16</td>
-                                    <td class="center"><a href="/">8747</a></td>
-                                    <td class="center"><a href="/">Vũ Tiến Đạt</a></td>
-                                    <td class="center">18/05/1989</td>
-                                    <td class="center">Nam</td>
-                                    <td class="center">093465723</td>
-                                    <td class="center">Phân xưởng cơ khí</td>
-                                    <td class="center">Đang đi làm</td>
-                                    <td class="center"><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien")" class="waves-effect waves-light btn blue darken-2 btn-small btn-small"><span class="ti-pencil-alt">&nbsp;Sửa</span></a></td>
-
-                                    <td class="center">
-                                        <a class="dropdown-trigger btn blue darken-2 btn-small" data-target="dropdown1"><span class="fas fa-history">&nbsp;Xem</span></a>
-                                    </td>
-                                    <td class="center"><a href="#deleteBriefs" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle"></span><span>&nbsp;TLHĐ</span></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="center">17</td>
-                                    <td class="center"><a href="/">4475</a></td>
-                                    <td class="center"><a href="/">Nguyễn Văn Hợp</a></td>
-                                    <td class="center">10/08/1979</td>
-                                    <td class="center">Nam</td>
-                                    <td class="center">098743456</td>
-                                    <td class="center">Phân xưởng phục vụ</td>
-
-                                    <td class="center">Đang đi làm</td>
-                                    <td class="center"><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien")" class="waves-effect waves-light btn blue darken-2 btn-small btn-small"><span class="ti-pencil-alt">&nbsp;Sửa</span></a></td>
-
-                                    <td class="center">
-                                        <a class="dropdown-trigger btn blue darken-2 btn-small" data-target="dropdown1"><span class="fas fa-history">&nbsp;Xem</span></a>
-                                    </td>
-                                    <td class="center"><a href="#deleteBriefs" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle"></span><span>&nbsp;TLHĐ</span></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="center">18</td>
-                                    <td class="center"><a href="/">615</a></td>
-                                    <td class="center"><a href="/">Ban Văn Nghị</a></td>
-                                    <td class="center">21/09/1990</td>
-                                    <td class="center">Nam</td>
-                                    <td class="center">084572635</td>
-                                    <td class="center">Phân xưởng xây dựng</td>
-                                    <td class="center">Đang đi làm</td>
-                                    <td class="center"><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien")" class="waves-effect waves-light btn blue darken-2 btn-small btn-small"><span class="ti-pencil-alt">&nbsp;Sửa</span></a></td>
-
-                                    <td class="center">
-                                        <a class="dropdown-trigger btn blue darken-2 btn-small" data-target="dropdown1"><span class="fas fa-history">&nbsp;Xem</span></a>
-                                    </td>
-                                    <td class="center"><a href="#deleteBriefs" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle"></span><span>&nbsp;TLHĐ</span></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="center">19</td>
-                                    <td class="center"><a href="/">5229</a></td>
-                                    <td class="center"><a href="/">Nguyễn Quang Chinh</a></td>
-                                    <td class="center">19/07/1976</td>
-                                    <td class="center">Nam</td>
-                                    <td class="center">094875436</td>
-                                    <td class="center">Phân xưởng xây dựng</td>
-                                    <td class="center">Đang đi làm</td>
-                                    <td class="center"><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien")" class="waves-effect waves-light btn blue darken-2 btn-small btn-small"><span class="ti-pencil-alt">&nbsp;Sửa</span></a></td>
-
-                                    <td class="center">
-                                        <a class="dropdown-trigger btn blue darken-2 btn-small" data-target="dropdown1"><span class="fas fa-history">&nbsp;Xem</span></a>
-                                    </td>
-                                    <td class="center"><a href="#deleteBriefs" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle"></span><span>&nbsp;TLHĐ</span></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="center">20</td>
-                                    <td class="center"><a href="/">5445</a></td>
-                                    <td class="center"><a href="/">Nguyễn Duy Hiệp</a></td>
-                                    <td class="center">20/05/1981</td>
-                                    <td class="center">Nam</td>
-                                    <td class="center">091246579</td>
-                                    <td class="center">Phân xưởng phục vụ</td>
-                                    <td class="center">Đang đi làm</td>
-                                    <td class="center"><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien")" class="waves-effect waves-light btn blue darken-2 btn-small btn-small"><span class="ti-pencil-alt">&nbsp;Sửa</span></a></td>
-
-                                    <td class="center">
-                                        <a class="dropdown-trigger btn blue darken-2 btn-small" data-target="dropdown1"><span class="fas fa-history">&nbsp;Xem</span></a>
-                                    </td>
-                                    <td class="center"><a href="#deleteBriefs" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle"></span><span>&nbsp;TLHĐ</span></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="center">21</td>
-                                    <td class="center"><a href="/">8111</a></td>
-                                    <td class="center"><a href="/">Hoang Văn Tinh</a></td>
-                                    <td class="center">17/05/1985</td>
-                                    <td class="center">Nam</td>
-                                    <td class="center">092345642</td>
-                                    <td class="center">Phân xưởng phục vụ</td>
-                                    <td class="center">Đang đi làm</td>
-                                    <td class="center"><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien")" class="waves-effect waves-light btn blue darken-2 btn-small btn-small"><span class="ti-pencil-alt">&nbsp;Sửa</span></a></td>
-
-                                    <td class="center">
-                                        <a class="dropdown-trigger btn blue darken-2 btn-small" data-target="dropdown1"><span class="fas fa-history">&nbsp;Xem</span></a>
-                                    </td>
-                                    <td class="center"><a href="#deleteBriefs" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle"></span><span>&nbsp;TLHĐ</span></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="center">22</td>
-                                    <td class="center"><a href="/">2126</a></td>
-                                    <td class="center"><a href="/">Nguyễn Đức Tạo</a></td>
-                                    <td class="center">19/06/1985</td>
-                                    <td class="center">Nam</td>
-                                    <td class="center">094657845</td>
-                                    <td class="center">Phân xưởng cơ khí</td>
-                                    <td class="center">Đang đi làm</td>
-                                    <td class="center"><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien")" class="waves-effect waves-light btn blue darken-2 btn-small btn-small"><span class="ti-pencil-alt">&nbsp;Sửa</span></a></td>
-
-                                    <td class="center">
-                                        <a class="dropdown-trigger btn blue darken-2 btn-small" data-target="dropdown1"><span class="fas fa-history">&nbsp;Xem</span></a>
-                                    </td>
-                                    <td class="center"><a href="#deleteBriefs" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle"></span><span>&nbsp;TLHĐ</span></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="center">23</td>
-                                    <td class="center"><a href="/">4775</a></td>
-                                    <td class="center"><a href="/">Lục Văn Nhay</a></td>
-                                    <td class="center">02/07/1982</td>
-                                    <td class="center">Nam</td>
-                                    <td class="center">091245673</td>
-                                    <td class="center">Phân xưởng phục vụ</td>
-                                    <td class="center">Đang đi làm</td>
-                                    <td class="center"><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien")" class="waves-effect waves-light btn blue darken-2 btn-small btn-small"><span class="ti-pencil-alt">&nbsp;Sửa</span></a></td>
-
-                                    <td class="center">
-                                        <a class="dropdown-trigger btn blue darken-2 btn-small" data-target="dropdown1"><span class="fas fa-history">&nbsp;Xem</span></a>
-                                    </td>
-                                    <td class="center"><a href="#deleteBriefs" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle"></span><span>&nbsp;TLHĐ</span></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="center">24</td>
-                                    <td class="center"><a href="/">7834</a></td>
-                                    <td class="center"><a href="/">Đỗ Văn Chinh</a></td>
-                                    <td class="center">07/10/1983</td>
-                                    <td class="center">Nam</td>
-                                    <td class="center">094576245</td>
-                                    <td class="center">Phân xưởng đào lò</td>
-                                    <td class="center">Đang đi làm</td>
-                                    <td class="center"><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien")" class="waves-effect waves-light btn blue darken-2 btn-small btn-small"><span class="ti-pencil-alt">&nbsp;Sửa</span></a></td>
-
-                                    <td class="center">
-                                        <a class="dropdown-trigger btn blue darken-2 btn-small" data-target="dropdown1"><span class="fas fa-history">&nbsp;Xem</span></a>
-                                    </td>
-                                    <td class="center"><a href="#deleteBriefs" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle"></span><span>&nbsp;TLHĐ</span></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="center">25</td>
-                                    <td class="center"><a href="/">5214</a></td>
-                                    <td class="center"><a href="/">Vũ Văn Công</a></td>
-                                    <td class="center">05/05/1990</td>
-                                    <td class="center">Nam</td>
-                                    <td class="center">091345623</td>
-                                    <td class="center">Phân xưởng cơ khí</td>
-                                    <td class="center">Đang đi làm</td>
-                                    <td class="center"><a class="waves-effect waves-light btn blue darken-2 btn-small"><span class="ti-pencil-alt">&nbsp;Sửa</span></a></td>
-
-                                    <td class="center">
-                                        <a class="dropdown-trigger btn blue darken-2 btn-small" data-target="dropdown1"><span class="fas fa-history">&nbsp;Xem</span></a>
-                                    </td>
-                                    <td class="center"><a href="#deleteBriefs" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle"></span><span>&nbsp;TLHĐ</span></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="center">26</td>
-                                    <td class="center"><a href="/">2005</a></td>
-                                    <td class="center"><a href="/">Nguyễn Văn Bầy</a></td>
-                                    <td class="center">10/01/1989</td>
-                                    <td class="center">Nam</td>
-                                    <td class="center">0976452745</td>
-                                    <td class="center">Phân xưởng cơ khí</td>
-                                    <td class="center">Đang đi làm</td>
-                                    <td class="center"><a class="waves-effect waves-light btn blue darken-2 btn-small"><span class="ti-pencil-alt">&nbsp;Sửa</span></a></td>
-
-                                    <td class="center">
-                                        <a class="dropdown-trigger btn blue darken-2 btn-small" data-target="dropdown1"><span class="fas fa-history">&nbsp;Xem</span></a>
-                                    </td>
-                                    <td class="center"><a href="#deleteBriefs" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle"></span><span>&nbsp;TLHĐ</span></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="center">27</td>
-                                    <td class="center"><a href="/">2080</a></td>
-                                    <td class="center"><a href="/">Nguyễn Văn Trai</a></td>
-                                    <td class="center">18/02/1987</td>
-                                    <td class="center">Nam</td>
-                                    <td class="center">092346273</td>
-                                    <td class="center">Phân xưởng đào lò</td>
-                                    <td class="center">Đang đi làm</td>
-                                    <td class="center"><a class="waves-effect waves-light btn blue darken-2 btn-small"><span class="ti-pencil-alt">&nbsp;Sửa</span></a></td>
-
-                                    <td class="center">
-                                        <a class="dropdown-trigger btn blue darken-2 btn-small" data-target="dropdown1"><span class="fas fa-history">&nbsp;Xem</span></a>
-                                    </td>
-                                    <td class="center"><a href="#deleteBriefs" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle"></span><span>&nbsp;TLHĐ</span></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="center">28</td>
-                                    <td class="center"><a href="/">5213</a></td>
-                                    <td class="center"><a href="/">Lê Ánh Ngọc</a></td>
-                                    <td class="center">02/04/1984</td>
-                                    <td class="center">Nữ</td>
-                                    <td class="center">091236475</td>
-                                    <td class="center">Phân xưởng phục vụ</td>
-                                    <td class="center">Đang đi làm</td>
-                                    <td class="center"><a class="waves-effect waves-light btn blue darken-2 btn-small"><span class="ti-pencil-alt">&nbsp;Sửa</span></a></td>
-
-                                    <td class="center">
-                                        <a class="dropdown-trigger btn blue darken-2 btn-small" data-target="dropdown1"><span class="fas fa-history">&nbsp;Xem</span></a>
-                                    </td>
-                                    <td class="center"><a href="#deleteBriefs" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle"></span><span>&nbsp;TLHĐ</span></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="center">29</td>
-                                    <td class="center"><a href="/">7494</a></td>
-                                    <td class="center"><a href="/">Trần Trọng Thi</a></td>
-                                    <td class="center">11/04/1978</td>
-                                    <td class="center">Nam</td>
-                                    <td class="center">098746253</td>
-                                    <td class="center">Phân xưởng cơ khí</td>
-                                    <td class="center">Đang đi làm</td>
-                                    <td class="center"><a class="waves-effect waves-light btn blue darken-2 btn-small"><span class="ti-pencil-alt">&nbsp;Sửa</span></a></td>
-
-                                    <td class="center">
-                                        <a class="dropdown-trigger btn blue darken-2 btn-small" data-target="dropdown1"><span class="fas fa-history">&nbsp;Xem</span></a>
-                                    </td>
-                                    <td class="center"><a href="#deleteBriefs" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle"></span><span>&nbsp;TLHĐ</span></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="center">30</td>
-                                    <td class="center"><a href="/">4789</a></td>
-                                    <td class="center"><a href="/">Nguyễn Văn Thư</a></td>
-                                    <td class="center">19/06/1989</td>
-                                    <td class="center">Nữ</td>
-                                    <td class="center">095364523</td>
-                                    <td class="center">Phân xưởng phục vụ</td>
-                                    <td class="center">Đang đi làm</td>
-                                    <td class="center"><a class="waves-effect waves-light btn blue darken-2 btn-small"><span class="ti-pencil-alt">&nbsp;Sửa</span></a></td>
-
-                                    <td class="center">
-                                        <a class="dropdown-trigger btn blue darken-2 btn-small" data-target="dropdown1"><span class="fas fa-history">&nbsp;Xem</span></a>
-                                    </td>
-                                    <td class="center"><a href="#deleteBriefs" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle">&nbsp;TLHĐ</span></a></td>
-                                </tr>
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
                 </div>
             </div>
             <br />
-            <div class="col l12 s12 m12 center paging_container">
-                <ul class="pagination">
-                    <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-                    <li class="active"><a href="#!">1</a></li>
-                    <li class="waves-effect"><a href="#!">2</a></li>
-                    <li class="waves-effect"><a href="#!">3</a></li>
-                    <li class="waves-effect"><a href="#!">4</a></li>
-                    <li class="waves-effect"><a href="#!">5</a></li>
-                    <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-                </ul>
-            </div>
         </div>
     </div>
 </div>
-<ul id='dropdown1' class='dropdown-content'>
+
+<ul id='dropdown' class='dropdown-content'>
     <li><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/lich-su-lam-viec")" class="black-text">Làm việc</a></li>
     <li class="divider" tabindex="-1"></li>
     <li><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chi-tiet-dieu-chuyen")" class="black-text">Điều chuyển</a></li>
@@ -601,13 +129,14 @@
         </div>
         <div class="modal-body">
             <p class="red-text">Lý do thanh lý hợp đồng?</p>
-            <div class="row" style="margin-bottom:5px">
-                <div class="col l12 m12 s12">
-                    <input type="text" placeholder="Mã quyết định" class='form-control autocomplete_Name' id="searchArea" multiple />
-                </div>
-            </div>
             <div class="row">
+                <div class="col s12 m12 l12">
+                    <label>Số quyết định</label>
+                    <input type='text' class='center form-control' placeholder="Số quyết định" />
+                </div>
+
                 <div class="col s6 m6 l6">
+                    <label>Lí do chấm dứt</label>
                     <select class="form-control" id="tlhd" onchange="onSelectTypeOfEndContract()">
                         <option>Đi học</option>
                         <option>Hưu trí</option>
@@ -622,9 +151,10 @@
                     </select>
                 </div>
                 <div class="col s6 m6 l6">
+                    <label>Ngày chấm dứt</label>
                     <input type='text' class='datepicker-here center form-control' data-language='vi' value="dd/mm/yyyy" />
                 </div>
-               
+
             </div>
             <div class="row">
                 <div id="containerOption1" class="col s6 m6 l6" style="display: none">
@@ -651,8 +181,9 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn red darken-2 modal-close">Xác nhận</button>
-            <button type="button" class="btn blue modal-close">Hủy</button>
+            <button type="submit" onclick="getOne()" value="" class="btn blue darken-2 modal-close">Xác nhận</button>
+            <input type="hidden" id="tlhdd" />
+            <button type="button" class="btn blue darken-2 modal-close">Hủy</button>
         </div>
     </div>
 </div>
@@ -662,16 +193,245 @@
 <link href="~/css/advancedsearch/advancedsearch.css" rel="stylesheet" />
 <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
 
-<!--Advance search js-->
-<script src="~/js/advancedsearch/advancedsearchList.js"></script>
-<!--<script>
-    $(function () {
-        var availableTags = ["Nguyễn Xuân Thoàng", "Nguyễn Văn Hùng", "Nguyễn Văn Hùng", "Nguyễn Văn Hưng", "Nguyễn VănHoa", "Đông Văn Đai",
-            "Nguyễn Văn Sơn", "Đăng Tung", "Lệnh Văn Hương", "Phạm Văn Phú", "Nguyễn Hữu Thinh", "Nguyễn Tiền Nhật", "NguyễnVăn Hùng"
-            , "Trần Văn Thương", "Vũ Ba Chơ", "Vũ Tiến Đạt", "Nguyễn Văn Hợp", "Ban Văn Nghị", "Nguyễn Quang Chinh", "Nguyễn Duy Hiệp",
-            "Hoang Văn Tinh", "Nguyễn Đức Tạo", "Lục Văn Nhay", "Đỗ Văn Chinh", "Vũ Văn Công", "Nguyễn Văn Bầy", "Nguyễn Văn Trai", "Lê Ánh Ngọc", "Trần Trọng Thi", "Nguyễn Văn Thư"];
-        $("#searchArea").autocomplete({
-            source: availableTags
+<script src="~/assets/extra-libs/Datatables/datatables.min.js"></script>
+<script src="~/dist/js/pages/datatable/datatable-basic.init.js"></script>
+<script src="~/Scripts/notify.min.js"></script>
+<script src="~/Scripts/Scripts.js"></script>
+<script src="~/assets/libs/toastr/build/toastr.min.js"></script>
+<link href="~/assets/libs/toastr/build/toastr.min.css" rel="stylesheet" />
+<script src="~/assets/extra-libs/toastr/toastr-init.js"></script>
+@section scripts{
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+        var Popup, dataTable;
+
+        function getOne() {
+            var id = document.getElementById("tlhdd").value;
+            $.ajax({
+                url: "/delete",
+                data: JSON.stringify({ ID: id }),
+                type: "POST",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                success: function (result) {
+                    dataTable.ajax.reload();
+                    $.notify("Thanh lý hoàn tất", {
+                        globalPosition: "top center",
+                        className: "success"
+                    })
+                },
+                error: function () {
+
+                }
+            });
+        }
+        $(document).ready(function () {
+            dataTable = $('#test-table').DataTable({
+                "ajax": {
+                    "url": "/phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien",
+                    "type": "POST",
+                    "datatype": "json",
+                    //'data': function (d) {
+                    //    //console.log(d.order);
+                    //    return JSON.stringify( d );
+                    //  }
+                },
+                "columns": [
+                    {
+                        "data": "MaNV", "name": "MaNV", "render": function (data) {
+                            return "<a href='/phong-tcld/quan-ly-nhan-vien/xem-chi-tiet-nhan-vien?id=" + data + "' >" + data + "</a>"
+                        },
+                    },
+                    { "data": "Ten", "name": "Ten" },
+                    {
+                        "data": "NgaySinh", "name": "NgaySinh", "render": function (data) {
+                            return dateFormat(data);
+                        }
+                    },
+                    {
+                        "data": "GioiTinh", "name": "GioiTinh", "render": function (data) {
+                            return genderFormat(data);
+                        }
+                    },
+                    { "data": "SoDienThoai", "name": "SoDienThoai" },
+                    { "data": "TenPhanXuong", "name": "TenPhanXuong" },
+                    { "data": "TrangThaiLamViec", "name": "TrangThaiLamViec" },
+                    {
+                        "data": "MaNV", "render": function (data) {
+                            return "<a class='waves-effect waves-light btn blue darken-2 btn-small' href='/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien?id=" + data + "'  data-target='dropdown1'><span class='ti-pencil-alt'>&nbsp;Sửa</span></a>";
+
+                        },
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "150px"
+                    },
+                    {
+                        "data": "MaNV", "render": function () {
+                            return "<a class='dropdown-trigger btn blue darken-2 btn-small' data-target='dropdown'><span class='fas fa-history'>&nbsp;Xem</span></a>";
+                        },
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "150px"
+                    },
+                    {
+                        "data": "MaNV", "render": function (data) {
+                            return "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='getTlhd(" + data + ")' data-target='deleteBriefs'><span class='fas fa-times-circle'>&nbsp;TLHĐ</span></a>";
+                        },
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "150px"
+                    }
+                ],
+                "serverSide": "true",
+                "order": [0, "asc"],
+                "bLengthChange": false,
+                "bFilter": false,
+                "bInfo": false,
+                "bAutoWidth": false,
+            });
         });
-    });
-</script>-->
+
+        $("#searchButton").click(function () {
+            dataTable.destroy();
+            dataTable = $('#test-table').DataTable({
+                "language": {
+                    "test-table": "Không tìm thấy dữ liệu"
+                },
+                "ajax": {
+                    "url": "/phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien/search",
+                    "type": "POST",
+                    "search": false,
+                    "datatype": "json",
+                    "data": {
+                        "MaNV": $('#searchMaNV').val(),
+                        "TenNV": $('#searchTenNV').val(),
+                        "Gender": $('#searchGioiTinh').val(),
+                    },
+                    "cache": false
+                },
+                "columns": [
+                    {
+                        "data": "MaNV", "name": "MaNV", "render": function (data) {
+                            return "<a href='/phong-tcld/quan-ly-nhan-vien/xem-chi-tiet-nhan-vien?id=" + data + "' >" + data + "</a>"
+                        },
+                    },
+                    { "data": "Ten", "name": "Ten" },
+                    {
+                        "data": "NgaySinh", "name": "NgaySinh", "render": function (data) {
+                            return dateFormat(data);
+                        }
+                    },
+                    {
+                        "data": "GioiTinh", "name": "GioiTinh", "render": function (data) {
+                            return genderFormat(data);
+                        }
+                    },
+                    { "data": "SoDienThoai", "name": "SoDienThoai" },
+                    { "data": "TenPhanXuong", "name": "TenPhanXuong" },
+                    { "data": "TrangThaiLamViec", "name": "TrangThaiLamViec" },
+                    {
+                        "data": "MaNV", "render": function (data) {
+                            return "<a class='waves-effect waves-light btn blue darken-2 btn-small' href='/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien?id=" + data + "'  data-target='dropdown1'><span class='ti-pencil-alt'>&nbsp;Sửa</span></a>";
+
+                        },
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "150px"
+                    },
+                    {
+                        "data": "MaNV", "render": function () {
+                            return "<a class='dropdown-trigger btn blue darken-2 btn-small' data-target='dropdown'><span class='fas fa-history'>&nbsp;Xem</span></a>";
+                        },
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "150px"
+                    },
+                    {
+                        "data": "MaNV", "render": function (data) {
+                            return "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='getTlhd(" + data + ")' data-target='deleteBriefs'><span class='fas fa-times-circle'>&nbsp;TLHĐ</span></a>";
+                        },
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "150px"
+                    }
+                ],
+
+                "serverSide": "true",
+                "order": [0, "asc"],
+                "bLengthChange": false,
+                "bFilter": false,
+                "bInfo": false,
+                "bAutoWidth": false,
+                "initComplete": function (settings, json) {
+                    $.notify("Tìm kiếm thành công", {
+                        globalPosition: "top center",
+                        className: "success"
+                    })
+                }
+            });
+        });
+
+        function getTlhd(a) {
+            document.getElementById("tlhdd").value = a;
+        }
+
+        function sub(a) {
+            var s = "form" + a;
+            document.getElementById(s).SubmitForm();
+        }
+
+        function Edit(url) {
+            $.post(url)
+                .done(function (response) {
+
+                });
+            window.location.href = url;
+        }
+
+        function genderFormat(d) {
+            if (d) {
+                return "Nam";
+            } else {
+                return "Nữ";
+            }
+        }
+
+        function dateFormat(d) {
+            if (d == null) {
+                return "";
+            }
+            var dateString = d.substr(6);
+            var currentTime = new Date(parseInt(dateString));
+            var month = currentTime.getMonth() + 1;
+            var day = currentTime.getDate();
+            var year = currentTime.getFullYear();
+            var date = day + "/" + month + "/" + year;
+            return (date);
+        }
+
+        function SubmitForm(form) {
+            $.validator.unobtrusive.parse(form);
+            if ($(form).valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        console.log('ahihi');
+                        if (data.success) {
+                            Popup.dialog('close');
+                            dataTable.ajax.reload();
+
+                            $.notify(data.message, {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
+
+                        }
+                    }
+                });
+            }
+            return false;
+        }
+    </script>
+}
