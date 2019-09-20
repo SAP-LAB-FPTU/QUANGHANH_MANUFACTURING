@@ -356,6 +356,7 @@
     <Compile Include="Models\HoSo.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\HoSoNhanVien.cs" />
     <Compile Include="Models\Incident.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -6971,6 +6972,7 @@
     <Content Include="Views\Certificate\AddCertificateEmployee.cshtml" />
     <Content Include="Views\Certificate\EditCertificateEmp.cshtml" />
     <Content Include="Views\ManagementUser\Index.cshtml" />
+    <Content Include="Views\TCLD\Brief\ManageBrief\InsideDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
