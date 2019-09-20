@@ -71,3 +71,54 @@ add NgayTra date
 
 alter table GiayTo
 add NgayTra date
+
+--20/09/2019
+--San xuat
+--add table TieuChi
+create table TieuChi
+(
+MaTieuChi int not null primary key identity(1,1),
+TenTieuChi nvarchar(100),
+DonViDo nvarchar(100)
+)
+
+--add table VatLieuSanXuat
+create table VatLieu_SanXuat
+(
+MaVatLieu int not null primary key identity(1,1),
+LoaiVatLieu nvarchar(100),
+TenVatLieu nvarchar(100),
+MaTieuChi int not null foreign key references TieuChi(MaTieuChi)
+)
+
+--add table ThucHien_TieuChi
+create table ThucHien_TieuChi
+(
+MaThucHien int not null primary key identity(1,1),
+MaPhongBan nvarchar(150) not null foreign key references Department(department_id),
+MaTieuChi int not null foreign key references TieuChi(MaTieuChi),
+NgayThucHien date,
+CaThucHien int,
+SanLuongThucHien float
+)
+
+--add table KeHoach_TieuChi
+create table KeHoach_TieuChi
+(
+MaKeHoach int not null primary key identity(1,1),
+MaPhongBan nvarchar(150) not null foreign key references Department(department_id),
+MaTieuChi int not null foreign key references TieuChi(MaTieuChi),
+ThangKeHoach int,
+NamKeHoach int,
+SoNgayLamViec int,
+SanLuongKeHoach float
+)
+
+--add table GhiChu
+create table GhiChu
+(
+MaGhiChu int not null primary key identity(1,1),
+MaThucHien int not null foreign key references ThucHien_TieuChi(MaThucHien),
+MaKeHoach int not null foreign key references KeHoach_TieuChi(MaKeHoach),
+NoiDungGhiChu nvarchar(max)
+)
