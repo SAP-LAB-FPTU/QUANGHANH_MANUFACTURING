@@ -6236,6 +6236,7 @@
     <Content Include="js\Custom JS\TCLD\Brief\Briefs_Edit.js" />
     <Content Include="js\Custom JS\TCLD\Brief\Briefs_List.js" />
     <Content Include="js\Custom JS\TCLD\Brief\Brief_View.js" />
+    <Content Include="js\Custom JS\TCLD\Brief\DateError.js" />
     <Content Include="js\Custom JS\TCLD\Brief\ManageBrief\Brief_Inside.js" />
     <Content Include="js\Custom JS\TCLD\Brief\ManageBrief\Brief_Outside.js" />
     <Content Include="js\Custom JS\TCLD\Brief\ManageBrief\editable_hoso.js" />
@@ -6753,22 +6754,22 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Content Include="Models\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
+    <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
+    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
     <Content Include="Models\Model1.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
-    <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
-    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
