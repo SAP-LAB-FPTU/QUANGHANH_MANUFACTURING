@@ -1,0 +1,313 @@
+﻿@{
+    ViewData["Title"] = "List";
+    Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
+}
+
+<div class="card">
+    <div class="card-content">
+
+        <div class="row">
+            <h3 class="center">Chi tiết hồ sơ</h3>
+            <div id="hosotrongcty">
+                <div class="row">
+                    <div class="card">
+                        <div class="card-content">
+                            <br />
+                            <table id="hoso_detail" class="table table-bordered table-responsive centered highlight">
+                                <thead>
+                                    <tr>
+                                        <th>Người giữ hồ sơ</th>
+                                        <th>Ngày nhận hồ sơ</th>
+                                        <th>Nggười giao hồ sơ</th>
+                                        <th>Cam kết tuyển dụng</th>
+                                        <th>Quyết định tiếp nhận</th>
+                                        <th>Người bàn giao bằng nhập kho</th>
+                                        <th>Sửa</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <br />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <h3 class="center">Chi tiết giấy tờ</h3>
+            <div id="hoso_giayto">
+                <div class="row">
+                    <div class="card">
+                        <div class="card-content">
+                            <br />
+                            <table id="giayto_detail" class="table table-bordered table-responsive centered highlight">
+                                <thead>
+                                    <tr>
+                                        <th>Mã giấy tờ</th>
+                                        <th>Tên giấy tờ</th>
+                                        <th>Kiểu giấy tờ</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <br />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <h3 class="center">Chi tiết bằng cấp</h3>
+            <div id="bang_cap_chitiet">
+                <div class="row">
+                    <div class="card">
+                        <div class="card-content">
+                            <br />
+                            <table id="bangcap_detail" class="table table-bordered table-responsive centered highlight">
+                                <thead>
+                                    <tr>
+                                        <th>Số hiệu</th>
+                                        <th>Mã bằng cấp</th>
+                                        <th>Ngày cấp</th>
+                                        <th>Sửa</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <br />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <h3 class="center">Quan hệ gia đình</h3>
+            <div id="quan_he_gia_dinh">
+                <div class="row">
+                    <div class="card">
+                        <div class="card-content">
+                            <br />
+                            <table id="quanhe_detail" class="table table-bordered table-responsive centered highlight">
+                                <thead>
+                                    <tr>
+                                        <th>Mối quan hệ</th>
+                                        <th>Ngày sinh</th>
+                                        <th>Lý lịch</th>
+                                        <th>Loại gia đình</th>
+                                        <th>Sửa</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <br />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+<div id="myedit_suahoso" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Sửa hồ sơ</h3>
+        </div>
+        <div class="modal-body">
+            @Html.Action("EditHoSo", "Brief")
+        </div>
+    </div>
+</div>
+
+<div id="myedit_suabangcap" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Sửa hồ sơ</h3>
+        </div>
+        <div class="modal-body">
+            @Html.Action("EditHoSo", "Brief")
+        </div>
+    </div>
+</div>
+
+
+
+<script src="~/js/Custom JS/TCLD/Certificate/certificate.js"></script>
+<script src="~/js/Custom JS/form-input-border.js"></script>
+<script src="~/lib/mutiple select/slimselect.js"></script>
+<script src="~/js/js/notify.js"></script>
+<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+<script>
+    var datatable_hs, stt;
+    $(document).ready(function () {
+        datatable_hs = $('#hoso_detail').DataTable({
+            "ajax": {
+                "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/chi-tiet-ho-so",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "nguoiGiuHoSo", "name": "nguoiGiuHoSo" },
+                { "data": "ngayNhanHoSo", "name": "ngayNhanHoSo" },
+                { "data": "nguoiGiaoHoSo", "name": "nguoiGiaoHoSo" },
+                { "data": "camKetTuyenDung", "name": "camKetTuyenDung" },
+                { "data": "quyetDinhTiepNhan", "name": "quyetDinhTiepNhan" },
+                { "data": "nguoiBanGiaoBangNhapKho", "name": "nguoiBanGiaoBangNhapKho" },
+                {
+                    "data": "MaNV", "render": function (data) {
+                        return "<a class='waves-effect waves-light btn-small red modal-trigger' data-target='myedit_suahoso' style='margin-left:5px' onclick=getEditHs('" + data + "') ><i class=''></i> Sửa</a>";
+                    },
+                    "orderable": false,
+                    "searchable": false,
+                    "width": "150px"
+                }
+            ],
+            "serverSide": "true",
+            "scrollCollapse": false,
+            "order": [0, "asc"]
+        });
+
+        datatable_hs.ajax.reload();
+    });
+
+    function getEditHs(id) {
+        alter(id);
+        if (id != null) {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("EditHoSo", "Brief")/' + id,
+                success: function (data) {
+                    $("#hoso_edit_model").html(data)
+                }
+
+            });
+        }
+    }
+</script>
+
+<script>
+    var datatable_chitiet, stt;
+    $(document).ready(function () {
+        datatable_chitiet = $('#giayto_detail').DataTable({
+            "ajax": {
+                "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/chi-tiet-giay-to",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "maGiayTo", "name": "maGiayTo" },
+                { "data": "tenGiayTo", "name": "tenGiayTo" },
+                { "data": "kieuGiayTo", "name": "kieuGiayTo" },
+
+            ],
+            "serverSide": "true",
+            "scrollCollapse": false,
+            "order": [0, "asc"]
+        });
+
+        datatable_chitiet.ajax.reload();
+    });
+</script>
+
+
+<script>
+    var datatable_bangcap, stt;
+    $(document).ready(function () {
+        datatable_bangcap = $('#bangcap_detail').DataTable({
+            "ajax": {
+                "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/chi-tiet-bang-cap",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "soHieu", "name": "soHieu" },
+                { "data": "maBangCap", "name": "maBangCap" },
+                { "data": "ngayCap", "name": "ngayCap" },
+                {
+                    "data": "MaNV", "render": function (data) {
+                        return "<a class='waves-effect waves-light btn-small red modal-trigger' data-target='myedit_suabangcap' style='margin-left:5px' onclick=getEditHs('" + data + "') ><i class=''></i> Sửa</a>";
+                    },
+                    "orderable": false,
+                    "searchable": false,
+                    "width": "150px"
+                }
+
+            ],
+            "serverSide": "true",
+            "scrollCollapse": false,
+            "order": [0, "asc"]
+        });
+
+        datatable.ajax.reload();
+    });
+    function editBangCap(id) {
+        alter(id);
+        if (id != null) {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("EditChiTietbangCap", "Brief")/' + id,
+                success: function (data) {
+                    $("#edit_chitietbangcap").html(data)
+                }
+
+            });
+        }
+    }
+</script>
+
+<script>
+    var datatable_quanhe, stt;
+    $(document).ready(function () {
+        datatable_quanhe = $('#quanhe_detail').DataTable({
+            "ajax": {
+                "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/quan-he-gia-dinh",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "moiQuanhe", "name": "moiQuanhe" },
+                { "data": "ngaySinh", "name": "ngaySinh" },
+                { "data": "lyLich", "name": "lyLich" },
+                { "data": "loaiGiaDinh", "name": "loaiGiaDinh" },
+                {
+                    "data": "MaNV", "render": function (data) {
+                        return "<a class='waves-effect waves-light btn-small red modal-trigger' data-target='myedit_suabangcap' style='margin-left:5px' onclick=getEditHs('" + data + "') ><i class=''></i> Sửa</a>";
+                    },
+                    "orderable": false,
+                    "searchable": false,
+                    "width": "150px"
+                }
+
+            ],
+            "serverSide": "true",
+            "scrollCollapse": false,
+            "order": [0, "asc"]
+        });
+
+        datatable_quanhe.ajax.reload();
+    });
+    function editBangCap(id) {
+        alter(id);
+        if (id != null) {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("EditChiTietbangCap", "Brief")/' + id,
+                success: function (data) {
+                    $("#edit_chitietbangcap").html(data)
+                }
+
+            });
+        }
+    }
+</script>
+
+
+
