@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="46312cf74b1140c8a7b9c9af6cfa3bc2" Name="Diagram1">
+      <Diagram DiagramId="46312cf74b1140c8a7b9c9af6cfa3bc2" Name="Diagram1" ZoomLevel="56">
         <EntityTypeShape EntityType="QUANGHANHABCModel.Acceptance" Width="1.5" PointX="5.25" PointY="52" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Activity" Width="1.5" PointX="11" PointY="30.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.BangCap" Width="1.5" PointX="14" PointY="18.125" IsExpanded="true" />
