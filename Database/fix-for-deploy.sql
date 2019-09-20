@@ -83,12 +83,19 @@ DonViDo nvarchar(100)
 )
 
 --add table VatLieuSanXuat
-create table VatLieu_SanXuat
+create table VatLieuSanXuat
 (
 MaVatLieu int not null primary key identity(1,1),
 LoaiVatLieu nvarchar(100),
-TenVatLieu nvarchar(100),
-MaTieuChi int not null foreign key references TieuChi(MaTieuChi)
+TenVatLieu nvarchar(100)
+)
+
+--add table TieuChi_VatLieuSanXuat
+create table TieuChi_VatLieuSanXuat
+(
+MaTieuChi_VatLieuSanXuat int not null primary key identity(1,1),
+MaTieuChi int not null foreign key references TieuChi(MaTieuChi),
+MaVatLieu int not null foreign key references VatLieuSanXuat(MaVatLieu)
 )
 
 --add table ThucHien_TieuChi
@@ -102,6 +109,14 @@ CaThucHien int,
 SanLuongThucHien float
 )
 
+--add table ThucHien_TieuChi_VatLieuSanXuat
+create table ThucHien_TieuChi_VatLieuSanXuat
+(
+MaThucHien int not null foreign key references ThucHien_TieuChi(MaThucHien),
+MaTieuChi_VatLieuSanXuat int not null foreign key references TieuChi_VatLieuSanXuat(MaTieuChi_VatLieuSanXuat),
+primary key (MaThucHien, MaTieuChi_VatLieuSanXuat)
+)
+
 --add table KeHoach_TieuChi
 create table KeHoach_TieuChi
 (
@@ -112,6 +127,15 @@ ThangKeHoach int,
 NamKeHoach int,
 SoNgayLamViec int,
 SanLuongKeHoach float
+)
+
+--add table KeHoach_TieuChi_VatLieuSanXuat
+create table KeHoach_TieuChi_VatLieuSanXuat
+(
+MaKeHoach int not null foreign key references KeHoach_TieuChi(MaKeHoach),
+MaTieuChi_VatLieuSanXuat int not null foreign key references TieuChi_VatLieuSanXuat(MaTieuChi_VatLieuSanXuat),
+TietDienDao float,
+primary key (MaKeHoach, MaTieuChi_VatLieuSanXuat)
 )
 
 --add table GhiChu
