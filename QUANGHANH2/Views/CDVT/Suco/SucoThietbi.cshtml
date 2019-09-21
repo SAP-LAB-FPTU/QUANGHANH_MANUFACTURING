@@ -251,6 +251,7 @@
                             <div class="form-group">
                                 <label for="date">Phút : </label>
                                 <input type="number" name="minute" class="form-control" min="0" max="59" value="0" id="minute-end-edit" />
+                                <input type="hidden" id="incident-edit" class="form-control"/>
                             </div>
                         </div>
                         <div class="col s12 m12">
@@ -408,6 +409,7 @@
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script>
         var Popup, dataTable;
+        $("#pre-load").show();
 
         $(document).ready(function () {
             dataTable = $('#complex_header').DataTable({
@@ -442,7 +444,10 @@
                 "order": [0, "asc"],
                 "rowId": "incident_id",
                 "lengthChange": false,
-                "searching": false
+                "searching": false,
+                "initComplete": function (settings, json) {
+                    $("#pre-load").hide();
+                }
             });
         });
 
