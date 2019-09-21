@@ -12,14 +12,16 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Documentary_revoke_details
+    public partial class Maintain_Car_Detail
     {
-        public string equipment_revoke_status { get; set; }
-        public string documentary_id { get; set; }
-        public string equipmentId { get; set; }
-        public string equipment_revoke_reason { get; set; }
+        public int maintaindetailid { get; set; }
+        public int maintainid { get; set; }
+        public string supplyid { get; set; }
+        public int quantity { get; set; }
+        public int supplyType { get; set; }
+        public int supplyStatus { get; set; }
     
-        public virtual Documentary Documentary { get; set; }
-        public virtual Equipment Equipment { get; set; }
+        public virtual Maintain_Car Maintain_Car { get; set; }
+        public virtual Supply Supply { get; set; }
     }
 }
