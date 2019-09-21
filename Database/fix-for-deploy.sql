@@ -234,3 +234,12 @@ alter table Supply alter column price float
 
 --xoa bang chi tiet quyet dinh kiem dinh (kiem dinh khong co quyet dinh)
 drop table Documentary_Inspection_details
+					      
+--21/09/2019
+--add table TuyenDung_NhanVien
+create table TuyenDung_NhanVien
+(
+MaNV nvarchar(50) not null foreign key references NhanVien(MaNV),
+SoQuyetDinh nvarchar(50) not null foreign key references QuyetDinh(SoQuyetDinh),
+primary key (MaNV,SoQuyetDinh)
+)
