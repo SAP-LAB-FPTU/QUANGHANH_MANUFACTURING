@@ -19,6 +19,7 @@ namespace QUANGHANH2.Models
         public System.DateTime date_to { get; set; }
         public string documentary_id { get; set; }
         public string equipmentId { get; set; }
+        public string equipment_moveline_reason { get; set; }
     
         public virtual Documentary Documentary { get; set; }
         public virtual Equipment Equipment { get; set; }
