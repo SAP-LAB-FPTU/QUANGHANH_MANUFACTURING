@@ -127,6 +127,10 @@
 </div>
 
 <script type="text/javascript">
+
+    
+
+
     var ca;
     var intCa;
     function getInner() {
@@ -143,10 +147,12 @@
     }
 
     function getcontent() {
+
         getInner();
         window.location = "/phan-xuong-khai-thac/nang-suat-lao-dong?intCa=" + intCa + "&strDate=" + document.getElementById("inputdate").value;
     }
     function Update() {
+        $('#pre-load').show();
         getInner();
         var mas = document.getElementsByClassName("madiemdanh");
         var NSLDS = document.getElementsByClassName("updateNSLD");
@@ -170,7 +176,8 @@
             contentType: "application/json;charset=utf-8",
             type: "POST",
             success: function () {
-                alert("Update Thành công");
+
+                $('#pre-load').hide();
             },
             error: function () {
             }

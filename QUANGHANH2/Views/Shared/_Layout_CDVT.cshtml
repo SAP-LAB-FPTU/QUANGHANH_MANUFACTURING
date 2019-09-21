@@ -20,7 +20,7 @@
     <!-- This page CSS -->
     <link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-3.3.1.js"></script>
-
+    <link href="~/css/preloader/css.css" rel="stylesheet" />
 
 
     <link href="~/dist/css/pages/dashboard1.css" rel="stylesheet">
@@ -57,11 +57,12 @@
     <script src="~/js/Flexible_user_icon.js"></script>
     <script src="~/js/Custom JS/form-input-border.js"></script>
     <link href="~/assets/Custom css/CDVT/StyleSheet1.css" rel="stylesheet" />
+    <link href="~/css/preloader/css.css" rel="stylesheet" />
 </head>
 
 <body>
     <div class="main-wrapper" id="main-wrapper">
-        <div id="pre-load">
+        <div id="pre-load" hidden>
             <div class="loading">
                 <div class="preloader-wrapper big active">
                     <div class="spinner-layer spinner-blue-only">
@@ -438,10 +439,7 @@
     <script src="~/Scripts/notify.min.js"></script>
     @RenderSection("scripts", required: false)
     <script>
-        $("#pre-load").hide("slow", function () {
-        });
-        var w = $(window).width();
-        var h = $(window).height();
+
         $(".loading").css("z-index", 99999);
         $('body').css('overflow', '');
     </script>

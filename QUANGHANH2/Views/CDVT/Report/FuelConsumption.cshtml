@@ -1,8 +1,9 @@
-
+﻿
 @{
-    ViewData["Title"] = "Báo cáo sử dụng điện năng theo Quý";
+    ViewBag.Title = "FuelConsumption";
     Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
 }
+
 
 <link href="~/assets/Custom css/TABLE_BORDERED.css" rel="stylesheet" />
 <link href="~/assets/extra-libs/prism/prism.css" rel="stylesheet" />
@@ -19,11 +20,11 @@
     <div class="card-content">
         <div class="col s12">
             <div class="center">
-                <h3 class="centered" style="padding-top:20px"><b>BÁO CÁOU</b></h3>
+                <h3 class="centered" style="padding-top:20px"><b>BÁO CÁO</b></h3>
                 <div class="day">
                     <h3>
                         <i class="fas fa-calendar-alt icon"></i>
-                        <input type='text' class='datepicker-here center' id="minMaxDate" data-language='vi' value="15/08/2019" />
+                        <input type='text' class='datepicker-here center' id="minMaxDate" data-language='vi'  />
                     </h3>
                 </div>
                 <div class="month" style="display: none">
@@ -34,7 +35,7 @@
                                data-language='vi'
                                data-min-view="months"
                                data-view="months"
-                               data-date-format="MM yyyy" value="Tháng 6 2019" />
+                               data-date-format="MM yyyy" value="Tháng @DateTime.Now.Month @DateTime.Now.Year" />
                     </h3>
                 </div>
                 <div class="quarter" style="display: none">
@@ -54,7 +55,7 @@
                                    data-language='vi'
                                    data-min-view="years"
                                    data-view="years"
-                                   data-date-format="yyyy" value="2019" style="width: 150px !important" />
+                                   data-date-format="yyyy" value="@DateTime.Now.Year" style="width: 150px !important" />
                         </div>
                     </div>
                 </div>
@@ -180,9 +181,9 @@
 
 
 <div class="card">
-   
+
     <div class="row">
-       
+
         <div id="solieu" class="col s12">
             <div class="row ">
                 <div class="col l12">
@@ -415,6 +416,11 @@
         </div>
     </div>
 </div>
+
+
+
+
+
 <script src="~/js/Custom JS/CDVT/Report/FuelUsage.js"></script>
 <script>
     $('#minMaxDate').datepicker({
@@ -425,9 +431,7 @@
         $('.datepicker-inline').remove();
     });
     $(document).ready(function () {
-        var date = new Date();
-        var d = date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear();
-        $("#minMaxDate").val(d);
+        $("#minMaxDate").val("@string.Format("{0:dd/MM/yyyy}", System.DateTime.Now)");
         $("#type").html("Xem Theo Ngày");
     });
 </script>

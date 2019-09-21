@@ -478,6 +478,7 @@
     <Content Include="Content\DataTables\Select-1.3.0\js\dataTables.select.js" />
     <Content Include="css\Custom css\TCLD\table_job_register.css" />
     <Content Include="css\jquery.dataTables.min.css" />
+    <Content Include="css\preloader\css.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -6870,7 +6871,6 @@
     <Content Include="Views\CDVT\Suco\SucoThietbi.cshtml" />
     <Content Include="Views\CDVT\Report\bao_cao_kiem_dinh.cshtml" />
     <Content Include="Views\CDVT\Report\bao_cao_thu_hoi.cshtml" />
-    <Content Include="Views\CDVT\Report\FuelConsumption.cshtml" />
     <Content Include="Views\CDVT\Report\LiquidationReport.cshtml" />
     <Content Include="Views\CDVT\Report\MaintainReport.cshtml" />
     <Content Include="Views\CDVT\Report\QuarterPowerUsage.cshtml" />
@@ -6977,6 +6977,7 @@
     <Content Include="Views\PX\PXKT\NSLD.cshtml" />
     <Content Include="Views\nghiemthu\Detail.cshtml" />
     <Content Include="Views\nghiemthu\Edit.cshtml" />
+    <Content Include="Views\CDVT\Report\FuelConsumption.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
