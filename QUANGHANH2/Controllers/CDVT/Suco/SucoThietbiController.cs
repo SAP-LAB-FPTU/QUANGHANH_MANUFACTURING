@@ -264,7 +264,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                 incidents.stringStartTime = incidents.start_time.ToString("HH mm dd/MM/yyyy");
                 DateTime temp;
                 DateTime.TryParse(incidents.end_time.ToString(), out temp);
-                incidents.stringEndTime = incidents.start_time.ToString("HH mm dd/MM/yyyy");
+                incidents.stringEndTime = temp.ToString("HH mm dd/MM/yyyy");
                 return Json(incidents);
             }
             catch (Exception)

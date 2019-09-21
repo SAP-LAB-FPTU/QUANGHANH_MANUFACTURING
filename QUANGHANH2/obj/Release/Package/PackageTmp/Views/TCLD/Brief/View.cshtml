@@ -2,645 +2,657 @@
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
 }
-<link href="~/assets/Custom css/TCLD/Brief/Beo_briefs_view.css" rel="stylesheet" />
-<div class="row">
-    @*<div class="col m12">
-        <div class="card">
-            <div class="card-content">
-                <div class="row">
-                    <div class="col s12 m12 l12">
-                        <div class="center">
-                            <div class="col l2 m12 s12 input-field">
-                                <input type="text" placeholder="Tìm kiếm theo mã nhân viên" class='form-control' id="searchArea" multiple />
-                            </div>
-                            <div class="col l2 m12 s12 input-field">
-                                <input type="text" placeholder="Tìm kiếm theo tên nhân viên" class='form-control' id="searchArea" multiple />
-                            </div>
-                            <div class="col l2 m12 s12 input-field">
-                                <select class="form-control" id="gender">
-                                    <option value="" disabled selected>Chọn giới tính</option>
-                                    <option value="1">Nam</option>
-                                    <option value="2">Nữ</option>
-                                </select>
-                            </div>
-                            <div class="col l2 m12 s12 input-field">
-                                <select class="form-control" id="departure">
-                                    <option value="" disabled selected>Chọn phòng ban</option>
-                                    <option value="1">Phòng tổ chức lao động</option>
-                                    <option value="2">Phòng cơ điện vận tải</option>
-                                    <option value="2">Phòng an toàn</option>
-                                    <option value="2">Phân xưởng khai thác 1</option>
-                                    <option value="2">Phân xưởng khai thác 2</option>
-                                    <option value="2">Phân xưởng khai thác 3</option>
-                                    <option value="2">Phân xưởng khai thác 5</option>
-                                    <option value="2">Phân xưởng đào lò 1</option>
-                                    <option value="2">Phân xưởng đào lò 2</option>
-                                    <option value="2">Phân xưởng đào lò 3</option>
-                                    <option value="2">Phân xưởng đào lò 5</option>
-                                </select>
-                            </div>
-                            <div class="col l2 m12 s12 input-field">
-                                <select class="form-control" id="position">
-                                    <option value="" disabled selected>Chọn phòng chức vụ</option>
-                                    <option value="1">Trưởng phòng</option>
-                                    <option value="2">Nhân viên kinh doanh</option>
-                                    <option value="2">Phó quản đốc</option>
-                                    <option value="2">Quản đốc</option>
-                                </select>
-                            </div>
-                            <div class="col l2 m12 s12 input-field">
-                                <button class="btn blue darken-2 btn-small" id="searchButton">Tìm kiếm</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>*@
-    <div class="col m12 l12 s12">
-        <ul class="tabs">
-            <li class="tab col l6 m6 s6"><a class="active" href="#chitietcanhan">THÔNG TIN CHI TIẾT CÁ NHÂN</a></li>
-            <li class="tab col m6 l6 s6"><a href="#chitiethoso">THÔNG TIN CHI TIẾT HỒ SƠ</a></li>
-        </ul>
-    </div>
-    <div id="chitiethoso">
-        <div class="col m12">
-            <div class="card">
-                <div class="card-content">
-                    <h3 class="center">Thông tin chi tiết hồ sơ</h3>
-                    <div class="row">
-                        <div class="input-field col m2 offset-s2 ">
-                            <p class='custom-label'>Hồ sơ nhân viên</p>
-                            <input class="inputEdit form-control center" type="text" value="Nguyễn Xuân Thoàng" placeholder="Tên khai sinh" />
-                        </div>                    
-                        <div class="input-field col m2 offset-s2">
-                            <p class='custom-label'>Mã số nhân viên</p>
-                            <input class="inputEdit form-control center" type="text" value="2179" placeholder="Mã số nhân viên" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col s12">
-                            <table class="table table-bordered table-responsive centered highlight">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 5%;">STT</th>
-                                        <th style="width: 20%;">Giấy tờ chứng từ</th>
-                                        <th style="width: 20%;">Loại</th>
-                                        <th style="width: 30%;">Ghi chú</th>
-                                        <th>Người giữ</th>
-                                <tbody>
-                                    <tr>
-                                        <td class="td-edit">1</td>
-                                        <td class="td-edit">Giấy khai sinh</td>
-                                        <td>
-                                            <div class="input-field">
-                                                <select class="form-control sl-edit">
-                                                    <option selected>Bản sao công chứng</option>
-                                                    <option>Bản gốc</option>
-                                                    <option>Bản sao tạm thời</option>
-                                                </select>
-                                            </div>
-                                        </td>
-                                        <td class="td-edit"></td>
-                                        <td class="td-edit">A Long</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="td-edit">2</td>
-                                        <td class="td-edit">Bằng tốt nghiệp cấp 2</td>
-                                        <td>
-                                            <div class="input-field">
-                                                <select class="form-control sl-edit">
-                                                    <option>Bản sao công chứng</option>
-                                                    <option>Bản gốc</option>
-                                                    <option selected>Bản sao tạm thời</option>
-                                                </select>
-                                            </div>
-                                        </td>
-                                        <td class="td-edit"></td>
-                                        <td class="td-edit">A Long</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="td-edit">3</td>
-                                        <td class="td-edit">Bằng tốt nghiệp cấp 3</td>
-                                        <td>
-                                            <div class="input-field">
-                                                <select class="form-control sl-edit">
-                                                    <option>Bản sao công chứng</option>
-                                                    <option selected>Bản gốc</option>
-                                                    <option>Bản sao tạm thời</option>
-                                                </select>
-                                            </div>
-                                        </td>
-                                        <td class="td-edit"></td>
-                                        <td class="td-edit">A Vương</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="td-edit">4</td>
-                                        <td class="td-edit">Bằng tốt nghiệp đại học</td>
-                                        <td>
-                                            <div class="input-field">
-                                                <select class="form-control sl-edit">
-                                                    <option>Bản sao công chứng</option>
-                                                    <option selected>Bản gốc</option>
-                                                    <option>Bản sao tạm thời</option>
-                                                </select>
-                                            </div>
-                                        </td>
-                                        <td class="td-edit"></td>
-                                        <td class="td-edit">A Vương</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="chitietcanhan">
+@model QUANGHANH2.Models.NhanVien
+
+@{
+    ViewBag.Title = "Edit";
+}
+@using (Html.BeginForm("SaveEdit", "Employees", FormMethod.Post, new
+{
+    enctype = "multipart/form-data",
+    onSubmit = "return SubmitForm(this);",
+    data_restUrl = Url.Action("SaveEdit", "Employees", new { id = "" })
+}))
+{
+    @Html.AntiForgeryToken()
+    <link href="~/assets/Custom css/TCLD/Brief/Beo_briefs_view.css" rel="stylesheet" />
+
+    <div class="row">
         <div class="col m12">
             <div class="card">
                 <div class="card-content">
                     <div class="row">
-                        <h3 class="center">Thông tin cá nhân</h3>
+                        <h3 class="center black-text"><b>THÊM HỒ SƠ</b></h3>
+                        <hr />
                         <div class="col m12">
-                            <div class="input-field">
-                                <div class="input-field col m8">
+                            <ul class="tabs">
+                                <li class="tab col s12 m3 l2"><a class="active tooltipped" href="#thongtincoban" data-position="bottom" data-delay="50" data-tooltip="Thông tin cơ  bản">Thông tin cơ bản</a></li>
+                                <li class="tab col s12 m3 l2"><a class=" tooltipped" href="#lylichchinhtri" data-position="bottom" data-delay="50" data-tooltip="Lý lịch chính trị">Lý lịch chính trị</a></li>
+                                <li class="tab col s12 m2 l2"><a class=" tooltipped" href="#thanhtichcanhan" data-position="bottom" data-delay="50" data-tooltip="Thành tích">Thành tích</a></li>
+                                <li class="tab col s12 m2 l2"><a class=" tooltipped" href="#suckhoe" data-position="bottom" data-delay="50" data-tooltip="Sức khỏe">Sức khỏe</a></li>
+                                <li class="tab col s12 m2 l2"><a class=" tooltipped" href="#hoctaplamviec" data-position="bottom" data-delay="50" data-tooltip="Quá trình học tập và làm việc">Quá trình học tập và làm việc</a></li>
+                                <li class="tab col s12 m2 l2"><a class=" tooltipped" href="#giadinh" data-position="bottom" data-delay="50" data-tooltip="Quan hệ gia đình và diễn biến quá trình lương">Quan hệ gia đình và diễn biến quá trình lương</a></li>
+                            </ul>
+                        </div>
+                        <!--chi tiet co ban-->
+                        <div id="test">
+                            <div id="thongtincoban" class="col m12">
+                                <div class="row input-field">
+                                    <div class="input-field col m8">
+                                        <div class="input-field col m12">
+                                            @*<div class="col m4">
+                                                @Html.LabelFor(model => model.MaNV, htmlAttributes: new { @class = "custom-label" })
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.MaNV, "Mã nhân viên", new { htmlAttributes = new { @class = "form-control", @placeholder = "Mã", @type = "text"} })
+                                                    @Html.ValidationMessageFor(model => model.MaNV, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>*@
+                                            <div class="col m12">
+                                                @Html.LabelFor(model => model.Ten, "Họ và tên", htmlAttributes: new { @class = "custom-label" })
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.Ten, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Tên khai sinh", @type = "text" } })
+                                                    @Html.ValidationMessageFor(model => model.Ten, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="input-field col m12">
+                                            <div class="col m12">
+                                                @Html.LabelFor(model => model.Tenkhac, "Tên khác", htmlAttributes: new { @class = "custom-label" })
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.Tenkhac, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Tên gọi khác", @type = "text" } })
+                                                    @Html.ValidationMessageFor(model => model.Tenkhac, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="input-field col m12">
+                                            <div class="col m12">
+                                                @Html.LabelFor(model => model.GioiTinh, "Giới tính", htmlAttributes: new { @class = "custom-label" })
+                                                <div class="col-md-10">
+                                                    @Html.DropDownListFor(model => model.GioiTinh, new SelectList(ViewBag.genders, "Value", "Text"), htmlAttributes: new { @class = "sl-edit form-control" })
+                                                    @Html.ValidationMessageFor(model => model.GioiTinh, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="center col m4">
+                                        <img src="/images/avatar.png" width="130" height="130"><br />
+                                        @Html.HiddenFor(model => model.MaNV, new { htmlAttributes = new { @class = "form-control", @placeholder = "Mã", @type = "text" } })
+                                        <div id="Grapper_MaNV"></div>
+                                        <a class="btn btn blue darken-2 btn-small center">Chọn ảnh</a>
+                                    </div>
+                                </div>
+                                <div class="input-field col m12">
+                                    <div class="col m8">
+                                        @Html.LabelFor(model => model.CapUyHienTai, "Cấp ủy hiện tại", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.CapUyHienTai, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Cấp ủy", @type = "text" } })
+                                            @Html.ValidationMessageFor(model => model.CapUyHienTai, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col m4">
+                                        @Html.LabelFor(model => model.CapUyKiem, "Cấp ủy kiêm", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.CapUyKiem, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Cấp ủy kiêm", @type = "text" } })
+                                            @Html.ValidationMessageFor(model => model.CapUyKiem, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-field col m12">
+                                    <div class="col m6">
+                                        @Html.LabelFor(model => model.ChucVu, "Chức vụ", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.ChucVu, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Chức vụ", @type = "text" } })
+                                            @Html.ValidationMessageFor(model => model.ChucVu, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col m6">
+                                        @Html.LabelFor(model => model.PhuCapChucVu, "Phụ cấp chức vụ", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.PhuCapChucVu, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Phụ cấp chức vụ", @type = "number", @min = "0", @max = "9999999999" } })
+                                            @Html.ValidationMessageFor(model => model.PhuCapChucVu, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-field col m12">
+                                    <div class="col m4">
+                                        @Html.LabelFor(model => model.NgaySinh, "Ngày sinh", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            <input id="NgaySinhFix" , class="inputEdit form-control datepicker-here datepicker-add" placeholder="Ngày sinh" type="datetime" value="" />
+                                            @Html.EditorFor(model => model.NgaySinh, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
+                                        </div>
+                                    </div>
+                                    <div class="col m4">
+                                        @Html.LabelFor(model => model.NoiSinh, "Nơi sinh", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.NoiSinh, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Nơi sinh", @type = "text" } })
+                                            @Html.ValidationMessageFor(model => model.NoiSinh, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col m4">
+                                        @Html.LabelFor(model => model.DanToc, "Dân tộc", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.DanToc, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Dân tộc", @type = "text" } })
+                                            @Html.ValidationMessageFor(model => model.DanToc, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-field col m12">
+                                    <div class="col m8">
+                                        @Html.LabelFor(model => model.QueQuan, "Quê quán", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.QueQuan, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Quê quán", @type = "text" } })
+                                            @Html.ValidationMessageFor(model => model.QueQuan, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col m4">
+                                        @Html.LabelFor(model => model.TonGiao, "Tôn giáo", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.TonGiao, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Tôn giáo", @type = "text" } })
+                                            @Html.ValidationMessageFor(model => model.TonGiao, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-field col m12">
+                                    <div class="col m8">
+                                        @Html.LabelFor(model => model.NoiOHienTai, "Nơi ở hiện tại", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.NoiOHienTai, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Nơi ở hiện tại", @type = "text" } })
+                                            @Html.ValidationMessageFor(model => model.NoiOHienTai, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col m4">
+                                        @Html.LabelFor(model => model.SoDienThoai, "Số điện thoại", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.SoDienThoai, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Số điện thoại", @type = "text" } })
+                                            @Html.ValidationMessageFor(model => model.SoDienThoai, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-field col m12">
+                                    <div class="col m12">
+                                        @Html.LabelFor(model => model.TPGiaDinhXuatThan, "Thành phần gia đình", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.TPGiaDinhXuatThan, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Thành phần gia đình", @type = "text" } })
+                                            @Html.ValidationMessageFor(model => model.TPGiaDinhXuatThan, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-field col m12">
+                                    <div class="col m12">
+                                        <label class='custom-label'>Nghề nghiệp trược khi được tuyển dụng</label>
+                                        <input class=" form-control" type="text" placeholder="Nghề trước khi tuyển dụng" />
+                                    </div>
+                                </div>
+                                <div class="input-field col m12">
+                                    <div class="col m4">
+                                        <label class='custom-label'>Ngày được tuyển dụng</label>
+                                        <input class=" form-control" type="date" />
+                                    </div>
+                                    <div class="col m4">
+                                        <label class='custom-label'>Tại cơ quan</label>
+                                        <input class=" form-control" type="text" placeholder="Cơ quan" />
+                                    </div>
+                                    <div class="col m4">
+                                        <label class='custom-label'>Ngày vào nơi đang công tác</label>
+                                        <input class=" form-control" type="date" />
+                                    </div>
+                                </div>
+                            </div>
+                            @* ly lich chinh tri *@
+                            <div id="lylichchinhtri" class="col m12">
+                                <div class="input-field col m12">
+                                    <div class="col m4">
+                                        @Html.LabelFor(model => model.NgayThamGiaCachMang, "Ngày tham gia cách mạng", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            <input id="NgayThamGiaCachMangFix" , class="inputEdit form-control datepicker-here datepicker-add" placeholder="Ngày tham gia cách mạng" type="datetime" value="" />
+                                            @Html.EditorFor(model => model.NgayThamGiaCachMang, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
+                                        </div>
+                                    </div>
+                                    <div class="col m4">
+                                        @Html.LabelFor(model => model.NgayVaoDangCSVN, "Ngày vào Đảng CSVN", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            <input id="NgayVaoDangCSVNFix" , class="inputEdit form-control datepicker-here datepicker-add" placeholder="Ngày vào Đảng CSVN" type="datetime" value="" />
+                                            @Html.EditorFor(model => model.NgayVaoDangCSVN, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
+                                        </div>
+                                    </div>
+                                    <div class="col m4">
+                                        @Html.LabelFor(model => model.NgayChinhThuc, "Ngày chính thức", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            <input id="NgayChinhThucFix" , class="inputEdit form-control datepicker-here datepicker-add" placeholder="Ngày chính thức" type="datetime" value="" />
+                                            @Html.EditorFor(model => model.NgayChinhThuc, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-field col m12">
+                                    <div class="col m6">
+                                        @Html.LabelFor(model => model.NgayVaoToChucCTXH, "Ngày vào tổ chức CTXH", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            <input id="NgayVaoToChucCTXHFix" , class="inputEdit form-control datepicker-here datepicker-add" placeholder="Ngày vào tổ chức CTXH" type="datetime" value="" />
+                                            @Html.EditorFor(model => model.NgayVaoToChucCTXH, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
+                                        </div>
+                                    </div>
+                                    <div class="col m6">
+                                        @Html.LabelFor(model => model.ToChuc, "Tổ chức", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.ToChuc, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Tổ chức" } })
+                                            @Html.ValidationMessageFor(model => model.ToChuc, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-field col m12">
+                                    <div class="col m3">
+                                        @Html.LabelFor(model => model.NgayNhapNgu, "Ngày nhập ngũ", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            <input id="NgayNhapNguFix" , class="inputEdit form-control datepicker-here datepicker-add" placeholder="Ngày nhập ngũ" type="datetime" value="" />
+                                            @Html.EditorFor(model => model.NgayNhapNgu, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
+                                        </div>
+                                    </div>
+                                    <div class="col m3">
+                                        @Html.LabelFor(model => model.NgayXuatNgu, "Ngày xuất ngũ", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            <input id="NgayXuatNguFix" , class="inputEdit form-control datepicker-here datepicker-add" placeholder="Ngày xuất ngũ" type="datetime" value="" />
+                                            @Html.EditorFor(model => model.NgayXuatNgu, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
+                                        </div>
+                                    </div>
+                                    <div class="col m6">
+                                        @Html.LabelFor(model => model.QuanHamChucVuCaoNhat, "Quân hàm chức vụ cao nhât", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.QuanHamChucVuCaoNhat, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Theo năm" } })
+                                            @Html.ValidationMessageFor(model => model.QuanHamChucVuCaoNhat, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-field col m12">
+                                    <div class="col m6">
+                                        @Html.LabelFor(model => model.TrinhDoHocVan, "Trình độ học vấn", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            @Html.DropDownListFor(model => model.TrinhDoHocVan, new SelectList(ViewBag.level, "Value", "Text"), htmlAttributes: new { @class = "sl-edit form-control" })
+                                            @Html.ValidationMessageFor(model => model.TrinhDoHocVan, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col m6">
+                                        @Html.LabelFor(model => model.HocHamHocViCaoNhat, "Học hàm học vị cao nhất", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.HocHamHocViCaoNhat, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Học hàm cao nhất" } })
+                                            @Html.ValidationMessageFor(model => model.HocHamHocViCaoNhat, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-field col m12">
+                                    <div class="col m6">
+                                        @Html.LabelFor(model => model.LyLuanChinhTri, "Lý luận chính trị", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.LyLuanChinhTri, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Lý luận chính trị" } })
+                                            @Html.ValidationMessageFor(model => model.LyLuanChinhTri, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col m6">
+                                        @Html.LabelFor(model => model.NgoaiNgu, "Ngoại ngữ", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.NgoaiNgu, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Ngoại ngữ" } })
+                                            @Html.ValidationMessageFor(model => model.NgoaiNgu, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!--Thành tích cá nhân-->
+                            <div id="thanhtichcanhan" class="col m12">
+                                <div class="row">
                                     <div class="input-field col m12">
-                                        <div>
-                                            <label class='custom-label'>Họ và tên khai sinh</label>
-                                            <input class="inputEdit form-control" type="text" value="Nguyễn Xuân Thoàng" placeholder="Tên khai sinh" />
+                                        <div class="col m12">
+                                            @Html.LabelFor(model => model.CongTacChinhDangLam, "Công tác chính đang làm", htmlAttributes: new { @class = "custom-label" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.CongTacChinhDangLam, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Công tác chính" } })
+                                                @Html.ValidationMessageFor(model => model.CongTacChinhDangLam, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="input-field col m12">
-                                        <div>
-                                            <label class='custom-label'>Các tên gọi khác</label>
-                                            <input class="inputEdit form-control" type="text" placeholder="Tên khác" value="Không" />
+                                        <div class="col m6">
+                                            @Html.LabelFor(model => model.NgachCongChuc, "Ngạnh công chức", htmlAttributes: new { @class = "custom-label" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.NgachCongChuc, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Ngạch công chức" } })
+                                                @Html.ValidationMessageFor(model => model.NgachCongChuc, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col m6">
+                                            @Html.LabelFor(model => model.MaNgach, "Mã ngạch", htmlAttributes: new { @class = "custom-label" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.MaNgach, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Mã ngạch", @type = "number", @min = "0" } })
+                                                @Html.ValidationMessageFor(model => model.MaNgach, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="input-field col m12">
-                                        <div>
-                                            <label class='custom-label'>Giới tính</label>
+                                        <div class="col m4">
+                                            <label class='custom-label'>Bậc lương</label>
                                             <select class="custom-select">
-                                                <option value="1">Nam</option>
-                                                <option value="0">Nữ</option>
+                                                <option>Không có</option>
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                            </select>
+                                        </div>
+                                        <div class="col m4">
+                                            <label class='custom-label'>Hệ số</label>
+                                            <input type="text" class=" form-control" placeholder="Hệ số" />
+                                        </div>
+                                        <div class="col m4">
+                                            <label class='custom-label'>Từ tháng</label>
+                                            <select class="custom-select">
+                                                <option>Không có</option>
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                                <option>6</option>
+                                                <option>7</option>
+                                                <option>8</option>
+                                                <option>9</option>
+                                                <option>10</option>
+                                                <option>11</option>
+                                                <option>12</option>
                                             </select>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="center col m4">
-                                    <img src="/images/avatar.png" width="130" height="130"><br />
-                                    <label class='custom-label green-text text-darken-2'>MS: 1234</label><br />
-                                    <label class="custom-label">Trạng thái: <span class="red-text">Nghỉ quá 5 ngày</span></label><br />
-                                    <a id="custom-a" class="custom-label red-text" href="@Url.Action("lich-su-lam-viec","ho-so")">(Lịch sử làm việc)</a>
-                                </div>
-                            </div>
-                            <div class="input-field col m12">
-                                <div class="col m8">
-                                    <label class='custom-label'>Cấp ủy hiện tại</label>
-                                    <input class="inputEdit form-control" type="text" placeholder="Cấp ủy" value="Không" />
-                                </div>
-                                <div class="col m4">
-                                    <label class='custom-label'>Cấp ủy kiêm</label>
-                                    <input class="inputEdit form-control" type="text" placeholder="Cấp ủy kiêm" value="Không" />
-                                </div>
-                            </div>
-                            <div class="input-field col m12">
-                                <div class="col m6">
-                                    <label class='custom-label'>Chức vụ</label>
-                                    <input class="inputEdit form-control" type="text" placeholder="Chức vụ" value="Không" />
-                                </div>
-                                <div class="col m6">
-                                    <label class='custom-label'>Phụ cấp chức vụ</label>
-                                    <input class="inputEdit form-control" type="text" placeholder="Phụ cấp" value="Không" />
-                                </div>
-                            </div>
-                            <div class="input-field col m12">
-                                <div class="col m4">
-                                    <label class='custom-label'>Ngày sinh</label>
-                                    <input class="inputEdit form-control" type="date" value="1985-05-17" />
-                                </div>
-                                <div class="col m4">
-                                    <label class='custom-label'>Nơi sinh</label>
-                                    <input class="inputEdit form-control" type="text" placeholder="Nơi sinh" value="Hà Nội" />
-                                </div>
-                                <div class="col m4">
-                                    <label class='custom-label'>Dân tộc</label>
-                                    <input class="inputEdit form-control" type="text" placeholder="Dân tộc" value="Kinh" />
-                                </div>
-                            </div>
-                            <div class="input-field col m12">
-                                <div class="col m8">
-                                    <label class='custom-label'>Quê quán</label>
-                                    <input class="inputEdit form-control" type="text" placeholder="Quê quán" value="Thanh Hóa" />
-                                </div>
-                                <div class="col m4">
-                                    <label class='custom-label'>Tôn giáo</label>
-                                    <input class="inputEdit form-control" type="text" placeholder="Tôn giáo" value="Không" />
+                                    <div class="input-field col m12">
+                                        <div class="col m12">
+                                            @Html.LabelFor(model => model.DanhHieuDuocPhong, "Danh hiệu được phong", htmlAttributes: new { @class = "custom-label" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.DanhHieuDuocPhong, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Danh hiệu" } })
+                                                @Html.ValidationMessageFor(model => model.DanhHieuDuocPhong, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="input-field col m12">
+                                        <div class="col m6">
+                                            @Html.LabelFor(model => model.SoTruongCongTac, "Sở trường công tác", htmlAttributes: new { @class = "custom-label" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.SoTruongCongTac, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Sở trường" } })
+                                                @Html.ValidationMessageFor(model => model.SoTruongCongTac, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col m6">
+                                            @Html.LabelFor(model => model.CongViecDaLamLauNhat, "Công việc đã làm lâu nhất", htmlAttributes: new { @class = "custom-label" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.CongViecDaLamLauNhat, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Công việc lâu nhất" } })
+                                                @Html.ValidationMessageFor(model => model.CongViecDaLamLauNhat, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="input-field col m12">
+                                        <div class="col m12">
+                                            @Html.LabelFor(model => model.KhenThuong, "Khen thưởng", htmlAttributes: new { @class = "custom-label" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.KhenThuong, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Khen thưởng" } })
+                                                @Html.ValidationMessageFor(model => model.KhenThuong, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="input-field col m12">
+                                        <div class="col m12">
+                                            @Html.LabelFor(model => model.KyLuat, "Kỷ luật", htmlAttributes: new { @class = "custom-label" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.KyLuat, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Kỷ luật" } })
+                                                @Html.ValidationMessageFor(model => model.KyLuat, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="input-field col m12">
-                                <div class="col m8">
-                                    <label class='custom-label'>Nơi ở hiện nay</label>
-                                    <input class="inputEdit form-control" type="text" placeholder="Nơi ở hiện nay" value="Cẩm Phả - Quảng Ninh" />
-                                </div>
-                                <div class="col m4">
-                                    <label class='custom-label'>Số điện thoại</label>
-                                    <input class="inputEdit form-control" type="text" placeholder="Số điện thoại" value="0123456789" />
-                                </div>
-                            </div>
-                            <div class="input-field col m12">
-                                <div class="col m12">
-                                    <label class='custom-label'>Thành phần gia đình xuất thân</label>
-                                    <input class="inputEdit form-control" type="text" placeholder="Thành phần gia đình" value="Trí thức" />
-                                </div>
-                            </div>
-                            <div class="input-field col m12">
-                                <div class="col m12">
-                                    <label class='custom-label'>Nghề nghiệp trược khi được tuyển dụng</label>
-                                    <input class="inputEdit form-control" type="text" placeholder="Nghề trước khi tuyển dụng" value="Sinh viên/Bộ đội xuất ngũ" />
-                                </div>
-                            </div>
-                            <div class="input-field col m12">
-                                <div class="col m4">
-                                    <label class='custom-label'>Ngày được tuyển dụng</label>
-                                    <input class="inputEdit form-control" type="date" value="2000-05-05" />
-                                </div>
-                                <div class="col m4">
-                                    <label class='custom-label'>Tại cơ quan</label>
-                                    <input class="inputEdit form-control" type="text" placeholder="Cơ quan" value="Đại học Bách Khoa" />
-                                </div>
-                                <div class="col m4">
-                                    <label class='custom-label'>Ngày vào nơi đang công tác</label>
-                                    <input class="inputEdit form-control" type="date" value="2000-05-05" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col m12">
-            <div class="card">
-                <div class="card-content">
-                    <div class="row">
-                        <h3 class="center">Lý lịch chính trị</h3>
-                        <div class="col m12">
-                            <div class="input-field col m12">
-                                <div class="col m4">
-                                    <label class='custom-label'>Ngày tham gia cách mạng</label>
-                                    <input class="inputEdit form-control" type="date" value="2000-05-05" />
-                                </div>
-                                <div class="col m4">
-                                    <label class='custom-label'>Ngày vào Đảng Cộng sản Việt Nam</label>
-                                    <input class="inputEdit form-control" type="date" value="2005-05-05" />
-                                </div>
-                                <div class="col m4">
-                                    <label class='custom-label'>Ngày chính thức</label>
-                                    <input class="inputEdit form-control" type="date" value="2006-05-05" />
-                                </div>
-                            </div>
-                            <div class="input-field col m12">
-                                <div class="col m6">
-                                    <label class='custom-label'>Ngày vào tổ chức chính trị xã hội</label>
-                                    <input class="inputEdit form-control" type="date" value="1999-05-05" />
-                                </div>
-                                <div class="col m6">
-                                    <label class='custom-label'>Tổ chức</label><i>(Đoàn TNCSHCM, Công đoàn, Hội, ...)</i>
-                                    <input class="inputEdit form-control" type="text" value="Đoàn TNCS Hồ Chí Minh" />
-                                </div>
-                            </div>
-                            <div class="input-field col m12">
-                                <div class="col m3">
-                                    <label class='custom-label'>Ngày nhập ngũ</label>
-                                    <input class="inputEdit form-control" type="date" />
-                                </div>
-                                <div class="col m3">
-                                    <label class='custom-label'>Ngày xuất ngũ</label>
-                                    <input class="inputEdit form-control" type="date" />
-                                </div>
-                                <div class="col m6">
-                                    <label class='custom-label'>Quân hàm, chức vụ cao nhất(Năm)</label>
-                                    <input type="text" class="inputEdit form-control" placeholder="Quân hàm, chức vụ" value="Không" />
-                                </div>
-                            </div>
-                            <div class="input-field col m12">
-                                <div class="col m6">
-                                    <label class='custom-label'>Trình độ học vấn</label><i>(Giáo dục phổ thông (lớp mấy))</i>
-                                    <select class="custom-select">
-                                        <option>Tiểu học</option>
-                                        <option>THCS</option>
-                                        <option>THPT</option>
-                                        <option>Trung cấp</option>
-                                        <option>Đại học</option>
-                                    </select>
-                                </div>
-                                <div class="col m6">
-                                    <label class='custom-label'>Học hàm, học vị cao nhất</label><i>(GS, PGS, TS,...)</i>
-                                    <input type="text" class="inputEdit form-control" placeholder="Học hàm, học vị" value="Không" />
-                                </div>
-                            </div>
-                            <div class="input-field col m12">
-                                <div class="col m6">
-                                    <label class='custom-label'>Lý luận chính trị</label><i>(Cử nhân/Cao cấp, Trung cấp,...)</i>
-                                    <input type="text" class="inputEdit form-control" placeholder="Lý luận trính trị" value="Không" />
-                                </div>
-                                <div class="col m6">
-                                    <label class='custom-label'>Ngoại ngữ</label>
-                                    <input type="text" class="inputEdit form-control" placeholder="Ngoại ngữ" value="Tiếng Anh D" />
+                            <!--Sức khỏe-->
+                            <div id="suckhoe" class="col m12">
+                                <div class="row">
+                                    <div class="input-field col m12">
+                                        <div class="col m3">
+                                            @Html.LabelFor(model => model.TinhTrangSucKhoe, "Tình trạng sức khỏe", htmlAttributes: new { @class = "custom-label" })
+                                            <div class="col-md-10">
+                                                @Html.DropDownListFor(model => model.TinhTrangSucKhoe, new SelectList(ViewBag.heal, "Value", "Text"), htmlAttributes: new { @class = "sl-edit form-control" })
+                                                @Html.ValidationMessageFor(model => model.TinhTrangSucKhoe, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col m9">
+                                            @Html.LabelFor(model => model.ChiTietSucKhoe, "Chi tiết sức khỏe", htmlAttributes: new { @class = "custom-label" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.ChiTietSucKhoe, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Bệnh mãn tĩnh (Chi tiết)" } })
+                                                @Html.ValidationMessageFor(model => model.ChiTietSucKhoe, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="input-field col m12">
+                                        <div class="col m4">
+                                            @Html.LabelFor(model => model.ChieuCao, "Chiều cao", htmlAttributes: new { @class = "custom-label" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.ChieuCao, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Chiều cao (cm)", @type = "number", @min = "0" } })
+                                                @Html.ValidationMessageFor(model => model.ChieuCao, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col m4">
+                                            @Html.LabelFor(model => model.CanNang, "Cân nặng", htmlAttributes: new { @class = "custom-label" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.CanNang, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Cân nặng (kg)", @type = "number", @min = "0" } })
+                                                @Html.ValidationMessageFor(model => model.CanNang, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col m4">
+                                            @Html.LabelFor(model => model.NhomMau, "Nhóm máu", htmlAttributes: new { @class = "custom-label" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.NhomMau, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Nhóm máu" } })
+                                                @Html.ValidationMessageFor(model => model.NhomMau, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="input-field col m12">
+                                        <div class="col m4">
+                                            @Html.LabelFor(model => model.SoCMND, "Số CMND/CCCD", htmlAttributes: new { @class = "custom-label" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.SoCMND, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "CMND" } })
+                                                @Html.ValidationMessageFor(model => model.SoCMND, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col m4">
+                                            @Html.LabelFor(model => model.NgayCapCMND, "Ngày cấp CMND", htmlAttributes: new { @class = "custom-label" })
+                                            <div class="col-md-10">
+                                                <input id="NgayCapCMNDFix" , class="inputEdit form-control datepicker-here datepicker-add" placeholder="Ngày cấp CMND" type="datetime" value="" />
+                                                @Html.EditorFor(model => model.NgayCapCMND, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
+                                            </div>
+                                        </div>
+                                        <div class="col m4">
+                                            @Html.LabelFor(model => model.NoiCapCMND, "Nơi cấp CMND", htmlAttributes: new { @class = "custom-label" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.NoiCapCMND, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Nơi cấp" } })
+                                                @Html.ValidationMessageFor(model => model.NoiCapCMND, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="input-field col m12">
+                                        <div class="col m4">
+                                            @Html.LabelFor(model => model.HangThuongBinh, "Hạng thương binh", htmlAttributes: new { @class = "custom-label" })
+                                            <div class="col-md-10">
+                                                @Html.DropDownListFor(model => model.HangThuongBinh, new SelectList(ViewBag.thuongbinh, "Value", "Text"), htmlAttributes: new { @class = "sl-edit form-control", @placeholder = "Thương binh" })
+                                                @Html.ValidationMessageFor(model => model.HangThuongBinh, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col m4">
+                                            @Html.LabelFor(model => model.GiaDinhChinhSach, "Gia đình chính sách", htmlAttributes: new { @class = "custom-label" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.GiaDinhChinhSach, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Gia đình chính sách" } })
+                                                @Html.ValidationMessageFor(model => model.GiaDinhChinhSach, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col m12">
-            <div class="card">
-                <div class="card-content">
-                    <div class="row">
-                        <h3 class="center">Thành tích cá nhân</h3>
-                        <div class="col m12">
+                        @Html.HiddenFor(model => model.TenPhanXuong, new { htmlAttributes = new { @class = "form-control", @placeholder = "Kỷ luật" } })
+                        @Html.HiddenFor(model => model.MaPhongBan, new { htmlAttributes = new { @class = "form-control", @placeholder = "Kỷ luật" } })
+                        <div id="hoctaplamviec" class="col l12">
+                            <div class="row" style="margin-top:10px">
+                                <label class="custom-label">A.Đào tạo, bồi dưỡng về chuyên môn, nghiệp vụ, lý luận chính trị, ngoại ngữ, tin học</label>
+                            </div>
+                            <div class="row" style="margin-top:15px">
+                                <table class="table table-bordered centered table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <th width="20%">Tên trường</th>
+                                            <th width="20%">Chuyên ngành đào<br>tạo, bồi dưỡng</th>
+                                            <th width="20%">Từ tháng, năm -<br>đến tháng, năm</th>
+                                            <th width="20%">Hình thức đào tạo</th>
+                                            <th width="20%">Văn bằng, chứng chỉ,<br>trình độ gì</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table-htlv1">
+                                        <tr>
+                                            <td contenteditable="true" id="col11" class="editable"></td>
+                                            <td contenteditable="true" id="col12" class="editable"></td>
+                                            <td id="col13">
+                                                <div class="row">
+                                                    <div class="col l3"> <label class="custom-label">Từ:</label></div>
+                                                    <div class="col l9"><input id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></div>
+                                                </div>
+                                                <div class="row" style="margin-top:5px">
+                                                    <div class="col l3"> <label class="custom-label">Đến:</label></div>
+                                                    <div class="col l9"><input id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></div>
+                                                </div>
+                                            </td>
+                                            <td contenteditable="true" id="col14" class="editable"></td>
+                                            <td contenteditable="true" id="col15" class="editable"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col m12">
+                                <div class="col m12 center div_them">
+                                    <a id="buttonThem1" class="btn blue darken-2" style="margin-top:15px;margin-bottom:15px">Thêm</a>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:15px">
+                                <table class="table table-bordered centered table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <th width="25%">Từ tháng,năm đến<br>tháng,năm</th>
+                                            <th width="25%">Chức danh</th>
+                                            <th width="25%">Chức vụ</th>
+                                            <th width="25%">Đơn vị công tác</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table-htlv2">
+                                        <tr>
+                                            <td id="col11">
+                                                <div class="row">
+                                                    <div class="col l3"> <label class="custom-label">Từ:</label></div>
+                                                    <div class="col l9"><input id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></div>
+                                                </div>
+                                                <div class="row" style="margin-top:5px">
+                                                    <div class="col l3"> <label class="custom-label">Đến:</label></div>
+                                                    <div class="col l9"><input id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></div>
+                                                </div>
+                                            </td>
+                                            <td contenteditable="true" id="col12" class="editable"></td>
+                                            <td contenteditable="true" id="col13" class="editable"></td>
+                                            <td contenteditable="true" id="col14" class="editable"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col m12 center div_them2">
+                                <a id="buttonThem2" class="btn blue darken-2" style="margin-top:15px;margin-bottom:15px">Thêm</a>
+                            </div>
+                        </div>
+                        <div id="giadinh" class="col m12">
+                            <div class="row" style="margin-top:10px;margin-bottom:10px"><label class="custom-label">A.Quan hệ gia đình</label></div>
                             <div class="row">
-                                <div class="input-field col m12">
-                                    <div class="col m12">
-                                        <label class='custom-label'>Công tác chính đang làm</label>
-                                        <input type="text" class="inputEdit form-control" placeholder="Công tác chính" value="Tự do" />
-                                    </div>
-                                </div>
-                                <div class="input-field col m12">
-                                    <div class="col m6">
-                                        <label class='custom-label'>Ngạch công chức</label>
-                                        <input type="text" class="inputEdit form-control" placeholder="Ngạnh công chức" value="Không" />
-                                    </div>
-                                    <div class="col m6">
-                                        <label class='custom-label'>Mã số</label>
-                                        <input type="text" class="inputEdit form-control" placeholder="Mã số" value="Không" />
-                                    </div>
-                                </div>
-                                <div class="input-field col m12">
-                                    <div class="col m4">
-                                        <label class='custom-label'>Bậc lương</label>
-                                        <select class="custom-select">
-                                            <option>Không có</option>
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                        </select>
-                                    </div>
-                                    <div class="col m4">
-                                        <label class='custom-label'>Hệ số</label>
-                                        <input type="text" class="inputEdit form-control" placeholder="Hệ số" value="Không" />
-                                    </div>
-                                    <div class="col m4">
-                                        <label class='custom-label'>Từ tháng</label>
-                                        <select class="custom-select">
-                                            <option>Không có</option>
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                            <option>6</option>
-                                            <option>7</option>
-                                            <option>8</option>
-                                            <option>9</option>
-                                            <option>10</option>
-                                            <option>11</option>
-                                            <option>12</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="input-field col m12">
-                                    <div class="col m12">
-                                        <label class='custom-label'>Danh hiệu được phong</label><i>(Năm nào)</i>
-                                        <input type="text" class="inputEdit form-control" placeholder="Danh hiệu" value="Không" />
-                                    </div>
-                                </div>
-                                <div class="input-field col m12">
-                                    <div class="col m6">
-                                        <label class='custom-label'>Sở trường công tác</label>
-                                        <input type="text" class="inputEdit form-control" placeholder="Sở trường" value="Không" />
-                                    </div>
-                                    <div class="col m6">
-                                        <label class='custom-label'>Công việc đã làm lâu nhất</label>
-                                        <input type="text" class="inputEdit form-control" placeholder="Công việc" value="Sinh viên" />
-                                    </div>
-                                </div>
-                                <div class="input-field col m12">
-                                    <div class="col m12">
-                                        <label class='custom-label'>Khen thưởng</label><i>(Huân, huy chương, năm nào)</i>
-                                        <input type="text" class="inputEdit form-control" placeholder="Khen thưởng" value="Không" />
-                                    </div>
-                                </div>
-                                <div class="input-field col m12">
-                                    <div class="col m12">
-                                        <label class='custom-label'>Kỷ luật</label><i>(Năm nào, lí do, hình thức,...</i>
-                                        <input class="inputEdit form-control" type="text" placeholder="Kỷ luật" value="Không" />
-                                    </div>
-                                </div>
+                                <table class="table table-bordered centered table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <th width="20%">Gia đình</th>
+                                            <th width="20%">Ngày sinh</th>
+                                            <th width="20%">Họ và tên</th>
+                                            <th width="20%">Mối quan hệ</th>
+                                            <th width="20%">Lý lịch</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table-gd">
+                                        <tr>
+                                            <td id="col11">
+                                                <select class="custom-select">
+                                                    <option value="Bản thân">Bản thân</option>
+                                                    <option value="Nhà vợ">Nhà vợ</option>
+                                                    <option value="Nhà chồng">Nhà chồng</option>
+                                                </select>
+                                            </td>
+                                            <td id="col12">
+                                                <input id="ns" type="text" class="datepicker-here datepicker-add center form-control resize-form" data-language="vi" placeholder="dd/mm/yyyy" />
+                                            </td>
+                                            <td contenteditable="true" id="col13" class="editable"></td>
+                                            <td contenteditable="true" id="col14" class="editable"></td>
+                                            <td contenteditable="true" id="col15" class="editable"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col m12 center div_them3" style="margin-top:10px;margin-bottom:10px">
+                                <a id="buttonThem3" class="btn blue darken-2">Thêm</a>
+                            </div>
+                            <div class="row" style="margin-top:10px;margin-bottom:10px"><label class="custom-label">B.Diễn biến quá trình lương của cán bộ, công chức</label></div>
+                            <div class="row">
+                                <table class="table table-bordered centered table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <th width="30%">Tháng/Năm</th>
+                                            <th width="35%">Mã ngành/Bậc</th>
+                                            <th width="35%">Hệ số lương</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="qt-luong">
+                                        <tr>
+                                            <td id="col11"><input id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></td>
+                                            <td contenteditable="true" id="col12" class="editable"></td>
+                                            <td contenteditable="true" id="col13" class="editable"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col m12 center div_them4" style="margin-top:10px">
+                                <a id="buttonThem4" class="btn blue darken-2">Thêm</a>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col m12">
-            <div class="card">
-                <div class="card-content">
-                    <div class="row">
-                        <h3 class="center">Sức khỏe</h3>
-                        <div class="col m12">
-                            <div class="row">
-                                <div class="input-field col m12">
-                                    <div class="col m3">
-                                        <label class='custom-label'>Tình trạng sức khỏe</label>
-                                        <select class="custom-select">
-                                            <option>Khỏe</option>
-                                            <option>Bình thường</option>
-                                            <option>Yếu</option>
-                                            <option>Bệnh mãn tính(ghi rõ)</option>
-                                        </select>
-                                    </div>
-                                    <div class="col m9">
-                                        <label class='custom-label'>Chi tiết</label>
-                                        <input type="text" class="inputEdit form-control" placeholder="Bệnh mãn tính (nếu có)" value="Không" />
-                                    </div>
-                                </div>
-                                <div class="input-field col m12">
-                                    <div class="col m4">
-                                        <label class='custom-label'>Chiều cao</label><i>(m)</i>
-                                        <input type="number" class="inputEdit form-control" placeholder="Cao (m)" value="1.8" />
-                                    </div>
-                                    <div class="col m4">
-                                        <label class='custom-label'>Cân nặng</label><i>(kg)</i>
-                                        <input type="number" class="inputEdit form-control" placeholder="Nặng (kg)" value="80" />
-                                    </div>
-                                    <div class="col m4">
-                                        <label class='custom-label'>Nhóm máu</label>
-                                        <input type="text" class="inputEdit form-control" placeholder="Nhóm máu" value="O+" />
-                                    </div>
-                                </div>
-                                <div class="input-field col m12">
-                                    <div class="col m4">
-                                        <label class='custom-label'>Số chứng minh nhân dân</label>
-                                        <input type="number" class="inputEdit form-control" placeholder="CMT nhân dân" value="012345678978" />
-                                    </div>
-                                    <div class="col m4">
-                                        <label class='custom-label'>Thương binh loại</label>
-                                        <select class="custom-select">
-                                            <option>Không</option>
-                                            <option>1/4(Thương tật 81% trở lên)</option>
-                                            <option>2/4(Thương tật từ 61% trở lên)</option>
-                                            <option>3/4(Thương tật từ 41% trở lên)</option>
-                                            <option>4/4(Thương tật từ 21% trở lên)</option>
-                                        </select>
-                                    </div>
-                                    <div class="col m4">
-                                        <label class='custom-label'>Gia đình liệt sĩ</label>
-                                        <input type="text" class="inputEdit form-control" placeholder="Liệt sĩ" value="Không" />
-                                    </div>
-                                </div>
-                                <div class="input-field col m12">
-                                    <div class="col m4"></div>
-                                    <div class="col m4"></div>
-                                    <div class="col m4"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col m12">
-            <div class="card">
-                <div class="card-content">
-                    <div class="row">
-                        <h3 class="center">Quan hệ gia đình</h3>
-                        <div class="col m12">
-                            <div class="row">
-                                <div class="col s12">
-                                    <h6>a) Về bản thân: Cha, Mẹ, Vợ (hoặc chồng), các con, anh chị em ruột</h6>
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered striped">
-                                            <tr>
-                                                <th id="relation">Mối quan hệ</th>
-                                                <th id="name">Họ và tên</th>
-                                                <th id="birthdate">Ngày sinh</th>
-                                                <th id="resume">Lý lịch</th>
-                                            </tr>
-                                            <tr>
-                                                <td class="td-edit">Bố</td>
-                                                <td class="td-edit">Nguyễn Xuân Hưng</td>
-                                                <td class="td-edit">21/3/1948</td>
-                                                <td class="td-edit">Sơn La, công nhân nhà máy thủy điện Sơn La</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="td-edit">Mẹ</td>
-                                                <td class="td-edit">Phạm Thị Hạ</td>
-                                                <td class="td-edit">11/7/1954</td>
-                                                <td class="td-edit">Sơn La, bán hàng, nội trợ</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="td-edit">Vợ</td>
-                                                <td class="td-edit">Trần Thị Hương</td>
-                                                <td class="td-edit">3/6/1989</td>
-                                                <td class="td-edit">Sơn La, nhân viên VNPT</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="td-edit">Con gái</td>
-                                                <td class="td-edit">Nguyễn Xuân Phương</td>
-                                                <td class="td-edit">8/5/1999</td>
-                                                <td class="td-edit">Sơn La, sinh viên đại học Ngoại Thương</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <br />
-                            <div class="row">
-                                <div class="col s12">
-                                    <h6>b) Về bên vợ (hoặc chồng): Cha, Mẹ, anh chị em ruột</h6>
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered striped">
-                                            <tr>
-                                                <th id="relation">Mối quan hệ</th>
-                                                <th id="name">Họ và tên</th>
-                                                <th id="birthdate">Ngày sinh</th>
-                                                <th id="resume">Lý lịch</th>
-                                            </tr>
-                                            <tr>
-                                                <td class="td-edit">Bố</td>
-                                                <td class="td-edit">Trần Duy Hải</td>
-                                                <td class="td-edit">19/5/1949</td>
-                                                <td class="td-edit">Sơn La, công nhân nhà máy thủy điện Sơn La</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="td-edit">Mẹ</td>
-                                                <td class="td-edit">Phạm Xuân Thanh</td>
-                                                <td class="td-edit">23/4/1957</td>
-                                                <td class="td-edit">Sơn La, nhân viên Viettel</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="td-edit">Em gái</td>
-                                                <td class="td-edit">Trần Thanh Thủy</td>
-                                                <td class="td-edit">21/1/2002</td>
-                                                <td class="td-edit">Sơn La, học sinh THPT Lê Quý Đôn</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="modal open" id="deleteBrief">
-    <!-- Modal content-->
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Xác nhận xóa hồ sơ</h3>
-        </div>
-        <div class="modal-body">
-            <p class="red-text">Bạn có muốn xóa hồ sơ này?</p>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn blue darken-2 modal-close">Xóa</button>
-            <button type="button" class="btn red modal-close">Hủy</button>
-        </div>
-    </div>
-</div>
-<div class="modal open" id="updateBrief">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Xác nhận cập nhật thông tin</h3>
-        </div>
-        <div class="modal-body">
-            <p class="green-text">Bạn có muốn lưu phần đã sửa?</p>
-        </div>
-        <div class="modal-footer">
-            <button class="btn blue darken-2 modal-close" onclick="abc()">Lưu</button>
-            <button class="btn red modal-close">Hủy</button>
+
+    <div class="modal open" id="updateBrief">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Xác nhận cập nhật thông tin</h3>
+            </div>
+            <div class="modal-body">
+                <p class="green-text">Bạn có muốn lưu phần đã sửa?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn blue darken-2 modal-close" id="save" type="submit">Lưu</button>
+                <button class="btn red modal-close">Hủy</button>
+            </div>
         </div>
     </div>
-</div>
+}
 <!--floating button-->
-<a href="javascript:void(0);" class="float" id="menu-share">
-    <i class="material-icons my-float">build</i>
-</a>
-<ul class="ul-float">
-    <li id="pencilandsave" class="li-float">
-        <a id="pencil" class="a-float" href="#" onclick="abc()">
-            <i class="material-icons my-float">create</i>
-        </a>
-    </li>
-    <li class="li-float">
-        <a class="a-float modal-trigger" href="#deleteBrief">
-            <i class="material-icons my-float">delete</i>
-        </a>
-    </li>
-</ul>
+<div id="pencilandsave">
+    <a id="pencil" class="float" href="#" onclick="abc()">
+        <i class="material-icons my-float">create</i>
+    </a>
+</div>
+
 <script src="~/js/Custom JS/TCLD/Brief/Brief_View.js"></script>
+<script src="~/js/Custom JS/TCLD/Brief/DateError.js"></script>
+<script>
+    $(document).ready(function () {
+        var MaNV = $("#MaNV").val();
+        $("#Grapper_MaNV").html("<b>Mã Nhân Viên: "+ MaNV +"</b>")
+    });
+</script>

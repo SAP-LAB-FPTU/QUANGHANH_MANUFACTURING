@@ -21,6 +21,7 @@ namespace QUANGHANH2.Models
         public System.DateTime next_end_time { get; set; }
         public string documentary_id { get; set; }
         public string equipmentId { get; set; }
+        public string equipment_big_maintain_reason { get; set; }
     
         public virtual Documentary Documentary { get; set; }
         public virtual Equipment Equipment { get; set; }

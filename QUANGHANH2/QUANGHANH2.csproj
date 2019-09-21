@@ -150,11 +150,9 @@
     <Compile Include="Controllers\BGD\DK\HumanResourceController.cs" />
     <Compile Include="Controllers\BGD\SummaryReportController.cs" />
     <Compile Include="Controllers\BGD\TCLD\PeformanceAndSalaryReportController.cs" />
-    <Compile Include="Controllers\CDVT\Cap_nhat\CapnhatController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\CapnhathoatdongController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\CapnhatsucoController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\ChitietController.cs" />
-    <Compile Include="Controllers\CDVT\Cap_nhat\DaxulyController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\XacnhanController.cs" />
     <Compile Include="Controllers\CDVT\CDVTController.cs" />
     <Compile Include="Controllers\CDVT\DashController.cs" />
@@ -344,6 +342,9 @@
     <Compile Include="Models\Fuel_activities_consumption.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GhiChu.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GiayChungNhan.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -360,7 +361,19 @@
     <Compile Include="Models\Incident.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\KeHoach_TieuChi.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KeHoach_TieuChi_VatLieuSanXuat.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\LichSuBoSungSYLL.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Maintain_Car.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Maintain_Car_Detail.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Model1.Context.cs">
@@ -396,9 +409,6 @@
     <Compile Include="Models\QuanHeGiaDinh.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Quantity_activities.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\QuaTrinhCongTac.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -408,13 +418,31 @@
     <Compile Include="Models\Supply.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SupplyPlan.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Supply_Documentary_Equipment.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Supply_tieuhao.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ThucHien_TieuChi.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TieuChi.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TieuChi_VatLieuSanXuat.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TrinhDo.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Truong.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VatLieuSanXuat.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -6237,6 +6265,7 @@
     <Content Include="js\Custom JS\TCLD\Brief\Briefs_Edit.js" />
     <Content Include="js\Custom JS\TCLD\Brief\Briefs_List.js" />
     <Content Include="js\Custom JS\TCLD\Brief\Brief_View.js" />
+    <Content Include="js\Custom JS\TCLD\Brief\DateError.js" />
     <Content Include="js\Custom JS\TCLD\Brief\ManageBrief\Brief_Inside.js" />
     <Content Include="js\Custom JS\TCLD\Brief\ManageBrief\Brief_Outside.js" />
     <Content Include="js\Custom JS\TCLD\Brief\ManageBrief\editable_hoso.js" />
@@ -6754,22 +6783,22 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Content Include="Models\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
+    <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
+    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
     <Content Include="Models\Model1.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
-    <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
-    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -6870,7 +6899,6 @@
     <Content Include="Views\CDVT\Suco\SucoThietbi.cshtml" />
     <Content Include="Views\CDVT\Report\bao_cao_kiem_dinh.cshtml" />
     <Content Include="Views\CDVT\Report\bao_cao_thu_hoi.cshtml" />
-    <Content Include="Views\CDVT\Report\FuelConsumption.cshtml" />
     <Content Include="Views\CDVT\Report\LiquidationReport.cshtml" />
     <Content Include="Views\CDVT\Report\MaintainReport.cshtml" />
     <Content Include="Views\CDVT\Report\QuarterPowerUsage.cshtml" />
@@ -6974,8 +7002,10 @@
     <Content Include="Views\Certificate\EditCertificateEmp.cshtml" />
     <Content Include="Views\ManagementUser\Index.cshtml" />
     <Content Include="Views\TCLD\Brief\ManageBrief\InsideDetail.cshtml" />
+    <Content Include="Views\PX\PXKT\NSLD.cshtml" />
     <Content Include="Views\nghiemthu\Detail.cshtml" />
     <Content Include="Views\nghiemthu\Edit.cshtml" />
+    <Content Include="Views\CDVT\Report\FuelConsumption.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

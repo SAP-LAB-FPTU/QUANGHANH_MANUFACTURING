@@ -1,0 +1,189 @@
+﻿
+@{
+    ViewBag.Title = "NSLD";
+    Layout = "~/Views/Shared/PX/_Layout_PXKT.cshtml";
+}
+
+<link href="~/assets/Custom css/PX/PXKT/ReportProduct.css" rel="stylesheet" />
+<style>
+    table {
+        counter-reset: tableCount;
+    }
+
+    .counterCell:before {
+        content: counter(tableCount);
+        counter-increment: tableCount;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        var c = url.searchParams.get("intCa");
+        var time = url.searchParams.get("strDate");
+        if (c == 1) {
+            document.getElementById("ca").innerText = "CA 1";
+        }
+        if (c == 2) {
+            document.getElementById("ca").innerText = "CA 2";
+        }
+        if (c == 3) {
+            document.getElementById("ca").innerText = "CA 3";
+        }
+        if (time == null) {
+            document.getElementById("inputdate").value = "@string.Format("{0:dd/MM/yyyy}", System.DateTime.Now)";
+        } else {
+            document.getElementById("inputdate").value = time;
+        }
+
+    });
+
+</script>
+
+<div class="card">
+    <div class="card-content">
+        <form>
+            <div class="row center">
+                <h3>
+                    KHỐI LƯỢNG CÔNG VIỆC CỦA VTL1 <a class="dropdown-trigger btn" id="ca" href="#" data-target="dropdown_ca" style="background-color:#273146">CA 1</a> NGÀY <input type="text" id="inputdate" class="datepicker-here center" data-language="vi" value="">
+                    <a class="btn waves-effect waves-light blue modal-trigger" id="btn-view" href="#" onclick="getcontent();">Xem</a>
+                    <br><br>
+                </h3>
+                <hr>
+            </div>
+            <div class="row table1" style="overflow-x:auto!important">
+                @if (ViewBag.nsld.Count > 0)
+                {
+                    <table id="" class="table table-bordered table-responsive centered highlight">
+                        <thead>
+                            <tr>
+                                <th style="display:none;"></th>
+                                <th colspan="2" rowspan="3" width="3%">TT</th>
+                                <th colspan="2" rowspan="3" width="5%">Tên</th>
+                                <th colspan="2" rowspan="3" width="5%">Số thẻ</th>
+                                <th colspan="2" rowspan="3" width="4%">Bậc thợ</th>
+                                <th colspan="2" rowspan="3" width="10%">Chức danh công việc,thợ chính,thợ phụ</th>
+                                <th colspan="2" rowspan="3" width="13%">Nội dung công việc,vị trí làm việc</th>
+                                <th colspan="2" rowspan="3" width="13%">Khối lượng công việc thực hiện được</th>
+                                <th colspan="2" rowspan="3" width="5%">Hệ số chia lương</th>
+                                <th colspan="2" rowspan="1">Lương</th>
+                                <th colspan="2" rowspan="3">Dự báo nguy cơ</th>
+                                <th colspan="2" rowspan="3">-Yêu cầu BPKTAT<br>-Giải pháp loại trừ nguy cơ</th>
+                            </tr>
+                            <tr>
+                                <th width="3%">9a</th>
+                                <th width="3%">9b</th>
+                            </tr>
+                            <tr>
+                                <th>Trước duyệt</th>
+                                <th>Sau duyệt</th>
+                            </tr>
+                        </thead>
+                        <tbody id="contentNSLD">
+                            @foreach (var item in ViewBag.nsld)
+                            {
+                                <tr>
+                                    <td style="display:none;" ><input class="madiemdanh" value="@item.ID"/></td>
+                                    <td colspan="2" class="counterCell"></td>
+                                    <td colspan="2">@item.Name</td>
+                                    <td colspan="2">@item.SoThe</td>
+                                    <td colspan="2">@item.BacTho</td>
+                                    <td colspan="2">@item.ChucDanh</td>
+                                    <td colspan="2">@item.NoiDungCongViec</td>
+                                    <td colspan="2"><input type="number" value="@item.NSLD" class="form-control updateNSLD" style="border:none; text-align: center;" id="nsld"></td>
+                                    <td colspan="2">@item.HeSoChiaLuong</td>
+                                    <td colspan="1">@item.LuongTruocDuyet</td>
+                                    <td colspan="1">@item.LuongSauDuyet</td>
+                                    <td colspan="2">@item.DuBaoNguyCo</td>
+                                    <td colspan="2">@item.YeuCauBPKTAT</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+            <div style="margin-top:10px;">
+                <a class="btn waves-effect waves-light blue modal-trigger" id="btn-save" href="#modal1">Lưu</a>
+            </div>
+        </form>
+    </div>
+</div>
+<ul id='dropdown_ca' class='dropdown-content'>
+    <li><a class="dropdown-child-ca" href="#" name="ca1">CA 1</a></li>
+    <li><a class="dropdown-child-ca" href="#" name="ca2">CA 2</a></li>
+    <li><a class="dropdown-child-ca" href="#" name="ca3">CA 3</a></li>
+</ul>
+
+
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <h3><b>Bạn có chắc chắn muốn lưu không?</b></h3>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="modal-action modal-close waves-effect waves-green btn blue" id="btn_agrr" onclick="Update();">Lưu</a>
+        <a href="javascript:void(0);" class="modal-action modal-close waves-effect waves-green btn red">Hủy</a>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    
+
+
+    var ca;
+    var intCa;
+    function getInner() {
+        ca = document.getElementById("ca").innerText;
+        if (ca == "CA 2") {
+            intCa = "2";
+        }
+        else if (ca == "CA 3") {
+            intCa = "3";
+        }
+        else {
+            intCa = "1";
+        }
+    }
+
+    function getcontent() {
+
+        getInner();
+        window.location = "/phan-xuong-khai-thac/nang-suat-lao-dong?intCa=" + intCa + "&strDate=" + document.getElementById("inputdate").value;
+    }
+    function Update() {
+        $('#pre-load').show();
+        getInner();
+        var mas = document.getElementsByClassName("madiemdanh");
+        var NSLDS = document.getElementsByClassName("updateNSLD");
+        var ids = [];
+        var times = [];
+        for (var i = 0; i < mas.length; i++) {
+            var x = mas[i].value;
+            var y = NSLDS[i].value;
+            ids.push(x);
+            times.push(y);
+        }
+        var empObj = {
+            ids: ids,
+            NSLDS: times,
+            intCa: intCa,
+            strDate: document.getElementById("inputdate").value
+        };
+        $.ajax({
+            url: "/phan-xuong-khai-thac/nang-suat-lao-dong-update",
+            data: JSON.stringify(empObj),
+            contentType: "application/json;charset=utf-8",
+            type: "POST",
+            success: function () {
+
+                $('#pre-load').hide();
+            },
+            error: function () {
+            }
+        });
+    }
+</script>
+<script src="~/js/Custom JS/button_watch_by.js"></script>
+
+
