@@ -12,26 +12,25 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class QuyetDinh
+    public partial class TieuChi
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public QuyetDinh()
+        public TieuChi()
         {
-            this.ChamDut_NhanVien = new HashSet<ChamDut_NhanVien>();
-            this.DieuDong_NV = new HashSet<DieuDong_NV>();
-            this.NhanViens = new HashSet<NhanVien>();
+            this.KeHoach_TieuChi = new HashSet<KeHoach_TieuChi>();
+            this.ThucHien_TieuChi = new HashSet<ThucHien_TieuChi>();
+            this.TieuChi_VatLieuSanXuat = new HashSet<TieuChi_VatLieuSanXuat>();
         }
     
-        public string SoQuyetDinh { get; set; }
-        public string LoaiQuyetDinh { get; set; }
-        public Nullable<System.DateTime> NgayQuyetDinh { get; set; }
-        public string TrangThai { get; set; }
+        public int MaTieuChi { get; set; }
+        public string TenTieuChi { get; set; }
+        public string DonViDo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChamDut_NhanVien> ChamDut_NhanVien { get; set; }
+        public virtual ICollection<KeHoach_TieuChi> KeHoach_TieuChi { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DieuDong_NV> DieuDong_NV { get; set; }
+        public virtual ICollection<ThucHien_TieuChi> ThucHien_TieuChi { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<NhanVien> NhanViens { get; set; }
+        public virtual ICollection<TieuChi_VatLieuSanXuat> TieuChi_VatLieuSanXuat { get; set; }
     }
 }

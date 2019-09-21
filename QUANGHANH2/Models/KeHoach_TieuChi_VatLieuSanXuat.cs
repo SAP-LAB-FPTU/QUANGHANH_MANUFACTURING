@@ -12,15 +12,13 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Documentary_big_maintain_details
+    public partial class KeHoach_TieuChi_VatLieuSanXuat
     {
-        public int equipment_big_maintain_status { get; set; }
-        public string remodel_type { get; set; }
-        public System.DateTime end_date { get; set; }
-        public string next_remodel_type { get; set; }
-        public System.DateTime next_end_time { get; set; }
-        public string documentary_id { get; set; }
-        public string equipmentId { get; set; }
-        public string equipment_big_maintain_reason { get; set; }
+        public int MaKeHoach { get; set; }
+        public int MaTieuChi_VatLieuSanXuat { get; set; }
+        public Nullable<double> TietDienDao { get; set; }
+    
+        public virtual KeHoach_TieuChi KeHoach_TieuChi { get; set; }
+        public virtual TieuChi_VatLieuSanXuat TieuChi_VatLieuSanXuat { get; set; }
     }
 }

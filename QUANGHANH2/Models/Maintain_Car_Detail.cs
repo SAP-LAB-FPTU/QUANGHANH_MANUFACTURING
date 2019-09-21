@@ -12,15 +12,16 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Documentary_big_maintain_details
+    public partial class Maintain_Car_Detail
     {
-        public int equipment_big_maintain_status { get; set; }
-        public string remodel_type { get; set; }
-        public System.DateTime end_date { get; set; }
-        public string next_remodel_type { get; set; }
-        public System.DateTime next_end_time { get; set; }
-        public string documentary_id { get; set; }
-        public string equipmentId { get; set; }
-        public string equipment_big_maintain_reason { get; set; }
+        public int maintaindetailid { get; set; }
+        public int maintainid { get; set; }
+        public string supplyid { get; set; }
+        public int quantity { get; set; }
+        public int supplyType { get; set; }
+        public int supplyStatus { get; set; }
+    
+        public virtual Maintain_Car Maintain_Car { get; set; }
+        public virtual Supply Supply { get; set; }
     }
 }

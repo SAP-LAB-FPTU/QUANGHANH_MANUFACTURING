@@ -12,26 +12,27 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class QuyetDinh
+    public partial class ThucHien_TieuChi
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public QuyetDinh()
+        public ThucHien_TieuChi()
         {
-            this.ChamDut_NhanVien = new HashSet<ChamDut_NhanVien>();
-            this.DieuDong_NV = new HashSet<DieuDong_NV>();
-            this.NhanViens = new HashSet<NhanVien>();
+            this.GhiChus = new HashSet<GhiChu>();
+            this.TieuChi_VatLieuSanXuat = new HashSet<TieuChi_VatLieuSanXuat>();
         }
     
-        public string SoQuyetDinh { get; set; }
-        public string LoaiQuyetDinh { get; set; }
-        public Nullable<System.DateTime> NgayQuyetDinh { get; set; }
-        public string TrangThai { get; set; }
+        public int MaThucHien { get; set; }
+        public string MaPhongBan { get; set; }
+        public int MaTieuChi { get; set; }
+        public Nullable<System.DateTime> NgayThucHien { get; set; }
+        public Nullable<int> CaThucHien { get; set; }
+        public Nullable<double> SanLuongThucHien { get; set; }
     
+        public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChamDut_NhanVien> ChamDut_NhanVien { get; set; }
+        public virtual ICollection<GhiChu> GhiChus { get; set; }
+        public virtual TieuChi TieuChi { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DieuDong_NV> DieuDong_NV { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<NhanVien> NhanViens { get; set; }
+        public virtual ICollection<TieuChi_VatLieuSanXuat> TieuChi_VatLieuSanXuat { get; set; }
     }
 }

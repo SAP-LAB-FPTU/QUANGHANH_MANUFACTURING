@@ -12,15 +12,18 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Quantity_activities
+    public partial class SupplyPlan
     {
-        public double quantity { get; set; }
-        public string activityid { get; set; }
-        public int hours_per_day { get; set; }
+        public string supplyid { get; set; }
+        public string departmentid { get; set; }
+        public string equipmentid { get; set; }
         public System.DateTime date { get; set; }
-        public string equipmentId { get; set; }
+        public double dinh_muc { get; set; }
+        public int quantity_plan { get; set; }
+        public int quantity { get; set; }
     
-        public virtual Activity Activity { get; set; }
+        public virtual Department Department { get; set; }
         public virtual Equipment Equipment { get; set; }
+        public virtual Supply Supply { get; set; }
     }
 }
