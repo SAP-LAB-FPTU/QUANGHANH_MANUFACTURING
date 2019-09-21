@@ -150,11 +150,9 @@
     <Compile Include="Controllers\BGD\DK\HumanResourceController.cs" />
     <Compile Include="Controllers\BGD\SummaryReportController.cs" />
     <Compile Include="Controllers\BGD\TCLD\PeformanceAndSalaryReportController.cs" />
-    <Compile Include="Controllers\CDVT\Cap_nhat\CapnhatController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\CapnhathoatdongController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\CapnhatsucoController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\ChitietController.cs" />
-    <Compile Include="Controllers\CDVT\Cap_nhat\DaxulyController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\XacnhanController.cs" />
     <Compile Include="Controllers\CDVT\CDVTController.cs" />
     <Compile Include="Controllers\CDVT\DashController.cs" />
