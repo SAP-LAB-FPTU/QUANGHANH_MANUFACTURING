@@ -14,7 +14,7 @@ namespace QUANGHANH2.Models
     
     public partial class Documentary_liquidation_details
     {
-        public string equipment_liquidation_status { get; set; }
+        public int equipment_liquidation_status { get; set; }
         public string buyer { get; set; }
         public string documentary_id { get; set; }
         public string equipmentId { get; set; }

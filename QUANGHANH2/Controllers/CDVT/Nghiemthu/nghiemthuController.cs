@@ -25,7 +25,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
         public ActionResult GetData()
         {
             //Server Side Parameter
-            string requestID = Request["sessionId"];
+            //string requestID = Request["sessionId"];
             int start = Convert.ToInt32(Request["start"]);
             int length = Convert.ToInt32(Request["length"]);
             string searchValue = Request["search[value]"];
@@ -35,6 +35,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
             //
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
+
                 db.Configuration.LazyLoadingEnabled = false;
                 docList = (from a in db.Acceptances
                            where (a.equipmentStatus == 2)
@@ -55,8 +56,56 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                 //docList = db.Documentaries.ToList<Documentary>();
                 int totalrows = docList.Count;
                 int totalrowsafterfiltering = docList.Count;
+
                 //sorting
-                //docList = docList.OrderBy(sortColumnName + " " + sortDirection).ToList<Documentary>();
+                docList = docList.OrderBy(sortColumnName + " " + sortDirection).ToList<Documentary_Extend>();
+
+                //paging
+                docList = docList.Skip(start).Take(length).ToList<Documentary_Extend>();
+                return Json(new { success = true, data = docList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [Route("phong-cdvt/nghiem-thu/search")]
+        [HttpPost]
+        public ActionResult Search(string document_id, string equiment_id, string equiment_name)
+        {
+            //Server Side Parameter
+            //string requestID = Request["sessionId"];
+            int start = Convert.ToInt32(Request["start"]);
+            int length = Convert.ToInt32(Request["length"]);
+            string searchValue = Request["search[value]"];
+            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+            string sortDirection = Request["order[0][dir]"];
+            List<Documentary_Extend> docList = new List<Documentary_Extend>();
+            //
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                if (!document_id.Equals("") || !equiment_id.Equals("") || !equiment_name.Equals(""))
+                {
+                    docList = (from a in db.Acceptances
+                               
+                               join b in db.Equipments on a.equipmentId equals b.equipmentId
+                               where (a.equipmentStatus == 2) && (a.documentary_id.Contains(document_id)) && (a.equipmentId.Contains(equiment_id)) && (b.equipment_name.Contains(equiment_name))
+                               select new
+                               {
+                                   documentary_id = a.documentary_id,
+                                   equipmentId = b.equipmentId,
+                                   equipment_name = b.equipment_name
+
+                               }).ToList().Select(p => new Documentary_Extend
+                               {
+                                   documentary_id = p.documentary_id,
+                                   equipmentId = p.equipmentId,
+                                   equipment_name = p.equipment_name
+                               }).ToList();
+                }
+                //docList = db.Documentaries.ToList<Documentary>();
+                int totalrows = docList.Count;
+                int totalrowsafterfiltering = docList.Count;
+                //sorting
+                docList = docList.OrderBy(sortColumnName + " " + sortDirection).ToList<Documentary_Extend>();
                 //paging
                 docList = docList.Skip(start).Take(length).ToList<Documentary_Extend>();
                 return Json(new { success = true, data = docList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
@@ -82,9 +131,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
             List<Acceptance> AcceptanceList = new List<Acceptance>();
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                Boolean status = false;
+                Boolean status = true;
                 db.Configuration.LazyLoadingEnabled = false;
-                AcceptanceList = db.Acceptances.ToList<Acceptance>();
                 try
                 {
                     var query = "  UPDATE Acceptance SET acceptance_date = getdate(), equipmentStatus = 3 where equipmentId =  '" + id + "'";
@@ -95,18 +143,19 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
 
                 }
                 db.SaveChanges();
+                AcceptanceList = db.Acceptances.ToList<Acceptance>();
                 var acceptance = db.Acceptances.ToList<Acceptance>();
                 foreach (Acceptance items in AcceptanceList)
                 {
-                    if (items.equipmentStatus != 3)
+                    if (items.equipmentStatus != 3 && items.equipmentId == id)
                     {
                         status = false;
                         break;
                     }
-                    else
-                    {
-                        ChangeStatus(id);
-                    }
+                }
+                if (status)
+                {
+                    ChangeStatus(id);
                 }
 
                 return RedirectToAction("GetData");

@@ -236,7 +236,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             <PropertyRef Name="documentary_id" />
             <PropertyRef Name="equipmentId" />
           </Key>
-          <Property Name="equipment_big_maintain_status" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="equipment_big_maintain_status" Type="int" Nullable="false" />
           <Property Name="remodel_type" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="end_date" Type="date" Nullable="false" />
           <Property Name="next_remodel_type" Type="nvarchar" MaxLength="150" Nullable="false" />
@@ -250,7 +250,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             <PropertyRef Name="documentary_id" />
             <PropertyRef Name="equipmentId" />
           </Key>
-          <Property Name="equipment_liquidation_status" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="equipment_liquidation_status" Type="int" Nullable="false" />
           <Property Name="buyer" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="documentary_id" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
@@ -261,7 +261,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             <PropertyRef Name="documentary_id" />
             <PropertyRef Name="equipmentId" />
           </Key>
-          <Property Name="equipment_maintain_status" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="equipment_maintain_status" Type="int" Nullable="false" />
           <Property Name="maintain_type" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="finish_date_plan" Type="date" Nullable="false" />
           <Property Name="documentary_id" Type="nvarchar" MaxLength="150" Nullable="false" />
@@ -273,7 +273,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             <PropertyRef Name="documentary_id" />
             <PropertyRef Name="equipmentId" />
           </Key>
-          <Property Name="equipment_moveline_status" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="equipment_moveline_status" Type="int" Nullable="false" />
           <Property Name="department_detail" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="date_to" Type="date" Nullable="false" />
           <Property Name="documentary_id" Type="nvarchar" MaxLength="150" Nullable="false" />
@@ -285,7 +285,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             <PropertyRef Name="documentary_id" />
             <PropertyRef Name="equipmentId" />
           </Key>
-          <Property Name="equipment_repair_status" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="equipment_repair_status" Type="int" Nullable="false" />
           <Property Name="repair_type" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="repair_reason" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="finish_date_plan" Type="date" Nullable="false" />
@@ -297,7 +297,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             <PropertyRef Name="documentary_id" />
             <PropertyRef Name="equipmentId" />
           </Key>
-          <Property Name="equipment_revoke_status" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="equipment_revoke_status" Type="int" Nullable="false" />
           <Property Name="documentary_id" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="equipment_revoke_reason" Type="nvarchar" MaxLength="150" />
@@ -932,18 +932,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Documenta__docum__40F9A68C">
-          <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
-          <End Role="Documentary_big_maintain_details" Type="Self.Documentary_big_maintain_details" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Documentary">
-              <PropertyRef Name="documentary_id" />
-            </Principal>
-            <Dependent Role="Documentary_big_maintain_details">
-              <PropertyRef Name="documentary_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Documenta__docum__42E1EEFE">
           <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
           <End Role="Documentary_liquidation_details" Type="Self.Documentary_liquidation_details" Multiplicity="*" />
@@ -1001,18 +989,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Principal>
             <Dependent Role="Documentary_revoke_details">
               <PropertyRef Name="documentary_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Documenta__equip__41EDCAC5">
-          <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
-          <End Role="Documentary_big_maintain_details" Type="Self.Documentary_big_maintain_details" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Equipment">
-              <PropertyRef Name="equipmentId" />
-            </Principal>
-            <Dependent Role="Documentary_big_maintain_details">
-              <PropertyRef Name="equipmentId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1858,10 +1834,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             <End Role="Department" EntitySet="Department" />
             <End Role="Documentary" EntitySet="Documentary" />
           </AssociationSet>
-          <AssociationSet Name="FK__Documenta__docum__40F9A68C" Association="Self.FK__Documenta__docum__40F9A68C">
-            <End Role="Documentary" EntitySet="Documentary" />
-            <End Role="Documentary_big_maintain_details" EntitySet="Documentary_big_maintain_details" />
-          </AssociationSet>
           <AssociationSet Name="FK__Documenta__docum__42E1EEFE" Association="Self.FK__Documenta__docum__42E1EEFE">
             <End Role="Documentary" EntitySet="Documentary" />
             <End Role="Documentary_liquidation_details" EntitySet="Documentary_liquidation_details" />
@@ -1881,10 +1853,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <AssociationSet Name="FK__Documenta__docum__4A8310C6" Association="Self.FK__Documenta__docum__4A8310C6">
             <End Role="Documentary" EntitySet="Documentary" />
             <End Role="Documentary_revoke_details" EntitySet="Documentary_revoke_details" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Documenta__equip__41EDCAC5" Association="Self.FK__Documenta__equip__41EDCAC5">
-            <End Role="Equipment" EntitySet="Equipment" />
-            <End Role="Documentary_big_maintain_details" EntitySet="Documentary_big_maintain_details" />
           </AssociationSet>
           <AssociationSet Name="FK__Documenta__equip__43D61337" Association="Self.FK__Documenta__equip__43D61337">
             <End Role="Equipment" EntitySet="Equipment" />
@@ -2357,7 +2325,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="documentary_status" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Acceptances" Relationship="Self.FK__Acceptanc__docum__2A164134" FromRole="Documentary" ToRole="Acceptance" />
           <NavigationProperty Name="Department" Relationship="Self.FK__Documenta__depar__40058253" FromRole="Documentary" ToRole="Department" />
-          <NavigationProperty Name="Documentary_big_maintain_details" Relationship="Self.FK__Documenta__docum__40F9A68C" FromRole="Documentary" ToRole="Documentary_big_maintain_details" />
           <NavigationProperty Name="Documentary_liquidation_details" Relationship="Self.FK__Documenta__docum__42E1EEFE" FromRole="Documentary" ToRole="Documentary_liquidation_details" />
           <NavigationProperty Name="Documentary_maintain_details" Relationship="Self.FK__Documenta__docum__44CA3770" FromRole="Documentary" ToRole="Documentary_maintain_details" />
           <NavigationProperty Name="Documentary_moveline_details" Relationship="Self.FK__Documenta__docum__46B27FE2" FromRole="Documentary" ToRole="Documentary_moveline_details" />
@@ -2371,7 +2338,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             <PropertyRef Name="documentary_id" />
             <PropertyRef Name="equipmentId" />
           </Key>
-          <Property Name="equipment_big_maintain_status" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="equipment_big_maintain_status" Type="Int32" Nullable="false" />
           <Property Name="remodel_type" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="end_date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="next_remodel_type" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
@@ -2379,15 +2346,13 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="documentary_id" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="equipmentId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="equipment_big_maintain_reason" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Documentary" Relationship="Self.FK__Documenta__docum__40F9A68C" FromRole="Documentary_big_maintain_details" ToRole="Documentary" />
-          <NavigationProperty Name="Equipment" Relationship="Self.FK__Documenta__equip__41EDCAC5" FromRole="Documentary_big_maintain_details" ToRole="Equipment" />
         </EntityType>
         <EntityType Name="Documentary_liquidation_details">
           <Key>
             <PropertyRef Name="documentary_id" />
             <PropertyRef Name="equipmentId" />
           </Key>
-          <Property Name="equipment_liquidation_status" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="equipment_liquidation_status" Type="Int32" Nullable="false" />
           <Property Name="buyer" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="documentary_id" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="equipmentId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
@@ -2400,7 +2365,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             <PropertyRef Name="documentary_id" />
             <PropertyRef Name="equipmentId" />
           </Key>
-          <Property Name="equipment_maintain_status" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="equipment_maintain_status" Type="Int32" Nullable="false" />
           <Property Name="maintain_type" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="finish_date_plan" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="documentary_id" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
@@ -2414,7 +2379,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             <PropertyRef Name="documentary_id" />
             <PropertyRef Name="equipmentId" />
           </Key>
-          <Property Name="equipment_moveline_status" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="equipment_moveline_status" Type="Int32" Nullable="false" />
           <Property Name="department_detail" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="date_to" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="documentary_id" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
@@ -2428,7 +2393,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             <PropertyRef Name="documentary_id" />
             <PropertyRef Name="equipmentId" />
           </Key>
-          <Property Name="equipment_repair_status" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="equipment_repair_status" Type="Int32" Nullable="false" />
           <Property Name="repair_type" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="repair_reason" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="finish_date_plan" Type="DateTime" Nullable="false" Precision="0" />
@@ -2442,7 +2407,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             <PropertyRef Name="documentary_id" />
             <PropertyRef Name="equipmentId" />
           </Key>
-          <Property Name="equipment_revoke_status" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="equipment_revoke_status" Type="Int32" Nullable="false" />
           <Property Name="documentary_id" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="equipmentId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="equipment_revoke_reason" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
@@ -2474,7 +2439,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <NavigationProperty Name="Acceptances" Relationship="Self.FK__Acceptanc__equip__2B0A656D" FromRole="Equipment" ToRole="Acceptance" />
           <NavigationProperty Name="Category_attribute_value" Relationship="Self.FK__Category___equip__2EDAF651" FromRole="Equipment" ToRole="Category_attribute_value" />
           <NavigationProperty Name="Department" Relationship="Self.FK__Equipment__depar__4C6B5938" FromRole="Equipment" ToRole="Department" />
-          <NavigationProperty Name="Documentary_big_maintain_details" Relationship="Self.FK__Documenta__equip__41EDCAC5" FromRole="Equipment" ToRole="Documentary_big_maintain_details" />
           <NavigationProperty Name="Documentary_liquidation_details" Relationship="Self.FK__Documenta__equip__43D61337" FromRole="Equipment" ToRole="Documentary_liquidation_details" />
           <NavigationProperty Name="Documentary_maintain_details" Relationship="Self.FK__Documenta__equip__45BE5BA9" FromRole="Equipment" ToRole="Documentary_maintain_details" />
           <NavigationProperty Name="Documentary_moveline_details" Relationship="Self.FK__Documenta__equip__47A6A41B" FromRole="Equipment" ToRole="Documentary_moveline_details" />
@@ -3359,18 +3323,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Documenta__docum__40F9A68C">
-          <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
-          <End Role="Documentary_big_maintain_details" Type="Self.Documentary_big_maintain_details" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Documentary">
-              <PropertyRef Name="documentary_id" />
-            </Principal>
-            <Dependent Role="Documentary_big_maintain_details">
-              <PropertyRef Name="documentary_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Documenta__docum__42E1EEFE">
           <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
           <End Role="Documentary_liquidation_details" Type="Self.Documentary_liquidation_details" Multiplicity="*" />
@@ -3452,18 +3404,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Principal>
             <Dependent Role="Supply_Documentary_Equipment">
               <PropertyRef Name="documentary_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Documenta__equip__41EDCAC5">
-          <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
-          <End Role="Documentary_big_maintain_details" Type="Self.Documentary_big_maintain_details" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Equipment">
-              <PropertyRef Name="equipmentId" />
-            </Principal>
-            <Dependent Role="Documentary_big_maintain_details">
-              <PropertyRef Name="equipmentId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4116,10 +4056,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             <End Role="NhanVien" EntitySet="NhanViens" />
             <End Role="DieuDong_NV" EntitySet="DieuDong_NV" />
           </AssociationSet>
-          <AssociationSet Name="FK__Documenta__docum__40F9A68C" Association="Self.FK__Documenta__docum__40F9A68C">
-            <End Role="Documentary" EntitySet="Documentaries" />
-            <End Role="Documentary_big_maintain_details" EntitySet="Documentary_big_maintain_details" />
-          </AssociationSet>
           <AssociationSet Name="FK__Documenta__docum__42E1EEFE" Association="Self.FK__Documenta__docum__42E1EEFE">
             <End Role="Documentary" EntitySet="Documentaries" />
             <End Role="Documentary_liquidation_details" EntitySet="Documentary_liquidation_details" />
@@ -4147,10 +4083,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <AssociationSet Name="FK__Supply_Do__docum__690797E6" Association="Self.FK__Supply_Do__docum__690797E6">
             <End Role="Documentary" EntitySet="Documentaries" />
             <End Role="Supply_Documentary_Equipment" EntitySet="Supply_Documentary_Equipment" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Documenta__equip__41EDCAC5" Association="Self.FK__Documenta__equip__41EDCAC5">
-            <End Role="Equipment" EntitySet="Equipments" />
-            <End Role="Documentary_big_maintain_details" EntitySet="Documentary_big_maintain_details" />
           </AssociationSet>
           <AssociationSet Name="FK__Documenta__equip__43D61337" Association="Self.FK__Documenta__equip__43D61337">
             <End Role="Equipment" EntitySet="Equipments" />
