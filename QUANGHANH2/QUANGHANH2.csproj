@@ -153,6 +153,14 @@
     <Compile Include="Controllers\CDVT\Cap_nhat\CapnhathoatdongController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\CapnhatsucoController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\ChitietController.cs" />
+    <Compile Include="Controllers\CDVT\Cap_nhat\Chitiet\QDBaoduongController.cs" />
+    <Compile Include="Controllers\CDVT\Cap_nhat\Chitiet\QDDieudongController.cs" />
+    <Compile Include="Controllers\CDVT\Cap_nhat\Chitiet\QDSuachuaController.cs" />
+    <Compile Include="Controllers\CDVT\Cap_nhat\Chitiet\QDThanhlyController.cs" />
+    <Compile Include="Controllers\CDVT\Cap_nhat\Chitiet\QDThuhoiController.cs" />
+    <Compile Include="Controllers\CDVT\Cap_nhat\Chitiet\QDTrungdaituController.cs" />
+    <Compile Include="Controllers\CDVT\Cap_nhat\DSQDChuaxulyController.cs" />
+    <Compile Include="Controllers\CDVT\Cap_nhat\DSQDDaxulyController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\XacnhanController.cs" />
     <Compile Include="Controllers\CDVT\CDVTController.cs" />
     <Compile Include="Controllers\CDVT\DashController.cs" />
@@ -305,25 +313,32 @@
     <Compile Include="Models\Documentary.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DocumentaryDB.cs" />
     <Compile Include="Models\Documentary_big_maintain_details.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Documentary_big_maintain_detailsDB.cs" />
     <Compile Include="Models\Documentary_Extend.cs" />
     <Compile Include="Models\Documentary_liquidation_details.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Documentary_liquidation_detailsDB.cs" />
     <Compile Include="Models\Documentary_maintain_details.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Documentary_maintain_detailsDB.cs" />
     <Compile Include="Models\Documentary_moveline_details.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Documentary_moveline_detailsDB.cs" />
     <Compile Include="Models\Documentary_repair_details.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Documentary_repair_detailsDB.cs" />
     <Compile Include="Models\Documentary_revoke_details.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Documentary_revoke_detailsDB.cs" />
     <Compile Include="Models\Equipment.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -342,9 +357,6 @@
     <Compile Include="Models\Fuel_activities_consumption.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\GhiChu.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\GiayChungNhan.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -361,19 +373,7 @@
     <Compile Include="Models\Incident.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\KeHoach_TieuChi.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\KeHoach_TieuChi_VatLieuSanXuat.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\LichSuBoSungSYLL.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Maintain_Car.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Maintain_Car_Detail.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Model1.Context.cs">
@@ -409,6 +409,9 @@
     <Compile Include="Models\QuanHeGiaDinh.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Quantity_activities.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\QuaTrinhCongTac.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -418,31 +421,16 @@
     <Compile Include="Models\Supply.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SupplyPlan.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Supply_Documentary_Equipment.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Supply_tieuhao.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ThucHien_TieuChi.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TieuChi.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TieuChi_VatLieuSanXuat.cs">
+    <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TrinhDo.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Truong.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\VatLieuSanXuat.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -7006,6 +6994,12 @@
     <Content Include="Views\nghiemthu\Detail.cshtml" />
     <Content Include="Views\nghiemthu\Edit.cshtml" />
     <Content Include="Views\CDVT\Report\FuelConsumption.cshtml" />
+    <Content Include="Views\CDVT\Cap_nhat\Chitiet\Baoduong.cshtml" />
+    <Content Include="Views\CDVT\Cap_nhat\Chitiet\Dieudong.cshtml" />
+    <Content Include="Views\CDVT\Cap_nhat\Chitiet\Suachua.cshtml" />
+    <Content Include="Views\CDVT\Cap_nhat\Chitiet\Thanhly.cshtml" />
+    <Content Include="Views\CDVT\Cap_nhat\Chitiet\Thuhoi.cshtml" />
+    <Content Include="Views\CDVT\Cap_nhat\Chitiet\Trungdaitu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
