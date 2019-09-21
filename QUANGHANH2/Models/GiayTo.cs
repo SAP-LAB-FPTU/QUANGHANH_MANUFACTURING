@@ -18,6 +18,7 @@ namespace QUANGHANH2.Models
         public string TenGiayTo { get; set; }
         public string KieuGiayTo { get; set; }
         public int MaGiayTo { get; set; }
+        public Nullable<System.DateTime> NgayTra { get; set; }
     
         public virtual NhanVien NhanVien { get; set; }
     }

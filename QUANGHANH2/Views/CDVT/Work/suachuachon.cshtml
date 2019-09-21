@@ -88,6 +88,29 @@
     </div>
 </div>
 
+<!-- Modal Structure -->
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <h4>CHỌN LOẠI SỬA CHỮA</h4>
+        <div>
+            <label>
+                <input type="checkbox" class="filled-in" id="sctx"   />
+                <span>Sửa chữa thường xuyên</span>
+            </label>
+        </div>
+        <div>
+            <label>
+                <input type="checkbox" class="filled-in" id="scsc"  />
+                <span>Sửa chữa sự cố</span>
+            </label>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#!"   class="modal-close waves-effect waves-green btn-flat">Đồng Ý</a>
+    </div>
+</div>
+
+
 
 
 <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
@@ -108,16 +131,41 @@
                     { "data": "equipment_name", "name": "equipment_name" },
                     { "data": "department_id", "name": "department_id" },
                     { "data": "current_Status", "name": "current_Status" },
-                    { "data": null},
-                    { "data": null },
-                    { "data": null }
-                   
+                    {
+                        "data": null, "render": function () {
+                            return "<a class='waves-effect waves-light btn blue modal-trigger' data-target='modal1'>Chọn</a>";
+                        }
+                    },
+                    {
+                        "data": null, "render": function () {
+                            return "<input type ='text'/>";
+                        }
+                    },
+                    {
+                        "data": null, "render": function () {
+                            return "<input type ='date'/>";
+                        }
+                    }
+                    //{ "data": "repair_type", "name": "repair_type" },
+                    //{ "data": "repair_reason", "name": "repair_reason" },
+                    //{ "data": "finish_date_plan", "name": "finish_date_plan" }
+
                 ],
                 "serverSide": "true",
                 "order": [0, "asc"]
             });
-        });
 
+            function typeSuaChua() {
+                var x = document.getElementById("myDIV");
+                if (x.innerHTML === "Thường xuyên") {
+                    x.innerHTML = "Sự cố";
+                } else {
+                    x.innerHTML = "Thường xuyên";
+                }
+            }
+
+        });
+        
 
         function PopupForm(url) {
             var formDiv = $('<div/>');
@@ -161,8 +209,6 @@
             }
             return false;
         }
-
-
     </script>
 }
 

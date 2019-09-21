@@ -17,6 +17,7 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public NhanVien()
         {
+            this.ChamDut_NhanVien = new HashSet<ChamDut_NhanVien>();
             this.ChiTiet_BangCap = new HashSet<ChiTiet_BangCap>();
             this.ChiTiet_CongViec_NhanVien = new HashSet<ChiTiet_CongViec_NhanVien>();
             this.ChungChi_NhanVien = new HashSet<ChungChi_NhanVien>();
@@ -78,13 +79,20 @@ namespace QUANGHANH2.Models
         public string NgayDiLam { get; set; }
         public string TenPhanXuong { get; set; }
         public string TrangThaiLamViec { get; set; }
+        public string MaPhongBan { get; set; }
+        public Nullable<int> MaUyQuyen { get; set; }
+        public string SoBHXH { get; set; }
+        public Nullable<System.DateTime> NgayTraBHXH { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ChamDut_NhanVien> ChamDut_NhanVien { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChiTiet_BangCap> ChiTiet_BangCap { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChiTiet_CongViec_NhanVien> ChiTiet_CongViec_NhanVien { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChungChi_NhanVien> ChungChi_NhanVien { get; set; }
+        public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DiemDanh_NangSuatLaoDong> DiemDanh_NangSuatLaoDong { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -94,6 +102,7 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GiayTo> GiayToes { get; set; }
         public virtual HoSo HoSo { get; set; }
+        public virtual NguoiUyQuyenLayHoSo_BaoHiem NguoiUyQuyenLayHoSo_BaoHiem { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChiTiet_NhiemVu_NhanVien> ChiTiet_NhiemVu_NhanVien { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

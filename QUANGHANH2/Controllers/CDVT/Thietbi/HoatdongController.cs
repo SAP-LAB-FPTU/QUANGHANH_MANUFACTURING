@@ -31,7 +31,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
 
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    List<Equipment> equipList = (from p in db.Equipments
+                    List<NewEquipment> equipList = (from p in db.Equipments
                                      join e in db.Equipment_category on p.Equipment_category_id equals e.Equipment_category_id
                                      join d in db.Departments on p.department_id equals d.department_id
                                      select new
@@ -56,7 +56,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                                          department_id = p.department_id,
                                          department_name = d.department_name,
                                          category_name = e.Equipment_category_name
-                                     }).ToList().Select(p => new Equipment
+                                     }).ToList().Select(p => new NewEquipment
                                      {
                                          equipmentId = p.equipmentId,
                                          equipment_name = p.equipment_name,
@@ -76,8 +76,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                                          input_channel = p.input_channel,
                                          Equipment_category_id = p.Equipment_category_id,
                                          department_id = p.department_id,
-                                         //department_name = p.department_name,
-                                         //category_name = p.category_name
+                                         department_name = p.department_name,
+                                         category_name = p.category_name
                                      }).ToList();
                     int k = 0;
                     for (int i = 2; i <= equipList.Count; i++)
@@ -98,8 +98,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                             excelWorksheet.Cells[i, 14].Value = equipList.ElementAt(k).mark_code; 
                             excelWorksheet.Cells[i, 15].Value = equipList.ElementAt(k).quality_type; 
                             excelWorksheet.Cells[i, 16].Value = equipList.ElementAt(k).input_channel; 
-                            //excelWorksheet.Cells[i, 17].Value = equipList.ElementAt(k).category_name; 
-                            //excelWorksheet.Cells[i, 18].Value = equipList.ElementAt(k).department_name; 
+                            excelWorksheet.Cells[i, 17].Value = equipList.ElementAt(k).category_name; 
+                            excelWorksheet.Cells[i, 18].Value = equipList.ElementAt(k).department_name; 
                             k++;
                     }
                     excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath("/excel/CDVT/download/baocaohoatdong.xlsx")));
@@ -117,7 +117,26 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             List<Department> listDepeartment = db.Departments.ToList<Department>();
             ViewBag.listDepeartment = listDepeartment;
+            EquipThongKe etk = new EquipThongKe();
+            var equipList = db.Equipments.ToList<Equipment>();
+            etk.total = equipList.Count().ToString();
+            var temp = db.Database.SqlQuery<Temp>("select distinct dr.equipmentId as 'abc' from Documentary_repair_details dr").ToList<Temp>();
+            etk.total_repair = temp.Count().ToString();
+            temp = db.Database.SqlQuery<Temp>("select distinct dr.equipmentId as 'abc' from Documentary_maintain_details dr").ToList<Temp>();
+            etk.total_maintain = temp.Count().ToString();
+            temp = db.Database.SqlQuery<Temp>("select distinct dr.equipmentId as 'abc' from Documentary_Inspection_details dr").ToList<Temp>();
+            etk.total_KD = temp.Count().ToString();
+            temp = db.Database.SqlQuery<Temp>("select distinct dr.equipmentId as 'abc' from Documentary_liquidation_details dr").ToList<Temp>();
+            etk.total_TL = temp.Count().ToString();
+            temp = db.Database.SqlQuery<Temp>("select distinct dr.equipmentId as 'abc' from Documentary_revoke_details dr").ToList<Temp>();
+            etk.total_TH = temp.Count().ToString();
+            ViewBag.Thongke = etk;
             return View("/Views/CDVT/Hoat_dong.cshtml");
+        }
+
+        public class Temp
+        {
+            public string abc { get; set; }
         }
 
         [Route("phong-cdvt/huy-dong")]
@@ -168,7 +187,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                                                  department_id = p.department_id,
                                                  department_name = d.department_name,
                                                  category_name = e.Equipment_category_name
-                                             }).ToList().Select(p => new Equipment
+                                             }).ToList().Select(p => new NewEquipment
                                              {
                                                  equipmentId = p.equipmentId,
                                                  equipment_name = p.equipment_name,
@@ -188,19 +207,34 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                                                  input_channel = p.input_channel,
                                                  Equipment_category_id = p.Equipment_category_id,
                                                  department_id = p.department_id,
-                                                 //department_name = p.department_name,
-                                                 //category_name = p.category_name
+                                                 department_name = p.department_name,
+                                                 category_name = p.category_name
                                              }).ToList();
                 int totalrows = equipList.Count;
                 int totalrowsafterfiltering = equipList.Count;
                 //sorting
-                equipList = equipList.OrderBy(sortColumnName + " " + sortDirection).ToList<Equipment>();
+                equipList = equipList.OrderBy(sortColumnName + " " + sortDirection).ToList<NewEquipment>();
                 //paging
-                equipList = equipList.Skip(start).Take(length).ToList<Equipment>();
+                equipList = equipList.Skip(start).Take(length).ToList<NewEquipment>();
                 List<Department> listDepeartment = db.Departments.ToList<Department>();
                 ViewBag.listDepeartment = listDepeartment;
+                
                 return Json(new { success = true, data = equipList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering}, JsonRequestBehavior.AllowGet);
             }
+        }
+        public class EquipThongKe
+        {
+            public string total { get; set; }
+            public string total_repair { get; set; }
+            public string total_maintain { get; set; }
+            public string total_KD { get; set; }
+            public string total_TL { get; set; }
+            public string total_TH { get; set; }
+        }
+        private class NewEquipment : Equipment
+        {
+            public string department_name { get; set; }
+            public string category_name { get; set; }
         }
 
         public class EquipWithName : Equipment

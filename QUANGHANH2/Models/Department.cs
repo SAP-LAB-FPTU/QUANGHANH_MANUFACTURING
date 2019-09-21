@@ -21,6 +21,7 @@ namespace QUANGHANH2.Models
             this.Documentaries = new HashSet<Documentary>();
             this.Equipments = new HashSet<Equipment>();
             this.Incidents = new HashSet<Incident>();
+            this.NhanViens = new HashSet<NhanVien>();
         }
     
         public string department_id { get; set; }
@@ -35,5 +36,7 @@ namespace QUANGHANH2.Models
         public virtual ICollection<Equipment> Equipments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Incident> Incidents { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<NhanVien> NhanViens { get; set; }
     }
 }
