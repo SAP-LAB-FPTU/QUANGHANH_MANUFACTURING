@@ -61,7 +61,7 @@
 
 <body>
     <div class="main-wrapper" id="main-wrapper">
-        <div id="pre-load">
+        <div id="pre-load" hidden>
             <div class="loading">
                 <div class="preloader-wrapper big active">
                     <div class="spinner-layer spinner-blue-only">
@@ -438,8 +438,6 @@
     <script src="~/Scripts/notify.min.js"></script>
     @RenderSection("scripts", required: false)
     <script>
-        $("#pre-load").hide("slow", function () {
-        });
         var w = $(window).width();
         var h = $(window).height();
         $(".loading").css("z-index", 99999);
