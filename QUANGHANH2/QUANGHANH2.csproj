@@ -7049,6 +7049,9 @@
     <Content Include="Views\CDVT\Cap_nhat\Chitiet\Thuhoi.cshtml" />
     <Content Include="Views\CDVT\Cap_nhat\Chitiet\Trungdaitu.cshtml" />
     <Content Include="Views\CDVT\Vattu\XincapvattuSummary.cshtml" />
+    <Content Include="Views\Brief\EditChiTietbangCap.cshtml" />
+    <Content Include="Views\Brief\EditHoSo.cshtml" />
+    <Content Include="Views\Brief\EditQuanHeGiaDinh.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

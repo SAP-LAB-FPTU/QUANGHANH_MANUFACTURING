@@ -26,6 +26,7 @@ namespace QUANGHANH2.Models
         public Nullable<double> LuongSauDuyet { get; set; }
         public string DuBaoNguyCo { get; set; }
         public string GiaiPhapNguyCo { get; set; }
+        public string LyDoVangMat { get; set; }
     
         public virtual Department Department { get; set; }
         public virtual NhanVien NhanVien { get; set; }

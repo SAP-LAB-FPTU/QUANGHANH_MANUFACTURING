@@ -64,6 +64,7 @@
     <script type="text/javascript" charset="utf8" src="~/Content/DataTables/DataTables-1.10.18/js/dataTables.bootstrap4.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Content/DataTables/Select-1.3.0/js/dataTables.select.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Content/DataTables/dataTables.checkboxesCustomForAccount.min.js"></script>
+    <link href="~/css/preloader/css.css" rel="stylesheet" />
     <script>
         var table;
         $(document).ready(function () {
@@ -96,7 +97,7 @@
                         "data": "Username",
                         "render": function (data, type, row, meta) {
                             if (type === 'display') {
-                                data = '<a href="/ManagementUser/Index?username=' + data + '">' + data + '</a>';
+                                data = '<a href="/ManagementUser/Index?username=' + data + '" onclick="showLoading()">' + data + '</a>';
                             }
 
                             return data;
@@ -139,6 +140,21 @@
 </head>
 
 <body>
+    <div id="pre-load" hidden>
+        <div class="loading">
+            <div class="preloader-wrapper big active">
+                <div class="spinner-layer spinner-blue-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div><div class="gap-patch">
+                        <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="preloader">
         <div class="loader">
             <div class="loader__figure"></div>
@@ -464,6 +480,9 @@
 </html>
 
 <script>
+    $(".loading").css("z-index", 99999);
+    $('body').css('overflow', '');
+    
     $(document).ready(function () {
         GetRightFromDBNotFill(1);
         GetRightFromDBNotFill(2);
@@ -472,12 +491,16 @@
         GetRightFromDBNotFill(5);
         GetRightFromDBNotFill(6);
     });
-
+    function showLoading() {
+        $('#pre-load').show();
+    }
     function AddNewUser() {
         if (right1 == null || right2 == null || right3 == null || right4 == null || right5 == null || right6 == null) {
 
             document.getElementById("notifyMessage").innerHTML = "Vui lòng chờ!";
             $("#modalNotify").modal();
+        } else {
+            $('#pre-load').show();
         }
         var module1 = $('#module1').val();
         var module2 = $('#module2').val();
@@ -551,6 +574,7 @@
 
 
                 }
+                $('#pre-load').hide();
             },
             error: function (errormessage) {
 
@@ -559,10 +583,13 @@
     }
 
     function UpdateUser() {
+        
         if (right1 == null || right2 == null || right3 == null || right4 == null || right5 == null || right6 == null) {
 
             document.getElementById("notifyMessage").innerHTML = "Vui lòng chờ!";
             $("#modalNotify").modal('open');
+        } else {
+            $('#pre-load').show();
         }
         var module1 = $('#module1').val();
         var module2 = $('#module2').val();
@@ -621,6 +648,7 @@
             contentType: "application/json;charset=utf-8",
             success: function (result) {
                 switch (result.CodeError) {
+
                     case 0:
                         $("#modalNotifyUpdate").modal('open');
                         document.getElementById("notifyMessageUpdate").innerHTML = result.Data;
@@ -634,9 +662,11 @@
                         document.getElementById("notifyMessage").innerHTML = result.Data;
                         break;
                     default:
-
+                        break;
+                        
 
                 }
+                $('#pre-load').hide();
             },
             error: function (errormessage) {
 
@@ -657,6 +687,7 @@
         window.location.href = "/ManagementUser/Index"
     }
     function Reset() {
+        $('#pre-load').show();
         window.location.href = "/ManagementUser/Index";
     }
 
@@ -679,6 +710,7 @@
     }
 
     function DeleteUser() {
+        $('#pre-load').show();
         var empObj = {
             strUIDs: newstrUIDs
         };
@@ -694,6 +726,7 @@
                 } else {
                     window.location.href = "/ManagementUser/Index?DeleteSuccess=true";
                 }
+                
             },
             error: function (errormessage) {
 
@@ -702,6 +735,7 @@
     }
 
     function ResetPassword() {
+        $('#pre-load').show();
         var empObj = {
             UserID: document.getElementById("UserID").value
         };
@@ -714,10 +748,12 @@
             success: function (result) {
                 $("#modalNotifyUpdate").modal('open');
                 document.getElementById("notifyMessageUpdate").innerHTML = result;
+                $('#pre-load').hide();
             },
             error: function (errormessage) {
                 $("#modalNotify").modal('open');
                 document.getElementById("notifyMessage").innerHTML = result;
+                $('#pre-load').hide();
             }
         });
     }
@@ -786,6 +822,7 @@
         $("#modalRight").modal('open');
     }
     function GetRightFromDB(moduleID) {
+        $('#pre-load').show();
         var empObj = {
             module: moduleID,
             UserID: document.getElementById("UserID").value
@@ -821,6 +858,7 @@
                     right6 = result;
                     FillData(right6, 6);
                 }
+                $('#pre-load').hide();
             },
             error: function (errormessage) {
 
@@ -828,6 +866,7 @@
         });
     }
     function GetRightFromDBNotFill(moduleID) {
+        $('#pre-load').show();
         var empObj = {
             module: moduleID,
             UserID: document.getElementById("UserID").value
@@ -857,6 +896,7 @@
                 if (moduleID == 6) {
                     right6 = result;
                 }
+                $('#pre-load').hide();
             },
             error: function (errormessage) {
 
