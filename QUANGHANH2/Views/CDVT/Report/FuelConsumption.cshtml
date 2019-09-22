@@ -15,17 +15,61 @@
 <script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
 <script src="~/assets/extra-libs/prism/prism.js"></script>
 <script>
+    $(function () {
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        $("#txtmonth").datepicker({
+            onSelect: function () {
+                $('#pre-load').show();
+                var val = document.getElementById("txtmonth").value;
+                var val2 = val.split(" ");
+                window.location = "/phong-cdvt/bao-cao/nhien-lieu?type=month&month=" + val2[1] + "&year=" + val2[2];
+            }
+        })
+        $("#txtyear").datepicker({
+            onSelect: function () {
+                $('#pre-load').show();
+                window.location = "/phong-cdvt/bao-cao/nhien-lieu?type=year&year=" + document.getElementById("txtyear").value;
+            }
+        })
+        $("#minMaxDate").datepicker({
+            onSelect: function () {
+                $('#pre-load').show();
+                window.location = "/phong-cdvt/bao-cao/nhien-lieu?type=day&date=" + document.getElementById("minMaxDate").value;
+            }
+        })
+        $('#txtquarter').change(function () {
+            $('#pre-load').show();
+            window.location = "/phong-cdvt/bao-cao/nhien-lieu?type=quarter&quarter=" + document.getElementById("txtquarter").value + "&year=" + document.getElementById("quateryear").value;
+        });
+        $("#quateryear").datepicker({
+            onSelect: function () {
+                $('#pre-load').show();
+                window.location = "/phong-cdvt/bao-cao/nhien-lieu?type=quarter&quarter=" + document.getElementById("txtquarter").value + "&year=" + document.getElementById("quateryear").value;
+            }
+        })
+    });
     $(document).ready(function () {
+        $("#minMaxDate").val("@string.Format("{0:dd/MM/yyyy}", System.DateTime.Now)");
+        $("#txtmonth").val("Tháng @DateTime.Now.Month @DateTime.Now.Year");
+        $("#txtyear").val("@DateTime.Now.Year");
+        $("#quateryear").val("@DateTime.Now.Year");
         var url_string = window.location.href;
         var url = new URL(url_string);
         var c = url.searchParams.get("type");
+        var day = url.searchParams.get("date");
+        var month = url.searchParams.get("month");
+        var quater = url.searchParams.get("quarter");
+        var year = url.searchParams.get("year");
+        $("#type").html("Xem Theo Ngày");
+       
         if (c == "day") {
             document.getElementById("typeview").innerText = "Xem Theo Ngày";
             document.getElementById("visiblequater").style.display = "none";
             document.getElementById("visibleyear").style.display = "none";
             document.getElementById("visiblemonth").style.display = "none";
             document.getElementById("visibleday").style.display = "inline";
-
+            $("#minMaxDate").val(day);
         }
         if (c == "month") {
             document.getElementById("typeview").innerText = "Xem Theo Tháng";
@@ -33,13 +77,16 @@
             document.getElementById("visiblequater").style.display = "none";
             document.getElementById("visibleyear").style.display = "none";
             document.getElementById("visiblemonth").style.display = "inline";
+            $("#txtmonth").val("Tháng " + month +" "+ year);
         }
-        if (c == "quater") {
+        if (c == "quarter") {
             document.getElementById("typeview").innerText = "Xem Theo Quý";
             document.getElementById("visibleday").style.display = "none";
             document.getElementById("visibleyear").style.display = "none";
             document.getElementById("visiblemonth").style.display = "none";
             document.getElementById("visiblequater").style.display = "inline";
+            document.getElementById('txtquarter').selectedIndex = quater - 1;
+            $("#quateryear").val(year);
         }
         if (c == "year") {
             document.getElementById("typeview").innerText = "Xem Theo Năm";
@@ -47,9 +94,10 @@
             document.getElementById("visiblemonth").style.display = "none";
             document.getElementById("visiblequater").style.display = "none";
             document.getElementById("visibleyear").style.display = "inline";
-
+            $("#txtyear").val(year);
         }
     });
+    
 </script>
 
 <div class="card">
@@ -72,14 +120,14 @@
                                data-language='vi'
                                data-min-view="months"
                                data-view="months"
-                               data-date-format="MM yyyy" value="Tháng @DateTime.Now.Month @DateTime.Now.Year" />
+                               data-date-format="MM yyyy"/>
                     </h3>
                 </div>
                 <div class="quarter" id="visiblequater" style="display: none">
                     <div class="row">
                         <div class="col l4 m4"></div>
                         <div class="col l2 m2 s4">
-                            <select class="form-control" style="width: 30%" id="quater">
+                            <select class="form-control" style="width: 30%" id="txtquarter">
                                 <option value="1">Quý I</option>
                                 <option value="2" selected>Quý II</option>
                                 <option value="3">Quý III</option>
@@ -106,7 +154,7 @@
                                data-language='vi'
                                data-min-view="years"
                                data-view="years"
-                               data-date-format="yyyy" value="@DateTime.Now.Year" />
+                               data-date-format="yyyy"  />
                     </h3>
                 </div>
             </div>
@@ -129,7 +177,7 @@
 
 </div>
 <ul id='dropdown1' class='dropdown-content'>
-    <li onclick="ViewbyDay();"><a id="day" href="#";>Xem Theo Ngày</a></li>
+    <li onclick="ViewbyDay();"><a id="day" href="#" ;>Xem Theo Ngày</a></li>
     <li onclick="ViewbyMonth();"><a id="month" href="#" ;>Xem Theo Tháng</a></li>
     <li onclick="ViewbyQuarter();"><a id="quarter" href="#" ;>Xem Theo Quý</a></li>
     <li onclick="ViewbyYear();"><a id="year" href="#" ;>Xem Theo Năm</a></li>
@@ -226,237 +274,105 @@
         <div id="solieu" class="col s12">
             <div class="row ">
                 <div class="col l12">
-                    <table class="table-bordered striped centered"
-                           style="margin-top:30px; text-align:center;">
-                        <thead>
-                            <tr>
-                                <th style="text-align:center">Tháng</th>
-                                <th>Mã thiết bị sử dụng</th>
-                                <th style="min-width:100px">Tên thiết bị sử dụng</th>
-                                <th style="min-width:100px">Loại nhiên liệu tiêu thụ</th>
-                                <th>Lượng tiêu thụ</th>
-                                <th>Đơn vị</th>
+                    @if (ViewBag.ContentReport.Count > 0)
+                    {
+                        <table class="table-bordered striped centered"
+                               style="margin-top:30px; text-align:center;">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center">Tháng</th>
+                                    <th>Mã thiết bị sử dụng</th>
+                                    <th style="min-width:100px">Tên thiết bị sử dụng</th>
+                                    <th style="min-width:100px">Loại nhiên liệu tiêu thụ</th>
+                                    <th>Lượng tiêu thụ</th>
+                                    <th>Đơn vị</th>
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>4/2019</td>
-                                <td>63149187</td>
-                                <td>Ô tô trung xa, phục vụ</td>
-                                <td>Xăng</td>
-                                <td>300,000</td>
-                                <td>Lít</td>
-                            </tr>
-                            <tr>
-                                <td>4/2019</td>
-                                <td>23213141</td>
-                                <td>Ô tô trung xa, phục vụ</td>
-                                <td>Dầu nhũ hóa</td>
-                                <td>190,000</td>
-                                <td>Lít</td>
-                            </tr>
-                            <tr>
-                                <td>4/2019</td>
-                                <td>23214187</td>
-                                <td>Ô tô trung xa, phục vụ</td>
-                                <td>Dầu mỡ</td>
-                                <td>26,000</td>
-                                <td>Lít</td>
-                            </tr>
-                            <tr>
-                                <td>4/2019</td>
-                                <td>15632654</td>
-                                <td>Máy xúc</td>
-                                <td>Xăng</td>
-                                <td>256,000</td>
-                                <td>Lít</td>
-                            </tr>
-                            <tr>
-                                <td>4/2019</td>
-                                <td>12451241</td>
-                                <td>Máy xúc</td>
-                                <td>Dầu nhũ hóa</td>
-                                <td>190,000</td>
-                                <td>Lít</td>
-                            </tr>
-                            <tr>
-                                <td>4/2019</td>
-                                <td>41241565</td>
-                                <td>Máy xúc</td>
-                                <td>Dầu mỡ</td>
-                                <td>26,000</td>
-                                <td>Lít</td>
-                            </tr>
-                            <tr>
-                                <td>5/2019</td>
-                                <td>63149187</td>
-                                <td>Ô tô trung xa, phục vụ</td>
-                                <td>Xăng</td>
-                                <td>300,000</td>
-                                <td>Lít</td>
-                            </tr>
-                            <tr>
-                                <td>5/2019</td>
-                                <td>23213141</td>
-                                <td>Ô tô trung xa, phục vụ</td>
-                                <td>Dầu nhũ hóa</td>
-                                <td>190,000</td>
-                                <td>Lít</td>
-                            </tr>
-                            <tr>
-                                <td>5/2019</td>
-                                <td>23214187</td>
-                                <td>Ô tô trung xa, phục vụ</td>
-                                <td>Dầu mỡ</td>
-                                <td>26,000</td>
-                                <td>Lít</td>
-                            </tr>
-                            <tr>
-                                <td>5/2019</td>
-                                <td>15632654</td>
-                                <td>Máy xúc</td>
-                                <td>Xăng</td>
-                                <td>256,000</td>
-                                <td>Lít</td>
-                            </tr>
-                            <tr>
-                                <td>5/2019</td>
-                                <td>12451241</td>
-                                <td>Máy xúc</td>
-                                <td>Dầu nhũ hóa</td>
-                                <td>190,000</td>
-                                <td>Lít</td>
-                            </tr>
-                            <tr>
-                                <td>5/2019</td>
-                                <td>41241565</td>
-                                <td>Máy xúc</td>
-                                <td>Dầu mỡ</td>
-                                <td>26,000</td>
-                                <td>Lít</td>
-                            </tr>
-                            <tr>
-                                <td>6/2019</td>
-                                <td>63149187</td>
-                                <td>Ô tô trung xa, phục vụ</td>
-                                <td>Xăng</td>
-                                <td>300,000</td>
-                                <td>Lít</td>
-                            </tr>
-                            <tr>
-                                <td>6/2019</td>
-                                <td>23213141</td>
-                                <td>Ô tô trung xa, phục vụ</td>
-                                <td>Dầu nhũ hóa</td>
-                                <td>190,000</td>
-                                <td>Lít</td>
-                            </tr>
-                            <tr>
-                                <td>6/2019</td>
-                                <td>23214187</td>
-                                <td>Ô tô trung xa, phục vụ</td>
-                                <td>Dầu mỡ</td>
-                                <td>26,000</td>
-                                <td>Lít</td>
-                            </tr>
-                            <tr>
-                                <td>6/2019</td>
-                                <td>15632654</td>
-                                <td>Máy xúc</td>
-                                <td>Xăng</td>
-                                <td>256,000</td>
-                                <td>Lít</td>
-                            </tr>
-                            <tr>
-                                <td>6/2019</td>
-                                <td>12451241</td>
-                                <td>Máy xúc</td>
-                                <td>Dầu nhũ hóa</td>
-                                <td>190,000</td>
-                                <td>Lít</td>
-                            </tr>
-                            <tr>
-                                <td>6/2019</td>
-                                <td>41241565</td>
-                                <td>Máy xúc</td>
-                                <td>Dầu mỡ</td>
-                                <td>26,000</td>
-                                <td>Lít</td>
-                            </tr>
-                            <tr style="color:crimson">
-                                <th>Tổng</th>
-                                <td></td>
-                                <td></td>
-                                <th>Xăng</th>
-                                <th>1,668,000</th>
-                                <th>Lít</th>
-                            </tr>
-                            <tr style="color:crimson">
-                                <th></th>
-                                <td></td>
-                                <td></td>
-                                <th>Dầu nhũ hóa</th>
-                                <th>1,140,000</th>
-                                <th>Lít</th>
-                            </tr>
-                            <tr style="color:crimson">
-                                <th></th>
-                                <td></td>
-                                <td></td>
-                                <th>Dầu mỡ</th>
-                                <th>5,400</th>
-                                <th>Lít</th>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="row" style="margin:20px 0px 20px 0px">
-                        <div class="col-lg-12 left">
-                            <div class="export_btn_container">
-                                <a class="waves-effect waves-light btn mybtn" onclick="window.open('nhien-lieu/excel')">Xuất ra file excel</a>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.ContentReport)
+                                {
+                                    <tr>
+                                        <td>@item.Thang/@item.Nam</td>
+                                        <td>@item.MaThietBi</td>
+                                        <td>@item.TenThietBi</td>
+                                        <td>@item.LoaiNhienLieu</td>
+                                        <td>@item.LuongTieuThu</td>
+                                        <td>Lít</td>
+                                    </tr>
+                                }
+                                <tr style="color:crimson">
+                                    <th>Tổng</th>
+                                    <td></td>
+                                    <td></td>
+                                    <th>Xăng</th>
+                                    <th>@ViewBag.Xang</th>
+                                    <th>Lít</th>
+                                </tr>
+                                <tr style="color:crimson">
+                                    <th></th>
+                                    <td></td>
+                                    <td></td>
+                                    <th>Dầu nhũ hóa</th>
+                                    <th>@ViewBag.DauNhuHoa</th>
+                                    <th>Lít</th>
+                                </tr>
+                                <tr style="color:crimson">
+                                    <th></th>
+                                    <td></td>
+                                    <td></td>
+                                    <th>Dầu mỡ</th>
+                                    <th>@ViewBag.DauMo</th>
+                                    <th>Lít</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="row" style="margin:20px 0px 20px 0px">
+                            <div class="col-lg-12 left">
+                                <div class="export_btn_container">
+                                    <a class="waves-effect waves-light btn mybtn" onclick="window.open('nhien-lieu/excel')">Xuất ra file excel</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col l12">
-                            <h3>TỔNG HỢP BÁO CÁO: </h3>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="summary_container">
-                            <div class="col l6 summary_left">
-                                <table class=" table-bordered striped">
-                                    <tbody>
-                                        <tr>
-                                            <th class="total_row">Tổng nhiên liệu tiêu thụ: </th>
-                                            <td class="total_row"></td>
-                                        </tr>
-                                        <tr>
-                                            <th>Xăng</th>
-                                            <td>1,668,000</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Dầu nhũ hóa</th>
-                                            <td>1,140,000</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Dầu mỡ</th>
-                                            <td>5,400</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                    }
+                        <div class="row">
+                            <div class="col l12">
+                                <h3>TỔNG HỢP BÁO CÁO: </h3>
                             </div>
                         </div>
-                    </div>
+
+                        <div class="row">
+                            <div class="summary_container">
+                                <div class="col l6 summary_left">
+                                    <table class=" table-bordered striped">
+                                        <tbody>
+                                            <tr>
+                                                <th class="total_row">Tổng nhiên liệu tiêu thụ: </th>
+                                                <td class="total_row"></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Xăng</th>
+                                                <td>@ViewBag.Xang</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Dầu nhũ hóa</th>
+                                                <td>@ViewBag.DauNhuHoa</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Dầu mỡ</th>
+                                                <td>@ViewBag.DauMo</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                   
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-
 
 <script type="text/javascript">
     function ViewbyDay() {
@@ -471,7 +387,7 @@
     }
     function ViewbyQuarter() {
         $('#pre-load').show();
-        window.location = "/phong-cdvt/bao-cao/nhien-lieu?type=quater&quater=" + document.getElementById("quater").value + "&year=" + document.getElementById("quateryear").value;
+        window.location = "/phong-cdvt/bao-cao/nhien-lieu?type=quarter&quarter=" + document.getElementById("txtquarter").value + "&year=" + document.getElementById("quateryear").value;
     }
     function ViewbyYear() {
         $('#pre-load').show();
@@ -479,21 +395,15 @@
     }
 </script>
 
-
-
 <script xang="@ViewBag.Xang" daunhuhoa="@ViewBag.DauNhuHoa" daumo="@ViewBag.DauMo" src="~/js/Custom JS/CDVT/Report/FuelUsage.js"></script>
 <script>
     $('#minMaxDate').datepicker({
-        language: 'vi',
+                    language: 'vi',
         maxDate: new Date() // Now can select only dates, which goes after today
     })
     $(document).ready(function () {
         $('.datepicker-inline').remove();
-    });
-    $(document).ready(function () {
-        $("#minMaxDate").val("@string.Format("{0:dd/MM/yyyy}", System.DateTime.Now)");
-        $("#type").html("Xem Theo Ngày");
-    });
+                    });
 </script>
 
 <script src="~/js/Custom JS/CDVT/Report/DetailManu.js"></script>
