@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="QUANGHANHABCModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="QUANGHANHABCModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Acceptance">
           <Key>
             <PropertyRef Name="documentary_id" />
@@ -2088,7 +2088,8 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             <End Role="NhiemVu" EntitySet="NhiemVu" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="QUANGHANHABCModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -2149,7 +2150,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="MaBangCap" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MaTrinhDo" Type="Int32" />
           <Property Name="KieuBangCap" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ThoiHan" Type="Double" />
+          <Property Name="ThoiHan" Type="Int32" />
           <NavigationProperty Name="ChiTiet_BangCap" Relationship="Self.FK__ChiTiet_B__MaBan__339FAB6E" FromRole="BangCap" ToRole="ChiTiet_BangCap" />
           <NavigationProperty Name="ChuyenNganh" Relationship="Self.FK_BangCap_ChuyenNganh" FromRole="BangCap" ToRole="ChuyenNganh" />
           <NavigationProperty Name="TrinhDo" Relationship="Self.FK_BangCap_TrinhDo" FromRole="BangCap" ToRole="TrinhDo" />
@@ -2216,7 +2217,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           </Key>
           <Property Name="MaChungChi" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TenChungChi" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ThoiHan" Type="Double" />
+          <Property Name="ThoiHan" Type="Int32" />
           <Property Name="KieuChungChi" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ChungChi_NhanVien" Relationship="Self.FK__ChungChi___MaChu__395884C4" FromRole="ChungChi" ToRole="ChungChi_NhanVien" />
           <NavigationProperty Name="NhiemVus" Relationship="Self.FK_NhiemVu_ChungChi" FromRole="ChungChi" ToRole="NhiemVu" />
@@ -2288,9 +2289,9 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="LuongSauDuyet" Type="Double" />
           <Property Name="DuBaoNguyCo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="GiaiPhapNguyCo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="LyDoVangMat" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Department" Relationship="Self.FK__DiemDanh___MaDon__3C34F16F" FromRole="DiemDanh_NangSuatLaoDong" ToRole="Department" />
           <NavigationProperty Name="NhanVien" Relationship="Self.FK__DiemDanh_N__MaNV__3D2915A8" FromRole="DiemDanh_NangSuatLaoDong" ToRole="NhanVien" />
-          <Property Name="LyDoVangMat" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="DieuDong_NV">
           <Key>
@@ -2530,7 +2531,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           </Key>
           <Property Name="MaChungNhan" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TenChungNhan" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ThoiHan" Type="DateTime" />
+          <Property Name="ThoiHan" Type="Int32" />
           <Property Name="KieuChungNhan" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="GiayChungNhan_NhanVien" Relationship="Self.FK__GiayChung__MaChu__55F4C372" FromRole="GiayChungNhan" ToRole="GiayChungNhan_NhanVien" />
         </EntityType>
@@ -4411,7 +4412,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <EntitySetMapping Name="DiemDanh_NangSuatLaoDong">
             <EntityTypeMapping TypeName="QUANGHANHABCModel.DiemDanh_NangSuatLaoDong">
               <MappingFragment StoreEntitySet="DiemDanh_NangSuatLaoDong">
-                <ScalarProperty Name="LyDoVangMat" ColumnName="LyDoVangMat" />
                 <ScalarProperty Name="MaDiemDanh" ColumnName="MaDiemDanh" />
                 <ScalarProperty Name="MaNV" ColumnName="MaNV" />
                 <ScalarProperty Name="NgayDiemDanh" ColumnName="NgayDiemDanh" />
@@ -4424,6 +4424,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
                 <ScalarProperty Name="LuongSauDuyet" ColumnName="LuongSauDuyet" />
                 <ScalarProperty Name="DuBaoNguyCo" ColumnName="DuBaoNguyCo" />
                 <ScalarProperty Name="GiaiPhapNguyCo" ColumnName="GiaiPhapNguyCo" />
+                <ScalarProperty Name="LyDoVangMat" ColumnName="LyDoVangMat" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
