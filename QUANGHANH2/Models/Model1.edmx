@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="QUANGHANHABCModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="QUANGHANHABCModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Acceptance">
           <Key>
             <PropertyRef Name="documentary_id" />
@@ -78,7 +78,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Activity' does not have a primary
           <Property Name="MaBangCap" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MaTrinhDo" Type="int" />
           <Property Name="KieuBangCap" Type="nvarchar" MaxLength="100" />
-          <Property Name="ThoiHan" Type="float" />
+          <Property Name="ThoiHan" Type="int" />
         </EntityType>
         <EntityType Name="Category_attribute_value">
           <Key>
@@ -144,7 +144,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           </Key>
           <Property Name="MaChungChi" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TenChungChi" Type="nvarchar" MaxLength="100" />
-          <Property Name="ThoiHan" Type="float" />
+          <Property Name="ThoiHan" Type="int" />
           <Property Name="KieuChungChi" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="ChungChi_NhanVien">
@@ -199,6 +199,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="LuongSauDuyet" Type="float" />
           <Property Name="DuBaoNguyCo" Type="nvarchar" MaxLength="1000" />
           <Property Name="GiaiPhapNguyCo" Type="nvarchar" MaxLength="1000" />
+          <Property Name="LyDoVangMat" Type="nvarchar" MaxLength="1000" />
         </EntityType>
         <EntityType Name="DieuDong_NV">
           <Key>
@@ -389,7 +390,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           </Key>
           <Property Name="MaChungNhan" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TenChungNhan" Type="nvarchar" MaxLength="100" />
-          <Property Name="ThoiHan" Type="date" />
+          <Property Name="ThoiHan" Type="int" />
           <Property Name="KieuChungNhan" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="GiayChungNhan_NhanVien">
@@ -532,7 +533,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="QueQuan" Type="nvarchar" MaxLength="100" />
           <Property Name="TonGiao" Type="nvarchar" MaxLength="100" />
           <Property Name="NoiOHienTai" Type="nvarchar" MaxLength="100" />
-          <Property Name="SoDienThoai" Type="char" MaxLength="20" />
+          <Property Name="SoDienThoai" Type="nvarchar" MaxLength="50" />
           <Property Name="TPGiaDinhXuatThan" Type="nvarchar" MaxLength="100" />
           <Property Name="NgayThamGiaCachMang" Type="date" />
           <Property Name="NgayVaoDangCSVN" Type="date" />
@@ -2087,8 +2088,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             <End Role="NhiemVu" EntitySet="NhiemVu" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="QUANGHANHABCModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -2290,6 +2290,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="GiaiPhapNguyCo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Department" Relationship="Self.FK__DiemDanh___MaDon__3C34F16F" FromRole="DiemDanh_NangSuatLaoDong" ToRole="Department" />
           <NavigationProperty Name="NhanVien" Relationship="Self.FK__DiemDanh_N__MaNV__3D2915A8" FromRole="DiemDanh_NangSuatLaoDong" ToRole="NhanVien" />
+          <Property Name="LyDoVangMat" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="DieuDong_NV">
           <Key>
@@ -2529,7 +2530,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           </Key>
           <Property Name="MaChungNhan" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TenChungNhan" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ThoiHan" Type="DateTime" Precision="0" />
+          <Property Name="ThoiHan" Type="DateTime" />
           <Property Name="KieuChungNhan" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="GiayChungNhan_NhanVien" Relationship="Self.FK__GiayChung__MaChu__55F4C372" FromRole="GiayChungNhan" ToRole="GiayChungNhan_NhanVien" />
         </EntityType>
@@ -2694,7 +2695,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="QueQuan" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="TonGiao" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="NoiOHienTai" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="SoDienThoai" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="SoDienThoai" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TPGiaDinhXuatThan" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="NgayThamGiaCachMang" Type="DateTime" Precision="0" />
           <Property Name="NgayVaoDangCSVN" Type="DateTime" Precision="0" />
@@ -4410,6 +4411,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <EntitySetMapping Name="DiemDanh_NangSuatLaoDong">
             <EntityTypeMapping TypeName="QUANGHANHABCModel.DiemDanh_NangSuatLaoDong">
               <MappingFragment StoreEntitySet="DiemDanh_NangSuatLaoDong">
+                <ScalarProperty Name="LyDoVangMat" ColumnName="LyDoVangMat" />
                 <ScalarProperty Name="MaDiemDanh" ColumnName="MaDiemDanh" />
                 <ScalarProperty Name="MaNV" ColumnName="MaNV" />
                 <ScalarProperty Name="NgayDiemDanh" ColumnName="NgayDiemDanh" />
