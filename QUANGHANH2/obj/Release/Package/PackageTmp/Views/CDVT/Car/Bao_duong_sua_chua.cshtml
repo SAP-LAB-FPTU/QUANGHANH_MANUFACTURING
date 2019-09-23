@@ -1,0 +1,340 @@
+﻿
+@{
+    ViewData["Title"] = "Bao_duong_sua_chua";
+    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+}
+
+<div class="row table_container">
+    <div class="col s12">
+        <div class="center">
+            <h1 class="centered"><b>NHẬT KÍ BẢO DƯỠNG, SỬA CHỮA</b></h1>
+        </div>
+        <ul class="left">
+            <table>
+                <tr style="border-bottom: none">
+                    <td>Lần bảo dưỡng</td>
+                    <td>
+                        <input type="number">
+                    </td>
+                </tr>
+                <tr style="border-bottom: none">
+                    <td>Từ ngày: <input type="date"></td>
+                    <td>Đến ngày: <input type="date"></td>
+                    <td><input type="submit" value="Tìm kiếm" class="btn"></td>
+                </tr>
+            </table>
+        </ul>
+        <ul class="right">
+            <table>
+                <tr style="border-bottom:none">
+                    <td>
+                        <a href="#myadd" data-toggle="modal"
+                           class="waves-effect waves-light btn btn-round green modal-trigger">Thêm</a>
+                    </td>
+                    <td><a class="waves-effect waves-light btn btn-round green">Tải lên</a></td>
+                    <td><a class="waves-effect waves-light btn btn-round green">In báo cáo</a></td>
+
+                    <td>
+                        <a href="#myinfo" data-toggle="modal"
+                           class="waves-effect waves-light btn btn-round green modal-trigger">
+                            Thông tin
+                            máy
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </ul>
+        <div style="height: 35px"></div>
+        <table class="table table-bordered striped table-responsive centered" style="zoom:80%">
+            <thead>
+                <tr>
+                    <th rowspan="2">STT</th>
+                    <th rowspan="2">Số LSX, QĐ</th>
+                    <th rowspan="2">Ngày tháng LSX, QĐ</th>
+                    <th rowspan="2">Cấp SC</th>
+                    <th colspan="2">Thời gian SC</th>
+                    <th colspan="5">Chi tiết vật tư thay thế, SC</th>
+                    <th rowspan="2">KQ sau SC</th>
+                    <th colspan="5">Chi tiết vật tư thu hồi sau SC</th>
+                </tr>
+                <tr>
+                    <th>TG vào SC</th>
+                    <th>TG SC xong</th>
+                    <th>Mã VT</th>
+                    <th>Tên vật tư</th>
+                    <th>ĐVT</th>
+                    <th>Số lượng</th>
+                    <th>TTKT của vật tư</th>
+                    <th>Mã VT</th>
+                    <th>Tên vật tư</th>
+                    <th>ĐVT</th>
+                    <th>Số lượng</th>
+                    <th>TTKT của vật tư</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowspan="2">1</td>
+                    <td rowspan="2">1162/LSX-VQHC-CV về việc sửa chữa băng tải B650 Phân xưởng Khai thác 4</td>
+                    <td rowspan="2">15/7/2019</td>
+                    <td rowspan="2">
+                        <select name="capSC" class="select2-dropdown">
+                            <option>SCTX</option>
+                            <option>Định kỳ</option>
+                            <option>SCL</option>
+                        </select>
+                    </td>
+                    <td rowspan="2">2:15AM 15/7/2019</td>
+                    <td rowspan="2">4:15 AM 15/7/2019</td>
+                    <td rowspan="2"></td>
+                    <td>Bản lề băng B650</td>
+                    <td>Bộ</td>
+                    <td>3</td>
+                    <td>
+                        <select name="capSC" class="select2-dropdown">
+                            <option>Mới 100%</option>
+                            <option>Cũ qua sử dụng</option>
+                        </select>
+                    </td>
+                    <td rowspan="2">
+                        <select name="capSC" class="select2-dropdown">
+                            <option>Đảm bảo yêu cầu kĩ thuật</option>
+                            <option>Không đạt</option>
+                        </select>
+                    </td>
+                    <td rowspan="2"></td>
+                    <td>Bản lề băng B650</td>
+                    <td>Bộ</td>
+                    <td>3</td>
+                    <td>
+                        <select name="capSC" class="select2-dropdown">
+                            <option>Hỏng</option>
+                            <option>Cũ</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Đinh tán băng</td>
+                    <td>Cái</td>
+                    <td>12</td>
+                    <td>
+                        <select name="capSC" class="select2-dropdown">
+                            <option>Mới 100%</option>
+                            <option>Cũ qua sử dụng</option>
+                        </select>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="myadd">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Thêm bảo dưỡng máy móc</h3>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="row">
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="name">Loại bảo hành : </label>
+                            <input type="text" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier">Thời Gian Hết Bảo Hành( Tháng ) </label>
+                            <input type="text" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier">Ước Tính Thời Gian BH (Ngày) : </label>
+                            <input type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="supplier">Lần bảo dưỡng : </label>
+                            <input type="number" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="id">Bảo Hành Lần Cuối : </label>
+                            <input type="text" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="supplier">Kinh Phí Ước Tính : </label>
+                            <input type="text" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn blue darken-2 modal-close save-category">Lưu</button>
+            <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
+        </div>
+    </div>
+</div>
+<div id="myinfo" class="modal">
+    <div class="card">
+        <div class="card-content">
+            <table>
+                <tr>
+                    <td>Mã</td>
+                    <td>SFC</td>
+                </tr>
+                <tr>
+                    <td>Tên</td>
+                    <td>Máy xúc lật</td>
+                </tr>
+                <tr>
+                    <td>Số hiệu</td>
+                    <td>AH12</td>
+                </tr>
+                <tr>
+                    <td>Loại thiết bị</td>
+                    <td>Thiết bị khai thác trong lò</td>
+                </tr>
+                <tr>
+                    <td>Nhà cung cấp</td>
+                    <td>TC MOTOR</td>
+                </tr>
+                <tr>
+                    <td>Ngày nhập</td>
+                    <td>04-12-2018</td>
+                </tr>
+                <tr>
+                    <td>Nguyên giá</td>
+                    <td>120.000.000</td>
+                </tr>
+                <tr>
+                    <td>Khấu hao ước tính</td>
+                    <td>12%</td>
+                </tr>
+                <tr>
+                    <td>Khấu hao hiện tại</td>
+                    <td>104.000.000</td>
+                </tr>
+                <tr>
+                    <td>Thời hạn bảo hiểm(tháng)</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>Ngày đưa vào sử dụng</td>
+                    <td>10-12-2018</td>
+                </tr>
+                <tr>
+                    <td>Ngày bảo dưỡng gần nhất</td>
+                    <td>04-05-2019</td>
+                </tr>
+                <tr>
+                    <td>Tổng giờ hoạt động(tính từ lần bảo dưỡng gần nhất)</td>
+                    <td>324 giờ</td>
+                </tr>
+                <tr>
+                    <td>Vị trí hiện tại</td>
+                    <td>Phân xưởng 1</td>
+                </tr>
+                <tr>
+                    <td>Tình trạng hiện tại</td>
+                    <td>Ổn định</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myedit">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Sửa</h3>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="row">
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="name">Loại bảo hành : </label>
+                            <input type="text" class="form-control" value="245" />
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier">Thời Gian Hết Bảo Hành( Tháng ) </label>
+                            <input type="text" class="form-control" value="2" />
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier">Ước Tính Thời Gian BH (Ngày) : </label>
+                            <input type="text" class="form-control" value="2" />
+                        </div>
+                    </div>
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="supplier">Lần bảo dưỡng : </label>
+                            <input type="text" class="form-control" value="" />
+                        </div>
+                        <div class="form-group">
+                            <label for="id">Bảo Hành Lần Cuối : </label>
+                            <input type="text" class="form-control" value="1/1/2019" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="supplier">Kinh Phí Ước Tính : </label>
+                            <input type="text" class="form-control" value="9.000.000đ" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn blue darken-2 modal-close save-category">Lưu</button>
+            <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
+        </div>
+    </div>
+</div>
+<div id="myaleart" class="modal">
+    <div class="card">
+        <div class="card-content">
+            <div class="card-title">
+                Xóa mục này?
+            </div>
+            <div class="col s3">
+                Dữ liệu sẽ không thể phục hồi sau thao tác này
+                <div class="col s4 offset-s8" style="margin-top:30px">
+                    <a class="waves-effect waves-light btn btn-round red">Xác nhận</a>
+                    <a class="waves-effect waves-light btn btn-round blue">Thoát</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<ul id='dropdown1' class='dropdown-content'>
+    <li><a href="#!">Danh sách hết bảo hiểm</a></li>
+    <li><a href="#!">Danh sách hết khấu hao</a></li>
+    <li><a href="#!">Danh sách đang bảo dưỡng</a></li>
+    <li><a href="#!">Danh sách đang sửa chữa</a></li>
+    <li><a href="#!">Danh sách đang gặp sự cố</a></li>
+</ul>
+<div class="fixed-action-btn" style="bottom: 20px; right: 20px;">
+    <a class="btn-floating btn-large red"><i class="material-icons">settings</i></a>
+    <ul>
+        <li>
+            <a class="btn-floating red tooltipped" data-position="left" data-tooltip="In báo cáo">
+                <i class="material-icons">assignment</i>
+            </a>
+        </li>
+        <li>
+            <a class="btn-floating green tooltipped" data-position="left" data-tooltip="Tải lên">
+                <i class="material-icons">publish</i>
+            </a>
+        </li>
+        <li>
+            <a class="btn-floating blue tooltipped" data-position="left" data-tooltip="Thêm">
+                <i class="material-icons">add</i>
+            </a>
+        </li>
+    </ul>
+</div>

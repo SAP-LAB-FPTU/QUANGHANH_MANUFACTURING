@@ -1,0 +1,250 @@
+﻿@{
+    ViewData["Title"] = "ChiTietSuCo";
+    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+}
+
+<link href="~/assets/Custom css/TABLE_BORDERED.css" rel="stylesheet" />
+<link href="~/assets/extra-libs/prism/prism.css" rel="stylesheet" />
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+<link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
+<script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
+<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
+<script src="~/assets/extra-libs/prism/prism.js"></script>
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <div class="col m12">
+                <div class="center">
+                    <h3><b>CHI TIẾT SỬA CHỮA</b></h3>
+                </div>
+                <div class="col s3 m3">
+                    <input class="form-control" type="text" placeholder="Nhập mã quyết định" />
+                </div>
+                <div class="col s3 m3">
+                    <input class="form-control" type="text" placeholder="Nhập lý do quyết định" />
+                </div>
+                <div class="col s3 m3">
+                    <input class="form-control" type="text" placeholder="Nhập nguồn vốn" />
+                </div>
+                <div class="col s2 right">
+                    <a href="#vattu" class="btn blue darken-2 modal-trigger right">Vật tư cần lĩnh<span></span></a>
+                </div>
+                <div class="col s12 table_container">
+                    <table id="mytablevattu" class="striped table-responsive centered table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="center-align">TT<span></span></th>
+                                <th class="center-align">Mã thiết bị<span></span></th>
+                                <th class="center-align">Tên thiết bị<span></span></th>
+                                <th class="center-align">Phân xưởng quản lý<span></span></th>
+                                <th class="center-align">Tình trạng thiết bị<span></span></th>
+                                <th class="center-align">Loại sửa chữa<span></span></th>
+                                <th class="center-align">Lý do sửa chữa<span></span></th>
+                                <th class="center-align">Ngày dự kiến xong<span></span></th>
+                            </tr>
+                        </thead>
+
+                        @*TODO*@
+                    </table>
+                    <div class="col m12">
+                        <div class=" div-center custom-divider"></div>
+                    </div>
+                </div>
+                <div class="col l12 m12 s12 center">
+                    <a onclick="window.open('sua-chua-chon/quyet-dinh/word')" class="btn blue darken-2">In quyết định</a>
+                    <a href="#xacnhan" class="btn blue darken-2 modal-trigger">Xác nhận điều động sửa chữa</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="vattu" class="modal">
+    <div class="modal-header center card">
+        <h3><b>Vật tư cấp cho phục vụ công tác sửa chữa</b></h3>
+    </div>
+    <div class="modal-body">
+        <table id="mytablectsuachua" class="centered striped table-bordered">
+            <thead>
+                <tr>
+                    <th>TT</th>
+                    <th>Tên thiết bị vật tư (Mã hiệu - quy cách)</th>
+                    <th>ĐVT</th>
+                    <th>SL</th>
+                    <th>Tình trạng kỹ thuật</th>
+                    <th>Nơi lĩnh</th>
+                </tr>
+            </thead>
+            @*TODO*@
+        </table>
+    </div>
+    <div class="modal-footer">
+
+        <a class="left"><button id="them" type="submit" class="btn light-blue lighten-1"><i class="large material-icons">add</i></button></a>
+        <a class="btn light-blue lighten-1" onclick="window.open('sua-chua-chon/word')">Xuất lệnh</a>
+        <a><button type="submit" class="btn blue darken-2 modal-close">Xác nhận</button></a>
+    </div>
+</div>
+
+<!-- Modal Structure -->
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <h4>CHỌN LOẠI SỬA CHỮA</h4>
+        <div>
+            <label>
+                <input type="checkbox" class="filled-in" id="sctx"   />
+                <span>Sửa chữa thường xuyên</span>
+            </label>
+        </div>
+        <div>
+            <label>
+                <input type="checkbox" class="filled-in" id="scsc"  />
+                <span>Sửa chữa sự cố</span>
+            </label>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#!"   class="modal-close waves-effect waves-green btn-flat">Đồng Ý</a>
+    </div>
+</div>
+
+
+
+
+<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+@section scripts{
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+        var Popup, dataTable;
+        $(document).ready(function () {
+            dataTable = $('#mytablevattu').DataTable({
+                "ajax": {
+                    "url": "/phong-cdvt/sua-chua-chon",
+                    "type": "POST",
+                    "datatype": "json",
+                },
+                "columns": [
+                    { "data": "equipmentId", "name": "equipmentId" },
+                    { "data": "equipmentId", "name": "equipmentId" },
+                    { "data": "equipment_name", "name": "equipment_name" },
+                    { "data": "department_id", "name": "department_id" },
+                    { "data": "current_Status", "name": "current_Status" },
+                    {
+                        "data": null, "render": function () {
+                            return "<a class='waves-effect waves-light btn blue modal-trigger' data-target='modal1'>Chọn</a>";
+                        }
+                    },
+                    {
+                        "data": null, "render": function () {
+                            return "<input type ='text'/>";
+                        }
+                    },
+                    {
+                        "data": null, "render": function () {
+                            return "<input type ='date'/>";
+                        }
+                    }
+                    //{ "data": "repair_type", "name": "repair_type" },
+                    //{ "data": "repair_reason", "name": "repair_reason" },
+                    //{ "data": "finish_date_plan", "name": "finish_date_plan" }
+
+                ],
+                "serverSide": "true",
+                "order": [0, "asc"]
+            });
+
+            function typeSuaChua() {
+                var x = document.getElementById("myDIV");
+                if (x.innerHTML === "Thường xuyên") {
+                    x.innerHTML = "Sự cố";
+                } else {
+                    x.innerHTML = "Thường xuyên";
+                }
+            }
+
+        });
+        
+
+        function PopupForm(url) {
+            var formDiv = $('<div/>');
+            $.get(url)
+                .done(function (response) {
+                    formDiv.html(response);
+
+                    Popup = formDiv.dialog({
+                        autoOpen: true,
+                        resizable: false,
+                        title: 'Nhập thông tin',
+                        height: 1000,
+                        width: 800,
+                        close: function () {
+                            Popup.dialog('destroy').remove();
+                        }
+
+                    });
+                });
+        }
+
+
+
+        function SubmitForm(form) {
+            // test edit
+            $.validator.unobtrusive.parse(form);
+            if ($(form).valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        dataTable.ajax.reload();
+                        $.notify(data.message, {
+                            globalPosition: "top center",
+                            className: "success"
+                        })
+
+                    }
+                });
+            }
+            return false;
+        }
+    </script>
+}
+
+
+
+
+@*POPUP XAC NHAN SUA CHUA*@
+<div id="xacnhan" class="modal">
+    <div class="modal-header center card">
+        <h3><b>XÁC NHẬN SỬA CHỮA</b></h3>
+    </div>
+    <div class="modal-body">
+        <div class="col s12">
+            <h6 class="center">Mã quyết định: 001</h6>
+        </div>
+        <div class="col s12">
+            <table class="striped responsive-table centered">
+                <tr>
+                    <th class="center-align">Số thứ tự</th>
+                    <th class="center-align">Mã thiết bị</th>
+                    <th class="center-align">Tên thiết bị</th>
+                    <th class="center-align">Đơn vị sử dụng</th>
+                    <th class="center-align">Tình trạng thiết bị</th>
+                    <th class="center-align">Lý do sửa chữa</th>
+                    <th class="center-align">Ngày dự kiến xong</th>
+                    <th class="center-align">Lý do quyết định</th>
+                    <th>Nguồn vốn</th>
+                </tr>
+                @*TODO*@
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="/phong-cdvt/quyet-dinh/sua-chua"><button type="submit" class="btn blue darken-2">Xác nhận</button></a>
+        <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
+    </div>
+</div>
+<script src="~/js/Custom JS/CDVT/Work/Mobilize_PlaceAndTime.js"></script>
+<script src="~/js/Custom JS/CDVT/Work/suachuachon.js"></script>

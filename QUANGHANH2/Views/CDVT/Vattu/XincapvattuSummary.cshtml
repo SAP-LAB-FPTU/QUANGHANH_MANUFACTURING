@@ -1,0 +1,201 @@
+﻿
+@{
+    ViewData["Title"] = "XincapvattuTonghop";
+    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+}
+<link href="~/dist/css/style.css" rel="stylesheet">
+<!-- This page CSS -->
+<link href="~/dist/css/pages/data-table.css" rel="stylesheet">
+<link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+<link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
+<script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
+<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
+
+<div class="card">
+    <div class="card-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="row">
+                    <div id="tonghop">
+                        <div class="row">
+                            <h3 class="center"><b>XIN CẤP VẬT TƯ SỬA CHỮA THƯỜNG XUYÊN TỔNG HỢP</b></h3>
+                            <hr>
+                        </div>
+                        <div class="row">
+                            <div class="col s12">
+                                <ul class="tabs">
+                                    <li class="col s12 tab"><a href="#tonghop">Bảng tổng hợp</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col l4 m4 s4 input-field">
+                                <select class="form-control" id="department_search">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 table_container" id="table-wrapper2">
+                                <table id="summary_tbl" class="table-bordered striped table-responsive centered" sstyle="margin-top:30px; text-align:center;width:100%;">
+                                    <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Mã vật tư</th>
+                                            <th>Tên vật tư</th>
+                                            <th>ĐVT</th>
+                                            <th>Định mức chung</th>
+                                            <th>Kế hoạch phân xưởng</th>
+                                            <th>CĐVT duyệt</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                        <br />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m2">
+                    </div>
+                    <div class="col s12 m4">
+                    </div>
+                    <div class="col s12 m4">
+                    </div>
+                    <div class="col s12 m2">
+                        <a id="submit" class="btn" style="width:225px;background-color:#273146;margin-bottom:20px">Duyệt Xin Cấp</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+        var payload = [];
+        var datatable;
+        $(document).ready(function () {
+            setDepartments();
+            datatable = drawTable();
+            $('#department_search').on('change', function () {
+                $('#summary_tbl').dataTable().fnDestroy();
+                drawTable();
+            });
+
+            $("#submit").click(function () {
+                if (confirm('Duyệt đơn xin cấp mới cho đơn vị này?')) {
+                    $("#pre-load").show();
+                    $.ajax({
+                        dataType: "json",
+                        contentType: "application/json, charset=utf-8",
+                        type: 'POST',
+                        url: '/phong-cdvt/xin-cap-vat-tu-sctx-summary/submit',
+                        data: JSON.stringify(payload),
+                        success: function (res) {
+                            $("#pre-load").hide();
+                            if (res.success) {
+                                alert('Duyệt đơn thành công.')
+                            } else {
+                                alert('Có lỗi xảy ra.')
+                            }
+                        }
+                    });
+                } else {
+                    // Do nothing!
+                }
+            });
+        });
+
+        function getCurrDepId() {
+            return $("#department_search option:selected").val();
+        }
+
+        function setDepartments() {
+            let departments = [];
+            $("#pre-load").show();
+            $.ajax({
+                async: false,
+                dataType: "json",
+                contentType: "application/json, charset=utf-8",
+                type: 'GET',
+                url: '/phong-cdvt/xin-cap-vat-tu-sctx-summary/departments',
+                data: JSON.stringify(payload),
+                success: function (res) {
+                    departments = res.data;
+                }
+            });
+            for (let i = 0; i < departments.length; i++) {
+                $("#department_search").append(new Option(departments[i].DepartmentName, departments[i].DepartmentId));
+            }
+            $("#pre-load").hide();
+        }
+
+        function drawTable() {
+            $("#pre-load").show();
+            let index = 1;
+            return $('#summary_tbl').DataTable({
+                "ajax": {
+                    "url": "/phong-cdvt/xin-cap-vat-tu-sctx-summary/all",
+                    "type": "GET",
+                    "data": {
+                        "departmentId": getCurrDepId()
+                    },
+                    "datatype": "json",
+                    "cache": "false",
+                    "dataSrc": function (json) {
+                        payload = json.data;
+                        return json.data;
+                    }
+                },
+                "columns": [
+                    { "data": null, "name": "Index", "render": function (data) { return index++; } },
+                    { "data": "SupplyId", "name": "SupplyId" },
+                    { "data": "SupplyName", "name": "SupplyName" },
+                    { "data": "SupplyUnit", "name": "SupplyUnit" },
+                    { "data": "SupplyAverage", "name": "SupplyAverage" },
+                    { "data": "SupplyPlan", "name": "SupplyPlan" },
+                    {
+                        "data": "Id", "name": "SupplyQuantity", "render": function (data) {
+                            let domId = 'supply_quantity_' + data;
+                            return '<input type="number" min="0" value="0" class="form-control" id="' + domId + '" ' + 'oninput="' + `handleSupplyQuantityChange('${domId}', '${data}')` + '" ' + '/>';
+                        }
+                    },
+                ],
+                "processing": true,
+                "order": [0, "asc"],
+                "rowId": "SupplyId",
+                "lengthChange": false,
+                "searching": false,
+                "paging": false,
+                "initComplete": function (settings, json) {
+                    $("#pre-load").hide();
+                }
+            });
+        }
+
+        function handleSupplyQuantityChange(domId, id) {
+            let value = 0;
+            if (document.getElementById(domId) != null && document.getElementById(domId).value != '') {
+                value = parse2PosInt(document.getElementById(domId).value);
+            }
+            for (let i = 0; i < payload.length; i++) {
+                if (payload[i].Id == id) {
+                    payload[i].SupplyQuantity = value;
+                }
+            }
+        }
+
+        function parse2PosInt(value) {
+            var value = parseInt(value);
+            if (value < 0) {
+                return 0;
+            }
+            return value;
+        }
+    </script>
+}

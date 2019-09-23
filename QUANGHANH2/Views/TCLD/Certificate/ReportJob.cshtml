@@ -1,0 +1,165 @@
+﻿@{
+    ViewData["Title"] = "ReportJob";
+    Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
+}
+
+<div class="row">
+    <div class="card">
+        <div class="card-content">
+            <h3 class="center">
+                <b>BÁO CÁO TÌNH TRẠNG CHỨNG CHỈ CÔNG VIỆC <a class="btn blue darken-2 dropdown-trigger" href="javascript:void(0);" data-target='dropdown_px'>PHÂN XƯỞNG KHAI THÁC 1</a><input class="center datepicker-here" data-language="vi" data-min-view="years" data-view="years" data-date-format="Năm yyyy" value="Năm 2019" /></b>
+            </h3>
+            <div class="card">
+                <div class="card-content">
+                    <div>
+                        <table class="table-bordered">
+                            <tr>
+                                <th>Công việc</th>
+                                <th>Chứng chỉ</th>
+                                <th>Người đăng ký công việc</th>
+                                <th>Tình trạng chứng chỉ</th>
+                            </tr>
+                            <tr>
+                                <th rowspan="6">DGKNN</th>
+                                <th rowspan="6">Đạt</th>
+                                <td>Nguyễn Văn Hải</td>
+                                <td class="green white-text">Còn hạn</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Ngọc Lam</td>
+                                <td class="red white-text"><a href="#giahan" class="modal-trigger">Hết hạn</a></td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Hải Vũ</td>
+                                <td class="green white-text">Còn hạn</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Hải Sâm</td>
+                                <td class="yellow white-text"><a href="#chuaco" class="modal-trigger">Chưa có</a></td>
+                            </tr>
+                            <tr>
+                                <td>Phạm Văn Thiện</td>
+                                <td class="yellow white-text">Chưa có</td>
+                            </tr>
+                            <tr>
+                                <td>Hoàng Linh</td>
+                                <td class="red white-text">Hết hạn</td>
+                            </tr>
+
+                            <tr>
+                                <th rowspan="3">An toàn điện</th>
+                                <th rowspan="3">Bậc 2</th>
+                                <td>Trần Văn Thi</td>
+                                <td class="green white-text">Còn hạn</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Ngọc Lam</td>
+                                <td class="red white-text">Hết hạn</td>
+                            </tr>
+                            <tr>
+                                <td>Hoàng Linh</td>
+                                <td class="red white-text">Hết hạn</td>
+                            </tr>
+
+                            <tr>
+                                <th rowspan="2">Vật liệu nổ</th>
+                                <th rowspan="2">Thợ mìn hạng C</th>
+                                <td>Nguyễn Văn Hải</td>
+                                <td class="green white-text">Còn hạn</td>
+                            </tr>
+                            <tr>
+                                <td>Trần Văn Thi</td>
+                                <td class="red white-text">Hết hạn</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ul id='dropdown_px' class='dropdown-content'>
+    <li><a class="dropdown-child-px" href="#!" name="DL3">Đào lò 3</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="DL5">Đào lò 5</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="DL7">Đào lò 7</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="DL8">Đào lò 8</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT1">Khai Thác 1</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT2">Khai Thác 2</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT3">Khai Thác 3</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT4">Khai Thác 4</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT5">Khai Thác 5</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT6">Khai Thác 6</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT7">Khai Thác 7</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT8">Khai Thác 8</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT9">Khai Thác 9</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT10">Khai Thác 10</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT11">Khai Thác 11</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="VTL1">Vận tải 1</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="VTL2">Vận tải 2</a></li>
+</ul>
+
+<div class="modal open" id="giahan">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Gia hạn chứng chỉ</h3>
+        </div>
+        <div class="modal-body row">
+            <div class="col m6 l6 s12">
+                <strong>Số bằng cấp</strong>
+                <input class="form-control" />
+            </div>
+
+            <div class="col m6 l6 s12">
+                <strong>Số quyển</strong>
+                <input class="form-control" />
+            </div>
+
+            <div class="col m6 l6 s12">
+                <strong>Ngày cấp</strong>
+                <input class="form-control datepicker-here center" data-language="vi" value="09/10/2017" />
+            </div>
+            <div class="col m6 l6 s12">
+                <strong>Hạn tới</strong>
+                <input class="form-control datepicker-here center" data-language="vi" value="09/10/2018" />
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="btn blue darken-2 modal-close">Lưu</a>
+            <a class="btn red modal-close">Hủy</a>
+        </div>
+    </div>
+</div>
+
+<div class="modal open" id="chuaco">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Đăng ký chứng chỉ</h3>
+        </div>
+        <div class="modal-body row">
+            <div class="col m6 l6 s12">
+                <strong>Số bằng cấp</strong>
+                <input class="form-control" />
+            </div>
+
+            <div class="col m6 l6 s12">
+                <strong>Số quyển</strong>
+                <input class="form-control" />
+            </div>
+
+            <div class="col m6 l6 s12">
+                <strong>Ngày cấp</strong>
+                <input class="form-control datepicker-here center" data-language="vi" value="09/10/2017" />
+            </div>
+            <div class="col m6 l6 s12">
+                <strong>Hạn tới</strong>
+                <input class="form-control datepicker-here center" data-language="vi" value="09/10/2018" />
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="btn blue darken-2 modal-close">Lưu</a>
+            <a class="btn red modal-close">Hủy</a>
+        </div>
+    </div>
+</div>
+
+

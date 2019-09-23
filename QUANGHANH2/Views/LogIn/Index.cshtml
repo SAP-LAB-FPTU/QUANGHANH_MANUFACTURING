@@ -1,0 +1,102 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Đăng nhập | Công Ty Than Quang Hanh</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/assets/images/favicon.png">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/css/login/util.css">
+    <link rel="stylesheet" type="text/css" href="/css/login/main.css">
+    <link rel="stylesheet" type="text/css" href="/css/login/custom.css">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="/images/login/icons/favicon.ico" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="css/login/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+
+    <!--===============================================================================================-->
+    <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
+    <link href="~/css/preloader/css.css" rel="stylesheet" />
+
+</head>
+<body>
+
+    <div class="limiter">
+        <div id="pre-load" hidden>
+            <div class="loading">
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div><div class="gap-patch">
+                            <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-login100">
+            <div class="wrap-login100">
+                <div class="login100-pic js-tilt" data-tilt>
+                    <img src="/images/login/quanghanh.png" alt="IMG">
+                </div>
+                <form id="login-form" class="login100-form validate-form" method="post">
+                    @using (Html.BeginForm("Index", "LogIn", FormMethod.Post, new { id = "login-form", @class = "login100-form validate-form" }))
+                    {
+
+
+                        <span class="login100-form-title">
+                            <h3><b>PHẦN MỀM QUẢN LÝ SẢN XUẤT</b></h3>
+                        </span>
+
+                        <div class="wrap-input100 validate-input" data-validate="">
+                            <input type="text" list="accounts" class="input100" name="username" placeholder="Tên đăng nhập" id="username" />
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+                                <i class="fa fa-user-circle" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        <div class="wrap-input100 validate-input" data-validate="Password is required">
+                            <input class="input100" type="password" name="password" id="password" placeholder="Mật khẩu">
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+                                <i class="fa fa-lock" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        <h1 style="color: red;" class="h6 mb-3 font-weight-normal" id="Notification">@ViewData["Notification"]</h1>
+                        <div class="container-login100-form-btn">
+                            <button class="login100-form-btn" id="loginButton" type="submit" onclick="showPreLoad();">
+                                Đăng nhập
+                            </button>
+                        </div>
+
+                        <div class="text-center p-t-136">
+                            <a class="txt2" href="#">
+                                <i class="" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    }
+            </div>
+        </div>
+    </div>
+    
+    <!--===============================================================================================-->
+    <script src="/js/login/main.js"></script>
+    <script>
+        $(".loading").css("z-index", 99999);
+        $('body').css('overflow', '');
+        function showPreLoad() {
+            
+            $('#pre-load').show();
+        }
+    </script>
+</body>
+</html>

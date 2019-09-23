@@ -1,0 +1,21 @@
+/*
+    custom
+*/
+.datepicker-here {
+    width: 200px !important;
+}
+
+.datepicker-add {
+    width: 100% !important;
+}
+
+.datepicker{
+    z-index:1151 !important;
+}
+
+.datepicker--nav {
+    background-color: #ffffff;
+    color: #000000;
+    padding: 0px !important; 
+}
+/***/

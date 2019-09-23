@@ -1,0 +1,1178 @@
+﻿@{
+    ViewData["Title"] = "List";
+    Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
+}
+<link href="~/assets/Custom css/TCLD/Brief/ManageBrief/ListAll.css" rel="stylesheet" />
+<link href="~/dist/css/pages/data-table.css" rel="stylesheet">
+<div class="user-roll card" id="vld-antoan">
+    <div class="card-content">
+        <div class="row center">
+            <h3 class="black-text"><b>BẢNG TỔNG HỢP DANH SÁCH TOÀN CÔNG TY</b></h3>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="table_container">
+            <table id="" class="table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th rowspan="2">Đơn vị</th>
+                        <th rowspan="2">LĐ Tổng số</th>
+                        <th rowspan="2">Nữ</th>
+                        <th colspan="6">Gián tiếp</th>
+                        <th colspan="4">Công nhân đơn vị sản xuất chính</th>
+                        <th colspan="4">Công nhân Phục vụ, phụ trợ</th>
+                        <th rowspan="2">Ghi chú</th>
+                    </tr>
+                    <tr>
+                        <th>Tổng số<br />gián tiếp</th>
+                        <th>Quản<br />đốc,TP</th>
+                        <th>PP,<br />PQĐ</th>
+                        <th>PQĐ<br />CĐ</th>
+                        <th>NVKT,<br />Cán sự</th>
+                        <th>Chuyên<br />viên</th>
+                        <th>Tổng số</th>
+                        <th>Khai<br />thác</th>
+                        <th>Cơ điện<br />lò</th>
+                        <th>Khác</th>
+                        <th>Tổng số</th>
+                        <th>Phục<br />vụ</th>
+                        <th>KTV</th>
+                        <th>Phụ<br>trợ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Tổng cộng</th>
+                        <th>3,171</th>
+                        <th>419</th>
+                        <th>383</th>
+                        <th>48</th>
+                        <th>142</th>
+                        <th>21</th>
+                        <th>6</th>
+                        <th>166</th>
+                        <th>2,059</th>
+                        <th>1,360</th>
+                        <th>390</th>
+                        <th>309</th>
+                        <th>729</th>
+                        <th>364</th>
+                        <th></th>
+                        <th>365</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td id="ds_blue">Văn phòng</td>
+                        <td id="ds_blue">422</td>
+                        <td id="ds_blue">95</td>
+                        <td id="ds_blue">206</td>
+                        <td id="ds_blue">20</td>
+                        <td id="ds_blue">43</td>
+                        <td id="ds_blue"></td>
+                        <td id="ds_blue">4</td>
+                        <td id="ds_blue">139</td>
+                        <td id="ds_blue"></td>
+                        <td id="ds_blue"></td>
+                        <td id="ds_blue"></td>
+                        <td id="ds_blue"></td>
+                        <td id="ds_blue"></td>
+                        <td id="ds_blue">158</td>
+                        <td id="ds_blue"></td>
+                        <td id="ds_blue">58</td>
+                        <td id="ds_blue"></td>
+                    </tr>
+                    <tr>
+                        <td>BGĐ</td>
+                        <td>5</td>
+                        <td>5</td>
+                        <td></td>
+                        <td>5</td>
+                        <td>5</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>ĐK</td>
+                        <td>34</td>
+                        <td>3</td>
+                        <td>12</td>
+                        <td>1</td>
+                        <td>6</td>
+                        <td></td>
+                        <td></td>
+                        <td>5</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>22</td>
+                        <td></td>
+                        <td></td>
+                        <td>22</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>KCM</td>
+                        <td>22</td>
+                        <td>1</td>
+                        <td>22</td>
+                        <td>1</td>
+                        <td>3</td>
+                        <td></td>
+                        <td>1</td>
+                        <td>17</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>TGM</td>
+                        <td>6</td>
+                        <td></td>
+                        <td>6</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>4</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>TĐ</td>
+                        <td>23</td>
+                        <td>1</td>
+                        <td>23</td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td></td>
+                        <td>3</td>
+                        <td>17</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>CV</td>
+                        <td>28</td>
+                        <td>2</td>
+                        <td>28</td>
+                        <td>1</td>
+                        <td>4</td>
+                        <td></td>
+                        <td></td>
+                        <td>23</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>ĐTM</td>
+                        <td>15</td>
+                        <td>4</td>
+                        <td>15</td>
+                        <td>1</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                        <td>11</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>AT</td>
+                        <td>16</td>
+                        <td>1</td>
+                        <td>16</td>
+                        <td>1</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                        <td>12</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>KCS</td>
+                        <td>36</td>
+                        <td>15</td>
+                        <td>6</td>
+                        <td>1</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                        <td>2</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>30</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>VP</td>
+                        <td>30</td>
+                        <td>10</td>
+                        <td>9</td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td></td>
+                        <td></td>
+                        <td>6</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>20</td>
+                        <td>21</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>TCLĐ</td>
+                        <td>19</td>
+                        <td>5</td>
+                        <td>19</td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td></td>
+                        <td></td>
+                        <td>16</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>KH</td>
+                        <td>10</td>
+                        <td>4</td>
+                        <td>10</td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td></td>
+                        <td></td>
+                        <td>7</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>VT</td>
+                        <td>45</td>
+                        <td>13</td>
+                        <td>9</td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td></td>
+                        <td></td>
+                        <td>6</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>36</td>
+                        <td></td>
+                        <td></td>
+                        <td>36</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>KT</td>
+                        <td>15</td>
+                        <td>11</td>
+                        <td>15</td>
+                        <td>1</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                        <td>11</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>36</td>
+                        <td></td>
+                        <td></td>
+                        <td>36</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>BTK</td>
+                        <td>93</td>
+                        <td>12</td>
+                        <td>8</td>
+                        <td>1</td>
+                        <td>5</td>
+                        <td></td>
+                        <td></td>
+                        <td>2</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>85</td>
+                        <td>85</td>
+                        <td></td>
+                        <td>36</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>YT</td>
+                        <td>25</td>
+                        <td>13</td>
+                        <td>3</td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>22</td>
+                        <td>22</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td id="ds_blue">Phân xưởng</td>
+                        <td id="ds_blue">2,741</td>
+                        <td id="ds_blue">322</td>
+                        <td id="ds_blue">169</td>
+                        <td id="ds_blue">25</td>
+                        <td id="ds_blue">95</td>
+                        <td id="ds_blue">20</td>
+                        <td id="ds_blue">2</td>
+                        <td id="ds_blue">27</td>
+                        <td id="ds_blue">2,062</td>
+                        <td id="ds_blue">1,360</td>
+                        <td id="ds_blue">390</td>
+                        <td id="ds_blue">309</td>
+                        <td id="ds_blue">513</td>
+                        <td id="ds_blue">206</td>
+                        <td id="ds_blue"></td>
+                        <td id="ds_blue">307</td>
+                        <td id="ds_blue"></td>
+                    </tr>
+                    <tr>
+                        <td id="ds_blue">SX chính</td>
+                        <td id="ds_blue">2,194</td>
+                        <td id="ds_blue">121</td>
+                        <td id="ds_blue">132</td>
+                        <td id="ds_blue">19</td>
+                        <td id="ds_blue">75</td>
+                        <td id="ds_blue">18</td>
+                        <td id="ds_blue">2</td>
+                        <td id="ds_blue">18</td>
+                        <td id="ds_blue">2,062</td>
+                        <td id="ds_blue">1,360</td>
+                        <td id="ds_blue">390</td>
+                        <td id="ds_blue">309</td>
+                        <td id="ds_blue">3</td>
+                        <td id="ds_blue">3</td>
+                        <td id="ds_blue"></td>
+                        <td id="ds_blue"></td>
+                        <td id="ds_blue"></td>
+                    </tr>
+                    <tr>
+                        <td>ĐL3</td>
+                        <td>115</td>
+                        <td>1</td>
+                        <td>7</td>
+                        <td>1</td>
+                        <td>4</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td></td>
+                        <td>108</td>
+                        <td>90</td>
+                        <td>17</td>
+                        <td></td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>ĐL5</td>
+                        <td>111</td>
+                        <td>1</td>
+                        <td>7</td>
+                        <td>1</td>
+                        <td>4</td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                        <td>104</td>
+                        <td>88</td>
+                        <td>15</td>
+                        <td></td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>ĐL7</td>
+                        <td>116</td>
+                        <td>1</td>
+                        <td>7</td>
+                        <td>1</td>
+                        <td>4</td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                        <td>109</td>
+                        <td>96</td>
+                        <td>13</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>ĐL8</td>
+                        <td>92</td>
+                        <td>1</td>
+                        <td>7</td>
+                        <td>1</td>
+                        <td>4</td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                        <td>85</td>
+                        <td>72</td>
+                        <td>13</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>KT1</td>
+                        <td>98</td>
+                        <td>1</td>
+                        <td>7</td>
+                        <td>1</td>
+                        <td>4</td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                        <td>91</td>
+                        <td>73</td>
+                        <td>18</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>KT2</td>
+                        <td>106</td>
+                        <td>1</td>
+                        <td>7</td>
+                        <td>1</td>
+                        <td>3</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td></td>
+                        <td>100</td>
+                        <td>71</td>
+                        <td>29</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>KT3</td>
+                        <td>125</td>
+                        <td>1</td>
+                        <td>7</td>
+                        <td>1</td>
+                        <td>4</td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                        <td>118</td>
+                        <td>100</td>
+                        <td>18</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>KT4</td>
+                        <td>93</td>
+                        <td>1</td>
+                        <td>7</td>
+                        <td>1</td>
+                        <td>4</td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                        <td>86</td>
+                        <td>67</td>
+                        <td>19</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>KT5</td>
+                        <td>106</td>
+                        <td></td>
+                        <td>7</td>
+                        <td>1</td>
+                        <td>4</td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                        <td>99</td>
+                        <td>84</td>
+                        <td>15</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>KT6</td>
+                        <td>98</td>
+                        <td>1</td>
+                        <td>7</td>
+                        <td>1</td>
+                        <td>4</td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                        <td>91</td>
+                        <td>73</td>
+                        <td>18</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>KT7</td>
+                        <td>97</td>
+                        <td>1</td>
+                        <td>7</td>
+                        <td>1</td>
+                        <td>4</td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                        <td>91</td>
+                        <td>76</td>
+                        <td>14</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>KT8</td>
+                        <td>101</td>
+                        <td>1</td>
+                        <td>7</td>
+                        <td>1</td>
+                        <td>4</td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                        <td>91</td>
+                        <td>76</td>
+                        <td>18</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>KT9</td>
+                        <td>106</td>
+                        <td></td>
+                        <td>7</td>
+                        <td>1</td>
+                        <td>4</td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                        <td>99</td>
+                        <td>82</td>
+                        <td>17</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>KT10</td>
+                        <td>117</td>
+                        <td>1</td>
+                        <td>7</td>
+                        <td>1</td>
+                        <td>4</td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                        <td>110</td>
+                        <td>92</td>
+                        <td>18</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>KT11</td>
+                        <td>79</td>
+                        <td>1</td>
+                        <td>6</td>
+                        <td>1</td>
+                        <td>3</td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                        <td>73</td>
+                        <td>59</td>
+                        <td>13</td>
+                        <td></td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>VTL1</td>
+                        <td>174</td>
+                        <td>3</td>
+                        <td>7</td>
+                        <td>1</td>
+                        <td>4</td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                        <td>167</td>
+                        <td>98</td>
+                        <td>69</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>VTL2</td>
+                        <td>136</td>
+                        <td>4</td>
+                        <td>7</td>
+                        <td>1</td>
+                        <td>4</td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                        <td>129</td>
+                        <td>62</td>
+                        <td>67</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>ST</td>
+                        <td>184</td>
+                        <td>5</td>
+                        <td>7</td>
+                        <td>1</td>
+                        <td>4</td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                        <td>178</td>
+                        <td></td>
+                        <td></td>
+                        <td>178</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>LThiên</td>
+                        <td>140</td>
+                        <td>5</td>
+                        <td>7</td>
+                        <td>1</td>
+                        <td>4</td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                        <td>131</td>
+                        <td></td>
+                        <td></td>
+                        <td>131</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td id="ds_blue">Phục vụ,phụ trợ</td>
+                        <td id="ds_blue">547</td>
+                        <th>201</th>
+                        <th>37</th>
+                        <th>6</th>
+                        <th>20</th>
+                        <th>2</th>
+                        <th></th>
+                        <th>9</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>510</th>
+                        <th>203</th>
+                        <th></th>
+                        <th>307</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td>XD</td>
+                        <td>45</td>
+                        <td>1</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>40</td>
+                        <td></td>
+                        <td></td>
+                        <td>40</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>ĐS</td>
+                        <td>77</td>
+                        <td>1</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>72</td>
+                        <td>72</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>PV</td>
+                        <td>135</td>
+                        <td>88</td>
+                        <td>5</td>
+                        <td>6</td>
+                        <td>1</td>
+                        <td>3</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>82</td>
+                        <td></td>
+                        <td></td>
+                        <td>82</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>CĐM</td>
+                        <td>94</td>
+                        <td>108</td>
+                        <td>25</td>
+                        <td>7</td>
+                        <td>1</td>
+                        <td>3</td>
+                        <td>1</td>
+                        <td></td>
+                        <td>2</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>101</td>
+                        <td></td>
+                        <td></td>
+                        <td>101</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>TG-QLKM</td>
+                        <td>88</td>
+                        <td>88</td>
+                        <td>5</td>
+                        <td>6</td>
+                        <td>1</td>
+                        <td>3</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>82</td>
+                        <td></td>
+                        <td></td>
+                        <td>82</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td id="ds_blue">Đoàn thể</td>
+                        <td id="ds_blue">8</td>
+                        <th>8</th>
+                        <th>2</th>
+                        <th>8</th>
+                        <th>3</th>
+                        <th>4</th>
+                        <th>1</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td>Đủy</td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td>1</td>
+                        <td>3</td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>CĐoàn</td>
+                        <td>4</td>
+                        <td>4</td>
+                        <td>1</td>
+                        <td>4</td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>TNiên</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+                </div>
+        </div>
+        <div class="row" style="margin-top:15px">
+            <table class="table table-bordered table-responsive centered highlight" style="width:500px;">
+                <tbody>
+                    <tr>
+                        <td id="ds_red">Thợ mìn hạng C</td>
+                        <td id="">182</td>
+                        <td id="">19/11/2014</td>
+                    </tr>
+                    <tr>
+                        <td id="ds_red">Thợ mìn hạng B</td>
+                        <td id="">18</td>
+                        <td id="">19/11/2014</td>
+                    </tr>
+                    <tr>
+                        <td id="ds_red">Thủ kho VLN</td>
+                        <td id="">3</td>
+                        <td id="">19/11/2014</td>
+                    </tr>
+                    <tr>
+                        <td id="ds_red">Đo điện trở kíp</td>
+                        <td id="">4</td>
+                        <td id="">19/11/2014</td>
+                    </tr>
+                    <tr>
+                        <td id="ds_red">BV kho VLNCN</td>
+                        <td id="">8</td>
+                        <td id="">19/11/2014</td>
+                    </tr>
+                    <tr>
+                        <td id="ds_red">Lái xe VC VLN</td>
+                        <td id=""></td>
+                        <td id="">19/11/2014</td>
+                    </tr>
+                    <tr>
+                        <td id="ds_red">CHNM</td>
+                        <td id="">160</td>
+                        <td id="">19/11/2014</td>
+                    </tr>
+                    <tr>
+                        <td id="ds_red">hàn hơi</td>
+                        <td id="">35</td>
+                        <td id="">1/8/2014</td>
+                    </tr>
+                    <tr>
+                        <td id="ds_red">TB nâng</td>
+                        <td id="">52</td>
+                        <td id="">1/3/2014</td>
+                    </tr>
+                    <tr>
+                        <td id="ds_red">nén khí</td>
+                        <td id="">36</td>
+                        <td id="">1/8/2014</td>
+                    </tr>
+                    <tr>
+                        <td id="ds_red">Tời lò bằng</td>
+                        <td id="">19</td>
+                        <td id="">1/6/2014</td>
+                    </tr>
+                    <tr>
+                        <td id="ds_red">Tời 2012</td>
+                        <td id="">38</td>
+                        <td id="">1/6/2014</td>
+                    </tr>
+                    <tr>
+                        <td id="ds_red">Tời 2013</td>
+                        <td id="">30</td>
+                        <td id="">1/6/2014</td>
+                    </tr>
+                    <tr>
+                        <td>TB áp lực</td>
+                        <td id="">56</td>
+                        <td id="">2015</td>
+                    </tr>
+                    <tr>
+                        <td>Nồi hơi</td>
+                        <td id="">8</td>
+                        <td id="">2015</td>
+                    </tr>
+                    <tr>
+                        <td id="ds_red">Móc cáp,phụ song loan</td>
+                        <td id="">56</td>
+                        <td id="">2015</td>
+                    </tr>
+                    <tr>
+                        <td id="ds_red">Tời chở người</td>
+                        <td id="">13</td>
+                        <td id="">2015</td>
+                    </tr>
+                    <tr>
+                        <td>Móc cáp</td>
+                        <td>78</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Tàu điện</td>
+                        <td>91</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Hàn điện</td>
+                        <td>52</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Quang lật tròn</td>
+                        <td>5</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Xúc đá XD-0,32</td>
+                        <td>12</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Quang lật nghiêng</td>
+                        <td>6</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Com bai</td>
+                        <td>22</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Cào đá</td>
+                        <td>14</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Cấp liệu lắc</td>
+                        <td>4</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Lật hông</td>
+                        <td>13</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>Cộng</th>
+                        <th>1,026</th>
+                        <th></th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="~/assets/extra-libs/Datatables/datatables.min.js"></script>
+<script src="~/dist/js/pages/datatable/datatable-basic.init.js"></script>
+

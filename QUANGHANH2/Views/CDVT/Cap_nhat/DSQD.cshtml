@@ -1,0 +1,250 @@
+﻿
+@{
+    ViewData["Title"] = "cap-nhat-thiet-bi";
+    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+}
+<link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+<link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
+<script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
+<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <div class="col s12">
+                <div class="advanded-search">
+                    <div class="row">
+                        <h3 class="center"><b>DANH SÁCH QUYẾT ĐỊNH</b></h3>
+                        <hr>
+                        <div class="row center">
+                            <form action="" method="POST" id="mysearchform" role="form">
+                                <div class="row center">
+                                    <div class="col l4 m4 s12">
+                                        <div class="row">
+                                            <div class="col l10 m10 s12 input-field">
+                                                <input type="number" placeholder="Tìm kiếm theo số quyết định" class='form-control' id="id-search" />
+                                            </div>
+                                            <div class="col l10 m10 s12 input-field">
+                                                <select class="form-control" id="type-search">
+                                                    <option value="0">Tất cả</option>
+                                                    <option value="1">Sửa chữa</option>
+                                                    <option value="2">Bảo dưỡng</option>
+                                                    <option value="3">Điều động</option>
+                                                    <option value="4">Thu hồi</option>
+                                                    <option value="5">Thanh lý</option>
+                                                    <option value="6">Trung đại tu</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col l4 m4 s12">
+                                        <div class="row">
+                                            <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
+                                                <input placeholder="thời gian bắt đầu sự cố từ" type='text' class='datepicker-here form-control maxDate' data-language='vi' id="date-start-search" />
+                                            </div>
+                                            <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
+                                                <input placeholder="thời gian bắt đầu sự cố đến" type='text' class='datepicker-here form-control minDate' data-language='vi' id="date-end-search" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col l4 m4 s12">
+                                        <div class="row">
+                                            <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
+                                                <input type="text" placeholder="Tìm kiếm theo lý do quyết định" class='form-control' id="reason-search" />
+                                            </div>
+                                            <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
+                                                <input type="text" placeholder="Tìm kiếm theo phân xưởng chịu trách nhiệm" class='form-control' id="department-search" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col l12 m12 s12 input-field">
+                                        <a class="waves-effect waves-light btn blue darken-2 modal-close modal-trigger" id="searchButton1">Tìm kiếm</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div id="danhsach">
+                    <div class="row">
+                        <div class="col s12">
+                            <table class="striped table-bordered centered responsive-table mytable" id="DSQD_id">
+                                <thead>
+                                    <tr>
+                                        <th>Số quyết định</th>
+                                        <th>Loại quyết định</th>
+                                        <th>Đơn vị đang sử dụng</th>
+                                        <th>Ngày tạo quyết định</th>
+                                        <th>Người tạo quyết định</th>
+                                        <th>Lý do quyết định</th>
+                                        <th>Nguồn vốn/thu</th>
+                                        <th>Trạng thái quyết định</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/Custom JS/CDVT/Capnhat/update.js"></script>
+<link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
+<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="~/js/advancedsearch/advancedsearch.js"></script>
+<script>
+    $('.maxDate').datepicker({
+        language: 'vi',
+        maxDate: new Date(),
+        minDate: new Date("1/1/1900")
+    })
+    $('.minDate').datepicker({
+        language: 'vi',
+        maxDate: new Date() // Now can select only dates, which goes after today
+    })
+    $(document).ready(function () {
+        $('.datepicker-inline').remove();
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        var today = dd + '/' + mm + '/' + yyyy;
+        $(".minDate").each(function () {
+            $(this).val(today);
+        });
+        today = new Date("1/1/1900");
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        var today = dd + '/' + mm + '/' + yyyy;
+        $(".maxDate").val(today)
+    });
+</script>
+@section scripts{
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="/js/Custom JS/CDVT/Work/suachuachon.js"></script>
+
+    <script>
+        var Popup, dataTable ;
+        
+        $(document).ready( function () {
+            dataTable = $('#DSQD_id').dataTable({
+                "ajax": {
+                    "url": "/phong-cdvt/cap-nhat/quyet-dinh",
+                    "type": "POST",
+                    "datatype": "json",
+                },
+                "columns": [
+                    {
+                        "data": "stringlink", "name": "documentary_id",
+                        "render": function (data) {
+                            return "<a href=\"quyet-dinh/" + data.split("^")[0] + "?id=" + data.split("^")[1] + "\"> " + data.split("^")[1] + "</a>";
+                        },
+                    },
+                    { "data": "stringtype", "name": "stringtype" },
+                    { "data": "department_name", "name": "department_name"},
+                    { "data": "stringdate", "name":"stringdate" },
+                    { "data": "person_created", "name": "person_created"},
+                    { "data": "reason", "name": "reason" },
+                    { "data": "outincome", "name": "out_in_come" },
+                    { "data": "stringstatus", "name": "stringstatus" },
+                ],
+                "serverSide": "true",
+                "order": [0, "asc"],
+                "rowId": "incident_id",
+                "lengthChange": false,
+                "searching": false,
+                "initComplete": function (settings, json) {
+                    $('#pre-load').hide();
+                },
+                "preDrawCallback": function (settings) {
+                    $('#pre-load').show();
+                },
+                "drawCallback": function (settings) {
+                    $('#pre-load').hide();
+                }
+            });
+
+        });
+
+        $(document).ready(function () {
+            var dataTable = $('#DSQD_id').DataTable();
+            //ajax search
+            $("#searchButton1").click(function () {
+                $("#pre-load").show();
+                dataTable.destroy();
+                dataTable = $('#DSQD_id').DataTable({
+                    "language": {
+                        "emptyTable": "Không tìm thấy dữ liệu"
+                    },
+                    "ajax": {
+                        "url": "/phong-cdvt/cap-nhat/quyet-dinh/search",
+                        "type": "POST",
+                        "search": false,
+                        "datatype": "json",
+                        "data": {
+                            "documentary_id": $('#id-search').val(),
+                            "type": $('#type-search').val(),
+                            "department": $('#department-search').val(),
+                            "reason": $('#reason-search').val(),
+                            "dateStart": $('#date-start-search').val(),
+                            "dateEnd": $('#date-end-search').val()
+                        },
+                        "cache": false
+                    },
+                    "columns": [
+                        {
+                            "data": "stringlink", "name": "documentary_id",
+                            "render": function (data) {
+                                return "<a href=\"quyet-dinh/" + data.split("^")[0] + "?id=" + data.split("^")[1] + "\"> " + data.split("^")[1] + "</a>";
+                            },
+                        },
+                        { "data": "stringtype", "name": "stringtype" },
+                        { "data": "department_name", "name": "department_name" },
+                        { "data": "stringdate", "name": "stringdate" },
+                        { "data": "person_created", "name": "person_created" },
+                        { "data": "reason", "name": "reason" },
+                        { "data": "outincome", "name": "out_in_come" },
+                        { "data": "stringstatus", "name": "stringstatus" },
+                    ],
+                    "serverSide": "true",
+                    "order": [0, "asc"],
+                    "rowId": "incident_id",
+                    "lengthChange": false,
+                    "searching": false,
+                    "initComplete": function (settings, json) {
+                        $.notify("Tìm kiếm thành công", {
+                            globalPosition: "top center",
+                            className: "success"
+                        })
+                        $('#pre-load').hide();
+                    },
+                    "preDrawCallback": function (settings) {
+                        $('#pre-load').show();
+                    },
+                    "drawCallback": function (settings) {
+                        $('#pre-load').hide();
+                    }
+                });
+            });
+        })
+    </script>
+}
+

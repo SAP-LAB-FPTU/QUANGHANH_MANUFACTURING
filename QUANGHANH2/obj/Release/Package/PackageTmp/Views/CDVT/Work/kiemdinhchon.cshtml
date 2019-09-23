@@ -1,0 +1,136 @@
+﻿
+@{
+    ViewData["Title"] = "kiemdinhchon";
+    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+}
+
+
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <div class="col s12">
+                <div class="center">
+                    <h3><b>CHI TIẾT KIỂM ĐỊNH</b></h3>
+                </div>
+                <div class="col s2">
+                    <input type="text" placeholder="Nhập mã quyết định" />
+                </div>
+                <div class="col s12">
+                    <table class="striped responsive-table">
+                        <tr>
+                            <th>Số thứ tự</th>
+                            <th>Mã thiết bị</th>
+                            <th>Tên thiết bị</th>
+                            <th>Ngày đăng kiểm</th>
+                            <th>Ngày hết hạn đăng kiểm</th>
+                            <th>Lý do quyết định</th>
+                            <th>Nguồn vốn</th>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>GH2</td>
+                            <td>Máy xúc</td>
+                            <td><input class="form-control" type="date" /></td>
+                            <!-- datepicker loi mau chu -->
+                            <!--<td><input class="datepicker form-control" type="text"/></td>-->
+                            <td><input class="form-control" type="date" /></td>
+                            <td>Kiểm định thiết bị</td>
+                            <td>Kiểm định</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>MM1</td>
+                            <td>Máy khoan</td>
+                            <td><input class="form-control" type="date" /></td>
+                            <!-- datepicker loi mau chu -->
+                            <!--<td><input class="datepicker form-control" type="text"/></td>-->
+                            <td><input class="form-control" type="date" /></td>
+                            <td>Kiểm định thiết bị</td>
+                            <td>Kiểm định</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>AH14</td>
+                            <td>Máng cào</td>
+                            <td><input class="form-control" type="date" /></td>
+                            <!-- datepicker loi mau chu -->
+                            <!--<td><input class="datepicker form-control" type="text"/></td>-->
+                            <td><input class="form-control" type="date" /></td>
+                            <td>Kiểm định thiết bị</td>
+                            <td>Kiểm định</td>
+                        </tr>
+                    </table>
+                    <div class="col m12">
+                        <div class=" div-center custom-divider"></div>
+                    </div>
+                    <div class="center">
+                        <a onclick="window.open('')" class="btn blue darken-2">In quyết định</a>
+                        <a href="#xacnhan" class="btn blue darken-2 modal-trigger">Xác nhận đăng kiểm</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="xacnhan" class="modal">
+    <div class="modal-header center card">
+        <h3><b>XÁC NHẬN KIỂM ĐỊNH</b></h3>
+    </div>
+    <div class="modal-body">
+        <div class="col s12">
+            <h6 class="center">Mã quyết định: 001</h6>
+        </div>
+        <div class="col s12">
+            <table class="striped responsive-table centered">
+                <tr>
+                    <th class="center-align">Số thứ tự</th>
+                    <th class="center-align">Mã thiết bị</th>
+                    <th class="center-align">Tên thiết bị</th>
+                    <th class="center-align">Ngày đăng kiểm</th>
+                    <th class="center-align">Ngày hết hạn đăng kiểm</th>
+                    <th class="center-align">Lý do quyết định</th>
+                    <th class="center-align">Nguồn vốn</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>GH2</td>
+                    <td>Máy xúc</td>
+                    <td>10/10/2017</td>
+                    <!-- datepicker loi mau chu -->
+                    <!--<td><input class="datepicker form-control" type="text"/></td>-->
+                    <td>10/10/2018</td>
+                    <td>Kiểm định thiết bị</td>
+                    <td>Kiểm định</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>MM1</td>
+                    <td>Máy khoan</td>
+                    <td>10/10/2017</td>
+                    <!-- datepicker loi mau chu -->
+                    <!--<td><input class="datepicker form-control" type="text"/></td>-->
+                    <td>10/10/2018</td>
+                    <td>Kiểm định thiết bị</td>
+                    <td>Kiểm định</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>AH14</td>
+                    <td>Máng cào</td>
+                    <td>10/10/2017</td>
+                    <!-- datepicker loi mau chu -->
+                    <!--<td><input class="datepicker form-control" type="text"/></td>-->
+                    <td>10/10/2018</td>
+                    <td>Kiểm định thiết bị</td>
+                    <td>Kiểm định</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="/phong-cdvt/quyet-dinh/kiem-dinh"><button type="submit" class="btn blue darken-2">Xác nhận</button></a>
+        <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
+    </div>
+</div>
+<script src="~/js/Custom JS/CDVT/Work/kiemdinh.js"></script>
+

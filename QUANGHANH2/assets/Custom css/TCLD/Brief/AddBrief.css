@@ -1,0 +1,11 @@
+﻿#giadinh{
+    margin-top:15px;
+}
+#buttonThem {
+    margin-top:10px;
+}
+table .editable:focus {
+    outline: none !important;
+    border-color: red;
+    box-shadow: 0 0 10px #719ECE;
+}

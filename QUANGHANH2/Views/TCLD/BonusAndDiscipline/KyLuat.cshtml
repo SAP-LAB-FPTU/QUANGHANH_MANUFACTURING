@@ -1,0 +1,263 @@
+﻿@{
+    ViewData["Title"] = "xu_phat";
+    Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
+}
+
+<link href="~/assets/extra-libs/css-chart/css-chart.css" rel="stylesheet" />
+<link href="~/dist/css/pages/easy-pie-chart.css" rel="stylesheet" />
+<link href="/assets/extra-libs/css-chart/css-chart.css" rel="stylesheet">
+<link href="/dist/css/pages/easy-pie-chart.css" rel="stylesheet">
+<!--Custom Css QUANGHANH-->
+<link href="~/assets/Custom css/DK/ReportHuman/ReportChart_Mothly.css" rel="stylesheet" />
+<!--------------------------------------------------------------------------------------------------------------------->
+<div class="row">
+    <div class="col s12">
+        <div class="card">
+            <div class="card-content">
+                <h3 class="center">
+                    <b>
+                        DANH SÁCH KỶ LUẬT
+                        <br />
+                        <i class="fas fa-calendar-alt icon"></i>
+                        <input type="text"
+                               class="datepicker-here center"
+                               data-language='vi'
+                               data-min-view="months"
+                               data-view="months"
+                               data-date-format="MM yyyy" value="Tháng 6 2019" />
+                    </b>
+                </h3>
+                <!--Date here-->
+                <hr />
+                <div>
+                    <a class="btn blue darken-2 modal-trigger input-field" id="btn-fix" href="#modal1">Thêm biên bản</a>
+                </div>
+                <div class="table-container">
+                    <table class="table table-bordered responsive-table center">
+                        <thead>
+                            <tr>
+                                <th>Số</th>
+                                <th>Người vi phạm</th>
+                                <th>Phân xưởng</th>
+                                <th>Người lập biên bản</th>
+                                <th>Ngày</th>
+                                <th>Diễn biến vụ việc</th>
+                                <th>Tang vật</th>
+                                <th>Ý kiến của người lập biên bản</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>34</td>
+                                <td>Nguyễn Thị Huệ</td>
+                                <td>Sàng tuyển</td>
+                                <td>Ngô Thế Tự</td>
+                                <td>13/7/2019</td>
+                                <td>Tiết lộ bí mật kinh doanh</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>35</td>
+                                <td>Phạm Văn Lương</td>
+                                <td>Vật tư</td>
+                                <td>Ngô Thế Tự</td>
+                                <td>12/7/2019</td>
+                                <td>Cố ý gây thương tích</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>36</td>
+                                <td>Trần Thị Triệu</td>
+                                <td>Sàng tuyển</td>
+                                <td>Ngô Thế Tự</td>
+                                <td>11/7/2019</td>
+                                <td>Trộm cắp tài sản</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>37</td>
+                                <td>Hoàng Đình Trưởng</td>
+                                <td>Phục vụ</td>
+                                <td>Phạm Thị Hoa</td>
+                                <td>10/7/2019</td>
+                                <td>xâm phạm quyền sở hữu trí tuệ của người sử dụng lao động</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>38</td>
+                                <td>Vũ Văn Hiếu</td>
+                                <td>Đào lò 7</td>
+                                <td>Phạm Thị Hoa</td>
+                                <td>9/7/2019</td>
+                                <td>Trộm cắp tài sản</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>39</td>
+                                <td>Nguyễn Xuân Đan</td>
+                                <td>Khai Thác 5</td>
+                                <td>Mai Đức Bôn</td>
+                                <td>8/7/2019</td>
+                                <td>Cố ý gây thương tích</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>40</td>
+                                <td>Nguyễn Thị Thúy</td>
+                                <td>Cơ Khí - Sửa Chữa</td>
+                                <td>Phạm Thị Hoa</td>
+                                <td>6/7/2019</td>
+                                <td>Trộm cắp tài sản</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>41</td>
+                                <td>Trần Văn Khởi</td>
+                                <td>TG - QLKM</td>
+                                <td>Mai Đức Bôn</td>
+                                <td>5/7/2019</td>
+                                <td>Cố ý gây thương tích</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>42</td>
+                                <td>Cao Thị Ngọc Ánh</td>
+                                <td>Vận tải lò 1</td>
+                                <td>Mai Đức Bôn</td>
+                                <td>4/7/2019</td>
+                                <td>Cố ý gây thương tích</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>43</td>
+                                <td>Hoàng Đình Trưởng</td>
+                                <td>Đời sống</td>
+                                <td>Phạm Thị Hoa</td>
+                                <td>3/7/2019</td>
+                                <td>Cố ý gây thương tích</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>44</td>
+                                <td>Đinh Văn Thìn</td>
+                                <td>Khai thác 3</td>
+                                <td>Ngô Thế Tự</td>
+                                <td>2/7/2019</td>
+                                <td>Tiết lộ bí mật kinh doanh</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>45</td>
+                                <td>Nguyễn Văn Bính</td>
+                                <td>Sàng tuyển</td>
+                                <td>Ngô Thế Tự</td>
+                                <td>1/7/2019</td>
+                                <td>Tiết lộ bí mật kinh doanh</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Structure -->
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <div class="modal-container">
+            <!-- Page Content goes here -->
+            <div class="row">
+                <div class="col s12 center">
+                    <h3 class="font-medium">Biên bản về việc vi phạm kỷ luật</h3>
+                </div>
+            </div>
+            <form class="row">
+                <div class="col s6 m6 l6">
+                    <div class="select-header">
+                        <strong><i class="fas fa-calendar-alt icon"></i>&nbsp;Ngày lập biên bản</strong>
+                    </div>
+                    <input type='text' class='datepicker-here center form-control resize-form' data-language='vi' value="dd/mm/yyyy" />
+                </div>
+            </form>
+            <!--Certificate-name-->
+            <form>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <div class="select-header">
+                            <label for="worker-numb"><i class="far fa-id-card" aria-hidden="true"></i>&nbsp;Họ và tên người bị kỷ luật</label>
+                        </div>
+                        <input id="worker-numb" class="form-control" type="text" placeholder="">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <div class="select-header">
+                            <label for="worker-name"><i class="fas fa-user" aria-hidden="true"></i>&nbsp;Phân xưởng</label>
+                        </div>
+                        <input id="worker-name" class="form-control" placeholder="" type="text">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <div class="select-header">
+                            <label for="worker-unit"><i class="fas fa-crosshairs"></i>&nbsp;Họ và tên người lập biên bản</label>
+                        </div>
+                        <input id="worker-unit" class="form-control" placeholder="" type="text">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <div class="select-header">
+                            <label for="worker-unit"><i class="fas fa-map-marker"></i>&nbsp;Địa điểm diễn ra</label>
+                        </div>
+                        <input id="worker-unit" class="form-control" placeholder="" type="text">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <div class="select-header">
+                            <label for="worker-unit"><i class="fas fa-newspaper"></i>&nbsp;Diễn biến vụ việc</label>
+                        </div>
+                        <input id="worker-unit" class="form-control" placeholder="" type="text">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <div class="select-header">
+                            <label for="worker-unit"><i class="fas fa-bookmark"></i>&nbsp;Tang vật</label>
+                        </div>
+                        <input id="worker-unit" class="form-control" placeholder="" type="text">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <div class="select-header">
+                            <label for="worker-unit"><i class="fas fa-comment"></i>&nbsp;Ý kiến của người bị lập biên bản</label>
+                        </div>
+                        <input id="worker-unit" class="form-control" placeholder="" type="text">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <!--                Button-->
+        <a class="waves-effect waves-light btn red modal-close">Hủy</a>
+        <a class="waves-effect waves-light btn blue darken-2">Lưu</a>
+    </div>
+</div>
+

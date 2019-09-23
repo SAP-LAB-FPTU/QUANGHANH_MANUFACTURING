@@ -1,0 +1,780 @@
+﻿
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+}
+
+<link href="/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
+<link href="/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css" rel="stylesheet">
+<link href="/assets/extra-libs/c3/c3.min.css" rel="stylesheet">
+<link href="/assets/extra-libs/css-chart/css-chart.css" rel="stylesheet">
+<link href="/dist/css/style.css" rel="stylesheet">
+<link href="/dist/css/pages/dashboard3.css" rel="stylesheet">
+
+<div class="row">
+    <div class="col s12 l12">
+        <div class="card">
+            <div class="card-content center-align">
+                <h3 class="center-align m-b-0">TRANG CHỦ</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col s12">
+        <ul class="tabs">
+            <li class="tab col s6"><a class="active" href="#chung">Thông tin chung</a></li>
+            <li class="tab col s6"><a href="#cogioi">Thông tin thiết bị cơ giới</a></li>
+        </ul>
+    </div>
+</div>
+
+<div id="chung">
+
+    <div class="row center-align">
+
+        <div class="col s12 l2">
+            <div class="card mymanu card-hover" style="height: 200px">
+                <div class="card-content center-align table_container" style="overflow-x: auto !important">
+                    <div class="row">
+                        <div class="col s12">
+                            <h6 class="card-subtitle center-align m-b-0 white-text">Tổng</h6>
+                            <h2 class="font-light font-medium m-b-0 white-text" style="padding-top: 10px"> 10700 </h2>
+                        </div>
+                        <div class="col s12">
+                            <div class="progress">
+                                <div class="determinate amber darken+5" style="width: 100%"></div>
+                            </div>
+                        </div>
+                        <div class="col s6 center-align">
+                            <h5 class="card-subtitle white-text">Đang hoạt động</h5>
+                            <h5 class="white-text">7000</h5>
+                        </div>
+                        <div class="col s6 center-align">
+                            <h6 class="card-subtitle white-text">Không hoạt động</h6>
+                            <h5 class="white-text">3700</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col s12 l2">
+            <div class="card card-hover" style="height: 200px">
+                <div class="card-content align-items-center table_container">
+                    <div class="row">
+                        <div class="col s12">
+                            <h6 class="card-subtitle">Sửa chữa</h6>
+                            <h4> 500 </h4>
+                        </div>
+
+                        <div class="col s12">
+                            <div class="progress">
+                                <div class="determinate amber darken+5" style="width: 100%"></div>
+                            </div>
+                        </div>
+                        <div class="col s6 center-align">
+                            <h5 class="card-subtitle">Đã sửa</h5>
+                            <h5>300</h5>
+                        </div>
+                        <div class="col s6 center-align">
+                            <h6 class="card-subtitle">Đang sửa</h6>
+                            <h5>200</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col s12 l2">
+            <div class="card card-hover" style="height: 200px">
+                <div class="card-content align-items-center table_container">
+                    <div class="row">
+                        <div class="col s12">
+                            <h6 class="card-subtitle">Bảo dưỡng </h6>
+                            <h4> 900</h4>
+                        </div>
+
+                        <div class="col s12">
+                            <div class="progress">
+                                <div class="determinate amber darken+5" style="width: 100%"></div>
+                            </div>
+                        </div>
+
+                        <div class="col s6 center-align">
+                            <h5 class="card-subtitle">Đã bảo dưỡng</h5>
+                            <h5>700</h5>
+                        </div>
+                        <div class="col s6 center-align">
+                            <h6 class="card-subtitle">Đang bảo dưỡng</h6>
+                            <h5>200</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col s12 l2">
+            <div class="card card-hover" style="height: 200px">
+                <div class="card-content align-items-center table_container">
+                    <div class="row">
+                        <div class="col s12">
+                            <h6 class="card-subtitle">Kiểm định</h6>
+                            <h4> 1000</h4>
+                        </div>
+
+                        <div class="col s12">
+                            <div class="progress">
+                                <div class="determinate amber darken+5" style="width: 100%"></div>
+                            </div>
+                        </div>
+                        <div class="col s6 center-align">
+                            <h5 class="card-subtitle">Hoàn thành</h5>
+                            <h5>700</h5>
+                        </div>
+                        <div class="col s6 center-align">
+                            <h6 class="card-subtitle">Sắp đến hạn</h6>
+                            <h5>300</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col s12 l2">
+            <div class="card card-hover" style="height: 200px">
+                <div class="card-content align-items-center table_container">
+                    <div class="row">
+                        <div class="col s12">
+                            <h6 class="card-subtitle">Thanh lý</h6>
+                            <h4> 300 </h4>
+                        </div>
+
+                        <div class="col s12">
+                            <div class="progress">
+                                <div class="determinate amber darken+5" style="width: 100%"></div>
+                            </div>
+                        </div>
+
+                        <div class="col s5 center-align">
+                            <h5 class="card-subtitle">Đã thanh lý</h5>
+                            <h5>100</h5>
+                        </div>
+                        <div class="col s6 offset-s1 center-align">
+                            <h6 class="card-subtitle">Đang thanh lý</h6>
+                            <h5>200</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col s12 l2">
+            <div class="card card-hover" style="height: 200px">
+                <div class="card-content align-items-center table_container">
+                    <div class="row">
+                        <div class="col s12 center-align" style="padding-top: 45px">
+                            <h6 class="card-subtitle">Thu hồi</h6>
+                            <h4 class="font-medium m-b-0"> 1000 </h>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="row center-align">
+
+        <div class="col s12 l4">
+            <div class="card warning-gradient card-hover">
+                <a href="#kiemdinh" class="modal-trigger">
+                    <div class="card-content">
+                        <div class="d-flex no-block align-items-center">
+                            <div>
+                                <h6 class="white-text op-1">Sắp hết hạn đăng kiểm (chiếc)</h6>
+                                <h3 class="white-text m-b-5">100</h3>
+                                <h6 class="white-text op-1"></h6>
+                                <br />
+                            </div>
+
+
+                            <div class="ml-auto">
+                                <span class="white-text display-6">
+                                    <i class="material-icons dp48">report_problem</i>
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="col s12 l4">
+            <div class="card warning-gradient card-hover">
+                <a href="#baoduong" class="modal-trigger">
+                    <div class="card-content">
+                        <div class="d-flex no-block align-items-center">
+                            <div>
+                                <h6 class="white-text op-1">Sắp đến hạn bảo dưỡng (chiếc)</h6>
+                                <h3 class="white-text m-b-5">100</h3>
+                                <h6 class="white-text op-1"></h6>
+                                <br />
+                            </div>
+                            <div class="ml-auto">
+                                <span class="white-text display-6">
+                                    <i class="material-icons dp48">report_problem</i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+
+        <div class="col s12 l4">
+            <div class="card warning-gradient card-hover">
+                <a href="#thanhly" class="modal-trigger">
+                    <div class="card-content">
+                        <div class="d-flex no-block align-items-center">
+                            <div>
+                                <h6 class="white-text op-1">TB Đang chờ thanh lý (chiếc)</h6>
+                                <h3 class="white-text m-b-5">100</h3>
+                                <h6 class="white-text op-1"></h6>
+                                <br />
+                            </div>
+                            <div class="ml-auto">
+                                <span class="white-text display-6">
+                                    <i class="material-icons dp48">report_problem</i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="cogioi">
+    <div id="chung">
+
+        <div class="row center-align">
+
+            <div class="col s12 l2">
+                <div class="card mymanu card-hover" style="height: 200px">
+                    <div class="card-content center-align table_container" style="overflow-x: auto !important">
+                        <h6 class="card-subtitle center-align m-b-0 white-text">Tổng</h6>
+                        <h1 class="font-light font-medium m-b-0 white-text" style="padding-top: 40px"> 100 </h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col s12 l2">
+                <div class="card card-hover" style="height: 200px">
+                    <div class="card-content align-items-center table_container">
+                        <div class="row">
+                            <div class="col s12">
+                                <h6 class="card-subtitle">Sửa chữa</h6>
+                                <h4> 20 </h4>
+                            </div>
+
+                            <div class="col s12">
+                                <div class="progress">
+                                    <div class="determinate amber darken+5" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            <div class="col s6 center-align">
+                                <h5 class="card-subtitle">Đã sửa</h5>
+                                <h5>15</h5>
+                            </div>
+                            <div class="col s6 center-align">
+                                <h6 class="card-subtitle">Đang sửa</h6>
+                                <h5>5</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col s12 l2">
+                <div class="card card-hover" style="height: 200px">
+                    <div class="card-content align-items-center table_container">
+                        <div class="row">
+                            <div class="col s12">
+                                <h6 class="card-subtitle">Bảo dưỡng </h6>
+                                <h4> 30</h4>
+                            </div>
+
+                            <div class="col s12">
+                                <div class="progress">
+                                    <div class="determinate amber darken+5" style="width: 100%"></div>
+                                </div>
+                            </div>
+
+                            <div class="col s6 center-align">
+                                <h5 class="card-subtitle">Đã bảo dưỡng</h5>
+                                <h5>15</h5>
+                            </div>
+                            <div class="col s6 center-align">
+                                <h6 class="card-subtitle">Đang bảo dưỡng</h6>
+                                <h5>15</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col s12 l2">
+                <div class="card card-hover" style="height: 200px">
+                    <div class="card-content align-items-center table_container">
+                        <div class="row">
+                            <div class="col s12">
+                                <h6 class="card-subtitle">Kiểm định</h6>
+                                <h4> 1000</h4>
+                            </div>
+
+                            <div class="col s12">
+                                <div class="progress">
+                                    <div class="determinate amber darken+5" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            <div class="col s6 center-align">
+                                <h5 class="card-subtitle">Hoàn thành</h5>
+                                <h5>700</h5>
+                            </div>
+                            <div class="col s6 center-align">
+                                <h6 class="card-subtitle">Sắp đến hạn</h6>
+                                <h5>300</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col s12 l2">
+                <div class="card card-hover" style="height: 200px">
+                    <div class="card-content align-items-center table_container">
+                        <div class="row">
+                            <div class="col s12">
+                                <h6 class="card-subtitle">Thanh lý</h6>
+                                <h4> 300 </h4>
+                            </div>
+
+                            <div class="col s12">
+                                <div class="progress">
+                                    <div class="determinate amber darken+5" style="width: 100%"></div>
+                                </div>
+                            </div>
+
+                            <div class="col s5 center-align">
+                                <h5 class="card-subtitle">Đã thanh lý</h5>
+                                <h5>100</h5>
+                            </div>
+                            <div class="col s6 offset-s1 center-align">
+                                <h6 class="card-subtitle">Đang thanh lý</h6>
+                                <h5>200</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col s12 l2">
+                <div class="card card-hover" style="height: 200px">
+                    <div class="card-content align-items-center table_container">
+                        <div class="row">
+                            <div class="col s12 center-align" style="padding-top: 45px">
+                                <h6 class="card-subtitle">Thu hồi</h6>
+                                <h4 class="font-medium m-b-0"> 1000 </h>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="row center-align">
+
+            <div class="col s12 l4">
+                <div class="card warning-gradient card-hover">
+                    <div class="card-content">
+                        <div class="d-flex no-block align-items-center">
+                            <div>
+                                <h6 class="white-text op-1">Sắp đến hạn đăng kiểm (chiếc)</h6>
+                                <h3 class="white-text m-b-5">100</h3>
+                                <h6 class="white-text op-1"></h6>
+                                <br />
+                            </div>
+                            <div class="ml-auto">
+                                <span class="white-text display-6">
+                                    <i class="material-icons dp48">report_problem</i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col s12 l4">
+                <div class="card warning-gradient card-hover">
+                    <div class="card-content">
+                        <div class="d-flex no-block align-items-center">
+                            <div>
+                                <h6 class="white-text op-1">Sắp hết hạn bảo dưỡng (chiếc)</h6>
+                                <h3 class="white-text m-b-5">100</h3>
+                                <h6 class="white-text op-1"></h6>
+                                <br />
+                            </div>
+                            <div class="ml-auto">
+                                <span class="white-text display-6">
+                                    <i class="material-icons dp48">report_problem</i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col s12 l4">
+                <div class="card warning-gradient card-hover">
+                    <div class="card-content">
+                        <div class="d-flex no-block align-items-center">
+                            <div>
+                                <h6 class="white-text op-1">TB Đang chờ sửa chữa (chiếc)</h6>
+                                <h3 class="white-text m-b-5">100</h3>
+                                <h6 class="white-text op-1"></h6>
+                                <br />
+                            </div>
+                            <div class="ml-auto">
+                                <span class="white-text display-6">
+                                    <i class="material-icons dp48">report_problem</i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Start Pie Chart -->
+<div class="row">
+
+    <div class="col s12 m12 l12">
+        <div class="card">
+            <div class="card-content">
+                <h6>Tổng số thiết bị trong tháng (chiếc)</h6>
+                <div id="basic-pie4" style="height:400px;"></div>
+                <div class="d-flex align-items-center justify-content-center">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col s12 m12 l12">
+        <div class="card">
+            <div class="col s12 l6">
+                <div class="card">
+                    <div class="card-content">
+                        <h5 class="card-title">Tổng chi phí bảo dưỡng</h5>
+                        <div id="maintain-value" style="height:250px; width:100%;" class="m-t-20"></div>
+                        <div class="d-flex align-items-center justify-content-center">
+                            <div style="margin-top:10px">
+                                <h4 class="font-medium"><span style="color:#1e88e5">Tổng :</span>25,200 (triệu đồng)</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col s12 l6">
+                <div class="card">
+                    <div class="card-content">
+                        <h5 class="card-title">Tổng thiết bị bảo dưỡng</h5>
+                        <div id="maintain-type" style="height:250px; width:100%;" class="m-t-20"></div>
+                        <div class="d-flex align-items-center justify-content-center">
+                            <div style="margin-top:10px">
+                                <h4 class="font-medium"><span style="color:#1e88e5">Tổng :</span>900 (chiếc)</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col s12 m12 l12">
+        <div class="col s12 l6">
+            <div class="card">
+                <div class="card-content">
+                    <h5 class="card-title">Tổng số tiền nhận được qua thanh lý</h5>
+                    <div id="liquidation-value" style="height:250px; width:100%;" class="m-t-20"></div>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div style="margin-top:10px">
+                            <h4 class="font-medium"><span style="color:#1e88e5">Tổng :</span> 2,300 (triệu đồng)</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col s12 l6">
+            <div class="card">
+                <div class="card-content">
+                    <h5 class="card-title">Tổng thiết bị thanh lý</h5>
+                    <div id="liquidation-type" style="height:250px; width:100%;" class="m-t-20"></div>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div style="margin-top:10px">
+                            <h4 class="font-medium"><span style="color:#1e88e5">Tổng :</span> 300 (chiếc)</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col s12 m12 l12">
+        <div class="card">
+            <div class="col s12 l6">
+                <div class="card">
+                    <div class="card-content">
+                        <h5 class="card-title">Tổng chi phí sửa chữa</h5>
+                        <div id="expense-piechart" style="height:250px; width:100%;" class="m-t-20"></div>
+                        <div class="d-flex align-items-center justify-content-center">
+                            <div style="margin-top:10px">
+                                <h4 class="font-medium"><span style="color:#1e88e5">Tổng :</span> 7,777 (triệu đồng)</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col s12 l6">
+                <div class="card">
+                    <div class="card-content">
+                        <h5 class="card-title">Tổng thiết bị sửa chữa</h5>
+                        <div id="repair-num-pie" style="height:250px; width:100%;" class="m-t-20"></div>
+                        <div class="d-flex align-items-center justify-content-center">
+                            <div style="margin-top:10px">
+                                <h4 class="font-medium"><span style="color:#1e88e5">Tổng :</span>500 (chiếc)</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="kiemdinh" class="modal">
+    <div class="modal-header center-align">
+        <h3>Thiết bị sắp hết hạn đăng kiểm</h3>
+    </div>
+    <div class="row">
+        <table class="table-bordered striped">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Tên thiết bị</th>
+                    <th>Mã TSCĐ</th>
+                    <th>Ngày hết hạn kiểm định</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Máy khoan</td>
+                    <td>001</td>
+                    <td>10/1/2020</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Máng cào</td>
+                    <td>002</td>
+                    <td>10/1/2020</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Băng chuyền</td>
+                    <td>003</td>
+                    <td>10/1/2020</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Quạt gió</td>
+                    <td>004</td>
+                    <td>10/1/2020</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Máy khoan</td>
+                    <td>005</td>
+                    <td>10/1/2020</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="center">
+            <ul class="pagination">
+                <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                <li class="active"><a href="#!">1</a></li>
+                <li class="waves-effect"><a href="#!">2</a></li>
+                <li class="waves-effect"><a href="#!">3</a></li>
+                <li class="waves-effect"><a href="#!">4</a></li>
+                <li class="waves-effect"><a href="#!">5</a></li>
+                <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div id="baoduong" class="modal">
+    <div class="modal-header center-align">
+        <h3>Thiết bị sắp đến hạn bảo dưỡng</h3>
+    </div>
+    <div class="row">
+        <table class="table-bordered striped">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Tên thiết bị</th>
+                    <th>Mã TSCĐ</th>
+                    <th>Ngày đến hạn bảo dưỡng</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Máy khoan</td>
+                    <td>001</td>
+                    <td>10/1/2020</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Máng cào</td>
+                    <td>002</td>
+                    <td>10/1/2020</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Băng chuyền</td>
+                    <td>003</td>
+                    <td>10/1/2020</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Quạt gió</td>
+                    <td>004</td>
+                    <td>10/1/2020</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Máy khoan</td>
+                    <td>005</td>
+                    <td>10/1/2020</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="center">
+            <ul class="pagination">
+                <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                <li class="active"><a href="#!">1</a></li>
+                <li class="waves-effect"><a href="#!">2</a></li>
+                <li class="waves-effect"><a href="#!">3</a></li>
+                <li class="waves-effect"><a href="#!">4</a></li>
+                <li class="waves-effect"><a href="#!">5</a></li>
+                <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div id="thanhly" class="modal">
+    <div class="modal-header center-align">
+        <h3>Thiết bị chờ thanh lý</h3>
+    </div>
+    <div class="row">
+        <table class="table-bordered striped">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Tên thiết bị</th>
+                    <th>Mã TSCĐ</th>
+                    <th>Ngày thanh lý (dự tính)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Máy khoan</td>
+                    <td>001</td>
+                    <td>10/1/2020</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Máng cào</td>
+                    <td>002</td>
+                    <td>10/1/2020</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Băng chuyền</td>
+                    <td>003</td>
+                    <td>10/1/2020</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Quạt gió</td>
+                    <td>004</td>
+                    <td>10/1/2020</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Máy khoan</td>
+                    <td>005</td>
+                    <td>10/1/2020</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="center">
+            <ul class="pagination">
+                <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                <li class="active"><a href="#!">1</a></li>
+                <li class="waves-effect"><a href="#!">2</a></li>
+                <li class="waves-effect"><a href="#!">3</a></li>
+                <li class="waves-effect"><a href="#!">4</a></li>
+                <li class="waves-effect"><a href="#!">5</a></li>
+                <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script src="/assets/libs/chartist/dist/chartist.min.js"></script>
+<script src="/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+<script src="/assets/libs/gaugeJS/dist/gauge.min.js"></script>
+<script src="/assets/extra-libs/c3/d3.min.js"></script>
+<script src="/assets/extra-libs/c3/c3.min.js"></script>
+<script src="/assets/extra-libs/sparkline/sparkline.js"></script>
+
+<script src="~/js/Custom JS/CDVT/Dashboard/custom-pie4.js"></script>
+<script src="~/js/Custom JS/CDVT/Report/PUDashboard.js"></script>
+<script src="~/js/Custom JS/CDVT/Dashboard/PUDashboard.js"></script>
+
+<script src="~/js/Custom JS/CDVT/Report/liquidation-type.js"></script>
+<script src="~/js/Custom JS/CDVT/Report/liquidation-value.js"></script>
+
+<script src="~/js/Custom JS/CDVT/Report/maintain-type.js"></script>
+<script src="~/js/Custom JS/CDVT/Report/maintain-value.js"></script>
+
+<script src="~/js/Custom JS/CDVT/Report/custom-pie2.js"></script>
+<script src="~/js/Custom JS/CDVT/Report/repair-num-pie.js"></script>

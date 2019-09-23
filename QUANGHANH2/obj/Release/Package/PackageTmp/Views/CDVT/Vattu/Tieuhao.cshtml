@@ -1,0 +1,346 @@
+﻿
+@{
+    ViewData["Title"] = "Tieuhao";
+    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+}
+
+<link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+<link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
+<script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
+<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
+<link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
+<div class="card">
+    <div class="card-content">
+        <div class="container-fluid">
+            <div class="row table_container">
+                <div class="advanded-search">
+                    <div class="row">
+                        <div class="center">
+                            <h3 class="center"><b>TIÊU HAO VẬT TƯ</b></h3>
+                        </div>
+                        <hr>
+                        <div class="row center">
+                            <div class="col l4 m4 s12">
+                                <div class="row">
+                                    <div class="col l10 m10 s12 input-field">
+                                        <input type="text" placeholder="Tìm kiếm theo mã thiết bị" class='form-control' id="searchArea"
+                                               multiple />
+                                    </div>
+                                    <div class="col l10 m10 s12 input-field">
+                                        <input type="text" placeholder="Tìm kiếm theo tên thiết bị" class='form-control' id="searchArea"
+                                               multiple />
+                                    </div>
+                                    <div class="col l10 m10 s12 input-field">
+                                        <input type="text" placeholder="Tìm kiếm theo số hiệu" class='form-control' id="searchArea"
+                                               multiple />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col l4 m4 s12">
+                                <div class="row">
+                                    <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
+                                        <i class="fas fa-calendar-alt icon"></i>
+                                        <input type='text' class='datepicker-here center' id="minMaxDate" data-language='vi' value="Ngày hoạt động (từ)" style="height: 24px" />
+                                    </div>
+                                    <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
+                                        <i class="fas fa-calendar-alt icon"></i>
+                                        <input type='text' class='datepicker-here center' id="minMaxDate" data-language='vi' value="Ngày hoạt động (đến)" style="height: 24px" />
+                                    </div>
+                                    <div class="col l12 m12 s12 input-field">
+                                        <button class="btn blue darken-2 btn-small" id="searchButton1">Tìm kiếm</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col l4 m4 s12">
+                                <div class="row">
+                                    <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
+                                        <input type="text" placeholder="Tìm kiếm theo mã TSCĐ" class='form-control' id="searchArea"
+                                               multiple />
+                                    </div>
+                                    <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
+                                        <select class="form-control" id="gender">
+                                            <option value="" disabled selected>Chọn loại chất lượng</option>
+                                            <option value="1">A</option>
+                                            <option value="2">B</option>
+                                            <option value="3">C</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
+                                        <input type="text" placeholder="Tìm kiếm theo nhà cung cấp" class='form-control' id="searchArea"
+                                               multiple />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 left">
+                    <a class="waves-effect waves-light btn-small blue modal-trigger" href="#myadd">Thêm</a>
+                </div>
+                <div class="col s12">
+                    <table class="table table-bordered striped table-responsive centered"
+                           style="margin-top:30px; text-align:center;">
+                        <thead>
+                            <tr>
+                                <th>Mã vật tư</th>
+                                <th>Tên vật tư</th>
+                                <th>Phân xưởng được cấp</th>
+                                <th>Số lượng cấp</th>
+                                <th>Sử dụng</th>
+                                <th>Tồn kho</th>
+                                <th>Thu hồi</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>DJ-02</td>
+                                <td>Súng cấp dịch DJ-02</td>
+                                <td>Phân xưởng 1</td>
+                                <td>17</td>
+                                <td>10</td>
+                                <td>7</td>
+                                <td>5</td>
+                                <td style="text-align: center"><a href="#myeditsuco" class="waves-effect waves-light btn blue darken-1 modal-trigger">Chỉnh&nbspsửa</a></td>
+                            </tr>
+                            <tr>
+                                <td>KJ-12</td>
+                                <td>Kẹp chữ U</td>
+                                <td>Phân xưởng 1</td>
+                                <td>17</td>
+                                <td>10</td>
+                                <td>7</td>
+                                <td>5</td>
+                                <td style="text-align: center"><a href="#myeditsuco" class="waves-effect waves-light btn blue darken-1 modal-trigger">Chỉnh&nbspsửa</a></td>
+                            </tr>
+                            <tr>
+                                <td>KJ 16</td>
+                                <td>Khớp nối thẳng KJ 16</td>
+                                <td>Phân xưởng 1</td>
+                                <td>17</td>
+                                <td>10</td>
+                                <td>7</td>
+                                <td>5</td>
+                                <td style="text-align: center"><a href="#myeditsuco" class="waves-effect waves-light btn blue darken-1 modal-trigger">Chỉnh&nbspsửa</a></td>
+                            </tr>
+                            <tr>
+                                <td>KJ 16/10</td>
+                                <td>Khớp nối ba ngả KJ 16/10</td>
+                                <td>Phân xưởng 1</td>
+                                <td>17</td>
+                                <td>10</td>
+                                <td>7</td>
+                                <td>5</td>
+                                <td style="text-align: center"><a href="#myeditsuco" class="waves-effect waves-light btn blue darken-1 modal-trigger">Chỉnh&nbspsửa</a></td>
+                            </tr>
+                            <tr>
+                                <td>KJ 32/16</td>
+                                <td>Khớp nối ba ngả KJ 32/16</td>
+                                <td>Phân xưởng 1</td>
+                                <td>17</td>
+                                <td>10</td>
+                                <td>7</td>
+                                <td>5</td>
+                                <td style="text-align: center"><a href="#myeditsuco" class="waves-effect waves-light btn blue darken-1 modal-trigger">Chỉnh&nbspsửa</a></td>
+                            </tr>
+                            <tr>
+                                <td>16MPa</td>
+                                <td>Ống dịch KJ32x10000</td>
+                                <td>Phân xưởng 1</td>
+                                <td>17</td>
+                                <td>10</td>
+                                <td>7</td>
+                                <td>5</td>
+                                <td style="text-align: center"><a href="#myeditsuco" class="waves-effect waves-light btn blue darken-1 modal-trigger">Chỉnh&nbspsửa</a></td>
+                            </tr>
+                            <tr>
+                                <td>ɸ45x700</td>
+                                <td>Ống tuy ô thủy lực</td>
+                                <td>Phân xưởng 1</td>
+                                <td>17</td>
+                                <td>10</td>
+                                <td>7</td>
+                                <td>5</td>
+                                <td style="text-align: center"><a href="#myeditsuco" class="waves-effect waves-light btn blue darken-1 modal-trigger">Chỉnh&nbspsửa</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myadd">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Cập nhật hoạt động</h3>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="row">
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="date">Tên thiết bị: </label>
+                            <input type="text" class="form-control" value="Máy xúc lật" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Ngày hoạt động: </label>
+                            <input type="date" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Số giờ hoạt động: </label>
+                            <input type="text" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier">Lượng nhiên liệu tiêu thụ: </label>
+                            <input type="number" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier">Vị trí: </label>
+                            <input type="text" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier">Tình trạng: </label>
+                            <input type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="date">Số hiệu : </label>
+                            <input type="text" class="form-control" value="AH12" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier">Công việc :</label>
+                            <input type="text" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Sản lượng : </label>
+                            <input type="text" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="number">Loại nhiên liệu: </label>
+                            <select class="form-control">
+                                <option>Điện năng</option>
+                                <option>Xăng</option>
+                                <option>Dầu</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier">Phân xưởng sử dụng: </label>
+                            <input type="text" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier">Ghi chú: </label>
+                            <input type="text" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal" id="myeditsuco">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Sửa lịch sử</h3>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="row">
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="date">Ngày : </label>
+                            <input type="text" class="form-control" value="6/8/2019" />
+                        </div>
+                        <div class="form-group">
+                            <label for="id">Sản lượng : </label>
+                            <input type="text" class="form-control" value="50" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Loại nhiên liệu tiêu thụ : </label>
+                            <input type="text" class="form-control" value="Điện năng" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Vị trí : </label>
+                            <input type="text" class="form-control" value="Phân xưởng 1" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Tình trạng : </label>
+                            <input type="text" class="form-control" value="Ổn định" />
+                        </div>
+                    </div>
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="supplier">Công việc trong ngày </label>
+                            <input type="text" class="form-control" value="Xúc đá" />
+                        </div>
+                        <div class="form-group">
+                            <label for="id">Số giờ hoạt động : </label>
+                            <input type="text" class="form-control" value="10" />
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier">Lượng tiêu thụ : </label>
+                            <input type="text" class="form-control" value="1000" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Phân xưởng sử dụng : </label>
+                            <input type="text" class="form-control" value="Phân xưởng 1" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn blue darken-2 modal-close save-category">Lưu</button>
+            <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
+        </div>
+    </div>
+</div>
+<div id="myaleart" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Xác nhận xóa mục này</h3>
+        </div>
+        <div class="modal-bodydro
+            <p class="red-text">Dữ liệu không thể phục hồi sau thao tác này</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn blue darken-2 modal-close">Xóa</button>
+            <button type="button" class="btn red modal-close">Hủy</button>
+        </div>
+    </div>
+</div>
+
+<ul id='dropdown1' class='dropdown-content'>
+    <li><a href="#!">Danh sách thiết bị lộ thiên</a></li>
+    <li><a href="#!">Danh sách thiết bị hầm lò</a></li>
+    <li><a href="#!">Danh sách thiết bị truyền dẫn</a></li>
+    <li><a href="#!">Danh sách thiết bị sàng tuyển</a></li>
+    <li><a href="#!">Danh sách hết bảo hiểm</a></li>
+    <li><a href="#!">Danh sách hết khấu hao</a></li>
+    <li><a href="#!">Danh sách đang bảo dưỡng</a></li>
+    <li><a href="#!">Danh sách đang sửa chữa</a></li>
+    <li><a href="#!">Danh sách đang gặp sự cố</a></li>
+</ul>
+
+
+<script src="~/js/Custom JS/DK/DetailManu_Daily.js"></script>
+<script src="~/js/Briefs_List.js"></script>
+<script src="~/js/Custom JS/CDVT/Home/huydong.js"></script>
+<link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
+<script>
+    $(window).resize(function () {
+        if ($(window).width() <= 600) {
+            $("#searchButton1").hide();
+            $("#searchButton2").show();
+        } else {
+            $("#searchButton1").show();
+            $("#searchButton2").hide();
+        }
+    });
+</script>

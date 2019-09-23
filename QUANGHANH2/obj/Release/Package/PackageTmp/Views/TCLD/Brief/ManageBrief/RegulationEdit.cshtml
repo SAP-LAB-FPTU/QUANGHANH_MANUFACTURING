@@ -1,0 +1,499 @@
+﻿
+@{
+    ViewData["Title"] = "Regulations_Edit";
+    Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
+}
+<link href="~/css/tuan_css/css/baocaoluong_css/style.css" rel="stylesheet" />
+<link href="~/css/tuan_css/css/kcs_css/style.css" rel="stylesheet" />
+
+<div class="card">
+    <div class="card-content">
+        <div class="container-fluid">
+            <div class="row">
+                <h3 class="report_title">
+                    <B>DANH SÁCH QUY ĐỊNH</B>
+                    <br />
+                </h3>
+                <hr />
+            </div>
+            <div class="row">
+                <div id="xonly">
+                    <div class="col s12 table-responsive wrapper">
+                        <table class="table-bordered inner">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="non_editable column_title" colspan="9">Chuyên môn</th>
+                                    <th scope="col" class="non_editable column_title" rowspan="2" colspan="2">
+                                        Trường học
+                                    </th>
+                                    <th scope="col" class="non_editable column_title" rowspan="2" colspan="2">
+                                        Hệ học
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="3" class="non_editable column_title">Cao đẳng - đại học</th>
+                                    <th colspan="3" class="non_editable column_title">Trung cấp</th>
+                                    <th colspan="3" class="non_editable column_title">Công nhân kỹ thuật</th>
+                                </tr>
+                                <tr>
+                                    <th class="non_editable column_title">Mã</th>
+                                    <th class="non_editable column_title">Tên chuyên môn</th>
+                                    <th class="non_editable column_title">Chi tiết</th>
+                                    <th class="non_editable column_title">Mã</th>
+                                    <th class="non_editable column_title">Tên chuyên môn</th>
+                                    <th class="non_editable column_title">Chi tiết</th>
+                                    <th class="non_editable column_title">Mã</th>
+                                    <th class="non_editable column_title">Tên chuyên môn</th>
+                                    <th class="non_editable column_title">Chi tiết</th>
+                                    <th class="non_editable column_title">Mã</th>
+                                    <th class="non_editable column_title">Tên chuyên môn</th>
+                                    <th class="non_editable column_title">Mã</th>
+                                    <th class="non_editable column_title">Tên chuyên môn</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class='editable' contenteditable>10800</td>
+                                    <td class='editable' contenteditable>Địa chất</td>
+                                    <td class='editable' contenteditable>-</td>
+                                    <td class='editable' contenteditable>10000</td>
+                                    <td class='editable' contenteditable>Khoa học tự nhiên</td>
+                                    <td class='editable' contenteditable>-</td>
+                                    <td class='editable' contenteditable>0100</td>
+                                    <td class='editable' contenteditable>Điện</td>
+                                    <td class='editable' contenteditable>-</td>
+                                    <td class='editable' contenteditable>1</td>
+                                    <td class='editable' contenteditable>Hồng Cẩm</td>
+                                    <td class='editable' contenteditable>1</td>
+                                    <td class='editable' contenteditable>Chính quy</td>
+                                </tr>
+                                <tr>
+                                    <td class='editable' contenteditable>10801</td>
+                                    <td class='editable' contenteditable>Địa chất học</td>
+                                    <td class='editable' contenteditable>-</td>
+                                    <td class='editable' contenteditable>10600</td>
+                                    <td class='editable' contenteditable>Địa chất</td>
+                                    <td class='editable' contenteditable>Thủy văn</td>
+                                    <td class='editable' contenteditable>0101</td>
+                                    <td class='editable' contenteditable>Sản xuất điện</td>
+                                    <td class='editable' contenteditable>-</td>
+                                    <td class='editable' contenteditable>2</td>
+                                    <td class='editable' contenteditable>Hữu Nghị</td>
+                                    <td class='editable' contenteditable>2</td>
+                                    <td class='editable' contenteditable>Tại chức</td>
+                                </tr>
+                                <tr>
+                                    <td class='editable' contenteditable>10802</td>
+                                    <td class='editable' contenteditable>Địa chất vật lý</td>
+                                    <td class='editable' contenteditable>-</td>
+                                    <td class='editable' contenteditable>10601</td>
+                                    <td class='editable' contenteditable>Địa chất tổng quát</td>
+                                    <td class='editable' contenteditable>-</td>
+                                    <td class='editable' contenteditable>0101a</td>
+                                    <td class='editable' contenteditable>Trưởng ca vận hành</td>
+                                    <td class='editable' contenteditable>-</td>
+                                    <td class='editable' contenteditable>3</td>
+                                    <td class='editable' contenteditable>Mỏ Địa chất</td>
+                                    <td class='editable' contenteditable>3</td>
+                                    <td class='editable' contenteditable>Liên thông chính quy</td>
+                                </tr>
+                                <tr>
+                                    <td class='editable' contenteditable>10803</td>
+                                    <td class='editable' contenteditable>Địa chất công trình</td>
+                                    <td class='editable' contenteditable>-</td>
+                                    <td class='editable' contenteditable>10602</td>
+                                    <td class='editable' contenteditable>Địa chất thuỷ văn</td>
+                                    <td class='editable' contenteditable>-</td>
+                                    <td class='editable' contenteditable>0101b</td>
+                                    <td class='editable' contenteditable>Trưởng kíp vận hành</td>
+                                    <td class='editable' contenteditable>-</td>
+                                    <td class='editable' contenteditable>4</td>
+                                    <td class='editable' contenteditable>Đại học Công nghiệp</td>
+                                    <td class='editable' contenteditable>4</td>
+                                    <td class='editable' contenteditable>Liên thông tại chức</td>
+                                </tr>
+                                <tr>
+                                    <td class='editable' contenteditable>10804</td>
+                                    <td class='editable' contenteditable>Địa chất thuỷ văn</td>
+                                    <td class='editable' contenteditable>-</td>
+                                    <td class='editable' contenteditable>10603</td>
+                                    <td class='editable' contenteditable>Địa chất công trình</td>
+                                    <td class='editable' contenteditable>-</td>
+                                    <td class='editable' contenteditable>0101c</td>
+                                    <td class='editable' contenteditable>Công nhân vận hành thiết bị chính</td>
+                                    <td class='editable' contenteditable>-</td>
+                                    <td class='editable' contenteditable>5</td>
+                                    <td class='editable' contenteditable>Đại học Kinh Tế Quốc Dân</td>
+                                    <td class='editable' contenteditable>5</td>
+                                    <td class='editable' contenteditable>18 tháng</td>
+                                </tr>
+                                <tr>
+                                    <td class='editable' contenteditable>10805</td>
+
+                                    <td class='editable' contenteditable>Địa chất khoáng sản và tìm kiếm</td>
+
+                                    <td class='editable' contenteditable>-</td>
+
+                                    <td class='editable' contenteditable>10604</td>
+
+                                    <td class='editable' contenteditable>Địa chất vật lý tìm kiếm thăm dò khoáng sản</td>
+
+                                    <td class='editable' contenteditable>-</td>
+
+                                    <td class='editable' contenteditable>0101d</td>
+
+                                    <td class='editable' contenteditable>Công nhân vận hành thiết bị phụ</td>
+
+                                    <td class='editable' contenteditable>-</td>
+
+                                    <td class='editable' contenteditable>6</td>
+
+                                    <td class='editable' contenteditable>Trung Cấp Quân Y</td>
+
+                                    <td class='editable' contenteditable>6</td>
+
+                                    <td class='editable' contenteditable>30 tháng</td>
+
+                                </tr>
+
+
+                                <tr>
+
+
+                                    <td class='editable' contenteditable>10807</td>
+
+                                    <td class='editable' contenteditable>Địa chất thăm dò</td>
+
+                                    <td class='editable' contenteditable>-</td>
+
+                                    <td class='editable' contenteditable>20000</td>
+
+                                    <td class='editable' contenteditable>Khoa học kỹ thuật</td>
+
+                                    <td class='editable' contenteditable>-</td>
+
+                                    <td class='editable' contenteditable>0104</td>
+
+                                    <td class='editable' contenteditable>Vận hành máy phát DIEZEN</td>
+
+                                    <td class='editable' contenteditable>-</td>
+
+                                    <td class='editable' contenteditable>7</td>
+
+                                    <td class='editable' contenteditable>Đại học Công nghiệp Quảng Ninh</td>
+
+                                    <td class='editable' contenteditable>7</td>
+
+                                    <td class='editable' contenteditable>24 tháng</td>
+
+                                </tr>
+
+
+                                <tr>
+
+
+                                    <td class='editable' contenteditable>10808</td>
+
+                                    <td class='editable' contenteditable>Khoan thăm dò</td>
+
+                                    <td class='editable' contenteditable>-</td>
+
+                                    <td class='editable' contenteditable>20100</td>
+
+                                    <td class='editable' contenteditable>Cơ khí chế tạo, sửa chữa máy</td>
+
+                                    <td class='editable' contenteditable>-</td>
+
+                                    <td class='editable' contenteditable>0106</td>
+
+                                    <td class='editable' contenteditable>VH trạm biến thế</td>
+
+                                    <td class='editable' contenteditable>-</td>
+
+                                    <td class='editable' contenteditable>8</td>
+
+                                    <td class='editable' contenteditable>Đại học xây dựng Hà Nội</td>
+
+                                    <td class='editable' contenteditable>8</td>
+
+                                    <td class='editable' contenteditable>Bằng 2</td>
+
+                                </tr>
+
+
+                                <tr>
+
+
+                                    <td class='editable' contenteditable>10811</td>
+
+                                    <td class='editable' contenteditable>Khoan khai thác</td>
+
+                                    <td class='editable' contenteditable>-</td>
+
+                                    <td class='editable' contenteditable>20101</td>
+
+                                    <td class='editable' contenteditable>Động lực</td>
+
+                                    <td class='editable' contenteditable>-</td>
+
+                                    <td class='editable' contenteditable>0108</td>
+
+                                    <td class='editable' contenteditable>Sửa chữa đường dây cao thế</td>
+
+                                    <td class='editable' contenteditable>-</td>
+
+                                    <td class='editable' contenteditable>9</td>
+
+                                    <td class='editable' contenteditable>Quản Lý Kinh Tế Công Nghiệp</td>
+
+                                    <td class='editable' contenteditable>14</td>
+
+                                    <td class='editable' contenteditable>Từ xa</td>
+
+                                </tr>
+
+
+                                <tr>
+
+
+                                    <td class='editable' contenteditable>10900</td>
+
+                                    <td class='editable' contenteditable>Địa lý</td>
+
+                                    <td class='editable' contenteditable>-</td>
+
+                                    <td class='editable' contenteditable>20102</td>
+
+                                    <td class='editable' contenteditable>Chế tạo, sửa chữa máy</td>
+
+                                    <td class='editable' contenteditable>-</td>
+
+                                    <td class='editable' contenteditable>0109</td>
+
+                                    <td class='editable' contenteditable>Sửa chữa đường dây hạ thế</td>
+
+                                    <td class='editable' contenteditable>-</td>
+
+                                    <td class='editable' contenteditable>10</td>
+
+                                    <td class='editable' contenteditable>Trung Học Kinh Tế Quảng Ninh</td>
+
+                                    <td class='editable' contenteditable>9</td>
+
+                                    <td class='editable' contenteditable>Anh văn A</td>
+
+                                </tr>
+
+
+                                <tr>
+
+
+                                    <td class='editable' contenteditable>11200</td>
+
+                                    <td class='editable' contenteditable>Môi trường</td>
+
+                                    <td class='editable' contenteditable>-</td>
+
+                                    <td class='editable' contenteditable>20103</td>
+
+                                    <td class='editable' contenteditable>Rèn dập</td>
+
+                                    <td class='editable' contenteditable>Chế tạo phụ tùng cơ khí</td>
+
+                                    <td class='editable' contenteditable>0114</td>
+
+                                    <td class='editable' contenteditable>Mắc dây đặt đèn</td>
+
+                                    <td class='editable' contenteditable>-</td>
+
+                                    <td class='editable' contenteditable>11</td>
+
+                                    <td class='editable' contenteditable>Đại học Bách Khoa</td>
+
+                                    <td class='editable' contenteditable>10</td>
+
+                                    <td class='editable' contenteditable>Anh văn B</td>
+
+                                </tr>
+
+
+                                <tr>
+
+
+                                    <td class='editable' contenteditable>11201</td>
+
+                                    <td class='editable' contenteditable>Môi trường và tài nguyên thiên nhiêns</td>
+
+                                    <td class='editable' contenteditable>-</td>
+
+                                    <td class='editable' contenteditable>20105</td>
+
+                                    <td class='editable' contenteditable>Máy cắt gọt kim loại</td>
+
+                                    <td class='editable' contenteditable>-</td>
+
+                                    <td class='editable' contenteditable>0115</td>
+
+                                    <td class='editable' contenteditable>Điện xí nghiệp</td>
+
+                                    <td class='editable' contenteditable>-</td>
+
+                                    <td class='editable' contenteditable>12</td>
+
+                                    <td class='editable' contenteditable>Viện Đại Học Mở</td>
+
+                                    <td class='editable' contenteditable>11</td>
+
+                                    <td class='editable' contenteditable>Anh văn C</td>
+
+                                </tr>
+
+
+                                <tr>
+                                    <td class='editable' contenteditable>11202</td>
+                                    <td class='editable' contenteditable>Môi trường nước và khí</td>
+                                    <td class='editable' contenteditable>-</td>
+                                    <td class='editable' contenteditable>20106</td>
+                                    <td class='editable' contenteditable>Máy mỏ</td>
+                                    <td class='editable' contenteditable>-</td>
+                                    <td class='editable' contenteditable>0116</td>
+                                    <td class='editable' contenteditable>Nguội</td>
+                                    <td class='editable' contenteditable>Sửa chữa điện xí nghiệp</td>
+                                    <td class='editable' contenteditable>13</td>
+                                    <td class='editable' contenteditable>Học Viện Tài Chính</td>
+                                    <td class='editable' contenteditable>x</td>
+                                    <td class='editable' contenteditable>Bằng ko có số hiệu</td>
+                                </tr>
+                                <tr>
+                                    <td class='editable' contenteditable>11203</td>
+                                    <td class='editable' contenteditable>Môi trường dân cư và đô thị</td>
+                                    <td class='editable' contenteditable>-</td>
+                                    <td class='editable' contenteditable>20109</td>
+                                    <td class='editable' contenteditable>Toa xe</td>
+                                    <td class='editable' contenteditable>-</td>
+                                    <td class='editable' contenteditable>0120</td>
+                                    <td class='editable' contenteditable>Điện hầm lò</td>
+                                    <td class='editable' contenteditable>-</td>
+                                    <td class='editable' contenteditable>14</td>
+                                    <td class='editable' contenteditable>Trung Học Kỹ Thuật Y Tế TW 1</td>
+                                    <td class='editable' contenteditable>12</td>
+                                    <td class='editable' contenteditable>3 tháng</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col l4 m4 s12">
+                    <div class="input-field col s12">
+                        <div class=" btn cyan " id="export-button">
+                            <i class="fas fa-file-excel"></i><span> Xuất báo cáo</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col l8 m8 s12">
+                    <div class="input-field">
+                        <div class="file-field right">
+                            <div class=" btn cyan" id="save-button">
+                                <i class="fas fa-save"></i><span> Lưu báo cáo</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*SELECT ALL WHEN FOCUS CELL*@
+<script>
+    $('.editable').each(function () {
+        $(this).on('focus', function () {
+            var cell = this;
+            var range, selection;
+            if (document.body.createTextRange) {
+                range = document.body.createTextRange();
+                range.moveToElementText(cell);
+                range.select();
+            } else if (window.getSelection) {
+                selection = window.getSelection();
+                range = document.createRange();
+                range.selectNodeContents(cell);
+                selection.removeAllRanges();
+                selection.addRange(range);
+            }
+        });
+    });</script>
+@*standardized cell data*@
+@*set to "-" if input of blank*@
+<script>
+    $('.editable').each(function () {
+        $(this).focusout(function () {
+            var text = $(this).text();
+            if (text == "") {
+                $(this).html('-');
+            } else {
+                $(this).html(text);
+            }
+        });
+    });
+</script>
+@*preventing input many '.' on one input time*@
+<script>
+    $('.editable').each(function () {
+        $(this).keydown(function (event) {
+            if (((event.keyCode === 190 || event.keyCode === 231) && $(this).text().indexOf(".") != -1)
+                || ((event.keyCode === 189) && $(this).text().indexOf("-") != -1)
+                || ((event.keyCode === 109) && $(this).text().indexOf("-") != -1)) {
+                event.preventDefault();
+            }
+        });
+    });</script>
+@*Unfocus cell when press enter*@
+<script>
+    $('.editable').each(function () {
+        $(this).keydown(function (event) {
+            if ((event.keyCode === 13)) {
+                $(this).blur();
+            }
+        });
+    });</script>
+@*limit of input length*@
+<script>
+    $(function () {
+        var i = 1;
+        var j = 1
+        $(".editable").each(function () {
+            $(this).attr("id", i + "-" + j);
+            j++;
+            if (i !== 21 && j === 18) {
+                i++;
+                j = 1;
+            }
+        });
+
+        $(".editable").each(function () {
+            $(this).keydown(function (event) {
+                var $focused = $(':focus');
+                if (event.keyCodde === 39) {
+                    var a = $focused.attr('id').split('-');
+                    alert(a[0] + ";" + (a[1]++));
+                }
+            });
+        });
+    });</script>
+<script>
+    $("#export-button").click(function () {
+        window.location.href = '/excel/KCS/Báo cáo phòng KCS tháng 07 2019.xls';
+    });
+    $("#save-button").click(function () {
+        window.location.href = 'test-quy-dinh';
+    });</script>
+<script src="~/dist/js/pages/forms/jquery.validate.min.js"></script>
+<!-- Scroll booster -->
+<script src="~/lib/scrollbooster/scrollbooster.js"></script>
+<script src="~/lib/scrollbooster/xonly.test.js"></script>
+
+
+
+

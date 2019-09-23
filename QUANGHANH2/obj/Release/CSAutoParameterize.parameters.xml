@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="QUANGHANHABCEntities-Web.config Connection String" description="QUANGHANHABCEntities Connection String used in web.config by the application to access the database." defaultValue="metadata=res://*/Models.Model1.csdl|res://*/Models.Model1.ssdl|res://*/Models.Model1.msl;provider=System.Data.SqlClient;provider connection string=&quot;Data Source=quanghanh.database.windows.net;Initial Catalog=QUANGHANHABC;Persist Security Info=True;User ID=adminQH;Password=Quanghanh1@&quot;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\Duy\\Documents\\GitHub\\QUANGHANH-PROTOTYPE\\QUANGHANH2\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='QUANGHANHABCEntities']/@connectionString" />
+  </parameter>
+</parameters>
