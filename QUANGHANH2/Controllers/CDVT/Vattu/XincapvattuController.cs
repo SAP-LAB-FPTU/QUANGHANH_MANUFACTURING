@@ -1,5 +1,6 @@
 ﻿using QUANGHANH2.ModelViews;
 using QUANGHANH2.Repositories.Intefaces;
+using QUANGHANH2.SupportClass;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -16,12 +17,14 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
             _repository = repo;
         }
 
+        [Auther(RightID = "33")]
         [Route("phong-cdvt/xin-cap-vat-tu-sctx")]
         public ActionResult Index()
         {
             return View("/Views/CDVT/Vattu/Xincapvattu.cshtml");
         }
 
+        [Auther(RightID = "33")]
         [Route("phong-cdvt/xin-cap-vat-tu-sctx/all")]
         [HttpGet]
         public ActionResult All()
@@ -34,6 +37,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
             }, JsonRequestBehavior.AllowGet);
         }
 
+        [Auther(RightID = "33")]
         [Route("phong-cdvt/xin-cap-vat-tu-sctx/submit")]
         [HttpPost]
         public ActionResult Submit(IList<XincapvattuModelView> vattus)
