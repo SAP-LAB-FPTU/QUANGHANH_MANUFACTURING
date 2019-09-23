@@ -26,7 +26,7 @@
     <link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
     <link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
     <link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
-
+    <link href="~/css/preloader/css.css" rel="stylesheet" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -73,6 +73,22 @@
         <!-- ============================================================== -->
         <!-- Preloader - style you can find in spinners.css -->
         <!-- ============================================================== -->
+        <div id="pre-load" hidden>
+            <div class="loading">
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div><div class="gap-patch">
+                            <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="preloader">
             <div class="loader">
                 <div class="loader__figure"></div>
@@ -353,7 +369,7 @@
                                         <a href="/phong-tcld/nang-suat-lao-dong-va-tien-luong/nang-suat-lao-dong-va-tien-luong-theo-cac-px-trong-ngay" id=""><i class="material-icons">list</i><span class="hide-menu">Theo ngày</span></a>
                                     </li>
                                     @*
-                                        <li><a href="/phong-tcld/nang-suat-lao-dong-va-tien-luong/nang-suat-lao-dong-va-tien-luong-theo-cac-px-trong-ngay"><i class="material-icons">bookmark</i><span class="hide-menu">NSLĐ và tiền lương theo ca</span></a></li>*@
+                                    <li><a href="/phong-tcld/nang-suat-lao-dong-va-tien-luong/nang-suat-lao-dong-va-tien-luong-theo-cac-px-trong-ngay"><i class="material-icons">bookmark</i><span class="hide-menu">NSLĐ và tiền lương theo ca</span></a></li>*@
                                 </ul>
                             </div>
                         </li>
