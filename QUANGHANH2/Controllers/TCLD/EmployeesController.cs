@@ -127,7 +127,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 db.Entry(emp).State = EntityState.Modified;
                 db.SaveChanges();
             }
-            return RedirectToAction("List");
+            return RedirectToAction("Search");
 
         }
         //[Auther(RightID = "51")]
@@ -260,7 +260,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 emp.MaPhongBan = "DL1";
                 db.NhanViens.Add(emp);
                 db.SaveChanges();
-                return RedirectToAction("getAllNhanVien");
+                return RedirectToAction("Search");
 
                 //return Json(new { success = true, message = "Lưu thành công" }, JsonRequestBehavior.AllowGet);
             }
