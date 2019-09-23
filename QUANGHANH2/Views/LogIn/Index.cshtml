@@ -77,7 +77,8 @@
                             </span>
                         </div>
                         <div class="wrap-input100 validate-input" data-validate="Password is required">
-                            <input class="input100" type="password" name="password" value="@password" placeholder="Mật khẩu">
+                            <input class="input100" type="password" name="password" value="@password" placeholder="Mật khẩu" required oninvalid="this.setCustomValidity('Mật khẩu không được để trống')" 
+onchange="this.setCustomValidity('')">
                             <span class="focus-input100"></span>
                             <span class="symbol-input100">
                                 <i class="fa fa-lock" aria-hidden="true"></i>
@@ -89,7 +90,7 @@
                         </div>
                         <h1 style="color: red;" class="h6 mb-3 font-weight-normal" id="Notification">@ViewData["Notification"]</h1>
                         <div class="container-login100-form-btn">
-                            <button class="login100-form-btn" id="loginButton" type="submit" onclick="showPreLoad();">
+                            <button class="login100-form-btn" id="loginButton" type="submit" onsubmit="showPreLoad();">
                                 Đăng nhập
                             </button>
                         </div>
