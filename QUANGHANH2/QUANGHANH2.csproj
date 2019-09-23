@@ -493,6 +493,8 @@
     <Content Include="assets\Custom css\TCLD\Brief\AddBrief.css" />
     <Content Include="assets\Custom css\TCLD\Brief\ManageBrief\beo_ho_so_ngoai.css" />
     <Content Include="assets\Custom css\TCLD\Brief\ManageBrief\beo_regulations.css" />
+    <Content Include="assets\Custom css\TCLD\Brief\ManageBrief\DeletePopup.css" />
+    <Content Include="assets\Custom css\TCLD\Brief\ManageBrief\Document.css" />
     <Content Include="assets\Custom css\TCLD\Brief\ManageBrief\Inside.css" />
     <Content Include="assets\Custom css\TCLD\Brief\ManageBrief\ListAll.css" />
     <Content Include="assets\Custom css\TCLD\Eating\Register.css" />
@@ -546,6 +548,7 @@
     <Content Include="css\Custom css\TCLD\table_job_register.css" />
     <Content Include="css\jquery.dataTables.min.css" />
     <Content Include="css\preloader\css.css" />
+    <Content Include="css\preloader\logo.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -6307,6 +6310,7 @@
     <Content Include="js\Custom JS\TCLD\Brief\DateError.js" />
     <Content Include="js\Custom JS\TCLD\Brief\ManageBrief\Brief_Inside.js" />
     <Content Include="js\Custom JS\TCLD\Brief\ManageBrief\Brief_Outside.js" />
+    <Content Include="js\Custom JS\TCLD\Brief\ManageBrief\DeletePopup.min.js" />
     <Content Include="js\Custom JS\TCLD\Brief\ManageBrief\editable_hoso.js" />
     <Content Include="js\Custom JS\TCLD\Certificate\certificate.js" />
     <Content Include="js\Custom JS\TCLD\Certificate\formValidation.js" />
@@ -7044,6 +7048,8 @@
     <Content Include="Views\PX\PXKT\NSLD.cshtml" />
     <Content Include="Views\nghiemthu\Detail.cshtml" />
     <Content Include="Views\nghiemthu\Edit.cshtml" />
+    <Content Include="Views\Brief\suaGiayTo.cshtml" />
+    <Content Include="Views\Brief\themGiayTo.cshtml" />
     <Content Include="Views\CDVT\Report\FuelConsumption.cshtml" />
     <Content Include="Views\CDVT\Cap_nhat\Chitiet\Baoduong.cshtml" />
     <Content Include="Views\CDVT\Cap_nhat\Chitiet\Dieudong.cshtml" />
