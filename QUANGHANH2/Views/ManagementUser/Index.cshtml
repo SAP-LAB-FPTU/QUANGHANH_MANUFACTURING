@@ -501,85 +501,86 @@
             $("#modalNotify").modal();
         } else {
             $('#pre-load').show();
-        }
-        var module1 = $('#module1').val();
-        var module2 = $('#module2').val();
-        var module3 = $('#module3').val();
-        var module4 = $('#module4').val();
-        var module5 = $('#module5').val();
-        var module6 = $('#module6').val();
-        var module7 = $('#module7').val();
-        if (module1 == null) {
-            module1 = 0;
-        }
-        if (module2 == null) {
-            module2 = 0;
-        }
-        if (module3 == null) {
-            module3 = 0;
-        }
-        if (module4 == null) {
-            module4 = 0;
-        }
-        if (module5 == null) {
-            module5 = 0;
-        }
-        if (module6 == null) {
-            module6 = 0;
-        }
-        if (module7 == null) {
-            module7 = 0;
-        }
-        var rights = GetAcceptRights(right1) +
-            GetAcceptRights(right2) +
-            GetAcceptRights(right3) +
-            GetAcceptRights(right4) +
-            GetAcceptRights(right5) +
-            GetAcceptRights(right6);
-        var empObj = {
-            Name: document.getElementById("txtName").value,
-            Username: document.getElementById("txtUsername").value,
-            Position: document.getElementById("txtPosition").value,
-            Password: document.getElementById("txtPassword").value,
-            RepeatPassword: document.getElementById("txtRepeatPassword").value,
-            module1: module1,
-            module2: module2,
-            module3: module3,
-            module4: module4,
-            module5: module5,
-            module6: module6,
-            module7: module7,
-            rights: rights.substring(0, rights.length - 1),
-        }
-        $.ajax({
-            url: "/ManagementUser/AddNewUser",
-            data: JSON.stringify(empObj),
-            type: "POST",
-            contentType: "application/json;charset=utf-8",
-            success: function (result) {
-                switch (result.CodeError) {
-                    case 0:
-                        $("#modalNotifyUpdate").modal('open');
-                        document.getElementById("notifyMessageUpdate").innerHTML = result.Data;
-                        break;
-                    case 1:
-                        $("#modalNotify").modal('open');
-                        document.getElementById("notifyMessage").innerHTML = result.Data;
-                        break;
-                    case 2:
-                        $("#modalNotify").modal('open');
-                        document.getElementById("notifyMessage").innerHTML = result.Data;
-                        break;
-                    default:
 
+            var module1 = $('#module1').val();
+            var module2 = $('#module2').val();
+            var module3 = $('#module3').val();
+            var module4 = $('#module4').val();
+            var module5 = $('#module5').val();
+            var module6 = $('#module6').val();
+            var module7 = $('#module7').val();
+            if (module1 == null) {
+                module1 = 0;
+            }
+            if (module2 == null) {
+                module2 = 0;
+            }
+            if (module3 == null) {
+                module3 = 0;
+            }
+            if (module4 == null) {
+                module4 = 0;
+            }
+            if (module5 == null) {
+                module5 = 0;
+            }
+            if (module6 == null) {
+                module6 = 0;
+            }
+            if (module7 == null) {
+                module7 = 0;
+            }
+            var rights = GetAcceptRights(right1) +
+                GetAcceptRights(right2) +
+                GetAcceptRights(right3) +
+                GetAcceptRights(right4) +
+                GetAcceptRights(right5) +
+                GetAcceptRights(right6);
+            var empObj = {
+                Name: document.getElementById("txtName").value,
+                Username: document.getElementById("txtUsername").value,
+                Position: document.getElementById("txtPosition").value,
+                Password: document.getElementById("txtPassword").value,
+                RepeatPassword: document.getElementById("txtRepeatPassword").value,
+                module1: module1,
+                module2: module2,
+                module3: module3,
+                module4: module4,
+                module5: module5,
+                module6: module6,
+                module7: module7,
+                rights: rights.substring(0, rights.length - 1),
+            }
+            $.ajax({
+                url: "/ManagementUser/AddNewUser",
+                data: JSON.stringify(empObj),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                success: function (result) {
+                    switch (result.CodeError) {
+                        case 0:
+                            $("#modalNotifyUpdate").modal('open');
+                            document.getElementById("notifyMessageUpdate").innerHTML = result.Data;
+                            break;
+                        case 1:
+                            $("#modalNotify").modal('open');
+                            document.getElementById("notifyMessage").innerHTML = result.Data;
+                            break;
+                        case 2:
+                            $("#modalNotify").modal('open');
+                            document.getElementById("notifyMessage").innerHTML = result.Data;
+                            break;
+                        default:
+
+
+                    }
+                    $('#pre-load').hide();
+                },
+                error: function (errormessage) {
 
                 }
-                $('#pre-load').hide();
-            },
-            error: function (errormessage) {
-
-            }
-        });
+            });
+        }
     }
 
     function UpdateUser() {
@@ -590,88 +591,89 @@
             $("#modalNotify").modal('open');
         } else {
             $('#pre-load').show();
-        }
-        var module1 = $('#module1').val();
-        var module2 = $('#module2').val();
-        var module3 = $('#module3').val();
-        var module4 = $('#module4').val();
-        var module5 = $('#module5').val();
-        var module6 = $('#module6').val();
-        var module7 = $('#module7').val();
-        if (module1 == null) {
-            module1 = 0;
-        }
-        if (module2 == null) {
-            module2 = 0;
-        }
-        if (module3 == null) {
-            module3 = 0;
-        }
-        if (module4 == null) {
-            module4 = 0;
-        }
-        if (module5 == null) {
-            module5 = 0;
-        }
-        if (module6 == null) {
-            module6 = 0;
-        }
-        if (module7 == null) {
-            module7 = 0;
-        }
-        var rights = GetAcceptRights(right1) +
-            GetAcceptRights(right2) +
-            GetAcceptRights(right3) +
-            GetAcceptRights(right4) +
-            GetAcceptRights(right5) +
-            GetAcceptRights(right6);
-        var empObj = {
-            ID: document.getElementById("txtID").value,
-            Name: document.getElementById("txtName").value,
-            Username: document.getElementById("txtUsername").value,
-            Position: document.getElementById("txtPosition").value,
-            Password: document.getElementById("txtPassword").value,
-            RepeatPassword: document.getElementById("txtRepeatPassword").value,
-            module1: module1,
-            module2: module2,
-            module3: module3,
-            module4: module4,
-            module5: module5,
-            module6: module6,
-            module7: module7,
-            rights: rights.substring(0, rights.length - 1),
-        }
-        $.ajax({
-            url: "/ManagementUser/UpdateUser",
-            data: JSON.stringify(empObj),
-            type: "POST",
-            contentType: "application/json;charset=utf-8",
-            success: function (result) {
-                switch (result.CodeError) {
 
-                    case 0:
-                        $("#modalNotifyUpdate").modal('open');
-                        document.getElementById("notifyMessageUpdate").innerHTML = result.Data;
-                        break;
-                    case 1:
-                        $("#modalNotify").modal('open');
-                        document.getElementById("notifyMessage").innerHTML = result.Data;
-                        break;
-                    case 2:
-                        $("#modalNotify").modal('open');
-                        document.getElementById("notifyMessage").innerHTML = result.Data;
-                        break;
-                    default:
-                        break;
-                        
+            var module1 = $('#module1').val();
+            var module2 = $('#module2').val();
+            var module3 = $('#module3').val();
+            var module4 = $('#module4').val();
+            var module5 = $('#module5').val();
+            var module6 = $('#module6').val();
+            var module7 = $('#module7').val();
+            if (module1 == null) {
+                module1 = 0;
+            }
+            if (module2 == null) {
+                module2 = 0;
+            }
+            if (module3 == null) {
+                module3 = 0;
+            }
+            if (module4 == null) {
+                module4 = 0;
+            }
+            if (module5 == null) {
+                module5 = 0;
+            }
+            if (module6 == null) {
+                module6 = 0;
+            }
+            if (module7 == null) {
+                module7 = 0;
+            }
+            var rights = GetAcceptRights(right1) +
+                GetAcceptRights(right2) +
+                GetAcceptRights(right3) +
+                GetAcceptRights(right4) +
+                GetAcceptRights(right5) +
+                GetAcceptRights(right6);
+            var empObj = {
+                ID: document.getElementById("txtID").value,
+                Name: document.getElementById("txtName").value,
+                Username: document.getElementById("txtUsername").value,
+                Position: document.getElementById("txtPosition").value,
+                Password: document.getElementById("txtPassword").value,
+                RepeatPassword: document.getElementById("txtRepeatPassword").value,
+                module1: module1,
+                module2: module2,
+                module3: module3,
+                module4: module4,
+                module5: module5,
+                module6: module6,
+                module7: module7,
+                rights: rights.substring(0, rights.length - 1),
+            }
+            $.ajax({
+                url: "/ManagementUser/UpdateUser",
+                data: JSON.stringify(empObj),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                success: function (result) {
+                    switch (result.CodeError) {
+
+                        case 0:
+                            $("#modalNotifyUpdate").modal('open');
+                            document.getElementById("notifyMessageUpdate").innerHTML = result.Data;
+                            break;
+                        case 1:
+                            $("#modalNotify").modal('open');
+                            document.getElementById("notifyMessage").innerHTML = result.Data;
+                            break;
+                        case 2:
+                            $("#modalNotify").modal('open');
+                            document.getElementById("notifyMessage").innerHTML = result.Data;
+                            break;
+                        default:
+                            break;
+
+
+                    }
+                    $('#pre-load').hide();
+                },
+                error: function (errormessage) {
 
                 }
-                $('#pre-load').hide();
-            },
-            error: function (errormessage) {
-
-            }
-        });
+            });
+        }
     }
 
     function GetAcceptRights(right) {
@@ -895,8 +897,9 @@
                 }
                 if (moduleID == 6) {
                     right6 = result;
+                    $('#pre-load').hide();
                 }
-                $('#pre-load').hide();
+                
             },
             error: function (errormessage) {
 
