@@ -19,9 +19,9 @@ namespace QUANGHANH2.Repositories
             try
             {
                 string bulk_insert = string.Empty;
+                DateTime today = DateTime.Today;
                 foreach (XincapvattuSummaryModelView vattu in vattus)
                 {
-                    DateTime today = DateTime.Today;
                     string sub_insert = "INSERT INTO Supply_tieuhao(supplyid, departmentid, [date], quantity, used, thuhoi) VALUES (" +
                         $"'{vattu.SupplyId}','{vattu.DepartmentId}','{today}',{vattu.SupplyQuantity}, 0, 0);";
                     bulk_insert = string.Concat(bulk_insert, sub_insert);
