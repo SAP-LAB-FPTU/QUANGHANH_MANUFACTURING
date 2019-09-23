@@ -1,7 +1,4 @@
-﻿
-
-
-@model QUANGHANH2.Models.Account
+﻿@model QUANGHANH2.Models.Account
 @{
     ViewBag.Title = "Quản lý tài khoản";
     Layout = null;
@@ -64,6 +61,7 @@
     <script type="text/javascript" charset="utf8" src="~/Content/DataTables/DataTables-1.10.18/js/dataTables.bootstrap4.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Content/DataTables/Select-1.3.0/js/dataTables.select.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Content/DataTables/dataTables.checkboxesCustomForAccount.min.js"></script>
+    <link href="~/css/preloader/css.css" rel="stylesheet" />
     <script>
         var table;
         $(document).ready(function () {
@@ -96,7 +94,7 @@
                         "data": "Username",
                         "render": function (data, type, row, meta) {
                             if (type === 'display') {
-                                data = '<a href="/ManagementUser/Index?username=' + data + '">' + data + '</a>';
+                                data = '<a href="/ManagementUser/Index?username=' + data + '" onclick="showLoading()">' + data + '</a>';
                             }
 
                             return data;
@@ -139,6 +137,21 @@
 </head>
 
 <body>
+    <div id="pre-load" hidden>
+        <div class="loading">
+            <div class="preloader-wrapper big active">
+                <div class="spinner-layer spinner-blue-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div><div class="gap-patch">
+                        <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="preloader">
         <div class="loader">
             <div class="loader__figure"></div>
@@ -190,197 +203,198 @@
     <form>
         <div class="card">
             <div class="card-content">
-                <div class="row" style="float:left; width:50%;">
-                    <h3>Người dùng hiện thời</h3>
-                    <table id="table_account" class="table table-bordered datatables striped">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>ID</th>
-                                <th>Tài khoản người dùng</th>
-                                <th>Họ tên</th>
-                            </tr>
-                        </thead>
-                    </table>
-                    <button type="button" class="btn btn-danger blue" onclick="getSelected()">Xóa</button>
-                </div>
-                <div class="row" style="float:right; width:50%;">
-                    <h4 style="padding-left : 3rem">Thông tin chi tiết</h4>
+                <div class="row">
+                    <div class="row" style="float:left; width:50%;">
+                        <h3>Người dùng hiện thời</h3>
+                        <table id="table_account" class="table table-bordered datatables striped">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>ID</th>
+                                    <th>Tài khoản người dùng</th>
+                                    <th>Họ tên</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <button type="button" class="btn btn-danger blue" onclick="getSelected()">Xóa</button>
+                    </div>
+                    <div class="row" style="float:right; width:50%;">
+                        <h4 style="padding-left : 3rem">Thông tin chi tiết</h4>
 
-                    <div class="row" style="padding-left : 3rem">
-                        <label class="control-label text-right">Họ tên</label>
-                        <input type="text" class="form-control" value="@Model.Name" id="txtName">
-                    </div>
-                    <div class="row" style="padding-left : 3rem">
-                        <label class="control-label col-3 align-self-center text-right">Tên đăng nhập</label>
-                        <input type="text" class="form-control col 12" value="@Model.Username" id="txtUsername">
-                    </div>
-                    <div class="row" style="padding-left : 3rem">
-                        <label class="control-label col-3 align-self-center text-right">Chức vụ</label>
-                        <input type="text" class="form-control col 12" value="@Model.Position" id="txtPosition">
-                    </div>
-                    <div class="row" style="padding-left : 3rem">
-                        <label class="control-label col-3 align-self-center text-right">Mật khẩu</label>
-                        <input type="password" class="form-control col" id="txtPassword">
-                    </div>
-                    <div class="row" style="padding-left : 3rem">
-                        <label class="control-label col-3 align-self-center text-right">Nhập lại mật khẩu</label>
-                        <input type="password" class="form-control col" id="txtRepeatPassword">
-                    </div>
+                        <div class="row" style="padding-left : 3rem">
+                            <label class="control-label text-right">Họ tên</label>
+                            <input type="text" class="form-control" value="@Model.Name" id="txtName">
+                        </div>
+                        <div class="row" style="padding-left : 3rem">
+                            <label class="control-label col-3 align-self-center text-right">Tên đăng nhập</label>
+                            <input type="text" class="form-control col 12" value="@Model.Username" id="txtUsername">
+                        </div>
+                        <div class="row" style="padding-left : 3rem">
+                            <label class="control-label col-3 align-self-center text-right">Chức vụ</label>
+                            <input type="text" class="form-control col 12" value="@Model.Position" id="txtPosition">
+                        </div>
+                        <div class="row" style="padding-left : 3rem">
+                            <label class="control-label col-3 align-self-center text-right">Mật khẩu</label>
+                            <input type="password" class="form-control col" id="txtPassword">
+                        </div>
+                        <div class="row" style="padding-left : 3rem">
+                            <label class="control-label col-3 align-self-center text-right">Nhập lại mật khẩu</label>
+                            <input type="password" class="form-control col" id="txtRepeatPassword">
+                        </div>
 
-                    <h4 style="padding-left: 3rem;padding-top:15px;color:black">Quyền truy cập vào các phòng ban</h4>
+                        <h4 style="padding-left: 3rem;padding-top:15px;color:black">Quyền truy cập vào các phòng ban</h4>
 
 
-                    <div class="row">
-                        <div class="col s12">
-                            <table class="table" style="margin-left:10px">
-                                <tr>
-                                    <td><label>Cơ Điện Vận Tải</label></td>
-                                    <td>
-                                        <select class="form-control" id="module1" style="width:600px">
-                                            <option value="0">Không</option>
-                                            @if (@Model.CDVT)
+                        <div class="row">
+                            <div class="col s12">
+                                <table class="table" style="margin-left:10px">
+                                    <tr>
+                                        <td><label>Cơ Điện Vận Tải</label></td>
+                                        <td>
+                                            <select class="form-control" id="module1" style="width:600px">
+                                                <option value="0">Không</option>
+                                                @if (@Model.CDVT)
+                                                {
+                                                    <option value="1" selected>Có</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="1">Có</option>
+                                                }
+                                            </select>
+                                        </td>
+                                        <td><a href="#!" onclick="ShowRight(1)">Các quyền</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>Tổ Chức Lao Động</label></td>
+                                        <td>
+                                            <select class="form-control" id="module2">
+                                                <option value="0">Không</option>
+                                                @if (@Model.TCLD)
+                                                {
+                                                    <option value="1" selected>Có</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="1">Có</option>
+                                                }
+                                            </select>
+                                        </td>
+                                        <td><a href="#!" onclick="ShowRight(2)">Các quyền</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>Ban Giám Đốc</label></td>
+                                        <td>
+                                            <select class="form-control" id="module5">
+                                                <option value="0">Không</option>
+                                                @if (@Model.BGD)
+                                                {
+                                                    <option value="1" selected>Có</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="1">Có</option>
+                                                }
+                                            </select>
+                                        </td>
+                                        <td><a href="#!" onclick="ShowRight(5)">Các quyền</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>KCS</label></td>
+                                        <td>
+                                            <select class="form-control" id="module3">
+                                                <option value="0">Không</option>
+                                                @if (@Model.KCS)
+                                                {
+                                                    <option value="1" selected>Có</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="1">Có</option>
+                                                }
+                                            </select>
+                                        </td>
+                                        <td><a href="#!" onclick="ShowRight(3)">Các quyền</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>Phân Xưởng Khai Thác</label></td>
+                                        <td>
+                                            <select class="form-control" id="module6">
+                                                <option value="0">Không</option>
+                                                @if (@Model.PXKT)
+                                                {
+                                                    <option value="1" selected>Có</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="1">Có</option>
+                                                }
+                                            </select>
+                                        </td>
+                                        <td><a href="#!" onclick="ShowRight(6)">Các quyền</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>Phòng Điều Khiển</label></td>
+                                        <td>
+                                            <select class="form-control" id="module4">
+                                                <option value="0">Không</option>
+                                                @if (@Model.DK)
+                                                {
+                                                    <option value="1" selected>Có</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="1">Có</option>
+                                                }
+                                            </select>
+                                        </td>
+                                        <td><a href="#!" onclick="ShowRight(4)">Các quyền</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>Quyền quản lí</label></td>
+                                        <td>
+                                            <select class="form-control" id="module7">
+                                                <option value="0">Không</option>
+                                                @if (@Model.ADMIN)
+                                                {
+                                                    <option value="1" selected>Có</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="1">Có</option>
+                                                }
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @if (@Model.ID != null)
                                             {
-                                                <option value="1" selected>Có</option>
+                                                <div class="col">
+                                                    <button type="button" class="btn btn-primary float-right blue" onclick="UpdateUser()">Cập nhật</button>
+                                                </div>
+                                                <div class="col">
+                                                    <button type="button" class="btn btn-primary float-right blue" onclick="ResetPassword()">Reset mật khẩu</button>
+                                                </div>
                                             }
                                             else
                                             {
-                                                <option value="1">Có</option>
+                                                <div class="col">
+                                                    <button type="button" class="btn btn-primary float-right blue" onclick="AddNewUser()">Tạo mới</button>
+                                                </div>
                                             }
-                                        </select>
-                                    </td>
-                                    <td><a href="#!" onclick="ShowRight(1)">Các quyền</a></td>
-                                </tr>
-                                <tr>
-                                    <td><label>Tổ Chức Lao Động</label></td>
-                                    <td>
-                                        <select class="form-control" id="module2">
-                                            <option value="0">Không</option>
-                                            @if (@Model.TCLD)
-                                            {
-                                                <option value="1" selected>Có</option>
-                                            }
-                                            else
-                                            {
-                                                <option value="1">Có</option>
-                                            }
-                                        </select>
-                                    </td>
-                                    <td><a href="#!" onclick="ShowRight(2)">Các quyền</a></td>
-                                </tr>
-                                <tr>
-                                    <td><label>Ban Giám Đốc</label></td>
-                                    <td>
-                                        <select class="form-control" id="module5">
-                                            <option value="0">Không</option>
-                                            @if (@Model.BGD)
-                                            {
-                                                <option value="1" selected>Có</option>
-                                            }
-                                            else
-                                            {
-                                                <option value="1">Có</option>
-                                            }
-                                        </select>
-                                    </td>
-                                    <td><a href="#!" onclick="ShowRight(5)">Các quyền</a></td>
-                                </tr>
-                                <tr>
-                                    <td><label>KCS</label></td>
-                                    <td>
-                                        <select class="form-control" id="module3">
-                                            <option value="0">Không</option>
-                                            @if (@Model.KCS)
-                                            {
-                                                <option value="1" selected>Có</option>
-                                            }
-                                            else
-                                            {
-                                                <option value="1">Có</option>
-                                            }
-                                        </select>
-                                    </td>
-                                    <td><a href="#!" onclick="ShowRight(3)">Các quyền</a></td>
-                                </tr>
-                                <tr>
-                                    <td><label>Phân Xưởng Khai Thác</label></td>
-                                    <td>
-                                        <select class="form-control" id="module6">
-                                            <option value="0">Không</option>
-                                            @if (@Model.PXKT)
-                                            {
-                                                <option value="1" selected>Có</option>
-                                            }
-                                            else
-                                            {
-                                                <option value="1">Có</option>
-                                            }
-                                        </select>
-                                    </td>
-                                    <td><a href="#!" onclick="ShowRight(6)">Các quyền</a></td>
-                                </tr>
-                                <tr>
-                                    <td><label>Phòng Điều Khiển</label></td>
-                                    <td>
-                                        <select class="form-control" id="module4">
-                                            <option value="0">Không</option>
-                                            @if (@Model.DK)
-                                            {
-                                                <option value="1" selected>Có</option>
-                                            }
-                                            else
-                                            {
-                                                <option value="1">Có</option>
-                                            }
-                                        </select>
-                                    </td>
-                                    <td><a href="#!" onclick="ShowRight(4)">Các quyền</a></td>
-                                </tr>
-                                <tr>
-                                    <td><label>Quyền quản lí</label></td>
-                                    <td>
-                                        <select class="form-control" id="module7">
-                                            <option value="0">Không</option>
-                                            @if (@Model.ADMIN)
-                                            {
-                                                <option value="1" selected>Có</option>
-                                            }
-                                            else
-                                            {
-                                                <option value="1">Có</option>
-                                            }
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        @if (@Model.ID != null)
-                                        {
                                             <div class="col">
-                                                <button type="button" class="btn btn-primary float-right blue" onclick="UpdateUser()">Cập nhật</button>
+                                                <button type="button" class="btn btn-primary blue" onclick="Reset()">Đặt lại</button>
                                             </div>
-                                            <div class="col">
-                                                <button type="button" class="btn btn-primary float-right blue" onclick="ResetPassword()">Reset mật khẩu</button>
-                                            </div>
-                                        }
-                                        else
-                                        {
-                                            <div class="col">
-                                                <button type="button" class="btn btn-primary float-right blue" onclick="AddNewUser()">Tạo mới</button>
-                                            </div>
-                                        }
-                                        <div class="col">
-                                            <button type="button" class="btn btn-primary blue" onclick="Reset()">Đặt lại</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
 
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            .
         </div>
         <input type="hidden" id="txtID" value="@Model.ID" />
         <div class="modal" tabindex="-1" role="dialog" id="modalNotifyUpdate">
@@ -464,6 +478,9 @@
 </html>
 
 <script>
+    $(".loading").css("z-index", 99999);
+    $('body').css('overflow', '');
+    
     $(document).ready(function () {
         GetRightFromDBNotFill(1);
         GetRightFromDBNotFill(2);
@@ -472,176 +489,189 @@
         GetRightFromDBNotFill(5);
         GetRightFromDBNotFill(6);
     });
-
+    function showLoading() {
+        $('#pre-load').show();
+    }
     function AddNewUser() {
         if (right1 == null || right2 == null || right3 == null || right4 == null || right5 == null || right6 == null) {
 
             document.getElementById("notifyMessage").innerHTML = "Vui lòng chờ!";
             $("#modalNotify").modal();
-        }
-        var module1 = $('#module1').val();
-        var module2 = $('#module2').val();
-        var module3 = $('#module3').val();
-        var module4 = $('#module4').val();
-        var module5 = $('#module5').val();
-        var module6 = $('#module6').val();
-        var module7 = $('#module7').val();
-        if (module1 == null) {
-            module1 = 0;
-        }
-        if (module2 == null) {
-            module2 = 0;
-        }
-        if (module3 == null) {
-            module3 = 0;
-        }
-        if (module4 == null) {
-            module4 = 0;
-        }
-        if (module5 == null) {
-            module5 = 0;
-        }
-        if (module6 == null) {
-            module6 = 0;
-        }
-        if (module7 == null) {
-            module7 = 0;
-        }
-        var rights = GetAcceptRights(right1) +
-            GetAcceptRights(right2) +
-            GetAcceptRights(right3) +
-            GetAcceptRights(right4) +
-            GetAcceptRights(right5) +
-            GetAcceptRights(right6);
-        var empObj = {
-            Name: document.getElementById("txtName").value,
-            Username: document.getElementById("txtUsername").value,
-            Position: document.getElementById("txtPosition").value,
-            Password: document.getElementById("txtPassword").value,
-            RepeatPassword: document.getElementById("txtRepeatPassword").value,
-            module1: module1,
-            module2: module2,
-            module3: module3,
-            module4: module4,
-            module5: module5,
-            module6: module6,
-            module7: module7,
-            rights: rights.substring(0, rights.length - 1),
-        }
-        $.ajax({
-            url: "/ManagementUser/AddNewUser",
-            data: JSON.stringify(empObj),
-            type: "POST",
-            contentType: "application/json;charset=utf-8",
-            success: function (result) {
-                switch (result.CodeError) {
-                    case 0:
-                        $("#modalNotifyUpdate").modal('open');
-                        document.getElementById("notifyMessageUpdate").innerHTML = result.Data;
-                        break;
-                    case 1:
-                        $("#modalNotify").modal('open');
-                        document.getElementById("notifyMessage").innerHTML = result.Data;
-                        break;
-                    case 2:
-                        $("#modalNotify").modal('open');
-                        document.getElementById("notifyMessage").innerHTML = result.Data;
-                        break;
-                    default:
+        } else {
+            $('#pre-load').show();
 
+            var module1 = $('#module1').val();
+            var module2 = $('#module2').val();
+            var module3 = $('#module3').val();
+            var module4 = $('#module4').val();
+            var module5 = $('#module5').val();
+            var module6 = $('#module6').val();
+            var module7 = $('#module7').val();
+            if (module1 == null) {
+                module1 = 0;
+            }
+            if (module2 == null) {
+                module2 = 0;
+            }
+            if (module3 == null) {
+                module3 = 0;
+            }
+            if (module4 == null) {
+                module4 = 0;
+            }
+            if (module5 == null) {
+                module5 = 0;
+            }
+            if (module6 == null) {
+                module6 = 0;
+            }
+            if (module7 == null) {
+                module7 = 0;
+            }
+            var rights = GetAcceptRights(right1) +
+                GetAcceptRights(right2) +
+                GetAcceptRights(right3) +
+                GetAcceptRights(right4) +
+                GetAcceptRights(right5) +
+                GetAcceptRights(right6);
+            var empObj = {
+                Name: document.getElementById("txtName").value,
+                Username: document.getElementById("txtUsername").value,
+                Position: document.getElementById("txtPosition").value,
+                Password: document.getElementById("txtPassword").value,
+                RepeatPassword: document.getElementById("txtRepeatPassword").value,
+                module1: module1,
+                module2: module2,
+                module3: module3,
+                module4: module4,
+                module5: module5,
+                module6: module6,
+                module7: module7,
+                rights: rights.substring(0, rights.length - 1),
+            }
+            $.ajax({
+                url: "/ManagementUser/AddNewUser",
+                data: JSON.stringify(empObj),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                success: function (result) {
+                    switch (result.CodeError) {
+                        case 0:
+                            $("#modalNotifyUpdate").modal('open');
+                            document.getElementById("notifyMessageUpdate").innerHTML = result.Data;
+                            break;
+                        case 1:
+                            $("#modalNotify").modal('open');
+                            document.getElementById("notifyMessage").innerHTML = result.Data;
+                            break;
+                        case 2:
+                            $("#modalNotify").modal('open');
+                            document.getElementById("notifyMessage").innerHTML = result.Data;
+                            break;
+                        default:
+
+
+                    }
+                    $('#pre-load').hide();
+                },
+                error: function (errormessage) {
 
                 }
-            },
-            error: function (errormessage) {
-
-            }
-        });
+            });
+        }
     }
 
     function UpdateUser() {
+        
         if (right1 == null || right2 == null || right3 == null || right4 == null || right5 == null || right6 == null) {
 
             document.getElementById("notifyMessage").innerHTML = "Vui lòng chờ!";
             $("#modalNotify").modal('open');
-        }
-        var module1 = $('#module1').val();
-        var module2 = $('#module2').val();
-        var module3 = $('#module3').val();
-        var module4 = $('#module4').val();
-        var module5 = $('#module5').val();
-        var module6 = $('#module6').val();
-        var module7 = $('#module7').val();
-        if (module1 == null) {
-            module1 = 0;
-        }
-        if (module2 == null) {
-            module2 = 0;
-        }
-        if (module3 == null) {
-            module3 = 0;
-        }
-        if (module4 == null) {
-            module4 = 0;
-        }
-        if (module5 == null) {
-            module5 = 0;
-        }
-        if (module6 == null) {
-            module6 = 0;
-        }
-        if (module7 == null) {
-            module7 = 0;
-        }
-        var rights = GetAcceptRights(right1) +
-            GetAcceptRights(right2) +
-            GetAcceptRights(right3) +
-            GetAcceptRights(right4) +
-            GetAcceptRights(right5) +
-            GetAcceptRights(right6);
-        var empObj = {
-            ID: document.getElementById("txtID").value,
-            Name: document.getElementById("txtName").value,
-            Username: document.getElementById("txtUsername").value,
-            Position: document.getElementById("txtPosition").value,
-            Password: document.getElementById("txtPassword").value,
-            RepeatPassword: document.getElementById("txtRepeatPassword").value,
-            module1: module1,
-            module2: module2,
-            module3: module3,
-            module4: module4,
-            module5: module5,
-            module6: module6,
-            module7: module7,
-            rights: rights.substring(0, rights.length - 1),
-        }
-        $.ajax({
-            url: "/ManagementUser/UpdateUser",
-            data: JSON.stringify(empObj),
-            type: "POST",
-            contentType: "application/json;charset=utf-8",
-            success: function (result) {
-                switch (result.CodeError) {
-                    case 0:
-                        $("#modalNotifyUpdate").modal('open');
-                        document.getElementById("notifyMessageUpdate").innerHTML = result.Data;
-                        break;
-                    case 1:
-                        $("#modalNotify").modal('open');
-                        document.getElementById("notifyMessage").innerHTML = result.Data;
-                        break;
-                    case 2:
-                        $("#modalNotify").modal('open');
-                        document.getElementById("notifyMessage").innerHTML = result.Data;
-                        break;
-                    default:
+        } else {
+            $('#pre-load').show();
 
+            var module1 = $('#module1').val();
+            var module2 = $('#module2').val();
+            var module3 = $('#module3').val();
+            var module4 = $('#module4').val();
+            var module5 = $('#module5').val();
+            var module6 = $('#module6').val();
+            var module7 = $('#module7').val();
+            if (module1 == null) {
+                module1 = 0;
+            }
+            if (module2 == null) {
+                module2 = 0;
+            }
+            if (module3 == null) {
+                module3 = 0;
+            }
+            if (module4 == null) {
+                module4 = 0;
+            }
+            if (module5 == null) {
+                module5 = 0;
+            }
+            if (module6 == null) {
+                module6 = 0;
+            }
+            if (module7 == null) {
+                module7 = 0;
+            }
+            var rights = GetAcceptRights(right1) +
+                GetAcceptRights(right2) +
+                GetAcceptRights(right3) +
+                GetAcceptRights(right4) +
+                GetAcceptRights(right5) +
+                GetAcceptRights(right6);
+            var empObj = {
+                ID: document.getElementById("txtID").value,
+                Name: document.getElementById("txtName").value,
+                Username: document.getElementById("txtUsername").value,
+                Position: document.getElementById("txtPosition").value,
+                Password: document.getElementById("txtPassword").value,
+                RepeatPassword: document.getElementById("txtRepeatPassword").value,
+                module1: module1,
+                module2: module2,
+                module3: module3,
+                module4: module4,
+                module5: module5,
+                module6: module6,
+                module7: module7,
+                rights: rights.substring(0, rights.length - 1),
+            }
+            $.ajax({
+                url: "/ManagementUser/UpdateUser",
+                data: JSON.stringify(empObj),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                success: function (result) {
+                    switch (result.CodeError) {
+
+                        case 0:
+                            $("#modalNotifyUpdate").modal('open');
+                            document.getElementById("notifyMessageUpdate").innerHTML = result.Data;
+                            break;
+                        case 1:
+                            $("#modalNotify").modal('open');
+                            document.getElementById("notifyMessage").innerHTML = result.Data;
+                            break;
+                        case 2:
+                            $("#modalNotify").modal('open');
+                            document.getElementById("notifyMessage").innerHTML = result.Data;
+                            break;
+                        default:
+                            break;
+
+
+                    }
+                    $('#pre-load').hide();
+                },
+                error: function (errormessage) {
 
                 }
-            },
-            error: function (errormessage) {
-
-            }
-        });
+            });
+        }
     }
 
     function GetAcceptRights(right) {
@@ -657,6 +687,7 @@
         window.location.href = "/ManagementUser/Index"
     }
     function Reset() {
+        $('#pre-load').show();
         window.location.href = "/ManagementUser/Index";
     }
 
@@ -679,6 +710,7 @@
     }
 
     function DeleteUser() {
+        $('#pre-load').show();
         var empObj = {
             strUIDs: newstrUIDs
         };
@@ -694,6 +726,7 @@
                 } else {
                     window.location.href = "/ManagementUser/Index?DeleteSuccess=true";
                 }
+                
             },
             error: function (errormessage) {
 
@@ -702,6 +735,7 @@
     }
 
     function ResetPassword() {
+        $('#pre-load').show();
         var empObj = {
             UserID: document.getElementById("UserID").value
         };
@@ -714,10 +748,12 @@
             success: function (result) {
                 $("#modalNotifyUpdate").modal('open');
                 document.getElementById("notifyMessageUpdate").innerHTML = result;
+                $('#pre-load').hide();
             },
             error: function (errormessage) {
                 $("#modalNotify").modal('open');
                 document.getElementById("notifyMessage").innerHTML = result;
+                $('#pre-load').hide();
             }
         });
     }
@@ -786,6 +822,7 @@
         $("#modalRight").modal('open');
     }
     function GetRightFromDB(moduleID) {
+        $('#pre-load').show();
         var empObj = {
             module: moduleID,
             UserID: document.getElementById("UserID").value
@@ -821,6 +858,7 @@
                     right6 = result;
                     FillData(right6, 6);
                 }
+                $('#pre-load').hide();
             },
             error: function (errormessage) {
 
@@ -828,6 +866,7 @@
         });
     }
     function GetRightFromDBNotFill(moduleID) {
+        $('#pre-load').show();
         var empObj = {
             module: moduleID,
             UserID: document.getElementById("UserID").value
@@ -856,7 +895,9 @@
                 }
                 if (moduleID == 6) {
                     right6 = result;
+                    $('#pre-load').hide();
                 }
+                
             },
             error: function (errormessage) {
 

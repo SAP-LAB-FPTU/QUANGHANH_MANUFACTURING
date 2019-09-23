@@ -14,11 +14,12 @@ namespace QUANGHANH2.Models
     
     public partial class Documentary_maintain_details
     {
-        public string equipment_maintain_status { get; set; }
+        public int equipment_maintain_status { get; set; }
         public string maintain_type { get; set; }
         public System.DateTime finish_date_plan { get; set; }
         public string documentary_id { get; set; }
         public string equipmentId { get; set; }
+        public string equipment_maintain_reason { get; set; }
     
         public virtual Documentary Documentary { get; set; }
         public virtual Equipment Equipment { get; set; }

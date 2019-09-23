@@ -18,19 +18,26 @@ namespace QUANGHANH2.Models
         public Supply()
         {
             this.Fuel_activities_consumption = new HashSet<Fuel_activities_consumption>();
+            this.Maintain_Car_Detail = new HashSet<Maintain_Car_Detail>();
             this.Supply_Documentary_Equipment = new HashSet<Supply_Documentary_Equipment>();
-            this.Equipments = new HashSet<Equipment>();
+            this.Supply_tieuhao = new HashSet<Supply_tieuhao>();
+            this.SupplyPlans = new HashSet<SupplyPlan>();
         }
     
         public string supply_id { get; set; }
         public string supply_name { get; set; }
         public string unit { get; set; }
+        public Nullable<double> price { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Fuel_activities_consumption> Fuel_activities_consumption { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Maintain_Car_Detail> Maintain_Car_Detail { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Supply_Documentary_Equipment> Supply_Documentary_Equipment { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Equipment> Equipments { get; set; }
+        public virtual ICollection<Supply_tieuhao> Supply_tieuhao { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SupplyPlan> SupplyPlans { get; set; }
     }
 }

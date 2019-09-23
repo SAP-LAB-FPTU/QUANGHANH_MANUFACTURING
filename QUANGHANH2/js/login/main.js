@@ -71,7 +71,7 @@
 
         for (var i = 0; i < input.length; i++) {
             if (validate(input[i]) == false) {
-           //     showValidate(input[i]);
+                showValidate(input[i]);
                 check = false;
             }
         }
@@ -100,8 +100,18 @@
     }
 
     function showValidate(input) {
-        var thisAlert = $(input).parent();
-        $(thisAlert).addClass('alert-validate');
+        var username = $('#username').val();
+        var password = $('#password').val();
+        if (username == "" && password == "") {
+            document.getElementById("Notification").innerText = "Vui lòng nhập tên đăng nhập và mật khẩu!"
+        }else
+        if (username == "") {
+            document.getElementById("Notification").innerText = "Vui lòng nhập tên đăng nhập!"
+        }else
+        if (password == "") {
+            document.getElementById("Notification").innerText = "Vui lòng nhập mật khẩu!"
+        }
+        
     }
 
     function hideValidate(input) {
@@ -133,50 +143,50 @@
         }
     }
 
-    var password = $('#password').val();
+    
 
-    document.getElementById("login-form").addEventListener("submit", myFunction);
-    function myFunction() {
-        var username = $('#username').val();
-        switch (username) {
-            case 'tcld':
-                window.location.href = link + '/phong-tcld';
-                break;
-            case 'dk':
-                window.location.href = link + '/phong-dieu-khien';
-                break;
-            case 'cdvt':
-                window.location.href = link + '/phong-cdvt';
-                break;
-            case 'kcs':
-                window.location.href = link + '/phong-kcs';
-                break;
-            case 'pxkt':
-                window.location.href = link + '/phan-xuong-khai-thac';
-                break;
-            case 'bgd':
-                window.location.href = link + '/ban-giam-doc';
-                break;
-            case 'longcdvt':
-                window.location.href = link + '/phong-cdvt/long/oto/huy-dong';
-                break;
-            case 'px':
-                window.location.href = link + '/phan-xuong';
-                break;
-            case 'hoc_tcld':
-                window.location.href = link + '/phong-tcld/nguyenvanhoc/?mnv=hq234';
-                break;
-            case 'long_tcld':
-                window.location.href = link + '/phong-tcld/nguyenvanlong/?mnv=sd223';
-                break;
-            case 'vuong_tcld':
-                window.location.href = link + '/phong-tcld/nguyenbavuong/?mnv=lk523';
-                break;
-            case 'hoa_tcld':
-                window.location.href = link + '/phong-tcld/nguyenthihoa/?mnv=rt953';
-                break;
-            default:
-                window.location.href = link + '/phong-tcld';
-        }
-    }
+    //document.getElementById("login-form").addEventListener("submit", myFunction);
+    //function myFunction() {
+    //    var username = $('#username').val();
+    //    switch (username) {
+    //        case 'tcld':
+    //            window.location.href = link + '/phong-tcld';
+    //            break;
+    //        case 'dk':
+    //            window.location.href = link + '/phong-dieu-khien';
+    //            break;
+    //        case 'cdvt':
+    //            window.location.href = link + '/phong-cdvt';
+    //            break;
+    //        case 'kcs':
+    //            window.location.href = link + '/phong-kcs';
+    //            break;
+    //        case 'pxkt':
+    //            window.location.href = link + '/phan-xuong-khai-thac';
+    //            break;
+    //        case 'bgd':
+    //            window.location.href = link + '/ban-giam-doc';
+    //            break;
+    //        case 'longcdvt':
+    //            window.location.href = link + '/phong-cdvt/long/oto/huy-dong';
+    //            break;
+    //        case 'px':
+    //            window.location.href = link + '/phan-xuong';
+    //            break;
+    //        case 'hoc_tcld':
+    //            window.location.href = link + '/phong-tcld/nguyenvanhoc/?mnv=hq234';
+    //            break;
+    //        case 'long_tcld':
+    //            window.location.href = link + '/phong-tcld/nguyenvanlong/?mnv=sd223';
+    //            break;
+    //        case 'vuong_tcld':
+    //            window.location.href = link + '/phong-tcld/nguyenbavuong/?mnv=lk523';
+    //            break;
+    //        case 'hoa_tcld':
+    //            window.location.href = link + '/phong-tcld/nguyenthihoa/?mnv=rt953';
+    //            break;
+    //        default:
+    //            window.location.href = link + '/phong-tcld';
+    //    }
+    //}
 })(jQuery);

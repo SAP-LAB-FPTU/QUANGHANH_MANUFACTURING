@@ -25,7 +25,7 @@ namespace QUANGHANH2.Models
         public int MaBangCap { get; set; }
         public Nullable<int> MaTrinhDo { get; set; }
         public string KieuBangCap { get; set; }
-        public Nullable<double> ThoiHan { get; set; }
+        public Nullable<int> ThoiHan { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChiTiet_BangCap> ChiTiet_BangCap { get; set; }

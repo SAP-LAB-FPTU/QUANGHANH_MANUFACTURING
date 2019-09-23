@@ -1,4 +1,5 @@
 ﻿using QUANGHANH2.Models;
+using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,6 +12,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
 {
     public class PXKTController : Controller
     {
+        //[Auther(RightID ="006")]
         [Route("phan-xuong-khai-thac")]
         public ActionResult Index()
         {
@@ -88,6 +90,13 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
             }
             NSLD(intCa, strDate);
         }
+
+        [Route("phan-xuong-khai-thac/diem-danh")]
+        public ActionResult getAttendance()
+        {
+            return View("/Views/PX/PXKT/getAttendacne.cshtml");
+        }
+        
 
 
 

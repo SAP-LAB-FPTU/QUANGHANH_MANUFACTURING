@@ -12,15 +12,12 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Quantity_activities
+    public partial class sysdiagram
     {
-        public double quantity { get; set; }
-        public string activityid { get; set; }
-        public int hours_per_day { get; set; }
-        public System.DateTime date { get; set; }
-        public string equipmentId { get; set; }
-    
-        public virtual Activity Activity { get; set; }
-        public virtual Equipment Equipment { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }
