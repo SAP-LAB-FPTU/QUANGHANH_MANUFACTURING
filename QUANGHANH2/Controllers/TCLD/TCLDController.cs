@@ -12,7 +12,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
     public class TCLDController : Controller
     {
         // GET: /<controller>/
-        [Auther(RightID ="002")]
+        //[Auther(RightID ="002")]
         [Route("phong-tcld/")]
         public ActionResult Dashboard()
         {
