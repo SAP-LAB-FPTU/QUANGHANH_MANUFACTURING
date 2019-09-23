@@ -6826,6 +6826,7 @@
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Models\Model1.Context.tt">
