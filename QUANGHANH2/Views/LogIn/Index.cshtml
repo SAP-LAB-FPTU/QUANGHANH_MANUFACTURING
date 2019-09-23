@@ -1,6 +1,12 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿<style>
+    .check-box {
+        width: 20px;
+        height: 20px;
+        background: white;
+        border-radius: 10px;
+        border: 1px solid #555;
+    }
+</style>
 @{
     Layout = null;
 }
@@ -48,28 +54,38 @@
                 <div class="login100-pic js-tilt" data-tilt>
                     <img src="/images/login/quanghanh.png" alt="IMG">
                 </div>
-                <form id="login-form" class="login100-form validate-form" method="post">
                     @using (Html.BeginForm("Index", "LogIn", FormMethod.Post, new { id = "login-form", @class = "login100-form validate-form" }))
                     {
-
-
                         <span class="login100-form-title">
                             <h3><b>PHẦN MỀM QUẢN LÝ SẢN XUẤT</b></h3>
                         </span>
 
                         <div class="wrap-input100 validate-input" data-validate="">
-                            <input type="text" list="accounts" class="input100" name="username" placeholder="Tên đăng nhập" id="username" />
+                            @{
+                                var username = "";
+                                var password = "";
+                                if (ViewBag.login != null)
+                                {
+                                    username = ViewBag.login.username;
+                                    password = ViewBag.login.password;
+                                }
+                            }
+                            <input type="text" list="accounts" class="input100" name="username" placeholder="Tên đăng nhập"value="@username" />
                             <span class="focus-input100"></span>
                             <span class="symbol-input100">
                                 <i class="fa fa-user-circle" aria-hidden="true"></i>
                             </span>
                         </div>
                         <div class="wrap-input100 validate-input" data-validate="Password is required">
-                            <input class="input100" type="password" name="password" id="password" placeholder="Mật khẩu">
+                            <input class="input100" type="password" name="password" value="@password" placeholder="Mật khẩu">
                             <span class="focus-input100"></span>
                             <span class="symbol-input100">
                                 <i class="fa fa-lock" aria-hidden="true"></i>
                             </span>
+                        </div>
+                        <div>
+                            <input type="checkbox" class="check-box" name="rm" />
+                            <label style="font-size:16px">Remember Me</label>
                         </div>
                         <h1 style="color: red;" class="h6 mb-3 font-weight-normal" id="Notification">@ViewData["Notification"]</h1>
                         <div class="container-login100-form-btn">
@@ -84,7 +100,7 @@
                             </a>
                         </div>
                     }
-            </div>
+</div>
         </div>
     </div>
     
