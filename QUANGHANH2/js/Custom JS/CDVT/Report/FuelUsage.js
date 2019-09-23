@@ -1,4 +1,16 @@
-﻿$(function() {
+﻿
+var this_js_script = $('script[src*=FuelUsage]'); // or better regexp to get the file name..
+var xang ;
+var daunhuhoa ;
+var daumo ;
+
+
+$(function () {
+    xang = this_js_script.attr('xang');
+    daumo = this_js_script.attr('daumo');
+    daunhuhoa = this_js_script.attr('daunhuhoa');
+   
+
     "use strict";
     // ------------------------------
     // Nested chart
@@ -85,9 +97,9 @@
                     max: 1668000,
 
                     data: [
-                        { value: 1140000, name: 'Xăng' },
-                        { value: 1668000, name: 'Dầu nhũ hóa' },
-                        { value: 156000, name: 'Dầu mỡ' }
+                        { value: 100, name: 'Xăng' },
+                        { value: 100, name: 'Dầu nhũ hóa' },
+                        { value: 100, name: 'Dầu mỡ' }
                     ]
                 }
             ]
@@ -176,9 +188,9 @@
                     max: 1668000,
 
                     data: [
-                        { value: 1140000, name: 'Xăng' },
-                        { value: 1668000, name: 'Dầu nhũ hóa' },
-                        { value: 156000, name: 'Dầu mỡ' }
+                        { value: xang, name: 'Xăng' },
+                        { value: daunhuhoa, name: 'Dầu nhũ hóa' },
+                        { value: daumo, name: 'Dầu mỡ' }
                     ]
                 }
             ]

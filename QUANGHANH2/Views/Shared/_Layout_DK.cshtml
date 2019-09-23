@@ -27,7 +27,7 @@
     <!--Custom css QUANG HANH-->
     <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
     <link href="~/assets/Custom css/TABLE_BORDERED.css" rel="stylesheet" />
-
+    <link href="~/css/preloader/css.css" rel="stylesheet" />
     <!--Custom Datepicker CSS-->
     <link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
     <link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
@@ -73,6 +73,21 @@
 
 <body>
     <div class="main-wrapper" id="main-wrapper">
+        <div id="pre-load" hidden>
+            <div class="loading">
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div><div class="gap-patch">
+                            <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- ============================================================== -->
         <!-- Preloader - style you can find in spinners.css -->
         <!-- ============================================================== -->
@@ -670,6 +685,10 @@
         <!-- Right Sidebar -->
         <!-- ============================================================== -->
     </div>
+    <script>
+        $(".loading").css("z-index", 99999);
+        $('body').css('overflow', '');
+    </script>
 </body>
 
 </html>

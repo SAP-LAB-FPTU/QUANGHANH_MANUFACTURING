@@ -26,6 +26,7 @@
     <customErrors mode="Off"/>
     <compilation debug="true" targetFramework="4.6.1"/>
     <httpRuntime targetFramework="4.6.1"/>
+    <sessionState timeout="60" />
   </system.web>
   <runtime>
     <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">

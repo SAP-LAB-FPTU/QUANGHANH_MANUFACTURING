@@ -234,3 +234,36 @@ alter table Supply alter column price float
 
 --xoa bang chi tiet quyet dinh kiem dinh (kiem dinh khong co quyet dinh)
 drop table Documentary_Inspection_details
+					      
+--21/09/2019
+--add table TuyenDung_NhanVien
+create table TuyenDung_NhanVien
+(
+MaNV nvarchar(50) not null foreign key references NhanVien(MaNV),
+SoQuyetDinh nvarchar(50) not null foreign key references QuyetDinh(SoQuyetDinh),
+primary key (MaNV,SoQuyetDinh)
+)
+--23/09/2019
+--them truong cho bang nghiem thu
+alter table Acceptance add documentary_process_result nvarchar(150)
+alter table Acceptance add acceptance_result nvarchar(150)
+-- doi khoa bang Fuel thanh khoa tu tang
+drop table Fuel_Activities_consumption 
+CREATE TABLE Fuel_activities_consumption
+(
+  fuel_id INT IDENTITY(1,1),
+  consumption_value INT NOT NULL,
+  date DATE NOT NULL,
+  equipmentId NVARCHAR(150) NOT NULL,
+  fuel_type NVARCHAR(150) NOT NULL,
+  PRIMARY KEY (fuel_id),
+  FOREIGN KEY (equipmentId) REFERENCES Equipment(equipmentId),
+  FOREIGN KEY (fuel_type) REFERENCES Supply(supply_id)
+)
+--them du lieu bang nghiem thu
+insert into Acceptance values(1,'09/14/2019','006','14M-7906',N'Đảm bảo yêu cầu',N'Đảm bảo yêu cầu')
+insert into Acceptance values(2,'08/04/2019','24','14M-7905',N'Đảm bảo yêu cầu',N'Không đạt')
+insert into Acceptance values(3,'09/14/2019','25','14M-7907',N'Không thành công',N'Không đảm bảo yêu cầu')
+insert into Acceptance values(4,'08/04/2019','23','MX006',N'Đảm bảo yêu cầu',N'Không đạt')
+insert into Acceptance values(2,'09/14/2019','21','MX001',N'Đảm bảo yêu cầu',N'Đảm bảo yêu cầu')
+insert into Acceptance values(1,'08/04/2019','005','MC003',N'Đảm bảo yêu cầu',N'Không đạt')

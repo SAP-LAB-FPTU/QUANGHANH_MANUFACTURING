@@ -16,7 +16,7 @@
     <link href="~/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css" rel="stylesheet">
     <link href="~/dist/css/style.css" rel="stylesheet">
     <link href="~/css/TABLE_BORDERED.css" rel="stylesheet">
- 
+    <link href="~/css/preloader/css.css" rel="stylesheet" />
 
     @*<link href="~/dist/css/custom.css" rel="stylesheet">*@
     <!-- This page CSS -->
@@ -64,6 +64,21 @@
 
 <body>
     <div class="main-wrapper" id="main-wrapper">
+        <div id="pre-load" hidden>
+            <div class="loading">
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div><div class="gap-patch">
+                            <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- ============================================================== -->
         <!-- Preloader - style you can find in spinners.css -->
         <!-- ============================================================== -->
@@ -87,13 +102,13 @@
                     <!-- ============================================================== -->
                     <a href="javascript:void(0)" class="brand-logo">
                         @*<span class="icon">
-                                <img class="light-logo" src="~/assets/images/logo-light-icon.png">
-                                <img class="dark-logo" src="~/assets/images/logo-icon.png">
-                            </span>
-                            <span class="text">
-                                <img class="light-logo" src="~/assets/images/logo-light-text.png">
-                                <img class="dark-logo" src="~/assets/images/logo-text.png">
-                            </span>*@
+                            <img class="light-logo" src="~/assets/images/logo-light-icon.png">
+                            <img class="dark-logo" src="~/assets/images/logo-icon.png">
+                        </span>
+                        <span class="text">
+                            <img class="light-logo" src="~/assets/images/logo-light-text.png">
+                            <img class="dark-logo" src="~/assets/images/logo-text.png">
+                        </span>*@
                     </a>
                     <!-- ============================================================== -->
                     <!-- Logo you can find that scss in header.scss -->
@@ -338,7 +353,10 @@
             }
         });
     </script>
-
+    <script>
+        $(".loading").css("z-index", 99999);
+        $('body').css('overflow', '');
+    </script>
 </body>
 
 </html>

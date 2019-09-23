@@ -68,13 +68,28 @@
     <!--Custom Datepicker JS-->
     <script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
     <script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
-
+    <link href="~/css/preloader/css.css" rel="stylesheet" />
     <script src="~/js/Custom JS/Flexible_user_icon.js"></script>
     <link href="~/css/side_bar_text_fixing.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
     <div class="main-wrapper" id="main-wrapper">
+        <div id="pre-load" hidden>
+            <div class="loading">
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div><div class="gap-patch">
+                            <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- ============================================================== -->
         <!-- Preloader - style you can find in spinners.css -->
         <!-- ============================================================== -->
@@ -680,6 +695,10 @@
         <!-- Right Sidebar -->
         <!-- ============================================================== -->
     </div>
+    <script>
+        $(".loading").css("z-index", 99999);
+        $('body').css('overflow', '');
+    </script>
 </body>
 
 </html>
