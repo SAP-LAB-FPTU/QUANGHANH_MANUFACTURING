@@ -6,8 +6,6 @@
     <edmx:Diagrams>
       <Diagram DiagramId="ad7ecee90666419b804a20fa858c485b" Name="Diagram1">
         <EntityTypeShape EntityType="QUANGHANHABCModel.Acceptance" Width="1.5" PointX="5.25" PointY="60" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Account" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Account_Right" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Account_Right_Detail" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.BangCap" Width="1.5" PointX="14" PointY="23.875" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Category_attribute_value" Width="1.5" PointX="13.25" PointY="49.25" IsExpanded="true" />
@@ -143,6 +141,8 @@
         <AssociationConnector Association="QUANGHANHABCModel.FK__TieuChi_V__MaVat__756D6ECB" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.ThucHien_TieuChi_VatLieuSanXuat" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.TuyenDung_NhanVien" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Account" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Account_Right" Width="1.5" PointX="0.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
