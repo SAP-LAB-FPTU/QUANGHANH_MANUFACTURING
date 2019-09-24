@@ -47,7 +47,7 @@ namespace QUANGHANHCORE.Controllers
             {
                 Session["UserID"] = checkuser[0].ID;
                 int time = HttpContext.Session.Timeout;
-                string id = checkuser[0].ID;
+                int id = checkuser[0].ID;
                 var Name = db.Accounts.Where(x => x.ID == id).FirstOrDefault<Account>();
                 Session["Name"] = Name.Name;
                 Session["username"] = Name.Username;
@@ -88,11 +88,11 @@ namespace QUANGHANHCORE.Controllers
             Session.Abandon();
             return RedirectToAction("Index");
         }
-        public void GetPermission(string UserID)
+        public void GetPermission(int UserID)
         {
             Session["UserID"] = UserID;
             List<string> RightIDs = new List<string>();
-            var userRight = db.Account_Right_Detail.Where(a => a.AccountID == UserID).ToList();
+            var userRight = db.Account_Right_Detail.Where(a => a.AccountID == UserID+"").ToList();
             foreach (var right in userRight)
             {
                 RightIDs.Add(right.RightID + "");
