@@ -1,0 +1,800 @@
+﻿
+@{ ViewBag.Title = "OutSideDetail";
+    Layout = Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
+}
+
+<link href="~/dist/css/style.css" rel="stylesheet">
+<link href="~/assets/extra-libs/css-chart/css-chart.css" rel="stylesheet" />
+<link href="~/dist/css/pages/easy-pie-chart.css" rel="stylesheet" />
+<link href="/assets/extra-libs/css-chart/css-chart.css" rel="stylesheet">
+<link href="/dist/css/pages/easy-pie-chart.css" rel="stylesheet">
+<link href="~/css/pre-loader/css.css" rel="stylesheet" />
+
+<link href="~/assets/Custom css/DK/ReportHuman/report.css" rel="stylesheet" />
+
+
+
+<div class="col m12">
+    <div class="card">
+        <div class="card-content">
+            <div class="row">
+                <h3 class="center">Thông tin cơ bản hồ sơ ngoài</h3>
+
+                <div class="col m12">
+                    <div id="form1" class="row">
+                        <div class="input-field col m12" id="btn-fix-save">
+                            <div class="col m4">
+                                <a class="btn btn-small blue darken-2 input-field chinhsua" id="btnChinhSua1">Chỉnh Sửa</a>
+                            </div>
+                            <div class="col m4" hidden>
+                                <a class="btn btn-small blue darken-2 input-field luu" id="btnLuu1">Lưu</a>
+                                <a class="btn btn-small red darken-2 input-field huybo" id="btnHuyBo1">Hủy bỏ</a>
+                            </div>
+                        </div>
+                        <div class="input-field col m12">
+                            <div class="col m4">
+                                <label class='custom-label'>
+                                    Số thẻ
+                                </label>
+                                <input disabled type="text" id="sothe" class="inputEdit form-control" />
+                            </div>
+                            <div class="col m4">
+                                <label class='custom-label'>Họ và tên</label>
+                                <input disabled type="text" id="hoVaTen" class="inputEdit form-control" />
+                            </div>
+                            <div class="col m4">
+                                <label class='custom-label'>Ngày tháng năm sinh</label>
+                                <input disabled="" type="text" id="ngaythangnamsinh" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
+                            </div>
+                        </div>
+                        <div class="input-field col m12">
+                            <div class="col m3">
+                                <label class='custom-label'>ĐV khi CDHĐ</label>
+                                <input disabled type="text" id="donvicd" class="inputEdit form-control" />
+                            </div>
+                            <div class="col m3">
+                                <label class='custom-label'>Số sổ BHXH</label>
+                                <input disabled type="text" id="soBH" class="inputEdit form-control" />
+                            </div>
+                            <div class="col m3">
+                                <label class='custom-label'>Số điện thoại NLĐ</label>
+                                <input disabled type="text" id="sodt" class="inputEdit form-control" />
+                            </div>
+                            <div class="col m3">
+                                <label class='custom-label'>Địa chỉ thường trú NLĐ</label>
+                                <input disabled type="text" id="diachithuongtru" class="inputEdit form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="col m12">
+    <div class="card">
+        <div class="card-content">
+            <div class="row">
+                <h3 class="center">Loại chấm dứt</h3>
+
+                <div class="col m12">
+                    <div id="form2" class="row">
+                        <div class="input-field col m12" id="btn-fix-save">
+                            <div class="col m4">
+                                <a class="btn btn-small blue darken-2 input-field chinhsua" id="btnChinhSua2">Chỉnh Sửa</a>
+                            </div>
+                            <div class="col m4" hidden>
+                                <a class="btn btn-small blue darken-2 input-field luu" id="btnLuu2">Lưu</a>
+                                <a class="btn btn-small red darken-2 input-field huybo" id="btnHuyBo2">Hủy bỏ</a>
+                            </div>
+                        </div>
+                        <div class="input-field col m12">
+                            <div class="col m3">
+                                <label class='custom-label'>Số QĐ</label>
+                                <input disabled type="text" id="soQD" class="inputEdit form-control" />
+                            </div>
+                            <div class="col m3">
+                                <label class='custom-label'>
+                                    Tên loại chấm dứt
+                                </label>
+                                <input disabled type="text" id="tenLoaiChamDut" class="inputEdit form-control" />
+                            </div>
+
+                            <div class="col m3">
+                                <label class='custom-label'>Ngày tháng năm QĐ</label>
+                                <input disabled type="text" id="ngayQD" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
+                            </div>
+                            <div class="col m3">
+                                <label class='custom-label'>Ngày chấm dứt</label>
+                                <input disabled type="text" id="ngayCD" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col m12">
+    <div class="card">
+        <div class="card-content">
+            <div class="row">
+                <h3 class="center">Ủy quyền lấy HS và sổ BH</h3>
+
+                <div class="col m12">
+                    <div id="form3" class="row">
+                        <div class="input-field col m12" id="btn-fix-save">
+                            <div class="col m4">
+                                <a class="btn btn-small blue darken-2 input-field chinhsua" id="btnChinhSua3">Chỉnh Sửa</a>
+                            </div>
+                            <div class="col m4" hidden>
+                                <a class="btn btn-small blue darken-2 input-field luu" id="btnLuu3">Lưu</a>
+                                <a class="btn btn-small red darken-2 input-field huybo" id="btnHuyBo3">Hủy bỏ</a>
+                            </div>
+                        </div>
+                        <div class="input-field col m12">
+                            <div class="col m3">
+                                <label class='custom-label'>
+                                    Họ tên người được ủy quyền
+                                </label>
+                                <input disabled type="text" id="hoTenNguoiUyQuyen" class="inputEdit form-control" />
+                            </div>
+                            <div class="col m3">
+                                <label class='custom-label'>Quan hệ với người ủy quyền</label>
+                                <input disabled type="text" id="quanHeNguoiUyQuyen" class="inputEdit form-control" />
+                            </div>
+                            <div class="col m3">
+                                <label class='custom-label'>Số CMND</label>
+                                <input disabled type="text" id="soCMT" class="inputEdit form-control" />
+                            </div>
+                            <div class="col m3">
+                                <label class='custom-label'>Số ĐT người được ủy quyền</label>
+                                <input disabled type="text" id="soDT" class="inputEdit form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col m12">
+    <div class="card">
+        <div class="card-content">
+            <div class="row">
+                <h3 class="center">Danh sách giấy tờ</h3>
+
+                <div class="col m12">
+                    <div id="form3" class="row">
+
+                        <div class="col s12  table-responsive">
+                            <table class="striped table-bordered" id="example">
+                                <thead>
+                                    <tr>
+                                        <th>Số Hiệu</th>
+                                        <th>Kiểu </th>
+                                        <th>Ngày trả </th>
+                                        <th>Thao tác</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Tiger Nixon</td>
+                                        <td>System Architect</td>
+                                        <td>$320,800</td>
+                                        <td><a href="#modal1" data-target="#modal1" class="btn waves-effect waves-light blue" id="btn-fix">Chỉnh sửa</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <div class="input-field col m12">
+            <div class="col m4">
+                <label class='custom-label'>Số Hiệu</label>
+                <input disabled type="text" id="suasohieu" class="inputEdit form-control" />
+            </div>
+            <div class="col m4">
+                <label class='custom-label'>Kiểu</label>
+                <input disabled type="text" id="suakieu" class="inputEdit form-control" />
+            </div>
+            <div class="col m4">
+                <label class='custom-label'>Ngày trả</label>
+                <input type="text" id="suangaytra" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
+            </div>
+
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a class="modal-action modal-close waves-effect waves-green btn blue" id="dongYChinhSua">Đồng ý</a>
+        <a class="modal-action modal-close waves-effect waves-green btn red" id="huyBoChinhSua">Hủy bỏ</a>
+    </div>
+</div>
+
+
+<div id="pre-load" hidden>
+    <div class="loading">
+        <div class="preloader-wrapper big active">
+            <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div><div class="gap-patch">
+                    <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<!--JavaScripts-->
+<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+@section scripts{
+
+
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script>
+        var table;
+        $(document).ready(function () {
+            customeClick();
+
+            $('input').prop('disabled', true);
+            $('#sothe').prop('disabled', true);
+            $('#soQD').prop('disabled', true);
+            loadThongTinCoBan();
+            loadLoaiChamDut();
+            loadUyQuyen();
+            loadThongTinGiayTo();
+
+        });
+        function loadThongTinGiayTo() {
+            if (table != null) table.destroy();
+            table = $('#example')
+                .on('preXhr.dt', function (e, settings, data) {
+
+                                   ////////////////////////////////////HIỆN LÊN MỖI KHI CHẠY AJAX//////////////////////////////////
+      				  $("#pre-load").show("slow", function () {
+      				   });
+      				  $("#pre-load").css("z-index", "99999");
+			          ////////////////////////////////////////////////////////////////////////
+
+                           //     data.sessionId = "@ViewBag.id";
+                            //    data.selectList = JSON.stringify(arrCarSelected);
+                            })
+                .DataTable({
+                "processing": false,
+                "searching": false,
+                "info": false,
+                "paging":false,
+                "bLengthChange": false,
+                "ajax": {
+                        "url": "/Brief/thongTinGiayTo",
+                        "type": "GET",
+                        "data": {manv:@ViewBag.manv},
+                        "datatype": "json"
+
+
+                },
+                "columns": [
+                    { data: 'sohieu' },
+                    { data: 'kieu' },
+                    {
+                        data: 'ngaytra', "render": function (data) {
+                            return dateFormat(data);
+                        }
+                    },
+                    {
+                        data: 'manv', "render": function (data, type, row) {
+                             return "<a onclick=\"getChinhSuaGiayTo('"+row['sohieu']+"','"+row['kieu']+"','"+row['ngaytra']+"')\" class='btn btn-small blue darken-2 modal-trigger input-field waves-effect' id='btn-fix'  href='#modal1'>Chỉnh sửa</a>";
+                        }
+                    }
+                ],
+                "initComplete":function( settings, json){
+                      $("#pre-load").hide("slow", function () {
+      		  });
+                 }
+
+
+            });
+        }
+
+
+        function loadThongTinCoBan() {
+            // get data chung cua ho so ngoai
+             $("#pre-load").show("slow", function () {
+      				   });
+      				  $("#pre-load").css("z-index", "99999");
+
+            $.ajax({
+                    type : "GET",
+                    url: "/Brief/taiThongTinCoBanHSNgoai",
+                    data: {manv:@ViewBag.manv},
+                    dataType: "json",
+                success: function (data) {
+                    $("#pre-load").hide("slow", function () {
+      		  });
+                    $('#hoVaTen').val(data.data[0].hoVaTen);
+                    $('#sothe').val(data.data[0].sothe);
+                    $('#ngaythangnamsinh').val(dateFormat(data.data[0].ngaythangnamsinh));
+                    $('#donvicd').val(data.data[0].donvicd);
+                    $('#soBH').val(data.data[0].soBH);
+                    $('#sodt').val(data.data[0].sodt);
+                    $('#diachithuongtru').val(data.data[0].diachithuongtru);
+
+                },
+
+
+
+            });
+
+        }
+
+        function loadLoaiChamDut(){
+
+            $("#pre-load").show("slow", function () {
+      				   });
+      				  $("#pre-load").css("z-index", "99999");
+
+                $.ajax({
+                    type : "GET",
+                    url: "/Brief/thongtinLoaiChamdut",
+                    data: {manv:@ViewBag.manv},
+                    dataType: "json",
+                success: function (data) {
+                    //alert('loadLoaiChamDut');
+                      $("#pre-load").hide("slow", function () {
+      		  });
+                    $('#tenLoaiChamDut').val(data.data[0].tenLoaiChamDut);
+                    $('#soQD').val(data.data[0].soQD);
+                    $('#ngayQD').val(dateFormat(data.data[0].ngayQD));
+                    $('#ngayCD').val(dateFormat(data.data[0].ngayCD));
+                }
+
+            });
+
+        }
+
+
+
+        function loadUyQuyen() {
+            $("#pre-load").show("slow", function () {
+      				   });
+      				  $("#pre-load").css("z-index", "99999");
+                $.ajax({
+                    type : "GET",
+                    url: "/Brief/thongTinUyQuyen",
+                    data: {manv:@ViewBag.manv},
+                    dataType: "json",
+                    success: function (data) {
+                          $("#pre-load").hide("slow", function () {
+      		  });
+
+                        if (data.data.length == 0) return;
+                        $('#hoTenNguoiUyQuyen').val(data.data[0].hoTenNguoiUyQuyen);
+                        $('#quanHeNguoiUyQuyen').val(data.data[0].quanHeNguoiUyQuyen);
+                        $('#soCMT').val(data.data[0].soCMT);
+                        $('#soDT').val(data.data[0].soDT);
+                }
+
+            });
+        }
+                function customeClick() {
+                     // event controller button
+                    $('#btnChinhSua1').click(function (e) {
+                        e.preventDefault();
+                        $('#btnChinhSua1').hide();
+                        $('#btnChinhSua1').parent().hide();
+                        $('#btnLuu1').show();
+                        $('#btnHuyBo1').show();
+                        $('#btnLuu1').parent().show();
+                        //console.log($('#form1').find('input')[0]);
+
+                        $.each($('#form1').find('input'), function (index, value) {
+                            if(value.id !='sothe' && value.id !='hoVaTen' )
+                            value.disabled = false;
+                        });
+
+
+                        //$('#form1').find().prop('disabled', false);
+                        //$('#sothe').prop('disabled', true);
+                        // your statements;
+                    });
+                    $('#btnLuu1').click(function (e) {
+                        e.preventDefault();
+
+                        $('#btnLuu1').hide();
+                        $('#btnHuyBo1').hide();
+                        $('#btnHuyBo1').parent();
+                        $('#btnChinhSua1').show();
+                        $('#btnChinhSua1').parent().show();
+                        $.each($('#form1').find('input'), function (index, value) {
+                          //  if(value.id !='sothe')
+                            value.disabled = true;
+                        });
+                        // your statements;
+                    });
+                    $('#btnHuyBo1').click(function (e) {
+                        e.preventDefault();
+
+                        $('#btnHuyBo1').hide();
+                        $('#btnLuu1').hide();
+                        $('#btnLuu1').parent();
+                        $('#btnChinhSua1').show();
+                        $('#btnChinhSua1').parent().show();
+                         $.each($('#form1').find('input'), function (index, value) {
+                         //   if(value.id !='sothe')
+                           value.disabled = true;
+                        });
+                        // your statements;
+                    });
+
+
+                $('#btnChinhSua2').click(function (e) {
+                        e.preventDefault();
+                        $('#btnChinhSua2').hide();
+                        $('#btnChinhSua2').parent().hide();
+                        $('#btnLuu2').show();
+                        $('#btnHuyBo2').show();
+                        $('#btnLuu2').parent().show();
+                        $.each($('#form2').find('input'), function (index, value) {
+                            if(value.id !='soQD')
+                            value.disabled = false;
+                        });
+                        // your statements;
+                    });
+                    $('#btnLuu2').click(function (e) {
+                        e.preventDefault();
+
+                        $('#btnLuu2').hide();
+                        $('#btnHuyBo2').hide();
+                        $('#btnHuyBo2').parent();
+                        $('#btnChinhSua2').show();
+                        $('#btnChinhSua2').parent().show();
+                         $.each($('#form2').find('input'), function (index, value) {
+                           // if(value.id !='soQD')
+                            value.disabled = true;
+                        });
+                        // your statements;
+                    });
+                    $('#btnHuyBo2').click(function (e) {
+                        e.preventDefault();
+
+                        $('#btnHuyBo2').hide();
+                        $('#btnLuu2').hide();
+                        $('#btnLuu2').parent();
+                        $('#btnChinhSua2').show();
+                        $('#btnChinhSua2').parent().show();
+                        $.each($('#form2').find('input'), function (index, value) {
+                           // if(value.id !='soQD')
+                            value.disabled = true;
+                        });
+                        // your statements;
+                    });
+
+
+                     $('#btnChinhSua3').click(function (e) {
+                        e.preventDefault();
+                        $('#btnChinhSua3').hide();
+                        $('#btnChinhSua3').parent().hide();
+                        $('#btnLuu3').show();
+                        $('#btnHuyBo3').show();
+                        $('#btnLuu3').parent().show();
+                        $.each($('#form3').find('input'), function (index, value) {
+                           // if(value.id !='soQD')
+                            value.disabled =false;
+                        });
+                        // your statements;
+                    });
+                    $('#btnLuu3').click(function (e) {
+                        e.preventDefault();
+
+                        $('#btnLuu3').hide();
+                        $('#btnHuyBo3').hide();
+                        $('#btnHuyBo3').parent();
+                        $('#btnChinhSua3').show();
+                        $('#btnChinhSua3').parent().show();
+                        $.each($('#form3').find('input'), function (index, value) {
+                           // if(value.id !='soQD')
+                            value.disabled = true;
+                        });
+                        // your statements;
+                    });
+                    $('#btnHuyBo3').click(function (e) {
+                        e.preventDefault();
+
+                        $('#btnHuyBo3').hide();
+                        $('#btnLuu3').hide();
+                        $('#btnLuu3').parent();
+                        $('#btnChinhSua3').show();
+                        $('#btnChinhSua3').parent().show();
+                        $.each($('#form3').find('input'), function (index, value) {
+                           // if(value.id !='soQD')
+                            value.disabled = true;
+                        });
+                        // your statements;
+                    });
+
+
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    // event controller button to sending data
+                $('#btnLuu1').click(function (e) {
+
+                    var x1 = $('#sothe').val();
+                    var x2 = $('#hoVaTen').val();
+                    var x3 = $('#ngaythangnamsinh').val();
+                    var x4 = $('#donvicd').val();
+                    var x5 = $('#soBH').val();
+                    var x6 = $('#sodt').val();
+                    var x7 = $('#diachithuongtru').val();
+
+                    var object = {
+                        "sothe":x1,
+                        "hoVaTen": x2,
+                        "ngaythangnamsinh":x3,
+                        "donvicd": x4,
+                        "soBH": x5,
+                        "sodt":x6,
+                        "diachithuongtru": x7
+
+                    }
+
+                    e.preventDefault();
+                    updateCoBan(object);
+
+
+
+                });
+
+                //cham dut
+                 $('#btnLuu2').click(function (e) {
+
+                     var x1 = $('#tenLoaiChamDut').val();
+                     var x2 = $('#soQD').val();
+                     var x3 = $('#ngayQD').val();
+                     var x4 = $('#ngayCD').val();
+
+                    var object = {
+                        "tenLoaiChamDut":x1,
+                        "soQD": x2,
+                        "ngayQD":x3,
+                        "ngayCD": x4
+
+
+                    }
+
+                    e.preventDefault();
+                    updateChamDut(object);
+
+
+
+                 });
+
+
+
+                 $('#btnLuu3').click(function (e) {
+
+                    // alert('save3')
+                     var x1 = $('#hoTenNguoiUyQuyen').val();
+                     var x2 = $('#quanHeNguoiUyQuyen').val();
+                     var x3 = $('#soCMT').val();
+                     var x4 = $('#soDT').val();
+                     var x5 = @ViewBag.manv;
+                    var object = {
+                        "hoTenNguoiUyQuyen":x1,
+                        "quanHeNguoiUyQuyen": x2,
+                        "soCMT":x3,
+                        "soDT": x4,
+                        "manv":x5
+
+                    }
+
+                    e.preventDefault();
+                    updateUyQuyen(object);
+
+
+
+                 });
+
+
+
+
+
+                //end
+
+        function updateCoBan(object) {
+                    $("#pre-load").show("slow", function () {
+      				   });
+      				  $("#pre-load").css("z-index", "99999");
+                    $.ajax({
+                        type: "POST",
+                        url: "/Brief/updateThongTinCoBan",
+                        data: {json :JSON.stringify(object)},
+                    dataType: "json",
+                        success: function (data) {
+
+                  //  alert('ddd');
+                    loadThongTinCoBan();
+                }
+
+            });
+                }
+
+
+        function updateChamDut(object) {
+                    $("#pre-load").show("slow", function () {
+      				   });
+      				  $("#pre-load").css("z-index", "99999");
+                    $.ajax({
+                        type: "POST",
+                        url: "/Brief/updateLoaiChamDut",
+                        data: { json: JSON.stringify(object) },
+                        dataType: "json",
+                        success: function (data) {
+                          //  alert('updateChamDut');
+
+                            loadLoaiChamDut();
+                        }
+
+                    });
+                }
+
+
+        function updateUyQuyen(object) {
+                    $("#pre-load").show("slow", function () {
+      				   });
+      				  $("#pre-load").css("z-index", "99999");
+                    $.ajax({
+                        type: "POST",
+                        url: "/Brief/updateUyQuyen",
+                        data: { json: JSON.stringify(object) },
+                        dataType: "json",
+                        success: function (data) {
+                           // alert('updateChamDut');
+                            loadUyQuyen();
+                        }
+
+                    });
+                }
+
+
+
+
+
+
+
+
+                $('#btnHuyBo1').click(function (e) {
+                    e.preventDefault();
+                    loadThongTinCoBan();
+                })
+                $('#btnHuyBo2').click(function (e) {
+                    e.preventDefault();
+                    loadLoaiChamDut();
+                })
+                $('#btnHuyBo3').click(function (e) {
+                    e.preventDefault();
+                    loadUyQuyen();
+                })
+
+
+
+                function dateFormat(d) {
+                    if (d == null) return "";
+                    var dateString = d.substr(6);
+                    var currentTime = new Date(parseInt(dateString));
+                    var month = currentTime.getMonth() + 1;
+                    var day = currentTime.getDate();
+                    var year = currentTime.getFullYear();
+                    var date = month + "/" + day + "/" + year;
+                    return (date);
+        }
+
+        function getChinhSuaGiayTo(sohieu,kieu,ngaytra) {
+            console.log('getChinhSuaGiayTo');
+            //xet gia tri cho div ve thong tin chinh sua
+            console.log(sohieu +','+kieu+','+ngaytra);
+            $('#suasohieu').val(sohieu);
+            $('#suakieu').val(kieu);
+            if (ngaytra != 'null') {
+                $('#suangaytra').val(dateFormat(ngaytra));
+            }
+            $('#suangaytra').prop('disabled', false);
+
+
+
+        }
+
+        function dongYSuaGiayTo() {
+            var object = {
+                "manv": @ViewBag.manv,
+                "sohieu":$('#suasohieu').val(),
+                "kieu":$('#suakieu').val(),
+                "ngaytra":$('#suangaytra').val(),
+            }
+            $("#pre-load").show("slow", function () {
+      				   });
+      				  $("#pre-load").css("z-index", "99999");
+             $.ajax({
+                        type: "POST",
+                        url: "/Brief/updateGiayTo",
+                        data: { json: JSON.stringify(object) },
+                        dataType: "json",
+                        success: function (data) {
+                            // alert('updateChamDut');
+
+                            loadThongTinGiayTo();
+                        }
+
+                    });
+
+        }
+
+        $('#dongYChinhSua').click(function (e) {
+            dongYSuaGiayTo();
+        });
+        $('#huyBoChinhSua').click(function (e) {
+            e.preventDefault();
+            huyBoSuaGiayTo();
+
+        });
+
+        function huyBoSuaGiayTo() {
+
+            loadThongTinGiayTo();
+        }
+
+
+
+
+
+    </script>
+
+    <script src="~/js/Custom JS/DK/ReportHuman/editable.js"></script>
+    <script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
+    <script src="~/assets/extra-libs/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js"></script>
+    <script src="~/assets/extra-libs/jquery.easy-pie-chart/easy-pie-chart.init.js"></script>
+
+}
+

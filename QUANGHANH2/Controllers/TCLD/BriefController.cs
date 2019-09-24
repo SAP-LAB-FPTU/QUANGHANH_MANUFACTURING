@@ -1,9 +1,11 @@
 ﻿
+using Newtonsoft.Json.Linq;
 using QUANGHANH2.Models;
 using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;using System.Web.Routing;
@@ -19,13 +21,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
         public static string id_ = "";
 
-        [Route("phong-tcld/quan-ly-ho-so/ho-so-ngoai-cong-ty")]
-        public ActionResult Outside()
-        {
-            ViewBag.nameDepartment = "quanlyhoso";
-            return View("/Views/TCLD/Brief/ManageBrief/Outside.cshtml");
-        }
-
+        
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty")]
         [HttpGet]
         public ActionResult Inside()
@@ -354,6 +350,447 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 return RedirectToAction("List");
             }
         }
+		
+		
+		
+		
+		//***start hoang
+		
+		
+		
+        [Route("phong-tcld/quan-ly-ho-so/ho-so-ngoai-cong-ty")]
+        public ActionResult Outside()
+        {
+
+            return View("/Views/TCLD/Brief/ManageBrief/Outside.cshtml");
+
+        }
+        [HttpPost]
+        public ActionResult Outside(String mnv)
+        {
+
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                var mydata = (from p in db.NhanViens
+                              join p1 in db.HoSoes on p.MaNV equals p1.MaNV
+                              join p2 in db.ChamDut_NhanVien on p1.MaNV equals p2.MaNV
+                            //  where p1.TrangThaiHoSo == "ngoai" 
+                              select new
+                              {
+                                  stt = "1",
+                                  manv = p.MaNV,
+                                  ten = p.Ten,
+                                  dvcdhd =p2.DonViKhiChamDut,
+                                  sobhxh = p.SoBHXH,
+                                  sdt = p.SoDienThoai,
+                                  diachi = p.NoiOHienTai,
+                                  edit = true
+                              }).ToList();
+             
+                return Json(new { success = true, data = mydata, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
+            }
+
+
+        }
+        [HttpGet]
+        [Route("phong-tcld/quan-ly-ho-so/ho-so-ngoai-cong-ty/chi-tiet-ho-so")]
+        public ActionResult OutSideDetail()
+        {
+            String mnv = Request.QueryString["manv"];
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+
+                var count = (from p in db.NhanViens
+                             join p1 in db.HoSoes on p.MaNV equals p1.MaNV
+                             join p2 in db.ChamDut_NhanVien on p1.MaNV equals p2.MaNV
+                             where /*p1.TrangThaiHoSo == "ngoai" &*/ p.MaNV == mnv
+                             select p).Count();
+                if (count != 1)
+                {
+                    return RedirectToAction("OutSide", "Brief");
+                }
+                ViewBag.nameDepartment = "quanlyhoso";
+
+            }
+            ViewBag.manv = mnv;
+            return View("/Views/TCLD/Brief/ManageBrief/OutSideDetail.cshtml");
+        }
+        public ActionResult thongTinUyQuyen()
+        {
+            String mnv = Request.QueryString["manv"];
+
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                var mydata = (from p in db.NhanViens
+                              join p1 in db.NguoiUyQuyenLayHoSo_BaoHiem on p.MaUyQuyen equals p1.MaUyQuyen
+                              where p.MaNV == mnv
+                              select new
+                              {
+                                  hoTenNguoiUyQuyen = p1.HoTen,
+                                  quanHeNguoiUyQuyen = p1.QuanHe,
+                                  soCMT = p1.SoCMND,
+                                  soDT = p1.SoDienThoai
+                              }).ToList();
+                Debug.WriteLine(mydata.Count(), "TAG");
+                return Json(new { success = true, data = mydata, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult taiThongTinCoBanHSNgoai()
+        {
+            String mnv = Request.QueryString["manv"];
+
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                var mydata = (from p in db.NhanViens
+                              join p1 in db.HoSoes on p.MaNV equals p1.MaNV
+                              join p2 in db.ChamDut_NhanVien on p1.MaNV equals p2.MaNV
+                              where  p.MaNV == mnv
+                              select new
+                              {
+                                  stt = "",
+                                  sothe = p.MaNV,
+                                  hoVaTen = p.Ten,
+                                  ngaythangnamsinh = p.NgaySinh,
+                                  donvicd = p2.DonViKhiChamDut,
+                                  soBH = p.SoBHXH,
+                                  sodt = p.SoDienThoai,
+                                  diachithuongtru = p.NoiOHienTai,
+                                  edit = true
+                              }).ToList();
+
+                return Json(new { success = true, data = mydata, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        public ActionResult thongtinLoaiChamdut()
+        {
+            String mnv = Request.QueryString["manv"];
+
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                var mydata = (from p in db.ChamDut_NhanVien
+
+                              join p1 in db.QuyetDinhs on p.SoQuyetDinh equals p1.SoQuyetDinh
+                              where p.MaNV == mnv
+                              select new
+                              {
+                                  tenLoaiChamDut = p.LoaiChamDut,
+                                  soQD = p.SoQuyetDinh,
+                                  ngayQD = p1.NgayQuyetDinh,
+                                  ngayCD = p.NgayChamDut
+                              }).ToList();
+                Debug.WriteLine(mydata.Count(), "TAG");
+                return Json(new { success = true, data = mydata, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpPost]
+        public ActionResult updateThongTinCoBan(String json)
+        {
+
+            dynamic js = JObject.Parse(json);
+            String hoVaTen = js.hoVaTen;
+            String sothe = js.sothe;
+            String ngaythangnamsinh = js.ngaythangnamsinh;
+            String donvicd = js.donvicd;
+            String soBH = js.soBH;
+            String sodt = js.sodt;
+            String diachithuongtru = js.diachithuongtru;
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                NhanVien nv = (from p in db.NhanViens where p.MaNV == sothe select p).SingleOrDefault();
+                nv.Ten = hoVaTen;
+                nv.SoBHXH = soBH;
+                nv.SoDienThoai = sodt;
+                nv.NoiOHienTai = diachithuongtru;
+                if (isValidateDateTime(ngaythangnamsinh))
+                {
+                    nv.NgaySinh = Convert.ToDateTime(ngaythangnamsinh);
+                }
+
+                ChamDut_NhanVien cd = (from p in db.ChamDut_NhanVien where p.MaNV == sothe select p).SingleOrDefault();
+                cd.DonViKhiChamDut = donvicd;
+
+                db.SaveChanges();
+
+                ViewBag.nameDepartment = "quanlyhoso";
+                return Json(new { success = true, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
+
+            }
+
+
+        }
+
+
+
+        [HttpPost]
+        public ActionResult updateLoaiChamDut(String json)
+        {
+
+            dynamic js = JObject.Parse(json);
+            String tenLoaiChamDut = js.tenLoaiChamDut;
+            String soQD = js.soQD;
+            String ngayQD = js.ngayQD;
+            String ngayCD = js.ngayCD;
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                ChamDut_NhanVien nv = (from p in db.ChamDut_NhanVien where p.SoQuyetDinh == soQD select p).SingleOrDefault();
+                nv.LoaiChamDut = tenLoaiChamDut;
+                if (isValidateDateTime(ngayCD))
+                {
+                    nv.NgayChamDut = Convert.ToDateTime(ngayCD);
+                }
+
+                QuyetDinh cd = (from p in db.QuyetDinhs where p.SoQuyetDinh == soQD select p).SingleOrDefault();
+                if (isValidateDateTime(ngayQD))
+                {
+                    cd.NgayQuyetDinh = Convert.ToDateTime(ngayQD);
+                }
+
+
+                db.SaveChanges();
+
+                ViewBag.nameDepartment = "quanlyhoso";
+                return Json(new { success = true, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
+
+            }
+
+
+        }
+        public Boolean isValidateDateTime(String dateTime)
+        {
+            try
+            {
+                DateTime dt = Convert.ToDateTime(dateTime);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
+        }
+
+
+
+        public ActionResult updateUyQuyen(String json)
+        {
+            dynamic js = JObject.Parse(json);
+            String hoTenNguoiUyQuyen = js.hoTenNguoiUyQuyen;
+            String quanHeNguoiUyQuyen = js.quanHeNguoiUyQuyen;
+            String soCMT = js.soCMT;
+            String soDT = js.soDT;
+            String mnv = js.manv;
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+
+                var count = (from p in db.NhanViens
+                             join p1 in db.NguoiUyQuyenLayHoSo_BaoHiem on p.MaUyQuyen equals p1.MaUyQuyen
+                             where p.MaNV == mnv
+                             select p1).Count();
+
+                NguoiUyQuyenLayHoSo_BaoHiem n = (from p in db.NguoiUyQuyenLayHoSo_BaoHiem
+                                                 join p1 in db.NhanViens on p.MaUyQuyen equals p1.MaUyQuyen
+                                                 where p1.MaNV == mnv
+                                                 select p
+
+                                                ).SingleOrDefault();
+                if (count == 1)
+                {
+                    n.HoTen = hoTenNguoiUyQuyen;
+                    n.QuanHe = quanHeNguoiUyQuyen;
+                    n.SoCMND = soCMT;
+                    n.SoDienThoai = soDT;
+                }
+                else
+                {
+                    int id = (from p in db.NguoiUyQuyenLayHoSo_BaoHiem select p).Count() + 1;
+                    NhanVien nv = (from p in db.NhanViens where p.MaNV == mnv select p).SingleOrDefault();
+                    n = new NguoiUyQuyenLayHoSo_BaoHiem();
+                    nv.MaUyQuyen = id;
+                    n.MaUyQuyen = id;
+                    n.HoTen = hoTenNguoiUyQuyen;
+                    n.QuanHe = quanHeNguoiUyQuyen;
+                    n.SoCMND = soCMT;
+                    n.SoDienThoai = soDT;
+                    db.NguoiUyQuyenLayHoSo_BaoHiem.Add(n);
+                }
+
+
+
+
+                db.SaveChanges();
+
+
+                return Json(new { success = true, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
+
+            }
+
+
+        }
+
+        public ActionResult thongTinGiayTo()
+        {
+            String mnv = Request.QueryString["manv"];
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                var x = (from a in db.GiayChungNhan_NhanVien
+                         join b in db.GiayChungNhans on a.MaChungNhan equals b.MaChungNhan
+                         where a.MaNV == mnv
+                         select
+                new
+                {
+                    kieu = b.KieuChungNhan,
+                    ngaytra = a.NgayTra,
+                    sohieu = a.SoHieu,
+                    manv = a.MaNV
+
+                }).ToList();
+                var y = (from a in db.ChungChi_NhanVien
+                         join b in db.ChungChis on a.MaChungChi equals b.MaChungChi
+                         where a.MaNV == mnv
+                         select
+                         new 
+                         {
+                             kieu = b.KieuChungChi,
+                             ngaytra = a.NgayTra,
+                             sohieu = a.SoHieu,
+                             manv = a.MaNV
+                         }
+                        ).ToList();
+                var z = (from a in db.ChiTiet_BangCap
+                         join b in db.BangCaps on a.MaBangCap equals b.MaBangCap
+                         where a.MaNV == mnv
+                         select
+                         new
+                         {
+                             kieu = b.KieuBangCap,
+                             ngaytra = a.NgayTra,
+                             sohieu = a.SoHieu,
+                             manv = a.MaNV
+                         }
+                        ).ToList();
+                var m = x.Union(y.Union(z));
+                return Json(new { success = true, data = m, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
+            }
+
+            
+        }
+
+        public ActionResult updateGiayTo(String json)
+        {
+            dynamic js = JObject.Parse(json);
+            String manv = js.manv;
+            String sohieu = js.sohieu;
+            String kieu = js.kieu;
+            String ngaytra = js.ngaytra;
+            using (QUANGHANHABCEntities db =new QUANGHANHABCEntities())
+            {
+                GiayChungNhan_NhanVien x = (from a in db.GiayChungNhan_NhanVien where a.MaNV == manv & a.SoHieu==sohieu  select a).SingleOrDefault() ;
+                ChungChi_NhanVien y  = (from a in db.ChungChi_NhanVien where a.MaNV == manv & a.SoHieu == sohieu select a).SingleOrDefault();
+                ChiTiet_BangCap z = (from a in db.ChiTiet_BangCap where a.MaNV == manv & a.SoHieu == sohieu select a).SingleOrDefault();
+                if (x != null)
+                {
+                    if(isValidateDateTime(ngaytra))
+                    x.NgayTra = Convert.ToDateTime(ngaytra);
+                }
+                if (y != null)
+                {
+                    if (isValidateDateTime(ngaytra))
+                        y.NgayTra = Convert.ToDateTime(ngaytra);
+
+                }
+                if (z != null)
+                {
+                    if (isValidateDateTime(ngaytra))
+                        z.NgayTra = Convert.ToDateTime(ngaytra);
+
+                }
+                db.SaveChanges();
+                return Json(new { success = true, draw = Request["draw"] }, JsonRequestBehavior.AllowGet); ;
+            }
+            
+        }
+       
+        public ActionResult search()
+        {
+            
+
+            String manv = Request.QueryString["manv"]; 
+            String ten = Request.QueryString["ten"];
+            String loaichamdut = Request.QueryString["loaichamdut"];
+            // String 
+            using (QUANGHANHABCEntities db =new QUANGHANHABCEntities())
+            {
+               
+                // search ma nhan vien
+                
+                    var mydata = (from p in db.NhanViens
+                                  join p1 in db.HoSoes on p.MaNV equals p1.MaNV
+                                  join p2 in db.ChamDut_NhanVien on p1.MaNV equals p2.MaNV
+                                  where /*p1.TrangThaiHoSo == "ngoai" &*/
+                                  p.MaNV.Contains(manv) 
+                                  & (p.Ten.Contains(ten) | p.Ten ==null)  
+                                  & (p2.LoaiChamDut.Contains(loaichamdut) | p2.LoaiChamDut ==null) 
+                                  select new
+                                  {
+                                      stt = "1",    
+                                      manv = p.MaNV,
+                                      ten = p.Ten,
+                                      dvcdhd = p2.DonViKhiChamDut,
+                                      sobhxh = p.SoBHXH,
+                                      sdt = p.SoDienThoai,
+                                      diachi = p.NoiOHienTai,
+                                      edit = true
+                                  }).ToList();
+                    //return Json(new { success = true, data = mydata, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
+                
+               
+                //    var mydata1 = (from p in db.NhanViens
+                //                  join p1 in db.HoSoes on p.MaNV equals p1.MaNV
+                //                  join p2 in db.ChamDut_NhanVien on p1.MaNV equals p2.MaNV
+                //                  where /*p1.TrangThaiHoSo == "ngoai" &*/  p.Ten.Contains(ten) & ten !=""
+                //                  select new
+                //                  {
+                //                      stt = "1",
+                //                      manv = p.MaNV,
+                //                      ten = p.Ten,
+                //                      dvcdhd = p2.DonViKhiChamDut,
+                //                      sobhxh = p.SoBHXH,
+                //                      sdt = p.SoDienThoai,
+                //                      diachi = p.NoiOHienTai,
+                //                      edit = true
+                //                  }).ToList();
+                //   // return Json(new { success = true, data = mydata, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
+                
+                
+                //    var mydata2 = (from p in db.NhanViens
+                //                  join p1 in db.HoSoes on p.MaNV equals p1.MaNV
+                //                  join p2 in db.ChamDut_NhanVien on p1.MaNV equals p2.MaNV
+                //                  where /*p1.TrangThaiHoSo == "ngoai" &*/  p2.LoaiChamDut.Contains(loaichamdut) & loaichamdut!=""
+                //                  select new
+                //                  {
+                //                      stt = "1",
+                //                      manv = p.MaNV,
+                //                      ten = p.Ten,
+                //                      dvcdhd = p2.DonViKhiChamDut,
+                //                      sobhxh = p.SoBHXH,
+                //                      sdt = p.SoDienThoai,
+                //                      diachi = p.NoiOHienTai,
+                //                      edit = true
+                //                  }).ToList();
+                //var x = mydata.Union(mydata1.Union(mydata2)).Distinct();
+                    return Json(new { success = true, data = mydata, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
+                
+                return Json(new { success = false, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
+            }
+
+            
+        }
+		
+		
+		
+		//***end hoang
 
 
 
