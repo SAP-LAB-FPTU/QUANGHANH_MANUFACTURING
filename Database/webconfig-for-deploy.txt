@@ -23,8 +23,10 @@
       </system.Web>
   -->
   <system.web>
+    <customErrors mode="Off"/>
     <compilation debug="true" targetFramework="4.6.1"/>
     <httpRuntime targetFramework="4.6.1"/>
+    <sessionState timeout="60" />
   </system.web>
   <runtime>
     <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
@@ -74,11 +76,11 @@
     <add name="QUANGHANHABCEntities" connectionString="metadata=res://*/Models.Model1.csdl|res://*/Models.Model1.ssdl|res://*/Models.Model1.msl;provider=System.Data.SqlClient;provider connection string=&quot;Data Source=quanghanh.database.windows.net;Initial Catalog=QUANGHANHABC;Persist Security Info=True;User ID=adminQH;Password=Quanghanh1@&quot;" providerName="System.Data.EntityClient" />
 
   </connectionStrings>
-<system.webServer>
+  <system.webServer>
     <staticContent>
-  <mimeMap fileExtension=".woff2" mimeType="application/x-font-woff" />
-  <mimeMap fileExtension=".woff" mimeType="application/x-font-woff" />
-  <mimeMap fileExtension=".json" mimeType="application/json" />
-</staticContent>
-</system.webServer>
+      <mimeMap fileExtension=".woff2" mimeType="application/x-font-woff" />
+      <mimeMap fileExtension=".woff" mimeType="application/x-font-woff" />
+      <mimeMap fileExtension=".json" mimeType="application/json" />
+    </staticContent>
+  </system.webServer>
 </configuration>

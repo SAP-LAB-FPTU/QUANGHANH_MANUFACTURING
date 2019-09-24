@@ -25,7 +25,8 @@
             <div class="row">
                 <div class="col s6">
                     <div class="form-group">
-                        @Html.LabelFor(model => model.equipmentId, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <label>Mã thiết bị</label>
+                        @*@Html.LabelFor(model => model.equipmentId, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.equipmentId, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.equipmentId, "", new { @class = "text-danger" })
@@ -33,7 +34,8 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.equipment_name, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <label>Tên thiết bị</label>
+                        @*@Html.LabelFor(model => model.equipment_name, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.equipment_name, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.equipment_name, "", new { @class = "text-danger" })
@@ -41,7 +43,8 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.supplier, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <label>Nước sản xuất</label>
+                        @*@Html.LabelFor(model => model.supplier, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.supplier, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.supplier, "", new { @class = "text-danger" })
@@ -49,15 +52,17 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.date_import, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <label>Ngày nhập</label>
+                        @*@Html.LabelFor(model => model.date_import, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.date_import, new { htmlAttributes = new { @class = "form-control datepicker-here maxDate" } })
-                            @*@Html.ValidationMessageFor(model => model.date_import, "", new { @class = "text-danger" })*@
+                            <input id="import_fix" type="datetime" class="form-control datepicker-here maxDate" placeholder="Ngày nhập" />
+                            @Html.EditorFor(model => model.date_import, new { htmlAttributes = new { @style = "display: none !important" } })
                         </div>
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.depreciation_estimate, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <label>Khấu hao ước tính</label>
+                        @*@Html.LabelFor(model => model.depreciation_estimate, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.depreciation_estimate, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.depreciation_estimate, "", new { @class = "text-danger" })
@@ -65,7 +70,8 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.depreciation_present, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <label>Khấu hao thực tại</label>
+                        @*@Html.LabelFor(model => model.depreciation_present, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.depreciation_present, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.depreciation_present, "", new { @class = "text-danger" })
@@ -73,7 +79,8 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.durationOfInspection, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <label>Thời hạn đăng kiểm</label>
+                        @*@Html.LabelFor(model => model.durationOfInspection, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.durationOfInspection, new { htmlAttributes = new { @class = "form-control datepicker-here maxDate" } })
                             @Html.ValidationMessageFor(model => model.durationOfInspection, "", new { @class = "text-danger" })
@@ -81,14 +88,16 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.durationOfInsurance, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <label>Thời hạn bảo hiểm</label>
+                        @*@Html.LabelFor(model => model.durationOfInsurance, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.durationOfInsurance, new { htmlAttributes = new { @class = "form-control datepicker-here maxDate" } })
                             @Html.ValidationMessageFor(model => model.durationOfInsurance, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group">
-                        @Html.LabelFor(model => model.usedDay, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <label>Ngày đưa vào sử dụng</label>
+                        @*@Html.LabelFor(model => model.usedDay, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.usedDay, new { htmlAttributes = new { @class = "form-control datepicker-here maxDate" } })
                             @Html.ValidationMessageFor(model => model.usedDay, "", new { @class = "text-danger" })
@@ -101,14 +110,16 @@
 
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.nearest_Maintenance_Day, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <label>Ngày bảo dưỡng gần nhất</label>
+                        @*@Html.LabelFor(model => model.nearest_Maintenance_Day, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.nearest_Maintenance_Day, new { htmlAttributes = new { @class = "form-control datepicker-here maxDate" } })
                             @Html.ValidationMessageFor(model => model.nearest_Maintenance_Day, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group">
-                        @Html.LabelFor(model => model.total_operating_hours, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <label>Tổng thời gian hoạt động</label>
+                        @*@Html.LabelFor(model => model.total_operating_hours, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.total_operating_hours, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.total_operating_hours, "", new { @class = "text-danger" })
@@ -116,7 +127,8 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.current_Status, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <label>Tình trạng hiện tại</label>
+                        @*@Html.LabelFor(model => model.current_Status, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.current_Status, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.current_Status, "", new { @class = "text-danger" })
@@ -124,14 +136,16 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.fabrication_number, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <label>Số chế tạo</label>
+                        @*@Html.LabelFor(model => model.fabrication_number, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.fabrication_number, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.fabrication_number, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group">
-                        @Html.LabelFor(model => model.mark_code, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <label>Số hiệu</label>
+                        @*@Html.LabelFor(model => model.mark_code, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.mark_code, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.fabrication_number, "", new { @class = "text-danger" })
@@ -139,7 +153,8 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.quality_type, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <label>Loại chất lượng</label>
+                        @*@Html.LabelFor(model => model.quality_type, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.quality_type, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.quality_type, "", new { @class = "text-danger" })
@@ -147,7 +162,8 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.input_channel, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <label>Đường nhập</label>
+                        @*@Html.LabelFor(model => model.input_channel, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.input_channel, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.input_channel, "", new { @class = "text-danger" })
@@ -173,14 +189,14 @@
             </div>
 
         </div>
-        
+
 
     </div>
     <div class="modal-footer">
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <a href="#myadd2" class="modal-trigger btn">Thêm thuộc tính</a>
-                <button type="submit" class="btn blue btn-default modal-close" style="color:white">Thêm</button>
+                <button type="submit" id="save" class="btn blue btn-default modal-close" style="color:white">Thêm</button>
                 @*<button type="submit" class="btn blue btn-default modal-trgger" data-target="myadd2" style="color:white">Thêm</button>*@
                 @*<input type="submit" value="Thêm" class="btn blue btn-default" id="btn-submit" onclick="ABC()" />*@
             </div>
@@ -212,6 +228,7 @@
 </div>
 <script src="~/js/Custom JS/CDVT/Home/huydong.js"></script>
 <script>
+
     function myFunction() {
         var table = document.getElementById("myTable");
         var row = table.insertRow(1);
@@ -221,8 +238,15 @@
         cell1.innerHTML = "<input type='text' class='form-control' placeholder='Tên đặc tính' />";
         cell2.innerHTML = "<input type='number' class='form-control' placeholder='Thông số' />";
         cell3.innerHTML = "<input type='text' class='form-control' placeholder='ĐVT' />";
-}
+    }
+
     $(document).ready(function () {
+        $("$import_fix").val($("#date_import").val())
+        $("#save").click(function () {
+            var temp = $("#import_fix").val();
+            var arr = temp.split("/");
+            $("#date_import").val(arr[1] + "/" + arr[0] + "/" + arr[2]);
+        });
         var dem = $("#dem").text();
 
         $("#them").click(function () {

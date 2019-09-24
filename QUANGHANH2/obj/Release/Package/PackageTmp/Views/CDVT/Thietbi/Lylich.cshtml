@@ -9,7 +9,7 @@
     }
 </style>
 <link href="~/assets/Custom css/CDVT/timeline.css" rel="stylesheet" />
-<div class="card">
+<div class="card" id="abc">
     <div class="card-content">
         <div class="container-fluid">
             <div class="row">
@@ -31,122 +31,58 @@
                         </div>
                         <div id="dieuchuyen" class="col s12">
                             <div class="wrapper-timeline">
-
                                 <div class="container">
+
+                                    @foreach (var item in ViewBag.listDD)
+                                    {
                                     <div class="timeline">
                                         <div class="timeline-month">
-                                            Năm 2018
-                                            <span>1 lần điều động</span>
+                                            Năm @item.year
+                                            <span>@item.count lần điều động</span>
                                         </div>
-
-                                        <div class="timeline-section">
-                                            <div class="timeline-date">
-                                                Thứ 6, ngày 15 tháng 12
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <div class="timeline-box">
-                                                        <div class="box-content table_container">
-                                                            <table id="myborder" class="striped table-bordered">
-                                                                <tr>
-                                                                    <th>Ngày kết thúc điều động</th>
-                                                                    <th>Vị trí điều động</th>
-                                                                    <th>Phân xưởng chịu trách nhiệm</th>
-                                                                    <th>Người ký điều động</th>
-                                                                    <th>Ngày ký duyệt</th>
-                                                                    <th>Số quyết định</th>
-                                                                    <th>Nội dung quyết định</th>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>21/10/2021</td>
-                                                                    <td>Lò 1</td>
-                                                                    <td>Phân xưởng 1</td>
-                                                                    <td><a href="/" style="color: dodgerblue;">Nguyễn Thị Hưởng</a></td>
-                                                                    <td>16/12/2018</td>
-                                                                    <td>QĐ-324</td>
-                                                                    <td>Điều động đi khai thác</td>
-                                                                </tr>
-                                                            </table>
+                                        @foreach (var x in item.listmoveline)
+                                        {
+                                            <div class="timeline-section mytimeline">
+                                                <div class="timeline-date">
+                                                    @x.date
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="timeline-box">
+                                                            <div class="box-content table_container">
+                                                                <table id="myborder" class="striped table-bordered">
+                                                                    <tr>
+                                                                        <th>Ngày kết thúc điều động</th>
+                                                                        <th>Vị trí điều động</th>
+                                                                        <th>Phân xưởng chịu trách nhiệm</th>
+                                                                        <th>Người ký điều động</th>
+                                                                        <th>Ngày ký duyệt</th>
+                                                                        <th>Số quyết định</th>
+                                                                        <th>Nội dung quyết định</th>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>@x.date_to.ToString("dd/MM/yyyy")</td>
+                                                                        <td>@x.department_detail</td>
+                                                                        <td>@x.department_id</td>
+                                                                        <td><a href="/" style="color: dodgerblue;">@x.person_created</a></td>
+                                                                        <td>@x.date_created.ToString("dd/MM/yyyy")</td>
+                                                                        <td>@x.documentary_id</td>
+                                                                        <td>@x.reason</td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        }
+
                                     </div>
+                                    }
 
-                                    <div class="timeline">
-                                        <div class="timeline-month">
-                                            Năm 2017
-                                            <span>2 lần điều động</span>
-                                        </div>
 
-                                        <div class="timeline-section">
-                                            <div class="timeline-date">
-                                                Thứ 2, ngày 03 tháng 09
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <div class="timeline-box">
-                                                        <div class="box-content table_container">
-                                                            <table id="myborder" class="striped table-bordered">
-                                                                <tr>
-                                                                    <th>Ngày kết thúc điều động</th>
-                                                                    <th>Vị trí điều động</th>
-                                                                    <th>Phân xưởng chịu trách nhiệm</th>
-                                                                    <th>Người ký điều động</th>
-                                                                    <th>Ngày ký duyệt</th>
-                                                                    <th>Số quyết định</th>
-                                                                    <th>Nội dung quyết định</th>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>21/10/2018</td>
-                                                                    <td>Lò 2</td>
-                                                                    <td>Phân xưởng 1</td>
-                                                                    <td><a href="/" style="color: dodgerblue;">Nguyễn Thị Hưởng</a></td>
-                                                                    <td>04/09/2017</td>
-                                                                    <td>QĐ-324</td>
-                                                                    <td>Điều động đi khai thác</td>
-                                                                </tr>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="timeline-section">
-                                            <div class="timeline-date">
-                                                Thứ 2, ngày 01 tháng 01
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <div class="timeline-box">
-                                                        <div class="box-content table_container">
-                                                            <table id="myborder" class="striped table-bordered">
-                                                                <tr>
-                                                                    <th>Ngày kết thúc điều động</th>
-                                                                    <th>Vị trí điều động</th>
-                                                                    <th>Phân xưởng chịu trách nhiệm</th>
-                                                                    <th>Người ký điều động</th>
-                                                                    <th>Ngày ký duyệt</th>
-                                                                    <th>Số quyết định</th>
-                                                                    <th>Nội dung quyết định</th>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>01/09/2017</td>
-                                                                    <td>Lò 2</td>
-                                                                    <td>Phân xưởng 1</td>
-                                                                    <td><a href="/" style="color: dodgerblue;">Nguyễn Thị Hưởng</a></td>
-                                                                    <td>02/01/2017</td>
-                                                                    <td>QĐ-324</td>
-                                                                    <td>Điều động đi khai thác</td>
-                                                                </tr>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+
+                                    
                                 </div>
                             </div>
                         </div>
@@ -157,52 +93,40 @@
 
                                 <table class="striped" style="margin-top:30px !important">
                                     <tr>
-                                        <td>Nhà cung cấp</td>
-                                        <td>TC MOTOR</td>
+                                        <td>Nước sản xuất</td>
+                                        <td>@ViewBag.equipment.supplier</td>
                                     </tr>
                                     <tr>
                                         <td>Ngày nhập</td>
-                                        <td>04-12-2018</td>
+                                        <td>@ViewBag.equipment.date_import</td>
                                     </tr>
                                     <tr>
                                         <td>Khấu hao ước tính</td>
-                                        <td>12%</td>
+                                        <td>@ViewBag.equipment.depreciation_estimate</td>
                                     </tr>
                                     <tr>
                                         <td>Thời hạn bảo hiểm(tháng)</td>
-                                        <td>5</td>
+                                        <td>@ViewBag.equipment.durationOfInsurance</td>
                                     </tr>
                                     <tr>
                                         <td>Ngày đưa vào sử dụng</td>
-                                        <td>10-12-2018</td>
+                                        <td>@ViewBag.equipment.usedDay</td>
                                     </tr>
                                     <tr>
                                         <td>Ngày bảo dưỡng gần nhất</td>
-                                        <td>04-05-2019</td>
+                                        <td>@ViewBag.equipment.nearest_Maintenance_Day</td>
                                     </tr>
                                     <tr>
                                         <td>Tổng giờ hoạt động</td>
-                                        <td>324 giờ</td>
+                                        <td>@ViewBag.equipment.total_operating_hours</td>
                                     </tr>
                                     <tr>
                                         <td>Vị trí hiện tại</td>
-                                        <td>Phân xưởng 1</td>
+                                        <td>@ViewBag.equipment.department_id</td>
                                     </tr>
                                     <tr>
                                         <td>Tình trạng hiện tại</td>
-                                        <td>Ổn định</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Dung tích gàu </td>
-                                        <td>0.7 m3 </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Phạm vi làm việc của gàu </td>
-                                        <td>0,45~1,1 m3</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Trọng lượng toàn bộ</td>
-                                        <td>18,7 tấn (loại bánh xích rộng 600 mm)</td>
+                                        <td>@ViewBag.equipment.current_Status</td>
                                     </tr>
                                     <tr class="parent" id="rowA1" style="cursor: pointer">
                                         <th>- NĂNG SUẤT</th>
@@ -295,7 +219,7 @@
                                             <span>3 lần sửa chữa</span>
                                         </div>
 
-                                        <div class="timeline-section">
+                                        <div class="timeline-section mytimeline">
                                             <div class="timeline-date">
                                                 Từ: 2:15 AM Thứ 2, ngày 15 tháng 07
                                                 <span style="width: 105%">Đến: 4:15 AM Thứ 2, ngày 15 tháng 07<span style="background-color: deepskyblue">1162/LSX-VQHC-CV</span></span>
@@ -362,7 +286,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="timeline-section">
+                                        <div class="timeline-section mytimeline">
                                             <div class="timeline-date">
                                                 Từ: 2:15 AM Thứ 2, ngày 8 tháng 07
                                                 <span style="width: 105%">Đến: 4:15 AM Thứ 2, ngày 8 tháng 07<span style="background-color: deepskyblue">1162/LSX-VQHC-CV</span></span>
@@ -429,7 +353,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="timeline-section">
+                                        <div class="timeline-section mytimeline">
                                             <div class="timeline-date">
                                                 Từ: 2:15 AM Thứ 2, ngày 1 tháng 07
                                                 <span style="width: 105%">Đến: 4:15 AM Thứ 2, ngày 1 tháng 07<span style="background-color: deepskyblue">1162/LSX-VQHC-CV</span></span>
@@ -537,6 +461,7 @@
                                                                     <tr class="highlight">
                                                                         <th class="text-center" rowspan="2">Phân xưởng</th>
                                                                         <th class="text-center" colspan="4">Nội dung sự cố</th>
+                                                                        <th rowspan="2">Loại sự cố</th>
                                                                     </tr>
                                                                     <tr>
                                                                         <th>Thời gian bắt đầu sự cố</th>
@@ -552,6 +477,7 @@
                                                                             <td>@z.end_time.ToString("dd/MM/yyyy HH:mm")</td>
                                                                             <td class="subtract">@(z.end_time - z.start_time)</td>
                                                                             <td>@z.reason</td>
+                                                                            <td>@z.incident_type</td>
                                                                         </tr>
                                                                     }
                                                                 </table>

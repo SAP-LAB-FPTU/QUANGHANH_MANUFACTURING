@@ -25,37 +25,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             return View("/Views/CDVT/Suco/SucoThietbi.cshtml");
         }
 
-        [Route("phong-cdvt/su-co")]
-        [HttpPost]
-        public ActionResult GetAllData()
-        {
-            //Server Side Parameter
-            int start = Convert.ToInt32(Request["start"]);
-            int length = Convert.ToInt32(Request["length"]);
-            string searchValue = Request["search[value]"];
-            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
-            string sortDirection = Request["order[0][dir]"];
-
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            List<IncidentDB> incidents = DBContext.Database.SqlQuery<IncidentDB>("SELECT e.equipment_name, d.department_name, i.*, DATEDIFF(HOUR, i.start_time, i.end_time) as time_different FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId inner join Department d " +
-                "on d.department_id = i.department_id").ToList();
-            int totalrows = incidents.Count;
-            int totalrowsafterfiltering = incidents.Count;
-            //sorting
-            incidents = incidents.OrderBy(sortColumnName + " " + sortDirection).ToList<IncidentDB>();
-            //paging
-            incidents = incidents.Skip(start).Take(length).ToList<IncidentDB>();
-            foreach (IncidentDB item in incidents)
-            {
-                item.stringStartTime = item.start_time.ToString("hh:mm tt dd/MM/yyyy");
-                item.stringEndTime = item.getEndtime();
-                item.stringDiffTime = item.getDiffTime();
-                if (item.time_different.ToString() == "") item.editAble = item.incident_id + "^false";
-                else item.editAble = item.incident_id + "^true";
-            }
-            return Json(new { success = true, data = incidents, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
-        }
-
         [Route("phong-cdvt/su-co/add")]
         [HttpPost]
         public ActionResult Add(string equipment, string department, string reason, string detail, int yearStart, int monthStart, int dayStart, int hourStart, int minuteStart, int yearEnd, int monthEnd, int dayEnd, int hourEnd, int minuteEnd, string checkBox)
@@ -264,7 +233,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                 incidents.stringStartTime = incidents.start_time.ToString("HH mm dd/MM/yyyy");
                 DateTime temp;
                 DateTime.TryParse(incidents.end_time.ToString(), out temp);
-                incidents.stringEndTime = incidents.start_time.ToString("HH mm dd/MM/yyyy");
+                incidents.stringEndTime = temp.ToString("HH mm dd/MM/yyyy");
                 return Json(incidents);
             }
             catch (Exception)

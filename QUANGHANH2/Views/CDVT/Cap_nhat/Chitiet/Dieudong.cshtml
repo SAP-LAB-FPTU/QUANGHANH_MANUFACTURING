@@ -1,0 +1,264 @@
+﻿@{
+    ViewBag.Title = "Quyet_dinh_dieu_chuyen";
+    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+}
+<link href="~/dist/css/style.css" rel="stylesheet">
+<!-- This page CSS -->
+<link href="~/dist/css/pages/data-table.css" rel="stylesheet">
+
+<link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+<link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
+<script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
+<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
+
+<div class="card">
+    <div class="card-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="advanded-search">
+                    <div class="row">
+                        <div class="center">
+                            <h3 class="center">Chi tiết quyết định điều động số @ViewBag.id</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 table_container">
+                    <table class="table-bordered striped table-responsive centered"
+                           style="margin-top:30px; text-align:center;" id="complex_header">
+                        <thead>
+                            <tr>
+                                <th>Mã thiết bị</th>
+                                <th>Tên thiết bị</th>
+                                <th>Vị trí ban đầu</th>
+                                <th>Thời gian điều động đến</th>
+                                <th>Vị trí lắp đặt chi tiết</th>
+                                <th>Danh sách vật tư đi kèm</th>
+                                <th>Đã đến</th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <input name="id" hidden value="@ViewBag.id" id="id" />
+                    <input name="edit" hidden id="edit" />
+                    <a class="btn blue darken-2" id="submit">Lưu</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="mylist">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title" id="listId">Danh sách vật tư đi kèm</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <table id="test" class="striped table-responsive centered table-bordered mytable">
+                    <thead>
+                        <tr>
+                            <th>Mã vật tư</th>
+                            <th>Tên vật tư</th>
+                            <th>Số lượng</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="waves-effect waves-light btn blue darken-2 modal-trigger">Lưu</button>
+            <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-add-button">Thoát</button>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- Apps -->
+<!-- ============================================================== -->
+<script src="~/dist/js/app.js"></script>
+<script src="~/dist/js/app.init.js"></script>
+<script src="~/dist/js/app-style-switcher.js"></script>
+<!-- ============================================================== -->
+<!-- This page plugin js -->
+<!-- ============================================================== -->
+<link href="~/css/transfer_mobilize_history_timeline.css" rel="stylesheet" />
+<script src="~/js/Briefs_List.js"></script>
+<link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
+<script>
+    $(document).ready(function () {
+        var output = "";
+        $(".buttonChon").click(function () {
+            if ($(this).text() == "Chưa nhận") {
+                $(this).text('Đã nhận')
+                if (!output.includes($(this).val())) output += $(this).val() + "^";
+                $('#edit').val(output)
+            }
+            else {
+                $(this).text('Chưa nhận')
+                output = output.replace(($(this).val() + "^"), "")
+                $('#edit').val(output)
+            }
+        });
+    })
+</script>
+
+@section scripts{
+    <script src="~/js/jquery.dataTables.min.js"></script>
+    <script>
+        var Popup, dataTable;
+        var output = "";
+        $('#pre-load').show();
+        dataTable = $('#complex_header').dataTable({
+            "language": {
+                "emptyTable": "Không tìm thấy dữ liệu"
+            },
+            "ajax": {
+                "url": "/phong-cdvt/cap-nhat/quyet-dinh/dieu-dong/GetData",
+                "type": "POST",
+                "datatype": "json",
+                "data": {
+                    "id": $('#id').val()
+                },
+                "cache": false
+            },
+            "columns": [
+                { "data": "equipmentId", "name": "equipmentId" },
+                { "data": "equipment_name", "name": "equipment_name" },
+                { "data": "department_name", "name": "department_name" },
+                { "data": "stringDate", "name": "stringDate" },
+                { "data": "department_detail", "name": "department_detail" },
+                {
+                    "data": "idAndEquip", "name": "person_created", "render": function (data) {
+                        return "<a data-list=\"" + data + "\" class=\"waves-effect waves-light btn-small blue modal-trigger open-Modal\" href=\"#mylist\">Vật tư đi kèm</a>";
+                    }
+                },
+                {
+                    "data": "statusAndEquip", "name": "person_created", "render": function (data) {
+                        if (data.split("^")[0] == "0") return "<button id=\"buttonChon\" class='btn blue darken-2 buttonChon' value=\"" + data.split("^")[1] + "\">Chưa nhận</button>";
+                        else return "<button disabled class=\"btn blue darken-2\">Đã nhận</button>"
+                    }
+                }
+            ],
+            "serverSide": "true",
+            "order": [0, "asc"],
+            "rowId": "incident_id",
+            "lengthChange": false,
+            "searching": false,
+            "initComplete": function (settings, json) {
+                $('#pre-load').hide();
+                $(".buttonChon").click(function () {
+                    if ($(this).text() == "Chưa nhận") {
+                        $(this).text('Đã nhận')
+                        if (!output.includes($(this).val())) output += $(this).val() + "^";
+                        $('#edit').val(output)
+                    }
+                    else {
+                        $(this).text('Chưa nhận')
+                        output = output.replace(($(this).val() + "^"), "")
+                        $('#edit').val(output)
+                    }
+                });
+            },
+            "columnDefs": [
+                { targets: 5, orderable: false },
+                { targets: 6, orderable: false }
+            ],
+            "preDrawCallback": function (settings) {
+                $('#pre-load').show();
+            },
+            "drawCallback": function (settings) {
+                $('#pre-load').hide();
+            }
+        });
+
+        $("#submit").click(function (e) {
+            $("#pre-load").show();
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/cap-nhat/quyet-dinh/dieu-dong/edit",
+                dataType: "text",
+                success: function () {
+                    $('#edit').val("");
+                    var table = $('#complex_header').DataTable();
+                    table.ajax.reload(function () {
+                        $('#pre-load').hide();
+                        $.notify("Lưu thành công", {
+                            globalPosition: "top center",
+                            className: "success"
+                        });
+                    }, true);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#pre-load').hide();
+                    $.notify(XMLHttpRequest.responseText, {
+                        globalPosition: "top center",
+                        className: "error"
+                    });
+                },
+                data: {
+                    id: $('#id').val(),
+                    edit: $('#edit').val()
+                },
+                cache: false
+            })
+            return false;
+        });
+
+        $(document).ready(function () {
+            $(".buttonChon").click(function () {
+                if ($(this).text() == "Chưa nhận") {
+                    $(this).text('Đã nhận')
+                    if (!output.includes($(this).val())) output += $(this).val() + "^";
+                    $('#edit').val(output)
+                }
+                else {
+                    $(this).text('Chưa nhận')
+                    output = output.replace(($(this).val() + "^"), "")
+                    $('#edit').val(output)
+                }
+            });
+        })
+
+        //get data and push to modal list
+        $(document).on("click", ".open-Modal", function () {
+            $("#pre-load").show();
+            $("#test").find("tr:gt(0)").remove();
+            var QDIdAndEquipId = $(this).data('list');
+            var response = {};
+            $('#listId').text("Danh sách vật tư đi kèm của thiết bị " + QDIdAndEquipId.split("^")[1])
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/cap-nhat/quyet-dinh/dieu-dong/GetSupply",
+                dataType: "json",
+                success: function (data) {
+                    $(function () {
+                        $.each(data, function (i, item) {
+                            //$("#test").find("tr:gt(0)").remove();
+                            var $tr = $('<tr>').append(
+                                $('<td>').text(item.supply_id),
+                                $('<td>').text(item.supply_name),
+                                $('<td>').text(item.quantity)
+                            );
+                            $tr.appendTo('#test');
+                        });
+                    });
+                    $("#pre-load").hide();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $.notify(XMLHttpRequest.responseText, {
+                        globalPosition: "top center",
+                        className: "error"
+                    });
+                },
+                data: {
+                    documentary_id: QDIdAndEquipId.split("^")[0],
+                    equipmentId: QDIdAndEquipId.split("^")[1]
+                },
+                cache: false
+            })
+        });
+    </script>
+}

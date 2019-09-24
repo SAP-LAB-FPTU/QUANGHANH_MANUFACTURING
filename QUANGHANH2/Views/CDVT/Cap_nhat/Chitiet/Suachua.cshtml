@@ -1,0 +1,194 @@
+﻿@{
+    ViewBag.Title = "Suachua";
+    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+}
+
+<link href="~/dist/css/style.css" rel="stylesheet">
+<!-- This page CSS -->
+<link href="~/dist/css/pages/data-table.css" rel="stylesheet">
+
+<link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+<link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
+<script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
+<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
+
+<div class="card">
+    <div class="card-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="advanded-search">
+                    <div class="row">
+                        <div class="center">
+                            <h3 class="center">Chi tiết quyết định sửa chữa số @ViewBag.id</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 table_container">
+                    <table class="table-bordered striped table-responsive centered"
+                           style="margin-top:30px; text-align:center;" id="complex_header">
+                        <thead>
+                            <tr>
+                                <th>Mã thiết bị</th>
+                                <th>Tên thiết bị</th>
+                                <th>Vị trí hiện tại</th>
+                                <th>Loại sửa chữa</th>
+                                <th>Ngày kết thúc dự kiến</th>
+                                <th>Đã đến</th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <input name="id" hidden value="@ViewBag.id" id="id" />
+                    <input name="edit" hidden id="edit" />
+                    <a class="btn blue darken-2" id="submit">Lưu</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- Apps -->
+<!-- ============================================================== -->
+<script src="~/dist/js/app.js"></script>
+<script src="~/dist/js/app.init.js"></script>
+<script src="~/dist/js/app-style-switcher.js"></script>
+<!-- ============================================================== -->
+<!-- This page plugin js -->
+<!-- ============================================================== -->
+<link href="~/css/transfer_mobilize_history_timeline.css" rel="stylesheet" />
+<script src="~/js/Briefs_List.js"></script>
+<link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
+<script>
+    $(document).ready(function () {
+        var output = "";
+        $(".buttonChon").click(function () {
+            if ($(this).text() == "Chưa nhận") {
+                $(this).text('Đã nhận')
+                if (!output.includes($(this).val())) output += $(this).val() + "^";
+                $('#edit').val(output)
+            }
+            else {
+                $(this).text('Chưa nhận')
+                output = output.replace(($(this).val() + "^"), "")
+                $('#edit').val(output)
+            }
+        });
+    })
+</script>
+
+@section scripts{
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+        var Popup, dataTable;
+        var output = "";
+        $('#pre-load').show();
+        dataTable = $('#complex_header').dataTable({
+            "language": {
+                "emptyTable": "Không tìm thấy dữ liệu"
+            },
+            "ajax": {
+                "url": "/phong-cdvt/cap-nhat/quyet-dinh/sua-chua/GetData",
+                "type": "POST",
+                "datatype": "json",
+                "data": {
+                    "id": $('#id').val()
+                },
+                "cache": false
+            },
+            "columns": [
+                { "data": "equipmentId", "name": "equipmentId" },
+                { "data": "equipment_name", "name": "equipment_name" },
+                { "data": "department_name", "name": "department_name" },
+                { "data": "repair_type", "name": "repair_type" },
+                { "data": "stringDate", "name": "stringDate" },
+                {
+                    "data": "statusAndEquip", "name": "person_created", "render": function (data) {
+                        if (data.split("^")[0] == "0") return "<button id=\"buttonChon\" class='btn blue darken-2 buttonChon' value=\"" + data.split("^")[1] + "\">Chưa nhận</button>";
+                        else return "<button disabled class=\"btn blue darken-2\">Đã nhận</button>"
+                    }
+                }
+            ],
+            "serverSide": "true",
+            "order": [0, "asc"],
+            "rowId": "incident_id",
+            "lengthChange": false,
+            "searching": false,
+            "initComplete": function (settings, json) {
+                $('#pre-load').hide();
+                $(".buttonChon").click(function () {
+                    if ($(this).text() == "Chưa nhận") {
+                        $(this).text('Đã nhận')
+                        if (!output.includes($(this).val())) output += $(this).val() + "^";
+                        $('#edit').val(output)
+                    }
+                    else {
+                        $(this).text('Chưa nhận')
+                        output = output.replace(($(this).val() + "^"), "")
+                        $('#edit').val(output)
+                    }
+                });
+            },
+            "columnDefs": [
+                { targets: 4, orderable: false }
+            ],
+            "preDrawCallback": function (settings) {
+                $('#pre-load').show();
+            },
+            "drawCallback": function (settings) {
+                $('#pre-load').hide();
+            }
+        });
+
+        $("#submit").click(function (e) {
+            $("#pre-load").show();
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/cap-nhat/quyet-dinh/sua-chua/edit",
+                dataType: "text",
+                success: function () {
+                    $('#edit').val("");
+                    var table = $('#complex_header').DataTable();
+                    table.ajax.reload(function () {
+                        $('#pre-load').hide();
+                        $.notify("Lưu thành công", {
+                            globalPosition: "top center",
+                            className: "success"
+                        });
+                    }, true);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#pre-load').hide();
+                    $.notify(XMLHttpRequest.responseText, {
+                        globalPosition: "top center",
+                        className: "error"
+                    });
+                },
+                data: {
+                    id: $('#id').val(),
+                    edit: $('#edit').val()
+                },
+                cache: false
+            })
+            return false;
+        });
+
+        $(document).ready(function () {
+            $(".buttonChon").click(function () {
+                if ($(this).text() == "Chưa nhận") {
+                    $(this).text('Đã nhận')
+                    if (!output.includes($(this).val())) output += $(this).val() + "^";
+                    $('#edit').val(output)
+                }
+                else {
+                    $(this).text('Chưa nhận')
+                    output = output.replace(($(this).val() + "^"), "")
+                    $('#edit').val(output)
+                }
+            });
+        })
+    </script>
+}
