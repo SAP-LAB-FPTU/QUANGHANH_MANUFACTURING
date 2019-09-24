@@ -16,12 +16,14 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
             _repository = repo;
         }
 
+        [Auther(RightID = "35")]
         [Route("phong-cdvt/xin-cap-vat-tu-sctx-summary")]
         public ActionResult Index()
         {
             return View("/Views/CDVT/Vattu/XincapvattuSummary.cshtml");
         }
 
+        [Auther(RightID = "35")]
         [Route("phong-cdvt/xin-cap-vat-tu-sctx-summary/all")]
         [HttpGet]
         public ActionResult All(string departmentId)
@@ -34,6 +36,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
             }, JsonRequestBehavior.AllowGet);
         }
 
+        [Auther(RightID = "35")]
         [Route("phong-cdvt/xin-cap-vat-tu-sctx-summary/departments")]
         [HttpGet]
         public ActionResult Departments(string departmentId)

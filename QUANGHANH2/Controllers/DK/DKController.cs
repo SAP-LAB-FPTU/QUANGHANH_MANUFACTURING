@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QUANGHANH2.SupportClass;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ namespace QUANGHANHCORE.Controllers.DK
 {
     public class DKController : Controller
     {
+        [Auther(RightID ="004")]
         [Route("phong-dieu-khien")]
         public ActionResult Index()
         {

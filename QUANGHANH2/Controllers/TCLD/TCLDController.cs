@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QUANGHANH2.SupportClass;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
     public class TCLDController : Controller
     {
         // GET: /<controller>/
+        //[Auther(RightID ="002")]
         [Route("phong-tcld/")]
         public ActionResult Dashboard()
         {

@@ -1,0 +1,57 @@
+﻿@model QUANGHANH2.Models.GiayTo
+
+@{
+    ViewBag.Title = "themGiayTo";
+    Layout = null;
+}
+
+   
+    <link href="~/assets/Custom css/TCLD/Brief/ManageBrief/Document.css" rel="stylesheet" />
+@using (Html.BeginForm("themGiayTo", "Brief", FormMethod.Post, new
+{
+    enctype = "multipart/form-data",
+    onSubmit = "return SubmitForm(this);",
+    data_restUrl = Url.Action("themGiayTo", "Brief")
+}
+))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal row">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.MaNV, "Mã nhân viên", htmlAttributes: new { @class = "control-label col-md-2 input-label-doc" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MaNV, new { htmlAttributes = new { @class = "form-control input-custom-doc" } })
+                @Html.ValidationMessageFor(model => model.MaNV, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TenGiayTo,"Tên giấy tờ" ,htmlAttributes: new { @class = "control-label col-md-2 input-label-doc" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TenGiayTo, new { htmlAttributes = new { @class = "form-control input-custom-doc"  } })
+                @Html.ValidationMessageFor(model => model.TenGiayTo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.KieuGiayTo, "Kiểu giấy tờ",htmlAttributes: new { @class = "control-label col-md-2 input-label-doc" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.KieuGiayTo, new SelectList(ViewBag.kindODoc, "Value", "Text"), htmlAttributes: new { @class = "form-control input-custom-doc" })
+                @Html.ValidationMessageFor(model => model.KieuGiayTo, "", new { @class = "" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Lưu" class="waves-light btn-small blue modal-trigger modal-close" id="btn-save-doc" />
+            </div>
+        </div>
+
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

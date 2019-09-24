@@ -139,6 +139,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="XCrypt, Version=2.0.4922.41601, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\XCrypt.2.0.0\lib\XCrypt.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
@@ -453,8 +456,12 @@
     <Compile Include="Models\Supply_Documentary_Equipment.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Supply_Documentary_EquipmentDB.cs" />
     <Compile Include="Models\Supply_tieuhao.cs">
       <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ThucHien_TieuChi.cs">
       <DependentUpon>Model.tt</DependentUpon>
@@ -490,6 +497,8 @@
     <Content Include="assets\Custom css\TCLD\Brief\AddBrief.css" />
     <Content Include="assets\Custom css\TCLD\Brief\ManageBrief\beo_ho_so_ngoai.css" />
     <Content Include="assets\Custom css\TCLD\Brief\ManageBrief\beo_regulations.css" />
+    <Content Include="assets\Custom css\TCLD\Brief\ManageBrief\DeletePopup.css" />
+    <Content Include="assets\Custom css\TCLD\Brief\ManageBrief\Document.css" />
     <Content Include="assets\Custom css\TCLD\Brief\ManageBrief\Inside.css" />
     <Content Include="assets\Custom css\TCLD\Brief\ManageBrief\ListAll.css" />
     <Content Include="assets\Custom css\TCLD\Eating\Register.css" />
@@ -544,6 +553,7 @@
     <Content Include="css\jquery.dataTables.min.css" />
     <Content Include="css\pre-loader\css.css" />
     <Content Include="css\preloader\css.css" />
+    <Content Include="css\preloader\logo.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -6305,6 +6315,7 @@
     <Content Include="js\Custom JS\TCLD\Brief\DateError.js" />
     <Content Include="js\Custom JS\TCLD\Brief\ManageBrief\Brief_Inside.js" />
     <Content Include="js\Custom JS\TCLD\Brief\ManageBrief\Brief_Outside.js" />
+    <Content Include="js\Custom JS\TCLD\Brief\ManageBrief\DeletePopup.min.js" />
     <Content Include="js\Custom JS\TCLD\Brief\ManageBrief\editable_hoso.js" />
     <Content Include="js\Custom JS\TCLD\Certificate\certificate.js" />
     <Content Include="js\Custom JS\TCLD\Certificate\formValidation.js" />
@@ -7042,6 +7053,8 @@
     <Content Include="Views\PX\PXKT\NSLD.cshtml" />
     <Content Include="Views\nghiemthu\Detail.cshtml" />
     <Content Include="Views\nghiemthu\Edit.cshtml" />
+    <Content Include="Views\Brief\suaGiayTo.cshtml" />
+    <Content Include="Views\Brief\themGiayTo.cshtml" />
     <Content Include="Views\CDVT\Report\FuelConsumption.cshtml" />
     <Content Include="Views\CDVT\Cap_nhat\Chitiet\Baoduong.cshtml" />
     <Content Include="Views\CDVT\Cap_nhat\Chitiet\Dieudong.cshtml" />
@@ -7053,6 +7066,7 @@
     <Content Include="Views\Brief\EditChiTietbangCap.cshtml" />
     <Content Include="Views\Brief\EditHoSo.cshtml" />
     <Content Include="Views\Brief\EditQuanHeGiaDinh.cshtml" />
+    <Content Include="Views\PX\PXKT\getAttendacne.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
