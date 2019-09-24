@@ -21,6 +21,7 @@ namespace QUANGHANH2.Models
         public int quantity { get; set; }
         public int supplyType { get; set; }
         public string supplyStatus { get; set; }
+        public Nullable<int> supply_documentary_status { get; set; }
     
         public virtual Documentary Documentary { get; set; }
         public virtual Equipment Equipment { get; set; }

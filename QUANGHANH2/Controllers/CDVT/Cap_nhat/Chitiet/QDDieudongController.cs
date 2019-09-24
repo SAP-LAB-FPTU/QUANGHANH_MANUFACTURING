@@ -93,17 +93,5 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
             }
             return new HttpStatusCodeResult(201);
         }
-
-        [Auther(RightID = "88")]
-        [Route("phong-cdvt/cap-nhat/quyet-dinh/dieu-dong/GetSupply")]
-        [HttpPost]
-        public ActionResult getSupply(string documentary_id, string equipmentId)
-        {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            List<Supply_Documentary_EquipmentDB> supplies = DBContext.Database.SqlQuery<Supply_Documentary_EquipmentDB>("SELECT * FROM Supply_Documentary_Equipment doc INNER JOIN Supply s on doc.supply_id = s.supply_id WHERE doc.equipmentId = @equipmentId AND doc.documentary_id = @documentary_id",
-                new SqlParameter("equipmentId", equipmentId),
-                new SqlParameter("documentary_id", documentary_id)).ToList();
-            return Json(supplies);
-        }
     }
 }
