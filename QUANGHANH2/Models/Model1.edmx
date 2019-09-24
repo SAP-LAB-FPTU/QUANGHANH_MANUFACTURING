@@ -144,7 +144,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           </Key>
           <Property Name="MaChungChi" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TenChungChi" Type="nvarchar" MaxLength="100" />
-          <Property Name="ThoiHan" Type="int" />
+          <Property Name="ThoiHan" Type="nvarchar" MaxLength="50" />
           <Property Name="KieuChungChi" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="ChungChi_NhanVien">
@@ -2217,7 +2217,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           </Key>
           <Property Name="MaChungChi" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TenChungChi" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ThoiHan" Type="Int32" />
+          <Property Name="ThoiHan" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="KieuChungChi" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ChungChi_NhanVien" Relationship="Self.FK__ChungChi___MaChu__395884C4" FromRole="ChungChi" ToRole="ChungChi_NhanVien" />
           <NavigationProperty Name="NhiemVus" Relationship="Self.FK_NhiemVu_ChungChi" FromRole="ChungChi" ToRole="NhiemVu" />

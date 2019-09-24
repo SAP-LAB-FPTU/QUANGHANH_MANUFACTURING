@@ -96,8 +96,14 @@ namespace QUANGHANHCORE.Controllers.TCLD
         }
 
         [HttpGet]
-        public ActionResult AddCertificate(int id = 0)
+        public ActionResult AddCertificate()
         {
+            Dictionary<int, string> list = new Dictionary<int, string>();
+            list.Add(1, "Vĩnh viễn");
+            list.Add(2, "Thời hạn");
+
+            SelectList listOption = new SelectList(list, "Key", "Value");
+            ViewBag.listOption = listOption;
             return View();
 
         }
@@ -108,7 +114,16 @@ namespace QUANGHANHCORE.Controllers.TCLD
             {
                 if (chungChi != null)
                 {
-                    db.ChungChis.Add(chungChi);
+                    if(chungChi.ThoiHan.Equals("Vĩnh viễn"))
+                    {
+                        chungChi.ThoiHan = "-1";
+                        db.ChungChis.Add(chungChi);
+                    }
+                    else
+                    {
+                        db.ChungChis.Add(chungChi);
+                    }
+                    
                     db.SaveChanges();
                 }
                 return RedirectToAction("List");
@@ -233,7 +248,12 @@ namespace QUANGHANHCORE.Controllers.TCLD
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
+                Dictionary<int, string> list = new Dictionary<int, string>();
+                list.Add(1, "Vĩnh viễn");
+                list.Add(2, "Thời hạn");
 
+                SelectList listOption = new SelectList(list, "Key", "Value");
+                ViewBag.listOption = listOption;
                 ChungChi chungchi = db.ChungChis.Where(x => x.MaChungChi == id).FirstOrDefault<ChungChi>();
                 return View(chungchi);
             }
@@ -246,7 +266,17 @@ namespace QUANGHANHCORE.Controllers.TCLD
             {
                 if (chungChi != null)
                 {
-                    db.Entry(chungChi).State = EntityState.Modified;
+                    if (chungChi.ThoiHan.Equals("Vĩnh viễn"))
+                    {
+                        chungChi.ThoiHan = "-1";
+                        db.Entry(chungChi).State = EntityState.Modified;
+                    }
+                    else
+                    {
+                        db.Entry(chungChi).State = EntityState.Modified;
+                    }
+
+                    
                     db.SaveChanges();
                 }
                 return RedirectToAction("List");

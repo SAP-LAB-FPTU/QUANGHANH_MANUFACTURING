@@ -231,7 +231,13 @@
                     { "data": "TenChungChi", "name": "TenChungChi" },
                     {
                         "data": "ThoiHan", "name": "ThoiHan", "render": function (data) {
-                            return data + " tháng";
+                            if (data == "-1") {
+                                return "Vĩnh viễn"
+                            }
+                            else {
+                                return data + " tháng";
+                            }
+                           
                         }
                     },
                     { "data": "KieuChungChi", "name": "KieuChungChi" },
@@ -352,16 +358,23 @@
 
         function SubmitForm(form) {
             $.validator.unobtrusive.parse(form);
+            $("#pre-load").show("slow", function () {
+            });
+            $("#pre-load").css("z-index", "99999");
             if ($(this).valid()) {
                 $.ajax({
                     url: form.action,
                     type: "POST",
-                    data: $(form).serialize(),
+                    data: function () {
+                        return $(form).serialize()
+                    },
                     success: () => {
                         dataTable.ajax.reload();
                         $.notify(data.message, {
                             globalPosition: "top center",
                             className: "success"
+                        });
+                        $("#pre-load").hide("slow", function () {
                         });
                     },
                 })
