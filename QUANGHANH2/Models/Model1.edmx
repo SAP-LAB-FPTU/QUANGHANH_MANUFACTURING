@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="QUANGHANHABCModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="QUANGHANHABCModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Acceptance">
           <Key>
             <PropertyRef Name="documentary_id" />
@@ -19,7 +19,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
           <Property Name="Username" Type="nvarchar" MaxLength="50" />
           <Property Name="Password" Type="nvarchar" MaxLength="50" />
@@ -38,7 +38,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ModuleID" Type="nvarchar" MaxLength="50" />
-          <Property Name="GroupID" Type="nvarchar" MaxLength="50" />
+          <Property Name="GroupID" Type="int" />
           <Property Name="Right" Type="nvarchar" MaxLength="70" />
           <Property Name="isBasic" Type="bit" />
         </EntityType>
@@ -1992,8 +1992,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             <End Role="NhiemVu" EntitySet="NhiemVu" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="QUANGHANHABCModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -2008,33 +2007,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="equipmentId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Documentary" Relationship="Self.FK__Acceptanc__docum__7F2BE32F" FromRole="Acceptance" ToRole="Documentary" />
           <NavigationProperty Name="Equipment" Relationship="Self.FK__Acceptanc__equip__00200768" FromRole="Acceptance" ToRole="Equipment" />
-        </EntityType>
-        <EntityType Name="Account">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Position" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CDVT" Type="Boolean" Nullable="false" />
-          <Property Name="TCLD" Type="Boolean" Nullable="false" />
-          <Property Name="BGD" Type="Boolean" Nullable="false" />
-          <Property Name="DK" Type="Boolean" Nullable="false" />
-          <Property Name="KCS" Type="Boolean" Nullable="false" />
-          <Property Name="PXKT" Type="Boolean" Nullable="false" />
-          <Property Name="ADMIN" Type="Boolean" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Account_Right">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ModuleID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="GroupID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Right" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
-          <Property Name="isBasic" Type="Boolean" />
         </EntityType>
         <EntityType Name="Account_Right_Detail">
           <Key>
@@ -3723,8 +3695,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
         </Association>
         <EntityContainer Name="QUANGHANHABCEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Acceptances" EntityType="Self.Acceptance" />
-          <EntitySet Name="Accounts" EntityType="Self.Account" />
-          <EntitySet Name="Account_Right" EntityType="Self.Account_Right" />
           <EntitySet Name="Account_Right_Detail" EntityType="Self.Account_Right_Detail" />
           <EntitySet Name="BangCap_GiayChungNhan" EntityType="Self.BangCap_GiayChungNhan" />
           <EntitySet Name="Category_attribute_value" EntityType="Self.Category_attribute_value" />
@@ -4081,7 +4051,40 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             <End Role="ThucHien_TieuChi" EntitySet="ThucHien_TieuChi" />
             <End Role="TieuChi_VatLieuSanXuat" EntitySet="TieuChi_VatLieuSanXuat" />
           </AssociationSet>
+          <AssociationSet Name="TuyenDung_NhanVien" Association="Self.TuyenDung_NhanVien">
+            <End Role="NhanVien" EntitySet="NhanViens" />
+            <End Role="QuyetDinh" EntitySet="QuyetDinhs" />
+          </AssociationSet>
+          <EntitySet Name="Accounts" EntityType="QUANGHANHABCModel.Account" />
+          <EntitySet Name="Account_Right" EntityType="QUANGHANHABCModel.Account_Right" />
         </EntityContainer>
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Position" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CDVT" Type="Boolean" Nullable="false" />
+          <Property Name="TCLD" Type="Boolean" Nullable="false" />
+          <Property Name="BGD" Type="Boolean" Nullable="false" />
+          <Property Name="DK" Type="Boolean" Nullable="false" />
+          <Property Name="KCS" Type="Boolean" Nullable="false" />
+          <Property Name="PXKT" Type="Boolean" Nullable="false" />
+          <Property Name="ADMIN" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Account_Right">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ModuleID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GroupID" Type="Int32" />
+          <Property Name="Right" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
+          <Property Name="isBasic" Type="Boolean" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4095,35 +4098,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
                 <ScalarProperty Name="acceptance_date" ColumnName="acceptance_date" />
                 <ScalarProperty Name="documentary_id" ColumnName="documentary_id" />
                 <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Accounts">
-            <EntityTypeMapping TypeName="QUANGHANHABCModel.Account">
-              <MappingFragment StoreEntitySet="Account">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Position" ColumnName="Position" />
-                <ScalarProperty Name="CDVT" ColumnName="CDVT" />
-                <ScalarProperty Name="TCLD" ColumnName="TCLD" />
-                <ScalarProperty Name="BGD" ColumnName="BGD" />
-                <ScalarProperty Name="DK" ColumnName="DK" />
-                <ScalarProperty Name="KCS" ColumnName="KCS" />
-                <ScalarProperty Name="PXKT" ColumnName="PXKT" />
-                <ScalarProperty Name="ADMIN" ColumnName="ADMIN" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Account_Right">
-            <EntityTypeMapping TypeName="QUANGHANHABCModel.Account_Right">
-              <MappingFragment StoreEntitySet="Account_Right">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="ModuleID" ColumnName="ModuleID" />
-                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
-                <ScalarProperty Name="Right" ColumnName="Right" />
-                <ScalarProperty Name="isBasic" ColumnName="isBasic" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -4802,6 +4776,43 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
               <ScalarProperty Name="MaTieuChi_VatLieuSanXuat" ColumnName="MaTieuChi_VatLieuSanXuat" />
             </EndProperty>
           </AssociationSetMapping>
+          <AssociationSetMapping Name="TuyenDung_NhanVien" TypeName="QUANGHANHABCModel.TuyenDung_NhanVien" StoreEntitySet="TuyenDung_NhanVien">
+            <EndProperty Name="NhanVien">
+              <ScalarProperty Name="MaNV" ColumnName="MaNV" />
+            </EndProperty>
+            <EndProperty Name="QuyetDinh">
+              <ScalarProperty Name="SoQuyetDinh" ColumnName="SoQuyetDinh" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="QUANGHANHABCModel.Account">
+              <MappingFragment StoreEntitySet="Account">
+                <ScalarProperty Name="ADMIN" ColumnName="ADMIN" />
+                <ScalarProperty Name="PXKT" ColumnName="PXKT" />
+                <ScalarProperty Name="KCS" ColumnName="KCS" />
+                <ScalarProperty Name="DK" ColumnName="DK" />
+                <ScalarProperty Name="BGD" ColumnName="BGD" />
+                <ScalarProperty Name="TCLD" ColumnName="TCLD" />
+                <ScalarProperty Name="CDVT" ColumnName="CDVT" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Account_Right">
+            <EntityTypeMapping TypeName="QUANGHANHABCModel.Account_Right">
+              <MappingFragment StoreEntitySet="Account_Right">
+                <ScalarProperty Name="isBasic" ColumnName="isBasic" />
+                <ScalarProperty Name="Right" ColumnName="Right" />
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+                <ScalarProperty Name="ModuleID" ColumnName="ModuleID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

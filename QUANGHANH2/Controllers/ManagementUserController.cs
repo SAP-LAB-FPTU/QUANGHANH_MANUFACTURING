@@ -43,7 +43,7 @@ namespace QUANGHANH2.Controllers
             int CurrentUser = int.Parse(Session["UserID"].ToString());
             if (CurrentUser != 14)
             {
-                search = search.Where(a => a.ID != "14");
+                search = search.Where(a => a.ID != 14);
             }
             if (model.search.value != null)
             {
@@ -92,7 +92,7 @@ namespace QUANGHANH2.Controllers
             {
                 result.Add(new CustomUser
                 {
-                    ID = s.ID,
+                    ID = s.ID+"",
                     Name = s.Name,
                     Username = s.Username
                 });
@@ -106,7 +106,7 @@ namespace QUANGHANH2.Controllers
             });
         }
         [HttpPost]
-        public JsonResult GetRightInModule(string module, string UserID)
+        public JsonResult GetRightInModule(string module, int UserID)
         {
             if (!UserID.Equals(""))
             {
@@ -114,7 +114,7 @@ namespace QUANGHANH2.Controllers
                 rights.Accept = new List<FunctionRight>();
                 rights.Deny = new List<FunctionRight>();
 
-                if (int.Parse(UserID) == 1)
+                if (UserID == 1)
                 {
                     var rightAccept = db.Database.SqlQuery<FunctionRight>("select a.ID,a.[Right],a.GroupID from Account_Right a,Account_Right_Detail ar where a.ID=ar.RightID and a.ModuleID='" + module + "' and ar.AccountID='" + UserID + "' order by a.GroupID asc").ToList<FunctionRight>();
                     foreach (var r in rightAccept)
@@ -235,15 +235,13 @@ namespace QUANGHANH2.Controllers
             else
             {
                 //var listRightBasic = db.Database.SqlQuery<rightBasic>("select a.ID from Account_Right a where a.isBasic = '1' and a.ModuleID='1'").ToList<rightBasic>();
-                int ID = db.Accounts.Count() + 1;
-                string id = "" + ID;
+                string passXc = new XCryptEngine(XCryptEngine.AlgorithmType.MD5).Encrypt(Password, "pl");
                 using (DbContextTransaction trans = db.Database.BeginTransaction())
                 {
                     try
                     {
                         Account a = new Account()
                         {
-                            ID = id,
                             Name = Name,
                             Username = Username,
                             Password = Password,
@@ -257,7 +255,7 @@ namespace QUANGHANH2.Controllers
                         };
                         db.Accounts.Add(a);
                         db.SaveChanges();
-                        
+                        var acc = db.Accounts.Where(x => x.Username == Username).FirstOrDefault();
                         var rightsSplit = rights.Split(',');
                         foreach (var r in rightsSplit)
                         {
@@ -265,7 +263,7 @@ namespace QUANGHANH2.Controllers
                             {
                                 Account_Right_Detail rd = new Account_Right_Detail()
                                 {
-                                    AccountID = id,
+                                    AccountID = acc.ID+"",
                                     RightID = int.Parse(r)
                                 };
                                 db.Account_Right_Detail.Add(rd);
@@ -275,7 +273,7 @@ namespace QUANGHANH2.Controllers
                         if (module1 == 1)
                         {
                             var listRight = db.Account_Right.Where(x => x.ModuleID == 1 + "").ToList();
-                            var rightRemove = db.Database.SqlQuery<Account_Right_Detail>("select ar.* from Account_Right a , Account_Right_Detail ar where a.ID = ar.RightID and ar.AccountID='" + id + "' and a.ModuleID='1'").ToList<Account_Right_Detail>();
+                            var rightRemove = db.Database.SqlQuery<Account_Right_Detail>("select ar.* from Account_Right a , Account_Right_Detail ar where a.ID = ar.RightID and ar.AccountID='" + acc.ID + "' and a.ModuleID='1'").ToList<Account_Right_Detail>();
                             foreach (var r in rightRemove)
                             {
                                 var del = db.Account_Right_Detail.Where(x => x.ID == r.ID).SingleOrDefault();
@@ -288,7 +286,7 @@ namespace QUANGHANH2.Controllers
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
-                                        AccountID = id,
+                                        AccountID = acc.ID + "",
                                         RightID = r.ID
                                     };
                                     db.Account_Right_Detail.Add(rd);
@@ -299,7 +297,7 @@ namespace QUANGHANH2.Controllers
                         if (module2 == 1)
                         {
                             var listRight = db.Account_Right.Where(x => x.ModuleID == 2 + "").ToList();
-                            var rightRemove = db.Database.SqlQuery<Account_Right_Detail>("select ar.* from Account_Right a , Account_Right_Detail ar where a.ID = ar.RightID and ar.AccountID='" + id + "' and a.ModuleID='2'").ToList<Account_Right_Detail>();
+                            var rightRemove = db.Database.SqlQuery<Account_Right_Detail>("select ar.* from Account_Right a , Account_Right_Detail ar where a.ID = ar.RightID and ar.AccountID='" + acc.ID + "' and a.ModuleID='2'").ToList<Account_Right_Detail>();
                             foreach (var r in rightRemove)
                             {
                                 var del = db.Account_Right_Detail.Where(x => x.ID == r.ID).SingleOrDefault();
@@ -311,7 +309,7 @@ namespace QUANGHANH2.Controllers
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
-                                        AccountID = id,
+                                        AccountID = acc.ID + "",
                                         RightID = r.ID
                                     };
                                     db.Account_Right_Detail.Add(rd);
@@ -322,7 +320,7 @@ namespace QUANGHANH2.Controllers
                         if (module3 == 1)
                         {
                             var listRight = db.Account_Right.Where(x => x.ModuleID == 3 + "").ToList();
-                            var rightRemove = db.Database.SqlQuery<Account_Right_Detail>("select ar.* from Account_Right a , Account_Right_Detail ar where a.ID = ar.RightID and ar.AccountID='" + id + "' and a.ModuleID='3'").ToList<Account_Right_Detail>();
+                            var rightRemove = db.Database.SqlQuery<Account_Right_Detail>("select ar.* from Account_Right a , Account_Right_Detail ar where a.ID = ar.RightID and ar.AccountID='" + acc.ID + "' and a.ModuleID='3'").ToList<Account_Right_Detail>();
                             foreach (var r in rightRemove)
                             {
                                 var del = db.Account_Right_Detail.Where(x => x.ID == r.ID).SingleOrDefault();
@@ -334,7 +332,7 @@ namespace QUANGHANH2.Controllers
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
-                                        AccountID = id,
+                                        AccountID = acc.ID + "",
                                         RightID = r.ID
                                     };
                                     db.Account_Right_Detail.Add(rd);
@@ -345,7 +343,7 @@ namespace QUANGHANH2.Controllers
                         if (module4 == 1)
                         {
                             var listRight = db.Account_Right.Where(x => x.ModuleID == 4 + "").ToList();
-                            var rightRemove = db.Database.SqlQuery<Account_Right_Detail>("select ar.* from Account_Right a , Account_Right_Detail ar where a.ID = ar.RightID and ar.AccountID='" + id + "' and a.ModuleID='4'").ToList<Account_Right_Detail>();
+                            var rightRemove = db.Database.SqlQuery<Account_Right_Detail>("select ar.* from Account_Right a , Account_Right_Detail ar where a.ID = ar.RightID and ar.AccountID='" + acc.ID + "' and a.ModuleID='4'").ToList<Account_Right_Detail>();
                             foreach (var r in rightRemove)
                             {
                                 var del = db.Account_Right_Detail.Where(x => x.ID == r.ID).SingleOrDefault();
@@ -357,7 +355,7 @@ namespace QUANGHANH2.Controllers
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
-                                        AccountID = id,
+                                        AccountID = acc.ID + "",
                                         RightID = r.ID
                                     };
                                     db.Account_Right_Detail.Add(rd);
@@ -368,7 +366,7 @@ namespace QUANGHANH2.Controllers
                         if (module5 == 1)
                         {
                             var listRight = db.Account_Right.Where(x => x.ModuleID == 5 + "").ToList();
-                            var rightRemove = db.Database.SqlQuery<Account_Right_Detail>("select ar.* from Account_Right a , Account_Right_Detail ar where a.ID = ar.RightID and ar.AccountID='" + id + "' and a.ModuleID='5'").ToList<Account_Right_Detail>();
+                            var rightRemove = db.Database.SqlQuery<Account_Right_Detail>("select ar.* from Account_Right a , Account_Right_Detail ar where a.ID = ar.RightID and ar.AccountID='" + acc.ID + "' and a.ModuleID='5'").ToList<Account_Right_Detail>();
                             foreach (var r in rightRemove)
                             {
                                 var del = db.Account_Right_Detail.Where(x => x.ID == r.ID).SingleOrDefault();
@@ -380,7 +378,7 @@ namespace QUANGHANH2.Controllers
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
-                                        AccountID = id,
+                                        AccountID = acc.ID + "",
                                         RightID = r.ID
                                     };
                                     db.Account_Right_Detail.Add(rd);
@@ -391,7 +389,7 @@ namespace QUANGHANH2.Controllers
                         if (module6 == 1)
                         {
                             var listRight = db.Account_Right.Where(x => x.ModuleID == 6 + "").ToList();
-                            var rightRemove = db.Database.SqlQuery<Account_Right_Detail>("select ar.* from Account_Right a , Account_Right_Detail ar where a.ID = ar.RightID and ar.AccountID='" + id + "' and a.ModuleID='6'").ToList<Account_Right_Detail>();
+                            var rightRemove = db.Database.SqlQuery<Account_Right_Detail>("select ar.* from Account_Right a , Account_Right_Detail ar where a.ID = ar.RightID and ar.AccountID='" + acc.ID + "' and a.ModuleID='6'").ToList<Account_Right_Detail>();
                             foreach (var r in rightRemove)
                             {
                                 var del = db.Account_Right_Detail.Where(x => x.ID == r.ID).SingleOrDefault();
@@ -403,7 +401,7 @@ namespace QUANGHANH2.Controllers
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
-                                        AccountID = id,
+                                        AccountID = acc.ID + "",
                                         RightID = r.ID
                                     };
                                     db.Account_Right_Detail.Add(rd);
@@ -420,13 +418,13 @@ namespace QUANGHANH2.Controllers
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
-                                        AccountID = id,
+                                        AccountID = acc.ID + "",
                                         RightID = r.ID
                                     };
                                     db.Account_Right_Detail.Add(rd);
                                 }
                             }
-                            var user = db.Accounts.SingleOrDefault(x => x.ID == id);
+                            var user = db.Accounts.SingleOrDefault(x => x.ID == acc.ID);
                             user.Name = Name;
                             user.Username = Username;
                             user.Password = Password;
@@ -465,7 +463,7 @@ namespace QUANGHANH2.Controllers
         public JsonResult UpdateUser(int ID, string Name, string Username, string Position, string Password, string RepeatPassword,
             int module1, int module2, int module3, int module4, int module5, int module6, int module7, string rights)
         {
-            if (db.Accounts.Where(x => x.Username == Username).Where(y=>y.ID != ID+"").Count() > 0)
+            if (db.Accounts.Where(x => x.Username == Username).Where(y => y.ID != ID).Count() > 0)
             {
                 return Json(new Result()
                 {
@@ -500,7 +498,7 @@ namespace QUANGHANH2.Controllers
             }
             else
             {
-                var user = db.Accounts.SingleOrDefault(x => x.ID == ID + "");
+                var user = db.Accounts.SingleOrDefault(x => x.ID == ID);
                 try
                 {
                     var rightsSplit = rights.Split(',');
@@ -803,6 +801,23 @@ namespace QUANGHANH2.Controllers
             }
 
         }
+        [HttpPost]
+        public JsonResult ResetPassword(string UserID)
+        {
+            try
+            {
+                string passXc = new XCryptEngine(XCryptEngine.AlgorithmType.MD5).Encrypt("123456", "pl");
+                var Acc = db.Accounts.Where(x => x.ID == int.Parse(UserID)).SingleOrDefault();
+                Acc.Password = passXc;
+                db.Entry(Acc).State = EntityState.Modified;
+                db.SaveChanges();
+                return Json("Reset mật khẩu thành công", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json("Có lỗi xảy ra !!! Vui lòng thử lại.", JsonRequestBehavior.AllowGet);
+            }
+        }
     }
     public class CustomUser
     {
@@ -829,7 +844,7 @@ namespace QUANGHANH2.Controllers
     {
         public int ID { get; set; }
         public string Right { get; set; }
-        public string GroupID { get; set; }
+        public int GroupID { get; set; }
     }
     public class Result
     {

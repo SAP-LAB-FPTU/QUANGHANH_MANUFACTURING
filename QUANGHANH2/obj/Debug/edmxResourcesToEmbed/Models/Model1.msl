@@ -11,35 +11,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Accounts">
-      <EntityTypeMapping TypeName="QUANGHANHABCModel.Account">
-        <MappingFragment StoreEntitySet="Account">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Username" ColumnName="Username" />
-          <ScalarProperty Name="Password" ColumnName="Password" />
-          <ScalarProperty Name="Position" ColumnName="Position" />
-          <ScalarProperty Name="CDVT" ColumnName="CDVT" />
-          <ScalarProperty Name="TCLD" ColumnName="TCLD" />
-          <ScalarProperty Name="BGD" ColumnName="BGD" />
-          <ScalarProperty Name="DK" ColumnName="DK" />
-          <ScalarProperty Name="KCS" ColumnName="KCS" />
-          <ScalarProperty Name="PXKT" ColumnName="PXKT" />
-          <ScalarProperty Name="ADMIN" ColumnName="ADMIN" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Account_Right">
-      <EntityTypeMapping TypeName="QUANGHANHABCModel.Account_Right">
-        <MappingFragment StoreEntitySet="Account_Right">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="ModuleID" ColumnName="ModuleID" />
-          <ScalarProperty Name="GroupID" ColumnName="GroupID" />
-          <ScalarProperty Name="Right" ColumnName="Right" />
-          <ScalarProperty Name="isBasic" ColumnName="isBasic" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Account_Right_Detail">
       <EntityTypeMapping TypeName="QUANGHANHABCModel.Account_Right_Detail">
         <MappingFragment StoreEntitySet="Account_Right_Detail">
@@ -747,5 +718,34 @@
         <ScalarProperty Name="SoQuyetDinh" ColumnName="SoQuyetDinh" />
       </EndProperty>
     </AssociationSetMapping>
+    <EntitySetMapping Name="Accounts">
+      <EntityTypeMapping TypeName="QUANGHANHABCModel.Account">
+        <MappingFragment StoreEntitySet="Account">
+          <ScalarProperty Name="ADMIN" ColumnName="ADMIN" />
+          <ScalarProperty Name="PXKT" ColumnName="PXKT" />
+          <ScalarProperty Name="KCS" ColumnName="KCS" />
+          <ScalarProperty Name="DK" ColumnName="DK" />
+          <ScalarProperty Name="BGD" ColumnName="BGD" />
+          <ScalarProperty Name="TCLD" ColumnName="TCLD" />
+          <ScalarProperty Name="CDVT" ColumnName="CDVT" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Account_Right">
+      <EntityTypeMapping TypeName="QUANGHANHABCModel.Account_Right">
+        <MappingFragment StoreEntitySet="Account_Right">
+          <ScalarProperty Name="isBasic" ColumnName="isBasic" />
+          <ScalarProperty Name="Right" ColumnName="Right" />
+          <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+          <ScalarProperty Name="ModuleID" ColumnName="ModuleID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

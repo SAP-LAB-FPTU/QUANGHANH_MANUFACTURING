@@ -32,13 +32,25 @@ namespace QUANGHANHCORE.Controllers
             if (checkuser.Count > 0)
             {
                 Session["UserID"] = checkuser[0].ID;
-                string id = checkuser[0].ID;
+                int id = checkuser[0].ID;
                 var Name = db.Accounts.Where(x => x.ID == id).FirstOrDefault<Account>();
                 Session["Name"] = Name.Name;
                 Session["username"] = Name.Username;
                 Session["Position"] = Name.Position;
-                GetPermission(checkuser[0].ID);
-                if (Name.Name.Equals("ADMIN")) return RedirectToAction("Index","ManagementUser");
+                Session["isAdmin"] = Name.ADMIN;
+                GetPermission(id);
+                if (!String.IsNullOrEmpty(rm))
+                {
+                    if (rm.Equals("on"))
+                    {
+                        HttpCookie remme = new HttpCookie("remme");
+                        remme["username"] = Name.Username;
+                        remme["password"] = password;
+                        remme.Expires = DateTime.Now.AddDays(365);
+                        HttpContext.Response.Cookies.Add(remme);
+                    }
+                }
+                if (Name.ADMIN) return RedirectToAction("Index", "ManagementUser");
                 string url = (string)Session["url"];
                 if(url == null)
                 {
@@ -61,11 +73,11 @@ namespace QUANGHANHCORE.Controllers
             Session.Abandon();
             return RedirectToAction("Index");
         }
-        public void GetPermission(string UserID)
+        public void GetPermission(int UserID)
         {
             Session["UserID"] = UserID;
             List<string> RightIDs = new List<string>();
-            var userRight = db.Account_Right_Detail.Where(a => a.AccountID == UserID).ToList();
+            var userRight = db.Account_Right_Detail.Where(a => a.AccountID == UserID+"").ToList();
             foreach (var right in userRight)
             {
                 RightIDs.Add(right.RightID + "");
