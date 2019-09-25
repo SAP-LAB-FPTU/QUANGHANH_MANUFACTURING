@@ -284,7 +284,7 @@
     <Compile Include="Models\Activity.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\BangCap.cs">
+    <Compile Include="Models\BangCap_GiayChungNhan.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Category_attribute_value.cs">
@@ -293,7 +293,7 @@
     <Compile Include="Models\ChamDut_NhanVien.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ChiTiet_BangCap.cs">
+    <Compile Include="Models\ChiTiet_BangCap_GiayChungNhan.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ChiTiet_CongViec_NhanVien.cs">
@@ -321,7 +321,7 @@
     <Compile Include="Models\DiemDanh_NangSuatLaoDong.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DieuDong_NV.cs">
+    <Compile Include="Models\DieuDong_NhanVien.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Documentary.cs">
@@ -372,12 +372,6 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GhiChu.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GiayChungNhan.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GiayChungNhan_NhanVien.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GiayTo.cs">
@@ -469,6 +463,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Truong.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TuyenDung_NhanVien.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\VatLieuSanXuat.cs">
