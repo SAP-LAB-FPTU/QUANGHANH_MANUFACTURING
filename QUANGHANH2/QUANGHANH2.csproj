@@ -455,6 +455,9 @@
     <Compile Include="Models\Supply_tieuhao.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ThucHien_TieuChi.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -6827,6 +6830,7 @@
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\quanghanhtest - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -7052,6 +7056,7 @@
     <Content Include="Views\Brief\EditChiTietbangCap.cshtml" />
     <Content Include="Views\Brief\EditHoSo.cshtml" />
     <Content Include="Views\Brief\EditQuanHeGiaDinh.cshtml" />
+    <Content Include="Views\PX\PXKT\takeAttendance.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
