@@ -63,7 +63,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
                                                                           finish_date_plan = a.finish_date_plan
                                                                       }).ToList().Select(p => new Documentary_repair_detailsDB
                                                                       {
-                                                                          documentary_id = p.documentary_id+"",
+                                                                          documentary_code = p.documentary_code,
                                                                           equipment_name = p.equipment_name,
                                                                           department_name = p.department_name,
                                                                           department_id = p.department_id,

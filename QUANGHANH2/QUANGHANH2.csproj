@@ -195,7 +195,7 @@
     <Compile Include="Controllers\CDVT\Oto\HuydongOtoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\NhomotoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\SuachuahangngayController.cs" />
-    <Compile Include="Controllers\CDVT\Quyetdinh\BaoduongController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\BaoduongQDController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ChitietBaoduongController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ChitietKiemdinhController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ChiTietQuyetDInhController.cs" />
@@ -209,6 +209,7 @@
     <Compile Include="Controllers\CDVT\Quyetdinh\sctxController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\suachuaQDController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ThanhliController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\VatTuQuyetDinhController.cs" />
     <Compile Include="Controllers\CDVT\Useless\ThongtinsucoController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ThuhoiController.cs" />
     <Compile Include="Controllers\CDVT\Report\KiemdinhController.cs" />

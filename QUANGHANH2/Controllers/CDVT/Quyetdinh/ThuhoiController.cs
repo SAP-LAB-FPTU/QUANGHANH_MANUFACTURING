@@ -42,9 +42,16 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
             {
                 try
                 {
-                    //  documentary_id = documentary_id.Replace(" ", String.Empty);
-                    var query = "Update Documentary set date_created = '" + date_created + "' ,person_created = '" + person_created + "',reason = '" + reason + "',  [out/in_come] = '" + out_in_come + "' where documentary_id = '" + documentary_id + "'";
-                    DBContext.Database.ExecuteSqlCommand(query);
+                    Documentary documentary = DBContext.Documentaries.Where(a => a.documentary_id == documentary_id).First();
+                    if (documentary != null)
+                    {
+                        documentary.date_created = DateTime.Parse(date_created);
+                        documentary.person_created = person_created;
+                        documentary.reason = reason;
+                        documentary.out_in_come = out_in_come;
+
+                    }
+                    DBContext.SaveChanges();
                     return new HttpStatusCodeResult(201);
                 }
                 catch
@@ -94,8 +101,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
 
             }
         }
-
-
+       
+        [Route("phong-cdvt/quyet-dinh/thu-hoi/getdata")]
         [HttpPost]
         public ActionResult GetById(List<String> docID)
         {
@@ -115,7 +122,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
                 return new HttpStatusCodeResult(400);
             }
         }
-
+        [Route("phong-cdvt/quyet-dinh/thu-hoi/delete")]
         [HttpPost]
         public ActionResult DeleteDoc(int docID)
         {
@@ -199,7 +206,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
             return Json(new { success = true, data = incidents, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
-
+        [Route("phong-cdvt/quyet-dinh/thu-hoi/export")]
         public void ExportExcel()
         {
             string path = HostingEnvironment.MapPath("/excel/CDVT/danhsachsuachua_Template.xlsx");

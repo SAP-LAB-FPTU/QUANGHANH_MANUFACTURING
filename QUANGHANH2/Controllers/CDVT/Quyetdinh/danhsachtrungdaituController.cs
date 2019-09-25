@@ -41,9 +41,16 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
             {
                 try
                 {
-                    //  documentary_id = documentary_id.Replace(" ", String.Empty);
-                    var query = "Update Documentary set date_created = '" + date_created + "' ,person_created = '" + person_created + "',reason = '" + reason + "',  [out/in_come] = '" + out_in_come + "' where documentary_id = '" + documentary_id + "'";
-                    DBContext.Database.ExecuteSqlCommand(query);
+                    Documentary documentary = DBContext.Documentaries.Where(a => a.documentary_id == documentary_id).First();
+                    if (documentary != null)
+                    {
+                        documentary.date_created = DateTime.Parse(date_created);
+                        documentary.person_created = person_created;
+                        documentary.reason = reason;
+                        documentary.out_in_come = out_in_come;
+
+                    }
+                    DBContext.SaveChanges();
                     return new HttpStatusCodeResult(201);
                 }
                 catch
