@@ -15,7 +15,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
         [HttpGet]
         [Route("phong-cdvt/quyet-dinh/Kiem-dinh-chi-tiet/")]
         public ActionResult LoadPage(String id)
-        {           
+        {
             ViewBag.id = Base64Encode(id).ToString();
             return View("/Views/CDVT/Quyet_dinh/Chi_tiet_kiem_dinh.cshtml");
         }
@@ -34,7 +34,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
         [HttpPost]
         public ActionResult Detail()
         {
-            string requestID = Request["sessionId"];        
+            string requestID = Request["sessionId"];
             requestID = Base64Decode(requestID).ToString();
             int start = Convert.ToInt32(Request["start"]);
             int length = 10;
@@ -46,32 +46,32 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 int count = 1;
-                List<Documentary_repair_detailsDB> documentariesList = (from a in db.Documentary_repair_details                                                                   
-                                                                      join b in db.Documentaries on a.documentary_id equals b.documentary_id
-                                                                      join c in db.Equipments on a.equipmentId equals c.equipmentId
-                                                                      join d in db.Departments on c.department_id equals d.department_id
-                                                                      where (b.documentary_code == requestID)
-                                                                      select new
-                                                                      {
-                                                                          documentary_code = b.documentary_code,
-                                                                          equipment_name = c.equipment_name,
-                                                                          department_name = d.department_name,
-                                                                          department_id = c.department_id,
-                                                                          repair_reason = a.repair_reason,
-                                                                          repair_type = a.repair_type,
-                                                                          reason = b.reason,
-                                                                          finish_date_plan = a.finish_date_plan
-                                                                      }).ToList().Select(p => new Documentary_repair_detailsDB
-                                                                      {
-                                                                          documentary_code = p.documentary_code,
-                                                                          equipment_name = p.equipment_name,
-                                                                          department_name = p.department_name,
-                                                                          department_id = p.department_id,
-                                                                          repair_reason = p.repair_reason,
-                                                                          repair_type = p.repair_type,
-                                                                          reason = p.reason,
-                                                                          finish_date_plan = p.finish_date_plan
-                                                                      }).ToList();
+                List<Documentary_repair_detailsDB> documentariesList = (from a in db.Documentary_repair_details
+                                                                        join b in db.Documentaries on a.documentary_id equals b.documentary_id
+                                                                        join c in db.Equipments on a.equipmentId equals c.equipmentId
+                                                                        join d in db.Departments on c.department_id equals d.department_id
+                                                                        where (b.documentary_code == requestID)
+                                                                        select new
+                                                                        {
+                                                                            documentary_code = b.documentary_code,
+                                                                            equipment_name = c.equipment_name,
+                                                                            department_name = d.department_name,
+                                                                            department_id = c.department_id,
+                                                                            repair_reason = a.repair_reason,
+                                                                            repair_type = a.repair_type,
+                                                                            reason = b.reason,
+                                                                            finish_date_plan = a.finish_date_plan
+                                                                        }).ToList().Select(p => new Documentary_repair_detailsDB
+                                                                        {
+                                                                            documentary_code = p.documentary_code,
+                                                                            equipment_name = p.equipment_name,
+                                                                            department_name = p.department_name,
+                                                                            department_id = p.department_id,
+                                                                            repair_reason = p.repair_reason,
+                                                                            repair_type = p.repair_type,
+                                                                            reason = p.reason,
+                                                                            finish_date_plan = p.finish_date_plan
+                                                                        }).ToList();
                 foreach (var el in documentariesList)
                 {
                     el.order_number = count++;
