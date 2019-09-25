@@ -37,6 +37,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
             foreach (Documentary_liquidation_detailsDB item in equips)
             {
                 item.statusAndEquip = item.equipment_liquidation_status + "^" + item.equipmentId;
+                item.idAndEquip = id + "^" + item.equipmentId;
             }
             int totalrows = equips.Count;
             int totalrowsafterfiltering = equips.Count;

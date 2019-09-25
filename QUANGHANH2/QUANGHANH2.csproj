@@ -166,6 +166,7 @@
     <Compile Include="Controllers\CDVT\Cap_nhat\CapnhathoatdongController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\CapnhatsucoController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\ChitietController.cs" />
+    <Compile Include="Controllers\CDVT\Cap_nhat\Chitiet\VattucuaQDController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\Chitiet\QDBaoduongController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\Chitiet\QDDieudongController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\Chitiet\QDSuachuaController.cs" />
@@ -7051,6 +7052,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Library\" />
     <Folder Include="Views\HuyDong\" />
+    <Folder Include="Views\Laydanhsachvattu\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
