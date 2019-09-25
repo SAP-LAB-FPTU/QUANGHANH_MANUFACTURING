@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using XCrypt;
 
 namespace QUANGHANH2.Controllers
 {
@@ -116,7 +117,7 @@ namespace QUANGHANH2.Controllers
 
                 if (int.Parse(UserID) == 1)
                 {
-                    var rightAccept = db.Database.SqlQuery<FunctionRight>("select a.ID,a.[Right],a.GroupID from Account_Right a,Account_Right_Detail ar where a.ID=ar.RightID and a.ModuleID='" + module + "' and ar.AccountID='" + UserID + "' order by a.GroupID asc").ToList<FunctionRight>();
+                    var rightAccept = db.Database.SqlQuery<FunctionRight>("select a.ID,a.[Right],a.GroupID from Account_Right a,Account_Right_Detail ar where a.ID=ar.RightID and a.ModuleID='" + module + "' and ar.AccountID='" + UserID + "' order by CAST(a.GroupID AS int) asc").ToList<FunctionRight>();
                     foreach (var r in rightAccept)
                     {
                         rights.Accept.Add(new FunctionRight()
@@ -126,7 +127,7 @@ namespace QUANGHANH2.Controllers
                             GroupID = r.GroupID
                         });
                     }
-                    var rightDeny = db.Database.SqlQuery<FunctionRight>("select distinct a.ID,a.[Right],a.GroupID from Account_Right a,Account_Right_Detail ar where a.ModuleID='" + module + "' and a.ID not in (select a.RightID from Account_Right_Detail a where a.AccountID='" + UserID + "') order by a.GroupID asc").ToList<FunctionRight>();
+                    var rightDeny = db.Database.SqlQuery<FunctionRight>("select distinct a.ID,a.[Right],a.GroupID from Account_Right a,Account_Right_Detail ar where a.ModuleID='" + module + "' and a.ID not in (select a.RightID from Account_Right_Detail a where a.AccountID='" + UserID + "') order by CAST(a.GroupID AS int) asc").ToList<FunctionRight>();
                     foreach (var r in rightDeny)
                     {
                         rights.Deny.Add(new FunctionRight()
@@ -139,7 +140,7 @@ namespace QUANGHANH2.Controllers
                 }
                 else
                 {
-                    var rightAccept = db.Database.SqlQuery<FunctionRight>("select a.ID,a.[Right],a.GroupID from Account_Right a,Account_Right_Detail ar where a.ID=ar.RightID and a.ModuleID='" + module + "' and ar.AccountID='" + UserID + "' order by a.GroupID asc").ToList<FunctionRight>();
+                    var rightAccept = db.Database.SqlQuery<FunctionRight>("select a.ID,a.[Right],a.GroupID from Account_Right a,Account_Right_Detail ar where a.ID=ar.RightID and a.ModuleID='" + module + "' and ar.AccountID='" + UserID + "' order by CAST(a.GroupID AS int) asc").ToList<FunctionRight>();
                     foreach (var r in rightAccept)
                     {
                         rights.Accept.Add(new FunctionRight()
@@ -149,7 +150,7 @@ namespace QUANGHANH2.Controllers
                             GroupID = r.GroupID
                         });
                     }
-                    var rightDeny = db.Database.SqlQuery<FunctionRight>("select distinct a.ID,a.[Right],a.GroupID from Account_Right a,Account_Right_Detail ar where a.ModuleID='" + module + "' and a.ID not in (select a.RightID from Account_Right_Detail a where a.AccountID='" + UserID + "') order by a.GroupID asc").ToList<FunctionRight>();
+                    var rightDeny = db.Database.SqlQuery<FunctionRight>("select distinct a.ID,a.[Right],a.GroupID from Account_Right a,Account_Right_Detail ar where a.ModuleID='" + module + "' and a.ID not in (select a.RightID from Account_Right_Detail a where a.AccountID='" + UserID + "') order by CAST(a.GroupID AS int) asc").ToList<FunctionRight>();
                     foreach (var r in rightDeny)
                     {
                         rights.Deny.Add(new FunctionRight()
@@ -167,7 +168,7 @@ namespace QUANGHANH2.Controllers
                 RightsWhenCreate rights = new RightsWhenCreate();
                 rights.Accept = new List<FunctionRight>();
                 rights.Deny = new List<FunctionRight>();
-                var rightDeny = db.Database.SqlQuery<FunctionRight>("select a.ID,a.[Right],a.GroupID from Account_Right a where a.ModuleID='" + module + "' order by a.GroupID asc").ToList<FunctionRight>();
+                var rightDeny = db.Database.SqlQuery<FunctionRight>("select a.ID,a.[Right],a.GroupID from Account_Right a where a.ModuleID='" + module + "' order by CAST(a.GroupID AS int) asc").ToList<FunctionRight>();
                 foreach (var r in rightDeny)
                 {
                     rights.Deny.Add(new FunctionRight()
@@ -237,6 +238,7 @@ namespace QUANGHANH2.Controllers
                 //var listRightBasic = db.Database.SqlQuery<rightBasic>("select a.ID from Account_Right a where a.isBasic = '1' and a.ModuleID='1'").ToList<rightBasic>();
                 int ID = db.Accounts.Count() + 1;
                 string id = "" + ID;
+                string passXc = new XCryptEngine(XCryptEngine.AlgorithmType.MD5).Encrypt(Password, "pl");
                 using (DbContextTransaction trans = db.Database.BeginTransaction())
                 {
                     try
@@ -246,7 +248,7 @@ namespace QUANGHANH2.Controllers
                             ID = id,
                             Name = Name,
                             Username = Username,
-                            Password = Password,
+                            Password = passXc,
                             Position = Position,
                             CDVT = Convert.ToBoolean(module1),
                             TCLD = Convert.ToBoolean(module2),
@@ -257,7 +259,7 @@ namespace QUANGHANH2.Controllers
                         };
                         db.Accounts.Add(a);
                         db.SaveChanges();
-                        
+
                         var rightsSplit = rights.Split(',');
                         foreach (var r in rightsSplit)
                         {
@@ -284,7 +286,7 @@ namespace QUANGHANH2.Controllers
                             db.SaveChanges();
                             foreach (var r in listRight)
                             {
-                                if (!String.IsNullOrEmpty(r.ID+""))
+                                if (!String.IsNullOrEmpty(r.ID + ""))
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
@@ -307,7 +309,7 @@ namespace QUANGHANH2.Controllers
                             }
                             foreach (var r in listRight)
                             {
-                                if (!String.IsNullOrEmpty(r.ID+""))
+                                if (!String.IsNullOrEmpty(r.ID + ""))
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
@@ -330,7 +332,7 @@ namespace QUANGHANH2.Controllers
                             }
                             foreach (var r in listRight)
                             {
-                                if (!String.IsNullOrEmpty(r.ID+""))
+                                if (!String.IsNullOrEmpty(r.ID + ""))
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
@@ -353,7 +355,7 @@ namespace QUANGHANH2.Controllers
                             }
                             foreach (var r in listRight)
                             {
-                                if (!String.IsNullOrEmpty(r.ID+""))
+                                if (!String.IsNullOrEmpty(r.ID + ""))
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
@@ -376,7 +378,7 @@ namespace QUANGHANH2.Controllers
                             }
                             foreach (var r in listRight)
                             {
-                                if (!String.IsNullOrEmpty(r.ID+""))
+                                if (!String.IsNullOrEmpty(r.ID + ""))
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
@@ -399,7 +401,7 @@ namespace QUANGHANH2.Controllers
                             }
                             foreach (var r in listRight)
                             {
-                                if (!String.IsNullOrEmpty(r.ID+""))
+                                if (!String.IsNullOrEmpty(r.ID + ""))
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
@@ -429,7 +431,7 @@ namespace QUANGHANH2.Controllers
                             var user = db.Accounts.SingleOrDefault(x => x.ID == id);
                             user.Name = Name;
                             user.Username = Username;
-                            user.Password = Password;
+                            user.Password = passXc;
                             user.Position = Position;
                             user.CDVT = true;
                             user.TCLD = true;
@@ -465,7 +467,7 @@ namespace QUANGHANH2.Controllers
         public JsonResult UpdateUser(int ID, string Name, string Username, string Position, string Password, string RepeatPassword,
             int module1, int module2, int module3, int module4, int module5, int module6, int module7, string rights)
         {
-            if (db.Accounts.Where(x => x.Username == Username).Where(y=>y.ID != ID+"").Count() > 0)
+            if (db.Accounts.Where(x => x.Username == Username).Where(y => y.ID != ID + "").Count() > 0)
             {
                 return Json(new Result()
                 {
@@ -541,7 +543,7 @@ namespace QUANGHANH2.Controllers
                             db.SaveChanges();
                             foreach (var r in listRight)
                             {
-                                if (!String.IsNullOrEmpty(r.ID+""))
+                                if (!String.IsNullOrEmpty(r.ID + ""))
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
@@ -572,7 +574,7 @@ namespace QUANGHANH2.Controllers
                             db.SaveChanges();
                             foreach (var r in listRight)
                             {
-                                if (!String.IsNullOrEmpty(r.ID+""))
+                                if (!String.IsNullOrEmpty(r.ID + ""))
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
@@ -603,7 +605,7 @@ namespace QUANGHANH2.Controllers
                             db.SaveChanges();
                             foreach (var r in listRight)
                             {
-                                if (!String.IsNullOrEmpty(r.ID+""))
+                                if (!String.IsNullOrEmpty(r.ID + ""))
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
@@ -634,7 +636,7 @@ namespace QUANGHANH2.Controllers
                             db.SaveChanges();
                             foreach (var r in listRight)
                             {
-                                if (!String.IsNullOrEmpty(r.ID+""))
+                                if (!String.IsNullOrEmpty(r.ID + ""))
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
@@ -665,7 +667,7 @@ namespace QUANGHANH2.Controllers
                             db.SaveChanges();
                             foreach (var r in listRight)
                             {
-                                if (!String.IsNullOrEmpty(r.ID+""))
+                                if (!String.IsNullOrEmpty(r.ID + ""))
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
@@ -696,7 +698,7 @@ namespace QUANGHANH2.Controllers
                             db.SaveChanges();
                             foreach (var r in listRight)
                             {
-                                if (!String.IsNullOrEmpty(r.ID+""))
+                                if (!String.IsNullOrEmpty(r.ID + ""))
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
@@ -722,7 +724,7 @@ namespace QUANGHANH2.Controllers
                         }
                         if (module7 == 0)
                         {
-                            module1 = 0;module2 = 0;module3 = 0;module4 = 0;module5 = 0; module6 = 0;module7 = 0;
+                            module1 = 0; module2 = 0; module3 = 0; module4 = 0; module5 = 0; module6 = 0; module7 = 0;
                         }
                         else
                         {
@@ -755,7 +757,8 @@ namespace QUANGHANH2.Controllers
                     { }
                     else
                     {
-                        user.Password = Password;
+                        string passXc = new XCryptEngine(XCryptEngine.AlgorithmType.MD5).Encrypt(Password, "pl");
+                        user.Password = passXc;
                     }
                     user.Position = Position;
                     user.CDVT = Convert.ToBoolean(module1);
@@ -768,7 +771,7 @@ namespace QUANGHANH2.Controllers
                     db.Entry(user).State = EntityState.Modified;
                     db.SaveChanges();
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     return Json(new Result()
                     {
@@ -788,20 +791,37 @@ namespace QUANGHANH2.Controllers
         {
             try
             {
-                    var IDs = strUIDs.Split(',');
-                    foreach (var ID in IDs)
-                    {
-                        db.Database.ExecuteSqlCommand("DELETE FROM [dbo].[Account_Right_Detail] WHERE Account_Right_Detail.AccountID = '"+ID+"'");
-                        db.Database.ExecuteSqlCommand("DELETE FROM [dbo].[Account] WHERE Account.ID = '"+ID+"'");
-                    }
-                    db.SaveChanges();
-                    return Json("", JsonRequestBehavior.AllowGet);
+                var IDs = strUIDs.Split(',');
+                foreach (var ID in IDs)
+                {
+                    db.Database.ExecuteSqlCommand("DELETE FROM [dbo].[Account_Right_Detail] WHERE Account_Right_Detail.AccountID = '" + ID + "'");
+                    db.Database.ExecuteSqlCommand("DELETE FROM [dbo].[Account] WHERE Account.ID = '" + ID + "'");
+                }
+                db.SaveChanges();
+                return Json("", JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {
                 return Json("error", JsonRequestBehavior.AllowGet);
             }
 
+        }
+        [HttpPost]
+        public JsonResult ResetPassword(string UserID)
+        {
+            try
+            {
+                string passXc = new XCryptEngine(XCryptEngine.AlgorithmType.MD5).Encrypt("123456", "pl");
+                var Acc = db.Accounts.Where(x => x.ID == UserID).SingleOrDefault();
+                Acc.Password = passXc;
+                db.Entry(Acc).State = EntityState.Modified;
+                db.SaveChanges();
+                return Json("Reset mật khẩu thành công", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json("Có lỗi xảy ra !!! Vui lòng thử lại.", JsonRequestBehavior.AllowGet);
+            }
         }
     }
     public class CustomUser

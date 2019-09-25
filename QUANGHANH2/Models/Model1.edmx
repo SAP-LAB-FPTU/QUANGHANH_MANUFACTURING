@@ -78,7 +78,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Activity' does not have a primary
           <Property Name="MaBangCap" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MaTrinhDo" Type="int" />
           <Property Name="KieuBangCap" Type="nvarchar" MaxLength="100" />
-          <Property Name="ThoiHan" Type="float" />
+          <Property Name="ThoiHan" Type="int" />
         </EntityType>
         <EntityType Name="Category_attribute_value">
           <Key>
@@ -144,7 +144,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           </Key>
           <Property Name="MaChungChi" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TenChungChi" Type="nvarchar" MaxLength="100" />
-          <Property Name="ThoiHan" Type="float" />
+          <Property Name="ThoiHan" Type="int" />
           <Property Name="KieuChungChi" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="ChungChi_NhanVien">
@@ -199,6 +199,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="LuongSauDuyet" Type="float" />
           <Property Name="DuBaoNguyCo" Type="nvarchar" MaxLength="1000" />
           <Property Name="GiaiPhapNguyCo" Type="nvarchar" MaxLength="1000" />
+          <Property Name="LyDoVangMat" Type="nvarchar" MaxLength="1000" />
         </EntityType>
         <EntityType Name="DieuDong_NV">
           <Key>
@@ -389,7 +390,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           </Key>
           <Property Name="MaChungNhan" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TenChungNhan" Type="nvarchar" MaxLength="100" />
-          <Property Name="ThoiHan" Type="date" />
+          <Property Name="ThoiHan" Type="int" />
           <Property Name="KieuChungNhan" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="GiayChungNhan_NhanVien">
@@ -532,7 +533,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="QueQuan" Type="nvarchar" MaxLength="100" />
           <Property Name="TonGiao" Type="nvarchar" MaxLength="100" />
           <Property Name="NoiOHienTai" Type="nvarchar" MaxLength="100" />
-          <Property Name="SoDienThoai" Type="char" MaxLength="20" />
+          <Property Name="SoDienThoai" Type="nvarchar" MaxLength="50" />
           <Property Name="TPGiaDinhXuatThan" Type="nvarchar" MaxLength="100" />
           <Property Name="NgayThamGiaCachMang" Type="date" />
           <Property Name="NgayVaoDangCSVN" Type="date" />
@@ -1052,7 +1053,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Equipment__depar__4C6B5938">
+        <Association Name="FK__Equipment__depar__4A8310C6">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1064,7 +1065,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Equipment__docum__503BEA1C">
+        <Association Name="FK__Equipment__docum__4E53A1AA">
           <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
           <End Role="Equipment_Inspection" Type="Self.Equipment_Inspection" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1076,7 +1077,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Equipment__Equip__4D5F7D71">
+        <Association Name="FK__Equipment__Equip__4B7734FF">
           <End Role="Equipment_category" Type="Self.Equipment_category" Multiplicity="1" />
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1088,7 +1089,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Equipment__equip__4E53A1AA">
+        <Association Name="FK__Equipment__equip__4C6B5938">
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
           <End Role="Equipment_attribute" Type="Self.Equipment_attribute" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1100,7 +1101,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Equipment__Equip__4F47C5E3">
+        <Association Name="FK__Equipment__Equip__4D5F7D71">
           <End Role="Equipment_category" Type="Self.Equipment_category" Multiplicity="1" />
           <End Role="Equipment_category_attribute" Type="Self.Equipment_category_attribute" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1112,7 +1113,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Equipment__equip__51300E55">
+        <Association Name="FK__Equipment__equip__4F47C5E3">
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
           <End Role="Equipment_Inspection" Type="Self.Equipment_Inspection" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1124,7 +1125,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Fuel_acti__equip__5224328E">
+        <Association Name="FK__Fuel_acti__equip__503BEA1C">
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
           <End Role="Fuel_activities_consumption" Type="Self.Fuel_activities_consumption" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1136,7 +1137,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Fuel_acti__fuel___531856C7">
+        <Association Name="FK__Fuel_acti__fuel___51300E55">
           <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
           <End Role="Fuel_activities_consumption" Type="Self.Fuel_activities_consumption" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1148,7 +1149,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__GhiChu__MaKeHoac__540C7B00">
+        <Association Name="FK__GhiChu__MaKeHoac__5224328E">
           <End Role="KeHoach_TieuChi" Type="Self.KeHoach_TieuChi" Multiplicity="1" />
           <End Role="GhiChu" Type="Self.GhiChu" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1160,7 +1161,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__GhiChu__MaThucHi__55009F39">
+        <Association Name="FK__GhiChu__MaThucHi__531856C7">
           <End Role="ThucHien_TieuChi" Type="Self.ThucHien_TieuChi" Multiplicity="1" />
           <End Role="GhiChu" Type="Self.GhiChu" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1172,7 +1173,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__GiayChung__MaChu__55F4C372">
+        <Association Name="FK__GiayChung__MaChu__540C7B00">
           <End Role="GiayChungNhan" Type="Self.GiayChungNhan" Multiplicity="0..1" />
           <End Role="GiayChungNhan_NhanVien" Type="Self.GiayChungNhan_NhanVien" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1184,7 +1185,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__GiayChungN__MaNV__56E8E7AB">
+        <Association Name="FK__GiayChungN__MaNV__55009F39">
           <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="0..1" />
           <End Role="GiayChungNhan_NhanVien" Type="Self.GiayChungNhan_NhanVien" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1196,7 +1197,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__GiayTo__MaNV__57DD0BE4">
+        <Association Name="FK__GiayTo__MaNV__55F4C372">
           <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="1" />
           <End Role="GiayTo" Type="Self.GiayTo" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1208,7 +1209,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__HoSo__MaNV__58D1301D">
+        <Association Name="FK__HoSo__MaNV__56E8E7AB">
           <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="1" />
           <End Role="HoSo" Type="Self.HoSo" Multiplicity="0..1" />
           <ReferentialConstraint>
@@ -1220,7 +1221,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Incident__depart__59C55456">
+        <Association Name="FK__Incident__depart__57DD0BE4">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
           <End Role="Incident" Type="Self.Incident" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1232,7 +1233,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Incident__equipm__5AB9788F">
+        <Association Name="FK__Incident__equipm__58D1301D">
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
           <End Role="Incident" Type="Self.Incident" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1244,7 +1245,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__KeHoach_T__MaKeH__5D95E53A">
+        <Association Name="FK__KeHoach_T__MaKeH__5BAD9CC8">
           <End Role="KeHoach_TieuChi" Type="Self.KeHoach_TieuChi" Multiplicity="1" />
           <End Role="KeHoach_TieuChi_VatLieuSanXuat" Type="Self.KeHoach_TieuChi_VatLieuSanXuat" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1256,7 +1257,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__KeHoach_T__MaPho__5BAD9CC8">
+        <Association Name="FK__KeHoach_T__MaPho__59C55456">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
           <End Role="KeHoach_TieuChi" Type="Self.KeHoach_TieuChi" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1268,7 +1269,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__KeHoach_T__MaTie__5CA1C101">
+        <Association Name="FK__KeHoach_T__MaTie__5AB9788F">
           <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="1" />
           <End Role="KeHoach_TieuChi" Type="Self.KeHoach_TieuChi" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1280,7 +1281,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__KeHoach_T__MaTie__5E8A0973">
+        <Association Name="FK__KeHoach_T__MaTie__5CA1C101">
           <End Role="TieuChi_VatLieuSanXuat" Type="Self.TieuChi_VatLieuSanXuat" Multiplicity="1" />
           <End Role="KeHoach_TieuChi_VatLieuSanXuat" Type="Self.KeHoach_TieuChi_VatLieuSanXuat" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1292,7 +1293,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__LichSuBoSu__MaNV__5F7E2DAC">
+        <Association Name="FK__LichSuBoSu__MaNV__5D95E53A">
           <End Role="HoSo" Type="Self.HoSo" Multiplicity="1" />
           <End Role="LichSuBoSungSYLL" Type="Self.LichSuBoSungSYLL" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1304,7 +1305,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Maintain___depar__607251E5">
+        <Association Name="FK__Maintain___depar__5E8A0973">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
           <End Role="Maintain_Car" Type="Self.Maintain_Car" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1316,7 +1317,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Maintain___equip__6166761E">
+        <Association Name="FK__Maintain___equip__5F7E2DAC">
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
           <End Role="Maintain_Car" Type="Self.Maintain_Car" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1328,7 +1329,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Maintain___maint__625A9A57">
+        <Association Name="FK__Maintain___maint__607251E5">
           <End Role="Maintain_Car" Type="Self.Maintain_Car" Multiplicity="1" />
           <End Role="Maintain_Car_Detail" Type="Self.Maintain_Car_Detail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1340,7 +1341,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Maintain___suppl__634EBE90">
+        <Association Name="FK__Maintain___suppl__6166761E">
           <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
           <End Role="Maintain_Car_Detail" Type="Self.Maintain_Car_Detail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1352,7 +1353,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__NhanVien__MaUyQu__6442E2C9">
+        <Association Name="FK__NhanVien__MaUyQu__625A9A57">
           <End Role="NguoiUyQuyenLayHoSo_BaoHiem" Type="Self.NguoiUyQuyenLayHoSo_BaoHiem" Multiplicity="0..1" />
           <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1364,7 +1365,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__QuanHeGiaD__MaNV__671F4F74">
+        <Association Name="FK__QuanHeGiaD__MaNV__65370702">
           <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="1" />
           <End Role="QuanHeGiaDinh" Type="Self.QuanHeGiaDinh" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1376,7 +1377,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__QuaTrinhCo__MaNV__681373AD">
+        <Association Name="FK__QuaTrinhCo__MaNV__662B2B3B">
           <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="1" />
           <End Role="QuaTrinhCongTac" Type="Self.QuaTrinhCongTac" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1388,7 +1389,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supply_Do__docum__690797E6">
+        <Association Name="FK__Supply_Do__docum__671F4F74">
           <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
           <End Role="Supply_Documentary_Equipment" Type="Self.Supply_Documentary_Equipment" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1400,7 +1401,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supply_Do__equip__69FBBC1F">
+        <Association Name="FK__Supply_Do__equip__681373AD">
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
           <End Role="Supply_Documentary_Equipment" Type="Self.Supply_Documentary_Equipment" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1412,7 +1413,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supply_Do__suppl__6AEFE058">
+        <Association Name="FK__Supply_Do__suppl__690797E6">
           <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
           <End Role="Supply_Documentary_Equipment" Type="Self.Supply_Documentary_Equipment" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1424,7 +1425,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supply_ti__depar__6BE40491">
+        <Association Name="FK__Supply_ti__depar__69FBBC1F">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
           <End Role="Supply_tieuhao" Type="Self.Supply_tieuhao" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1436,7 +1437,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supply_ti__suppl__6CD828CA">
+        <Association Name="FK__Supply_ti__suppl__6AEFE058">
           <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
           <End Role="Supply_tieuhao" Type="Self.Supply_tieuhao" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1448,7 +1449,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SupplyPla__depar__6DCC4D03">
+        <Association Name="FK__SupplyPla__depar__6BE40491">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
           <End Role="SupplyPlan" Type="Self.SupplyPlan" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1460,7 +1461,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SupplyPla__equip__6EC0713C">
+        <Association Name="FK__SupplyPla__equip__6CD828CA">
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
           <End Role="SupplyPlan" Type="Self.SupplyPlan" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1472,7 +1473,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SupplyPla__suppl__6FB49575">
+        <Association Name="FK__SupplyPla__suppl__6DCC4D03">
           <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
           <End Role="SupplyPlan" Type="Self.SupplyPlan" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1484,7 +1485,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ThucHien___MaPho__70A8B9AE">
+        <Association Name="FK__ThucHien___MaPho__6EC0713C">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
           <End Role="ThucHien_TieuChi" Type="Self.ThucHien_TieuChi" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1496,7 +1497,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ThucHien___MaThu__72910220">
+        <Association Name="FK__ThucHien___MaThu__70A8B9AE">
           <End Role="ThucHien_TieuChi" Type="Self.ThucHien_TieuChi" Multiplicity="1" />
           <End Role="ThucHien_TieuChi_VatLieuSanXuat" Type="Self.ThucHien_TieuChi_VatLieuSanXuat" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1508,7 +1509,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ThucHien___MaTie__719CDDE7">
+        <Association Name="FK__ThucHien___MaTie__6FB49575">
           <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="1" />
           <End Role="ThucHien_TieuChi" Type="Self.ThucHien_TieuChi" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1520,7 +1521,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ThucHien___MaTie__73852659">
+        <Association Name="FK__ThucHien___MaTie__719CDDE7">
           <End Role="TieuChi_VatLieuSanXuat" Type="Self.TieuChi_VatLieuSanXuat" Multiplicity="1" />
           <End Role="ThucHien_TieuChi_VatLieuSanXuat" Type="Self.ThucHien_TieuChi_VatLieuSanXuat" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1532,7 +1533,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TieuChi_V__MaTie__74794A92">
+        <Association Name="FK__TieuChi_V__MaTie__72910220">
           <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="1" />
           <End Role="TieuChi_VatLieuSanXuat" Type="Self.TieuChi_VatLieuSanXuat" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1544,7 +1545,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TieuChi_V__MaVat__756D6ECB">
+        <Association Name="FK__TieuChi_V__MaVat__73852659">
           <End Role="VatLieuSanXuat" Type="Self.VatLieuSanXuat" Multiplicity="1" />
           <End Role="TieuChi_VatLieuSanXuat" Type="Self.TieuChi_VatLieuSanXuat" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1556,7 +1557,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TuyenDung___MaNV__76619304">
+        <Association Name="FK__TuyenDung___MaNV__74794A92">
           <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="1" />
           <End Role="TuyenDung_NhanVien" Type="Self.TuyenDung_NhanVien" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1568,7 +1569,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TuyenDung__SoQuy__7755B73D">
+        <Association Name="FK__TuyenDung__SoQuy__756D6ECB">
           <End Role="QuyetDinh" Type="Self.QuyetDinh" Multiplicity="1" />
           <End Role="TuyenDung_NhanVien" Type="Self.TuyenDung_NhanVien" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1874,179 +1875,179 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             <End Role="Equipment" EntitySet="Equipment" />
             <End Role="Documentary_revoke_details" EntitySet="Documentary_revoke_details" />
           </AssociationSet>
-          <AssociationSet Name="FK__Equipment__depar__4C6B5938" Association="Self.FK__Equipment__depar__4C6B5938">
+          <AssociationSet Name="FK__Equipment__depar__4A8310C6" Association="Self.FK__Equipment__depar__4A8310C6">
             <End Role="Department" EntitySet="Department" />
             <End Role="Equipment" EntitySet="Equipment" />
           </AssociationSet>
-          <AssociationSet Name="FK__Equipment__docum__503BEA1C" Association="Self.FK__Equipment__docum__503BEA1C">
+          <AssociationSet Name="FK__Equipment__docum__4E53A1AA" Association="Self.FK__Equipment__docum__4E53A1AA">
             <End Role="Documentary" EntitySet="Documentary" />
             <End Role="Equipment_Inspection" EntitySet="Equipment_Inspection" />
           </AssociationSet>
-          <AssociationSet Name="FK__Equipment__Equip__4D5F7D71" Association="Self.FK__Equipment__Equip__4D5F7D71">
+          <AssociationSet Name="FK__Equipment__Equip__4B7734FF" Association="Self.FK__Equipment__Equip__4B7734FF">
             <End Role="Equipment_category" EntitySet="Equipment_category" />
             <End Role="Equipment" EntitySet="Equipment" />
           </AssociationSet>
-          <AssociationSet Name="FK__Equipment__equip__4E53A1AA" Association="Self.FK__Equipment__equip__4E53A1AA">
+          <AssociationSet Name="FK__Equipment__equip__4C6B5938" Association="Self.FK__Equipment__equip__4C6B5938">
             <End Role="Equipment" EntitySet="Equipment" />
             <End Role="Equipment_attribute" EntitySet="Equipment_attribute" />
           </AssociationSet>
-          <AssociationSet Name="FK__Equipment__Equip__4F47C5E3" Association="Self.FK__Equipment__Equip__4F47C5E3">
+          <AssociationSet Name="FK__Equipment__Equip__4D5F7D71" Association="Self.FK__Equipment__Equip__4D5F7D71">
             <End Role="Equipment_category" EntitySet="Equipment_category" />
             <End Role="Equipment_category_attribute" EntitySet="Equipment_category_attribute" />
           </AssociationSet>
-          <AssociationSet Name="FK__Equipment__equip__51300E55" Association="Self.FK__Equipment__equip__51300E55">
+          <AssociationSet Name="FK__Equipment__equip__4F47C5E3" Association="Self.FK__Equipment__equip__4F47C5E3">
             <End Role="Equipment" EntitySet="Equipment" />
             <End Role="Equipment_Inspection" EntitySet="Equipment_Inspection" />
           </AssociationSet>
-          <AssociationSet Name="FK__Fuel_acti__equip__5224328E" Association="Self.FK__Fuel_acti__equip__5224328E">
+          <AssociationSet Name="FK__Fuel_acti__equip__503BEA1C" Association="Self.FK__Fuel_acti__equip__503BEA1C">
             <End Role="Equipment" EntitySet="Equipment" />
             <End Role="Fuel_activities_consumption" EntitySet="Fuel_activities_consumption" />
           </AssociationSet>
-          <AssociationSet Name="FK__Fuel_acti__fuel___531856C7" Association="Self.FK__Fuel_acti__fuel___531856C7">
+          <AssociationSet Name="FK__Fuel_acti__fuel___51300E55" Association="Self.FK__Fuel_acti__fuel___51300E55">
             <End Role="Supply" EntitySet="Supply" />
             <End Role="Fuel_activities_consumption" EntitySet="Fuel_activities_consumption" />
           </AssociationSet>
-          <AssociationSet Name="FK__GhiChu__MaKeHoac__540C7B00" Association="Self.FK__GhiChu__MaKeHoac__540C7B00">
+          <AssociationSet Name="FK__GhiChu__MaKeHoac__5224328E" Association="Self.FK__GhiChu__MaKeHoac__5224328E">
             <End Role="KeHoach_TieuChi" EntitySet="KeHoach_TieuChi" />
             <End Role="GhiChu" EntitySet="GhiChu" />
           </AssociationSet>
-          <AssociationSet Name="FK__GhiChu__MaThucHi__55009F39" Association="Self.FK__GhiChu__MaThucHi__55009F39">
+          <AssociationSet Name="FK__GhiChu__MaThucHi__531856C7" Association="Self.FK__GhiChu__MaThucHi__531856C7">
             <End Role="ThucHien_TieuChi" EntitySet="ThucHien_TieuChi" />
             <End Role="GhiChu" EntitySet="GhiChu" />
           </AssociationSet>
-          <AssociationSet Name="FK__GiayChung__MaChu__55F4C372" Association="Self.FK__GiayChung__MaChu__55F4C372">
+          <AssociationSet Name="FK__GiayChung__MaChu__540C7B00" Association="Self.FK__GiayChung__MaChu__540C7B00">
             <End Role="GiayChungNhan" EntitySet="GiayChungNhan" />
             <End Role="GiayChungNhan_NhanVien" EntitySet="GiayChungNhan_NhanVien" />
           </AssociationSet>
-          <AssociationSet Name="FK__GiayChungN__MaNV__56E8E7AB" Association="Self.FK__GiayChungN__MaNV__56E8E7AB">
+          <AssociationSet Name="FK__GiayChungN__MaNV__55009F39" Association="Self.FK__GiayChungN__MaNV__55009F39">
             <End Role="NhanVien" EntitySet="NhanVien" />
             <End Role="GiayChungNhan_NhanVien" EntitySet="GiayChungNhan_NhanVien" />
           </AssociationSet>
-          <AssociationSet Name="FK__GiayTo__MaNV__57DD0BE4" Association="Self.FK__GiayTo__MaNV__57DD0BE4">
+          <AssociationSet Name="FK__GiayTo__MaNV__55F4C372" Association="Self.FK__GiayTo__MaNV__55F4C372">
             <End Role="NhanVien" EntitySet="NhanVien" />
             <End Role="GiayTo" EntitySet="GiayTo" />
           </AssociationSet>
-          <AssociationSet Name="FK__HoSo__MaNV__58D1301D" Association="Self.FK__HoSo__MaNV__58D1301D">
+          <AssociationSet Name="FK__HoSo__MaNV__56E8E7AB" Association="Self.FK__HoSo__MaNV__56E8E7AB">
             <End Role="NhanVien" EntitySet="NhanVien" />
             <End Role="HoSo" EntitySet="HoSo" />
           </AssociationSet>
-          <AssociationSet Name="FK__Incident__depart__59C55456" Association="Self.FK__Incident__depart__59C55456">
+          <AssociationSet Name="FK__Incident__depart__57DD0BE4" Association="Self.FK__Incident__depart__57DD0BE4">
             <End Role="Department" EntitySet="Department" />
             <End Role="Incident" EntitySet="Incident" />
           </AssociationSet>
-          <AssociationSet Name="FK__Incident__equipm__5AB9788F" Association="Self.FK__Incident__equipm__5AB9788F">
+          <AssociationSet Name="FK__Incident__equipm__58D1301D" Association="Self.FK__Incident__equipm__58D1301D">
             <End Role="Equipment" EntitySet="Equipment" />
             <End Role="Incident" EntitySet="Incident" />
           </AssociationSet>
-          <AssociationSet Name="FK__KeHoach_T__MaKeH__5D95E53A" Association="Self.FK__KeHoach_T__MaKeH__5D95E53A">
+          <AssociationSet Name="FK__KeHoach_T__MaKeH__5BAD9CC8" Association="Self.FK__KeHoach_T__MaKeH__5BAD9CC8">
             <End Role="KeHoach_TieuChi" EntitySet="KeHoach_TieuChi" />
             <End Role="KeHoach_TieuChi_VatLieuSanXuat" EntitySet="KeHoach_TieuChi_VatLieuSanXuat" />
           </AssociationSet>
-          <AssociationSet Name="FK__KeHoach_T__MaPho__5BAD9CC8" Association="Self.FK__KeHoach_T__MaPho__5BAD9CC8">
+          <AssociationSet Name="FK__KeHoach_T__MaPho__59C55456" Association="Self.FK__KeHoach_T__MaPho__59C55456">
             <End Role="Department" EntitySet="Department" />
+            <End Role="KeHoach_TieuChi" EntitySet="KeHoach_TieuChi" />
+          </AssociationSet>
+          <AssociationSet Name="FK__KeHoach_T__MaTie__5AB9788F" Association="Self.FK__KeHoach_T__MaTie__5AB9788F">
+            <End Role="TieuChi" EntitySet="TieuChi" />
             <End Role="KeHoach_TieuChi" EntitySet="KeHoach_TieuChi" />
           </AssociationSet>
           <AssociationSet Name="FK__KeHoach_T__MaTie__5CA1C101" Association="Self.FK__KeHoach_T__MaTie__5CA1C101">
-            <End Role="TieuChi" EntitySet="TieuChi" />
-            <End Role="KeHoach_TieuChi" EntitySet="KeHoach_TieuChi" />
-          </AssociationSet>
-          <AssociationSet Name="FK__KeHoach_T__MaTie__5E8A0973" Association="Self.FK__KeHoach_T__MaTie__5E8A0973">
             <End Role="TieuChi_VatLieuSanXuat" EntitySet="TieuChi_VatLieuSanXuat" />
             <End Role="KeHoach_TieuChi_VatLieuSanXuat" EntitySet="KeHoach_TieuChi_VatLieuSanXuat" />
           </AssociationSet>
-          <AssociationSet Name="FK__LichSuBoSu__MaNV__5F7E2DAC" Association="Self.FK__LichSuBoSu__MaNV__5F7E2DAC">
+          <AssociationSet Name="FK__LichSuBoSu__MaNV__5D95E53A" Association="Self.FK__LichSuBoSu__MaNV__5D95E53A">
             <End Role="HoSo" EntitySet="HoSo" />
             <End Role="LichSuBoSungSYLL" EntitySet="LichSuBoSungSYLL" />
           </AssociationSet>
-          <AssociationSet Name="FK__Maintain___depar__607251E5" Association="Self.FK__Maintain___depar__607251E5">
+          <AssociationSet Name="FK__Maintain___depar__5E8A0973" Association="Self.FK__Maintain___depar__5E8A0973">
             <End Role="Department" EntitySet="Department" />
             <End Role="Maintain_Car" EntitySet="Maintain_Car" />
           </AssociationSet>
-          <AssociationSet Name="FK__Maintain___equip__6166761E" Association="Self.FK__Maintain___equip__6166761E">
+          <AssociationSet Name="FK__Maintain___equip__5F7E2DAC" Association="Self.FK__Maintain___equip__5F7E2DAC">
             <End Role="Equipment" EntitySet="Equipment" />
             <End Role="Maintain_Car" EntitySet="Maintain_Car" />
           </AssociationSet>
-          <AssociationSet Name="FK__Maintain___maint__625A9A57" Association="Self.FK__Maintain___maint__625A9A57">
+          <AssociationSet Name="FK__Maintain___maint__607251E5" Association="Self.FK__Maintain___maint__607251E5">
             <End Role="Maintain_Car" EntitySet="Maintain_Car" />
             <End Role="Maintain_Car_Detail" EntitySet="Maintain_Car_Detail" />
           </AssociationSet>
-          <AssociationSet Name="FK__Maintain___suppl__634EBE90" Association="Self.FK__Maintain___suppl__634EBE90">
+          <AssociationSet Name="FK__Maintain___suppl__6166761E" Association="Self.FK__Maintain___suppl__6166761E">
             <End Role="Supply" EntitySet="Supply" />
             <End Role="Maintain_Car_Detail" EntitySet="Maintain_Car_Detail" />
           </AssociationSet>
-          <AssociationSet Name="FK__NhanVien__MaUyQu__6442E2C9" Association="Self.FK__NhanVien__MaUyQu__6442E2C9">
+          <AssociationSet Name="FK__NhanVien__MaUyQu__625A9A57" Association="Self.FK__NhanVien__MaUyQu__625A9A57">
             <End Role="NguoiUyQuyenLayHoSo_BaoHiem" EntitySet="NguoiUyQuyenLayHoSo_BaoHiem" />
             <End Role="NhanVien" EntitySet="NhanVien" />
           </AssociationSet>
-          <AssociationSet Name="FK__QuanHeGiaD__MaNV__671F4F74" Association="Self.FK__QuanHeGiaD__MaNV__671F4F74">
+          <AssociationSet Name="FK__QuanHeGiaD__MaNV__65370702" Association="Self.FK__QuanHeGiaD__MaNV__65370702">
             <End Role="NhanVien" EntitySet="NhanVien" />
             <End Role="QuanHeGiaDinh" EntitySet="QuanHeGiaDinh" />
           </AssociationSet>
-          <AssociationSet Name="FK__QuaTrinhCo__MaNV__681373AD" Association="Self.FK__QuaTrinhCo__MaNV__681373AD">
+          <AssociationSet Name="FK__QuaTrinhCo__MaNV__662B2B3B" Association="Self.FK__QuaTrinhCo__MaNV__662B2B3B">
             <End Role="NhanVien" EntitySet="NhanVien" />
             <End Role="QuaTrinhCongTac" EntitySet="QuaTrinhCongTac" />
           </AssociationSet>
-          <AssociationSet Name="FK__Supply_Do__docum__690797E6" Association="Self.FK__Supply_Do__docum__690797E6">
+          <AssociationSet Name="FK__Supply_Do__docum__671F4F74" Association="Self.FK__Supply_Do__docum__671F4F74">
             <End Role="Documentary" EntitySet="Documentary" />
             <End Role="Supply_Documentary_Equipment" EntitySet="Supply_Documentary_Equipment" />
           </AssociationSet>
-          <AssociationSet Name="FK__Supply_Do__equip__69FBBC1F" Association="Self.FK__Supply_Do__equip__69FBBC1F">
+          <AssociationSet Name="FK__Supply_Do__equip__681373AD" Association="Self.FK__Supply_Do__equip__681373AD">
             <End Role="Equipment" EntitySet="Equipment" />
             <End Role="Supply_Documentary_Equipment" EntitySet="Supply_Documentary_Equipment" />
           </AssociationSet>
-          <AssociationSet Name="FK__Supply_Do__suppl__6AEFE058" Association="Self.FK__Supply_Do__suppl__6AEFE058">
+          <AssociationSet Name="FK__Supply_Do__suppl__690797E6" Association="Self.FK__Supply_Do__suppl__690797E6">
             <End Role="Supply" EntitySet="Supply" />
             <End Role="Supply_Documentary_Equipment" EntitySet="Supply_Documentary_Equipment" />
           </AssociationSet>
-          <AssociationSet Name="FK__Supply_ti__depar__6BE40491" Association="Self.FK__Supply_ti__depar__6BE40491">
+          <AssociationSet Name="FK__Supply_ti__depar__69FBBC1F" Association="Self.FK__Supply_ti__depar__69FBBC1F">
             <End Role="Department" EntitySet="Department" />
             <End Role="Supply_tieuhao" EntitySet="Supply_tieuhao" />
           </AssociationSet>
-          <AssociationSet Name="FK__Supply_ti__suppl__6CD828CA" Association="Self.FK__Supply_ti__suppl__6CD828CA">
+          <AssociationSet Name="FK__Supply_ti__suppl__6AEFE058" Association="Self.FK__Supply_ti__suppl__6AEFE058">
             <End Role="Supply" EntitySet="Supply" />
             <End Role="Supply_tieuhao" EntitySet="Supply_tieuhao" />
           </AssociationSet>
-          <AssociationSet Name="FK__SupplyPla__depar__6DCC4D03" Association="Self.FK__SupplyPla__depar__6DCC4D03">
+          <AssociationSet Name="FK__SupplyPla__depar__6BE40491" Association="Self.FK__SupplyPla__depar__6BE40491">
             <End Role="Department" EntitySet="Department" />
             <End Role="SupplyPlan" EntitySet="SupplyPlan" />
           </AssociationSet>
-          <AssociationSet Name="FK__SupplyPla__equip__6EC0713C" Association="Self.FK__SupplyPla__equip__6EC0713C">
+          <AssociationSet Name="FK__SupplyPla__equip__6CD828CA" Association="Self.FK__SupplyPla__equip__6CD828CA">
             <End Role="Equipment" EntitySet="Equipment" />
             <End Role="SupplyPlan" EntitySet="SupplyPlan" />
           </AssociationSet>
-          <AssociationSet Name="FK__SupplyPla__suppl__6FB49575" Association="Self.FK__SupplyPla__suppl__6FB49575">
+          <AssociationSet Name="FK__SupplyPla__suppl__6DCC4D03" Association="Self.FK__SupplyPla__suppl__6DCC4D03">
             <End Role="Supply" EntitySet="Supply" />
             <End Role="SupplyPlan" EntitySet="SupplyPlan" />
           </AssociationSet>
-          <AssociationSet Name="FK__ThucHien___MaPho__70A8B9AE" Association="Self.FK__ThucHien___MaPho__70A8B9AE">
+          <AssociationSet Name="FK__ThucHien___MaPho__6EC0713C" Association="Self.FK__ThucHien___MaPho__6EC0713C">
             <End Role="Department" EntitySet="Department" />
             <End Role="ThucHien_TieuChi" EntitySet="ThucHien_TieuChi" />
           </AssociationSet>
-          <AssociationSet Name="FK__ThucHien___MaThu__72910220" Association="Self.FK__ThucHien___MaThu__72910220">
+          <AssociationSet Name="FK__ThucHien___MaThu__70A8B9AE" Association="Self.FK__ThucHien___MaThu__70A8B9AE">
             <End Role="ThucHien_TieuChi" EntitySet="ThucHien_TieuChi" />
             <End Role="ThucHien_TieuChi_VatLieuSanXuat" EntitySet="ThucHien_TieuChi_VatLieuSanXuat" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ThucHien___MaTie__6FB49575" Association="Self.FK__ThucHien___MaTie__6FB49575">
+            <End Role="TieuChi" EntitySet="TieuChi" />
+            <End Role="ThucHien_TieuChi" EntitySet="ThucHien_TieuChi" />
           </AssociationSet>
           <AssociationSet Name="FK__ThucHien___MaTie__719CDDE7" Association="Self.FK__ThucHien___MaTie__719CDDE7">
-            <End Role="TieuChi" EntitySet="TieuChi" />
-            <End Role="ThucHien_TieuChi" EntitySet="ThucHien_TieuChi" />
-          </AssociationSet>
-          <AssociationSet Name="FK__ThucHien___MaTie__73852659" Association="Self.FK__ThucHien___MaTie__73852659">
             <End Role="TieuChi_VatLieuSanXuat" EntitySet="TieuChi_VatLieuSanXuat" />
             <End Role="ThucHien_TieuChi_VatLieuSanXuat" EntitySet="ThucHien_TieuChi_VatLieuSanXuat" />
           </AssociationSet>
-          <AssociationSet Name="FK__TieuChi_V__MaTie__74794A92" Association="Self.FK__TieuChi_V__MaTie__74794A92">
+          <AssociationSet Name="FK__TieuChi_V__MaTie__72910220" Association="Self.FK__TieuChi_V__MaTie__72910220">
             <End Role="TieuChi" EntitySet="TieuChi" />
             <End Role="TieuChi_VatLieuSanXuat" EntitySet="TieuChi_VatLieuSanXuat" />
           </AssociationSet>
-          <AssociationSet Name="FK__TieuChi_V__MaVat__756D6ECB" Association="Self.FK__TieuChi_V__MaVat__756D6ECB">
+          <AssociationSet Name="FK__TieuChi_V__MaVat__73852659" Association="Self.FK__TieuChi_V__MaVat__73852659">
             <End Role="VatLieuSanXuat" EntitySet="VatLieuSanXuat" />
             <End Role="TieuChi_VatLieuSanXuat" EntitySet="TieuChi_VatLieuSanXuat" />
           </AssociationSet>
-          <AssociationSet Name="FK__TuyenDung___MaNV__76619304" Association="Self.FK__TuyenDung___MaNV__76619304">
+          <AssociationSet Name="FK__TuyenDung___MaNV__74794A92" Association="Self.FK__TuyenDung___MaNV__74794A92">
             <End Role="NhanVien" EntitySet="NhanVien" />
             <End Role="TuyenDung_NhanVien" EntitySet="TuyenDung_NhanVien" />
           </AssociationSet>
-          <AssociationSet Name="FK__TuyenDung__SoQuy__7755B73D" Association="Self.FK__TuyenDung__SoQuy__7755B73D">
+          <AssociationSet Name="FK__TuyenDung__SoQuy__756D6ECB" Association="Self.FK__TuyenDung__SoQuy__756D6ECB">
             <End Role="QuyetDinh" EntitySet="QuyetDinh" />
             <End Role="TuyenDung_NhanVien" EntitySet="TuyenDung_NhanVien" />
           </AssociationSet>
@@ -2149,7 +2150,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="MaBangCap" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MaTrinhDo" Type="Int32" />
           <Property Name="KieuBangCap" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ThoiHan" Type="Double" />
+          <Property Name="ThoiHan" Type="Int32" />
           <NavigationProperty Name="ChiTiet_BangCap" Relationship="Self.FK__ChiTiet_B__MaBan__339FAB6E" FromRole="BangCap" ToRole="ChiTiet_BangCap" />
           <NavigationProperty Name="ChuyenNganh" Relationship="Self.FK_BangCap_ChuyenNganh" FromRole="BangCap" ToRole="ChuyenNganh" />
           <NavigationProperty Name="TrinhDo" Relationship="Self.FK_BangCap_TrinhDo" FromRole="BangCap" ToRole="TrinhDo" />
@@ -2216,7 +2217,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           </Key>
           <Property Name="MaChungChi" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TenChungChi" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ThoiHan" Type="Double" />
+          <Property Name="ThoiHan" Type="Int32" />
           <Property Name="KieuChungChi" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ChungChi_NhanVien" Relationship="Self.FK__ChungChi___MaChu__395884C4" FromRole="ChungChi" ToRole="ChungChi_NhanVien" />
           <NavigationProperty Name="NhiemVus" Relationship="Self.FK_NhiemVu_ChungChi" FromRole="ChungChi" ToRole="NhiemVu" />
@@ -2263,13 +2264,13 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="department_type" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="DiemDanh_NangSuatLaoDong" Relationship="Self.FK__DiemDanh___MaDon__3C34F16F" FromRole="Department" ToRole="DiemDanh_NangSuatLaoDong" />
           <NavigationProperty Name="Documentaries" Relationship="Self.FK__Documenta__depar__40058253" FromRole="Department" ToRole="Documentary" />
-          <NavigationProperty Name="Equipments" Relationship="Self.FK__Equipment__depar__4C6B5938" FromRole="Department" ToRole="Equipment" />
-          <NavigationProperty Name="Incidents" Relationship="Self.FK__Incident__depart__59C55456" FromRole="Department" ToRole="Incident" />
-          <NavigationProperty Name="KeHoach_TieuChi" Relationship="Self.FK__KeHoach_T__MaPho__5BAD9CC8" FromRole="Department" ToRole="KeHoach_TieuChi" />
-          <NavigationProperty Name="Maintain_Car" Relationship="Self.FK__Maintain___depar__607251E5" FromRole="Department" ToRole="Maintain_Car" />
-          <NavigationProperty Name="Supply_tieuhao" Relationship="Self.FK__Supply_ti__depar__6BE40491" FromRole="Department" ToRole="Supply_tieuhao" />
-          <NavigationProperty Name="SupplyPlans" Relationship="Self.FK__SupplyPla__depar__6DCC4D03" FromRole="Department" ToRole="SupplyPlan" />
-          <NavigationProperty Name="ThucHien_TieuChi" Relationship="Self.FK__ThucHien___MaPho__70A8B9AE" FromRole="Department" ToRole="ThucHien_TieuChi" />
+          <NavigationProperty Name="Equipments" Relationship="Self.FK__Equipment__depar__4A8310C6" FromRole="Department" ToRole="Equipment" />
+          <NavigationProperty Name="Incidents" Relationship="Self.FK__Incident__depart__57DD0BE4" FromRole="Department" ToRole="Incident" />
+          <NavigationProperty Name="KeHoach_TieuChi" Relationship="Self.FK__KeHoach_T__MaPho__59C55456" FromRole="Department" ToRole="KeHoach_TieuChi" />
+          <NavigationProperty Name="Maintain_Car" Relationship="Self.FK__Maintain___depar__5E8A0973" FromRole="Department" ToRole="Maintain_Car" />
+          <NavigationProperty Name="Supply_tieuhao" Relationship="Self.FK__Supply_ti__depar__69FBBC1F" FromRole="Department" ToRole="Supply_tieuhao" />
+          <NavigationProperty Name="SupplyPlans" Relationship="Self.FK__SupplyPla__depar__6BE40491" FromRole="Department" ToRole="SupplyPlan" />
+          <NavigationProperty Name="ThucHien_TieuChi" Relationship="Self.FK__ThucHien___MaPho__6EC0713C" FromRole="Department" ToRole="ThucHien_TieuChi" />
           <NavigationProperty Name="NhanViens" Relationship="Self.FK_NhanVien_Department" FromRole="Department" ToRole="NhanVien" />
         </EntityType>
         <EntityType Name="DiemDanh_NangSuatLaoDong">
@@ -2288,6 +2289,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="LuongSauDuyet" Type="Double" />
           <Property Name="DuBaoNguyCo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="GiaiPhapNguyCo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="LyDoVangMat" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Department" Relationship="Self.FK__DiemDanh___MaDon__3C34F16F" FromRole="DiemDanh_NangSuatLaoDong" ToRole="Department" />
           <NavigationProperty Name="NhanVien" Relationship="Self.FK__DiemDanh_N__MaNV__3D2915A8" FromRole="DiemDanh_NangSuatLaoDong" ToRole="NhanVien" />
         </EntityType>
@@ -2330,8 +2332,8 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <NavigationProperty Name="Documentary_moveline_details" Relationship="Self.FK__Documenta__docum__46B27FE2" FromRole="Documentary" ToRole="Documentary_moveline_details" />
           <NavigationProperty Name="Documentary_repair_details" Relationship="Self.FK__Documenta__docum__489AC854" FromRole="Documentary" ToRole="Documentary_repair_details" />
           <NavigationProperty Name="Documentary_revoke_details" Relationship="Self.FK__Documenta__docum__4A8310C6" FromRole="Documentary" ToRole="Documentary_revoke_details" />
-          <NavigationProperty Name="Equipment_Inspection" Relationship="Self.FK__Equipment__docum__503BEA1C" FromRole="Documentary" ToRole="Equipment_Inspection" />
-          <NavigationProperty Name="Supply_Documentary_Equipment" Relationship="Self.FK__Supply_Do__docum__690797E6" FromRole="Documentary" ToRole="Supply_Documentary_Equipment" />
+          <NavigationProperty Name="Equipment_Inspection" Relationship="Self.FK__Equipment__docum__4E53A1AA" FromRole="Documentary" ToRole="Equipment_Inspection" />
+          <NavigationProperty Name="Supply_Documentary_Equipment" Relationship="Self.FK__Supply_Do__docum__671F4F74" FromRole="Documentary" ToRole="Supply_Documentary_Equipment" />
         </EntityType>
         <EntityType Name="Documentary_big_maintain_details">
           <Key>
@@ -2438,20 +2440,20 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="department_id" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Acceptances" Relationship="Self.FK__Acceptanc__equip__2B0A656D" FromRole="Equipment" ToRole="Acceptance" />
           <NavigationProperty Name="Category_attribute_value" Relationship="Self.FK__Category___equip__2EDAF651" FromRole="Equipment" ToRole="Category_attribute_value" />
-          <NavigationProperty Name="Department" Relationship="Self.FK__Equipment__depar__4C6B5938" FromRole="Equipment" ToRole="Department" />
+          <NavigationProperty Name="Department" Relationship="Self.FK__Equipment__depar__4A8310C6" FromRole="Equipment" ToRole="Department" />
           <NavigationProperty Name="Documentary_liquidation_details" Relationship="Self.FK__Documenta__equip__43D61337" FromRole="Equipment" ToRole="Documentary_liquidation_details" />
           <NavigationProperty Name="Documentary_maintain_details" Relationship="Self.FK__Documenta__equip__45BE5BA9" FromRole="Equipment" ToRole="Documentary_maintain_details" />
           <NavigationProperty Name="Documentary_moveline_details" Relationship="Self.FK__Documenta__equip__47A6A41B" FromRole="Equipment" ToRole="Documentary_moveline_details" />
           <NavigationProperty Name="Documentary_repair_details" Relationship="Self.FK__Documenta__equip__498EEC8D" FromRole="Equipment" ToRole="Documentary_repair_details" />
           <NavigationProperty Name="Documentary_revoke_details" Relationship="Self.FK__Documenta__equip__4B7734FF" FromRole="Equipment" ToRole="Documentary_revoke_details" />
-          <NavigationProperty Name="Equipment_category" Relationship="Self.FK__Equipment__Equip__4D5F7D71" FromRole="Equipment" ToRole="Equipment_category" />
-          <NavigationProperty Name="Equipment_attribute" Relationship="Self.FK__Equipment__equip__4E53A1AA" FromRole="Equipment" ToRole="Equipment_attribute" />
-          <NavigationProperty Name="Equipment_Inspection" Relationship="Self.FK__Equipment__equip__51300E55" FromRole="Equipment" ToRole="Equipment_Inspection" />
-          <NavigationProperty Name="Fuel_activities_consumption" Relationship="Self.FK__Fuel_acti__equip__5224328E" FromRole="Equipment" ToRole="Fuel_activities_consumption" />
-          <NavigationProperty Name="Incidents" Relationship="Self.FK__Incident__equipm__5AB9788F" FromRole="Equipment" ToRole="Incident" />
-          <NavigationProperty Name="Maintain_Car" Relationship="Self.FK__Maintain___equip__6166761E" FromRole="Equipment" ToRole="Maintain_Car" />
-          <NavigationProperty Name="Supply_Documentary_Equipment" Relationship="Self.FK__Supply_Do__equip__69FBBC1F" FromRole="Equipment" ToRole="Supply_Documentary_Equipment" />
-          <NavigationProperty Name="SupplyPlans" Relationship="Self.FK__SupplyPla__equip__6EC0713C" FromRole="Equipment" ToRole="SupplyPlan" />
+          <NavigationProperty Name="Equipment_category" Relationship="Self.FK__Equipment__Equip__4B7734FF" FromRole="Equipment" ToRole="Equipment_category" />
+          <NavigationProperty Name="Equipment_attribute" Relationship="Self.FK__Equipment__equip__4C6B5938" FromRole="Equipment" ToRole="Equipment_attribute" />
+          <NavigationProperty Name="Equipment_Inspection" Relationship="Self.FK__Equipment__equip__4F47C5E3" FromRole="Equipment" ToRole="Equipment_Inspection" />
+          <NavigationProperty Name="Fuel_activities_consumption" Relationship="Self.FK__Fuel_acti__equip__503BEA1C" FromRole="Equipment" ToRole="Fuel_activities_consumption" />
+          <NavigationProperty Name="Incidents" Relationship="Self.FK__Incident__equipm__58D1301D" FromRole="Equipment" ToRole="Incident" />
+          <NavigationProperty Name="Maintain_Car" Relationship="Self.FK__Maintain___equip__5F7E2DAC" FromRole="Equipment" ToRole="Maintain_Car" />
+          <NavigationProperty Name="Supply_Documentary_Equipment" Relationship="Self.FK__Supply_Do__equip__681373AD" FromRole="Equipment" ToRole="Supply_Documentary_Equipment" />
+          <NavigationProperty Name="SupplyPlans" Relationship="Self.FK__SupplyPla__equip__6CD828CA" FromRole="Equipment" ToRole="SupplyPlan" />
         </EntityType>
         <EntityType Name="Equipment_attribute">
           <Key>
@@ -2463,7 +2465,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="value" Type="Int32" Nullable="false" />
           <Property Name="unit" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="equipmentId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Equipment" Relationship="Self.FK__Equipment__equip__4E53A1AA" FromRole="Equipment_attribute" ToRole="Equipment" />
+          <NavigationProperty Name="Equipment" Relationship="Self.FK__Equipment__equip__4C6B5938" FromRole="Equipment_attribute" ToRole="Equipment" />
         </EntityType>
         <EntityType Name="Equipment_category">
           <Key>
@@ -2473,8 +2475,8 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="Equipment_category_name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="divce_type" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Category_attribute_value" Relationship="Self.FK__Category___Equip__2FCF1A8A" FromRole="Equipment_category" ToRole="Category_attribute_value" />
-          <NavigationProperty Name="Equipments" Relationship="Self.FK__Equipment__Equip__4D5F7D71" FromRole="Equipment_category" ToRole="Equipment" />
-          <NavigationProperty Name="Equipment_category_attribute" Relationship="Self.FK__Equipment__Equip__4F47C5E3" FromRole="Equipment_category" ToRole="Equipment_category_attribute" />
+          <NavigationProperty Name="Equipments" Relationship="Self.FK__Equipment__Equip__4B7734FF" FromRole="Equipment_category" ToRole="Equipment" />
+          <NavigationProperty Name="Equipment_category_attribute" Relationship="Self.FK__Equipment__Equip__4D5F7D71" FromRole="Equipment_category" ToRole="Equipment_category_attribute" />
         </EntityType>
         <EntityType Name="Equipment_category_attribute">
           <Key>
@@ -2485,7 +2487,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="unit" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Equipment_category_id" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Category_attribute_value" Relationship="Self.FK__Category___Equip__30C33EC3" FromRole="Equipment_category_attribute" ToRole="Category_attribute_value" />
-          <NavigationProperty Name="Equipment_category" Relationship="Self.FK__Equipment__Equip__4F47C5E3" FromRole="Equipment_category_attribute" ToRole="Equipment_category" />
+          <NavigationProperty Name="Equipment_category" Relationship="Self.FK__Equipment__Equip__4D5F7D71" FromRole="Equipment_category_attribute" ToRole="Equipment_category" />
         </EntityType>
         <EntityType Name="Equipment_Inspection">
           <Key>
@@ -2496,8 +2498,8 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="end_date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="documentary_id" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="equipmentId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Documentary" Relationship="Self.FK__Equipment__docum__503BEA1C" FromRole="Equipment_Inspection" ToRole="Documentary" />
-          <NavigationProperty Name="Equipment" Relationship="Self.FK__Equipment__equip__51300E55" FromRole="Equipment_Inspection" ToRole="Equipment" />
+          <NavigationProperty Name="Documentary" Relationship="Self.FK__Equipment__docum__4E53A1AA" FromRole="Equipment_Inspection" ToRole="Documentary" />
+          <NavigationProperty Name="Equipment" Relationship="Self.FK__Equipment__equip__4F47C5E3" FromRole="Equipment_Inspection" ToRole="Equipment" />
         </EntityType>
         <EntityType Name="Fuel_activities_consumption">
           <Key>
@@ -2509,8 +2511,8 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="equipmentId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="fuel_type" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Equipment" Relationship="Self.FK__Fuel_acti__equip__5224328E" FromRole="Fuel_activities_consumption" ToRole="Equipment" />
-          <NavigationProperty Name="Supply" Relationship="Self.FK__Fuel_acti__fuel___531856C7" FromRole="Fuel_activities_consumption" ToRole="Supply" />
+          <NavigationProperty Name="Equipment" Relationship="Self.FK__Fuel_acti__equip__503BEA1C" FromRole="Fuel_activities_consumption" ToRole="Equipment" />
+          <NavigationProperty Name="Supply" Relationship="Self.FK__Fuel_acti__fuel___51300E55" FromRole="Fuel_activities_consumption" ToRole="Supply" />
         </EntityType>
         <EntityType Name="GhiChu">
           <Key>
@@ -2520,8 +2522,8 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="MaThucHien" Type="Int32" Nullable="false" />
           <Property Name="MaKeHoach" Type="Int32" Nullable="false" />
           <Property Name="NoiDungGhiChu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="KeHoach_TieuChi" Relationship="Self.FK__GhiChu__MaKeHoac__540C7B00" FromRole="GhiChu" ToRole="KeHoach_TieuChi" />
-          <NavigationProperty Name="ThucHien_TieuChi" Relationship="Self.FK__GhiChu__MaThucHi__55009F39" FromRole="GhiChu" ToRole="ThucHien_TieuChi" />
+          <NavigationProperty Name="KeHoach_TieuChi" Relationship="Self.FK__GhiChu__MaKeHoac__5224328E" FromRole="GhiChu" ToRole="KeHoach_TieuChi" />
+          <NavigationProperty Name="ThucHien_TieuChi" Relationship="Self.FK__GhiChu__MaThucHi__531856C7" FromRole="GhiChu" ToRole="ThucHien_TieuChi" />
         </EntityType>
         <EntityType Name="GiayChungNhan">
           <Key>
@@ -2529,9 +2531,9 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           </Key>
           <Property Name="MaChungNhan" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TenChungNhan" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ThoiHan" Type="DateTime" Precision="0" />
+          <Property Name="ThoiHan" Type="Int32" />
           <Property Name="KieuChungNhan" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="GiayChungNhan_NhanVien" Relationship="Self.FK__GiayChung__MaChu__55F4C372" FromRole="GiayChungNhan" ToRole="GiayChungNhan_NhanVien" />
+          <NavigationProperty Name="GiayChungNhan_NhanVien" Relationship="Self.FK__GiayChung__MaChu__540C7B00" FromRole="GiayChungNhan" ToRole="GiayChungNhan_NhanVien" />
         </EntityType>
         <EntityType Name="GiayChungNhan_NhanVien">
           <Key>
@@ -2542,8 +2544,8 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="MaNV" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="MaChungNhan" Type="Int32" />
           <Property Name="NgayTra" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="GiayChungNhan" Relationship="Self.FK__GiayChung__MaChu__55F4C372" FromRole="GiayChungNhan_NhanVien" ToRole="GiayChungNhan" />
-          <NavigationProperty Name="NhanVien" Relationship="Self.FK__GiayChungN__MaNV__56E8E7AB" FromRole="GiayChungNhan_NhanVien" ToRole="NhanVien" />
+          <NavigationProperty Name="GiayChungNhan" Relationship="Self.FK__GiayChung__MaChu__540C7B00" FromRole="GiayChungNhan_NhanVien" ToRole="GiayChungNhan" />
+          <NavigationProperty Name="NhanVien" Relationship="Self.FK__GiayChungN__MaNV__55009F39" FromRole="GiayChungNhan_NhanVien" ToRole="NhanVien" />
         </EntityType>
         <EntityType Name="GiayTo">
           <Key>
@@ -2554,7 +2556,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="KieuGiayTo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="MaGiayTo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NgayTra" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="NhanVien" Relationship="Self.FK__GiayTo__MaNV__57DD0BE4" FromRole="GiayTo" ToRole="NhanVien" />
+          <NavigationProperty Name="NhanVien" Relationship="Self.FK__GiayTo__MaNV__55F4C372" FromRole="GiayTo" ToRole="NhanVien" />
         </EntityType>
         <EntityType Name="HoSo">
           <Key>
@@ -2570,8 +2572,8 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="NguoiBanGiaoBangNhapKho" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="NguoiGiuHoSo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="MaNV" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="NhanVien" Relationship="Self.FK__HoSo__MaNV__58D1301D" FromRole="HoSo" ToRole="NhanVien" />
-          <NavigationProperty Name="LichSuBoSungSYLLs" Relationship="Self.FK__LichSuBoSu__MaNV__5F7E2DAC" FromRole="HoSo" ToRole="LichSuBoSungSYLL" />
+          <NavigationProperty Name="NhanVien" Relationship="Self.FK__HoSo__MaNV__56E8E7AB" FromRole="HoSo" ToRole="NhanVien" />
+          <NavigationProperty Name="LichSuBoSungSYLLs" Relationship="Self.FK__LichSuBoSu__MaNV__5D95E53A" FromRole="HoSo" ToRole="LichSuBoSungSYLL" />
         </EntityType>
         <EntityType Name="Incident">
           <Key>
@@ -2584,8 +2586,8 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="reason" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="equipmentId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="department_id" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Department" Relationship="Self.FK__Incident__depart__59C55456" FromRole="Incident" ToRole="Department" />
-          <NavigationProperty Name="Equipment" Relationship="Self.FK__Incident__equipm__5AB9788F" FromRole="Incident" ToRole="Equipment" />
+          <NavigationProperty Name="Department" Relationship="Self.FK__Incident__depart__57DD0BE4" FromRole="Incident" ToRole="Department" />
+          <NavigationProperty Name="Equipment" Relationship="Self.FK__Incident__equipm__58D1301D" FromRole="Incident" ToRole="Equipment" />
         </EntityType>
         <EntityType Name="KeHoach_TieuChi">
           <Key>
@@ -2598,10 +2600,10 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="NamKeHoach" Type="Int32" />
           <Property Name="SoNgayLamViec" Type="Int32" />
           <Property Name="SanLuongKeHoach" Type="Double" />
-          <NavigationProperty Name="Department" Relationship="Self.FK__KeHoach_T__MaPho__5BAD9CC8" FromRole="KeHoach_TieuChi" ToRole="Department" />
-          <NavigationProperty Name="GhiChus" Relationship="Self.FK__GhiChu__MaKeHoac__540C7B00" FromRole="KeHoach_TieuChi" ToRole="GhiChu" />
-          <NavigationProperty Name="KeHoach_TieuChi_VatLieuSanXuat" Relationship="Self.FK__KeHoach_T__MaKeH__5D95E53A" FromRole="KeHoach_TieuChi" ToRole="KeHoach_TieuChi_VatLieuSanXuat" />
-          <NavigationProperty Name="TieuChi" Relationship="Self.FK__KeHoach_T__MaTie__5CA1C101" FromRole="KeHoach_TieuChi" ToRole="TieuChi" />
+          <NavigationProperty Name="Department" Relationship="Self.FK__KeHoach_T__MaPho__59C55456" FromRole="KeHoach_TieuChi" ToRole="Department" />
+          <NavigationProperty Name="GhiChus" Relationship="Self.FK__GhiChu__MaKeHoac__5224328E" FromRole="KeHoach_TieuChi" ToRole="GhiChu" />
+          <NavigationProperty Name="KeHoach_TieuChi_VatLieuSanXuat" Relationship="Self.FK__KeHoach_T__MaKeH__5BAD9CC8" FromRole="KeHoach_TieuChi" ToRole="KeHoach_TieuChi_VatLieuSanXuat" />
+          <NavigationProperty Name="TieuChi" Relationship="Self.FK__KeHoach_T__MaTie__5AB9788F" FromRole="KeHoach_TieuChi" ToRole="TieuChi" />
         </EntityType>
         <EntityType Name="KeHoach_TieuChi_VatLieuSanXuat">
           <Key>
@@ -2611,8 +2613,8 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="MaKeHoach" Type="Int32" Nullable="false" />
           <Property Name="MaTieuChi_VatLieuSanXuat" Type="Int32" Nullable="false" />
           <Property Name="TietDienDao" Type="Double" />
-          <NavigationProperty Name="KeHoach_TieuChi" Relationship="Self.FK__KeHoach_T__MaKeH__5D95E53A" FromRole="KeHoach_TieuChi_VatLieuSanXuat" ToRole="KeHoach_TieuChi" />
-          <NavigationProperty Name="TieuChi_VatLieuSanXuat" Relationship="Self.FK__KeHoach_T__MaTie__5E8A0973" FromRole="KeHoach_TieuChi_VatLieuSanXuat" ToRole="TieuChi_VatLieuSanXuat" />
+          <NavigationProperty Name="KeHoach_TieuChi" Relationship="Self.FK__KeHoach_T__MaKeH__5BAD9CC8" FromRole="KeHoach_TieuChi_VatLieuSanXuat" ToRole="KeHoach_TieuChi" />
+          <NavigationProperty Name="TieuChi_VatLieuSanXuat" Relationship="Self.FK__KeHoach_T__MaTie__5CA1C101" FromRole="KeHoach_TieuChi_VatLieuSanXuat" ToRole="TieuChi_VatLieuSanXuat" />
         </EntityType>
         <EntityType Name="LichSuBoSungSYLL">
           <Key>
@@ -2622,7 +2624,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="NamBoSung" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DotBoSung" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="MaNV" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="HoSo" Relationship="Self.FK__LichSuBoSu__MaNV__5F7E2DAC" FromRole="LichSuBoSungSYLL" ToRole="HoSo" />
+          <NavigationProperty Name="HoSo" Relationship="Self.FK__LichSuBoSu__MaNV__5D95E53A" FromRole="LichSuBoSungSYLL" ToRole="HoSo" />
         </EntityType>
         <EntityType Name="Maintain_Car">
           <Key>
@@ -2633,9 +2635,9 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="departmentid" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="maintain_content" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Department" Relationship="Self.FK__Maintain___depar__607251E5" FromRole="Maintain_Car" ToRole="Department" />
-          <NavigationProperty Name="Equipment" Relationship="Self.FK__Maintain___equip__6166761E" FromRole="Maintain_Car" ToRole="Equipment" />
-          <NavigationProperty Name="Maintain_Car_Detail" Relationship="Self.FK__Maintain___maint__625A9A57" FromRole="Maintain_Car" ToRole="Maintain_Car_Detail" />
+          <NavigationProperty Name="Department" Relationship="Self.FK__Maintain___depar__5E8A0973" FromRole="Maintain_Car" ToRole="Department" />
+          <NavigationProperty Name="Equipment" Relationship="Self.FK__Maintain___equip__5F7E2DAC" FromRole="Maintain_Car" ToRole="Equipment" />
+          <NavigationProperty Name="Maintain_Car_Detail" Relationship="Self.FK__Maintain___maint__607251E5" FromRole="Maintain_Car" ToRole="Maintain_Car_Detail" />
         </EntityType>
         <EntityType Name="Maintain_Car_Detail">
           <Key>
@@ -2647,8 +2649,8 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="quantity" Type="Int32" Nullable="false" />
           <Property Name="supplyType" Type="Int32" Nullable="false" />
           <Property Name="supplyStatus" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Maintain_Car" Relationship="Self.FK__Maintain___maint__625A9A57" FromRole="Maintain_Car_Detail" ToRole="Maintain_Car" />
-          <NavigationProperty Name="Supply" Relationship="Self.FK__Maintain___suppl__634EBE90" FromRole="Maintain_Car_Detail" ToRole="Supply" />
+          <NavigationProperty Name="Maintain_Car" Relationship="Self.FK__Maintain___maint__607251E5" FromRole="Maintain_Car_Detail" ToRole="Maintain_Car" />
+          <NavigationProperty Name="Supply" Relationship="Self.FK__Maintain___suppl__6166761E" FromRole="Maintain_Car_Detail" ToRole="Supply" />
         </EntityType>
         <EntityType Name="Module">
           <Key>
@@ -2674,7 +2676,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="QuanHe" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="SoCMND" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="SoDienThoai" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="NhanViens" Relationship="Self.FK__NhanVien__MaUyQu__6442E2C9" FromRole="NguoiUyQuyenLayHoSo_BaoHiem" ToRole="NhanVien" />
+          <NavigationProperty Name="NhanViens" Relationship="Self.FK__NhanVien__MaUyQu__625A9A57" FromRole="NguoiUyQuyenLayHoSo_BaoHiem" ToRole="NhanVien" />
         </EntityType>
         <EntityType Name="NhanVien">
           <Key>
@@ -2694,7 +2696,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="QueQuan" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="TonGiao" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="NoiOHienTai" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="SoDienThoai" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="SoDienThoai" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TPGiaDinhXuatThan" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="NgayThamGiaCachMang" Type="DateTime" Precision="0" />
           <Property Name="NgayVaoDangCSVN" Type="DateTime" Precision="0" />
@@ -2740,13 +2742,13 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <NavigationProperty Name="Department" Relationship="Self.FK_NhanVien_Department" FromRole="NhanVien" ToRole="Department" />
           <NavigationProperty Name="DiemDanh_NangSuatLaoDong" Relationship="Self.FK__DiemDanh_N__MaNV__3D2915A8" FromRole="NhanVien" ToRole="DiemDanh_NangSuatLaoDong" />
           <NavigationProperty Name="DieuDong_NV" Relationship="Self.FK__DieuDong_N__MaNV__3F115E1A" FromRole="NhanVien" ToRole="DieuDong_NV" />
-          <NavigationProperty Name="GiayChungNhan_NhanVien" Relationship="Self.FK__GiayChungN__MaNV__56E8E7AB" FromRole="NhanVien" ToRole="GiayChungNhan_NhanVien" />
-          <NavigationProperty Name="GiayToes" Relationship="Self.FK__GiayTo__MaNV__57DD0BE4" FromRole="NhanVien" ToRole="GiayTo" />
-          <NavigationProperty Name="HoSo" Relationship="Self.FK__HoSo__MaNV__58D1301D" FromRole="NhanVien" ToRole="HoSo" />
-          <NavigationProperty Name="NguoiUyQuyenLayHoSo_BaoHiem" Relationship="Self.FK__NhanVien__MaUyQu__6442E2C9" FromRole="NhanVien" ToRole="NguoiUyQuyenLayHoSo_BaoHiem" />
+          <NavigationProperty Name="GiayChungNhan_NhanVien" Relationship="Self.FK__GiayChungN__MaNV__55009F39" FromRole="NhanVien" ToRole="GiayChungNhan_NhanVien" />
+          <NavigationProperty Name="GiayToes" Relationship="Self.FK__GiayTo__MaNV__55F4C372" FromRole="NhanVien" ToRole="GiayTo" />
+          <NavigationProperty Name="HoSo" Relationship="Self.FK__HoSo__MaNV__56E8E7AB" FromRole="NhanVien" ToRole="HoSo" />
+          <NavigationProperty Name="NguoiUyQuyenLayHoSo_BaoHiem" Relationship="Self.FK__NhanVien__MaUyQu__625A9A57" FromRole="NhanVien" ToRole="NguoiUyQuyenLayHoSo_BaoHiem" />
           <NavigationProperty Name="ChiTiet_NhiemVu_NhanVien" Relationship="Self.FK__ChiTiet_Nh__MaNV__37703C52" FromRole="NhanVien" ToRole="ChiTiet_NhiemVu_NhanVien" />
-          <NavigationProperty Name="QuanHeGiaDinhs" Relationship="Self.FK__QuanHeGiaD__MaNV__671F4F74" FromRole="NhanVien" ToRole="QuanHeGiaDinh" />
-          <NavigationProperty Name="QuaTrinhCongTacs" Relationship="Self.FK__QuaTrinhCo__MaNV__681373AD" FromRole="NhanVien" ToRole="QuaTrinhCongTac" />
+          <NavigationProperty Name="QuanHeGiaDinhs" Relationship="Self.FK__QuanHeGiaD__MaNV__65370702" FromRole="NhanVien" ToRole="QuanHeGiaDinh" />
+          <NavigationProperty Name="QuaTrinhCongTacs" Relationship="Self.FK__QuaTrinhCo__MaNV__662B2B3B" FromRole="NhanVien" ToRole="QuaTrinhCongTac" />
           <NavigationProperty Name="QuyetDinhs" Relationship="Self.TuyenDung_NhanVien" FromRole="NhanVien" ToRole="QuyetDinh" />
         </EntityType>
         <EntityType Name="NhiemVu">
@@ -2771,7 +2773,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="NgaySinh" Type="DateTime" Precision="0" />
           <Property Name="LyLich" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="MaNV" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="NhanVien" Relationship="Self.FK__QuanHeGiaD__MaNV__671F4F74" FromRole="QuanHeGiaDinh" ToRole="NhanVien" />
+          <NavigationProperty Name="NhanVien" Relationship="Self.FK__QuanHeGiaD__MaNV__65370702" FromRole="QuanHeGiaDinh" ToRole="NhanVien" />
         </EntityType>
         <EntityType Name="QuaTrinhCongTac">
           <Key>
@@ -2785,7 +2787,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="NgayBatDau" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="NgayKetThuc" Type="DateTime" Precision="0" />
           <Property Name="MaNV" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="NhanVien" Relationship="Self.FK__QuaTrinhCo__MaNV__681373AD" FromRole="QuaTrinhCongTac" ToRole="NhanVien" />
+          <NavigationProperty Name="NhanVien" Relationship="Self.FK__QuaTrinhCo__MaNV__662B2B3B" FromRole="QuaTrinhCongTac" ToRole="NhanVien" />
         </EntityType>
         <EntityType Name="QuyetDinh">
           <Key>
@@ -2807,11 +2809,11 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="supply_name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="unit" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="price" Type="Double" />
-          <NavigationProperty Name="Fuel_activities_consumption" Relationship="Self.FK__Fuel_acti__fuel___531856C7" FromRole="Supply" ToRole="Fuel_activities_consumption" />
-          <NavigationProperty Name="Maintain_Car_Detail" Relationship="Self.FK__Maintain___suppl__634EBE90" FromRole="Supply" ToRole="Maintain_Car_Detail" />
-          <NavigationProperty Name="Supply_Documentary_Equipment" Relationship="Self.FK__Supply_Do__suppl__6AEFE058" FromRole="Supply" ToRole="Supply_Documentary_Equipment" />
-          <NavigationProperty Name="Supply_tieuhao" Relationship="Self.FK__Supply_ti__suppl__6CD828CA" FromRole="Supply" ToRole="Supply_tieuhao" />
-          <NavigationProperty Name="SupplyPlans" Relationship="Self.FK__SupplyPla__suppl__6FB49575" FromRole="Supply" ToRole="SupplyPlan" />
+          <NavigationProperty Name="Fuel_activities_consumption" Relationship="Self.FK__Fuel_acti__fuel___51300E55" FromRole="Supply" ToRole="Fuel_activities_consumption" />
+          <NavigationProperty Name="Maintain_Car_Detail" Relationship="Self.FK__Maintain___suppl__6166761E" FromRole="Supply" ToRole="Maintain_Car_Detail" />
+          <NavigationProperty Name="Supply_Documentary_Equipment" Relationship="Self.FK__Supply_Do__suppl__690797E6" FromRole="Supply" ToRole="Supply_Documentary_Equipment" />
+          <NavigationProperty Name="Supply_tieuhao" Relationship="Self.FK__Supply_ti__suppl__6AEFE058" FromRole="Supply" ToRole="Supply_tieuhao" />
+          <NavigationProperty Name="SupplyPlans" Relationship="Self.FK__SupplyPla__suppl__6DCC4D03" FromRole="Supply" ToRole="SupplyPlan" />
         </EntityType>
         <EntityType Name="Supply_Documentary_Equipment">
           <Key>
@@ -2824,9 +2826,9 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="quantity" Type="Int32" Nullable="false" />
           <Property Name="supplyType" Type="Int32" Nullable="false" />
           <Property Name="supplyStatus" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Documentary" Relationship="Self.FK__Supply_Do__docum__690797E6" FromRole="Supply_Documentary_Equipment" ToRole="Documentary" />
-          <NavigationProperty Name="Equipment" Relationship="Self.FK__Supply_Do__equip__69FBBC1F" FromRole="Supply_Documentary_Equipment" ToRole="Equipment" />
-          <NavigationProperty Name="Supply" Relationship="Self.FK__Supply_Do__suppl__6AEFE058" FromRole="Supply_Documentary_Equipment" ToRole="Supply" />
+          <NavigationProperty Name="Documentary" Relationship="Self.FK__Supply_Do__docum__671F4F74" FromRole="Supply_Documentary_Equipment" ToRole="Documentary" />
+          <NavigationProperty Name="Equipment" Relationship="Self.FK__Supply_Do__equip__681373AD" FromRole="Supply_Documentary_Equipment" ToRole="Equipment" />
+          <NavigationProperty Name="Supply" Relationship="Self.FK__Supply_Do__suppl__690797E6" FromRole="Supply_Documentary_Equipment" ToRole="Supply" />
         </EntityType>
         <EntityType Name="Supply_tieuhao">
           <Key>
@@ -2840,8 +2842,8 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="quantity" Type="Int32" Nullable="false" />
           <Property Name="used" Type="Int32" Nullable="false" />
           <Property Name="thuhoi" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Department" Relationship="Self.FK__Supply_ti__depar__6BE40491" FromRole="Supply_tieuhao" ToRole="Department" />
-          <NavigationProperty Name="Supply" Relationship="Self.FK__Supply_ti__suppl__6CD828CA" FromRole="Supply_tieuhao" ToRole="Supply" />
+          <NavigationProperty Name="Department" Relationship="Self.FK__Supply_ti__depar__69FBBC1F" FromRole="Supply_tieuhao" ToRole="Department" />
+          <NavigationProperty Name="Supply" Relationship="Self.FK__Supply_ti__suppl__6AEFE058" FromRole="Supply_tieuhao" ToRole="Supply" />
         </EntityType>
         <EntityType Name="SupplyPlan">
           <Key>
@@ -2856,9 +2858,9 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="dinh_muc" Type="Double" Nullable="false" />
           <Property Name="quantity_plan" Type="Int32" Nullable="false" />
           <Property Name="quantity" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Department" Relationship="Self.FK__SupplyPla__depar__6DCC4D03" FromRole="SupplyPlan" ToRole="Department" />
-          <NavigationProperty Name="Equipment" Relationship="Self.FK__SupplyPla__equip__6EC0713C" FromRole="SupplyPlan" ToRole="Equipment" />
-          <NavigationProperty Name="Supply" Relationship="Self.FK__SupplyPla__suppl__6FB49575" FromRole="SupplyPlan" ToRole="Supply" />
+          <NavigationProperty Name="Department" Relationship="Self.FK__SupplyPla__depar__6BE40491" FromRole="SupplyPlan" ToRole="Department" />
+          <NavigationProperty Name="Equipment" Relationship="Self.FK__SupplyPla__equip__6CD828CA" FromRole="SupplyPlan" ToRole="Equipment" />
+          <NavigationProperty Name="Supply" Relationship="Self.FK__SupplyPla__suppl__6DCC4D03" FromRole="SupplyPlan" ToRole="Supply" />
         </EntityType>
         <EntityType Name="ThucHien_TieuChi">
           <Key>
@@ -2870,9 +2872,9 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="NgayThucHien" Type="DateTime" Precision="0" />
           <Property Name="CaThucHien" Type="Int32" />
           <Property Name="SanLuongThucHien" Type="Double" />
-          <NavigationProperty Name="Department" Relationship="Self.FK__ThucHien___MaPho__70A8B9AE" FromRole="ThucHien_TieuChi" ToRole="Department" />
-          <NavigationProperty Name="GhiChus" Relationship="Self.FK__GhiChu__MaThucHi__55009F39" FromRole="ThucHien_TieuChi" ToRole="GhiChu" />
-          <NavigationProperty Name="TieuChi" Relationship="Self.FK__ThucHien___MaTie__719CDDE7" FromRole="ThucHien_TieuChi" ToRole="TieuChi" />
+          <NavigationProperty Name="Department" Relationship="Self.FK__ThucHien___MaPho__6EC0713C" FromRole="ThucHien_TieuChi" ToRole="Department" />
+          <NavigationProperty Name="GhiChus" Relationship="Self.FK__GhiChu__MaThucHi__531856C7" FromRole="ThucHien_TieuChi" ToRole="GhiChu" />
+          <NavigationProperty Name="TieuChi" Relationship="Self.FK__ThucHien___MaTie__6FB49575" FromRole="ThucHien_TieuChi" ToRole="TieuChi" />
           <NavigationProperty Name="TieuChi_VatLieuSanXuat" Relationship="Self.ThucHien_TieuChi_VatLieuSanXuat" FromRole="ThucHien_TieuChi" ToRole="TieuChi_VatLieuSanXuat" />
         </EntityType>
         <EntityType Name="TieuChi">
@@ -2882,9 +2884,9 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="MaTieuChi" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TenTieuChi" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="DonViDo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="KeHoach_TieuChi" Relationship="Self.FK__KeHoach_T__MaTie__5CA1C101" FromRole="TieuChi" ToRole="KeHoach_TieuChi" />
-          <NavigationProperty Name="ThucHien_TieuChi" Relationship="Self.FK__ThucHien___MaTie__719CDDE7" FromRole="TieuChi" ToRole="ThucHien_TieuChi" />
-          <NavigationProperty Name="TieuChi_VatLieuSanXuat" Relationship="Self.FK__TieuChi_V__MaTie__74794A92" FromRole="TieuChi" ToRole="TieuChi_VatLieuSanXuat" />
+          <NavigationProperty Name="KeHoach_TieuChi" Relationship="Self.FK__KeHoach_T__MaTie__5AB9788F" FromRole="TieuChi" ToRole="KeHoach_TieuChi" />
+          <NavigationProperty Name="ThucHien_TieuChi" Relationship="Self.FK__ThucHien___MaTie__6FB49575" FromRole="TieuChi" ToRole="ThucHien_TieuChi" />
+          <NavigationProperty Name="TieuChi_VatLieuSanXuat" Relationship="Self.FK__TieuChi_V__MaTie__72910220" FromRole="TieuChi" ToRole="TieuChi_VatLieuSanXuat" />
         </EntityType>
         <EntityType Name="TieuChi_VatLieuSanXuat">
           <Key>
@@ -2893,9 +2895,9 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="MaTieuChi_VatLieuSanXuat" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MaTieuChi" Type="Int32" Nullable="false" />
           <Property Name="MaVatLieu" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="KeHoach_TieuChi_VatLieuSanXuat" Relationship="Self.FK__KeHoach_T__MaTie__5E8A0973" FromRole="TieuChi_VatLieuSanXuat" ToRole="KeHoach_TieuChi_VatLieuSanXuat" />
-          <NavigationProperty Name="TieuChi" Relationship="Self.FK__TieuChi_V__MaTie__74794A92" FromRole="TieuChi_VatLieuSanXuat" ToRole="TieuChi" />
-          <NavigationProperty Name="VatLieuSanXuat" Relationship="Self.FK__TieuChi_V__MaVat__756D6ECB" FromRole="TieuChi_VatLieuSanXuat" ToRole="VatLieuSanXuat" />
+          <NavigationProperty Name="KeHoach_TieuChi_VatLieuSanXuat" Relationship="Self.FK__KeHoach_T__MaTie__5CA1C101" FromRole="TieuChi_VatLieuSanXuat" ToRole="KeHoach_TieuChi_VatLieuSanXuat" />
+          <NavigationProperty Name="TieuChi" Relationship="Self.FK__TieuChi_V__MaTie__72910220" FromRole="TieuChi_VatLieuSanXuat" ToRole="TieuChi" />
+          <NavigationProperty Name="VatLieuSanXuat" Relationship="Self.FK__TieuChi_V__MaVat__73852659" FromRole="TieuChi_VatLieuSanXuat" ToRole="VatLieuSanXuat" />
           <NavigationProperty Name="ThucHien_TieuChi" Relationship="Self.ThucHien_TieuChi_VatLieuSanXuat" FromRole="TieuChi_VatLieuSanXuat" ToRole="ThucHien_TieuChi" />
         </EntityType>
         <EntityType Name="TrinhDo">
@@ -2921,7 +2923,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="MaVatLieu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="LoaiVatLieu" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="TenVatLieu" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="TieuChi_VatLieuSanXuat" Relationship="Self.FK__TieuChi_V__MaVat__756D6ECB" FromRole="VatLieuSanXuat" ToRole="TieuChi_VatLieuSanXuat" />
+          <NavigationProperty Name="TieuChi_VatLieuSanXuat" Relationship="Self.FK__TieuChi_V__MaVat__73852659" FromRole="VatLieuSanXuat" ToRole="TieuChi_VatLieuSanXuat" />
         </EntityType>
         <EntityType Name="Activity">
           <Key>
@@ -3191,7 +3193,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Equipment__depar__4C6B5938">
+        <Association Name="FK__Equipment__depar__4A8310C6">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3203,7 +3205,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Incident__depart__59C55456">
+        <Association Name="FK__Incident__depart__57DD0BE4">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
           <End Role="Incident" Type="Self.Incident" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3215,7 +3217,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__KeHoach_T__MaPho__5BAD9CC8">
+        <Association Name="FK__KeHoach_T__MaPho__59C55456">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
           <End Role="KeHoach_TieuChi" Type="Self.KeHoach_TieuChi" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3227,7 +3229,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Maintain___depar__607251E5">
+        <Association Name="FK__Maintain___depar__5E8A0973">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
           <End Role="Maintain_Car" Type="Self.Maintain_Car" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3239,7 +3241,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supply_ti__depar__6BE40491">
+        <Association Name="FK__Supply_ti__depar__69FBBC1F">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
           <End Role="Supply_tieuhao" Type="Self.Supply_tieuhao" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3251,7 +3253,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SupplyPla__depar__6DCC4D03">
+        <Association Name="FK__SupplyPla__depar__6BE40491">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
           <End Role="SupplyPlan" Type="Self.SupplyPlan" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3263,7 +3265,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ThucHien___MaPho__70A8B9AE">
+        <Association Name="FK__ThucHien___MaPho__6EC0713C">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
           <End Role="ThucHien_TieuChi" Type="Self.ThucHien_TieuChi" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3383,7 +3385,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Equipment__docum__503BEA1C">
+        <Association Name="FK__Equipment__docum__4E53A1AA">
           <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
           <End Role="Equipment_Inspection" Type="Self.Equipment_Inspection" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3395,7 +3397,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supply_Do__docum__690797E6">
+        <Association Name="FK__Supply_Do__docum__671F4F74">
           <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
           <End Role="Supply_Documentary_Equipment" Type="Self.Supply_Documentary_Equipment" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3467,7 +3469,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Equipment__Equip__4D5F7D71">
+        <Association Name="FK__Equipment__Equip__4B7734FF">
           <End Role="Equipment_category" Type="Self.Equipment_category" Multiplicity="1" />
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3479,7 +3481,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Equipment__equip__4E53A1AA">
+        <Association Name="FK__Equipment__equip__4C6B5938">
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
           <End Role="Equipment_attribute" Type="Self.Equipment_attribute" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3491,7 +3493,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Equipment__equip__51300E55">
+        <Association Name="FK__Equipment__equip__4F47C5E3">
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
           <End Role="Equipment_Inspection" Type="Self.Equipment_Inspection" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3503,7 +3505,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Fuel_acti__equip__5224328E">
+        <Association Name="FK__Fuel_acti__equip__503BEA1C">
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
           <End Role="Fuel_activities_consumption" Type="Self.Fuel_activities_consumption" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3515,7 +3517,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Incident__equipm__5AB9788F">
+        <Association Name="FK__Incident__equipm__58D1301D">
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
           <End Role="Incident" Type="Self.Incident" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3527,7 +3529,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Maintain___equip__6166761E">
+        <Association Name="FK__Maintain___equip__5F7E2DAC">
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
           <End Role="Maintain_Car" Type="Self.Maintain_Car" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3539,7 +3541,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supply_Do__equip__69FBBC1F">
+        <Association Name="FK__Supply_Do__equip__681373AD">
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
           <End Role="Supply_Documentary_Equipment" Type="Self.Supply_Documentary_Equipment" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3551,7 +3553,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SupplyPla__equip__6EC0713C">
+        <Association Name="FK__SupplyPla__equip__6CD828CA">
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
           <End Role="SupplyPlan" Type="Self.SupplyPlan" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3563,7 +3565,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Equipment__Equip__4F47C5E3">
+        <Association Name="FK__Equipment__Equip__4D5F7D71">
           <End Role="Equipment_category" Type="Self.Equipment_category" Multiplicity="1" />
           <End Role="Equipment_category_attribute" Type="Self.Equipment_category_attribute" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3575,7 +3577,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Fuel_acti__fuel___531856C7">
+        <Association Name="FK__Fuel_acti__fuel___51300E55">
           <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
           <End Role="Fuel_activities_consumption" Type="Self.Fuel_activities_consumption" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3587,7 +3589,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__GhiChu__MaKeHoac__540C7B00">
+        <Association Name="FK__GhiChu__MaKeHoac__5224328E">
           <End Role="KeHoach_TieuChi" Type="Self.KeHoach_TieuChi" Multiplicity="1" />
           <End Role="GhiChu" Type="Self.GhiChu" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3599,7 +3601,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__GhiChu__MaThucHi__55009F39">
+        <Association Name="FK__GhiChu__MaThucHi__531856C7">
           <End Role="ThucHien_TieuChi" Type="Self.ThucHien_TieuChi" Multiplicity="1" />
           <End Role="GhiChu" Type="Self.GhiChu" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3611,7 +3613,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__GiayChung__MaChu__55F4C372">
+        <Association Name="FK__GiayChung__MaChu__540C7B00">
           <End Role="GiayChungNhan" Type="Self.GiayChungNhan" Multiplicity="0..1" />
           <End Role="GiayChungNhan_NhanVien" Type="Self.GiayChungNhan_NhanVien" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3623,7 +3625,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__GiayChungN__MaNV__56E8E7AB">
+        <Association Name="FK__GiayChungN__MaNV__55009F39">
           <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="0..1" />
           <End Role="GiayChungNhan_NhanVien" Type="Self.GiayChungNhan_NhanVien" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3635,7 +3637,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__GiayTo__MaNV__57DD0BE4">
+        <Association Name="FK__GiayTo__MaNV__55F4C372">
           <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="1" />
           <End Role="GiayTo" Type="Self.GiayTo" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3647,7 +3649,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__HoSo__MaNV__58D1301D">
+        <Association Name="FK__HoSo__MaNV__56E8E7AB">
           <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="1" />
           <End Role="HoSo" Type="Self.HoSo" Multiplicity="0..1" />
           <ReferentialConstraint>
@@ -3659,7 +3661,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__LichSuBoSu__MaNV__5F7E2DAC">
+        <Association Name="FK__LichSuBoSu__MaNV__5D95E53A">
           <End Role="HoSo" Type="Self.HoSo" Multiplicity="1" />
           <End Role="LichSuBoSungSYLL" Type="Self.LichSuBoSungSYLL" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3671,7 +3673,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__KeHoach_T__MaKeH__5D95E53A">
+        <Association Name="FK__KeHoach_T__MaKeH__5BAD9CC8">
           <End Role="KeHoach_TieuChi" Type="Self.KeHoach_TieuChi" Multiplicity="1" />
           <End Role="KeHoach_TieuChi_VatLieuSanXuat" Type="Self.KeHoach_TieuChi_VatLieuSanXuat" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3683,7 +3685,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__KeHoach_T__MaTie__5CA1C101">
+        <Association Name="FK__KeHoach_T__MaTie__5AB9788F">
           <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="1" />
           <End Role="KeHoach_TieuChi" Type="Self.KeHoach_TieuChi" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3695,7 +3697,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__KeHoach_T__MaTie__5E8A0973">
+        <Association Name="FK__KeHoach_T__MaTie__5CA1C101">
           <End Role="TieuChi_VatLieuSanXuat" Type="Self.TieuChi_VatLieuSanXuat" Multiplicity="1" />
           <End Role="KeHoach_TieuChi_VatLieuSanXuat" Type="Self.KeHoach_TieuChi_VatLieuSanXuat" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3707,7 +3709,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Maintain___maint__625A9A57">
+        <Association Name="FK__Maintain___maint__607251E5">
           <End Role="Maintain_Car" Type="Self.Maintain_Car" Multiplicity="1" />
           <End Role="Maintain_Car_Detail" Type="Self.Maintain_Car_Detail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3719,7 +3721,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Maintain___suppl__634EBE90">
+        <Association Name="FK__Maintain___suppl__6166761E">
           <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
           <End Role="Maintain_Car_Detail" Type="Self.Maintain_Car_Detail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3731,7 +3733,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__NhanVien__MaUyQu__6442E2C9">
+        <Association Name="FK__NhanVien__MaUyQu__625A9A57">
           <End Role="NguoiUyQuyenLayHoSo_BaoHiem" Type="Self.NguoiUyQuyenLayHoSo_BaoHiem" Multiplicity="0..1" />
           <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3755,7 +3757,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__QuanHeGiaD__MaNV__671F4F74">
+        <Association Name="FK__QuanHeGiaD__MaNV__65370702">
           <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="1" />
           <End Role="QuanHeGiaDinh" Type="Self.QuanHeGiaDinh" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3767,7 +3769,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__QuaTrinhCo__MaNV__681373AD">
+        <Association Name="FK__QuaTrinhCo__MaNV__662B2B3B">
           <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="1" />
           <End Role="QuaTrinhCongTac" Type="Self.QuaTrinhCongTac" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3791,7 +3793,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supply_Do__suppl__6AEFE058">
+        <Association Name="FK__Supply_Do__suppl__690797E6">
           <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
           <End Role="Supply_Documentary_Equipment" Type="Self.Supply_Documentary_Equipment" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3803,7 +3805,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supply_ti__suppl__6CD828CA">
+        <Association Name="FK__Supply_ti__suppl__6AEFE058">
           <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
           <End Role="Supply_tieuhao" Type="Self.Supply_tieuhao" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3815,7 +3817,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SupplyPla__suppl__6FB49575">
+        <Association Name="FK__SupplyPla__suppl__6DCC4D03">
           <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
           <End Role="SupplyPlan" Type="Self.SupplyPlan" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3827,7 +3829,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ThucHien___MaTie__719CDDE7">
+        <Association Name="FK__ThucHien___MaTie__6FB49575">
           <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="1" />
           <End Role="ThucHien_TieuChi" Type="Self.ThucHien_TieuChi" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3839,7 +3841,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TieuChi_V__MaTie__74794A92">
+        <Association Name="FK__TieuChi_V__MaTie__72910220">
           <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="1" />
           <End Role="TieuChi_VatLieuSanXuat" Type="Self.TieuChi_VatLieuSanXuat" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3851,7 +3853,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TieuChi_V__MaVat__756D6ECB">
+        <Association Name="FK__TieuChi_V__MaVat__73852659">
           <End Role="VatLieuSanXuat" Type="Self.VatLieuSanXuat" Multiplicity="1" />
           <End Role="TieuChi_VatLieuSanXuat" Type="Self.TieuChi_VatLieuSanXuat" Multiplicity="*" />
           <ReferentialConstraint>
@@ -4012,31 +4014,31 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             <End Role="Department" EntitySet="Departments" />
             <End Role="Documentary" EntitySet="Documentaries" />
           </AssociationSet>
-          <AssociationSet Name="FK__Equipment__depar__4C6B5938" Association="Self.FK__Equipment__depar__4C6B5938">
+          <AssociationSet Name="FK__Equipment__depar__4A8310C6" Association="Self.FK__Equipment__depar__4A8310C6">
             <End Role="Department" EntitySet="Departments" />
             <End Role="Equipment" EntitySet="Equipments" />
           </AssociationSet>
-          <AssociationSet Name="FK__Incident__depart__59C55456" Association="Self.FK__Incident__depart__59C55456">
+          <AssociationSet Name="FK__Incident__depart__57DD0BE4" Association="Self.FK__Incident__depart__57DD0BE4">
             <End Role="Department" EntitySet="Departments" />
             <End Role="Incident" EntitySet="Incidents" />
           </AssociationSet>
-          <AssociationSet Name="FK__KeHoach_T__MaPho__5BAD9CC8" Association="Self.FK__KeHoach_T__MaPho__5BAD9CC8">
+          <AssociationSet Name="FK__KeHoach_T__MaPho__59C55456" Association="Self.FK__KeHoach_T__MaPho__59C55456">
             <End Role="Department" EntitySet="Departments" />
             <End Role="KeHoach_TieuChi" EntitySet="KeHoach_TieuChi" />
           </AssociationSet>
-          <AssociationSet Name="FK__Maintain___depar__607251E5" Association="Self.FK__Maintain___depar__607251E5">
+          <AssociationSet Name="FK__Maintain___depar__5E8A0973" Association="Self.FK__Maintain___depar__5E8A0973">
             <End Role="Department" EntitySet="Departments" />
             <End Role="Maintain_Car" EntitySet="Maintain_Car" />
           </AssociationSet>
-          <AssociationSet Name="FK__Supply_ti__depar__6BE40491" Association="Self.FK__Supply_ti__depar__6BE40491">
+          <AssociationSet Name="FK__Supply_ti__depar__69FBBC1F" Association="Self.FK__Supply_ti__depar__69FBBC1F">
             <End Role="Department" EntitySet="Departments" />
             <End Role="Supply_tieuhao" EntitySet="Supply_tieuhao" />
           </AssociationSet>
-          <AssociationSet Name="FK__SupplyPla__depar__6DCC4D03" Association="Self.FK__SupplyPla__depar__6DCC4D03">
+          <AssociationSet Name="FK__SupplyPla__depar__6BE40491" Association="Self.FK__SupplyPla__depar__6BE40491">
             <End Role="Department" EntitySet="Departments" />
             <End Role="SupplyPlan" EntitySet="SupplyPlans" />
           </AssociationSet>
-          <AssociationSet Name="FK__ThucHien___MaPho__70A8B9AE" Association="Self.FK__ThucHien___MaPho__70A8B9AE">
+          <AssociationSet Name="FK__ThucHien___MaPho__6EC0713C" Association="Self.FK__ThucHien___MaPho__6EC0713C">
             <End Role="Department" EntitySet="Departments" />
             <End Role="ThucHien_TieuChi" EntitySet="ThucHien_TieuChi" />
           </AssociationSet>
@@ -4076,11 +4078,11 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             <End Role="Documentary" EntitySet="Documentaries" />
             <End Role="Documentary_revoke_details" EntitySet="Documentary_revoke_details" />
           </AssociationSet>
-          <AssociationSet Name="FK__Equipment__docum__503BEA1C" Association="Self.FK__Equipment__docum__503BEA1C">
+          <AssociationSet Name="FK__Equipment__docum__4E53A1AA" Association="Self.FK__Equipment__docum__4E53A1AA">
             <End Role="Documentary" EntitySet="Documentaries" />
             <End Role="Equipment_Inspection" EntitySet="Equipment_Inspection" />
           </AssociationSet>
-          <AssociationSet Name="FK__Supply_Do__docum__690797E6" Association="Self.FK__Supply_Do__docum__690797E6">
+          <AssociationSet Name="FK__Supply_Do__docum__671F4F74" Association="Self.FK__Supply_Do__docum__671F4F74">
             <End Role="Documentary" EntitySet="Documentaries" />
             <End Role="Supply_Documentary_Equipment" EntitySet="Supply_Documentary_Equipment" />
           </AssociationSet>
@@ -4104,95 +4106,95 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             <End Role="Equipment" EntitySet="Equipments" />
             <End Role="Documentary_revoke_details" EntitySet="Documentary_revoke_details" />
           </AssociationSet>
-          <AssociationSet Name="FK__Equipment__Equip__4D5F7D71" Association="Self.FK__Equipment__Equip__4D5F7D71">
+          <AssociationSet Name="FK__Equipment__Equip__4B7734FF" Association="Self.FK__Equipment__Equip__4B7734FF">
             <End Role="Equipment_category" EntitySet="Equipment_category" />
             <End Role="Equipment" EntitySet="Equipments" />
           </AssociationSet>
-          <AssociationSet Name="FK__Equipment__equip__4E53A1AA" Association="Self.FK__Equipment__equip__4E53A1AA">
+          <AssociationSet Name="FK__Equipment__equip__4C6B5938" Association="Self.FK__Equipment__equip__4C6B5938">
             <End Role="Equipment" EntitySet="Equipments" />
             <End Role="Equipment_attribute" EntitySet="Equipment_attribute" />
           </AssociationSet>
-          <AssociationSet Name="FK__Equipment__equip__51300E55" Association="Self.FK__Equipment__equip__51300E55">
+          <AssociationSet Name="FK__Equipment__equip__4F47C5E3" Association="Self.FK__Equipment__equip__4F47C5E3">
             <End Role="Equipment" EntitySet="Equipments" />
             <End Role="Equipment_Inspection" EntitySet="Equipment_Inspection" />
           </AssociationSet>
-          <AssociationSet Name="FK__Fuel_acti__equip__5224328E" Association="Self.FK__Fuel_acti__equip__5224328E">
+          <AssociationSet Name="FK__Fuel_acti__equip__503BEA1C" Association="Self.FK__Fuel_acti__equip__503BEA1C">
             <End Role="Equipment" EntitySet="Equipments" />
             <End Role="Fuel_activities_consumption" EntitySet="Fuel_activities_consumption" />
           </AssociationSet>
-          <AssociationSet Name="FK__Incident__equipm__5AB9788F" Association="Self.FK__Incident__equipm__5AB9788F">
+          <AssociationSet Name="FK__Incident__equipm__58D1301D" Association="Self.FK__Incident__equipm__58D1301D">
             <End Role="Equipment" EntitySet="Equipments" />
             <End Role="Incident" EntitySet="Incidents" />
           </AssociationSet>
-          <AssociationSet Name="FK__Maintain___equip__6166761E" Association="Self.FK__Maintain___equip__6166761E">
+          <AssociationSet Name="FK__Maintain___equip__5F7E2DAC" Association="Self.FK__Maintain___equip__5F7E2DAC">
             <End Role="Equipment" EntitySet="Equipments" />
             <End Role="Maintain_Car" EntitySet="Maintain_Car" />
           </AssociationSet>
-          <AssociationSet Name="FK__Supply_Do__equip__69FBBC1F" Association="Self.FK__Supply_Do__equip__69FBBC1F">
+          <AssociationSet Name="FK__Supply_Do__equip__681373AD" Association="Self.FK__Supply_Do__equip__681373AD">
             <End Role="Equipment" EntitySet="Equipments" />
             <End Role="Supply_Documentary_Equipment" EntitySet="Supply_Documentary_Equipment" />
           </AssociationSet>
-          <AssociationSet Name="FK__SupplyPla__equip__6EC0713C" Association="Self.FK__SupplyPla__equip__6EC0713C">
+          <AssociationSet Name="FK__SupplyPla__equip__6CD828CA" Association="Self.FK__SupplyPla__equip__6CD828CA">
             <End Role="Equipment" EntitySet="Equipments" />
             <End Role="SupplyPlan" EntitySet="SupplyPlans" />
           </AssociationSet>
-          <AssociationSet Name="FK__Equipment__Equip__4F47C5E3" Association="Self.FK__Equipment__Equip__4F47C5E3">
+          <AssociationSet Name="FK__Equipment__Equip__4D5F7D71" Association="Self.FK__Equipment__Equip__4D5F7D71">
             <End Role="Equipment_category" EntitySet="Equipment_category" />
             <End Role="Equipment_category_attribute" EntitySet="Equipment_category_attribute" />
           </AssociationSet>
-          <AssociationSet Name="FK__Fuel_acti__fuel___531856C7" Association="Self.FK__Fuel_acti__fuel___531856C7">
+          <AssociationSet Name="FK__Fuel_acti__fuel___51300E55" Association="Self.FK__Fuel_acti__fuel___51300E55">
             <End Role="Supply" EntitySet="Supplies" />
             <End Role="Fuel_activities_consumption" EntitySet="Fuel_activities_consumption" />
           </AssociationSet>
-          <AssociationSet Name="FK__GhiChu__MaKeHoac__540C7B00" Association="Self.FK__GhiChu__MaKeHoac__540C7B00">
+          <AssociationSet Name="FK__GhiChu__MaKeHoac__5224328E" Association="Self.FK__GhiChu__MaKeHoac__5224328E">
             <End Role="KeHoach_TieuChi" EntitySet="KeHoach_TieuChi" />
             <End Role="GhiChu" EntitySet="GhiChus" />
           </AssociationSet>
-          <AssociationSet Name="FK__GhiChu__MaThucHi__55009F39" Association="Self.FK__GhiChu__MaThucHi__55009F39">
+          <AssociationSet Name="FK__GhiChu__MaThucHi__531856C7" Association="Self.FK__GhiChu__MaThucHi__531856C7">
             <End Role="ThucHien_TieuChi" EntitySet="ThucHien_TieuChi" />
             <End Role="GhiChu" EntitySet="GhiChus" />
           </AssociationSet>
-          <AssociationSet Name="FK__GiayChung__MaChu__55F4C372" Association="Self.FK__GiayChung__MaChu__55F4C372">
+          <AssociationSet Name="FK__GiayChung__MaChu__540C7B00" Association="Self.FK__GiayChung__MaChu__540C7B00">
             <End Role="GiayChungNhan" EntitySet="GiayChungNhans" />
             <End Role="GiayChungNhan_NhanVien" EntitySet="GiayChungNhan_NhanVien" />
           </AssociationSet>
-          <AssociationSet Name="FK__GiayChungN__MaNV__56E8E7AB" Association="Self.FK__GiayChungN__MaNV__56E8E7AB">
+          <AssociationSet Name="FK__GiayChungN__MaNV__55009F39" Association="Self.FK__GiayChungN__MaNV__55009F39">
             <End Role="NhanVien" EntitySet="NhanViens" />
             <End Role="GiayChungNhan_NhanVien" EntitySet="GiayChungNhan_NhanVien" />
           </AssociationSet>
-          <AssociationSet Name="FK__GiayTo__MaNV__57DD0BE4" Association="Self.FK__GiayTo__MaNV__57DD0BE4">
+          <AssociationSet Name="FK__GiayTo__MaNV__55F4C372" Association="Self.FK__GiayTo__MaNV__55F4C372">
             <End Role="NhanVien" EntitySet="NhanViens" />
             <End Role="GiayTo" EntitySet="GiayToes" />
           </AssociationSet>
-          <AssociationSet Name="FK__HoSo__MaNV__58D1301D" Association="Self.FK__HoSo__MaNV__58D1301D">
+          <AssociationSet Name="FK__HoSo__MaNV__56E8E7AB" Association="Self.FK__HoSo__MaNV__56E8E7AB">
             <End Role="NhanVien" EntitySet="NhanViens" />
             <End Role="HoSo" EntitySet="HoSoes" />
           </AssociationSet>
-          <AssociationSet Name="FK__LichSuBoSu__MaNV__5F7E2DAC" Association="Self.FK__LichSuBoSu__MaNV__5F7E2DAC">
+          <AssociationSet Name="FK__LichSuBoSu__MaNV__5D95E53A" Association="Self.FK__LichSuBoSu__MaNV__5D95E53A">
             <End Role="HoSo" EntitySet="HoSoes" />
             <End Role="LichSuBoSungSYLL" EntitySet="LichSuBoSungSYLLs" />
           </AssociationSet>
-          <AssociationSet Name="FK__KeHoach_T__MaKeH__5D95E53A" Association="Self.FK__KeHoach_T__MaKeH__5D95E53A">
+          <AssociationSet Name="FK__KeHoach_T__MaKeH__5BAD9CC8" Association="Self.FK__KeHoach_T__MaKeH__5BAD9CC8">
             <End Role="KeHoach_TieuChi" EntitySet="KeHoach_TieuChi" />
             <End Role="KeHoach_TieuChi_VatLieuSanXuat" EntitySet="KeHoach_TieuChi_VatLieuSanXuat" />
           </AssociationSet>
-          <AssociationSet Name="FK__KeHoach_T__MaTie__5CA1C101" Association="Self.FK__KeHoach_T__MaTie__5CA1C101">
+          <AssociationSet Name="FK__KeHoach_T__MaTie__5AB9788F" Association="Self.FK__KeHoach_T__MaTie__5AB9788F">
             <End Role="TieuChi" EntitySet="TieuChis" />
             <End Role="KeHoach_TieuChi" EntitySet="KeHoach_TieuChi" />
           </AssociationSet>
-          <AssociationSet Name="FK__KeHoach_T__MaTie__5E8A0973" Association="Self.FK__KeHoach_T__MaTie__5E8A0973">
+          <AssociationSet Name="FK__KeHoach_T__MaTie__5CA1C101" Association="Self.FK__KeHoach_T__MaTie__5CA1C101">
             <End Role="TieuChi_VatLieuSanXuat" EntitySet="TieuChi_VatLieuSanXuat" />
             <End Role="KeHoach_TieuChi_VatLieuSanXuat" EntitySet="KeHoach_TieuChi_VatLieuSanXuat" />
           </AssociationSet>
-          <AssociationSet Name="FK__Maintain___maint__625A9A57" Association="Self.FK__Maintain___maint__625A9A57">
+          <AssociationSet Name="FK__Maintain___maint__607251E5" Association="Self.FK__Maintain___maint__607251E5">
             <End Role="Maintain_Car" EntitySet="Maintain_Car" />
             <End Role="Maintain_Car_Detail" EntitySet="Maintain_Car_Detail" />
           </AssociationSet>
-          <AssociationSet Name="FK__Maintain___suppl__634EBE90" Association="Self.FK__Maintain___suppl__634EBE90">
+          <AssociationSet Name="FK__Maintain___suppl__6166761E" Association="Self.FK__Maintain___suppl__6166761E">
             <End Role="Supply" EntitySet="Supplies" />
             <End Role="Maintain_Car_Detail" EntitySet="Maintain_Car_Detail" />
           </AssociationSet>
-          <AssociationSet Name="FK__NhanVien__MaUyQu__6442E2C9" Association="Self.FK__NhanVien__MaUyQu__6442E2C9">
+          <AssociationSet Name="FK__NhanVien__MaUyQu__625A9A57" Association="Self.FK__NhanVien__MaUyQu__625A9A57">
             <End Role="NguoiUyQuyenLayHoSo_BaoHiem" EntitySet="NguoiUyQuyenLayHoSo_BaoHiem" />
             <End Role="NhanVien" EntitySet="NhanViens" />
           </AssociationSet>
@@ -4200,11 +4202,11 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             <End Role="NhanVien" EntitySet="NhanViens" />
             <End Role="ChiTiet_NhiemVu_NhanVien" EntitySet="ChiTiet_NhiemVu_NhanVien" />
           </AssociationSet>
-          <AssociationSet Name="FK__QuanHeGiaD__MaNV__671F4F74" Association="Self.FK__QuanHeGiaD__MaNV__671F4F74">
+          <AssociationSet Name="FK__QuanHeGiaD__MaNV__65370702" Association="Self.FK__QuanHeGiaD__MaNV__65370702">
             <End Role="NhanVien" EntitySet="NhanViens" />
             <End Role="QuanHeGiaDinh" EntitySet="QuanHeGiaDinhs" />
           </AssociationSet>
-          <AssociationSet Name="FK__QuaTrinhCo__MaNV__681373AD" Association="Self.FK__QuaTrinhCo__MaNV__681373AD">
+          <AssociationSet Name="FK__QuaTrinhCo__MaNV__662B2B3B" Association="Self.FK__QuaTrinhCo__MaNV__662B2B3B">
             <End Role="NhanVien" EntitySet="NhanViens" />
             <End Role="QuaTrinhCongTac" EntitySet="QuaTrinhCongTacs" />
           </AssociationSet>
@@ -4212,27 +4214,27 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             <End Role="NhiemVu" EntitySet="NhiemVus" />
             <End Role="ChiTiet_NhiemVu_NhanVien" EntitySet="ChiTiet_NhiemVu_NhanVien" />
           </AssociationSet>
-          <AssociationSet Name="FK__Supply_Do__suppl__6AEFE058" Association="Self.FK__Supply_Do__suppl__6AEFE058">
+          <AssociationSet Name="FK__Supply_Do__suppl__690797E6" Association="Self.FK__Supply_Do__suppl__690797E6">
             <End Role="Supply" EntitySet="Supplies" />
             <End Role="Supply_Documentary_Equipment" EntitySet="Supply_Documentary_Equipment" />
           </AssociationSet>
-          <AssociationSet Name="FK__Supply_ti__suppl__6CD828CA" Association="Self.FK__Supply_ti__suppl__6CD828CA">
+          <AssociationSet Name="FK__Supply_ti__suppl__6AEFE058" Association="Self.FK__Supply_ti__suppl__6AEFE058">
             <End Role="Supply" EntitySet="Supplies" />
             <End Role="Supply_tieuhao" EntitySet="Supply_tieuhao" />
           </AssociationSet>
-          <AssociationSet Name="FK__SupplyPla__suppl__6FB49575" Association="Self.FK__SupplyPla__suppl__6FB49575">
+          <AssociationSet Name="FK__SupplyPla__suppl__6DCC4D03" Association="Self.FK__SupplyPla__suppl__6DCC4D03">
             <End Role="Supply" EntitySet="Supplies" />
             <End Role="SupplyPlan" EntitySet="SupplyPlans" />
           </AssociationSet>
-          <AssociationSet Name="FK__ThucHien___MaTie__719CDDE7" Association="Self.FK__ThucHien___MaTie__719CDDE7">
+          <AssociationSet Name="FK__ThucHien___MaTie__6FB49575" Association="Self.FK__ThucHien___MaTie__6FB49575">
             <End Role="TieuChi" EntitySet="TieuChis" />
             <End Role="ThucHien_TieuChi" EntitySet="ThucHien_TieuChi" />
           </AssociationSet>
-          <AssociationSet Name="FK__TieuChi_V__MaTie__74794A92" Association="Self.FK__TieuChi_V__MaTie__74794A92">
+          <AssociationSet Name="FK__TieuChi_V__MaTie__72910220" Association="Self.FK__TieuChi_V__MaTie__72910220">
             <End Role="TieuChi" EntitySet="TieuChis" />
             <End Role="TieuChi_VatLieuSanXuat" EntitySet="TieuChi_VatLieuSanXuat" />
           </AssociationSet>
-          <AssociationSet Name="FK__TieuChi_V__MaVat__756D6ECB" Association="Self.FK__TieuChi_V__MaVat__756D6ECB">
+          <AssociationSet Name="FK__TieuChi_V__MaVat__73852659" Association="Self.FK__TieuChi_V__MaVat__73852659">
             <End Role="VatLieuSanXuat" EntitySet="VatLieuSanXuats" />
             <End Role="TieuChi_VatLieuSanXuat" EntitySet="TieuChi_VatLieuSanXuat" />
           </AssociationSet>
@@ -4422,6 +4424,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
                 <ScalarProperty Name="LuongSauDuyet" ColumnName="LuongSauDuyet" />
                 <ScalarProperty Name="DuBaoNguyCo" ColumnName="DuBaoNguyCo" />
                 <ScalarProperty Name="GiaiPhapNguyCo" ColumnName="GiaiPhapNguyCo" />
+                <ScalarProperty Name="LyDoVangMat" ColumnName="LyDoVangMat" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

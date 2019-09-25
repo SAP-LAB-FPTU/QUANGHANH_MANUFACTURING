@@ -1,4 +1,4 @@
-﻿@model QUANGHANH2.Models.HoSo
+﻿@model QUANGHANH2.Modals.HoSo
 
 @{
     Layout = null;
@@ -10,20 +10,20 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Sửa hồ sơ</title>
-</head>Fed
+</head>
 <body>
-
+    
     <div id="hoso_edit_model">
         @using (Html.BeginForm("EditHoSo", "Brief", FormMethod.Post, new { onSubmit = "return SubmitForm(this) " }))
         {
             @Html.AntiForgeryToken()
 
             <div class="form-horizontal">
-                <h4>HoSo</h4>
+                
                 <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
-                    @Html.LabelFor(model => model.TrangThaiHoSo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <strong for="worker-numb">Trạng thái hồ sơ</strong>
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.TrangThaiHoSo, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.TrangThaiHoSo, "", new { @class = "text-danger" })
@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.NgayNhanHoSo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <strong for="worker-numb">Ngày nhận hồ sơ</strong>
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.NgayNhanHoSo, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.NgayNhanHoSo, "", new { @class = "text-danger" })
@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.NguoiGiaoHoSo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <strong for="worker-numb">Người giao hồ sơ</strong>
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.NguoiGiaoHoSo, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.NguoiGiaoHoSo, "", new { @class = "text-danger" })
@@ -47,7 +47,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.CamKetTuyenDung, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <strong for="worker-numb">Cam kết tuyển dụng</strong>
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.CamKetTuyenDung, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.CamKetTuyenDung, "", new { @class = "text-danger" })
@@ -55,7 +55,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.QuyetDinhTiepNhanDVC, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <strong for="worker-numb">Quyết định tiếp nhận DVC</strong>
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.QuyetDinhTiepNhanDVC, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.QuyetDinhTiepNhanDVC, "", new { @class = "text-danger" })
@@ -63,7 +63,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.QDChamDutHopDongDVC, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <strong for="worker-numb">Quyết định chấm dứt hợp đồng DVC</strong>
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.QDChamDutHopDongDVC, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.QDChamDutHopDongDVC, "", new { @class = "text-danger" })
@@ -71,7 +71,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.NLDHocTheoChiTieuCTDT, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <strong for="worker-numb">NLD Học theo chỉ tiêu CTDT</strong>
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.NLDHocTheoChiTieuCTDT, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.NLDHocTheoChiTieuCTDT, "", new { @class = "text-danger" })
@@ -79,7 +79,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.NguoiBanGiaoBangNhapKho, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <strong for="worker-numb">Người bàn giao bằng nhập kho</strong>
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.NguoiBanGiaoBangNhapKho, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.NguoiBanGiaoBangNhapKho, "", new { @class = "text-danger" })
@@ -87,7 +87,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.NguoiGiuHoSo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <strong for="worker-numb">Người giữ hồ sơ</strong>
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.NguoiGiuHoSo, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.NguoiGiuHoSo, "", new { @class = "text-danger" })

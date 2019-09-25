@@ -46,7 +46,7 @@
         <form>
             <div class="row center">
                 <h3>
-                    KHỐI LƯỢNG CÔNG VIỆC CỦA VTL1 <a class="dropdown-trigger btn" id="ca" href="#" data-target="dropdown_ca" style="background-color:#273146">CA 1</a> NGÀY <input type="text" id="inputdate" class="datepicker-here center" data-language="vi" value="">
+                    KHỐI LƯỢNG CÔNG VIỆC CỦA VTL1 <a class="dropdown-trigger btn" id="ca" href="#" data-target="dropdown_ca" style="background-color:#273146">CA 1</a> NGÀY <input type="text" id="inputdate" class="datepicker-here center" data-language="vi" >
                     <a class="btn waves-effect waves-light blue modal-trigger" id="btn-view" href="#" onclick="getcontent();">Xem</a>
                     <br><br>
                 </h3>
@@ -84,7 +84,7 @@
                             @foreach (var item in ViewBag.nsld)
                             {
                                 <tr>
-                                    <td style="display:none;" ><input class="madiemdanh" value="@item.ID"/></td>
+                                    <td style="display:none;"><input class="madiemdanh" value="@item.ID" /></td>
                                     <td colspan="2" class="counterCell"></td>
                                     <td colspan="2">@item.Name</td>
                                     <td colspan="2">@item.SoThe</td>
@@ -101,11 +101,12 @@
                             }
                         </tbody>
                     </table>
+                    <div style="margin-top:10px;">
+                        <a class="btn waves-effect waves-light blue modal-trigger" id="btn-save" href="#modal1">Lưu</a>
+                    </div>
                 }
             </div>
-            <div style="margin-top:10px;">
-                <a class="btn waves-effect waves-light blue modal-trigger" id="btn-save" href="#modal1">Lưu</a>
-            </div>
+           
         </form>
     </div>
 </div>
@@ -128,7 +129,7 @@
 
 <script type="text/javascript">
 
-    
+
 
 
     var ca;
@@ -184,6 +185,19 @@
         });
     }
 </script>
+<script>
+    $('#inputdate').datepicker({
+        language: 'vi',
+        maxDate: new Date() // Now can select only dates, which goes after today
+    })
+    $(document).ready(function () {
+        $('.datepicker-inline').remove();
+    });
+    $(document).ready(function () {
+        $("#type").html("Xem Theo Ngày");
+    });
+</script>
+
 <script src="~/js/Custom JS/button_watch_by.js"></script>
 
 
