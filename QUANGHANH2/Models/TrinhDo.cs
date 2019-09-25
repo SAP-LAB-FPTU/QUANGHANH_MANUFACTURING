@@ -17,13 +17,13 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TrinhDo()
         {
-            this.BangCaps = new HashSet<BangCap>();
+            this.BangCap_GiayChungNhan = new HashSet<BangCap_GiayChungNhan>();
         }
     
         public int MaTrinhDo { get; set; }
         public string TenTrinhDo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BangCap> BangCaps { get; set; }
+        public virtual ICollection<BangCap_GiayChungNhan> BangCap_GiayChungNhan { get; set; }
     }
 }

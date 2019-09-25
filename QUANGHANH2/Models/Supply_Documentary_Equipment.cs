@@ -15,13 +15,13 @@ namespace QUANGHANH2.Models
     public partial class Supply_Documentary_Equipment
     {
         public int supplyDocumentaryEquipmentId { get; set; }
-        public string documentary_id { get; set; }
+        public int documentary_id { get; set; }
         public string equipmentId { get; set; }
         public string supply_id { get; set; }
         public int quantity { get; set; }
         public int supplyType { get; set; }
         public string supplyStatus { get; set; }
-    
+        public int supply_documentary_status { get; set; }
         public virtual Documentary Documentary { get; set; }
         public virtual Equipment Equipment { get; set; }
         public virtual Supply Supply { get; set; }

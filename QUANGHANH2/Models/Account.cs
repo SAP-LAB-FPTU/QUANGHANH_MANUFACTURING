@@ -14,7 +14,7 @@ namespace QUANGHANH2.Models
     
     public partial class Account
     {
-        public string ID { get; set; }
+        public int ID { get; set; }
         public string Name { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }

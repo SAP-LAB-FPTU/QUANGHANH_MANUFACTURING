@@ -14,6 +14,7 @@ namespace QUANGHANH2.Models
     
     public partial class Fuel_activities_consumption
     {
+        public int fuelid { get; set; }
         public int consumption_value { get; set; }
         public System.DateTime date { get; set; }
         public string equipmentId { get; set; }

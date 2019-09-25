@@ -35,7 +35,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
                 db.Configuration.LazyLoadingEnabled = false;
                 int count = 1;
                 List<NewDocumentary_repair_details> documentariesList = (from a in db.Documentary_repair_details
-                                                                      where (a.documentary_id == requestID)
+                                                                      where (a.documentary_id.ToString() == requestID)
                                                                       join b in db.Documentaries on a.documentary_id equals b.documentary_id
                                                                       join c in db.Equipments on a.equipmentId equals c.equipmentId
                                                                       join d in db.Departments on c.department_id equals d.department_id
@@ -51,7 +51,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
                                                                           finish_date_plan = a.finish_date_plan
                                                                       }).ToList().Select(p => new NewDocumentary_repair_details
                                                                       {
-                                                                          documentary_id = p.documentary_id,
+                                                                          documentary_id = p.documentary_id+"",
                                                                           equipment_name = p.equipment_name,
                                                                           department_name = p.department_name,
                                                                           department_id = p.department_id,

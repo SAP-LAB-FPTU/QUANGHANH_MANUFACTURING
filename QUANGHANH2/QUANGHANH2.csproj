@@ -139,6 +139,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="XCrypt">
+      <HintPath>..\packages\XCrypt.2.0.0\lib\XCrypt.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
@@ -166,6 +169,7 @@
     <Compile Include="Controllers\CDVT\Cap_nhat\CapnhathoatdongController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\CapnhatsucoController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\ChitietController.cs" />
+    <Compile Include="Controllers\CDVT\Cap_nhat\Chitiet\VattucuaQDController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\Chitiet\QDBaoduongController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\Chitiet\QDDieudongController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\Chitiet\QDSuachuaController.cs" />
@@ -284,7 +288,7 @@
     <Compile Include="Models\Activity.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\BangCap.cs">
+    <Compile Include="Models\BangCap_GiayChungNhan.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Category_attribute_value.cs">
@@ -293,7 +297,7 @@
     <Compile Include="Models\ChamDut_NhanVien.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ChiTiet_BangCap.cs">
+    <Compile Include="Models\ChiTiet_BangCap_GiayChungNhan.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ChiTiet_CongViec_NhanVien.cs">
@@ -321,7 +325,7 @@
     <Compile Include="Models\DiemDanh_NangSuatLaoDong.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DieuDong_NV.cs">
+    <Compile Include="Models\DieuDong_NhanVien.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Documentary.cs">
@@ -372,12 +376,6 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GhiChu.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GiayChungNhan.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GiayChungNhan_NhanVien.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GiayTo.cs">
@@ -453,10 +451,8 @@
     <Compile Include="Models\Supply_Documentary_Equipment.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Supply_Documentary_EquipmentDB.cs" />
     <Compile Include="Models\Supply_tieuhao.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ThucHien_TieuChi.cs">
@@ -472,6 +468,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Truong.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TuyenDung_NhanVien.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\VatLieuSanXuat.cs">
@@ -6831,6 +6830,7 @@
     <Content Include="excel\CDVT\download\tong-hop-vat-tu.xlsx" />
     <Content Include="excel\CDVT\download\tong-hop-vat-tu-download.xlsx" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Models\Model1.Context.tt">
@@ -6992,9 +6992,7 @@
     <Content Include="Views\Shared\_Layout_TCLD.cshtml" />
     <Content Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
     <Content Include="Views\TCLD\bao-cao-nhanh.cshtml" />
-    <Content Include="Views\TCLD\bao_cao_chi_tiet_ca_1.cshtml" />
-    <Content Include="Views\TCLD\bao_cao_chi_tiet_ca_2.cshtml" />
-    <Content Include="Views\TCLD\bao_cao_chi_tiet_ca_3.cshtml" />
+    <Content Include="Views\TCLD\bao_cao_chi_tiet_theo_ca.cshtml" />
     <Content Include="Views\TCLD\bao_cao_nhanh_tung_phan_xuong.cshtml" />
     <Content Include="Views\TCLD\BonusAndDiscipline\KhenThuong.cshtml" />
     <Content Include="Views\TCLD\BonusAndDiscipline\KyLuat.cshtml" />
@@ -7041,7 +7039,6 @@
     <Content Include="Views\suachuaQD\Edit.cshtml" />
     <Content Include="Views\Certificate\AddCertificate.cshtml" />
     <Content Include="Views\Certificate\EditCertificate.cshtml" />
-    <Content Include="Views\Certificate\SearchCertificate.cshtml" />
     <Content Include="Views\Certificate\AddCertificateEmployee.cshtml" />
     <Content Include="Views\Certificate\EditCertificateEmp.cshtml" />
     <Content Include="Views\ManagementUser\Index.cshtml" />
@@ -7065,6 +7062,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Library\" />
     <Folder Include="Views\HuyDong\" />
+    <Folder Include="Views\Laydanhsachvattu\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
