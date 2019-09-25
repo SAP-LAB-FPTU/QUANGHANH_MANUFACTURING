@@ -18,20 +18,19 @@ namespace QUANGHANH2.Models
         public QuyetDinh()
         {
             this.ChamDut_NhanVien = new HashSet<ChamDut_NhanVien>();
-            this.DieuDong_NV = new HashSet<DieuDong_NV>();
-            this.NhanViens = new HashSet<NhanVien>();
+            this.DieuDong_NhanVien = new HashSet<DieuDong_NhanVien>();
+            this.TuyenDung_NhanVien = new HashSet<TuyenDung_NhanVien>();
         }
     
+        public int MaQuyetDinh { get; set; }
         public string SoQuyetDinh { get; set; }
-        public string LoaiQuyetDinh { get; set; }
         public Nullable<System.DateTime> NgayQuyetDinh { get; set; }
-        public string TrangThai { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChamDut_NhanVien> ChamDut_NhanVien { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DieuDong_NV> DieuDong_NV { get; set; }
+        public virtual ICollection<DieuDong_NhanVien> DieuDong_NhanVien { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<NhanVien> NhanViens { get; set; }
+        public virtual ICollection<TuyenDung_NhanVien> TuyenDung_NhanVien { get; set; }
     }
 }

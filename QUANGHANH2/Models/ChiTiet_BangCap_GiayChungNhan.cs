@@ -12,15 +12,15 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ChiTiet_BangCap
+    public partial class ChiTiet_BangCap_GiayChungNhan
     {
         public string SoHieu { get; set; }
-        public int MaBangCap { get; set; }
+        public int MaBangCap_GiayChungNhan { get; set; }
         public Nullable<System.DateTime> NgayCap { get; set; }
         public string MaNV { get; set; }
         public Nullable<System.DateTime> NgayTra { get; set; }
     
-        public virtual BangCap BangCap { get; set; }
+        public virtual BangCap_GiayChungNhan BangCap_GiayChungNhan { get; set; }
         public virtual NhanVien NhanVien { get; set; }
     }
 }

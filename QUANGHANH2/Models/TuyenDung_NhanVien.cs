@@ -12,22 +12,11 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class DieuDong_NV
+    public partial class TuyenDung_NhanVien
     {
-        public string DonViCu { get; set; }
-        public string DonViMoi { get; set; }
-        public string ChucVuHienTai { get; set; }
-        public string ChucVuMoi { get; set; }
-        public string ThangLuong { get; set; }
-        public Nullable<double> Bac { get; set; }
-        public Nullable<double> HeSo { get; set; }
-        public Nullable<double> PhuCap { get; set; }
-        public string DonViNhan { get; set; }
-        public string LyDoChuyen { get; set; }
-        public string SoQuyetDinh { get; set; }
+        public int MaQuyetDinh { get; set; }
         public string MaNV { get; set; }
     
         public virtual QuyetDinh QuyetDinh { get; set; }
-        public virtual NhanVien NhanVien { get; set; }
     }
 }

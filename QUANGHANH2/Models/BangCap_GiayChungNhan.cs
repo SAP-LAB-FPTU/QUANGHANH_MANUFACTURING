@@ -12,23 +12,25 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class BangCap
+    public partial class BangCap_GiayChungNhan
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public BangCap()
+        public BangCap_GiayChungNhan()
         {
-            this.ChiTiet_BangCap = new HashSet<ChiTiet_BangCap>();
+            this.ChiTiet_BangCap_GiayChungNhan = new HashSet<ChiTiet_BangCap_GiayChungNhan>();
         }
     
         public Nullable<int> MaTruong { get; set; }
         public Nullable<int> MaChuyenNghanh { get; set; }
-        public int MaBangCap { get; set; }
+        public int MaBangCap_GiayChungNhan { get; set; }
         public Nullable<int> MaTrinhDo { get; set; }
         public string KieuBangCap { get; set; }
-        public Nullable<int> ThoiHan { get; set; }
+        public string ThoiHan { get; set; }
+        public string TenBangCap { get; set; }
+        public string Loai { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChiTiet_BangCap> ChiTiet_BangCap { get; set; }
+        public virtual ICollection<ChiTiet_BangCap_GiayChungNhan> ChiTiet_BangCap_GiayChungNhan { get; set; }
         public virtual ChuyenNganh ChuyenNganh { get; set; }
         public virtual TrinhDo TrinhDo { get; set; }
         public virtual Truong Truong { get; set; }
