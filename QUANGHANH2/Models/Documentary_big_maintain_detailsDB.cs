@@ -12,5 +12,6 @@ namespace QUANGHANH2.Models
         public string stringDate { get; set; }
         public string stringNextDate { get; set; }
         public string statusAndEquip { get; set; }
+        public string idAndEquip { get; set; }
     }
 }

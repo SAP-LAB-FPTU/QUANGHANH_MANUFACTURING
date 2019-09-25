@@ -169,6 +169,7 @@
     <Compile Include="Controllers\CDVT\Cap_nhat\CapnhathoatdongController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\CapnhatsucoController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\ChitietController.cs" />
+    <Compile Include="Controllers\CDVT\Cap_nhat\Chitiet\VattucuaQDController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\Chitiet\QDBaoduongController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\Chitiet\QDDieudongController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\Chitiet\QDSuachuaController.cs" />
@@ -6984,9 +6985,7 @@
     <Content Include="Views\Shared\_Layout_TCLD.cshtml" />
     <Content Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
     <Content Include="Views\TCLD\bao-cao-nhanh.cshtml" />
-    <Content Include="Views\TCLD\bao_cao_chi_tiet_ca_1.cshtml" />
-    <Content Include="Views\TCLD\bao_cao_chi_tiet_ca_2.cshtml" />
-    <Content Include="Views\TCLD\bao_cao_chi_tiet_ca_3.cshtml" />
+    <Content Include="Views\TCLD\bao_cao_chi_tiet_theo_ca.cshtml" />
     <Content Include="Views\TCLD\bao_cao_nhanh_tung_phan_xuong.cshtml" />
     <Content Include="Views\TCLD\BonusAndDiscipline\KhenThuong.cshtml" />
     <Content Include="Views\TCLD\BonusAndDiscipline\KyLuat.cshtml" />
@@ -7056,6 +7055,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Library\" />
     <Folder Include="Views\HuyDong\" />
+    <Folder Include="Views\Laydanhsachvattu\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
