@@ -14,33 +14,35 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
         [Route("phong-cdvt/bao-cao/dien-nang")]
         public ActionResult Quarter(string type, string date, string month, string quarter, string year)
         {
-            if (type == null)
-            {
-                var ngay = DateTime.Now.Date;
-                getContentbyDay(ngay);
-            }
-            if (type == "day")
-            {
-                var ngay = DateTime.ParseExact(date, "MM/dd/yyyy", CultureInfo.InvariantCulture);
-                getContentbyDay(ngay);
-            }
-            if (type == "month")
-            {
-                int thang = Convert.ToInt32(month);
-                int nam = Convert.ToInt32(year);
-                getContentbyMonth(thang, nam);
-            }
-            if (type == "quarter")
-            {
-                int quy = Convert.ToInt32(quarter);
-                int nam = Convert.ToInt32(year);
-                getContentbyQuater(quy, nam);
-            }
-            if (type == "year")
-            {
-                int nam = Convert.ToInt32(year);
-                getContentbyYear(nam);
-            }
+            //if (type == null)
+            //{
+            //    var ngay = DateTime.Now.Date;
+            //    getContentbyDay(ngay);
+            //}
+            //if (type == "day")
+            //{
+            //    var ngay = DateTime.ParseExact(date, "MM/dd/yyyy", CultureInfo.InvariantCulture);
+            //    getContentbyDay(ngay);
+            //}
+            //if (type == "month")
+            //{
+            //    int thang = Convert.ToInt32(month);
+            //    int nam = Convert.ToInt32(year);
+            //    getContentbyMonth(thang, nam);
+            //}
+            //if (type == "quarter")
+            //{
+            //    int quy = Convert.ToInt32(quarter);
+            //    int nam = Convert.ToInt32(year);
+            //    getContentbyQuater(quy, nam);
+            //}
+            //if (type == "year")
+            //{
+            //    int nam = Convert.ToInt32(year);
+            //    getContentbyYear(nam);
+            //}
+            var noww = DateTime.Now.Date.ToString("dd/MM/yyyy");
+            ViewBag.now = noww;
             Wherecondition(type, date, month, quarter, year);
             if (ViewBag.ContentReport != null)
             {
@@ -186,12 +188,13 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
             }
             if (type == "day")
             {
-                var ngay = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                var ngay = DateTime.ParseExact(date,"dd/MM/yyyy",null).ToString("yyyy-MM-dd");
                 query = "select MONTH(a.date) as Thang, YEAR(a.date) as Nam,c.equipmentId as MaThietBi, " +
                 " equipment_name as TenThietBi,consumption_value as " +
                 " LuongTieuThu,ac.quantity as SanLuong from Fuel_activities_consumption a , Supply b, Equipment c , Activity ac " +
                 " where a.fuel_type = b.supply_id and a.equipmentId = c.equipmentId  and ac.equipmentId = c.equipmentId " +
                 " and fuel_type in ('DIEN') and a.date = '" + ngay + "' and a.date = ac.date";
+                ViewBag.now = date;
             }
             if (type == "month")
             {

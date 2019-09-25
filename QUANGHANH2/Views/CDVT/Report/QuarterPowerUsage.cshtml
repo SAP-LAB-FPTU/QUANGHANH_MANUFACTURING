@@ -49,10 +49,7 @@
         })
     });
     $(document).ready(function () {
-        $("#minMaxDate").val("@string.Format("{0:dd/MM/yyyy}", System.DateTime.Now)");
-        $("#txtmonth").val("Tháng @DateTime.Now.Month @DateTime.Now.Year");
-        $("#txtyear").val("@DateTime.Now.Year");
-        $("#quateryear").val("@DateTime.Now.Year");
+      
         var url_string = window.location.href;
         var url = new URL(url_string);
         var c = url.searchParams.get("type");
@@ -60,6 +57,10 @@
         var month = url.searchParams.get("month");
         var quater = url.searchParams.get("quarter");
         var year = url.searchParams.get("year");
+          $("#minMaxDate").val("@string.Format("{0:dd/MM/yyyy}", System.DateTime.Now)");
+        $("#txtmonth").val("Tháng @DateTime.Now.Month @DateTime.Now.Year");
+        $("#txtyear").val("@DateTime.Now.Year");
+        $("#quateryear").val("@DateTime.Now.Year");
         $("#type").html("Xem Theo Ngày");
 
         if (c == "day") {
@@ -106,7 +107,7 @@
                 <div class="day" id="visibleday">
                     <h3>
                         <i class="fas fa-calendar-alt icon"></i>
-                        <input type='text' class='datepicker-here center' id="minMaxDate" data-language='vi' value="15/08/2019" />
+                        <input type='text' class='datepicker-here center' id="minMaxDate" data-language='vi'/>
                     </h3>
                 </div>
                 <div class="month" id="visiblemonth" style="display: none">
@@ -221,13 +222,6 @@
         </div>
     </div>
 
-
-    <div class="card">
-        <div class="card-content analytics-info">
-            <h5 class="card-title">Mức tiêu thụ điện năng thực tế quý II/dự kiến năm (%)</h5>
-            <div id="PowerUsage1" style="height:600px;"></div>
-        </div>
-    </div>
 </div>
 <div class="card">
 
@@ -352,10 +346,5 @@
     $(document).ready(function () {
         $('.datepicker-inline').remove();
     });
-    $(document).ready(function () {
-        var date = new Date();
-        var d = date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear();
-        $("#minMaxDate").val(d);
-        $("#type").html("Xem Theo Ngày");
-    });
+   
 </script>

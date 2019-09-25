@@ -46,14 +46,13 @@ namespace QUANGHANHCORE.Controllers
             if (checkuser.Count > 0)
             {
                 Session["UserID"] = checkuser[0].ID;
-                int time = HttpContext.Session.Timeout;
                 int id = checkuser[0].ID;
                 var Name = db.Accounts.Where(x => x.ID == id).FirstOrDefault<Account>();
                 Session["Name"] = Name.Name;
                 Session["username"] = Name.Username;
                 Session["Position"] = Name.Position;
                 Session["isAdmin"] = Name.ADMIN;
-                GetPermission(checkuser[0].ID);
+                GetPermission(id);
                 if (!String.IsNullOrEmpty(rm))
                 {
                     if (rm.Equals("on"))
