@@ -172,6 +172,7 @@
           <ScalarProperty Name="LuongSauDuyet" ColumnName="LuongSauDuyet" />
           <ScalarProperty Name="DuBaoNguyCo" ColumnName="DuBaoNguyCo" />
           <ScalarProperty Name="GiaiPhapNguyCo" ColumnName="GiaiPhapNguyCo" />
+          <ScalarProperty Name="LyDoVangMat" ColumnName="LyDoVangMat" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
