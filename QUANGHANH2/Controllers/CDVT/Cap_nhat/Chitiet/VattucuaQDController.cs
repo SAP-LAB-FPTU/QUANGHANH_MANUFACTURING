@@ -118,7 +118,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
                         SDE.supplyStatus = (string)item["supplyStatus"];
                         SDE.quantity = (int)item["quantity"];
                         SDE.supply_documentary_status = 1;
-                        SDE.documentary_id = documentary_id;
+                        SDE.documentary_id = Int32.Parse(documentary_id);
                         SDE.equipmentId = equipmentId;
                         DBContext.Supply_Documentary_Equipment.Add(SDE);
                         i++;
