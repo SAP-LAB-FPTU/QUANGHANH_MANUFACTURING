@@ -20,5 +20,7 @@ namespace QUANGHANH2.Models
         public string activityname { get; set; }
         public double hours_per_day { get; set; }
         public double quantity { get; set; }
+    
+        public virtual Equipment Equipment { get; set; }
     }
 }

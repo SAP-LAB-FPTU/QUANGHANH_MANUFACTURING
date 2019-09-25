@@ -87,7 +87,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                     docList = (from a in db.Acceptances
                                
                                join b in db.Equipments on a.equipmentId equals b.equipmentId
-                               where (a.equipmentStatus == 2) && (a.documentary_id.Contains(document_id)) && (a.equipmentId.Contains(equiment_id)) && (b.equipment_name.Contains(equiment_name))
+                               where (a.equipmentStatus == 2) && (a.documentary_id.ToString().Contains(document_id)) && (a.equipmentId.Contains(equiment_id)) && (b.equipment_name.Contains(equiment_name))
                                select new
                                {
                                    documentary_id = a.documentary_id,

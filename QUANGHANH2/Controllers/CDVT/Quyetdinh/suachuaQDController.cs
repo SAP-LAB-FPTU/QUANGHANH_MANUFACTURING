@@ -49,7 +49,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
                                                              count = temporary.Select(x => new { x.equipmentId }).Count()
                                                           }).ToList().Select(p => new NewDocumentary
                                                           {
-                                                              documentary_id = p.documentary_id,
+                                                              documentary_id = p.documentary_id+"",
                                                               date_created = p.date_created,
                                                               person_created = p.person_created,
                                                               reason = p.reason,
@@ -123,7 +123,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
             {
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    Documentary doc = db.Documentaries.Where(x => x.documentary_id == id).FirstOrDefault<Documentary>();
+                    Documentary doc = db.Documentaries.Where(x => x.documentary_id+"" == id).FirstOrDefault<Documentary>();
                     db.Documentaries.Remove(doc);
                     db.SaveChanges();
                 }
@@ -142,7 +142,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
             string id = docID[0];
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                Documentary doc = db.Documentaries.Where(x => x.documentary_id == id).FirstOrDefault<Documentary>();
+                Documentary doc = db.Documentaries.Where(x => x.documentary_id+"" == id).FirstOrDefault<Documentary>();
                 db.Documentaries.Remove(doc);
                 db.SaveChanges();
             }
@@ -176,7 +176,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
                                                           count = temporary.Select(x => new { x.equipmentId }).Count()
                                                       }).ToList().Select(p => new NewDocumentary
                                                       {
-                                                          documentary_id = p.documentary_id,
+                                                          documentary_id = p.documentary_id+"",
                                                           date_created = p.date_created,
                                                           person_created = p.person_created,
                                                           reason = p.reason,

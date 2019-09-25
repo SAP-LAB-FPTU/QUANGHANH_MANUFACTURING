@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using XCrypt;
 
 namespace QUANGHANH2.Controllers
 {
@@ -244,7 +245,7 @@ namespace QUANGHANH2.Controllers
                         {
                             Name = Name,
                             Username = Username,
-                            Password = Password,
+                            Password = passXc,
                             Position = Position,
                             CDVT = Convert.ToBoolean(module1),
                             TCLD = Convert.ToBoolean(module2),
@@ -263,7 +264,7 @@ namespace QUANGHANH2.Controllers
                             {
                                 Account_Right_Detail rd = new Account_Right_Detail()
                                 {
-                                    AccountID = acc.ID+"",
+                                    AccountID = acc.ID,
                                     RightID = int.Parse(r)
                                 };
                                 db.Account_Right_Detail.Add(rd);
@@ -286,7 +287,7 @@ namespace QUANGHANH2.Controllers
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
-                                        AccountID = acc.ID + "",
+                                        AccountID = acc.ID,
                                         RightID = r.ID
                                     };
                                     db.Account_Right_Detail.Add(rd);
@@ -309,7 +310,7 @@ namespace QUANGHANH2.Controllers
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
-                                        AccountID = acc.ID + "",
+                                        AccountID = acc.ID ,
                                         RightID = r.ID
                                     };
                                     db.Account_Right_Detail.Add(rd);
@@ -332,7 +333,7 @@ namespace QUANGHANH2.Controllers
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
-                                        AccountID = acc.ID + "",
+                                        AccountID = acc.ID ,
                                         RightID = r.ID
                                     };
                                     db.Account_Right_Detail.Add(rd);
@@ -355,7 +356,7 @@ namespace QUANGHANH2.Controllers
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
-                                        AccountID = acc.ID + "",
+                                        AccountID = acc.ID,
                                         RightID = r.ID
                                     };
                                     db.Account_Right_Detail.Add(rd);
@@ -378,7 +379,7 @@ namespace QUANGHANH2.Controllers
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
-                                        AccountID = acc.ID + "",
+                                        AccountID = acc.ID ,
                                         RightID = r.ID
                                     };
                                     db.Account_Right_Detail.Add(rd);
@@ -401,7 +402,7 @@ namespace QUANGHANH2.Controllers
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
-                                        AccountID = acc.ID + "",
+                                        AccountID = acc.ID,
                                         RightID = r.ID
                                     };
                                     db.Account_Right_Detail.Add(rd);
@@ -418,7 +419,7 @@ namespace QUANGHANH2.Controllers
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
-                                        AccountID = acc.ID + "",
+                                        AccountID = acc.ID,
                                         RightID = r.ID
                                     };
                                     db.Account_Right_Detail.Add(rd);
@@ -427,7 +428,7 @@ namespace QUANGHANH2.Controllers
                             var user = db.Accounts.SingleOrDefault(x => x.ID == acc.ID);
                             user.Name = Name;
                             user.Username = Username;
-                            user.Password = Password;
+                            user.Password = passXc;
                             user.Position = Position;
                             user.CDVT = true;
                             user.TCLD = true;
@@ -502,7 +503,7 @@ namespace QUANGHANH2.Controllers
                 try
                 {
                     var rightsSplit = rights.Split(',');
-                    var rightRemove = db.Account_Right_Detail.Where(x => x.AccountID == ID + "").ToList();
+                    var rightRemove = db.Account_Right_Detail.Where(x => x.AccountID == ID).ToList();
                     foreach (var r in rightRemove)
                     {
                         db.Account_Right_Detail.Remove(r);
@@ -514,7 +515,7 @@ namespace QUANGHANH2.Controllers
                         {
                             Account_Right_Detail rd = new Account_Right_Detail()
                             {
-                                AccountID = ID + "",
+                                AccountID = ID,
                                 RightID = int.Parse(r)
                             };
                             db.Account_Right_Detail.Add(rd);
@@ -543,7 +544,7 @@ namespace QUANGHANH2.Controllers
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
-                                        AccountID = ID + "",
+                                        AccountID = ID,
                                         RightID = r.ID
                                     };
                                     db.Account_Right_Detail.Add(rd);
@@ -574,7 +575,7 @@ namespace QUANGHANH2.Controllers
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
-                                        AccountID = ID + "",
+                                        AccountID = ID,
                                         RightID = r.ID
                                     };
                                     db.Account_Right_Detail.Add(rd);
@@ -605,7 +606,7 @@ namespace QUANGHANH2.Controllers
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
-                                        AccountID = ID + "",
+                                        AccountID = ID,
                                         RightID = r.ID
                                     };
                                     db.Account_Right_Detail.Add(rd);
@@ -636,7 +637,7 @@ namespace QUANGHANH2.Controllers
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
-                                        AccountID = ID + "",
+                                        AccountID = ID,
                                         RightID = r.ID
                                     };
                                     db.Account_Right_Detail.Add(rd);
@@ -667,7 +668,7 @@ namespace QUANGHANH2.Controllers
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
-                                        AccountID = ID + "",
+                                        AccountID = ID,
                                         RightID = r.ID
                                     };
                                     db.Account_Right_Detail.Add(rd);
@@ -698,7 +699,7 @@ namespace QUANGHANH2.Controllers
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
-                                        AccountID = ID + "",
+                                        AccountID = ID,
                                         RightID = r.ID
                                     };
                                     db.Account_Right_Detail.Add(rd);
@@ -730,7 +731,7 @@ namespace QUANGHANH2.Controllers
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
-                                        AccountID = ID + "",
+                                        AccountID = ID ,
                                         RightID = r.ID
                                     };
                                     db.Account_Right_Detail.Add(rd);
@@ -753,7 +754,8 @@ namespace QUANGHANH2.Controllers
                     { }
                     else
                     {
-                        user.Password = Password;
+                        string passXc = new XCryptEngine(XCryptEngine.AlgorithmType.MD5).Encrypt(Password, "pl");
+                        user.Password = passXc;
                     }
                     user.Position = Position;
                     user.CDVT = Convert.ToBoolean(module1);
@@ -804,10 +806,12 @@ namespace QUANGHANH2.Controllers
         [HttpPost]
         public JsonResult ResetPassword(string UserID)
         {
+            int id = int.Parse(UserID);
+            var Acc = db.Accounts.Where(x => x.ID == id).SingleOrDefault();
             try
             {
                 string passXc = new XCryptEngine(XCryptEngine.AlgorithmType.MD5).Encrypt("123456", "pl");
-                var Acc = db.Accounts.Where(x => x.ID == int.Parse(UserID)).SingleOrDefault();
+                
                 Acc.Password = passXc;
                 db.Entry(Acc).State = EntityState.Modified;
                 db.SaveChanges();

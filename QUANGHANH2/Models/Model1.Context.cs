@@ -26,7 +26,10 @@ namespace QUANGHANH2.Models
         }
     
         public virtual DbSet<Acceptance> Acceptances { get; set; }
+        public virtual DbSet<Account> Accounts { get; set; }
+        public virtual DbSet<Account_Right> Account_Right { get; set; }
         public virtual DbSet<Account_Right_Detail> Account_Right_Detail { get; set; }
+        public virtual DbSet<Activity> Activities { get; set; }
         public virtual DbSet<BangCap_GiayChungNhan> BangCap_GiayChungNhan { get; set; }
         public virtual DbSet<Category_attribute_value> Category_attribute_value { get; set; }
         public virtual DbSet<ChamDut_NhanVien> ChamDut_NhanVien { get; set; }
@@ -80,9 +83,6 @@ namespace QUANGHANH2.Models
         public virtual DbSet<Truong> Truongs { get; set; }
         public virtual DbSet<TuyenDung_NhanVien> TuyenDung_NhanVien { get; set; }
         public virtual DbSet<VatLieuSanXuat> VatLieuSanXuats { get; set; }
-        public virtual DbSet<Activity> Activities { get; set; }
         public virtual DbSet<ChiTiet_NhiemVu_NhanVien> ChiTiet_NhiemVu_NhanVien { get; set; }
-        public virtual DbSet<Account> Accounts { get; set; }
-        public virtual DbSet<Account_Right> Account_Right { get; set; }
     }
 }
