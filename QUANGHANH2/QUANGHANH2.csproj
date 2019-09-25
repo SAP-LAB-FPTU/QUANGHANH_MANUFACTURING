@@ -195,7 +195,7 @@
     <Compile Include="Controllers\CDVT\Oto\HuydongOtoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\NhomotoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\SuachuahangngayController.cs" />
-    <Compile Include="Controllers\CDVT\Quyetdinh\BaoduongController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\BaoduongQDController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ChitietBaoduongController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ChitietKiemdinhController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ChiTietQuyetDInhController.cs" />
@@ -209,6 +209,7 @@
     <Compile Include="Controllers\CDVT\Quyetdinh\sctxController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\suachuaQDController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ThanhliController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\VatTuQuyetDinhController.cs" />
     <Compile Include="Controllers\CDVT\Useless\ThongtinsucoController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ThuhoiController.cs" />
     <Compile Include="Controllers\CDVT\Report\KiemdinhController.cs" />
@@ -479,12 +480,15 @@
     <Compile Include="Models\VatLieuSanXuat.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="ModelViews\TonghopvattuModelView.cs" />
     <Compile Include="ModelViews\XincapvattuDeparmentModelView.cs" />
     <Compile Include="ModelViews\XincapvattuModelView.cs" />
     <Compile Include="ModelViews\XincapvattuSummaryModelView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\Intefaces\ITonghopvattuRepository.cs" />
     <Compile Include="Repositories\Intefaces\IXincapvattuRepository.cs" />
     <Compile Include="Repositories\Intefaces\IXincapvattuSummaryRepository.cs" />
+    <Compile Include="Repositories\TonghopvattuRepository.cs" />
     <Compile Include="Repositories\XincapvattuRepository.cs" />
     <Compile Include="Repositories\XincapvattuSummaryRepository.cs" />
     <Compile Include="SupportClass\Auther.cs" />
@@ -6827,6 +6831,8 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="excel\CDVT\download\tong-hop-vat-tu.xlsx" />
+    <Content Include="excel\CDVT\download\tong-hop-vat-tu-download.xlsx" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
