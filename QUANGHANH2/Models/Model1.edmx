@@ -38,7 +38,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ModuleID" Type="nvarchar" MaxLength="50" />
-          <Property Name="GroupID" Type="nvarchar" MaxLength="50" />
+          <Property Name="GroupID" Type="int" />
           <Property Name="Right" Type="nvarchar" MaxLength="70" />
           <Property Name="isBasic" Type="bit" />
         </EntityType>
@@ -627,6 +627,16 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="dinh_muc" Type="float" Nullable="false" />
           <Property Name="quantity_plan" Type="int" Nullable="false" />
           <Property Name="quantity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="ThucHien_TieuChi">
           <Key>
@@ -1693,6 +1703,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <EntitySet Name="Supply_Documentary_Equipment" EntityType="Self.Supply_Documentary_Equipment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Supply_tieuhao" EntityType="Self.Supply_tieuhao" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SupplyPlan" EntityType="Self.SupplyPlan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ThucHien_TieuChi" EntityType="Self.ThucHien_TieuChi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ThucHien_TieuChi_VatLieuSanXuat" EntityType="Self.ThucHien_TieuChi_VatLieuSanXuat" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TieuChi" EntityType="Self.TieuChi" Schema="dbo" store:Type="Tables" />
@@ -2065,7 +2076,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ModuleID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="GroupID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GroupID" Type="Int32" />
           <Property Name="Right" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
           <Property Name="isBasic" Type="Boolean" />
         </EntityType>
@@ -2779,6 +2790,16 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <NavigationProperty Name="Department" Relationship="Self.FK__SupplyPla__depar__44CA3770" FromRole="SupplyPlan" ToRole="Department" />
           <NavigationProperty Name="Equipment" Relationship="Self.FK__SupplyPla__equip__45BE5BA9" FromRole="SupplyPlan" ToRole="Equipment" />
           <NavigationProperty Name="Supply" Relationship="Self.FK__SupplyPla__suppl__46B27FE2" FromRole="SupplyPlan" ToRole="Supply" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="ThucHien_TieuChi">
           <Key>
@@ -3844,6 +3865,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <EntitySet Name="Supply_Documentary_Equipment" EntityType="Self.Supply_Documentary_Equipment" />
           <EntitySet Name="Supply_tieuhao" EntityType="Self.Supply_tieuhao" />
           <EntitySet Name="SupplyPlans" EntityType="Self.SupplyPlan" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="ThucHien_TieuChi" EntityType="Self.ThucHien_TieuChi" />
           <EntitySet Name="TieuChis" EntityType="Self.TieuChi" />
           <EntitySet Name="TieuChi_VatLieuSanXuat" EntityType="Self.TieuChi_VatLieuSanXuat" />
@@ -4805,6 +4827,17 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
                 <ScalarProperty Name="dinh_muc" ColumnName="dinh_muc" />
                 <ScalarProperty Name="quantity_plan" ColumnName="quantity_plan" />
                 <ScalarProperty Name="quantity" ColumnName="quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="QUANGHANHABCModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

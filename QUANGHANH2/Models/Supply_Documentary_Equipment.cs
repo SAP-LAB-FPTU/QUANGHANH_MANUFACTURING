@@ -22,6 +22,7 @@ namespace QUANGHANH2.Models
         public int supplyType { get; set; }
         public string supplyStatus { get; set; }
         public int supply_documentary_status { get; set; }
+    
         public virtual Documentary Documentary { get; set; }
         public virtual Equipment Equipment { get; set; }
         public virtual Supply Supply { get; set; }
