@@ -7061,6 +7061,7 @@
     <Content Include="Views\Brief\EditHoSo.cshtml" />
     <Content Include="Views\Brief\EditQuanHeGiaDinh.cshtml" />
     <Content Include="Views\PX\PXKT\takeAttendance.cshtml" />
+    <Content Include="Views\CDVT\Quyet_dinh\VatTuQuyetDinh.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
