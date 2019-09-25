@@ -14,18 +14,16 @@ using System.Web.Mvc;using System.Web.Routing;
 
 namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
 {
-    public class danhsachtrungdaituController : Controller
+    public class BaoduongQDController : Controller
     {
         [Auther(RightID = "30")]
-        [Route("phong-cdvt/quyet-dinh/trung-dai-tu")]
+        [Route("phong-cdvt/quyet-dinh/bao-duong")]
         public ActionResult Index()
         {
-            return View("/Views/CDVT/Quyet_dinh/SCTX.cshtml");
+            return View("/Views/CDVT/Quyet_dinh/Quyet_dinh_bao_duong.cshtml");
         }
 
-       
-
-        [Route("phong-cdvt/quyet-dinh/trung-dai-tu/edit")]
+        [Route("phong-cdvt/quyet-dinh/bao-duong/edit")]
         [HttpPost]
         public ActionResult Update(int documentary_id, string date_created, string person_created, string reason, string out_in_come)
         {
@@ -41,8 +39,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
             {
                 try
                 {
+                    //  documentary_id = documentary_id.Replace(" ", String.Empty);
+                    
                     Documentary documentary = DBContext.Documentaries.Where(a => a.documentary_id == documentary_id).First();
-                    if (documentary != null)
+                    if(documentary != null)
                     {
                         documentary.date_created = DateTime.Parse(date_created);
                         documentary.person_created = person_created;
@@ -64,7 +64,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
 
         }
 
-        [Route("phong-cdvt/quyet-dinh/trung-dai-tu/update")]
+        [Route("phong-cdvt/quyet-dinh/bao-duong/update")]
         public ActionResult UpdateID(int documentary_id, string documentary_code)
         {
 
@@ -135,10 +135,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
                 return new HttpStatusCodeResult(201);
             }
 
+
         }
 
-
-        [Route("phong-cdvt/quyet-dinh/trung-dai-tu/search")]
+        [Route("phong-cdvt/quyet-dinh/bao-duong/search")]
         [HttpPost]
         public ActionResult Search(string documentary_code, string person_created, string dateStart, string dateEnd)
         {
@@ -155,10 +155,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
             else dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-           
+        
                 incidents = (from document in db.Documentaries
-                             where (document.reason.Equals("Trung đại tu thiết bị") && document.documentary_code.Contains(documentary_code)) && (document.person_created.Contains(person_created) && (document.date_created >= dtStart && document.date_created <= dtEnd))
-                             join detail in db.Documentary_big_maintain_details on document.documentary_id equals detail.documentary_id
+                             where (document.reason.Equals("Bảo dưỡng thiết bị") && document.documentary_code.Contains(documentary_code)) && (document.person_created.Contains(person_created) && (document.date_created >= dtStart && document.date_created <= dtEnd))
+                             join detail in db.Documentary_maintain_details on document.documentary_id equals detail.documentary_id
                              into temporary
                              select new
                              {
@@ -218,28 +218,28 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
                     List<Documentary_Extend> incidents = (from document in db.Documentaries
-                                                      where (document.reason.Equals("Trung đại tu thiết bị"))
-                                                      join detail in db.Documentary_big_maintain_details on document.documentary_id equals detail.documentary_id
-                                                      into temporary
-                                                      select new
-                                                      {
-                                                         
-                                                          date_created = document.date_created,
-                                                          documentary_code = document.documentary_code,
-                                                          person_created = document.person_created,
-                                                          reason = document.reason,
-                                                          out_in_come = document.out_in_come,
-                                                          count = temporary.Select(x => new { x.equipmentId }).Count()
-                                                      }).ToList().Select(p => new Documentary_Extend
-                                                      {
-                                                          
-                                                          date_created = p.date_created,
-                                                          documentary_code = p.documentary_code,
-                                                          person_created = p.person_created,
-                                                          reason = p.reason,
-                                                          out_in_come = p.out_in_come,
-                                                          count = p.count
-                                                      }).ToList();
+                                                          where (document.reason.Equals("Bảo dưỡng thiết bị"))
+                                                          join detail in db.Documentary_maintain_details on document.documentary_id equals detail.documentary_id
+                                                          into temporary
+                                                          select new
+                                                          {
+                                                              
+                                                              date_created = document.date_created,
+                                                              documentary_code = document.documentary_code,
+                                                              person_created = document.person_created,
+                                                              reason = document.reason,
+                                                              out_in_come = document.out_in_come,
+                                                              count = temporary.Select(x => new { x.equipmentId }).Count()
+                                                          }).ToList().Select(p => new Documentary_Extend
+                                                          {
+                                                             
+                                                              date_created = p.date_created,
+                                                              documentary_code = p.documentary_code,
+                                                              person_created = p.person_created,
+                                                              reason = p.reason,
+                                                              out_in_come = p.out_in_come,
+                                                              count = p.count
+                                                          }).ToList();
                     int k = 0;
                     for (int i = 2; i < incidents.Count + 2; i++)
                     {
@@ -253,14 +253,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
                         k++;
                     }
                     string location = HostingEnvironment.MapPath("/excel/CDVT/download");
-                    excelPackage.SaveAs(new FileInfo(location + "/TrungTuThietBi.xlsx"));
+                    excelPackage.SaveAs(new FileInfo(location + "/BaoDuongThietBi.xlsx"));
                 }
 
             }
 
         }
-
-
-
     }
 }
