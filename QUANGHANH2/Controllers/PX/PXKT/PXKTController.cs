@@ -1,4 +1,5 @@
-﻿using QUANGHANH2.Models;
+﻿using Newtonsoft.Json;
+using QUANGHANH2.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.Script.Serialization;
 
 namespace QUANGHANHCORE.Controllers.PX.PXKT
 {
@@ -89,6 +91,26 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
             NSLD(intCa, strDate);
         }
 
+        [Route("phan-xuong-khai-thac/diem-danh")]
+        public ActionResult takeAttendanceView()
+        {
+
+            return View("/Views/PX/PXKT/takeAttendance.cshtml");
+        }
+
+        [HttpPost]
+        [Route("phan-xuong-khai-thac/diem-danh")]
+        public ActionResult takeAttendance()
+        {
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                var listAttendance = db.DiemDanh_NangSuatLaoDong.ToList();
+                JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+                var result = JsonConvert.SerializeObject(listAttendance, Formatting.Indented, jss);
+                return Json(new { success = true, data = result }, JsonRequestBehavior.AllowGet);
+            }
+        }
 
 
     }

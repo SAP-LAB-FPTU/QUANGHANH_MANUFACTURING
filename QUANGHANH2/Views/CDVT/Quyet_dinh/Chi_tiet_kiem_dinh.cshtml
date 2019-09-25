@@ -19,7 +19,7 @@
                             <th>Mã thiết bị</th>
                             <th>Tên thiết bị</th>
                             <th>Vị trí điều động</th>
-                            <th>Đơn vị sử dụng</th>
+                            <th>Phân xưởng chịu trách nhiệm</th>
                             <th>Lý do sửa chữa</th>
                             <th>Loại sửa chữa</th>
                             <th>Trạng thái</th>
@@ -30,26 +30,34 @@
             </div>
         </div>
     </div>
-
+</div>
     <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
     @section scripts{
         <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
         <script>
 
-        $(document).ready(function () {
-            var id = @ViewBag.id + "";
+            $(document).ready(function () {
+          	$("#pre-load").show();
+        $("#pre-load").css("z-index", "9999");
             DocumnetaryTable1 = $('#DocumnetaryTable')
-                .on('preXhr.dt', function ( e, settings, data ) {
-                    data.sessionId = "@ViewBag.id";
+                .on('preXhr.dt', function (e, settings, data) {   
+                    
+                    $("#pre-load").show();
+                    $("#pre-load").css("z-index", "9999");
+                   data.sessionId = "@ViewBag.id";
+                    
                 } ).DataTable({
                 "ajax": {
                     "url": "@Url.Action("Detail","ChitietKiemdinh")",
                     "type": "POST",
                     "datatype": "json",
                     },
+                    "drawCallback": function () {
+                        $("#pre-load").hide();  
+                    },
                     "columns": [
                         { "data": "order_number", "name": "order_number" },
-                        { "data": "documentary_id", "name": "documentary_id" },
+                        { "data": "documentary_code", "name": "documentary_code" },
                         { "data": "equipment_name", "name": "equipment_name" },
                         { "data": "department_id", "name": "department_id" },
                         { "data": "department_name", "name": "department_name" },
@@ -63,7 +71,12 @@
                         }
                 ],
                     "serverSide": true,
-                    "order" : [0, "asc"]
+                    "order": [0, "asc"],
+                    "lengthChange": false,
+                    "searching": false,
+                   "initComplete": function () {
+                    $("#pre-load").hide();
+                }
 
             });
         });

@@ -195,7 +195,7 @@
     <Compile Include="Controllers\CDVT\Oto\HuydongOtoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\NhomotoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\SuachuahangngayController.cs" />
-    <Compile Include="Controllers\CDVT\Quyetdinh\BaoduongController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\BaoduongQDController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ChitietBaoduongController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ChitietKiemdinhController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ChiTietQuyetDInhController.cs" />
@@ -209,6 +209,7 @@
     <Compile Include="Controllers\CDVT\Quyetdinh\sctxController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\suachuaQDController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ThanhliController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\VatTuQuyetDinhController.cs" />
     <Compile Include="Controllers\CDVT\Useless\ThongtinsucoController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ThuhoiController.cs" />
     <Compile Include="Controllers\CDVT\Report\KiemdinhController.cs" />
@@ -452,6 +453,7 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Supply_Documentary_EquipmentDB.cs" />
+    <Compile Include="Models\Supply_Extend.cs" />
     <Compile Include="Models\Supply_tieuhao.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -6823,29 +6825,30 @@
     <Content Include="excel\CDVT\danhsachsuachua_Template.xlsx" />
     <Content Include="Content\DataTables\Buttons-1.5.6\css\common.scss" />
     <Content Include="Content\DataTables\Buttons-1.5.6\css\mixins.scss" />
+    <Content Include="excel\CDVT\download\tong-hop-vat-tu.xlsx" />
+    <Content Include="excel\CDVT\download\tong-hop-vat-tu-download.xlsx" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Content>
-    <Content Include="excel\CDVT\download\tong-hop-vat-tu.xlsx" />
-    <Content Include="excel\CDVT\download\tong-hop-vat-tu-download.xlsx" />
-    <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
-    <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
-    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
     <Content Include="Models\Model1.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
+    <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
+    <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\quanghanhtest - Web Deploy.pubxml" />
+    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -7060,6 +7063,7 @@
     <Content Include="Views\Brief\EditChiTietbangCap.cshtml" />
     <Content Include="Views\Brief\EditHoSo.cshtml" />
     <Content Include="Views\Brief\EditQuanHeGiaDinh.cshtml" />
+    <Content Include="Views\PX\PXKT\takeAttendance.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
