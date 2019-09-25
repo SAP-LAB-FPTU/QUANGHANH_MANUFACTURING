@@ -406,18 +406,37 @@
     })
 </script>
 @section scripts{
-    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script>
         var Popup, dataTable;
         $("#pre-load").show();
 
         $(document).ready(function () {
             dataTable = $('#complex_header').DataTable({
+                "language": {
+                    "emptyTable": "Không tìm thấy dữ liệu",
+                    "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                    "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                    "paginate": {
+                        "first": "Trang đầu",
+                        "last": "Trang cuối",
+                        "next": "Trang sau",
+                        "previous": "Trang trước"
+                    }
+                },
                 "ajax": {
                     "url": "/phong-cdvt/su-co",
                     "type": "POST",
                     "datatype": "json",
-                    "cache": "false"
+                    "data": {
+                        "equipmentId": function () { return $('#equipmentId-search').val() },
+                        "equipmentName": function () { return $('#equipmentName-search').val() },
+                        "department": function () { return $('#department-search').val() },
+                        "detail": function () { return $('#detail-search').val() },
+                        "reason": function () { return $('#reason-search').val() },
+                        "dateStart": function () { return $('#date-start-search').val() },
+                        "dateEnd": function () { return $('#date-end-search').val() }
+                    },
+                    "cache": false
                 },
                 "columns": [
                     { "data": "equipmentId", "name": "equipmentId" },
@@ -447,6 +466,12 @@
                 "searching": false,
                 "initComplete": function (settings, json) {
                     $("#pre-load").hide();
+                },
+                "preDrawCallback": function (settings) {
+                    $('#pre-load').show();
+                },
+                "drawCallback": function (settings) {
+                    $('#pre-load').hide();
                 }
             });
         });
@@ -614,64 +639,16 @@
                 return false;
             });
             
-            //ajax search
+            //search
             $("#searchButton1").click(function () {
                 $("#pre-load").show();
-                dataTable.destroy();
-                dataTable = $('#complex_header').DataTable({
-                    "language": {
-                        "emptyTable": "Không tìm thấy dữ liệu"
-                    },
-                    "ajax": {
-                        "url": "/phong-cdvt/su-co/search",
-                        "type": "POST", 
-                        "search": false,
-                        "datatype": "json",
-                        "data": {
-                            "equipmentId": $('#equipmentId-search').val(),
-                            "equipmentName": $('#equipmentName-search').val(),
-                            "department": $('#department-search').val(),
-                            "detail": $('#detail-search').val(),
-                            "reason": $('#reason-search').val(),
-                            "dateStart": $('#date-start-search').val(),
-                            "dateEnd": $('#date-end-search').val()
-                        },
-                        "cache": false
-                    },
-                    "columns": [
-                        { "data": "equipmentId", "name": "equipmentId" },
-                        { "data": "equipment_name", "name": "equipment_name" },
-                        { "data": "department_name", "name": "department_name" },
-                        { "data": "detail_location", "name": "detail_location" },
-                        { "data": "stringStartTime", "name": "start_time" },
-                        { "data": "stringEndTime", "name": "end_time" },
-                        { "data": "stringDiffTime", "name": "time_different" },
-                        { "data": "reason", "name": "reason" },
-                        {
-                            "data": "editAble", "render": function (data) {
-                                if (data.split("^")[1] == "false")
-                                    return "<a href=\"#myupdate\" data-toggle=\"modal\" class=\"open-UpdateModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-incident-id=\"" + data.split("^")[0] + "\">Cập&nbsp;nhật</a>";
-                                else
-                                    return "<a href=\"#myedit\" data-toggle=\"modal\" class=\"open-EditModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-incident-id=\"" + data.split("^")[0] + "\">Chỉnh&nbsp;sửa</a>";
-                            },
-                            "orderable": false,
-                            "searchable": false,
-                            "width": "150px"
-                        }
-                    ],
-                    "serverSide": "true",
-                    "order": [0, "asc"],
-                    "rowId": "incident_id",
-                    "lengthChange": false,
-                    "searching": false,
-                    "initComplete": function (settings, json) {
-                        $.notify("Tìm kiếm thành công", {
-                            globalPosition: "top center",
-                            className: "success"
-                        })
-                    }
-                });
-                $('#pre-load').hide();
+                dataTable.ajax.reload(function () {
+                    $.notify("Chỉnh sửa thành công", {
+                        globalPosition: "top center",
+                        className: "success"
+                    });
+                    $("#pre-load").hide();
+                })
             });
         });
 
