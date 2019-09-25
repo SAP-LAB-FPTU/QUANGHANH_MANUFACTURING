@@ -7,7 +7,6 @@ using QUANGHANH2.Models;
 using System.Data.Entity;
 using System.Linq.Dynamic;
 using QUANGHANH2.SupportClass;
-using System.Data.SqlClient;
 
 namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
 {
@@ -34,12 +33,11 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            List<Documentary_moveline_detailsDB> equips = DBContext.Database.SqlQuery<Documentary_moveline_detailsDB>("select e.equipmentId, e.equipment_name, depa.department_name, details.* from Department depa inner join Documentary docu on depa.department_id = docu.department_id inner join Documentary_moveline_details details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 3 and details.documentary_id = " + id).ToList();
+            List<Documentary_moveline_detailsDB> equips = DBContext.Database.SqlQuery<Documentary_moveline_detailsDB>("select e.equipmentId, e.equipment_name, depa.department_name, details.date_to, details.department_detail, details.equipment_moveline_status from Department depa inner join Documentary docu on depa.department_id = docu.department_id inner join Documentary_moveline_details details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 3 and details.documentary_id = " + id).ToList();
             foreach (Documentary_moveline_detailsDB item in equips)
             {
                 item.stringDate = item.date_to.ToString("dd/MM/yyyy");
                 item.statusAndEquip = item.equipment_moveline_status + "^" + item.equipmentId;
-                item.idAndEquip = id + "^" + item.equipmentId;
             }
             int totalrows = equips.Count;
             int totalrowsafterfiltering = equips.Count;
@@ -92,18 +90,6 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
                 }
             }
             return new HttpStatusCodeResult(201);
-        }
-
-        [Auther(RightID = "88")]
-        [Route("phong-cdvt/cap-nhat/quyet-dinh/dieu-dong/GetSupply")]
-        [HttpPost]
-        public ActionResult getSupply(string documentary_id, string equipmentId)
-        {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            List<Supply_Documentary_EquipmentDB> supplies = DBContext.Database.SqlQuery<Supply_Documentary_EquipmentDB>("SELECT * FROM Supply_Documentary_Equipment doc INNER JOIN Supply s on doc.supply_id = s.supply_id WHERE doc.equipmentId = @equipmentId AND doc.documentary_id = @documentary_id",
-                new SqlParameter("equipmentId", equipmentId),
-                new SqlParameter("documentary_id", documentary_id)).ToList();
-            return Json(supplies);
         }
     }
 }
