@@ -6981,9 +6981,7 @@
     <Content Include="Views\Shared\_Layout_TCLD.cshtml" />
     <Content Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
     <Content Include="Views\TCLD\bao-cao-nhanh.cshtml" />
-    <Content Include="Views\TCLD\bao_cao_chi_tiet_ca_1.cshtml" />
-    <Content Include="Views\TCLD\bao_cao_chi_tiet_ca_2.cshtml" />
-    <Content Include="Views\TCLD\bao_cao_chi_tiet_ca_3.cshtml" />
+    <Content Include="Views\TCLD\bao_cao_chi_tiet_theo_ca.cshtml" />
     <Content Include="Views\TCLD\bao_cao_nhanh_tung_phan_xuong.cshtml" />
     <Content Include="Views\TCLD\BonusAndDiscipline\KhenThuong.cshtml" />
     <Content Include="Views\TCLD\BonusAndDiscipline\KyLuat.cshtml" />

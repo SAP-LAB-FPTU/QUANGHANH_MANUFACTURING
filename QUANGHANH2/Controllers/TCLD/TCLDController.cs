@@ -1,8 +1,12 @@
-﻿using System;
+﻿using QUANGHANH2.Models;
+using QUANGHANHCORE.Controllers.PX.PXKT;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;using System.Web.Routing;
+using System.Web.Script.Serialization;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,24 +28,76 @@ namespace QUANGHANHCORE.Controllers.TCLD
             return View("/Views/TCLD/bao_cao_nhanh_tung_phan_xuong.cshtml");
         }
 
-        [Route("phong-tcld/bao-cao-chi-tiet-ca-1")]
-        public ActionResult Report1()
+        [Route("phong-tcld/bao-cao-chi-tiet-theo-ca")]
+        public ActionResult Report1(string ca, string donvi, string date)
         {
+            ca = "1";
+            donvi = "VTL1";
+            date = "25/09/2019";
             ViewBag.nameDepartment = "baocao-sanluon-laodong";
-            return View("/Views/TCLD/bao_cao_chi_tiet_ca_1.cshtml");
+            ViewBag.ca = ca;
+            ViewBag.donvi = donvi;
+            ViewBag.date = date;
+            return View("/Views/TCLD/bao_cao_chi_tiet_theo_ca.cshtml");
         }
-        [Route("phong-tcld/bao-cao-chi-tiet-ca-2")]
-        public ActionResult Report2()
+
+        [Route("phong-tcld/bao-cao-chi-tiet-theo-ca")]
+        [HttpPost]
+        public ActionResult List(string ca, string donvi, string date)
         {
-            ViewBag.nameDepartment = "baocao-sanluon-laodong";
-            return View("/Views/TCLD/bao_cao_chi_tiet_ca_2.cshtml");
+            if (ca == "CA 1" || ca == null)
+            {
+                ca = "1";
+            }
+            if (ca == "CA 2")
+            {
+                ca = "2";
+            }
+            if (ca == "CA 3")
+            {
+                ca = "3";
+            }
+            if (date == null)
+            {
+                date = "20/09/2019";
+                //date = string.Format("{0:dd/MM/yyyy}", DateTime.Now);
+            }
+            var calamviec = Convert.ToInt32(ca);
+            var datesql = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                List<DiemDanh_NangSuatLaoDong> list = db.DiemDanh_NangSuatLaoDong
+                    .Where(a => a.NgayDiemDanh == datesql)
+                    .Where(a => a.CaDiemDanh == calamviec).ToList();
+                List<BaoCaoTheoCa> customNSLDs = new List<BaoCaoTheoCa>();
+                BaoCaoTheoCa cus;
+                foreach (var i in list)
+                {
+                    cus = new BaoCaoTheoCa
+                    {
+                        ID = i.MaDiemDanh,
+                        Name = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().Ten,
+                        BacTho = "6/6",
+                        ChucDanh = "MT",
+                        DuBaoNguyCo = "Không kiểm tra thiết bị trước khi vận hành",
+                        HeSoChiaLuong = i.HeSoChiaLuong.ToString(),
+                        LuongSauDuyet = i.LuongSauDuyet.ToString(),
+                        LuongTruocDuyet = i.LuongTruocDuyet.ToString(),
+                        NoiDungCongViec = db.Departments.Where(a => a.department_id == i.MaDonVi).First().department_name,
+                        NSLD = i.NangSuatLaoDong,
+                        SoThe = i.MaNV,
+                        YeuCauBPKTAT = "Trước khi vận hành phải kiểm tra thiết bị đảm bảo an toàn trước khi được vận hành"
+                    };
+                    customNSLDs.Add(cus);
+                }
+                ViewBag.nsld = customNSLDs;
+                var js = Json(new { success = true, data = customNSLDs }, JsonRequestBehavior.AllowGet);
+                var dataserialize = new JavaScriptSerializer().Serialize(js.Data);
+                return js;
+            }
         }
-        [Route("phong-tcld/bao-cao-chi-tiet-ca-3")]
-        public ActionResult Report3()
-        {
-            ViewBag.nameDepartment = "baocao-sanluon-laodong";
-            return View("/Views/TCLD/bao_cao_chi_tiet_ca_3.cshtml");
-        }
+
+       
 
         [Route("phong-tcld/bien-ban-chung")]
         public ActionResult CommonRecord()

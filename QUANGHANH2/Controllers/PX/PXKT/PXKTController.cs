@@ -45,11 +45,11 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                 List<DiemDanh_NangSuatLaoDong> list = db.DiemDanh_NangSuatLaoDong
                     .Where(a => a.NgayDiemDanh == date)
                     .Where(a => a.CaDiemDanh == calamviec).ToList();
-                List<CustomNSLD> customNSLDs = new List<CustomNSLD>();
-                CustomNSLD cus;
+                List<BaoCaoTheoCa> customNSLDs = new List<BaoCaoTheoCa>();
+                BaoCaoTheoCa cus;
                 foreach (var i in list)
                 {
-                    cus = new CustomNSLD
+                    cus = new BaoCaoTheoCa
                     {
                         ID = i.MaDiemDanh,
                         Name = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().Ten,
@@ -92,7 +92,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
 
 
     }
-    public class CustomNSLD
+    public class BaoCaoTheoCa
     {
         public int ID { get; set; }
         public string Name { get; set; }
