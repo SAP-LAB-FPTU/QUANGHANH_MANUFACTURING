@@ -19,8 +19,6 @@ namespace QUANGHANH2.Models
         public string ThangLuong { get; set; }
         public Nullable<double> MucLuong { get; set; }
         public string MaNV { get; set; }
-        public string TenCongViec { get; set; }
-        public string Loai { get; set; }
         public int MaCongViec { get; set; }
     
         public virtual CongViec CongViec { get; set; }

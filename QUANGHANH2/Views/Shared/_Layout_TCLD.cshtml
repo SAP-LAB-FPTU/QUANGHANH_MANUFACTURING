@@ -16,6 +16,7 @@
     <link href="~/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
     <link href="~/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css" rel="stylesheet">
     <link href="~/dist/css/style.css" rel="stylesheet">
+    <link href="~/css/preloader/css.css" rel="stylesheet" />
     <!-- This page CSS -->
     <link href="~/dist/css/pages/dashboard1.css" rel="stylesheet">
     <!--Cutstom css QUANG HANH-->
@@ -27,6 +28,7 @@
     <link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
     <link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
     <link href="~/css/preloader/css.css" rel="stylesheet" />
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -103,7 +105,6 @@
                 </div>
             </div>
         </div>
-
         <div class="preloader">
             <div class="loader">
                 <div class="loader__figure"></div>
@@ -777,3 +778,7 @@
 </body>
 
 </html>
+<script>
+    $(".loading").css("z-index", 99999);
+    $('body').css('overflow', '');
+</script>

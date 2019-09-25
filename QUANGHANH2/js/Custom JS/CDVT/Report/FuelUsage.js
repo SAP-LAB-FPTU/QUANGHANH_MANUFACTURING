@@ -97,9 +97,9 @@ $(function () {
                     max: 1668000,
 
                     data: [
-                        { value: 100, name: 'Xăng' },
-                        { value: 100, name: 'Dầu nhũ hóa' },
-                        { value: 100, name: 'Dầu mỡ' }
+                        { value: xang, name: 'Xăng' },
+                        { value: daunhuhoa, name: 'Dầu nhũ hóa' },
+                        { value: daumo, name: 'Dầu mỡ' }
                     ]
                 }
             ]

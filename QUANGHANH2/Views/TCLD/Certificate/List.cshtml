@@ -8,22 +8,44 @@
     <div class="card-content">
         <div class="row">
             <h3 class="black-text"><b>DANH SÁCH CHỨNG CHỈ LAO ĐỘNG</b></h3>
-            <div class="center">
-                <div class="col s12 m12 l5 input-field">
-                    @Html.Action("SearchCertificate", "Certificate")
+            <div class="centered">
+                <div class="row" id="tab_searching">
+                    <div id="searchCirtificateEmployee" style="display:none">
+                        <div class="input-group mb-3">
+                            <div class="col s13 m13 l3 input-field">
+                                <input class="form-control" placeholder="Mã chứng chỉ" id="searchIdTxt" />
+                            </div>
+                            <div class="col s13 m13 l3 input-field">
+                                <input class="form-control" placeholder="Tên chứng chỉ" id="searchNameCirTxt" />
+                            </div>
+                            <div class="col s13 m13 l3 input-field">
+                                <input class="form-control" placeholder="Tên nhân viên" id="searchNameCirEmpTxt" />
+                            </div>
+                            <div class="col l2 m12 s12 input-field">
+                                <button class="waves-effect waves-light btn-small blue darken-2 modal-trigger" type="submit" id="searchEmpButton">Tìm kiếm</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="searchCirtificate" style="display:none">
+                        <div class="input-group mb-3">
+                            <div class="col s18 m18 l8 input-field">
+                                <input class="form-control" placeholder="Tên chứng chỉ" id="searchByNameTxt" />
+                            </div>
+                            <div class="col l4 m14 s14 input-field">
+                                <button class="waves-effect waves-light btn-small blue darken-2 modal-trigger" id="searchButton">Tìm kiếm</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="col l2 m12 s12 input-field">
-                    <button class="btn blue darken-2 btn-small" id="searchButton">Tìm kiếm</button>
-                </div>
+
             </div>
         </div>
         <hr />
-        <div class="col s12 m12 l12">
-
+        <div class="row" id="tabs">
             <ul class="tabs">
-                <li class="tab col m6 l6 s12"><a href="#chungchicongty" >Chứng chỉ của cả công ty</a></li>
-                <li class="tab col m6 l6 s12"><a href="#chungchicuanhanvien">Chứng chỉ của nhân viên</a></li>
+                <li class="tab col m6 l6 s12"><a data-toggle="tab" id="tab-ccct" href="#chungchicongty">Chứng chỉ của cả công ty</a></li>
+                <li class="tab col m6 l6 s12 active"><a data-toggle="tab" id="tab-ccnv" href="#chungchicuanhanvien">Chứng chỉ của nhân viên</a></li>
             </ul>
         </div>
         <!---->
@@ -32,14 +54,13 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="row">
-                            <a class="btn btn-small blue darken-2 modal-trigger btn-mg" data-target="myadd">Thêm chứng chỉ</a>
-                            <a class="btn btn-small blue darken-2 btn-mg" href="~/excel/TCLD/Certificate/Chứng chỉ của cả công ty.xlsx">Xuất ra file excel</a>
+                            <a class="btn btn-small blue darken-2 modal-trigger btn-mg input-field" data-target="myadd">Thêm chứng chỉ</a>
+                            <a class="btn btn-small blue darken-2 btn-mg input-field" href="~/excel/TCLD/Certificate/Chứng chỉ của cả công ty.xlsx">Xuất ra file excel</a>
                         </div>
                         <div class="table-responsive">
                             <table id="table_chungchi" class="table table-bordered  centered highlight">
                                 <thead>
                                     <tr>
-                                        <th>Mã chứng chỉ</th>
                                         <th>Tên chứng chỉ</th>
                                         <th>Thời hạn</th>
                                         <th>Kiểu chứng chỉ</th>
@@ -49,7 +70,7 @@
                                 </thead>
                             </table>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
@@ -60,8 +81,8 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="row">
-                            <a class="btn btn-small blue darken-2 modal-trigger btn-mg" data-target="add_cir_emp">Thêm chứng chỉ cho 1 nhân viên</a>
-                            <a class="btn btn-small blue darken-2 btn-mg" href="~/excel/TCLD/Certificate/Chứng chỉ của cả công ty.xlsx">Xuất ra file excel</a>
+                            <a class="btn btn-small blue darken-2 modal-trigger btn-mg input-field" data-target="add_cir_emp">Thêm chứng chỉ cho nhân viên</a>
+                            <a class="btn btn-small blue darken-2 btn-mg input-field" href="~/excel/TCLD/Certificate/Chứng chỉ của cả công ty.xlsx">Xuất ra file excel</a>
                         </div>
                         <div class="table-responsive">
                             <table id="table_cirt_emp" class="table table-bordered  centered highlight">
@@ -108,7 +129,7 @@
 <div id="myedit" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <h3 class="modal-title">Thêm Chứng Chỉ</h3>
+            <h3 class="modal-title">Sửa Chứng Chỉ</h3>
         </div>
         <div class="modal-body">
             @Html.Action("EditCertificate", "Certificate")
@@ -118,7 +139,7 @@
 <div id="edit_employee" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <h3 class="modal-title">Thêm Chứng Chỉ</h3>
+            <h3 class="modal-title">Sửa Chứng Chỉ</h3>
         </div>
         <div class="modal-body">
             @Html.Action("EditCertificateEmp", "Certificate")
@@ -153,8 +174,20 @@
         </div>
     </div>
 </div>
+<div id="message" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Số Hiệu đã tồn tại</h3>
+        </div>
+        <div class="modal-footer">
+            <a class="btn blue darken-2 modal-close" onclick="DeleteEmp()">Xóa</a>
+            <a class="btn red modal-close">Hủy</a>
+        </div>
+    </div>
+</div>
+
 <p>
-    @ViewBag.hihi
+
 </p>
 <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
 <script src="~/js/Custom JS/TCLD/Certificate/certificate.js"></script>
@@ -162,33 +195,54 @@
 <script src="~/js/notify.min.js"></script>
 <script src="~/lib/mutiple select/slimselect.js"></script>
 <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-
-@section scripts{
+<link href="~/css/preloader/css.css" rel="stylesheet" />
+@section scripts {
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script>
-        var Popup, dataTable, dataCertificateEmp;
+        $("#pre-load").show("slow", function () {
+        });
+        $("#pre-load").css("z-index", "99999");
+        var Popup, dataTable, dataCertificateEmp, dataTableSearch;
         var editID, deleteId;
         var editIDEmp, deleteIdEmp;
         var searchId;
+        var isSearchCertificate = true;
+        var current_index;
         $(document).ready(function () {
-            dataTable = $("#table_chungchi").DataTable({
-
+            //company's certificates
+            dataTable = $("#table_chungchi")
+                .on('preXhr.dt', function (e, settings, data) {
+                    $("#pre-load").show("slow", function () {
+                    });
+                    $("#pre-load").css("z-index", "99999");
+                })
+                .DataTable({
                 "ajax": {
                     "url": "/phong-tcld/chung-chi/danh-sach-chung-chi",
                     "type": "POST",
                     "datatype": "json",
-                },
+
+                    },
+                    "drawCallback": function (settings) {
+                        $("#pre-load").hide("slow", function () {
+                        });
+                    },
                 "columns": [
-                    { "data": "MaChungChi", "name":"MaChungChi" },
                     { "data": "TenChungChi", "name": "TenChungChi" },
                     {
                         "data": "ThoiHan", "name": "ThoiHan", "render": function (data) {
-                            return data + " năm";
+                            if (data == "-1") {
+                                return "Vĩnh viễn"
+                            }
+                            else {
+                                return data + " tháng";
+                            }
+                           
                         }
                     },
                     { "data": "KieuChungChi", "name": "KieuChungChi" },
                      {"data": "MaChungChi", "render": function (data) {
-                            return "<a class='waves-effect waves-light btn-small red modal-trigger' data-target='myedit' style='margin-left:5px' onclick=getEditId(" + data + ") ><i class=''></i> Edit</a>";
+                         return "<a class='waves-effect waves-light btn-small blue darken-2 modal-trigger' data-target='myedit' style='margin-left:5px' onclick=getEditId(" + data + ") ><i class='far fa-edit'></i>Sửa</a>";
                     },
                     "orderable": false,
                     "searchable": false,
@@ -204,48 +258,93 @@
                 ],
                 "language": {
 
-                    "emptyTable": "No data found, Please click on <b>Add New</b> Button"
+                    "emptyTable": "Không có dữ liệu"
                 },
                 "autoWidth": false,
+                "serverSide": "true",
+                "order": [0, "asc"],
+                "bLengthChange": false,
+                "bFilter": false,
+                "bInfo": false,
+                "initComplete": function (settings, json) {
+                        $("#pre-load").hide("slow", function () {
+                        });
 
-            });
-            dataCertificateEmp = $("#table_cirt_emp").DataTable({
-                "ajax": {
-                    "url": "/phong-tcld/chung-chi/danh-sach-chung-chi-nhan-vien",
-                    "type": "POST",
-                    "datatype": "json",
-                },
-                "columns": [
-                    { "data": "SoHieu", "name": "SoHieu" },
-                    { "data": "TenNV", "name": "TenNV"  },
-                    { "data": "TenChungChi", "name": "TenChungChi"  },
-                    {"data": "NgayCap", "name": "NgayCap", "render": function (data) {
-                            return dateFormat(data);
-                        }
+                    }
+                });
+            //employees's certificates
+            dataCertificateEmp = $("#table_cirt_emp")
+                .on('preXhr.dt', function (e, settings, data) {
+                    $("#pre-load").show("slow", function () {
+                    });
+                    $("#pre-load").css("z-index", "99999");
+                })
+                .DataTable({
+                    "bLengthChange": false,
+                    "bFilter": false,
+                    "bInfo": false,
+                    "ajax": {
+                        "url": "/phong-tcld/chung-chi/danh-sach-chung-chi-nhan-vien",
+                        "type": "POST",
+                        "datatype": "json",
+
                     },
-                    {
-                        "data": "SoHieu", "render": function (data) {
-                            return "<a class='waves-effect waves-light btn-small red modal-trigger' data-target='edit_employee'  style='margin-left:5px' onclick=getEditIdEmp('" + data + "') ><i class=''></i> Edit</a>";
+                    "drawCallback": function (settings) {
+                        $("#pre-load").hide("slow", function () {
+                        });
+                    },
+                    "columns": [
+                        { "data": "SoHieu", "name": "SoHieu" },
+                        { "data": "TenNV", "name": "TenNV" },
+                        { "data": "TenChungChi", "name": "TenChungChi" },
+                        {
+                            "data": "NgayCap", "name": "NgayCap", "render": function (data) {
+                                return dateFormat(data);
+                            }
                         },
-                        "orderable": false,
-                        "searchable": false,
 
-                    },
-                    {
-                        "data": "SoHieu", "render": function (data) {
-                            return "<a class='waves-effect waves-light btn-small red modal-trigger' data-target='delete_employee'  style='margin-left:5px' onclick=getDeleteIdEmp('" + data + "') ><i class='fa fa-trash'></i> Xóa</a>";
+                        {
+                            "data": "SoHieu", "render": function (data) {
+                                return "<a class='waves-effect waves-light btn-small blue darken-2 modal-trigger' data-target='edit_employee'  style='margin-left:5px' onclick=getEditIdEmp('" + data + "') ><i class='far fa-edit'></i>Sửa</a>";
+                            },
+                            "orderable": false,
+                            "searchable": false
                         },
-                        "orderable": false,
-                        "searchable": false,
+                        {
+                            "data": "SoHieu", "render": function (data) {
+                                return "<a class='waves-effect waves-light btn-small red modal-trigger' data-target='delete_employee'  style='margin-left:5px' onclick=getDeleteIdEmp('" + data + "') ><i class='fa fa-trash'></i> Xóa</a>";
+                            },
+                            "orderable": false,
+                            "searchable": false
+                        },
+
+                    ],
+                    "language": {
+                        "emptyTable": "Không có dữ liệu"
                     },
+                    "autoWidth": false,
+                    "serverSide": "true",
+                    "order": [0, "asc"],
+                    "initComplete": function (settings, json) {
+                        $("#pre-load").hide("slow", function () {
+                        });
+                    }
+                });
+            $("#searchCirtificate").show();
+            //set onclick for tab-ccct
+            $("#tab-ccct").on("click", () => {
+                isSearchCertificate = true;
+                $("#searchCirtificate").show();
+                $("#searchCirtificateEmployee").hide();
+            })
+            //set onclick for ccnv
+            $("#tab-ccnv").on("click", () => {
+                $("#searchCirtificate").hide();
+                $("#searchCirtificateEmployee").show();
+                isSearchCertificate = false;
 
-                ],
-                "language": {
+            })
 
-                    "emptyTable": "No data found, Please click on <b>Add New</b> Button"
-                },
-                "autoWidth": false,
-            });
         });
         function dateFormat(d) {
             var dateString = d.substr(6);
@@ -259,35 +358,23 @@
 
         function SubmitForm(form) {
             $.validator.unobtrusive.parse(form);
+            $("#pre-load").show("slow", function () {
+            });
+            $("#pre-load").css("z-index", "99999");
             if ($(this).valid()) {
                 $.ajax({
                     url: form.action,
                     type: "POST",
-                    data: $(form).serialize(),
+                    data: function () {
+                        return $(form).serialize()
+                    },
                     success: () => {
                         dataTable.ajax.reload();
                         $.notify(data.message, {
                             globalPosition: "top center",
                             className: "success"
                         });
-                    },
-                })
-            }
-            return false;
-        }
-
-        function SubmitFormEmployee(form) {
-            $.validator.unobtrusive.parse(form);
-            if ($(this).valid()) {
-                $.ajax({
-                    url: form.action,
-                    type: "POST",
-                    data: $(form).serialize(),
-                    success: () => {
-                        dataCertificateEmp.ajax.reload();
-                        $.notify(data.message, {
-                            globalPosition: "top center",
-                            className: "success"
+                        $("#pre-load").hide("slow", function () {
                         });
                     },
                 })
@@ -314,10 +401,8 @@
                                 globalPosition: "top center",
                                 className: "success"
                             })
-
                         }
                     }
-
                 });
             }
 
@@ -337,10 +422,12 @@
                         {
                             dataTable.ajax.reload();
                             dataCertificateEmp.ajax.reload();
+                            $("#add_cir_emp").load('@Url.Action("AddCertificateEmployee")');
                             $.notify(data.message, {
                                 globalPosition: "top center",
                                 className: "success"
                             })
+
 
                         }
                     }
@@ -376,23 +463,27 @@
             }
 
         }
-        function getSearchId() {
-            searchId = $('#MaChungChi').val();
 
-        }
         $("#searchButton").click(function () {
-            if (searchId != null) {
-                $.ajax({
-                    type: "GET",
-                    url: '@Url.Action("EditCertificate", "Certificate")/' + id,
-                    success: function (data) {
-                        $("#edit-modal-body").html(data)
-                    }
-
-                });
-            }
+            var name_cirtificate = $("#searchByNameTxt").val();
+            var result = name_cirtificate.replace(/\s+/g, " ").trim()
+            //alert(result);
+            $("#pre-load").show("slow", function () { });
+            dataTable.ajax.url('@Url.Action("SearchCertificate", "Certificate")?TenChungChi=' + result).load(() => { $("#pre-load").hide("slow", function () { }) }, true)
         });
 
+        $("#searchEmpButton").click(function () {
+
+            var searchIdTxt = $("#searchIdTxt").val();
+            var searchNameCirTxt = $("#searchNameCirTxt").val();
+            var searchNameCirEmpTxt = $("#searchNameCirEmpTxt").val();
+            var stringArray = new Array();
+            stringArray[0] = searchIdTxt;
+            stringArray[1] = searchNameCirTxt.replace(/\s+/g, " ").trim();
+            stringArray[2] = searchNameCirEmpTxt.replace(/\s+/g, " ").trim();
+            //alert(stringArray[0]);
+            dataCertificateEmp.ajax.url('@Url.Action("SearchCertificateByNV", "Certificate")?ListSearch=' + stringArray).load(() => { $("#pre-load").hide("slow", function () { }) }, true)
+        });
     </script>
 }
 
