@@ -67,7 +67,7 @@
                             <a class="btn btn-small blue darken-2 modal-trigger input-field" href="@Url.Action("them-nhan-vien", "phong-tcld/quan-ly-nhan-vien")">Thêm</a>
                         </div>
                         <div class="col s3 m3 l3">
-                            <a class="btn btn-small blue darken-2 input-field" id="danhsachhosonhanvien" href="~/excel/TCLD/Brief/Danh sách hồ sơ nhân viên.xlsx"><i class="fas fa-file-excel"></i>&nbsp;Excel</a>
+                            <a class="btn btn-small blue darken-2 input-field" id="danhsachhosonhanvien"><i class="fas fa-file-excel"></i>&nbsp;Excel</a>
                         </div>
                     </div>
                 </div>
@@ -226,7 +226,18 @@
             });
         }
         $(document).ready(function () {
-            dataTable = $('#test-table').DataTable({
+             $("#pre-load").show("slow", function () {
+         });
+        $("#pre-load").css("z-index", "99999");
+            dataTable = $('#test-table')
+                .on('preXhr.dt', function (e, settings, data) {
+                      ////////////////////////////////////HIỆN LÊN MỖI KHI CHẠY AJAX//////////////////////////////////
+      				  $("#pre-load").show("slow", function () {
+      				   });
+      				  $("#pre-load").css("z-index", "99999");
+			          ////////////////////////////////////////////////////////////////////////
+                })
+                .DataTable({
                 "ajax": {
                     "url": "/phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien",
                     "type": "POST",
@@ -281,93 +292,38 @@
                         "searchable": false,
                         "width": "150px"
                     }
-                ],
+                    ],
+                "drawCallback": function (settings) {
+                                 ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
+                                  $("#pre-load").hide("slow", function () {
+                       		  });
+ 			        ////////////////////////////////////////////////
+                        },
                 "serverSide": "true",
                 "order": [0, "asc"],
                 "bLengthChange": false,
                 "bFilter": false,
                 "bInfo": false,
                 "bAutoWidth": false,
+                "initComplete": function(settings, json) {
+ ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
+    		$("#pre-load").hide("slow", function () {
+      		  });
+ //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
+  }
+
             });
         });
 
-        $("#searchButton").click(function () {
-            dataTable.destroy();
-            dataTable = $('#test-table').DataTable({
-                "language": {
-                    "test-table": "Không tìm thấy dữ liệu"
-                },
-                "ajax": {
-                    "url": "/phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien/search",
-                    "type": "POST",
-                    "search": false,
-                    "datatype": "json",
-                    "data": {
-                        "MaNV": $('#searchMaNV').val(),
-                        "TenNV": $('#searchTenNV').val(),
-                        "Gender": $('#searchGioiTinh').val(),
-                    },
-                    "cache": false
-                },
-                "columns": [
-                    {
-                        "data": "MaNV", "name": "MaNV", "render": function (data) {
-                            return "<a href='/phong-tcld/quan-ly-nhan-vien/xem-chi-tiet-nhan-vien?id=" + data + "' >" + data + "</a>"
-                        },
-                    },
-                    { "data": "Ten", "name": "Ten" },
-                    {
-                        "data": "NgaySinh", "name": "NgaySinh", "render": function (data) {
-                            return dateFormat(data);
-                        }
-                    },
-                    {
-                        "data": "GioiTinh", "name": "GioiTinh", "render": function (data) {
-                            return genderFormat(data);
-                        }
-                    },
-                    { "data": "SoDienThoai", "name": "SoDienThoai" },
-                    { "data": "TenPhanXuong", "name": "TenPhanXuong" },
-                    { "data": "TrangThaiLamViec", "name": "TrangThaiLamViec" },
-                    {
-                        "data": "MaNV", "render": function (data) {
-                            return "<a class='waves-effect waves-light btn blue darken-2 btn-small' href='/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien?id=" + data + "'  data-target='dropdown1'><span class='ti-pencil-alt'>&nbsp;Sửa</span></a>";
-
-                        },
-                        "orderable": false,
-                        "searchable": false,
-                        "width": "150px"
-                    },
-                    {
-                        "data": "MaNV", "render": function () {
-                            return "<a class='dropdown-trigger btn blue darken-2 btn-small' data-target='dropdown'><span class='fas fa-history'>&nbsp;Xem</span></a>";
-                        },
-                        "orderable": false,
-                        "searchable": false,
-                        "width": "150px"
-                    },
-                    {
-                        "data": "MaNV", "render": function (data) {
-                            return "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='getTlhd(" + data + ")' data-target='deleteBriefs'><span class='fas fa-times-circle'>&nbsp;TLHĐ</span></a>";
-                        },
-                        "orderable": false,
-                        "searchable": false,
-                        "width": "150px"
-                    }
-                ],
-
-                "serverSide": "true",
-                "order": [0, "asc"],
-                "bLengthChange": false,
-                "bFilter": false,
-                "bInfo": false,
-                "bAutoWidth": false,
-                "initComplete": function (settings, json) {
+        $(document).ready(function () {
+            var dataTable = $('#test-table').DataTable();
+            $("#searchButton").click(function () {
+               dataTable.ajax.reload(function () {
                     $.notify("Tìm kiếm thành công", {
                         globalPosition: "top center",
                         className: "success"
                     })
-                }
+                });
             });
         });
 
@@ -433,5 +389,17 @@
             }
             return false;
         }
+
+        $("#danhsachhosonhanvien").click(function () {
+            $("#pre-load").show();
+            $.ajax({
+                type: "POST",
+                url: "/phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien/excel",
+                cache: false
+            }).done(function () {
+                window.location.href = "/excel/TCLD/download/Danh_sách_nhân_viên.xlsx";
+                $("#pre-load").hide();
+            })
+        });
     </script>
 }
