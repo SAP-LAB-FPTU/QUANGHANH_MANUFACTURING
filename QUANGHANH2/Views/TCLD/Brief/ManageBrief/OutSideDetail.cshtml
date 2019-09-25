@@ -44,7 +44,7 @@
                             </div>
                             <div class="col m4">
                                 <label class='custom-label'>Ngày tháng năm sinh</label>
-                                <input disabled="" type="text" id="ngaythangnamsinh" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
+                                <input disabled="" type="text" id="ngaythangnamsinh" data-language="vi" data-min-view="days" data-date-format="mm/dd/yyyy" class="datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
                             </div>
                         </div>
                         <div class="input-field col m12">
@@ -104,11 +104,11 @@
 
                             <div class="col m3">
                                 <label class='custom-label'>Ngày tháng năm QĐ</label>
-                                <input disabled type="text" id="ngayQD" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
+                                <input disabled type="text" id="ngayQD" data-language="vi" data-min-view="days" data-date-format="mm/dd/yyyy" class="datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
                             </div>
                             <div class="col m3">
                                 <label class='custom-label'>Ngày chấm dứt</label>
-                                <input disabled type="text" id="ngayCD" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
+                                <input disabled type="text" id="ngayCD" data-language="vi" data-min-view="days" data-date-format="mm/dd/yyyy" class="datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
                             </div>
                         </div>
                     </div>
@@ -218,7 +218,7 @@
             </div>
             <div class="col m4">
                 <label class='custom-label'>Ngày trả</label>
-                <input type="text" id="suangaytra" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
+                <input type="text" id="suangaytra" data-language="vi" data-min-view="days" data-date-format="mm/dd/yyyy" class="datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
             </div>
 
         </div>
@@ -277,33 +277,21 @@
 
         });
         function loadThongTinGiayTo() {
-            if (table != null) table.destroy();
-            table = $('#example')
-                .on('preXhr.dt', function (e, settings, data) {
-
-                                   ////////////////////////////////////HIỆN LÊN MỖI KHI CHẠY AJAX//////////////////////////////////
-      				  $("#pre-load").show("slow", function () {
+             $("#pre-load").show("slow", function () {
       				   });
-      				  $("#pre-load").css("z-index", "99999");
-			          ////////////////////////////////////////////////////////////////////////
 
-                           //     data.sessionId = "@ViewBag.id";
-                            //    data.selectList = JSON.stringify(arrCarSelected);
-                            })
-                .DataTable({
-                "processing": false,
-                "searching": false,
-                "info": false,
-                "paging":false,
-                "bLengthChange": false,
+            table = $('#example').DataTable({
+
                 "ajax": {
                         "url": "/Brief/thongTinGiayTo",
                         "type": "GET",
-                        "data": {manv:@ViewBag.manv},
+                        "data":  { manv:@ViewBag.manv },
                         "datatype": "json"
-
-
                 },
+                 "drawCallback": function( settings ) {
+        $("#pre-load").hide("slow", function () {
+      		  });
+    },
                 "columns": [
                     { data: 'sohieu' },
                     { data: 'kieu' },
@@ -318,6 +306,11 @@
                         }
                     }
                 ],
+                  "processing": false,
+                "searching": false,
+                "info": false,
+                "paging":false,
+                "bLengthChange": false,
                 "initComplete":function( settings, json){
                       $("#pre-load").hide("slow", function () {
       		  });
@@ -419,7 +412,7 @@
                         //console.log($('#form1').find('input')[0]);
 
                         $.each($('#form1').find('input'), function (index, value) {
-                            if(value.id !='sothe' && value.id !='hoVaTen' )
+                            if(value.id !='sothe' && value.id !='hoVaTen' && value.id !='donvicd')
                             value.disabled = false;
                         });
 
@@ -752,22 +745,29 @@
                 "sohieu":$('#suasohieu').val(),
                 "kieu":$('#suakieu').val(),
                 "ngaytra":$('#suangaytra').val(),
-            }
+            };
+
             $("#pre-load").show("slow", function () {
       				   });
-      				  $("#pre-load").css("z-index", "99999");
-             $.ajax({
-                        type: "POST",
-                        url: "/Brief/updateGiayTo",
-                        data: { json: JSON.stringify(object) },
-                        dataType: "json",
-                        success: function (data) {
-                            // alert('updateChamDut');
+      				  $("#pre-load").css("z-index", "99999"); $("#pre-load").show("slow", function () {
+      				   });
+            $.ajax({
+                type: "POST",
+                url: "/Brief/updateGiayTo",
+                data: { json: JSON.stringify(object) },
+                dataType: "json",
+                success: function (data) {
+                    // alert('updateChamDut');
+                    console.log('update giay to');
 
-                            loadThongTinGiayTo();
-                        }
+                    //loadThongTinGiayTo();
+                    //     setTimeout(() => {
+                    table.ajax.reload(() => { }, false);
+                    //     },500)
 
-                    });
+                }
+
+            });
 
         }
 
@@ -781,8 +781,12 @@
         });
 
         function huyBoSuaGiayTo() {
+            // $("#pre-load").show("slow", function () {
+      				  // });
+      				  //$("#pre-load").css("z-index", "99999"); $("#pre-load").show("slow", function () {
+      				  // });
 
-            loadThongTinGiayTo();
+            //table.ajax.url('@Url.Action("thongTinGiayTo", "Brief")').load(() => { $("#pre-load").hide() }, false);
         }
 
 

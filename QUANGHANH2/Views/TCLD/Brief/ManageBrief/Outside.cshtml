@@ -23,7 +23,7 @@
 
                 
 
-                <div class="col l2 m12 s12 input-field">
+                <div class="col l3 m12 s12 input-field">
                     <button class="btn blue darken-2 btn-small" id="searchButton">Tìm kiếm</button>
                 </div>
                 @*<div class="col s12 m12 l12" id="btn-fix-save">
@@ -104,11 +104,11 @@
 
 
     @section scripts{
-        <script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
         <script>
                 var table;
                 $(document).ready(function () {
-
+                    console.log('ready');
                     table = $('#example')
                         .on('preXhr.dt', function (e, settings, data) {
 
@@ -131,6 +131,10 @@
                             "type": "POST",
                             "datatype": "json"
                         },
+                         "drawCallback": function( settings ) {
+                            $("#pre-load").hide("slow", function () {
+      		              });
+                                },
                         "columns": [
                             {
                                 data: 'stt', "render": function (data, type, full, meta) {
@@ -184,70 +188,22 @@
                 // click search
             function search() {
 
-                    if (table != null) {
-                       table.destroy();
-                    }
-                    
-                    table = $('#example')
-                        .on('preXhr.dt', function (e, settings, data) {
-
-                                   ////////////////////////////////////HIỆN LÊN MỖI KHI CHẠY AJAX//////////////////////////////////
-      				  $("#pre-load").show("slow", function () {
-      				   });
-      				  $("#pre-load").css("z-index", "99999");
-			          ////////////////////////////////////////////////////////////////////////
-
-                           //     data.sessionId = "@ViewBag.id";
-                            //    data.selectList = JSON.stringify(arrCarSelected);
-                            })
-                        .DataTable({
-                        "processing": false,
-                        "searching": false,
-                        "info": false,
-                        "bLengthChange": false,
-                        "ajax": {
-                            "type": "GET",
-                            "url": "/Brief/search",
-                            "dataType": "json",
-                            "data": { manv: $('#searchMa').val(), ten: $('#searchTen').val() , loaichamdut:$('#searchLoaiChamDut').val()}
-                        },
-                        "columns": [
-                            {
-                                data: 'stt', "render": function (data, type, full, meta) {
-                                    return meta.row + 1;
-                                }
-                            },
-                            { data: 'manv' },
-                            {
-                                data: 'ten', "render": function (data, type, row) {
-                                    return "<a href ='ho-so-ngoai-cong-ty/chi-tiet-ho-so?manv=" + row['manv'] + "'>" + data + "</a>";
-                                }
-                            },
-                            { data: 'dvcdhd' },
-                            { data: 'sobhxh' },
-                            { data: 'sdt' },
-                            { data: 'diachi' },
-                            {
-                                data: 'edit', "render": function (data, type, row) {
-                                    return "<a class='waves-effect waves-light btn blue darken-2 btn-small btn-small' href ='ho-so-ngoai-cong-ty/chi-tiet-ho-so?manv=" + row['manv'] + "'><span class='ti-pencil-alt'>&nbsp;</span>" + 'Sửa' + "</a>";
-
-                                }
-                            }
-
-                            ],
-                         "initComplete": function (settings, json) {
-                            $("#pre-load").hide("slow", function () {
-      		  });
-                            }
-
-                    });
-
-
-
-
-
-
+                console.log('search');
+                var object = {
+                    "manv": $('#searchMa').val(),
+                    "ten": $('#searchTen').val(),
+                    "loaichamdut": $('#searchLoaiChamDut').val()
                 }
+                var x = JSON.stringify(object);
+                $("#pre-load").show("slow", function () {
+                });
+                $("#pre-load").css("z-index", "99999");
+                table.ajax.url('@Url.Action("searchOutSide", "Brief")?data=' + x).load(() => { $("#pre-load").hide() }, false);
+
+
+
+
+            }
                 $('#searchButton').click(function (e) {
                     console.log("Click search");
                     e.preventDefault();
