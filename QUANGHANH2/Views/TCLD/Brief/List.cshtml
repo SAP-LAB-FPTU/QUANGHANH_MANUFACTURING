@@ -17,20 +17,45 @@
                 <hr>
                 <div class="col s12 m12 l12">
                     <div class="row center">
-                        <div class="col l3 m12 s12 input-field">
+                        <div class="col l2 m12 s12 input-field">
                             <input type="text" placeholder="Mã nhân viên" class='form-control autocomplete_MNV' id="searchMaNV" multiple />
                         </div>
-                        <div class="col l3 m12 s12 input-field">
+                        <div class="col l2 m12 s12 input-field">
                             <input type="text" placeholder="Tên nhân viên" class='form-control autocomplete_Name' id="searchTenNV" multiple />
                         </div>
-                        <div class="col l3 m12 s12 input-field">
+                        <div class="col l2 m12 s12 input-field">
                             <select class="form-control" id="searchGioiTinh">
                                 <option value="" selected>Giới tính</option>
                                 <option value="true">Nam</option>
                                 <option value="false">Nữ</option>
                             </select>
                         </div>
-                        <div class="col l3 m12 s12 input-field">
+                        <div class="col l2 m12 s12 input-field">
+                            <select class="form-control" id="departure">
+                                <option value="" disabled selected>Phòng ban</option>
+                                <option value="1">Phòng tổ chức lao động</option>
+                                <option value="2">Phòng cơ điện vận tải</option>
+                                <option value="2">Phòng an toàn</option>
+                                <option value="2">Phân xưởng khai thác 1</option>
+                                <option value="2">Phân xưởng khai thác 2</option>
+                                <option value="2">Phân xưởng khai thác 3</option>
+                                <option value="2">Phân xưởng khai thác 5</option>
+                                <option value="2">Phân xưởng đào lò 1</option>
+                                <option value="2">Phân xưởng đào lò 2</option>
+                                <option value="2">Phân xưởng đào lò 3</option>
+                                <option value="2">Phân xưởng đào lò 5</option>
+                            </select>
+                        </div>
+                        <div class="col l2 m12 s12 input-field">
+                            <select class="form-control" id="position">
+                                <option value="" disabled selected>Phòng chức vụ</option>
+                                <option value="1">Trưởng phòng</option>
+                                <option value="2">Nhân viên kinh doanh</option>
+                                <option value="2">Phó quản đốc</option>
+                                <option value="2">Quản đốc</option>
+                            </select>
+                        </div>
+                        <div class="col l2 m12 s12 input-field">
                             <button class="btn blue darken-2 btn-small" id="searchButton"><i class="fas fas fa-search"></i></button>
                         </div>
                     </div>
@@ -102,86 +127,66 @@
         <div class="modal-header">
             <h3 class="modal-title">Xác nhận thanh lý hợp đồng</h3>
         </div>
-        <form action="/delete" method="post">
-
-            <div class="modal-body">
-                <p class="red-text">Lý do thanh lý hợp đồng?</p>
-                <div class="row">
-                    <div class="col s12 m12 l12">
-                        <label>Số quyết định</label>
-                        <input name="soQD" type='text' class='center form-control' placeholder="Số quyết định" />
-                    </div>
-
-                    <div class="col s6 m6 l6">
-                        <label>Lí do chấm dứt</label>
-                        <select name="lydo" class="form-control" id="tlhd" onchange="onSelectTypeOfEndContract()">
-                            <option value="Đi học">Đi học</option>
-                            <option value="Hưu trí">Hưu trí</option>
-                            <option value="Xin chấm dứt HĐLĐ, thôi việc">Xin chấm dứt HĐLĐ, thôi việc</option>
-                            <option value="Sa thải">Sa thải</option>
-                            <option value="Đơn phương chấm dứt HĐLĐ, bỏ việc">Đơn phương chấm dứt HĐLĐ, bỏ việc</option>
-                            <option value="Đi nghĩa vụ quân sự">Đi nghĩa vụ quân sự</option>
-                            <option id="dvn" value="Đi đơn vị ngoài">Đi đơn vị ngoài</option>
-                            <option value="Ốm chết rủi ro">Ốm chết rủi ro</option>
-                            <option value="Chết do tai nạn lao động">Chết do tai nạn lao động</option>
-                            <option id="khac" value="Các trường hợp khác">Các trường hợp khác</option>
-                        </select>
-                    </div>
-                    <div class="col s6 m6 l6">
-                        <label>Ngày chấm dứt</label>
-                        <input name="date" type='text' class='datepicker-here center form-control' data-language='vi' value="dd/mm/yyyy" />
-                    </div>
-
+        <div class="modal-body">
+            <p class="red-text">Lý do thanh lý hợp đồng?</p>
+            <div class="row">
+                <div class="col s12 m12 l12">
+                    <label>Số quyết định</label>
+                    <input type='text' class='center form-control' placeholder="Số quyết định" />
                 </div>
-                <div class="row">
-                    <div id="containerOption1" class="col s6 m6 l6" style="display: none">
-                        <label>
-                            <input name="group1" type="radio" checked />
-                            <span>Đi các đơn vị trong TKV</span>
-                        </label>
-                        <label>
-                            <input name="group1" type="radio" />
-                            <span>Đi các đơn vị ngoài TKV</span>
-                        </label>
-                    </div>
-                    <div id="containerOption2" class="col s6 m6 l6" style="display: none">
-                        <label>
-                            <input name="group2" type="radio" checked />
-                            <span>Hết hạn HĐLĐ</span>
-                        </label>
-                        <br />
-                        <label>
-                            <input name="group2" type="radio" />
-                            <span>Trường hợp khác</span>
-                        </label>
-                    </div>
+
+                <div class="col s6 m6 l6">
+                    <label>Lí do chấm dứt</label>
+                    <select class="form-control" id="tlhd" onchange="onSelectTypeOfEndContract()">
+                        <option>Đi học</option>
+                        <option>Hưu trí</option>
+                        <option>Xin chấm dứt HĐLĐ, thôi việc</option>
+                        <option>Sa thải</option>
+                        <option>Đơn phương chấm dứt HĐLĐ, bỏ việc</option>
+                        <option>Đi nghĩa vụ quân sự</option>
+                        <option id="dvn">Đi đơn vị ngoài</option>
+                        <option>Ốm chết rủi ro</option>
+                        <option>Chết do tai nạn lao động</option>
+                        <option id="khac">Các trường hợp khác</option>
+                    </select>
+                </div>
+                <div class="col s6 m6 l6">
+                    <label>Ngày chấm dứt</label>
+                    <input type='text' class='datepicker-here center form-control' data-language='vi' value="dd/mm/yyyy" />
+                </div>
+
+            </div>
+            <div class="row">
+                <div id="containerOption1" class="col s6 m6 l6" style="display: none">
+                    <label>
+                        <input name="group1" type="radio" checked />
+                        <span>Đi các đơn vị trong TKV</span>
+                    </label>
+                    <label>
+                        <input name="group1" type="radio" />
+                        <span>Đi các đơn vị ngoài TKV</span>
+                    </label>
+                </div>
+                <div id="containerOption2" class="col s6 m6 l6" style="display: none">
+                    <label>
+                        <input name="group2" type="radio" checked />
+                        <span>Hết hạn HĐLĐ</span>
+                    </label>
+                    <br />
+                    <label>
+                        <input name="group2" type="radio" />
+                        <span>Trường hợp khác</span>
+                    </label>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="submit" onclick="getOne()" value="" class="btn blue darken-2 modal-close">Xác nhận</button>
-                <input type="hidden" id="tlhdd" />
-                <button type="button" class="btn blue darken-2 modal-close">Hủy</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<div id="history" class="modal open">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Chuyển đến</h3>
         </div>
-        <div class="modal-body row">
-            <div class="col l6 m6 s6 center">
-                <a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/lich-su-lam-viec")" class="waves-light btn blue darken-2 btn-small">Lịch sử làm việc</a>
-            </div>
-            <div class="col l6 m6 s6 center">
-                <a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chi-tiet-dieu-chuyen")" class="waves-effect waves-light btn blue darken-2 btn-small">Điều chuyển</a>
-            </div>
+        <div class="modal-footer">
+            <button type="submit" onclick="getOne()" value="" class="btn blue darken-2 modal-close">Xác nhận</button>
+            <input type="hidden" id="tlhdd" />
+            <button type="button" class="btn blue darken-2 modal-close">Hủy</button>
         </div>
     </div>
 </div>
-
 <script src="~/js/Custom JS/TCLD/Brief/Briefs_List.js"></script>
 <script src="~/js/advancedsearch/advancedsearch.js"></script>
 <script src="~/js/Custom JS/form-input-border.js"></script>
@@ -220,7 +225,6 @@
                 }
             });
         }
-
         $(document).ready(function () {
              $("#pre-load").show("slow", function () {
          });
@@ -238,11 +242,10 @@
                     "url": "/phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien",
                     "type": "POST",
                     "datatype": "json",
-                    "data": {
-                        "MaNV": function () { return $('#searchMaNV').val() },
-                        "TenNV": function () { return $('#searchTenNV').val() },
-                        "Gender": function () { return $('#searchGioiTinh').val() },
-                    }
+                    //'data': function (d) {
+                    //    //console.log(d.order);
+                    //    return JSON.stringify( d );
+                    //  }
                 },
                 "columns": [
                     {
@@ -274,8 +277,8 @@
                         "width": "150px"
                     },
                     {
-                        "data": "MaNV", "render": function (data) {
-                            return "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' data-target='history'><span class='fas fa-history'>&nbsp;Xem</span></a>";
+                        "data": "MaNV", "render": function () {
+                            return "<a class='dropdown-trigger btn blue darken-2 btn-small' data-target='dropdown'><span class='fas fa-history'>&nbsp;Xem</span></a>";
                         },
                         "orderable": false,
                         "searchable": false,
@@ -323,7 +326,6 @@
                 });
             });
         });
-
 
         function getTlhd(a) {
             document.getElementById("tlhdd").value = a;

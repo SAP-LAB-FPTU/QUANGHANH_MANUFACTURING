@@ -16,6 +16,7 @@
     <link href="~/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
     <link href="~/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css" rel="stylesheet">
     <link href="~/dist/css/style.css" rel="stylesheet">
+    <link href="~/css/preloader/css.css" rel="stylesheet" />
     <!-- This page CSS -->
     <link href="~/dist/css/pages/dashboard1.css" rel="stylesheet">
     <!--Cutstom css QUANG HANH-->
@@ -89,6 +90,21 @@
         <!-- ============================================================== -->
         <!-- Preloader - style you can find in spinners.css -->
         <!-- ============================================================== -->
+        <div id="pre-load" hidden>
+            <div class="loading">
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div><div class="gap-patch">
+                            <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="preloader">
             <div class="loader">
                 <div class="loader__figure"></div>
@@ -369,7 +385,7 @@
                                         <a href="/phong-tcld/nang-suat-lao-dong-va-tien-luong/nang-suat-lao-dong-va-tien-luong-theo-cac-px-trong-ngay" id=""><i class="material-icons">list</i><span class="hide-menu">Theo ngày</span></a>
                                     </li>
                                     @*
-                                        <li><a href="/phong-tcld/nang-suat-lao-dong-va-tien-luong/nang-suat-lao-dong-va-tien-luong-theo-cac-px-trong-ngay"><i class="material-icons">bookmark</i><span class="hide-menu">NSLĐ và tiền lương theo ca</span></a></li>*@
+                                    <li><a href="/phong-tcld/nang-suat-lao-dong-va-tien-luong/nang-suat-lao-dong-va-tien-luong-theo-cac-px-trong-ngay"><i class="material-icons">bookmark</i><span class="hide-menu">NSLĐ và tiền lương theo ca</span></a></li>*@
                                 </ul>
                             </div>
                         </li>
@@ -762,3 +778,7 @@
 </body>
 
 </html>
+<script>
+    $(".loading").css("z-index", 99999);
+    $('body').css('overflow', '');
+</script>

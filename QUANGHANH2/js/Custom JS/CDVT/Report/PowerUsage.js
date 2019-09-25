@@ -1,4 +1,9 @@
-﻿$(function () {
+﻿var this_js_script = $('script[src*=PowerUsage]'); // or better regexp to get the file name..
+var nangluong;
+
+$(function () {
+    nangluong = this_js_script.attr('nangluong');
+
     "use strict";
     // ------------------------------
     // Basic line chart
@@ -35,14 +40,14 @@
         // Vertical axis
         yAxis: [{
             type: 'category',
-            data: ["Bơm nước hầm lò", "Bơm nước lộ thiên", "Thông gió", "Đào lò chuẩn bị sx", "Khai thác than lò chợ", "Chống xén", "Sàng tuyển", "Vận băng tải", "Vận tầu điện", "Trục tải", "Khí nén", "Phục vụ", "Khác"]
+            data: ["Bơm nước lộ thiên", "Thông gió", "Đào lò chuẩn bị sx", "Khai thác than lò chợ", "Chống xén", "Sàng tuyển", "Vận băng tải", "Vận tầu điện", "Trục tải", "Khí nén", "Phục vụ", "Khác"]
         }],
 
         // Add series
         series: [
             {
                 type: 'bar',
-                data: [59.74, 38.79, 50.08, 52.28, 47.28, 32.22, 36.05, 47.18, 53.59, 54.43, 51.09, 49.05, 29.47]
+                data: [38.79, 50.08, 52.28, 47.28, 32.22, 36.05, 47.18, 53.59, 54.43, 51.09, 49.05, 29.47]
             }
         ]
     };

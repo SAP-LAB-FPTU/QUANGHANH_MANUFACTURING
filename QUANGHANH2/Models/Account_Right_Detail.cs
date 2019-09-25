@@ -15,7 +15,7 @@ namespace QUANGHANH2.Models
     public partial class Account_Right_Detail
     {
         public int ID { get; set; }
-        public string AccountID { get; set; }
+        public int AccountID { get; set; }
         public int RightID { get; set; }
     }
 }
