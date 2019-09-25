@@ -1,4 +1,5 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "cap-nhat-thiet-bi";
     Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
 }
@@ -24,7 +25,7 @@
                                     <div class="col l4 m4 s12">
                                         <div class="row">
                                             <div class="col l10 m10 s12 input-field">
-                                                <input type="number" placeholder="Tìm kiếm theo số quyết định" class='form-control' id="id-search" />
+                                                <input type="text" placeholder="Tìm kiếm theo số quyết định" class='form-control' id="id-search" />
                                             </div>
                                             <div class="col l10 m10 s12 input-field">
                                                 <select class="form-control" id="type-search">
@@ -146,18 +147,9 @@
         $(document).ready( function () {
             dataTable = $('#DSQD_id').dataTable({
                 "ajax": {
-                    "url": "/phong-cdvt/cap-nhat/quyet-dinh/search",
+                    "url": "/phong-cdvt/cap-nhat/quyet-dinh",
                     "type": "POST",
-                        "data": {
-                            "documentary_id": function () { return $('#id-search').val() },
-                            "type": function () { return $('#type-search').val() },
-                            "department": function () { return $('#department-search').val() },
-                            "reason": function () { return $('#reason-search').val() },
-                            "dateStart": function () { return $('#date-start-search').val() },
-                            "dateEnd": function () { return $('#date-end-search').val() }
-                        },
                     "datatype": "json",
-                    "cache": false
                 },
                 "columns": [
                     {
@@ -194,14 +186,62 @@
 
         $(document).ready(function () {
             var dataTable = $('#DSQD_id').DataTable();
-            //search
+            //ajax search
             $("#searchButton1").click(function () {
                 $("#pre-load").show();
-                dataTable.ajax.reload(function () {
-                    $.notify("Tìm kiếm thành công", {
-                        globalPosition: "top center",
-                        className: "success"
-                    })
+                dataTable.destroy();
+                dataTable = $('#DSQD_id').DataTable({
+                    "language": {
+                        "emptyTable": "Không tìm thấy dữ liệu"
+                    },
+                    "ajax": {
+                        "url": "/phong-cdvt/cap-nhat/quyet-dinh/search",
+                        "type": "POST",
+                        "search": false,
+                        "datatype": "json",
+                        "data": {
+                            "documentary_id": $('#id-search').val(),
+                            "type": $('#type-search').val(),
+                            "department": $('#department-search').val(),
+                            "reason": $('#reason-search').val(),
+                            "dateStart": $('#date-start-search').val(),
+                            "dateEnd": $('#date-end-search').val()
+                        },
+                        "cache": false
+                    },
+                    "columns": [
+                        {
+                            "data": "stringlink", "name": "documentary_id",
+                            "render": function (data) {
+                                return "<a href=\"quyet-dinh/" + data.split("^")[0] + "?id=" + data.split("^")[1] + "\"> " + data.split("^")[1] + "</a>";
+                            },
+                        },
+                        { "data": "stringtype", "name": "stringtype" },
+                        { "data": "department_name", "name": "department_name" },
+                        { "data": "stringdate", "name": "stringdate" },
+                        { "data": "person_created", "name": "person_created" },
+                        { "data": "reason", "name": "reason" },
+                        { "data": "outincome", "name": "out_in_come" },
+                        { "data": "stringstatus", "name": "stringstatus" },
+                    ],
+                    "serverSide": "true",
+                    "order": [0, "asc"],
+                    "rowId": "incident_id",
+                    "lengthChange": false,
+                    "searching": false,
+                    "initComplete": function (settings, json) {
+                        $.notify("Tìm kiếm thành công", {
+                            globalPosition: "top center",
+                            className: "success"
+                        })
+                        $('#pre-load').hide();
+                    },
+                    "preDrawCallback": function (settings) {
+                        $('#pre-load').show();
+                    },
+                    "drawCallback": function (settings) {
+                        $('#pre-load').hide();
+                    }
                 });
             });
         })

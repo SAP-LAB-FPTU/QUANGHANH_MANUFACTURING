@@ -18,5 +18,6 @@ namespace QUANGHANH2.Models
         public string documentary_code { get; set; }
 
 
+        public string idAndEquip { get; set; }
     }
 }

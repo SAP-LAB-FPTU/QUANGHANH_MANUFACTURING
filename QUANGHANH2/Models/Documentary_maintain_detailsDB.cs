@@ -16,5 +16,6 @@ namespace QUANGHANH2.Models
         public string reason { get; set; }
         public int order_number { get; set; }
         public string documentary_code { get; set; }
+        public string idAndEquip { get; set; }
     }
 }

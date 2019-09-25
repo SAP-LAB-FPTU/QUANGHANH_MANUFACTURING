@@ -18,6 +18,7 @@ namespace QUANGHANH2.Models
         public Documentary()
         {
             this.Acceptances = new HashSet<Acceptance>();
+            this.Documentary_big_maintain_details = new HashSet<Documentary_big_maintain_details>();
             this.Documentary_liquidation_details = new HashSet<Documentary_liquidation_details>();
             this.Documentary_maintain_details = new HashSet<Documentary_maintain_details>();
             this.Documentary_moveline_details = new HashSet<Documentary_moveline_details>();
@@ -27,7 +28,8 @@ namespace QUANGHANH2.Models
             this.Supply_Documentary_Equipment = new HashSet<Supply_Documentary_Equipment>();
         }
     
-        public string documentary_id { get; set; }
+        public int documentary_id { get; set; }
+        public Nullable<int> documentary_code { get; set; }
         public string documentary_type { get; set; }
         public string department_id { get; set; }
         public System.DateTime date_created { get; set; }
@@ -39,6 +41,8 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Acceptance> Acceptances { get; set; }
         public virtual Department Department { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Documentary_big_maintain_details> Documentary_big_maintain_details { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Documentary_liquidation_details> Documentary_liquidation_details { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

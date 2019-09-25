@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.Script.Serialization;
 
 namespace QUANGHANHCORE.Controllers.CDVT.Report
 {
@@ -41,9 +42,33 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                 int nam = Convert.ToInt32(year);
                 getContentbyYear(nam);
             }
-            Wherecondition(type, date, month, quarter, year);
             return View("/Views/CDVT/Report/FuelConsumption.cshtml");
         }
+
+        [Route("phong-cdvt/bao-cao/nhien-lieu")]
+        [HttpPost]
+        public ActionResult List(string type, string date, string month, string quarter, string year)
+        {
+            string query = "";
+            if (type == null)
+            {
+                var ngay = DateTime.Now.Date.ToString("dd/MM/yyyy");
+                query = Wherecondition("day", ngay, null, null, null);
+            }
+            else
+            {
+                query = Wherecondition(type, date, month, quarter, year);
+            }
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                List<contentreport> listdata = db.Database.SqlQuery<contentreport>(query).ToList();
+                var js = Json(new { success = true, data = listdata }, JsonRequestBehavior.AllowGet);
+                var dataserialize = new JavaScriptSerializer().Serialize(js.Data);
+                return js;
+            }
+        }
+
+
         [Route("phong-cdvt/bao-cao/nhien-lieu/excel")]
         public ActionResult Export()
         {
@@ -195,7 +220,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
         }
 
 
-        private void Wherecondition(string type, string date, string month, string quarter, string year)
+        private string Wherecondition(string type, string date, string month, string quarter, string year)
         {
             string query = "";
             if (type == null)
@@ -203,7 +228,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                 var ngay = DateTime.Now.Date;
                 query = "select MONTH(date) as Thang, YEAR(date) as Nam,c.equipmentId as MaThietBi, " +
                 "equipment_name as TenThietBi, supply_name as LoaiNhienLieu,consumption_value as " +
-                "LuongTieuThu from Fuel_activities_consumption a , Supply b, Equipment c " +
+                 "LuongTieuThu, unit as DonVi from Fuel_activities_consumption a , Supply b, Equipment c " +
                 "where a.fuel_type=b.supply_id and a.equipmentId =c.equipmentId " +
                 "and fuel_type in ('XANG', 'DAU', 'DAUMO') and date = '" + ngay+"'";
             }
@@ -212,7 +237,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                 var ngay = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                 query = "select MONTH(date) as Thang, YEAR(date) as Nam,c.equipmentId as MaThietBi, " +
                 "equipment_name as TenThietBi, supply_name as LoaiNhienLieu,consumption_value as " +
-                "LuongTieuThu from Fuel_activities_consumption a , Supply b, Equipment c " +
+                 "LuongTieuThu, unit as DonVi from Fuel_activities_consumption a , Supply b, Equipment c " +
                 "where a.fuel_type=b.supply_id and a.equipmentId =c.equipmentId " +
                 "and fuel_type in ('XANG', 'DAU', 'DAUMO') and date = '" + ngay + "'";
             }
@@ -222,7 +247,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                 int nam = Convert.ToInt32(year);
                 query = "select MONTH(date) as Thang, YEAR(date) as Nam,c.equipmentId as MaThietBi, " +
                 "equipment_name as TenThietBi, supply_name as LoaiNhienLieu,consumption_value as " +
-                "LuongTieuThu from Fuel_activities_consumption a , Supply b, Equipment c " +
+                "LuongTieuThu, unit as DonVi from Fuel_activities_consumption a , Supply b, Equipment c " +
                 "where a.fuel_type=b.supply_id and a.equipmentId =c.equipmentId " +
                 "and fuel_type in ('XANG', 'DAU', 'DAUMO') and YEAR(date) = " + nam + " and MONTH(date) = " + thang;
             }
@@ -248,7 +273,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                 }
                 query = "select MONTH(date) as Thang, YEAR(date) as Nam,c.equipmentId as MaThietBi, " +
                 "equipment_name as TenThietBi, supply_name as LoaiNhienLieu,consumption_value as " +
-                "LuongTieuThu from Fuel_activities_consumption a , Supply b, Equipment c " +
+                "LuongTieuThu, unit as DonVi from Fuel_activities_consumption a , Supply b, Equipment c " +
                 "where a.fuel_type=b.supply_id and a.equipmentId =c.equipmentId " +
                 "and fuel_type in ('XANG', 'DAU', 'DAUMO') and YEAR(date) = " + nam + " and Month(date) in "+quy;
             }
@@ -257,15 +282,13 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                 int nam = Convert.ToInt32(year);
                 query = "select MONTH(date) as Thang, YEAR(date) as Nam,c.equipmentId as MaThietBi, " +
                 "equipment_name as TenThietBi, supply_name as LoaiNhienLieu,consumption_value as " +
-                "LuongTieuThu from Fuel_activities_consumption a , Supply b, Equipment c " +
+                "LuongTieuThu, unit as DonVi from Fuel_activities_consumption a , Supply b, Equipment c " +
                 "where a.fuel_type=b.supply_id and a.equipmentId =c.equipmentId " +
                 "and fuel_type in ('XANG', 'DAU', 'DAUMO') and YEAR(date) = " + nam;
             }
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-            {
-                ViewBag.ContentReport = db.Database.SqlQuery<contentreport>(query).ToList();
-            }
+            return query;
+            
         }
 
 
@@ -284,5 +307,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
         public string TenThietBi { get; set; }
         public string LoaiNhienLieu { get; set; }
         public int LuongTieuThu { get; set; }
+        public string DonVi { get; set; }
     }
 }

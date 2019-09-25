@@ -1,18 +1,16 @@
-.loading {
+﻿.loading {
     background-color: #ffffffd1;
     clear: both;
     position: fixed;
     z-index: -1;
     height: 100%;
     width: 100%;
-    background-image: url('logo.png');
-    background-repeat: no-repeat;
-    background-position: center;
 }
 
 #pre-load {
     position: absolute;
 }
+
 .preloader-wrapper {
     position: absolute;
     top: 0;
