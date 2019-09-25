@@ -6,7 +6,6 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using XCrypt;
 
 namespace QUANGHANH2.Controllers
 {
@@ -245,7 +244,7 @@ namespace QUANGHANH2.Controllers
                         {
                             Name = Name,
                             Username = Username,
-                            Password = passXc,
+                            Password = Password,
                             Position = Position,
                             CDVT = Convert.ToBoolean(module1),
                             TCLD = Convert.ToBoolean(module2),
@@ -283,7 +282,7 @@ namespace QUANGHANH2.Controllers
                             db.SaveChanges();
                             foreach (var r in listRight)
                             {
-                                if (!String.IsNullOrEmpty(r.ID + ""))
+                                if (!String.IsNullOrEmpty(r.ID+""))
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
@@ -306,7 +305,7 @@ namespace QUANGHANH2.Controllers
                             }
                             foreach (var r in listRight)
                             {
-                                if (!String.IsNullOrEmpty(r.ID + ""))
+                                if (!String.IsNullOrEmpty(r.ID+""))
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
@@ -329,7 +328,7 @@ namespace QUANGHANH2.Controllers
                             }
                             foreach (var r in listRight)
                             {
-                                if (!String.IsNullOrEmpty(r.ID + ""))
+                                if (!String.IsNullOrEmpty(r.ID+""))
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
@@ -352,7 +351,7 @@ namespace QUANGHANH2.Controllers
                             }
                             foreach (var r in listRight)
                             {
-                                if (!String.IsNullOrEmpty(r.ID + ""))
+                                if (!String.IsNullOrEmpty(r.ID+""))
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
@@ -375,7 +374,7 @@ namespace QUANGHANH2.Controllers
                             }
                             foreach (var r in listRight)
                             {
-                                if (!String.IsNullOrEmpty(r.ID + ""))
+                                if (!String.IsNullOrEmpty(r.ID+""))
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
@@ -398,7 +397,7 @@ namespace QUANGHANH2.Controllers
                             }
                             foreach (var r in listRight)
                             {
-                                if (!String.IsNullOrEmpty(r.ID + ""))
+                                if (!String.IsNullOrEmpty(r.ID+""))
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
@@ -428,7 +427,7 @@ namespace QUANGHANH2.Controllers
                             var user = db.Accounts.SingleOrDefault(x => x.ID == acc.ID);
                             user.Name = Name;
                             user.Username = Username;
-                            user.Password = passXc;
+                            user.Password = Password;
                             user.Position = Position;
                             user.CDVT = true;
                             user.TCLD = true;
@@ -540,7 +539,7 @@ namespace QUANGHANH2.Controllers
                             db.SaveChanges();
                             foreach (var r in listRight)
                             {
-                                if (!String.IsNullOrEmpty(r.ID + ""))
+                                if (!String.IsNullOrEmpty(r.ID+""))
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
@@ -571,7 +570,7 @@ namespace QUANGHANH2.Controllers
                             db.SaveChanges();
                             foreach (var r in listRight)
                             {
-                                if (!String.IsNullOrEmpty(r.ID + ""))
+                                if (!String.IsNullOrEmpty(r.ID+""))
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
@@ -602,7 +601,7 @@ namespace QUANGHANH2.Controllers
                             db.SaveChanges();
                             foreach (var r in listRight)
                             {
-                                if (!String.IsNullOrEmpty(r.ID + ""))
+                                if (!String.IsNullOrEmpty(r.ID+""))
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
@@ -633,7 +632,7 @@ namespace QUANGHANH2.Controllers
                             db.SaveChanges();
                             foreach (var r in listRight)
                             {
-                                if (!String.IsNullOrEmpty(r.ID + ""))
+                                if (!String.IsNullOrEmpty(r.ID+""))
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
@@ -664,7 +663,7 @@ namespace QUANGHANH2.Controllers
                             db.SaveChanges();
                             foreach (var r in listRight)
                             {
-                                if (!String.IsNullOrEmpty(r.ID + ""))
+                                if (!String.IsNullOrEmpty(r.ID+""))
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
@@ -695,7 +694,7 @@ namespace QUANGHANH2.Controllers
                             db.SaveChanges();
                             foreach (var r in listRight)
                             {
-                                if (!String.IsNullOrEmpty(r.ID + ""))
+                                if (!String.IsNullOrEmpty(r.ID+""))
                                 {
                                     Account_Right_Detail rd = new Account_Right_Detail()
                                     {
@@ -721,7 +720,7 @@ namespace QUANGHANH2.Controllers
                         }
                         if (module7 == 0)
                         {
-                            module1 = 0; module2 = 0; module3 = 0; module4 = 0; module5 = 0; module6 = 0; module7 = 0;
+                            module1 = 0;module2 = 0;module3 = 0;module4 = 0;module5 = 0; module6 = 0;module7 = 0;
                         }
                         else
                         {
@@ -754,8 +753,7 @@ namespace QUANGHANH2.Controllers
                     { }
                     else
                     {
-                        string passXc = new XCryptEngine(XCryptEngine.AlgorithmType.MD5).Encrypt(Password, "pl");
-                        user.Password = passXc;
+                        user.Password = Password;
                     }
                     user.Position = Position;
                     user.CDVT = Convert.ToBoolean(module1);
@@ -768,7 +766,7 @@ namespace QUANGHANH2.Controllers
                     db.Entry(user).State = EntityState.Modified;
                     db.SaveChanges();
                 }
-                catch (Exception)
+                catch(Exception)
                 {
                     return Json(new Result()
                     {
@@ -788,14 +786,14 @@ namespace QUANGHANH2.Controllers
         {
             try
             {
-                var IDs = strUIDs.Split(',');
-                foreach (var ID in IDs)
-                {
-                    db.Database.ExecuteSqlCommand("DELETE FROM [dbo].[Account_Right_Detail] WHERE Account_Right_Detail.AccountID = '" + ID + "'");
-                    db.Database.ExecuteSqlCommand("DELETE FROM [dbo].[Account] WHERE Account.ID = '" + ID + "'");
-                }
-                db.SaveChanges();
-                return Json("", JsonRequestBehavior.AllowGet);
+                    var IDs = strUIDs.Split(',');
+                    foreach (var ID in IDs)
+                    {
+                        db.Database.ExecuteSqlCommand("DELETE FROM [dbo].[Account_Right_Detail] WHERE Account_Right_Detail.AccountID = '"+ID+"'");
+                        db.Database.ExecuteSqlCommand("DELETE FROM [dbo].[Account] WHERE Account.ID = '"+ID+"'");
+                    }
+                    db.SaveChanges();
+                    return Json("", JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {

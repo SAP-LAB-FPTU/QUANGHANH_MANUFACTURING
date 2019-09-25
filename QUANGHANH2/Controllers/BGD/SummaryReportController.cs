@@ -1,5 +1,4 @@
-﻿using QUANGHANH2.SupportClass;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,7 +11,6 @@ namespace QUANGHANHCORE.Controllers.BGD
     public class SummaryReportController : Controller
     {
         // GET: /<controller>/
-        [Auther(RightID ="005")]
         [Route("ban-giam-doc")]
         public ActionResult Index()
         {
