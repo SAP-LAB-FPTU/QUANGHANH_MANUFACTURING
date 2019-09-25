@@ -356,7 +356,7 @@
              var ListId = [id];
             $.ajax({
                 type: "POST",
-                url: "/Thanhli/GetById",
+                url: "/phong-cdvt/quyet-dinh/thanh-li/getdata",
                 contentType: "application/json",
                 dataType: "json",
                 data: '{docID: ' + JSON.stringify(ListId) + '}',
@@ -383,7 +383,7 @@
             $("#pre-load").show();
             $("#pre-load").css("z-index", "9999");
             $.ajax({
-                url: '@Url.Action("ExportExcel","Thanhli")',
+                url: '/phong-cdvt/quyet-dinh/thanh-li/export',
                 type: 'POST',
 
             }).done(function () {
@@ -473,7 +473,7 @@
              var ListId = [id];
             $.ajax({
                 type: "POST",
-                url: "/Thanhli/GetById",
+                url: "/phong-cdvt/quyet-dinh/thanh-li/getdata",
                 contentType: "application/json",
                 dataType: "json",
                 data: '{docID: ' + JSON.stringify(ListId) + '}',
@@ -501,7 +501,7 @@
                     var docID = $('#documentary_id_update').val();
                     $.ajax({
                         type: "POST",
-                        url: '@Url.Action("DeleteDoc","Thanhli")',
+                        url: '/phong-cdvt/quyet-dinh/thanh-li/delete',
                         data: '{docID: ' + docID + '}',
                         contentType: "application/json",
                         dataType: "script",
