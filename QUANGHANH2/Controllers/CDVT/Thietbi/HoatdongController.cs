@@ -124,6 +124,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             etk.total_repair = temp.Count().ToString();
             temp = db.Database.SqlQuery<Temp>("select distinct dr.equipmentId as 'abc' from Documentary_maintain_details dr").ToList<Temp>();
             etk.total_maintain = temp.Count().ToString();
+            temp = db.Database.SqlQuery<Temp>("select distinct dr.equipmentId as 'abc' from Documentary_Inspection_details dr").ToList<Temp>();
+            etk.total_KD = temp.Count().ToString();
             temp = db.Database.SqlQuery<Temp>("select distinct dr.equipmentId as 'abc' from Documentary_liquidation_details dr").ToList<Temp>();
             etk.total_TL = temp.Count().ToString();
             temp = db.Database.SqlQuery<Temp>("select distinct dr.equipmentId as 'abc' from Documentary_revoke_details dr").ToList<Temp>();
