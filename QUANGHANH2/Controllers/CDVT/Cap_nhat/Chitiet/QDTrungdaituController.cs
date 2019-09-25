@@ -38,6 +38,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
             {
                 item.stringDate = item.end_date.ToString("dd/MM/yyyy");
                 item.statusAndEquip = item.equipment_big_maintain_status + "^" + item.equipmentId;
+                item.idAndEquip = id + "^" + item.equipmentId;
             }
             int totalrows = equips.Count;
             int totalrowsafterfiltering = equips.Count;

@@ -1,5 +1,5 @@
-﻿using QUANGHANH2.Models;
-using QUANGHANH2.SupportClass;
+﻿using Newtonsoft.Json;
+using QUANGHANH2.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -7,12 +7,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.Script.Serialization;
 
 namespace QUANGHANHCORE.Controllers.PX.PXKT
 {
     public class PXKTController : Controller
     {
-        //[Auther(RightID ="006")]
         [Route("phan-xuong-khai-thac")]
         public ActionResult Index()
         {
@@ -47,11 +47,11 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                 List<DiemDanh_NangSuatLaoDong> list = db.DiemDanh_NangSuatLaoDong
                     .Where(a => a.NgayDiemDanh == date)
                     .Where(a => a.CaDiemDanh == calamviec).ToList();
-                List<CustomNSLD> customNSLDs = new List<CustomNSLD>();
-                CustomNSLD cus;
+                List<BaoCaoTheoCa> customNSLDs = new List<BaoCaoTheoCa>();
+                BaoCaoTheoCa cus;
                 foreach (var i in list)
                 {
-                    cus = new CustomNSLD
+                    cus = new BaoCaoTheoCa
                     {
                         ID = i.MaDiemDanh,
                         Name = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().Ten,
@@ -92,16 +92,29 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
         }
 
         [Route("phan-xuong-khai-thac/diem-danh")]
-        public ActionResult getAttendance()
+        public ActionResult takeAttendanceView()
         {
-            return View("/Views/PX/PXKT/getAttendacne.cshtml");
-        }
-        
 
+            return View("/Views/PX/PXKT/takeAttendance.cshtml");
+        }
+
+        [HttpPost]
+        [Route("phan-xuong-khai-thac/diem-danh")]
+        public ActionResult takeAttendance()
+        {
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                var listAttendance = db.DiemDanh_NangSuatLaoDong.ToList();
+                JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+                var result = JsonConvert.SerializeObject(listAttendance, Formatting.Indented, jss);
+                return Json(new { success = true, data = result }, JsonRequestBehavior.AllowGet);
+            }
+        }
 
 
     }
-    public class CustomNSLD
+    public class BaoCaoTheoCa
     {
         public int ID { get; set; }
         public string Name { get; set; }
