@@ -6808,7 +6808,6 @@
     <Content Include="excel\CDVT\tonghop.xls" />
     <Content Include="excel\DK\DetailReport\chi-tiet-san-xuat.xls" />
     <Content Include="excel\KCS\Báo cáo phòng KCS tháng 07 2019.xls" />
-    <Content Include="excel\TCLD\Brief\Danh sách hồ sơ nhân viên.xlsx" />
     <Content Include="excel\TCLD\Brief\HopDongLaoDong.docx" />
     <Content Include="excel\TCLD\Certificate\Chứng chỉ của cả công ty.xlsx" />
     <Content Include="excel\TCLD\Certificate\Danh sách nhân viên có chứng chỉ kiểm định kỹ thuật an toan lao động .xlsx" />
