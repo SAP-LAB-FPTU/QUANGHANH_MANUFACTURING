@@ -100,7 +100,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
             }
         }
 
-
+        [Route("phong-cdvt/quyet-dinh/thanh-li/getdata")]
         [HttpPost]
         public ActionResult GetById(List<String> docID)
         {
@@ -120,7 +120,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
                 return new HttpStatusCodeResult(400);
             }
         }
-
+        [Route("phong-cdvt/quyet-dinh/thanh-li/delete")]
         [HttpPost]
         public ActionResult DeleteDoc(int docID)
         {
@@ -206,7 +206,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
             return Json(new { success = true, data = incidents, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
-
+        [Route("phong-cdvt/quyet-dinh/thanh-li/export")]
         public void ExportExcel()
         {
             string path = HostingEnvironment.MapPath("/excel/CDVT/danhsachsuachua_Template.xlsx");
