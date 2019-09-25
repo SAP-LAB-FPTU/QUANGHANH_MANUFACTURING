@@ -42,7 +42,7 @@
                             <a class="btn btn-small blue darken-2 modal-trigger input-field" href="@Url.Action("them-nhan-vien", "phong-tcld/quan-ly-nhan-vien")">Thêm</a>
                         </div>
                         <div class="col s3 m3 l3">
-                            <a class="btn btn-small blue darken-2 input-field" id="danhsachhosonhanvien" href="~/excel/TCLD/Brief/Danh sách hồ sơ nhân viên.xlsx"><i class="fas fa-file-excel"></i>&nbsp;Excel</a>
+                            <a class="btn btn-small blue darken-2 input-field" id="danhsachhosonhanvien"><i class="fas fa-file-excel"></i>&nbsp;Excel</a>
                         </div>
                     </div>
                 </div>
@@ -181,7 +181,7 @@
         </div>
     </div>
 </div>
-}
+
 <script src="~/js/Custom JS/TCLD/Brief/Briefs_List.js"></script>
 <script src="~/js/advancedsearch/advancedsearch.js"></script>
 <script src="~/js/Custom JS/form-input-border.js"></script>
@@ -222,7 +222,18 @@
         }
 
         $(document).ready(function () {
-            dataTable = $('#test-table').DataTable({
+             $("#pre-load").show("slow", function () {
+         });
+        $("#pre-load").css("z-index", "99999");
+            dataTable = $('#test-table')
+                .on('preXhr.dt', function (e, settings, data) {
+                      ////////////////////////////////////HIỆN LÊN MỖI KHI CHẠY AJAX//////////////////////////////////
+      				  $("#pre-load").show("slow", function () {
+      				   });
+      				  $("#pre-load").css("z-index", "99999");
+			          ////////////////////////////////////////////////////////////////////////
+                })
+                .DataTable({
                 "ajax": {
                     "url": "/phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien",
                     "type": "POST",
@@ -278,13 +289,25 @@
                         "searchable": false,
                         "width": "150px"
                     }
-                ],
+                    ],
+                "drawCallback": function (settings) {
+                                 ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
+                                  $("#pre-load").hide("slow", function () {
+                       		  });
+ 			        ////////////////////////////////////////////////
+                        },
                 "serverSide": "true",
                 "order": [0, "asc"],
                 "bLengthChange": false,
                 "bFilter": false,
                 "bInfo": false,
                 "bAutoWidth": false,
+                "initComplete": function(settings, json) {
+ ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
+    		$("#pre-load").hide("slow", function () {
+      		  });
+ //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
+  }
 
             });
         });
@@ -292,7 +315,12 @@
         $(document).ready(function () {
             var dataTable = $('#test-table').DataTable();
             $("#searchButton").click(function () {
-                dataTable.ajax.reload();
+               dataTable.ajax.reload(function () {
+                    $.notify("Tìm kiếm thành công", {
+                        globalPosition: "top center",
+                        className: "success"
+                    })
+                });
             });
         });
 
@@ -359,5 +387,17 @@
             }
             return false;
         }
+
+        $("#danhsachhosonhanvien").click(function () {
+            $("#pre-load").show();
+            $.ajax({
+                type: "POST",
+                url: "/phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien/excel",
+                cache: false
+            }).done(function () {
+                window.location.href = "/excel/TCLD/download/Danh_sách_nhân_viên.xlsx";
+                $("#pre-load").hide();
+            })
+        });
     </script>
 }

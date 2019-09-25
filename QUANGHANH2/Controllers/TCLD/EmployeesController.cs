@@ -1,12 +1,15 @@
-﻿using QUANGHANH2.Models;
+﻿using OfficeOpenXml;
+using QUANGHANH2.Models;
 //using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Threading.Tasks;
+using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -14,6 +17,8 @@ namespace QUANGHANH2.Controllers.TCLD
 {
     public class EmployeesController : Controller
     {
+        private const string V = "";
+
         // GET: Employees
         [Route("phong-tcld/danh-sach-toan-cong-ty")]
         public ActionResult ListAll()
@@ -127,7 +132,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 db.Entry(emp).State = EntityState.Modified;
                 db.SaveChanges();
             }
-            return RedirectToAction("List");
+            return RedirectToAction("Search");
 
         }
         //[Auther(RightID = "51")]
@@ -260,7 +265,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 emp.MaPhongBan = "DL1";
                 db.NhanViens.Add(emp);
                 db.SaveChanges();
-                return RedirectToAction("getAllNhanVien");
+                return RedirectToAction("Search");
 
                 //return Json(new { success = true, message = "Lưu thành công" }, JsonRequestBehavior.AllowGet);
             }
@@ -288,16 +293,73 @@ namespace QUANGHANH2.Controllers.TCLD
                 emp.TrangThaiLamViec = "Đã chấm dứt";
                 db.Entry(emp).State = EntityState.Modified;
                 string query = "";
-                if(soQD != String.Empty)
+                if (soQD != String.Empty)
                 {
                     query = "INSERT INTO [dbo].[QuyetDinh]([SoQuyetDinh]" +
                     ",[LoaiQuyetDinh],[NgayQuyetDinh],[TrangThai]) VALUES('" + soQD + "',N'Chấm dứt', '" + date + "', '')";
                 }
                 db.Database.ExecuteSqlCommand("INSERT INTO [dbo].[QuyetDinh]([SoQuyetDinh]" +
-                    ",[LoaiQuyetDinh],[NgayQuyetDinh],[TrangThai]) VALUES('"+soQD+"',N'Chấm dứt', '"+date+"', '')");
+                    ",[LoaiQuyetDinh],[NgayQuyetDinh],[TrangThai]) VALUES('" + soQD + "',N'Chấm dứt', '" + date + "', '')");
                 db.SaveChanges();
             }
             return Json("", JsonRequestBehavior.AllowGet);
+
+        }
+
+        [Route("phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien/excel")]
+        [HttpPost]
+        public void ReturnExcel()
+        {
+            string path = HostingEnvironment.MapPath("/excel/TCLD/Brief/Danh-sách-nhân-viên.xlsx");
+            FileInfo file = new FileInfo(path);
+            using (ExcelPackage excelPackage = new ExcelPackage(file))
+            {
+                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
+                ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    string query = "select * from NhanVien";
+                    List<NhanVien> list = db.Database.SqlQuery<NhanVien>(query).ToList();
+                    int k = 3;
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        excelWorksheet.Cells[k, 1].Value = list.ElementAt(i).MaNV;
+                        excelWorksheet.Cells[k, 2].Value = list.ElementAt(i).Ten;
+                        if (list.ElementAt(i).GioiTinh)
+                        {
+                            excelWorksheet.Cells[k, 3].Value = "Nam";
+                        }
+                        else
+                        {
+                            excelWorksheet.Cells[k, 3].Value = "Nữ";
+                        }
+                        //excelWorksheet.Cells[k, 4].Value = list.ElementAt(i).NgaySinh.ToString("dd/MM/yyyy");
+                        excelWorksheet.Cells[k, 5].Value = list.ElementAt(i).SoBHXH;
+                        if(list.ElementAt(i).TrinhDoHocVan != null)
+                        {
+                            if(list.ElementAt(i).TrinhDoHocVan.Equals("1"))
+                            {
+                                excelWorksheet.Cells[k, 18].Value = "Tiểu học";
+                            }else if(list.ElementAt(i).TrinhDoHocVan.Equals("2"))
+                            {
+                                excelWorksheet.Cells[k, 18].Value = "THCS";
+                            }else if(list.ElementAt(i).TrinhDoHocVan.Equals("3"))
+                            {
+                                excelWorksheet.Cells[k, 18].Value = "THPT";
+                            }else if(list.ElementAt(i).TrinhDoHocVan.Equals("4"))
+                            {
+                                excelWorksheet.Cells[k, 18].Value = "Trung cấp";
+                            }else
+                            {
+                                excelWorksheet.Cells[k, 18].Value = "Đại học";
+                            }
+                        }
+                        excelWorksheet.Cells[k, 20].Value = list.ElementAt(i).QueQuan;
+                        k++;
+                    }
+                    excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath("/excel/TCLD/download/Danh_sách_nhân_viên.xlsx")));
+                }
+            }
 
         }
     }
