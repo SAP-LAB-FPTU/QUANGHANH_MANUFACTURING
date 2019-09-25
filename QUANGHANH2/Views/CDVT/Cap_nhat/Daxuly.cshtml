@@ -13,80 +13,70 @@
 <div class="card">
     <div class="card-content">
         <div class="row">
-            <div class="col s12">
-                <div class="advanded-search">
-                    <div class="row">
-                        <h3 class="center"><b>DANH SÁCH QUYẾT ĐỊNH</b></h3>
-                        <hr>
-                        <div class="row center">
-                            <form action="" method="POST" id="mysearchform" role="form">
-                                <div class="row center">
-                                    <div class="col l4 m4 s12">
-                                        <div class="row">
-                                            <div class="col l10 m10 s12 input-field">
-                                                <input type="text" placeholder="Tìm kiếm theo số quyết định" class='form-control' id="id-search" />
-                                            </div>
-                                            <div class="col l10 m10 s12 input-field">
-                                                <select class="form-control" id="type-search">
-                                                    <option value="0">Tất cả</option>
-                                                    <option value="1">Sửa chữa</option>
-                                                    <option value="2">Bảo dưỡng</option>
-                                                    <option value="3">Điều động</option>
-                                                    <option value="4">Thu hồi</option>
-                                                    <option value="5">Thanh lý</option>
-                                                    <option value="6">Trung đại tu</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col l4 m4 s12">
-                                        <div class="row">
-                                            <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
-                                                <input placeholder="thời gian bắt đầu sự cố từ" type='text' class='datepicker-here form-control maxDate' data-language='vi' id="date-start-search" />
-                                            </div>
-                                            <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
-                                                <input placeholder="thời gian bắt đầu sự cố đến" type='text' class='datepicker-here form-control minDate' data-language='vi' id="date-end-search" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col l4 m4 s12">
-                                        <div class="row">
-                                            <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
-                                                <input type="text" placeholder="Tìm kiếm theo lý do quyết định" class='form-control' id="reason-search" />
-                                            </div>
-                                            <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
-                                                <input type="text" placeholder="Tìm kiếm theo phân xưởng chịu trách nhiệm" class='form-control' id="department-search" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col l12 m12 s12 input-field">
-                                        <a class="waves-effect waves-light btn blue darken-2 modal-close modal-trigger" id="searchButton1">Tìm kiếm</a>
-                                    </div>
+            <h3 class="center"><b>DANH SÁCH QUYẾT ĐỊNH</b></h3>
+            <hr>
+            <div class="row center">
+                <form action="" method="POST" id="mysearchform" role="form">
+                    <div class="row center">
+                        <div class="col l4 m4 s12">
+                            <div class="row">
+                                <div class="col l10 m10 s12 input-field">
+                                    <input type="text" placeholder="Tìm kiếm theo số quyết định" class='form-control' id="id-search" />
                                 </div>
-                            </form>
+                                <div class="col l10 m10 s12 input-field">
+                                    <select class="form-control" id="type-search">
+                                        <option value="0">Tất cả</option>
+                                        <option value="1">Sửa chữa</option>
+                                        <option value="2">Bảo dưỡng</option>
+                                        <option value="3">Điều động</option>
+                                        <option value="4">Thu hồi</option>
+                                        <option value="5">Thanh lý</option>
+                                        <option value="6">Trung đại tu</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col l4 m4 s12">
+                            <div class="row">
+                                <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
+                                    <input placeholder="thời gian bắt đầu sự cố từ" type='text' class='datepicker-here form-control maxDate' data-language='vi' id="date-start-search" />
+                                </div>
+                                <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
+                                    <input placeholder="thời gian bắt đầu sự cố đến" type='text' class='datepicker-here form-control minDate' data-language='vi' id="date-end-search" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col l4 m4 s12">
+                            <div class="row">
+                                <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
+                                    <input type="text" placeholder="Tìm kiếm theo lý do quyết định" class='form-control' id="reason-search" />
+                                </div>
+                                <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
+                                    <input type="text" placeholder="Tìm kiếm theo phân xưởng chịu trách nhiệm" class='form-control' id="department-search" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col l12 m12 s12 input-field center">
+                            <a class="waves-effect waves-light btn blue darken-2 modal-close modal-trigger" id="searchButton1">Tìm kiếm</a>
                         </div>
                     </div>
-                </div>
-                <div id="danhsach">
-                    <div class="row">
-                        <div class="col s12">
-                            <table class="striped table-bordered centered responsive-table mytable" id="DSQD_id">
-                                <thead>
-                                    <tr>
-                                        <th>Số quyết định</th>
-                                        <th>Loại quyết định</th>
-                                        <th>Đơn vị đang sử dụng</th>
-                                        <th>Ngày tạo quyết định</th>
-                                        <th>Người tạo quyết định</th>
-                                        <th>Lý do quyết định</th>
-                                        <th>Nguồn vốn/thu</th>
-                                        <th>Trạng thái quyết định</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+                </form>
+            </div>
+            <div class="col s12">
+                <table class="striped table-bordered centered responsive-table mytable" id="DSQD_id">
+                    <thead>
+                        <tr>
+                            <th>Số quyết định</th>
+                            <th>Loại quyết định</th>
+                            <th>Đơn vị đang sử dụng</th>
+                            <th>Ngày tạo quyết định</th>
+                            <th>Người tạo quyết định</th>
+                            <th>Lý do quyết định</th>
+                            <th>Nguồn vốn/thu</th>
+                            <th>Trạng thái quyết định</th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
         </div>
     </div>
@@ -145,6 +135,17 @@
 
         $(document).ready(function () {
             dataTable = $('#DSQD_id').dataTable({
+                "language": {
+                    "emptyTable": "Không tìm thấy dữ liệu",
+                    "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                    "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                    "paginate": {
+                        "first": "Trang đầu",
+                        "last": "Trang cuối",
+                        "next": "Trang sau",
+                        "previous": "Trang trước"
+                    }
+                },
                 "ajax": {
                     "url": "/phong-cdvt/cap-nhat/quyet-dinh-da-xu-ly/search",
                     "type": "POST",
@@ -161,9 +162,9 @@
                 },
                 "columns": [
                     {
-                        "data": "stringlink", "name": "documentary_id",
+                        "data": "linkIdCode", "name": "documentary_id",
                         "render": function (data) {
-                            return "<a href=\"quyet-dinh/" + data.split("^")[0] + "?id=" + data.split("^")[1] + "\"> " + data.split("^")[1] + "</a>";
+                            return "<a href=\"quyet-dinh/" + data.link + "?id=" + data.id + "\"> " + data.code + "</a>";
                         },
                     },
                     { "data": "stringtype", "name": "stringtype" },
@@ -171,7 +172,7 @@
                     { "data": "stringdate", "name": "stringdate" },
                     { "data": "person_created", "name": "person_created" },
                     { "data": "reason", "name": "reason" },
-                    { "data": "outincome", "name": "out_in_come" },
+                    { "data": "out_in_come", "name": "out_in_come" },
                     { "data": "stringstatus", "name": "stringstatus" },
                 ],
                 "serverSide": "true",
