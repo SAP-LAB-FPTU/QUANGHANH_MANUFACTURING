@@ -117,7 +117,7 @@ namespace QUANGHANH2.Controllers
 
                 if (int.Parse(UserID) == 1)
                 {
-                    var rightAccept = db.Database.SqlQuery<FunctionRight>("select a.ID,a.[Right],a.GroupID from Account_Right a,Account_Right_Detail ar where a.ID=ar.RightID and a.ModuleID='" + module + "' and ar.AccountID='" + UserID + "' order by a.GroupID asc").ToList<FunctionRight>();
+                    var rightAccept = db.Database.SqlQuery<FunctionRight>("select a.ID,a.[Right],a.GroupID from Account_Right a,Account_Right_Detail ar where a.ID=ar.RightID and a.ModuleID='" + module + "' and ar.AccountID='" + UserID + "' order by CAST(a.GroupID AS int) asc").ToList<FunctionRight>();
                     foreach (var r in rightAccept)
                     {
                         rights.Accept.Add(new FunctionRight()
@@ -127,7 +127,7 @@ namespace QUANGHANH2.Controllers
                             GroupID = r.GroupID
                         });
                     }
-                    var rightDeny = db.Database.SqlQuery<FunctionRight>("select distinct a.ID,a.[Right],a.GroupID from Account_Right a,Account_Right_Detail ar where a.ModuleID='" + module + "' and a.ID not in (select a.RightID from Account_Right_Detail a where a.AccountID='" + UserID + "') order by a.GroupID asc").ToList<FunctionRight>();
+                    var rightDeny = db.Database.SqlQuery<FunctionRight>("select distinct a.ID,a.[Right],a.GroupID from Account_Right a,Account_Right_Detail ar where a.ModuleID='" + module + "' and a.ID not in (select a.RightID from Account_Right_Detail a where a.AccountID='" + UserID + "') order by CAST(a.GroupID AS int) asc").ToList<FunctionRight>();
                     foreach (var r in rightDeny)
                     {
                         rights.Deny.Add(new FunctionRight()
@@ -140,7 +140,7 @@ namespace QUANGHANH2.Controllers
                 }
                 else
                 {
-                    var rightAccept = db.Database.SqlQuery<FunctionRight>("select a.ID,a.[Right],a.GroupID from Account_Right a,Account_Right_Detail ar where a.ID=ar.RightID and a.ModuleID='" + module + "' and ar.AccountID='" + UserID + "' order by a.GroupID asc").ToList<FunctionRight>();
+                    var rightAccept = db.Database.SqlQuery<FunctionRight>("select a.ID,a.[Right],a.GroupID from Account_Right a,Account_Right_Detail ar where a.ID=ar.RightID and a.ModuleID='" + module + "' and ar.AccountID='" + UserID + "' order by CAST(a.GroupID AS int) asc").ToList<FunctionRight>();
                     foreach (var r in rightAccept)
                     {
                         rights.Accept.Add(new FunctionRight()
@@ -150,7 +150,7 @@ namespace QUANGHANH2.Controllers
                             GroupID = r.GroupID
                         });
                     }
-                    var rightDeny = db.Database.SqlQuery<FunctionRight>("select distinct a.ID,a.[Right],a.GroupID from Account_Right a,Account_Right_Detail ar where a.ModuleID='" + module + "' and a.ID not in (select a.RightID from Account_Right_Detail a where a.AccountID='" + UserID + "') order by a.GroupID asc").ToList<FunctionRight>();
+                    var rightDeny = db.Database.SqlQuery<FunctionRight>("select distinct a.ID,a.[Right],a.GroupID from Account_Right a,Account_Right_Detail ar where a.ModuleID='" + module + "' and a.ID not in (select a.RightID from Account_Right_Detail a where a.AccountID='" + UserID + "') order by CAST(a.GroupID AS int) asc").ToList<FunctionRight>();
                     foreach (var r in rightDeny)
                     {
                         rights.Deny.Add(new FunctionRight()
@@ -168,7 +168,7 @@ namespace QUANGHANH2.Controllers
                 RightsWhenCreate rights = new RightsWhenCreate();
                 rights.Accept = new List<FunctionRight>();
                 rights.Deny = new List<FunctionRight>();
-                var rightDeny = db.Database.SqlQuery<FunctionRight>("select a.ID,a.[Right],a.GroupID from Account_Right a where a.ModuleID='" + module + "' order by a.GroupID asc").ToList<FunctionRight>();
+                var rightDeny = db.Database.SqlQuery<FunctionRight>("select a.ID,a.[Right],a.GroupID from Account_Right a where a.ModuleID='" + module + "' order by CAST(a.GroupID AS int) asc").ToList<FunctionRight>();
                 foreach (var r in rightDeny)
                 {
                     rights.Deny.Add(new FunctionRight()

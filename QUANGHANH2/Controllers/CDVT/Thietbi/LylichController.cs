@@ -36,7 +36,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                     IncidentByDate tempdate = new IncidentByDate();
                     tempdate.date = date;
                     tempdate.incidents = DBContext.Database.SqlQuery<IncidentDB>("SELECT d.department_name, " +
-                        "i.start_time, i.end_time, i.reason, i.incident_type, i.incident_id FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId inner join Department d " +
+                        "i.* FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId inner join Department d " +
                         "on d.department_id = i.department_id where i.end_time is not null and e.equipmentId = '" + id + "' and start_time = '" + date + "' and year(start_time) = '" + year + "' order by start_time desc").ToList();
                     count += tempdate.incidents.Count;
                     listbydate.Add(tempdate);
@@ -54,7 +54,6 @@ namespace QUANGHANHCORE.Controllers.CDVT
             List<moveLineByYear> listDD = new List<moveLineByYear>();
             foreach (int year in yearDD)
             {
-                int count = 0;
                 List<myMoveline> listMML = DBContext.Database.SqlQuery<myMoveline>("select dm.equipmentId, dm.date_to,dm.department_detail,d.department_id,d.person_created,dm.documentary_id,d.reason,d.date_created from Equipment e, Documentary_moveline_details dm, Documentary d where e.equipmentId = dm.equipmentId and d.documentary_id = dm.documentary_id and dm.equipmentId = '" + id + "' and YEAR(d.date_created) = '" + year + "' ").ToList();
                 moveLineByYear MLY = new moveLineByYear();
                 foreach(var x in listMML)
