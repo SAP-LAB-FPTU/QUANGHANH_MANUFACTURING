@@ -453,10 +453,8 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Supply_Documentary_EquipmentDB.cs" />
+    <Compile Include="Models\Supply_Extend.cs" />
     <Compile Include="Models\Supply_tieuhao.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ThucHien_TieuChi.cs">
@@ -6824,30 +6822,30 @@
     <Content Include="excel\CDVT\danhsachsuachua_Template.xlsx" />
     <Content Include="Content\DataTables\Buttons-1.5.6\css\common.scss" />
     <Content Include="Content\DataTables\Buttons-1.5.6\css\mixins.scss" />
+    <Content Include="excel\CDVT\download\tong-hop-vat-tu.xlsx" />
+    <Content Include="excel\CDVT\download\tong-hop-vat-tu-download.xlsx" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Content>
-    <Content Include="excel\CDVT\download\tong-hop-vat-tu.xlsx" />
-    <Content Include="excel\CDVT\download\tong-hop-vat-tu-download.xlsx" />
-    <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
-    <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\quanghanhtest - Web Deploy.pubxml" />
-    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
     <Content Include="Models\Model1.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
+    <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
+    <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\quanghanhtest - Web Deploy.pubxml" />
+    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
