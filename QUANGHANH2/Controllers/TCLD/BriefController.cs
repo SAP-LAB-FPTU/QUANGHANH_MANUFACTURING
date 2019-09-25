@@ -217,7 +217,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
 
 
-            var chiTietBangCapByMaNV = from ctbc in db.ChiTiet_BangCap
+            var chiTietBangCapByMaNV = from ctbc in db.ChiTiet_BangCap_GiayChungNhan
                              join nv in db.NhanViens on ctbc.MaNV equals nv.MaNV
                              
                              where ctbc.MaNV == id_
@@ -226,7 +226,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                  maNV = nv.MaNV,
                                  ten = nv.Ten,
                                  soHieu = ctbc.SoHieu,
-                                 maBangCap = ctbc.MaBangCap,
+                                 maBangCap = ctbc.MaBangCap_GiayChungNhan,
                                  ngayCap = ctbc.NgayCap.ToString()                                                                  
 
                              };
@@ -300,12 +300,12 @@ namespace QUANGHANHCORE.Controllers.TCLD
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
 
-                ChiTiet_BangCap chiTiet = db.ChiTiet_BangCap.Where(x => x.MaNV == id).FirstOrDefault<ChiTiet_BangCap>();
+                ChiTiet_BangCap_GiayChungNhan chiTiet = db.ChiTiet_BangCap_GiayChungNhan.Where(x => x.MaNV == id).FirstOrDefault<ChiTiet_BangCap_GiayChungNhan>();
                 return View(chiTiet);
             }
         }
         [HttpPost]
-        public ActionResult EditChiTietbangCap(ChiTiet_BangCap chiTiet_BangCap)
+        public ActionResult EditChiTietbangCap(ChiTiet_BangCap_GiayChungNhan chiTiet_BangCap)
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {

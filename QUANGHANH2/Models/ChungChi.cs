@@ -23,7 +23,7 @@ namespace QUANGHANH2.Models
     
         public int MaChungChi { get; set; }
         public string TenChungChi { get; set; }
-        public Nullable<double> ThoiHan { get; set; }
+        public string ThoiHan { get; set; }
         public string KieuChungChi { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

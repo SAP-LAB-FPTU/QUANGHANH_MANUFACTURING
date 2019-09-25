@@ -22,10 +22,27 @@
 
     <!--===============================================================================================-->
     <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
+    <link href="~/css/preloader/css.css" rel="stylesheet" />
+
 </head>
 <body>
 
     <div class="limiter">
+        <div id="pre-load" hidden>
+            <div class="loading">
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div><div class="gap-patch">
+                            <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="container-login100">
             <div class="wrap-login100">
                 <div class="login100-pic js-tilt" data-tilt>
@@ -54,9 +71,13 @@
                                 <i class="fa fa-lock" aria-hidden="true"></i>
                             </span>
                         </div>
+                        <div>
+                            <input type="checkbox" class="check-box" name="rm" />
+                            <label style="font-size:16px">Ghi nhớ mật khẩu</label>
+                        </div>
                         <h1 style="color: red;" class="h6 mb-3 font-weight-normal" id="Notification">@ViewData["Notification"]</h1>
                         <div class="container-login100-form-btn">
-                            <button class="login100-form-btn" id="loginButton" type="submit">
+                            <button class="login100-form-btn" id="loginButton" type="submit" onclick="showPreLoad();">
                                 Đăng nhập
                             </button>
                         </div>
@@ -70,8 +91,16 @@
             </div>
         </div>
     </div>
+    
     <!--===============================================================================================-->
     <script src="/js/login/main.js"></script>
-
+    <script>
+        $(".loading").css("z-index", 99999);
+        $('body').css('overflow', '');
+        function showPreLoad() {
+            
+            $('#pre-load').show();
+        }
+    </script>
 </body>
 </html>
