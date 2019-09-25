@@ -1,0 +1,131 @@
+﻿
+@{
+    ViewData["Title"] = "bao_cao_chi_tiet_theo_ca";
+    Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
+}
+
+<link href="~/dist/css/pages/data-table.css" rel="stylesheet" />
+<link href="~/assets/extra-libs/DataTables/datatables.min.css" rel="stylesheet" />
+<script src="~/assets/extra-libs/DataTables/datatables.min.js"></script>
+
+<script>
+    var url_string;
+    var url;
+    var dataTable;
+    $(document).ready(function () {
+        url_string = window.location.href;
+        url = new URL(url_string);
+        dataTable = $("#content-table").DataTable({
+            "ajax": {
+                url: url,
+                type: 'POST',
+                data: function (d) {
+                        d.ca = document.getElementById("ca").innerText;
+                        //d.PatronCode = document.getElementById("PatronCodeFilter").value,
+                        //d.Note = document.getElementById("NoteFilter").value,
+                        //d.StartedDate = document.getElementById("LockDateFromFilter").value,
+                        //d.FinishDate = document.getElementById("LockDateToFilter").value
+                }
+            },
+            "columns": [
+                { "data": "ID", "name": "ID" },
+                { "data": "Name", "name": "Name" },
+                { "data": "SoThe", "name": "SoThe" },
+                { "data": "BacTho", "name": "BacTho" },
+                { "data": "ChucDanh", "name": "ChucDanh" },
+                { "data": "NoiDungCongViec", "name": "NoiDungCongViec" },
+                { "data": "NSLD", "name": "NSLD" },
+                { "data": "HeSoChiaLuong", "name": "HeSoChiaLuong" },
+                { "data": "LuongTruocDuyet", "name": "LuongTruocDuyet" },
+                { "data": "LuongSauDuyet", "name": "LuongSauDuyet" },
+                { "data": "DuBaoNguyCo", "name": "DuBaoNguyCo" },
+                { "data": "YeuCauBPKTAT", "name": "YeuCauBPKTAT" },
+            ],
+            "language": {
+                "emptyTable": "No data found"
+            },
+            "autoWidth": false,
+            "searching": false,
+            "drawCallback": function () {
+                $('#pre-load').hide();
+            }
+
+        });
+    });
+    function changeCa(ca) {
+        document.getElementById("ca").innerText = "CA " + ca;
+        $('#pre-load').show();
+        $("#content-table").DataTable().ajax.reload(null, false);
+        
+    }
+</script>
+
+<div class="card">
+    <div class="card-content">
+        <form>
+            <div class="row center">
+                <h3>
+                    BÁO CÁO CHI TIẾT <a class="dropdown-trigger btn" id="ca" href="#" data-target="dropdown_ca" style="background-color:#273146" name="ca1">CA @ViewBag.ca</a> CỦA @ViewBag.donvi NGÀY @ViewBag.date
+                    <br><br>
+                </h3>
+                <hr>
+            </div>
+            <div class="row table1" style="overflow-x:auto!important">
+                <table id="content-table" class="table table-bordered table-responsive centered highlight">
+                    <thead>
+                        <tr>
+                            <th colspan="1" rowspan="3" width="3%">TT</th>
+                            <th colspan="1" rowspan="3" width="5%">Tên</th>
+                            <th colspan="1" rowspan="3" width="5%">Số thẻ</th>
+                            <th colspan="1" rowspan="3" width="4%">Bậc thợ</th>
+                            <th colspan="1" rowspan="3" width="10%">Chức danh công việc,thợ chính,thợ phụ</th>
+                            <th colspan="1" rowspan="3" width="13%">Nội dung công việc,vị trí làm việc</th>
+                            <th colspan="1" rowspan="3" width="13%">Khối lượng công việc thực hiện được</th>
+                            <th colspan="1" rowspan="3" width="5%">Hệ số chia lương</th>
+                            <th colspan="2" rowspan="1">Lương</th>
+                            <th colspan="1" rowspan="3">Dự báo nguy cơ</th>
+                            <th colspan="1" rowspan="3">-Yêu cầu BPKTAT<br>-Giải pháp loại trừ nguy cơ</th>
+                        </tr>
+                        <tr>
+                            <th width="3%">9a</th>
+                            <th width="3%">9b</th>
+                        </tr>
+                        <tr>
+                            <th>Trước duyệt</th>
+                            <th>Sau duyệt</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+<ul id='dropdown_time' class='dropdown-content'>
+    <li><a class="dropdown-child-time" href="#!" name="day">Xem Theo Ngày</a></li>
+    <li><a class="dropdown-child-time" href="#!" name="month">Xem Theo Tháng</a></li>
+</ul>
+<ul id='dropdown_ca' class='dropdown-content'>
+    <li onclick="changeCa(1);"><a class="dropdown-child-ca" href="#!" name="ca1">CA 1</a></li>
+    <li onclick="changeCa(2);"><a class="dropdown-child-ca" href="#!" name="ca2">CA 2</a></li>
+    <li onclick="changeCa(3);"><a class="dropdown-child-ca" href="#!" name="ca3">CA 3</a></li>
+</ul>
+
+
+<a id="loader-chi-tiet-vtl1-trong-ngay" data-request-url="@Url.Action("nang-suat-lao-dong-va-tien-luong-theo-ngay", "nang-suat-lao-dong-va-tien-luong", new {phanxuong = "vtl1"})" hidden></a>
+
+<a id="loader-cac-px-trong-ngay" data-request-url="@Url.Action("nang-suat-lao-dong-va-tien-luong-theo-cac-px-trong-ngay", "nang-suat-lao-dong-va-tien-luong", new { phanxuong = "tat-ca"})" hidden></a>
+
+<a id="loader-cac-ngay-trong-thang-vtl1" data-request-url="@Url.Action("nang-suat-lao-dong-va-tien-luong-theo-cac-ngay-trong-thang", "nang-suat-lao-dong-va-tien-luong", new { phanxuong = "vtl1"})" hidden></a>
+
+<a id="loader-cac-px-trong-thang" data-request-url="@Url.Action("nang-suat-lao-dong-va-tien-luong-theo-thang", "nang-suat-lao-dong-va-tien-luong", new { phanxuong = "tat-ca"})" hidden></a>
+
+<a id="loader-chi-tiet-ca1-vtl1-trong-ngay" data-request-url="@Url.Action("bao-cao-chi-tiet-ca-1", "phong-tcld")" hidden></a>
+
+<a id="loader-chi-tiet-ca2-vtl1-trong-ngay" data-request-url="@Url.Action("bao-cao-chi-tiet-ca-2", "phong-tcld")" hidden></a>
+
+<a id="loader-chi-tiet-ca3-vtl1-trong-ngay" data-request-url="@Url.Action("bao-cao-chi-tiet-ca-3", "phong-tcld")" hidden></a>
+
+<script src="~/js/Custom JS/button_watch_by.js"></script>
+
+

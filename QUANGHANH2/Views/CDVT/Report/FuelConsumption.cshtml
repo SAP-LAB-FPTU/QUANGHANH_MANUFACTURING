@@ -11,9 +11,12 @@
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
+<link href="~/dist/css/pages/data-table.css" rel="stylesheet" />
+<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
 <script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
 <script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
 <script src="~/assets/extra-libs/prism/prism.js"></script>
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script>
     $(function () {
         var url_string = window.location.href;
@@ -28,23 +31,19 @@
         })
         $("#txtyear").datepicker({
             onSelect: function () {
-                $('#pre-load').show();
                 window.location = "/phong-cdvt/bao-cao/nhien-lieu?type=year&year=" + document.getElementById("txtyear").value;
             }
         })
         $("#minMaxDate").datepicker({
             onSelect: function () {
-                $('#pre-load').show();
                 window.location = "/phong-cdvt/bao-cao/nhien-lieu?type=day&date=" + document.getElementById("minMaxDate").value;
             }
         })
         $('#txtquarter').change(function () {
-            $('#pre-load').show();
             window.location = "/phong-cdvt/bao-cao/nhien-lieu?type=quarter&quarter=" + document.getElementById("txtquarter").value + "&year=" + document.getElementById("quateryear").value;
         });
         $("#quateryear").datepicker({
             onSelect: function () {
-                $('#pre-load').show();
                 window.location = "/phong-cdvt/bao-cao/nhien-lieu?type=quarter&quarter=" + document.getElementById("txtquarter").value + "&year=" + document.getElementById("quateryear").value;
             }
         })
@@ -62,7 +61,7 @@
         var quater = url.searchParams.get("quarter");
         var year = url.searchParams.get("year");
         $("#type").html("Xem Theo Ngày");
-       
+
         if (c == "day") {
             document.getElementById("typeview").innerText = "Xem Theo Ngày";
             document.getElementById("visiblequater").style.display = "none";
@@ -96,8 +95,34 @@
             document.getElementById("visibleyear").style.display = "inline";
             $("#txtyear").val(year);
         }
+        var dataTable;
+        dataTable = $("#content-table").DataTable({
+
+            "ajax": {
+                "url": url,
+                "type": "POST",
+                "datatype": "json",
+            },
+            "columns": [
+                { "data": "Thang", "name": "Thang" },
+                { "data": "MaThietBi", "name": "MaThietBi" },
+                { "data": "TenThietBi", "name": "TenThietBi" },
+                { "data": "LoaiNhienLieu", "name": "LoaiNhienLieu" },
+                { "data": "LuongTieuThu", "name": "LuongTieuThu" },
+                { "data": "DonVi", "name": "DonVi" },
+
+            ],
+            "language": {
+
+                "emptyTable": "No data found"
+            },
+            "autoWidth": false,
+            "searching": false,
+
+        });
+
     });
-    
+
 </script>
 
 <div class="card">
@@ -120,7 +145,7 @@
                                data-language='vi'
                                data-min-view="months"
                                data-view="months"
-                               data-date-format="MM yyyy"/>
+                               data-date-format="MM yyyy" />
                     </h3>
                 </div>
                 <div class="quarter" id="visiblequater" style="display: none">
@@ -154,7 +179,7 @@
                                data-language='vi'
                                data-min-view="years"
                                data-view="years"
-                               data-date-format="yyyy"  />
+                               data-date-format="yyyy" />
                     </h3>
                 </div>
             </div>
@@ -274,100 +299,63 @@
         <div id="solieu" class="col s12">
             <div class="row ">
                 <div class="col l12">
-                    @if (ViewBag.ContentReport.Count > 0)
-                    {
-                        <table class="table-bordered striped centered"
-                               style="margin-top:30px; text-align:center;">
-                            <thead>
-                                <tr>
-                                    <th style="text-align:center">Tháng</th>
-                                    <th>Mã thiết bị sử dụng</th>
-                                    <th style="min-width:100px">Tên thiết bị sử dụng</th>
-                                    <th style="min-width:100px">Loại nhiên liệu tiêu thụ</th>
-                                    <th>Lượng tiêu thụ</th>
-                                    <th>Đơn vị</th>
+                    <table id="content-table" class="table-bordered striped centered"
+                           style="margin-top:30px; text-align:center;">
+                        <thead>
+                            <tr>
+                                <th style="text-align:center">Tháng</th>
+                                <th>Mã thiết bị sử dụng</th>
+                                <th style="min-width:100px">Tên thiết bị sử dụng</th>
+                                <th style="min-width:100px">Loại nhiên liệu tiêu thụ</th>
+                                <th>Lượng tiêu thụ</th>
+                                <th>Đơn vị</th>
 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in ViewBag.ContentReport)
-                                {
-                                    <tr>
-                                        <td>@item.Thang/@item.Nam</td>
-                                        <td>@item.MaThietBi</td>
-                                        <td>@item.TenThietBi</td>
-                                        <td>@item.LoaiNhienLieu</td>
-                                        <td>@item.LuongTieuThu</td>
-                                        <td>Lít</td>
-                                    </tr>
-                                }
-                                <tr style="color:crimson">
-                                    <th>Tổng</th>
-                                    <td></td>
-                                    <td></td>
-                                    <th>Xăng</th>
-                                    <th>@ViewBag.Xang</th>
-                                    <th>Lít</th>
-                                </tr>
-                                <tr style="color:crimson">
-                                    <th></th>
-                                    <td></td>
-                                    <td></td>
-                                    <th>Dầu nhũ hóa</th>
-                                    <th>@ViewBag.DauNhuHoa</th>
-                                    <th>Lít</th>
-                                </tr>
-                                <tr style="color:crimson">
-                                    <th></th>
-                                    <td></td>
-                                    <td></td>
-                                    <th>Dầu mỡ</th>
-                                    <th>@ViewBag.DauMo</th>
-                                    <th>Lít</th>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="row" style="margin:20px 0px 20px 0px">
-                            <div class="col-lg-12 left">
-                                <div class="export_btn_container">
-                                    <a class="waves-effect waves-light btn mybtn" onclick="window.open('nhien-lieu/excel')">Xuất ra file excel</a>
-                                </div>
+                            </tr>
+                        </thead>
+                        <tbody id="footertable">
+                          
+                        </tbody>
+                    </table>
+                    <div class="row" style="margin:20px 0px 20px 0px">
+                        <div class="col-lg-12 left">
+                            <div class="export_btn_container">
+                                <a class="waves-effect waves-light btn mybtn" onclick="window.open('nhien-lieu/excel')">Xuất ra file excel</a>
                             </div>
                         </div>
-                    }
-                        <div class="row">
-                            <div class="col l12">
-                                <h3>TỔNG HỢP BÁO CÁO: </h3>
-                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="col l12">
+                            <h3>TỔNG HỢP BÁO CÁO: </h3>
                         </div>
+                    </div>
 
-                        <div class="row">
-                            <div class="summary_container">
-                                <div class="col l6 summary_left">
-                                    <table class=" table-bordered striped">
-                                        <tbody>
-                                            <tr>
-                                                <th class="total_row">Tổng nhiên liệu tiêu thụ: </th>
-                                                <td class="total_row"></td>
-                                            </tr>
-                                            <tr>
-                                                <th>Xăng</th>
-                                                <td>@ViewBag.Xang</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Dầu nhũ hóa</th>
-                                                <td>@ViewBag.DauNhuHoa</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Dầu mỡ</th>
-                                                <td>@ViewBag.DauMo</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                    <div class="row">
+                        <div class="summary_container">
+                            <div class="col l6 summary_left">
+                                <table class=" table-bordered striped">
+                                    <tbody>
+                                        <tr>
+                                            <th class="total_row">Tổng nhiên liệu tiêu thụ: </th>
+                                            <td class="total_row">@(ViewBag.Xang + ViewBag.DauNhuHoa + ViewBag.DauMo)</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Xăng</th>
+                                            <td>@ViewBag.Xang</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Dầu diezen</th>
+                                            <td>@ViewBag.DauNhuHoa</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Dầu mỡ</th>
+                                            <td>@ViewBag.DauMo</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                   
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -376,21 +364,17 @@
 
 <script type="text/javascript">
     function ViewbyDay() {
-        $('#pre-load').show();
         window.location = "/phong-cdvt/bao-cao/nhien-lieu?type=day&date=" + document.getElementById("minMaxDate").value;
     }
     function ViewbyMonth() {
-        $('#pre-load').show();
         var val = document.getElementById("txtmonth").value;
         var val2 = val.split(" ");
         window.location = "/phong-cdvt/bao-cao/nhien-lieu?type=month&month=" + val2[1] + "&year=" + val2[2];
     }
     function ViewbyQuarter() {
-        $('#pre-load').show();
         window.location = "/phong-cdvt/bao-cao/nhien-lieu?type=quarter&quarter=" + document.getElementById("txtquarter").value + "&year=" + document.getElementById("quateryear").value;
     }
     function ViewbyYear() {
-        $('#pre-load').show();
         window.location = "/phong-cdvt/bao-cao/nhien-lieu?type=year&year=" + document.getElementById("txtyear").value;
     }
 </script>
@@ -398,12 +382,12 @@
 <script xang="@ViewBag.Xang" daunhuhoa="@ViewBag.DauNhuHoa" daumo="@ViewBag.DauMo" src="~/js/Custom JS/CDVT/Report/FuelUsage.js"></script>
 <script>
     $('#minMaxDate').datepicker({
-                    language: 'vi',
+        language: 'vi',
         maxDate: new Date() // Now can select only dates, which goes after today
     })
     $(document).ready(function () {
         $('.datepicker-inline').remove();
-                    });
+    });
 </script>
 
 <script src="~/js/Custom JS/CDVT/Report/DetailManu.js"></script>
