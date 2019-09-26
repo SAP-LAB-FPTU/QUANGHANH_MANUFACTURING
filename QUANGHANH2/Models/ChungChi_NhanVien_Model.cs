@@ -16,6 +16,7 @@ namespace QUANGHANH2.Models
         public string MaNV { get; set; }
         [Required(ErrorMessage = "Không để trống")]
         public int MaChungChi { get; set; }
+        public Nullable<System.DateTime> NgayTra { get; set; }
         public string TenNV { get; set; }
         public string TenChungChi { get; set; }
 

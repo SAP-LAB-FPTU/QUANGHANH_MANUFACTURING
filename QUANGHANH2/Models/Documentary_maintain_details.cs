@@ -17,7 +17,7 @@ namespace QUANGHANH2.Models
         public int equipment_maintain_status { get; set; }
         public string maintain_type { get; set; }
         public System.DateTime finish_date_plan { get; set; }
-        public string documentary_id { get; set; }
+        public int documentary_id { get; set; }
         public string equipmentId { get; set; }
         public string equipment_maintain_reason { get; set; }
     

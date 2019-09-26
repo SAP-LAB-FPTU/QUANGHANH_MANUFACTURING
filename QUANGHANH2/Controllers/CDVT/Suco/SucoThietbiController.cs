@@ -21,7 +21,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
         [HttpGet]
         public ActionResult Index()
         {
-
             return View("/Views/CDVT/Suco/SucoThietbi.cshtml");
         }
 
@@ -135,7 +134,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             }
         }
 
-        [Route("phong-cdvt/su-co/search")]
+        [Route("phong-cdvt/su-co")]
         [HttpPost]
         public ActionResult Search(string equipmentId, string equipmentName, string department, string detail, string reason, string dateStart, string dateEnd)
         {

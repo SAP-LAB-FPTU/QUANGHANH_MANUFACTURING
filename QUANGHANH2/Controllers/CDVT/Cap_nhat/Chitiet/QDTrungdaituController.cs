@@ -7,6 +7,7 @@ using QUANGHANH2.Models;
 using System.Data.Entity;
 using System.Linq.Dynamic;
 using QUANGHANH2.SupportClass;
+using System.Data.SqlClient;
 
 namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
 {
@@ -15,10 +16,22 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
         [Auther(RightID = "96")]
         [Route("phong-cdvt/cap-nhat/quyet-dinh/trung-dai-tu")]
         [HttpGet]
-        public ActionResult Index(string id)
+        public ActionResult Index(int id)
         {
-            ViewBag.id = id as string;
-            return View("/Views/CDVT/Cap_nhat/Chitiet/Trungdaitu.cshtml");
+            try
+            {
+                QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+                Documentary documentary = DBContext.Database.SqlQuery<Documentary>("SELECT docu.*, docu.[out/in_come] as out_in_come FROM Documentary_big_maintain_details as detail inner join Documentary as docu on detail.documentary_id = docu.documentary_id WHERE docu.documentary_code IS NOT NULL AND detail.documentary_id = @documentary_id",
+                    new SqlParameter("documentary_id", id)).First();
+                ViewBag.id = documentary.documentary_id;
+                ViewBag.code = documentary.documentary_code as string;
+                return View("/Views/CDVT/Cap_nhat/Chitiet/Trungdaitu.cshtml");
+            }
+            catch (Exception)
+            {
+                Response.Write("Số quyết định không tồn tại hoặc chưa được cấp");
+                return new HttpStatusCodeResult(400);
+            }
         }
 
         [Auther(RightID = "96")]
@@ -33,11 +46,13 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            List<Documentary_big_maintain_detailsDB> equips = DBContext.Database.SqlQuery<Documentary_big_maintain_detailsDB>("select e.equipmentId, e.equipment_name, depa.department_name, details.* from Department depa inner join Documentary docu on depa.department_id = docu.department_id inner join Documentary_big_maintain_details details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 6 and details.documentary_id = " + id).ToList();
+            List<Documentary_big_maintain_detailsDB> equips = DBContext.Database.SqlQuery<Documentary_big_maintain_detailsDB>("select e.equipmentId, e.equipment_name, depa.department_name, details.* from Department depa inner join Documentary docu on depa.department_id = docu.department_id inner join Documentary_big_maintain_details details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 6 and details.documentary_id = @documentary_id",
+                new SqlParameter("documentary_id",id)).ToList();
             foreach (Documentary_big_maintain_detailsDB item in equips)
             {
                 item.stringDate = item.end_date.ToString("dd/MM/yyyy");
                 item.statusAndEquip = item.equipment_big_maintain_status + "^" + item.equipmentId;
+                item.idAndEquip = id + "^" + item.equipmentId;
             }
             int totalrows = equips.Count;
             int totalrowsafterfiltering = equips.Count;
@@ -61,19 +76,20 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
                 {
                     try
                     {
+                        int idnumber = int.Parse(id);
                         edit = edit.Substring(0, edit.Length - 1);
                         char[] spearator = { '^' };
                         String[] list = edit.Split(spearator,
                            StringSplitOptions.RemoveEmptyEntries);
                         foreach (var item in list)
                         {
-                            Documentary_big_maintain_details temp = DBContext.Documentary_big_maintain_details.Find(id, item);
+                            Documentary_big_maintain_details temp = DBContext.Documentary_big_maintain_details.Find(idnumber, item);
                             temp.equipment_big_maintain_status = 1;
                             DBContext.SaveChanges();
                         }
-                        if (DBContext.Database.SqlQuery<Documentary_big_maintain_detailsDB>("select details.equipment_big_maintain_status from Department depa inner join Documentary docu on depa.department_id = docu.department_id inner join Documentary_big_maintain_details details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 6 and details.documentary_id = " + id + " and equipment_big_maintain_status = '0'").Count() == 0)
+                        if (DBContext.Database.SqlQuery<Documentary_big_maintain_detailsDB>("select details.equipment_big_maintain_status from Department depa inner join Documentary docu on depa.department_id = docu.department_id inner join Documentary_big_maintain_details details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 6 and details.documentary_id = @documentary_id and equipment_big_maintain_status = '0'",new SqlParameter("documentary_id", id)).Count() == 0)
                         {
-                            Documentary docu = DBContext.Documentaries.Find(id);
+                            Documentary docu = DBContext.Documentaries.Find(idnumber);
                             docu.documentary_status = 2;
                         }
 

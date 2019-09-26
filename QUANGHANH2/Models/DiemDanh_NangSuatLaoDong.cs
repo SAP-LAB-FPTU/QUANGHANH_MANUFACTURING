@@ -20,13 +20,15 @@ namespace QUANGHANH2.Models
         public Nullable<int> CaDiemDanh { get; set; }
         public Nullable<System.DateTime> ThoiGianThucTeDiemDanh { get; set; }
         public string MaDonVi { get; set; }
-        public string NangSuatLaoDong { get; set; }
+        public Nullable<double> NangSuatLaoDong { get; set; }
         public Nullable<double> HeSoChiaLuong { get; set; }
-        public Nullable<double> LuongTruocDuyet { get; set; }
-        public Nullable<double> LuongSauDuyet { get; set; }
         public string DuBaoNguyCo { get; set; }
         public string GiaiPhapNguyCo { get; set; }
         public string LyDoVangMat { get; set; }
+        public Nullable<double> Luong { get; set; }
+        public Nullable<bool> XacNhan { get; set; }
+        public Nullable<bool> DiLam { get; set; }
+        public string GhiChu { get; set; }
     
         public virtual Department Department { get; set; }
         public virtual NhanVien NhanVien { get; set; }

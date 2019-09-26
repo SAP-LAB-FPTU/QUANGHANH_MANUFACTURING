@@ -21,7 +21,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
         public static string id_ = "";
 
-       
+
 
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty")]
         [HttpGet]
@@ -79,7 +79,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                              Ten = p.ten,
                              NgaySinh = p.ngaysinh.ToString(),
                              NguoiGiaoHoSo = p.nguoiGiaoHoSo,
-                             NgayNhanHoSo = p.ngayNhanHoSo,
+                             NgayNhanHoSo = (DateTime) p.ngayNhanHoSo,
                              NguoiGiuHoSo = p.nguoiGiaoHoSo
 
                          }).ToList();
@@ -91,7 +91,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
                 return dataJson;
             }
-            
+
         }
 
 
@@ -100,7 +100,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         public ActionResult listHoSo(string id)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            
+
 
             var HoSoByMaNV = from hs in db.HoSoes join nv in db.NhanViens on hs.MaNV equals nv.MaNV
                              where nv.MaNV == id_
@@ -115,7 +115,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                   quyetDinhTiepNhan = hs.QuyetDinhTiepNhanDVC,
                                   nguoiBanGiaoBangNhapKho = hs.NguoiBanGiaoBangNhapKho
 
-  
+
                               };
             var dataJson = Json(new { success = true, data = HoSoByMaNV });
 
@@ -216,7 +216,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
             var chiTietBangCapByMaNV = from ctbc in db.ChiTiet_BangCap_GiayChungNhan
                              join nv in db.NhanViens on ctbc.MaNV equals nv.MaNV
-                             
+
                              where ctbc.MaNV == id_
                              select new
                              {
@@ -224,7 +224,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                  ten = nv.Ten,
                                  soHieu = ctbc.SoHieu,
                                  maBangCap = ctbc.MaBangCap_GiayChungNhan,
-                                 ngayCap = ctbc.NgayCap.ToString()                                                                  
+                                 ngayCap = ctbc.NgayCap.ToString()
 
                              };
             var dataJson = Json(new { success = true, data = chiTietBangCapByMaNV });
@@ -254,7 +254,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                            ngaySinh = qhgd.NgaySinh,
                                            lyLich = qhgd.LyLich,
                                            loaiGiaDinh = qhgd.LoaiGiaDinh
-                                           
+
 
                                        };
             var dataJson = Json(new { success = true, data = quanHeGiaDinhByMaNV });
@@ -351,8 +351,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 return RedirectToAction("List");
             }
         }
-
-        //***start hoang
+		//***start hoang
 
 
 
@@ -373,7 +372,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                               join p1 in db.HoSoes on p.MaNV equals p1.MaNV
                               join p2 in db.ChamDut_NhanVien on p1.MaNV equals p2.MaNV
                               join p3 in db.Departments on p.MaPhongBan equals p3.department_id
-                              //  where p1.TrangThaiHoSo == "ngoai" 
+                              //  where p1.TrangThaiHoSo == "ngoai"
                               select new
                               {
                                   stt = "1",
@@ -722,7 +721,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             String loaichamdut = js.loaichamdut;
 
 
-            // String 
+            // String
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
 
@@ -795,7 +794,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
 
         //***end hoang
-
 
 
 

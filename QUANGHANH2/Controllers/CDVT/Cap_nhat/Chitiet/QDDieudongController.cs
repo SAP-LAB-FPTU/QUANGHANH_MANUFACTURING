@@ -18,8 +18,20 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
         [HttpGet]
         public ActionResult Index(string id)
         {
-            ViewBag.id = id as string;
-            return View("/Views/CDVT/Cap_nhat/Chitiet/Dieudong.cshtml");
+            try
+            {
+                QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+                Documentary documentary = DBContext.Database.SqlQuery<Documentary>("SELECT docu.*, docu.[out/in_come] as out_in_come FROM equipment_moveline_status as detail inner join Documentary as docu on detail.documentary_id = docu.documentary_id WHERE docu.documentary_code IS NOT NULL AND detail.documentary_id = @documentary_id",
+                    new SqlParameter("documentary_id", id)).First();
+                ViewBag.id = documentary.documentary_id;
+                ViewBag.code = documentary.documentary_code as string;
+                return View("/Views/CDVT/Cap_nhat/Chitiet/Dieudong.cshtml");
+            }
+            catch (Exception)
+            {
+                Response.Write("Số quyết định không tồn tại hoặc chưa được cấp");
+                return new HttpStatusCodeResult(400);
+            }
         }
 
         [Auther(RightID = "88")]
@@ -34,12 +46,12 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            List<Documentary_moveline_detailsDB> equips = DBContext.Database.SqlQuery<Documentary_moveline_detailsDB>("select e.equipmentId, e.equipment_name, depa.department_name, details.* from Department depa inner join Documentary docu on depa.department_id = docu.department_id inner join Documentary_moveline_details details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 3 and details.documentary_id = " + id).ToList();
+            List<Documentary_moveline_detailsDB> equips = DBContext.Database.SqlQuery<Documentary_moveline_detailsDB>("select e.equipmentId, e.equipment_name, depa.department_name, details.date_to, details.department_detail, details.equipment_moveline_status from Department depa inner join Documentary docu on depa.department_id = docu.department_id inner join Documentary_moveline_details details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 3 and details.documentary_id = @documentary_id",
+                new SqlParameter("documentary_id", id)).ToList();
             foreach (Documentary_moveline_detailsDB item in equips)
             {
                 item.stringDate = item.date_to.ToString("dd/MM/yyyy");
                 item.statusAndEquip = item.equipment_moveline_status + "^" + item.equipmentId;
-                item.idAndEquip = id + "^" + item.equipmentId;
             }
             int totalrows = equips.Count;
             int totalrowsafterfiltering = equips.Count;
@@ -63,19 +75,20 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
                 {
                     try
                     {
+                        int idnumber = int.Parse(id);
                         edit = edit.Substring(0, edit.Length - 1);
                         char[] spearator = { '^' };
                         String[] list = edit.Split(spearator,
                            StringSplitOptions.RemoveEmptyEntries);
                         foreach (var item in list)
                         {
-                            Documentary_moveline_details temp = DBContext.Documentary_moveline_details.Find(id, item);
+                            Documentary_moveline_details temp = DBContext.Documentary_moveline_details.Find(idnumber, item);
                             temp.equipment_moveline_status = 1;
                             DBContext.SaveChanges();
                         }
-                        if (DBContext.Database.SqlQuery<Documentary_moveline_detailsDB>("select details.equipment_moveline_status from Department depa inner join Documentary docu on depa.department_id = docu.department_id inner join Documentary_moveline_details details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 3 and details.documentary_id = " + id + " and equipment_moveline_status = '0'").Count() == 0)
+                        if (DBContext.Database.SqlQuery<Documentary_moveline_detailsDB>("select details.equipment_moveline_status from Department depa inner join Documentary docu on depa.department_id = docu.department_id inner join Documentary_moveline_details details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 3 and details.documentary_id = @documentary_id and equipment_moveline_status = '0'", new SqlParameter("documentary_id", id)).Count() == 0)
                         {
-                            Documentary docu = DBContext.Documentaries.Find(id);
+                            Documentary docu = DBContext.Documentaries.Find(idnumber);
                             docu.documentary_status = 2;
                         }
 
@@ -92,18 +105,6 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
                 }
             }
             return new HttpStatusCodeResult(201);
-        }
-
-        [Auther(RightID = "88")]
-        [Route("phong-cdvt/cap-nhat/quyet-dinh/dieu-dong/GetSupply")]
-        [HttpPost]
-        public ActionResult getSupply(string documentary_id, string equipmentId)
-        {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            List<Supply_Documentary_EquipmentDB> supplies = DBContext.Database.SqlQuery<Supply_Documentary_EquipmentDB>("SELECT * FROM Supply_Documentary_Equipment doc INNER JOIN Supply s on doc.supply_id = s.supply_id WHERE doc.equipmentId = @equipmentId AND doc.documentary_id = @documentary_id",
-                new SqlParameter("equipmentId", equipmentId),
-                new SqlParameter("documentary_id", documentary_id)).ToList();
-            return Json(supplies);
         }
     }
 }

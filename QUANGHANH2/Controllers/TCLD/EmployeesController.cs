@@ -1,12 +1,15 @@
-﻿using QUANGHANH2.Models;
+﻿using OfficeOpenXml;
+using QUANGHANH2.Models;
 //using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Threading.Tasks;
+using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -14,6 +17,8 @@ namespace QUANGHANH2.Controllers.TCLD
 {
     public class EmployeesController : Controller
     {
+        private const string V = "";
+
         // GET: Employees
         [Route("phong-tcld/danh-sach-toan-cong-ty")]
         public ActionResult ListAll()
@@ -139,7 +144,7 @@ namespace QUANGHANH2.Controllers.TCLD
             return View("/Views/TCLD/Brief/List.cshtml");
         }
 
-        [Route("phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien")]
+        [Route("phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien/search")]
         [HttpPost]
         public ActionResult Search(string MaNV, string TenNV, string Gender)
         {
@@ -149,7 +154,7 @@ namespace QUANGHANH2.Controllers.TCLD
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
             string query = "select n.* from NhanVien n where n.TrangThaiLamViec = N'Đang đi làm' AND ";
-            if (!MaNV.Equals("") || !TenNV.Equals("") || !Gender.Equals(""))
+            if(!MaNV.Equals("") || !TenNV.Equals("") || !Gender.Equals(""))
             {
                 if (!MaNV.Equals("")) query += "n.MaNV LIKE @MaNV AND ";
                 if (!TenNV.Equals("")) query += "n.Ten LIKE @Ten AND ";
@@ -159,11 +164,10 @@ namespace QUANGHANH2.Controllers.TCLD
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             db.Configuration.LazyLoadingEnabled = false;
             bool GioiTinh = true;
-            if (Gender.Equals("true"))
+            if(Gender.Equals("true"))
             {
                 GioiTinh = true;
-            }
-            else if (Gender.Equals("false"))
+            }else if(Gender.Equals("false"))
             {
                 GioiTinh = false;
             }
@@ -183,32 +187,32 @@ namespace QUANGHANH2.Controllers.TCLD
 
         }
 
-        //[Route("phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien")]
-        //[HttpPost]
-        //public ActionResult getAllNhanVien()
-        //{
-        //    int start = Convert.ToInt32(Request["start"]);
-        //    int length = Convert.ToInt32(Request["length"]);
-        //    string searchValue = Request["search[value]"];
-        //    string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
-        //    string sortDirection = Request["order[0][dir]"];
+        [Route("phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien")]
+        [HttpPost]
+        public ActionResult getAllNhanVien()
+        {
+            int start = Convert.ToInt32(Request["start"]);
+            int length = Convert.ToInt32(Request["length"]);
+            string searchValue = Request["search[value]"];
+            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+            string sortDirection = Request["order[0][dir]"];
 
-        //    QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
 
-        //    db.Configuration.LazyLoadingEnabled = false;
-        //    List<NhanVien> list = db.NhanViens.ToList<NhanVien>();
-        //    //list = db.NhanViens.ToList<NhanVien>();
-        //    list = db.Database.SqlQuery<NhanVien>("select n.* from NhanVien n where n.TrangThaiLamViec = N'Đang đi làm'").ToList();
-        //    int totalrows = list.Count;
-        //    int totalrowsafterfiltering = list.Count;
-        //    //sorting
-        //    list = list.OrderBy(sortColumnName + " " + sortDirection).ToList<NhanVien>();
-        //    //paging
-        //    list = list.Skip(start).Take(length).ToList<NhanVien>();
+            db.Configuration.LazyLoadingEnabled = false;
+            List<NhanVien> list = db.NhanViens.ToList<NhanVien>();
+            //list = db.NhanViens.ToList<NhanVien>();
+            list = db.Database.SqlQuery<NhanVien>("select n.* from NhanVien n where n.TrangThaiLamViec = N'Đang đi làm'").ToList();
+            int totalrows = list.Count;
+            int totalrowsafterfiltering = list.Count;
+            //sorting
+            list = list.OrderBy(sortColumnName + " " + sortDirection).ToList<NhanVien>();
+            //paging
+            list = list.Skip(start).Take(length).ToList<NhanVien>();
 
-        //    return Json(new { data = list, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+            return Json(new { data = list, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
 
-        //}
+        }
 
         [Route("phong-tcld/quan-ly-nhan-vien/them-nhan-vien")]
         public ActionResult LoadAdd()
@@ -280,24 +284,73 @@ namespace QUANGHANH2.Controllers.TCLD
         }
         [Route("delete")]
         [HttpPost]
-        public JsonResult TLHD(string id, string soQD, string lydo, DateTime date)
+        public JsonResult TLHD(string id)
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 var emp = db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault();
                 emp.TrangThaiLamViec = "Đã chấm dứt";
                 db.Entry(emp).State = EntityState.Modified;
-                string query = "";
-                if(soQD != String.Empty)
-                {
-                    query = "INSERT INTO [dbo].[QuyetDinh]([SoQuyetDinh]" +
-                    ",[LoaiQuyetDinh],[NgayQuyetDinh],[TrangThai]) VALUES('" + soQD + "',N'Chấm dứt', '" + date + "', '')";
-                }
-                db.Database.ExecuteSqlCommand("INSERT INTO [dbo].[QuyetDinh]([SoQuyetDinh]" +
-                    ",[LoaiQuyetDinh],[NgayQuyetDinh],[TrangThai]) VALUES('"+soQD+"',N'Chấm dứt', '"+date+"', '')");
                 db.SaveChanges();
             }
             return Json("", JsonRequestBehavior.AllowGet);
+
+        }
+
+        [Route("phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien/excel")]
+        [HttpPost]
+        public void ReturnExcel()
+        {
+            string path = HostingEnvironment.MapPath("/excel/TCLD/Brief/Danh-sách-nhân-viên.xlsx");
+            FileInfo file = new FileInfo(path);
+            using (ExcelPackage excelPackage = new ExcelPackage(file))
+            {
+                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
+                ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    string query = "select * from NhanVien";
+                    List<NhanVien> list = db.Database.SqlQuery<NhanVien>(query).ToList();
+                    int k = 3;
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        excelWorksheet.Cells[k, 1].Value = list.ElementAt(i).MaNV;
+                        excelWorksheet.Cells[k, 2].Value = list.ElementAt(i).Ten;
+                        if (list.ElementAt(i).GioiTinh)
+                        {
+                            excelWorksheet.Cells[k, 3].Value = "Nam";
+                        }
+                        else
+                        {
+                            excelWorksheet.Cells[k, 3].Value = "Nữ";
+                        }
+                        //excelWorksheet.Cells[k, 4].Value = list.ElementAt(i).NgaySinh.ToString("dd/MM/yyyy");
+                        excelWorksheet.Cells[k, 5].Value = list.ElementAt(i).SoBHXH;
+                        if(list.ElementAt(i).TrinhDoHocVan != null)
+                        {
+                            if(list.ElementAt(i).TrinhDoHocVan.Equals("1"))
+                            {
+                                excelWorksheet.Cells[k, 18].Value = "Tiểu học";
+                            }else if(list.ElementAt(i).TrinhDoHocVan.Equals("2"))
+                            {
+                                excelWorksheet.Cells[k, 18].Value = "THCS";
+                            }else if(list.ElementAt(i).TrinhDoHocVan.Equals("3"))
+                            {
+                                excelWorksheet.Cells[k, 18].Value = "THPT";
+                            }else if(list.ElementAt(i).TrinhDoHocVan.Equals("4"))
+                            {
+                                excelWorksheet.Cells[k, 18].Value = "Trung cấp";
+                            }else
+                            {
+                                excelWorksheet.Cells[k, 18].Value = "Đại học";
+                            }
+                        }
+                        excelWorksheet.Cells[k, 20].Value = list.ElementAt(i).QueQuan;
+                        k++;
+                    }
+                    excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath("/excel/TCLD/download/Danh_sách_nhân_viên.xlsx")));
+                }
+            }
 
         }
     }

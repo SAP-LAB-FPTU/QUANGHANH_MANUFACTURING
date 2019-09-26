@@ -1,5 +1,5 @@
-﻿using QUANGHANH2.Models;
-using QUANGHANH2.SupportClass;
+﻿using Newtonsoft.Json;
+using QUANGHANH2.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -7,12 +7,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.Script.Serialization;
 
 namespace QUANGHANHCORE.Controllers.PX.PXKT
 {
     public class PXKTController : Controller
     {
-        //[Auther(RightID ="006")]
         [Route("phan-xuong-khai-thac")]
         public ActionResult Index()
         {
@@ -47,11 +47,11 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                 List<DiemDanh_NangSuatLaoDong> list = db.DiemDanh_NangSuatLaoDong
                     .Where(a => a.NgayDiemDanh == date)
                     .Where(a => a.CaDiemDanh == calamviec).ToList();
-                List<CustomNSLD> customNSLDs = new List<CustomNSLD>();
-                CustomNSLD cus;
+                List<BaoCaoTheoCa> customNSLDs = new List<BaoCaoTheoCa>();
+                BaoCaoTheoCa cus;
                 foreach (var i in list)
                 {
-                    cus = new CustomNSLD
+                    cus = new BaoCaoTheoCa
                     {
                         ID = i.MaDiemDanh,
                         Name = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().Ten,
@@ -59,10 +59,10 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                         ChucDanh = "MT",
                         DuBaoNguyCo = "Không kiểm tra thiết bị trước khi vận hành",
                         HeSoChiaLuong = i.HeSoChiaLuong.ToString(),
-                        LuongSauDuyet = i.LuongSauDuyet.ToString(),
-                        LuongTruocDuyet = i.LuongTruocDuyet.ToString(),
+                        LuongSauDuyet = i.Luong.ToString(),
+                        LuongTruocDuyet = i.Luong.ToString(),
                         NoiDungCongViec = db.Departments.Where(a => a.department_id == i.MaDonVi).First().department_name,
-                        NSLD = i.NangSuatLaoDong,
+                        NSLD = i.NangSuatLaoDong.Value,
                         SoThe = i.MaNV,
                         YeuCauBPKTAT = "Trước khi vận hành phải kiểm tra thiết bị đảm bảo an toàn trước khi được vận hành"
                     };
@@ -84,7 +84,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                     int id = ids[i];
                     string NSLD = NSLDS[i];
                     DiemDanh_NangSuatLaoDong f = db.DiemDanh_NangSuatLaoDong.FirstOrDefault(x => x.MaDiemDanh == id);
-                    f.NangSuatLaoDong = NSLD;
+                    f.NangSuatLaoDong = Convert.ToDouble( NSLD);
                     db.SaveChanges();
                 }
             }
@@ -92,16 +92,47 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
         }
 
         [Route("phan-xuong-khai-thac/diem-danh")]
-        public ActionResult getAttendance()
+        public ActionResult takeAttendanceView()
         {
-            return View("/Views/PX/PXKT/getAttendacne.cshtml");
-        }
-        
 
+            return View("/Views/PX/PXKT/takeAttendance.cshtml");
+        }
+
+        [HttpPost]
+        [Route("phan-xuong-khai-thac/diem-danh")]
+        public ActionResult takeAttendance()
+        {
+            // fixxing
+            var departmentID = "DL1";
+            var dateAtt = Convert.ToDateTime("2019-09-10");
+            int ca = 1;
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                var listAttendance = (from emp in db.NhanViens
+                                      join per in db.DiemDanh_NangSuatLaoDong
+                                        .Where(per => per.MaDonVi == departmentID && per.NgayDiemDanh == dateAtt && per.CaDiemDanh == ca)
+                                      on emp.MaNV equals per.MaNV into attendance
+                                      from att in attendance.DefaultIfEmpty()
+                                      select new
+                                      {
+                                          maNV = emp.MaNV,
+                                          tenNV = emp.Ten,
+                                          status = att.DiLam,
+                                          timeAttendance = att.ThoiGianThucTeDiemDanh,
+                                          dateAttendance = att.NgayDiemDanh,
+                                          reason = att.LyDoVangMat,
+                                          description = att.GhiChu
+                                      }).OrderBy(att => att.status).ToList();
+                JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+                var result = JsonConvert.SerializeObject(listAttendance, Formatting.Indented, jss);
+                return Json(new { success = true, data = result }, JsonRequestBehavior.AllowGet);
+            }
+        }
 
 
     }
-    public class CustomNSLD
+    public class BaoCaoTheoCa
     {
         public int ID { get; set; }
         public string Name { get; set; }
@@ -109,7 +140,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
         public string BacTho { get; set; }
         public string ChucDanh { get; set; }
         public string NoiDungCongViec { get; set; }
-        public string NSLD { get; set; }
+        public double NSLD { get; set; }
         public string HeSoChiaLuong { get; set; }
         public string LuongTruocDuyet { get; set; }
         public string LuongSauDuyet { get; set; }
