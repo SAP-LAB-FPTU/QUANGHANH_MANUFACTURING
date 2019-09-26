@@ -123,7 +123,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 {
                     if(chungChi.ThoiHan.Equals("Vĩnh viễn"))
                     {
-                        chungChi.ThoiHan = "-1";
+                        chungChi.ThoiHan = -1;
                         db.ChungChis.Add(chungChi);
                     }
                     else
@@ -282,7 +282,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 {
                     if (chungChi.ThoiHan.Equals("Vĩnh viễn"))
                     {
-                        chungChi.ThoiHan = "-1";
+                        chungChi.ThoiHan = -1;
                         db.Entry(chungChi).State = EntityState.Modified;
                     }
                     else
