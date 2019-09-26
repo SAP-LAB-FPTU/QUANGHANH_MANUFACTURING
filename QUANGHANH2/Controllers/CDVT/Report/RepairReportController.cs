@@ -14,6 +14,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
         {
             var noww = DateTime.Now.Date.ToString("dd/MM/yyyy");
             ViewBag.now = noww;
+            int h100bag = 0, h200bag = 0, h500bag = 0, h1000bag = 0, h2000bag = 0, dotxuatbag = 0,thuongxuyenbag=0;
             Wherecondition(type, date, month, quarter, year);
             List<Content> content = new List<Content>();
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
@@ -30,11 +31,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                     {
                         if (id.Equals(item1.MaThietBi))
                         {
-                            if (item1.LoaiBaoDuong.Equals("Bảo dưỡng 100h")) h100++;
-                            if (item1.LoaiBaoDuong.Equals("Bảo dưỡng 200h")) h200++;
-                            if (item1.LoaiBaoDuong.Equals("Bảo dưỡng 500h")) h500++;
-                            if (item1.LoaiBaoDuong.Equals("Bảo dưỡng 1000h")) h1000++;
-                            if (item1.LoaiBaoDuong.Equals("Bảo dưỡng 2000h")) h2000++;
+                                if (item1.LoaiBaoDuong.Equals("Bảo dưỡng 100h")) { h100++; h100bag++; }
+                                if (item1.LoaiBaoDuong.Equals("Bảo dưỡng 200h")) { h200++; h200bag++; }
+                                if (item1.LoaiBaoDuong.Equals("Bảo dưỡng 500h")) { h500++; h500bag++; }
+                                if (item1.LoaiBaoDuong.Equals("Bảo dưỡng 1000h")){ h1000++; h1000bag++; }
+                                if (item1.LoaiBaoDuong.Equals("Bảo dưỡng 2000h")){ h2000++; h2000bag++; }
                                 MaThietBi = item1.MaThietBi; TenThietBi = item1.TenThietBi; MaTSCD = item1.MaTSCD;
                                 Thang = item1.Thang; Nam = item1.Nam;
                         }
@@ -43,31 +44,51 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                     {
                         if (id.Equals(item1.MaThietBi))
                         {
-                            if (item1.LoaiSuaChua.Equals("sửa chữa lớn")) DotXuat++;
-                            if (item1.LoaiSuaChua.Equals("sửa chữa nhỏ")) ThuongXuyen++;
+                                if (item1.LoaiSuaChua.Equals("sửa chữa lớn")) { DotXuat++; dotxuatbag++; }
+                                if (item1.LoaiSuaChua.Equals("sửa chữa nhỏ")) { ThuongXuyen++; thuongxuyenbag++; }
                                 MaThietBi = item1.MaThietBi; TenThietBi = item1.TenThietBi; MaTSCD = item1.MaTSCD;
                                 Thang = item1.Thang; Nam = item1.Nam;
                             }
                     }
-                    content.Add(new Content
-                    {
-                        Thang=Thang,
-                        Nam=Nam,
-                        MaThietBi= MaThietBi,
-                        TenThietBi = TenThietBi,
-                        MaTSCD = MaTSCD,
-                        h100 = h100,
-                        h200 = h200,
-                        h500 = h500,
-                        h1000 = h1000,
-                        h2000 = h2000,
-                        DotXuat = DotXuat,
-                        ThuongXuyen = ThuongXuyen
-                    });
+                        if (!String.IsNullOrEmpty(MaThietBi))
+                        {
+                            content.Add(new Content
+                            {
+                                Thang = Thang,
+                                Nam = Nam,
+                                MaThietBi = MaThietBi,
+                                TenThietBi = TenThietBi,
+                                MaTSCD = MaTSCD,
+                                h100 = h100,
+                                h200 = h200,
+                                h500 = h500,
+                                h1000 = h1000,
+                                h2000 = h2000,
+                                DotXuat = DotXuat,
+                                ThuongXuyen = ThuongXuyen
+                            });
+                        }
                     }
                 }
+                db.SaveChanges();
             }
+            //foreach(var item in content)
+            //{
+            //    if (String.IsNullOrEmpty(item.MaThietBi))
+            //    {
+            //        content.Remove(item);
+            //    }
+            //}
             ViewBag.all = content;
+            ViewBag.h100 = h100bag;
+            ViewBag.h200 = h200bag;
+            ViewBag.h500 = h500bag;
+            ViewBag.h1000 = h1000bag;
+            ViewBag.h2000 = h2000bag;
+            ViewBag.dotxuat = dotxuatbag;
+            ViewBag.thuongxuyen = thuongxuyenbag;
+            ViewBag.baoduong = h100bag + h200bag + h500bag + h1000bag + h2000bag;
+            ViewBag.suachua = dotxuatbag + thuongxuyenbag;
                 return View("/Views/CDVT/Report/RepairReport.cshtml");
         }
         private void Wherecondition(string type, string date, string month, string quarter, string year)

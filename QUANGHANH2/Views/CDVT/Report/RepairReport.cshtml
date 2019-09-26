@@ -182,7 +182,7 @@
                     <div class="row">
                         <div class="col s12">
                             <h6 class="card-subtitle">Tổng thiết bị sửa chữa</h6>
-                            <h4>@*@ViewBag.SuaChua*@</h4>
+                            <h4>@ViewBag.suachua thiết bị</h4>
                         </div>
                     </div>
                 </div>
@@ -195,7 +195,7 @@
                     <div class="row">
                         <div class="col s12">
                             <h6 class="card-subtitle">Tổng thiết bị bảo dưỡng</h6>
-                            <h4>@*@ViewBag.BaoDuong*@</h4>
+                            <h4>@ViewBag.baoduong thiết bị</h4>
                         </div>
                     </div>
                 </div>
@@ -229,71 +229,39 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach(var item in ViewBag.all)
+                                    @foreach (var item in ViewBag.all)
                                     {
-                                    <tr>
-                                        <td>@item.Thang/@item.Nam</td>
-                                        <td>@item.MaThietBi</td>
-                                        <td>@item.TenThietBi</td>
-                                        <td>@item.MaTSCD</td>
-                                        <td>@item.h100</td>
-                                        <td>@item.h200</td>
-                                        <td>@item.h500</td>
-                                        <td>@item.h1000</td>
-                                        <td>@item.h2000</td>
-                                        <td>@item.DotXuat</td>
-                                        <td>@item.ThuongXuyen</td>
-                                    </tr>
+                                        <tr>
+                                            <td>@item.Thang/@item.Nam</td>
+                                            <td>@item.MaThietBi</td>
+                                            <td>@item.TenThietBi</td>
+                                            <td>@item.MaTSCD</td>
+                                            <td>@item.h100</td>
+                                            <td>@item.h200</td>
+                                            <td>@item.h500</td>
+                                            <td>@item.h1000</td>
+                                            <td>@item.h2000</td>
+                                            <td>@item.DotXuat</td>
+                                            <td>@item.ThuongXuyen</td>
+                                        </tr>
                                     }
+                                <tr style="color:crimson">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>Tổng cộng</td>
+                                    <td>@ViewBag.h100</td>
+                                    <td>@ViewBag.h200</td>
+                                    <td>@ViewBag.h500</td>
+                                    <td>@ViewBag.h1000</td>
+                                    <td>@ViewBag.h2000</td>
+                                    <td>@ViewBag.dotxuat</td>
+                                    <td>@ViewBag.thuongxuyen</td>
+                                </tr>
                                 </tbody>
                             </table>
                     </div>
                 </div>
-                @*<div class="row">
-                    <div class="table-container">
-                        <table class="table-bordered table-responsive striped">
-                            <thead>
-                                <tr>
-                                    <th class="text-center" rowspan="2">STT</th>
-                                    <th class="text-center" rowspan="2">Tên thiết bị</th>
-                                    <th class="text-center" rowspan="2">Mã thiết bị</th>
-                                    <th class="text-center" rowspan="2">Mã TSCĐ</th>
-                                    <th class="text-center" colspan="7">Số lần</th>
-                                </tr>
-                                <tr>
-                                    <th>BD 125h</th>
-                                    <th>BD 250h</th>
-                                    <th>BD 500h</th>
-                                    <th>BD 1000h</th>
-                                    <th>BD 2000h</th>
-                                    <th>SC đột xuất</th>
-                                    <th>SC thường xuyên</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in ViewBag.ContentReport)
-                        {
-                            <tr>
-                                <td>@item.Thang/@item.Nam</td>
-                                <td>@item.MaThietBi</td>
-                                <td>@item.TenThietBi</td>
-                                <td>@item.LuongTieuThu</td>
-                                <td>@item.SanLuong</td>
-                                <td>tấn</td>
-                            </tr>
-                        }
-                                <tr style="color:crimson">
-                                    <td></td>
-                                    <td></td>
-                                    <td>Tổng cộng</td>
-                                    <td>@ViewBag.Dien</td>
-                                    <td>@ViewBag.SanLuong</td>
-                                    <td>tấn</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>*@
                 <div class="row">
                     <div class="col-lg-12 left">
                         <div class="export_btn_container">
@@ -311,20 +279,12 @@
                             <table class=" table-bordered striped">
                                 <tbody>
                                     <tr>
-                                        <th class="total_row">Tổng số lao động đến ngày 19/9: </th>
-                                        <td class="total_row">1794</td>
+                                        <th class="total_row">Tổng số thiết bị sữa chữa: </th>
+                                        <th class="total_row">Tổng số thiết bị bảo dưỡng: </th>
                                     </tr>
-                                    <tr>
-                                        <th>KT</th>
-                                        <td>1334</td>
-                                    </tr>
-                                    <tr>
-                                        <th>CĐ</th>
-                                        <td>400</td>
-                                    </tr>
-                                    <tr>
-                                        <th>HS</th>
-                                        <td>60</td>
+                                    <tr style="color:crimson">
+                                        <td>@ViewBag.suachua</td>
+                                        <td>@ViewBag.baoduong</td>
                                     </tr>
                                 </tbody>
                             </table>
