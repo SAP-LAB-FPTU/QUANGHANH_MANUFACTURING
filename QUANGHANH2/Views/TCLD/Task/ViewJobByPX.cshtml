@@ -1,0 +1,229 @@
+﻿
+@using QUANGHANH2.Models
+@using QUANGHANH2.Controllers
+@{
+    ViewData["Title"] = "ViewJobByPX";
+    Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
+
+    var arrPhanXuong = ViewBag.PhanXuongs;
+    var arrNhiemVu = ViewBag.arrNhiemVu;
+    List<string> arrNhanVien_NhiemVu = ViewBag.arrNhanVien_NhiemVu;
+}
+<div class="row">
+    <div class="card">
+        <div class="card-content">
+            <h3 class="center">
+                <b>ĐĂNG KÝ CÔNG VIỆC</b>
+            </h3>
+            <br />
+
+            <div class="row">
+                <div class="col s5 m5 l5 input-field">
+                    <input type="text" class="form-control" id="name_search" placeholder="Tên nhân viên" />
+                </div>
+                <div class="col s5 m5 l5 input-field">
+                    <select id="sl_phan_xuong" class="form-control">
+                        <option disabled selected>Phân Xưởng</option>
+                        @{
+                            foreach (var phanXuong in arrPhanXuong)
+                            {
+                                <option value="@phanXuong.department_name">@phanXuong.department_name</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="col s2 m2 l2 input-field">
+                    <button type="button" onclick="search()" id="btn_timkiem" class="btn blue darken-2">Tìm kiếm</button>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-lg-4 center" style="margin-bottom:15px">
+                    <a class="btn blue darken-2 btn-lg dropdown-trigger" style="width:250px" data-target="phanxuong"><span id="tenPhanXuong">Chọn Phân Xưởng</span></a>
+                </div>
+            </div>
+            <div class="table_container">
+                <table class="table-bordered table-responsive" id="mytable">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">MNV</th>
+                            <th rowspan="2">Tên nhân viên</th>
+                            @{
+                                foreach (var a in arrNhiemVu)
+                                {
+                                    <th colspan="@a.arrNV.Count">@a.loai</th>
+                                }
+                            }
+                        </tr>
+                        <tr>
+                            @{
+                                foreach (var b in arrNhiemVu)
+                                {
+                                    foreach (var c in b.arrNV)
+                                    {
+                                        <th>@c.TenNhiemVu</th>
+                                    }
+                                }
+                            }
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <hr />
+            <button type="button" class="btn blue darken-2 modal-trigger" data-target="modal_xacnhan">Lưu</button>
+        </div>
+    </div>
+</div>
+<ul id='phanxuong' class='dropdown-content'>
+    @{
+        foreach (var phanXuong in arrPhanXuong)
+        {
+            <li><a class="dropdown-child-px" onclick="getNVByPX('@phanXuong.department_name')">@phanXuong.department_name</a></li>
+        }
+    }
+</ul>
+
+<div class="modal" id="modal_xacnhan">
+    <div class="modal-content">
+        <div class="modal-header center">
+            <h3><strong>Xác nhận</strong></h3>
+        </div>
+        <hr />
+        <div class="modal-body">
+            <h4><strong class="green-text">Xác nhận thêm nhiệm vụ đã chọn</strong></h4>
+        </div>
+        <hr />
+        <div class="modal-footer">
+            <a class="btn blue darken-2 modal-close" onclick="submitJob()">Đồng ý</a>
+            <a class="btn red modal-close">Hủy</a>
+        </div>
+    </div>
+</div>
+<link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+@section scripts{
+
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        var dataTable;
+        var x;
+
+        $(Document).ready(() => {
+            $("#pre-load").show()
+            $('.dropdown-trigger').dropdown();
+            dataTable = $("#mytable").DataTable({
+
+                 "ajax": {
+                     "url": '@Url.Action("GetAllNhanVienByPX", "Task")',
+                     "type": "POST",
+                     "datatype": "json",
+                },
+
+                "columns": [
+                    { "data": "MaNV", "name": "MaNV", "render": (data) => { return "<label>" + data + "</label>" }, "orderable": true },
+                    { "data": "Ten", "name": "Ten", "render": (data, type, row, meta) => { return "<a class='font-weight-bold text-success' href='@Url.Action("chung-chi-cua-nhan-vien", "phong-tcld")?MaNV=" + row['MaNV'] + "'>" + data + "</a>" }, "orderable": true },
+                    @{
+                        int m = 0;
+                        foreach (var b in arrNhiemVu)
+                        {
+                            foreach (var c in b.arrNV)
+                            {
+
+                                var pp = "{ \"data\": \"MaNV\", \"render\": (data) => {  return \"<label><input class='job' value='" + arrNhanVien_NhiemVu[m] + "_" + "\"+data+\"" + "'  id='cbx" + arrNhanVien_NhiemVu[m] + "_" + "\"+data+\"" + "'  type ='checkbox' /><span></span></label> \" },\"orderable\": false  } ,";
+                                //var pp2 = HttpUtility.HtmlDecode("{ \"data\": \"MaNV\", \"render\": (data) => {  return \"<label><input class='job'  type ='checkbox' onclick='selectJob(" + arrNhanVien_NhiemVu[m] + "_" + "\"+data+\"" + ")' checked/><span></span></label> \" } } ,");
+                                <text>
+                                    @{WriteLiteral(pp);}
+                                </text>
+
+                                m++;
+                            }
+                        }
+                    }
+                ],
+                "bLengthChange": false,
+                "order": [0, 'asc'],
+                "paging": true,
+                "pageLength": 6,
+                "initComplete": () => { $("#pre-load").hide()},
+                "searching": false,
+                "serverSide": true,
+            })
+
+
+            //set dropdown ve gia tri default khi nhan va input search ten
+            $('#name_search').focus(() => { $('#sl_phan_xuong').val("Phân Xưởng").trigger('change') })
+        })
+        
+
+        var selectedJob = []
+        function submitJob() {
+
+            for (var i = 0; i< $('.job:checkbox:checked').length; i++)
+            {
+                var cbxChecked = $('.job:checkbox:checked')[i];
+                if (!selectedJob.includes(cbxChecked.value.toString())) {
+                    selectedJob.push(cbxChecked.value.toString())
+                }
+            }
+            if (selectedJob.length == 0) {
+                $.notify("Chưa chọn công việc", {
+                    globalPosition: "top center",
+                    className: "fail"
+                })
+                return false;
+            }
+            $("#pre-load").show()
+            
+            $.ajax({
+                url: '@Url.Action("AssignTask","Task")',
+                type: "POST",
+                data: { tasks: selectedJob },
+                dataType: "json",
+                success: (response) => {
+                    if (response.success == true) {
+                        $("#pre-load").hide()
+                        selectedJob = []
+                        $.notify("Thêm thành công", {
+                            globalPosition: "top center",
+                            className: "success"
+                        })
+                    } else {
+                        $("#pre-load").hide()
+                        $.notify("Thêm thất bại", {
+                            globalPosition: "top center",
+                            className: "fail"
+                        })
+                    }
+
+                }
+            })
+        }
+
+        function search() {
+
+            var name = $("#name_search").val()
+            var px = $("#sl_phan_xuong").val()
+            if (name == null || name == "" && px == null) {
+                return false;
+            }
+            $("#pre-load").show()
+            var searchObj = {
+                name: name,
+                px : px
+            }
+            var searchObjJson = JSON.stringify(searchObj)
+
+            dataTable.ajax.url('@Url.Action("SearchEmployee", "Task")?data=' + searchObjJson).load(() => { $("#pre-load").hide()},false)
+
+        }
+
+        function getNVByPX(tenPhanXuong) {
+            $("#pre-load").show()
+            dataTable.ajax.url('@Url.Action("GetNhanVienByPX", "Task")?tenPhanXuong=' + tenPhanXuong).load(() => { $("#pre-load").hide() }, false)
+
+            $("#tenPhanXuong").text(tenPhanXuong)
+        }
+
+    </script>
+}
+<script src="~/js/Custom JS/Disable_input_material.js"></script>
