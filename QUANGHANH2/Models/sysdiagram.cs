@@ -12,14 +12,12 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ChamDut_NhanVien
+    public partial class sysdiagram
     {
-        public int MaQuyetDinh { get; set; }
-        public string MaNV { get; set; }
-        public string LoaiChamDut { get; set; }
-        public Nullable<System.DateTime> NgayChamDut { get; set; }
-    
-        public virtual QuyetDinh QuyetDinh { get; set; }
-        public virtual NhanVien NhanVien { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

@@ -3,169 +3,220 @@
     ViewData["Title"] = "Outside";
     Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
 }
-    <link href="~/assets/Custom css/TCLD/Brief/ManageBrief/beo_ho_so_ngoai.css" rel="stylesheet" />
+<link href="~/assets/Custom css/TCLD/Brief/ManageBrief/beo_ho_so_ngoai.css" rel="stylesheet" />
+<link href="~/css/pre-loader/css.css" rel="stylesheet" />
 <div class="col s12 m12 l12">
     <div class="card">
         <div class="card-content">
             <div class="row">
                 <h3 class="center"><b>DANH SÁCH HỒ SƠ NGOÀI</b></h3>
                 <hr>
-                <div class="col s12 m12 l12" id="btn-fix-save">
-                    <a class="btn btn-small blue darken-2 input-field" id="btn-fix">Chỉnh sửa</a>
-                    <a class="btn btn-small blue darken-2 modal-trigger input-field" id="btn-save" href="#modal1">Lưu</a>
+                <div class="col l2 m12 s12 input-field">
+                    <input type="text" placeholder="Tìm kiếm theo mã nhân viên" class='form-control' id="searchMa" multiple />
                 </div>
-                <div class="col s6 m6 l6 table-responsive">
-                    <table class="striped table-bordered" id="data">
+                <div class="col l2 m12 s12 input-field">
+                    <input type="text" placeholder="Tìm kiếm theo tên nhân viên" class='form-control' id="searchTen" multiple />
+                </div>
+                <div class="col l2 m12 s12 input-field">
+                    <input type="text" placeholder="Tìm kiếm theo loại chấm dứt" class='form-control' id="searchLoaiChamDut" multiple />
+                </div>
+
+                
+
+                <div class="col l3 m12 s12 input-field">
+                    <button class="btn blue darken-2 btn-small" id="searchButton">Tìm kiếm</button>
+                </div>
+                @*<div class="col s12 m12 l12" id="btn-fix-save">
+            <a class="btn btn-small blue darken-2 input-field" id="btn-fix">Chỉnh sửa</a>
+            <a class="btn btn-small blue darken-2 modal-trigger input-field" id="btn-save" href="#modal1">Lưu</a>
+        </div>*@
+
+
+                <div class="col s12  table-responsive">
+                    <table class="striped table-bordered" id="example">
                         <thead>
                             <tr>
-                                <th rowspan="3" height="315px">STT</th>
-                                <th rowspan="3">Số thẻ</th>
-                                <th rowspan="3">Đếm</th>
-                                <th rowspan="3">Họ và tên</th>
-                                <th rowspan="3">Ngày tháng năm sinh</th>
-                                <th rowspan="3">ĐV khi CDHĐ</th>
-                                <th rowspan="3">Hồ sơ lưu trữ</th>
-                                <th rowspan="3">Số BHXH</th>
+                                <th>STT</th>
+                                <th>Số thẻ</th>
+                                <th>Họ và tên</th>
+                                <th>ĐV khi CDHĐ</th>
+                                <th>Số BHXH</th>
+                                <th>Số Điện thoại</th>
+                                <th>Địa chỉ</th>
+                                <th>Thao tác</th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody>
+                            <tr>
+                                <td>Tiger Nixon</td>
+                                <td>System Architect</td>
+                                <td>$320,800</td>
+                                <td>Edinburgh</td>
+                                <td>atatables.net</td>
+                                <td>t.nixon@datatables.net</td>
+                                <td>t.nixon@datatables.net</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
 
-                <div class="col s6 m6 l6 table-responsive">
-                    <table class="striped table-bordered" id="data2">
-                        <thead>
-                            <tr>
-                                <th colspan="22">Loại chấm dứt</th>
-                                <th colspan="3">CMND, Thẻ CC của NLĐ</th>
-                                <th rowspan="3" height="315px">Số điện thoại NLĐ</th>
-                                <th rowspan="3">Địa chỉ thường trú NLĐ</th>
-                                <th colspan="8">Xác nhận Công nợ (Đồng)</th>
-                                <th rowspan="3">Tiền Trợ cấp thôi việc</th>
-                                <th colspan="3">Loại HS</th>
-                                <th colspan="16">Ngày trả HS</th>
-                                <th colspan="3" rowspan="2">Ngày trả Sổ BH</th>
-                                <th colspan="4">Ủy quyền lấy HS và sổ BH</th>
-                            </tr>
-                            <tr>
-                                <th colspan="3">CD có đơn</th>
-                                <th colspan="3">Đơn phương chấm dứt</th>
-                                <th colspan="3">Sa thải</th>
-                                <th colspan="3">Chết TNLĐ</th>
-                                <th colspan="3">Chết ốm, TNRR, TNGT</th>
-                                <th colspan="3">CD do không đủ tiêu chuẩn sức khỏe(Mất trên 81% sức khỏe)</th>
-                                <th colspan="4">Chấm dứt khác</th>
-                                <th rowspan="2">Số</th>
-                                <th rowspan="2">Ngày cấp</th>
-                                <th rowspan="2">Nơi cấp</th>
-                                <th>Quản lý</th>
-                                <th>Truy thu tiền Phép</th>
-                                <th>Truy thu Thuế Thu Nhập</th>
-                                <th>Truy Thu BH</th>
-                                <th>Truy lĩnh BH</th>
-                                <th>Bồi hoàn</th>
-                                <th colspan="2">Khoản khác</th>
-                                <th rowspan="2">Gốc</th>
-                                <th rowspan="2">Sao, CC</th>
-                                <th rowspan="2">Photo</th>
-                                <th colspan="3">Bằng</th>
-                                <th colspan="3">Sổ KQHT (Bảng điểm)</th>
-                                <th colspan="3">QĐCD</th>
-                                <th colspan="3">QĐ xuất ngũ</th>
-                                <th colspan="4">Các loại giấy tờ khác</th>
-                                <th rowspan="2">Họ tên người được ủy quyền</th>
-                                <th rowspan="2">Quan hệ với người ủy quyền</th>
-                                <th rowspan="2">Số CMND</th>
-                                <th rowspan="2">Số ĐT người được ủy quyền</th>
-                            </tr>
-                            <tr>
-                                <th>Số QĐ</th>
-                                <th>Ngày tháng năm QĐ</th>
-                                <th>Ngày chấm dứt</th>
-                                <th>Số QĐ</th>
-                                <th>Ngày tháng năm QĐ</th>
-                                <th>Ngày chấm dứt</th>
-                                <th>Số QĐ</th>
-                                <th>Ngày tháng năm QĐ</th>
-                                <th>Ngày chấm dứt</th>
-                                <th>Số QĐ</th>
-                                <th>Ngày tháng năm QĐ</th>
-                                <th>Ngày chấm dứt</th>
-                                <th>Số QĐ</th>
-                                <th>Ngày tháng năm QĐ</th>
-                                <th>Ngày chấm dứt</th>
-                                <th>Số QĐ</th>
-                                <th>Ngày tháng năm QĐ</th>
-                                <th>Ngày chấm dứt</th>
-                                <th>Lý do</th>
-                                <th>Số QĐ</th>
-                                <th>Ngày tháng năm QĐ</th>
-                                <th>Ngày chấm dứt</th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th>Tên khoản</th>
-                                <th>Số tiền</th>
-                                <th>Gốc</th>
-                                <th>Sao, CC</th>
-                                <th>Photo</th>
-                                <th>Gốc</th>
-                                <th>Sao, CC</th>
-                                <th>Photo</th>
-                                <th>Gốc</th>
-                                <th>Sao, CC</th>
-                                <th>Photo</th>
-                                <th>Gốc</th>
-                                <th>Sao, CC</th>
-                                <th>Photo</th>
-                                <th>Tên loại giấy tờ</th>
-                                <th>Gốc</th>
-                                <th>Sao, CC</th>
-                                <th>Photo</th>
-                                <th>Gốc</th>
-                                <th>Sao, CC</th>
-                                <th>Photo</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
-            <br />
-            <div class="col l12 s12 m12 center paging_container">
-                <ul class="pagination">
-                    <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-                    <li class="active"><a href="#!">1</a></li>
-                    <li class="waves-effect"><a href="#!">2</a></li>
-                    <li class="waves-effect"><a href="#!">3</a></li>
-                    <li class="waves-effect"><a href="#!">4</a></li>
-                    <li class="waves-effect"><a href="#!">5</a></li>
-                    <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-                </ul>
+                <br />
+
             </div>
         </div>
     </div>
 </div>
-<!-- Modal Structure -->
-<div id="modal1" class="modal">
-    <div class="modal-content">
-        <h3><b>Bạn có chắc chắn muốn lưu không?</b></h3>
+    <div id="pre-load" hidden>
+        <div class="loading">
+            <div class="preloader-wrapper big active">
+                <div class="spinner-layer spinner-blue-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div><div class="gap-patch">
+                        <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close waves-effect waves-green btn blue" id="btn_agrr">Đồng ý</a>
-        <a href="#!" class="modal-action modal-close waves-effect waves-green btn red">Hủy bỏ</a>
-    </div>
-</div>
-<!--Javascript-->
-<script src="~/js/Custom JS/TCLD/Brief/Briefs_List.js"></script>
-<script src="~/js/advancedsearch/advancedsearch.js"></script>
-<script src="~/js/Custom JS/form-input-border.js"></script>
-<link href="~/css/advancedsearch/advancedsearch.css" rel="stylesheet" />
-<link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
-<!--Advance search js-->
-<script src="~/js/advancedsearch/advancedsearchList.js"></script>
 
-<script src="~/js/Custom JS/TCLD/Brief/ManageBrief/Brief_Outside.js"></script>
+
+
+
+
+    <!--Javascript-->
+    <script src="~/js/Custom JS/TCLD/Brief/Briefs_List.js"></script>
+    <script src="~/js/advancedsearch/advancedsearch.js"></script>
+    <script src="~/js/Custom JS/form-input-border.js"></script>
+    <link href="~/css/advancedsearch/advancedsearch.css" rel="stylesheet" />
+    <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
+    <!--Advance search js-->
+    @*<script src="~/js/advancedsearch/advancedsearchList.js"></script>
+
+        <script src="~/js/Custom JS/TCLD/Brief/ManageBrief/Brief_Outside.js"></script>*@
+
+    @*<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+        <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>*@
+
+    <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+
+    @section scripts{
+        <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+        <script>
+                var table;
+                $(document).ready(function () {
+                    console.log('ready');
+                    table = $('#example')
+                        .on('preXhr.dt', function (e, settings, data) {
+
+                                   ////////////////////////////////////HIỆN LÊN MỖI KHI CHẠY AJAX//////////////////////////////////
+      				  $("#pre-load").show("slow", function () {
+      				   });
+      				  $("#pre-load").css("z-index", "99999");
+			          ////////////////////////////////////////////////////////////////////////
+
+                           //     data.sessionId = "@ViewBag.id";
+                            //    data.selectList = JSON.stringify(arrCarSelected);
+                            })
+                        .DataTable({
+                        "processing": false,
+                        "searching": false,
+                        "info": false,
+                        "bLengthChange": false,
+                        "ajax": {
+                            "url": "/Brief/Outside",
+                            "type": "POST",
+                            "datatype": "json"
+                        },
+                         "drawCallback": function( settings ) {
+                            $("#pre-load").hide("slow", function () {
+      		              });
+                                },
+                        "columns": [
+                            {
+                                data: 'stt', "render": function (data, type, full, meta) {
+                                    return meta.row + 1;
+                                }
+                            },
+                            { data: 'manv' },
+                            {
+                                data: 'ten', "render": function (data, type, row) {
+                                    return "<a href ='ho-so-ngoai-cong-ty/chi-tiet-ho-so?manv=" + row['manv'] + "'>" + data + "</a>";
+                                }
+                            },
+                            { data: 'dvcdhd' },
+                            { data: 'sobhxh' },
+                            { data: 'sdt' },
+                            { data: 'diachi' },
+                            {
+                                data: 'edit', "render": function (data, type, row) {
+                                    return "<a class='waves-effect waves-light btn blue darken-2 btn-small btn-small' href ='ho-so-ngoai-cong-ty/chi-tiet-ho-so?manv=" + row['manv'] + "'><span class='ti-pencil-alt'>&nbsp;</span>" + 'Sửa' + "</a>";
+
+                                }
+                            }
+
+                        ],
+                        "success": function (data) {
+                            console.log(data);
+                            },
+                        "initComplete": function (settings, json) {
+                            $("#pre-load").hide("slow", function () {
+      		  });
+                            }
+
+                    });
+
+                });
+
+
+
+                function searchTable() {
+                    var object = {
+
+                    }
+                    $.ajax({
+
+
+
+                    });
+                }
+
+
+                // click search
+            function search() {
+
+                console.log('search');
+                var object = {
+                    "manv": $('#searchMa').val(),
+                    "ten": $('#searchTen').val(),
+                    "loaichamdut": $('#searchLoaiChamDut').val()
+                }
+                var x = JSON.stringify(object);
+                $("#pre-load").show("slow", function () {
+                });
+                $("#pre-load").css("z-index", "99999");
+                table.ajax.url('@Url.Action("searchOutSide", "Brief")?data=' + x).load(() => { $("#pre-load").hide() }, false);
+
+
+
+
+            }
+                $('#searchButton').click(function (e) {
+                    console.log("Click search");
+                    e.preventDefault();
+                    search();
+
+
+                });
+
+
+
+
+        </script>
+
+    }
+
+

@@ -22,8 +22,6 @@ namespace QUANGHANH2.Models
     
         public int MaCongViec { get; set; }
         public string TenCongViec { get; set; }
-        public Nullable<double> HeSo { get; set; }
-        public string BacLuong { get; set; }
         public string ThangLuong { get; set; }
         public Nullable<double> PhuCap { get; set; }
     
