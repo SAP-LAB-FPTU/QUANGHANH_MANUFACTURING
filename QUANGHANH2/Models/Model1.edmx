@@ -647,6 +647,16 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="quantity_plan" Type="int" Nullable="false" />
           <Property Name="quantity" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
         <EntityType Name="ThucHien_TieuChi">
           <Key>
             <PropertyRef Name="MaThucHien" />
@@ -1680,18 +1690,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TuyenDung__MaQuy__4D5F7D71">
-          <End Role="QuyetDinh" Type="Self.QuyetDinh" Multiplicity="1" />
-          <End Role="TuyenDung_NhanVien" Type="Self.TuyenDung_NhanVien" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="QuyetDinh">
-              <PropertyRef Name="MaQuyetDinh" />
-            </Principal>
-            <Dependent Role="TuyenDung_NhanVien">
-              <PropertyRef Name="MaQuyetDinh" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_BangCap_ChuyenNganh">
           <End Role="ChuyenNganh" Type="Self.ChuyenNganh" Multiplicity="0..1" />
           <End Role="BangCap_GiayChungNhan" Type="Self.BangCap_GiayChungNhan" Multiplicity="*" />
@@ -1788,18 +1786,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TuyenDung_NhanVien_NhanVien">
-          <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="1" />
-          <End Role="TuyenDung_NhanVien" Type="Self.TuyenDung_NhanVien" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="NhanVien">
-              <PropertyRef Name="MaNV" />
-            </Principal>
-            <Dependent Role="TuyenDung_NhanVien">
-              <PropertyRef Name="MaNV" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="QUANGHANHABCModelStoreContainer">
           <EntitySet Name="Acceptance" EntityType="Self.Acceptance" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
@@ -1852,6 +1838,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <EntitySet Name="Supply_Documentary_Equipment" EntityType="Self.Supply_Documentary_Equipment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Supply_tieuhao" EntityType="Self.Supply_tieuhao" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SupplyPlan" EntityType="Self.SupplyPlan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ThucHien_TieuChi" EntityType="Self.ThucHien_TieuChi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ThucHien_TieuChi_VatLieuSanXuat" EntityType="Self.ThucHien_TieuChi_VatLieuSanXuat" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TieuChi" EntityType="Self.TieuChi" Schema="dbo" store:Type="Tables" />
@@ -2183,10 +2170,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             <End Role="VatLieuSanXuat" EntitySet="VatLieuSanXuat" />
             <End Role="TieuChi_VatLieuSanXuat" EntitySet="TieuChi_VatLieuSanXuat" />
           </AssociationSet>
-          <AssociationSet Name="FK__TuyenDung__MaQuy__4D5F7D71" Association="Self.FK__TuyenDung__MaQuy__4D5F7D71">
-            <End Role="QuyetDinh" EntitySet="QuyetDinh" />
-            <End Role="TuyenDung_NhanVien" EntitySet="TuyenDung_NhanVien" />
-          </AssociationSet>
           <AssociationSet Name="FK_BangCap_ChuyenNganh" Association="Self.FK_BangCap_ChuyenNganh">
             <End Role="ChuyenNganh" EntitySet="ChuyenNganh" />
             <End Role="BangCap_GiayChungNhan" EntitySet="BangCap_GiayChungNhan" />
@@ -2218,10 +2201,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <AssociationSet Name="FK_NhiemVu_ChungChi" Association="Self.FK_NhiemVu_ChungChi">
             <End Role="ChungChi" EntitySet="ChungChi" />
             <End Role="NhiemVu" EntitySet="NhiemVu" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TuyenDung_NhanVien_NhanVien" Association="Self.FK_TuyenDung_NhanVien_NhanVien">
-            <End Role="NhanVien" EntitySet="NhanVien" />
-            <End Role="TuyenDung_NhanVien" EntitySet="TuyenDung_NhanVien" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -2889,7 +2868,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <NavigationProperty Name="Truong" Relationship="Self.FK__NhanVien__MaTruo__625A9A57" FromRole="NhanVien" ToRole="Truong" />
           <NavigationProperty Name="QuanHeGiaDinhs" Relationship="Self.FK__QuanHeGiaD__MaNV__662B2B3B" FromRole="NhanVien" ToRole="QuanHeGiaDinh" />
           <NavigationProperty Name="QuaTrinhCongTacs" Relationship="Self.FK__QuaTrinhCo__MaNV__671F4F74" FromRole="NhanVien" ToRole="QuaTrinhCongTac" />
-          <NavigationProperty Name="QuyetDinhs" Relationship="Self.TuyenDung_NhanVien" FromRole="NhanVien" ToRole="QuyetDinh" />
         </EntityType>
         <EntityType Name="NhiemVu">
           <Key>
@@ -2938,7 +2916,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="NgayQuyetDinh" Type="DateTime" Precision="0" />
           <NavigationProperty Name="ChamDut_NhanVien" Relationship="Self.FK__ChamDut_N__MaQuy__0B91BA14" FromRole="QuyetDinh" ToRole="ChamDut_NhanVien" />
           <NavigationProperty Name="DieuDong_NhanVien" Relationship="Self.FK__DieuDong___MaQuy__17036CC0" FromRole="QuyetDinh" ToRole="DieuDong_NhanVien" />
-          <NavigationProperty Name="NhanViens" Relationship="Self.TuyenDung_NhanVien" FromRole="QuyetDinh" ToRole="NhanVien" />
         </EntityType>
         <EntityType Name="Status">
           <Key>
@@ -3015,6 +2992,16 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <NavigationProperty Name="Equipment" Relationship="Self.FK__SupplyPla__equip__6DCC4D03" FromRole="SupplyPlan" ToRole="Equipment" />
           <NavigationProperty Name="Supply" Relationship="Self.FK__SupplyPla__suppl__6EC0713C" FromRole="SupplyPlan" ToRole="Supply" />
         </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
         <EntityType Name="ThucHien_TieuChi">
           <Key>
             <PropertyRef Name="MaThucHien" />
@@ -3070,6 +3057,14 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="TenTruong" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="BangCap_GiayChungNhan" Relationship="Self.FK_BangCap_Truong" FromRole="Truong" ToRole="BangCap_GiayChungNhan" />
           <NavigationProperty Name="NhanViens" Relationship="Self.FK__NhanVien__MaTruo__625A9A57" FromRole="Truong" ToRole="NhanVien" />
+        </EntityType>
+        <EntityType Name="TuyenDung_NhanVien">
+          <Key>
+            <PropertyRef Name="MaQuyetDinh" />
+            <PropertyRef Name="MaNV" />
+          </Key>
+          <Property Name="MaQuyetDinh" Type="Int32" Nullable="false" />
+          <Property Name="MaNV" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="VatLieuSanXuat">
           <Key>
@@ -4136,10 +4131,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <End Role="ThucHien_TieuChi" Type="Self.ThucHien_TieuChi" Multiplicity="*" />
           <End Role="TieuChi_VatLieuSanXuat" Type="Self.TieuChi_VatLieuSanXuat" Multiplicity="*" />
         </Association>
-        <Association Name="TuyenDung_NhanVien">
-          <End Role="QuyetDinh" Type="Self.QuyetDinh" Multiplicity="*" />
-          <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="*" />
-        </Association>
         <EntityContainer Name="QUANGHANHABCEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Acceptances" EntityType="Self.Acceptance" />
           <EntitySet Name="Accounts" EntityType="Self.Account" />
@@ -4192,11 +4183,13 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <EntitySet Name="Supply_Documentary_Equipment" EntityType="Self.Supply_Documentary_Equipment" />
           <EntitySet Name="Supply_tieuhao" EntityType="Self.Supply_tieuhao" />
           <EntitySet Name="SupplyPlans" EntityType="Self.SupplyPlan" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="ThucHien_TieuChi" EntityType="Self.ThucHien_TieuChi" />
           <EntitySet Name="TieuChis" EntityType="Self.TieuChi" />
           <EntitySet Name="TieuChi_VatLieuSanXuat" EntityType="Self.TieuChi_VatLieuSanXuat" />
           <EntitySet Name="TrinhDoes" EntityType="Self.TrinhDo" />
           <EntitySet Name="Truongs" EntityType="Self.Truong" />
+          <EntitySet Name="TuyenDung_NhanVien" EntityType="Self.TuyenDung_NhanVien" />
           <EntitySet Name="VatLieuSanXuats" EntityType="Self.VatLieuSanXuat" />
           <EntitySet Name="ChiTiet_NhiemVu_NhanVien" EntityType="Self.ChiTiet_NhiemVu_NhanVien" />
           <AssociationSet Name="FK__Acceptanc__docum__2A164134" Association="Self.FK__Acceptanc__docum__2A164134">
@@ -4542,10 +4535,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <AssociationSet Name="ThucHien_TieuChi_VatLieuSanXuat" Association="Self.ThucHien_TieuChi_VatLieuSanXuat">
             <End Role="ThucHien_TieuChi" EntitySet="ThucHien_TieuChi" />
             <End Role="TieuChi_VatLieuSanXuat" EntitySet="TieuChi_VatLieuSanXuat" />
-          </AssociationSet>
-          <AssociationSet Name="TuyenDung_NhanVien" Association="Self.TuyenDung_NhanVien">
-            <End Role="QuyetDinh" EntitySet="QuyetDinhs" />
-            <End Role="NhanVien" EntitySet="NhanViens" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -5211,6 +5200,17 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="QUANGHANHABCModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="ThucHien_TieuChi">
             <EntityTypeMapping TypeName="QUANGHANHABCModel.ThucHien_TieuChi">
               <MappingFragment StoreEntitySet="ThucHien_TieuChi">
@@ -5257,6 +5257,14 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="TuyenDung_NhanVien">
+            <EntityTypeMapping TypeName="QUANGHANHABCModel.TuyenDung_NhanVien">
+              <MappingFragment StoreEntitySet="TuyenDung_NhanVien">
+                <ScalarProperty Name="MaQuyetDinh" ColumnName="MaQuyetDinh" />
+                <ScalarProperty Name="MaNV" ColumnName="MaNV" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="VatLieuSanXuats">
             <EntityTypeMapping TypeName="QUANGHANHABCModel.VatLieuSanXuat">
               <MappingFragment StoreEntitySet="VatLieuSanXuat">
@@ -5281,14 +5289,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </EndProperty>
             <EndProperty Name="TieuChi_VatLieuSanXuat">
               <ScalarProperty Name="MaTieuChi_VatLieuSanXuat" ColumnName="MaTieuChi_VatLieuSanXuat" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="TuyenDung_NhanVien" TypeName="QUANGHANHABCModel.TuyenDung_NhanVien" StoreEntitySet="TuyenDung_NhanVien">
-            <EndProperty Name="QuyetDinh">
-              <ScalarProperty Name="MaQuyetDinh" ColumnName="MaQuyetDinh" />
-            </EndProperty>
-            <EndProperty Name="NhanVien">
-              <ScalarProperty Name="MaNV" ColumnName="MaNV" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>
