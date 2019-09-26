@@ -82,11 +82,15 @@ namespace QUANGHANH2.Models
         public string LoaiNhanVien { get; set; }
         public Nullable<int> MaCongViec { get; set; }
         public Nullable<double> MucLuong { get; set; }
+        public Nullable<int> MaChuyenNganh { get; set; }
+        public Nullable<int> MaTrinhDo { get; set; }
+        public Nullable<int> MaTruong { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChiTiet_BangCap_GiayChungNhan> ChiTiet_BangCap_GiayChungNhan { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChungChi_NhanVien> ChungChi_NhanVien { get; set; }
+        public virtual ChuyenNganh ChuyenNganh { get; set; }
         public virtual CongViec CongViec { get; set; }
         public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -99,6 +103,8 @@ namespace QUANGHANH2.Models
         public virtual NguoiUyQuyenLayHoSo_BaoHiem NguoiUyQuyenLayHoSo_BaoHiem { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChiTiet_NhiemVu_NhanVien> ChiTiet_NhiemVu_NhanVien { get; set; }
+        public virtual TrinhDo TrinhDo { get; set; }
+        public virtual Truong Truong { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QuanHeGiaDinh> QuanHeGiaDinhs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

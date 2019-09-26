@@ -62,7 +62,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                         LuongSauDuyet = i.Luong.ToString(),
                         LuongTruocDuyet = i.Luong.ToString(),
                         NoiDungCongViec = db.Departments.Where(a => a.department_id == i.MaDonVi).First().department_name,
-                        NSLD = i.NangSuatLaoDong,
+                        NSLD = i.NangSuatLaoDong.Value,
                         SoThe = i.MaNV,
                         YeuCauBPKTAT = "Trước khi vận hành phải kiểm tra thiết bị đảm bảo an toàn trước khi được vận hành"
                     };
@@ -84,7 +84,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                     int id = ids[i];
                     string NSLD = NSLDS[i];
                     DiemDanh_NangSuatLaoDong f = db.DiemDanh_NangSuatLaoDong.FirstOrDefault(x => x.MaDiemDanh == id);
-                    f.NangSuatLaoDong = NSLD;
+                    f.NangSuatLaoDong = Convert.ToDouble( NSLD);
                     db.SaveChanges();
                 }
             }
@@ -140,7 +140,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
         public string BacTho { get; set; }
         public string ChucDanh { get; set; }
         public string NoiDungCongViec { get; set; }
-        public string NSLD { get; set; }
+        public double NSLD { get; set; }
         public string HeSoChiaLuong { get; set; }
         public string LuongTruocDuyet { get; set; }
         public string LuongSauDuyet { get; set; }
