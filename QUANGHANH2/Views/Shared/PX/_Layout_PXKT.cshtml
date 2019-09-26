@@ -289,8 +289,12 @@
                         <li>
                             <a href="/phan-xuong-khai-thac" class="collapsible-header"><i class="material-icons">equalizer</i><span class="hide-menu">Phân Xưởng Khai Thác</span></a>
                         </li>
+                        <li>
+                            <a href="/phan-xuong-khai-thac/nang-suat-lao-dong" class="collapsible-header"><i class="material-icons">equalizer</i><span class="hide-menu">Năng suât lao động</span></a>
+                        </li>
                     </ul>
                 </li>
+
             </ul>
         </aside>
         <!-- ============================================================== -->
@@ -634,6 +638,10 @@
         <!-- Right Sidebar -->
         <!-- ============================================================== -->
     </div>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/notify.min.js"></script>
+    @RenderSection("scripts", required: false)  
     <script>
         $(".loading").css("z-index", 99999);
         $('body').css('overflow', '');

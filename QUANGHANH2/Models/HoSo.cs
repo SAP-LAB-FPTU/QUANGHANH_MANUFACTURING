@@ -21,7 +21,7 @@ namespace QUANGHANH2.Models
         }
     
         public string TrangThaiHoSo { get; set; }
-        public string NgayNhanHoSo { get; set; }
+        public Nullable<System.DateTime> NgayNhanHoSo { get; set; }
         public string NguoiGiaoHoSo { get; set; }
         public string CamKetTuyenDung { get; set; }
         public string QuyetDinhTiepNhanDVC { get; set; }

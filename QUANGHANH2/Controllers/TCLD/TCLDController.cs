@@ -81,10 +81,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         ChucDanh = "MT",
                         DuBaoNguyCo = "Không kiểm tra thiết bị trước khi vận hành",
                         HeSoChiaLuong = i.HeSoChiaLuong.ToString(),
-                        LuongSauDuyet = i.LuongSauDuyet.ToString(),
-                        LuongTruocDuyet = i.LuongTruocDuyet.ToString(),
+                        LuongSauDuyet = i.Luong.ToString(),
+                        LuongTruocDuyet = i.Luong.ToString(),
                         NoiDungCongViec = db.Departments.Where(a => a.department_id == i.MaDonVi).First().department_name,
-                        NSLD = i.NangSuatLaoDong,
+                        NSLD = i.NangSuatLaoDong.ToString(),
                         SoThe = i.MaNV,
                         YeuCauBPKTAT = "Trước khi vận hành phải kiểm tra thiết bị đảm bảo an toàn trước khi được vận hành"
                     };

@@ -112,16 +112,37 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
                     foreach (JObject item in temp)
                     {
                         if(i == 0 && (string)item["supply_id"] == null) return new HttpStatusCodeResult(201);
-                        Supply_Documentary_Equipment SDE = new Supply_Documentary_Equipment();
-                        SDE.supplyType = (int)item["supplyType"];
-                        SDE.supply_id = (string)item["supply_id"];
-                        SDE.supplyStatus = (string)item["supplyStatus"];
-                        SDE.quantity = (int)item["quantity"];
-                        SDE.supply_documentary_status = 1;
-                        SDE.documentary_id = Int32.Parse(documentary_id);
-                        SDE.equipmentId = equipmentId;
-                        DBContext.Supply_Documentary_Equipment.Add(SDE);
+                        if (DBContext.Database.SqlQuery<Supply_Documentary_Equipment>("SELECT * FROM Supply_Documentary_Equipment WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId AND supply_id = @supply_id AND supplyType = @supplyType AND supplyStatus = @supplyStatus",
+                            new SqlParameter("documentary_id", Int32.Parse(documentary_id)),
+                            new SqlParameter("equipmentId", equipmentId),
+                            new SqlParameter("supply_id", (string)item["supply_id"]),
+                            new SqlParameter("quantity", (int)item["quantity"]),
+                            new SqlParameter("supplyType", (int)item["supplyType"]),
+                            new SqlParameter("supplyStatus", (string)item["supplyStatus"]),
+                            new SqlParameter("supply_documentary_status", 1)).Count() == 0) { 
+                            
+                            DBContext.Database.ExecuteSqlCommand("INSERT INTO Supply_Documentary_Equipment values (@documentary_id, @equipmentId, @supply_id, @quantity, @supplyType, @supplyStatus, @supply_documentary_status)",
+                                new SqlParameter("documentary_id", Int32.Parse(documentary_id)),
+                                new SqlParameter("equipmentId", equipmentId),
+                                new SqlParameter("supply_id", (string)item["supply_id"]),
+                                new SqlParameter("quantity", (int)item["quantity"]),
+                                new SqlParameter("supplyType", (int)item["supplyType"]),
+                                new SqlParameter("supplyStatus", (string)item["supplyStatus"]),
+                                new SqlParameter("supply_documentary_status", 1));
+                        }
+                        else
+                        {
+                            DBContext.Database.ExecuteSqlCommand("UPDATE Supply_Documentary_Equipment SET quantity = (quantity + @quantity) WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId AND supply_id = @supply_id AND supplyType = @supplyType AND supplyStatus = @supplyStatus",
+                                new SqlParameter("documentary_id", Int32.Parse(documentary_id)),
+                                new SqlParameter("equipmentId", equipmentId),
+                                new SqlParameter("supply_id", (string)item["supply_id"]),
+                                new SqlParameter("quantity", (int)item["quantity"]),
+                                new SqlParameter("supplyType", (int)item["supplyType"]),
+                                new SqlParameter("supplyStatus", (string)item["supplyStatus"]),
+                                new SqlParameter("supply_documentary_status", 1));
+                        }
                         i++;
+                        DBContext.SaveChanges();
                     }
                     DBContext.SaveChanges();
                     transaction.Commit();
