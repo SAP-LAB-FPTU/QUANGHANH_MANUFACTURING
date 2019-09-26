@@ -71,11 +71,12 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     .Where(a => a.CaDiemDanh == calamviec).ToList();
                 List<BaoCaoTheoCa> customNSLDs = new List<BaoCaoTheoCa>();
                 BaoCaoTheoCa cus;
+                int stt = 1;
                 foreach (var i in list)
                 {
                     cus = new BaoCaoTheoCa
                     {
-                        ID = i.MaDiemDanh,
+                        ID = stt,
                         Name = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().Ten,
                         BacTho = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec == null ? "": db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec.BacLuong,
                         ChucDanh = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec == null ? "": db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec.TenCongViec,
@@ -89,6 +90,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         YeuCauBPKTAT = i.GiaiPhapNguyCo
                     };
                     customNSLDs.Add(cus);
+                    stt++;
                 }
                 ViewBag.nsld = customNSLDs;
                 var js = Json(new { success = true, data = customNSLDs }, JsonRequestBehavior.AllowGet);

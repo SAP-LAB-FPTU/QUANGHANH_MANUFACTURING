@@ -538,23 +538,10 @@
 </ul>
 <ul id='dropdown_px' class='dropdown-content'>
     <li><a class="dropdown-child-px" href="#!" name="All">Tất cả</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="DL3">Đào lò 3</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="DL5">Đào lò 5</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="DL7">Đào lò 7</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="DL8">Đào lò 8</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="KT1">Khai Thác 1</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="KT2">Khai Thác 2</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="KT3">Khai Thác 3</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="KT4">Khai Thác 4</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="KT5">Khai Thác 5</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="KT6">Khai Thác 6</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="KT7">Khai Thác 7</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="KT8">Khai Thác 8</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="KT9">Khai Thác 9</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="KT10">Khai Thác 10</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="KT11">Khai Thác 11</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="VTL1">Vận tải 1</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="VTL2">Vận tải 2</a></li>
+    @foreach (var item in @ViewBag.TenToChuc)
+    {
+        <li><a class="dropdown-child-px" href="#!" name="DL3">@item.department_name</a></li>
+    }
 </ul>
 
 <!--cac truong hop link-->

@@ -38,6 +38,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             string bodyca3 = Wherecondition("10/09/2019", "DL1", "3");
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
+                ViewBag.TenToChuc = db.Departments.ToList();
                 ViewBag.HeaderCa1 = db.Database.SqlQuery<Ngay>(headerca1).ToList().First();
                 ViewBag.Ca1 = db.Database.SqlQuery<Ngay>(bodyca1).ToList();
                 ViewBag.HeaderCa2 = db.Database.SqlQuery<Ngay>(headerca2).ToList().First();
