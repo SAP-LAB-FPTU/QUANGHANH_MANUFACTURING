@@ -235,11 +235,12 @@ namespace QUANGHANH2.Controllers.TCLD
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                emp.TrangThaiLamViec = "Đang đi làm";
-                emp.MaPhongBan = "DL1";
-                db.NhanViens.Add(emp);
-                db.SaveChanges();
-                return RedirectToAction("Search");
+                    emp.TrangThaiLamViec = "Đang đi làm";
+                    emp.MaPhongBan = "DL1";
+                    db.NhanViens.Add(emp);
+                    db.SaveChanges();
+                    return RedirectToAction("Search");
+                
 
                 //return Json(new { success = true, message = "Lưu thành công" }, JsonRequestBehavior.AllowGet);
             }
