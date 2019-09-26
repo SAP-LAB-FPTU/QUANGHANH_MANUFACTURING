@@ -267,6 +267,7 @@
     <Compile Include="Controllers\TCLD\ManagerController.cs" />
     <Compile Include="Controllers\TCLD\MaterialProtectionController.cs" />
     <Compile Include="Controllers\TCLD\RecruitmentAndEndController.cs" />
+    <Compile Include="Controllers\TCLD\RecruitmentController.cs" />
     <Compile Include="Controllers\TCLD\ReportController.cs" />
     <Compile Include="Controllers\TCLD\ShutDownController.cs" />
     <Compile Include="Controllers\TCLD\TCLDController.cs" />
@@ -469,9 +470,6 @@
     <Compile Include="Models\Truong.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\TuyenDung_NhanVien.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\VatLieuSanXuat.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -497,6 +495,8 @@
     <Content Include="assets\Custom css\TCLD\Brief\AddBrief.css" />
     <Content Include="assets\Custom css\TCLD\Brief\ManageBrief\beo_ho_so_ngoai.css" />
     <Content Include="assets\Custom css\TCLD\Brief\ManageBrief\beo_regulations.css" />
+    <Content Include="assets\Custom css\TCLD\Brief\ManageBrief\DeletePopup.css" />
+    <Content Include="assets\Custom css\TCLD\Brief\ManageBrief\Document.css" />
     <Content Include="assets\Custom css\TCLD\Brief\ManageBrief\Inside.css" />
     <Content Include="assets\Custom css\TCLD\Brief\ManageBrief\ListAll.css" />
     <Content Include="assets\Custom css\TCLD\Eating\Register.css" />
@@ -6311,6 +6311,7 @@
     <Content Include="js\Custom JS\TCLD\Brief\DateError.js" />
     <Content Include="js\Custom JS\TCLD\Brief\ManageBrief\Brief_Inside.js" />
     <Content Include="js\Custom JS\TCLD\Brief\ManageBrief\Brief_Outside.js" />
+    <Content Include="js\Custom JS\TCLD\Brief\ManageBrief\DeletePopup.min.js" />
     <Content Include="js\Custom JS\TCLD\Brief\ManageBrief\editable_hoso.js" />
     <Content Include="js\Custom JS\TCLD\Certificate\certificate.js" />
     <Content Include="js\Custom JS\TCLD\Certificate\formValidation.js" />
@@ -6823,6 +6824,7 @@
     <Content Include="Content\DataTables\Buttons-1.5.6\css\mixins.scss" />
     <Content Include="excel\CDVT\download\tong-hop-vat-tu.xlsx" />
     <Content Include="excel\CDVT\download\tong-hop-vat-tu-download.xlsx" />
+    <Content Include="excel\TCLD\Danh sách tuyển dụng.xlsx" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -7061,6 +7063,11 @@
     <Content Include="Views\Brief\EditQuanHeGiaDinh.cshtml" />
     <Content Include="Views\PX\PXKT\takeAttendance.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\VatTuQuyetDinh.cshtml" />
+    <Content Include="Views\TCLD\Recruitment\Input.cshtml" />
+    <Content Include="Views\Brief\suaGiayTo.cshtml" />
+    <Content Include="Views\Brief\themGiayTo.cshtml" />
+    <Content Include="Views\Recruitment\AddRecruitment.cshtml" />
+    <Content Include="Views\Recruitment\AddRecruitment1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
