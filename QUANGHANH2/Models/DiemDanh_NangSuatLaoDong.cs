@@ -20,7 +20,7 @@ namespace QUANGHANH2.Models
         public Nullable<int> CaDiemDanh { get; set; }
         public Nullable<System.DateTime> ThoiGianThucTeDiemDanh { get; set; }
         public string MaDonVi { get; set; }
-        public Nullable<double> NangSuatLaoDong { get; set; }
+        public string NangSuatLaoDong { get; set; }
         public Nullable<double> HeSoChiaLuong { get; set; }
         public string DuBaoNguyCo { get; set; }
         public string GiaiPhapNguyCo { get; set; }

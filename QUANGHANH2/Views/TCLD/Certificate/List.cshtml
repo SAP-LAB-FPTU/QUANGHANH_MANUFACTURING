@@ -358,11 +358,10 @@
 
         function SubmitForm(form) {
             $.validator.unobtrusive.parse(form);
-            
+            $("#pre-load").show("slow", function () {
+            });
+            $("#pre-load").css("z-index", "99999");
             if ($(this).valid()) {
-                $("#pre-load").show("slow", function () {
-                });
-                $("#pre-load").css("z-index", "99999");
                 $.ajax({
                     url: form.action,
                     type: "POST",

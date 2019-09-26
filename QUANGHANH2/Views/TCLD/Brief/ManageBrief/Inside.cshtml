@@ -1,36 +1,10 @@
-﻿
-@{
-    ViewBag.Title = "Inside";
+﻿@{
+    ViewData["Title"] = "List";
     Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
 }
-
-<div class="card">
-    <div class="col s12 m12 l12">
-        <div class="card">
-            <div class="card-content">
-                <div>
-                    <h3 class="center">QUYẾT ĐỊNH ĐÃ XỬ LÍ</h3>
-                </div>
-                <div class="row center">
-                    <div class="col l2 m12 s12 input-field">
-                        <input type="text" placeholder="Tìm kiếm theo mã nhân viên" class='form-control' id="manv" multiple />
-                    </div>
-                    <div class="col l2 m12 s12 input-field">
-                        <input type="text" placeholder="Tìm kiếm theo tên nhân viên" class='form-control' id="tennv" multiple />
-                    </div>
-                    <div class="col l2 m12 s12 input-field">
-                        <input type="text" placeholder="Tìm kiếm theo người giao hồ sơ" class='form-control' id="nguoigiaohoso" multiple />
-                    </div>
-                    <div class="col l2 m12 s12 input-field">
-                        <input type="text" placeholder="Tìm kiếm theo người giữ hồ sơ" class='form-control' id="nguoigiuhoso" multiple />
-                    </div>
-                    <div class="col l2 m12 s12 input-field">
-                        <button class="btn blue darken-2 btn-small" id="searchButton">Tìm kiếm</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<link href="~/assets/Custom css/TCLD/Certificate/Certificate.css" rel="stylesheet" />
+<link href="~/lib/mutiple select/slimselect.css" rel="stylesheet" />
+<div class="user-roll card" id="vld-antoan">
     <div class="card-content">
         <div class="row">
             <h3 class="black-text"><b>HỒ SƠ TRONG CÔNG TY</b></h3>
@@ -38,84 +12,187 @@
         <br />
 
         <!---->
-        <div class="card">
-            <div class="card-content">
-                <div>
-                    <a class="btn btn-small blue darken-2 btn-mg" href="~/excel/TCLD/Certificate/Chứng chỉ của cả công ty.xlsx">Xuất ra file excel</a>
+        <div id="chungchicongty">
+            <div class="row">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="row">
+                            <a class="btn btn-small blue darken-2 btn-mg" href="~/excel/TCLD/Certificate/Chứng chỉ của cả công ty.xlsx">Xuất ra file excel</a>
+                        </div>
+                        <br />
+                        <table id="inside_table" class="table table-bordered table-responsive centered highlight">
+                            <thead>
+                                <tr>
+                                    <th>Số thẻ</th>
+                                    <th>Họ và tên</th>
+                                    <th>Ngày sinh</th>
+                                    <th>Người giao hồ sơ</th>
+                                    <th>Ngày nhận hồ sơ</th>
+                                    <th>Người giữ hồ sơ</th>
+                                    <th colspan="2">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                        <br />
+                    </div>
                 </div>
-
-                <br />
-                <table id="inside_table" class="table-bordered table-responsive">
-                    <thead>
-                        <tr>
-                            <th>Số thẻ</th>
-                            <th>Họ và tên</th>
-                            <th>Ngày sinh</th>
-                            <th>Người giao hồ sơ</th>
-                            <th>Ngày nhận hồ sơ</th>
-                            <th>Người giữ hồ sơ</th>
-                            <th colspan="2">Thao tác</th>
-                        </tr>
-                    </thead>
-                </table>
             </div>
         </div>
     </div>
 </div>
 
 
+
+
+<div id="chinhsuachungchicanhan" class="modal">
+    <div class="modal-content">
+        <div class="modal-container">
+            <!-- Page Content goes here -->
+            <div class="row">
+                <div class="col s12 center">
+                    <h3 class="font-medium">Sửa chứng chỉ</h3>
+                </div>
+            </div>
+            <form class="row">
+                <div class="input-field col s4 m4 l4">
+                    <div class="select-header">
+                        <strong><i class="fas fa-calendar-alt icon"></i>&nbsp;Chọn ngày</strong>
+                    </div>
+                    <input type='text' class='datepicker-here center form-control resize-form' data-language='vi' value="19/10/2019" />
+                </div>
+                <div class="input-field col s4 m4 l4">
+                    <div class="select-header">
+                        <strong>Tình trạng</strong>
+                        <input type="text" class="form-control" value="Còn hạn" />
+                    </div>
+                </div>
+                <div class="input-field col s4 m4 l4">
+                    <a href="javascript:void(0);" class="btn blue darken-2">Đính kèm</a>
+                </div>
+            </form>
+            <!--Certificate-name-->
+            <form>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <div class="select-header">
+                            <strong for="worker-numb"><i class="far fa-id-card" aria-hidden="true"></i>&nbsp;Số thẻ công nhân:</strong>
+                        </div>
+                        <input id="worker-numb" class="form-control" type="text" placeholder="SA1320" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <div class="select-header">
+                            <strong for="worker-name"><i class="fas fa-user" aria-hidden="true"></i>&nbsp;Họ và tên:</strong>
+                        </div>
+                        <input id="worker-name" class="form-control" placeholder="Nguyễn Văn Long" type="text" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <div class="select-header">
+                            <strong for="worker-unit"><i class="fas fa-crosshairs"></i>&nbsp;Đơn vị:</strong>
+                        </div>
+                        <input id="worker-unit" class="form-control" placeholder="Đào lò 3" type="text" disabled>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <!--                Button-->
+        <a class="waves-effect waves-light btn red modal-close">Hủy</a>
+        <a class="waves-effect waves-light btn blue darken-2">Lưu</a>
+    </div>
+</div>
+
+<div id="xoachungchicongty" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Xác nhận xóa chứng chỉ</h3>
+        </div>
+        <div class="modal-body">
+            <p class="red-text">Bạn có muốn xóa chứng chỉ này?</p>
+        </div>
+        <div class="modal-footer">
+            <a class="btn blue darken-2 modal-close">Xóa</a>
+            <a class="btn red modal-close">Hủy</a>
+        </div>
+    </div>
+</div>
+<div id="chinhsuachungchicongty" class="modal">
+    <div class="modal-content">
+        <div class="modal-container">
+            <!-- Page Content goes here -->
+            <div class="row">
+                <div class="col s12 center">
+                    <h3 class="font-medium">Chứng chỉ kiểm định kỹ thuật an toan lao động</h3>
+                </div>
+            </div>
+            <form class="row">
+                <div class="input-field col s4 m4 l4">
+                    <a href="javascript:void(0);" class="btn blue darken-2">Đính kèm</a>
+                </div>
+                <div class="input-field col s12 m12 l12">
+                    <textarea placeholder="Nội dung chứng chỉ"></textarea>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <!--Button-->
+        <a class="waves-effect waves-light btn red modal-close">Hủy</a>
+        <a class="waves-effect waves-light btn blue darken-2">Lưu</a>
+    </div>
+</div>
+
+
+
+
+<script src="~/js/Custom JS/TCLD/Certificate/certificate.js"></script>
+<script src="~/js/Custom JS/form-input-border.js"></script>
+<script src="~/lib/mutiple select/slimselect.js"></script>
+<script src="~/js/js/notify.js"></script>
 <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
-
-
 <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script>
-    var datatable_inside, stt;
+    var datatable, stt;
     $(document).ready(function () {
-        datatable_inside = $('#inside_table').on('preXhr.dt', function (e, settings, data) {
-            $("#pre-load").show("slow", function () {
-            });
-            $("#pre-load").css("z-index", "99999");
-        })
-            
-            .DataTable({
+        datatable = $('#inside_table').DataTable({
                 "ajax": {
                     "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty",
-                    "type": "POST",
-                    "datatype": "json",
-                },"drawCallback": function (settings) {
-                    $("#pre-load").hide("slow", function () {
-                    });
-                },
+                "type": "POST",
+                "datatype": "json"
+            },
             "columns": [
                 { "data": "MaNV", "name": "MaNV" },
                 { "data": "Ten", "name": "Ten"},
-                {
-                    "data": "NgaySinh", "name": "NgaySinh", "render": function (data) {
-                        return dateFormat(data);
-                    },},
+                { "data": "NgaySinh", "name": "NgaySinh" },
                 { "data": "NguoiGiaoHoSo", "name": "NguoiGiaoHoSo" },
                 { "data": "NgayNhanHoSo", "name": "NgayNhanHoSo"},
                 { "data": "NguoiGiuHoSo", "name": "NguoiGiuHoSo"},
+
                 {
                     "data": "MaNV", "render": function (data) {
-                        return "<a class='waves-effect waves-light btn-small blue modal-trigger'  style='margin-left:5px' onclick=getEditIdEmp('" + data + "') >Sửa</a>";
+                        return "<a class='waves-effect waves-light btn-small red modal-trigger'  style='margin-left:5px' onclick=getEditIdEmp('" + data + "') ><i class=''></i> Edit</a>"; 
                     },
                     "orderable": false,
                     "searchable": false,
                     "width": "150px"
                 }
             ],
-            "serverSide": "true",
+            "serverSide": "false",
+            "scrollCollapse": false,
             "order": [0, "asc"],
-            "bLengthChange": false,
-            "bFilter": false,
-            "bInfo": false,
-            "bAutoWidth": false,
-            "initComplete": function () {
-                $("#pre-load").hide();
+            "language": {
+
+                "emptyTable": "Không có dữ liệu về hồ sơ nhân viên"
             }
+
         });
-        datatable_inside.ajax.reload();
+
+        datatable.ajax.reload();
     });
 
     function getEditCertificateData(url) {
@@ -130,34 +207,12 @@
         if (id != null) {
             window.location.href ='@Url.Action("InsideDetail", "Brief")?id=' + id;
         }
+
     }
-
-    $("#searchButton").click(function () {
-        $("#pre-load").show("slow", function () { });
-
-            var manv = $("#manv").val();
-            var tennv = $("#tennv").val();
-            var nguoigiaohoso = $("#nguoigiaohoso").val();
-        var nguoigiuhoso = $("#nguoigiuhoso").val();
-
-            var arr = new Array();
-            arr[0] = manv;
-            arr[1] = tennv;
-            arr[2] = nguoigiaohoso;
-            arr[3] = nguoigiuhoso;
-            datatable_inside.ajax.url('@Url.Action("searchlistAllBrief", "Brief")?searchList=' + arr).load(() => { $("#pre-load").hide("slow", function () { }) }, true)
-    })
-
-    function dateFormat(d) {
-        var dateString = d.substr(6);
-        var currentTime = new Date(parseInt(dateString));
-        var month = currentTime.getMonth() + 1;
-        var day = currentTime.getDate();
-        var year = currentTime.getFullYear();
-        var date = day + "/" + month + "/" + year;
-        return (date);
-    }
+    $(chungchicongty).ready(function () {
+        $('#example').DataTable({
+            "pagingType": "full_numbers"
+        });
+    });
 </script>
-
-
 
