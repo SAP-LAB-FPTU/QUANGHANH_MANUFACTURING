@@ -44,14 +44,14 @@
                                         <div class="col m4">
                                             @Html.LabelFor(model => model.MaNV, "Mã nhân viên", htmlAttributes: new { @class = "custom-label" })
                                             <div class="col-md-10">
-                                                @Html.EditorFor(model => model.MaNV, new { htmlAttributes = new { @class = "form-control", @placeholder = "Mã", @type = "text" } })
+                                                @Html.EditorFor(model => model.MaNV, new { htmlAttributes = new { @class = "form-control", @placeholder = "Mã", @type = "text", @required = "" } })
                                                 @Html.ValidationMessageFor(model => model.MaNV, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="col m8">
                                             @Html.LabelFor(model => model.Ten, "Tên khai sinh", htmlAttributes: new { @class = "custom-label" })
                                             <div class="col-md-10">
-                                                @Html.EditorFor(model => model.Ten, new { htmlAttributes = new { @class = "form-control", @placeholder = "Tên khai sinh", @type = "text" } })
+                                                @Html.EditorFor(model => model.Ten, new { htmlAttributes = new { @class = "form-control", @placeholder = "Tên khai sinh", @type = "text", @required = "" } })
                                                 @Html.ValidationMessageFor(model => model.Ten, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -116,7 +116,7 @@
                                 <div class="col m4">
                                     @Html.LabelFor(model => model.NgaySinh, "Ngày sinh", htmlAttributes: new { @class = "custom-label" })
                                     <div class="col-md-10">
-                                        <input id="NgaySinhFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày sinh" type="datetime" value="" />
+                                        <input  id="NgaySinhFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày sinh" type="datetime" value="" />
                                         @Html.EditorFor(model => model.NgaySinh, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
                                     </div>
                                 </div>
@@ -178,22 +178,34 @@
                             </div>
                             <div class="input-field col m12">
                                 <div class="col m12">
-                                    <label class='custom-label'>Nghề nghiệp trược khi được tuyển dụng</label>
-                                    <input class=" form-control" type="text" placeholder="Nghề trước khi tuyển dụng" />
+                                    @Html.LabelFor(model => model.NgheTruoc, "Nghề trước", htmlAttributes: new { @class = "custom-label" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.NgheTruoc, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nghề trước", @type = "text" } })
+                                        @Html.ValidationMessageFor(model => model.NgheTruoc, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
                             </div>
                             <div class="input-field col m12">
                                 <div class="col m4">
-                                    <label class='custom-label'>Ngày được tuyển dụng</label>
-                                    <input class=" form-control" type="date" />
+                                    @Html.LabelFor(model => model.NgayTuyenDungTruoc, "Ngày tuyển dụng trước", htmlAttributes: new { @class = "custom-label" })
+                                    <div class="col-md-10">
+                                        <input required id="NgayTuyenDungTruocFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày tuyển dụng trước" type="datetime" value="" />
+                                        @Html.EditorFor(model => model.NgayTuyenDungTruoc, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime", @required = "required" } })
+                                    </div>
                                 </div>
                                 <div class="col m4">
-                                    <label class='custom-label'>Tại cơ quan</label>
-                                    <input class=" form-control" type="text" placeholder="Cơ quan" />
+                                    @Html.LabelFor(model => model.CoQuanTruoc, "Cơ quan trước", htmlAttributes: new { @class = "custom-label" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.CoQuanTruoc, new { htmlAttributes = new { @class = "form-control", @placeholder = "Cơ quan trước", @type = "text" } })
+                                        @Html.ValidationMessageFor(model => model.CoQuanTruoc, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
                                 <div class="col m4">
-                                    <label class='custom-label'>Ngày vào nơi đang công tác</label>
-                                    <input class=" form-control" type="date" />
+                                    @Html.LabelFor(model => model.NgayDiLam, "Ngày vào nơi đang công tác", htmlAttributes: new { @class = "custom-label" })
+                                    <div class="col-md-10">
+                                        <input required id="NgayDiLamFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày vào nơi đang công tác" type="datetime" value="" />
+                                        @Html.EditorFor(model => model.NgayDiLam, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -203,21 +215,21 @@
                                 <div class="col m4">
                                     @Html.LabelFor(model => model.NgayThamGiaCachMang, "Ngày tham gia cách mạng", htmlAttributes: new { @class = "custom-label" })
                                     <div class="col-md-10">
-                                        <input id="NgayThamGiaCachMangFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày tham gia cách mạng" type="datetime" value="" />
+                                        <input required id="NgayThamGiaCachMangFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày tham gia cách mạng" type="datetime" value="" />
                                         @Html.EditorFor(model => model.NgayThamGiaCachMang, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
                                     </div>
                                 </div>
                                 <div class="col m4">
                                     @Html.LabelFor(model => model.NgayVaoDangCSVN, "Ngày vào Đảng CSVN", htmlAttributes: new { @class = "custom-label" })
                                     <div class="col-md-10">
-                                        <input id="NgayVaoDangCSVNFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày vào Đảng CSVN" type="datetime" value="" />
+                                        <input required id="NgayVaoDangCSVNFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày vào Đảng CSVN" type="datetime" value="" />
                                         @Html.EditorFor(model => model.NgayVaoDangCSVN, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
                                     </div>
                                 </div>
                                 <div class="col m4">
                                     @Html.LabelFor(model => model.NgayChinhThuc, "Ngày chính thức", htmlAttributes: new { @class = "custom-label" })
                                     <div class="col-md-10">
-                                        <input id="NgayChinhThucFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày chính thức" type="datetime" value="" />
+                                        <input required id="NgayChinhThucFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày chính thức" type="datetime" value="" />
                                         @Html.EditorFor(model => model.NgayChinhThuc, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
                                     </div>
                                 </div>
@@ -226,7 +238,7 @@
                                 <div class="col m6">
                                     @Html.LabelFor(model => model.NgayVaoToChucCTXH, "Ngày vào tổ chức CTXH", htmlAttributes: new { @class = "custom-label" })
                                     <div class="col-md-10">
-                                        <input id="NgayVaoToChucCTXHFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày vào tổ chức CTXH" type="datetime" value="" />
+                                        <input required id="NgayVaoToChucCTXHFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày vào tổ chức CTXH" type="datetime" value="" />
                                         @Html.EditorFor(model => model.NgayVaoToChucCTXH, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
                                     </div>
                                 </div>
@@ -242,14 +254,14 @@
                                 <div class="col m3">
                                     @Html.LabelFor(model => model.NgayNhapNgu, "Ngày nhập ngũ", htmlAttributes: new { @class = "custom-label" })
                                     <div class="col-md-10">
-                                        <input id="NgayNhapNguFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày nhập ngũ" type="datetime" value="" />
+                                        <input required id="NgayNhapNguFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày nhập ngũ" type="datetime" value="" />
                                         @Html.EditorFor(model => model.NgayNhapNgu, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
                                     </div>
                                 </div>
                                 <div class="col m3">
                                     @Html.LabelFor(model => model.NgayXuatNgu, "Ngày xuất ngũ", htmlAttributes: new { @class = "custom-label" })
                                     <div class="col-md-10">
-                                        <input id="NgayXuatNguFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày xuất ngũ" type="datetime" value="" />
+                                        <input required id="NgayXuatNguFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày xuất ngũ" type="datetime" value="" />
                                         @Html.EditorFor(model => model.NgayXuatNgu, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
                                     </div>
                                 </div>
@@ -335,7 +347,7 @@
                                     </div>
                                     <div class="col m4">
                                         <label class='custom-label'>Hệ số</label>
-                                        <input type="text" class=" form-control" placeholder="Hệ số" />
+                                        <input requiredtype="text" class=" form-control" placeholder="Hệ số" />
                                     </div>
                                     <div class="col m4">
                                         <label class='custom-label'>Từ tháng</label>
@@ -454,7 +466,7 @@
                                     <div class="col m4">
                                         @Html.LabelFor(model => model.NgayCapCMND, "Ngày cấp", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            <input id="NgayCapCMNDFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày cấp CMND" type="datetime" value="" />
+                                            <input required id="NgayCapCMNDFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày cấp CMND" type="datetime" value="" />
                                             @Html.EditorFor(model => model.NgayCapCMND, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
                                         </div>
                                     </div>
@@ -507,11 +519,11 @@
                                             <td id="col13">
                                                 <div class="row">
                                                     <div class="col l3"> <label class="custom-label">Từ:</label></div>
-                                                    <div class="col l9"><input id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></div>
+                                                    <div class="col l9"><input required id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></div>
                                                 </div>
                                                 <div class="row" style="margin-top:5px">
                                                     <div class="col l3"> <label class="custom-label">Đến:</label></div>
-                                                    <div class="col l9"><input id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></div>
+                                                    <div class="col l9"><input required id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></div>
                                                 </div>
                                             </td>
                                             <td contenteditable="true" id="col14" class="editable"></td>
@@ -540,11 +552,11 @@
                                             <td id="col11">
                                                 <div class="row">
                                                     <div class="col l3"> <label class="custom-label">Từ:</label></div>
-                                                    <div class="col l9"><input id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></div>
+                                                    <div class="col l9"><input required id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></div>
                                                 </div>
                                                 <div class="row" style="margin-top:5px">
                                                     <div class="col l3"> <label class="custom-label">Đến:</label></div>
-                                                    <div class="col l9"><input id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></div>
+                                                    <div class="col l9"><input required id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></div>
                                                 </div>
                                             </td>
                                             <td contenteditable="true" id="col12" class="editable"></td>
@@ -581,7 +593,7 @@
                                                 </select>
                                             </td>
                                             <td id="col12">
-                                                <input id="ns" type="text" class="datepicker-here datepicker-add center form-control resize-form" data-language="vi" placeholder="dd/mm/yyyy" />
+                                                <input required id="ns" type="text" class="datepicker-here datepicker-add center form-control resize-form" data-language="vi" placeholder="dd/mm/yyyy" />
                                             </td>
                                             <td contenteditable="true" id="col13" class="editable"></td>
                                             <td contenteditable="true" id="col14" class="editable"></td>
@@ -605,7 +617,7 @@
                                     </thead>
                                     <tbody id="qt-luong">
                                         <tr>
-                                            <td id="col11"><input id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></td>
+                                            <td id="col11"><input required id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></td>
                                             <td contenteditable="true" id="col12" class="editable"></td>
                                             <td contenteditable="true" id="col13" class="editable"></td>
                                         </tr>
@@ -654,5 +666,35 @@
 <script src="~/Scripts/Scripts.js"></script>
 <script src="~/js/Custom JS/TCLD/Brief/DateError.js"></script>
 <script>
+     function tlhdAjax(form) {
+            $("#pre-load").show();
+
+            $.validator.unobtrusive.parse(form);
+            if ($(form).valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    dataType: "text",
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        dataTable.ajax.reload();
+                        $.notify("Thanh lý hoàn tất", {
+                            globalPosition: "top center",
+                            className: "success"
+                        })
+
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        $.notify(XMLHttpRequest.responseText, {
+                            globalPosition: "top center",
+                            className: "failed"
+                        })
+                    }
+                });
+            }
+            $("#pre-load").hide();
+
+            return false;
+        }
 
 </script>
