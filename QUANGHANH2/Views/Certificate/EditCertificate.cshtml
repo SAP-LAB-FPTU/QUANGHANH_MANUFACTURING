@@ -1,4 +1,4 @@
-﻿@model QUANGHANH2.Models.ChungChi_detailsDB
+﻿@model QUANGHANH2.Models.ChungChi
 @{
     Layout = null;
 }
@@ -64,14 +64,12 @@
 
     $(document).ready(function () {
         var show = $('#editform').val();
-        //alert(show);
-        if (show == "-1") {
+        
+        if (show == -1) {
             $('#edit_cert').val("Vĩnh viễn");
             $('#edit_cert').attr("disabled", "disabled");
-            //$('#ThoiHan').val("Vĩnh viễn");
         }
         else {
-            // $('#show_edit').removeAttr("disabled", "disabled");
             $('#option_cert_edit').val(2);
             $("#edit_cert").val($("#editform").val())
         }
@@ -82,9 +80,7 @@
                 //show
                 $('#edit_cert').val("Vĩnh viễn");
                 $('#edit_cert').attr("disabled", "disabled");
-                //get data
-                //$('#ThoiHan').val("Vĩnh viễn");
-                //  alert($('#ThoiHan').val());
+                $("#editform").val(-1);
             } else {
                 //show
                 $('#edit_cert').removeAttr("disabled", "disabled");
@@ -92,7 +88,14 @@
             }
         })
         $("#save").click(function () {
-            $("#editform").val($("#edit_cert").val())
+            var edit_end = $("#edit_cert").val();
+            if (edit_end == "Vĩnh viễn") {
+                $("#editform").val(-1);
+            }
+            else {
+                $("#editform").val(edit_end);
+            }
+            
         })
 
     })

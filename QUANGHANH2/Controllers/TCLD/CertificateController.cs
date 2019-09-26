@@ -121,16 +121,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
             {
                 if (chungChi != null)
                 {
-                    if(chungChi.ThoiHan.Equals("Vĩnh viễn"))
-                    {
-                        chungChi.ThoiHan = "-1";
-                        db.ChungChis.Add(chungChi);
-                    }
-                    else
-                    {
-                        db.ChungChis.Add(chungChi);
-                    }
                     
+                    db.ChungChis.Add(chungChi);
                     db.SaveChanges();
                 }
                 return RedirectToAction("List");
@@ -279,18 +271,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 if (chungChi != null)
-                {
-                    if (chungChi.ThoiHan.Equals("Vĩnh viễn"))
-                    {
-                        chungChi.ThoiHan = "-1";
-                        db.Entry(chungChi).State = EntityState.Modified;
-                    }
-                    else
-                    {
-                        db.Entry(chungChi).State = EntityState.Modified;
-                    }
+                {                 
 
-                    
+                    db.Entry(chungChi).State = EntityState.Modified;
                     db.SaveChanges();
                 }
                 return RedirectToAction("List");
