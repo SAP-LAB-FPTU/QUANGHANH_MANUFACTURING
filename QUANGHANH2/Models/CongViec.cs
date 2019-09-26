@@ -17,14 +17,17 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CongViec()
         {
-            this.ChiTiet_CongViec_NhanVien = new HashSet<ChiTiet_CongViec_NhanVien>();
+            this.NhanViens = new HashSet<NhanVien>();
         }
     
-        public string TenCongViec { get; set; }
-        public string Loai { get; set; }
         public int MaCongViec { get; set; }
+        public string TenCongViec { get; set; }
+        public Nullable<double> HeSo { get; set; }
+        public string BacLuong { get; set; }
+        public string ThangLuong { get; set; }
+        public Nullable<double> PhuCap { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChiTiet_CongViec_NhanVien> ChiTiet_CongViec_NhanVien { get; set; }
+        public virtual ICollection<NhanVien> NhanViens { get; set; }
     }
 }

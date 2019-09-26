@@ -38,8 +38,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Cap_nhat
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             DateTime dtStart = DateTime.ParseExact(dateStart, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             DateTime dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            string query = "SELECT docu.documentary_id, docu.documentary_type, docu.date_created, docu.person_created, docu.reason, docu.[out/in_come] as out_in_come, docu.documentary_status, depa.department_name FROM Documentary docu inner join Department depa on docu.department_id = depa.department_id" +
-                " where docu.documentary_status != 1 and docu.date_created BETWEEN @start_time1 AND @start_time2 AND ";
+            string query = "SELECT docu.*, docu.[out/in_come] as out_in_come, depa.department_name FROM Documentary docu inner join Department depa on docu.department_id = depa.department_id" +
+                " where docu.documentary_code IS NOT NULL and docu.documentary_status != 1 and docu.date_created BETWEEN @start_time1 AND @start_time2 AND ";
             if (!documentary_id.Equals("") || !type.Equals("0") || !department.Equals("") || !reason.Equals(""))
             {
                 if (!documentary_id.Equals("")) query += "docu.documentary_id LIKE @documentary_id AND ";
@@ -68,33 +68,34 @@ namespace QUANGHANHCORE.Controllers.CDVT.Cap_nhat
                 {
                     case "1":
                         item.stringtype = "Sửa chữa";
-                        item.stringlink = "sua-chua^" + item.documentary_id;
+                        item.linkIdCode.link = "sua-chua";
                         break;
                     case "2":
                         item.stringtype = "Bảo dưỡng";
-                        item.stringlink = "bao-duong^" + item.documentary_id;
+                        item.linkIdCode.link = "bao-duong";
                         break;
                     case "3":
                         item.stringtype = "Điều động";
-                        item.stringlink = "dieu-dong^" + item.documentary_id;
+                        item.linkIdCode.link = "dieu-dong";
                         break;
                     case "4":
                         item.stringtype = "Thu hồi";
-                        item.stringlink = "thu-hoi^" + item.documentary_id;
+                        item.linkIdCode.link = "thu-hoi";
                         break;
                     case "5":
                         item.stringtype = "Thanh lý";
-                        item.stringlink = "thanh-ly^" + item.documentary_id;
+                        item.linkIdCode.link = "thanh-ly";
                         break;
                     case "6":
                         item.stringtype = "Trung đại tu";
-                        item.stringlink = "trung-dai-tu^" + item.documentary_id;
+                        item.linkIdCode.link = "trung-dai-tu";
                         break;
                 }
                 if (item.documentary_status == 2) item.stringstatus = "Xử lý xong chưa nghiệm thu";
                 else item.stringstatus = "Đã nghiệm thu";
                 item.stringdate = item.date_created.ToString("dd/MM/yyyy");
-                item.outincome = item.out_in_come;
+                item.linkIdCode.code = item.documentary_code;
+                item.linkIdCode.id = item.documentary_id;
             }
             return Json(new { success = true, data = incidents, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }

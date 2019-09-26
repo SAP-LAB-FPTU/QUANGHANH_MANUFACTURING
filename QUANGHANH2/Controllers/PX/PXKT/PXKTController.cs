@@ -59,8 +59,8 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                         ChucDanh = "MT",
                         DuBaoNguyCo = "Không kiểm tra thiết bị trước khi vận hành",
                         HeSoChiaLuong = i.HeSoChiaLuong.ToString(),
-                        LuongSauDuyet = i.LuongSauDuyet.ToString(),
-                        LuongTruocDuyet = i.LuongTruocDuyet.ToString(),
+                        LuongSauDuyet = i.Luong.ToString(),
+                        LuongTruocDuyet = i.Luong.ToString(),
                         NoiDungCongViec = db.Departments.Where(a => a.department_id == i.MaDonVi).First().department_name,
                         NSLD = i.NangSuatLaoDong,
                         SoThe = i.MaNV,
@@ -102,10 +102,28 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
         [Route("phan-xuong-khai-thac/diem-danh")]
         public ActionResult takeAttendance()
         {
+            // fixxing
+            var departmentID = "DL1";
+            var dateAtt = Convert.ToDateTime("2019-09-10");
+            int ca = 1;
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
-                var listAttendance = db.DiemDanh_NangSuatLaoDong.ToList();
+                var listAttendance = (from emp in db.NhanViens
+                                      join per in db.DiemDanh_NangSuatLaoDong
+                                        .Where(per => per.MaDonVi == departmentID && per.NgayDiemDanh == dateAtt && per.CaDiemDanh == ca)
+                                      on emp.MaNV equals per.MaNV into attendance
+                                      from att in attendance.DefaultIfEmpty()
+                                      select new
+                                      {
+                                          maNV = emp.MaNV,
+                                          tenNV = emp.Ten,
+                                          status = att.DiLam,
+                                          timeAttendance = att.ThoiGianThucTeDiemDanh,
+                                          dateAttendance = att.NgayDiemDanh,
+                                          reason = att.LyDoVangMat,
+                                          description = att.GhiChu
+                                      }).OrderBy(att => att.status).ToList();
                 JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
                 var result = JsonConvert.SerializeObject(listAttendance, Formatting.Indented, jss);
                 return Json(new { success = true, data = result }, JsonRequestBehavior.AllowGet);

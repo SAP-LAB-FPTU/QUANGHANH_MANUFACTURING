@@ -18,32 +18,24 @@
 
 <div class="card">
     <div class="card-content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="advanded-search">
-                    <div class="row">
-                        <div class="center">
-                            <h3 class="center">Chi tiết quyết định thanh lý số @ViewBag.id</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="col s12 table_container">
-                    <table class="table-bordered striped table-responsive centered"
-                           style="margin-top:30px; text-align:center;" id="complex_header">
-                        <thead>
-                            <tr>
-                                <th>Mã thiết bị</th>
-                                <th>Tên thiết bị</th>
-                                <th>Bên mua</th>
-                                <th>Danh sách vật tư đi kèm</th>
-                                <th>Đã thanh lý</th>
-                            </tr>
-                        </thead>
-                    </table>
-                    <input name="id" hidden value="@ViewBag.id" id="id" />
-                    <input name="edit" hidden id="edit" />
-                    <a class="btn blue darken-2" id="submit">Lưu</a>
-                </div>
+        <div class="row">
+            <h3 class="center">Chi tiết quyết định thanh lý số @ViewBag.code</h3>
+            <div class="col s12 table_container">
+                <table class="table-bordered striped table-responsive centered"
+                       style="margin-top:30px; text-align:center;" id="complex_header">
+                    <thead>
+                        <tr>
+                            <th>Mã thiết bị</th>
+                            <th>Tên thiết bị</th>
+                            <th>Bên mua</th>
+                            <th>Danh sách vật tư đi kèm</th>
+                            <th>Đã thanh lý</th>
+                        </tr>
+                    </thead>
+                </table>
+                <input name="id" hidden value="@ViewBag.id" id="id" />
+                <input name="edit" hidden id="edit" />
+                <a class="btn blue darken-2" id="submit">Lưu</a>
             </div>
         </div>
     </div>
@@ -92,21 +84,19 @@
 <script src="~/js/Briefs_List.js"></script>
 <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
 <script>
-    $(document).ready(function () {
+    $("#complex_header").on("click", ".buttonChon", function () {
         var output = "";
-        $(".buttonChon").click(function () {
-            if ($(this).text() == "Chưa nhận") {
-                $(this).text('Đã nhận')
-                if (!output.includes($(this).val())) output += $(this).val() + "^";
-                $('#edit').val(output)
-            }
-            else {
-                $(this).text('Chưa nhận')
-                output = output.replace(($(this).val() + "^"), "")
-                $('#edit').val(output)
-            }
-        });
-    })
+        if ($(this).text() == "Chưa nhận") {
+            $(this).text('Đã nhận')
+            if (!output.includes($(this).val())) output += $(this).val() + "^";
+            $('#edit').val(output)
+        }
+        else {
+            $(this).text('Chưa nhận')
+            output = output.replace(($(this).val() + "^"), "")
+            $('#edit').val(output)
+        }
+    });
 
     var listvattu = ""
     function modify_qty(vattu) {
@@ -132,7 +122,15 @@
         $('#pre-load').show();
         dataTable = $('#complex_header').dataTable({
             "language": {
-                "emptyTable": "Không tìm thấy dữ liệu"
+                "emptyTable": "Không tìm thấy dữ liệu",
+                "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                "paginate": {
+                    "first": "Trang đầu",
+                    "last": "Trang cuối",
+                    "next": "Trang sau",
+                    "previous": "Trang trước"
+                }
             },
             "ajax": {
                 "url": "/phong-cdvt/cap-nhat/quyet-dinh/thanh-ly/GetData",
@@ -166,18 +164,6 @@
             "searching": false,
             "initComplete": function (settings, json) {
                 $('#pre-load').hide();
-                $(".buttonChon").click(function () {
-                    if ($(this).text() == "Chưa nhận") {
-                        $(this).text('Đã nhận')
-                        if (!output.includes($(this).val())) output += $(this).val() + "^";
-                        $('#edit').val(output)
-                    }
-                    else {
-                        $(this).text('Chưa nhận')
-                        output = output.replace(($(this).val() + "^"), "")
-                        $('#edit').val(output)
-                    }
-                });
             },
             "columnDefs": [
                 { targets: 3, orderable: false },
@@ -260,21 +246,6 @@
             })
             return false;
         });
-
-        $(document).ready(function () {
-            $(".buttonChon").click(function () {
-                if ($(this).text() == "Chưa nhận") {
-                    $(this).text('Đã nhận')
-                    if (!output.includes($(this).val())) output += $(this).val() + "^";
-                    $('#edit').val(output)
-                }
-                else {
-                    $(this).text('Chưa nhận')
-                    output = output.replace(($(this).val() + "^"), "")
-                    $('#edit').val(output)
-                }
-            });
-        })
 
         //get data and push to modal list
         $(document).on("click", ".open-Modal", function () {

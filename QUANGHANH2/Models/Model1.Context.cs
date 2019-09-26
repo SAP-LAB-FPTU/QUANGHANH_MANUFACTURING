@@ -34,7 +34,6 @@ namespace QUANGHANH2.Models
         public virtual DbSet<Category_attribute_value> Category_attribute_value { get; set; }
         public virtual DbSet<ChamDut_NhanVien> ChamDut_NhanVien { get; set; }
         public virtual DbSet<ChiTiet_BangCap_GiayChungNhan> ChiTiet_BangCap_GiayChungNhan { get; set; }
-        public virtual DbSet<ChiTiet_CongViec_NhanVien> ChiTiet_CongViec_NhanVien { get; set; }
         public virtual DbSet<ChungChi> ChungChis { get; set; }
         public virtual DbSet<ChungChi_NhanVien> ChungChi_NhanVien { get; set; }
         public virtual DbSet<ChuyenNganh> ChuyenNganhs { get; set; }
