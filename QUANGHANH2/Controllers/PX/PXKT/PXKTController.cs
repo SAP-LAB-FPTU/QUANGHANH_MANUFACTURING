@@ -157,6 +157,14 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
             }
         }
 
+        [HttpPost]
+        [Route("phan-xuong-khai-thac/diem-danh/cap-nhat")]
+        public ActionResult updateAttendance()
+        {
+            var listUpdate = Request["sessionId "];
+            return View();
+        }
+
 
     }
     public class BaoCaoTheoCa

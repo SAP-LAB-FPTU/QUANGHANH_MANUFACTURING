@@ -103,6 +103,14 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
             SelectList listOption = new SelectList(list, "Key", "Value");
             ViewBag.listOption = listOption;
+
+            Dictionary<int, string> listTypes = new Dictionary<int, string>();
+            listTypes.Add(1, "Photo");
+            listTypes.Add(2, "Sao, Công chứng");
+            listTypes.Add(3, "Bản gốc");
+            SelectList listTypeCert = new SelectList(listTypes, "Value", "Value");
+            ViewBag.listTypeCert = listTypeCert;
+
             return View();
 
         }
@@ -115,7 +123,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 {
                     if(chungChi.ThoiHan.Equals("Vĩnh viễn"))
                     {
-                        chungChi.ThoiHan = "-1";
+                        chungChi.ThoiHan = -1;
                         db.ChungChis.Add(chungChi);
                     }
                     else
@@ -253,6 +261,13 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
                 SelectList listOption = new SelectList(list, "Key", "Value");
                 ViewBag.listOption = listOption;
+                Dictionary<int, string> listTypes = new Dictionary<int, string>();
+                listTypes.Add(1, "Photo");
+                listTypes.Add(2, "Sao, Công chứng");
+                listTypes.Add(3, "Bản gốc");
+                SelectList listTypeCert = new SelectList(listTypes, "Value", "Value");
+                ViewBag.listTypeCert = listTypeCert;
+
                 ChungChi chungchi = db.ChungChis.Where(x => x.MaChungChi == id).FirstOrDefault<ChungChi>();
                 return View(chungchi);
             }
@@ -267,7 +282,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 {
                     if (chungChi.ThoiHan.Equals("Vĩnh viễn"))
                     {
-                        chungChi.ThoiHan = "-1";
+                        chungChi.ThoiHan = -1;
                         db.Entry(chungChi).State = EntityState.Modified;
                     }
                     else
