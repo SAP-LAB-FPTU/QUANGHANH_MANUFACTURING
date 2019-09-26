@@ -5,8 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Threading.Tasks;
-using System.Web.Mvc;using System.Web.Routing;
+using System.Web.Mvc;
+using System.Web.Routing;
 using System.Web.Script.Serialization;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -35,6 +37,12 @@ namespace QUANGHANHCORE.Controllers.TCLD
         }
 
 
+
+
+
+
+
+
         [Route("phong-tcld/quan-ly-ho-so/chuan-hoa-ten")]
         public ActionResult Regulation()
         {
@@ -42,27 +50,22 @@ namespace QUANGHANHCORE.Controllers.TCLD
             return View("/Views/TCLD/Brief/ManageBrief/Regulations.cshtml");
         }
 
-        //detailByThuong
-        [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-chi-tiet")]
-        [HttpGet]
-        public ActionResult InsideDetail(string id = "")
-        {
-            id_ = id;
-            ViewBag.MaNV = id;
-            return View("/Views/TCLD/Brief/ManageBrief/InsideDetail.cshtml");
-        }
-
-
 
         //listByThuong
-
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty")]
         [HttpPost]
-        public ActionResult list()
+        public ActionResult listAllHoSo()
         {
 
-            using(QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
+                db.Configuration.LazyLoadingEnabled = false;
+
+                int start = Convert.ToInt32(Request["start"]);
+                int length = Convert.ToInt32(Request["length"]);
+                string searchValue = Request["search[value]"];
+                string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+                string sortDirection = Request["order[0][dir]"];
                 List<HoSoNhanVien> hs_nv = new List<HoSoNhanVien>();
                 hs_nv = (from nv in db.NhanViens
                          join hs in db.HoSoes
@@ -82,44 +85,58 @@ namespace QUANGHANHCORE.Controllers.TCLD
                              Ten = p.ten,
                              NgaySinh = p.ngaysinh.ToString(),
                              NguoiGiaoHoSo = p.nguoiGiaoHoSo,
-                             NgayNhanHoSo = (DateTime) p.ngayNhanHoSo,
-                             NguoiGiuHoSo = p.nguoiGiaoHoSo
+                             NgayNhanHoSo = p.ngayNhanHoSo.ToString(),
+                             NguoiGiuHoSo = p.nguoiGiuHoSo
 
                          }).ToList();
 
-
-                var dataJson = Json(new { success = true, data = hs_nv });
+                int totalrows = hs_nv.Count;
+                int totalrowsafterfiltering = hs_nv.Count;
+                hs_nv = hs_nv.OrderBy(sortColumnName + " " + sortDirection).ToList<HoSoNhanVien>();
+                //paging
+                hs_nv = hs_nv.Skip(start).Take(length).ToList<HoSoNhanVien>();
+                var dataJson = Json(new { success = true, data = hs_nv, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
 
                 string dataSerialize = new JavaScriptSerializer().Serialize(dataJson.Data);
 
                 return dataJson;
             }
-            
+
         }
 
+        //detailByThuong
+        [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-chi-tiet")]
+        [HttpGet]
+        public ActionResult InsideDetail(string id = "")
+        {
+            id_ = id;
+            ViewBag.MaNV = id;
+            return View("/Views/TCLD/Brief/ManageBrief/InsideDetail.cshtml");
+        }
 
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/chi-tiet-ho-so")]
         [HttpPost]
         public ActionResult listHoSo(string id)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            
 
-            var HoSoByMaNV = from hs in db.HoSoes join nv in db.NhanViens on hs.MaNV equals nv.MaNV
+
+            var HoSoByMaNV = from hs in db.HoSoes
+                             join nv in db.NhanViens on hs.MaNV equals nv.MaNV
                              where nv.MaNV == id_
                              select new
-                              {
-                                  maNV = hs.MaNV,
-                                  ten = nv.Ten,
-                                  nguoiGiuHoSo = hs.NguoiGiuHoSo,
-                                  ngayNhanHoSo = hs.NgayNhanHoSo,
-                                  nguoiGiaoHoSo = hs.NguoiGiaoHoSo,
-                                  camKetTuyenDung = hs.CamKetTuyenDung,
-                                  quyetDinhTiepNhan = hs.QuyetDinhTiepNhanDVC,
-                                  nguoiBanGiaoBangNhapKho = hs.NguoiBanGiaoBangNhapKho
+                             {
+                                 maNV = hs.MaNV,
+                                 ten = nv.Ten,
+                                 nguoiGiuHoSo = hs.NguoiGiuHoSo,
+                                 ngayNhanHoSo = hs.NgayNhanHoSo.ToString(),
+                                 nguoiGiaoHoSo = hs.NguoiGiaoHoSo,
+                                 camKetTuyenDung = hs.CamKetTuyenDung,
+                                 quyetDinhTiepNhan = hs.QuyetDinhTiepNhanDVC,
+                                 nguoiBanGiaoBangNhapKho = hs.NguoiBanGiaoBangNhapKho
 
-  
-                              };
+
+                             };
             var dataJson = Json(new { success = true, data = HoSoByMaNV });
 
             string dataSerialize = new JavaScriptSerializer().Serialize(dataJson.Data);
@@ -127,38 +144,34 @@ namespace QUANGHANHCORE.Controllers.TCLD
             return dataJson;
         }
 
-        [Route("#")]
-        [HttpPost]
-        public ActionResult listNhanVien(string id)
+
+        [HttpGet]
+        public ActionResult listNhanVien()
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
 
 
-            var nhanVien = from nv in db.NhanViens
-                             where nv.MaNV ==id
-                             select new
-                             {
-                                 maNV= nv.MaNV,
-                                 ten = nv.Ten,
-                                 ngaySinh = nv.NgaySinh,
-                                 soCMND = nv.SoCMND,
-                                 soBHXH = nv.SoBHXH,
-                                 soDT = nv.SoDienThoai,
-                                 queQuan = nv.QueQuan,
-                                 noiOHientai = nv.NoiOHienTai,
-                                 trinhDoHocVan = nv.TrinhDoHocVan
+            var nhanVien = (from nv in db.NhanViens
+                           where nv.MaNV == id_
+                           select new
+                           {
+                               maNV = nv.MaNV,
+                               ten = nv.Ten,
+                               ngaySinh = nv.NgaySinh.ToString(),
+                               soCMND = nv.SoCMND,
+                               soBHXH = nv.SoBHXH,
+                               soDT = nv.SoDienThoai,
+                               queQuan = nv.QueQuan,
+                               noiOHientai = nv.NoiOHienTai,
+                               trinhDoHocVan = nv.TrinhDoHocVan
 
-                             };
-            var dataJson = Json(new { success = true, data = nhanVien });
-
-            string dataSerialize = new JavaScriptSerializer().Serialize(dataJson.Data);
-
-            return dataJson;
+                           });
+            return Json(new { success = true, data = nhanVien, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
         }
 
 
 
-        [Route("#")]
+        [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/syll-bo-sung")]
         [HttpPost]
         public ActionResult listLichSuBoSung(string id)
         {
@@ -166,16 +179,16 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
 
             var LichSuBoSungByMaNV = from lsbs in db.LichSuBoSungSYLLs
-                             join nv in db.NhanViens on lsbs.MaNV equals nv.MaNV
-                             where lsbs.MaNV == id
-                             select new
-                             {
-                                 maNV = nv.MaNV,
-                                 ten = nv.Ten,
-                                 namBoSung = lsbs.NamBoSung,
-                                 dotBoSung = lsbs.DotBoSung
+                                     join nv in db.NhanViens on lsbs.MaNV equals nv.MaNV
+                                     where lsbs.MaNV == id_
+                                     select new
+                                     {
+                                         maNV = nv.MaNV,
+                                         ten = nv.Ten,
+                                         namBoSung = lsbs.NamBoSung.ToString(),
+                                         dotBoSung = lsbs.DotBoSung
 
-                             };
+                                     };
             var dataJson = Json(new { success = true, data = LichSuBoSungByMaNV });
 
             string dataSerialize = new JavaScriptSerializer().Serialize(dataJson.Data);
@@ -199,10 +212,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                  ten = nv.Ten,
                                  tenGiayTo = gt.TenGiayTo,
                                  maGiayTo = gt.MaGiayTo,
-                                 kieuGiayTo = gt.KieuGiayTo
-
+                                 kieuGiayTo = gt.KieuGiayTo,
+                                 ngayTra = gt.NgayTra.ToString()
                              };
-            var dataJson = Json(new { success = true, data = giayToMaNV });
+            var dataJson = Json(new { success = true, data = giayToMaNV }, JsonRequestBehavior.AllowGet);
 
             string dataSerialize = new JavaScriptSerializer().Serialize(dataJson.Data);
 
@@ -218,18 +231,24 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
 
             var chiTietBangCapByMaNV = from ctbc in db.ChiTiet_BangCap_GiayChungNhan
-                             join nv in db.NhanViens on ctbc.MaNV equals nv.MaNV
-                             
-                             where ctbc.MaNV == id_
-                             select new
-                             {
-                                 maNV = nv.MaNV,
-                                 ten = nv.Ten,
-                                 soHieu = ctbc.SoHieu,
-                                 maBangCap = ctbc.MaBangCap_GiayChungNhan,
-                                 ngayCap = ctbc.NgayCap.ToString()                                                                  
+                                       join nv in db.NhanViens on ctbc.MaNV equals nv.MaNV
+                                       join bc in db.BangCap_GiayChungNhan on ctbc.MaBangCap_GiayChungNhan equals bc.MaBangCap_GiayChungNhan
+                                       join truong in db.Truongs on bc.MaTruong equals truong.MaTruong
+                                       where
+                                        ctbc.MaNV == id_
+                                       select new
+                                       {
+                                           maNV = nv.MaNV,
+                                           ten = nv.Ten,
+                                           soHieu = ctbc.SoHieu,
+                                           maBangCap = ctbc.MaBangCap_GiayChungNhan,
+                                           ngayCap = ctbc.NgayCap.ToString(),
+                                           loai = bc.Loai,
+                                           truong = truong.TenTruong
+                                       };
+          
 
-                             };
+
             var dataJson = Json(new { success = true, data = chiTietBangCapByMaNV });
 
             string dataSerialize = new JavaScriptSerializer().Serialize(dataJson.Data);
@@ -240,26 +259,26 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/quan-he-gia-dinh")]
         [HttpPost]
-        public ActionResult quanHeGiadinh(string id)
+        public ActionResult quanHeGiadinh()
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
 
 
             var quanHeGiaDinhByMaNV = from qhgd in db.QuanHeGiaDinhs
-                                       join nv in db.NhanViens on qhgd.MaNV equals nv.MaNV
+                                      join nv in db.NhanViens on qhgd.MaNV equals nv.MaNV
 
-                                       where qhgd.MaNV == id
-                                       select new
-                                       {
-                                           maNV = nv.MaNV,
-                                           ten = nv.Ten,
-                                           moiQuanhe = qhgd.MoiQuanHe,
-                                           ngaySinh = qhgd.NgaySinh,
-                                           lyLich = qhgd.LyLich,
-                                           loaiGiaDinh = qhgd.LoaiGiaDinh
-                                           
+                                      where qhgd.MaNV == id_
+                                      select new
+                                      {
+                                          maNV = nv.MaNV,
+                                          ten = nv.Ten,
+                                          moiQuanhe = qhgd.MoiQuanHe,
+                                          ngaySinh = qhgd.NgaySinh,
+                                          lyLich = qhgd.LyLich,
+                                          loaiGiaDinh = qhgd.LoaiGiaDinh
 
-                                       };
+
+                                      };
             var dataJson = Json(new { success = true, data = quanHeGiaDinhByMaNV });
 
             string dataSerialize = new JavaScriptSerializer().Serialize(dataJson.Data);
@@ -290,7 +309,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     db.Entry(hoSo).State = EntityState.Modified;
                     db.SaveChanges();
                 }
-                return RedirectToAction("List");
+                return RedirectToAction("listAllHoSo");
             }
         }
 
@@ -314,7 +333,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     db.Entry(chiTiet_BangCap).State = EntityState.Modified;
                     db.SaveChanges();
                 }
-                return RedirectToAction("List");
+                return RedirectToAction("listAllHoSo");
             }
         }
         [HttpGet]
@@ -337,7 +356,26 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     db.Entry(quanHeGiaDinh).State = EntityState.Modified;
                     db.SaveChanges();
                 }
-                return RedirectToAction("List");
+                return RedirectToAction("listAllHoSo");
+            }
+        }
+        [HttpGet]
+        public ActionResult EditLichSuBoSung(string id)
+        {
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+
+                LichSuBoSungSYLL qh = db.LichSuBoSungSYLLs.Where(x => x.MaNV == id).FirstOrDefault<LichSuBoSungSYLL>();
+                //List<string> listMaNV = new List<string>();
+                var listMaNV = (from nv in db.NhanViens
+                                 select new
+                                 {
+                                     maNV = nv.MaNV,
+                                     tenNV = nv.Ten
+                                 }).ToList();
+                SelectList list = new SelectList(listMaNV, "maNV", "maNV");
+                ViewBag.listMaNv = list;
+                return View(qh);
             }
         }
 
@@ -351,12 +389,107 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     db.Entry(lichSuBoSungSYLL).State = EntityState.Modified;
                     db.SaveChanges();
                 }
-                return RedirectToAction("List");
+                return RedirectToAction("listAllHoSo");
             }
         }
 
 
+        [HttpPost]
+        public ActionResult searchlistAllBrief(string searchList)
+        {
+
+
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+
+                int start = Convert.ToInt32(Request["start"]);
+                int length = Convert.ToInt32(Request["length"]);
+                string searchValue = Request["search[value]"];
+                string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+                string sortDirection = Request["order[0][dir]"];
+                List<HoSoNhanVien> hs_nv = new List<HoSoNhanVien>();
+                string[] idsArray = searchList.Split(',').ToArray();
+                var manv = idsArray[0];
+                var tennv = idsArray[1];
+                var nguoigiaohoso = idsArray[2];
+                var nguoigiuhoso = idsArray[3];
+                if (manv != null || tennv != null && nguoigiaohoso != null && nguoigiuhoso != null)
+                {
+                    hs_nv = (from nv in db.NhanViens
+                             join hs in db.HoSoes
+                             on nv.MaNV equals hs.MaNV
+                             where (hs.TrangThaiHoSo != "hồ sơ ngoài")
+                             && ((nv.MaNV + " ").Contains(manv))
+                             && ((nv.Ten + " ").Contains(tennv))
+                             && ((hs.NguoiGiaoHoSo + " ").Contains(nguoigiaohoso))
+                             && ((hs.NguoiGiuHoSo + " ").Contains(nguoigiuhoso))
+                             select new
+                             {
+                                 maNV = hs.MaNV,
+                                 ten = nv.Ten,
+                                 ngaysinh = nv.NgaySinh,
+                                 nguoiGiaoHoSo = hs.NguoiGiaoHoSo,
+                                 ngayNhanHoSo = hs.NgayNhanHoSo,
+                                 nguoiGiuHoSo = hs.NguoiGiuHoSo
+                             }).ToList().Select(p => new HoSoNhanVien
+                             {
+                                 MaNV = p.maNV,
+                                 Ten = p.ten,
+                                 NgaySinh = p.ngaysinh.ToString(),
+                                 NguoiGiaoHoSo = p.nguoiGiaoHoSo,
+                                 NgayNhanHoSo = p.ngayNhanHoSo.ToString(),
+                                 NguoiGiuHoSo = p.nguoiGiuHoSo
+
+                             }).ToList();
+
+
+                    int totalrows = hs_nv.Count;
+                    int totalrowsafterfiltering = hs_nv.Count;
+                    hs_nv = hs_nv.OrderBy(sortColumnName + " " + sortDirection).ToList<HoSoNhanVien>();
+                    //paging
+                    hs_nv = hs_nv.Skip(start).Take(length).ToList<HoSoNhanVien>();
+                    var dataJson = Json(new { success = true, data = hs_nv, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+
+                    string dataSerialize = new JavaScriptSerializer().Serialize(dataJson.Data);
+
+                    return dataJson;
+                }
+            }
+            return RedirectToAction("listAllHoSo");
+        }
+
+        [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/chi-tiet-chung-chi")]
+        [HttpPost]
+        public ActionResult listChungChi()
+        {
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+
+
+            var chungchi = from cc_nv in db.ChungChi_NhanVien
+                             join nv in db.NhanViens on cc_nv.MaNV equals nv.MaNV
+                             join cc in db.ChungChis on cc_nv.MaChungChi equals cc.MaChungChi
+                             where cc_nv.MaNV == id_
+                             select new
+                             {
+                                 maNV = nv.MaNV,
+                                 ten = nv.Ten,
+                                 soHieu = cc_nv.SoHieu,
+                                 ngayCap = cc_nv.NgayCap.ToString(),
+                                 maChungChi = cc_nv.MaChungChi,
+                                 ngayTra = cc_nv.NgayTra.ToString(),
+                                 tenChungChi = cc.TenChungChi
+  
+                             };
+            var dataJson = Json(new { success = true, data = chungchi }, JsonRequestBehavior.AllowGet);
+
+            string dataSerialize = new JavaScriptSerializer().Serialize(dataJson.Data);
+
+            return dataJson;
+
+        }
 
     }
+
 
 }
