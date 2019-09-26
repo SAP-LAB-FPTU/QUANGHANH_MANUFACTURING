@@ -84,7 +84,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         LuongSauDuyet = i.Luong.ToString(),
                         LuongTruocDuyet = i.Luong.ToString(),
                         NoiDungCongViec = db.Departments.Where(a => a.department_id == i.MaDonVi).First().department_name,
-                        NSLD = i.NangSuatLaoDong,
+                        NSLD = i.NangSuatLaoDong.ToString(),
                         SoThe = i.MaNV,
                         YeuCauBPKTAT = "Trước khi vận hành phải kiểm tra thiết bị đảm bảo an toàn trước khi được vận hành"
                     };

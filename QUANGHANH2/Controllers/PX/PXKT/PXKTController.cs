@@ -2,6 +2,7 @@
 using QUANGHANH2.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -57,14 +58,14 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                         Name = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().Ten,
                         BacTho = "6/6",
                         ChucDanh = "MT",
-                        DuBaoNguyCo = "Không kiểm tra thiết bị trước khi vận hành",
+                        DuBaoNguyCo = i.DuBaoNguyCo,
                         HeSoChiaLuong = i.HeSoChiaLuong.ToString(),
                         LuongSauDuyet = i.Luong.ToString(),
                         LuongTruocDuyet = i.Luong.ToString(),
                         NoiDungCongViec = db.Departments.Where(a => a.department_id == i.MaDonVi).First().department_name,
-                        NSLD = i.NangSuatLaoDong,
+                        NSLD = i.NangSuatLaoDong.ToString(),
                         SoThe = i.MaNV,
-                        YeuCauBPKTAT = "Trước khi vận hành phải kiểm tra thiết bị đảm bảo an toàn trước khi được vận hành"
+                        YeuCauBPKTAT = i.GiaiPhapNguyCo
                     };
                     customNSLDs.Add(cus);
                 }
@@ -74,21 +75,47 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
         }
 
         [Route("phan-xuong-khai-thac/nang-suat-lao-dong-update")]
-        public void UpdateNSLD(int[] ids, string[] NSLDS, string intCa, string strDate)
+        public void UpdateNSLD(
+            string intCa,
+            string[] MaDiemDanhs,
+            string[] NangSuatLaoDongs,
+            string[] HeSoChiaLuongs,
+            string[] Luongs,
+            string[] DuBaoNguyCos,
+            string[] GiaiPhapNguyCos,
+            string date)
         {
-            int length = NSLDS.Length;
+            int length = MaDiemDanhs.Length;
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                for (int i = 0; i < length; i++)
+                using (DbContextTransaction transaction = db.Database.BeginTransaction())
                 {
-                    int id = ids[i];
-                    string NSLD = NSLDS[i];
-                    DiemDanh_NangSuatLaoDong f = db.DiemDanh_NangSuatLaoDong.FirstOrDefault(x => x.MaDiemDanh == id);
-                    f.NangSuatLaoDong = NSLD;
-                    db.SaveChanges();
-                }
+                    try
+                    {
+                        for (int i = 0; i < length; i++)
+                        {
+                            int MaDiemDanh = Convert.ToInt32(MaDiemDanhs[i]);
+                            DiemDanh_NangSuatLaoDong f = db.DiemDanh_NangSuatLaoDong.FirstOrDefault(x => x.MaDiemDanh == MaDiemDanh);
+                            f.NangSuatLaoDong = Convert.ToDouble(String.IsNullOrEmpty(NangSuatLaoDongs[i]) ? "0" : NangSuatLaoDongs[i]);
+                            f.HeSoChiaLuong = Convert.ToDouble(String.IsNullOrEmpty(HeSoChiaLuongs[i]) ? "0" : HeSoChiaLuongs[i]);
+                            f.Luong = Convert.ToDouble(String.IsNullOrEmpty(Luongs[i]) ? "0" : Luongs[i]);
+                            f.DuBaoNguyCo = DuBaoNguyCos[i];
+                            f.GiaiPhapNguyCo = GiaiPhapNguyCos[i];
+                            db.SaveChanges();
+                        }
+                        
+
+
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                    }
+                }             
+                
             }
-            NSLD(intCa, strDate);
+            
         }
 
         [Route("phan-xuong-khai-thac/diem-danh")]
@@ -128,6 +155,14 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                 var result = JsonConvert.SerializeObject(listAttendance, Formatting.Indented, jss);
                 return Json(new { success = true, data = result }, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        [HttpPost]
+        [Route("phan-xuong-khai-thac/diem-danh/cap-nhat")]
+        public ActionResult updateAttendance()
+        {
+            var listUpdate = Request["sessionId "];
+            return View();
         }
 
 
