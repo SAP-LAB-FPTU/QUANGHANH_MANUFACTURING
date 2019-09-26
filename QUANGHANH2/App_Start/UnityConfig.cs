@@ -15,6 +15,7 @@ namespace QUANGHANH2
             container.RegisterType<IXincapvattuSummaryRepository, XincapvattuSummaryRepository>();
             container.RegisterType<ITonghopvattuRepository, TonghopvattuRepository>();
             container.RegisterType<ITieuhaoRepository, TieuhaoRepository>();
+            container.RegisterType<IPxdsRepository, PxdsRepository>();
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
     }

@@ -17,6 +17,14 @@ namespace QUANGHANH2.Models
         public int MaQuyetDinh { get; set; }
         public string MaNV { get; set; }
         public string LyDoDieuDong { get; set; }
+        public string DonViMoi { get; set; }
+        public string ChucVuMoi { get; set; }
+        public string BacLuongMoi { get; set; }
+        public Nullable<double> MucLuongMoi { get; set; }
+        public string DonViCu { get; set; }
+        public string ChucVuCu { get; set; }
+        public string BacLuongCu { get; set; }
+        public Nullable<double> MucLuongCu { get; set; }
     
         public virtual QuyetDinh QuyetDinh { get; set; }
         public virtual NhanVien NhanVien { get; set; }

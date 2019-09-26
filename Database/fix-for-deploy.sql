@@ -258,3 +258,12 @@ CREATE TABLE SupplyPlan (
 	[quantity_plan] [int] NOT NULL,
 	[quantity] [int] NOT NULL,
 );
+
+--26/09/2019
+--Create table MealRegistrationselect * from MealRegistration mr, Department d where d.department_id = mr
+CREATE TABLE MealRegistration (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    department_id NVARCHAR(150) FOREIGN KEY REFERENCES Department(department_id),
+    date_regs DATE,
+    num_regs INT
+);

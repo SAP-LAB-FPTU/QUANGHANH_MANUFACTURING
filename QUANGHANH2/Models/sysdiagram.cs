@@ -12,15 +12,12 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ChungChi_NhanVien
+    public partial class sysdiagram
     {
-        public string SoHieu { get; set; }
-        public Nullable<System.DateTime> NgayCap { get; set; }
-        public string MaNV { get; set; }
-        public int MaChungChi { get; set; }
-        public Nullable<System.DateTime> NgayTra { get; set; }
-    
-        public virtual ChungChi ChungChi { get; set; }
-        public virtual NhanVien NhanVien { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

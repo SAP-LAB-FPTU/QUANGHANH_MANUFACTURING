@@ -121,7 +121,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             {
                 if (chungChi != null)
                 {
-                    
+
                     db.ChungChis.Add(chungChi);
                     db.SaveChanges();
                 }
@@ -185,7 +185,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     {
                         return Json(new { success = true, message = "id has been exist" }, JsonRequestBehavior.AllowGet);
                     }
-                    
+
                 }
                 else
                 {
@@ -271,7 +271,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 if (chungChi != null)
-                {                 
+                {
 
                     db.Entry(chungChi).State = EntityState.Modified;
                     db.SaveChanges();
@@ -345,7 +345,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     }
 
                 }
-                
+
                 db.SaveChanges();
                 return Json(new { success = true, message = "Delete successful" }, JsonRequestBehavior.AllowGet);
 
