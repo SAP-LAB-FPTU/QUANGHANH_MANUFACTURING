@@ -4,6 +4,8 @@
     Layout = "~/Views/Shared/PX/_Layout_PXKT.cshtml";
 }
 
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+
 <div class="card">
     <div class="card-content">
         <form>
@@ -16,22 +18,21 @@
                 <hr>
             </div>
             <div class="row center" style="overflow-x:auto!important">
-                <table id="attendanceTable">
+                <table id="attendanceTable" class="cell-border striped hover">
                     <thead>
                         <tr>
                             <th>Mã Nhân Viên</th>
                             <th>Tên Nhân Viên</th>
                             <th>Đi làm</th>
                             <th>Thời gian có mặt</th>
-                            <th>Ngày</th>
                             <th>Lý do vắng mặt</th>
                             <th>Ghi chú</th>
                         </tr>
                     </thead>
                     <tbody>
-
                     </tbody>
                 </table>
+                <a class="waves-effect waves-light btn" id="EditSaveBtn" onclick="EditOrUpdate()"><i class="material-icons right">border_color</i>Cập Nhật</a>
             </div>
         </form>
     </div>
@@ -56,10 +57,18 @@
 <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
 @section scripts{
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
     <script>
+        var mode = 0;
         $(document).ready(() => {
+            $('input.timepicker').timepicker({});
             attendanceTable = $("#attendanceTable").DataTable({
+                "columnDefs": [
+                    { "className": "dt-center", "targets": "_all" }
+                ],
+                "order": [],
                 "filter": false,
+                "paging": false,
                 "bLengthChange": false,
                 "ajax": {
                     "url": "/phan-xuong-khai-thac/diem-danh",
@@ -70,15 +79,73 @@
                     }
                 },
                 "columns": [
-                    { data: "MaNV" },
-                    { data: null },
-                    { data: null },
-                    { data: "ThoiGianThucTeDiemDanh" },
-                    { data: "NgayDiemDanh"} ,
-                    { data: null },
-                    { data: null }
+                    { data: "maNV" },
+                    { data: "tenNV" },
+                    {
+                        data: "status", render: function (data) {
+                            if (data) {
+                                return "<label><input type=\"checkbox\" checked=\"checked\"/ disabled=\"disabled\" class=\"checkBox\"><span></span></label>";
+                            } else {
+                                return "<label><input type=\"checkbox\"disabled=\"disabled\"class=\"checkBox\"/><span></span></label>";
+                            }
+                        }
+                    },
+                    {
+                        data: "timeAttendance", render: function (data) {
+                            if (data != null) {
+                                return "<span class=\"dateTime\">" + data + "</span>"
+                            } else
+                                return "<span class=\"dateTimeTest\"></span>"
+                        }
+                    },
+                    {
+                        data: "reason", render: function (data, type, row) {
+                            console.log(row['status'])
+                            if (row['status']) {
+                                return ""
+                            } else {
+                                if (data !=
+
+                                    null) {
+                                    return "<span class=\"reasonTest\" id=\""+row['maNV']+"\">" + data + "</span>"
+                                } else {
+                                    return "<span class=\"reasonTest\" id=\""+row['maNV']+"\></span>"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        data: "description", render: function (data) {
+                            if (data != null) {
+                                return "<input disabled value\"" + data + "\" type=\"text\" class=\"\">"
+                            } else
+                                return "<input disabled value=\"\" type=\"text\" class=\"inputTest\">"
+                        }
+                    }
                 ]
             })
         })
+
+        function validateInput() {
+
+        }
+
+        function EditOrUpdate() {
+            // mode == 0 => view mode , mode ==1 => edit mode
+            if (mode == 0) {
+                $("#EditSaveBtn").html("<i class=\"material-icons right\">border_color</i>Lưu");
+                mode = 1;
+            } else {
+                $("#EditSaveBtn").html("<i class=\"material-icons right\">border_color</i>Cập Nhật");
+                mode = 0;
+            }
+            $(".inputTest").removeAttr("disabled")
+            $(".checkBox").removeAttr("disabled")
+            $(".reasonTest").html("<select class=\"browser-default \" onchange=\"updateReason()\"> <option value=\"\" disabled selected>Lựa chọn lý do</option> <option value=\"1\">Ốm</option> <option value=\"2\">Vô lý do</option><option value=\"3\">Nghỉ phép</option></option> <option value=\"2\">Vô lý do</option><option value=\"4\">Khác</option></select>")
+        }
+
+        function updateReason() {
+            alert("hihi");
+        }
     </script>
 }
