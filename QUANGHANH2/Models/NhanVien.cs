@@ -17,18 +17,14 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public NhanVien()
         {
-            this.ChamDut_NhanVien = new HashSet<ChamDut_NhanVien>();
-            this.ChiTiet_BangCap = new HashSet<ChiTiet_BangCap>();
-            this.ChiTiet_CongViec_NhanVien = new HashSet<ChiTiet_CongViec_NhanVien>();
+            this.ChiTiet_BangCap_GiayChungNhan = new HashSet<ChiTiet_BangCap_GiayChungNhan>();
             this.ChungChi_NhanVien = new HashSet<ChungChi_NhanVien>();
             this.DiemDanh_NangSuatLaoDong = new HashSet<DiemDanh_NangSuatLaoDong>();
-            this.DieuDong_NV = new HashSet<DieuDong_NV>();
-            this.GiayChungNhan_NhanVien = new HashSet<GiayChungNhan_NhanVien>();
+            this.DieuDong_NhanVien = new HashSet<DieuDong_NhanVien>();
             this.GiayToes = new HashSet<GiayTo>();
             this.ChiTiet_NhiemVu_NhanVien = new HashSet<ChiTiet_NhiemVu_NhanVien>();
             this.QuanHeGiaDinhs = new HashSet<QuanHeGiaDinh>();
             this.QuaTrinhCongTacs = new HashSet<QuaTrinhCongTac>();
-            this.QuyetDinhs = new HashSet<QuyetDinh>();
         }
     
         public string MaNV { get; set; }
@@ -39,7 +35,7 @@ namespace QUANGHANH2.Models
         public string CapUyKiem { get; set; }
         public string ChucVu { get; set; }
         public Nullable<double> PhuCapChucVu { get; set; }
-        public Nullable<System.DateTime> NgaySinh { get; set; }
+        public System.DateTime NgaySinh { get; set; }
         public string NoiSinh { get; set; }
         public string DanToc { get; set; }
         public string QueQuan { get; set; }
@@ -47,13 +43,13 @@ namespace QUANGHANH2.Models
         public string NoiOHienTai { get; set; }
         public string SoDienThoai { get; set; }
         public string TPGiaDinhXuatThan { get; set; }
-        public Nullable<System.DateTime> NgayThamGiaCachMang { get; set; }
-        public Nullable<System.DateTime> NgayVaoDangCSVN { get; set; }
-        public Nullable<System.DateTime> NgayChinhThuc { get; set; }
-        public Nullable<System.DateTime> NgayVaoToChucCTXH { get; set; }
+        public System.DateTime NgayThamGiaCachMang { get; set; }
+        public System.DateTime NgayVaoDangCSVN { get; set; }
+        public System.DateTime NgayChinhThuc { get; set; }
+        public System.DateTime NgayVaoToChucCTXH { get; set; }
         public string ToChuc { get; set; }
-        public Nullable<System.DateTime> NgayNhapNgu { get; set; }
-        public Nullable<System.DateTime> NgayXuatNgu { get; set; }
+        public System.DateTime NgayNhapNgu { get; set; }
+        public System.DateTime NgayXuatNgu { get; set; }
         public string QuanHamChucVuCaoNhat { get; set; }
         public string TrinhDoHocVan { get; set; }
         public string HocHamHocViCaoNhat { get; set; }
@@ -75,31 +71,28 @@ namespace QUANGHANH2.Models
         public string HangThuongBinh { get; set; }
         public string GiaDinhChinhSach { get; set; }
         public string SoCMND { get; set; }
-        public Nullable<System.DateTime> NgayCapCMND { get; set; }
+        public System.DateTime NgayCapCMND { get; set; }
         public string NoiCapCMND { get; set; }
-        public string NgayDiLam { get; set; }
-        public string TenPhanXuong { get; set; }
+        public System.DateTime NgayDiLam { get; set; }
         public string TrangThaiLamViec { get; set; }
         public string MaPhongBan { get; set; }
         public Nullable<int> MaUyQuyen { get; set; }
         public string SoBHXH { get; set; }
-        public Nullable<System.DateTime> NgayTraBHXH { get; set; }
+        public System.DateTime NgayTraBHXH { get; set; }
+        public string LoaiNhanVien { get; set; }
+        public Nullable<int> MaCongViec { get; set; }
+        public Nullable<double> MucLuong { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChamDut_NhanVien> ChamDut_NhanVien { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChiTiet_BangCap> ChiTiet_BangCap { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChiTiet_CongViec_NhanVien> ChiTiet_CongViec_NhanVien { get; set; }
+        public virtual ICollection<ChiTiet_BangCap_GiayChungNhan> ChiTiet_BangCap_GiayChungNhan { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChungChi_NhanVien> ChungChi_NhanVien { get; set; }
+        public virtual CongViec CongViec { get; set; }
         public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DiemDanh_NangSuatLaoDong> DiemDanh_NangSuatLaoDong { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DieuDong_NV> DieuDong_NV { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GiayChungNhan_NhanVien> GiayChungNhan_NhanVien { get; set; }
+        public virtual ICollection<DieuDong_NhanVien> DieuDong_NhanVien { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GiayTo> GiayToes { get; set; }
         public virtual HoSo HoSo { get; set; }
@@ -110,7 +103,5 @@ namespace QUANGHANH2.Models
         public virtual ICollection<QuanHeGiaDinh> QuanHeGiaDinhs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QuaTrinhCongTac> QuaTrinhCongTacs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QuyetDinh> QuyetDinhs { get; set; }
     }
 }

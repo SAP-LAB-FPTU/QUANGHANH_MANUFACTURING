@@ -47,12 +47,10 @@ C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\vbc.exe.config
 C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\vbc.rsp
 C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\VBCSCompiler.exe
 C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\VBCSCompiler.exe.config
-C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Antlr3.Runtime.dll
 C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EntityFramework.dll
 C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EntityFramework.SqlServer.dll
 C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EPPlus.dll
 C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
-C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Microsoft.Web.Infrastructure.dll
 C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Newtonsoft.Json.dll
 C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Linq.Dynamic.dll
 C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Helpers.dll
@@ -62,7 +60,6 @@ C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Razor.dll
 C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.Deployment.dll
 C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.dll
 C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.Razor.dll
-C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\WebGrease.dll
 C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EntityFramework.xml
 C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EntityFramework.SqlServer.xml
 C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EPPlus.xml
@@ -74,9 +71,7 @@ C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.xml
 C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.Deployment.xml
 C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.Razor.xml
 C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Newtonsoft.Json.xml
-C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Antlr3.Runtime.pdb
 C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Release\QUANGHANH2.csprojAssemblyReference.cache
 C:\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Release\QUANGHANH2.csproj.CoreCompileInputs.cache
 C:\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Release\QUANGHANH2.csproj.CopyComplete
 C:\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Release\QUANGHANH2.dll
@@ -160,3 +155,12 @@ C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Release\QUANGHA
 C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Release\QUANGHANH2.dll
 C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Release\QUANGHANH2.pdb
 C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Release\QUANGHANH2.csprojAssemblyReference.cache
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Runtime.CompilerServices.Unsafe.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Unity.Abstractions.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Unity.Container.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Unity.Mvc5.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\XCrypt.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Runtime.CompilerServices.Unsafe.xml
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Unity.Abstractions.pdb
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Unity.Container.pdb
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Release\QUANGHANH2.csprojAssemblyReference.cache

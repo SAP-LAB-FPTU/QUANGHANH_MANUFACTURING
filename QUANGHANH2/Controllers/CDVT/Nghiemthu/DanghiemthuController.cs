@@ -20,52 +20,52 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
             return View("/Views/CDVT/Nghiemthu/Danghiemthu.cshtml");
         }
 
-        [Route("phong-cdvt/da-nghiem-thu")]
-        [HttpPost]
-        public ActionResult GetData()
-        {
-            //Server Side Parameter
-            //string requestID = Request["sessionId"];
-            int start = Convert.ToInt32(Request["start"]);
-            int length = Convert.ToInt32(Request["length"]);
-            string searchValue = Request["search[value]"];
-            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
-            string sortDirection = Request["order[0][dir]"];
-            List<Documentary_Extend> docList = new List<Documentary_Extend>();
-            //
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-            {
-                db.Configuration.LazyLoadingEnabled = false;
-                docList = (from a in db.Acceptances
-                           where (a.equipmentStatus == 3)
-                           join b in db.Equipments on a.equipmentId equals b.equipmentId
-                           select new
-                           {
-                               //documentary_id = a.documentary_id,
-                               equipmentId = b.equipmentId,
-                               equipment_name = b.equipment_name,
-                               acceptance_date = a.acceptance_date
+        //[Route("phong-cdvt/da-nghiem-thu")]
+        //[HttpPost]
+        //public ActionResult GetData()
+        //{
+        //    //Server Side Parameter
+        //    //string requestID = Request["sessionId"];
+        //    int start = Convert.ToInt32(Request["start"]);
+        //    int length = Convert.ToInt32(Request["length"]);
+        //    string searchValue = Request["search[value]"];
+        //    string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+        //    string sortDirection = Request["order[0][dir]"];
+        //    List<Documentary_Extend> docList = new List<Documentary_Extend>();
+        //    //
+        //    using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+        //    {
+        //        db.Configuration.LazyLoadingEnabled = false;
+        //        docList = (from a in db.Acceptances
+        //                   where (a.equipmentStatus == 3)
+        //                   join b in db.Equipments on a.equipmentId equals b.equipmentId
+        //                   select new
+        //                   {
+        //                       //documentary_id = a.documentary_id,
+        //                       equipmentId = b.equipmentId,
+        //                       equipment_name = b.equipment_name,
+        //                       acceptance_date = a.acceptance_date
 
 
-                           }).ToList().Select(p => new Documentary_Extend
-                           {
-                               //documentary_id = p.documentary_id,
-                               equipmentId = p.equipmentId,
-                               equipment_name = p.equipment_name,
-                               acceptance_date = p.acceptance_date
+        //                   }).ToList().Select(p => new Documentary_Extend
+        //                   {
+        //                       //documentary_id = p.documentary_id,
+        //                       equipmentId = p.equipmentId,
+        //                       equipment_name = p.equipment_name,
+        //                       acceptance_date = p.acceptance_date
 
-                           }).ToList();
+        //                   }).ToList();
 
-                //docList = db.Documentaries.ToList<Documentary>();
-                int totalrows = docList.Count;
-                int totalrowsafterfiltering = docList.Count;
-                //sorting
-                docList = docList.OrderBy(sortColumnName + " " + sortDirection).ToList<Documentary_Extend>();
-                //paging
-                docList = docList.Skip(start).Take(length).ToList<Documentary_Extend>();
-                return Json(new { success = true, data = docList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //        //docList = db.Documentaries.ToList<Documentary>();
+        //        int totalrows = docList.Count;
+        //        int totalrowsafterfiltering = docList.Count;
+        //        //sorting
+        //        docList = docList.OrderBy(sortColumnName + " " + sortDirection).ToList<Documentary_Extend>();
+        //        //paging
+        //        docList = docList.Skip(start).Take(length).ToList<Documentary_Extend>();
+        //        return Json(new { success = true, data = docList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
 
         [Route("phong-cdvt/da-nghiem-thu/search")]
         [HttpPost]
@@ -75,18 +75,24 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
             string requestID = Request["sessionId"];
             int start = Convert.ToInt32(Request["start"]);
             int length = Convert.ToInt32(Request["length"]);
+            //int length = 2;
             string searchValue = Request["search[value]"];
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
             List<Documentary_Extend> docList = new List<Documentary_Extend>();
 
-            DateTime dstart = DateTime.ParseExact(date_start, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            DateTime dend = DateTime.ParseExact(date_end, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            //DateTime dstart = DateTime.ParseExact(date_start, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            //DateTime dend = DateTime.ParseExact(date_end, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             //
+            if (date_start == "") date_start = "01/01/1900";
+            DateTime dstart = DateTime.ParseExact(date_start, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            DateTime dend;
+            if (date_end == "") dend = DateTime.Now;
+            else dend = DateTime.ParseExact(date_end, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
-                if(!equimentid.Equals("") || !equimentname.Equals("") || !dstart.Equals("") || !dend.Equals(""))
                 docList = (from a in db.Acceptances
                           
                            join b in db.Equipments on a.equipmentId equals b.equipmentId

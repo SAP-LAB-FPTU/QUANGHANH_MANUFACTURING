@@ -10,8 +10,14 @@ namespace QUANGHANH2.Models
         public string stringtype { get; set; }
         public string stringstatus { get; set; }
         public string stringdate { get; set; }
-        public string outincome { get; set; }
         public string department_name { get; set; }
-        public string stringlink { get; set; }
+        public LinkIdCode linkIdCode { get; set; }
+    }
+
+    public class LinkIdCode
+    {
+        public string link { get; set; }
+        public int id { get; set; }
+        public string code { get; set; }
     }
 }

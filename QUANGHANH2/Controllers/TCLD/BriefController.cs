@@ -231,7 +231,16 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
 
             var chiTietBangCapByMaNV = from ctbc in db.ChiTiet_BangCap_GiayChungNhan
-                                       join nv in db.NhanViens on ctbc.MaNV equals nv.MaNV
+                             join nv in db.NhanViens on ctbc.MaNV equals nv.MaNV
+                             
+                             where ctbc.MaNV == id_
+                             select new
+                             {
+                                 maNV = nv.MaNV,
+                                 ten = nv.Ten,
+                                 soHieu = ctbc.SoHieu,
+                                 maBangCap = ctbc.MaBangCap_GiayChungNhan,
+                                 ngayCap = ctbc.NgayCap.ToString()                                                                  
 
                                        where ctbc.MaNV == id_
                                        select new

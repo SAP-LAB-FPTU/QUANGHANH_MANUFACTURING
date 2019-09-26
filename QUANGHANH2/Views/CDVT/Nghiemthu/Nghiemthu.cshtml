@@ -61,7 +61,7 @@
                     <table id="docTable" class="striped table-bordered centered responsive-table mytable">
                         <thead>
                             <tr>
-                                <th rowspan="2">Mã quyết định</th>
+                                <th rowspan="2">Quyết định số</th>
                                 <th colspan="2">Thông tin thiết bị</th>
                                 <th rowspan="2"></th>
                             </tr>
@@ -284,9 +284,16 @@
             })
                 .DataTable({
                         "ajax": {
-                            "url": "/phong-cdvt/nghiem-thu",
+                            "url": "/phong-cdvt/nghiem-thu/search",
                             "type": "POST",
-                            "datatype": "json",
+                        "datatype": "json",
+                        "data": {
+                            "document_code": function () { return $('#doccumentid').val() },
+                            "equiment_id": function () { return $('#equimentid').val() },
+                            "equiment_name": function () { return $('#equimentname').val() }
+                            //"dateStart": $('#date-start-search').val(),
+                            //"dateEnd": $('#date-end-search').val()
+                                 },
                                 },
                                 "drawCallback": function (settings) {
                                   $("#pre-load").hide("slow", function () {
@@ -295,14 +302,15 @@
                         },
                 "columns": [
                     {
-                        "data": "documentary_id", "name" : "documentary_id", "render": function (data) {
-                            return "<a  class='modal-trigger' data-target='thongtin' onclick=Detail('@Url.Action("Detail","nghiemthu")?id=" + data + "')> " + data + "</a>";
+                        "data": "temp", "name" : "documentary_id", "render": function (data) {
+                            return "<a  class='modal-trigger' data-target='thongtin' onclick=Detail('@Url.Action("Detail","nghiemthu")?id=" + data.split("^")[0] + "')> "+data.split("^")[1]+"</a>";
 
                         },
                     },
                     {
                         "data": "equipmentId", "name" : "equipmentId", "render": function (data) {
-                            return "<td><a href='#capnhat' class='modal-trigger'>"+data+"</a></td>";
+                            //return "<td><a href='#capnhat' class='modal-trigger'>"+data+"</a></td>";
+                            return "<a class='modal-trigger' onclick=GetData('@Url.Action("Index","VatTuQuyetDinh")?id=" + data + "')>" + data + "</a>";
                         },
                     },
 
@@ -315,7 +323,9 @@
                         "searchable":false,
                         "width":"150px"
                     }
-                ],
+                    ],
+                    "searching": false,
+                    "bLengthChange": false,
                 "serverSide": "true",
                 "order": [0, "asc"],
                 "initComplete": function(settings, json) {
@@ -368,8 +378,12 @@
             });
                 return false;
         }
+         function GetData(url) {
+             window.location.href = url;
+        }
+
         function Update(url) {
-            if (confirm("Do you want to update!")) {
+            if (confirm("Bạn có muốn nghiệm thu quyết định này không!")) {
                  $.get(url)
                  .done(function (response) {
                      $("#update").html(response)
@@ -397,76 +411,16 @@
         //document.getElementById("datetime").innerHTML = (("0" + (dt.getMonth() + 1)).slice(-2)) + "/" + (("0" + dt.getDate()).slice(-2)) + "/" + (dt.getFullYear());
 
         $("#searchButton").click(function () {
-                dataTable.destroy();
-            dataTable = $('#docTable')
-                .on('preXhr.dt', function (e, settings, data) {
-      				  $("#pre-load").show("slow", function () { 
-      				   });
-      				  $("#pre-load").css("z-index", "99999");
-            })
-                .DataTable({
-                    "language": {
-                        "emptyTable": "Không tìm thấy dữ liệu"
-                    },
-                    "ajax": {
-                        "url": "/phong-cdvt/nghiem-thu/search",
-                        "type": "POST",
-                        "search": false,
-                        "datatype": "json",
-                        "data": {
-                            "document_id": $('#doccumentid').val(),
-                            "equiment_id": $('#equimentid').val(),
-                            "equiment_name" : $('#equimentname').val()
-                            //"dateStart": $('#date-start-search').val(),
-                            //"dateEnd": $('#date-end-search').val()
-                        },
-                        "cache": false
-                    },
-                                "drawCallback": function (settings) {
-                                  $("#pre-load").hide("slow", function () {
-                       		  });
-
-                        },
-                    "columns": [
-                        {
-                        "data": "documentary_id", "name" : "documentary_id", "render": function (data) {
-                            return "<a  class='modal-trigger' data-target='thongtin' onclick=Detail('@Url.Action("Detail","nghiemthu")?id=" + data + "')> " + data + "</a>";
-
-                        },
-                    },
-                    {
-                        "data": "equipmentId", "name" : "equipmentId", "render": function (data) {
-                            return "<td><a href='#capnhat' class='modal-trigger'>"+data+"</a></td>";
-                        },
-                    },
-
-                    { "data": "equipment_name" , "name" : "equipment_name"},
-                    //
-                    {
-                        "data": "equipmentId", "render": function (data) {
-                            return "<td><a class='btn blue darken-2 modal-trigger' onclick=Update('@Url.Action("Edit","nghiemthu")/" + data + "') >Nghiệm&nbsp;thu</a></td>";
-                    },
-                        "orderable": false,
-                        "searchable":false,
-                        "width":"150px"
-                    }
-                    ],
-                    "serverSide": "true",
-                    "order": [0, "asc"],
-                    "rowId": "incident_id",
-                    "lengthChange": false,
-                    "searching": false,
-                    "initComplete": function (settings, json) {
-                        $("#pre-load").hide("slow", function () {
-                       		  });
-                        $.notify("Tìm kiếm thành công", {
-                            globalPosition: "top center",
-                            className: "success"
-                        })
-                    }
+            $("#pre-load").show();
+           dataTable.ajax.reload(function () {
+                    $.notify("Tìm kiếm thành công", {
+                        globalPosition: "top center",
+                        className: "success"
+                    })
+                });
                 });
 
-            });
+          
     </script>
 }
 

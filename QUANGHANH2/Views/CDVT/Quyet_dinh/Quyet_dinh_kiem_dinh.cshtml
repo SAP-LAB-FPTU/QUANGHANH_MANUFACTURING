@@ -3,7 +3,9 @@
     ViewData["Title"] = "Quyet_dinh_kiem_dinh";
     Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
 }
-
+@{
+    List<string> right = (List<string>)Session["RightIDs"];
+}
 <link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
 <link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
@@ -54,7 +56,18 @@
                     </div>
                 </div>
                 <div class="col s12 left" style="margin-bottom:20px">
-                    <a href="/phong-cdvt/kiem-dinh" class="waves-effect waves-light btn blue darken-1 blue">Thêm</a>
+                    @{
+                        foreach (var item in right)
+                        {
+                            if (item.Equals("83"))
+                            {
+                                <a href="/phong-cdvt/sua-chua" class="waves-effect waves-light btn blue darken-1 blue">Thêm</a>
+
+                            }
+                        }
+                    }
+
+
                     <a href="javascript:void(0);" class="waves-effect waves-light btn blue darken-1 blue">In</a>
                 </div>
                 <div class="col s12">
@@ -242,8 +255,7 @@
         </div>
     </div>
 </div>
-<script>
-    $(window).resize(function () {
+<script>$(window).resize(function () {
         if ($(window).width() <= 600) {
             $("#searchButton1").hide();
             $("#searchButton2").show();
@@ -251,5 +263,4 @@
             $("#searchButton1").show();
             $("#searchButton2").hide();
         }
-    });
-</script>
+    });</script>

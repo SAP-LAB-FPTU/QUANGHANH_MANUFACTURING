@@ -12,7 +12,7 @@
         </div>
         <div class="col s12">
             <div class="row table_container">
-                <table class="striped centered table-bordered">
+                <table class="striped centered table-bordered" id="DocumnetaryTable">
                     <thead>
                         <tr>
                             <th>STT</th>
@@ -23,44 +23,52 @@
                             <th>Trạng thái</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>AKF</td>
-                            <td>Máy cẩu</td>
-                            <td>Lò 1</td>
-                            <td>Phân xưởng 1</td>
-                            <td>Tốt</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>AKF</td>
-                            <td>Máy cẩu</td>
-                            <td>Lò 1</td>
-                            <td>Phân xưởng 1</td>
-                            <td>Tốt</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>AKF</td>
-                            <td>Máy cẩu</td>
-                            <td>Lò 1</td>
-                            <td>Phân xưởng 1</td>
-                            <td>Tốt</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>AKF</td>
-                            <td>Máy cẩu</td>
-                            <td>Lò 1</td>
-                            <td>Phân xưởng 1</td>
-                            <td>Tốt</td>
-                        </tr>
-                    </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
+<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+@section scripts{
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
 
+        $(document).ready(function () {
+        $("#pre-load").show();
+        $("#pre-load").css("z-index", "9999");
+            DocumnetaryTable1 = $('#DocumnetaryTable')
+                .on('preXhr.dt', function (e, settings, data) {
+                    $("#pre-load").show();
+                    $("#pre-load").css("z-index", "9999");
+                    data.sessionId = "@ViewBag.id";
+                } ).DataTable({
+                "ajax": {
+                    "url": "@Url.Action("Detail","ChitietBaoduong")",
+                    "type": "POST",
+                    "datatype": "json",
+                    },                   
+                    "drawCallback": function () {
+                        $("#pre-load").hide();  
+                    },
+                    "columns": [
+                        { "data": "order_number", "name": "order_number" },
+                        { "data": "documentary_code", "name": "documentary_code" },
+                        { "data": "equipment_name", "name": "equipment_name" },
+                        { "data": "department_id", "name": "department_id" },
+                        { "data": "department_name", "name": "department_name" },
+                        { "data": "reason", "name": "reason" }
+
+                ],
+                    "serverSide": true,
+                    "order" : [0, "asc"],
+                    "lengthChange": false,
+                    "searching": false,
+                    "initComplete": function () {
+                    $("#pre-load").hide();
+                }
+
+            });
+        });
+    </script>
+}
 

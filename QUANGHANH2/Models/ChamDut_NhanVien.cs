@@ -14,13 +14,11 @@ namespace QUANGHANH2.Models
     
     public partial class ChamDut_NhanVien
     {
-        public string SoQuyetDinh { get; set; }
+        public int MaQuyetDinh { get; set; }
         public string MaNV { get; set; }
         public string LoaiChamDut { get; set; }
         public Nullable<System.DateTime> NgayChamDut { get; set; }
-        public string DonViKhiChamDut { get; set; }
     
         public virtual QuyetDinh QuyetDinh { get; set; }
-        public virtual NhanVien NhanVien { get; set; }
     }
 }

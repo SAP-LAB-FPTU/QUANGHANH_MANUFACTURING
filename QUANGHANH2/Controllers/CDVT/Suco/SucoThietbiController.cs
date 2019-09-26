@@ -21,39 +21,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
         [HttpGet]
         public ActionResult Index()
         {
-
             return View("/Views/CDVT/Suco/SucoThietbi.cshtml");
-        }
-
-        [Route("phong-cdvt/su-co")]
-        [HttpPost]
-        public ActionResult GetAllData()
-        {
-            //Server Side Parameter
-            int start = Convert.ToInt32(Request["start"]);
-            int length = Convert.ToInt32(Request["length"]);
-            string searchValue = Request["search[value]"];
-            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
-            string sortDirection = Request["order[0][dir]"];
-
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            List<IncidentDB> incidents = DBContext.Database.SqlQuery<IncidentDB>("SELECT e.equipment_name, d.department_name, i.*, DATEDIFF(HOUR, i.start_time, i.end_time) as time_different FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId inner join Department d " +
-                "on d.department_id = i.department_id").ToList();
-            int totalrows = incidents.Count;
-            int totalrowsafterfiltering = incidents.Count;
-            //sorting
-            incidents = incidents.OrderBy(sortColumnName + " " + sortDirection).ToList<IncidentDB>();
-            //paging
-            incidents = incidents.Skip(start).Take(length).ToList<IncidentDB>();
-            foreach (IncidentDB item in incidents)
-            {
-                item.stringStartTime = item.start_time.ToString("hh:mm tt dd/MM/yyyy");
-                item.stringEndTime = item.getEndtime();
-                item.stringDiffTime = item.getDiffTime();
-                if (item.time_different.ToString() == "") item.editAble = item.incident_id + "^false";
-                else item.editAble = item.incident_id + "^true";
-            }
-            return Json(new { success = true, data = incidents, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
         [Route("phong-cdvt/su-co/add")]
@@ -166,7 +134,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             }
         }
 
-        [Route("phong-cdvt/su-co/search")]
+        [Route("phong-cdvt/su-co")]
         [HttpPost]
         public ActionResult Search(string equipmentId, string equipmentName, string department, string detail, string reason, string dateStart, string dateEnd)
         {
