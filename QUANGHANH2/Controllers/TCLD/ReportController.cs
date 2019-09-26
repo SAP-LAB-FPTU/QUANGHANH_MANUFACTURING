@@ -30,12 +30,12 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [Route("phong-tcld/nang-suat-lao-dong-va-tien-luong/nang-suat-lao-dong-va-tien-luong-theo-ngay")]
         public ActionResult Daily(string date, string donvi)
         {
-            string headerca1 = getHeader("25/09/2019", "KT1", "1");
-            string bodyca1 = Wherecondition("25/09/2019", "KT1", "1");
-            string headerca2 = getHeader("25/09/2019", "KT1", "2");
-            string bodyca2 = Wherecondition("25/09/2019", "KT1", "2");
-            string headerca3 = getHeader("25/09/2019", "KT1", "3");
-            string bodyca3 = Wherecondition("25/09/2019", "KT1", "3");
+            string headerca1 = getHeader("10/09/2019", "DL1", "1");
+            string bodyca1 = Wherecondition("10/09/2019", "DL1", "1");
+            string headerca2 = getHeader("10/09/2019", "DL1", "2");
+            string bodyca2 = Wherecondition("10/09/2019", "DL1", "2");
+            string headerca3 = getHeader("10/09/2019", "DL1", "3");
+            string bodyca3 = Wherecondition("10/09/2019", "DL1", "3");
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 ViewBag.HeaderCa1 = db.Database.SqlQuery<Ngay>(headerca1).ToList().First();
@@ -45,7 +45,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 ViewBag.HeaderCa3 = db.Database.SqlQuery<Ngay>(headerca3).ToList().First();
                 ViewBag.Ca3 = db.Database.SqlQuery<Ngay>(bodyca3).ToList();
                 ViewBag.Tong = new Ngay {
-                    Loai = "Tổng",
+                    LoaiNhanVien = "Tổng",
                     LDTheoDS = ViewBag.HeaderCa1.LDTheoDS + ViewBag.HeaderCa2.LDTheoDS + ViewBag.HeaderCa3.LDTheoDS,
                     LDSX = ViewBag.HeaderCa1.LDSX + ViewBag.HeaderCa2.LDSX + ViewBag.HeaderCa3.LDSX,
                     Phep = ViewBag.HeaderCa1.Phep + ViewBag.HeaderCa2.Phep + ViewBag.HeaderCa3.Phep,
@@ -61,7 +61,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 for (int i=0; i< ViewBag.Ca1.Count; i++)
                 {
                     ViewBag.TongDetail.Add(new Ngay {
-                        Loai = ViewBag.Ca1[i].Loai,
+                        LoaiNhanVien = ViewBag.Ca1[i].LoaiNhanVien,
                         LDTheoDS = ViewBag.Ca1[i].LDTheoDS + ViewBag.Ca2[i].LDTheoDS + ViewBag.Ca3[i].LDTheoDS,
                         LDSX = ViewBag.Ca1[i].LDSX + ViewBag.Ca2[i].LDSX + ViewBag.Ca3[i].LDSX
                     });
@@ -90,11 +90,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
         private string Wherecondition(string date, string donvi, string ca)
         {
             var ngay = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            string query = "select distinct NhanVien.Loai, ISNULL(b.LDTheoDS,0) as LDTheoDS, ISNULL(b.LĐSX,0) as LDSX, " +
+            string query = "select distinct NhanVien.LoaiNhanVien, ISNULL(b.LDTheoDS,0) as LDTheoDS, ISNULL(b.LĐSX,0) as LDSX, " +
                 "ISNULL(b.Phep,0) as Phep, ISNULL(b.Om,0) as Om, ISNULL(b.Bu,0) as Bu, ISNULL(b.TT,0), " +
                 "ISNULL(b.VLD,0), ISNULL(b.H,0), ISNULL(b.TongNghi,0), ISNULL(b.NSLDThucHien,0) " +
                 "from NhanVien  left join  (select *, (Phep+Om+Bu+TT+VLD+H)as " +
-                "TongNghi from  (select  n.Loai, COUNT(d.CaDiemDanh) as LDTheoDS, " +
+                "TongNghi from  (select  n.LoaiNhanVien, COUNT(d.CaDiemDanh) as LDTheoDS, " +
                 "Sum(CASE WHEN LyDoVangMat is null THEN 1 ELSE Null END)  as LĐSX, " +
                 "Sum(CASE WHEN LyDoVangMat like N'Phép' THEN 1 ELSE Null END) AS Phep , " +
                 "Sum(CASE WHEN LyDoVangMat like N'Ốm' THEN 1 ELSE Null END) AS Om , " +
@@ -105,14 +105,14 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 "sum(NangSuatLaoDong) as NSLDThucHien from  NhanVien n, DiemDanh_NangSuatLaoDong " +
                 "d,Department de where n.MaNV = d.MaNV and de.department_id = d.MaDonVi and " +
                 "CaDiemDanh = "+ca+"  and NgayDiemDanh = '"+ngay+"' and department_id like " +
-                "'"+donvi+"' group by   n.Loai) a) b on NhanVien.Loai= b.Loai   where NhanVien.Loai iS not NULL";
+                "'"+donvi+ "' group by   n.LoaiNhanVien) a) b on NhanVien.LoaiNhanVien= b.LoaiNhanVien   where NhanVien.LoaiNhanVien iS not NULL";
             return query;
         }
 
         private string getHeader(string date, string donvi, string ca)
         {
             var ngay = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            string query = "select 'CA "+ca+"' as Loai, *, (Phep+Om+Bu+TT+VLD+H) as TongNghi " +
+            string query = "select 'CA "+ca+ "' as LoaiNhanVien, *, (Phep+Om+Bu+TT+VLD+H) as TongNghi " +
                 "from (select  COUNT(d.CaDiemDanh) as LDTheoDS, Isnull( Sum(CASE WHEN LyDoVangMat " +
                 "is null THEN 1 ELSE Null END),0)  as LDSX, Isnull( Sum(CASE WHEN LyDoVangMat " +
                 "like N'Phép' THEN 1 ELSE Null END),0) AS Phep , Isnull(Sum(CASE WHEN LyDoVangMat " +
@@ -130,7 +130,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
     }
     public class Ngay
     {
-        public string Loai { get; set; }
+        public string LoaiNhanVien { get; set; }
         public int LDTheoDS { get; set; }
         public int LDSX { get; set; }
         public int Phep { get; set; }

@@ -32,8 +32,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
         public ActionResult Report1(string ca, string donvi, string date)
         {
             ca = "1";
-            donvi = "VTL1";
-            date = "25/09/2019";
+            donvi = "DL1";
+            date = "10/09/2019";
             ViewBag.nameDepartment = "baocao-sanluon-laodong";
             ViewBag.ca = ca;
             ViewBag.donvi = donvi;
@@ -77,16 +77,16 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     {
                         ID = i.MaDiemDanh,
                         Name = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().Ten,
-                        BacTho = "6/6",
-                        ChucDanh = "MT",
-                        DuBaoNguyCo = "Không kiểm tra thiết bị trước khi vận hành",
+                        BacTho = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec == null ? "": db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec.BacLuong,
+                        ChucDanh = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec == null ? "": db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec.TenCongViec,
+                        DuBaoNguyCo = i.DuBaoNguyCo,
                         HeSoChiaLuong = i.HeSoChiaLuong.ToString(),
                         LuongSauDuyet = i.Luong.ToString(),
                         LuongTruocDuyet = i.Luong.ToString(),
                         NoiDungCongViec = db.Departments.Where(a => a.department_id == i.MaDonVi).First().department_name,
                         NSLD = i.NangSuatLaoDong.ToString(),
                         SoThe = i.MaNV,
-                        YeuCauBPKTAT = "Trước khi vận hành phải kiểm tra thiết bị đảm bảo an toàn trước khi được vận hành"
+                        YeuCauBPKTAT = i.GiaiPhapNguyCo
                     };
                     customNSLDs.Add(cus);
                 }
