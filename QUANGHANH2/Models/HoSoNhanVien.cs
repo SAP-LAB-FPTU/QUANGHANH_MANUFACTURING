@@ -12,10 +12,10 @@ namespace QUANGHANH2.Models
         public string Ten { get; set; }
         public string NgaySinh { get; set; }
         public string NguoiGiaoHoSo { get; set; }
-        public DateTime NgayNhanHoSo { get; set; }
+        public string NgayNhanHoSo { get; set; }
         public string NguoiGiuHoSo { get; set; }
 
-        public HoSoNhanVien(string maNV, string ten, string ngaySinh, string nguoiGiaoHoSo, DateTime nguoiNhanHoSo, string nguoiGiuHoSo)
+        public HoSoNhanVien(string maNV, string ten, string ngaySinh, string nguoiGiaoHoSo, string nguoiNhanHoSo, string nguoiGiuHoSo)
         {
             MaNV = maNV;
             Ten = ten;

@@ -118,8 +118,10 @@
                                 <thead>
                                     <tr>
                                         <th>Số hiệu</th>
-                                        <th>Mã bằng cấp</th>
+                                        <th>Trường</th>
                                         <th>Ngày cấp</th>
+                                        <th>Loại</th>
+                                        
                                         <th>Sửa</th>
                                     </tr>
                                 </thead>
@@ -145,8 +147,8 @@
                                 <thead>
                                     <tr>
                                         <th>Số hiệu</th>
-                                        <th>Mã bằng cấp</th>
                                         <th>Ngày cấp</th>
+                                        <th>Tên chứng chỉ</th>
                                         <th>Sửa</th>
                                     </tr>
                                 </thead>
@@ -393,7 +395,7 @@
             "columns": [
                 { "data": "soHieu", "name": "soHieu" },
                 { "data": "ngayCap", "name": "ngayCap" },
-                { "data": "maChungChi", "name": "maChungChi" },
+                { "data": "tenChungChi", "name": "tenChungChi" },
                 { "data": "ngayTra", "name": "ngayTra" }
 
             ],
@@ -427,8 +429,10 @@
             },
             "columns": [
                 { "data": "soHieu", "name": "soHieu" },
-                { "data": "maBangCap", "name": "maBangCap" },
+                { "data": "truong", "name": "truong" },
                 { "data": "ngayCap", "name": "ngayCap" },
+                { "data": "loai", "name": "loai" },
+                
                 {
                     "data": "MaNV", "render": function (data) {
                         return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='EditLichSuBoSung' style='margin-left:5px' onclick=getEditHs('" + data + "') ><i class=''></i> Sửa</a>";
@@ -481,7 +485,7 @@
             "columns": [
                 { "data": "moiQuanhe", "name": "moiQuanhe" },
                 {
-                    "data": "NgaySinh", "name": "NgaySinh", "render": function (data) {
+                    "data": "ngaySinh", "name": "ngaySinh", "render": function (data) {
                         return dateFormat(data);
                     },
                 },
