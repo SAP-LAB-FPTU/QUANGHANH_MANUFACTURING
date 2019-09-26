@@ -18,6 +18,7 @@ namespace QUANGHANH2.Models
         [Required(ErrorMessage = "Không được để trống")]
         public string SoHieu { get; set; }
         [Required(ErrorMessage = "Không được để trống")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> NgayCap { get; set; }
         [Required(ErrorMessage = "Không được để trống")]
         public string MaNV { get; set; }

@@ -104,6 +104,14 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
             SelectList listOption = new SelectList(list, "Key", "Value");
             ViewBag.listOption = listOption;
+
+            Dictionary<int, string> listTypes = new Dictionary<int, string>();
+            listTypes.Add(1, "Photo");
+            listTypes.Add(2, "Sao, Công chứng");
+            listTypes.Add(3, "Bản gốc");
+            SelectList listTypeCert = new SelectList(listTypes, "Value", "Value");
+            ViewBag.listTypeCert = listTypeCert;
+
             return View();
 
         }
@@ -254,6 +262,13 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
                 SelectList listOption = new SelectList(list, "Key", "Value");
                 ViewBag.listOption = listOption;
+                Dictionary<int, string> listTypes = new Dictionary<int, string>();
+                listTypes.Add(1, "Photo");
+                listTypes.Add(2, "Sao, Công chứng");
+                listTypes.Add(3, "Bản gốc");
+                SelectList listTypeCert = new SelectList(listTypes, "Value", "Value");
+                ViewBag.listTypeCert = listTypeCert;
+
                 ChungChi chungchi = db.ChungChis.Where(x => x.MaChungChi == id).FirstOrDefault<ChungChi>();
                 return View(chungchi);
             }
