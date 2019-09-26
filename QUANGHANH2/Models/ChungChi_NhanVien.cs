@@ -11,15 +11,17 @@ namespace QUANGHANH2.Models
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class ChungChi_NhanVien
     {
         public string SoHieu { get; set; }
+        [Required(ErrorMessage = "Không được để trống")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> NgayCap { get; set; }
         public string MaNV { get; set; }
         public int MaChungChi { get; set; }
         public Nullable<System.DateTime> NgayTra { get; set; }
-    
+
         public virtual ChungChi ChungChi { get; set; }
         public virtual NhanVien NhanVien { get; set; }
     }
