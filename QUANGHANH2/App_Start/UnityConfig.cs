@@ -13,6 +13,8 @@ namespace QUANGHANH2
             var container = new UnityContainer();
             container.RegisterType<IXincapvattuRepository, XincapvattuRepository>();
             container.RegisterType<IXincapvattuSummaryRepository, XincapvattuSummaryRepository>();
+            container.RegisterType<ITonghopvattuRepository, TonghopvattuRepository>();
+            container.RegisterType<ITieuhaoRepository, TieuhaoRepository>();
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
     }

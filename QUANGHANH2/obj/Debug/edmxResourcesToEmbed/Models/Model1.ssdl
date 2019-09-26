@@ -14,7 +14,7 @@
     <Key>
       <PropertyRef Name="ID" />
     </Key>
-    <Property Name="ID" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" MaxLength="50" />
     <Property Name="Username" Type="nvarchar" MaxLength="50" />
     <Property Name="Password" Type="nvarchar" MaxLength="50" />
@@ -33,7 +33,7 @@
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ModuleID" Type="nvarchar" MaxLength="50" />
-    <Property Name="GroupID" Type="nvarchar" MaxLength="50" />
+    <Property Name="GroupID" Type="int" />
     <Property Name="Right" Type="nvarchar" MaxLength="70" />
     <Property Name="isBasic" Type="bit" />
   </EntityType>

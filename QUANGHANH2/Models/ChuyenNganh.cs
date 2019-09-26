@@ -18,6 +18,7 @@ namespace QUANGHANH2.Models
         public ChuyenNganh()
         {
             this.BangCap_GiayChungNhan = new HashSet<BangCap_GiayChungNhan>();
+            this.NhanViens = new HashSet<NhanVien>();
         }
     
         public int MaChuyenNganh { get; set; }
@@ -29,5 +30,7 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BangCap_GiayChungNhan> BangCap_GiayChungNhan { get; set; }
         public virtual Nganh Nganh { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<NhanVien> NhanViens { get; set; }
     }
 }

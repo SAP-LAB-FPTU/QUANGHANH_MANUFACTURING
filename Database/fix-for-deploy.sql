@@ -243,3 +243,18 @@ MaNV nvarchar(50) not null foreign key references NhanVien(MaNV),
 SoQuyetDinh nvarchar(50) not null foreign key references QuyetDinh(SoQuyetDinh),
 primary key (MaNV,SoQuyetDinh)
 )
+
+--24/09/2019
+--Drop and recreate pk from SupplyPlan
+DROP TABLE SupplyPlan
+GO
+CREATE TABLE SupplyPlan (
+    [id] int IDENTITY(1,1) PRIMARY KEY,
+    [supplyid] [nvarchar](150) NOT NULL,
+	[departmentid] [nvarchar](150) NOT NULL,
+	[equipmentid] [nvarchar](150) NOT NULL,
+	[date] [date] NOT NULL,
+	[dinh_muc] [float] NOT NULL,
+	[quantity_plan] [int] NOT NULL,
+	[quantity] [int] NOT NULL,
+);

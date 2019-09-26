@@ -1,5 +1,4 @@
-﻿using Microsoft.Ajax.Utilities;
-using QUANGHANH2.Models;
+﻿using QUANGHANH2.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;

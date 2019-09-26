@@ -16,7 +16,7 @@ namespace QUANGHANH2.Models
     {
         public int equipment_liquidation_status { get; set; }
         public string buyer { get; set; }
-        public string documentary_id { get; set; }
+        public int documentary_id { get; set; }
         public string equipmentId { get; set; }
         public string equipment_liquidation_reason { get; set; }
     

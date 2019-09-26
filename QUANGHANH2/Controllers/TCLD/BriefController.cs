@@ -82,7 +82,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                              Ten = p.ten,
                              NgaySinh = p.ngaysinh.ToString(),
                              NguoiGiaoHoSo = p.nguoiGiaoHoSo,
-                             NgayNhanHoSo = p.ngayNhanHoSo,
+                             NgayNhanHoSo = (DateTime) p.ngayNhanHoSo,
                              NguoiGiuHoSo = p.nguoiGiaoHoSo
 
                          }).ToList();

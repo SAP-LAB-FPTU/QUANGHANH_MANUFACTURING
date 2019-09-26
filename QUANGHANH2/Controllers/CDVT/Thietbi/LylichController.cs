@@ -1,6 +1,7 @@
 ﻿using QUANGHANH2.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;using System.Web.Routing;
@@ -23,21 +24,27 @@ namespace QUANGHANHCORE.Controllers.CDVT
         {
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             //NK su co
-            var years = DBContext.Database.SqlQuery<int>("SELECT distinct year(i.start_time) as years FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId inner join Department d on d.department_id = i.department_id where i.end_time is not null and e.equipmentId = '" + id + "' order by years desc").ToList();
+            var years = DBContext.Database.SqlQuery<int>("SELECT distinct year(i.start_time) as years FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId inner join Department d on d.department_id = i.department_id where i.end_time is not null and e.equipmentId = @equipmentId order by years desc",
+                new SqlParameter("equipmentId", id)).ToList();
             List<IncidentByYear> listbyyear = new List<IncidentByYear>();
             foreach (int year in years)
             {
                 int count = 0;
                 IncidentByYear tempyear = new IncidentByYear();
                 List<IncidentByDate> listbydate = new List<IncidentByDate>();
-                var dates = DBContext.Database.SqlQuery<DateTime>("SELECT distinct i.start_time as dates FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId inner join Department d on d.department_id = i.department_id where i.end_time is not null and e.equipmentId = '" + id + "' and year(start_time) = '" + year + "' order by dates desc").ToList();
+                var dates = DBContext.Database.SqlQuery<DateTime>("SELECT distinct i.start_time as dates FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId inner join Department d on d.department_id = i.department_id where i.end_time is not null and e.equipmentId = @equipmentId and year(start_time) = @year order by dates desc",
+                    new SqlParameter("equipmentId", id),
+                    new SqlParameter("year", year)).ToList();
                 foreach (DateTime date in dates)
                 {
                     IncidentByDate tempdate = new IncidentByDate();
                     tempdate.date = date;
                     tempdate.incidents = DBContext.Database.SqlQuery<IncidentDB>("SELECT d.department_name, " +
-                        "i.start_time, i.end_time, i.reason, i.incident_type, i.incident_id FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId inner join Department d " +
-                        "on d.department_id = i.department_id where i.end_time is not null and e.equipmentId = '" + id + "' and start_time = '" + date + "' and year(start_time) = '" + year + "' order by start_time desc").ToList();
+                        "i.* FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId inner join Department d " +
+                        "on d.department_id = i.department_id where i.end_time is not null and e.equipmentId = @equipmentId and start_time = @start_time and year(start_time) = @year order by start_time desc",
+                        new SqlParameter("equipmentId", id),
+                        new SqlParameter("start_time", date),
+                        new SqlParameter("year", year)).ToList();
                     count += tempdate.incidents.Count;
                     listbydate.Add(tempdate);
                 }
@@ -47,15 +54,18 @@ namespace QUANGHANHCORE.Controllers.CDVT
                 listbyyear.Add(tempyear);
             }
             ViewBag.incidents = listbyyear;
-            var equipment = DBContext.Database.SqlQuery<Equipment>("SELECT * FROM Equipment WHERE Equipment.equipmentId = '" + id + "'").First();
+            var equipment = DBContext.Database.SqlQuery<Equipment>("SELECT * FROM Equipment WHERE Equipment.equipmentId = @equipmentId",
+                new SqlParameter("equipmentId", id)).First();
             ViewBag.equipment = equipment;
             //NK dieu dong
-            var yearDD = DBContext.Database.SqlQuery<int>("SELECT distinct year(d.date_created) as years FROM Documentary d, Documentary_moveline_details dm, Equipment e where e.equipmentId = '" + id + "' and e.equipmentId = dm.equipmentId and dm.documentary_id = d.documentary_id order by years desc").ToList<int>();
+            var yearDD = DBContext.Database.SqlQuery<int>("SELECT distinct year(d.date_created) as years FROM Documentary d, Documentary_moveline_details dm, Equipment e where e.equipmentId = @equipmentId and e.equipmentId = dm.equipmentId and dm.documentary_id = d.documentary_id order by years desc",
+                new SqlParameter("equipmentId", id)).ToList<int>();
             List<moveLineByYear> listDD = new List<moveLineByYear>();
             foreach (int year in yearDD)
             {
-                int count = 0;
-                List<myMoveline> listMML = DBContext.Database.SqlQuery<myMoveline>("select dm.equipmentId, dm.date_to,dm.department_detail,d.department_id,d.person_created,dm.documentary_id,d.reason,d.date_created from Equipment e, Documentary_moveline_details dm, Documentary d where e.equipmentId = dm.equipmentId and d.documentary_id = dm.documentary_id and dm.equipmentId = '" + id + "' and YEAR(d.date_created) = '" + year + "' ").ToList();
+                List<myMoveline> listMML = DBContext.Database.SqlQuery<myMoveline>("select dm.*, d.* from Equipment e, Documentary_moveline_details dm, Documentary d where e.equipmentId = dm.equipmentId and d.documentary_id = dm.documentary_id and dm.equipmentId = @equipmentId and YEAR(d.date_created) = @year ",
+                    new SqlParameter("equipmentId", id),
+                    new SqlParameter("year", year)).ToList();
                 moveLineByYear MLY = new moveLineByYear();
                 foreach(var x in listMML)
                 {

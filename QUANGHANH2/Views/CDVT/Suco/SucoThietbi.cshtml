@@ -17,82 +17,74 @@
 
 <div class="card">
     <div class="card-content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="advanded-search">
-                    <div class="row">
-                        <div class="center">
-                            <h3 class="center"><b>THÔNG TIN SỰ CỐ</b></h3>
-                        </div>
-                        <hr>
-                        <form action="" method="POST" id="mysearchform" role="form">
-                            <div class="row center">
-                                <div class="col l4 m4 s12">
-                                    <div class="row">
-                                        <div class="col l10 m10 s12 input-field">
-                                            <input type="text" placeholder="Tìm kiếm theo mã thiết bị" class='form-control' id="equipmentId-search" />
-                                        </div>
-                                        <div class="col l10 m10 s12 input-field">
-                                            <input type="text" placeholder="Tìm kiếm theo tên thiết bị" class='form-control' id="equipmentName-search" />
-                                        </div>
-                                        <div class="col l10 m10 s12 input-field">
-                                            <input type="text" placeholder="Tìm kiếm theo phân xưởng chịu trách nhiệm" class='form-control' id="department-search" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col l4 m4 s12">
-                                    <div class="row">
-                                        <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
-                                            <input placeholder="thời gian bắt đầu sự cố từ" type='text' class='datepicker-here form-control maxDate' data-language='vi' id="date-start-search" />
-                                        </div>
-                                        <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
-                                            <input placeholder="thời gian bắt đầu sự cố đến" type='text' class='datepicker-here form-control minDate' data-language='vi' id="date-end-search" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col l4 m4 s12">
-                                    <div class="row">
-                                        <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
-                                            <input type="text" placeholder="Tìm kiếm theo vị trí chi tiết" class='form-control' id="detail-search" />
-                                        </div>
-                                        <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
-                                            <input type="text" placeholder="Tìm kiếm theo lý do sự cố" class='form-control' id="reason-search" />
-                                        </div>
-                                        <div class="col l12 m12 s12 input-field">
-                                            <a class="waves-effect waves-light btn blue darken-2 modal-close modal-trigger" id="searchButton1">Tìm kiếm</a>
-                                        </div>
-                                    </div>
-                                </div>
+        <div class="row">
+            <h3 class="center"><b>THÔNG TIN SỰ CỐ</b></h3>
+            <hr>
+            <form action="" method="POST" id="mysearchform" role="form">
+                <div class="row center">
+                    <div class="col l4 m4 s12">
+                        <div class="row">
+                            <div class="col l10 m10 s12 input-field">
+                                <input type="text" placeholder="Tìm kiếm theo mã thiết bị" class='form-control' id="equipmentId-search" />
                             </div>
-                        </form>
+                            <div class="col l10 m10 s12 input-field">
+                                <input type="text" placeholder="Tìm kiếm theo tên thiết bị" class='form-control' id="equipmentName-search" />
+                            </div>
+                            <div class="col l10 m10 s12 input-field">
+                                <input type="text" placeholder="Tìm kiếm theo phân xưởng chịu trách nhiệm" class='form-control' id="department-search" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col l4 m4 s12">
+                        <div class="row">
+                            <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
+                                <input placeholder="thời gian bắt đầu sự cố từ" type='text' class='datepicker-here form-control maxDate' data-language='vi' id="date-start-search" />
+                            </div>
+                            <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
+                                <input placeholder="thời gian bắt đầu sự cố đến" type='text' class='datepicker-here form-control minDate' data-language='vi' id="date-end-search" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col l4 m4 s12">
+                        <div class="row">
+                            <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
+                                <input type="text" placeholder="Tìm kiếm theo vị trí chi tiết" class='form-control' id="detail-search" />
+                            </div>
+                            <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
+                                <input type="text" placeholder="Tìm kiếm theo lý do sự cố" class='form-control' id="reason-search" />
+                            </div>
+                            <div class="col l12 m12 s12 input-field center">
+                                <a class="waves-effect waves-light btn blue darken-2 modal-close modal-trigger" id="searchButton1">Tìm kiếm</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col s12 left">
-                    <a class="waves-effect waves-light btn-small blue modal-trigger" href="#myadd">Thêm</a>
-                    <a class="waves-effect waves-light btn-small blue modal-trigger" id="export-button">Xuất ra Excel</a>
-                </div>
-                <div class="col s12 table_container">
-                    <table class="table-bordered striped table-responsive centered"
-                            style="margin-top:30px; text-align:center;" id="complex_header">
-                        <thead>
-                            <tr>
-                                <th colspan="2">Thiết bị gặp sự cố</th>
-                                <th rowspan="2">Phân xưởng chịu trách nhiệm</th>
-                                <th rowspan="2">Vị trí chi tiết</th>
-                                <th colspan="4">Nội dung sự cố</th>
-                                <th rowspan="2"></th>
-                            </tr>
-                            <tr>
-                                <th class="text-center">Mã thiết bị</th>
-                                <th class="text-center">Tên thiết bị</th>
-                                <th>Thời gian bắt đầu sự cố</th>
-                                <th>Thời gian kết thúc sự cố</th>
-                                <th>Thời gian dừng hoạt động</th>
-                                <th>Lý do sự cố</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
+            </form>
+            <div class="col s12 left">
+                <a class="waves-effect waves-light btn-small blue modal-trigger" href="#myadd">Thêm</a>
+                <a class="waves-effect waves-light btn-small blue modal-trigger" id="export-button">Xuất ra Excel</a>
+            </div>
+            <div class="col s12 table_container">
+                <table class="table-bordered striped table-responsive centered"
+                        style="margin-top:30px; text-align:center;" id="complex_header">
+                    <thead>
+                        <tr>
+                            <th colspan="2">Thiết bị gặp sự cố</th>
+                            <th rowspan="2">Phân xưởng chịu trách nhiệm</th>
+                            <th rowspan="2">Vị trí chi tiết</th>
+                            <th colspan="4">Nội dung sự cố</th>
+                            <th rowspan="2"></th>
+                        </tr>
+                        <tr>
+                            <th class="text-center">Mã thiết bị</th>
+                            <th class="text-center">Tên thiết bị</th>
+                            <th>Thời gian bắt đầu sự cố</th>
+                            <th>Thời gian kết thúc sự cố</th>
+                            <th>Thời gian dừng hoạt động</th>
+                            <th>Lý do sự cố</th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
         </div>
     </div>
@@ -406,18 +398,37 @@
     })
 </script>
 @section scripts{
-    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script>
         var Popup, dataTable;
         $("#pre-load").show();
 
         $(document).ready(function () {
             dataTable = $('#complex_header').DataTable({
+                "language": {
+                    "emptyTable": "Không tìm thấy dữ liệu",
+                    "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                    "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                    "paginate": {
+                        "first": "Trang đầu",
+                        "last": "Trang cuối",
+                        "next": "Trang sau",
+                        "previous": "Trang trước"
+                    }
+                },
                 "ajax": {
                     "url": "/phong-cdvt/su-co",
                     "type": "POST",
                     "datatype": "json",
-                    "cache": "false"
+                    "data": {
+                        "equipmentId": function () { return $('#equipmentId-search').val() },
+                        "equipmentName": function () { return $('#equipmentName-search').val() },
+                        "department": function () { return $('#department-search').val() },
+                        "detail": function () { return $('#detail-search').val() },
+                        "reason": function () { return $('#reason-search').val() },
+                        "dateStart": function () { return $('#date-start-search').val() },
+                        "dateEnd": function () { return $('#date-end-search').val() }
+                    },
+                    "cache": false
                 },
                 "columns": [
                     { "data": "equipmentId", "name": "equipmentId" },
@@ -447,6 +458,12 @@
                 "searching": false,
                 "initComplete": function (settings, json) {
                     $("#pre-load").hide();
+                },
+                "preDrawCallback": function (settings) {
+                    $('#pre-load').show();
+                },
+                "drawCallback": function (settings) {
+                    $('#pre-load').hide();
                 }
             });
         });
@@ -614,64 +631,16 @@
                 return false;
             });
             
-            //ajax search
+            //search
             $("#searchButton1").click(function () {
                 $("#pre-load").show();
-                dataTable.destroy();
-                dataTable = $('#complex_header').DataTable({
-                    "language": {
-                        "emptyTable": "Không tìm thấy dữ liệu"
-                    },
-                    "ajax": {
-                        "url": "/phong-cdvt/su-co/search",
-                        "type": "POST", 
-                        "search": false,
-                        "datatype": "json",
-                        "data": {
-                            "equipmentId": $('#equipmentId-search').val(),
-                            "equipmentName": $('#equipmentName-search').val(),
-                            "department": $('#department-search').val(),
-                            "detail": $('#detail-search').val(),
-                            "reason": $('#reason-search').val(),
-                            "dateStart": $('#date-start-search').val(),
-                            "dateEnd": $('#date-end-search').val()
-                        },
-                        "cache": false
-                    },
-                    "columns": [
-                        { "data": "equipmentId", "name": "equipmentId" },
-                        { "data": "equipment_name", "name": "equipment_name" },
-                        { "data": "department_name", "name": "department_name" },
-                        { "data": "detail_location", "name": "detail_location" },
-                        { "data": "stringStartTime", "name": "start_time" },
-                        { "data": "stringEndTime", "name": "end_time" },
-                        { "data": "stringDiffTime", "name": "time_different" },
-                        { "data": "reason", "name": "reason" },
-                        {
-                            "data": "editAble", "render": function (data) {
-                                if (data.split("^")[1] == "false")
-                                    return "<a href=\"#myupdate\" data-toggle=\"modal\" class=\"open-UpdateModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-incident-id=\"" + data.split("^")[0] + "\">Cập&nbsp;nhật</a>";
-                                else
-                                    return "<a href=\"#myedit\" data-toggle=\"modal\" class=\"open-EditModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-incident-id=\"" + data.split("^")[0] + "\">Chỉnh&nbsp;sửa</a>";
-                            },
-                            "orderable": false,
-                            "searchable": false,
-                            "width": "150px"
-                        }
-                    ],
-                    "serverSide": "true",
-                    "order": [0, "asc"],
-                    "rowId": "incident_id",
-                    "lengthChange": false,
-                    "searching": false,
-                    "initComplete": function (settings, json) {
-                        $.notify("Tìm kiếm thành công", {
-                            globalPosition: "top center",
-                            className: "success"
-                        })
-                    }
-                });
-                $('#pre-load').hide();
+                dataTable.ajax.reload(function () {
+                    $.notify("Chỉnh sửa thành công", {
+                        globalPosition: "top center",
+                        className: "success"
+                    });
+                    $("#pre-load").hide();
+                })
             });
         });
 
