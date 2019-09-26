@@ -56,7 +56,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                     {
                         ID = i.MaDiemDanh,
                         Name = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().Ten,
-                        BacTho = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec == null ? "" : db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec.BacLuong,
+                        BacTho = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().BacLuong,
                         ChucDanh = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec == null ? "" : db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec.TenCongViec,
                         DuBaoNguyCo = i.DuBaoNguyCo,
                         HeSoChiaLuong = i.HeSoChiaLuong.ToString(),
@@ -108,7 +108,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
 
                         transaction.Commit();
                     }
-                    catch (Exception ex)
+                    catch (Exception )
                     {
                         transaction.Rollback();
                     }
