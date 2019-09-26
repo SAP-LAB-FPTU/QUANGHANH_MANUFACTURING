@@ -149,10 +149,18 @@
                 //    "type": "POST",
                 //    "datatype": "json"
                 //}
-                $("#attendanceTable").on('preXhr.dt', function (e, settings, data) {
-                    data.sessionId  = updateReason();
-                })
-                $("#attendanceTable").DataTable().ajax.url("/phan-xuong-khai-thac/diem-danh/cap-nhat").load();
+                var dataUpdate = updateReason();
+                if (dataUpdate.length > 0) {
+                    $("#attendanceTable").on('preXhr.dt', function (e, settings, data) {
+                        data.sessionId = JSON.stringify(dataUpdate)
+                    })
+                    $("#attendanceTable").DataTable().ajax.url("/phan-xuong-khai-thac/diem-danh/cap-nhat").load();
+                } else {
+                    $.notify("Cập nhật thành công", {
+                        globalPosition: "Không được bỏ trống lý do khác",
+                        className: "fail"
+                    })
+                }
             }
         }
 
@@ -174,13 +182,16 @@
                         cur[heads[i]] = $(this).children("span").find(":selected").text();
                     }
                     if (heads[i] == "description") {
+                        if ($(this).children("span").find(":selected").text() == "Khác" && $(this).children("input").val() == "") {
+                            return []
+                        }
                         cur[heads[i]] = $(this).children("input").val();
                     }
                 });
                 rows.push(cur);
                 cur = {};
             });
-            return JSON.stringify(rows);
+            return rows;
         }
     </script>
 }

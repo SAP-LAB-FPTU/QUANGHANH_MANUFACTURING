@@ -26,7 +26,7 @@ namespace QUANGHANH2.Models
             this.ChiTiet_NhiemVu_NhanVien = new HashSet<ChiTiet_NhiemVu_NhanVien>();
             this.QuanHeGiaDinhs = new HashSet<QuanHeGiaDinh>();
             this.QuaTrinhCongTacs = new HashSet<QuaTrinhCongTac>();
-            this.QuyetDinhs = new HashSet<QuyetDinh>();
+            this.TuyenDung_NhanVien = new HashSet<TuyenDung_NhanVien>();
         }
     
         public string MaNV { get; set; }
@@ -89,7 +89,7 @@ namespace QUANGHANH2.Models
         public Nullable<int> MaTruong { get; set; }
         public string BacLuong { get; set; }
         public string NgheTruoc { get; set; }
-        public System.DateTime NgayTuyenDungTruoc { get; set; }
+        public Nullable<System.DateTime> NgayTuyenDungTruoc { get; set; }
         public string CoQuanTruoc { get; set; }
         public Nullable<double> HeSo { get; set; }
         public Nullable<int> TuThang { get; set; }
@@ -120,6 +120,6 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QuaTrinhCongTac> QuaTrinhCongTacs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QuyetDinh> QuyetDinhs { get; set; }
+        public virtual ICollection<TuyenDung_NhanVien> TuyenDung_NhanVien { get; set; }
     }
 }

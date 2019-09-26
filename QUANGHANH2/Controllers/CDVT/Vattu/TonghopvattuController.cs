@@ -36,10 +36,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
         {
             TonghopVattuSearchModelView search = new TonghopVattuSearchModelView
             {
-                DepartmentId = DepartmentId,
-                SupplyId = SupplyId,
-                SupplyName = SupplyName,
-                MonthPicked = MonthPicked
+                DepartmentId = DepartmentId.Trim(),
+                SupplyId = SupplyId.Trim(),
+                SupplyName = SupplyName.Trim(),
+                MonthPicked = MonthPicked.Trim()
             };
             //Server Side Parameter
             int start = Convert.ToInt32(Request["start"]);
@@ -79,10 +79,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
         {
             TonghopVattuSearchModelView search = new TonghopVattuSearchModelView
             {
-                DepartmentId = DepartmentId,
-                SupplyId = SupplyId,
-                SupplyName = SupplyName,
-                MonthPicked = MonthPicked
+                DepartmentId = DepartmentId.Trim(),
+                SupplyId = SupplyId.Trim(),
+                SupplyName = SupplyName.Trim(),
+                MonthPicked = MonthPicked.Trim()
             };
             search.DepartmentId = string.IsNullOrWhiteSpace(search.DepartmentId) ? string.Empty : search.DepartmentId;
             search.MonthPicked = string.IsNullOrWhiteSpace(search.MonthPicked) ? DateTime.Now.ToString("MM-yyyy") : search.MonthPicked;

@@ -12,16 +12,12 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Documentary_liquidation_details
+    public partial class sysdiagram
     {
-        public int equipment_liquidation_status { get; set; }
-        public string buyer { get; set; }
-        public int documentary_id { get; set; }
-        public string equipmentId { get; set; }
-        public string equipment_liquidation_reason { get; set; }
-    
-        public virtual Documentary Documentary { get; set; }
-        public virtual Status Status { get; set; }
-        public virtual Equipment Equipment { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

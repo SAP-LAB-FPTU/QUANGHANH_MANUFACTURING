@@ -12,17 +12,13 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Documentary_repair_details
+    public partial class TuyenDung_NhanVien
     {
-        public int equipment_repair_status { get; set; }
-        public string repair_type { get; set; }
-        public string repair_reason { get; set; }
-        public System.DateTime finish_date_plan { get; set; }
-        public int documentary_id { get; set; }
-        public string equipmentId { get; set; }
+        public int MaQuyetDinh { get; set; }
+        public string MaNV { get; set; }
+        public System.DateTime NgayTuyenDung { get; set; }
     
-        public virtual Documentary Documentary { get; set; }
-        public virtual Status Status { get; set; }
-        public virtual Equipment Equipment { get; set; }
+        public virtual NhanVien NhanVien { get; set; }
+        public virtual QuyetDinh QuyetDinh { get; set; }
     }
 }

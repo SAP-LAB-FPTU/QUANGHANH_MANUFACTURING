@@ -1,0 +1,191 @@
+﻿
+@{
+    ViewBag.Title = "Input";
+    Layout = "~/Views/Shared/PX/_Layout_PXDS.cshtml";
+}
+
+<link href="~/dist/css/style.css" rel="stylesheet">
+<!-- This page CSS -->
+<link href="~/dist/css/pages/data-table.css" rel="stylesheet">
+<link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
+<link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
+
+<div class="card">
+    <div class="card-content">
+        <div class="container-fluid">
+            <div class="row table_container">
+                <div class="advanded-search">
+                    <div class="row">
+                        <div class="center">
+                            <h3 class="center"><b>ĐĂNG KÝ SUẤT ĂN</b></h3>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+                <div class="col s12">
+                    <table class="table table-bordered striped table-responsive centered"
+                           style="margin-top:30px; text-align:center;" id="tbl_details">
+                        <thead>
+                            <tr>
+                                <th>Mã Phân xưởng</th>
+                                <th>Tên Phân xưởng</th>
+                                <th>Thứ 2</th>
+                                <th>Thứ 3</th>
+                                <th>Thứ 4</th>
+                                <th>Thứ 5</th>
+                                <th>Thứ 6</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="row center">
+                    <div class="col l12 m12 s12 input-field">
+                        <button class="btn blue darken-2 btn-small" id="saveBtn">Lưu đăng ký</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/Briefs_List.js"></script>
+
+@section scripts{
+    <script src="~/js/jquery.dataTables.min.js"></script>
+    <script>
+        var tbl_details, payload;
+        $(document).ready(function () {
+            $("#pre-load").show();
+            tbl_detail = $('#tbl_details').DataTable({
+                "ajax": {
+                    "url": "/phan-xuong-doi-song/dang-ky-suat-an/details",
+                    "type": "GET",
+                    "datatype": "json",
+                    "cache": "false",
+                    "dataSrc": function (json) {
+                        payload = json.data;
+                        return json.data;
+                    }
+                },
+                "columns": [
+                    { "data": "DepartmentId", "name": "DepartmentId" },
+                    { "data": "DepartmentName", "name": "DepartmentName" },
+                    {
+                        "data": "RegMonday", "name": "RegMonday", "render": function (data, type, row, meta) {
+                            let domId = `${row['DepartmentId']}_reg_mon`
+                            return `<input type="number" min="0" value="${data}" class="form-control" id="` + domId + '" ' + 'oninput="' + `handleRegMonMealChange('${domId}', '${row['DepartmentId']}')` + '" ' + '/>';
+                        }
+                    },
+                    {
+                        "data": "RegTuesday", "name": "RegTuesday", "render": function (data, type, row, meta) {
+                            let domId = `${row['DepartmentId']}_reg_tue`
+                            return `<input type="number" min="0" value="${data}" class="form-control" id="` + domId + '" ' + 'oninput="' + `handleRegTueMealChange('${domId}', '${row['DepartmentId']}')` + '" ' + '/>';
+                        }
+                    },
+                    {
+                        "data": "RegWednesday", "name": "RegWednesday", "render": function (data, type, row, meta) {
+                            let domId = `${row['DepartmentId']}_reg_wed`
+                            return `<input type="number" min="0" value="${data}" class="form-control" id="` + domId + '" ' + 'oninput="' + `handleRegWedMealChange('${domId}', '${row['DepartmentId']}')` + '" ' + '/>';
+                        }
+                    },
+                    {
+                        "data": "RegThursday", "name": "RegThursday", "render": function (data, type, row, meta) {
+                            let domId = `${row['DepartmentId']}_reg_thu`
+                            return `<input type="number" min="0" value="${data}" class="form-control" id="` + domId + '" ' + 'oninput="' + `handleRegThuMealChange('${domId}', '${row['DepartmentId']}')` + '" ' + '/>';
+                        }
+                    },
+                    {
+                        "data": "RegFriday", "name": "RegFriday", "render": function (data, type, row, meta) {
+                            let domId = `${row['DepartmentId']}_reg_fri`
+                            return `<input type="number" min="0" value="${data}" class="form-control" id="` + domId + '" ' + 'oninput="' + `handleRegFriMealChange('${domId}', '${row['DepartmentId']}')` + '" ' + '/>';
+                        }
+                    },
+                ],
+                "processing": true,
+                "order": [0, "asc"],
+                "rowId": "DepartmentId",
+                "lengthChange": false,
+                "searching": false,
+                "paging": false,
+                "initComplete": function (settings, json) {
+                    $("#pre-load").hide();
+                }
+            });
+
+            $("#saveBtn").click(saveRegMeal)
+        });
+
+        function saveRegMeal() {
+            $("#pre-load").show();
+            if (confirm("Đăng ký suất ăn cho phân xưởng?")) {
+                $.ajax({
+                    dataType: "json",
+                    contentType: "application/json, charset=utf-8",
+                    type: 'POST',
+                    url: '/phan-xuong-doi-song/dang-ky-suat-an/save',
+                    data: JSON.stringify(payload),
+                    success: function (res) {
+                        if (res.success) {
+                            alert('Đăng ký suất ăn thành công.');
+                        } else {
+                            alert('Có lỗi xảy ra.');
+                        }
+                    }
+                });
+            }
+           
+            $("#pre-load").hide();
+        }
+
+        function handleRegMonMealChange(domId, data) {
+            for (let i = 0; i < payload.length; i++) {
+                if (payload[i].DepartmentId == data) {
+                    let val = $('#' + domId).val();
+                    payload[i].RegMonday = parse2PosInt(val);
+                }
+            }
+            console.log(payload);
+        }
+        function handleRegTueMealChange(domId, data) {
+            for (let i = 0; i < payload.length; i++) {
+                if (payload[i].DepartmentId == data) {
+                    let val = $('#' + domId).val();
+                    payload[i].RegTuesday= parse2PosInt(val);
+                }
+            }
+            console.log(payload);
+        }
+        function handleRegWedMealChange(domId, data) {
+            for (let i = 0; i < payload.length; i++) {
+                if (payload[i].DepartmentId == data) {
+                    let val = $('#' + domId).val();
+                    payload[i].RegWednesday = parse2PosInt(val);
+                }
+            }
+        }
+        function handleRegThuMealChange(domId, data) {
+            for (let i = 0; i < payload.length; i++) {
+                if (payload[i].DepartmentId == data) {
+                    let val = $('#' + domId).val();
+                    payload[i].RegThursday = parse2PosInt(val);
+                }
+            }
+        }
+        function handleRegFriMealChange(domId, data) {
+            for (let i = 0; i < payload.length; i++) {
+                if (payload[i].DepartmentId == data) {
+                    let val = $('#' + domId).val();
+                    payload[i].RegFriday = parse2PosInt(val);
+                }
+            }
+        }
+
+        function parse2PosInt(value) {
+            var value = parseInt(value);
+            if (value < 0) {
+                return 0;
+            }
+            return value;
+        }
+    </script>
+}
