@@ -32,8 +32,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
         public ActionResult Report1(string ca, string donvi, string date)
         {
             ca = "1";
-            donvi = "VTL1";
-            date = "25/09/2019";
+            donvi = "DL1";
+            date = "10/09/2019";
             ViewBag.nameDepartment = "baocao-sanluon-laodong";
             ViewBag.ca = ca;
             ViewBag.donvi = donvi;
@@ -71,24 +71,26 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     .Where(a => a.CaDiemDanh == calamviec).ToList();
                 List<BaoCaoTheoCa> customNSLDs = new List<BaoCaoTheoCa>();
                 BaoCaoTheoCa cus;
+                int stt = 1;
                 foreach (var i in list)
                 {
                     cus = new BaoCaoTheoCa
                     {
-                        ID = i.MaDiemDanh,
+                        ID = stt,
                         Name = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().Ten,
-                        BacTho = "6/6",
-                        ChucDanh = "MT",
-                        DuBaoNguyCo = "Không kiểm tra thiết bị trước khi vận hành",
+                        BacTho = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().BacLuong,
+                        ChucDanh = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec == null ? "": db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec.TenCongViec,
+                        DuBaoNguyCo = i.DuBaoNguyCo,
                         HeSoChiaLuong = i.HeSoChiaLuong.ToString(),
                         LuongSauDuyet = i.Luong.ToString(),
                         LuongTruocDuyet = i.Luong.ToString(),
                         NoiDungCongViec = db.Departments.Where(a => a.department_id == i.MaDonVi).First().department_name,
                         NSLD = i.NangSuatLaoDong.ToString(),
                         SoThe = i.MaNV,
-                        YeuCauBPKTAT = "Trước khi vận hành phải kiểm tra thiết bị đảm bảo an toàn trước khi được vận hành"
+                        YeuCauBPKTAT = i.GiaiPhapNguyCo
                     };
                     customNSLDs.Add(cus);
+                    stt++;
                 }
                 ViewBag.nsld = customNSLDs;
                 var js = Json(new { success = true, data = customNSLDs }, JsonRequestBehavior.AllowGet);
