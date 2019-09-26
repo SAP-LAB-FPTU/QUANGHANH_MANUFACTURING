@@ -66,6 +66,7 @@
                 "columnDefs": [
                     { "className": "dt-center", "targets": "_all" }
                 ],
+                "responsive": true,
                 "order": [],
                 "filter": false,
                 "paging": false,
@@ -100,16 +101,17 @@
                     },
                     {
                         data: "reason", render: function (data, type, row) {
-                            console.log(row['status'])
-                            if (row['status']) {
-                                return ""
-                            } else {
-                                if (data !=
-
-                                    null) {
-                                    return "<span class=\"reasonTest\" id=\""+row['maNV']+"\">" + data + "</span>"
+                            if (data == null) {
+                                if (!row["status"]) {
+                                    return "<span class=\"reasonTest\"></span>";
                                 } else {
-                                    return "<span class=\"reasonTest\" id=\""+row['maNV']+"\></span>"
+                                    return "<span></span>";
+                                }
+                            } else {
+                                if (!row["status"]) {
+                                    return "<span class=\"reasonTest\">" + data + "</span>";
+                                } else {
+                                    return "<span>" + data + "</span>";
                                 }
                             }
                         }
@@ -134,18 +136,51 @@
             // mode == 0 => view mode , mode ==1 => edit mode
             if (mode == 0) {
                 $("#EditSaveBtn").html("<i class=\"material-icons right\">border_color</i>Lưu");
+                $(".inputTest").removeAttr("disabled")
+                $(".checkBox").removeAttr("disabled")
+                $(".reasonTest").html("<select class=\"browser-default \" onchange=\"updateReason()\"> <option value=\"\" disabled selected>Lựa chọn lý do</option> <option value=\"1\">Ốm</option> <option value=\"2\">Vô lý do</option><option value=\"3\">Nghỉ phép</option></option> <option value=\"2\">Vô lý do</option><option value=\"4\">Khác</option></select>");
+                //
                 mode = 1;
             } else {
                 $("#EditSaveBtn").html("<i class=\"material-icons right\">border_color</i>Cập Nhật");
                 mode = 0;
+                //$("#attendanceTable").DataTable().ajax = {
+                //    "url": "/phan-xuong-khai-thac/diem-danh/cap-nhat",
+                //    "type": "POST",
+                //    "datatype": "json"
+                //}
+                $("#attendanceTable").on('preXhr.dt', function (e, settings, data) {
+                    data.sessionId  = updateReason();
+                })
+                $("#attendanceTable").DataTable().ajax.url("/phan-xuong-khai-thac/diem-danh/cap-nhat").load();
             }
-            $(".inputTest").removeAttr("disabled")
-            $(".checkBox").removeAttr("disabled")
-            $(".reasonTest").html("<select class=\"browser-default \" onchange=\"updateReason()\"> <option value=\"\" disabled selected>Lựa chọn lý do</option> <option value=\"1\">Ốm</option> <option value=\"2\">Vô lý do</option><option value=\"3\">Nghỉ phép</option></option> <option value=\"2\">Vô lý do</option><option value=\"4\">Khác</option></select>")
         }
 
         function updateReason() {
-            alert("hihi");
+            var heads = ["maNV", "tenNV", "status", "timeAttendance", "reason", "description"];
+            //
+            var rows = [];
+            $("tbody tr").each(function () {
+                cur = {};
+                $(this).find("td").each(function (i, v) {
+                    if (heads[i] != "status" && heads[i] != "reason") {
+                        cur[heads[i]] = $(this).text().trim();
+                    }
+                    if (heads[i] == "status") {
+                        var attr = $(this).children("label").children("input");
+                        cur[heads[i]] = attr.is(":checked");
+                    }
+                    if (heads[i] == "reason") {
+                        cur[heads[i]] = $(this).children("span").find(":selected").text();
+                    }
+                    if (heads[i] == "description") {
+                        cur[heads[i]] = $(this).children("input").val();
+                    }
+                });
+                rows.push(cur);
+                cur = {};
+            });
+            return JSON.stringify(rows);
         }
     </script>
 }
