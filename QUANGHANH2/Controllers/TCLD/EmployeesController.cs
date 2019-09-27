@@ -17,7 +17,7 @@ namespace QUANGHANH2.Controllers.TCLD
 {
     public class EmployeesController : Controller
     {
-        private const string V = "";
+
 
         // GET: Employees
         [Route("phong-tcld/danh-sach-toan-cong-ty")]
@@ -143,8 +143,7 @@ namespace QUANGHANH2.Controllers.TCLD
             ViewBag.nameDepartment = "baohiem";
             return View("/Views/TCLD/Brief/List.cshtml");
         }
-
-        [Route("phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien/search")]
+        [Route("phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien")]
         [HttpPost]
         public ActionResult Search(string MaNV, string TenNV, string Gender)
         {
@@ -154,7 +153,7 @@ namespace QUANGHANH2.Controllers.TCLD
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
             string query = "select n.* from NhanVien n where n.TrangThaiLamViec = N'Đang đi làm' AND ";
-            if(!MaNV.Equals("") || !TenNV.Equals("") || !Gender.Equals(""))
+            if (!MaNV.Equals("") || !TenNV.Equals("") || !Gender.Equals(""))
             {
                 if (!MaNV.Equals("")) query += "n.MaNV LIKE @MaNV AND ";
                 if (!TenNV.Equals("")) query += "n.Ten LIKE @Ten AND ";
@@ -164,10 +163,11 @@ namespace QUANGHANH2.Controllers.TCLD
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             db.Configuration.LazyLoadingEnabled = false;
             bool GioiTinh = true;
-            if(Gender.Equals("true"))
+            if (Gender.Equals("true"))
             {
                 GioiTinh = true;
-            }else if(Gender.Equals("false"))
+            }
+            else if (Gender.Equals("false"))
             {
                 GioiTinh = false;
             }
@@ -187,32 +187,7 @@ namespace QUANGHANH2.Controllers.TCLD
 
         }
 
-        [Route("phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien")]
-        [HttpPost]
-        public ActionResult getAllNhanVien()
-        {
-            int start = Convert.ToInt32(Request["start"]);
-            int length = Convert.ToInt32(Request["length"]);
-            string searchValue = Request["search[value]"];
-            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
-            string sortDirection = Request["order[0][dir]"];
 
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-
-            db.Configuration.LazyLoadingEnabled = false;
-            List<NhanVien> list = db.NhanViens.ToList<NhanVien>();
-            //list = db.NhanViens.ToList<NhanVien>();
-            list = db.Database.SqlQuery<NhanVien>("select n.* from NhanVien n where n.TrangThaiLamViec = N'Đang đi làm'").ToList();
-            int totalrows = list.Count;
-            int totalrowsafterfiltering = list.Count;
-            //sorting
-            list = list.OrderBy(sortColumnName + " " + sortDirection).ToList<NhanVien>();
-            //paging
-            list = list.Skip(start).Take(length).ToList<NhanVien>();
-
-            return Json(new { data = list, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
-
-        }
 
         [Route("phong-tcld/quan-ly-nhan-vien/them-nhan-vien")]
         public ActionResult LoadAdd()
@@ -260,11 +235,12 @@ namespace QUANGHANH2.Controllers.TCLD
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                emp.TrangThaiLamViec = "Đang đi làm";
-                emp.MaPhongBan = "DL1";
-                db.NhanViens.Add(emp);
-                db.SaveChanges();
-                return RedirectToAction("Search");
+                    emp.TrangThaiLamViec = "Đang đi làm";
+                    emp.MaPhongBan = "DL1";
+                    db.NhanViens.Add(emp);
+                    db.SaveChanges();
+                    return RedirectToAction("Search");
+                
 
                 //return Json(new { success = true, message = "Lưu thành công" }, JsonRequestBehavior.AllowGet);
             }
@@ -284,16 +260,80 @@ namespace QUANGHANH2.Controllers.TCLD
         }
         [Route("delete")]
         [HttpPost]
-        public JsonResult TLHD(string id)
+        public ActionResult TLHD(string id, string soQD, string lydo, string dateQD, string dateTLHD, string group1, string group2, string elseCase)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            using (DbContextTransaction dbct = db.Database.BeginTransaction())
             {
-                var emp = db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault();
-                emp.TrangThaiLamViec = "Đã chấm dứt";
-                db.Entry(emp).State = EntityState.Modified;
-                db.SaveChanges();
+                try
+                {
+                    string dateQDFix = "";
+                    if (dateQD != null && !dateQD.Equals(""))
+                    {
+                        string[] arr1 = dateQD.Split('/');
+                        for (int i = 0; i < arr1.Length; i++)
+                        {
+                            dateQDFix = arr1[1] + "/" + arr1[0] + "/" + arr1[2];
+                        }
+                    }
+                    string[] arr2 = dateTLHD.Split('/');
+                    string dateTLHDFix = "";
+                    for (int i = 0; i < arr2.Length; i++)
+                    {
+                        dateTLHDFix = arr2[1] + "/" + arr2[0] + "/" + arr2[2];
+                    }
+                    var emp = db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault();
+                    emp.TrangThaiLamViec = "Đã chấm dứt";
+                    db.Entry(emp).State = EntityState.Modified;
+
+                    QuyetDinh qd = new QuyetDinh();
+                    qd.SoQuyetDinh = soQD;
+                    if (!dateQDFix.Equals("") && dateQDFix != null)
+                    {
+                        qd.NgayQuyetDinh = Convert.ToDateTime(dateQDFix);
+                    }
+                    db.QuyetDinhs.Add(qd);
+
+                    ChamDut_NhanVien tlhd = new ChamDut_NhanVien();
+                    tlhd.MaNV = id;
+                    if (lydo.Equals("Đi đơn vị ngoài"))
+                    {
+                        tlhd.LoaiChamDut = group1;
+                    }
+                    else if (lydo.Equals("Các trường hợp khác"))
+                    {
+                        if (group2.Equals("on"))
+                        {
+                            tlhd.LoaiChamDut = elseCase;
+                        }
+                        else
+                        {
+                            tlhd.LoaiChamDut = group2;
+                        }
+                    }
+                    else
+                    {
+                        tlhd.LoaiChamDut = lydo;
+                    }
+                    tlhd.NgayChamDut = Convert.ToDateTime(dateTLHDFix);
+                    db.ChamDut_NhanVien.Add(tlhd);
+                    db.SaveChanges();
+                    dbct.Commit();
+                    return RedirectToAction("Search");
+                }
+                catch (Exception)
+                {
+                    dbct.Rollback();
+                    string output = "";
+                    if (output == "")
+                        output += "Vui lòng nhập ngày chấm dứt";
+                    Response.Write(output);
+                    return new HttpStatusCodeResult(400);
+                }
+
+
+
             }
-            return Json("", JsonRequestBehavior.AllowGet);
 
         }
 
@@ -326,21 +366,25 @@ namespace QUANGHANH2.Controllers.TCLD
                         }
                         //excelWorksheet.Cells[k, 4].Value = list.ElementAt(i).NgaySinh.ToString("dd/MM/yyyy");
                         excelWorksheet.Cells[k, 5].Value = list.ElementAt(i).SoBHXH;
-                        if(list.ElementAt(i).TrinhDoHocVan != null)
+                        if (list.ElementAt(i).TrinhDoHocVan != null)
                         {
-                            if(list.ElementAt(i).TrinhDoHocVan.Equals("1"))
+                            if (list.ElementAt(i).TrinhDoHocVan.Equals("1"))
                             {
                                 excelWorksheet.Cells[k, 18].Value = "Tiểu học";
-                            }else if(list.ElementAt(i).TrinhDoHocVan.Equals("2"))
+                            }
+                            else if (list.ElementAt(i).TrinhDoHocVan.Equals("2"))
                             {
                                 excelWorksheet.Cells[k, 18].Value = "THCS";
-                            }else if(list.ElementAt(i).TrinhDoHocVan.Equals("3"))
+                            }
+                            else if (list.ElementAt(i).TrinhDoHocVan.Equals("3"))
                             {
                                 excelWorksheet.Cells[k, 18].Value = "THPT";
-                            }else if(list.ElementAt(i).TrinhDoHocVan.Equals("4"))
+                            }
+                            else if (list.ElementAt(i).TrinhDoHocVan.Equals("4"))
                             {
                                 excelWorksheet.Cells[k, 18].Value = "Trung cấp";
-                            }else
+                            }
+                            else
                             {
                                 excelWorksheet.Cells[k, 18].Value = "Đại học";
                             }

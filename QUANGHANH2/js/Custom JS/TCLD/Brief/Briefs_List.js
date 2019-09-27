@@ -26,5 +26,8 @@ function onSelectTypeOfEndContract() {
     } else if (document.getElementById("tlhd").value == "Các trường hợp khác") {
         $("#containerOption2").show();
         $("#containerOption1").hide();
+    } else {
+        $("#containerOption1").hide();
+        $("#containerOption2").hide();
     }
 }

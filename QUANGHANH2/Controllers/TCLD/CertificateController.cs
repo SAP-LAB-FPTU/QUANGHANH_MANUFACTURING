@@ -103,6 +103,14 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
             SelectList listOption = new SelectList(list, "Key", "Value");
             ViewBag.listOption = listOption;
+
+            Dictionary<int, string> listTypes = new Dictionary<int, string>();
+            listTypes.Add(1, "Photo");
+            listTypes.Add(2, "Sao, Công chứng");
+            listTypes.Add(3, "Bản gốc");
+            SelectList listTypeCert = new SelectList(listTypes, "Value", "Value");
+            ViewBag.listTypeCert = listTypeCert;
+
             return View();
 
         }
@@ -113,16 +121,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
             {
                 if (chungChi != null)
                 {
-                    if(chungChi.ThoiHan.Equals("Vĩnh viễn"))
-                    {
-                        chungChi.ThoiHan = "-1";
-                        db.ChungChis.Add(chungChi);
-                    }
-                    else
-                    {
-                        db.ChungChis.Add(chungChi);
-                    }
-                    
+
+                    db.ChungChis.Add(chungChi);
                     db.SaveChanges();
                 }
                 return RedirectToAction("List");
@@ -185,7 +185,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     {
                         return Json(new { success = true, message = "id has been exist" }, JsonRequestBehavior.AllowGet);
                     }
-                    
+
                 }
                 else
                 {
@@ -253,6 +253,13 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
                 SelectList listOption = new SelectList(list, "Key", "Value");
                 ViewBag.listOption = listOption;
+                Dictionary<int, string> listTypes = new Dictionary<int, string>();
+                listTypes.Add(1, "Photo");
+                listTypes.Add(2, "Sao, Công chứng");
+                listTypes.Add(3, "Bản gốc");
+                SelectList listTypeCert = new SelectList(listTypes, "Value", "Value");
+                ViewBag.listTypeCert = listTypeCert;
+
                 ChungChi chungchi = db.ChungChis.Where(x => x.MaChungChi == id).FirstOrDefault<ChungChi>();
                 return View(chungchi);
             }
@@ -265,17 +272,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
             {
                 if (chungChi != null)
                 {
-                    if (chungChi.ThoiHan.Equals("Vĩnh viễn"))
-                    {
-                        chungChi.ThoiHan = "-1";
-                        db.Entry(chungChi).State = EntityState.Modified;
-                    }
-                    else
-                    {
-                        db.Entry(chungChi).State = EntityState.Modified;
-                    }
 
-                    
+                    db.Entry(chungChi).State = EntityState.Modified;
                     db.SaveChanges();
                 }
                 return RedirectToAction("List");
@@ -347,7 +345,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     }
 
                 }
-                
+
                 db.SaveChanges();
                 return Json(new { success = true, message = "Delete successful" }, JsonRequestBehavior.AllowGet);
 

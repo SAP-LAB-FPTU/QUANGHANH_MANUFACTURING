@@ -236,14 +236,17 @@
 
 <link href="~/css/TABLE_BORDERED.css" rel="stylesheet" />
 <script>
+    var count = 0;
     $(document).ready(function () {
         $('.inputCheck').change(function () {
             if ($(this).prop("checked") == true) {
                 $('#cancelChecked').css('display', 'block');
-                $('#add_Cancel_Print_Checked').css('display', 'block');
-            } else if (($('.inputCheck').prop("checked") == false)) {
-                $('#add_Cancel_Print_Checked').css('display', 'none');
-                $('#cancelChecked').css('display', 'none');
+                count++;
+            } else if (($(this).prop("checked") == false)) {
+                count--;
+                if (count == 0) {
+                    $('#cancelChecked').css('display', 'none');
+                }
             }
         });
     });
