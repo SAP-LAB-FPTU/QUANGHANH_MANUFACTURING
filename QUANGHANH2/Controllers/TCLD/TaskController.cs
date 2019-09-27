@@ -187,7 +187,7 @@ namespace QUANGHANH2.Controllers.TCLD
                         }
                         else
                         {
-                            cnn.id = temp.id;
+                            cnn.MaChiTiet_NhiemVu_NhanVien = temp.MaChiTiet_NhiemVu_NhanVien; //MaChiTiet_NhiemVu_NhanVien
                             db.Entry(cnn).State = EntityState.Modified;
                         }
                     }
