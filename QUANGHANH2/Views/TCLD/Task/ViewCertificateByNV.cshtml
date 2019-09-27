@@ -1,0 +1,74 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
+    var mnv = ViewBag.MaNV;
+}
+
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <div class="col-lg-8">
+                <h3 class="center">
+                    <b>Chứng chỉ của @ViewBag.TenNhanVien</b>
+                </h3>
+            </div>
+        </div>
+        <div class="table_container">
+            <table class="table-bordered table-responsive" id="mytable">
+                <thead>
+                    <tr>
+                        <th>Số hiệu</th>
+                        <th>Tên chứng chỉ</th>
+                        <th>Ngày cấp</th>
+                        <th>Tình trạng</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+@section scripts{
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+        var dataTable;
+        $(Document).ready(() => {
+            $("#pre-load").show()
+            dataTable = $("#mytable").DataTable({
+                 "ajax": {
+                     "url": '@Url.Action("GetAllChungChiOfNV", "Task")',
+                     "data": {mnv : @ViewBag.MaNV},
+                     "type": "POST",
+                     "datatype": "json",
+                },
+                "columns": [
+                    { "data": "SoHieu", "name": "SoHieu", "render": (data) => { return   data   }},
+                    { "data": "TenChungChi", "name": "TenChungChi", "render": (data) => { return data } },
+                    { "data": "NgayCap", "name": "NgayCap", "render": (data) => { return dateFormat(new Date(parseInt((data).match(/\d+/)[0]))) } } ,
+                    {
+                        "data": "isConHan", "name": "isConHan", "render": (data) => {
+                            if (data == 'Còn Hạn') {
+                                return "<a class='label label-success' >" + data + "</a>"
+                            } else {
+                                return "<a class='label label-warning' >" + data + "</a>"
+                            }
+                        }, "orderable": true
+                    },
+                ],
+                "bLengthChange": false,
+                "initComplete": () => { $("#pre-load").hide() },
+                "searching": false,
+                "paging": false,
+                "serverSide": true,
+            })
+        })
+
+        function dateFormat(d) {
+            console.log(d);
+            return ((d.getMonth() + 1) + "").padStart(2, "0")
+                + "/" + (d.getDate() + "").padStart(2, "0")
+                + "/" + d.getFullYear();
+            }
+
+    </script>
+}
