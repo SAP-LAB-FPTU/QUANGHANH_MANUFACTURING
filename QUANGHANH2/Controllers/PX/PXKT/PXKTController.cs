@@ -183,6 +183,8 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                         dn.MaDonVi = item.maDV;
                         dn.LyDoVangMat = item.reason;
                         dn.GhiChu = item.description;
+                        dn.CaDiemDanh = 1;
+                        dn.NgayDiemDanh = Convert.ToDateTime("2019-09-10");
                         db.Entry(dn).State = EntityState.Modified;
                     }
                     db.SaveChanges();
