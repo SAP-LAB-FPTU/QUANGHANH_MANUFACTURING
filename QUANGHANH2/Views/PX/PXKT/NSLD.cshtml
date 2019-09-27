@@ -59,44 +59,37 @@
                         <thead>
                             <tr>
                                 <th style="display:none;"></th>
-                                <th colspan="2" rowspan="3" width="3%">TT</th>
-                                <th colspan="2" rowspan="3" width="5%">Tên</th>
-                                <th colspan="2" rowspan="3" width="5%">Số thẻ</th>
-                                <th colspan="2" rowspan="3" width="4%">Bậc thợ</th>
-                                <th colspan="2" rowspan="3" width="10%">Chức danh công việc,thợ chính,thợ phụ</th>
-                                <th colspan="2" rowspan="3" width="13%">Nội dung công việc,vị trí làm việc</th>
-                                <th colspan="2" rowspan="3" width="13%">Khối lượng công việc thực hiện được</th>
-                                <th colspan="2" rowspan="3" width="5%">Hệ số chia lương</th>
-                                <th colspan="2" rowspan="1">Lương</th>
-                                <th colspan="2" rowspan="3">Dự báo nguy cơ</th>
-                                <th colspan="2" rowspan="3">-Yêu cầu BPKTAT<br>-Giải pháp loại trừ nguy cơ</th>
+                                <th width="3%">TT</th>
+                                <th width="10%">Tên</th>
+                                <th width="5%">Số thẻ</th>
+                                <th width="5%">Bậc thợ</th>
+                                <th width="10%">Chức danh công việc,thợ chính,thợ phụ</th>
+                                <th width="10%">Nội dung công việc,vị trí làm việc</th>
+                                <th width="10%">Khối lượng công việc thực hiện được</th>
+                                <th width="10%">Hệ số chia lương</th>
+                                <th width="10%">Lương</th>
+                                <th>Dự báo nguy cơ</th>
+                                <th>-Yêu cầu BPKTAT<br>-Giải pháp loại trừ nguy cơ</th>
                             </tr>
-                            <tr>
-                                <th width="3%">9a</th>
-                                <th width="3%">9b</th>
-                            </tr>
-                            <tr>
-                                <th>Trước duyệt</th>
-                                <th>Sau duyệt</th>
-                            </tr>
+                            
                         </thead>
                         <tbody id="contentNSLD">
                             @foreach (var item in ViewBag.nsld)
                             {
                                 <tr>
                                     <td style="display:none;"><input class="madiemdanh" value="@item.ID" /></td>
-                                    <td colspan="2" class="counterCell"></td>
-                                    <td colspan="2">@item.Name</td>
-                                    <td colspan="2">@item.SoThe</td>
-                                    <td colspan="2">@item.BacTho</td>
-                                    <td colspan="2">@item.ChucDanh</td>
-                                    <td colspan="2">@item.NoiDungCongViec</td>
-                                    <td colspan="2"><input type="number" value="@item.NSLD" class="form-control updateNSLD" style="border:none; text-align: center;" id="nsld"></td>
-                                    <td colspan="2">@item.HeSoChiaLuong</td>
-                                    <td colspan="1">@item.LuongTruocDuyet</td>
-                                    <td colspan="1">@item.LuongSauDuyet</td>
-                                    <td colspan="2">@item.DuBaoNguyCo</td>
-                                    <td colspan="2">@item.YeuCauBPKTAT</td>
+                                    <td class="counterCell"></td>
+                                    <td>@item.Name</td>
+                                    <td>@item.SoThe</td>
+                                    <td>@item.BacTho</td>
+                                    <td>@item.ChucDanh</td>
+                                    <td>@item.NoiDungCongViec</td>
+                                    <td><input type="number" value="@item.NSLD" class="form-control updateNSLD" style="border:none; text-align: center;" id="nsld"></td>
+                                    <td><input type="number" value="@item.HeSoChiaLuong" class="form-control HeSoChiaLuong" style="border:none; text-align: center;" ></td>
+                                    <td><input type="number" value="@item.LuongTruocDuyet" class="form-control Luong" style="border:none; text-align: center;"></td>
+                                    
+                                    <td><textarea class="DuBaoNguyCo">@item.DuBaoNguyCo</textarea></td>
+                                    <td><textarea class="GiaiPhapNguyCo">@item.YeuCauBPKTAT</textarea></td>
                                 </tr>
                             }
                         </tbody>
@@ -155,21 +148,41 @@
     function Update() {
         $('#pre-load').show();
         getInner();
-        var mas = document.getElementsByClassName("madiemdanh");
-        var NSLDS = document.getElementsByClassName("updateNSLD");
-        var ids = [];
-        var times = [];
-        for (var i = 0; i < mas.length; i++) {
-            var x = mas[i].value;
-            var y = NSLDS[i].value;
-            ids.push(x);
-            times.push(y);
+        var MaDiemDanh = document.getElementsByClassName("madiemdanh");
+        var NangSuatLaoDong = document.getElementsByClassName("updateNSLD");
+        var HeSoChiaLuong = document.getElementsByClassName("HeSoChiaLuong");
+        var Luong = document.getElementsByClassName("Luong");
+        var DuBaoNguyCo = document.getElementsByClassName("DuBaoNguyCo");
+        var GiaiPhapNguyCo = document.getElementsByClassName("GiaiPhapNguyCo");
+        var MaDiemDanhs = [];
+        var NangSuatLaoDongs = [];
+        var HeSoChiaLuongs = [];
+        var Luongs = [];
+        var DuBaoNguyCos = [];
+        var GiaiPhapNguyCos = [];
+        for (var i = 0; i < MaDiemDanh.length; i++) {
+            var tmpMaDiemDanh = MaDiemDanh[i].value;
+            var tmpNangSuatLaoDong = NangSuatLaoDong[i].value;
+            var tmpHeSoChiaLuong = HeSoChiaLuong[i].value;
+            var tmpLuong = Luong[i].value;
+            var tmpDuBaoNguyCo = DuBaoNguyCo[i].value;
+            var tmpGiaiPhapNguyCo = GiaiPhapNguyCo[i].value;
+            MaDiemDanhs.push(tmpMaDiemDanh);
+            NangSuatLaoDongs.push(tmpNangSuatLaoDong);
+            HeSoChiaLuongs.push(tmpHeSoChiaLuong);
+            Luongs.push(tmpLuong);
+            DuBaoNguyCos.push(tmpDuBaoNguyCo);
+            GiaiPhapNguyCos.push(tmpGiaiPhapNguyCo);
         }
         var empObj = {
-            ids: ids,
-            NSLDS: times,
             intCa: intCa,
-            strDate: document.getElementById("inputdate").value
+            MaDiemDanhs: MaDiemDanhs,
+            NangSuatLaoDongs: NangSuatLaoDongs,
+            HeSoChiaLuongs: HeSoChiaLuongs,
+            Luongs: Luongs,
+            DuBaoNguyCos: DuBaoNguyCos,
+            GiaiPhapNguyCos: GiaiPhapNguyCos,
+            date: document.getElementById("inputdate").value
         };
         $.ajax({
             url: "/phan-xuong-khai-thac/nang-suat-lao-dong-update",
@@ -178,7 +191,7 @@
             type: "POST",
             success: function () {
 
-                $('#pre-load').hide();
+                window.location = "/phan-xuong-khai-thac/nang-suat-lao-dong?intCa=" + intCa + "&strDate=" + document.getElementById("inputdate").value;
             },
             error: function () {
             }

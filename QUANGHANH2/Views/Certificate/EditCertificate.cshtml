@@ -21,7 +21,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.TenChungChi, "Tên chứng chỉ", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.TenChungChi, new { htmlAttributes = new { @class = "form-control"  } })
+                        @Html.EditorFor(model => model.TenChungChi, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.TenChungChi, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -35,7 +35,7 @@
                     @Html.LabelFor(model => model.ThoiHan, "Thời hạn", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         <input id="edit_cert" class="form-control" />
-                        @Html.EditorFor(model => model.ThoiHan, new { htmlAttributes = new {@style = "display: none !important", @class = "form-control editform", @id = "editform"} })
+                        @Html.EditorFor(model => model.ThoiHan, new { htmlAttributes = new { @style = "display: none !important", @class = "form-control editform", @id = "editform" } })
                         @Html.ValidationMessageFor(model => model.ThoiHan, "", new { @class = "text-danger" })
                         @*@Html.HiddenFor(model => model.ThoiHan, new { htmlAttributes = new { } })*@
                     </div>
@@ -43,14 +43,15 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.KieuChungChi, "Kiểu chứng chỉ", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.KieuChungChi, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.KieuChungChi, "", new { @class = "text-danger" }) 
+                        @*@Html.EditorFor(model => model.KieuChungChi, new { htmlAttributes = new { @class = "form-control" } })*@
+                        @Html.DropDownList("KieuChungChi", (IEnumerable<SelectListItem>)ViewBag.listTypeCert, "Chọn kiểu chứng chỉ", htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.KieuChungChi, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <hr />
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input id="save" type="submit" value="Lưu" class="waves-light btn blue darken-2 white-text" />
+                        <input id="save" type="submit" value="Lưu" class="waves-light btn blue darken-2 white-text " />
                     </div>
                 </div>
             </div>
@@ -58,18 +59,17 @@
     </div>
 </body>
 </html>
+@Scripts.Render("~/bundles/jqueryval")
 <script>
 
     $(document).ready(function () {
         var show = $('#editform').val();
-        //alert(show);
-        if (show == "-1") {
+        
+        if (show == -1) {
             $('#edit_cert').val("Vĩnh viễn");
             $('#edit_cert').attr("disabled", "disabled");
-            //$('#ThoiHan').val("Vĩnh viễn");
         }
         else {
-            // $('#show_edit').removeAttr("disabled", "disabled");
             $('#option_cert_edit').val(2);
             $("#edit_cert").val($("#editform").val())
         }
@@ -80,9 +80,7 @@
                 //show
                 $('#edit_cert').val("Vĩnh viễn");
                 $('#edit_cert').attr("disabled", "disabled");
-                //get data
-                //$('#ThoiHan').val("Vĩnh viễn");
-                //  alert($('#ThoiHan').val());
+                $("#editform").val(-1);
             } else {
                 //show
                 $('#edit_cert').removeAttr("disabled", "disabled");
@@ -90,11 +88,18 @@
             }
         })
         $("#save").click(function () {
-            $("#editform").val($("#edit_cert").val())
+            var edit_end = $("#edit_cert").val();
+            if (edit_end == "Vĩnh viễn") {
+                $("#editform").val(-1);
+            }
+            else {
+                $("#editform").val(edit_end);
+            }
+            
         })
 
     })
-   
-   
-    
+
+
+
 </script>

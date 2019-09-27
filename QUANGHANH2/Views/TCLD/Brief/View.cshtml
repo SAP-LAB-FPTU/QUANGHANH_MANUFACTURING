@@ -41,12 +41,12 @@
                                     <div class="input-field col m8">
                                         <div class="input-field col m12">
                                             @*<div class="col m4">
-                                                @Html.LabelFor(model => model.MaNV, htmlAttributes: new { @class = "custom-label" })
-                                                <div class="col-md-10">
-                                                    @Html.EditorFor(model => model.MaNV, "Mã nhân viên", new { htmlAttributes = new { @class = "form-control", @placeholder = "Mã", @type = "text"} })
-                                                    @Html.ValidationMessageFor(model => model.MaNV, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>*@
+                        @Html.LabelFor(model => model.MaNV, htmlAttributes: new { @class = "custom-label" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.MaNV, "Mã nhân viên", new { htmlAttributes = new { @class = "form-control", @placeholder = "Mã", @type = "text"} })
+                            @Html.ValidationMessageFor(model => model.MaNV, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
                                             <div class="col m12">
                                                 @Html.LabelFor(model => model.Ten, "Họ và tên", htmlAttributes: new { @class = "custom-label" })
                                                 <div class="col-md-10">
@@ -179,22 +179,34 @@
                                 </div>
                                 <div class="input-field col m12">
                                     <div class="col m12">
-                                        <label class='custom-label'>Nghề nghiệp trược khi được tuyển dụng</label>
-                                        <input class=" form-control" type="text" placeholder="Nghề trước khi tuyển dụng" />
+                                        @Html.LabelFor(model => model.NgheTruoc, "Nghề trước", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.NgheTruoc, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Nghề trước", @type = "text" } })
+                                            @Html.ValidationMessageFor(model => model.NgheTruoc, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="input-field col m12">
                                     <div class="col m4">
-                                        <label class='custom-label'>Ngày được tuyển dụng</label>
-                                        <input class=" form-control" type="date" />
+                                        @Html.LabelFor(model => model.NgayTuyenDungTruoc, "Ngày tuyển dụng trước", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            <input required id="NgayTuyenDungTruocFix" , class="inputEdit form-control datepicker-here datepicker-add" placeholder="Ngày tuyển dụng trước" type="datetime" value="" />
+                                            @Html.EditorFor(model => model.NgayTuyenDungTruoc, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
+                                        </div>
                                     </div>
                                     <div class="col m4">
-                                        <label class='custom-label'>Tại cơ quan</label>
-                                        <input class=" form-control" type="text" placeholder="Cơ quan" />
+                                        @Html.LabelFor(model => model.CoQuanTruoc, "Cơ quan trước", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.CoQuanTruoc, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Cơ quan trước", @type = "text" } })
+                                            @Html.ValidationMessageFor(model => model.CoQuanTruoc, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
                                     <div class="col m4">
-                                        <label class='custom-label'>Ngày vào nơi đang công tác</label>
-                                        <input class=" form-control" type="date" />
+                                        @Html.LabelFor(model => model.NgayDiLam, "Ngày vào nơi đang công tác", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            <input required id="NgayDiLamFix" , class="inputEdit form-control datepicker-here datepicker-add" placeholder="Ngày vào nơi đang công tác" type="datetime" value="" />
+                                            @Html.EditorFor(model => model.NgayDiLam, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -486,7 +498,6 @@
                                 </div>
                             </div>
                         </div>
-                        @Html.HiddenFor(model => model.TenPhanXuong, new { htmlAttributes = new { @class = "form-control", @placeholder = "Kỷ luật" } })
                         @Html.HiddenFor(model => model.MaPhongBan, new { htmlAttributes = new { @class = "form-control", @placeholder = "Kỷ luật" } })
                         <div id="hoctaplamviec" class="col l12">
                             <div class="row" style="margin-top:10px">

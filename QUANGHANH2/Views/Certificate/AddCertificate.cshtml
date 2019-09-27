@@ -1,4 +1,4 @@
-﻿@model QUANGHANH2.Models.ChungChi
+﻿@model QUANGHANH2.Models.ChungChi_detailsDB
 
 @{
     Layout = null;
@@ -37,9 +37,12 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.ThoiHan, "Thời hạn", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.ThoiHan, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled", @id = "show" } })
+                    <input id="add_cert" class="form-control" />
+                    @Html.EditorFor(model => model.ThoiHan, new { htmlAttributes = new { @style = "display: none !important", @class = "form-control editform", @id = "addform" } })
                     @Html.ValidationMessageFor(model => model.ThoiHan, "", new { @class = "text-danger" })
-                    @Html.HiddenFor(model => model.ThoiHan, new { htmlAttributes = new { } })
+                    @*@Html.EditorFor(model => model.ThoiHan, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled", @id = "show" } })
+                    @Html.ValidationMessageFor(model => model.ThoiHan, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.ThoiHan, new { htmlAttributes = new { } })*@
 
                 </div>
             </div>
@@ -47,7 +50,8 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.KieuChungChi, "Kiểu chứng chỉ", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.KieuChungChi, new { htmlAttributes = new { @class = "form-control" } })
+                    @*@Html.EditorFor(model => model.KieuChungChi, new { htmlAttributes = new { @class = "form-control" } })*@
+                    @Html.DropDownList("KieuChungChi", (IEnumerable<SelectListItem>)ViewBag.listTypeCert, "Chọn kiểu chứng chỉ", htmlAttributes: new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.KieuChungChi, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -63,6 +67,7 @@
 </body>
 </html>
 <script>
+    
     $('#tenchungchi').blur(function () {
 
         $.ajax({
@@ -83,25 +88,32 @@
             },
         })
     });
-    $('#ThoiHan').val("Vĩnh viễn");
-    $('#show').val("Vĩnh viễn");
-
+    $('#add_cert').val("Vĩnh viễn");
+    $('#add_cert').attr("disabled", "disabled");
+    $("#addform").val(-1);
     $('#option_cirt').change(function () {
         var option = $(this).val();
-        //alert(option);
+
         if (option == 1) {
             //show
-            $('#show').val("Vĩnh viễn");
-            $('#show').attr("disabled", "disabled");
-            //get data
-            $('#ThoiHan').val("Vĩnh viễn");
-            alert($('#ThoiHan').val());
+            $('#add_cert').val("Vĩnh viễn");
+            $('#add_cert').attr("disabled", "disabled");
+            $("#addform").val(-1);
         } else {
             //show
-            $('#show').removeAttr("disabled", "disabled");
-            $('#show').val("");
-
+            $('#add_cert').removeAttr("disabled", "disabled");
+            $('#add_cert').val("");
         }
+    })
+    $("#submit_cirtificate_btn").click(function () {
+        var add_end = $("#add_cert").val();
+        if (add_end == "Vĩnh viễn") {
+            $("#addform").val(-1);
+        }
+        else {
+            $("#addform").val(add_end);
+        }
+
     })
 </script>
 

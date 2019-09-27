@@ -1,5 +1,6 @@
 ﻿using QUANGHANH2.ModelViews;
 using QUANGHANH2.Repositories.Intefaces;
+using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +18,14 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
             _repository = repo;
         }
 
+        [Auther(RightID = "35")]
         [Route("phong-cdvt/vat-tu/tieu-hao")]
         public ActionResult Index()
         {
             return View("/Views/CDVT/Vattu/Tieuhao.cshtml");
         }
 
+        [Auther(RightID = "35")]
         [HttpGet]
         [Route("phong-cdvt/vat-tu/tieu-hao/details")]
         public ActionResult Details(string SupplyId, string SupplyName, string DepartmentId, string DeparmentName)

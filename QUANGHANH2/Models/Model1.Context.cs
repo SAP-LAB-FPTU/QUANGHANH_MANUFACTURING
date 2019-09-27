@@ -63,6 +63,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<LichSuBoSungSYLL> LichSuBoSungSYLLs { get; set; }
         public virtual DbSet<Maintain_Car> Maintain_Car { get; set; }
         public virtual DbSet<Maintain_Car_Detail> Maintain_Car_Detail { get; set; }
+        public virtual DbSet<MealRegistration> MealRegistrations { get; set; }
         public virtual DbSet<Module> Modules { get; set; }
         public virtual DbSet<Nganh> Nganhs { get; set; }
         public virtual DbSet<NguoiUyQuyenLayHoSo_BaoHiem> NguoiUyQuyenLayHoSo_BaoHiem { get; set; }
@@ -71,10 +72,12 @@ namespace QUANGHANH2.Models
         public virtual DbSet<QuanHeGiaDinh> QuanHeGiaDinhs { get; set; }
         public virtual DbSet<QuaTrinhCongTac> QuaTrinhCongTacs { get; set; }
         public virtual DbSet<QuyetDinh> QuyetDinhs { get; set; }
+        public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<Supply> Supplies { get; set; }
         public virtual DbSet<Supply_Documentary_Equipment> Supply_Documentary_Equipment { get; set; }
         public virtual DbSet<Supply_tieuhao> Supply_tieuhao { get; set; }
         public virtual DbSet<SupplyPlan> SupplyPlans { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<ThucHien_TieuChi> ThucHien_TieuChi { get; set; }
         public virtual DbSet<TieuChi> TieuChis { get; set; }
         public virtual DbSet<TieuChi_VatLieuSanXuat> TieuChi_VatLieuSanXuat { get; set; }

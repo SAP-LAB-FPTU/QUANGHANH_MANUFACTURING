@@ -65,16 +65,17 @@
                         <div class="control-label col-md-2"></div>
                         <br />
                         <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Lưu" class=" waves-light btn blue darken-2 white-text" id="submit_form_edit"/>
+                            <input type="submit" value="Lưu" class=" waves-light btn blue darken-2 white-text " id="submit_form_edit" />
                         </div>
                     </div>
                 </div>
-                
+
             </div>
         }
     </div>
 </body>
 </html>
+@Scripts.Render("~/bundles/jqueryval")
 <script>
     $('#manv').change(function () {
         var manv = $(this).val();
@@ -94,7 +95,7 @@
         })
 
     });
-    
+
     var first_cir = $('#macc_edit').val();
     $('#macc_edit').blur(function () {
         var manv = $('#manv').val();

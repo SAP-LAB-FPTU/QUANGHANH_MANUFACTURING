@@ -25,5 +25,6 @@ namespace QUANGHANH2.Models
     
         public virtual Documentary Documentary { get; set; }
         public virtual Equipment Equipment { get; set; }
+        public virtual Status Status { get; set; }
     }
 }
