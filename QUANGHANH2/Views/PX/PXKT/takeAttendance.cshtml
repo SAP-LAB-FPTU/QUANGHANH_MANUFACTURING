@@ -11,7 +11,7 @@
         <form>
             <div class="row center">
                 <h3>
-                    ĐIỂM DANH CỦA DL3 <a class="dropdown-trigger btn" id="ca" href="#" data-target="dropdown_ca" style="background-color:#273146">CA 1</a> NGÀY <input type="text" id="inputdate" class="datepicker-here center" data-language="vi">
+                    ĐIỂM DANH CỦA DL3 <a class="dropdown-trigger btn" id="ca" href="#" data-target="dropdown_ca" style="background-color:#273146">CA 1</a> NGÀY <input type="text" id="inputdate" class="datepicker-here center" data-language="vi" value="" />
                     <a class="btn waves-effect waves-light blue modal-trigger" id="btn-view" href="#" onclick="getcontent();">Xem</a>
                     <br><br>
                 </h3>
@@ -21,7 +21,9 @@
                 <table id="attendanceTable" class="cell-border striped hover">
                     <thead>
                         <tr>
+                            <th>Mã Điểm Danh</th>
                             <th>Mã Nhân Viên</th>
+                            <th>Mã Đơn Vị</th>
                             <th>Tên Nhân Viên</th>
                             <th>Đi làm</th>
                             <th>Thời gian có mặt</th>
@@ -80,7 +82,9 @@
                     }
                 },
                 "columns": [
+                    { data: "maDD" },
                     { data: "maNV" },
+                    { data: "maDV" },
                     { data: "tenNV" },
                     {
                         data: "status", render: function (data) {
@@ -101,27 +105,19 @@
                     },
                     {
                         data: "reason", render: function (data, type, row) {
-                            if (data == null) {
-                                if (!row["status"]) {
-                                    return "<span class=\"reasonTest\"></span>";
-                                } else {
-                                    return "<span></span>";
-                                }
+                            if (row['status']) {
+                                return ""
                             } else {
-                                if (!row["status"]) {
-                                    return "<span class=\"reasonTest\">" + data + "</span>";
-                                } else {
-                                    return "<span>" + data + "</span>";
-                                }
+                                return "<span class=\"reasonBox\">" + data + "</span>"
                             }
                         }
                     },
                     {
                         data: "description", render: function (data) {
                             if (data != null) {
-                                return "<input disabled value\"" + data + "\" type=\"text\" class=\"\">"
+                                return "<input disabled value=\"" + data + "\" type=\"text\" class=\"inputDescription\">"
                             } else
-                                return "<input disabled value=\"\" type=\"text\" class=\"inputTest\">"
+                                return "<input disabled value=\"\" type=\"text\" class=\"inputDescription\">"
                         }
                     }
                 ]
@@ -137,18 +133,14 @@
             if (mode == 0) {
                 $("#EditSaveBtn").html("<i class=\"material-icons right\">border_color</i>Lưu");
                 $(".inputTest").removeAttr("disabled")
+                $(".inputDescription").removeAttr("disabled")
                 $(".checkBox").removeAttr("disabled")
-                $(".reasonTest").html("<select class=\"browser-default \" onchange=\"updateReason()\"> <option value=\"\" disabled selected>Lựa chọn lý do</option> <option value=\"1\">Ốm</option> <option value=\"2\">Vô lý do</option><option value=\"3\">Nghỉ phép</option></option> <option value=\"2\">Vô lý do</option><option value=\"4\">Khác</option></select>");
+                $(".reasonBox").html("<select class=\"browser-default \"> <option value=\"\" disabled selected>Lựa chọn lý do</option> <option value=\"1\">Ốm</option> <option value=\"2\">Vô lý do</option><option value=\"3\">Nghỉ phép</option></option> <option value=\"2\">Vô lý do</option><option value=\"4\">Khác</option></select>");
                 //
                 mode = 1;
             } else {
                 $("#EditSaveBtn").html("<i class=\"material-icons right\">border_color</i>Cập Nhật");
                 mode = 0;
-                //$("#attendanceTable").DataTable().ajax = {
-                //    "url": "/phan-xuong-khai-thac/diem-danh/cap-nhat",
-                //    "type": "POST",
-                //    "datatype": "json"
-                //}
                 var dataUpdate = updateReason();
                 if (dataUpdate.length > 0) {
                     $("#attendanceTable").on('preXhr.dt', function (e, settings, data) {
@@ -165,27 +157,29 @@
         }
 
         function updateReason() {
-            var heads = ["maNV", "tenNV", "status", "timeAttendance", "reason", "description"];
+            var heads = ["maDD", "maNV", "maDV", "tenNV", "status", "timeAttendance", "reason", "description"];
             //
             var rows = [];
+            count = 0;
             $("tbody tr").each(function () {
                 cur = {};
+                cur["maDD"] = $("#attendanceTable").DataTable().row(count).data()["maDD"];
+                count++;
                 $(this).find("td").each(function (i, v) {
-                    if (heads[i] != "status" && heads[i] != "reason") {
-                        cur[heads[i]] = $(this).text().trim();
-                    }
-                    if (heads[i] == "status") {
-                        var attr = $(this).children("label").children("input");
-                        cur[heads[i]] = attr.is(":checked");
-                    }
-                    if (heads[i] == "reason") {
-                        cur[heads[i]] = $(this).children("span").find(":selected").text();
-                    }
-                    if (heads[i] == "description") {
-                        if ($(this).children("span").find(":selected").text() == "Khác" && $(this).children("input").val() == "") {
-                            return []
+                    if (heads[i] != "maDD") {
+                        if (heads[i] != "status" && heads[i] != "reason") {
+                            cur[heads[i]] = $(this).text().trim();
                         }
-                        cur[heads[i]] = $(this).children("input").val();
+                        if (heads[i] == "status") {
+                            var attr = $(this).children("label").children("input");
+                            cur[heads[i]] = attr.is(":checked");
+                        }
+                        if (heads[i] == "reason") {
+                            cur[heads[i]] = $(this).children("span").find(":selected").text();
+                        }
+                        if (heads[i] == "description") {
+                            cur[heads[i]] = $(this).children("input").val();
+                        }
                     }
                 });
                 rows.push(cur);
@@ -193,5 +187,15 @@
             });
             return rows;
         }
+    </script>
+    <script>
+        $(document).ready(() => {
+             var currentTime = new Date();
+            var month = currentTime.getMonth() + 1;
+            var day = currentTime.getDate();
+            var year = currentTime.getFullYear();
+            var date = day + "/" + month + "/" + year;
+            $("#inputdate").attr("value", date);
+        })
     </script>
 }

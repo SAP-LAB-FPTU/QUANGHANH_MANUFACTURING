@@ -121,16 +121,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
             {
                 if (chungChi != null)
                 {
-                    if(chungChi.ThoiHan.Equals("Vĩnh viễn"))
-                    {
-                        chungChi.ThoiHan = -1;
-                        db.ChungChis.Add(chungChi);
-                    }
-                    else
-                    {
-                        db.ChungChis.Add(chungChi);
-                    }
-                    
+
+                    db.ChungChis.Add(chungChi);
                     db.SaveChanges();
                 }
                 return RedirectToAction("List");
@@ -193,7 +185,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     {
                         return Json(new { success = true, message = "id has been exist" }, JsonRequestBehavior.AllowGet);
                     }
-                    
+
                 }
                 else
                 {
@@ -280,17 +272,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
             {
                 if (chungChi != null)
                 {
-                    if (chungChi.ThoiHan.Equals("Vĩnh viễn"))
-                    {
-                        chungChi.ThoiHan = -1;
-                        db.Entry(chungChi).State = EntityState.Modified;
-                    }
-                    else
-                    {
-                        db.Entry(chungChi).State = EntityState.Modified;
-                    }
 
-                    
+                    db.Entry(chungChi).State = EntityState.Modified;
                     db.SaveChanges();
                 }
                 return RedirectToAction("List");
@@ -362,7 +345,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     }
 
                 }
-                
+
                 db.SaveChanges();
                 return Json(new { success = true, message = "Delete successful" }, JsonRequestBehavior.AllowGet);
 
@@ -484,32 +467,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
                 return dataJson;
             }
-        }
-
-        [Route("phong-tcld/chung-chi/danh-sach-nhan-vien-co-chung-chi-kiem-dinh-ky-thuat-an-toan-lao-dong")]
-        public ActionResult ListBriefsByCertificate()
-        {
-            ViewBag.nameDepartment = "vld-antoan";
-            return View("/Views/TCLD/Certificate/ListBriefByCertificate.cshtml");
-        }
-        [Route("phong-tcld/chung-chi-chung-nhan-dao-tao")]
-        public ActionResult ViewJobRegister()
-        {
-            ViewBag.nameDepartment = "vld-antoan";
-            return View("/Views/TCLD/Certificate/ViewJobRegister.cshtml");
-        }
-
-        [Route("phong-tcld/dang-ky-cong-viec")]
-        public ActionResult ViewJobByPX()
-        {
-            ViewBag.nameDepartment = "vld-antoan";
-            return View("/Views/TCLD/Certificate/ViewJobByPX.cshtml");
-        }
-        [Route("phong-tcld/bao-cao-tinh-trang-chung-chi-cho-cong-viec")]
-        public ActionResult ReportJob()
-        {
-            ViewBag.nameDepartment = "vld-antoan";
-            return View("/Views/TCLD/Certificate/ReportJob.cshtml");
         }
     }
 }

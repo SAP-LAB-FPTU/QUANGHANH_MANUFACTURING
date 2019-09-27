@@ -64,7 +64,7 @@
                         <label id="add_Cancel_Print_Checked" style="display:none">
                             <a href="#add" class="waves-effect waves-light btn blue darken-2 btn-small modal-trigger"><span class="fas fa-plus-circle">&nbsp;Thêm mã quyết định</span></a>
                             <a href="#confirm" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle">&nbsp;Hủy đã chọn</span></a>
-                            <a href="~/excel/TCLD/QuyetDinhDieuChuyen.doc" class="waves-effect waves-light btn black btn-small"><span class="fas fa-file-word">&nbsp;Xuất quyết định</span></a>
+                            <a href="#" class="waves-effect waves-light btn black btn-small"><span class="fas fa-file-word">&nbsp;Xuất quyết định</span></a>
                         </label>
                     </div>
                     <br />
@@ -84,8 +84,8 @@
                         <tr>
                             <td class="center"><label id="check"><input class="inputCheck" type="checkbox" /><span></span></label></td>
                             <td class="center">1</td>
-                            <td class="center">7751</a></td>
-                            <td class="center">Nguyễn Văn Hùng</a></td>
+                            <td class="center">7751</td>
+                            <td class="center">Nguyễn Văn Hùng</td>
                             <td class="center">Đi nhập ngũ</td>
                             <td class="center">15/12/2018</td>
                         </tr>
@@ -216,14 +216,19 @@
 <link href="~/css/TABLE_BORDERED.css" rel="stylesheet" />
 
 <script>
+    var count = 0;
     $(document).ready(function () {
         $('.inputCheck').change(function () {
             if ($(this).prop("checked") == true) {
                 $('#cancelChecked').css('display', 'block');
                 $('#add_Cancel_Print_Checked').css('display', 'block');
-            } else if (($('.inputCheck').prop("checked") == false)) {
-                $('#add_Cancel_Print_Checked').css('display', 'none');
-                $('#cancelChecked').css('display', 'none');
+                count++;
+            } else if ($(this).prop("checked") == false) {
+                count--;
+                if (count == 0) {
+                    $('#add_Cancel_Print_Checked').css('display', 'none');
+                    $('#cancelChecked').css('display', 'none');
+                }
             }
         });
     });

@@ -6,7 +6,7 @@ using System.Web;
 
 namespace QUANGHANH2.Models
 {
-    public class ChungChi_NhanVien_Model:ChungChi_NhanVien
+    public class ChungChi_NhanVien_Model : ChungChi_NhanVien
     {
         [Required(ErrorMessage = "Không được để trống")]
         new public string SoHieu { get; set; }
@@ -19,5 +19,7 @@ namespace QUANGHANH2.Models
         public string TenNV { get; set; }
         public string TenChungChi { get; set; }
 
+        public string isConHan { get; set; }
+        public int? SoNgay { get; set; }
     }
 }
