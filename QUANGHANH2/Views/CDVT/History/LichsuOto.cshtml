@@ -280,13 +280,13 @@
                 <div class="row">
                     <div class="col s12 m6">
                         <div class="form-group">
-                            <label for="date">Ma thiet bi : </label>
+                            <label for="date">Mã thiết bị : </label>
                             <div class="linedisplay">
-                                <input type="text" class="form-control" id="equipmentId-edit" />
+                                <input type="text" class="form-control" id="equipmentId-edit" list="eqID"/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="name">Ngay : </label>
+                            <label for="name">Ngày : </label>
                             <input type='text' class='datepicker-here form-control' data-language='vi' id="date-edit" />
                         </div>
                         <div class="form-group">
@@ -347,7 +347,7 @@
                     <div class="col s12 m6">
                         <div class="form-group">
                             <label for="date">Biển kiểm soát : </label>
-                            <input type="text" class="form-control" id="equipmentIdfuel-edit" />
+                            <input type="text" class="form-control" id="equipmentIdfuel-edit" list="eqID" />
                         </div>
                         <div class="form-group">
                             <label for="name">Ngày : </label>
@@ -362,7 +362,7 @@
                     <div class="col s12 m6">
                         <div class="form-group">
                             <label for="date">Mã nhiên liệu  : </label>
-                            <input type="text" class="form-control" id="fuel-edit" />
+                            <input type="text" class="form-control" id="fuel-edit" list="supplyID"/>
                             <input type="hidden" class="form-control" id="fuelID-edit" />
                         </div>
                         <div class="form-group">
@@ -714,6 +714,21 @@
 </script>
 
 <script>
+    $(document).on('keypress', function (e) {
+        if (e.which == 13) {
+            if (dataActiTable.data().any()) {
+                dataActiTable.destroy();
+            }
+            if (dataFuelTable.data().any()) {
+                dataFuelTable.destroy();
+            }
+            searchActi();
+            searchFuel();
+        }
+    });
+</script>
+
+<script>
     //function for date.
     $('.maxDate').datepicker({
         language: 'vi',
@@ -767,131 +782,8 @@
         //get first data acti and fuel
         $(document).ready(function () {
             //get data
-            dataActiTable = $('#acti-table').on('preXhr.dt', function (e, settings, data) {
-                $("#pre-load").show("slow", function () {
-                });
-                $("#pre-load").css("z-index", "99999");
-            }).DataTable({
-                "language": {
-                    "emptyTable": "Không tìm thấy dữ liệu",
-                    "paginate": {
-                        "first": "Đầu",
-                        "last": "Cuối",
-                        "next": "Sau",
-                        "previous": "Trước"
-                    }
-                },
-                "ajax": {
-                    "url": "/phong-cdvt/oto/cap-nhat-hoat-dong/search-acti",
-                    "type": "POST",
-                    "datatype": "json",
-                    "data": {
-                        "equipmentId": function () { return $('#equipmentId-search').val() },
-                        "equipmentName": function () { return $('#equipmentName-search').val() },
-                        "timeFrom": function () { return $('#timeFrom-search').val() },
-                        "timeTo": function () { return $('#timeTo-search').val() }
-                    },
-                    "cache": "false"
-                },
-                "drawCallback": function (settings) {
-                    ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
-                    $("#pre-load").hide("slow", function () {
-                    });
-                    ////////////////////////////////////////////////
-                },
-                "columns": [
-                    { "data": "stringDate", "name": "date" },
-                    { "data": "equipmentid", "name": "equipmentid" },
-                    { "data": "equipment_name", "name": "equipment_name" },
-                    { "data": "activityname", "name": "activityname" },
-                    { "data": "hours_per_day", "name": "hours_per_day" },
-                    { "data": "quantity", "name": "quantity" },
-                    {
-                        "data": "activityid", "render": function (data) {
-                            return "<a href=\"#myacti\" data-toggle=\"modal\" class=\"open-EditModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-activity=\"" + data + "\">Chỉnh&nbsp;Sửa</a>";
-                        },
-                        "orderable": false,
-                        "searchable": false,
-                        "width": "150px"
-                    }
-                ],
-                "serverSide": true,
-                "rowId": "activityid",
-                "bLengthChange": false,
-                "bFilter": false,
-                "bInfo": false,
-                "bAutoWidth": false,
-                "order": [0, "asc"],
-                "initComplete": function (settings, json) {
-                    ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
-                    $("#pre-load").hide("slow", function () {
-                    });
-                    //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
-                }
-            });
-
-            dataFuelTable = $('#fuel-table').on('preXhr.dt', function (e, settings, data) {
-                $("#pre-load").show("slow", function () {
-                });
-                $("#pre-load").css("z-index", "99999");
-            }).DataTable({
-                "language": {
-                    "emptyTable": "Không tìm thấy dữ liệu",
-                    "paginate": {
-                        "first": "Đầu",
-                        "last": "Cuối",
-                        "next": "Sau",
-                        "previous": "Trước"
-                    }
-                },
-                "ajax": {
-                    "url": "/phong-cdvt/oto/cap-nhat-hoat-dong/search-fuel",
-                    "type": "POST",
-                    "datatype": "json",
-                    "data": {
-                        "equipmentId": function () { return $('#equipmentIdfuel-search').val() },
-                        "equipmentName": function () { return $('#equipmentNamefuel-search').val() },
-                        "timeFrom": function () { return $('#timeFromfuel-search').val() },
-                        "timeTo": function () { return $('#timeTofuel-search').val() }
-                    },
-                    "cache": "false"
-                },
-                "drawCallback": function (settings) {
-                    ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
-                    $("#pre-load").hide("slow", function () {
-                    });
-                    ////////////////////////////////////////////////
-                },
-                "columns": [
-                    { "data": "stringDate", "name": "date" },
-                    { "data": "equipmentId", "name": "equipmentId" },
-                    { "data": "equipment_name", "name": "equipment_name" },
-                    { "data": "supply_name", "name": "supply_name" },
-                    { "data": "consumption_value", "name": "consumption_value" },
-                    { "data": "unit", "name": "unit" },
-                    {
-                        "data": "fuelid", "render": function (data) {
-                            return "<a href=\"#myfuel\" data-toggle=\"modal\" class=\"open-fuelEdit waves-effect waves-light btn blue darken-1 modal-trigger\" data-fuel=\"" + data + "\">Chỉnh&nbsp;Sửa</a>";
-                        },
-                        "orderable": false,
-                        "searchable": false,
-                        "width": "150px"
-                    }
-                ],
-                "serverSide": true,
-                "rowId": "fuelid",
-                "bLengthChange": false,
-                "bFilter": false,
-                "bInfo": false,
-                "bAutoWidth": false,
-                "order": [0, "asc"],
-                "initComplete": function (settings, json) {
-                    ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
-                    $("#pre-load").hide("slow", function () {
-                    });
-                    //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
-                }
-            });
+            searchActi();
+            searchFuel();
         });
 
         //edit acti
@@ -1230,6 +1122,137 @@
                 });
             });
         });
+
+        function searchActi() {
+            //get data
+            dataActiTable = $('#acti-table').on('preXhr.dt', function (e, settings, data) {
+                $("#pre-load").show("slow", function () {
+                });
+                $("#pre-load").css("z-index", "99999");
+            }).DataTable({
+                "language": {
+                    "emptyTable": "Không tìm thấy dữ liệu",
+                    "paginate": {
+                        "first": "Đầu",
+                        "last": "Cuối",
+                        "next": "Sau",
+                        "previous": "Trước"
+                    }
+                },
+                "ajax": {
+                    "url": "/phong-cdvt/oto/cap-nhat-hoat-dong/search-acti",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": {
+                        "equipmentId": function () { return $('#equipmentId-search').val() },
+                        "equipmentName": function () { return $('#equipmentName-search').val() },
+                        "timeFrom": function () { return $('#timeFrom-search').val() },
+                        "timeTo": function () { return $('#timeTo-search').val() }
+                    },
+                    "cache": "false"
+                },
+                "drawCallback": function (settings) {
+                    ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
+                    $("#pre-load").hide("slow", function () {
+                    });
+                    ////////////////////////////////////////////////
+                },
+                "columns": [
+                    { "data": "stringDate", "name": "date" },
+                    { "data": "equipmentid", "name": "equipmentid" },
+                    { "data": "equipment_name", "name": "equipment_name" },
+                    { "data": "activityname", "name": "activityname" },
+                    { "data": "hours_per_day", "name": "hours_per_day" },
+                    { "data": "quantity", "name": "quantity" },
+                    {
+                        "data": "activityid", "render": function (data) {
+                            return "<a href=\"#myacti\" data-toggle=\"modal\" class=\"open-EditModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-activity=\"" + data + "\">Chỉnh&nbsp;Sửa</a>";
+                        },
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "150px"
+                    }
+                ],
+                "serverSide": true,
+                "rowId": "activityid",
+                "bLengthChange": false,
+                "bFilter": false,
+                "bInfo": false,
+                "bAutoWidth": false,
+                "order": [0, "asc"],
+                "initComplete": function (settings, json) {
+                    ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
+                    $("#pre-load").hide("slow", function () {
+                    });
+                    //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
+                }
+            });
+        }
+
+        function searchFuel() {
+            dataFuelTable = $('#fuel-table').on('preXhr.dt', function (e, settings, data) {
+                $("#pre-load").show("slow", function () {
+                });
+                $("#pre-load").css("z-index", "99999");
+            }).DataTable({
+                "language": {
+                    "emptyTable": "Không tìm thấy dữ liệu",
+                    "paginate": {
+                        "first": "Đầu",
+                        "last": "Cuối",
+                        "next": "Sau",
+                        "previous": "Trước"
+                    }
+                },
+                "ajax": {
+                    "url": "/phong-cdvt/oto/cap-nhat-hoat-dong/search-fuel",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": {
+                        "equipmentId": function () { return $('#equipmentIdfuel-search').val() },
+                        "equipmentName": function () { return $('#equipmentNamefuel-search').val() },
+                        "timeFrom": function () { return $('#timeFromfuel-search').val() },
+                        "timeTo": function () { return $('#timeTofuel-search').val() }
+                    },
+                    "cache": "false"
+                },
+                "drawCallback": function (settings) {
+                    ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
+                    $("#pre-load").hide("slow", function () {
+                    });
+                    ////////////////////////////////////////////////
+                },
+                "columns": [
+                    { "data": "stringDate", "name": "date" },
+                    { "data": "equipmentId", "name": "equipmentId" },
+                    { "data": "equipment_name", "name": "equipment_name" },
+                    { "data": "supply_name", "name": "supply_name" },
+                    { "data": "consumption_value", "name": "consumption_value" },
+                    { "data": "unit", "name": "unit" },
+                    {
+                        "data": "fuelid", "render": function (data) {
+                            return "<a href=\"#myfuel\" data-toggle=\"modal\" class=\"open-fuelEdit waves-effect waves-light btn blue darken-1 modal-trigger\" data-fuel=\"" + data + "\">Chỉnh&nbsp;Sửa</a>";
+                        },
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "150px"
+                    }
+                ],
+                "serverSide": true,
+                "rowId": "fuelid",
+                "bLengthChange": false,
+                "bFilter": false,
+                "bInfo": false,
+                "bAutoWidth": false,
+                "order": [0, "asc"],
+                "initComplete": function (settings, json) {
+                    ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
+                    $("#pre-load").hide("slow", function () {
+                    });
+                    //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
+                }
+            });
+        }
 
     </script>
 

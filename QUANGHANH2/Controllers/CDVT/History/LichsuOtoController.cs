@@ -53,7 +53,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     + " where q.equipmentId LIKE @equipmentId"
                     + " AND t.equipment_name LIKE @equipment_name AND q.[date] between @timeFrom AND @timeTo "
                     + " order by q.[date] desc";
-
+                
                 List<activitiesDB> listActi = DBContext.Database.SqlQuery<activitiesDB>(query,
                     new SqlParameter("equipmentId", '%' + equipmentId + '%'),
                     new SqlParameter("equipment_name", '%' + equipmentName + '%'),
