@@ -115,7 +115,7 @@
                                             <input type="text" placeholder="Tìm kiếm theo tên thiết bị" class='form-control' id="equipmentNamefuel-search" />
                                         </div>
                                         <div class="col l12 m12 s12 input-field">
-                                            <a class="waves-effect waves-light btn blue darken-2 modal-close modal-trigger" id="searchButtonFuel">Tìm kiếm nhiên liệu</a>
+                                            <a class="waves-effect waves-light btn-small blue modal-trigger" href="#myaddfuel">Thêm tiêu thụ nhiên liệu</a>
                                         </div>
                                     </div>
                                 </div>
@@ -128,7 +128,7 @@
                                             <input placeholder="Ngày nhập (đến)" type='text' class='datepicker-here form-control minDate' data-language='vi' id="timeTofuel-search" />
                                         </div>
                                         <div class="col l12 m12 s12 input-field">
-                                            <a class="waves-effect waves-light btn-small blue modal-trigger" href="#myaddfuel">Thêm tiêu thụ nhiên liệu</a>
+                                            <a class="waves-effect waves-light btn blue darken-2 modal-close modal-trigger" id="searchButtonFuel">Tìm kiếm nhiên liệu</a>
                                         </div>
                                     </div>
                                 </div>
@@ -176,7 +176,7 @@
                     <div class="col s12 m6">
                         <div class="form-group">
                             <label for="date"> Biển kiểm soát : </label>
-                            <input type="text" class="form-control" id="equipmentIdfuel-edit" />
+                            <input type="text" class="form-control" id="equipmentIdfuel-edit" list="eqID"/>
                         </div>
                         <div class="form-group">
                             <label for="name"> Ngày : </label>
@@ -243,7 +243,7 @@
                     <div class="form-group">
                         <label for="date">Mã thiết bị : </label>
                         <input type="text" class="form-control" id="equipmentId-add" list="eqID" />
-                        <button type="button" class="btn light-blue lighten-1" onclick="getname()">Kiểm tra</button>
+                        @*<button type="button" class="btn light-blue lighten-1" onclick="getname()">Kiểm tra</button>*@
                     </div>
                     <div class="form-group">
                         <label for="supplier">Công việc :</label>
@@ -364,7 +364,7 @@
                         <div class="form-group">
                             <label for="date">Ma thiet bi : </label>
                             <div class="linedisplay">
-                                <input type="text" class="form-control" id="equipmentId-edit" />
+                                <input type="text" class="form-control" id="equipmentId-edit" list="eqID" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -481,7 +481,7 @@
     });
     $("#equipmentId-add").keydown(function (e) {
         if (e.keyCode === 13)
-            getEquipmentname();
+            getname();
     })
     $('#myfuel').keydown(function (e) {
         if (e.keyCode === 13)
@@ -597,13 +597,13 @@
                 },
                 "columns": [
                     { "data": "stringDate", "name": "date" },
-                    { "data": "equipmentId", "name": "equipmentId" },
+                    { "data": "equipmentid", "name": "equipmentid" },
                     { "data": "equipment_name", "name": "equipment_name" },
-                    { "data": "activity_name", "name": "activity_name" },
+                    { "data": "activityname", "name": "activityname" },
                     { "data": "hours_per_day", "name": "hours_per_day" },
                     { "data": "quantity", "name": "quantity" },
                     {
-                        "data": "activity_id", "render": function (data) {
+                        "data": "activityid", "render": function (data) {
                             return "<a href=\"#myacti\" data-toggle=\"modal\" class=\"open-EditModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-activity=\"" + data + "\">Chỉnh&nbsp;Sửa</a>";
                         },
                         "orderable": false,
@@ -612,7 +612,7 @@
                     }
                 ],
                 "serverSide": true,
-                //"rowId": "activity_id",
+                "rowId": "activityid",
                 "bLengthChange": false,
                 "bFilter": false,
                 "bInfo": false,
@@ -666,7 +666,7 @@
                     { "data": "consumption_value", "name": "consumption_value" },
                     { "data": "unit", "name": "unit" },
                     {
-                        "data": "fuelId", "render": function (data) {
+                        "data": "fuelid", "render": function (data) {
                             return "<a href=\"#myfuel\" data-toggle=\"modal\" class=\"open-fuelEdit waves-effect waves-light btn blue darken-1 modal-trigger\" data-fuel=\"" + data + "\">Chỉnh&nbsp;Sửa</a>";
                         },
                         "orderable": false,
@@ -675,7 +675,7 @@
                     }
                 ],
                 "serverSide": true,
-                "rowId": "fuelId",
+                "rowId": "fuelid",
                 "bLengthChange": false,
                 "bFilter": false,
                 "bInfo": false,
@@ -800,12 +800,12 @@
                 dataType: "json",
                 success: function (data) {
                     $("#date-edit").val(data.stringDate);
-                    $('#equipmentId-edit').val(data.equipmentId);
+                    $('#equipmentId-edit').val(data.equipmentid);
                     $('#equipmentname-edit').val(data.equipment_name);
-                    $('#activityname-edit').val(data.activity_name);
+                    $('#activityname-edit').val(data.activityname);
                     $('#hours_per_day-edit').val(data.hours_per_day);
                     $('#quantity-edit').val(data.quantity);
-                    $('#activityid-edit').val(data.activity_id);
+                    $('#activityid-edit').val(data.activityid);
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     $.notify(XMLHttpRequest.responseText, {
@@ -814,7 +814,7 @@
                     });
                 },
                 data: {
-                    activity_id: Number(activity)
+                    activityid: Number(activity)
                 },
                 cache: false
             })
@@ -875,11 +875,11 @@
                     $('#supply_name-edit').val(data.supply_name);
                     $('#consumption_value-edit').val(data.consumption_value);
                     $('#unitfuel-edit').val(data.unit);
-                    $('#fuelID-edit').val(data.fuelId);
+                    $('#fuelID-edit').val(data.fuelid);
                     $('#fuel-edit').val(data.fuel_type);
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    $.notify(XMLHttpRequest.responseText, {
+                    $.notify("Có lỗi xảy ra , vui lòng thử lại", {
                         globalPosition: "top center",
                         className: "error"
                     });

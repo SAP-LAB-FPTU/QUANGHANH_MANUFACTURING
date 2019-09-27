@@ -188,7 +188,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 string sortDirection = Request["order[0][dir]"];
 
                 QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-                string query = "select a.[date], a.equipmentId, e.equipment_name , a.activity_name, a.hours_per_day, a.quantity , a.[activity_id]"
+                string query = "select a.[date], a.equipmentId, e.equipment_name , a.activityname, a.hours_per_day, a.quantity , a.[activityid]"
                     + " from Activity a ,Equipment e "
                     + " where e.equipmentId = a.equipmentId AND a.equipmentId LIKE @equipmentId "
                     + " AND e.equipment_name LIKE @equipment_name AND a.[date] between @timeFrom AND @timeTo ";
@@ -275,15 +275,15 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         //get key of activity to edit
         [Route("phong-cdvt/cap-nhat-hoat-dong/getkeydata-acti")]
         [HttpPost]
-        public ActionResult getActivityID(int activity_id)
+        public ActionResult getActivityID(int activityid)
         {
             try
             {
                 QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-                activitiesDB activity = DBContext.Database.SqlQuery<activitiesDB>("select a.activity_id,a.[date], a.equipmentId, e.equipment_name , a.activity_name, a.hours_per_day, a.quantity " +
+                activitiesDB activity = DBContext.Database.SqlQuery<activitiesDB>("select a.activityid,a.[date], a.equipmentId, e.equipment_name , a.activityname, a.hours_per_day, a.quantity " +
                     " from Activity a ,Equipment e  " +
                     " where e.equipmentId = a.equipmentId  " +
-                    " and activity_id = @activity_id ", new SqlParameter("activity_id", activity_id)
+                    " and activityid = @activityid ", new SqlParameter("activityid", activityid)
                     ).First();
                 activity.stringDate = activity.date.ToString("dd/MM/yyyy");
 
@@ -372,10 +372,66 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 {
                     Equipment i = DBContext.Equipments.Find(equipmentId);
                     Supply s = DBContext.Database.SqlQuery<Supply>("select * from Supply where supply_id='" + fuel_type + "'").First();
-                    fuelDB f = DBContext.Database.SqlQuery<fuelDB>("select * from Fuel_activities_consumption where fuelid=" + fuelid + "").First();
-                    string date = DateTime.ParseExact(date1, "dd/MM/yyyy", null).ToString("MM-dd-yyyy");
+                    fuelDB f = DBContext.Database.SqlQuery<fuelDB>("select * from Fuel_activities_consumption where fuelid=@fuelid", new SqlParameter("fuelid", fuelid)).First();
                     DBContext.Database.ExecuteSqlCommand("UPDATE Fuel_activities_consumption  set fuel_type =@fuel_type, [date] =@date1, consumption_value = @consumption_value, equipmentId = @equipmentId where fuelId= @fuelid",
-                        new SqlParameter("fuel_type", fuel_type), new SqlParameter("date1", date), new SqlParameter("consumption_value", consumption_value), new SqlParameter("equipmentId", equipmentId), new SqlParameter("fuelId", fuelid));
+                        new SqlParameter("fuel_type", fuel_type), new SqlParameter("date1", DateTime.ParseExact(date1, "dd/MM/yyyy", null)), new SqlParameter("consumption_value", consumption_value), new SqlParameter("equipmentId", equipmentId), new SqlParameter("fuelId", fuelid));
+
+                    //get old and new.
+                    string oldFuelType = f.fuel_type;
+                    string newFuelType = fuel_type;
+                    string old_departmentId = DBContext.Database.SqlQuery<string>("" +
+                        "select department_id from Equipment where equipmentId = " +
+                        " (select equipmentId from Fuel_activities_consumption where fuelid=@fuelid)"
+                        , new SqlParameter("fuelid", fuelid)).First();
+                    string new_departmentId = i.department_id;
+                    string old_day = f.date.ToString("MM-dd-yyyy");
+                    string new_day = DateTime.ParseExact(date1, "dd/MM/yyyy", null).ToString("MM-dd-yyyy");
+
+                    //get update amount of old.
+                    int update_amount_old = DBContext.Database.SqlQuery<int>("" +
+                        " select sum(f.consumption_value) " +
+                        " from Fuel_activities_consumption f, Equipment e , Supply s " +
+                        " where e.equipmentId = f.equipmentId and s.supply_id = f.fuel_type " +
+                        " and MONTH(date) = MONTH(@oldday) " +
+                        " and supply_id = @oldFuelType " +
+                        " and department_id = @oldDepartmentId "
+                        , new SqlParameter("oldday", old_day)
+                        , new SqlParameter("oldFuelType", oldFuelType)
+                        , new SqlParameter("oldDepartmentId", old_departmentId)).First();
+
+
+                    DBContext.Database.ExecuteSqlCommand("" +
+                        " update Supply_tieuhao set used=@old" +
+                        " where MONTH(date) = MONTH(@oldday) " +
+                        " and supplyid = @oldFuelType " +
+                        " and departmentid = @oldDepartmentId "
+                        , new SqlParameter("old", update_amount_old)
+                        , new SqlParameter("oldday", old_day)
+                        , new SqlParameter("oldFuelType", oldFuelType)
+                        , new SqlParameter("oldDepartmentId", old_departmentId));
+
+                    //get update amount of new.
+                    int update_amount_new = DBContext.Database.SqlQuery<int>("" +
+                        " select sum(f.consumption_value) " +
+                        " from Fuel_activities_consumption f, Equipment e , Supply s " +
+                        " where e.equipmentId = f.equipmentId and s.supply_id = f.fuel_type " +
+                        " and MONTH(date) = MONTH(@newday) " +
+                        " and supply_id = @newFuelType " +
+                        " and department_id = @newDepartmentId "
+                        , new SqlParameter("newday", new_day)
+                        , new SqlParameter("newFuelType", newFuelType)
+                        , new SqlParameter("newDepartmentId", new_departmentId)).First();
+
+                    DBContext.Database.ExecuteSqlCommand("" +
+                        " update Supply_tieuhao set used=@new" +
+                        " where MONTH(date) = MONTH(@newday) " +
+                        " and supplyid = @newFuelType " +
+                        " and departmentid = @newDepartmentId "
+                        , new SqlParameter("new", update_amount_new)
+                        , new SqlParameter("newday", new_day)
+                        , new SqlParameter("newFuelType", newFuelType)
+                        , new SqlParameter("newDepartmentId", new_departmentId));
+
                     DBContext.SaveChanges();
                     transaction.Commit();
                     return new HttpStatusCodeResult(201);
@@ -443,7 +499,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     DBContext.Activities.Add(a);
                     DBContext.SaveChanges();
                     transaction.Commit();
-                    DBContext.SaveChanges();
                     return Json("", JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception)
@@ -484,10 +539,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         {
             string output = "";
             //fix bug negative number.
-            if (consumption_value <= 0)
-            {
-                return new HttpStatusCodeResult(400);
-            }
+            //if (consumption_value <= 0)
+            //{
+            //    return new HttpStatusCodeResult(400);
+            //}
 
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             fuelDB f = new fuelDB();
@@ -515,6 +570,33 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                         DBContext.Fuel_activities_consumption.Add(fuel_Activities_Consumption);
                     }
 
+                    //Update : 
+                    //get new
+                    string newFuelType = fuel_type;
+                    string new_departmentId = e.department_id;
+                    string new_day = DateTime.ParseExact(date1, "dd/MM/yyyy", null).ToString("MM-dd-yyyy");
+
+                    //get update amount of new.
+                    int update_amount_new = DBContext.Database.SqlQuery<int>("" +
+                        " select sum(f.consumption_value) " +
+                        " from Fuel_activities_consumption f, Equipment e , Supply s " +
+                        " where e.equipmentId = f.equipmentId and s.supply_id = f.fuel_type " +
+                        " and MONTH(date) = MONTH(@newday) " +
+                        " and supply_id = @newFuelType " +
+                        " and department_id = @newDepartmentId "
+                        , new SqlParameter("newday", new_day)
+                        , new SqlParameter("newFuelType", newFuelType)
+                        , new SqlParameter("newDepartmentId", new_departmentId)).First();
+
+                    DBContext.Database.ExecuteSqlCommand("" +
+                        " update Supply_tieuhao set used=@new" +
+                        " where MONTH(date) = MONTH(@newday) " +
+                        " and supplyid = @newFuelType " +
+                        " and departmentid = @newDepartmentId "
+                        , new SqlParameter("new", update_amount_new)
+                        , new SqlParameter("newday", new_day)
+                        , new SqlParameter("newFuelType", newFuelType)
+                        , new SqlParameter("newDepartmentId", new_departmentId));
 
                     DBContext.SaveChanges();
                     transaction.Commit();
@@ -549,6 +631,5 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         public String equipment_name { get; set; }
         public String unit { get; set; }
         public String supply_name { get; set; }
-        public int fuelId { get; set; }
     }
 }
