@@ -36,13 +36,10 @@
                     </div>
                 </div>
 
-                <div class="left col s12 m6 l6">
+                <div class="left col s6 m4 l6">
                     <div class="row">
-                        <div class="col s12 m3 l3">
-                            <a class="btn btn-small blue darken-2 modal-trigger input-field" data-target="tuyendung">Tuyển Dụng</a>
-                        </div>
-                        <div class="col s2 m3 l3">
-                            <a class="btn btn-small blue darken-2 modal-trigger input-field" href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/them-nhan-vien")">Thêm</a>
+                        <div class="col s2 m2 l2">
+                            <a class="btn btn-small blue darken-2 modal-trigger input-field" href="@Url.Action("them-nhan-vien", "phong-tcld/quan-ly-nhan-vien")">Thêm</a>
                         </div>
                         <div class="col s3 m3 l3">
                             <a class="btn btn-small blue darken-2 input-field" id="danhsachhosonhanvien"><i class="fas fa-file-excel"></i>&nbsp;Excel</a>
@@ -71,9 +68,6 @@
                                     </th>
                                     <th>
                                         Số điện thoại
-                                    </th>
-                                    <th>
-                                        Tên phân xưởng
                                     </th>
                                     <th>
                                         Trạng thái làm việc
@@ -105,14 +99,24 @@
         <div class="modal-header">
             <h3 class="modal-title">Xác nhận thanh lý hợp đồng</h3>
         </div>
-        <form action="/delete" method="post">
+        @using (Html.BeginForm("TLHD", "Employees", FormMethod.Post, new
+        {
+            enctype = "multipart/form-data",
+            onSubmit = "return tlhdAjax(this);",
+            data_restUrl = Url.Action("TLHD", "Employees")
+        }))
+        {
 
             <div class="modal-body">
                 <p class="red-text">Lý do thanh lý hợp đồng?</p>
                 <div class="row">
-                    <div class="col s12 m12 l12">
+                    <div class="col s6 m6 l6">
                         <label>Số quyết định</label>
-                        <input name="soQD" type='text' class='center form-control' placeholder="Số quyết định" />
+                        <input name="soQD" class=' form-control' placeholder="Số quyết định" />
+                    </div>
+                    <div class="col s6 m6 l6">
+                        <label>Ngày quyết định</label>
+                        <input name="dateQD" class='datepicker-here form-control' data-language='vi' placeholder="Ngày quyết định" type="text" />
                     </div>
 
                     <div class="col s6 m6 l6">
@@ -124,59 +128,48 @@
                             <option value="Sa thải">Sa thải</option>
                             <option value="Đơn phương chấm dứt HĐLĐ, bỏ việc">Đơn phương chấm dứt HĐLĐ, bỏ việc</option>
                             <option value="Đi nghĩa vụ quân sự">Đi nghĩa vụ quân sự</option>
-                            <option id="dvn" value="Đi đơn vị ngoài">Đi đơn vị ngoài</option>
+                            <option id="dvn">Đi đơn vị ngoài</option>
                             <option value="Ốm chết rủi ro">Ốm chết rủi ro</option>
                             <option value="Chết do tai nạn lao động">Chết do tai nạn lao động</option>
-                            <option id="khac" value="Các trường hợp khác">Các trường hợp khác</option>
+                            <option id="khac">Các trường hợp khác</option>
                         </select>
                     </div>
                     <div class="col s6 m6 l6">
                         <label>Ngày chấm dứt</label>
-                        <input name="date" type='text' class='datepicker-here center form-control' data-language='vi' value="dd/mm/yyyy" />
+                        <input name="dateTLHD" type='text' class='datepicker-here form-control' data-language='vi' placeholder="Ngày chấm dứt" />
                     </div>
 
                 </div>
                 <div class="row">
                     <div id="containerOption1" class="col s6 m6 l6" style="display: none">
                         <label>
-                            <input name="group1" type="radio" checked />
+                            <input name="group1" type="radio" value="Đi các đơn vị trong TKV" checked />
                             <span>Đi các đơn vị trong TKV</span>
                         </label>
                         <label>
-                            <input name="group1" type="radio" />
+                            <input name="group1" value="Đi các đơn vị ngoài TKV" type="radio" />
                             <span>Đi các đơn vị ngoài TKV</span>
                         </label>
                     </div>
                     <div id="containerOption2" class="col s6 m6 l6" style="display: none">
                         <label>
-                            <input name="group2" type="radio" checked />
+                            <input id="else1" name="group2" type="radio" value="Hết hạn HĐLĐ" checked />
                             <span>Hết hạn HĐLĐ</span>
                         </label>
                         <br />
                         <label>
-                            <input name="group2" type="radio" />
-                            <span>Trường hợp khác</span>
+                            <input id="else2" name="group2" type="radio" />
+                            <span><input id="else" name="elseCase" class="form-control" placeholder="Trường hợp khác" required disabled /></span>
                         </label>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" onclick="getOne()" value="" class="btn blue darken-2 modal-close">Xác nhận</button>
-                <input type="hidden" id="tlhdd" />
+                <button type="submit" class="btn blue darken-2 modal-close">Xác nhận</button>
+                <input type="hidden" name="id" id="tlhdd" />
                 <button type="button" class="btn blue darken-2 modal-close">Hủy</button>
             </div>
-        </form>
-    </div>
-</div>
-
-<div id="tuyendung" class="modal">
-    <div class="modal-content">
-        Nhập từ excel
-        <br />
-        Bấm oke sẽ ra màn hình load dữ liệu, từ màn hình đó bấm Xác Nhận thì insert db.
-    </div>
-    <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Done</a>
+        }
     </div>
 </div>
 
@@ -214,11 +207,54 @@
     <script>
         var Popup, dataTable;
 
+
+        function tlhdAjax(form) {
+            $("#pre-load").show();
+
+            $.validator.unobtrusive.parse(form);
+            if ($(form).valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    dataType: "text",
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        dataTable.ajax.reload();
+                        $.notify("Thanh lý hoàn tất", {
+                            globalPosition: "top center",
+                            className: "success"
+                        })
+
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        $.notify(XMLHttpRequest.responseText, {
+                            globalPosition: "top center",
+                            className: "failed"
+                        })
+                    }
+                });
+            }
+            $("#pre-load").hide();
+
+            return false;
+        }
+
+        $("#else2").click(function (event) {
+            $("#else").prop("disabled", false);
+        });
+        $("#else1").click(function (event) {
+            $("#else").prop("disabled", true);
+        });
+        $("#else").change(function () {
+            $("#else2").val($("#else").val);
+        });
+
+
         function getOne() {
             var id = document.getElementById("tlhdd").value;
             $.ajax({
                 url: "/delete",
-                data: JSON.stringify({ ID: id }),
+                data: JSON.stringify({ ID: id }, { soQD: soQD }),
                 type: "POST",
                 contentType: "application/json;charset=UTF-8",
                 dataType: "json",
@@ -236,100 +272,99 @@
         }
 
         $(document).ready(function () {
-             $("#pre-load").show("slow", function () {
-         });
-        $("#pre-load").css("z-index", "99999");
+            $("#pre-load").show("slow", function () {
+            });
+            $("#pre-load").css("z-index", "99999");
             dataTable = $('#test-table')
                 .on('preXhr.dt', function (e, settings, data) {
-                      ////////////////////////////////////HIỆN LÊN MỖI KHI CHẠY AJAX//////////////////////////////////
-      				  $("#pre-load").show("slow", function () {
-      				   });
-      				  $("#pre-load").css("z-index", "99999");
-			          ////////////////////////////////////////////////////////////////////////
+                    ////////////////////////////////////HIỆN LÊN MỖI KHI CHẠY AJAX//////////////////////////////////
+                    $("#pre-load").show("slow", function () {
+                    });
+                    $("#pre-load").css("z-index", "99999");
+                    ////////////////////////////////////////////////////////////////////////
                 })
                 .DataTable({
-                "ajax": {
-                    "url": "/phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien",
-                    "type": "POST",
-                    "datatype": "json",
-                    "data": {
-                        "MaNV": function () { return $('#searchMaNV').val() },
-                        "TenNV": function () { return $('#searchTenNV').val() },
-                        "Gender": function () { return $('#searchGioiTinh').val() },
-                    }
-                },
-                "columns": [
-                    {
-                        "data": "MaNV", "name": "MaNV", "render": function (data) {
-                            return "<a href='/phong-tcld/quan-ly-nhan-vien/xem-chi-tiet-nhan-vien?id=" + data + "' >" + data + "</a>"
+                    "ajax": {
+                        "url": "/phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien",
+                        "type": "POST",
+                        "datatype": "json",
+                        "data": {
+                            "MaNV": function () { return $('#searchMaNV').val() },
+                            "TenNV": function () { return $('#searchTenNV').val() },
+                            "Gender": function () { return $('#searchGioiTinh').val() },
+                        }
+                    },
+                    "columns": [
+                        {
+                            "data": "MaNV", "name": "MaNV", "render": function (data) {
+                                return "<a href='/phong-tcld/quan-ly-nhan-vien/xem-chi-tiet-nhan-vien?id=" + data + "' >" + data + "</a>"
+                            },
                         },
-                    },
-                    { "data": "Ten", "name": "Ten" },
-                    {
-                        "data": "NgaySinh", "name": "NgaySinh", "render": function (data) {
-                            return dateFormat(data);
-                        }
-                    },
-                    {
-                        "data": "GioiTinh", "name": "GioiTinh", "render": function (data) {
-                            return genderFormat(data);
-                        }
-                    },
-                    { "data": "SoDienThoai", "name": "SoDienThoai" },
-                    { "data": "TenPhanXuong", "name": "TenPhanXuong" },
-                    { "data": "TrangThaiLamViec", "name": "TrangThaiLamViec" },
-                    {
-                        "data": "MaNV", "render": function (data) {
-                            return "<a class='waves-effect waves-light btn blue darken-2 btn-small' href='/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien?id=" + data + "'  data-target='dropdown1'><span class='ti-pencil-alt'>&nbsp;Sửa</span></a>";
+                        { "data": "Ten", "name": "Ten" },
+                        {
+                            "data": "NgaySinh", "name": "NgaySinh", "render": function (data) {
+                                return dateFormat(data);
+                            }
+                        },
+                        {
+                            "data": "GioiTinh", "name": "GioiTinh", "render": function (data) {
+                                return genderFormat(data);
+                            }
+                        },
+                        { "data": "SoDienThoai", "name": "SoDienThoai" },
+                        { "data": "TrangThaiLamViec", "name": "TrangThaiLamViec" },
+                        {
+                            "data": "MaNV", "render": function (data) {
+                                return "<a class='waves-effect waves-light btn blue darken-2 btn-small' href='/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien?id=" + data + "'  data-target='dropdown1'><span class='ti-pencil-alt'>&nbsp;Sửa</span></a>";
 
+                            },
+                            "orderable": false,
+                            "searchable": false,
+                            "width": "150px"
                         },
-                        "orderable": false,
-                        "searchable": false,
-                        "width": "150px"
-                    },
-                    {
-                        "data": "MaNV", "render": function (data) {
-                            return "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' data-target='history'><span class='fas fa-history'>&nbsp;Xem</span></a>";
+                        {
+                            "data": "MaNV", "render": function (data) {
+                                return "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' data-target='history'><span class='fas fa-history'>&nbsp;Xem</span></a>";
+                            },
+                            "orderable": false,
+                            "searchable": false,
+                            "width": "150px"
                         },
-                        "orderable": false,
-                        "searchable": false,
-                        "width": "150px"
-                    },
-                    {
-                        "data": "MaNV", "render": function (data) {
-                            return "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='getTlhd(" + data + ")' data-target='deleteBriefs'><span class='fas fa-times-circle'>&nbsp;TLHĐ</span></a>";
-                        },
-                        "orderable": false,
-                        "searchable": false,
-                        "width": "150px"
-                    }
+                        {
+                            "data": "MaNV", "render": function (data) {
+                                return "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='getTlhd(" + data + ")' data-target='deleteBriefs'><span class='fas fa-times-circle'>&nbsp;TLHĐ</span></a>";
+                            },
+                            "orderable": false,
+                            "searchable": false,
+                            "width": "150px"
+                        }
                     ],
-                "drawCallback": function (settings) {
-                                 ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
-                                  $("#pre-load").hide("slow", function () {
-                       		  });
- 			        ////////////////////////////////////////////////
-                        },
-                "serverSide": "true",
-                "order": [0, "asc"],
-                "bLengthChange": false,
-                "bFilter": false,
-                "bInfo": false,
-                "bAutoWidth": false,
-                "initComplete": function(settings, json) {
- ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
-    		$("#pre-load").hide("slow", function () {
-      		  });
- //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
-  }
+                    "drawCallback": function (settings) {
+                        ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
+                        $("#pre-load").hide("slow", function () {
+                        });
+                        ////////////////////////////////////////////////
+                    },
+                    "serverSide": "true",
+                    "order": [0, "asc"],
+                    "bLengthChange": false,
+                    "bFilter": false,
+                    "bInfo": false,
+                    "bAutoWidth": false,
+                    "initComplete": function (settings, json) {
+                        ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
+                        $("#pre-load").hide("slow", function () {
+                        });
+                        //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
+                    }
 
-            });
+                });
         });
 
         $(document).ready(function () {
             var dataTable = $('#test-table').DataTable();
             $("#searchButton").click(function () {
-               dataTable.ajax.reload(function () {
+                dataTable.ajax.reload(function () {
                     $.notify("Tìm kiếm thành công", {
                         globalPosition: "top center",
                         className: "success"
