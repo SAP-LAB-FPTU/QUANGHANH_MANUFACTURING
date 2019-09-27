@@ -36,10 +36,13 @@
                     </div>
                 </div>
 
-                <div class="left col s6 m4 l6">
+                <div class="left col s12 m6 l6">
                     <div class="row">
-                        <div class="col s2 m2 l2">
-                            <a class="btn btn-small blue darken-2 modal-trigger input-field" href="@Url.Action("them-nhan-vien", "phong-tcld/quan-ly-nhan-vien")">Thêm</a>
+                        <div class="col s12 m3 l3">
+                            <a class="btn btn-small blue darken-2 modal-trigger input-field" data-target="tuyendung">Tuyển Dụng</a>
+                        </div>
+                        <div class="col s2 m3 l3">
+                            <a class="btn btn-small blue darken-2 modal-trigger input-field" href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/them-nhan-vien")">Thêm</a>
                         </div>
                         <div class="col s3 m3 l3">
                             <a class="btn btn-small blue darken-2 input-field" id="danhsachhosonhanvien"><i class="fas fa-file-excel"></i>&nbsp;Excel</a>
@@ -170,6 +173,17 @@
                 <button type="button" class="btn blue darken-2 modal-close">Hủy</button>
             </div>
         }
+    </div>
+</div>
+
+<div id="tuyendung" class="modal">
+    <div class="modal-content">
+        Nhập từ excel
+        <br />
+        Bấm oke sẽ ra màn hình load dữ liệu, từ màn hình đó bấm Xác Nhận thì insert db.
+    </div>
+    <div class="modal-footer">
+        <a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/tuyen-dung-nhan-vien")" class="modal-action modal-close waves-effect waves-green btn-flat">Done</a>
     </div>
 </div>
 
