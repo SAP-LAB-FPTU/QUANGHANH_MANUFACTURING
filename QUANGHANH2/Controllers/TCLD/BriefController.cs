@@ -160,7 +160,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                soDT = nv.SoDienThoai,
                                queQuan = nv.QueQuan,
                                noiOHientai = nv.NoiOHienTai,
-                               trinhDoHocVan = nv.TrinhDoHocVan
+                               //trinhDoHocVan = nv.TrinhDoHocVan
 
                            });
             return Json(new { success = true, data = nhanVien, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);

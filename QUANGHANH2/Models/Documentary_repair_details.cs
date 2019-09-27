@@ -22,7 +22,7 @@ namespace QUANGHANH2.Models
         public string equipmentId { get; set; }
     
         public virtual Documentary Documentary { get; set; }
-        public virtual Status Status { get; set; }
         public virtual Equipment Equipment { get; set; }
+        public virtual Status Status { get; set; }
     }
 }

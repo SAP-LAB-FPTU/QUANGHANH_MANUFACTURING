@@ -12,21 +12,18 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class NhiemVu
+    public partial class TrangThai
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public NhiemVu()
+        public TrangThai()
         {
-            this.ChiTiet_NhiemVu_NhanVien = new HashSet<ChiTiet_NhiemVu_NhanVien>();
+            this.NhanViens = new HashSet<NhanVien>();
         }
     
-        public string Loai { get; set; }
-        public string TenNhiemVu { get; set; }
-        public Nullable<int> MaChungChi { get; set; }
-        public int MaNhiemVu { get; set; }
+        public int MaTrangThai { get; set; }
+        public string TenTrangThai { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChiTiet_NhiemVu_NhanVien> ChiTiet_NhiemVu_NhanVien { get; set; }
-        public virtual ChungChi ChungChi { get; set; }
+        public virtual ICollection<NhanVien> NhanViens { get; set; }
     }
 }
