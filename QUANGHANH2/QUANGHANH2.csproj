@@ -7081,6 +7081,7 @@
     <Content Include="Views\PX\PXDS\View.cshtml" />
     <Content Include="Views\PX\PXDS\Input.cshtml" />
     <Content Include="Views\Brief\EditLichSuBoSung.cshtml" />
+    <Content Include="Views\PX\PXKT\registerEmployee.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,242 @@
+﻿
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/PX/_Layout_PXKT.cshtml";
+}
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+
+<div class="card">
+    <div class="card-content">
+        <form>
+            <div class="row center">
+                <h3>
+                    ĐIỂM DANH CỦA DL3 <a class="dropdown-trigger btn" id="ca" href="#" data-target="dropdown_ca" style="background-color:#273146">CA 1</a> NGÀY <input type="text" id="inputdate" class="datepicker-here center" data-language="vi" value="" />
+                    <a class="btn waves-effect waves-light blue modal-trigger" id="btn-view" href="#" onclick="getcontent();">Xem</a>
+                    <br><br>
+                </h3>
+                <hr>
+            </div>
+            <div class="row center" style="overflow-x:auto!important">
+                < <table id="test-table" class="tcld table-bordered mytablr" style="width:100%; margin-top: 20px; max-height:600px!important">
+                    <thead>
+                        <tr>
+                            <th>
+                                Mã nhân viên
+                            </th>
+                            <th>
+                                Tên nhân viên
+                            </th>
+                            <th>
+                                Ngày sinh
+                            </th>
+                            <th>
+                                Giới tính
+                            </th>
+                            <th>
+                                Số điện thoại
+                            </th>
+                            <th>
+                                Trạng thái làm việc
+                            </th>
+                            <th>
+                            </th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <a class="waves-effect waves-light btn" id="EditSaveBtn" onclick="EditOrUpdate()"><i class="material-icons right">border_color</i>Cập Nhật</a>
+            </div>
+        </form>
+    </div>
+</div>
+<ul id='dropdown_ca' class='dropdown-content'>
+    <li><a class="dropdown-child-ca" href="#" name="ca1">CA 1</a></li>
+    <li><a class="dropdown-child-ca" href="#" name="ca2">CA 2</a></li>
+    <li><a class="dropdown-child-ca" href="#" name="ca3">CA 3</a></li>
+</ul>
+
+
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <h3><b>Bạn có chắc chắn muốn lưu không?</b></h3>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="modal-action modal-close waves-effect waves-green btn blue" id="btn_agrr" onclick="Update();">Lưu</a>
+        <a href="javascript:void(0);" class="modal-action modal-close waves-effect waves-green btn red">Hủy</a>
+    </div>
+</div>
+
+<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+@section scripts{
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+    <script>
+        var mode = 0;
+        $(document).ready(function () {
+            $("#pre-load").show("slow", function () {
+            });
+            $("#pre-load").css("z-index", "99999");
+            dataTable = $('#test-table')
+                .on('preXhr.dt', function (e, settings, data) {
+                    ////////////////////////////////////HIỆN LÊN MỖI KHI CHẠY AJAX//////////////////////////////////
+                    $("#pre-load").show("slow", function () {
+                    });
+                    $("#pre-load").css("z-index", "99999");
+                    ////////////////////////////////////////////////////////////////////////
+                })
+                .DataTable({
+                    "ajax": {
+                        "url": "/phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien",
+                        "type": "POST",
+                        "datatype": "json",
+                        "data": {
+                            "MaNV": function () { return $('#searchMaNV').val() },
+                            "TenNV": function () { return $('#searchTenNV').val() },
+                            "Gender": function () { return $('#searchGioiTinh').val() },
+                        }
+                    },
+                    "columns": [
+                        {
+                            "data": "MaNV", "name": "MaNV", "render": function (data) {
+                                return "<a href='/phong-tcld/quan-ly-nhan-vien/xem-chi-tiet-nhan-vien?id=" + data + "' >" + data + "</a>"
+                            },
+                        },
+                        { "data": "Ten", "name": "Ten" },
+                        {
+                            "data": "NgaySinh", "name": "NgaySinh", "render": function (data) {
+                                return dateFormat(data);
+                            }
+                        },
+                        {
+                            "data": "GioiTinh", "name": "GioiTinh", "render": function (data) {
+                                return genderFormat(data);
+                            }
+                        },
+                        { "data": "SoDienThoai", "name": "SoDienThoai" },
+                        { "data": "TrangThaiLamViec", "name": "TrangThaiLamViec" },
+                        {
+                            "data": "MaNV", "render": function (data) {
+                                return "<a class='waves-effect waves-light btn blue darken-2 btn-small' href='/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien?id=" + data + "'  data-target='dropdown1'><span class='ti-pencil-alt'>&nbsp;Sửa</span></a>";
+
+                            },
+                            "orderable": false,
+                            "searchable": false,
+                            "width": "150px"
+                        },
+                        {
+                            "data": "MaNV", "render": function (data) {
+                                return "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' data-target='history'><span class='fas fa-history'>&nbsp;Xem</span></a>";
+                            },
+                            "orderable": false,
+                            "searchable": false,
+                            "width": "150px"
+                        },
+                        {
+                            "data": "MaNV", "render": function (data) {
+                                return "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='getTlhd(" + data + ")' data-target='deleteBriefs'><span class='fas fa-times-circle'>&nbsp;TLHĐ</span></a>";
+                            },
+                            "orderable": false,
+                            "searchable": false,
+                            "width": "150px"
+                        }
+                    ],
+                    "drawCallback": function (settings) {
+                        ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
+                        $("#pre-load").hide("slow", function () {
+                        });
+                        ////////////////////////////////////////////////
+                    },
+                    "serverSide": "true",
+                    "order": [0, "asc"],
+                    "bLengthChange": false,
+                    "bFilter": false,
+                    "bInfo": false,
+                    "bAutoWidth": false,
+                    "initComplete": function (settings, json) {
+                        ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
+                        $("#pre-load").hide("slow", function () {
+                        });
+                        //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
+                    }
+
+                });
+        });
+
+        function validateInput() {
+
+        }
+
+        function EditOrUpdate() {
+            // mode == 0 => view mode , mode ==1 => edit mode
+            if (mode == 0) {
+                $("#EditSaveBtn").html("<i class=\"material-icons right\">border_color</i>Lưu");
+                $(".inputTest").removeAttr("disabled")
+                $(".inputDescription").removeAttr("disabled")
+                $(".checkBox").removeAttr("disabled")
+                $(".reasonBox").html("<select class=\"browser-default \"> <option value=\"\" disabled selected>Lựa chọn lý do</option> <option value=\"1\">Ốm</option> <option value=\"2\">Vô lý do</option><option value=\"3\">Nghỉ phép</option></option> <option value=\"2\">Vô lý do</option><option value=\"4\">Khác</option></select>");
+                //
+                mode = 1;
+            } else {
+                $("#EditSaveBtn").html("<i class=\"material-icons right\">border_color</i>Cập Nhật");
+                mode = 0;
+                var dataUpdate = updateReason();
+                if (dataUpdate.length > 0) {
+                    $("#attendanceTable").on('preXhr.dt', function (e, settings, data) {
+                        data.sessionId = JSON.stringify(dataUpdate)
+                    })
+                    $("#attendanceTable").DataTable().ajax.url("/phan-xuong-khai-thac/diem-danh/cap-nhat").load();
+                } else {
+                    $.notify("Cập nhật thành công", {
+                        globalPosition: "Không được bỏ trống lý do khác",
+                        className: "fail"
+                    })
+                }
+            }
+        }
+
+        function updateReason() {
+            var heads = ["maDD", "maNV", "maDV", "tenNV", "status", "timeAttendance", "reason", "description"];
+            //
+            var rows = [];
+            count = 0;
+            $("tbody tr").each(function () {
+                cur = {};
+                cur["maDD"] = $("#attendanceTable").DataTable().row(count).data()["maDD"];
+                count++;
+                $(this).find("td").each(function (i, v) {
+                    if (heads[i] != "maDD") {
+                        if (heads[i] != "status" && heads[i] != "reason") {
+                            cur[heads[i]] = $(this).text().trim();
+                        }
+                        if (heads[i] == "status") {
+                            var attr = $(this).children("label").children("input");
+                            cur[heads[i]] = attr.is(":checked");
+                        }
+                        if (heads[i] == "reason") {
+                            cur[heads[i]] = $(this).children("span").find(":selected").text();
+                        }
+                        if (heads[i] == "description") {
+                            cur[heads[i]] = $(this).children("input").val();
+                        }
+                    }
+                });
+                rows.push(cur);
+                cur = {};
+            });
+            return rows;
+        }
+    </script>
+    <script>
+        $(document).ready(() => {
+             var currentTime = new Date();
+            var month = currentTime.getMonth() + 1;
+            var day = currentTime.getDate();
+            var year = currentTime.getFullYear();
+            var date = day + "/" + month + "/" + year;
+            $("#inputdate").attr("value", date);
+        })
+    </script>
+}
