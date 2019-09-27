@@ -32,7 +32,6 @@ namespace QUANGHANH2.Models
             this.Incidents = new HashSet<Incident>();
             this.Maintain_Car = new HashSet<Maintain_Car>();
             this.Supply_Documentary_Equipment = new HashSet<Supply_Documentary_Equipment>();
-            this.SupplyPlans = new HashSet<SupplyPlan>();
         }
     
         public string equipmentId { get; set; }
@@ -86,7 +85,5 @@ namespace QUANGHANH2.Models
         public virtual ICollection<Maintain_Car> Maintain_Car { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Supply_Documentary_Equipment> Supply_Documentary_Equipment { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SupplyPlan> SupplyPlans { get; set; }
     }
 }

@@ -456,6 +456,15 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="supplyType" Type="int" Nullable="false" />
           <Property Name="supplyStatus" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="MealRegistration">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="department_id" Type="nvarchar" MaxLength="150" />
+          <Property Name="date_regs" Type="date" />
+          <Property Name="num_regs" Type="int" />
+        </EntityType>
         <EntityType Name="Module">
           <Key>
             <PropertyRef Name="Module" />
@@ -635,10 +644,9 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
         </EntityType>
         <EntityType Name="SupplyPlan">
           <Key>
-            <PropertyRef Name="supplyid" />
-            <PropertyRef Name="departmentid" />
-            <PropertyRef Name="equipmentid" />
+            <PropertyRef Name="id" />
           </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="supplyid" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="departmentid" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="equipmentid" Type="nvarchar" MaxLength="150" Nullable="false" />
@@ -1437,6 +1445,18 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__MealRegis__depar__0B5CAFEA">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="MealRegistration" Type="Self.MealRegistration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="department_id" />
+            </Principal>
+            <Dependent Role="MealRegistration">
+              <PropertyRef Name="department_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__NhanVien__MaChuy__40058253">
           <End Role="ChuyenNganh" Type="Self.ChuyenNganh" Multiplicity="0..1" />
           <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="*" />
@@ -1579,42 +1599,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
               <PropertyRef Name="supply_id" />
             </Principal>
             <Dependent Role="Supply_tieuhao">
-              <PropertyRef Name="supplyid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__SupplyPla__depar__4D5F7D71">
-          <End Role="Department" Type="Self.Department" Multiplicity="1" />
-          <End Role="SupplyPlan" Type="Self.SupplyPlan" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Department">
-              <PropertyRef Name="department_id" />
-            </Principal>
-            <Dependent Role="SupplyPlan">
-              <PropertyRef Name="departmentid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__SupplyPla__equip__4E53A1AA">
-          <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
-          <End Role="SupplyPlan" Type="Self.SupplyPlan" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Equipment">
-              <PropertyRef Name="equipmentId" />
-            </Principal>
-            <Dependent Role="SupplyPlan">
-              <PropertyRef Name="equipmentid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__SupplyPla__suppl__4F47C5E3">
-          <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
-          <End Role="SupplyPlan" Type="Self.SupplyPlan" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Supply">
-              <PropertyRef Name="supply_id" />
-            </Principal>
-            <Dependent Role="SupplyPlan">
               <PropertyRef Name="supplyid" />
             </Dependent>
           </ReferentialConstraint>
@@ -1850,6 +1834,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <EntitySet Name="LichSuBoSungSYLL" EntityType="Self.LichSuBoSungSYLL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Maintain_Car" EntityType="Self.Maintain_Car" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Maintain_Car_Detail" EntityType="Self.Maintain_Car_Detail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MealRegistration" EntityType="Self.MealRegistration" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Module" EntityType="Self.Module" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Nganh" EntityType="Self.Nganh" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NguoiUyQuyenLayHoSo_BaoHiem" EntityType="Self.NguoiUyQuyenLayHoSo_BaoHiem" Schema="dbo" store:Type="Tables" />
@@ -2111,6 +2096,10 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             <End Role="Supply" EntitySet="Supply" />
             <End Role="Maintain_Car_Detail" EntitySet="Maintain_Car_Detail" />
           </AssociationSet>
+          <AssociationSet Name="FK__MealRegis__depar__0B5CAFEA" Association="Self.FK__MealRegis__depar__0B5CAFEA">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="MealRegistration" EntitySet="MealRegistration" />
+          </AssociationSet>
           <AssociationSet Name="FK__NhanVien__MaChuy__40058253" Association="Self.FK__NhanVien__MaChuy__40058253">
             <End Role="ChuyenNganh" EntitySet="ChuyenNganh" />
             <End Role="NhanVien" EntitySet="NhanVien" />
@@ -2158,18 +2147,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <AssociationSet Name="FK__Supply_ti__suppl__4C6B5938" Association="Self.FK__Supply_ti__suppl__4C6B5938">
             <End Role="Supply" EntitySet="Supply" />
             <End Role="Supply_tieuhao" EntitySet="Supply_tieuhao" />
-          </AssociationSet>
-          <AssociationSet Name="FK__SupplyPla__depar__4D5F7D71" Association="Self.FK__SupplyPla__depar__4D5F7D71">
-            <End Role="Department" EntitySet="Department" />
-            <End Role="SupplyPlan" EntitySet="SupplyPlan" />
-          </AssociationSet>
-          <AssociationSet Name="FK__SupplyPla__equip__4E53A1AA" Association="Self.FK__SupplyPla__equip__4E53A1AA">
-            <End Role="Equipment" EntitySet="Equipment" />
-            <End Role="SupplyPlan" EntitySet="SupplyPlan" />
-          </AssociationSet>
-          <AssociationSet Name="FK__SupplyPla__suppl__4F47C5E3" Association="Self.FK__SupplyPla__suppl__4F47C5E3">
-            <End Role="Supply" EntitySet="Supply" />
-            <End Role="SupplyPlan" EntitySet="SupplyPlan" />
           </AssociationSet>
           <AssociationSet Name="FK__ThucHien___MaPho__503BEA1C" Association="Self.FK__ThucHien___MaPho__503BEA1C">
             <End Role="Department" EntitySet="Department" />
@@ -2417,8 +2394,8 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <NavigationProperty Name="Incidents" Relationship="Self.FK__Incident__depart__3587F3E0" FromRole="Department" ToRole="Incident" />
           <NavigationProperty Name="KeHoach_TieuChi" Relationship="Self.FK__KeHoach_T__MaPho__37703C52" FromRole="Department" ToRole="KeHoach_TieuChi" />
           <NavigationProperty Name="Maintain_Car" Relationship="Self.FK__Maintain___depar__3C34F16F" FromRole="Department" ToRole="Maintain_Car" />
+          <NavigationProperty Name="MealRegistrations" Relationship="Self.FK__MealRegis__depar__0B5CAFEA" FromRole="Department" ToRole="MealRegistration" />
           <NavigationProperty Name="Supply_tieuhao" Relationship="Self.FK__Supply_ti__depar__4B7734FF" FromRole="Department" ToRole="Supply_tieuhao" />
-          <NavigationProperty Name="SupplyPlans" Relationship="Self.FK__SupplyPla__depar__4D5F7D71" FromRole="Department" ToRole="SupplyPlan" />
           <NavigationProperty Name="ThucHien_TieuChi" Relationship="Self.FK__ThucHien___MaPho__503BEA1C" FromRole="Department" ToRole="ThucHien_TieuChi" />
           <NavigationProperty Name="NhanViens" Relationship="Self.FK_NhanVien_Department" FromRole="Department" ToRole="NhanVien" />
         </EntityType>
@@ -2615,7 +2592,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <NavigationProperty Name="Incidents" Relationship="Self.FK__Incident__equipm__367C1819" FromRole="Equipment" ToRole="Incident" />
           <NavigationProperty Name="Maintain_Car" Relationship="Self.FK__Maintain___equip__3D2915A8" FromRole="Equipment" ToRole="Maintain_Car" />
           <NavigationProperty Name="Supply_Documentary_Equipment" Relationship="Self.FK__Supply_Do__equip__498EEC8D" FromRole="Equipment" ToRole="Supply_Documentary_Equipment" />
-          <NavigationProperty Name="SupplyPlans" Relationship="Self.FK__SupplyPla__equip__4E53A1AA" FromRole="Equipment" ToRole="SupplyPlan" />
         </EntityType>
         <EntityType Name="Equipment_attribute">
           <Key>
@@ -2790,6 +2766,16 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="supplyStatus" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Maintain_Car" Relationship="Self.FK__Maintain___maint__3E1D39E1" FromRole="Maintain_Car_Detail" ToRole="Maintain_Car" />
           <NavigationProperty Name="Supply" Relationship="Self.FK__Maintain___suppl__3F115E1A" FromRole="Maintain_Car_Detail" ToRole="Supply" />
+        </EntityType>
+        <EntityType Name="MealRegistration">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="department_id" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="date_regs" Type="DateTime" Precision="0" />
+          <Property Name="num_regs" Type="Int32" />
+          <NavigationProperty Name="Department" Relationship="Self.FK__MealRegis__depar__0B5CAFEA" FromRole="MealRegistration" ToRole="Department" />
         </EntityType>
         <EntityType Name="Module">
           <Key>
@@ -2977,7 +2963,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <NavigationProperty Name="Maintain_Car_Detail" Relationship="Self.FK__Maintain___suppl__3F115E1A" FromRole="Supply" ToRole="Maintain_Car_Detail" />
           <NavigationProperty Name="Supply_Documentary_Equipment" Relationship="Self.FK__Supply_Do__suppl__4A8310C6" FromRole="Supply" ToRole="Supply_Documentary_Equipment" />
           <NavigationProperty Name="Supply_tieuhao" Relationship="Self.FK__Supply_ti__suppl__4C6B5938" FromRole="Supply" ToRole="Supply_tieuhao" />
-          <NavigationProperty Name="SupplyPlans" Relationship="Self.FK__SupplyPla__suppl__4F47C5E3" FromRole="Supply" ToRole="SupplyPlan" />
         </EntityType>
         <EntityType Name="Supply_Documentary_Equipment">
           <Key>
@@ -3012,10 +2997,9 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
         </EntityType>
         <EntityType Name="SupplyPlan">
           <Key>
-            <PropertyRef Name="supplyid" />
-            <PropertyRef Name="departmentid" />
-            <PropertyRef Name="equipmentid" />
+            <PropertyRef Name="id" />
           </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="supplyid" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="departmentid" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="equipmentid" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
@@ -3023,9 +3007,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <Property Name="dinh_muc" Type="Double" Nullable="false" />
           <Property Name="quantity_plan" Type="Int32" Nullable="false" />
           <Property Name="quantity" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Department" Relationship="Self.FK__SupplyPla__depar__4D5F7D71" FromRole="SupplyPlan" ToRole="Department" />
-          <NavigationProperty Name="Equipment" Relationship="Self.FK__SupplyPla__equip__4E53A1AA" FromRole="SupplyPlan" ToRole="Equipment" />
-          <NavigationProperty Name="Supply" Relationship="Self.FK__SupplyPla__suppl__4F47C5E3" FromRole="SupplyPlan" ToRole="Supply" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -3429,6 +3410,18 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__MealRegis__depar__0B5CAFEA">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="MealRegistration" Type="Self.MealRegistration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="department_id" />
+            </Principal>
+            <Dependent Role="MealRegistration">
+              <PropertyRef Name="department_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Supply_ti__depar__4B7734FF">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
           <End Role="Supply_tieuhao" Type="Self.Supply_tieuhao" Multiplicity="*" />
@@ -3437,18 +3430,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
               <PropertyRef Name="department_id" />
             </Principal>
             <Dependent Role="Supply_tieuhao">
-              <PropertyRef Name="departmentid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__SupplyPla__depar__4D5F7D71">
-          <End Role="Department" Type="Self.Department" Multiplicity="1" />
-          <End Role="SupplyPlan" Type="Self.SupplyPlan" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Department">
-              <PropertyRef Name="department_id" />
-            </Principal>
-            <Dependent Role="SupplyPlan">
               <PropertyRef Name="departmentid" />
             </Dependent>
           </ReferentialConstraint>
@@ -3853,18 +3834,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SupplyPla__equip__4E53A1AA">
-          <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
-          <End Role="SupplyPlan" Type="Self.SupplyPlan" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Equipment">
-              <PropertyRef Name="equipmentId" />
-            </Principal>
-            <Dependent Role="SupplyPlan">
-              <PropertyRef Name="equipmentid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Equipment__Equip__2CF2ADDF">
           <End Role="Equipment_category" Type="Self.Equipment_category" Multiplicity="1" />
           <End Role="Equipment_category_attribute" Type="Self.Equipment_category_attribute" Multiplicity="*" />
@@ -4141,18 +4110,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SupplyPla__suppl__4F47C5E3">
-          <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
-          <End Role="SupplyPlan" Type="Self.SupplyPlan" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Supply">
-              <PropertyRef Name="supply_id" />
-            </Principal>
-            <Dependent Role="SupplyPlan">
-              <PropertyRef Name="supplyid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__ThucHien___MaTie__51300E55">
           <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="1" />
           <End Role="ThucHien_TieuChi" Type="Self.ThucHien_TieuChi" Multiplicity="*" />
@@ -4232,6 +4189,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <EntitySet Name="LichSuBoSungSYLLs" EntityType="Self.LichSuBoSungSYLL" />
           <EntitySet Name="Maintain_Car" EntityType="Self.Maintain_Car" />
           <EntitySet Name="Maintain_Car_Detail" EntityType="Self.Maintain_Car_Detail" />
+          <EntitySet Name="MealRegistrations" EntityType="Self.MealRegistration" />
           <EntitySet Name="Modules" EntityType="Self.Module" />
           <EntitySet Name="Nganhs" EntityType="Self.Nganh" />
           <EntitySet Name="NguoiUyQuyenLayHoSo_BaoHiem" EntityType="Self.NguoiUyQuyenLayHoSo_BaoHiem" />
@@ -4354,13 +4312,13 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             <End Role="Department" EntitySet="Departments" />
             <End Role="Maintain_Car" EntitySet="Maintain_Car" />
           </AssociationSet>
+          <AssociationSet Name="FK__MealRegis__depar__0B5CAFEA" Association="Self.FK__MealRegis__depar__0B5CAFEA">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="MealRegistration" EntitySet="MealRegistrations" />
+          </AssociationSet>
           <AssociationSet Name="FK__Supply_ti__depar__4B7734FF" Association="Self.FK__Supply_ti__depar__4B7734FF">
             <End Role="Department" EntitySet="Departments" />
             <End Role="Supply_tieuhao" EntitySet="Supply_tieuhao" />
-          </AssociationSet>
-          <AssociationSet Name="FK__SupplyPla__depar__4D5F7D71" Association="Self.FK__SupplyPla__depar__4D5F7D71">
-            <End Role="Department" EntitySet="Departments" />
-            <End Role="SupplyPlan" EntitySet="SupplyPlans" />
           </AssociationSet>
           <AssociationSet Name="FK__ThucHien___MaPho__503BEA1C" Association="Self.FK__ThucHien___MaPho__503BEA1C">
             <End Role="Department" EntitySet="Departments" />
@@ -4490,10 +4448,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
             <End Role="Equipment" EntitySet="Equipments" />
             <End Role="Supply_Documentary_Equipment" EntitySet="Supply_Documentary_Equipment" />
           </AssociationSet>
-          <AssociationSet Name="FK__SupplyPla__equip__4E53A1AA" Association="Self.FK__SupplyPla__equip__4E53A1AA">
-            <End Role="Equipment" EntitySet="Equipments" />
-            <End Role="SupplyPlan" EntitySet="SupplyPlans" />
-          </AssociationSet>
           <AssociationSet Name="FK__Equipment__Equip__2CF2ADDF" Association="Self.FK__Equipment__Equip__2CF2ADDF">
             <End Role="Equipment_category" EntitySet="Equipment_category" />
             <End Role="Equipment_category_attribute" EntitySet="Equipment_category_attribute" />
@@ -4585,10 +4539,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <AssociationSet Name="FK__Supply_ti__suppl__4C6B5938" Association="Self.FK__Supply_ti__suppl__4C6B5938">
             <End Role="Supply" EntitySet="Supplies" />
             <End Role="Supply_tieuhao" EntitySet="Supply_tieuhao" />
-          </AssociationSet>
-          <AssociationSet Name="FK__SupplyPla__suppl__4F47C5E3" Association="Self.FK__SupplyPla__suppl__4F47C5E3">
-            <End Role="Supply" EntitySet="Supplies" />
-            <End Role="SupplyPlan" EntitySet="SupplyPlans" />
           </AssociationSet>
           <AssociationSet Name="FK__ThucHien___MaTie__51300E55" Association="Self.FK__ThucHien___MaTie__51300E55">
             <End Role="TieuChi" EntitySet="TieuChis" />
@@ -5074,6 +5024,16 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="MealRegistrations">
+            <EntityTypeMapping TypeName="QUANGHANHABCModel.MealRegistration">
+              <MappingFragment StoreEntitySet="MealRegistration">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="department_id" ColumnName="department_id" />
+                <ScalarProperty Name="date_regs" ColumnName="date_regs" />
+                <ScalarProperty Name="num_regs" ColumnName="num_regs" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Modules">
             <EntityTypeMapping TypeName="QUANGHANHABCModel.Module">
               <MappingFragment StoreEntitySet="Module">
@@ -5260,6 +5220,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_NhiemVu_NhanVien' does no
           <EntitySetMapping Name="SupplyPlans">
             <EntityTypeMapping TypeName="QUANGHANHABCModel.SupplyPlan">
               <MappingFragment StoreEntitySet="SupplyPlan">
+                <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="supplyid" ColumnName="supplyid" />
                 <ScalarProperty Name="departmentid" ColumnName="departmentid" />
                 <ScalarProperty Name="equipmentid" ColumnName="equipmentid" />

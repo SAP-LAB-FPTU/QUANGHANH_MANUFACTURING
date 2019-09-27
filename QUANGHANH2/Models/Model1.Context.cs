@@ -63,6 +63,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<LichSuBoSungSYLL> LichSuBoSungSYLLs { get; set; }
         public virtual DbSet<Maintain_Car> Maintain_Car { get; set; }
         public virtual DbSet<Maintain_Car_Detail> Maintain_Car_Detail { get; set; }
+        public virtual DbSet<MealRegistration> MealRegistrations { get; set; }
         public virtual DbSet<Module> Modules { get; set; }
         public virtual DbSet<Nganh> Nganhs { get; set; }
         public virtual DbSet<NguoiUyQuyenLayHoSo_BaoHiem> NguoiUyQuyenLayHoSo_BaoHiem { get; set; }
