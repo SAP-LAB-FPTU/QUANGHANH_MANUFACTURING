@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Transactions;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Script.Serialization;
@@ -56,8 +57,8 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                     {
                         ID = i.MaDiemDanh,
                         Name = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().Ten,
-                        BacTho = "6/6",
-                        ChucDanh = "MT",
+                        BacTho = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().BacLuong,
+                        ChucDanh = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec == null ? "" : db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec.TenCongViec,
                         DuBaoNguyCo = i.DuBaoNguyCo,
                         HeSoChiaLuong = i.HeSoChiaLuong.ToString(),
                         LuongSauDuyet = i.Luong.ToString(),
@@ -108,7 +109,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
 
                         transaction.Commit();
                     }
-                    catch (Exception ex)
+                    catch (Exception )
                     {
                         transaction.Rollback();
                     }
@@ -144,6 +145,8 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                                       select new
                                       {
                                           maNV = emp.MaNV,
+                                          maDD =(int?) att.MaDiemDanh,
+                                          maDV = att.MaDonVi,
                                           tenNV = emp.Ten,
                                           status = att.DiLam,
                                           timeAttendance = att.ThoiGianThucTeDiemDanh,
@@ -161,12 +164,51 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
         [Route("phan-xuong-khai-thac/diem-danh/cap-nhat")]
         public ActionResult updateAttendance()
         {
-            var listUpdate = Request["sessionId "];
-            return View();
+            var listUpdateJSON = Request["sessionId"];
+            var listUpdate = JsonConvert.DeserializeObject<List<updateStatus>>(listUpdateJSON);
+            using (var transaction = new TransactionScope())
+            {
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    foreach (var item in listUpdate)
+                    {
+                        DiemDanh_NangSuatLaoDong dn = new DiemDanh_NangSuatLaoDong();
+                        dn.MaDiemDanh = Int32.Parse(item.maDD);
+                        dn.MaNV = item.maNV;
+                        dn.DiLam = item.status;
+                        //if (item.timeAttendance != "")
+                        //{
+                        //    dn.ThoiGianThucTeDiemDanh = DateTime.ParseExact(item.timeAttendance, "M/d/yyyy hh:mm:ss", null);
+                        //}
+                        dn.MaDonVi = item.maDV;
+                        dn.LyDoVangMat = item.reason;
+                        dn.GhiChu = item.description;
+                        dn.CaDiemDanh = 1;
+                        dn.NgayDiemDanh = Convert.ToDateTime("2019-09-10");
+                        db.Entry(dn).State = EntityState.Modified;
+                    }
+                    db.SaveChanges();
+                    transaction.Complete();
+                }
+            }
+            return Json(new {success = true ,data = listUpdateJSON }, JsonRequestBehavior.AllowGet);
         }
 
 
     }
+
+    public class updateStatus
+    {
+        public string maDD { get; set; }
+        public string maDV { get; set; }
+        public string maNV { get; set; }
+        public string tenNV { get; set; }
+        public bool status { get; set; }
+        public string timeAttendance { get; set; }
+        public string reason { get; set; }
+        public string description { get; set; }
+    }
+
     public class BaoCaoTheoCa
     {
         public int ID { get; set; }

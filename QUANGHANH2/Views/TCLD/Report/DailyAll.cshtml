@@ -21,19 +21,9 @@
                        data-language='vi'
                        data-min-view="days"
                        data-view="days"
-                       data-date-format="dd/mm/yyyy" value="19/08/2019" />
+                       data-date-format="dd/mm/yyyy" value="@string.Format("{0:dd/MM/yyyy}", System.DateTime.Now)" />
                 <br /><br />
-                <a class='dropdown-trigger btn' id="px" href='#' data-target='dropdown_px'
-                   style="width:250px;background-color:#273146" name="All">
-                    Tất cả đơn vị
-                </a>
-                @*<a class='dropdown-trigger btn' id="thoigian" href='#' data-target='dropdown_time'
-                   style="width:250px;background-color:#273146" name="day">
-                    Xem theo ngày*@
-                @*</a>
-                <a class='btn blue darken-2' id="xacnhan" href='javascript:void(0);' style="width:250px;background-color:#273146">
-                    Xác nhận
-                </a>*@
+               
             </h3>
             <hr />
         </div>
@@ -157,39 +147,6 @@
 
                             </div>
                         </div>*@
-                    <div class="col l2 s12">
-                        <div class="sap_xep">
-                            <div>
-                                <!-- Dropdown Trigger -->
-                                <div class="filter_label">Sắp xếp theo: </div>
-                                <a class='dropdown-trigger btn' href='#' data-target='dropdown3'>
-                                    Chọn tiêu
-                                    chí
-                                </a>
-                                <!-- Dropdown Structure -->
-                                <ul id='dropdown_px' class='dropdown-content'>
-                                    <li><a class="dropdown-child-px" href="#!" name="All">Tất cả</a></li>
-                                    <li><a class="dropdown-child-px" href="#!" name="DL3">Đào lò 3</a></li>
-                                    <li><a class="dropdown-child-px" href="#!" name="DL5">Đào lò 5</a></li>
-                                    <li><a class="dropdown-child-px" href="#!" name="DL7">Đào lò 7</a></li>
-                                    <li><a class="dropdown-child-px" href="#!" name="DL8">Đào lò 8</a></li>
-                                    <li><a class="dropdown-child-px" href="#!" name="KT1">Khai Thác 1</a></li>
-                                    <li><a class="dropdown-child-px" href="#!" name="KT2">Khai Thác 2</a></li>
-                                    <li><a class="dropdown-child-px" href="#!" name="KT3">Khai Thác 3</a></li>
-                                    <li><a class="dropdown-child-px" href="#!" name="KT4">Khai Thác 4</a></li>
-                                    <li><a class="dropdown-child-px" href="#!" name="KT5">Khai Thác 5</a></li>
-                                    <li><a class="dropdown-child-px" href="#!" name="KT6">Khai Thác 6</a></li>
-                                    <li><a class="dropdown-child-px" href="#!" name="KT7">Khai Thác 7</a></li>
-                                    <li><a class="dropdown-child-px" href="#!" name="KT8">Khai Thác 8</a></li>
-                                    <li><a class="dropdown-child-px" href="#!" name="KT9">Khai Thác 9</a></li>
-                                    <li><a class="dropdown-child-px" href="#!" name="KT10">Khai Thác 10</a></li>
-                                    <li><a class="dropdown-child-px" href="#!" name="KT11">Khai Thác 11</a></li>
-                                    <li><a class="dropdown-child-px" href="@Url.Content("/phong-tcld/nang-suat-lao-dong-va-tien-luong/nang-suat-lao-dong-va-tien-luong-theo-ngay")" name="VTL1">Vận tải 1</a></li>
-                                    <li><a class="dropdown-child-px" href="#!" name="VTL2">Vận tải 2</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <div class="row table_container">
                     <div class="col l12">
