@@ -54,7 +54,7 @@
         </div>
 
         <br />
-
+        <hr />
         <div class="row">
             <h3 class="center black-text">Chi tiết hồ sơ</h3>
             <div id="hosotrongcty">
@@ -65,13 +65,26 @@
                             <table id="hoso_detail" class="table table-bordered table-responsive centered highlight">
                                 <thead>
                                     <tr>
-                                        <th>Người giữ hồ sơ</th>
-                                        <th>Ngày nhận hồ sơ</th>
-                                        <th>Nggười giao hồ sơ</th>
-                                        <th>Cam kết tuyển dụng</th>
-                                        <th>Quyết định tiếp nhận</th>
-                                        <th>Người bàn giao bằng nhập kho</th>
-                                        <th>Sửa</th>
+                                        <th rowspan="2">Người giữ hồ sơ</th>
+                                        <th rowspan="2">Ngày nhận hồ sơ</th>
+                                        <th rowspan="2">Người giao hồ sơ</th>
+                                        <th rowspan="2">Cam kết tuyển dụng</th>
+                                        <th rowspan="2">Người bàn giao bằng nhập kho</th>
+                                        <th colspan="4">Quyết định tiếp nhận đơn vị cũ</th>
+                                        <th colspan="4">Quyết định chấm dứt đơn vị cũ</th>
+                                        <th rowspan="2">Sửa</th>
+                                    </tr>
+                                    <tr>
+
+                                        <th>Quyết định tiếp nhận DVC</th>
+                                        <th>Ngày QD</th>
+                                        <th>Ngày đi làm</th>
+                                        <th>Đơn vị ký quyết định tiếp nhận</th>
+                                        <th>Quyết định chấm dứ</th>
+                                        <th>Ngày quyết định chấm dứt</th>
+                                        <th>Ngày chấm dứt</th>
+                                        <th>Đơn vị ký chấm dứt</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -171,6 +184,7 @@
                             <table id="quanhe_detail" class="table table-bordered table-responsive centered highlight">
                                 <thead>
                                     <tr>
+                                        <th>Tên</th>
                                         <th>Mối quan hệ</th>
                                         <th>Ngày sinh</th>
                                         <th>Lý lịch</th>
@@ -289,8 +303,21 @@
                     { "data": "ngayNhanHoSo", "name": "ngayNhanHoSo" },
                     { "data": "nguoiGiaoHoSo", "name": "nguoiGiaoHoSo" },
                     { "data": "camKetTuyenDung", "name": "camKetTuyenDung" },
-                    { "data": "quyetDinhTiepNhan", "name": "quyetDinhTiepNhan" },
+  
                     { "data": "nguoiBanGiaoBangNhapKho", "name": "nguoiBanGiaoBangNhapKho" },
+                   
+                    { "data": "quyetDinhTiepNhanDVC", "name": "quyetDinhTiepNhanDVC" },
+                    { "data": "ngayQDTiepNhan", "name": "ngayQDTiepNhan" },
+                    {
+                        "data": "ngayDiLam", "name": "ngayDiLam", "render": function (data) {
+                            return dateFormat(data);
+                        },
+                    },
+                    { "data": "donViKyQuyetDinhTiepNhan", "name": "donViKyQuyetDinhTiepNhan" },
+                    { "data": "quyetDinhChamDut", "name": "quyetDinhChamDut" },
+                    { "data": "ngayQDChamDut", "name": "ngayQDChamDut" },
+                    { "data": "ngayChamDut", "name": "ngayChamDut" },
+                    { "data": "donViKyChamDut", "name": "donViKyChamDut" },
                                     {
                     "data": "MaNV", "render": function (data) {
                         return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='myedit_suahoso' style='margin-left:5px' onclick=getEditHs('"+data+"') ><i class=''></i> Sửa</a>";
@@ -483,6 +510,8 @@
                 "datatype": "json"
             },
             "columns": [
+                { "data": "tenQH", "name": "tenQH" },
+                
                 { "data": "moiQuanhe", "name": "moiQuanhe" },
                 {
                     "data": "ngaySinh", "name": "ngaySinh", "render": function (data) {

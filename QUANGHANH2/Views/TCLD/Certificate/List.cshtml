@@ -55,7 +55,8 @@
                     <div class="card-content">
                         <div class="row">
                             <a class="btn btn-small blue darken-2 modal-trigger btn-mg input-field" data-target="myadd">Thêm chứng chỉ</a>
-                            <a class="btn btn-small blue darken-2 btn-mg input-field" href="~/excel/TCLD/Certificate/Chứng chỉ của cả công ty.xlsx">Xuất ra file excel</a>
+
+                            <a class="btn btn-small blue darken-2 btn-mg input-field" id="export-excel">Xuất ra file excel</a>
                         </div>
                         <div class="table-responsive">
                             <table id="table_chungchi" class="table table-bordered  centered highlight">
@@ -142,7 +143,7 @@
             <h3 class="modal-title">Sửa Chứng Chỉ</h3>
         </div>
         <div class="modal-body">
-            @Html.Action("EditCertificateEmp", "Certificate")
+            @*@Html.Action("EditCertificateEmp", "Certificate")*@
         </div>
     </div>
 </div>
@@ -484,6 +485,29 @@
             //alert(stringArray[0]);
             dataCertificateEmp.ajax.url('@Url.Action("SearchCertificateByNV", "Certificate")?ListSearch=' + stringArray).load(() => { $("#pre-load").hide("slow", function () { }) }, true)
         });
+
+        $('#export-excel').click(function () {
+            alert("xuất");
+            $('pre-load').show();
+            $.ajax({
+                type: 'POST',
+                url: '/phong-tcld/chung-chi/danh-sach-chung-chi/xuat-file-excel',
+                dataType: 'json',
+                success: function (response) {
+                    if (response.success) {
+
+                        //
+                        window.location.href = response.location;
+                        $("#pre-load").hide("slow", function () { });
+
+                    } else {
+                        alert("Lỗi khi tải file");
+                    }
+                }
+            });
+            $('pre-load').hide();
+        });
+
     </script>
 }
 

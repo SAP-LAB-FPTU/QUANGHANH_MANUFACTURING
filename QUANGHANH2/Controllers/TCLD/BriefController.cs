@@ -1,12 +1,15 @@
 ﻿
+using OfficeOpenXml;
 using QUANGHANH2.Models;
 using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Threading.Tasks;
+using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Script.Serialization;
@@ -35,12 +38,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
             ViewBag.nameDepartment = "quanlyhoso";
             return View("/Views/TCLD/Brief/ManageBrief/Inside.cshtml");
         }
-
-
-
-
-
-
 
 
         [Route("phong-tcld/quan-ly-ho-so/chuan-hoa-ten")]
@@ -133,7 +130,18 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                  nguoiGiaoHoSo = hs.NguoiGiaoHoSo,
                                  camKetTuyenDung = hs.CamKetTuyenDung,
                                  quyetDinhTiepNhan = hs.QuyetDinhTiepNhanDVC,
-                                 nguoiBanGiaoBangNhapKho = hs.NguoiBanGiaoBangNhapKho
+                                 nguoiBanGiaoBangNhapKho = hs.NguoiBanGiaoBangNhapKho,
+
+
+                                 quyetDinhTiepNhanDVC = hs.QuyetDinhTiepNhanDVC,
+                                 ngayQDTiepNhan = hs.NgayQuyetDinhTuyenDung,
+                                 ngayDiLam = nv.NgayDiLam,
+                                 donViKyQuyetDinhTiepNhan = hs.DonViKyQuyetDinhTiepNhan,
+                                 quyetDinhChamDut = hs.QDChamDutHopDongDVC,
+                                 ngayQDChamDut = hs.NgayQuyetDinhChamDut,
+                                 ngayChamDut = hs.NgayChamDut,
+                                 donViKyChamDut = hs.DonViKyQuyetDinhChamDut
+
 
 
                              };
@@ -152,7 +160,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
 
             var nhanVien = (from nv in db.NhanViens
-                           where nv.MaNV == id_
+                            join td in db.TrinhDoes on nv.MaTrinhDo equals td.MaTrinhDo
+                            where nv.MaNV == id_
+
                            select new
                            {
                                maNV = nv.MaNV,
@@ -163,7 +173,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                soDT = nv.SoDienThoai,
                                queQuan = nv.QueQuan,
                                noiOHientai = nv.NoiOHienTai,
-                               trinhDoHocVan = nv.TrinhDoHocVan
+                               trinhDoHocVan = td.TenTrinhDo
 
                            });
             return Json(new { success = true, data = nhanVien, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
@@ -275,7 +285,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                           moiQuanhe = qhgd.MoiQuanHe,
                                           ngaySinh = qhgd.NgaySinh,
                                           lyLich = qhgd.LyLich,
-                                          loaiGiaDinh = qhgd.LoaiGiaDinh
+                                          loaiGiaDinh = qhgd.LoaiGiaDinh,
+                                          tenQH = qhgd.HoTen
 
 
                                       };
@@ -431,7 +442,18 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                  ngaysinh = nv.NgaySinh,
                                  nguoiGiaoHoSo = hs.NguoiGiaoHoSo,
                                  ngayNhanHoSo = hs.NgayNhanHoSo,
-                                 nguoiGiuHoSo = hs.NguoiGiuHoSo
+                                 nguoiGiuHoSo = hs.NguoiGiuHoSo,
+                                 camKetTuyenDung = hs.CamKetTuyenDung,
+
+                                 quyetDinhTiepNhanDVC = hs.QuyetDinhTiepNhanDVC,
+                                 ngayQDTiepNhan = hs.NgayQuyetDinhTuyenDung,
+                                 ngayDiLam = nv.NgayDiLam,
+                                 donViKyQuyetDinhTiepNhan = hs.DonViKyQuyetDinhTiepNhan,
+
+                                 quyetDinhChamDut = hs.QDChamDutHopDongDVC,
+                                 ngayQDChamDut = hs.NgayQuyetDinhChamDut,
+                                 ngayChamDut = hs.NgayChamDut,
+                                 donViKyChamDut = hs.DonViKyQuyetDinhChamDut
                              }).ToList().Select(p => new HoSoNhanVien
                              {
                                  MaNV = p.maNV,
@@ -439,7 +461,18 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                  NgaySinh = p.ngaysinh.ToString(),
                                  NguoiGiaoHoSo = p.nguoiGiaoHoSo,
                                  NgayNhanHoSo = p.ngayNhanHoSo.ToString(),
-                                 NguoiGiuHoSo = p.nguoiGiuHoSo
+                                 NguoiGiuHoSo = p.nguoiGiuHoSo,
+
+                                 CamKetTuyenDung = p.camKetTuyenDung,
+                                 QuyetDinhTiepNhanDVC = p.quyetDinhTiepNhanDVC,
+                                 NgayQDTiepNhan = p.ngayQDTiepNhan.ToString(),
+                                 NgayDiLam = p.ngayDiLam.ToString(),
+                                 DonViKyQuyetDinhTiepNhan = p.donViKyQuyetDinhTiepNhan,
+                                 QuyetDinhChamDut = p.quyetDinhChamDut,
+                                 NgayQDChamDut = p.ngayQDChamDut.ToString(),
+                                 NgayChamDut = p.ngayChamDut.ToString(),
+                                 DonViKyChamDut = p.donViKyChamDut
+
 
                              }).ToList();
 
@@ -488,6 +521,52 @@ namespace QUANGHANHCORE.Controllers.TCLD
             return dataJson;
 
         }
+
+        [Route("phong-tcld/chung-chi/ho-so-trong-cong-ty/xuat-file-excel")]
+        [HttpPost]
+        public ActionResult ExporTotExcel()
+        {
+            string path = HostingEnvironment.MapPath("/excel/TCLD/Certificate/Danh-sách-nhân-viên-hồ-sơ-trong.xlsx");
+            string saveAsPath = ("/excel/TCLD/Certificate/List/download/ListCertificate.xlsx");
+            FileInfo file = new FileInfo(path);
+            using (ExcelPackage excelPackage = new ExcelPackage(file))
+            {
+                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
+                ExcelWorksheet ws = excelWorkbook.Worksheets.First();
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    
+                    var nhanVien = (from nv in db.NhanViens
+                                    select new
+                                    {
+                                        maNV = nv.MaNV,
+                                        ten = nv.Ten,
+                                        ngaySinh = nv.NgaySinh.ToString(),
+                                        soCMND = nv.SoCMND,
+                                        soBHXH = nv.SoBHXH,
+                                        soDT = nv.SoDienThoai,
+                                        queQuan = nv.QueQuan,
+                                        noiOHientai = nv.NoiOHienTai,
+                                        trinhDoHocVan = nv.TrinhDo
+
+                                    });
+
+                    int rowStart = 6;
+                    foreach (var list in nhanVien)
+                    {
+                        ws.Cells[string.Format("B{0}", rowStart)].Value = list.ten;
+                        ws.Cells[string.Format("C{0}", rowStart)].Value = list.maNV;
+                        //ws.Cells[string.Format("D{0}", rowStart)].Value = i.KieuChungChi;
+                        rowStart++;
+
+                    }
+                }
+                excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath(saveAsPath)));
+            }
+            return Json(new { success = true, location = saveAsPath }, JsonRequestBehavior.AllowGet);
+        }
+
+
 
     }
 
