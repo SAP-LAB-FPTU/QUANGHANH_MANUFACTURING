@@ -276,10 +276,10 @@
                                 </div>
                                 <div class="input-field col m12">
                                     <div class="col m6">
-                                        @Html.LabelFor(model => model.TrinhDoHocVan, "Trình độ học vấn", htmlAttributes: new { @class = "custom-label" })
+                                        @Html.LabelFor(model => model.MaTrinhDo, "Trình độ học vấn", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            @Html.DropDownListFor(model => model.TrinhDoHocVan, new SelectList(ViewBag.level, "Value", "Text"), htmlAttributes: new { @class = "sl-edit form-control" })
-                                            @Html.ValidationMessageFor(model => model.TrinhDoHocVan, "", new { @class = "text-danger" })
+                                            @Html.DropDownListFor(model => model.MaTrinhDo, new SelectList(ViewBag.level, "Value", "Text"), htmlAttributes: new { @class = "sl-edit form-control" })
+                                            @Html.ValidationMessageFor(model => model.MaTrinhDo, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col m6">
