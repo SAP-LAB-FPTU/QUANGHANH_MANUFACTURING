@@ -158,7 +158,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
 
 
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            if (String.IsNullOrEmpty(documentary_code) || String.IsNullOrEmpty(person_created))
+            if (String.IsNullOrEmpty(documentary_code) && String.IsNullOrEmpty(person_created))
             {
                 incidents = (from document in db.Documentaries
                              where (document.reason.Equals("Thanh lý thiết bị"))

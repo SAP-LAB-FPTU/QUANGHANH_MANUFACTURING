@@ -158,7 +158,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
             if (dateEnd == "") dtEnd = DateTime.Now;
             else dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            if (String.IsNullOrEmpty(documentary_code) || String.IsNullOrEmpty(person_created))
+            if (String.IsNullOrEmpty(documentary_code) && String.IsNullOrEmpty(person_created))
             {
 
 
