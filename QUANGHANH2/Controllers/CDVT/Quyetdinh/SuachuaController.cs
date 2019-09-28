@@ -98,45 +98,45 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
                     return new HttpStatusCodeResult(201);
                 }
             }
-        
-    }
 
-
-
-    [HttpPost]
-    public ActionResult GetById(List<String> docID)
-    {
-        string id = docID[0];
-
-        try
-        {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            Documentary_Extend incidents = DBContext.Database.SqlQuery<Documentary_Extend>("Select documentary_id,documentary_code,department_id,person_created,date_created,reason, [out/in_come] as out_in_come from Documentary where documentary_id = @documentary_id", new SqlParameter("documentary_id", id)).First();
-            incidents.tempId = id;
-            ViewBag.ID = id;
-            return Json(incidents);
         }
-        catch (Exception)
+
+
+
+        [HttpPost]
+        public ActionResult GetById(List<String> docID)
         {
-            Response.Write("Có lỗi xảy ra, xin vui lòng nhập lại");
-            return new HttpStatusCodeResult(400);
+            string id = docID[0];
+
+            try
+            {
+                QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+                Documentary_Extend incidents = DBContext.Database.SqlQuery<Documentary_Extend>("Select documentary_id,documentary_code,department_id,person_created,date_created,reason, [out/in_come] as out_in_come from Documentary where documentary_id = @documentary_id", new SqlParameter("documentary_id", id)).First();
+                incidents.tempId = id;
+                ViewBag.ID = id;
+                return Json(incidents);
+            }
+            catch (Exception)
+            {
+                Response.Write("Có lỗi xảy ra, xin vui lòng nhập lại");
+                return new HttpStatusCodeResult(400);
+            }
         }
-    }
 
         [HttpPost]
         public ActionResult DeleteDoc(int docID)
         {
-          
-           
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-                {
-                    Documentary doc = db.Documentaries.Where(x => x.documentary_id == docID).FirstOrDefault<Documentary>();
-                    db.Documentaries.Remove(doc);
-                    db.SaveChanges();
-                    Response.Write("Xóa thành công!");
-                    return new HttpStatusCodeResult(201);
-            }        
-           
+
+
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                Documentary doc = db.Documentaries.Where(x => x.documentary_id == docID).FirstOrDefault<Documentary>();
+                db.Documentaries.Remove(doc);
+                db.SaveChanges();
+                Response.Write("Xóa thành công!");
+                return new HttpStatusCodeResult(201);
+            }
+
 
         }
 
@@ -154,7 +154,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
             List<Documentary_Extend> incidents = new List<Documentary_Extend>();
             DateTime dtStart;
             if (dateStart == "") dateStart = "01/01/1900";
-            
+
             dtStart = DateTime.ParseExact(dateStart, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             DateTime dtEnd;
             if (dateEnd == "") dtEnd = DateTime.Now;
@@ -162,64 +162,32 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
 
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
 
-            if (String.IsNullOrEmpty(documentary_code) || String.IsNullOrEmpty(person_created))
-            {
-
-                incidents = (from document in db.Documentaries
-                             where (document.reason.Equals("Sửa chữa thiết bị"))
-                             join detail in db.Documentary_repair_details on document.documentary_id equals detail.documentary_id
-                             into temporary
-                             select new
-                             {
-                                 documentary_id = document.documentary_id,
-                                 date_created = document.date_created,
-                                 documentary_code = document.documentary_code,
-                                 person_created = document.person_created,
-                                 reason = document.reason,
-                                 out_in_come = document.out_in_come,
-                                 count = temporary.Select(x => new { x.equipmentId }).Count()
-                             }).ToList().Select(p => new Documentary_Extend
-                             {
-                                 documentary_id = p.documentary_id,
-                                 date_created = p.date_created,
-                                 documentary_code = p.documentary_code,
-                                 person_created = p.person_created,
-                                 reason = p.reason,
-                                 out_in_come = p.out_in_come,
-                                 count = p.count
-                             }).ToList();
-            }
-            else
-            {
-
-                incidents = (from document in db.Documentaries
-                             where (document.reason.Equals("Sửa chữa thiết bị") && document.documentary_code.Contains(documentary_code)) && (document.person_created.Contains(person_created) && (document.date_created >= dtStart && document.date_created <= dtEnd))
-                             join detail in db.Documentary_repair_details on document.documentary_id equals detail.documentary_id
-                             into temporary
-                             select new
-                             {
-                                 documentary_id = document.documentary_id,
-                                 documentary_code = document.documentary_code,
-                                 date_created = document.date_created,
-                                 person_created = document.person_created,
-                                 reason = document.reason,
-                                 out_in_come = document.out_in_come,
-                                 count = temporary.Select(x => new { x.equipmentId }).Count()
-                             }).ToList().Select(p => new Documentary_Extend
-                             {
-                                 documentary_id = p.documentary_id,
-                                 documentary_code = p.documentary_code,
-                                 date_created = p.date_created,
-                                 person_created = p.person_created,
-                                 reason = p.reason,
-                                 out_in_come = p.out_in_come,
-                                 count = p.count
-                             }).ToList();
-
-            }
+            incidents = (from document in db.Documentaries
+                         where document.documentary_type.Equals("1") && (document.documentary_code.Contains(documentary_code) || document.documentary_code == null) && document.person_created.Contains(person_created) && (document.date_created >= dtStart && document.date_created <= dtEnd)
+                         join detail in db.Documentary_repair_details on document.documentary_id equals detail.documentary_id
+                         into temporary
+                         select new
+                         {
+                             documentary_id = document.documentary_id,
+                             documentary_code = document.documentary_code,
+                             date_created = document.date_created,
+                             person_created = document.person_created,
+                             reason = document.reason,
+                             out_in_come = document.out_in_come,
+                             count = temporary.Select(x => new { x.equipmentId }).Count()
+                         }).ToList().Select(p => new Documentary_Extend
+                         {
+                             documentary_id = p.documentary_id,
+                             documentary_code = p.documentary_code,
+                             date_created = p.date_created,
+                             person_created = p.person_created,
+                             reason = p.reason,
+                             out_in_come = p.out_in_come,
+                             count = p.count
+                         }).ToList();
             foreach (var el in incidents)
             {
-                if (el.documentary_code == null || el.documentary_code == "")
+                if (el.documentary_code == null || el.documentary_code.Equals(""))
                 {
                     el.tempId = el.documentary_id + "^false";
                 }
@@ -229,6 +197,9 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
                 }
 
             }
+
+            //}
+
 
             int totalrows = incidents.Count;
             int totalrowsafterfiltering = incidents.Count;
@@ -258,7 +229,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
                                                           join detail in db.Documentary_repair_details on document.documentary_id equals detail.documentary_id
                                                           into temporary
                                                           select new
-                                                          {                                                            
+                                                          {
                                                               date_created = document.date_created,
                                                               documentary_code = document.documentary_code,
                                                               person_created = document.person_created,
@@ -266,7 +237,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
                                                               out_in_come = document.out_in_come,
                                                               count = temporary.Select(x => new { x.equipmentId }).Count()
                                                           }).ToList().Select(p => new Documentary_Extend
-                                                          {                                                    
+                                                          {
                                                               date_created = p.date_created,
                                                               documentary_code = p.documentary_code,
                                                               person_created = p.person_created,
@@ -294,7 +265,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
 
         }
 
-       
+
 
     }
 }

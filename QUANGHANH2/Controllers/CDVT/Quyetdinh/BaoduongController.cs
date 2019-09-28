@@ -12,19 +12,18 @@ using System.Threading.Tasks;
 using System.Web.Hosting;
 using System.Web.Mvc;using System.Web.Routing;
 
-namespace QUANGHANHCORE.Controllers.CDVT
+namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
 {
-    public class QuyetDInhController : Controller
+    public class BaoduongQDController : Controller
     {
         [Auther(RightID = "30")]
-        [Route("phong-cdvt/quyet-dinh/dieu-dong")]
+        [Route("phong-cdvt/quyet-dinh/bao-duong")]
         public ActionResult Index()
         {
-            return View("/Views/CDVT/Quyet_dinh/Danh_sach_quyet_dinh_dieu_dong.cshtml");
+            return View("/Views/CDVT/Quyet_dinh/Quyet_dinh_bao_duong.cshtml");
         }
-      
 
-        [Route("phong-cdvt/quyet-dinh/dieu-dong/edit")]
+        [Route("phong-cdvt/quyet-dinh/bao-duong/edit")]
         [HttpPost]
         public ActionResult Update(int documentary_id, string date_created, string person_created, string reason, string out_in_come)
         {
@@ -40,8 +39,10 @@ namespace QUANGHANHCORE.Controllers.CDVT
             {
                 try
                 {
+                    //  documentary_id = documentary_id.Replace(" ", String.Empty);
+                    
                     Documentary documentary = DBContext.Documentaries.Where(a => a.documentary_id == documentary_id).First();
-                    if (documentary != null)
+                    if(documentary != null)
                     {
                         documentary.date_created = DateTime.Parse(date_created);
                         documentary.person_created = person_created;
@@ -63,7 +64,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
 
         }
 
-        [Route("phong-cdvt/quyet-dinh/dieu-dong/update")]
+        [Route("phong-cdvt/quyet-dinh/bao-duong/update")]
         public ActionResult UpdateID(int documentary_id, string documentary_code)
         {
 
@@ -125,7 +126,6 @@ namespace QUANGHANHCORE.Controllers.CDVT
         public ActionResult DeleteDoc(int docID)
         {
 
-
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 Documentary doc = db.Documentaries.Where(x => x.documentary_id == docID).FirstOrDefault<Documentary>();
@@ -135,9 +135,10 @@ namespace QUANGHANHCORE.Controllers.CDVT
                 return new HttpStatusCodeResult(201);
             }
 
+
         }
 
-        [Route("phong-cdvt/quyet-dinh/dieu-dong/search")]
+        [Route("phong-cdvt/quyet-dinh/bao-duong/search")]
         [HttpPost]
         public ActionResult Search(string documentary_code, string person_created, string dateStart, string dateEnd)
         {
@@ -154,13 +155,10 @@ namespace QUANGHANHCORE.Controllers.CDVT
             else dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-
-            if (String.IsNullOrEmpty(documentary_code) || String.IsNullOrEmpty(person_created))
-            {
-
+        
                 incidents = (from document in db.Documentaries
-                             where (document.reason.Equals("Điều động đi khai thác"))
-                             join detail in db.Documentary_moveline_details on document.documentary_id equals detail.documentary_id
+                             where document.documentary_type.Equals("2") && (document.documentary_code.Contains(documentary_code) || document.documentary_code == null) && document.person_created.Contains(person_created) && (document.date_created >= dtStart && document.date_created <= dtEnd)
+                             join detail in db.Documentary_maintain_details on document.documentary_id equals detail.documentary_id
                              into temporary
                              select new
                              {
@@ -181,48 +179,19 @@ namespace QUANGHANHCORE.Controllers.CDVT
                                  out_in_come = p.out_in_come,
                                  count = p.count
                              }).ToList();
-            }
-            else
-            {
-                
-
-                incidents = (from document in db.Documentaries
-                             where (document.reason.Equals("Điều động đi khai thác") && document.documentary_code.Contains(documentary_code)) && (document.person_created.Contains(person_created) && (document.date_created >= dtStart && document.date_created <= dtEnd))
-                             join detail in db.Documentary_moveline_details on document.documentary_id equals detail.documentary_id
-                             into temporary
-                             select new
-                             {
-                                 documentary_id = document.documentary_id,
-                                 documentary_code = document.documentary_code,
-                                 date_created = document.date_created,
-                                 person_created = document.person_created,
-                                 reason = document.reason,
-                                 out_in_come = document.out_in_come,
-                                 count = temporary.Select(x => new { x.equipmentId }).Count()
-                             }).ToList().Select(p => new Documentary_Extend
-                             {
-                                 documentary_id = p.documentary_id,
-                                 documentary_code = p.documentary_code,
-                                 date_created = p.date_created,
-                                 person_created = p.person_created,
-                                 reason = p.reason,
-                                 out_in_come = p.out_in_come,
-                                 count = p.count
-                             }).ToList();
-
-            }
-            foreach (var el in incidents)
-            {
-                if (el.documentary_code == null || el.documentary_code == "")
+                foreach (var el in incidents)
                 {
-                    el.tempId = el.documentary_id + "^false";
-                }
-                else
-                {
-                    el.tempId = el.documentary_id + "^true^" + el.documentary_code;
-                }
+                    if (el.documentary_code == null || el.documentary_code.Equals(""))
+                    {
+                        el.tempId = el.documentary_id + "^false";
+                    }
+                    else
+                    {
+                        el.tempId = el.documentary_id + "^true^" + el.documentary_code;
+                    }
 
-            }
+                }
+            
 
 
             int totalrows = incidents.Count;
@@ -249,12 +218,12 @@ namespace QUANGHANHCORE.Controllers.CDVT
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
                     List<Documentary_Extend> incidents = (from document in db.Documentaries
-                                                          where (document.reason.Equals("Điều động đi khai thác"))
-                                                          join detail in db.Documentary_moveline_details on document.documentary_id equals detail.documentary_id
+                                                          where (document.reason.Equals("Bảo dưỡng thiết bị"))
+                                                          join detail in db.Documentary_maintain_details on document.documentary_id equals detail.documentary_id
                                                           into temporary
                                                           select new
                                                           {
-                                                             
+                                                              
                                                               date_created = document.date_created,
                                                               documentary_code = document.documentary_code,
                                                               person_created = document.person_created,
@@ -284,13 +253,11 @@ namespace QUANGHANHCORE.Controllers.CDVT
                         k++;
                     }
                     string location = HostingEnvironment.MapPath("/excel/CDVT/download");
-                    excelPackage.SaveAs(new FileInfo(location + "/DieuDongThietBi.xlsx"));
+                    excelPackage.SaveAs(new FileInfo(location + "/BaoDuongThietBi.xlsx"));
                 }
 
             }
 
         }
-
-
     }
 }

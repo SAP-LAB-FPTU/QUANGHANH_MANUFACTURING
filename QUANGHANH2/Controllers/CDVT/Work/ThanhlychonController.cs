@@ -13,13 +13,12 @@ using System.IO;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
 using System.Data.Entity;
-using System.Text.RegularExpressions;
 
 namespace QUANGHANHCORE.Controllers.CDVT.Work
 {
-    public class suachuachonController : Controller
+    public class ThanhlychonController : Controller
     {
-        [Route("phong-cdvt/sua-chua-chon")]
+        [Route("phong-cdvt/thanh-ly-chon")]
         [HttpGet]
         public ActionResult Index(String selectListJson)
         {
@@ -56,7 +55,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                 var department_id = result[0].department_id;
                 foreach (var item in result)
                 {
-                    if(!item.department_id.Equals(department_id))
+                    if (!item.department_id.Equals(department_id))
                     {
                         validate = 0;
                         break;
@@ -69,10 +68,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                 ViewBag.Supplies = supplies;
                 ViewBag.Departments = departments;
             }
-            return View("/Views/CDVT/Work/suachuachon.cshtml");
+            return View("/Views/CDVT/Work/thanhly_va_chon.cshtml");
         }
 
-        [Route("phong-cdvt/sua-chua-chon")]
+        [Route("phong-cdvt/thanh-ly-chon")]
         [HttpPost]
         public ActionResult GetData(string documentary_code, string out_in_come, string data, string department_id, string reason)
         {
@@ -82,11 +81,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                 try
                 {
                     Documentary documentary = new Documentary();
-                    documentary.documentary_code = documentary_code == "" ? null: documentary_code;
-                    documentary.documentary_type = "1";
+                    documentary.documentary_code = documentary_code == "" ? null : documentary_code;
+                    documentary.documentary_type = "5";
                     documentary.department_id = department_id;
                     documentary.date_created = DateTime.Now;
-                    documentary.person_created = Session["Name"]+"";
+                    documentary.person_created = Session["Name"] + "";
                     documentary.reason = reason;
                     documentary.out_in_come = out_in_come;
                     documentary.documentary_status = 1;
@@ -96,18 +95,15 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                     foreach (var item in json)
                     {
                         string equipmentId = (string)item.Value["id"];
-                        string repair_type = (string)item.Value["repair_type"];
-                        string repair_reason = (string)item.Value["repair_reason"];
-                        string datestring = (string)item.Value["finish_date_plan"];
-                        DateTime finish_date_plan = DateTime.ParseExact(datestring, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                        Documentary_repair_details drd = new Documentary_repair_details();
-                        drd.equipment_repair_status = 0;
-                        drd.repair_type = repair_type;
-                        drd.repair_reason = repair_reason;
-                        drd.finish_date_plan = finish_date_plan;
+                        string buyer = (string)item.Value["buyer"];
+                        string equipment_liquidation_reason = (string)item.Value["equipment_liquidation_reason"];
+                        Documentary_liquidation_details drd = new Documentary_liquidation_details();
+                        drd.equipment_liquidation_status = 0;
+                        drd.buyer = buyer;
+                        drd.equipment_liquidation_reason = equipment_liquidation_reason;
                         drd.documentary_id = documentary.documentary_id;
                         drd.equipmentId = equipmentId;
-                        DBContext.Documentary_repair_details.Add(drd);
+                        DBContext.Documentary_liquidation_details.Add(drd);
                         DBContext.SaveChanges();
                         JArray vattu = (JArray)item.Value.SelectToken("vattu");
                         foreach (JObject jObject in vattu)
@@ -121,7 +117,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                             sde.equipmentId = equipmentId;
                             sde.supply_id = supply_id;
                             sde.quantity = quantity;
-                            sde.supplyType = 3;
+                            sde.supplyType = 1;
                             sde.supplyStatus = supplyStatus;
                             sde.supply_documentary_status = 0;
                             DBContext.Supply_Documentary_Equipment.Add(sde);
@@ -130,7 +126,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                     }
                     DBContext.SaveChanges();
                     transaction.Commit();
-                    return Redirect("quyet-dinh/sua-chua");
+                    return Redirect("quyet-dinh/thanh-ly");
                 }
                 catch (Exception e)
                 {
@@ -142,48 +138,41 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
             }
         }
 
-        [Route("phong-cdvt/sua-chua-chon/export")]
+        //export file world
+
+        [Route("phong-cdvt/export-quyet-dinh-thanh_li")]
         [HttpPost]
-        public ActionResult ExportQuyetDinh(string data, string documentary_code)
+        public ActionResult ExportQuyetDinh(List<ListVatTu> listVatTu, ListThietBi listThietBi)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            string Flocation = "/doc/CDVT/QD/quyetdinhsuachua.docx";
-            string fileName = HostingEnvironment.MapPath("/doc/CDVT/QD/quyetdinh-template.docx");
+            string Flocation = "/doc/CDVT/quyetdinhsuachua/quyetdinhsuachua.docx";
+            string fileName = HostingEnvironment.MapPath("/doc/CDVT/quyetdinhsuachua/quyetdinh-template.docx");
             byte[] byteArray = System.IO.File.ReadAllBytes(fileName);
             using (var stream = new MemoryStream())
             {
                 stream.Write(byteArray, 0, byteArray.Length);
                 using (var doc = WordprocessingDocument.Open(stream, true))
                 {
-                    ////////////////////////////////////replace/////////////////////////////////
                     string docText = null;
                     using (StreamReader sr = new StreamReader(doc.MainDocumentPart.GetStream()))
                     {
                         docText = sr.ReadToEnd();
                     }
 
-                    Regex regexText = new Regex("%soquyetdinh%");
-                    docText = regexText.Replace(docText, documentary_code);
+                    //Regex regexText = new Regex("%soquyetdinh%");
+                    //docText = regexText.Replace(docText, "ABC");
 
                     using (StreamWriter sw = new StreamWriter(doc.MainDocumentPart.GetStream(FileMode.Create)))
                     {
                         sw.Write(docText);
                     }
-                    /////////////////////////////////////////////////////////////////////
-                    JObject json = JObject.Parse(data);
-
                     Table table =
                     doc.MainDocumentPart.Document.Body.Elements<Table>().ElementAt(1);
                     int i = 0;
-                    foreach (var item in json)
+                    foreach (ListVatTu l in listVatTu)
                     {
-                        string equipmentId = (string)item.Value["id"];
-                        JArray vattu = (JArray)item.Value.SelectToken("vattu");
-                        foreach (JObject jObject in vattu)
+                        int j = 0;
+                        foreach (string m in l.tenvattu)
                         {
-                            string supply_id = (string)jObject["supply_id"];
-                            int quantity = (int)jObject["quantity"];
-                            Supply s = DBContext.Supplies.Find(supply_id);
                             TableRow tr = new TableRow();
 
                             TableCell tc1 = new TableCell();
@@ -191,19 +180,19 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                             tr.Append(tc1);
 
                             TableCell tc2 = new TableCell();
-                            tc2.Append(new Paragraph(new Run(new Text(equipmentId))));
+                            tc2.Append(new Paragraph(new Run(new Text(l.thietbi))));
                             tr.Append(tc2);
 
                             TableCell tc3 = new TableCell();
-                            tc3.Append(new Paragraph(new Run(new Text(s.supply_name))));
+                            tc3.Append(new Paragraph(new Run(new Text(m))));
                             tr.Append(tc3);
 
                             TableCell tc4 = new TableCell();
-                            tc4.Append(new Paragraph(new Run(new Text(s.unit))));
+                            tc4.Append(new Paragraph(new Run(new Text(l.donvi[j]))));
                             tr.Append(tc4);
 
                             TableCell tc5 = new TableCell();
-                            tc5.Append(new Paragraph(new Run(new Text(quantity.ToString()))));
+                            tc5.Append(new Paragraph(new Run(new Text(l.soluong[j]))));
                             tr.Append(tc5);
 
                             TableCell tc6 = new TableCell();
@@ -213,10 +202,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                             TableCell tc7 = new TableCell();
                             tc7.Append(new Paragraph(new Run(new Text(""))));
                             tr.Append(tc7);
-
+                            i++;
+                            j++;
                             table.Append(tr);
                         }
-                        doc.MainDocumentPart.Document.Save();
+                        doc.MainDocumentPart.Document.Save(); // won't update the original file 
                     }
                     // Save the file with the new name
 
@@ -228,5 +218,32 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
             }
             return Json(new { success = true, location = Flocation }, JsonRequestBehavior.AllowGet);
         }
+
+
+        public class ListVatTu
+        {
+            public string thietbi { get; set; }
+            public string[] tenvattu { get; set; }
+            public string[] donvi { get; set; }
+            public string[] soluong { get; set; }
+            public string[] tinhtrang { get; set; }
+            public string[] noilinh { get; set; }
+        }
+
+        public class ListThietBi
+        {
+            public string documentary_code { get; set; }
+            public string lydoquyetdinh { get; set; }
+            public string[] equipmentIds { get; set; }
+            public string[] equipment_names { get; set; }
+            public string[] department_name { get; set; }
+            public string[] department_id { get; set; }
+            public string[] current_Status { get; set; }
+        }
+
+
+
+
+
     }
 }

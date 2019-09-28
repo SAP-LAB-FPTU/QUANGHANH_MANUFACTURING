@@ -20,10 +20,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
         [Route("phong-cdvt/quyet-dinh/trung-dai-tu")]
         public ActionResult Index()
         {
-            return View("/Views/CDVT/Quyet_dinh/SCTX.cshtml");
+            return View("/Views/CDVT/Quyet_dinh/Quyet_dinh_trung_dai_tu.cshtml");
         }
-
-       
 
         [Route("phong-cdvt/quyet-dinh/trung-dai-tu/edit")]
         [HttpPost]
@@ -155,11 +153,9 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
             else dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-
-            if (String.IsNullOrEmpty(documentary_code) || String.IsNullOrEmpty(person_created))
-            {
+           
                 incidents = (from document in db.Documentaries
-                             where (document.reason.Equals("Trung đại tu thiết bị"))
+                             where document.documentary_type.Equals("6") && (document.documentary_code.Contains(documentary_code) || document.documentary_code == null) && document.person_created.Contains(person_created) && (document.date_created >= dtStart && document.date_created <= dtEnd)
                              join detail in db.Documentary_big_maintain_details on document.documentary_id equals detail.documentary_id
                              into temporary
                              select new
@@ -181,51 +177,19 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
                                  out_in_come = p.out_in_come,
                                  count = p.count
                              }).ToList();
-
-
-            }
-            else
-            {
-
-             
-                incidents = (from document in db.Documentaries
-                             where (document.reason.Equals("Trung đại tu thiết bị") && document.documentary_code.Contains(documentary_code)) && (document.person_created.Contains(person_created) && (document.date_created >= dtStart && document.date_created <= dtEnd))
-                             join detail in db.Documentary_big_maintain_details on document.documentary_id equals detail.documentary_id
-                             into temporary
-                             select new
-                             {
-                                 documentary_id = document.documentary_id,
-                                 documentary_code = document.documentary_code,
-                                 date_created = document.date_created,
-                                 person_created = document.person_created,
-                                 reason = document.reason,
-                                 out_in_come = document.out_in_come,
-                                 count = temporary.Select(x => new { x.equipmentId }).Count()
-                             }).ToList().Select(p => new Documentary_Extend
-                             {
-                                 documentary_id = p.documentary_id,
-                                 documentary_code = p.documentary_code,
-                                 date_created = p.date_created,
-                                 person_created = p.person_created,
-                                 reason = p.reason,
-                                 out_in_come = p.out_in_come,
-                                 count = p.count
-                             }).ToList();
-
-            }
-            foreach (var el in incidents)
-            {
-                if (el.documentary_code == null || el.documentary_code == "")
+                foreach (var el in incidents)
                 {
-                    el.tempId = el.documentary_id + "^false";
-                }
-                else
-                {
-                    el.tempId = el.documentary_id + "^true^" + el.documentary_code;
-                }
+                    if (el.documentary_code == null || el.documentary_code.Equals(""))
+                    {
+                        el.tempId = el.documentary_id + "^false";
+                    }
+                    else
+                    {
+                        el.tempId = el.documentary_id + "^true^" + el.documentary_code;
+                    }
 
-            }
-
+                }
+            
 
 
             int totalrows = incidents.Count;

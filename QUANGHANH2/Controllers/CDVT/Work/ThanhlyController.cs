@@ -13,14 +13,14 @@ using System.Data.SqlClient;
 namespace QUANGHANHCORE.Controllers.CDVT.Work
 {
     [SessionState(SessionStateBehavior.Default)]
-    public class SuachuaController : Controller
+    public class ThanhlyController : Controller
     {
-        [Auther(RightID = "83")]
-        [Route("phong-cdvt/sua-chua")]
+        //[Auther(RightID = "83")]
+        [Route("phong-cdvt/thanh-ly")]
         public ActionResult Index()
         {
             HttpCookie cookie;
-            if (HttpContext.Request.Cookies.Get("SuaChuaThietBi") == null)
+            if (HttpContext.Request.Cookies.Get("ThanhLyThietBi") == null)
             {
                 cookie = new HttpCookie("SuaChuaThietBi");
                 cookie.Expires = DateTime.Now.AddDays(1);
@@ -29,28 +29,28 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
             }
             else
             {
-                cookie = HttpContext.Request.Cookies.Get("SuaChuaThietBi");
+                cookie = HttpContext.Request.Cookies.Get("ThanhLyThietBi");
             }
             ViewBag.selectedList = cookie.Value;
-            return View("/Views/CDVT/Work/suachua.cshtml");
+            return View("/Views/CDVT/Work/thanhly.cshtml");
         }
 
-        [Auther(RightID = "83")]
-        [Route("phong-cdvt/sua-chua/search")]
+   //     [Auther(RightID = "83")]
+        [Route("phong-cdvt/thanh-ly/search")]
         [HttpPost]
         public ActionResult Search(string equipmentId, string department_name, string equipmentName)
         {
             HttpCookie cookie;
-            if (HttpContext.Request.Cookies["SuaChuaThietBi"] == null)
+            if (HttpContext.Request.Cookies["ThanhLyThietBi"] == null)
             {
-                cookie = new HttpCookie("SuaChuaThietBi");
+                cookie = new HttpCookie("ThanhLyThietBi");
                 cookie.Expires = DateTime.Now.AddDays(1);
                 Response.Cookies.Add(cookie);
                 cookie.Value = "[]";
             }
             else
             {
-                cookie = HttpContext.Request.Cookies["SuaChuaThietBi"];
+                cookie = HttpContext.Request.Cookies["ThanhLyThietBi"];
                 cookie.Value = Request["selectList"];
             }
 
@@ -65,7 +65,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
             //
             HttpContext.Response.Cookies.Set(cookie);
             var listSelect = Request["selectList"];
-            
+
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 string query = "SELECT * FROM Equipment e inner join Department d on e.department_id = d.department_id";
