@@ -1,0 +1,425 @@
+﻿@{
+    ViewBag.Title = "bao_cao_trung_tu";
+    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+}
+<link href="~/assets/extra-libs/prism/prism.css" rel="stylesheet" />
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+<link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
+<script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
+<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
+<script src="~/assets/extra-libs/prism/prism.js"></script>
+<link href="~/css/TABLE_BORDERED.css" rel="stylesheet" />
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+
+<script>
+    $(function () {
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        $("#txtmonth").datepicker({
+            onSelect: function () {
+                $('#pre-load').show();
+                var val = document.getElementById("txtmonth").value;
+                var val2 = val.split(" ");
+                window.location = "/phong-cdvt/bao-cao/trung-tu?type=month&month=" + val2[1] + "&year=" + val2[2];
+            }
+        })
+        $("#txtyear").datepicker({
+            onSelect: function () {
+                window.location = "/phong-cdvt/bao-cao/trung-tu?type=year&year=" + document.getElementById("txtyear").value;
+            }
+        })
+        $("#minMaxDate").datepicker({
+            onSelect: function () {
+                window.location = "/phong-cdvt/bao-cao/trung-tu?type=day&date=" + document.getElementById("minMaxDate").value;
+            }
+        })
+        $('#txtquarter').change(function () {
+            window.location = "/phong-cdvt/bao-cao/trung-tu?type=quarter&quarter=" + document.getElementById("txtquarter").value + "&year=" + document.getElementById("quateryear").value;
+        });
+        $("#quateryear").datepicker({
+            onSelect: function () {
+                window.location = "/phong-cdvt/bao-cao/trung-tu?type=quarter&quarter=" + document.getElementById("txtquarter").value + "&year=" + document.getElementById("quateryear").value;
+            }
+        })
+    });
+    $(document).ready(function () {
+        $("#minMaxDate").val("@string.Format("{0:dd/MM/yyyy}", System.DateTime.Now)");
+        $("#txtmonth").val("Tháng @DateTime.Now.Month @DateTime.Now.Year");
+        $("#txtyear").val("@DateTime.Now.Year");
+        $("#quateryear").val("@DateTime.Now.Year");
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        var c = url.searchParams.get("type");
+        var day = url.searchParams.get("date");
+        var month = url.searchParams.get("month");
+        var quater = url.searchParams.get("quarter");
+        var year = url.searchParams.get("year");
+        $("#type").html("Xem Theo Ngày");
+
+        if (c == "day") {
+            document.getElementById("typeview").innerText = "Xem Theo Ngày";
+            document.getElementById("visiblequater").style.display = "none";
+            document.getElementById("visibleyear").style.display = "none";
+            document.getElementById("visiblemonth").style.display = "none";
+            document.getElementById("visibleday").style.display = "inline";
+            $("#minMaxDate").val(day);
+        }
+        if (c == "month") {
+            document.getElementById("typeview").innerText = "Xem Theo Tháng";
+            document.getElementById("visibleday").style.display = "none";
+            document.getElementById("visiblequater").style.display = "none";
+            document.getElementById("visibleyear").style.display = "none";
+            document.getElementById("visiblemonth").style.display = "inline";
+            $("#txtmonth").val("Tháng " + month +" "+ year);
+        }
+        if (c == "quarter") {
+            document.getElementById("typeview").innerText = "Xem Theo Quý";
+            document.getElementById("visibleday").style.display = "none";
+            document.getElementById("visibleyear").style.display = "none";
+            document.getElementById("visiblemonth").style.display = "none";
+            document.getElementById("visiblequater").style.display = "inline";
+            document.getElementById('txtquarter').selectedIndex = quater - 1;
+            $("#quateryear").val(year);
+        }
+        if (c == "year") {
+            document.getElementById("typeview").innerText = "Xem Theo Năm";
+            document.getElementById("visibleday").style.display = "none";
+            document.getElementById("visiblemonth").style.display = "none";
+            document.getElementById("visiblequater").style.display = "none";
+            document.getElementById("visibleyear").style.display = "inline";
+            $("#txtyear").val(year);
+        }
+        var dataTable;
+        dataTable = $("#content-table").on('preXhr.dt', function (e, settings, data) {
+                }).DataTable({
+                "ajax": {
+                "url": url,
+                "type": "POST",
+                "datatype": "json",
+
+            },
+            "columns": [
+                { "data": "Ma", "name": "Ma" },
+                { "data": "Tenthietbi", "name": "Tenthietbi" },
+                { "data": "Sohieu", "name": "Sohieu" },
+                { "data": "Matscd", "name": "Matscd" },
+                { "data": "Ngayquyetdinh", "name": "Ngayquyetdinh", "render": function (data) {
+                            return dateFormat2(data);
+                    },
+                },
+                { "data": "Tieutu", "name": "Tieutu" },
+                { "data": "Trungtu", "name": "Trungtu" },
+                 { "data": "Daitu", "name": "Daitu" }
+
+            ],
+            "language": {
+
+                "emptyTable": "Không tìm thấy dữ liệu"
+            },
+            "autoWidth": false,
+             "serverSide": "true",
+             "order": [0, "asc"],
+             "lengthChange": false,
+             "searching": false,
+
+
+        });
+
+    });
+
+</script>
+<div class="card">
+    <div class="card-content">
+        <div class="col s12">
+            <div class="center">
+                <h3 class="centered" style="padding-top:20px"><b>BÁO CÁO TRÙNG ĐẠI TU THIẾT BỊ</b></h3>
+                <div class="day" id="visibleday">
+                    <h3>
+                        <i class="fas fa-calendar-alt icon"></i>
+                        <input type='text' class='datepicker-here center' id="minMaxDate" data-language='vi' value="15/08/2019" />
+                    </h3>
+                </div>
+                <div class="month" id="visiblemonth" style="display: none">
+                    <h3>
+                        <i class="fas fa-calendar-alt icon"></i>
+                        <input type="text"
+                               id="txtmonth"
+                               class="datepicker-here center"
+                               data-language='vi'
+                               data-min-view="months"
+                               data-view="months"
+                               data-date-format="MM yyyy" />
+                    </h3>
+                </div>
+                <div class="quarter" id="visiblequater" style="display: none">
+                    <div class="row">
+                        <div class="col l4 m4"></div>
+                        <div class="col l2 m2 s4">
+                            <select class="form-control" style="width: 30%" id="txtquarter">
+                                <option value="1">Quý I</option>
+                                <option value="2" selected>Quý II</option>
+                                <option value="3">Quý III</option>
+                                <option value="4">Quý IV</option>
+                            </select>
+                        </div>
+                        <div class="col l2 m2 s6">
+                            <input type="text"
+                                   id="quateryear"
+                                   class="datepicker-here center form-control"
+                                   data-language='vi'
+                                   data-min-view="years"
+                                   data-view="years"
+                                   data-date-format="yyyy" value="@DateTime.Now.Year" style="width: 150px !important" />
+                        </div>
+                    </div>
+                </div>
+                <div class="year" id="visibleyear" style="display: none">
+                    <h3>
+                        <i class="fas fa-calendar-alt icon"></i>
+                        <input type="text"
+                               id="txtyear"
+                               class="datepicker-here center"
+                               data-language='vi'
+                               data-min-view="years"
+                               data-view="years"
+                               data-date-format="yyyy" />
+                    </h3>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col s12">
+                <a id="typeview" class='dropdown-trigger btn' href='#' data-target='dropdown1' style="width:250px;background-color:#273146;margin-bottom:20px">Xem Theo Ngày</a>
+            </div>
+            <div class="col s12">
+                <ul class="tabs">
+                    @*<li class="tab col s6"><a class="active" onclick="ResizeChart()" href="#bieudo"><b>Biểu đồ</b></a></li>*@
+                    <li class="tab col s6"><a href="#solieu"><b>Bảng báo cáo</b></a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<ul id='dropdown1' class='dropdown-content'>
+    <li onclick="ViewbyDay();"><a id="day" href="#" ;>Xem Theo Ngày</a></li>
+    <li onclick="ViewbyMonth();"><a id="month" href="#" ;>Xem Theo Tháng</a></li>
+    <li onclick="ViewbyQuarter();"><a id="quarter" href="#" ;>Xem Theo Quý</a></li>
+    <li onclick="ViewbyYear();"><a id="year" href="#" ;>Xem Theo Năm</a></li>
+</ul>
+@*<div id="bieudo">
+        <div class="row">
+            <div class="col s12 l4">
+                <div class="card mymanu" style="height: 200px">
+                    <div class="card-content center-align">
+                        <h6 class="card-subtitle center-align m-b-0 white-text">Tổng thiết bị</h6>
+                        <h1 class="font-light m-b-0 white-text" style="padding-top: 40px">500</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 l4">
+                <div class="card" style="height: 200px">
+                    <div class="card-content align-items-center">
+                        <div class="row">
+                            <div class="col s12">
+                                <h6 class="card-subtitle">Số thiết bị đang hoạt động:</h6>
+                                <h4>400</h4>
+                            </div>
+                            <div class="col s12">
+                                <h6 class="card-subtitle">Số thiết bị dừng hoạt động:</h6>
+                                <h4>100</h4>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 l4">
+                <div class="card" style="height: 200px">
+                    <div class="card-content align-items-center">
+                        <div class="row">
+                            <div class="col s12">
+                                <h6 class="card-subtitle">Số thiết bị đã thu hồi:</h6>
+                                <h4>50</h4>
+                            </div>
+                            <div class="col s12">
+                                <div class="progress">
+                                    <div class="determinate amber darken+3" style="width: 10%"></div>
+                                </div>
+                            </div>
+                            <div class="col s12">
+                                <h4>10%</h4>
+                                <h6 class="card-subtitle">So với tổng số thiết bị</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-content analytics-info">
+                <h5 class="card-title">Biểu đồ phân bố thiết bị thu hồi các phân xưởng</h5>
+                <div id="thuhoi" style="height:600px;width:100%;" class="m-t-20"></div>
+            </div>
+        </div>
+    </div>*@
+
+
+<div id="solieu" class="card">
+    <div class="card-content">
+        <div class="col s12">
+            <div class="col s12">
+                <div>
+                    <table id="content-table" class="table-bordered striped responsive-table centered">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">Mã</th>
+                                <th rowspan="2">Tên thiết bị</th>
+                                <th rowspan="2">Số hiệu</th>
+                                <th rowspan="2">Mã TSCĐ</th>
+                                <th rowspan="2">Ngày quyết định</th>
+                                <th colspan="3">Số lần</th>
+                            </tr>
+                            <tr>
+                                <th>Tiểu Tu</th>
+                                <th>Trung Tu</th>
+                                <th>Đại Tu</th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <div class="row" style="margin:20px 0px 20px 0px">
+                        <div class="col-lg-12 left">
+                            <div class="export_btn_container">
+                                <a class="waves-effect waves-light btn mybtn" id="ExportExcel">Xuất ra file excel</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*<div style="padding-top:20px">
+                                        <div class="col s12">
+                                            <h3><b>TỔNG HỢP BÁO CÁO</b></h3>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s12 l6">
+                                            <table class="table table-bordered striped">
+                                                <tbody>
+                                                    <tr>
+                                                        <td><b>Tổng số thiết bị hiện có:</b></td>
+                                                        <td>400</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Tổng số thiết bị dừng hoạt động: </td>
+                                                        <td>100</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Tổng số thiết bị đã thu hồi:</td>
+                                                        <td>50</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Tổng số thiết bị chờ thu hồi: </td>
+                                                        <td>10</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col s12 l6">
+                                            <table class="table table-bordered striped">
+
+                                                <tbody>
+                                                    <tr>
+                                                        <td><b>Tổng số thiết bị đã thu hồi:</b></td>
+                                                        <td><b>50</b></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Phân xưởng đào lò: </td>
+                                                        <td>13</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Phân xưởng vận tải: </td>
+                                                        <td>15</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Phân xưởng lộ thiên: </td>
+                                                        <td>11</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Phân xưởng phục vụ: </td>
+                                                        <td>8</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Phân xưởng sàng tuyển: </td>
+                                                        <td>3</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+
+                <script src="~/js/Custom JS/CDVT/Report/DetailManu.js"></script>
+                <script src="~/js/Custom JS/CDVT/Report/ChangeDateType.js"></script>
+                <script type="text/javascript">
+function ViewbyDay() {
+        window.location = "/phong-cdvt/bao-cao/trung-tu?type=day&date=" + document.getElementById("minMaxDate").value;
+    }
+    function ViewbyMonth() {
+        var val = document.getElementById("txtmonth").value;
+        var val2 = val.split(" ");
+        window.location = "/phong-cdvt/bao-cao/trung-tu?type=month&month=" + val2[1] + "&year=" + val2[2];
+    }
+    function ViewbyQuarter() {
+        window.location = "/phong-cdvt/bao-cao/trung-tu?type=quarter&quarter=" + document.getElementById("txtquarter").value + "&year=" + document.getElementById("quateryear").value;
+    }
+    function ViewbyYear() {
+        window.location = "/phong-cdvt/bao-cao/trung-tu?type=year&year=" + document.getElementById("txtyear").value;
+    }</script>
+                <script>
+$('#minMaxDate').datepicker({
+        language: 'vi',
+        maxDate: new Date() // Now can select only dates, which goes after today
+    })
+    $(document).ready(function () {
+        $('.datepicker-inline').remove();
+    });
+
+
+    //------------------------Export Excel------------------------
+
+    $("#ExportExcel").click(function () {
+        $("#pre-load").show();
+        $("#pre-load").css("z-index", "9999");
+        $.ajax({
+            url: '/phong-cdvt/bao-cao/trung-tu/excel',
+            type: 'POST',
+
+        }).done(function () {
+            window.location.href = "/excel/CDVT/download/BaoCaoTrungTu.xlsx";
+            $("#pre-load").hide();
+        })
+    });
+
+    //------------format date --------------
+
+    function dateFormat2(d) {
+        var dateString = d.substr(6);
+        var currentTime = new Date(parseInt(dateString));
+        var month = currentTime.getMonth() + 1;
+        var day = currentTime.getDate();
+        var year = currentTime.getFullYear();
+        var date = day + "/" + month + "/" + year;
+        return (date);
+    }</script>
+                <link href="~/css/TABLE_BORDERED.css" rel="stylesheet" />

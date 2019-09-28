@@ -19,11 +19,11 @@ namespace QUANGHANH2.Models
         {
             this.ChamDut_NhanVien = new HashSet<ChamDut_NhanVien>();
             this.ChiTiet_BangCap_GiayChungNhan = new HashSet<ChiTiet_BangCap_GiayChungNhan>();
+            this.ChiTiet_NhiemVu_NhanVien = new HashSet<ChiTiet_NhiemVu_NhanVien>();
             this.ChungChi_NhanVien = new HashSet<ChungChi_NhanVien>();
             this.DiemDanh_NangSuatLaoDong = new HashSet<DiemDanh_NangSuatLaoDong>();
             this.DieuDong_NhanVien = new HashSet<DieuDong_NhanVien>();
             this.GiayToes = new HashSet<GiayTo>();
-            this.ChiTiet_NhiemVu_NhanVien = new HashSet<ChiTiet_NhiemVu_NhanVien>();
             this.QuanHeGiaDinhs = new HashSet<QuanHeGiaDinh>();
             this.QuaTrinhCongTacs = new HashSet<QuaTrinhCongTac>();
             this.TuyenDung_NhanVien = new HashSet<TuyenDung_NhanVien>();
@@ -35,7 +35,6 @@ namespace QUANGHANH2.Models
         public bool GioiTinh { get; set; }
         public string CapUyHienTai { get; set; }
         public string CapUyKiem { get; set; }
-        public string ChucVu { get; set; }
         public Nullable<double> PhuCapChucVu { get; set; }
         public System.DateTime NgaySinh { get; set; }
         public string NoiSinh { get; set; }
@@ -53,7 +52,6 @@ namespace QUANGHANH2.Models
         public System.DateTime NgayNhapNgu { get; set; }
         public System.DateTime NgayXuatNgu { get; set; }
         public string QuanHamChucVuCaoNhat { get; set; }
-        public string TrinhDoHocVan { get; set; }
         public string HocHamHocViCaoNhat { get; set; }
         public string LyLuanChinhTri { get; set; }
         public string NgoaiNgu { get; set; }
@@ -76,7 +74,6 @@ namespace QUANGHANH2.Models
         public System.DateTime NgayCapCMND { get; set; }
         public string NoiCapCMND { get; set; }
         public System.DateTime NgayDiLam { get; set; }
-        public string TrangThaiLamViec { get; set; }
         public string MaPhongBan { get; set; }
         public Nullable<int> MaUyQuyen { get; set; }
         public string SoBHXH { get; set; }
@@ -93,11 +90,14 @@ namespace QUANGHANH2.Models
         public string CoQuanTruoc { get; set; }
         public Nullable<double> HeSo { get; set; }
         public Nullable<int> TuThang { get; set; }
+        public int MaTrangThai { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChamDut_NhanVien> ChamDut_NhanVien { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChiTiet_BangCap_GiayChungNhan> ChiTiet_BangCap_GiayChungNhan { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ChiTiet_NhiemVu_NhanVien> ChiTiet_NhiemVu_NhanVien { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChungChi_NhanVien> ChungChi_NhanVien { get; set; }
         public virtual ChuyenNganh ChuyenNganh { get; set; }
@@ -111,8 +111,7 @@ namespace QUANGHANH2.Models
         public virtual ICollection<GiayTo> GiayToes { get; set; }
         public virtual HoSo HoSo { get; set; }
         public virtual NguoiUyQuyenLayHoSo_BaoHiem NguoiUyQuyenLayHoSo_BaoHiem { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChiTiet_NhiemVu_NhanVien> ChiTiet_NhiemVu_NhanVien { get; set; }
+        public virtual TrangThai TrangThai { get; set; }
         public virtual TrinhDo TrinhDo { get; set; }
         public virtual Truong Truong { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

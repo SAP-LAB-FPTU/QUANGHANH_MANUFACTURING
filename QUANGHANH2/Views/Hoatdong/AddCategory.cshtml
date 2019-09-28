@@ -1,0 +1,101 @@
+﻿@model QUANGHANH2.Models.Equipment_category
+
+@{
+    ViewBag.Title = "AddCategory";
+    Layout = null;
+}
+
+
+@using (Html.BeginForm("AddCategory", "Hoatdong", FormMethod.Post, new
+{
+    enctype = "multipart/form-data",
+    onSubmit = "return SubmitForm(this);",
+    data_restUrl = Url.Action("AddCategory", "Hoatdong", new { id = "" })
+}))
+{
+    <div class="modal-body">
+
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="row">
+                <div class="form-group">
+                    <label>Mã nhóm thiết bị</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Equipment_category_id, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Equipment_category_id, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Tên nhóm thiết bị</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Equipment_category_name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Equipment_category_name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Loại thiết bị</label>
+                    <div class="col-md-10">
+                        @Html.DropDownList("divce_type", new SelectList(ViewBag.listType, "Text", "Value"), htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.divce_type, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal fade" id="myadd20">
+            <div class="modal-header center-align">
+                <h3>Thêm thuộc tính thiết bị</h3>
+            </div>
+            <div class="modal-body">
+                <table id="myTableCate" class="table-bordered">
+                    <tr>
+                        <th>Mã đặc tính</th>
+                        <th>Tên đặc tính</th>
+                        <th>ĐVT</th>
+                    </tr>
+                    <tr>
+                        <td><input type='text' name="id" class='form-control' placeholder='Mã đặc tính' /></td>
+                        <td><input type='text' name="name" class='form-control' placeholder='Tên đặc tính' /></td>
+                        <td><input type='text' name="unit" class='form-control' placeholder='ĐVT' /></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="myFunction2()" class="btn blue btn-small"><i class="large material-icons">add</i></button>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <a href="#myadd20" class="modal-trigger btn">Thêm đặc tính</a>
+                    <button type="submit" id="save" class="btn blue btn-default modal-close" style="color:white">Thêm</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+}
+<script>
+    function myFunction2() {
+        var x = document.getElementById("myTableCate").rows.length;
+        var table = document.getElementById("myTableCate");
+        var row = table.insertRow(x);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        cell1.innerHTML = "<input type='text' name='id' class='form-control' placeholder='Mã đặc tính' />";
+        cell2.innerHTML = "<input type='text' name='name' class='form-control' placeholder='Tên đặc tính' />";
+        cell3.innerHTML = "<input type='text' name='unit' class='form-control' placeholder='ĐVT' />";
+    }
+</script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

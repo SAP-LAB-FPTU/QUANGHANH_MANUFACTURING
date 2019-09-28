@@ -128,7 +128,7 @@ namespace QUANGHANH2.Controllers.TCLD
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                emp.TrangThaiLamViec = "Đang đi làm";
+                //emp.TrangThaiLamViec = "Đang đi làm";
                 db.Entry(emp).State = EntityState.Modified;
                 db.SaveChanges();
             }
@@ -235,7 +235,7 @@ namespace QUANGHANH2.Controllers.TCLD
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                    emp.TrangThaiLamViec = "Đang đi làm";
+                    //emp.TrangThaiLamViec = "Đang đi làm";
                     emp.MaPhongBan = "DL1";
                     db.NhanViens.Add(emp);
                     db.SaveChanges();
@@ -283,7 +283,7 @@ namespace QUANGHANH2.Controllers.TCLD
                         dateTLHDFix = arr2[1] + "/" + arr2[0] + "/" + arr2[2];
                     }
                     var emp = db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault();
-                    emp.TrangThaiLamViec = "Đã chấm dứt";
+                    //emp.TrangThaiLamViec = "Đã chấm dứt";
                     db.Entry(emp).State = EntityState.Modified;
 
                     QuyetDinh qd = new QuyetDinh();
@@ -366,29 +366,29 @@ namespace QUANGHANH2.Controllers.TCLD
                         }
                         //excelWorksheet.Cells[k, 4].Value = list.ElementAt(i).NgaySinh.ToString("dd/MM/yyyy");
                         excelWorksheet.Cells[k, 5].Value = list.ElementAt(i).SoBHXH;
-                        if (list.ElementAt(i).TrinhDoHocVan != null)
-                        {
-                            if (list.ElementAt(i).TrinhDoHocVan.Equals("1"))
-                            {
-                                excelWorksheet.Cells[k, 18].Value = "Tiểu học";
-                            }
-                            else if (list.ElementAt(i).TrinhDoHocVan.Equals("2"))
-                            {
-                                excelWorksheet.Cells[k, 18].Value = "THCS";
-                            }
-                            else if (list.ElementAt(i).TrinhDoHocVan.Equals("3"))
-                            {
-                                excelWorksheet.Cells[k, 18].Value = "THPT";
-                            }
-                            else if (list.ElementAt(i).TrinhDoHocVan.Equals("4"))
-                            {
-                                excelWorksheet.Cells[k, 18].Value = "Trung cấp";
-                            }
-                            else
-                            {
-                                excelWorksheet.Cells[k, 18].Value = "Đại học";
-                            }
-                        }
+                        //if (list.ElementAt(i).TrinhDoHocVan != null)
+                        //{
+                        //    if (list.ElementAt(i).TrinhDoHocVan.Equals("1"))
+                        //    {
+                        //        excelWorksheet.Cells[k, 18].Value = "Tiểu học";
+                        //    }
+                        //    else if (list.ElementAt(i).TrinhDoHocVan.Equals("2"))
+                        //    {
+                        //        excelWorksheet.Cells[k, 18].Value = "THCS";
+                        //    }
+                        //    else if (list.ElementAt(i).TrinhDoHocVan.Equals("3"))
+                        //    {
+                        //        excelWorksheet.Cells[k, 18].Value = "THPT";
+                        //    }
+                        //    else if (list.ElementAt(i).TrinhDoHocVan.Equals("4"))
+                        //    {
+                        //        excelWorksheet.Cells[k, 18].Value = "Trung cấp";
+                        //    }
+                        //    else
+                        //    {
+                        //        excelWorksheet.Cells[k, 18].Value = "Đại học";
+                        //    }
+                        //}
                         excelWorksheet.Cells[k, 20].Value = list.ElementAt(i).QueQuan;
                         k++;
                     }

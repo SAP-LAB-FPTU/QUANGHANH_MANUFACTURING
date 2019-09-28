@@ -31,9 +31,18 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [Route("phong-tcld/bao-cao-chi-tiet-theo-ca")]
         public ActionResult Report1(string ca, string donvi, string date)
         {
-            ca = "1";
-            donvi = "DL1";
-            date = "10/09/2019";
+            if(ca == null)
+            {
+                ca = "1";
+            }
+            if (date == null)
+            {
+                date = string.Format("{0:dd/MM/yyyy}", DateTime.Now);
+            }
+            if (donvi == null)
+            {
+                donvi = "DL1";
+            }
             ViewBag.nameDepartment = "baocao-sanluon-laodong";
             ViewBag.ca = ca;
             ViewBag.donvi = donvi;
@@ -59,14 +68,17 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
             if (date == null)
             {
-                date = "20/09/2019";
-                //date = string.Format("{0:dd/MM/yyyy}", DateTime.Now);
+                date = string.Format("{0:dd/MM/yyyy}", DateTime.Now);
+            }
+            if(donvi == null)
+            {
+                donvi = "DL1";
             }
             var calamviec = Convert.ToInt32(ca);
             var datesql = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                List<DiemDanh_NangSuatLaoDong> list = db.DiemDanh_NangSuatLaoDong
+                List<DiemDanh_NangSuatLaoDong> list = db.Departments.Where(a => a.department_id == donvi).First().DiemDanh_NangSuatLaoDong
                     .Where(a => a.NgayDiemDanh == datesql)
                     .Where(a => a.CaDiemDanh == calamviec).ToList();
                 List<BaoCaoTheoCa> customNSLDs = new List<BaoCaoTheoCa>();
@@ -107,11 +119,5 @@ namespace QUANGHANHCORE.Controllers.TCLD
             ViewBag.nameDepartment = "baocao-sanluon-laodong";
             return View("/Views/TCLD/CommonRecord.cshtml");
         }
-        //[Route("~/{tenphong}/")]
-        //public ActionResult Hocnt(String tenphong, [FromQuery] String ten)
-        //{
-        //    ViewBag.name = ten + tenphong;
-        //    return View("Views/TCLD/bao-cao-nhanh.cshtml");
-        //}
     }
 }

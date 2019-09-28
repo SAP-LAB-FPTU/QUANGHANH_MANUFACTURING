@@ -231,8 +231,8 @@
                                     <th>Mã TSCĐ</th>
                                     <th>Vị trí đặt</th>
                                     <th>Giờ hoạt động</th>
+                                    <th>Tiêu hao điện năng</th>
                                     <th>Sản lượng nước</th>
-                                    <th>Tiêu hao điện năng </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -264,7 +264,7 @@
                         <div class="row" style="margin:20px 0px 20px 0px">
                             <div class="col-lg-12 left">
                                 <div class="export_btn_container">
-                                    <a class="waves-effect waves-light btn mybtn" onclick="window.open('thoat-nuoc/excel')">Xuất ra file excel</a>
+                                    <a class="waves-effect waves-light btn mybtn" id="export">Xuất ra file excel</a>
                                 </div>
                             </div>
                         </div>
@@ -321,6 +321,40 @@
             $('#pre-load').show();
             window.location = "/phong-cdvt/bao-cao/thoat-nuoc?type=year&year=" + document.getElementById("txtyear").value;
         }
+    $("#export").click(function () {
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        var c = url.searchParams.get("type");
+        var day = url.searchParams.get("date");
+        var month = url.searchParams.get("month");
+        var quater = url.searchParams.get("quarter");
+        var year = url.searchParams.get("year");
+        var emb = {
+            type: c,
+            date: day,
+            month: month,
+            quarter: quater,
+            year: year
+        };
+        $('#pre-load').show();
+        $.ajax({
+            url: '/phong-cdvt/bao-cao/thoat-nuoc/excel',
+            type: 'POST',
+            data: JSON.stringify(emb),
+            contentType: "application/json;charset=utf-8",
+            dataType: 'JSON',
+            success: function (response) {
+                if (response.success) {
+                    window.location.href = response.location;
+                    $("#pre-load").hide("slow", function () {
+                    });
+                } else {
+                    alert("error");
+                }
+            }
+        });
+        $("#pre-load").hide();
+    });
     </script>
     <script>
         $('#minMaxDate').datepicker({

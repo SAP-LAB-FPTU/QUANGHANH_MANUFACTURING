@@ -17,6 +17,7 @@ namespace QUANGHANH2.Models
         public System.DateTime NgayNhanNhiemVu { get; set; }
         public string MaNV { get; set; }
         public int MaNhiemVu { get; set; }
+        public int MaChiTiet_NhiemVu_NhanVien { get; set; }
     
         public virtual NhanVien NhanVien { get; set; }
         public virtual NhiemVu NhiemVu { get; set; }
