@@ -16,9 +16,9 @@ using System.Data.Entity;
 
 namespace QUANGHANHCORE.Controllers.CDVT.Work
 {
-    public class DieudongchonController : Controller
+    public class ThanhlychonController : Controller
     {
-        [Route("phong-cdvt/dieu-dong-chon")]
+        [Route("phong-cdvt/thanh-ly-chon")]
         [HttpGet]
         public ActionResult Index(String selectListJson)
         {
@@ -68,10 +68,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                 ViewBag.Supplies = supplies;
                 ViewBag.Departments = departments;
             }
-            return View("/Views/CDVT/Work/dieu_dong_va_chon.cshtml");
+            return View("/Views/CDVT/Work/thanhly_va_chon.cshtml");
         }
 
-        [Route("phong-cdvt/dieu-dong-chon")]
+        [Route("phong-cdvt/thanh-ly-chon")]
         [HttpPost]
         public ActionResult GetData(string documentary_code, string out_in_come, string data, string department_id, string reason)
         {
@@ -82,7 +82,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                 {
                     Documentary documentary = new Documentary();
                     documentary.documentary_code = documentary_code == "" ? null : documentary_code;
-                    documentary.documentary_type = "3";
+                    documentary.documentary_type = "5";
                     documentary.department_id = department_id;
                     documentary.date_created = DateTime.Now;
                     documentary.person_created = Session["Name"] + "";
@@ -95,19 +95,15 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                     foreach (var item in json)
                     {
                         string equipmentId = (string)item.Value["id"];
-                        string department_id_to = (string)item.Value["department_id"];
-                        string department_detail = (string)item.Value["department_detail"];
-                        string equipment_moveline_reason = (string)item.Value["equipment_moveline_reason"];
-                        string datestring = (string)item.Value["date_to"];
-                        DateTime date_to = DateTime.ParseExact(datestring, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                        Documentary_moveline_details drd = new Documentary_moveline_details();
-                        drd.equipment_moveline_status = 0;
-                        drd.department_detail = department_detail;
-                        drd.date_to = date_to;
-                        drd.equipment_moveline_reason = equipment_moveline_reason;
+                        string buyer = (string)item.Value["buyer"];
+                        string equipment_liquidation_reason = (string)item.Value["equipment_liquidation_reason"];
+                        Documentary_liquidation_details drd = new Documentary_liquidation_details();
+                        drd.equipment_liquidation_status = 0;
+                        drd.buyer = buyer;
+                        drd.equipment_liquidation_reason = equipment_liquidation_reason;
                         drd.documentary_id = documentary.documentary_id;
                         drd.equipmentId = equipmentId;
-                        DBContext.Documentary_moveline_details.Add(drd);
+                        DBContext.Documentary_liquidation_details.Add(drd);
                         DBContext.SaveChanges();
                         JArray vattu = (JArray)item.Value.SelectToken("vattu");
                         foreach (JObject jObject in vattu)
@@ -130,7 +126,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                     }
                     DBContext.SaveChanges();
                     transaction.Commit();
-                    return Redirect("quyet-dinh/dieu-dong");
+                    return Redirect("quyet-dinh/thanh-ly");
                 }
                 catch (Exception e)
                 {
@@ -144,12 +140,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
 
         //export file world
 
-        [Route("phong-cdvt/export-quyet-dinh-dieu-dong")]
+        [Route("phong-cdvt/export-quyet-dinh-thanh_li")]
         [HttpPost]
         public ActionResult ExportQuyetDinh(List<ListVatTu> listVatTu, ListThietBi listThietBi)
         {
-            string Flocation = "/doc/CDVT/quyetdinhsuachua/quyetdinhdieudong.docx";
-            string fileName = HostingEnvironment.MapPath("/doc/CDVT/quyetdinhsuachua/quyetdinhđieuong-template.docx");
+            string Flocation = "/doc/CDVT/quyetdinhsuachua/quyetdinhsuachua.docx";
+            string fileName = HostingEnvironment.MapPath("/doc/CDVT/quyetdinhsuachua/quyetdinh-template.docx");
             byte[] byteArray = System.IO.File.ReadAllBytes(fileName);
             using (var stream = new MemoryStream())
             {
@@ -222,6 +218,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
             }
             return Json(new { success = true, location = Flocation }, JsonRequestBehavior.AllowGet);
         }
+
+
         public class ListVatTu
         {
             public string thietbi { get; set; }
@@ -236,16 +234,16 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
         {
             public string documentary_code { get; set; }
             public string lydoquyetdinh { get; set; }
-            public string nguonvon { get; set; }
             public string[] equipmentIds { get; set; }
             public string[] equipment_names { get; set; }
             public string[] department_name { get; set; }
             public string[] department_id { get; set; }
             public string[] current_Status { get; set; }
-            public string[] reasonRepair { get; set; }
-            public string[] chooseDate { get; set; }
-            public string[] repair_type { get; set; }
-
         }
+
+
+
+
+
     }
 }

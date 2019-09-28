@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "ChiTietBaoDuong";
+    ViewData["Title"] = "ThanhLyThietBi";
     Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
 }
 <link href="~/dist/css/style.css" rel="stylesheet">
@@ -20,7 +20,7 @@
         <div class="row">
             <div class="col m12">
                 <div class="center">
-                    <h3><b>CHI TIẾT BẢO DƯỠNG</b></h3>
+                    <h3><b>CHI TIẾT THANH LÝ</b></h3>
                 </div>
                 @if (ViewBag.validate == 0)
                 {
@@ -50,32 +50,28 @@
                                         <th class="center-align">Mã thiết bị<span></span></th>
                                         <th class="center-align">Tên thiết bị<span></span></th>
                                         <th class="center-align">Tình trạng thiết bị<span></span></th>
-                                        <th class="center-align">Loại bảo dưỡng<span></span></th>
-                                        <th class="center-align">Lý do bảo dưỡng (không bắt buộc)<span></span></th>
-                                        <th class="center-align">Ngày dự kiến xong<span></span></th>
+                                        <th class="center-align">Đơn vị mua bán<span></span></th>
+                                        <th class="center-align">Lý do thanh lý (không bắt buộc)<span></span></th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @for (int i = 0; i < ViewBag.DataThietBi.Count; i++)
                                     {
-                                        <tr id="@i">
-                                            <td>@ViewBag.DataThietBi[i].equipmentId</td>
-                                            <td>@ViewBag.DataThietBi[i].equipment_name</td>
-                                            <td>@ViewBag.DataThietBi[i].current_Status</td>
-                                            <td>
-                                                <select class='form-control'><option>Tiểu tu</option><option>Trung tu</option><option>Đại tu</option> <option>125h</option><option>200h</option><option>500h</option><option>1000h</option><option>2000h</option></select>
-                                            </td>
-                                            <td>
-                                                <input type='text' class='form-control' />
-                                            </td>
-                                            <td>
-                                                <input type='text' class='center datepicker-here form-control minDate' data-language='vi' />
-                                            </td>
-                                            <td>
-                                                <a class="btn blue darken-2 modal-trigger open-Modal" data-id="@i" href="#mylist">Vật tư cần</a>
-                                            </td>
-                                        </tr>
+                                    <tr id="@i">
+                                        <td>@ViewBag.DataThietBi[i].equipmentId</td>
+                                        <td>@ViewBag.DataThietBi[i].equipment_name</td>
+                                        <td>@ViewBag.DataThietBi[i].current_Status</td>
+                                        <td>
+                                            <input type='text' required class='form-control' />
+                                        </td>
+                                        <td>
+                                            <input type='text' class='form-control' />
+                                        </td>
+                                        <td>
+                                            <a class="btn blue darken-2 modal-trigger open-Modal" data-id="@i" href="#mylist">Vật tư đi kèm</a>
+                                        </td>
+                                    </tr>
                                     }
                                 </tbody>
                             </table>
@@ -83,8 +79,8 @@
                     </form>
                     <div class="col l12 m12 s12 center">
                         <a onclick="inQuyetDinh()" class="btn blue darken-2">Xuất quyết định</a>
-                        <a id="submit" class="btn blue darken-2 modal-trigger">Xác nhận điều động bảo dưỡng</a>
-                        <a href="bao-duong" class="btn blue darken-2 ">Quay lại</a>
+                        <a id="submit" class="btn blue darken-2 modal-trigger">Xác nhận thanh lý thiết bị</a>
+                        <a href="thanh-ly" class="btn blue darken-2 ">Quay lại</a>
                     </div>
                 }
             </div>
@@ -106,7 +102,6 @@
                                 <th>Mã vật tư</th>
                                 <th>Số lượng</th>
                                 <th>Tình trạng kỹ thuật</th>
-                                <th>Nơi lĩnh</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -114,7 +109,6 @@
                                 <td><input type='text' list='supplyID' class='form-control required' /></td>
                                 <td><input type='number' min='1' value='1' class='form-control' /></td>
                                 <td><select class='form-control'><option>Mới 100%</option><option>Cũ đã qua sử dụng</option></select></td>
-                                <td><input type='text' list='departmentName' class='form-control required' /></td>
                             </tr>
                         </tbody>
                     </table>
@@ -141,8 +135,6 @@
         </div>
     </div>
 </div>
-
-<input type="hidden" id="hidden_thietbi" value="" />
 
 <datalist id="supplyID">
     @foreach (var item in ViewBag.Supplies)
@@ -196,7 +188,7 @@
         var id = $(this).data('id');
         $('#rownumber').val(id);
         $("#test").find("tr:gt(0)").remove();
-        $('#listId').text("Danh sách vật tư thay thế của thiết bị " + $('#' + id + ' td:first-child').text())
+        $('#listId').text("Danh sách vật tư đi kèm của thiết bị " + $('#' + id + ' td:first-child').text())
         if (output.hasOwnProperty(id)) {
             for (var i = 0; i < output[id].vattu.length; i++) {
                 var item = output[id].vattu[i];
@@ -208,7 +200,6 @@
                     $tr.append($('<td>').html("<select class='form-control'><option>Mới 100%</option><option selected>Qua sử dụng</option></select> "))
                 else
                     $tr.append($('<td>').html("<select class='form-control'><option>Mới 100%</option><option>Qua sử dụng</option></select> "))
-                $tr.append($('<td>').html("<input type='text' list='departmentName' class='form-control required' value='" + item.department_name + "' /> "))
                 $tr.appendTo('#test tbody');
             }
         }
@@ -219,30 +210,35 @@
             $('<td>').html("<input type='text' list='supplyID' class='form-control required' />"),
             $('<td>').html("<input type='number' min='1' value='1' class='form-control' />"),
             $('<td>').html("<select class='form-control'><option>Mới 100%</option><option>Qua sử dụng</option></select>"),
-            $('<td>').html("<input type='text' list='departmentName' class='form-control required' />")
         );
         $tr.appendTo('#test tbody');
     });
     //tạo json cho thiết bị khi nhập submit vật tư
     $("#submitvattu").click(function () {
-        if ($('#mylist #test tr').length > 1) {
+        var thietbi = {};
+        var arr = [];
+        var rownumber = $('#rownumber').val();
+        thietbi.id = $('#' + rownumber + ' td:first-child').text();
+        for (var i = 1; i < $('#test tbody tr').length + 1; i++) {
+            if ($('#mylist #test tbody tr:nth-child(' + i + ') input').eq(0).val() != "") {
+                var vattu = {};
+                vattu.supply_id = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(0).val();
+                vattu.quantity = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(1).val();
+                vattu.supplyStatus = $('#mylist #test tbody tr:nth-child(' + i + ') select').val();
+                arr.push(vattu);
+            }
+        }
+        thietbi.vattu = arr;
+        output[rownumber] = thietbi;
+    })
+
+    $(document).ready(function () {
+        for (var i = 0; i < $('#mytablevattu tbody tr').length; i++) {
             var thietbi = {};
             var arr = [];
-            var rownumber = $('#rownumber').val();
-            thietbi.id = $('#' + rownumber + ' td:first-child').text();
-            for (var i = 1; i < $('#test tbody tr').length + 1; i++) {
-                if ($('#mylist #test tbody tr:nth-child(' + i + ') input').eq(0).val() != "" &&
-                    $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(2).val() != "") {
-                    var vattu = {};
-                    vattu.supply_id = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(0).val();
-                    vattu.quantity = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(1).val();
-                    vattu.supplyStatus = $('#mylist #test tbody tr:nth-child(' + i + ') select').val();
-                    vattu.department_id = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(2).val();
-                    arr.push(vattu);
-                }
-            }
+            thietbi.id = $('#mytablevattu tbody tr:nth-child(' + (i+1) + ') td').eq(0).text();
             thietbi.vattu = arr;
-            output[rownumber] = thietbi;
+            output[i] = thietbi;
         }
     })
 </script>
@@ -261,21 +257,13 @@
                 }
             })
             if (validate == 1) {
-                if (Object.keys(output).length < $('#mytablevattu tbody tr').length)
-                    $.notify("phải điền đầy đủ vật tư vào thiết bị", {
-                        globalPosition: "top center",
-                        className: "error"
-                    });
-                else {
-                    for (var key in output) {
-                        output[key].repair_type = $('#' + key + ' select').val();
-                        output[key].repair_reason = $('#' + key + ' input').eq(0).val();
-                        output[key].finish_date_plan = $('#' + key + ' input').eq(1).val();
-                    }
-                    $('#json').val(JSON.stringify(output))
-                    $('#confirm').modal("open");
-
+                alert($('#mytablevattu tbody tr').length)
+                for (var key in output) {
+                    output[key].buyer = $('#' + key + ' input').eq(0).val();
+                    output[key].equipment_liquidation_reason = $('#' + key + ' input').eq(1).val();
                 }
+                $('#json').val(JSON.stringify(output))
+                $('#confirm').modal("open");
             } else
                 $.notify("không được bổ trống ô này", {
                     globalPosition: "top center",

@@ -16,9 +16,9 @@ using System.Data.Entity;
 
 namespace QUANGHANHCORE.Controllers.CDVT.Work
 {
-    public class DieudongchonController : Controller
+    public class kiemdinhchonController : Controller
     {
-        [Route("phong-cdvt/dieu-dong-chon")]
+        [Route("phong-cdvt/thu-hoi-chon")]
         [HttpGet]
         public ActionResult Index(String selectListJson)
         {
@@ -68,10 +68,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                 ViewBag.Supplies = supplies;
                 ViewBag.Departments = departments;
             }
-            return View("/Views/CDVT/Work/dieu_dong_va_chon.cshtml");
+            return View("/Views/CDVT/Work/thuhoichon.cshtml");
         }
 
-        [Route("phong-cdvt/dieu-dong-chon")]
+        [Route("phong-cdvt/thu-hoi-chon")]
         [HttpPost]
         public ActionResult GetData(string documentary_code, string out_in_come, string data, string department_id, string reason)
         {
@@ -82,7 +82,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                 {
                     Documentary documentary = new Documentary();
                     documentary.documentary_code = documentary_code == "" ? null : documentary_code;
-                    documentary.documentary_type = "3";
+                    documentary.documentary_type = "4";
                     documentary.department_id = department_id;
                     documentary.date_created = DateTime.Now;
                     documentary.person_created = Session["Name"] + "";
@@ -95,19 +95,13 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                     foreach (var item in json)
                     {
                         string equipmentId = (string)item.Value["id"];
-                        string department_id_to = (string)item.Value["department_id"];
-                        string department_detail = (string)item.Value["department_detail"];
-                        string equipment_moveline_reason = (string)item.Value["equipment_moveline_reason"];
-                        string datestring = (string)item.Value["date_to"];
-                        DateTime date_to = DateTime.ParseExact(datestring, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                        Documentary_moveline_details drd = new Documentary_moveline_details();
-                        drd.equipment_moveline_status = 0;
-                        drd.department_detail = department_detail;
-                        drd.date_to = date_to;
-                        drd.equipment_moveline_reason = equipment_moveline_reason;
+                        string equipment_revoke_reason = (string)item.Value["equipment_revoke_reason"];
+                        Documentary_revoke_details drd = new Documentary_revoke_details();
+                        drd.equipment_revoke_status = 0;
+                        drd.equipment_revoke_reason = equipment_revoke_reason;
                         drd.documentary_id = documentary.documentary_id;
                         drd.equipmentId = equipmentId;
-                        DBContext.Documentary_moveline_details.Add(drd);
+                        DBContext.Documentary_revoke_details.Add(drd);
                         DBContext.SaveChanges();
                         JArray vattu = (JArray)item.Value.SelectToken("vattu");
                         foreach (JObject jObject in vattu)
@@ -144,12 +138,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
 
         //export file world
 
-        [Route("phong-cdvt/export-quyet-dinh-dieu-dong")]
+        [Route("phong-cdvt/export-quyet-dinh-thu-hoi")]
         [HttpPost]
         public ActionResult ExportQuyetDinh(List<ListVatTu> listVatTu, ListThietBi listThietBi)
         {
-            string Flocation = "/doc/CDVT/quyetdinhsuachua/quyetdinhdieudong.docx";
-            string fileName = HostingEnvironment.MapPath("/doc/CDVT/quyetdinhsuachua/quyetdinhđieuong-template.docx");
+            string Flocation = "/doc/CDVT/quyetdinhsuachua/quyetdinhsuachua.docx";
+            string fileName = HostingEnvironment.MapPath("/doc/CDVT/quyetdinhsuachua/quyetdinh-template.docx");
             byte[] byteArray = System.IO.File.ReadAllBytes(fileName);
             using (var stream = new MemoryStream())
             {
@@ -172,46 +166,50 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                     Table table =
                     doc.MainDocumentPart.Document.Body.Elements<Table>().ElementAt(1);
                     int i = 0;
-                    foreach (ListVatTu l in listVatTu)
+                    if (listVatTu != null)
                     {
-                        int j = 0;
-                        foreach (string m in l.tenvattu)
+                        foreach (ListVatTu l in listVatTu)
                         {
-                            TableRow tr = new TableRow();
+                            int j = 0;
+                            foreach (string m in l.tenvattu)
+                            {
+                                TableRow tr = new TableRow();
 
-                            TableCell tc1 = new TableCell();
-                            tc1.Append(new Paragraph(new Run(new Text((i + 1).ToString()))));
-                            tr.Append(tc1);
+                                TableCell tc1 = new TableCell();
+                                tc1.Append(new Paragraph(new Run(new Text((i + 1).ToString()))));
+                                tr.Append(tc1);
 
-                            TableCell tc2 = new TableCell();
-                            tc2.Append(new Paragraph(new Run(new Text(l.thietbi))));
-                            tr.Append(tc2);
+                                TableCell tc2 = new TableCell();
+                                tc2.Append(new Paragraph(new Run(new Text(l.thietbi))));
+                                tr.Append(tc2);
 
-                            TableCell tc3 = new TableCell();
-                            tc3.Append(new Paragraph(new Run(new Text(m))));
-                            tr.Append(tc3);
+                                TableCell tc3 = new TableCell();
+                                tc3.Append(new Paragraph(new Run(new Text(m))));
+                                tr.Append(tc3);
 
-                            TableCell tc4 = new TableCell();
-                            tc4.Append(new Paragraph(new Run(new Text(l.donvi[j]))));
-                            tr.Append(tc4);
+                                TableCell tc4 = new TableCell();
+                                tc4.Append(new Paragraph(new Run(new Text(l.donvi[j]))));
+                                tr.Append(tc4);
 
-                            TableCell tc5 = new TableCell();
-                            tc5.Append(new Paragraph(new Run(new Text(l.soluong[j]))));
-                            tr.Append(tc5);
+                                TableCell tc5 = new TableCell();
+                                tc5.Append(new Paragraph(new Run(new Text(l.soluong[j]))));
+                                tr.Append(tc5);
 
-                            TableCell tc6 = new TableCell();
-                            tc6.Append(new Paragraph(new Run(new Text(""))));
-                            tr.Append(tc6);
+                                TableCell tc6 = new TableCell();
+                                tc6.Append(new Paragraph(new Run(new Text(""))));
+                                tr.Append(tc6);
 
-                            TableCell tc7 = new TableCell();
-                            tc7.Append(new Paragraph(new Run(new Text(""))));
-                            tr.Append(tc7);
-                            i++;
-                            j++;
-                            table.Append(tr);
+                                TableCell tc7 = new TableCell();
+                                tc7.Append(new Paragraph(new Run(new Text(""))));
+                                tr.Append(tc7);
+                                i++;
+                                j++;
+                                table.Append(tr);
+                            }
+                            doc.MainDocumentPart.Document.Save(); // won't update the original file 
                         }
-                        doc.MainDocumentPart.Document.Save(); // won't update the original file 
                     }
+                    
                     // Save the file with the new name
 
                     string savePath = HostingEnvironment.MapPath(Flocation);
@@ -222,6 +220,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
             }
             return Json(new { success = true, location = Flocation }, JsonRequestBehavior.AllowGet);
         }
+
+
         public class ListVatTu
         {
             public string thietbi { get; set; }
@@ -247,5 +247,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
             public string[] repair_type { get; set; }
 
         }
+
+
+
     }
 }
