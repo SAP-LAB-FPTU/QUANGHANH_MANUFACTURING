@@ -11,6 +11,11 @@ namespace QUANGHANH2.ModelViews
         public int RegWednesday { get; set; }
         public int RegThursday { get; set; }
         public int RegFriday { get; set; }
+        public int RegMondayPlan { get; set; }
+        public int RegTuesdayPlan { get; set; }
+        public int RegWednesdayPlan { get; set; }
+        public int RegThursdayPlan { get; set; }
+        public int RegFridayPlan { get; set; }
     }
 
     public class PxdsMealRegistrationModelView
@@ -19,5 +24,6 @@ namespace QUANGHANH2.ModelViews
         public string DepartmentId { get; set; }
         public DateTime DateRegistration { get; set; }
         public int NumOfMealRegistrations { get; set; }
+        public int NumOfMealRegistrationsPlan { get; set; }
     }
 }

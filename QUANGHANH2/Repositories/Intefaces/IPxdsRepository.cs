@@ -13,7 +13,5 @@ namespace QUANGHANH2.Repositories.Intefaces
         bool UpdateMealRegistration(IList<PxdsModelView> details);
 
         bool HasMealRegistration(DateTime mondayOfNextWeek);
-
-        DateTime StartOfNextWeek(DateTime dt, DayOfWeek startOfWeek);
     }
 }

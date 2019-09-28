@@ -506,6 +506,7 @@
     <Compile Include="Repositories\XincapvattuSummaryRepository.cs" />
     <Compile Include="SupportClass\Auther.cs" />
     <Compile Include="SupportClass\DataTableAjaxPostModal.cs" />
+    <Compile Include="Utils\TimeHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\Custom css\CDVT\StyleSheet1.css" />
