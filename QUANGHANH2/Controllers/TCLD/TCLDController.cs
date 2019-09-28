@@ -31,9 +31,18 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [Route("phong-tcld/bao-cao-chi-tiet-theo-ca")]
         public ActionResult Report1(string ca, string donvi, string date)
         {
-            ca = "1";
-            donvi = "VTL1";
-            date = "25/09/2019";
+            if(ca == null)
+            {
+                ca = "1";
+            }
+            if (date == null)
+            {
+                date = string.Format("{0:dd/MM/yyyy}", DateTime.Now);
+            }
+            if (donvi == null)
+            {
+                donvi = "DL1";
+            }
             ViewBag.nameDepartment = "baocao-sanluon-laodong";
             ViewBag.ca = ca;
             ViewBag.donvi = donvi;
@@ -59,36 +68,41 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
             if (date == null)
             {
-                date = "20/09/2019";
-                //date = string.Format("{0:dd/MM/yyyy}", DateTime.Now);
+                date = string.Format("{0:dd/MM/yyyy}", DateTime.Now);
+            }
+            if(donvi == null)
+            {
+                donvi = "DL1";
             }
             var calamviec = Convert.ToInt32(ca);
             var datesql = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                List<DiemDanh_NangSuatLaoDong> list = db.DiemDanh_NangSuatLaoDong
+                List<DiemDanh_NangSuatLaoDong> list = db.Departments.Where(a => a.department_id == donvi).First().DiemDanh_NangSuatLaoDong
                     .Where(a => a.NgayDiemDanh == datesql)
                     .Where(a => a.CaDiemDanh == calamviec).ToList();
                 List<BaoCaoTheoCa> customNSLDs = new List<BaoCaoTheoCa>();
                 BaoCaoTheoCa cus;
+                int stt = 1;
                 foreach (var i in list)
                 {
                     cus = new BaoCaoTheoCa
                     {
-                        ID = i.MaDiemDanh,
+                        ID = stt,
                         Name = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().Ten,
-                        BacTho = "6/6",
-                        ChucDanh = "MT",
-                        DuBaoNguyCo = "Không kiểm tra thiết bị trước khi vận hành",
+                        BacTho = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().BacLuong,
+                        ChucDanh = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec == null ? "": db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec.TenCongViec,
+                        DuBaoNguyCo = i.DuBaoNguyCo,
                         HeSoChiaLuong = i.HeSoChiaLuong.ToString(),
                         LuongSauDuyet = i.Luong.ToString(),
                         LuongTruocDuyet = i.Luong.ToString(),
                         NoiDungCongViec = db.Departments.Where(a => a.department_id == i.MaDonVi).First().department_name,
                         NSLD = i.NangSuatLaoDong.ToString(),
                         SoThe = i.MaNV,
-                        YeuCauBPKTAT = "Trước khi vận hành phải kiểm tra thiết bị đảm bảo an toàn trước khi được vận hành"
+                        YeuCauBPKTAT = i.GiaiPhapNguyCo
                     };
                     customNSLDs.Add(cus);
+                    stt++;
                 }
                 ViewBag.nsld = customNSLDs;
                 var js = Json(new { success = true, data = customNSLDs }, JsonRequestBehavior.AllowGet);
@@ -105,11 +119,5 @@ namespace QUANGHANHCORE.Controllers.TCLD
             ViewBag.nameDepartment = "baocao-sanluon-laodong";
             return View("/Views/TCLD/CommonRecord.cshtml");
         }
-        //[Route("~/{tenphong}/")]
-        //public ActionResult Hocnt(String tenphong, [FromQuery] String ten)
-        //{
-        //    ViewBag.name = ten + tenphong;
-        //    return View("Views/TCLD/bao-cao-nhanh.cshtml");
-        //}
     }
 }

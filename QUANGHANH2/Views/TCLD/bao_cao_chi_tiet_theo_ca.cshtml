@@ -21,10 +21,6 @@
                 type: 'POST',
                 data: function (d) {
                         d.ca = document.getElementById("ca").innerText;
-                        //d.PatronCode = document.getElementById("PatronCodeFilter").value,
-                        //d.Note = document.getElementById("NoteFilter").value,
-                        //d.StartedDate = document.getElementById("LockDateFromFilter").value,
-                        //d.FinishDate = document.getElementById("LockDateToFilter").value
                 }
             },
             "columns": [
@@ -56,7 +52,6 @@
         document.getElementById("ca").innerText = "CA " + ca;
         $('#pre-load').show();
         $("#content-table").DataTable().ajax.reload(null, false);
-        
     }
 </script>
 

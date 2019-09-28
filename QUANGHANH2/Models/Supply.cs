@@ -22,6 +22,7 @@ namespace QUANGHANH2.Models
             this.Supply_Documentary_Equipment = new HashSet<Supply_Documentary_Equipment>();
             this.Supply_tieuhao = new HashSet<Supply_tieuhao>();
             this.SupplyPlans = new HashSet<SupplyPlan>();
+            this.SupplyPlans1 = new HashSet<SupplyPlan>();
         }
     
         public string supply_id { get; set; }
@@ -39,5 +40,7 @@ namespace QUANGHANH2.Models
         public virtual ICollection<Supply_tieuhao> Supply_tieuhao { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SupplyPlan> SupplyPlans { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SupplyPlan> SupplyPlans1 { get; set; }
     }
 }

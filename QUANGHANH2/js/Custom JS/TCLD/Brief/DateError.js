@@ -77,4 +77,17 @@
         $('#NgayCapCMND').val(arr[1] + "/" + arr[0] + "/" + arr[2])
     });
 
+    $("#NgayTuyenDungTruocFix").val($("#NgayTuyenDungTruoc").val())
+    $("#save").click(function () {
+        var temp = $("#NgayTuyenDungTruocFix").val();
+        var arr = temp.split("/");
+        $('#NgayTuyenDungTruoc').val(arr[1] + "/" + arr[0] + "/" + arr[2])
+    });
+
+    $("#NgayDiLamFix").val($("#NgayDiLam").val())
+    $("#save").click(function () {
+        var temp = $("#NgayDiLamFix").val();
+        var arr = temp.split("/");
+        $('#NgayDiLam').val(arr[1] + "/" + arr[0] + "/" + arr[2])
+    });
 });
