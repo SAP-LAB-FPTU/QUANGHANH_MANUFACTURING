@@ -6818,14 +6818,10 @@
     <Content Include="lib\jquery-validation\LICENSE.md" />
     <Content Include="lib\jquery\.bower.json" />
     <Content Include="lib\jquery\dist\jquery.min.map" />
-    <Content Include="excel\CDVT\baoduong.xls" />
-    <Content Include="excel\CDVT\diennang.xls" />
     <Content Include="excel\CDVT\huydong.xls" />
     <Content Include="excel\CDVT\kiemdinh.xls" />
     <Content Include="excel\CDVT\nhienlieu.xls" />
-    <Content Include="excel\CDVT\suachua.xls" />
     <Content Include="excel\CDVT\thanhly.xls" />
-    <Content Include="excel\CDVT\thoatnuoc.xls" />
     <Content Include="excel\CDVT\thuhoi.xls" />
     <Content Include="excel\CDVT\tonghop.xls" />
     <Content Include="excel\DK\DetailReport\chi-tiet-san-xuat.xls" />
@@ -6857,6 +6853,7 @@
     </Content>
     <Content Include="doc\CDVT\QD\quyetdinh-template.docx" />
     <Content Include="excel\CDVT\download\huy-dong-oto.xlsx" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
