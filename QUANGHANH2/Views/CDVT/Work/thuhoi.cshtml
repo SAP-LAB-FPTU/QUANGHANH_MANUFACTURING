@@ -11,181 +11,240 @@
 <link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
 <script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
 <script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
-<div class="col m12">
-    <div class="card">
-        <div class="card-content">
-            <div class="row">
-                <h3 class="center"><b>THU HỒI THIẾT BỊ</b></h3>
+
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <h3 class="center"><b>THU HỒI THIẾT BỊ</b></h3>
+            <hr>
+            <form action="" method="POST" id="mysearchform" role="form">
                 <div class="col l6 m6 s12">
                     <div class="row">
-                        <div class="col l8 m8 s12 offset-l1 offset-m1 input-field">
-                            <input type="text" placeholder="Tìm kiếm theo phân xưởng" class='form-control' id="searchArea"
-                                   multiple />
+                        <div class="col l10 m10 offset-l2 offset-m2 s12 input-field">
+                            <input type="text" placeholder="Tìm kiếm theo mã thiết bị" class='form-control' id="equipmentId-search" />
                         </div>
-                        <div class="col l8 m8 s12 offset-l1 offset-m1 input-field">
-                            <input type="text" placeholder="Tìm kiếm theo mã thiết bị" class='form-control' id="searchArea"
-                                   multiple />
-                        </div>
-                        <div class="col l8 m8 s12 offset-l1 offset-m1 input-field">
-                            <input type="text" placeholder="Tìm kiếm theo tên thiết bị" class='form-control' id="searchArea"
-                                   multiple />
+                        <div class="col l10 m10 offset-l2 offset-m2 s12 input-field">
+                            <input type="text" placeholder="Tìm kiếm theo tên thiết bị" class='form-control' id="equipmentName-search" />
                         </div>
                     </div>
                 </div>
                 <div class="col l6 m6 s12">
-                    <div class="row center">
-                        <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
-                            <i class="fas fa-calendar-alt icon"></i>
-                            <input type='text' class='datepicker-here center' id="minMaxDate" data-language='vi' value="Ngày ra quyết định (từ)" style="height: 24px" />
-                        </div>
-                        <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
-                            <i class="fas fa-calendar-alt icon"></i>
-                            <input type='text' class='datepicker-here center' id="minMaxDate" data-language='vi' value="Ngày ra quyết định (đến)" style="height: 24px" />
-                        </div>
-                        <div class="col l8 m8 s6 offset-l2 offset-m2 input-field">
-                            <button class="btn blue darken-2 btn-small" id="searchButton1">Tìm kiếm</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="table-wrapper">
-                <div>
                     <div class="row">
-                        <table id="myTable" class="striped responsive-table highlight">
-                            <tr>
-                                <th>Số thứ tự</th>
-                                <th>Mã thiết bị</th>
-                                <th>Tên thiết bị</th>
-                                <th>Vị trí hiện tại</th>
-                                <th>Phân xưởng quản lí</th>
-                                <th>Trạng thái thiết bị</th>
-                                <th></th>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>GH2</td>
-                                <td>Máy xúc</td>
-                                <td>Lò 1</td>
-                                <td>Phân xưởng 1</td>
-                                <td>Chờ thu hồi</td>
-                                <td class="right"><a id="buttonChon" class="GH2 btn red darken-2">Thu hồi</a></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>MM1</td>
-                                <td>Máy khoan</td>
-                                <td>Lò 2</td>
-                                <td>Phân xưởng 1</td>
-                                <td>Chờ thu hồi</td>
-                                <td class="right"><a id="buttonChon" class="MM1 btn red darken-2">Thu hồi</a></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>AH14</td>
-                                <td>Máng cào</td>
-                                <td>Lò 3</td>
-                                <td>Phân xưởng 1</td>
-                                <td>Chờ thu hồi</td>
-                                <td class="right"><a id="buttonChon" class="AH14 btn red darken-2">Thu hồi</a></td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>AK43</td>
-                                <td>Máy nén khí</td>
-                                <td>Hầm lộ thiên 1</td>
-                                <td>Phân xưởng 1</td>
-                                <td>Chờ thu hồi</td>
-                                <td class="right"><a id="buttonChon" class="AK43 btn red darken-2">Thu hồi</a></td>
-                            </tr>
-                        </table>
+                        <div class="col l10 m10 s12 input-field">
+                            <input type="text" placeholder="Tìm kiếm theo phân xưởng chịu trách nhiệm" class='form-control' id="department-search" />
+                        </div>
                     </div>
                 </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<div class="col m12" id="table2" hidden="hidden">
-    <div class="card">
-        <div class="card-content">
-            <div>
-                <div class="row">
-                    <div id="table-wrapper2">
-
-                    </div>
+                <div class="col l12 m12 s12 input-field center">
+                    <a class="waves-effect waves-light btn blue darken-2 modal-close modal-trigger" id="searchButton1">Tìm kiếm</a>
                 </div>
+            </form>
+            <div class="col s12 table_container">
+                <table id="equipmentTable" class="table-bordered striped table-responsive centered">
+                    <thead>
+                        <tr>
+                            <th>Mã thiết bị</th>
+                            <th>Tên thiết bị</th>
+                            <th>Phân xưởng quản lí</th>
+                            <th>Tình trạng thiết bị</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="col">
+                <a href="#" id="tienhanh" onclick="SaveStatus()" class="btn blue darken-2">Tiến hành thu hồi thiết bị</a>
+                <a class="btn blue darken-2" id="drop">Bỏ Chọn</a>
             </div>
         </div>
+    </div>
+</div>
+<script type="text/javascript" src="~/js/Custom JS/CDVT/Work/suachua.js"></script>
+<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
 
-    </div>
-    <div id="deleteBriefs" class="modal open">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Xác nhận thu hồi</h3>
-            </div>
-            <div class="modal-body">
-                <p class="red-text">Bạn có muốn thu hồi các thiết bị này?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn blue darken-2 modal-close">Thu hồi</button>
-                <button type="button" class="btn red modal-close">Hủy</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="xacnhan" class="modal">
-    <div class="modal-header center card">
-        <h3><b>XÁC NHẬN THU HỒI</b></h3>
-    </div>
-    <div class="modal-body">
-        <div class="col s12">
-            <h6 class="center">Mã quyết định: 001</h6>
-        </div>
-        <div class="col s12">
-            <table class="striped responsive-table centered">
-                <tr>
-                    <th class="center-align">Số thứ tự</th>
-                    <th class="center-align">Mã thiết bị</th>
-                    <th class="center-align">Tên thiết bị</th>
-                    <th class="center-align">Đơn vị sử dụng</th>
-                    <th class="center-align">Trạng thái thiết bị</th>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>GH2</td>
-                    <td>Máy xúc</td>
-                    <td>Phân xưởng 1</td>
-                    <td>Chờ thu hồi</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>MM1</td>
-                    <td>Máy khoan</td>
-                    <td>Phân xưởng 1</td>
-                    <td>Chờ thu hồi</td>
-                    <!-- datepicker loi mau chu -->
-                    <!--<td><input class="datepicker form-control" type="text"/></td>-->
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>AH14</td>
-                    <td>Máng cào</td>
-                    <td>Phân xưởng 1</td>
-                    <td>Chờ thu hồi</td>
-                    <!-- datepicker loi mau chu -->
-                    <!--<td><input class="datepicker form-control" type="text"/></td>-->
-                </tr>
-            </table>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <a class="btn light-blue lighten-1" onclick="window.open('')">In báo cáo</a>
-        <a href="/phong-cdvt/quyet-dinh/thu-hoi"><button type="submit" class="btn blue darken-2">Xác nhận</button></a>
-        <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
-    </div>
-</div>
-</div>
+@section scripts{
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+        $("#pre-load").show();
+        var Popup, dataTable;
+        @{
+            var listFromServer = "[]";
+            if (ViewBag.selectedList != null)
+            {
+                listFromServer = ViewBag.selectedList;
+            }
+         }
+        var arrCarSelected = JSON.parse("@listFromServer".replace(/(&quot\;)/g, "\""));
+        $("#drop").click(function () {
+            $(".my_checkbox").each(function () {
+                if ($(this).is(":checked")) $(this).click();
+            })
+            //here      
+            arrCarSelected = null;
+        })
+        $(document).ready(function () {
+            dataTable = $('#equipmentTable')
+                .on('preXhr.dt', function ( e, settings, data )  {
+                data.sessionId = "@ViewBag.id";
+                data.selectList = JSON.stringify(arrCarSelected);
+            })
+                .DataTable({
+                    "language": {
+                        "emptyTable": "Không tìm thấy dữ liệu",
+                        "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                        "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                        "paginate": {
+                            "first": "Trang đầu",
+                            "last": "Trang cuối",
+                            "next": "Trang sau",
+                            "previous": "Trang trước"
+                        }
+                    },
+                    "ajax": {
+                        "url": "/phong-cdvt/thu-hoi/search",
+                        "type": "POST",
+                        "datatype": "json",
+                        "data": {
+                            "equipmentId": function () { return $('#equipmentId-search').val() },
+                            "department_name": function () { return $('#department-search').val() },
+                            "equipmentName": function () { return $('#equipmentName-search').val() }
+                        },
+                        "cache": false
+                    },
+                    "columns": [
+                        { "data": "equipmentId", "name": "equipmentId", "searchable": true },
+                        { "data": "equipment_name", "name": "equipment_name" },
+                        { "data": "department_name", "name": "department_name" },
+                        {
+                            "data": "current_Status", "name": "current_Status", "render": (data) => {
+                                if (data == 1) {
+                                    return "<p> Chờ điều động </p>"
+                                }
+                                if (data == 2) {
+                                    return "<p> Đang hoạt động </p>"
+                                }
+                                if (data == 3) {
+                                    return "<p> Đang sửa chữa </p>"
+                                }
+                                if (data == 4) {
+                                    return "<p> Hỏng </p>"
+                                }
+                                if (data == 5) {
+                                    return "<p> Đang bảo dưỡng </p>"
+                                }
+                                if (data == 6) {
+                                    return "<p> Đang điều động </p>"
+                                }
+                                if (data == 7) {
+                                    return "<p> Đang thu hồi </p>"
+                                }
+                                if (data == 8) {
+                                    return "<p> Đang thanh lý  </p>"
+                                }
+                                if (data == 9) {
+                                    return "<p> Đang trung tu </p>"
+                                }
+                                if (data == 10) {
+                                    return "<p> Đang đại tu </p>"
+                                }
+                                if (data == 11) {
+                                    return "<p> Đang chờ nghiệm thu </p>"
+                                }
+                                if (data == 12) {
+                                    return "<p> Đến hạn bảo dưỡng </p>"
+                                }
+                                else {
+                                    return data;
+                                }
+                            }
+                        },
+                        {
+                            "data": "equipmentId", "render": function (data) {
+                                if (arrCarSelected != null) {
+                                    for (let i = 0; i < arrCarSelected.length; i++)
+                                        if (arrCarSelected[i] == data) {
+                                            return "<label><input class='my_checkbox'  name='abc' id ='" + data + "' value='" + data + "' type ='checkbox' onclick=updateList('" + data + "') checked><span></span></label>";
+                                        }
+                                }
+                                return "<label><input class='my_checkbox'  name='abc' id ='" + data + "' value='" + data + "' type ='checkbox' onclick=updateList('" + data + "')><span></span></label>";
+                            },
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "150px"
+                        }],
+                    "bLengthChange": false,
+                    "searching": false,
+                    "serverSide": "true",
+                    "order": [1, "asc"],
+                    "initComplete": function (settings, json) {
+                        $("#pre-load").hide();
+                    },
+                    "preDrawCallback": function (settings) {
+                        $('#pre-load').show();
+                    },
+                    "drawCallback": function (settings) {
+                        $('#pre-load').hide();
+                    }
+                });
 
-<script type="text/javascript" src="~/js/Custom JS/CDVT/Work/thuhoi.js"></script>
+            $("#searchButton1").click(function () {
+                $("#pre-load").show();
+                dataTable.ajax.reload(function () {
+                    $.notify("Tìm kiếm thành công", {
+                        globalPosition: "top center",
+                        className: "success"
+                    });
+                    $("#pre-load").hide();
+                })
+            })
+       });
+
+        var table = new $.fn.dataTable.Api('#myTable');
+
+        // Get data from the first row
+        var data = table.rows().data()[0]; // same as row(0).data()
+
+        function updateList(id) {
+            isExist = false;
+            if (arrCarSelected != null) {
+                for (let i = 0; i < arrCarSelected.length; i++) {
+                    if (arrCarSelected[i] == id) {
+                        isExist = true;
+                        arrCarSelected.splice(i, 1);
+                        break;
+                    }
+                }
+            }
+
+            if (!isExist && id != "" && id != null) {
+                if (arrCarSelected != null) {
+                    arrCarSelected.push(id);
+                    console.log(arrCarSelected)
+                } else {
+                    arrCarSelected = [id];
+
+                }
+            }
+        }
+
+        function SaveStatus() {
+            $.ajax({
+                url: "/phong-cdvt/thu-hoi",
+                method: "POST",
+                data: {
+                    "selectList": JSON.stringify(arrCarSelected)
+                }
+            })
+            document.getElementById("selectListJson").value = arrCarSelected;
+            document.getElementById("formSaveStatus").submit();
+        }
+        function sendData() {
+            $.each($("input[name='abc']:checked"), function () {
+            });
+
+        }
+    </script>
+}
+<form action="/phong-cdvt/thu-hoi-chon" id="formSaveStatus">
+    <input type="hidden" name="selectListJson" id="selectListJson" value="" />
+</form>

@@ -9,6 +9,36 @@
 <link rel="stylesheet" href="~/css/tuan_css/css/baocaoluong_css/style.css" />
 <link href="~/assets/extra-libs/css-chart/css-chart.css" rel="stylesheet">
 <link href="~/dist/css/pages/easy-pie-chart.css" rel="stylesheet">
+
+<script>
+    $(function () {
+        $("#dateforsearch").datepicker({
+            onSelect: function () {
+                window.location = "/phong-tcld/nang-suat-lao-dong-va-tien-luong/nang-suat-lao-dong-va-tien-luong-theo-cac-px-trong-ngay?date=" + $("#dateforsearch").val();
+            }
+        })
+    });
+    function HienThiTheoDonVi(donvi) {
+        var date = document.getElementById("dateforsearch").value;
+        window.location = "/phong-tcld/nang-suat-lao-dong-va-tien-luong/nang-suat-lao-dong-va-tien-luong-theo-ngay?date="+date+"&donvi="+donvi;
+    }
+    $(document).ready(function () {
+        $("#dateforsearch").val("@string.Format("{0:dd/MM/yyyy}", System.DateTime.Now)");
+        $("#ngayreport").val("@string.Format("{0:dd/MM/yyyy}", System.DateTime.Now)");
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        var date = url.searchParams.get("date");
+        if (date != null) {
+            $("#dateforsearch").val(date);
+            $("#ngayreport").text(date);
+        }
+    });
+    
+</script>
+
+
+
+
 <div class="card">
     <div class="card-content">
         <div class="row">
@@ -17,13 +47,14 @@
                 <br />
                 <i class="fas fa-calendar-alt icon"></i>
                 <input type="text"
+                       id="dateforsearch"
                        class="datepicker-here center"
                        data-language='vi'
                        data-min-view="days"
                        data-view="days"
                        data-date-format="dd/mm/yyyy" value="@string.Format("{0:dd/MM/yyyy}", System.DateTime.Now)" />
                 <br /><br />
-               
+
             </h3>
             <hr />
         </div>
@@ -102,51 +133,6 @@
         <div id="bangchitiet" class="col s12">
             <div class="report_container">
                 <div class="row">
-                    @*<div class="col l3 s12">
-                            <div class="thang">
-                                <div class="filter_label">Tháng: </div>
-                                <!-- Dropdown Trigger -->
-                                <a class='dropdown-trigger btn' href='#' data-target='dropdown2'>
-                                    Chọn
-                                    tháng
-                                </a>
-                                <!-- Dropdown Structure -->
-                                <ul id='dropdown2' class='dropdown-content'>
-                                    <li><a href="#!">Tháng 01</a></li>
-                                    <li><a href="#!">Tháng 02</a></li>
-                                    <li><a href="#!">Tháng 03</a></li>
-                                    <li><a href="#!">Tháng 04</a></li>
-                                    <li><a href="#!">Tháng 05</a></li>
-                                    <li><a href="#!">Tháng 06</a></li>
-                                    <li><a href="#!">Tháng 07</a></li>
-                                    <li><a href="#!">Tháng 08</a></li>
-                                    <li><a href="#!">Tháng 09</a></li>
-                                    <li><a href="#!">Tháng 10</a></li>
-                                    <li><a href="#!">Tháng 11</a></li>
-                                    <li><a href="#!">Tháng 12</a></li>
-                                </ul>
-                                <a class='dropdown-trigger btn' href='#' data-target='dropdown4'>
-                                    Chọn
-                                    năm
-                                </a>
-                                <!-- Dropdown Structure -->
-                                <ul id='dropdown4' class='dropdown-content'>
-                                    <li><a href="#!">2019</a></li>
-                                    <li><a href="#!">2018</a></li>
-                                    <li><a href="#!">2017</a></li>
-                                    <li><a href="#!">2015</a></li>
-                                    <li><a href="#!">2014</a></li>
-                                    <li><a href="#!">2013</a></li>
-                                    <li><a href="#!">2012</a></li>
-                                    <li><a href="#!">2011</a></li>
-                                    <li><a href="#!">2012</a></li>
-                                    <li><a href="#!">2011</a></li>
-                                    <li><a href="#!">2010</a></li>
-                                    <li><a href="#!">2009</a></li>
-                                </ul>
-
-                            </div>
-                        </div>*@
                 </div>
                 <div class="row table_container">
                     <div class="col l12">
@@ -155,7 +141,7 @@
                                 <tr>
                                     <th rowspan="3">STT</th>
                                     <th rowspan="3">ĐƠN VỊ</th>
-                                    <th colspan="4" rowspan="2" data-target="modal1" class="modal-trigger clickable_cell" id="ldtdd_tong">
+                                    <th colspan="5" rowspan="2" data-target="modal1" class="modal-trigger clickable_cell" id="ldtdd_tong">
                                         LĐTT THEO DANH SÁCH
                                     </th>
                                     <th colspan="4" rowspan="2" data-target="modal1" class="modal-trigger clickable_cell total_col" id="ldnghidai_tong">
@@ -179,6 +165,7 @@
                                     </th>
                                 </tr>
                                 <tr>
+                                    <th data-target="modal1" class="modal-trigger clickable_cell" id="ldtdd_kt">CBQL</th>
                                     <th data-target="modal1" class="modal-trigger clickable_cell" id="ldtdd_kt">KT</th>
                                     <th data-target="modal1" class="modal-trigger clickable_cell" id="ldtdd_cd">CĐ</th>
                                     <th data-target="modal1" class="modal-trigger clickable_cell" id="ldtdd_hstt">HSTT</th>
@@ -201,472 +188,61 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach (var item in ViewBag.TatCaDonVi)
+                                {
+                                    <tr>
+                                        <td>@item.STT</td>
+                                        <td><a onclick="HienThiTheoDonVi('@item.Name');">@item.Name</a></td>
+                                        <td>@item.CBQL</td>
+                                        <td>@item.KT</td>
+                                        <td>@item.CD</td>
+                                        <td>@item.HSTT</td>
+                                        <td class="total_col total_ldtt">@item.TongLaoDong</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">@item.LDTheoDS</td>
+                                        <td class="ldbq_di_lam">@item.LDSX</td>
+                                        <td>@item.VLD</td>
+                                        <td>@item.Om</td>
+                                        <td>@item.Khac</td>
+                                        <td class="total_col">@item.TongNghi</td>
+                                        <td class="tilehuydong"></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col"></td>
+                                        <td>@item.NSLDThucHien</td>
+                                        <td></td>
+                                    </tr>
+                                }
                                 <tr>
-                                    <td>1</td>
-                                    <td>ĐL3</td>
-                                    <td>94</td>
-                                    <td>17</td>
-                                    <td>1</td>
-                                    <td class="total_col total_ldtt">112</td>
-                                    <td>4</td>
-                                    <td>3</td>
-                                    <td>0</td>
-                                    <td class="total_col total_ldtt_nghi_dai">7</td>
-                                    <td class="ld_sanxuat">105</td>
-                                    <td class="ldbq_di_lam">89</td>
-                                    <td>11</td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td class="total_col">16</td>
-                                    <td class="tilehuydong">84.8</td>
-                                    <td>0.0</td>
-                                    <td>110.0</td>
-                                    <td>93.9</td>
-                                    <td>718</td>
-                                    <td class="total_col">1740681</td>
-                                    <td>0.04</td>
-                                    <td>0.13</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>ĐL5</td>
-                                    <td>71</td>
-                                    <td>14</td>
-                                    <td>14</td>
-                                    <td class="total_col total_ldtt">99</td>
-                                    <td>5</td>
-                                    <td>4</td>
-                                    <td>0</td>
-                                    <td class="total_col total_ldtt_nghi_dai">9</td>
-                                    <td class="ld_sanxuat">90</td>
-                                    <td class="ldbq_di_lam">74</td>
-                                    <td>10</td>
-                                    <td>3</td>
-                                    <td>3</td>
-                                    <td class="total_col">16</td>
-                                    <td class="tilehuydong">82.2</td>
-                                    <td>0.0</td>
-                                    <td>232.0</td>
-                                    <td>48.0</td>
-                                    <td>719</td>
-                                    <td class="total_col">1414654</td>
-                                    <td>0.15</td>
-                                    <td>0.13</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>ĐL7 </td>
-                                    <td>94</td>
-                                    <td>16</td>
-                                    <td>2</td>
-                                    <td class="total_col total_ldtt">112</td>
-                                    <td>3</td>
-                                    <td>2</td>
-                                    <td>0</td>
-                                    <td class="total_col total_ldtt_nghi_dai">5</td>
-                                    <td class="ld_sanxuat">107</td>
-                                    <td class="ldbq_di_lam">90</td>
-                                    <td>11</td>
-                                    <td>2</td>
-                                    <td>4</td>
-                                    <td class="total_col">17</td>
-                                    <td class="tilehuydong">84.1</td>
-                                    <td>2.149</td>
-                                    <td>280.0</td>
-                                    <td>58.0</td>
-                                    <td>696</td>
-                                    <td class="total_col">1454060</td>
-                                    <td>0.13</td>
-                                    <td>0.13</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>ĐL8</td>
-                                    <td>77</td>
-                                    <td>14</td>
-                                    <td>7</td>
-                                    <td class="total_col total_ldtt">98</td>
-                                    <td>1</td>
-                                    <td>5</td>
-                                    <td>0</td>
-                                    <td class="total_col total_ldtt_nghi_dai">6</td>
-                                    <td class="ld_sanxuat">92</td>
-                                    <td class="ldbq_di_lam">76</td>
-                                    <td>11</td>
-                                    <td>3</td>
-                                    <td>2</td>
-                                    <td class="total_col">16</td>
-                                    <td class="tilehuydong">82.6</td>
-                                    <td>1.14</td>
-                                    <td>71.0</td>
-                                    <td>27.0</td>
-                                    <td>576</td>
-                                    <td class="total_col">1190187</td>
-                                    <td>0.04</td>
-                                    <td>0.16</td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>KT1</td>
-                                    <td>67</td>
-                                    <td>27</td>
-                                    <td>7</td>
-                                    <td class="total_col total_ldtt">98</td>
-                                    <td>3</td>
-                                    <td>3</td>
-                                    <td>0</td>
-                                    <td class="total_col total_ldtt_nghi_dai">6</td>
-                                    <td class="ld_sanxuat">92</td>
-                                    <td class="ldbq_di_lam">80</td>
-                                    <td>17</td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td class="total_col">12</td>
-                                    <td class="tilehuydong">87.0</td>
-                                    <td>8.66</td>
-                                    <td>0.0</td>
-                                    <td>0.0</td>
-                                    <td>707</td>
-                                    <td class="total_col">1546110</td>
-                                    <td>4.0</td>
-                                    <td>5.72</td>
-                                </tr>
-                                <tr>
-                                    <td>6</td>
-                                    <td>KT2</td>
-                                    <td>72</td>
-                                    <td>26</td>
-                                    <td>4</td>
-                                    <td class="total_col total_ldtt">102</td>
-                                    <td>1</td>
-                                    <td>1</td>
-                                    <td>0</td>
-                                    <td class="total_col total_ldtt_nghi_dai">2</td>
-                                    <td class="ld_sanxuat">100</td>
-                                    <td class="ldbq_di_lam">93</td>
-                                    <td>6</td>
-                                    <td>0</td>
-                                    <td>1</td>
-                                    <td class="total_col">7</td>
-                                    <td class="tilehuydong">93.0</td>
-                                    <td>13.565</td>
-                                    <td>0.0</td>
-                                    <td>0.0</td>
-                                    <td>745</td>
-                                    <td class="total_col">1983560</td>
-                                    <td>5.1</td>
-                                    <td>8.6</td>
-                                </tr>
-                                <tr>
-                                    <td>7</td>
-                                    <td>KT3</td>
-                                    <td>95</td>
-                                    <td>19</td>
-                                    <td>2</td>
-                                    <td class="total_col total_ldtt">116</td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>0</td>
-                                    <td class="total_col total_ldtt_nghi_dai">5</td>
-                                    <td class="ld_sanxuat">111</td>
-                                    <td class="ldbq_di_lam">92</td>
-                                    <td>13</td>
-                                    <td>3</td>
-                                    <td>3</td>
-                                    <td class="total_col">19</td>
-                                    <td class="tilehuydong">82.9</td>
-                                    <td>15.271</td>
-                                    <td>0.0</td>
-                                    <td>0.0</td>
-                                    <td>724</td>
-                                    <td class="total_col">1981188</td>
-                                    <td>6.3</td>
-                                    <td>5.4</td>
-                                </tr>
-                                <tr>
-                                    <td>8</td>
-                                    <td>KT4</td>
-                                    <td>76</td>
-                                    <td>20</td>
-                                    <td>2</td>
-                                    <td class="total_col total_ldtt">98</td>
-                                    <td>2</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td class="total_col total_ldtt_nghi_dai">2</td>
-                                    <td class="ld_sanxuat">96</td>
-                                    <td class="ldbq_di_lam">80</td>
-                                    <td>9</td>
-                                    <td>5</td>
-                                    <td>2</td>
-                                    <td class="total_col">16</td>
-                                    <td class="tilehuydong">83.3</td>
-                                    <td>7.689</td>
-                                    <td>0.0</td>
-                                    <td>0.0</td>
-                                    <td>605</td>
-                                    <td class="total_col">1289415</td>
-                                    <td>4.2</td>
-                                    <td>5.0</td>
-                                </tr>
-                                <tr>
-                                    <td>9</td>
-                                    <td>KT5</td>
-                                    <td>87</td>
-                                    <td>15</td>
-                                    <td>6</td>
-                                    <td class="total_col total_ldtt">108</td>
-                                    <td>4</td>
-                                    <td>7</td>
-                                    <td>0</td>
-                                    <td class="total_col total_ldtt_nghi_dai">11</td>
-                                    <td class="ld_sanxuat">100</td>
-                                    <td class="ldbq_di_lam">81</td>
-                                    <td>12</td>
-                                    <td>3</td>
-                                    <td>4</td>
-                                    <td class="total_col">19</td>
-                                    <td class="tilehuydong">81.0</td>
-                                    <td>11.988</td>
-                                    <td>0.0</td>
-                                    <td>0.0</td>
-                                    <td>748</td>
-                                    <td class="total_col">1622504</td>
-                                    <td>5.3</td>
-                                    <td>5.5</td>
-                                </tr>
-                                <tr>
-                                    <td>10</td>
-                                    <td>KT6</td>
-                                    <td>75</td>
-                                    <td>16</td>
-                                    <td>2</td>
-                                    <td class="total_col total_ldtt">93</td>
-                                    <td>6</td>
-                                    <td>4</td>
-                                    <td>0</td>
-                                    <td class="total_col total_ldtt_nghi_dai">10</td>
-                                    <td class="ld_sanxuat">80</td>
-                                    <td class="ldbq_di_lam">67</td>
-                                    <td>10</td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td class="total_col">13</td>
-                                    <td class="tilehuydong">83.8</td>
-                                    <td>5.489</td>
-                                    <td>0.0</td>
-                                    <td>0.0</td>
-                                    <td>685</td>
-                                    <td class="total_col">1079529</td>
-                                    <td>3.6</td>
-                                    <td>3.8</td>
-                                </tr>
-                                <tr>
-                                    <td>11</td>
-                                    <td>KT7</td>
-                                    <td>78</td>
-                                    <td>15</td>
-                                    <td>0</td>
-                                    <td class="total_col total_ldtt">93</td>
-                                    <td>3</td>
-                                    <td>2</td>
-                                    <td>0</td>
-                                    <td class="total_col total_ldtt_nghi_dai">5</td>
-                                    <td class="ld_sanxuat">88</td>
-                                    <td class="ldbq_di_lam">72</td>
-                                    <td>8</td>
-                                    <td>5</td>
-                                    <td>3</td>
-                                    <td class="total_col">16</td>
-                                    <td class="tilehuydong">81.8</td>
-                                    <td>11.1</td>
-                                    <td>9.6</td>
-                                    <td>0.0</td>
-                                    <td>596</td>
-                                    <td class="total_col">1203996</td>
-                                    <td>5.9</td>
-                                    <td>5.5</td>
-                                </tr>
-                                <tr>
-                                    <td>12</td>
-                                    <td>KT8</td>
-                                    <td>92</td>
-                                    <td>18</td>
-                                    <td>2</td>
-                                    <td class="total_col total_ldtt">112</td>
-                                    <td>2</td>
-                                    <td>9</td>
-                                    <td>0</td>
-                                    <td class="total_col total_ldtt_nghi_dai">11</td>
-                                    <td class="ld_sanxuat">101</td>
-                                    <td class="ldbq_di_lam">82</td>
-                                    <td>12</td>
-                                    <td>5</td>
-                                    <td>2</td>
-                                    <td class="total_col">19</td>
-                                    <td class="tilehuydong">81.2</td>
-                                    <td>9.536</td>
-                                    <td>0.0</td>
-                                    <td>0.0</td>
-                                    <td>664</td>
-                                    <td class="total_col">1491653</td>
-                                    <td>4.25</td>
-                                    <td>3.5</td>
-                                </tr>
-                                <tr>
-                                    <td>13</td>
-                                    <td>KT9</td>
-                                    <td>74</td>
-                                    <td>18</td>
-                                    <td>1</td>
-                                    <td class="total_col total_ldtt">93</td>
-                                    <td>5</td>
-                                    <td>2</td>
-                                    <td>0</td>
-                                    <td class="total_col total_ldtt_nghi_dai">7</td>
-                                    <td class="ld_sanxuat">86</td>
-                                    <td class="ldbq_di_lam">71</td>
-                                    <td>12</td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td class="total_col">15</td>
-                                    <td class="tilehuydong">82.6</td>
-                                    <td>5.512</td>
-                                    <td>16.5</td>
-                                    <td>0.0</td>
-                                    <td>680</td>
-                                    <td class="total_col">1297576</td>
-                                    <td>4.2</td>
-                                    <td>5.2</td>
-                                </tr>
-                                <tr>
-                                    <td>14</td>
-                                    <td>KT10</td>
-                                    <td>73</td>
-                                    <td>15</td>
-                                    <td>4</td>
-                                    <td class="total_col total_ldtt">92</td>
-                                    <td>1</td>
-                                    <td>3</td>
-                                    <td>0</td>
-                                    <td class="total_col total_ldtt_nghi_dai">4</td>
-                                    <td class="ld_sanxuat">88</td>
-                                    <td class="ldbq_di_lam">71</td>
-                                    <td>12</td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td class="total_col">17</td>
-                                    <td class="tilehuydong">80.7</td>
-                                    <td>3.519</td>
-                                    <td>87.5</td>
-                                    <td>0.0</td>
-                                    <td>601</td>
-                                    <td class="total_col">1144609</td>
-                                    <td>4.5</td>
-                                    <td>5.1</td>
-                                </tr>
-                                <tr>
-                                    <td>15</td>
-                                    <td>KT11</td>
-                                    <td>54</td>
-                                    <td>15</td>
-                                    <td>1</td>
-                                    <td class="total_col total_ldtt">70</td>
-                                    <td>2</td>
-                                    <td>4</td>
-                                    <td>0</td>
-                                    <td class="total_col total_ldtt_nghi_dai">6</td>
-                                    <td class="ld_sanxuat">64</td>
-                                    <td class="ldbq_di_lam">54</td>
-                                    <td>6</td>
-                                    <td>1</td>
-                                    <td>3</td>
-                                    <td class="total_col">10</td>
-                                    <td class="tilehuydong">84.4</td>
-                                    <td>2.76</td>
-                                    <td>50.5</td>
-                                    <td>0.0</td>
-                                    <td>812</td>
-                                    <td class="total_col">1037976</td>
-                                    <td>4.0</td>
-                                    <td>6.0</td>
-                                </tr>
-                                <tr>
-                                    <td>16</td>
-                                    <td><a href="@Url.Content("/phong-tcld/nang-suat-lao-dong-va-tien-luong/nang-suat-lao-dong-va-tien-luong-theo-ngay")">VTL1</a></td>
-                                    <td>101</td>
-                                    <td>73</td>
-                                    <td>1</td>
-                                    <td class="total_col total_ldtt">175</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td class="total_col total_ldtt_nghi_dai">0</td>
-                                    <td class="ld_sanxuat">175</td>
-                                    <td class="ldbq_di_lam">149</td>
-                                    <td>17</td>
-                                    <td>6</td>
-                                    <td>3</td>
-                                    <td class="total_col">26</td>
-                                    <td class="tilehuydong">85.1</td>
-                                    <td>68448.0</td>
-                                    <td>0.0</td>
-                                    <td>0.0</td>
-                                    <td>453</td>
-                                    <td class="total_col">1864617</td>
-                                    <td>0.0</td>
-                                    <td>0.0</td>
-                                </tr>
-                                <tr>
-                                    <td>17</td>
-                                    <td>VTL2</td>
-                                    <td>54</td>
-                                    <td>65</td>
-                                    <td>4</td>
-                                    <td class="total_col total_ldtt">123</td>
-                                    <td>1</td>
-                                    <td>1</td>
-                                    <td>0</td>
-                                    <td class="total_col total_ldtt_nghi_dai">2</td>
-                                    <td class="ld_sanxuat">121</td>
-                                    <td class="ldbq_di_lam">107</td>
-                                    <td>6</td>
-                                    <td>1</td>
-                                    <td>7</td>
-                                    <td class="total_col">14</td>
-                                    <td class="tilehuydong">88.4</td>
-                                    <td>38783.0</td>
-                                    <td>0.0</td>
-                                    <td>0.0</td>
-                                    <td>472</td>
-                                    <td class="total_col">1382343</td>
-                                    <td>0.0</td>
-                                    <td>0.0</td>
-                                </tr>
-                                <tr>
-                                    <td class="total_row" colspan="2">Tổng</td>
-                                    <td class="total_row">1334</td>
-                                    <td class="total_row">400</td>
-                                    <td class="total_row">60</td>
-                                    <td class="total_row">1794</td>
-                                    <td class="total_row">45</td>
-                                    <td class="total_row">53</td>
-                                    <td class="total_row">0</td>
-                                    <td class="total_row">98</td>
-                                    <td class="total_row">1696</td>
-                                    <td class="total_row">1428</td>
-                                    <td class="total_row">173</td>
-                                    <td class="total_row">45</td>
-                                    <td class="total_row">50</td>
-                                    <td class="total_row">268</td>
-                                    <td class="total_row tilehuydong_trungbinh">84.2</td>
-                                    <td class="total_row">98378.0</td>
-                                    <td class="total_row">858.0</td>
-                                    <td class="total_row">226.0</td>
-                                    <td class="total_row">659</td>
-                                    <td class="total_row">24726658</td>
-                                    <td class="total_row">0.0</td>
-                                    <td class="total_row">0.0</td>
+                                    <td class="total_row" colspan="2">@ViewBag.TatCaDonViFooter.Name</td>
+                                    <td class="total_row">@ViewBag.TatCaDonViFooter.CBQL</td>
+                                    <td class="total_row">@ViewBag.TatCaDonViFooter.KT</td>
+                                    <td class="total_row">@ViewBag.TatCaDonViFooter.CD</td>
+                                    <td class="total_row">@ViewBag.TatCaDonViFooter.HSTT</td>
+                                    <td class="total_row">@ViewBag.TatCaDonViFooter.TongLaoDong</td>
+                                    <td class="total_row"></td>
+                                    <td class="total_row"></td>
+                                    <td class="total_row"></td>
+                                    <td class="total_row"></td>
+                                    <td class="total_row">@ViewBag.TatCaDonViFooter.LDTheoDS</td>
+                                    <td class="total_row">@ViewBag.TatCaDonViFooter.LDSX</td>
+                                    <td class="total_row">@ViewBag.TatCaDonViFooter.VLD</td>
+                                    <td class="total_row">@ViewBag.TatCaDonViFooter.Om</td>
+                                    <td class="total_row">@ViewBag.TatCaDonViFooter.Khac</td>
+                                    <td class="total_row">@ViewBag.TatCaDonViFooter.TongNghi</td>
+                                    <td class="total_row tilehuydong_trungbinh"></td>
+                                    <td class="total_row"></td>
+                                    <td class="total_row"></td>
+                                    <td class="total_row"></td>
+                                    <td class="total_row"></td>
+                                    <td class="total_row"></td>
+                                    <td class="total_row">@ViewBag.TatCaDonViFooter.NSLDThucHien</td>
+                                    <td class="total_row"></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -690,20 +266,24 @@
                             <table class="table">
                                 <tbody>
                                     <tr>
-                                        <th class="total_row">Tổng số lao động đến ngày 19/9: </th>
-                                        <td class="total_row">1794</td>
+                                        <th class="total_row">Tổng số lao động đến ngày <span id="ngayreport"></span>: </th>
+                                        <td class="total_row">@ViewBag.TatCaDonViFooter.TongLaoDong</td>
+                                    </tr>
+                                    <tr>
+                                        <th>CBQL</th>
+                                        <td>@ViewBag.TatCaDonViFooter.CBQL</td>
                                     </tr>
                                     <tr>
                                         <th>KT</th>
-                                        <td>1334</td>
+                                        <td>@ViewBag.TatCaDonViFooter.KT</td>
                                     </tr>
                                     <tr>
                                         <th>CĐ</th>
-                                        <td>400</td>
+                                        <td>@ViewBag.TatCaDonViFooter.CD</td>
                                     </tr>
                                     <tr>
-                                        <th>HS</th>
-                                        <td>60</td>
+                                        <th>HSTT</th>
+                                        <td>@ViewBag.TatCaDonViFooter.HSTT</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -713,27 +293,27 @@
                                 <tbody>
                                     <tr>
                                         <th class="total_row">Tổng số lao động nghỉ ốm dài: </th>
-                                        <td class="total_row">45</td>
+                                        <td class="total_row"></td>
                                     </tr>
                                     <tr>
                                         <th>LĐ nghỉ VLD dài</th>
-                                        <td>53</td>
+                                        <td></td>
                                     </tr>
                                     <tr>
                                         <th>LĐ tham gia sx</th>
-                                        <td>1696</td>
+                                        <td>@ViewBag.TatCaDonViFooter.LDTheoDS</td>
                                     </tr>
                                     <tr>
                                         <th>LĐ BQ thực tế đi làm BQ 1 ngày</th>
-                                        <td>1428</td>
+                                        <td>@ViewBag.TatCaDonViFooter.LDSX</td>
                                     </tr>
                                     <tr>
                                         <th>LĐ nghỉ các loại không tham gia SXBQ 1 ngày</th>
-                                        <td>268</td>
+                                        <td>@ViewBag.TatCaDonViFooter.TongNghi</td>
                                     </tr>
                                     <tr>
                                         <th>Tỷ lệ huy động</th>
-                                        <td>84.20%</td>
+                                        <td></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -950,5 +530,14 @@
 <script>
     $("#export-button").click(function () {
         window.location.href = '/excel/TCLD/Report/Báo cáo lao động Ngày 19-08-2019.xls';
+    });
+</script>
+<script>
+    $('#dateforsearch').datepicker({
+        language: 'vi',
+        maxDate: new Date() // Now can select only dates, which goes after today
+    })
+    $(document).ready(function () {
+        $('.datepicker-inline').remove();
     });
 </script>

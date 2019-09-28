@@ -19,6 +19,9 @@ namespace QUANGHANH2.Models
         public Nullable<System.DateTime> NgaySinh { get; set; }
         public string LyLich { get; set; }
         public string MaNV { get; set; }
+        public string HoTen { get; set; }
+        public string NoiThuongTru { get; set; }
+        public string SoDienThoai { get; set; }
     
         public virtual NhanVien NhanVien { get; set; }
     }

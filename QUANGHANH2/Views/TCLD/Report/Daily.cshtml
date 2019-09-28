@@ -15,13 +15,40 @@
 <script src="~/assets/extra-libs/sparkline/sparkline.js"></script>
 <script src="~/dist/js/pages/sparkline/jquery.charts-sparkline.js"></script>
 
-<script src="~/js/Custom JS/button_watch_by.js"></script>
 
 <script src="~/js/exportToExcel/jquery.table2excel.js"></script>
 
 <script>
+    $(function () {
+        $("#minMaxDate").datepicker({
+            onSelect: function () {
+                window.location = "/phong-tcld/nang-suat-lao-dong-va-tien-luong/nang-suat-lao-dong-va-tien-luong-theo-ngay?date=" + $("#minMaxDate").val() + "&donvi=" +$(".dropdown-child-px").attr("name");
+            }
+        })
+    });
     $(document).ready(function () {
         $("#minMaxDate").val("@string.Format("{0:dd/MM/yyyy}", System.DateTime.Now)");
+        $("#px").html("Đào Lò 1");
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        var date = url.searchParams.get("date");
+        var donvi = url.searchParams.get("donvi");
+        var text = document.getElementsByName(donvi)[0].innerHTML;
+        if (date != null) {
+            $("#minMaxDate").val(date);
+        }
+        if (donvi != null) {
+            $("#px").html(text);
+        }
+        $("#dropdown_px").on("click", ".dropdown-child-px", function () {
+            select = $(this).attr("name");
+            text = $(this).text();
+                $("#px").html(text);
+                $("#px").attr("name", text);
+                $(".dropdown-child-px").attr("name", select);
+            $('.dropdown-trigger').dropdown('close');
+            window.location = "/phong-tcld/nang-suat-lao-dong-va-tien-luong/nang-suat-lao-dong-va-tien-luong-theo-ngay?date=" + $("#minMaxDate").val() + "&donvi=" + $(".dropdown-child-px").attr("name");
+        });
     });
 </script>
 
@@ -525,93 +552,90 @@
         <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Đóng</a>
     </div>
 </div>
-<ul id='dropdown_time' class='dropdown-content'>
-    <li><a class="dropdown-child-time" href="#!" name="day">Xem Theo Ngày</a></li>
-    <li><a class="dropdown-child-time" href="#!" name="month">Xem Theo Tháng</a></li>
-</ul>
 <ul id='dropdown_px' class='dropdown-content'>
-    <li><a class="dropdown-child-px" href="#!" name="All">Tất cả</a></li>
     @foreach (var item in @ViewBag.TenToChuc)
     {
-        <li><a class="dropdown-child-px" href="#!" name="DL3">@item.department_name</a></li>
+        <li><a class="dropdown-child-px" href="#!" name="@item.department_id">@item.department_name</a></li>
     }
 </ul>
 
-<!--cac truong hop link-->
-<a id="loader-chi-tiet-vtl1-trong-ngay" data-request-url="@Url.Action("nang-suat-lao-dong-va-tien-luong-theo-ngay", "nang-suat-lao-dong-va-tien-luong", new {phanxuong = "vtl1"})" hidden></a>
-
-<a id="loader-cac-px-trong-ngay" data-request-url="@Url.Action("nang-suat-lao-dong-va-tien-luong-theo-cac-px-trong-ngay", "nang-suat-lao-dong-va-tien-luong", new { phanxuong = "tat-ca"})" hidden></a>
-
-<a id="loader-cac-ngay-trong-thang-vtl1" data-request-url="@Url.Action("nang-suat-lao-dong-va-tien-luong-theo-cac-ngay-trong-thang", "nang-suat-lao-dong-va-tien-luong", new { phanxuong = "vtl1"})" hidden></a>
-
-<a id="loader-cac-px-trong-thang" data-request-url="@Url.Action("nang-suat-lao-dong-va-tien-luong-theo-thang", "nang-suat-lao-dong-va-tien-luong", new { phanxuong = "tat-ca"})" hidden></a>
 
 <script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
 @*<script src="~/dist/js/pages/echarts/bar/bar.js"></script>*@
 <script src="~/js/tuan_js/myChart2.js"></script>
 <script>
-        $('.clickable_cell').click(function () {
-                var idName = $(this).attr('id');
-                switch (idName) {
-                    case 'ldtdd_kt':
-                        $('.modal_title').html('LAO ĐỘNG KHAI THÁC THỰC TẾ THEO DANH SÁCH');
-                        break;
-                    case 'ldtdd_cd':
-                        $('.modal_title').html('LAO ĐỘNG CƠ ĐIỆN THỰC TẾ THEO DANH SÁCH');
-                        break;
-                    case 'ldtdd_hstt':
-                        $('.modal_title').html('LAO ĐỘNG HSTT THỰC TẾ THEO DANH SÁCH');
-                        break;
-                    case 'ldtdd_tong':
-                        $('.modal_title').html('TỔNG LAO ĐỘNG THỰC TẾ THEO DANH SÁCH');
-                        break;
-                    case 'ldnghidai_vld':
-                        $('.modal_title').html('DANH SÁCH LAO ĐỘNG NGHỈ DÀI VÔ LÝ DO');
-                        break;
-                    case 'ldnghidai_thhd':
-                        $('.modal_title').html('DANH SÁCH LAO ĐỘNG NGHỈ DÀI THHĐ');
-                        break;
-                    case 'ldnghidai_om':
-                        $('.modal_title').html('DANH SÁCH LAO ĐỘNG NGHỈ DÀI ỐM, TNLĐ');
-                        break;
-                    case 'ldnghidai_tong':
-                        $('.modal_title').html('TỔNG LAO ĐỘNG NGHỈ DÀI');
-                        break;
-                    case 'tonglaodong':
-                        $('.modal_title').html('TỔNG LAO ĐỘNG SAU KHI TRỪ');
-                        break;
-                    case 'ldbq_tong':
-                        $('.modal_title').html('TỔNG LAO ĐỘNG THỰC HIỆN BQ');
-                        break;
-                    case 'ldbq_dilam':
-                        $('.modal_title').html('DANH SÁCH LAO ĐỘNG BQ ĐI LÀM');
-                        break;
-                    case 'ldbq_ldvang_vld':
-                        $('.modal_title').html('DANH SÁCH LAO ĐỘNG THỰC HIỆN BQ NGHỈ VÔ LÝ DO');
-                        break;
-                    case 'ldbq_ldvang_om':
-                        $('.modal_title').html('DANH SÁCH LAO ĐỘNG THỰC HIỆN BQ NGHỈ ỐM');
-                        break;
-                    case 'ldbq_ldvang_khac':
-                        $('.modal_title').html('DANH SÁCH LAO ĐỘNG THỰC HIỆN BQ NGHỈ VỚI LÝ DO KHÁC');
-                        break;
-                    case 'ldbq_ldvang_tong':
-                        $('.modal_title').html('DANH SÁCH TỔNG HỢP LAO ĐỘNG THỰC HIỆN BQ NGHỈ');
-                        break;
-                    default:
-                        break;
-                }
-            });
-        function HienThiTheoCa(ca) {
-            window.location = "/phong-tcld/bao-cao-chi-tiet-theo-ca?ca=" + ca + "&donvi=" + document.getElementById("px").innerText + "&date=" + document.getElementById("minMaxDate").value;
+    $('.clickable_cell').click(function () {
+        var idName = $(this).attr('id');
+        switch (idName) {
+            case 'ldtdd_kt':
+                $('.modal_title').html('LAO ĐỘNG KHAI THÁC THỰC TẾ THEO DANH SÁCH');
+                break;
+            case 'ldtdd_cd':
+                $('.modal_title').html('LAO ĐỘNG CƠ ĐIỆN THỰC TẾ THEO DANH SÁCH');
+                break;
+            case 'ldtdd_hstt':
+                $('.modal_title').html('LAO ĐỘNG HSTT THỰC TẾ THEO DANH SÁCH');
+                break;
+            case 'ldtdd_tong':
+                $('.modal_title').html('TỔNG LAO ĐỘNG THỰC TẾ THEO DANH SÁCH');
+                break;
+            case 'ldnghidai_vld':
+                $('.modal_title').html('DANH SÁCH LAO ĐỘNG NGHỈ DÀI VÔ LÝ DO');
+                break;
+            case 'ldnghidai_thhd':
+                $('.modal_title').html('DANH SÁCH LAO ĐỘNG NGHỈ DÀI THHĐ');
+                break;
+            case 'ldnghidai_om':
+                $('.modal_title').html('DANH SÁCH LAO ĐỘNG NGHỈ DÀI ỐM, TNLĐ');
+                break;
+            case 'ldnghidai_tong':
+                $('.modal_title').html('TỔNG LAO ĐỘNG NGHỈ DÀI');
+                break;
+            case 'tonglaodong':
+                $('.modal_title').html('TỔNG LAO ĐỘNG SAU KHI TRỪ');
+                break;
+            case 'ldbq_tong':
+                $('.modal_title').html('TỔNG LAO ĐỘNG THỰC HIỆN BQ');
+                break;
+            case 'ldbq_dilam':
+                $('.modal_title').html('DANH SÁCH LAO ĐỘNG BQ ĐI LÀM');
+                break;
+            case 'ldbq_ldvang_vld':
+                $('.modal_title').html('DANH SÁCH LAO ĐỘNG THỰC HIỆN BQ NGHỈ VÔ LÝ DO');
+                break;
+            case 'ldbq_ldvang_om':
+                $('.modal_title').html('DANH SÁCH LAO ĐỘNG THỰC HIỆN BQ NGHỈ ỐM');
+                break;
+            case 'ldbq_ldvang_khac':
+                $('.modal_title').html('DANH SÁCH LAO ĐỘNG THỰC HIỆN BQ NGHỈ VỚI LÝ DO KHÁC');
+                break;
+            case 'ldbq_ldvang_tong':
+                $('.modal_title').html('DANH SÁCH TỔNG HỢP LAO ĐỘNG THỰC HIỆN BQ NGHỈ');
+                break;
+            default:
+                break;
         }
-        var elem = document.querySelector('.modal');
-        var instance = M.Modal.init(elem, options);
+    });
+    function HienThiTheoCa(ca) {
+        var donvi = $(".dropdown-child-px").attr("name");
+        window.location = "/phong-tcld/bao-cao-chi-tiet-theo-ca?ca=" + ca + "&donvi=" + donvi + "&date=" + document.getElementById("minMaxDate").value;
+    }
+    var elem = document.querySelector('.modal');
+    var instance = M.Modal.init(elem, options);
 </script>
 
 
 <script>
     $("#export-button").click(function () {
         window.location.href = '/excel/TCLD/Report/Báo cáo lao động, lương VTL1 ngày  15_08_2019.xls';
+    });
+</script>
+<script>
+    $('#minMaxDate').datepicker({
+        language: 'vi',
+        maxDate: new Date() // Now can select only dates, which goes after today
+    })
+    $(document).ready(function () {
+        $('.datepicker-inline').remove();
     });
 </script>
