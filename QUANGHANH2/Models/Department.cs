@@ -23,8 +23,10 @@ namespace QUANGHANH2.Models
             this.Incidents = new HashSet<Incident>();
             this.KeHoach_TieuChi = new HashSet<KeHoach_TieuChi>();
             this.Maintain_Car = new HashSet<Maintain_Car>();
+            this.MealRegistrations = new HashSet<MealRegistration>();
             this.Supply_tieuhao = new HashSet<Supply_tieuhao>();
             this.SupplyPlans = new HashSet<SupplyPlan>();
+            this.SupplyPlans1 = new HashSet<SupplyPlan>();
             this.ThucHien_TieuChi = new HashSet<ThucHien_TieuChi>();
             this.NhanViens = new HashSet<NhanVien>();
         }
@@ -46,9 +48,13 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Maintain_Car> Maintain_Car { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MealRegistration> MealRegistrations { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Supply_tieuhao> Supply_tieuhao { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SupplyPlan> SupplyPlans { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SupplyPlan> SupplyPlans1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ThucHien_TieuChi> ThucHien_TieuChi { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

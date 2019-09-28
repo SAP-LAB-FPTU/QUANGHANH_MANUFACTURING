@@ -10,17 +10,34 @@
     <div class="card-content">
         <form>
             <div class="row center">
-                <h3>
-                    ĐIỂM DANH CỦA DL3 <a class="dropdown-trigger btn" id="ca" href="#" data-target="dropdown_ca" style="background-color:#273146">CA 1</a> NGÀY <input type="text" id="inputdate" class="datepicker-here center" data-language="vi">
-                    <a class="btn waves-effect waves-light blue modal-trigger" id="btn-view" href="#" onclick="getcontent();">Xem</a>
-                    <br><br>
-                </h3>
+                <div class="col l3">
+                    <div class="row">
+                        <label>
+                            <input type="checkbox" class="filled-in" checked="checked" />
+                            <span>Những người đi làm</span>
+                        </label>
+                    </div>
+                    <div class="row">
+                        <label>
+                            <input type="checkbox" class="filled-in" checked="checked" />
+                            <span>Những người không đi làm</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="col l9">
+                    <h3>
+                        ĐIỂM DANH CỦA DL3 <a class="dropdown-trigger btn" id="ca" href="#" data-target="dropdown_ca" style="background-color:#273146">CA 1</a> NGÀY <input type="text" id="inputdate" class="datepicker-here center" data-language="vi" value="" />
+                        <a class="btn waves-effect waves-light blue modal-trigger" id="btn-view" href="#" onclick="getcontent();">Xem</a>
+                        <br><br>
+                    </h3>
+                </div>
                 <hr>
             </div>
             <div class="row center" style="overflow-x:auto!important">
                 <table id="attendanceTable" class="cell-border striped hover">
                     <thead>
                         <tr>
+                            <th>Thuộc danh sách đi làm</th>
                             <th>Mã Điểm Danh</th>
                             <th>Mã Nhân Viên</th>
                             <th>Mã Đơn Vị</th>
@@ -81,17 +98,30 @@
                         return JSON.parse(result.data);
                     }
                 },
+                "initComplete": function (settings) {
+                    $("#8056").html("hihi");
+                },
+
                 "columns": [
+                    {
+                        data: "status", render: function (data, type, row) {
+                            if (data) {
+                                return "<label><input onclick=\"clickConfirm(this)\" type=\"checkbox\" checked=\"checked\" disabled=\"disabled\" class=\"checkBox1\" id='" + row["maNV"] + "-confirmed'/><span></span></label>";
+                            } else {
+                                return "<label><input onclick=\"clickConfirm(this)\" type=\"checkbox\"disabled=\"disabled\"class=\"checkBox1\" id=\"" + row["maNV"].trim() + "-confirmed\"/><span></span></label>";
+                            }
+                        }
+                    },
                     { data: "maDD" },
                     { data: "maNV" },
                     { data: "maDV" },
                     { data: "tenNV" },
                     {
-                        data: "status", render: function (data) {
+                        data: "status", render: function (data, type, row) {
                             if (data) {
-                                return "<label><input type=\"checkbox\" checked=\"checked\"/ disabled=\"disabled\" class=\"checkBox\"><span></span></label>";
+                                return "<label><input onclick=\"clickConfirm(this)\" type=\"checkbox\" checked=\"checked\" disabled=\"disabled\" class=\"checkBox1\" id='" + row["maNV"] + "-   status'/><span></span></label>";
                             } else {
-                                return "<label><input type=\"checkbox\"disabled=\"disabled\"class=\"checkBox\"/><span></span></label>";
+                                return "<label><input onclick=\"clickConfirm(this)\" type=\"checkbox\"disabled=\"disabled\"class=\"checkBox1\" id=\"" + row["maNV"].trim() + "-status\"/><span></span></label>";
                             }
                         }
                     },
@@ -135,6 +165,7 @@
                 $(".inputTest").removeAttr("disabled")
                 $(".inputDescription").removeAttr("disabled")
                 $(".checkBox").removeAttr("disabled")
+                $(".checkBox1").removeAttr("disabled")
                 $(".reasonBox").html("<select class=\"browser-default \"> <option value=\"\" disabled selected>Lựa chọn lý do</option> <option value=\"1\">Ốm</option> <option value=\"2\">Vô lý do</option><option value=\"3\">Nghỉ phép</option></option> <option value=\"2\">Vô lý do</option><option value=\"4\">Khác</option></select>");
                 //
                 mode = 1;
@@ -154,6 +185,12 @@
                     })
                 }
             }
+        }
+
+        function clickConfirm(checkbox) {
+            var clickedID = $(checkbox).attr("id").split("-")[0] + "-confirmed";
+            console.log(clickedID);
+            $("#" + clickedID).attr("checked", $(checkbox).is(":checked"));
         }
 
         function updateReason() {
@@ -187,5 +224,16 @@
             });
             return rows;
         }
+    </script>
+    <script>
+        $(document).ready(() => {
+            var currentTime = new Date();
+            var month = currentTime.getMonth() + 1;
+            var day = currentTime.getDate();
+            var year = currentTime.getFullYear();
+            var date = day + "/" + month + "/" + year;
+            $("#inputdate").attr("value", date);
+            //
+        })
     </script>
 }

@@ -1,9 +1,12 @@
-﻿using QUANGHANH2.Models;
+﻿using OfficeOpenXml;
+using QUANGHANH2.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -14,33 +17,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
         [Route("phong-cdvt/bao-cao/dien-nang")]
         public ActionResult Quarter(string type, string date, string month, string quarter, string year)
         {
-            //if (type == null)
-            //{
-            //    var ngay = DateTime.Now.Date;
-            //    getContentbyDay(ngay);
-            //}
-            //if (type == "day")
-            //{
-            //    var ngay = DateTime.ParseExact(date, "MM/dd/yyyy", CultureInfo.InvariantCulture);
-            //    getContentbyDay(ngay);
-            //}
-            //if (type == "month")
-            //{
-            //    int thang = Convert.ToInt32(month);
-            //    int nam = Convert.ToInt32(year);
-            //    getContentbyMonth(thang, nam);
-            //}
-            //if (type == "quarter")
-            //{
-            //    int quy = Convert.ToInt32(quarter);
-            //    int nam = Convert.ToInt32(year);
-            //    getContentbyQuater(quy, nam);
-            //}
-            //if (type == "year")
-            //{
-            //    int nam = Convert.ToInt32(year);
-            //    getContentbyYear(nam);
-            //}
             var noww = DateTime.Now.Date.ToString("dd/MM/yyyy");
             ViewBag.now = noww;
             Wherecondition(type, date, month, quarter, year);
@@ -248,9 +224,54 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
             }
         }
         [Route("phong-cdvt/bao-cao/dien-nang/excel")]
-        public ActionResult Export()
+        public ActionResult Export(string type, string date, string month, string quarter, string year)
         {
-            return File("~/excel/CDVT/diennang.xls", contentType: "text/plain; charset=utf-8", fileDownloadName: "diennang.xls");
+            string path = HostingEnvironment.MapPath("/excel/CDVT/diennang.xlsx");
+            string saveAsPath = ("/excel/CDVT/download/diennang.xlsx");
+            FileInfo file = new FileInfo(path);
+            using(ExcelPackage excelPackage = new ExcelPackage(file))
+            {
+                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
+                ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    Wherecondition(type, date, month, quarter, year);
+                    int totaltieuthu = 0; int totalsanluong = 0;
+                    if (ViewBag.ContentReport != null)
+                    {
+                        foreach (var item in ViewBag.ContentReport)
+                        {
+                            totaltieuthu += item.LuongTieuThu;
+                        }
+                    }
+                    if (ViewBag.ContentReport != null)
+                    {
+                        foreach (var item in ViewBag.ContentReport)
+                        {
+                            totalsanluong += item.SanLuong;
+                        }
+                    }
+                    int k = 3;
+                    List<contentreportPower> content = ViewBag.ContentReport;
+                    for (int i = 0; i < content.Count; i++)
+                    {
+                        excelWorksheet.Cells[k, 1].Value = content.ElementAt(i).Thang + "/" + content.ElementAt(i).Nam;
+                        excelWorksheet.Cells[k, 2].Value = content.ElementAt(i).MaThietBi;
+                        excelWorksheet.Cells[k, 3].Value = content.ElementAt(i).TenThietBi;
+                        excelWorksheet.Cells[k, 4].Value = content.ElementAt(i).LuongTieuThu;
+                        excelWorksheet.Cells[k, 5].Value = content.ElementAt(i).SanLuong;
+                        k++;
+                    }
+                    excelWorksheet.Cells[k, 3].Value = "Tổng";
+                    excelWorksheet.Cells[k, 4].Value = totaltieuthu;
+                    excelWorksheet.Cells[k, 5].Value = totalsanluong;
+                    //excelWorksheet.Cells[k, 3].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Red);
+                    //excelWorksheet.Cells[k, 4].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Red);
+                    //excelWorksheet.Cells[k, 5].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Red);
+                    excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath(saveAsPath)));
+                }
+            }
+            return Json(new { success = true, location = saveAsPath }, JsonRequestBehavior.AllowGet);
         }
     }
 

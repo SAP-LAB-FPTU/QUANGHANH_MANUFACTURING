@@ -42,7 +42,27 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
         [HttpPost]
         public ActionResult Submit(IList<XincapvattuModelView> vattus)
         {
-            bool result = _repository.CreateVattus(vattus);
+            bool result;
+            if (_repository.HasDraft())
+            {
+                result = _repository.UpdateVattuStatus(vattus);
+            }
+            else
+            {
+                result = _repository.CreateVattus(vattus);
+            }
+            return Json(new
+            {
+                success = result
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        [Auther(RightID = "33")]
+        [Route("phong-cdvt/xin-cap-vat-tu-sctx/update")]
+        [HttpPost]
+        public ActionResult Update(IList<XincapvattuModelView> vattus)
+        {
+            bool result = _repository.UpdateVattus(vattus);
             return Json(new
             {
                 success = result

@@ -1,16 +1,18 @@
 ﻿
 @{
     Layout = null;
+    string version = string.Concat("v", typeof(QUANGHANH2.MvcApplication).Assembly.GetName().Version);
 }
-    <style>
-        .check-box {
-            width: 20px;
-            height: 20px;
-            background: white;
-            border-radius: 10px;
-            border: 1px solid #555;
-        }
-    </style>
+<style>
+
+    .check-box {
+        width: 20px;
+        height: 20px;
+        background: white;
+        border-radius: 10px;
+        border: 1px solid #555;
+    }
+</style>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,65 +57,64 @@
                 <div class="login100-pic js-tilt" data-tilt>
                     <img src="/images/login/quanghanh.png" alt="IMG">
                 </div>
-                    @using (Html.BeginForm("Index", "LogIn", FormMethod.Post, new { id = "login-form", @class = "login100-form validate-form" }))
-                    {
+                @using (Html.BeginForm("Index", "LogIn", FormMethod.Post, new { id = "login-form", @class = "login100-form validate-form" }))
+                {
 
 
-                        <span class="login100-form-title">
-                            <h3><b>PHẦN MỀM QUẢN LÝ SẢN XUẤT</b></h3>
-                        </span>
+                    <span class="login100-form-title">
+                        <h3><b>PHẦN MỀM QUẢN LÝ SẢN XUẤT</b></h3>
+                    </span>
 
-                        <div class="wrap-input100 validate-input" data-validate="">
-                            @{
-                                var username = "";
-                                var password = "";
-                                if (ViewBag.login != null)
-                                {
-                                    username = ViewBag.login.username;
-                                    password = ViewBag.login.password;
-                                }
+                    <div class="wrap-input100 validate-input" data-validate="">
+                        @{
+                            var username = "";
+                            var password = "";
+                            if (ViewBag.login != null)
+                            {
+                                username = ViewBag.login.username;
+                                password = ViewBag.login.password;
                             }
-                            <input type="text" list="accounts" class="input100" name="username" placeholder="Tên đăng nhập" value="@username" required/>
-                            <span class="focus-input100"></span>
-                            <span class="symbol-input100">
-                                <i class="fa fa-user-circle" aria-hidden="true"></i>
-                            </span>
-                        </div>
-                        <div class="wrap-input100 validate-input" data-validate="Password is required">
-                            <input class="input100" type="password" name="password" value="@password" placeholder="Mật khẩu" required>
-                            <span class="focus-input100"></span>
-                            <span class="symbol-input100">
-                                <i class="fa fa-lock" aria-hidden="true"></i>
-                            </span>
-                        </div>
-                        <div>
-                            <input type="checkbox" class="check-box" name="rm" />
-                            <label style="font-size:16px">Ghi nhớ mật khẩu</label>
-                        </div>
-                        <div class="center-align"><h2 style="color: red;" class="h4 mb-4 font-weight-normal" id="Notification">@ViewData["Notification"]</h2></div>
-                        <div class="container-login100-form-btn">
-                            <button class="login100-form-btn" type="submit" onsubmit="showPreLoad();">
-                                Đăng nhập
-                            </button>
-                        </div>
-
-                        <div class="text-center p-t-136">
-                            <a class="txt2" href="#">
-                                <i class="" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                    }
+                        }
+                        <input type="text" list="accounts" class="input100" name="username" placeholder="Tên đăng nhập" value="@username" required />
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fa fa-user-circle" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="wrap-input100 validate-input" data-validate="Password is required">
+                        <input class="input100" type="password" name="password" value="@password" placeholder="Mật khẩu" required>
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fa fa-lock" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div>
+                        <input type="checkbox" class="check-box" name="rm" />
+                        <label style="font-size:16px">Ghi nhớ mật khẩu</label>
+                    </div>
+                    <div class="center-align"><h2 style="color: red;" class="h4 mb-4 font-weight-normal" id="Notification">@ViewData["Notification"]</h2></div>
+                    <div class="container-login100-form-btn">
+                        <button class="login100-form-btn" type="submit" onsubmit="showPreLoad();">
+                            Đăng nhập
+                        </button>
+                    </div>
+                    <div class="text-center p-t-136">
+                        <a class="txt2" href="#">
+                            <i class="" aria-hidden="true">@version</i>
+                        </a>
+                    </div>
+                }
             </div>
         </div>
     </div>
-    
+
     <!--===============================================================================================-->
     <script src="/js/login/main.js"></script>
     <script>
         $(".loading").css("z-index", 99999);
         $('body').css('overflow', '');
         function showPreLoad() {
-            
+
             $('#pre-load').show();
         }
     </script>

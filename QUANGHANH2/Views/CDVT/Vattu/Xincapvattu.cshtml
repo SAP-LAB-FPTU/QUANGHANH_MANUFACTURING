@@ -56,6 +56,7 @@
                     <div class="col s12 m4">
                     </div>
                     <div class="col s12 m4">
+                        <a id="update" class="btn right" style="width:225px;background-color:#273146;margin-bottom:20px">Cập nhật</a>
                     </div>
                     <div class="col s12 m2">
                         <a id="submit" class="btn" style="width:225px;background-color:#273146;margin-bottom:20px">Xin Cấp</a>
@@ -82,6 +83,11 @@
                     "cache": "false",
                     "dataSrc": function (json) {
                         payload = json.data;
+                        if (payload.length == 0) {
+                            $("#submit").attr("disabled", true);
+                            $("#update").attr("disabled", true);
+                            alert('Đơn xin cấp mới vật tư sửa chữa đã được gửi.');
+                        }
                         return json.data;
                     }
                 },
@@ -95,15 +101,17 @@
                     { "data": "SupplyName", "name": "SupplyName" },
                     { "data": "SupplyUnit", "name": "SupplyUnit" },
                     {
-                        "data": "Id", "name": "SupplyAverage", "render": function (data) {
-                            let domId = 'supply_average_' + data;
-                            return '<input type="number" min="0" value="0" class="form-control" id="' + domId + '" ' + 'oninput="' + `handleSupplyAverageChange('${domId}', '${data}')` + '" ' + '/>';
+                        "data": "SupplyAverage", "name": "SupplyAverage", "render": function (data, type, row, meta) {
+                            let id = row['Id'];
+                            let domId = 'supply_average_' + id;
+                            return `<input type="number" min="0" value="${data}" class="form-control" id="` + domId + '" ' + 'oninput="' + `handleSupplyAverageChange('${domId}', '${id}')` + '" ' + '/>';
                         }
                     },
                     {
-                        "data": "Id", "name": "SupplyPlan", "render": function (data) {
-                            let domId = 'supply_plan_' + data;
-                            return '<input type="number" min="0" value="0" class="form-control" id="' + domId + '" ' + 'oninput="' + `handleSupplyPlanChange('${domId}', '${data}')` + '" ' + '/>';
+                        "data": "SupplyPlan", "name": "SupplyPlan", "render": function (data, type, row, meta) {
+                            let id = row['Id'];
+                            let domId = 'supply_plan_' + id;
+                            return `<input type="number" min="0" value="${data}" class="form-control" id="` + domId + '" ' + 'oninput="' + `handleSupplyPlanChange('${domId}', '${id}')` + '" ' + '/>';
                         }
                     },
                 ],
@@ -118,7 +126,6 @@
                 }
             });
             $("#submit").click(function () {
-                
                 if (confirm('Nộp đơn xin cấp mới?')) {
                     $("#pre-load").show();
                     $.ajax({
@@ -129,9 +136,11 @@
                         data: JSON.stringify(payload),
                         success: function (res) {
                             if (res.success) {
-                                alert('Nộp đơn thành công.')
+                                $("#submit").attr("disabled", true);
+                                $("#update").attr("disabled", true);
+                                alert('Nộp đơn thành công.');
                             } else {
-                                alert('Có lỗi xảy ra.')
+                                alert('Nộp đơn thất bại.');
                             }
                         }
                     });
@@ -140,6 +149,7 @@
                     // Do nothing!
                 }
             });
+            $("#update").click(update);
         });
 
         function handleSupplyAverageChange(domId, id) {
@@ -181,6 +191,26 @@
                 return 0;
             }
             return value;
+        }
+
+        function update() {
+            $("#pre-load").show();
+            $.ajax({
+                dataType: "json",
+                contentType: "application/json, charset=utf-8",
+                type: 'POST',
+                url: '/phong-cdvt/xin-cap-vat-tu-sctx/update',
+                data: JSON.stringify(payload),
+                success: function (res) {
+                    if (res.success) {
+                        alert('Cập nhật đơn thành công.');
+                        window.location.reload();
+                    } else {
+                        alert('Cập nhật đơn thất bại.');
+                    }
+                }
+            });
+            $("#pre-load").hide();
         }
     </script>
 }
