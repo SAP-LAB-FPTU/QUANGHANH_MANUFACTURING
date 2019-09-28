@@ -13,6 +13,7 @@ using System.IO;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
 using System.Data.Entity;
+using System.Text.RegularExpressions;
 
 namespace QUANGHANHCORE.Controllers.CDVT.Work
 {
@@ -141,85 +142,91 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
             }
         }
 
-        //export file world
+        [Route("phong-cdvt/sua-chua-chon/export")]
+        [HttpPost]
+        public ActionResult ExportQuyetDinh(string data, string documentary_code)
+        {
+            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            string Flocation = "/doc/CDVT/QD/quyetdinhsuachua.docx";
+            string fileName = HostingEnvironment.MapPath("/doc/CDVT/QD/quyetdinh-template.docx");
+            byte[] byteArray = System.IO.File.ReadAllBytes(fileName);
+            using (var stream = new MemoryStream())
+            {
+                stream.Write(byteArray, 0, byteArray.Length);
+                using (var doc = WordprocessingDocument.Open(stream, true))
+                {
+                    ////////////////////////////////////replace/////////////////////////////////
+                    string docText = null;
+                    using (StreamReader sr = new StreamReader(doc.MainDocumentPart.GetStream()))
+                    {
+                        docText = sr.ReadToEnd();
+                    }
 
-        //[Route("phong-cdvt/export-quyet-dinh-sua-chua")]
-        //[HttpPost]
-        //public ActionResult ExportQuyetDinh(List<ListVatTu> listVatTu, ListThietBi listThietBi)
-        //{
-        //    string Flocation = "/doc/CDVT/quyetdinhsuachua/quyetdinhsuachua.docx";
-        //    string fileName = HostingEnvironment.MapPath("/doc/CDVT/quyetdinhsuachua/quyetdinh-template.docx");
-        //    byte[] byteArray = System.IO.File.ReadAllBytes(fileName);
-        //    using (var stream = new MemoryStream())
-        //    {
-        //        stream.Write(byteArray, 0, byteArray.Length);
-        //        using (var doc = WordprocessingDocument.Open(stream, true))
-        //        {
-        //            string docText = null;
-        //            using (StreamReader sr = new StreamReader(doc.MainDocumentPart.GetStream()))
-        //            {
-        //                docText = sr.ReadToEnd();
-        //            }
+                    Regex regexText = new Regex("%soquyetdinh%");
+                    docText = regexText.Replace(docText, documentary_code);
 
-        //            //Regex regexText = new Regex("%soquyetdinh%");
-        //            //docText = regexText.Replace(docText, "ABC");
+                    using (StreamWriter sw = new StreamWriter(doc.MainDocumentPart.GetStream(FileMode.Create)))
+                    {
+                        sw.Write(docText);
+                    }
+                    /////////////////////////////////////////////////////////////////////
+                    JObject json = JObject.Parse(data);
 
-        //            using (StreamWriter sw = new StreamWriter(doc.MainDocumentPart.GetStream(FileMode.Create)))
-        //            {
-        //                sw.Write(docText);
-        //            }
-        //            Table table =
-        //            doc.MainDocumentPart.Document.Body.Elements<Table>().ElementAt(1);
-        //            int i = 0;
-        //            foreach (ListVatTu l in listVatTu)
-        //            {
-        //                int j = 0;
-        //                foreach (string m in l.tenvattu)
-        //                {
-        //                    TableRow tr = new TableRow();
+                    Table table =
+                    doc.MainDocumentPart.Document.Body.Elements<Table>().ElementAt(1);
+                    int i = 0;
+                    foreach (var item in json)
+                    {
+                        string equipmentId = (string)item.Value["id"];
+                        JArray vattu = (JArray)item.Value.SelectToken("vattu");
+                        foreach (JObject jObject in vattu)
+                        {
+                            string supply_id = (string)jObject["supply_id"];
+                            int quantity = (int)jObject["quantity"];
+                            Supply s = DBContext.Supplies.Find(supply_id);
+                            TableRow tr = new TableRow();
 
-        //                    TableCell tc1 = new TableCell();
-        //                    tc1.Append(new Paragraph(new Run(new Text((i + 1).ToString()))));
-        //                    tr.Append(tc1);
+                            TableCell tc1 = new TableCell();
+                            tc1.Append(new Paragraph(new Run(new Text((i + 1).ToString()))));
+                            tr.Append(tc1);
 
-        //                    TableCell tc2 = new TableCell();
-        //                    tc2.Append(new Paragraph(new Run(new Text(l.thietbi))));
-        //                    tr.Append(tc2);
+                            TableCell tc2 = new TableCell();
+                            tc2.Append(new Paragraph(new Run(new Text(equipmentId))));
+                            tr.Append(tc2);
 
-        //                    TableCell tc3 = new TableCell();
-        //                    tc3.Append(new Paragraph(new Run(new Text(m))));
-        //                    tr.Append(tc3);
+                            TableCell tc3 = new TableCell();
+                            tc3.Append(new Paragraph(new Run(new Text(s.supply_name))));
+                            tr.Append(tc3);
 
-        //                    TableCell tc4 = new TableCell();
-        //                    tc4.Append(new Paragraph(new Run(new Text(l.donvi[j]))));
-        //                    tr.Append(tc4);
+                            TableCell tc4 = new TableCell();
+                            tc4.Append(new Paragraph(new Run(new Text(s.unit))));
+                            tr.Append(tc4);
 
-        //                    TableCell tc5 = new TableCell();
-        //                    tc5.Append(new Paragraph(new Run(new Text(l.soluong[j]))));
-        //                    tr.Append(tc5);
+                            TableCell tc5 = new TableCell();
+                            tc5.Append(new Paragraph(new Run(new Text(quantity.ToString()))));
+                            tr.Append(tc5);
 
-        //                    TableCell tc6 = new TableCell();
-        //                    tc6.Append(new Paragraph(new Run(new Text(""))));
-        //                    tr.Append(tc6);
+                            TableCell tc6 = new TableCell();
+                            tc6.Append(new Paragraph(new Run(new Text(""))));
+                            tr.Append(tc6);
 
-        //                    TableCell tc7 = new TableCell();
-        //                    tc7.Append(new Paragraph(new Run(new Text(""))));
-        //                    tr.Append(tc7);
-        //                    i++;
-        //                    j++;
-        //                    table.Append(tr);
-        //                }
-        //                doc.MainDocumentPart.Document.Save(); // won't update the original file 
-        //            }
-        //            // Save the file with the new name
+                            TableCell tc7 = new TableCell();
+                            tc7.Append(new Paragraph(new Run(new Text(""))));
+                            tr.Append(tc7);
 
-        //            string savePath = HostingEnvironment.MapPath(Flocation);
-        //            stream.Position = 0;
-        //            System.IO.File.WriteAllBytes(savePath, stream.ToArray());
-        //        }
-               
-        //    }
-        //    return Json(new { success = true, location = Flocation }, JsonRequestBehavior.AllowGet);
-        //}
+                            table.Append(tr);
+                        }
+                        doc.MainDocumentPart.Document.Save();
+                    }
+                    // Save the file with the new name
+
+                    string savePath = HostingEnvironment.MapPath(Flocation);
+                    stream.Position = 0;
+                    System.IO.File.WriteAllBytes(savePath, stream.ToArray());
+                }
+
+            }
+            return Json(new { success = true, location = Flocation }, JsonRequestBehavior.AllowGet);
+        }
     }
 }
