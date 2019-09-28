@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "suachua";
+    ViewData["Title"] = "thanhly";
     Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
 }
 
@@ -15,7 +15,7 @@
 <div class="card">
     <div class="card-content">
         <div class="row">
-            <h3 class="center"><b>THU HỒI THIẾT BỊ</b></h3>
+            <h3 class="center"><b>THANH LÝ THIẾT BỊ</b></h3>
             <hr>
             <form action="" method="POST" id="mysearchform" role="form">
                 <div class="col l6 m6 s12">
@@ -53,7 +53,7 @@
                 </table>
             </div>
             <div class="col">
-                <a href="#" id="tienhanh" onclick="SaveStatus()" class="btn blue darken-2">Tiến hành thu hồi thiết bị</a>
+                <a href="#" id="tienhanh" onclick="SaveStatus()" class="btn blue darken-2">Tiến hành thanh lý thiết bị</a>
                 <a class="btn blue darken-2" id="drop">Bỏ Chọn</a>
             </div>
         </div>
@@ -62,9 +62,14 @@
 <script type="text/javascript" src="~/js/Custom JS/CDVT/Work/suachua.js"></script>
 <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
 
+
+
+
 @section scripts{
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script>
+
+
         $("#pre-load").show();
         var Popup, dataTable;
         @{
@@ -79,7 +84,7 @@
             $(".my_checkbox").each(function () {
                 if ($(this).is(":checked")) $(this).click();
             })
-            //here      
+            //here
             arrCarSelected = null;
         })
         $(document).ready(function () {
@@ -101,7 +106,7 @@
                         }
                     },
                     "ajax": {
-                        "url": "/phong-cdvt/thu-hoi/search",
+                        "url": "/phong-cdvt/thanh-ly/search",
                         "type": "POST",
                         "datatype": "json",
                         "data": {
@@ -118,41 +123,42 @@
                         {
                             "data": "current_Status", "name": "current_Status", "render": (data) => {
                                 if (data == 1) {
-                                    return "<p> Chờ điều động </p>"
+                                    return "Chờ điều động"
                                 }
                                 if (data == 2) {
-                                    return "<p> Đang hoạt động </p>"
+                                    return "Đang hoạt động"
                                 }
                                 if (data == 3) {
-                                    return "<p> Đang sửa chữa </p>"
+                                    return "Đang sửa chữa"
                                 }
                                 if (data == 4) {
-                                    return "<p> Hỏng </p>"
+                                    return "Hỏng"
                                 }
                                 if (data == 5) {
-                                    return "<p> Đang bảo dưỡng </p>"
+                                    return "Đang bảo dưỡng"
                                 }
                                 if (data == 6) {
-                                    return "<p> Đang điều động </p>"
+                                    return "Đang điều động"
                                 }
                                 if (data == 7) {
-                                    return "<p> Đang thu hồi </p>"
+                                    return "Đang thu hồi"
                                 }
                                 if (data == 8) {
-                                    return "<p> Đang thanh lý  </p>"
+                                    return "Đang thanh lý "
                                 }
                                 if (data == 9) {
-                                    return "<p> Đang trung tu </p>"
+                                    return "Đang trung tu"
                                 }
                                 if (data == 10) {
-                                    return "<p> Đang đại tu </p>"
+                                    return "Đang đại tu"
                                 }
                                 if (data == 11) {
-                                    return "<p> Đang chờ nghiệm thu </p>"
+                                    return "Đang chờ nghiệm thu"
                                 }
                                 if (data == 12) {
-                                    return "<p> Đến hạn bảo dưỡng </p>"
+                                    return "Đến hạn bảo dưỡng"
                                 }
+
                                 else {
                                     return data;
                                 }
@@ -168,14 +174,14 @@
                                 }
                                 return "<label><input class='my_checkbox'  name='abc' id ='" + data + "' value='" + data + "' type ='checkbox' onclick=updateList('" + data + "')><span></span></label>";
                             },
-                        "orderable": false,
-                        "searchable": false,
-                        "width": "150px"
+                            "orderable": false,
+                            "searchable": false,
+                            "width": "150px"
                         }],
                     "bLengthChange": false,
                     "searching": false,
                     "serverSide": "true",
-                    "order": [1, "asc"],
+                    "order": [0, "asc"],
                     "initComplete": function (settings, json) {
                         $("#pre-load").hide();
                     },
@@ -185,7 +191,7 @@
                     "drawCallback": function (settings) {
                         $('#pre-load').hide();
                     }
-                });
+            });
 
             $("#searchButton1").click(function () {
                 $("#pre-load").show();
@@ -197,12 +203,13 @@
                     $("#pre-load").hide();
                 })
             })
-       });
+        });
 
         var table = new $.fn.dataTable.Api('#myTable');
 
         // Get data from the first row
         var data = table.rows().data()[0]; // same as row(0).data()
+
 
         function updateList(id) {
             isExist = false;
@@ -224,12 +231,16 @@
                     arrCarSelected = [id];
 
                 }
+
             }
         }
 
+
+
         function SaveStatus() {
+
             $.ajax({
-                url: "/phong-cdvt/thu-hoi",
+                url: "/phong-cdvt/thanh-ly",
                 method: "POST",
                 data: {
                     "selectList": JSON.stringify(arrCarSelected)
@@ -238,13 +249,18 @@
             document.getElementById("selectListJson").value = arrCarSelected;
             document.getElementById("formSaveStatus").submit();
         }
-        function sendData() {
+            function sendData() {
             $.each($("input[name='abc']:checked"), function () {
-            });
+                });
 
         }
+
+
     </script>
 }
-<form action="/phong-cdvt/thu-hoi-chon" id="formSaveStatus">
-    <input type="hidden" name="selectListJson" id="selectListJson" value="" />
+
+<form action="/phong-cdvt/thanh-ly-chon" id="formSaveStatus">
+    <input hidden name="selectListJson" id="selectListJson" value="" />
 </form>
+
+

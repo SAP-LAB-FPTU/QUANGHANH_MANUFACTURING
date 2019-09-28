@@ -230,7 +230,7 @@
                 })
                 .DataTable({
                 "ajax": {
-                    "url": "/phong-cdvt/quyet-dinh/thanh-li/search",
+                    "url": "/phong-cdvt/quyet-dinh/thanh-ly/search",
                     "type": "POST",
                     "datatype": "json",
                      "data": {
@@ -356,7 +356,7 @@
              var ListId = [id];
             $.ajax({
                 type: "POST",
-                url: "/phong-cdvt/quyet-dinh/thanh-li/getdata",
+                url: "/phong-cdvt/quyet-dinh/thanh-ly/getdata",
                 contentType: "application/json",
                 dataType: "json",
                 data: '{docID: ' + JSON.stringify(ListId) + '}',
@@ -383,7 +383,7 @@
             $("#pre-load").show();
             $("#pre-load").css("z-index", "9999");
             $.ajax({
-                url: '/phong-cdvt/quyet-dinh/thanh-li/export',
+                url: '/phong-cdvt/quyet-dinh/thanh-ly/export',
                 type: 'POST',
 
             }).done(function () {
@@ -397,7 +397,7 @@
            $("#pre-load").show();
                 $.ajax({
                     type: "POST",
-                    url: "/phong-cdvt/quyet-dinh/thanh-li/edit",
+                    url: "/phong-cdvt/quyet-dinh/thanh-ly/edit",
                     dataType: "text",
                     success: function () {
                         dataTable.ajax.reload();
@@ -436,7 +436,7 @@
            $("#pre-load").show();
                 $.ajax({
                     type: "POST",
-                    url: "/phong-cdvt/quyet-dinh/thanh-li/update",
+                    url: "/phong-cdvt/quyet-dinh/thanh-ly/update",
                     dataType: "text",
                     success: function () {
                         dataTable.ajax.reload();
@@ -473,7 +473,7 @@
              var ListId = [id];
             $.ajax({
                 type: "POST",
-                url: "/phong-cdvt/quyet-dinh/thanh-li/getdata",
+                url: "/phong-cdvt/quyet-dinh/thanh-ly/getdata",
                 contentType: "application/json",
                 dataType: "json",
                 data: '{docID: ' + JSON.stringify(ListId) + '}',
@@ -501,7 +501,7 @@
                     var docID = $('#documentary_id_update').val();
                     $.ajax({
                         type: "POST",
-                        url: '/phong-cdvt/quyet-dinh/thanh-li/delete',
+                        url: '/phong-cdvt/quyet-dinh/thanh-ly/delete',
                         data: '{docID: ' + docID + '}',
                         contentType: "application/json",
                         dataType: "script",

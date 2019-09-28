@@ -161,10 +161,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
             if (String.IsNullOrEmpty(documentary_code) && String.IsNullOrEmpty(person_created))
             {
 
-
-                incidents = (from document in db.Documentaries
-                             where (document.reason.Equals("Điều động thu hồi"))
-                             join detail in db.Documentary_revoke_details on document.documentary_id equals detail.documentary_id
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+             incidents = (from document in db.Documentaries
+                          where document.documentary_type.Equals("4") && (document.documentary_code.Contains(documentary_code) || document.documentary_code == null) && document.person_created.Contains(person_created) && (document.date_created >= dtStart && document.date_created <= dtEnd)
+                          join detail in db.Documentary_revoke_details on document.documentary_id equals detail.documentary_id
                              into temporary
                              select new
                              {
@@ -185,40 +185,9 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
                                  out_in_come = p.out_in_come,
                                  count = p.count
                              }).ToList();
-            }
-            else
-            {
-                
-
-
-                incidents = (from document in db.Documentaries
-                             where (document.reason.Equals("Điều động thu hồi") && document.documentary_code.Contains(documentary_code)) && (document.person_created.Contains(person_created) && (document.date_created >= dtStart && document.date_created <= dtEnd))
-                             join detail in db.Documentary_revoke_details on document.documentary_id equals detail.documentary_id
-                             into temporary
-                             select new
-                             {
-                                 documentary_id = document.documentary_id,
-                                 documentary_code = document.documentary_code,
-                                 date_created = document.date_created,
-                                 person_created = document.person_created,
-                                 reason = document.reason,
-                                 out_in_come = document.out_in_come,
-                                 count = temporary.Select(x => new { x.equipmentId }).Count()
-                             }).ToList().Select(p => new Documentary_Extend
-                             {
-                                 documentary_id = p.documentary_id,
-                                 documentary_code = p.documentary_code,
-                                 date_created = p.date_created,
-                                 person_created = p.person_created,
-                                 reason = p.reason,
-                                 out_in_come = p.out_in_come,
-                                 count = p.count
-                             }).ToList();
-
-            }
             foreach (var el in incidents)
             {
-                if (el.documentary_code == null || el.documentary_code == "")
+                if (el.documentary_code == null || el.documentary_code.Equals(""))
                 {
                     el.tempId = el.documentary_id + "^false";
                 }
