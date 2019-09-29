@@ -6845,6 +6845,8 @@
     <Content Include="Content\DataTables\Buttons-1.5.6\css\mixins.scss" />
     <Content Include="excel\CDVT\download\tong-hop-vat-tu.xlsx" />
     <Content Include="excel\CDVT\download\tong-hop-vat-tu-download.xlsx" />
+    <Content Include="doc\CDVT\QD\quyetdinh-template.docx" />
+    <Content Include="excel\CDVT\download\huy-dong-oto.xlsx" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -6852,8 +6854,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="doc\CDVT\QD\quyetdinh-template.docx" />
-    <Content Include="excel\CDVT\download\huy-dong-oto.xlsx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
