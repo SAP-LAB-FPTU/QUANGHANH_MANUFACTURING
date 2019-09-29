@@ -17,7 +17,7 @@ namespace QUANGHANH2.Controllers.PX.PXDS
         }
 
         [HttpGet]
-        [Route("phan-xuong-doi-song/thong-ke-suat-an")]
+        [Route("phan-xuong-doi-song/theo-doi-suat-an")]
         public ActionResult Index()
         {
             return View("/Views/PX/PXDS/View.cshtml");

@@ -21,11 +21,15 @@
                     <input type="text" placeholder="Tìm kiếm theo loại chấm dứt" class='form-control' id="searchLoaiChamDut" multiple />
                 </div>
 
-                
+
 
                 <div class="col l3 m12 s12 input-field">
                     <button class="btn blue darken-2 btn-small" id="searchButton">Tìm kiếm</button>
                 </div>
+                <div class="col s12 m12 l12 input-field">
+                    <a class="btn btn-small blue darken-2" id="exportExcel"><i class="fas fa-file-excel"></i>&nbsp;Excel</a>
+                </div>
+                
                 @*<div class="col s12 m12 l12" id="btn-fix-save">
             <a class="btn btn-small blue darken-2 input-field" id="btn-fix">Chỉnh sửa</a>
             <a class="btn btn-small blue darken-2 modal-trigger input-field" id="btn-save" href="#modal1">Lưu</a>
@@ -43,6 +47,7 @@
                                 <th>Số BHXH</th>
                                 <th>Số Điện thoại</th>
                                 <th>Địa chỉ</th>
+                                <th>Loại chấm dứt</th>
                                 <th>Thao tác</th>
                             </tr>
                         </thead>
@@ -122,6 +127,21 @@
                             //    data.selectList = JSON.stringify(arrCarSelected);
                             })
                         .DataTable({
+"language": {
+                        emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                        paginate:
+                        {
+                            previous: "Trang trước",
+                            next: "Trang sau",
+                            first: "|<",
+                            last: ">|",
+                                                  
+                        },
+                        info: "Đang hiện START đến END của TOTAL bản ghi",
+                        infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
+                    },
+
+
                         "processing": false,
                         "searching": false,
                         "info": false,
@@ -144,16 +164,17 @@
                             { data: 'manv' },
                             {
                                 data: 'ten', "render": function (data, type, row) {
-                                    return "<a href ='ho-so-ngoai-cong-ty/chi-tiet-ho-so?manv=" + row['manv'] + "'>" + data + "</a>";
+                                    return '<a href ="@Url.Action("OutSideDetail", "Brief")?manv='+row['manv']+'">'+data+'</a>';
                                 }
                             },
                             { data: 'dvcdhd' },
                             { data: 'sobhxh' },
                             { data: 'sdt' },
                             { data: 'diachi' },
+                            { data:'loaichamdut'},
                             {
                                 data: 'edit', "render": function (data, type, row) {
-                                    return "<a class='waves-effect waves-light btn blue darken-2 btn-small btn-small' href ='ho-so-ngoai-cong-ty/chi-tiet-ho-so?manv=" + row['manv'] + "'><span class='ti-pencil-alt'>&nbsp;</span>" + 'Sửa' + "</a>";
+                                    return '<a href ="@Url.Action("OutSideDetail", "Brief")?manv='+row['manv']+'" class="waves-effect waves-light btn blue darken-2 btn-small btn-small" ><span class="ti-pencil-alt">&nbsp;</span>  Sửa  </a>';
 
                                 }
                             }
@@ -212,7 +233,35 @@
 
                 });
 
+             function exportExcel() {
+        
+       
+        $.ajax({
+            type: 'POST',
+            url: '/Brief/ExportExcel',
+            dataType: 'json',
+            success: function (response) {
+               if (response.success) {
+        //Tải file excel về theo như location được gửi về từ controller
+        window.location.href = response.location;
+        $("#pre-load").hide("slow", function () {
+            });
+            } else {
+            alert("error");
+            }
 
+            }
+        });
+
+    }
+
+    $('#exportExcel').click(function (e) {
+        $("#pre-load").show("slow", function () {
+      				   });
+      				  $("#pre-load").css("z-index", "99999");
+        e.preventDefault();
+        exportExcel();
+    });
 
 
         </script>
