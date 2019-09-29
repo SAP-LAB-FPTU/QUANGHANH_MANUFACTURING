@@ -230,6 +230,17 @@
                     $("#pre-load").css("z-index", "9999");
                 })
                 .DataTable({
+                "language": {
+                "emptyTable": "Không tìm thấy dữ liệu",
+                "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                "paginate": {
+                    "first": "Trang đầu",
+                    "last": "Trang cuối",
+                    "next": "Trang sau",
+                    "previous": "Trang trước"
+                }
+            },
                 "ajax": {
                     "url": "/phong-cdvt/quyet-dinh/bao-duong/search",
                     "type": "POST",
