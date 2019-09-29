@@ -42,7 +42,7 @@
                             </div>
                             <div class="col m4">
                                 <label class='custom-label'>Ngày tháng năm sinh</label>
-                                <input disabled="" type="text" id="ngaythangnamsinh" data-language="vi" data-min-view="days" data-date-format="mm/dd/yyyy" class="datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
+                                <input disabled="" type="text" id="ngaythangnamsinh" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="datepicker-here datepicker-add center inputEdit form-control" placeholder="dd/mm/yyyy" />
                             </div>
                         </div>
                         <div class="input-field col m12">
@@ -97,16 +97,24 @@
                                 <label class='custom-label'>
                                     Tên loại chấm dứt
                                 </label>
-                                <input disabled type="text" id="tenLoaiChamDut" class="inputEdit form-control" />
+                                <input disabled list="list" type="text" id="tenLoaiChamDut" class="inputEdit form-control" />
+                                <datalist id="list">
+                                    <option value="1234">1234</option>
+                                    <option value="1111">1111</option>
+                                    <option value="2222">2222</option>
+                                    <option value="3333">3333</option>
+                                </datalist>
+
+
                             </div>
 
                             <div class="col m3">
                                 <label class='custom-label'>Ngày tháng năm QĐ</label>
-                                <input disabled type="text" id="ngayQD" data-language="vi" data-min-view="days" data-date-format="mm/dd/yyyy" class="datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
+                                <input disabled type="text" id="ngayQD" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
                             </div>
                             <div class="col m3">
                                 <label class='custom-label'>Ngày chấm dứt</label>
-                                <input disabled type="text" id="ngayCD" data-language="vi" data-min-view="days" data-date-format="mm/dd/yyyy" class="datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
+                                <input disabled type="text" id="ngayCD" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
                             </div>
                         </div>
                     </div>
@@ -174,7 +182,9 @@
                                 <thead>
                                     <tr>
                                         <th>Số Hiệu</th>
+                                        <th>Tên</th>
                                         <th>Kiểu </th>
+                                        <th>Ngày cấp</th>
                                         <th>Ngày trả </th>
                                         <th>Thao tác</th>
 
@@ -207,16 +217,24 @@
     <div class="modal-content">
         <div class="input-field col m12">
             <div class="col m4">
-                <label class='custom-label'>Số Hiệu</label>
+                <label class='custom-label'>Số Hiệu giấy tờ</label>
                 <input disabled type="text" id="suasohieu" class="inputEdit form-control" />
             </div>
             <div class="col m4">
-                <label class='custom-label'>Kiểu</label>
+                <label class='custom-label'>Kiểu giấy tờ</label>
                 <input disabled type="text" id="suakieu" class="inputEdit form-control" />
             </div>
             <div class="col m4">
+                <label class='custom-label'>Tên giấy tờ</label>
+                <input disabled type="text" id="suaten" class="inputEdit form-control" />
+            </div>
+            <div class="col m4">
+                <label class='custom-label'>Ngày cấp</label>
+                <input disabled type="text" id="suangaycap" class="inputEdit form-control" />
+            </div>
+            <div class="col m4">
                 <label class='custom-label'>Ngày trả</label>
-                <input type="text" id="suangaytra" data-language="vi" data-min-view="days" data-date-format="mm/dd/yyyy" class="datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
+                <input type="text" id="suangaytra" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
             </div>
 
         </div>
@@ -282,6 +300,21 @@
 
         table = $('#example').DataTable({
 
+            "language": {
+                        emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                        paginate:
+                        {
+                            previous: "Trang trước",
+                            next: "Trang sau",
+                            first: "|<",
+                            last: ">|",
+                                                  
+                        },
+                        info: "Đang hiện START đến END của TOTAL bản ghi",
+                        infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
+                    },
+
+
             "ajax": {
                 "url": "/Brief/thongTinGiayTo",
                 "type": "GET",
@@ -297,7 +330,11 @@
     },
     "columns": [
         { data: 'sohieu' },
+        { data: 'ten'},
         { data: 'kieu' },
+        { data: 'ngaycap',"render": function (data) {
+                return dateFormat(data);
+            }},
         {
             data: 'ngaytra', "render": function (data) {
                 return dateFormat(data);
@@ -305,7 +342,7 @@
         },
         {
             data: 'manv', "render": function (data, type, row) {
-                return "<a onclick=\"getChinhSuaGiayTo('" + row['sohieu'] + "','" + row['kieu'] + "','" + row['ngaytra'] + "')\" class='btn btn-small blue darken-2 modal-trigger input-field waves-effect' id='btn-fix'  href='#modal1'>Chỉnh sửa</a>";
+                return "<a onclick=\"getChinhSuaGiayTo('" + row['sohieu'] + "','" + row['kieu'] + "','"+ row['ten'] + "','"+ row['ngaycap'] + "','" + row['ngaytra'] + "')\" class='btn btn-small blue darken-2 modal-trigger input-field waves-effect' id='btn-fix'  href='#modal1'>Chỉnh sửa</a>";
             }
         }
     ],
@@ -374,6 +411,16 @@
             $('#soQD').val(data.data[0].soQD);
             $('#ngayQD').val(dateFormat(data.data[0].ngayQD));
             $('#ngayCD').val(dateFormat(data.data[0].ngayCD));
+             $("#list").empty();
+            for(var i=0;i<data.data[0].listChamDut.length;i++)
+            {
+                if (data.data[0].listChamDut[i] != null) {
+                    $("#list").append("<option value='" + 
+                data.data[0].listChamDut[i] + "'>"+data.data[0].listChamDut[i]+"</option>");
+                }
+                
+            }
+            console.log(data.data[0].listChamDut);
         }
 
             });
@@ -561,7 +608,10 @@
 
         var x1 = $('#sothe').val();
         var x2 = $('#hoVaTen').val();
-        var x3 = $('#ngaythangnamsinh').val();
+        
+        var dateParts = $('#ngaythangnamsinh').val().split("/");
+        var x3 = dateParts[1]+'/'+ dateParts[0]+'/' +dateParts[2];
+
         var x4 = $('#donvicd').val();
         var x5 = $('#soBH').val();
         var x6 = $('#sodt').val();
@@ -590,8 +640,10 @@
 
         var x1 = $('#tenLoaiChamDut').val();
         var x2 = $('#soQD').val();
-        var x3 = $('#ngayQD').val();
-        var x4 = $('#ngayCD').val();
+        var dateParts = $('#ngayQD').val().split("/");
+        var x3 = dateParts[1] + '/' + dateParts[0] + '/' + dateParts[2];
+        var dateParts = $('#ngayCD').val().split("/");
+        var x4 = dateParts[1] + '/' + dateParts[0] + '/' + dateParts[2];
 
         var object = {
             "tenLoaiChamDut": x1,
@@ -720,23 +772,31 @@
 
     function dateFormat(d) {
         if (d == null) return "";
+        
         var dateString = d.substr(6);
         var currentTime = new Date(parseInt(dateString));
         var month = currentTime.getMonth() + 1;
+        if (month<10) month = '0' + month;
         var day = currentTime.getDate();
+        if (day<10) day = '0' + day;
         var year = currentTime.getFullYear();
-        var date = month + "/" + day + "/" + year;
+        var date = day + "/" + month + "/" + year;
         return (date);
     }
 
-    function getChinhSuaGiayTo(sohieu, kieu, ngaytra) {
+    function getChinhSuaGiayTo(sohieu, kieu,ten,ngaycap, ngaytra) {
         console.log('getChinhSuaGiayTo');
         //xet gia tri cho div ve thong tin chinh sua
         console.log(sohieu + ',' + kieu + ',' + ngaytra);
         $('#suasohieu').val(sohieu);
         $('#suakieu').val(kieu);
+        if(ten!='null')
+        $('#suaten').val(ten);
         if (ngaytra != 'null') {
             $('#suangaytra').val(dateFormat(ngaytra));
+        }
+        if (ngaycap != 'null' ) {
+            $('#suangaycap').val(dateFormat(ngaycap));
         }
         $('#suangaytra').prop('disabled', false);
 
@@ -745,11 +805,13 @@
     }
 
     function dongYSuaGiayTo() {
+        var dateParts = $('#suangaytra').val().split("/");
+        var x4 = dateParts[1] + '/' + dateParts[0] + '/' + dateParts[2];
         var object = {
             "manv": '@ViewBag.manv',
         "sohieu": $('#suasohieu').val(),
             "kieu": $('#suakieu').val(),
-                "ngaytra": $('#suangaytra').val(),
+                "ngaytra": x4,
             };
 
     $("#pre-load").show("slow", function () {
