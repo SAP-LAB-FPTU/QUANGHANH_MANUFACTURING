@@ -25,6 +25,17 @@ namespace QUANGHANH2.Models
         public bool DK { get; set; }
         public bool KCS { get; set; }
         public bool PXKT { get; set; }
+        public bool PXDL { get; set; }
+        public bool PXVT { get; set; }
+        public bool PXST { get; set; }
+        public bool PXPV { get; set; }
+        public bool PXDS { get; set; }
+        public bool PXCDM { get; set; }
+        public bool PXTGQLM { get; set; }
+        public bool PXXD { get; set; }
+        public bool PXLT { get; set; }
+        public bool AT { get; set; }
+        public bool KCM { get; set; }
         public bool ADMIN { get; set; }
     }
 }

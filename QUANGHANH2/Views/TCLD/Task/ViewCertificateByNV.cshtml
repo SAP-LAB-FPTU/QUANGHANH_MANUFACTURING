@@ -34,12 +34,20 @@
         var dataTable;
         $(Document).ready(() => {
             $("#pre-load").show()
-            dataTable = $("#mytable").DataTable({
+            dataTable = $("#mytable").on('preXhr.dt', function (e, settings, data) {
+                $("#pre-load").show("slow", function () {
+                });
+                $("#pre-load").css("z-index", "99999");
+            }).DataTable({
                  "ajax": {
                      "url": '@Url.Action("GetAllChungChiOfNV", "Task")',
                      "data": {mnv : @ViewBag.MaNV},
                      "type": "POST",
                      "datatype": "json",
+                },
+                "drawCallback": function (settings) {
+                    $("#pre-load").hide("slow", function () {
+                    });
                 },
                 "columns": [
                     { "data": "SoHieu", "name": "SoHieu", "render": (data) => { return   data   }},
@@ -60,6 +68,19 @@
                 "searching": false,
                 "paging": false,
                 "serverSide": true,
+                "language": {
+                    emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                    paginate:
+                    {
+                        previous: "Trang trước",
+                        next: "Trang sau",
+                        first: "|<",
+                        last: ">|",
+
+                    },
+                    info: "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                    infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
+                },
             })
         })
 

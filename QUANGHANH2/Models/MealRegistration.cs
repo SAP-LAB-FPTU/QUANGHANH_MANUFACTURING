@@ -16,8 +16,9 @@ namespace QUANGHANH2.Models
     {
         public int id { get; set; }
         public string department_id { get; set; }
-        public Nullable<System.DateTime> date_regs { get; set; }
+        public System.DateTime date_regs { get; set; }
         public Nullable<int> num_regs { get; set; }
+        public Nullable<int> num_regs_plan { get; set; }
     
         public virtual Department Department { get; set; }
     }
