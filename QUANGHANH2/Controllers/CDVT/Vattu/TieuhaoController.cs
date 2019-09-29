@@ -56,5 +56,36 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
                 recordsFiltered
             }, JsonRequestBehavior.AllowGet);
         }
+
+        [Auther(RightID = "35")]
+        [HttpGet]
+        [Route("phong-cdvt/vat-tu/tieu-hao/summary")]
+        public ActionResult Summary(string SupplyId, string SupplyName, string DepartmentId, string DeparmentName)
+        {
+            //Server Side Parameter
+            int start = Convert.ToInt32(Request["start"]);
+            int length = Convert.ToInt32(Request["length"]);
+            var search = new TieuhaoSearchModelView
+            {
+                SupplyId = SupplyId.Trim(),
+                SupplyName = SupplyName.Trim()
+            };
+            var details = _repository.GetSummary(search);
+            int recordsTotal = details.Count;
+            int recordsFiltered = details.Count;
+            details = details.Skip(start).Take(length).ToList();
+            // calc SupplyInventory
+            foreach (var detail in details)
+            {
+                detail.SupplyInventory = detail.SupplyQuantity - detail.SupplyUsed;
+            }
+            return Json(new
+            {
+                success = true,
+                data = details,
+                recordsTotal,
+                recordsFiltered
+            }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

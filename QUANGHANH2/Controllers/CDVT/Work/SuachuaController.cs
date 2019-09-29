@@ -2,22 +2,20 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Linq.Dynamic;
-using System.Web.Services;
-using System.Collections;
 using System.Web;
 using System.Web.SessionState;
+using QUANGHANH2.SupportClass;
+using System.Data.SqlClient;
 
 namespace QUANGHANHCORE.Controllers.CDVT.Work
 {
     [SessionState(SessionStateBehavior.Default)]
     public class SuachuaController : Controller
     {
-
-
+        [Auther(RightID = "83")]
         [Route("phong-cdvt/sua-chua")]
         public ActionResult Index()
         {
@@ -37,9 +35,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
             return View("/Views/CDVT/Work/suachua.cshtml");
         }
 
-        [Route("phong-cdvt/sua-chua")]
+        [Auther(RightID = "83")]
+        [Route("phong-cdvt/sua-chua/search")]
         [HttpPost]
-        public ActionResult GetData(String selectListJson)
+        public ActionResult Search(string equipmentId, string department_name, string equipmentName)
         {
             HttpCookie cookie;
             if (HttpContext.Request.Cookies["SuaChuaThietBi"] == null)
@@ -66,26 +65,30 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
             //
             HttpContext.Response.Cookies.Set(cookie);
             var listSelect = Request["selectList"];
-            List<Equipment> equipList = new List<Equipment>();
+            
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                db.Configuration.LazyLoadingEnabled = false;
-                equipList = db.Equipments.ToList<Equipment>();
+                string query = "SELECT * FROM Equipment e inner join Department d on e.department_id = d.department_id";
+                if (!equipmentId.Equals("") || !equipmentName.Equals("") || !department_name.Equals(""))
+                {
+                    query += " where ";
+                    if (!equipmentId.Equals("")) query += "e.equipmentId LIKE @equipmentId AND ";
+                    if (!equipmentName.Equals("")) query += "e.equipment_name LIKE @equipment_name AND ";
+                    if (!department_name.Equals("")) query += "d.department_name LIKE @department_name AND ";
+                    query = query.Substring(0, query.Length - 5);
+                }
+                List<equipmentExtend> equipList = db.Database.SqlQuery<equipmentExtend>(query,
+                    new SqlParameter("equipmentId", '%' + equipmentId + '%'),
+                    new SqlParameter("equipment_name", '%' + equipmentName + '%'),
+                    new SqlParameter("department_name", '%' + department_name + '%')).ToList();
                 int totalrows = equipList.Count;
                 int totalrowsafterfiltering = equipList.Count;
-                if (sortColumnName != null && sortDirection != null)
-                {
-                    //sorting
-                    equipList = equipList.OrderBy(sortColumnName + " " + sortDirection).ToList<Equipment>();
-                }
+                //sorting
+                equipList = equipList.OrderBy(sortColumnName + " " + sortDirection).ToList<equipmentExtend>();
                 //paging
-                if (start != null && length != null)
-                {
-                    equipList = equipList.Skip(start).Take(length).ToList<Equipment>();
-                }
+                equipList = equipList.Skip(start).Take(length).ToList<equipmentExtend>();
                 return Json(new { success = true, data = equipList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
             }
         }
     }
-
 }

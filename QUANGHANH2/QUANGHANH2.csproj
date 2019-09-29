@@ -48,6 +48,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.9.1.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.9.1\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -66,6 +69,12 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Packaging, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Packaging.4.5.0\lib\net46\System.IO.Packaging.dll</HintPath>
+    </Reference>
     <Reference Include="System.Linq.Dynamic, Version=1.0.6132.35681, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Linq.Dynamic.1.0.7\lib\net40\System.Linq.Dynamic.dll</HintPath>
     </Reference>
@@ -140,6 +149,7 @@
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="WindowsBase" />
     <Reference Include="XCrypt">
       <HintPath>..\packages\XCrypt.2.0.0\lib\XCrypt.dll</HintPath>
     </Reference>
@@ -196,7 +206,7 @@
     <Compile Include="Controllers\CDVT\Oto\HuydongOtoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\NhomotoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\SuachuahangngayController.cs" />
-    <Compile Include="Controllers\CDVT\Quyetdinh\BaoduongQDController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\BaoduongController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ChitietBaoduongController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ChitietKiemdinhController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ChiTietQuyetDInhController.cs" />
@@ -204,15 +214,13 @@
     <Compile Include="Controllers\CDVT\Quyetdinh\ChitietSuachuaController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ChitietThanhliController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ChitietThuhoiController.cs" />
-    <Compile Include="Controllers\CDVT\Quyetdinh\danhsachtrungdaituController.cs" />
-    <Compile Include="Controllers\CDVT\Quyetdinh\kiemdinhController.cs" />
-    <Compile Include="Controllers\CDVT\Quyetdinh\QuyetDInhController.cs" />
-    <Compile Include="Controllers\CDVT\Quyetdinh\sctxController.cs" />
-    <Compile Include="Controllers\CDVT\Quyetdinh\suachuaQDController.cs" />
-    <Compile Include="Controllers\CDVT\Quyetdinh\ThanhliController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\DieudongController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\SuachuaController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\ThanhlyController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\ThuhoiController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\TrungdaituController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\VatTuQuyetDinhController.cs" />
     <Compile Include="Controllers\CDVT\Useless\ThongtinsucoController.cs" />
-    <Compile Include="Controllers\CDVT\Quyetdinh\ThuhoiController.cs" />
     <Compile Include="Controllers\CDVT\Report\KiemdinhController.cs" />
     <Compile Include="Controllers\CDVT\Report\LiquidationReportController.cs" />
     <Compile Include="Controllers\CDVT\Report\MaintainReportController.cs" />
@@ -240,14 +248,14 @@
     <Compile Include="Controllers\CDVT\Work\baoduongController.cs" />
     <Compile Include="Controllers\CDVT\Work\DieudongchonController.cs" />
     <Compile Include="Controllers\CDVT\Work\dieudongController.cs" />
-    <Compile Include="Controllers\CDVT\Work\kiemdinhchonController.cs" />
-    <Compile Include="Controllers\CDVT\Work\kiemdinhController.cs" />
-    <Compile Include="Controllers\CDVT\Work\sctxchonController.cs" />
     <Compile Include="Controllers\CDVT\Work\suachuachonController.cs" />
     <Compile Include="Controllers\CDVT\Work\SuachuaController.cs" />
-    <Compile Include="Controllers\CDVT\Work\ThanhlichonController.cs" />
-    <Compile Include="Controllers\CDVT\Work\ThanhliController.cs" />
+    <Compile Include="Controllers\CDVT\Work\ThanhlychonController.cs" />
+    <Compile Include="Controllers\CDVT\Work\ThanhlyController.cs" />
+    <Compile Include="Controllers\CDVT\Work\thuhoichonController.cs" />
     <Compile Include="Controllers\CDVT\Work\ThuhoiController.cs" />
+    <Compile Include="Controllers\CDVT\Work\TrungdaituchonController.cs" />
+    <Compile Include="Controllers\CDVT\Work\TrungdaituController.cs" />
     <Compile Include="Controllers\DK\DKController.cs" />
     <Compile Include="Controllers\DK\ReportHuman\ReportHumanController.cs" />
     <Compile Include="Controllers\DK\ReportIncidentController.cs" />
@@ -361,6 +369,7 @@
     <Compile Include="Models\Equipment.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\equipmentExtend.cs" />
     <Compile Include="Models\Equipment_attribute.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -506,6 +515,7 @@
     <Compile Include="Repositories\XincapvattuSummaryRepository.cs" />
     <Compile Include="SupportClass\Auther.cs" />
     <Compile Include="SupportClass\DataTableAjaxPostModal.cs" />
+    <Compile Include="Utils\TimeHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\Custom css\CDVT\StyleSheet1.css" />
@@ -6835,6 +6845,8 @@
     <Content Include="Content\DataTables\Buttons-1.5.6\css\mixins.scss" />
     <Content Include="excel\CDVT\download\tong-hop-vat-tu.xlsx" />
     <Content Include="excel\CDVT\download\tong-hop-vat-tu-download.xlsx" />
+    <Content Include="doc\CDVT\QD\quyetdinh-template.docx" />
+    <Content Include="excel\CDVT\download\huy-dong-oto.xlsx" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -6942,19 +6954,11 @@
     <Content Include="Views\CDVT\Nghiemthu\Danghiemthu.cshtml" />
     <Content Include="Views\CDVT\Nghiemthu\Nghiemthu.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Chi_tiet_bao_duong.cshtml" />
-    <Content Include="Views\CDVT\Quyet_dinh\Chi_tiet_kiem_dinh.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Chi_tiet_Quyet_dinh.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Chi_tiet_SCTX.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Chi_tiet_sua_chua.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Chi_tiet_thanh_li.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Chi_tiet_thu_hoi.cshtml" />
-    <Content Include="Views\CDVT\Quyet_dinh\Danh_sach_quyet_dinh_dieu_dong.cshtml" />
-    <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_bao_duong.cshtml" />
-    <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_kiem_dinh.cshtml" />
-    <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_sua_chua.cshtml" />
-    <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_thanh_li.cshtml" />
-    <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_thu_hoi.cshtml" />
-    <Content Include="Views\CDVT\Quyet_dinh\SCTX.cshtml" />
     <Content Include="Views\CDVT\Suco\SucoThietbi.cshtml" />
     <Content Include="Views\CDVT\Report\bao_cao_kiem_dinh.cshtml" />
     <Content Include="Views\CDVT\Report\bao_cao_thu_hoi.cshtml" />
@@ -6967,19 +6971,6 @@
     <Content Include="Views\CDVT\Vattu\Tieuhao.cshtml" />
     <Content Include="Views\CDVT\Vattu\Tonghopvattu.cshtml" />
     <Content Include="Views\CDVT\Vattu\Xincapvattu.cshtml" />
-    <Content Include="Views\CDVT\Work\baoduong.cshtml" />
-    <Content Include="Views\CDVT\Work\baoduong_va_chon.cshtml" />
-    <Content Include="Views\CDVT\Work\dieu_dong.cshtml" />
-    <Content Include="Views\CDVT\Work\dieu_dong_va_chon.cshtml" />
-    <Content Include="Views\CDVT\Work\kiemdinh.cshtml" />
-    <Content Include="Views\CDVT\Work\kiemdinhchon.cshtml" />
-    <Content Include="Views\CDVT\Work\sctx.cshtml" />
-    <Content Include="Views\CDVT\Work\sctx_va_chon.cshtml" />
-    <Content Include="Views\CDVT\Work\suachua.cshtml" />
-    <Content Include="Views\CDVT\Work\suachuachon.cshtml" />
-    <Content Include="Views\CDVT\Work\thanhli.cshtml" />
-    <Content Include="Views\CDVT\Work\thanhli_va_chon.cshtml" />
-    <Content Include="Views\CDVT\Work\thuhoi.cshtml" />
     <Content Include="Views\DK\Index.cshtml" />
     <Content Include="Views\DK\ReportHuman\Daily.cshtml" />
     <Content Include="Views\DK\ReportHuman\Monthly.cshtml" />
@@ -7079,6 +7070,26 @@
     <Content Include="Views\PX\PXDS\Input.cshtml" />
     <Content Include="Views\Brief\EditLichSuBoSung.cshtml" />
     <Content Include="Views\PX\PXKT\registerEmployee.cshtml" />
+    <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_bao_duong.cshtml" />
+    <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_dieu_dong.cshtml" />
+    <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_kiem_dinh.cshtml" />
+    <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_sua_chua.cshtml" />
+    <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_thanh_ly.cshtml" />
+    <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_thu_hoi.cshtml" />
+    <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_trung_dai_tu.cshtml" />
+    <Content Include="Views\CDVT\Work\baoduong.cshtml" />
+    <Content Include="Views\CDVT\Work\baoduong_va_chon.cshtml" />
+    <Content Include="Views\CDVT\Work\dieu_dong.cshtml" />
+    <Content Include="Views\CDVT\Work\dieu_dong_va_chon.cshtml" />
+    <Content Include="Views\CDVT\Work\sctx.cshtml" />
+    <Content Include="Views\CDVT\Work\sctx_va_chon.cshtml" />
+    <Content Include="Views\CDVT\Work\suachua.cshtml" />
+    <Content Include="Views\CDVT\Work\suachuachon.cshtml" />
+    <Content Include="Views\CDVT\Work\thanhly.cshtml" />
+    <Content Include="Views\CDVT\Work\thanhly_va_chon.cshtml" />
+    <Content Include="Views\CDVT\Work\thuhoi.cshtml" />
+    <Content Include="Views\CDVT\Work\thuhoichon.cshtml" />
+    <Content Include="Views\Hoatdong\AddCategory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
