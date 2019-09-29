@@ -69,7 +69,7 @@
             // Vertical axis
             yAxis: [{
                 type: 'category',
-                data: donvi
+                data: myArray
             }],
 
             // Add series
@@ -128,7 +128,7 @@
             xAxis : [
                 {
                     type : 'category',
-                    data : donvi
+                    data: myArray
                 }
             ],
             yAxis : [
@@ -200,7 +200,7 @@
             xAxis : [
                 {
                     type : 'category',
-                    data : donvi
+                    data: myArray
                 }
             ],
             yAxis : [
@@ -271,7 +271,7 @@
             xAxis : [
                 {
                     type : 'category',
-                    data : donvi
+                    data: myArray
                 }
             ],
             yAxis : [
