@@ -8,68 +8,178 @@
 <div class="card">
     <div class="card-content">
         <div class="center">
-            <h3><b>CHI TIẾT QUYẾT ĐỊNH SỬA CHỮA SỐ <span style="color: blue">chưa có</span></b></h3>
+            <h3><b>CHI TIẾT QUYẾT ĐỊNH</b></h3>
         </div>
         <div class="col s12">
             <div class="row table_container">
-                <table class="striped table-responsive centered table-bordered">
+                <table class="striped centered table-bordered" id="DocumnetaryTable">
                     <thead>
                         <tr>
                             <th>STT</th>
                             <th>Mã thiết bị</th>
                             <th>Tên thiết bị</th>
-                            <th>Đơn vị sử dụng</th>
-                            <th>Tình trạng thiết bị</th>
-                            <th>Loại sửa chữa</th>
+                            <th>Vị trí điều động</th>
+                            <th>Phân xưởng chịu trách nhiệm</th>
                             <th>Lý do sửa chữa</th>
-                            <th>Ngày dự kiến xong</th>
+                            <th>Loại sửa chữa</th>
+                            <th>Trạng thái</th>
+                            <th>Ngày dự kiến hoàn thành</th>
+                            <th></th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>AKF</td>
-                            <td>Máy cẩu</td>
-                            <td>Phân xưởng 1</td>
-                            <td>Hỏng</td>
-                            <td>Sửa chữa sự cố</td>
-                            <td>Lật và móp xe</td>
-                            <td>20/9/2019</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>AKF</td>
-                            <td>Máy cẩu</td>
-                            <td>Phân xưởng 1</td>
-                            <td>Hỏng</td>
-                            <td>Sửa chữa nhỏ</td>
-                            <td>Hỏng cần cẩu</td>
-                            <td>8/9/2019</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>AKF</td>
-                            <td>Máy cẩu</td>
-                            <td>Phân xưởng 1</td>
-                            <td>Hỏng</td>
-                            <td>Sửa chữa nhỏ</td>
-                            <td>Xịt lốp xe</td>
-                            <td>7/9/2019</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>AKF</td>
-                            <td>Máy cẩu</td>
-                            <td>Phân xưởng 1</td>
-                            <td>Hỏng</td>
-                            <td>Sửa chữa lớn</td>
-                            <td>Động cơ bốc khói</td>
-                            <td>1/10/2019</td>
-                        </tr>
-                    </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
+
+<div class="modal" id="mylist">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title" id="listId">Danh sách vật tư đi kèm</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <table id="test" class="striped table-responsive centered table-bordered mytable">
+                    <thead>
+                        <tr>
+                            <th>Mã vật tư</th>
+                            <th>Tên vật tư</th>
+                            <th>Số lượng</th>
+                            <th>Chất lượng</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <input type="hidden" id="dsvattu" disabled />
+            <input type="hidden" id="mathietbi" disabled />
+            <input type="hidden" id="maquyetdinh" disabled />
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-add-button">Thoát</button>
+        </div>
+    </div>
+</div>
+
+
+<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+@section scripts{
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+
+            $(document).ready(function () {
+          	$("#pre-load").show();
+        $("#pre-load").css("z-index", "9999");
+            DocumnetaryTable1 = $('#DocumnetaryTable')
+                .on('preXhr.dt', function (e, settings, data) {
+
+                    $("#pre-load").show();
+                    $("#pre-load").css("z-index", "9999");
+                   data.sessionId = "@ViewBag.id";
+
+                }).DataTable({
+                    "language": {
+                "emptyTable": "Không tìm thấy dữ liệu",
+                "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                "paginate": {
+                    "first": "Trang đầu",
+                    "last": "Trang cuối",
+                    "next": "Trang sau",
+                    "previous": "Trang trước"
+                }
+            },
+                "ajax": {
+                    "url": "@Url.Action("Detail","ChitietSuachua")",
+                    "type": "POST",
+                    "datatype": "json",
+                    },
+                    "drawCallback": function () {
+                        $("#pre-load").hide();
+                    },
+                    "columns": [
+                        { "data": "order_number", "name": "order_number" },
+                        { "data": "documentary_code", "name": "documentary_code" },
+                        { "data": "equipment_name", "name": "equipment_name" },
+                        { "data": "department_id", "name": "department_id" },
+                        { "data": "department_name", "name": "department_name" },
+                        { "data": "repair_reason", "name": "repair_reason" },
+                        { "data": "repair_type", "name": "repair_type" },
+                        { "data": "reason", "name": "reason" },
+                        {
+                            "data": "finish_date_plan", "name": "finish_date_plan", "render": function (data) {
+                                return dateFormat2(data);
+                            },
+                        },
+                        {
+                            "data": "idAndEquip", "name": "idAndEquip", "render": function (data) {
+                            return "<a data-list=\"" + data + "\" class=\"waves-effect waves-light btn-small blue modal-trigger open-Modal\" href=\"#mylist\">Vật tư đi kèm</a>";
+                             },
+                        }
+                ],
+                    "serverSide": true,
+                    "order": [0, "asc"],
+                    "lengthChange": false,
+                    "searching": false,
+                   "initComplete": function () {
+                    $("#pre-load").hide();
+                }
+
+            });
+            });
+
+
+          //get data and push to modal list
+        $(document).on("click", ".open-Modal", function () {
+            $("#pre-load").show();
+            $("#test").find("tr:gt(0)").remove();
+            var QDIdAndEquipId = $(this).data('list');
+            $('#listId').text("Danh sách vật tư đi kèm của thiết bị " + QDIdAndEquipId.split("^")[1])
+            $("#mathietbi").val(QDIdAndEquipId.split("^")[1])
+            $("#maquyetdinh").val(QDIdAndEquipId.split("^")[0])
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/quyet-dinh/GetSupplyRepair",
+                dataType: "json",
+                success: function (data) {
+                    $(function () {
+                        $.each(data, function (i, item) {
+                            var $tr = $('<tr>').append(
+                                $('<td>').text(item.MaVT),
+                                $('<td>').text(item.TenVT),
+                                $('<td>').text(item.SLVT),
+                                $('<td>').text(item.TLVT)
+                            );
+                             $tr.appendTo('#test');
+                        });
+                    });
+                    $("#pre-load").hide();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {             
+                    $.notify(XMLHttpRequest.responseText, {
+                        globalPosition: "top center",
+                        className: "error"
+                    });
+                     $("#pre-load").hide();
+                },
+                data: {
+                    documentary_id: QDIdAndEquipId.split("^")[0],
+                    equipmentId: QDIdAndEquipId.split("^")[1]
+                },
+                cache: false
+            })
+        });
+
+
+            function dateFormat2(d) {
+            var dateString = d.substr(6);
+            var currentTime = new Date(parseInt(dateString));
+            var month = currentTime.getMonth() + 1;
+            var day = currentTime.getDate();
+            var year = currentTime.getFullYear();
+            var date = day + "/" + month + "/" + year;
+            return (date);
+        }
+    </script>
+}
 
