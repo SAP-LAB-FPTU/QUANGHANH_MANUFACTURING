@@ -74,6 +74,30 @@
         </div>
     </div>
 </div>
+
+<div id="detail" class="modal open">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Chi tiết quyết định</h3>
+        </div>
+        <div class="modal-body">
+            <table class="table-bordered">
+                <thead>
+                    <tr>
+                        <th>Số quyết định</th>
+                        <th>Mã nhân viên</th>
+                        <th>Tên nhân viên</th>
+                        <th>Loại chấm dứt</th>
+                        <th>Ngày chấm dứt</th>
+                    </tr>
+                </thead>
+                <tbody id="detail-table"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
 <script src="~/js/Custom JS/Disable_input_material.js"></script>
 <script>
     $(document).ready(function () {
@@ -151,8 +175,8 @@
                         },
                         {
                             "data": "MaQuyetDinh", "render": function (data) {
-                                return "<a class='waves-effect waves-light btn blue darken-2 btn-small' onclick='abc(" + data + ")'><span class='ti-pencil-alt'>&nbsp;Chi tiết</span></a>&nbsp;" +
-                                    "<a class='waves-effect waves-light btn blue darken-2 btn-small' href='/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien?id=" + data + "'  data-target='dropdown1'><span class='ti-pencil-alt'>&nbsp;Xóa</span></a>";
+                                return "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' data-target='detail' onclick='detail(" + data + ")'><span class='ti-pencil-alt'>&nbsp;Chi tiết</span></a>&nbsp;" +
+                                    "<a class='waves-effect waves-light btn blue darken-2 btn-small' onclick='delDetail("+data+")'><span class='ti-pencil-alt'>&nbsp;Xóa</span></a>";
 
                             },
                             "orderable": false,
@@ -207,24 +231,44 @@
             });
         });
         //return Json(new { sjfhdk: list })
-        function abc(id) {
+        function detail(id) {
             $.ajax({
                 type: 'post',
-                url: '',
+                url: '/phong-tcld/quan-ly-nhan-vien/da-xu-ly-cham-dut-chi-tiet',
                 dataType: 'json',
                 data: { id: JSON.stringify(id) },
-                success: function (sjfhdk) {
-                    //    $("#abc").empty();
-                    //for (int i = 0; i < sjfhdk.length; i++){
-                    //$("#abc").append("<tr>");
-                    //$("#abc").append("<td>"+sjfhdk[i].hfjdhd+"</td>");
-                    //$("#abc").append("<td>"+sjfhdk[i].hfjdhd+"</td>");
-                    //$("#abc").append("<td>"+sjfhdk[i].hfjdhd+"</td>");
-                    //$("#abc").append("<td>"+sjfhdk[i].hfjdhd+"</td>");
-                    //$("#abc").append("<td>"+sjfhdk[i].hfjdhd+"</td>");
-                    //$("#abc").append("<td>" + sjfhdk[i].hfjdhd + "</td>");
-                    // $("#abc").append("</tr>");
-                    //}
+            })
+                .done(function (data) {
+                    for (i = 0; i < data.length; i++) {
+                        $("#detail-table").empty();
+                        $("#detail-table").append("<tr>");
+                        $("#detail-table").append("<td>" + data[i].SoQuyetDinh + "</td>");
+                        $("#detail-table").append("<td>" + data[i].MaNV + "</td>");
+                        $("#detail-table").append("<td>" + data[i].Ten + "</td>");
+                        $("#detail-table").append("<td>" + data[i].LoaiChamDut + "</td>");
+                        $("#detail-table").append("<td>" + dateFormat(data[i].NgayChamDut) + "</td>");
+                        $("#detail-table").append("</tr>");
+                    }
+                })
+        }
+        function delDetail(id) {
+            $.ajax({
+                type: 'post',
+                url: '/deleteDetail',
+                dataType: 'json',
+                data: { id: JSON.stringify(id) },
+                success: function (data) {
+                    dataTable.ajax.reload();
+                    $.notify("Xóa hoàn tất", {
+                        globalPosition: "top center",
+                        className: "success"
+                    })
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $.notify(XMLHttpRequest.responseText, {
+                        globalPosition: "top center",
+                        className: "failed"
+                    })
                 }
             })
         }
