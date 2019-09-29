@@ -19,7 +19,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Account]    Script Date: 9/25/2019 6:50:51 PM ******/
+/****** Object:  Table [dbo].[Account]    Script Date: 9/29/2019 3:41:12 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -36,15 +36,25 @@ CREATE TABLE [dbo].[Account](
 	[DK] [bit] NOT NULL,
 	[KCS] [bit] NOT NULL,
 	[PXKT] [bit] NOT NULL,
+	[PXDL] [bit] NOT NULL,
+	[PXVT] [bit] NOT NULL,
+	[PXST] [bit] NOT NULL,
+	[PXPV] [bit] NOT NULL,
+	[PXDS] [bit] NOT NULL,
+	[PXCDM] [bit] NOT NULL,
+	[PXTGQLM] [bit] NOT NULL,
+	[PXXD] [bit] NOT NULL,
+	[PXLT] [bit] NOT NULL,
+	[AT] [bit] NOT NULL,
+	[KCM] [bit] NOT NULL,
 	[ADMIN] [bit] NOT NULL,
  CONSTRAINT [PK_Account] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
-
 GO
-/****** Object:  Table [dbo].[Account_Right]    Script Date: 9/25/2019 6:50:51 PM ******/
+/****** Object:  Table [dbo].[Account_Right]    Script Date: 9/29/2019 3:41:13 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -60,9 +70,8 @@ CREATE TABLE [dbo].[Account_Right](
 	[ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
-
 GO
-/****** Object:  Table [dbo].[Account_Right_Detail]    Script Date: 9/25/2019 6:50:51 PM ******/
+/****** Object:  Table [dbo].[Account_Right_Detail]    Script Date: 9/29/2019 3:41:13 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -77,7 +86,6 @@ CREATE TABLE [dbo].[Account_Right_Detail](
 	[RightID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
-
 GO
 /****** Object:  Table [dbo].[Activity]    Script Date: 9/25/2019 6:50:51 PM ******/
 SET ANSI_NULLS ON
@@ -775,7 +783,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Module]    Script Date: 9/25/2019 6:50:51 PM ******/
+/****** Object:  Table [dbo].[Module]    Script Date: 9/29/2019 3:41:13 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -788,7 +796,6 @@ CREATE TABLE [dbo].[Module](
 	[Module] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
-
 GO
 /****** Object:  Table [dbo].[Nganh]    Script Date: 9/25/2019 6:50:51 PM ******/
 SET ANSI_NULLS ON

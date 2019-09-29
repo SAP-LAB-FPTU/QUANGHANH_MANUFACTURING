@@ -248,11 +248,11 @@
 
                         <div class="row">
                             <div class="col s12">
-                                <table class="table" style="margin-left:10px">
+                                <table class="table" style="margin-left:10px" id="bodytable">
                                     <tr>
                                         <td><label>Cơ Điện Vận Tải</label></td>
                                         <td>
-                                            <select class="form-control" id="module1" style="width:600px">
+                                            <select class="form-control" id="module1" >
                                                 <option value="0">Không</option>
                                                 @if (@Model.CDVT)
                                                 {
@@ -366,32 +366,31 @@
                                                 }
                                             </select>
                                         </td>
+                                        <td></td>
                                     </tr>
-                                   
-                                    <tr>
-                                        <td>
-                                            @if (@Model.ID != 0)
-                                            {
-                                                <div class="col">
-                                                    <button type="button" class="btn btn-primary float-right blue" onclick="UpdateUser()">Cập nhật</button>
-                                                </div>
-                                                <div class="col">
-                                                    <button type="button" class="btn btn-primary float-right blue" onclick="ResetPassword()">Reset mật khẩu</button>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                <div class="col">
-                                                    <button type="button" class="btn btn-primary float-right blue" onclick="AddNewUser()">Tạo mới</button>
-                                                </div>
-                                            }
-                                            <div class="col">
-                                                <button type="button" class="btn btn-primary blue" onclick="Reset()">Đặt lại</button>
-                                            </div>
-                                        </td>
+                                    <tr id="buttonshow">
+                                        <td><a href="#!" onclick="show()">Các phòng ban khác</a></td>
                                     </tr>
                                 </table>
 
+                                @if (@Model.ID != 0)
+                                {
+                                    <div class="col">
+                                        <button type="button" class="btn btn-primary float-right blue" onclick="UpdateUser()">Cập nhật</button>
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" class="btn btn-primary float-right blue" onclick="ResetPassword()">Reset mật khẩu</button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col">
+                                        <button type="button" class="btn btn-primary float-right blue" onclick="AddNewUser()">Tạo mới</button>
+                                    </div>
+                                }
+                                <div class="col">
+                                    <button type="button" class="btn btn-primary blue" onclick="Reset()">Đặt lại</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -440,7 +439,7 @@
                         <p style="color:red;font-size:20px">Bạn chắc chắn muốn xóa người dùng </p><strong id="notifyMessageDelete"></strong>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger red " onclick="DeleteUser()">Xóa</button>
+                        <button type="button" class="btn btn-danger blue " onclick="DeleteUser()">Xóa</button>
                         <button type="button" class="btn btn-secondary modal-close blue" data-dismiss="modal">Đóng</button>
                     </div>
                 </div>
@@ -491,12 +490,39 @@
         GetRightFromDBNotFill(4);
         GetRightFromDBNotFill(5);
         GetRightFromDBNotFill(6);
+        GetRightFromDBNotFill(8);
+        GetRightFromDBNotFill(9);
+        GetRightFromDBNotFill(10);
+        GetRightFromDBNotFill(11);
+        GetRightFromDBNotFill(12);
+        GetRightFromDBNotFill(13);
+        GetRightFromDBNotFill(14);
+        GetRightFromDBNotFill(15);
+        GetRightFromDBNotFill(16);
+        GetRightFromDBNotFill(17);
+        GetRightFromDBNotFill(18);
     });
+    function show() {
+        $("#buttonshow").hide();
+        $("#bodytable").append("<tr><td><label>Phân xưởng đào lò</label></td><td><select class='form-control' id='module8'><option value='0'>Không</option>@if (@Model.PXDL){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(8)'>Các quyền</a></td></tr>");
+        $("#bodytable").append("<tr><td><label>Phân xưởng vận tải</label></td><td><select class='form-control' id='module9'><option value='0'>Không</option>@if (@Model.PXVT){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(9)'>Các quyền</a></td></tr>");
+        $("#bodytable").append("<tr><td><label>Phân xưởng sàng tuyển</label></td><td><select class='form-control' id='module10'><option value='0'>Không</option>@if (@Model.PXST){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(10)'>Các quyền</a></td></tr>");
+        $("#bodytable").append("<tr><td><label>Phân xưởng phục vụ</label></td><td><select class='form-control' id='module11'><option value='0'>Không</option>@if (@Model.PXPV){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(11)'>Các quyền</a></td></tr>");
+        $("#bodytable").append("<tr><td><label>Phân xưởng đời sống</label></td><td><select class='form-control' id='module12'><option value='0'>Không</option>@if (@Model.PXDS){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(12)'>Các quyền</a></td></tr>");
+        $("#bodytable").append("<tr><td><label>Phân xưởng cơ điện mỏ</label></td><td><select class='form-control' id='module13'><option value='0'>Không</option>@if (@Model.PXCDM){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(13)'>Các quyền</a></td></tr>");
+        $("#bodytable").append("<tr><td><label>Phân xưởng thông gió quản lí mỏ</label></td><td><select class='form-control' id='module14'><option value='0'>Không</option>@if (@Model.PXTGQLM){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(14)'>Các quyền</a></td></tr>");
+        $("#bodytable").append("<tr><td><label>Phân xưởng xây dựng</label></td><td><select class='form-control' id='module15'><option value='0'>Không</option>@if (@Model.PXXD){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(15)'>Các quyền</a></td></tr>");
+        $("#bodytable").append("<tr><td><label>Phân xưởng lộ thiên</label></td><td><select class='form-control' id='module16'><option value='0'>Không</option>@if (@Model.PXLT){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(16)'>Các quyền</a></td></tr>");
+        $("#bodytable").append("<tr><td><label>An Toàn</label></td><td><select class='form-control' id='module17'><option value='0'>Không</option>@if (@Model.AT){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(17)'>Các quyền</a></td></tr>");
+        $("#bodytable").append("<tr><td><label>KCM</label></td><td><select class='form-control' id='module18'><option value='0'>Không</option>@if (@Model.KCM){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(18)'>Các quyền</a></td></tr>");
+    }
     function showLoading() {
         $('#pre-load').show();
     }
     function AddNewUser() {
-        if (right1 == null || right2 == null || right3 == null || right4 == null || right5 == null || right6 == null) {
+        if (right1 == null || right2 == null || right3 == null || right4 == null || right5 == null || right6 == null
+            || right8 == null || right9 == null || right10 == null || right11 == null || right12 == null
+            || right13 == null || right14 == null || right15 == null || right16 == null || right17 == null || right18 == null) {
 
             document.getElementById("notifyMessage").innerHTML = "Vui lòng chờ!";
             $("#modalNotify").modal();
@@ -510,6 +536,17 @@
             var module5 = $('#module5').val();
             var module6 = $('#module6').val();
             var module7 = $('#module7').val();
+            var module8 = $('#module8').val();
+            var module9 = $('#module9').val();
+            var module10 = $('#module10').val();
+            var module11 = $('#module11').val();
+            var module12 = $('#module12').val();
+            var module13 = $('#module13').val();
+            var module14 = $('#module14').val();
+            var module15 = $('#module15').val();
+            var module16 = $('#module16').val();
+            var module17 = $('#module17').val();
+            var module18 = $('#module18').val();
             if (module1 == null) {
                 module1 = 0;
             }
@@ -531,12 +568,56 @@
             if (module7 == null) {
                 module7 = 0;
             }
+            if (module8 == null) {
+                module8 = 0;
+            }
+            if (module9 == null) {
+                module9 = 0;
+            }
+            if (module10 == null) {
+                module10 = 0;
+            }
+            if (module11 == null) {
+                module11 = 0;
+            }
+            if (module12 == null) {
+                module12 = 0;
+            }
+            if (module13 == null) {
+                module13 = 0;
+            }
+            if (module14 == null) {
+                module14 = 0;
+            }
+            if (module15 == null) {
+                module15 = 0;
+            }
+            if (module16 == null) {
+                module16 = 0;
+            }
+            if (module17 == null) {
+                module17 = 0;
+            }
+            if (module18 == null) {
+                module18 = 0;
+            }
             var rights = GetAcceptRights(right1) +
                 GetAcceptRights(right2) +
                 GetAcceptRights(right3) +
                 GetAcceptRights(right4) +
                 GetAcceptRights(right5) +
-                GetAcceptRights(right6);
+                GetAcceptRights(right6) +
+                GetAcceptRights(right8) +
+                GetAcceptRights(right9) +
+                GetAcceptRights(right10) +
+                GetAcceptRights(right11) +
+                GetAcceptRights(right12) +
+                GetAcceptRights(right13) +
+                GetAcceptRights(right14) +
+                GetAcceptRights(right15) +
+                GetAcceptRights(right16) +
+                GetAcceptRights(right17) +
+                GetAcceptRights(right18);
             var empObj = {
                 Name: document.getElementById("txtName").value,
                 Username: document.getElementById("txtUsername").value,
@@ -550,6 +631,17 @@
                 module5: module5,
                 module6: module6,
                 module7: module7,
+                module8: module8,
+                module9: module9,
+                module10: module10,
+                module11: module11,
+                module12: module12,
+                module13: module13,
+                module14: module14,
+                module15: module15,
+                module16: module16,
+                module17: module17,
+                module18: module18,
                 rights: rights.substring(0, rights.length - 1),
             }
             $.ajax({
@@ -586,8 +678,9 @@
 
     function UpdateUser() {
         
-        if (right1 == null || right2 == null || right3 == null || right4 == null || right5 == null || right6 == null) {
-
+        if (right1 == null || right2 == null || right3 == null || right4 == null || right5 == null || right6 == null
+            || right8 == null || right9 == null || right10 == null || right11 == null || right12 == null
+            || right13 == null || right14 == null || right15 == null || right16 == null || right17 == null || right18 == null) {
             document.getElementById("notifyMessage").innerHTML = "Vui lòng chờ!";
             $("#modalNotify").modal('open');
         } else {
@@ -600,6 +693,17 @@
             var module5 = $('#module5').val();
             var module6 = $('#module6').val();
             var module7 = $('#module7').val();
+            var module8 = $('#module8').val();
+            var module9 = $('#module9').val();
+            var module10 = $('#module10').val();
+            var module11 = $('#module11').val();
+            var module12 = $('#module12').val();
+            var module13 = $('#module13').val();
+            var module14 = $('#module14').val();
+            var module15 = $('#module15').val();
+            var module16 = $('#module16').val();
+            var module17 = $('#module17').val();
+            var module18 = $('#module18').val();
             if (module1 == null) {
                 module1 = 0;
             }
@@ -621,12 +725,56 @@
             if (module7 == null) {
                 module7 = 0;
             }
+            if (module8 == null) {
+                module8 = 0;
+            }
+            if (module9 == null) {
+                module9 = 0;
+            }
+            if (module10 == null) {
+                module10 = 0;
+            }
+            if (module11 == null) {
+                module11 = 0;
+            }
+            if (module12 == null) {
+                module12 = 0;
+            }
+            if (module13 == null) {
+                module13 = 0;
+            }
+            if (module14 == null) {
+                module14 = 0;
+            }
+            if (module15 == null) {
+                module15 = 0;
+            }
+            if (module16 == null) {
+                module16 = 0;
+            }
+            if (module17 == null) {
+                module17 = 0;
+            }
+            if (module18 == null) {
+                module18 = 0;
+            }
             var rights = GetAcceptRights(right1) +
                 GetAcceptRights(right2) +
                 GetAcceptRights(right3) +
                 GetAcceptRights(right4) +
                 GetAcceptRights(right5) +
-                GetAcceptRights(right6);
+                GetAcceptRights(right6) +
+                GetAcceptRights(right8) +
+                GetAcceptRights(right9) +
+                GetAcceptRights(right10) +
+                GetAcceptRights(right11) +
+                GetAcceptRights(right12) +
+                GetAcceptRights(right13) +
+                GetAcceptRights(right14) +
+                GetAcceptRights(right15) +
+                GetAcceptRights(right16) +
+                GetAcceptRights(right17) +
+                GetAcceptRights(right18);
             var empObj = {
                 ID: document.getElementById("txtID").value,
                 Name: document.getElementById("txtName").value,
@@ -641,6 +789,17 @@
                 module5: module5,
                 module6: module6,
                 module7: module7,
+                module8: module8,
+                module9: module9,
+                module10: module10,
+                module11: module11,
+                module12: module12,
+                module13: module13,
+                module14: module14,
+                module15: module15,
+                module16: module16,
+                module17: module17,
+                module18: module18,
                 rights: rights.substring(0, rights.length - 1),
             }
             $.ajax({
@@ -767,6 +926,17 @@
     var right4 = null;
     var right5 = null;
     var right6 = null;
+    var right8 = null;
+    var right9 = null;
+    var right10 = null;
+    var right11 = null;
+    var right12 = null;
+    var right13 = null;
+    var right14 = null;
+    var right15 = null;
+    var right16 = null;
+    var right17 = null;
+    var right18 = null;
     function ShowRight(moduleID) {
         if (moduleID == 1) {
             document.getElementById("titleRight").innerText = "Các quyền trong Cơ Điện Vận Tải";
@@ -822,6 +992,105 @@
                 FillData(right6, 6);
             }
         }
+        if (moduleID == 8) {
+            document.getElementById("titleRight").innerText = "Các quyền trong Phân Xưởng Đào lò";
+            if (right8 == null) {
+                GetRightFromDB(8);
+            }
+            else {
+                FillData(right8, 8);
+            }
+        }
+        if (moduleID == 9) {
+            document.getElementById("titleRight").innerText = "Các quyền trong Phân Xưởng Vận Tải";
+            if (right9 == null) {
+                GetRightFromDB(9);
+            }
+            else {
+                FillData(right9, 9);
+            }
+        }
+        if (moduleID == 10) {
+            document.getElementById("titleRight").innerText = "Các quyền trong Phân Xưởng Sàng Tuyển";
+            if (right10 == null) {
+                GetRightFromDB(10);
+            }
+            else {
+                FillData(right10, 10);
+            }
+        }
+        if (moduleID == 11) {
+            document.getElementById("titleRight").innerText = "Các quyền trong Phân Xưởng Phục Vụ";
+            if (right11 == null) {
+                GetRightFromDB(11);
+            }
+            else {
+                FillData(right11, 11);
+            }
+        }
+        if (moduleID == 12) {
+            document.getElementById("titleRight").innerText = "Các quyền trong Phân Xưởng Đời Sống";
+            if (right12 == null) {
+                GetRightFromDB(12);
+            }
+            else {
+                FillData(right12, 12);
+            }
+        }
+        if (moduleID == 13) {
+            document.getElementById("titleRight").innerText = "Các quyền trong Phân Xưởng Cơ Điện Mỏ";
+            if (right13 == null) {
+                GetRightFromDB(13);
+            }
+            else {
+                FillData(right13, 13);
+            }
+        }
+        if (moduleID == 14) {
+            document.getElementById("titleRight").innerText = "Các quyền trong Phân Xưởng Thông Gió Quản Lí Mỏ";
+            if (right14 == null) {
+                GetRightFromDB(14);
+            }
+            else {
+                FillData(right14, 14);
+            }
+        }
+        if (moduleID == 15) {
+            document.getElementById("titleRight").innerText = "Các quyền trong Phân Xưởng Xây Dựng";
+            if (right15 == null) {
+                GetRightFromDB(15);
+            }
+            else {
+                FillData(right15, 15);
+            }
+        }
+        if (moduleID == 16) {
+            document.getElementById("titleRight").innerText = "Các quyền trong Phân Xưởng Lộ Thiên";
+            if (right16 == null) {
+                GetRightFromDB(16);
+            }
+            else {
+                FillData(right16, 16);
+            }
+        }
+        if (moduleID == 17) {
+            document.getElementById("titleRight").innerText = "Các quyền trong Phòng ban An Toàn";
+            if (right17 == null) {
+                GetRightFromDB(17);
+            }
+            else {
+                FillData(right17, 17);
+            }
+        }
+        if (moduleID == 18) {
+            document.getElementById("titleRight").innerText = "Các quyền trong KCM";
+            if (right18 == null) {
+                GetRightFromDB(18);
+            }
+            else {
+                FillData(right18, 18);
+            }
+        }
         $("#modalRight").modal('open');
     }
     function GetRightFromDB(moduleID) {
@@ -861,6 +1130,50 @@
                     right6 = result;
                     FillData(right6, 6);
                 }
+                if (moduleID == 8) {
+                    right8 = result;
+                    FillData(right8, 8);
+                }
+                if (moduleID == 9) {
+                    right9 = result;
+                    FillData(right9, 9);
+                }
+                if (moduleID == 10) {
+                    right10 = result;
+                    FillData(right10, 10);
+                }
+                if (moduleID == 11) {
+                    right11 = result;
+                    FillData(right11, 11);
+                }
+                if (moduleID == 12) {
+                    right12 = result;
+                    FillData(right12, 12);
+                }
+                if (moduleID == 13) {
+                    right13 = result;
+                    FillData(right13, 13);
+                }
+                if (moduleID == 14) {
+                    right14 = result;
+                    FillData(right14, 14);
+                }
+                if (moduleID == 15) {
+                    right15 = result;
+                    FillData(right15, 15);
+                }
+                if (moduleID == 16) {
+                    right16 = result;
+                    FillData(right16, 16);
+                }
+                if (moduleID == 17) {
+                    right17 = result;
+                    FillData(right17, 17);
+                }
+                if (moduleID == 18) {
+                    right18 = result;
+                    FillData(right18, 18);
+                }
                 $('#pre-load').hide();
             },
             error: function (errormessage) {
@@ -898,6 +1211,42 @@
                 }
                 if (moduleID == 6) {
                     right6 = result;
+                }
+                if (moduleID == 8) {
+                    right8 = result;
+                }
+                if (moduleID == 8) {
+                    right8 = result;
+                }
+                if (moduleID == 9) {
+                    right9 = result;
+                }
+                if (moduleID == 10) {
+                    right10 = result;
+                }
+                if (moduleID == 11) {
+                    right11 = result;
+                }
+                if (moduleID == 12) {
+                    right12 = result;
+                }
+                if (moduleID == 13) {
+                    right13 = result;
+                }
+                if (moduleID == 14) {
+                    right14 = result;
+                }
+                if (moduleID == 15) {
+                    right15 = result;
+                }
+                if (moduleID == 16) {
+                    right16 = result;
+                }
+                if (moduleID == 17) {
+                    right17 = result;
+                }
+                if (moduleID == 18) {
+                    right18 = result;
                     $('#pre-load').hide();
                 }
                 
@@ -990,6 +1339,116 @@
                     };
                     right6.Accept.push(item);
                     break;
+                case '8':
+                    var res = denyRights[id].innerText.split("-");
+                    right8.Deny.splice(denyRights[id].index, 1);
+                    var item = {
+                        ID: denyRightsID[id],
+                        Right: res[1],
+                        GroupID: res[0]
+                    };
+                    right8.Accept.push(item);
+                    break;
+                case '9':
+                    var res = denyRights[id].innerText.split("-");
+                    right9.Deny.splice(denyRights[id].index, 1);
+                    var item = {
+                        ID: denyRightsID[id],
+                        Right: res[1],
+                        GroupID: res[0]
+                    };
+                    right9.Accept.push(item);
+                    break;
+                case '10':
+                    var res = denyRights[id].innerText.split("-");
+                    right10.Deny.splice(denyRights[id].index, 1);
+                    var item = {
+                        ID: denyRightsID[id],
+                        Right: res[1],
+                        GroupID: res[0]
+                    };
+                    right10.Accept.push(item);
+                    break;
+                case '11':
+                    var res = denyRights[id].innerText.split("-");
+                    right11.Deny.splice(denyRights[id].index, 1);
+                    var item = {
+                        ID: denyRightsID[id],
+                        Right: res[1],
+                        GroupID: res[0]
+                    };
+                    right11.Accept.push(item);
+                    break;
+                case '12':
+                    var res = denyRights[id].innerText.split("-");
+                    right12.Deny.splice(denyRights[id].index, 1);
+                    var item = {
+                        ID: denyRightsID[id],
+                        Right: res[1],
+                        GroupID: res[0]
+                    };
+                    right12.Accept.push(item);
+                    break;
+                case '13':
+                    var res = denyRights[id].innerText.split("-");
+                    right13.Deny.splice(denyRights[id].index, 1);
+                    var item = {
+                        ID: denyRightsID[id],
+                        Right: res[1],
+                        GroupID: res[0]
+                    };
+                    right13.Accept.push(item);
+                    break;
+                case '14':
+                    var res = denyRights[id].innerText.split("-");
+                    right14.Deny.splice(denyRights[id].index, 1);
+                    var item = {
+                        ID: denyRightsID[id],
+                        Right: res[1],
+                        GroupID: res[0]
+                    };
+                    right14.Accept.push(item);
+                    break;
+                case '15':
+                    var res = denyRights[id].innerText.split("-");
+                    right15.Deny.splice(denyRights[id].index, 1);
+                    var item = {
+                        ID: denyRightsID[id],
+                        Right: res[1],
+                        GroupID: res[0]
+                    };
+                    right15.Accept.push(item);
+                    break;
+                case '16':
+                    var res = denyRights[id].innerText.split("-");
+                    right16.Deny.splice(denyRights[id].index, 1);
+                    var item = {
+                        ID: denyRightsID[id],
+                        Right: res[1],
+                        GroupID: res[0]
+                    };
+                    right16.Accept.push(item);
+                    break;
+                case '17':
+                    var res = denyRights[id].innerText.split("-");
+                    right17.Deny.splice(denyRights[id].index, 1);
+                    var item = {
+                        ID: denyRightsID[id],
+                        Right: res[1],
+                        GroupID: res[0]
+                    };
+                    right17.Accept.push(item);
+                    break;
+                case '18':
+                    var res = denyRights[id].innerText.split("-");
+                    right18.Deny.splice(denyRights[id].index, 1);
+                    var item = {
+                        ID: denyRightsID[id],
+                        Right: res[1],
+                        GroupID: res[0]
+                    };
+                    right18.Accept.push(item);
+                    break;
                 default:
             }
             $("#denyRights option[value='" + denyRightsID[id] + "']").remove();
@@ -1062,6 +1521,116 @@
                         GroupID: res[0]
                     };
                     right6.Deny.push(item);
+                    break;
+                case '8':
+                    var res = acceptRights[id].innerText.split("-");
+                    right8.Accept.splice(acceptRights[id].index, 1);
+                    var item = {
+                        ID: acceptRightsID[id],
+                        Right: res[1],
+                        GroupID: res[0]
+                    };
+                    right8.Deny.push(item);
+                    break;
+                case '9':
+                    var res = acceptRights[id].innerText.split("-");
+                    right9.Accept.splice(acceptRights[id].index, 1);
+                    var item = {
+                        ID: acceptRightsID[id],
+                        Right: res[1],
+                        GroupID: res[0]
+                    };
+                    right9.Deny.push(item);
+                    break;
+                case '10':
+                    var res = acceptRights[id].innerText.split("-");
+                    right10.Accept.splice(acceptRights[id].index, 1);
+                    var item = {
+                        ID: acceptRightsID[id],
+                        Right: res[1],
+                        GroupID: res[0]
+                    };
+                    right10.Deny.push(item);
+                    break;
+                case '11':
+                    var res = acceptRights[id].innerText.split("-");
+                    right11.Accept.splice(acceptRights[id].index, 1);
+                    var item = {
+                        ID: acceptRightsID[id],
+                        Right: res[1],
+                        GroupID: res[0]
+                    };
+                    right11.Deny.push(item);
+                    break;
+                case '12':
+                    var res = acceptRights[id].innerText.split("-");
+                    right12.Accept.splice(acceptRights[id].index, 1);
+                    var item = {
+                        ID: acceptRightsID[id],
+                        Right: res[1],
+                        GroupID: res[0]
+                    };
+                    right12.Deny.push(item);
+                    break;
+                case '13':
+                    var res = acceptRights[id].innerText.split("-");
+                    right13.Accept.splice(acceptRights[id].index, 1);
+                    var item = {
+                        ID: acceptRightsID[id],
+                        Right: res[1],
+                        GroupID: res[0]
+                    };
+                    right13.Deny.push(item);
+                    break;
+                case '14':
+                    var res = acceptRights[id].innerText.split("-");
+                    right14.Accept.splice(acceptRights[id].index, 1);
+                    var item = {
+                        ID: acceptRightsID[id],
+                        Right: res[1],
+                        GroupID: res[0]
+                    };
+                    right14.Deny.push(item);
+                    break;
+                case '15':
+                    var res = acceptRights[id].innerText.split("-");
+                    right15.Accept.splice(acceptRights[id].index, 1);
+                    var item = {
+                        ID: acceptRightsID[id],
+                        Right: res[1],
+                        GroupID: res[0]
+                    };
+                    right15.Deny.push(item);
+                    break;
+                case '16':
+                    var res = acceptRights[id].innerText.split("-");
+                    right16.Accept.splice(acceptRights[id].index, 1);
+                    var item = {
+                        ID: acceptRightsID[id],
+                        Right: res[1],
+                        GroupID: res[0]
+                    };
+                    right16.Deny.push(item);
+                    break;
+                case '17':
+                    var res = acceptRights[id].innerText.split("-");
+                    right17.Accept.splice(acceptRights[id].index, 1);
+                    var item = {
+                        ID: acceptRightsID[id],
+                        Right: res[1],
+                        GroupID: res[0]
+                    };
+                    right17.Deny.push(item);
+                    break;
+                case '18':
+                    var res = acceptRights[id].innerText.split("-");
+                    right18.Accept.splice(acceptRights[id].index, 1);
+                    var item = {
+                        ID: acceptRightsID[id],
+                        Right: res[1],
+                        GroupID: res[0]
+                    };
+                    right18.Deny.push(item);
                     break;
                 default:
             }
