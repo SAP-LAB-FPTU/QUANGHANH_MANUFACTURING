@@ -13,20 +13,20 @@
                 <div class="col l3">
                     <div class="row">
                         <label>
-                            <input type="checkbox" class="filled-in" id="workedAll" checked="checked" onclick="requestEmployee()" />
+                            <input type="checkbox" class="filled-in" checked="checked" />
                             <span>Những người đi làm</span>
                         </label>
                     </div>
                     <div class="row">
                         <label>
-                            <input type="checkbox" class="filled-in" id="notworkedAll" checked="checked" onclick="requestEmployee()" />
+                            <input type="checkbox" class="filled-in" checked="checked" />
                             <span>Những người không đi làm</span>
                         </label>
                     </div>
                 </div>
                 <div class="col l9">
                     <h3>
-                        ĐIỂM DANH CỦA <a class="dropdown-trigger btn" id="phanxuong" href="#" data-target="dropdown_px" style="background-color:#273146">DL1</a> <a class="dropdown-trigger btn" id="ca" href="#" data-target="dropdown_ca" style="background-color:#273146">CA 1</a> NGÀY <input type="text" id="inputdate" class="datepicker-here center" data-language="vi" value="" />
+                        ĐIỂM DANH CỦA DL3 <a class="dropdown-trigger btn" id="ca" href="#" data-target="dropdown_ca" style="background-color:#273146">CA 1</a> NGÀY <input type="text" id="inputdate" class="datepicker-here center" data-language="vi" value="" />
                         <a class="btn waves-effect waves-light blue modal-trigger" id="btn-view" href="#" onclick="getcontent();">Xem</a>
                         <br><br>
                     </h3>
@@ -61,12 +61,6 @@
     <li><a class="dropdown-child-ca" href="#" name="ca2">CA 2</a></li>
     <li><a class="dropdown-child-ca" href="#" name="ca3">CA 3</a></li>
 </ul>
-<ul id='dropdown_px' class='dropdown-content'>
-    <li><a class="dropdown-child-ca" href="#" name="ca1">DL1</a></li>
-    <li><a class="dropdown-child-ca" href="#" name="ca2">DL2</a></li>
-    <li><a class="dropdown-child-ca" href="#" name="ca3">DL3</a></li>
-</ul>
-
 
 
 <div id="modal1" class="modal">
@@ -230,17 +224,6 @@
             });
             return rows;
         }
-
-        function requestEmployee() {
-            $("#attendanceTable").on('preXhr.dt', function (e, settings, data) {
-                data.workAll = $("#workedAll").is(":checked");
-                data.notworkAll = $("#notworkedAll").is(":checked");
-                data.session = $("#ca").text().split(" ")[1];
-                data.department = $("#phanxuong").text();
-                data.date = $("#inputdate").val();
-            })
-            $("#attendanceTable").DataTable().ajax.url("/phan-xuong-khai-thac/diem-danh/chon-nhan-vien").load();
-        }
     </script>
     <script>
         $(document).ready(() => {
@@ -249,7 +232,7 @@
             var day = currentTime.getDate();
             var year = currentTime.getFullYear();
             var date = day + "/" + month + "/" + year;
-            $("#inputdate").val(date);
+            $("#inputdate").attr("value", date);
             //
         })
     </script>
