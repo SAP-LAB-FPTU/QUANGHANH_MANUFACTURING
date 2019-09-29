@@ -21,11 +21,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         public ActionResult Index()
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            List<FuelDB> listEQ = db.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from " +
-               " (select distinct e.equipmentId, e.equipment_name from Equipment e inner join Equipment_category_attribute ea " +
-               "  on ea.Equipment_category_id = e.Equipment_category_id where " +
-               " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') as t "
-            ).ToList();
+            List<FuelDB> listEQ = db.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from Equipment ").ToList();
             List<Supply> listSupply = db.Supplies.Where(x => x.unit == "L" || x.unit == "kWh").ToList();
 
             ViewBag.listSupply = listSupply;
@@ -494,8 +490,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 {
                     Equipment e = DBContext.Equipments.Find(equipmentId);
                     a.equipmentid = e.equipmentId;
-                    string date = DateTime.ParseExact(date1, "yyyy-MM-dd", null).ToString("yyyy-MM-dd");
-                    a.date = DateTime.Parse(date);
+                    //fix bug
+                    a.date = DateTime.ParseExact(date1, "dd/MM/yyyy", null);
                     a.quantity = quantity;
                     a.hours_per_day = hours_per_day;
                     a.activityname = activity_name;
