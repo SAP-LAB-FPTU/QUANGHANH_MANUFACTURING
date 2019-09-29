@@ -82,7 +82,7 @@
                         </div>
                     </form>
                     <div class="col l12 m12 s12 center">
-                        <a onclick="inQuyetDinh()" class="btn blue darken-2">Xuất quyết định</a>
+                        <a id="export-button" class="btn blue darken-2">Xuất quyết định</a>
                         <a id="submit" class="btn blue darken-2 modal-trigger">Xác nhận điều động bảo dưỡng</a>
                         <a href="bao-duong" class="btn blue darken-2 ">Quay lại</a>
                     </div>
@@ -286,6 +286,31 @@
         $('#create').click(function () {
             $('#myform').submit();
         })
+
+        $("#export-button").click(function () {
+            $("#pre-load").show();
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/bao-duong-chon/export",
+                data: {
+                    data: $('#json').val(),
+                    documentary_code: $('#documentary_code').val()
+                },
+                cache: false,
+                success: function (response) {
+                    if (response.success) {
+                        window.location.href = response.location;
+                        $("#pre-load").hide("slow", function () {
+                        });
+                    } else {
+                        $.notify("ối, có lỗi xảy ra", {
+                            globalPosition: "top center",
+                            className: "error"
+                        });
+                    }
+                }
+            });
+        });
     </script>
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 
