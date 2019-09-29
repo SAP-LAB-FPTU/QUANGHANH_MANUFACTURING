@@ -29,5 +29,21 @@ namespace QUANGHANH2.Repositories
                 $"s.supply_name LIKE N'%{search.SupplyName}%' ORDER BY st.departmentid").ToList();
             return details;
         }
+
+        public List<TieuhaoModelView> GetSummary(TieuhaoSearchModelView search)
+        {
+            var today = DateTime.Now;
+            var details = context.Database.SqlQuery<TieuhaoModelView>($"" +
+                $"SELECT tmp.*, s.supply_name SupplyName, 0 SupplyInventory, s.unit SupplyUnit " +
+                $"FROM (SELECT st.supplyid SupplyId, SUM(st.[quantity]) SupplyQuantity, SUM(st.thuhoi) SupplyEviction, SUM(st.used) SupplyUsed FROM Supply_tieuhao st, Supply s " +
+                    $"WHERE s.supply_id = st.supplyid AND " +
+                    $"YEAR(st.[date]) = {today.Year} AND " +
+                    $"MONTH(st.[date]) = {today.Month} AND " +
+                    $"st.supplyid LIKE N'%{search.SupplyId}%' AND " +
+                    $"s.supply_name LIKE N'%{search.SupplyName}%' " +
+                    $"GROUP BY SupplyId) tmp, Supply s " +
+                $"WHERE s.supply_id = tmp.SupplyId").ToList();
+            return details;
+        }
     }
 }
