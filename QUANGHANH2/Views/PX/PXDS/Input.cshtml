@@ -22,24 +22,48 @@
                         <hr>
                     </div>
                 </div>
-                <div class="col s12">
+                <div class="col l12 m12 s12">
+                    <div class="row center list-inline">
+                        <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
+                            <i class="fas fa-calendar-alt icon">Từ ngày</i>
+                            <input type='text' class='datepicker-here center' disabled data-language='vi' value="@ViewBag.MondayOfNextWeek" style="height: 24px" />
+                        </div>
+                        <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
+                            <i class="fas fa-calendar-alt icon">Đến ngày</i>
+                            <input type='text' class='datepicker-here center' disabled data-language='vi' value="@ViewBag.FridayOfNextWeek" style="height: 24px" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
                     <table class="table table-bordered striped table-responsive centered"
                            style="margin-top:30px; text-align:center;" id="tbl_details">
                         <thead>
                             <tr>
-                                <th>Mã Phân xưởng</th>
-                                <th>Tên Phân xưởng</th>
-                                <th>Thứ 2</th>
-                                <th>Thứ 3</th>
-                                <th>Thứ 4</th>
-                                <th>Thứ 5</th>
-                                <th>Thứ 6</th>
+                                <th rowspan="2">Mã Phân xưởng</th>
+                                <th rowspan="2">Tên Phân xưởng</th>
+                                <th colspan="2">Thứ 2</th>
+                                <th colspan="2">Thứ 3</th>
+                                <th colspan="2">Thứ 4</th>
+                                <th colspan="2">Thứ 5</th>
+                                <th colspan="2">Thứ 6</th>
+                            </tr>
+                            <tr>
+                                <th>Kế Hoạch</th>
+                                <th>Thực tế</th>
+                                <th>Kế Hoạch</th>
+                                <th>Thực tế</th>
+                                <th>Kế Hoạch</th>
+                                <th>Thực tế</th>
+                                <th>Kế Hoạch</th>
+                                <th>Thực tế</th>
+                                <th>Kế Hoạch</th>
+                                <th>Thực tế</th>
                             </tr>
                         </thead>
                     </table>
                 </div>
                 <div class="row center">
-                    <div class="col l12 m12 s12 input-field">
+                    <div class="col l12 m12 s12 input-field center">
                         <button class="btn blue darken-2 btn-small" id="saveBtn">Lưu đăng ký</button>
                     </div>
                 </div>
@@ -71,33 +95,63 @@
                     { "data": "DepartmentId", "name": "DepartmentId" },
                     { "data": "DepartmentName", "name": "DepartmentName" },
                     {
+                        "data": "RegMondayPlan", "name": "RegMondayPlan", "render": function (data, type, row, meta) {
+                            let domId = `${row['DepartmentId']}_reg_mon_plan`
+                            return `<input type="number" min="0" value="${data}" class="form-control" id="` + domId + '" ' + 'oninput="' + `handleRegMealChange('${domId}', '${row['DepartmentId']}', 10)` + '" ' + '/>';
+                        }
+                    },
+                    {
                         "data": "RegMonday", "name": "RegMonday", "render": function (data, type, row, meta) {
                             let domId = `${row['DepartmentId']}_reg_mon`
-                            return `<input type="number" min="0" value="${data}" class="form-control" id="` + domId + '" ' + 'oninput="' + `handleRegMonMealChange('${domId}', '${row['DepartmentId']}')` + '" ' + '/>';
+                            return `<input type="number" min="0" value="${data}" class="form-control" id="` + domId + '" ' + 'oninput="' + `handleRegMealChange('${domId}', '${row['DepartmentId']}', 0)` + '" ' + '/>';
+                        }
+                    },
+                    {
+                        "data": "RegTuesdayPlan", "name": "RegTuesdayPlan", "render": function (data, type, row, meta) {
+                            let domId = `${row['DepartmentId']}_reg_tue_plan`
+                            return `<input type="number" min="0" value="${data}" class="form-control" id="` + domId + '" ' + 'oninput="' + `handleRegMealChange('${domId}', '${row['DepartmentId']}', 11)` + '" ' + '/>';
                         }
                     },
                     {
                         "data": "RegTuesday", "name": "RegTuesday", "render": function (data, type, row, meta) {
                             let domId = `${row['DepartmentId']}_reg_tue`
-                            return `<input type="number" min="0" value="${data}" class="form-control" id="` + domId + '" ' + 'oninput="' + `handleRegTueMealChange('${domId}', '${row['DepartmentId']}')` + '" ' + '/>';
+                            return `<input type="number" min="0" value="${data}" class="form-control" id="` + domId + '" ' + 'oninput="' + `handleRegMealChange('${domId}', '${row['DepartmentId']}', 1)` + '" ' + '/>';
+                        }
+                    },
+                    {
+                        "data": "RegWednesdayPlan", "name": "RegWednesdayPlan", "render": function (data, type, row, meta) {
+                            let domId = `${row['DepartmentId']}_reg_wed_plan`
+                            return `<input type="number" min="0" value="${data}" class="form-control" id="` + domId + '" ' + 'oninput="' + `handleRegMealChange('${domId}', '${row['DepartmentId']}', 12)` + '" ' + '/>';
                         }
                     },
                     {
                         "data": "RegWednesday", "name": "RegWednesday", "render": function (data, type, row, meta) {
                             let domId = `${row['DepartmentId']}_reg_wed`
-                            return `<input type="number" min="0" value="${data}" class="form-control" id="` + domId + '" ' + 'oninput="' + `handleRegWedMealChange('${domId}', '${row['DepartmentId']}')` + '" ' + '/>';
+                            return `<input type="number" min="0" value="${data}" class="form-control" id="` + domId + '" ' + 'oninput="' + `handleRegMealChange('${domId}', '${row['DepartmentId']}', 2)` + '" ' + '/>';
+                        }
+                    },
+                    {
+                        "data": "RegThursdayPlan", "name": "RegThursdayPlan", "render": function (data, type, row, meta) {
+                            let domId = `${row['DepartmentId']}_reg_thu_plan`
+                            return `<input type="number" min="0" value="${data}" class="form-control" id="` + domId + '" ' + 'oninput="' + `handleRegMealChange('${domId}', '${row['DepartmentId']}', 13)` + '" ' + '/>';
                         }
                     },
                     {
                         "data": "RegThursday", "name": "RegThursday", "render": function (data, type, row, meta) {
                             let domId = `${row['DepartmentId']}_reg_thu`
-                            return `<input type="number" min="0" value="${data}" class="form-control" id="` + domId + '" ' + 'oninput="' + `handleRegThuMealChange('${domId}', '${row['DepartmentId']}')` + '" ' + '/>';
+                            return `<input type="number" min="0" value="${data}" class="form-control" id="` + domId + '" ' + 'oninput="' + `handleRegMealChange('${domId}', '${row['DepartmentId']}', 3)` + '" ' + '/>';
+                        }
+                    },
+                    {
+                        "data": "RegFridayPlan", "name": "RegFridayPlan", "render": function (data, type, row, meta) {
+                            let domId = `${row['DepartmentId']}_reg_fri_plan`
+                            return `<input type="number" min="0" value="${data}" class="form-control" id="` + domId + '" ' + 'oninput="' + `handleRegMealChange('${domId}', '${row['DepartmentId']}', 14)` + '" ' + '/>';
                         }
                     },
                     {
                         "data": "RegFriday", "name": "RegFriday", "render": function (data, type, row, meta) {
                             let domId = `${row['DepartmentId']}_reg_fri`
-                            return `<input type="number" min="0" value="${data}" class="form-control" id="` + domId + '" ' + 'oninput="' + `handleRegFriMealChange('${domId}', '${row['DepartmentId']}')` + '" ' + '/>';
+                            return `<input type="number" min="0" value="${data}" class="form-control" id="` + domId + '" ' + 'oninput="' + `handleRegMealChange('${domId}', '${row['DepartmentId']}', 4)` + '" ' + '/>';
                         }
                     },
                 ],
@@ -137,47 +191,45 @@
             $("#pre-load").hide();
         }
 
-        function handleRegMonMealChange(domId, data) {
+        function handleRegMealChange(domId, data, ind) {
             for (let i = 0; i < payload.length; i++) {
                 if (payload[i].DepartmentId == data) {
                     let val = $('#' + domId).val();
-                    payload[i].RegMonday = parse2PosInt(val);
+                    switch (ind) {
+                        case 0:
+                            payload[i].RegMonday = parse2PosInt(val);
+                            break;
+                        case 1:
+                            payload[i].RegTuesday = parse2PosInt(val);
+                            break;
+                        case 2:
+                            payload[i].RegWednesday = parse2PosInt(val);
+                            break;
+                        case 3:
+                            payload[i].RegThursday = parse2PosInt(val);
+                            break;
+                        case 4:
+                            payload[i].RegFriday = parse2PosInt(val);
+                            break;
+                        case 10:
+                            payload[i].RegMondayPlan = parse2PosInt(val);
+                            break;
+                        case 11:
+                            payload[i].RegTuesdayPlan = parse2PosInt(val);
+                            break;
+                        case 12:
+                            payload[i].RegWednesdayPlan = parse2PosInt(val);
+                            break;
+                        case 13:
+                            payload[i].RegThursdayPlan = parse2PosInt(val);
+                            break;
+                        case 14:
+                            payload[i].RegFridayPlan = parse2PosInt(val);
+                            break;
+                    }
                 }
             }
             console.log(payload);
-        }
-        function handleRegTueMealChange(domId, data) {
-            for (let i = 0; i < payload.length; i++) {
-                if (payload[i].DepartmentId == data) {
-                    let val = $('#' + domId).val();
-                    payload[i].RegTuesday= parse2PosInt(val);
-                }
-            }
-            console.log(payload);
-        }
-        function handleRegWedMealChange(domId, data) {
-            for (let i = 0; i < payload.length; i++) {
-                if (payload[i].DepartmentId == data) {
-                    let val = $('#' + domId).val();
-                    payload[i].RegWednesday = parse2PosInt(val);
-                }
-            }
-        }
-        function handleRegThuMealChange(domId, data) {
-            for (let i = 0; i < payload.length; i++) {
-                if (payload[i].DepartmentId == data) {
-                    let val = $('#' + domId).val();
-                    payload[i].RegThursday = parse2PosInt(val);
-                }
-            }
-        }
-        function handleRegFriMealChange(domId, data) {
-            for (let i = 0; i < payload.length; i++) {
-                if (payload[i].DepartmentId == data) {
-                    let val = $('#' + domId).val();
-                    payload[i].RegFriday = parse2PosInt(val);
-                }
-            }
         }
 
         function parse2PosInt(value) {
