@@ -271,6 +271,7 @@
     <Compile Include="Controllers\TCLD\RecruitmentAndEndController.cs" />
     <Compile Include="Controllers\TCLD\ReportController.cs" />
     <Compile Include="Controllers\TCLD\ShutDownController.cs" />
+    <Compile Include="Controllers\TCLD\TaskController.cs" />
     <Compile Include="Controllers\TCLD\TCLDController.cs" />
     <Compile Include="Controllers\TCLD\TransferController.cs" />
     <Compile Include="Global.asax.cs">
@@ -7079,6 +7080,9 @@
     <Content Include="Views\PX\PXDS\Input.cshtml" />
     <Content Include="Views\Brief\EditLichSuBoSung.cshtml" />
     <Content Include="Views\PX\PXKT\registerEmployee.cshtml" />
+    <Content Include="Views\TCLD\Task\ReportJob.cshtml" />
+    <Content Include="Views\TCLD\Task\ViewCertificateByNV.cshtml" />
+    <Content Include="Views\TCLD\Task\ViewJobByPX.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

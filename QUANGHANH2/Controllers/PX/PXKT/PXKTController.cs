@@ -138,6 +138,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 var listAttendance = (from emp in db.NhanViens
+                                        .Where(emp => emp.MaPhongBan == departmentID)
                                       join per in db.DiemDanh_NangSuatLaoDong
                                         .Where(per => per.MaDonVi == departmentID && per.NgayDiemDanh == dateAtt && per.CaDiemDanh == ca)
                                       on emp.MaNV equals per.MaNV into attendance
@@ -220,7 +221,41 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
             }
         }
 
-
+        [HttpPost]
+        [Route("phan-xuong-khai-thac/diem-danh/chon-nhan-vien")]
+        public ActionResult employeeChecked()
+        {
+            var workPeople = Boolean.Parse(Request["workAll"]);
+            var notworkPeople = Boolean.Parse(Request["notworkAll"]);
+            var session = Int32.Parse(Request["session"]);
+            var department = (Request["department"]);
+            var date = DateTime.Parse(Request["date"]);
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                var listAttendance = (from emp in db.NhanViens
+                                        .Where(emp => emp.MaPhongBan == department)
+                                      join per in db.DiemDanh_NangSuatLaoDong
+                                        .Where(per => per.NgayDiemDanh == date && per.CaDiemDanh == session)
+                                      on emp.MaNV equals per.MaNV into attendance
+                                      from att in attendance.DefaultIfEmpty()
+                                        .Where(att => workPeople ? (att.MaDiemDanh != null) : (att.MaDiemDanh == null))
+                                      select new
+                                      {
+                                          maNV = emp.MaNV,
+                                          maDD = (int?)att.MaDiemDanh,
+                                          maDV = att.MaDonVi,
+                                          tenNV = emp.Ten,
+                                          status = att.DiLam,
+                                          timeAttendance = att.ThoiGianThucTeDiemDanh,
+                                          dateAttendance = att.NgayDiemDanh,
+                                          reason = att.LyDoVangMat,
+                                          description = att.GhiChu
+                                      }).OrderBy(att => att.status).ToList();
+                JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+                var result = JsonConvert.SerializeObject(listAttendance, Formatting.Indented, jss);
+                return Json(new { success = true, data = result }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 
     public class updateStatus
