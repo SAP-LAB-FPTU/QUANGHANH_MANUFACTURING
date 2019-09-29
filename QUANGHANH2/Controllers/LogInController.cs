@@ -16,7 +16,7 @@ namespace QUANGHANHCORE.Controllers
     public class LogInController : Controller
     {
         private QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-        // GET: /<controller>/
+        // GET: /<controller>/ neww
         [HttpGet]
         public ActionResult Index()
         {
@@ -130,6 +130,11 @@ namespace QUANGHANHCORE.Controllers
                 {
                     Session["url"] = "phan-xuong-khai-thac";
                     RightIDs.Add("006");
+                }
+                if (url.Equals("12"))
+                {
+                    Session["url"] = "phan-xuong-doi-song";
+                    RightIDs.Add("012");
                 }
             }
             if (Boolean.Parse(Session["isAdmin"].ToString()) == true) RightIDs.Add("0");

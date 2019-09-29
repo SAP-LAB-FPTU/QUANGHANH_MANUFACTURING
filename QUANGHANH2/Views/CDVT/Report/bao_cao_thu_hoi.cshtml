@@ -94,13 +94,11 @@
             $("#txtyear").val(year);
         }
         var dataTable;
-        dataTable = $("#content-table").on('preXhr.dt', function (e, settings, data) {
-                }).DataTable({
-                "ajax": {
+        dataTable = $("#content-table").DataTable({           
+            "ajax": {
                 "url": url,
                 "type": "POST",
                 "datatype": "json",
-
             },
             "columns": [
                 { "data": "Ma", "name": "Ma" },
@@ -129,8 +127,16 @@
                     },
                 }
             ],
-            "language": {
-                "emptyTable": "Không tìm thấy dữ liệu"
+                "language": {
+                "emptyTable": "Không tìm thấy dữ liệu",
+                "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                "paginate": {
+                    "first": "Trang đầu",
+                    "last": "Trang cuối",
+                    "next": "Trang sau",
+                    "previous": "Trang trước"
+                }
             },
             "autoWidth": false,
              "serverSide": "true",
