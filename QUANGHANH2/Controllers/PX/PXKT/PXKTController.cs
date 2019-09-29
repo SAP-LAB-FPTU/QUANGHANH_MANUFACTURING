@@ -104,19 +104,19 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                             f.GiaiPhapNguyCo = GiaiPhapNguyCos[i];
                             db.SaveChanges();
                         }
-                        
+
 
 
                         transaction.Commit();
                     }
-                    catch (Exception )
+                    catch (Exception)
                     {
                         transaction.Rollback();
                     }
-                }             
-                
+                }
+
             }
-            
+
         }
 
         [Route("phan-xuong-khai-thac/diem-danh")]
@@ -145,7 +145,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                                       select new
                                       {
                                           maNV = emp.MaNV,
-                                          maDD =(int?) att.MaDiemDanh,
+                                          maDD = (int?)att.MaDiemDanh,
                                           maDV = att.MaDonVi,
                                           tenNV = emp.Ten,
                                           status = att.DiLam,
@@ -191,7 +191,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                     transaction.Complete();
                 }
             }
-            return Json(new {success = true ,data = listUpdateJSON }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true, data = listUpdateJSON }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -210,13 +210,51 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
             string searchValue = Request["search[value]"];
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
-            using(QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 var listNV = db.NhanViens.ToList();
                 listNV = listNV.Skip(start).Take(length).ToList<NhanVien>();
                 int totalrows = listNV.Count;
                 int totalrowsafterfiltering = listNV.Count;
                 return Json(new { success = true, data = listNV, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        [Route("phan-xuong-khai-thac/diem-danh/lua-chon-diem-danh")]
+        public ActionResult filterEmployee()
+        {
+            //
+            var workAll = bool.Parse(Request["workChecked"]);
+            var notWorkAll = bool.Parse(Request["notWorkChecked"]);
+            // fixxing
+            var departmentID = "DL1";
+            var dateAtt = Convert.ToDateTime("2019-09-10");
+            int ca = 1;
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                var listAttendance = (from emp in db.NhanViens
+                                      join per in db.DiemDanh_NangSuatLaoDong
+                                        .Where(per => per.MaDonVi == departmentID && per.NgayDiemDanh == dateAtt && per.CaDiemDanh == ca)
+                                      on emp.MaNV equals per.MaNV into attendance
+                                      from att in attendance.DefaultIfEmpty()
+                                        .Where(att => ((workAll ? (att.MaDiemDanh != null) : (att.MaDiemDanh == null)) || (notWorkAll ? (att.MaDiemDanh == null) : (att.MaDiemDanh != null))) && (workAll || notWorkAll))
+                                      select new
+                                      {
+                                          maNV = emp.MaNV,
+                                          maDD = (int?)att.MaDiemDanh,
+                                          maDV = att.MaDonVi,
+                                          tenNV = emp.Ten,
+                                          status = att.DiLam,
+                                          timeAttendance = att.ThoiGianThucTeDiemDanh,
+                                          dateAttendance = att.NgayDiemDanh,
+                                          reason = att.LyDoVangMat,
+                                          description = att.GhiChu
+                                      }).OrderBy(att => att.status).ToList();
+                JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+                var result = JsonConvert.SerializeObject(listAttendance, Formatting.Indented, jss);
+                return Json(new { success = true, data = result }, JsonRequestBehavior.AllowGet);
             }
         }
 
