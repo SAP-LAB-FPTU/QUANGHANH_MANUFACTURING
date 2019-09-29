@@ -1,5 +1,6 @@
 ﻿using QUANGHANH2.ModelViews;
 using QUANGHANH2.Repositories.Intefaces;
+using QUANGHANH2.Utils;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -16,7 +17,7 @@ namespace QUANGHANH2.Controllers.PX.PXDS
         }
 
         [HttpGet]
-        [Route("phan-xuong-doi-song/thong-ke-suat-an")]
+        [Route("phan-xuong-doi-song/theo-doi-suat-an")]
         public ActionResult Index()
         {
             return View("/Views/PX/PXDS/View.cshtml");
@@ -26,6 +27,10 @@ namespace QUANGHANH2.Controllers.PX.PXDS
         [Route("phan-xuong-doi-song/dang-ky-suat-an")]
         public ActionResult Input()
         {
+            var timeHelper = new TimeHelper();
+            DateTime mondayOfNextWeek = timeHelper.StartOfNextWeek(DateTime.Now, DayOfWeek.Monday);
+            ViewBag.MondayOfNextWeek = mondayOfNextWeek.Date.ToString("dd/MM/yyyy");
+            ViewBag.FridayOfNextWeek = mondayOfNextWeek.AddDays(5).Date.ToString("dd/MM/yyyy");
             return View("/Views/PX/PXDS/Input.cshtml");
         }
 
@@ -45,8 +50,9 @@ namespace QUANGHANH2.Controllers.PX.PXDS
         [Route("phan-xuong-doi-song/dang-ky-suat-an/save")]
         public ActionResult RegistrationSave(IList<PxdsModelView> details)
         {
-            bool success = true;
-            DateTime mondayOfNextWeek = _repository.StartOfNextWeek(DateTime.Now, DayOfWeek.Monday);
+            var timeHelper = new TimeHelper();
+            DateTime mondayOfNextWeek = timeHelper.StartOfNextWeek(DateTime.Now, DayOfWeek.Monday);
+            bool success;
             if (_repository.HasMealRegistration(mondayOfNextWeek))
             {
                 success = _repository.UpdateMealRegistration(details);
