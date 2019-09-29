@@ -33,7 +33,8 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.NgayCap, "Ngày cấp", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.NgayCap, new { htmlAttributes = new { @class = "form-control",@id="date_start" } })
+                    <input id="edit_start_time_diploma" class="form-control" />
+                    @Html.EditorFor(model => model.NgayCap, new { htmlAttributes = new { @style = "display: none !important", @class = "form-control", @id = "date_start_dip_edit" } })
                     @Html.ValidationMessageFor(model => model.NgayCap, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -50,6 +51,7 @@
                     </datalist>
                     @Html.ValidationMessageFor(model => model.MaNV, "", new { @class = "text-danger" })
                 </div>
+                <p hidden style="color:red" id="message_checkNameExist_dip_edit">Mã nhân viên không tồn tại. Hãy nhập lại</p>
             </div>
             <div class="form-group col s6 m6 l6">
                 @Html.LabelFor(model => model.MaNV, "Tên nhân viên", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -72,29 +74,25 @@
 </html>
 <script>
     $(document).ready(function () {
-        var date_start_edit = $("#date_start").val();
-        $("#date_start").val(getDate(date_start_edit));
-        $("#date_start").datepicker({ dateFormat: 'mm/dd/yyyy', changeYear: true });
-        $("#date_start").keydown(function (e) {
+        var date_start_edit = $("#date_start_dip_edit").val();
+        $("#edit_start_time_diploma").val(getDate(date_start_edit));
+        $("#edit_start_time_diploma").datepicker({ dateFormat: 'dd/mm/yyyy', changeYear: true });
+        $("#edit_start_time_diploma").keydown(function (e) {
             e.preventDefault();
         });
     });
-    //$("#date_start").val(new Date().toISOString().substring(0, 10));
     function addZeroIfRequired(dayOrMonth) {
         return dayOrMonth > 9 ? dayOrMonth : "0" + dayOrMonth;
     }
 
     function getDate(dateString) {
         var date = dateString ? new Date(dateString) : new Date();
-        return addZeroIfRequired((date.getUTCMonth() + 1)) + "/" + addZeroIfRequired(date.getDate()) + "/" + 
+        return addZeroIfRequired(date.getDate()) + "/" + addZeroIfRequired((date.getUTCMonth() + 1)) + "/" +
             date.getUTCFullYear();
     }
-    
-    
     //set name employee
     $('#dip_empID_edit').change(function () {
         var manv = $(this).val();
-        alert(manv);
       $.ajax({
             url:'@Url.Action("getName", "Diploma")',
             type: "POST",
@@ -102,8 +100,12 @@
             success: (response) => {
                 if (response.success) {
                     $('#nameEmpEdit_show').val(response.data);
+                    $('#message_checkNameExist_dip_edit').hide();
+                    $('#submit_form_edit_dip_emp').attr("disabled", false);
                 } else {
-
+                    $('#nameEmpEdit_show').val(response.data);
+                    $('#message_checkNameExist_dip_edit').show();
+                    $('#submit_form_edit_dip_emp').attr("disabled", true);
                 }
             },
             error: (response) => {
@@ -144,5 +146,10 @@
 
             },
         })
+    })
+    $('#submit_form_edit_dip_emp').click(function () {
+        var ngaycap = $('#edit_start_time_diploma').val();
+        var arr = ngaycap.split('/');
+        $('#date_start_dip_edit').val(arr[1] + "/" + arr[0] + "/" + arr[2]);
     })
 </script>

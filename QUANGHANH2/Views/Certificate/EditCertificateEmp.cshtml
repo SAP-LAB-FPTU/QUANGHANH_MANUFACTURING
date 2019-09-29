@@ -80,7 +80,7 @@
 @Scripts.Render("~/bundles/jqueryval")
 <script>
     $(document).ready(function () {
-        var date_start_edit = $("#edit_start_time").val();
+        var date_start_edit = $("#ngaycap_edit_cert").val();
         $("#edit_start_time").val(getDate(date_start_edit));
         $("#edit_start_time").datepicker({ dateFormat: 'dd/mm/yyyy', changeYear: true });
         $("#edit_start_time").keydown(function (e) {

@@ -67,6 +67,7 @@
                         <input id="edit_dip_time" class="form-control" />
                         @Html.EditorFor(model => model.ThoiHan, new { htmlAttributes = new { @style = "display: none !important", @class = "form-control", @id = "edit_time" } })
                         @Html.ValidationMessageFor(model => model.ThoiHan, "", new { @class = "text-danger" })
+                        <p hidden style="color:red" id="message_isNum_diploma_edit">Thời hạn là một số dương. Vui lòng nhập lại</p>
                     </div>
                 </div>
 
@@ -125,6 +126,19 @@
                 //show
                 $('#edit_dip_time').removeAttr("disabled", "disabled");
                 $('#edit_dip_time').val("");
+                $('#edit_dip_time').blur(function () {
+                    var isNum = $(this).val();
+                    if (!isNumeric(isNum) || (new Number(isNum) < 0)) {
+                        //Check if Thoihan is numeric
+                        $("#message_isNum_diploma_edit").show(); //Show error
+                        $('#save_edit_diploma').attr("disabled", true);
+
+                    }
+                    else {
+                        $("#message_isNum_diploma_edit").hide();
+                        $('#save_edit_diploma').attr("disabled", false);
+                    }
+                })
             }
         })
         $("#save_edit_diploma").click(function () {
@@ -140,6 +154,8 @@
 
     })
 
-
+    function isNumeric(value) {
+        return /^-{0,1}\d+$/.test(value);
+    }
 
 </script>

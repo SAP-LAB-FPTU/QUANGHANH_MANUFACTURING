@@ -254,7 +254,7 @@
                     },
                     {
                         "data": "MaBangCap_GiayChungNhan", "render": function (data) {
-                            return "<a class='waves-effect waves-light btn-small red modal-trigger' data-target='deletediploma' style='margin-left:5px' onclick=getDeleteIdDiploma(" + data + ") ><i class='fa fa-trash'></i> Xóa</a>";
+                            return "<a class='waves-effect waves-light btn-small red modal-trigger'  style='margin-left:5px' onclick=getDeleteIdDiploma(" + data + ") ><i class='fa fa-trash'></i> Xóa</a>";
                     },
                     "orderable": false,
                     "searchable": false,
@@ -325,7 +325,7 @@
                         },
                         {
                             "data": "SoHieu", "render": function (data) {
-                                return "<a class='waves-effect waves-light btn-small red modal-trigger' data-target='deletediplomaEmp' style='margin-left:5px' onclick=getDeleteIdDiplomaEmp('" + data + "') ><i class='fa fa-trash'></i> Xóa</a>";
+                                return "<a class='waves-effect waves-light btn-small red modal-trigger'  style='margin-left:5px' onclick=getDeleteIdDiplomaEmp('" + data + "') ><i class='fa fa-trash'></i> Xóa</a>";
                             },
                             "orderable": false,
                             "searchable": false
@@ -418,6 +418,12 @@
         }
         function getDeleteIdDiploma(id) {
             deleteIdDiploma = id;
+            confirmAlert(
+                'Bạn có chắc chắn muốn xóa chứng chỉ này?',
+                '',
+                function ahihi() {
+                    DeleteDiploma();
+                });
         }
 
         function DeleteDiploma() {
@@ -428,12 +434,13 @@
                     success: function (data) {
                         if (data.success)
                         {
+                            $("#addDiplomaEmp").load('@Url.Action("AddDiplomaEmployee")');
                             dataTableDiploma.ajax.reload();
                             dataDiplomaEmp.ajax.reload();
-                            $.notify(data.message, {
-                                globalPosition: "top center",
-                                className: "success"
-                            })
+                            successAlert('Thành công', 'Xóa chứng chỉ thành công');
+                        }
+                        else {
+                            errorAlert('Lỗi', 'Vui lòng thử lại');
                         }
                     }
                 });
@@ -442,6 +449,12 @@
         }
         function getDeleteIdDiplomaEmp(idEmp) {
             deleteIdDiplomaEmp = idEmp;
+            confirmAlert(
+                'Bạn có chắc chắn muốn xóa chứng chỉ này?',
+                '',
+                function ahihi() {
+                    DeleteDiplomaEmployee();
+                });
         }
         function DeleteDiplomaEmployee() {
             if (deleteIdDiplomaEmp != null) {
@@ -453,10 +466,10 @@
                         {
                             dataTableDiploma.ajax.reload();
                             dataDiplomaEmp.ajax.reload();
-                            $.notify(data.message, {
-                                globalPosition: "top center",
-                                className: "success"
-                            })
+                            successAlert('Thành công', 'Xóa chứng chỉ thành công');
+                        }
+                        else {
+                            errorAlert('Lỗi', 'Vui lòng thử lại');
                         }
                     }
                 });
