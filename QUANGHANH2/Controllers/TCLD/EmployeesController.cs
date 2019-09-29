@@ -31,7 +31,15 @@ namespace QUANGHANH2.Controllers.TCLD
         public ActionResult ViewInfor(string id)
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-            { 
+            {
+                List<SelectListItem> Month = new List<SelectListItem>();
+                for (int i = 1; i <= 12; i++)
+                {
+                    Month.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                }
+
+                ViewBag.months = Month;
+
                 List<SelectListItem> Genders = new List<SelectListItem>
             {
                 new SelectListItem { Text = "Nam", Value = "true" },
@@ -44,10 +52,23 @@ namespace QUANGHANH2.Controllers.TCLD
 
                 foreach (TrinhDo td in Leveldb)
                 {
-                    Level.Add(new SelectListItem { Text = td.TenTrinhDo, Value = td.MaTrinhDo.ToString() });
+                    Level.Add(new SelectListItem { Text = td.TenTrinhDo.Trim(), Value = td.MaTrinhDo.ToString() });
                 }
 
                 ViewBag.level = Level;
+                List<CongViec> Jobdb = db.CongViecs.ToList<CongViec>();
+
+                List<SelectListItem> Job = new List<SelectListItem>();
+
+                foreach (CongViec cv in Jobdb)
+                {
+                    Job.Add(new SelectListItem { Text = cv.TenCongViec.Trim(), Value = cv.MaCongViec.ToString() });
+                    if (db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault<NhanVien>().MaCongViec == cv.MaCongViec)
+                    {
+                        ViewBag.loadJob = cv.TenCongViec.Trim();
+                    }
+                }
+                ViewBag.job = Job;
                 List<SelectListItem> Heal = new List<SelectListItem>
             {
                 new SelectListItem { Text = "Khỏe", Value = "khoe" },
@@ -66,12 +87,6 @@ namespace QUANGHANH2.Controllers.TCLD
             };
                 ViewBag.thuongbinh = ThuongBinh;
 
-                List<SelectListItem> listDepeartment = new List<SelectListItem>();
-                List<SelectListItem> listCategory = new List<SelectListItem>();
-
-                //listForSelect.Add(new SelectListItem { Text = "Your text", Value = "TRAI" });
-                ViewBag.listDepeartment = listDepeartment;
-                ViewBag.listCategory = listCategory;
                 return View("/Views/TCLD/Brief/View.cshtml", db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault<NhanVien>());
             }
         }
@@ -81,7 +96,13 @@ namespace QUANGHANH2.Controllers.TCLD
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
+                List<SelectListItem> Month = new List<SelectListItem>();
+                for (int i = 1; i <= 12; i++)
+                {
+                    Month.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                }
 
+                ViewBag.months = Month;
                 List<SelectListItem> Genders = new List<SelectListItem>
             {
                 new SelectListItem { Text = "Nam", Value = "true" },
@@ -94,10 +115,23 @@ namespace QUANGHANH2.Controllers.TCLD
 
                 foreach (TrinhDo td in Leveldb)
                 {
-                    Level.Add(new SelectListItem { Text = td.TenTrinhDo, Value = td.MaTrinhDo.ToString() });
+                    Level.Add(new SelectListItem { Text = td.TenTrinhDo.Trim(), Value = td.MaTrinhDo.ToString() });
                 }
 
                 ViewBag.level = Level;
+                List<CongViec> Jobdb = db.CongViecs.ToList<CongViec>();
+
+                List<SelectListItem> Job = new List<SelectListItem>();
+
+                foreach (CongViec cv in Jobdb)
+                {
+                    Job.Add(new SelectListItem { Text = cv.TenCongViec.Trim(), Value = cv.MaCongViec.ToString() });
+                    if (db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault<NhanVien>().MaCongViec == cv.MaCongViec)
+                    {
+                        ViewBag.loadJob = cv.TenCongViec.Trim();
+                    }
+                }
+                ViewBag.job = Job;
                 List<SelectListItem> Heal = new List<SelectListItem>
             {
                 new SelectListItem { Text = "Khỏe", Value = "khoe" },
@@ -116,23 +150,27 @@ namespace QUANGHANH2.Controllers.TCLD
             };
                 ViewBag.thuongbinh = ThuongBinh;
 
-                List<SelectListItem> listDepeartment = new List<SelectListItem>();
-                List<SelectListItem> listCategory = new List<SelectListItem>();
 
-                //listForSelect.Add(new SelectListItem { Text = "Your text", Value = "TRAI" });
-                ViewBag.listDepeartment = listDepeartment;
-                ViewBag.listCategory = listCategory;
+
                 return View("/Views/TCLD/Brief/Edit.cshtml", db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault<NhanVien>());
             }
 
         }
 
         [HttpPost]
-        public ActionResult SaveEdit(NhanVien emp)
+        public ActionResult SaveEdit(NhanVien emp, string test)
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                emp.MaTrangThai = 1;
+                List<CongViec> Jobdb = db.CongViecs.ToList<CongViec>();
+                foreach (CongViec cv in Jobdb)
+                {
+                    if (test.Trim().Equals(cv.TenCongViec.Trim()))
+                    {
+                        emp.MaCongViec = cv.MaCongViec;
+                        break;
+                    }
+                }
                 db.Entry(emp).State = EntityState.Modified;
                 db.SaveChanges();
             }
@@ -152,6 +190,7 @@ namespace QUANGHANH2.Controllers.TCLD
         {
             public string TenTrangThai { get; set; }
             public string TenTrinhDo { get; set; }
+            public string TenCongViec { get; set; }
         }
 
         [Route("phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien")]

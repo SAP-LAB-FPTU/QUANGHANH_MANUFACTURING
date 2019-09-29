@@ -41,12 +41,12 @@
                                     <div class="input-field col m8">
                                         <div class="input-field col m12">
                                             @*<div class="col m4">
-                        @Html.LabelFor(model => model.MaNV, htmlAttributes: new { @class = "custom-label" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.MaNV, "Mã nhân viên", new { htmlAttributes = new { @class = "form-control", @placeholder = "Mã", @type = "text"} })
-                            @Html.ValidationMessageFor(model => model.MaNV, "", new { @class = "text-danger" })
-                        </div>
-                    </div>*@
+                                                    @Html.LabelFor(model => model.MaNV, htmlAttributes: new { @class = "custom-label" })
+                                                    <div class="col-md-10">
+                                                        @Html.EditorFor(model => model.MaNV, "Mã nhân viên", new { htmlAttributes = new { @class = "form-control", @placeholder = "Mã", @type = "text"} })
+                                                        @Html.ValidationMessageFor(model => model.MaNV, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>*@
                                             <div class="col m12">
                                                 @Html.LabelFor(model => model.Ten, "Họ và tên", htmlAttributes: new { @class = "custom-label" })
                                                 <div class="col-md-10">
@@ -99,10 +99,16 @@
                                 </div>
                                 <div class="input-field col m12">
                                     <div class="col m6">
-                                        @Html.LabelFor(model => model.ChucVu, "Chức vụ", htmlAttributes: new { @class = "custom-label" })
+                                        @Html.LabelFor(model => model.MaCongViec, "Chức vụ", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.ChucVu, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Chức vụ", @type = "text" } })
-                                            @Html.ValidationMessageFor(model => model.ChucVu, "", new { @class = "text-danger" })
+                                            <input id="MaCongViecDis" list="listJob" class="form-control inputEdit" name="test" value="@ViewBag.loadJob" />
+                                            <datalist id="listJob">
+                                                @foreach (var item in (IEnumerable<SelectListItem>)ViewBag.job)
+                                                {
+                                                    <option value="@item.Text" />
+                                                }
+                                            </datalist>
+                                            @Html.ValidationMessageFor(model => model.MaCongViec, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col m6">
@@ -338,35 +344,25 @@
                                     </div>
                                     <div class="input-field col m12">
                                         <div class="col m4">
-                                            <label class='custom-label'>Bậc lương</label>
-                                            <select class="custom-select">
-                                                <option>Không có</option>
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                            </select>
+                                            @Html.LabelFor(model => model.BacLuong, "Bậc lương", htmlAttributes: new { @class = "custom-label" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.BacLuong, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Bậc lương", @type = "number", @min = "0" } })
+                                                @Html.ValidationMessageFor(model => model.BacLuong, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
                                         <div class="col m4">
-                                            <label class='custom-label'>Hệ số</label>
-                                            <input type="text" class=" form-control" placeholder="Hệ số" />
+                                            @Html.LabelFor(model => model.HeSo, "Hệ số", htmlAttributes: new { @class = "custom-label" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.HeSo, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Hệ số", @type = "number", @min = "0" } })
+                                                @Html.ValidationMessageFor(model => model.HeSo, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
                                         <div class="col m4">
-                                            <label class='custom-label'>Từ tháng</label>
-                                            <select class="custom-select">
-                                                <option>Không có</option>
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                                <option>6</option>
-                                                <option>7</option>
-                                                <option>8</option>
-                                                <option>9</option>
-                                                <option>10</option>
-                                                <option>11</option>
-                                                <option>12</option>
-                                            </select>
+                                            @Html.LabelFor(model => model.TuThang, "Từ tháng", htmlAttributes: new { @class = "custom-label" })
+                                            <div class="col-md-10">
+                                                @Html.DropDownListFor(model => model.TuThang, new SelectList(ViewBag.months, "Value", "Text"), htmlAttributes: new { @class = "sl-edit form-control" })
+                                                @Html.ValidationMessageFor(model => model.TuThang, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="input-field col m12">
@@ -498,7 +494,8 @@
                                 </div>
                             </div>
                         </div>
-                        @Html.HiddenFor(model => model.MaPhongBan, new { htmlAttributes = new { @class = "form-control", @placeholder = "Kỷ luật" } })
+                        @Html.HiddenFor(model => model.MaPhongBan)
+                        @Html.HiddenFor(model => model.MaTrangThai)
                         <div id="hoctaplamviec" class="col l12">
                             <div class="row" style="margin-top:10px">
                                 <label class="custom-label">A.Đào tạo, bồi dưỡng về chuyên môn, nghiệp vụ, lý luận chính trị, ngoại ngữ, tin học</label>
@@ -664,6 +661,6 @@
 <script>
     $(document).ready(function () {
         var MaNV = $("#MaNV").val();
-        $("#Grapper_MaNV").html("<b>Mã Nhân Viên: "+ MaNV +"</b>")
+        $("#Grapper_MaNV").html("<b>Mã Nhân Viên: " + MaNV + "</b>")
     });
 </script>
