@@ -63,26 +63,58 @@
                                 <button class="btn blue darken-2 btn-small" id="searchBtn">Tìm kiếm</button>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col s12">
+                                <ul class="tabs">
+                                    <li class="col s6 tab"><a id="tab_chitiet" class="active" href="#chitiet">Bảng chi tiết</a></li>
+                                    <li class="col s6 tab"><a id="tab_tonghop" href="#tonghop">Bảng tổng hợp</a></li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col s12">
-                    <table class="table table-bordered striped table-responsive centered"
-                           style="margin-top:30px; text-align:center;" id="tbl_detail">
-                        <thead>
-                            <tr>
-                                <th>Mã vật tư</th>
-                                <th>Tên vật tư</th>
-                                <th>Phân xưởng được cấp</th>
-                                <th>Số lượng cấp</th>
-                                <th>Đơn vị</th>
-                                <th>Sử dụng</th>
-                                <th>Tồn kho</th>
-                                <th>Thu hồi</th>
-                            </tr>
-                        </thead>
-                    </table>
+
+                <div id="chitiet">
+                    <div class="row">
+                        <div class="col s12">
+                            <table class="striped centered table-bordered mytable" width="100%"
+                                   style="margin-top:30px; text-align:center;" id="tbl_detail">
+                                <thead>
+                                    <tr>
+                                        <th>Mã vật tư</th>
+                                        <th>Tên vật tư</th>
+                                        <th>Phân xưởng được cấp</th>
+                                        <th>Số lượng cấp</th>
+                                        <th>Đơn vị</th>
+                                        <th>Sử dụng</th>
+                                        <th>Tồn kho</th>
+                                        <th>Thu hồi</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-            </div>
+                <div id="tonghop">
+                    <div class="row">
+                        <div class="col s12">
+                            <table class="striped centered table-bordered mytable" width="100%"
+                                   style="margin-top:30px; text-align:center;" id="tbl_summary">
+                                <thead>
+                                    <tr>
+                                        <th>Mã vật tư</th>
+                                        <th>Tên vật tư</th>
+                                        <th>Số lượng cấp</th>
+                                        <th>Đơn vị</th>
+                                        <th>Sử dụng</th>
+                                        <th>Tồn kho</th>
+                                        <th>Thu hồi</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
         </div>
     </div>
 </div>
@@ -94,7 +126,7 @@
 @section scripts{
     <script src="~/js/jquery.dataTables.min.js"></script>
     <script>
-        var tbl_detail;
+        var tbl_detail, tbl_summary, currTab = 0;
         $(document).ready(function () {
             $("#pre-load").show();
             tbl_detail = $('#tbl_detail').DataTable({
@@ -110,7 +142,6 @@
                         "SupplyName": function () { return $('#supplyName').val() },
                     },
                     "dataSrc": function (json) {
-                        console.log(json.data)
                         return json.data;
                     }
                 },
@@ -133,17 +164,100 @@
                     $("#pre-load").hide();
                 }
             });
+
+            tbl_summary = $('#tbl_summary').DataTable({
+                "ajax": {
+                    "url": "/phong-cdvt/vat-tu/tieu-hao/summary",
+                    "type": "GET",
+                    "datatype": "json",
+                    "cache": "false",
+                    "data": {
+                        "SupplyId": function () { return $('#supplyId').val() },
+                        "SupplyName": function () { return $('#supplyName').val() },
+                    },
+                    "dataSrc": function (json) {
+                        return json.data;
+                    }
+                },
+                "columns": [
+                    { "data": "SupplyId", "name": "SupplyId" },
+                    { "data": "SupplyName", "name": "SupplyName" },
+                    { "data": "SupplyQuantity", "name": "SupplyQuantity" },
+                    { "data": "SupplyUnit", "name": "SupplyUnit" },
+                    { "data": "SupplyUsed", "name": "SupplyUseds" },
+                    { "data": "SupplyInventory", "name": "SupplyInventory" },
+                    { "data": "SupplyEviction", "name": "SupplyEviction" },
+                ],
+                "serverSide": true,
+                "order": [0, "asc"],
+                "rowId": "SupplyId",
+                "lengthChange": false,
+                "searching": false,
+                "initComplete": function (settings, json) {
+                    $("#pre-load").hide();
+                }
+            });
+            $('#tab_chitiet').on("click", function (e) {
+                currTab = 0;
+                $("#departmentId").prop('disabled', false);
+                $("#departmentName").prop('disabled', false);
+            });
+            $('#tab_tonghop').on("click", function (e) {
+                currTab = 1;
+                $("#departmentId").prop('disabled', true);
+                $("#departmentName").prop('disabled', true);
+            });
             $('#searchBtn').click(search);
         });
+
         function search() {
             $("#pre-load").show();
-            tbl_detail.ajax.reload(function () {
-                $.notify("Tìm kiếm thành công", {
-                    globalPosition: "top center",
-                    className: "success"
-                })
-            });
+            if (currTab == 0) {
+                tbl_detail.ajax.reload(function () {
+                    $.notify("Tìm kiếm thành công", {
+                        globalPosition: "top center",
+                        className: "success"
+                    })
+                });
+            } else {
+                tbl_summary.ajax.reload(function () {
+                    $.notify("Tìm kiếm thành công", {
+                        globalPosition: "top center",
+                        className: "success"
+                    })
+                });
+            }
             $("#pre-load").hide();
+        }
+
+        function getSumarryDataSrc(vattus) {
+            let result = [];
+            let vattuIds = new Set(vattus.map(vattu => vattu.SupplyId));
+            vattuIds = [...vattuIds];
+            for (let i = 0; i < vattuIds.length; i++) {
+                obj = {
+                    'SupplyId': '',
+                    'SupplyName': '',
+                    'SupplyQuantity': 0,
+                    'SupplyUnit': '',
+                    'SupplyUsed': 0,
+                    'SupplyInventory': 0,
+                    'SupplyEviction': 0
+                }
+                for (let j = 0; j < vattus.length; j++) {
+                    if (vattus[j].SupplyId == vattuIds[i]) {
+                        obj.SupplyId = vattus[j].SupplyId;
+                        obj.SupplyName = vattus[j].SupplyName;
+                        obj.SupplyUnit = vattus[j].SupplyUnit;
+                        obj.SupplyQuantity += vattus[j].SupplyQuantity;
+                        obj.SupplyUsed += vattus[j].SupplyUsed;
+                        obj.SupplyInventory += vattus[j].SupplyInventory;
+                        obj.SupplyEviction += vattus[j].SupplyEviction;
+                    }
+                }
+                result.push(obj);
+            }
+            return result;
         }
     </script>
 }

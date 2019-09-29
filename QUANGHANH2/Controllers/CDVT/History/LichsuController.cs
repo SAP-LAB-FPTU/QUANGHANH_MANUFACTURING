@@ -21,8 +21,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         public ActionResult Index()
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            List<Equipment> listEQ = db.Equipments.ToList<Equipment>();
-            List<Supply> listSupply = db.Supplies.ToList<Supply>();
+            List<FuelDB> listEQ = db.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from " +
+               " (select distinct e.equipmentId, e.equipment_name from Equipment e inner join Equipment_category_attribute ea " +
+               "  on ea.Equipment_category_id = e.Equipment_category_id where " +
+               " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') as t "
+            ).ToList();
+            List<Supply> listSupply = db.Supplies.Where(x => x.unit == "L" || x.unit == "kWh").ToList();
 
             ViewBag.listSupply = listSupply;
             ViewBag.listEQ = listEQ;
@@ -522,7 +526,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             try
             {
                 QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-                var equipment = db.Supplies.Where(x => x.supply_id == fuel_type).SingleOrDefault();
+                var equipment = db.Supplies.Where(x => (x.supply_id == fuel_type) && (x.unit == "L" || x.unit == "kWh")).SingleOrDefault();
                 String item = equipment.supply_name + "^" + equipment.unit;
                 return Json(item, JsonRequestBehavior.AllowGet);
             }
@@ -538,11 +542,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         public ActionResult AddFuel(int consumption_value, string fuel_type, string date1, String equipmentId)
         {
             string output = "";
-            //fix bug negative number.
-            //if (consumption_value <= 0)
-            //{
-            //    return new HttpStatusCodeResult(400);
-            //}
 
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             fuelDB f = new fuelDB();
