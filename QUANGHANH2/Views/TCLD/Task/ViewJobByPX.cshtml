@@ -54,6 +54,7 @@
                                     <th colspan="@a.arrNV.Count">@a.loai</th>
                                 }
                             }
+                            <th></th>
                         </tr>
                         <tr>
                             @{
@@ -65,12 +66,13 @@
                                     }
                                 }
                             }
+                            <th></th>
                         </tr>
                     </thead>
                 </table>
             </div>
             <hr />
-            <button type="button" class="btn blue darken-2 modal-trigger" data-target="modal_xacnhan">Lưu</button>
+            <button type="button" class="btn blue darken-2" onclick="submitJob()">Lưu</button>
         </div>
     </div>
 </div>
@@ -83,22 +85,6 @@
     }
 </ul>
 
-<div class="modal" id="modal_xacnhan">
-    <div class="modal-content">
-        <div class="modal-header center">
-            <h3><strong>Xác nhận</strong></h3>
-        </div>
-        <hr />
-        <div class="modal-body">
-            <h4><strong class="green-text">Xác nhận thêm nhiệm vụ đã chọn</strong></h4>
-        </div>
-        <hr />
-        <div class="modal-footer">
-            <a class="btn blue darken-2 modal-close" onclick="submitJob()">Đồng ý</a>
-            <a class="btn red modal-close">Hủy</a>
-        </div>
-    </div>
-</div>
 <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
 @section scripts{
 
@@ -111,14 +97,21 @@
         $(Document).ready(() => {
             $("#pre-load").show()
             $('.dropdown-trigger').dropdown();
-            dataTable = $("#mytable").DataTable({
+            dataTable = $("#mytable").on('preXhr.dt', function (e, settings, data) {
+                $("#pre-load").show("slow", function () {
+                });
+                $("#pre-load").css("z-index", "99999");
+            }).DataTable({
 
                  "ajax": {
                      "url": '@Url.Action("GetAllNhanVienByPX", "Task")',
                      "type": "POST",
                      "datatype": "json",
                 },
-
+                "drawCallback": function (settings) {
+                    $("#pre-load").hide("slow", function () {
+                    });
+                },
                 "columns": [
                     { "data": "MaNV", "name": "MaNV", "render": (data) => { return "<label>" + data + "</label>" }, "orderable": true },
                     { "data": "Ten", "name": "Ten", "render": (data, type, row, meta) => { return "<a class='font-weight-bold text-success' href='@Url.Action("chung-chi-cua-nhan-vien", "phong-tcld")?MaNV=" + row['MaNV'] + "'>" + data + "</a>" }, "orderable": true },
@@ -129,16 +122,19 @@
                             foreach (var c in b.arrNV)
                             {
 
-                                var pp = "{ \"data\": \"MaNV\", \"render\": (data) => {  return \"<label><input class='job' value='" + arrNhanVien_NhiemVu[m] + "_" + "\"+data+\"" + "'  id='cbx" + arrNhanVien_NhiemVu[m] + "_" + "\"+data+\"" + "'  type ='checkbox' /><span></span></label> \" },\"orderable\": false  } ,";
-                                //var pp2 = HttpUtility.HtmlDecode("{ \"data\": \"MaNV\", \"render\": (data) => {  return \"<label><input class='job'  type ='checkbox' onclick='selectJob(" + arrNhanVien_NhiemVu[m] + "_" + "\"+data+\"" + ")' checked/><span></span></label> \" } } ,");
+                                var pp = "{ \"data\": \"MaNV\", \"render\": (data, type, row, meta) => { if(row['MaNhiemVu'] == "+ arrNhanVien_NhiemVu[m] + "){return \"<label><input class='job' value='"
+                                    + arrNhanVien_NhiemVu[m] + "_" + "\"+data+\"" + "'  id='cbx" + arrNhanVien_NhiemVu[m] + "_" + "\"+data+\"" + "'  type ='checkbox' checked /><span></span></label> \"}else{return \"<label><input class='job' value='"
+                                    + arrNhanVien_NhiemVu[m] + "_" + "\"+data+\"" + "'  id='cbx" + arrNhanVien_NhiemVu[m] + "_" + "\"+data+\"" + "'  type ='checkbox'  /><span></span></label> \"}  },\"orderable\": false  } ,";
+
                                 <text>
                                     @{WriteLiteral(pp);}
-                                </text>
+                    </text>
 
                                 m++;
                             }
                         }
                     }
+                    { "data": "MaNhiemVu", "name": "MaNhiemVu", "render": () => {return "" }}
                 ],
                 "bLengthChange": false,
                 "order": [0, 'asc'],
@@ -147,24 +143,42 @@
                 "initComplete": () => { $("#pre-load").hide()},
                 "searching": false,
                 "serverSide": true,
+                "language": {
+                    emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                    paginate:
+                    {
+                        previous: "Trang trước",
+                        next: "Trang sau",
+                        first: "|<",
+                        last: ">|",
+
+                    },
+                    info: "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                    infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
+                },
+
             })
 
 
             //set dropdown ve gia tri default khi nhan va input search ten
             $('#name_search').focus(() => { $('#sl_phan_xuong').val("Phân Xưởng").trigger('change') })
         })
-        
+
 
         var selectedJob = []
         function submitJob() {
 
-            for (var i = 0; i< $('.job:checkbox:checked').length; i++)
+            confirmAlert(
+                'Xác nhận thêm nhiệm vụ?',
+                'Xác nhận thêm nhiệm vụ vừa chọn cho nhân viên',
+                function submit() {
+                    for (var i = 0; i< $('.job:checkbox:checked').length; i++)
             {
                 var cbxChecked = $('.job:checkbox:checked')[i];
                 if (!selectedJob.includes(cbxChecked.value.toString())) {
                     selectedJob.push(cbxChecked.value.toString())
                 }
-            }
+                    }
             if (selectedJob.length == 0) {
                 $.notify("Chưa chọn công việc", {
                     globalPosition: "top center",
@@ -173,7 +187,7 @@
                 return false;
             }
             $("#pre-load").show()
-            
+
             $.ajax({
                 url: '@Url.Action("AssignTask","Task")',
                 type: "POST",
@@ -183,20 +197,15 @@
                     if (response.success == true) {
                         $("#pre-load").hide()
                         selectedJob = []
-                        $.notify("Thêm thành công", {
-                            globalPosition: "top center",
-                            className: "success"
-                        })
+                        successAlert('Thành công', 'thêm nhiệm vụ thành công');
                     } else {
                         $("#pre-load").hide()
-                        $.notify("Thêm thất bại", {
-                            globalPosition: "top center",
-                            className: "fail"
-                        })
+                        errorAlert('Thất bại', 'nhân viên đã được giao nhiệm vụ trước đó');
                     }
 
                 }
             })
+                });
         }
 
         function search() {

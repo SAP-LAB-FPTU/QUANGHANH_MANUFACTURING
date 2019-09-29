@@ -17,15 +17,7 @@ namespace QUANGHANH2.Controllers.TCLD
             return View();
         }
 
-        public class MyModal
-        {
-            public string loai { get; set; }
-            public List<NhiemVu> arrNV { get; set; }
-            public MyModal()
-            {
-                arrNV = new List<NhiemVu>();
-            }
-        }
+        
 
 
         public ActionResult SearchEmployee(string data)
@@ -102,6 +94,15 @@ namespace QUANGHANH2.Controllers.TCLD
 
         }
 
+        public class MyModal
+        {
+            public string loai { get; set; }
+            public List<NhiemVu> arrNV { get; set; }
+            public MyModal()
+            {
+                arrNV = new List<NhiemVu>();
+            }
+        }
 
         [Route("phong-tcld/dang-ky-cong-viec")]
         public ActionResult ViewJobByPX()
@@ -180,15 +181,15 @@ namespace QUANGHANH2.Controllers.TCLD
                             MaNV = mnv,
                             NgayNhanNhiemVu = now
                         };
-                        var temp = db.ChiTiet_NhiemVu_NhanVien.Where(p => p.MaNhiemVu == mnvu && p.MaNV.Equals(mnv)).FirstOrDefault();
+                        var temp = db.ChiTiet_NhiemVu_NhanVien.Where(p =>p.MaNV.Equals(mnv)).FirstOrDefault();
                         if (temp == null)
                         {
                             db.ChiTiet_NhiemVu_NhanVien.Add(cnn);
                         }
                         else
                         {
-                            cnn.MaChiTiet_NhiemVu_NhanVien = temp.MaChiTiet_NhiemVu_NhanVien; //MaChiTiet_NhiemVu_NhanVien
-                            db.Entry(cnn).State = EntityState.Modified;
+                            db.ChiTiet_NhiemVu_NhanVien.Remove(temp);
+                            db.ChiTiet_NhiemVu_NhanVien.Add(cnn);
                         }
                     }
                     db.SaveChanges();
@@ -305,13 +306,24 @@ namespace QUANGHANH2.Controllers.TCLD
                                 TenNhanVien = nv.Ten,
                                 MaNhanVien = nv.MaNV
                             });
-                List<NhanVien> arrNhanVien = temp.ToList().Select(p => new NhanVien { Ten = p.TenNhanVien, MaNV = p.MaNhanVien }).ToList();
-
-                IOrderedEnumerable<NhanVien> arrnvorder = arrNhanVien.OrderBy(n => n.MaNV);
+                List<NhanVien_Extend> arrNhanVien = temp.ToList().Select(p => new NhanVien_Extend { Ten = p.TenNhanVien, MaNV = p.MaNhanVien }).ToList();
+                foreach(var nv in arrNhanVien)
+                {
+                    foreach (var nvnv in db.ChiTiet_NhiemVu_NhanVien)
+                    {
+                        if (nv.MaNV.Equals(nvnv.MaNV))
+                        {
+                            nv.MaNhiemVu = nvnv.MaNhiemVu;
+                            break;
+                        }
+                    }
+                }
+                
+                IOrderedEnumerable<NhanVien_Extend> arrnvorder = arrNhanVien.OrderBy(n => n.MaNV);
                 int totalrows = arrNhanVien.Count;
                 int totalrowsafterfiltering = arrNhanVien.Count;
-                arrNhanVien = arrNhanVien.OrderBy(sortColumnName + " " + sortDirection).ToList<NhanVien>();
-                arrNhanVien = arrNhanVien.Skip(start).Take(length).ToList<NhanVien>();
+                arrNhanVien = arrNhanVien.OrderBy(sortColumnName + " " + sortDirection).ToList<NhanVien_Extend>();
+                arrNhanVien = arrNhanVien.Skip(start).Take(length).ToList<NhanVien_Extend>();
 
                 return Json(new { success = true, data = arrNhanVien, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
             }
@@ -642,18 +654,19 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpPost]
         public ActionResult XacNhanThemMoi(string data)
         {
-            dynamic dataJson = JObject.Parse(data);
-            var maNV = dataJson.mnv;
-            var maCC = dataJson.mcc;
-            var ngayCap = DateTime.ParseExact(Convert.ToString(dataJson.ngaycap), "dd/MM/yyyy", CultureInfo.InvariantCulture)
-                        .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
-            var ngayTra = DateTime.ParseExact(Convert.ToString(dataJson.ngaytra), "dd/MM/yyyy", CultureInfo.InvariantCulture)
-                        .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
-            var sohieu = dataJson.sohieu + "";
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            try
             {
-                try
+                dynamic dataJson = JObject.Parse(data);
+                var maNV = dataJson.mnv;
+                var maCC = dataJson.mcc;
+                var ngayCap = DateTime.ParseExact(Convert.ToString(dataJson.ngaycap), "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                            .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+                var ngayTra = DateTime.ParseExact(Convert.ToString(dataJson.ngaytra), "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                            .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+                var sohieu = dataJson.sohieu + "";
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
+
                     ChungChi_NhanVien ccnv = new ChungChi_NhanVien { MaNV = maNV, MaChungChi = maCC, NgayCap = Convert.ToDateTime(ngayCap), NgayTra = Convert.ToDateTime(ngayTra), SoHieu = sohieu };
                     if (ccnv.SoHieu != null && !ccnv.SoHieu.Equals(""))
                     {
@@ -666,11 +679,10 @@ namespace QUANGHANH2.Controllers.TCLD
                         return Json(new { success = false }, JsonRequestBehavior.AllowGet);
                     }
                 }
-                catch (Exception)
-                {
-                    return Json(new { success = false }, JsonRequestBehavior.AllowGet);
-                }
-
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
             }
         }
     }
