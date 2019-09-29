@@ -327,29 +327,6 @@ namespace QUANGHANH2.Controllers
                         addModule(module16, acc.ID,16);
                         addModule(module17, acc.ID,17);
                         addModule(module18, acc.ID,18);
-                        //if (module2 == 1)
-                        //{
-                        //    var listRight = db.Account_Right.Where(x => x.ModuleID == 2 + "").ToList();
-                        //    var rightRemove = db.Database.SqlQuery<Account_Right_Detail>("select ar.* from Account_Right a , Account_Right_Detail ar where a.ID = ar.RightID and ar.AccountID='" + acc.ID + "' and a.ModuleID='2'").ToList<Account_Right_Detail>();
-                        //    foreach (var r in rightRemove)
-                        //    {
-                        //        var del = db.Account_Right_Detail.Where(x => x.ID == r.ID).SingleOrDefault();
-                        //        db.Account_Right_Detail.Remove(del);
-                        //    }
-                        //    foreach (var r in listRight)
-                        //    {
-                        //        if (!String.IsNullOrEmpty(r.ID+""))
-                        //        {
-                        //            Account_Right_Detail rd = new Account_Right_Detail()
-                        //            {
-                        //                AccountID = acc.ID ,
-                        //                RightID = r.ID
-                        //            };
-                        //            db.Account_Right_Detail.Add(rd);
-                        //        }
-                        //    }
-                        //    db.SaveChanges();
-                        //}
                         //if (module4 == 1)
                         //{
                         //    var listRight = db.Account_Right.Where(x => x.ModuleID == 4 + "").ToList();
