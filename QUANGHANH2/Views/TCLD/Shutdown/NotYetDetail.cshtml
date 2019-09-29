@@ -135,8 +135,8 @@
                 })
                 .DataTable({
                     "ajax": {
-                        "url": "/phong-tcld/quan-ly-nhan-vien/chua-xu-ly-cham-dut",
-                        "type": "POST",
+                        "url": "/phong-tcld/quan-ly-nhan-vien/chua-xu-ly-cham-dut-chi-tiet",
+                        "type": "GET",
                         "datatype": "json",
                         "data": {
                             "MaQuyetDinh": function () { return $('#searchMaQD').val() },
@@ -155,7 +155,7 @@
                         },
                         {
                             "data": "MaQuyetDinh", "render": function (data) {
-                                return "<form action='/phong-tcld/quan-ly-nhan-vien/chua-xu-ly-cham-dut-chi-tiet' method='POST'><button name='detail' class='waves-effect waves-light btn blue darken-2 btn-small' value=" + data + "  type='submit'><span class='ti-pencil-alt'>&nbsp;Chi tiết</span></button></form>&nbsp;" +
+                                return "<a class='waves-effect waves-light btn blue darken-2 btn-small' href='/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien?id=" + data + "'  data-target='dropdown1'><span class='ti-pencil-alt'>&nbsp;Chi tiết</span></a>&nbsp;" +
                                     "<a class='waves-effect waves-light btn blue darken-2 btn-small' href='/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien?id=" + data + "'  data-target='dropdown1'><span class='ti-pencil-alt'>&nbsp;Xóa</span></a>";
 
                             },
