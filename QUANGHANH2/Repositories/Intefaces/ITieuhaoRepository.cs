@@ -6,5 +6,6 @@ namespace QUANGHANH2.Repositories.Intefaces
     public interface ITieuhaoRepository
     {
         List<TieuhaoModelView> GetDetails(TieuhaoSearchModelView search);
+        List<TieuhaoModelView> GetSummary(TieuhaoSearchModelView search);
     }
 }
