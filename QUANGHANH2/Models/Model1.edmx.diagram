@@ -6,7 +6,6 @@
     <edmx:Diagrams>
       <Diagram DiagramId="7d6c2242dea448b5a06d2d359ebbcbb3" Name="Diagram1">
         <EntityTypeShape EntityType="QUANGHANHABCModel.Acceptance" Width="1.5" PointX="5.25" PointY="57.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Account" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Account_Right" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Account_Right_Detail" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Activity" Width="1.5" PointX="8.25" PointY="45.625" IsExpanded="true" />
@@ -142,6 +141,7 @@
         <AssociationConnector Association="QUANGHANHABCModel.FK__TieuChi_V__MaTie__4B7734FF" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__TieuChi_V__MaVat__4C6B5938" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.ThucHien_TieuChi_VatLieuSanXuat" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Account" Width="1.5" PointX="5.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
