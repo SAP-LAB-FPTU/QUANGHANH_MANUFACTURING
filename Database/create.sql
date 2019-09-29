@@ -41,6 +41,17 @@ CREATE TABLE [dbo].[Account](
 	[DK] [bit] NOT NULL,
 	[KCS] [bit] NOT NULL,
 	[PXKT] [bit] NOT NULL,
+	[PXDL] [bit] NOT NULL,
+	[PXVT] [bit] NOT NULL,
+	[PXST] [bit] NOT NULL,
+	[PXPV] [bit] NOT NULL,
+	[PXDS] [bit] NOT NULL,
+	[PXCDM] [bit] NOT NULL,
+	[PXTGQLM] [bit] NOT NULL,
+	[PXXD] [bit] NOT NULL,
+	[PXLT] [bit] NOT NULL,
+	[AT] [bit] NOT NULL,
+	[KCM] [bit] NOT NULL,
 	[ADMIN] [bit] NOT NULL,
  CONSTRAINT [PK_Account] PRIMARY KEY CLUSTERED 
 (
@@ -756,8 +767,9 @@ GO
 CREATE TABLE [dbo].[MealRegistration](
 	[id] [int] IDENTITY(1,1) NOT NULL,
 	[department_id] [nvarchar](150) NULL,
-	[date_regs] [date] NULL,
+	[date_regs] [date] NOT NULL,
 	[num_regs] [int] NULL,
+	[num_regs_plan] [int] NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[id] ASC
