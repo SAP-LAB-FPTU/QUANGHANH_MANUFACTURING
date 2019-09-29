@@ -28,7 +28,7 @@
             <div class="row">
 
                 <div class="col-lg-4 center" style="margin-bottom:15px">
-                    <a class="btn blue darken-2 btn-lg dropdown-trigger" style="width:250px" data-target="phanxuong"><span id="tenPhanXuong">DL1</span></a>
+                    <a class="btn blue darken-2 btn-lg dropdown-trigger" style="width:250px" data-target="phanxuong"><span id="tenPhanXuong">Chọn Phân Xưởng</span></a>
                 </div>
             </div>
             <div class="table_container">
@@ -126,13 +126,9 @@
                 <strong>Ngày cấp</strong><strong hidden id="gh-nc-warning" class="orange-text text-justify">     không được để trống</strong>
                 <input id="gh-in-ngaycap" class="form-control datepicker-here center" data-language="vi" />
             </div>
-            <div class="col m6 l6 s12">
-                <strong>Ngày trả</strong><strong hidden id="gh-nt-warning" class="orange-text text-justify">     không được để trống</strong>
-                <input id="gh-in-ngaytra" class="form-control datepicker-here center" data-language="vi" />
-            </div>
         </div>
         <div class="modal-footer">
-            <a class="btn blue darken-2 modal-close" onclick="xacNhanGiaHan()">Gia hạn</a>
+            <a class="btn blue darken-2" onclick="xacNhanGiaHan()">Gia hạn</a>
             <a class="btn red modal-close">Hủy</a>
         </div>
     </div>
@@ -166,15 +162,11 @@
                     <strong>Ngày cấp</strong><strong hidden id="tm-nc-warning" class="orange-text text-justify">     không được để trống</strong>
                     <input id="tm-in-ngaycap" class="form-control datepicker-here center" data-language="vi" />
                 </div>
-                <div class="col m6 l6 s12">
-                    <strong>Ngày trả</strong><strong hidden id="tm-nt-warning" class="orange-text text-justify">     không được để trống</strong>
-                    <input id="tm-in-ngaytra" class="form-control datepicker-here center" data-language="vi" />
-                </div>
             </div>
 
         </div>
         <div class="modal-footer">
-            <a class="btn blue darken-2 modal-close" onclick="xacNhanThemMoi()">Thêm mới</a>
+            <a class="btn blue darken-2" onclick="xacNhanThemMoi()">Thêm mới</a>
             <a class="btn red modal-close">Hủy</a>
         </div>
     </div>
@@ -192,14 +184,9 @@
             $("#gh-in-ngaycap").blur(() => { if ($("#gh-in-ngaycap").val() == null || $("#gh-in-ngaycap").val() == "") { $("#gh-nc-warning").show() } })
             $("#gh-in-ngaycap").focus(() => { $("#gh-nc-warning").hide() })
             //validate for input field
-            $("#gh-in-ngaytra").blur(() => { if ($("#gh-in-ngaytra").val() == null || $("#gh-in-ngaytra").val() == "") { $("#gh-nt-warning").show()  } })
-            $("#gh-in-ngaytra").focus(() => { $("#gh-nt-warning").hide() })
-            //validate for input field
             $("#tm-in-ngaycap").blur(() => { if ($("#tm-in-ngaycap").val() == null || $("#tm-in-ngaycap").val() == "") { $("#tm-nc-warning").show()  } })
             $("#tm-in-ngaycap").focus(() => { $("#tm-nc-warning").hide() })
-            //validate for input field
-            $("#tm-in-ngaytra").blur(() => { if ($("#tm-in-ngaytra").val() == null || $("#tm-in-ngaytra").val() == "") { $("#tm-nt-warning").show()  } })
-            $("#tm-in-ngaytra").focus(() => { $("#tm-nt-warning").hide() })
+            
         });
 
         var popupGiaHan = (mnv, mcc) => {
@@ -233,8 +220,13 @@
     };
         var xacNhanThemMoi = () => {
 
-            if ($("#tm-in-sohieu").val() == "" || $("#tm-in-ngaycap").val() == "" || $("#tm-in-ngaytra").val() == "") {
-                
+            if ($("#tm-in-sohieu").val() == "" || $("#tm-in-sohieu").val() == null) {
+                $("#tm-sh-warning").show()
+                return false;
+            }
+            if ($("#tm-in-ngaycap").val() == null || $("#tm-in-ngaycap").val() == "") {
+                $("#tm-nc-warning").show()
+                return false;
             }
 
             $("#pre-load").show()
@@ -243,7 +235,6 @@
             mnv: $("#tm-in-mnv").val(),
             mcc: $("#tm-in-mcc").val(),
             ngaycap: $("#tm-in-ngaycap").val(),
-            ngaytra: $("#tm-in-ngaytra").val()
             }
 
         var objJson = JSON.stringify(obj)
@@ -256,68 +247,55 @@
             success: (response) => {
                 if (response.success == true) {
                     $("#pre-load").hide()
-                    $.notify("Thêm chứng chỉ thành công", {
-                        globalPosition: "top center",
-                        className: "success"
-                    })
-                    setTimeout(() => { window.location.reload() }, 500)
+                    reloadAlert('Thêm mới chứng chỉ thành công', 1000);
                 } else {
                     $("#pre-load").hide()
-                    $.notify("Thêm chứng chỉ thất bại, Số hiệu đã tồn tại", {
-                        globalPosition: "top center",
-                        className: "fail"
-                    })
-                    
+                    errorAlert('Thất bại', 'Số hiệu đã tồn tại,thêm mới chứng chỉ thất bại');
                 }
             },
             error: (response) => {
-                alert('fail')
                 $("#pre-load").hide()
+                errorAlert('Thất bại', 'Gặp vấn đề về mạng');
             }
         })
     };
 
         var xacNhanGiaHan = () => {
-            $("#pre-load").show()
-        var obj = {
-            sohieu: $("#gh-in-sohieu").val(),
-            mnv: $("#gh-in-mnv").val(),
-            mcc: $("#gh-in-mcc").val(),
-            ngaycap: $("#gh-in-ngaycap").val(),
-            ngaytra: $("#gh-in-ngaytra").val()
-        }
-
-        var objJson = JSON.stringify(obj)
-
-        $.ajax({
-            url: '@Url.Action("XacNhanGiaHan","Task")',
-            type: "POST",
-            data: { data: objJson },
-            dataType: "json",
-            success: (response) => {
-
-                if (response.success == true) {
-                    $.notify("Gia hạn thành công", {
-                        globalPosition: "top center",
-                        className: "success"
-                    })
-                    $("#pre-load").hide()
-                    setTimeout(() => { window.location.reload() }, 500)
-                } else {
-                    $("#pre-load").hide()
-                    $.notify("Gia hạn thất bại", {
-                        globalPosition: "top center",
-                        className: "fail"
-                    })
-                    
-                }
-            },
-            error: (response) => {
-                alert('fail')
-                $("#pre-load").hide()
+            
+            if ($("#gh-in-ngaycap").val() == null || $("#gh-in-ngaycap").val() == "") {
+                $("#gh-nc-warning").show()
+                return false;
             }
+            $("#pre-load").show()
+            var obj = {
+                sohieu: $("#gh-in-sohieu").val(),
+                mnv: $("#gh-in-mnv").val(),
+                mcc: $("#gh-in-mcc").val(),
+                ngaycap: $("#gh-in-ngaycap").val(),
+            }
+            
+            var objJson = JSON.stringify(obj)
 
-        })
+            $.ajax({
+                url: '@Url.Action("XacNhanGiaHan","Task")',
+                type: "POST",
+                data: { data: objJson },
+                dataType: "json",
+                success: (response) => {
+                    if (response.success == true) {
+                        $("#pre-load").hide()
+                        reloadAlert('Gia hạn chứng chỉ thành công', 1000);
+                    } else {
+                        $("#pre-load").hide()
+                        errorAlert('Thất bại', 'Gia hạn chứng chỉ thất bại');
+                    }
+                },
+                error: (response) => {
+                    $("#pre-load").hide()
+                    errorAlert('Thất bại', 'Gặp vấn đề về mạng');
+                }
+
+            })
 
     };
     </script>
