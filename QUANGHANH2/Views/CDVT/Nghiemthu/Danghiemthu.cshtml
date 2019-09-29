@@ -72,105 +72,6 @@
         </div>
     </div>
 </div>
-<div id="capnhat" class="modal" style="width:65% !important">
-    <div class="modal-header center-align">
-        <h3><b>Cập nhật sửa chữa</b></h3>
-    </div>
-    <div class="modal-body">
-        <div class="row table_container">
-            <table class="table-bordered striped table-responsive centered" style="zoom:80%;">
-                <thead>
-                    <tr>
-                        <th rowspan="2">Số LSX, QĐ</th>
-                        <th rowspan="2">Ngày tháng LSX, QĐ</th>
-                        <th rowspan="2">Cấp SC</th>
-                        <th colspan="2">Thời gian SC</th>
-                        <th colspan="5">Chi tiết vật tư thay thế, SC</th>
-                        <th rowspan="2">KQ sau SC</th>
-                        <th colspan="5">Chi tiết vật tư thu hồi sau SC</th>
-                    </tr>
-                    <tr>
-                        <th>TG vào SC</th>
-                        <th>TG SC xong</th>
-                        <th>Mã VT</th>
-                        <th>Tên vật tư</th>
-                        <th>ĐVT</th>
-                        <th>Số lượng</th>
-                        <th>TTKT của vật tư</th>
-                        <th>Mã VT</th>
-                        <th>Tên vật tư</th>
-                        <th>ĐVT</th>
-                        <th>Số lượng</th>
-                        <th>TTKT của vật tư</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td rowspan="2">1162/LSX-VQHC-CV về việc sửa chữa băng tải B650 Phân xưởng Khai thác 4</td>
-                        <td rowspan="2">15/7/2019</td>
-                        <td rowspan="2">
-                            SCTX
-                        </td>
-                        <td rowspan="2">2:15AM 15/7/2019</td>
-                        <td rowspan="2">4:15 AM 15/7/2019</td>
-                        <td rowspan="2">KLS</td>
-                        <td>Bản lề băng B650</td>
-                        <td>Bộ</td>
-                        <td>3</td>
-                        <td>
-                            <select class="form-control" style="min-width:120px">
-                                <option></option>
-                                <option>Mới 100%</option>
-                                <option>Cũ qua sử dụng</option>
-                                <option>Cũ qua sữa chữa</option>
-                            </select>
-                        </td>
-                        <td rowspan="2">
-                            <select class="form-control" style="min-width:120px">
-                                <option></option>
-                                <option>Đảm bảo yêu cầu kỹ thuật</option>
-                                <option>Không đạt</option>
-                            </select>
-                        </td>
-                        <td rowspan="2">KLS</td>
-                        <td>Bản lề băng B650</td>
-                        <td>Bộ</td>
-                        <td>3</td>
-                        <td>
-                            <select class="form-control" style="min-width:120px">
-                                <option></option>
-                                <option>Hỏng - phế liệu</option>
-                                <option>Cũ - tái sử dụng</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Đinh tán băng</td>
-                        <td>Cái</td>
-                        <td>12</td>
-                        <td>
-                            <select class="form-control" style="min-width:120px">
-                                <option></option>
-                                <option>Mới 100%</option>
-                                <option>Cũ qua sử dụng</option>
-                                <option>Cũ qua sữa chữa</option>
-                            </select>
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <a href="#" class="waves-effect waves-light btn blue draken-2 modal-trigger">Thêm</a>
-        <a href="#myaleart" class="waves-effect waves-light btn blue draken-2 modal-trigger">Lưu</a>
-    </div>
-</div>
 <div id="thongtin" class="modal">
     <div class="modal-header center-align">
         <h3><b>Thông tin quyết định</b></h3>
@@ -328,11 +229,24 @@
                     }
                     ],
                 "searching": false,
-                    "bLengthChange": false,
+                "bLengthChange": false,
                 "serverSide": "true",
-                                "order": [0, "asc"],
+                "language": {
+                        emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                        paginate:
+                        {
+                            previous: "Trang trước",
+                            next: "Trang sau",
+                            first: "|<",
+                            last: ">|",
+                                                  
+                        },
+                        info: "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                        infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
+                    },
+                "order": [0, "asc"],
                 "initComplete": function(settings, json) {
-    		$("#pre-load").hide("slow", function () {
+    		    $("#pre-load").hide("slow", function () {
       		  });
              }
            
@@ -414,23 +328,23 @@
                 });
             return false;
         }
-        //var dt = new Date();
-        //document.getElementById("datetime").innerHTML = (("0" + (dt.getMonth() + 1)).slice(-2)) + "/" + (("0" + dt.getDate()).slice(-2)) + "/" + (dt.getFullYear());
-
+        $(".datepicker-here").keydown(function (e) {
+            e.preventDefault();
+        });
        $('.maxDate').datepicker({
         language: 'vi',
         maxDate: new Date(),
         minDate: new Date("1/1/1900")
-    })
-    $('.minDate').datepicker({
-        language: 'vi',
-        maxDate: new Date() // Now can select only dates, which goes after today
-    })
+        })
+        $('.minDate').datepicker({
+            language: 'vi',
+            maxDate: new Date() 
+        })
     $(document).ready(function () {
         $('.datepicker-inline').remove();
         var today = new Date();
         var dd = today.getDate();
-        var mm = today.getMonth() + 1; //January is 0!
+        var mm = today.getMonth() + 1;
 
         var yyyy = today.getFullYear();
         if (dd < 10) {
@@ -445,7 +359,7 @@
         });
         today = new Date("1/1/1900");
         var dd = today.getDate();
-        var mm = today.getMonth() + 1; //January is 0!
+        var mm = today.getMonth() + 1;
 
         var yyyy = today.getFullYear();
         if (dd < 10) {
