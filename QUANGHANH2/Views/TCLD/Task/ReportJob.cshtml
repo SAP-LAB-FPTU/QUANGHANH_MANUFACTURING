@@ -126,10 +126,6 @@
                 <strong>Ngày cấp</strong><strong hidden id="gh-nc-warning" class="orange-text text-justify">     không được để trống</strong>
                 <input id="gh-in-ngaycap" class="form-control datepicker-here center" data-language="vi" />
             </div>
-            <div class="col m6 l6 s12">
-                <strong>Ngày trả</strong><strong hidden id="gh-nt-warning" class="orange-text text-justify">     không được để trống</strong>
-                <input id="gh-in-ngaytra" class="form-control datepicker-here center" data-language="vi" />
-            </div>
         </div>
         <div class="modal-footer">
             <a class="btn blue darken-2" onclick="xacNhanGiaHan()">Gia hạn</a>
@@ -166,10 +162,6 @@
                     <strong>Ngày cấp</strong><strong hidden id="tm-nc-warning" class="orange-text text-justify">     không được để trống</strong>
                     <input id="tm-in-ngaycap" class="form-control datepicker-here center" data-language="vi" />
                 </div>
-                <div class="col m6 l6 s12">
-                    <strong>Ngày trả</strong><strong hidden id="tm-nt-warning" class="orange-text text-justify">     không được để trống</strong>
-                    <input id="tm-in-ngaytra" class="form-control datepicker-here center" data-language="vi" />
-                </div>
             </div>
 
         </div>
@@ -192,14 +184,9 @@
             $("#gh-in-ngaycap").blur(() => { if ($("#gh-in-ngaycap").val() == null || $("#gh-in-ngaycap").val() == "") { $("#gh-nc-warning").show() } })
             $("#gh-in-ngaycap").focus(() => { $("#gh-nc-warning").hide() })
             //validate for input field
-            $("#gh-in-ngaytra").blur(() => { if ($("#gh-in-ngaytra").val() == null || $("#gh-in-ngaytra").val() == "") { $("#gh-nt-warning").show()  } })
-            $("#gh-in-ngaytra").focus(() => { $("#gh-nt-warning").hide() })
-            //validate for input field
             $("#tm-in-ngaycap").blur(() => { if ($("#tm-in-ngaycap").val() == null || $("#tm-in-ngaycap").val() == "") { $("#tm-nc-warning").show()  } })
             $("#tm-in-ngaycap").focus(() => { $("#tm-nc-warning").hide() })
-            //validate for input field
-            $("#tm-in-ngaytra").blur(() => { if ($("#tm-in-ngaytra").val() == null || $("#tm-in-ngaytra").val() == "") { $("#tm-nt-warning").show()  } })
-            $("#tm-in-ngaytra").focus(() => { $("#tm-nt-warning").hide() })
+            
         });
 
         var popupGiaHan = (mnv, mcc) => {
@@ -248,7 +235,6 @@
             mnv: $("#tm-in-mnv").val(),
             mcc: $("#tm-in-mcc").val(),
             ngaycap: $("#tm-in-ngaycap").val(),
-            ngaytra: $("#tm-in-ngaytra").val()
             }
 
         var objJson = JSON.stringify(obj)
@@ -268,8 +254,8 @@
                 }
             },
             error: (response) => {
-                alert('fail')
                 $("#pre-load").hide()
+                errorAlert('Thất bại', 'Gặp vấn đề về mạng');
             }
         })
     };
@@ -286,7 +272,6 @@
                 mnv: $("#gh-in-mnv").val(),
                 mcc: $("#gh-in-mcc").val(),
                 ngaycap: $("#gh-in-ngaycap").val(),
-                ngaytra: $("#gh-in-ngaytra").val()
             }
             
             var objJson = JSON.stringify(obj)
@@ -299,15 +284,15 @@
                 success: (response) => {
                     if (response.success == true) {
                         $("#pre-load").hide()
-                        reloadAlert('Gia hạn chứng chỉ thành công', 500);
+                        reloadAlert('Gia hạn chứng chỉ thành công', 1000);
                     } else {
                         $("#pre-load").hide()
                         errorAlert('Thất bại', 'Gia hạn chứng chỉ thất bại');
                     }
                 },
                 error: (response) => {
-                    alert('fail')
                     $("#pre-load").hide()
+                    errorAlert('Thất bại', 'Gặp vấn đề về mạng');
                 }
 
             })

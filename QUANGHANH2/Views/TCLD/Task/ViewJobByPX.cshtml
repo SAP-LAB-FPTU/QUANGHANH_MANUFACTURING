@@ -122,7 +122,7 @@
                             foreach (var c in b.arrNV)
                             {
 
-                                var pp = "{ \"data\": \"MaNV\", \"render\": (data, type, row, meta) => { if(row['MaNhiemVu'] == "+ arrNhanVien_NhiemVu[m] + "){return \"<label><input class='job' value='"
+                                var pp = "{ \"data\": \"MaNV\", \"render\": (data, type, row, meta) => { if(row['MaNhiemVu'].includes(" + arrNhanVien_NhiemVu[m] + ")){return \"<label><input class='job' value='"
                                     + arrNhanVien_NhiemVu[m] + "_" + "\"+data+\"" + "'  id='cbx" + arrNhanVien_NhiemVu[m] + "_" + "\"+data+\"" + "'  type ='checkbox' checked /><span></span></label> \"}else{return \"<label><input class='job' value='"
                                     + arrNhanVien_NhiemVu[m] + "_" + "\"+data+\"" + "'  id='cbx" + arrNhanVien_NhiemVu[m] + "_" + "\"+data+\"" + "'  type ='checkbox'  /><span></span></label> \"}  },\"orderable\": false  } ,";
 

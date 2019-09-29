@@ -181,7 +181,7 @@ namespace QUANGHANH2.Controllers.TCLD
                             MaNV = mnv,
                             NgayNhanNhiemVu = now
                         };
-                        var temp = db.ChiTiet_NhiemVu_NhanVien.Where(p =>p.MaNV.Equals(mnv)).FirstOrDefault();
+                        var temp = db.ChiTiet_NhiemVu_NhanVien.Where(p =>p.MaNV.Equals(mnv) && p.MaNhiemVu.Equals(mnvu)).FirstOrDefault();
                         if (temp == null)
                         {
                             db.ChiTiet_NhiemVu_NhanVien.Add(cnn);
@@ -229,12 +229,23 @@ namespace QUANGHANH2.Controllers.TCLD
                                 nv.Ten,
                                 nv.MaNV
                             });
-                List<NhanVien> arrNhanVienByPX = temp.ToList().Select(p => new NhanVien { Ten = p.Ten, MaNV = p.MaNV }).ToList();
+                List<NhanVien_Extend> arrNhanVienByPX = temp.ToList().Select(p => new NhanVien_Extend { Ten = p.Ten, MaNV = p.MaNV }).ToList();
+
+                foreach (var nv in arrNhanVienByPX)
+                {
+                    foreach (var nvnv in db.ChiTiet_NhiemVu_NhanVien)
+                    {
+                        if (nv.MaNV.Equals(nvnv.MaNV))
+                        {
+                            nv.MaNhiemVu.Add(nvnv.MaNhiemVu) ;
+                        }
+                    }
+                }
 
                 int totalrows = arrNhanVienByPX.Count;
                 int totalrowsafterfiltering = arrNhanVienByPX.Count;
 
-                arrNhanVienByPX = arrNhanVienByPX.Skip(start).Take(length).ToList<NhanVien>();
+                arrNhanVienByPX = arrNhanVienByPX.Skip(start).Take(length).ToList<NhanVien_Extend>();
                 return Json(new { success = true, data = arrNhanVienByPX, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -313,8 +324,7 @@ namespace QUANGHANH2.Controllers.TCLD
                     {
                         if (nv.MaNV.Equals(nvnv.MaNV))
                         {
-                            nv.MaNhiemVu = nvnv.MaNhiemVu;
-                            break;
+                            nv.MaNhiemVu.Add(nvnv.MaNhiemVu);
                         }
                     }
                 }
@@ -632,12 +642,10 @@ namespace QUANGHANH2.Controllers.TCLD
             var maCC = dataJson.mcc;
             var ngayCap = DateTime.ParseExact(Convert.ToString(dataJson.ngaycap), "dd/MM/yyyy", CultureInfo.InvariantCulture)
                         .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
-            var ngayTra = DateTime.ParseExact(Convert.ToString(dataJson.ngaytra), "dd/MM/yyyy", CultureInfo.InvariantCulture)
-                        .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
             var sohieu = dataJson.sohieu + "";
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                ChungChi_NhanVien ccnv = new ChungChi_NhanVien { MaNV = maNV, MaChungChi = maCC, NgayCap = Convert.ToDateTime(ngayCap), NgayTra = Convert.ToDateTime(ngayTra), SoHieu = sohieu };
+                ChungChi_NhanVien ccnv = new ChungChi_NhanVien { MaNV = maNV, MaChungChi = maCC, NgayCap = Convert.ToDateTime(ngayCap), SoHieu = sohieu };
                 if (ccnv.SoHieu != null && !ccnv.SoHieu.Equals(""))
                 {
                     db.Entry(ccnv).State = EntityState.Modified;
@@ -661,13 +669,11 @@ namespace QUANGHANH2.Controllers.TCLD
                 var maCC = dataJson.mcc;
                 var ngayCap = DateTime.ParseExact(Convert.ToString(dataJson.ngaycap), "dd/MM/yyyy", CultureInfo.InvariantCulture)
                             .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
-                var ngayTra = DateTime.ParseExact(Convert.ToString(dataJson.ngaytra), "dd/MM/yyyy", CultureInfo.InvariantCulture)
-                            .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
                 var sohieu = dataJson.sohieu + "";
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
 
-                    ChungChi_NhanVien ccnv = new ChungChi_NhanVien { MaNV = maNV, MaChungChi = maCC, NgayCap = Convert.ToDateTime(ngayCap), NgayTra = Convert.ToDateTime(ngayTra), SoHieu = sohieu };
+                    ChungChi_NhanVien ccnv = new ChungChi_NhanVien { MaNV = maNV, MaChungChi = maCC, NgayCap = Convert.ToDateTime(ngayCap),  SoHieu = sohieu };
                     if (ccnv.SoHieu != null && !ccnv.SoHieu.Equals(""))
                     {
                         db.ChungChi_NhanVien.Add(ccnv);

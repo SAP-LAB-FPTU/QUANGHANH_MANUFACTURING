@@ -8,7 +8,11 @@ namespace QUANGHANH2.Models
     public class NhanVien_Extend : NhanVien
     {
 
-        public int MaNhiemVu { get; set; }
+        public List<int> MaNhiemVu { get; set; }
+        public NhanVien_Extend()
+        {
+            MaNhiemVu = new List<int>();
+        }
 
     }
 }
