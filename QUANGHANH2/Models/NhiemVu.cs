@@ -25,8 +25,8 @@ namespace QUANGHANH2.Models
         public Nullable<int> MaChungChi { get; set; }
         public int MaNhiemVu { get; set; }
     
-        public virtual ChungChi ChungChi { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChiTiet_NhiemVu_NhanVien> ChiTiet_NhiemVu_NhanVien { get; set; }
+        public virtual ChungChi ChungChi { get; set; }
     }
 }

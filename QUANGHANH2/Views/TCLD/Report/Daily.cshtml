@@ -6,6 +6,54 @@
 <link rel="stylesheet" href="~/css/tuan_css/css/baocaoluong_css/style.css" />
 <link href="~/assets/extra-libs/css-chart/css-chart.css" rel="stylesheet">
 <link href="~/dist/css/pages/easy-pie-chart.css" rel="stylesheet">
+<script src="~/assets/libs/chart.js/dist/Chart.min.js"></script>
+<script src="~/assets/extra-libs/prism/prism.js"></script>
+<!-- This page plugin js -->
+<!-- ============================================================== -->
+<script src="~/assets/extra-libs/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js"></script>
+<script src="~/assets/extra-libs/jquery.easy-pie-chart/easy-pie-chart.init.js"></script>
+<script src="~/assets/extra-libs/sparkline/sparkline.js"></script>
+<script src="~/dist/js/pages/sparkline/jquery.charts-sparkline.js"></script>
+
+
+
+<script>
+    $(function () {
+        $("#minMaxDate").datepicker({
+            onSelect: function () {
+                window.location = "/phong-tcld/nang-suat-lao-dong-va-tien-luong/nang-suat-lao-dong-va-tien-luong-theo-ngay?date=" + $("#minMaxDate").val() + "&donvi=" + $("#px").attr("name");
+            }
+        })
+    });
+    $(document).ready(function () {
+        $("#minMaxDate").val("@string.Format("{0:dd/MM/yyyy}", System.DateTime.Now)");
+        $("#px").html("Đào Lò 1");
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        var date = url.searchParams.get("date");
+        var donvi = url.searchParams.get("donvi");
+        if (donvi == null) {
+            donvi = 'DL1';
+        }
+        var text = document.getElementsByName(donvi)[0].innerHTML;
+        if (date != null) {
+            $("#minMaxDate").val(date);
+        }
+        if (donvi != null) {
+            $("#px").html(text);
+            $("#px").attr("name", donvi)
+        }
+        
+        $("#dropdown_px").on("click", ".dropdown-child-px", function () {
+            select = $(this).attr("name");
+            text = $(this).text();
+                $("#px").html(text);
+                $(".dropdown-child-px").attr("name", select);
+            $('.dropdown-trigger').dropdown('close');
+            window.location = "/phong-tcld/nang-suat-lao-dong-va-tien-luong/nang-suat-lao-dong-va-tien-luong-theo-ngay?date=" + $("#minMaxDate").val() + "&donvi=" + $(".dropdown-child-px").attr("name");
+        });
+    });
+</script>
 
 <div class="card">
     <div class="card-content">
@@ -14,24 +62,12 @@
                 <B>NĂNG SUẤT, TIỀN LƯƠNG THEO NGÀY</B>
                 <br />
                 <i class="fas fa-calendar-alt icon"></i>
-                <input type="text"
-                       class="datepicker-here center"
-                       data-language='vi'
-                       data-min-view="months"
-                       data-view="months"
-                       data-date-format="MM yyyy" value="15/08/2019" />
+                <input type='text' class='datepicker-here center' id="minMaxDate" data-language='vi' />
                 <br /><br />
                 <a class='dropdown-trigger btn' id="px" href='#' data-target='dropdown_px'
                    style="width:250px;background-color:#273146" name="VTL1">
                     VTL1
                 </a>
-                @*<a class='dropdown-trigger btn' id="thoigian" href='#' data-target='dropdown_time'
-                       style="width:250px;background-color:#273146" name="day">
-                        Xem theo ngày
-                    </a>*@
-                @*<a class='btn blue darken-2' id="xacnhan" href='javascript:void(0);' style="width:250px;background-color:#273146">
-                        Xác nhận
-                    </a>*@
             </h3>
             <hr />
         </div>
@@ -62,309 +98,141 @@
                         <tbody>
                             <tr>
                                 <th>1</th>
-                                <th><a href="@Url.Content("/phong-tcld/bao-cao-chi-tiet-theo-ca")">CA 1</a></th>
-                                <th>38</th>
-                                <th>33</th>
-                                <th>3</th>
-                                <th>1</th>
-                                <th>0</th>
-                                <th>0</th>
-                                <th>0</th>
-                                <th>1</th>
-                                <th><a class="modal-trigger" href="#modal5">5</a></th>
-                                <th>120</th>
-                                <th>4,29</th>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>CBQL</td>
-                                <td>6</td>
-                                <td>5</td>
-                                <td><a class="modal-trigger" href="#modal1">1</a></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>1</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>Cơ điện</td>
-                                <td>6</td>
-                                <td>6</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>0</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>CNKT</td>
-                                <td>26</td>
-                                <td>22</td>
-                                <td><a class="modal-trigger" href="#modal2">2</a></td>
-                                <td><a class="modal-trigger" href="#modal1">1</a></td>
-                                <td></td>
-                                <td></td>
-                                <td>0</td>
-                                <td><a class="modal-trigger" href="#modal1">1</a></td>
-                                <td>4</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>HSTT</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>0</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th>2</th>
-                                <th><a href="@Url.Content("/phong-tcld/bao-cao-chi-tiet-theo-ca")">CA 2</a></th>
-                                <th>28</th>
-                                <th>22</th>
-                                <th>1</th>
-                                <th>0</th>
-                                <th>1</th>
-                                <th>0</th>
-                                <th>0</th>
-                                <th>4</th>
-                                <th><a class="modal-trigger" href="#modal6">6</a></th>
-                                <th>115</th>
-                                <th>5,48</th>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>CBQL</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>0</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>Cơ điện</td>
-                                <td>5</td>
-                                <td>5</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>0</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>CNKT</td>
-                                <td>22</td>
-                                <td>16</td>
-                                <td><a class="modal-trigger" href="#modal1">1</a></td>
-                                <td>0</td>
-                                <td><a class="modal-trigger" href="#modal1">1</a></td>
-                                <td></td>
-                                <td>0</td>
-                                <td><a class="modal-trigger" href="#modal4">4</a></td>
-                                <td>6</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>HSTT</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>0</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-
-                            <tr>
-                                <th>3</th>
-                                <th><a href="@Url.Content("/phong-tcld/bao-cao-chi-tiet-theo-ca")">CA 3</a></th>
-                                <th>25</th>
-                                <th>22</th>
-                                <th>0</th>
-                                <th>1</th>
-                                <th>0</th>
-                                <th>0</th>
-                                <th>0</th>
-                                <th>2</th>
-                                <th><a class="modal-trigger" href="#modal3">3</a></th>
-                                <th>120</th>
-                                <th>5,71</th>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>CBQL</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>0</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>Cơ điện</td>
-                                <td>5</td>
-                                <td>5</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>0</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>CNKT</td>
-                                <td>19</td>
-                                <td>16</td>
-                                <td></td>
-                                <td><a class="modal-trigger" href="#modal1">1</a></td>
-                                <td></td>
-                                <td></td>
-                                <td>0</td>
-                                <td><a class="modal-trigger" href="#modal2">2</a></td>
-                                <td>3</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>HSTT</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>0</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-
-                            <tr>
-                                <th>4</th>
-                                <th>TỔNG</th>
-                                <th>91</th>
-                                <th>77</th>
-                                <th>4</th>
-                                <th>2</th>
-                                <th>1</th>
-                                <th>0</th>
-                                <th>0</th>
-                                <th>7</th>
-                                <th>14</th>
-                                <th>355</th>
+                                <th><a onclick="HienThiTheoCa(1);">@ViewBag.HeaderCa1.LoaiNhanVien</a></th>
+                                <th>@ViewBag.HeaderCa1.LDTheoDS</th>
+                                <th>@ViewBag.HeaderCa1.LDSX</th>
+                                <th>@ViewBag.HeaderCa1.Phep</th>
+                                <th>@ViewBag.HeaderCa1.Om</th>
+                                <th>@ViewBag.HeaderCa1.Bu</th>
+                                <th>@ViewBag.HeaderCa1.TT</th>
+                                <th>@ViewBag.HeaderCa1.VLD</th>
+                                <th>@ViewBag.HeaderCa1.H</th>
+                                <th><a class="modal-trigger" href="#modal1">@ViewBag.HeaderCa1.TongNghi</a></th>
                                 <th></th>
+                                <th>@ViewBag.HeaderCa1.NSLDThucHien</th>
                             </tr>
+                            @foreach (var item in ViewBag.Ca1)
+                            {
+                                <tr>
+                                    <td></td>
+                                    <td>@item.LoaiNhanVien</td>
+                                    <td>@item.LDTheoDS</td>
+                                    <td>@item.LDSX</td>
+                                    <td>@item.Phep</td>
+                                    <td>@item.Om</td>
+                                    <td>@item.Bu</td>
+                                    <td>@item.TT</td>
+                                    <td>@item.VLD</td>
+                                    <td>@item.H</td>
+                                    <td>@item.TongNghi</td>
+                                    <td></td>
+                                    <td>@item.NSLDThucHien</td>
+                                </tr>
+                            }
+                            <tr>
+                                <th>2</th>
+                                <th><a onclick="HienThiTheoCa(2);">@ViewBag.HeaderCa2.LoaiNhanVien</a></th>
+                                <th>@ViewBag.HeaderCa2.LDTheoDS</th>
+                                <th>@ViewBag.HeaderCa2.LDSX</th>
+                                <th>@ViewBag.HeaderCa2.Phep</th>
+                                <th>@ViewBag.HeaderCa2.Om</th>
+                                <th>@ViewBag.HeaderCa2.Bu</th>
+                                <th>@ViewBag.HeaderCa2.TT</th>
+                                <th>@ViewBag.HeaderCa2.VLD</th>
+                                <th>@ViewBag.HeaderCa2.H</th>
+                                <th><a class="modal-trigger" href="#modal2">@ViewBag.HeaderCa2.TongNghi</a></th>
+                                <th></th>
+                                <th>@ViewBag.HeaderCa2.NSLDThucHien</th>
+                            </tr>
+                            @foreach (var item in ViewBag.Ca2)
+                            {
                             <tr>
                                 <td></td>
-                                <td>CBQL</td>
-                                <td>7</td>
-                                <td>7</td>
+                                <td>@item.LoaiNhanVien</td>
+                                <td>@item.LDTheoDS</td>
+                                <td>@item.LDSX</td>
+                                <td>@item.Phep</td>
+                                <td>@item.Om</td>
+                                <td>@item.Bu</td>
+                                <td>@item.TT</td>
+                                <td>@item.VLD</td>
+                                <td>@item.H</td>
+                                <td>@item.TongNghi</td>
                                 <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>@item.NSLDThucHien</td>
                             </tr>
+                            }
+
+                            <tr>
+                                <th>3</th>
+                                <th><a onclick="HienThiTheoCa(3);">@ViewBag.HeaderCa3.LoaiNhanVien</a></th>
+                                <th>@ViewBag.HeaderCa3.LDTheoDS</th>
+                                <th>@ViewBag.HeaderCa3.LDSX</th>
+                                <th>@ViewBag.HeaderCa3.Phep</th>
+                                <th>@ViewBag.HeaderCa3.Om</th>
+                                <th>@ViewBag.HeaderCa3.Bu</th>
+                                <th>@ViewBag.HeaderCa3.TT</th>
+                                <th>@ViewBag.HeaderCa3.VLD</th>
+                                <th>@ViewBag.HeaderCa3.H</th>
+                                <th><a class="modal-trigger" href="#modal3">@ViewBag.HeaderCa3.TongNghi</a></th>
+                                <th></th>
+                                <th>@ViewBag.HeaderCa3.NSLDThucHien</th>
+                            </tr>
+                            @foreach (var item in ViewBag.Ca3)
+                            {
                             <tr>
                                 <td></td>
-                                <td>Cơ điện</td>
-                                <td>16</td>
-                                <td>16</td>
+                                <td>@item.LoaiNhanVien</td>
+                                <td>@item.LDTheoDS</td>
+                                <td>@item.LDSX</td>
+                                <td>@item.Phep</td>
+                                <td>@item.Om</td>
+                                <td>@item.Bu</td>
+                                <td>@item.TT</td>
+                                <td>@item.VLD</td>
+                                <td>@item.H</td>
+                                <td>@item.TongNghi</td>
                                 <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>@item.NSLDThucHien</td>
                             </tr>
+                            }
+
                             <tr>
-                                <td></td>
-                                <td>CNKT</td>
-                                <td>54</td>
-                                <td>54</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <th>4</th>
+                                <th>@ViewBag.Tong.LoaiNhanVien</th>
+                                <th>@ViewBag.Tong.LDTheoDS</th>
+                                <th>@ViewBag.Tong.LDSX</th>
+                                <th>@ViewBag.Tong.Phep</th>
+                                <th>@ViewBag.Tong.Om</th>
+                                <th>@ViewBag.Tong.Bu</th>
+                                <th>@ViewBag.Tong.TT</th>
+                                <th>@ViewBag.Tong.VLD</th>
+                                <th>@ViewBag.Tong.H</th>
+                                <th>@ViewBag.Tong.TongNghi</th>
+                                <th></th>
+                                <th>@ViewBag.Tong.NSLDThucHien</th>
                             </tr>
-                            <tr>
-                                <td></td>
-                                <td>HSTT</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                            @foreach (var item in ViewBag.TongDetail)
+                            {
+                                <tr>
+                                    <td></td>
+                                    <td>@item.LoaiNhanVien</td>
+                                    <td>@item.LDTheoDS</td>
+                                    <td>@item.LDSX</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            }
                             <tr>
                                 <td colspan="2">Nghỉ VLD dài</td>
-                                <td>2</td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -378,7 +246,7 @@
                             </tr>
                             <tr>
                                 <td colspan="2">Nghỉ ốm dài + nghỉ tự túc + chờ THLD</td>
-                                <td>5</td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -392,7 +260,7 @@
                             </tr>
                             <tr>
                                 <th colspan="2">Tổng cộng</th>
-                                <th>98</th>
+                                <th>@ViewBag.Tong.LDTheoDS + Nghỉ dài(...)</th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -420,29 +288,6 @@
     </div>
 </div>
 <!--Modal-->
-<div id="modal1" class="modal modal-fixed-footer">
-    <div class="modal-content">
-        <table class="table table-bordered table-responsive centered highlight">
-            <thead>
-                <tr>
-                    <th>Họ và tên</th>
-                    <th>Số thẻ</th>
-                    <th>Nghỉ từ ngày</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Lâm Văn Đặng</td>
-                    <td>1923</td>
-                    <td>03/7</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Đóng</a>
-    </div>
-</div>
 <div id="modal6" class="modal modal-fixed-footer">
     <div class="modal-content">
         <table class="table table-bordered table-responsive centered highlight">
@@ -508,7 +353,38 @@
 <!-- ============================================================== -->
 <!-- Container fluid scss in scafholding.scss -->
 <!-- ============================================================== -->
-            </div>
+
+<div id="modal1" class="modal modal-fixed-footer">
+    <div class="modal-content">
+        <table class="table table-bordered table-responsive centered highlight">
+            <thead>
+                <tr>
+                    <th>Họ và tên</th>
+                    <th>Số thẻ</th>
+                    <th>Đơn vị</th>
+                    <th>Lý do</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (ViewBag.Ca1Vang.Count > 0)
+                {
+                    foreach (var item in ViewBag.Ca1Vang)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.MaNV</td>
+                            <td>@item.ChucVu</td>
+                            <td>@item.LyDo</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Đóng</a>
+    </div>
+</div>
 <div id="modal2" class="modal modal-fixed-footer">
     <div class="modal-content">
         <table class="table table-bordered table-responsive centered highlight">
@@ -518,24 +394,21 @@
                     <th>Số thẻ</th>
                     <th>Đơn vị</th>
                     <th>Lý do</th>
-                    <th>Nghỉ từ ngày</th>
                 </tr>
             </thead>
             <tbody>
+                @if (ViewBag.Ca2Vang.Count > 0)
+                {
+                    foreach (var item in ViewBag.Ca2Vang)
+                    {
                 <tr>
-                    <td>Lâm Văn Đặng</td>
-                    <td>1923</td>
-                    <td>CNKT</td>
-                    <td>Phép</td>
-                    <td>03/7</td>
+                    <td>@item.Name</td>
+                    <td>@item.MaNV</td>
+                    <td>@item.ChucVu</td>
+                    <td>@item.LyDo</td>
                 </tr>
-                <tr>
-                    <td>Nguyễn Văn Anh</td>
-                    <td>8192</td>
-                    <td>CNKT</td>
-                    <td>Phép</td>
-                    <td>31/5/18</td>
-                </tr>
+                    }
+                }
             </tbody>
         </table>
     </div>
@@ -552,31 +425,20 @@
                     <th>Số thẻ</th>
                     <th>Đơn vị</th>
                     <th>Lý do</th>
-                    <th>Nghỉ từ ngày</th>
                 </tr>
             </thead>
             <tbody>
+                @if (ViewBag.Ca3Vang.Count > 0) { 
+                foreach (var item in ViewBag.Ca3Vang)
+                {
                 <tr>
-                    <td>Trần Hữu Quang</td>
-                    <td>2487</td>
-                    <td>CNKT</td>
-                    <td>Ốm</td>
-                    <td>18/9/18</td>
+                    <td>@item.Name</td>
+                    <td>@item.MaNV</td>
+                    <td>@item.ChucVu</td>
+                    <td>@item.LyDo</td>
                 </tr>
-                <tr>
-                    <td>Nguyễn Đăng Quân</td>
-                    <td>1103</td>
-                    <td>CBQL</td>
-                    <td>H,VR,TS</td>
-                    <td>13/02/19</td>
-                </tr>
-                <tr>
-                    <td>Nguyễn Văn Thiện</td>
-                    <td>7062</td>
-                    <td>CBQL</td>
-                    <td>Phép</td>
-                    <td>10/7</td>
-                </tr>
+                }
+                }
             </tbody>
         </table>
     </div>
@@ -619,54 +481,6 @@
                     <td>31/5/18</td>
                 </tr>
                 <tr>
-                    <td>Nguyễn Đăng Quân</td>
-                    <td>1103</td>
-                    <td>CBQL</td>
-                    <td>H,VR,TS</td>
-                    <td>13/02/19</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Đóng</a>
-    </div>
-</div>
-<div id="modal5" class="modal modal-fixed-footer">
-    <div class="modal-content">
-        <table class="table table-bordered table-responsive centered highlight">
-            <thead>
-                <tr>
-                    <th>Họ và tên</th>
-                    <th>Số thẻ</th>
-                    <th>Đơn vị</th>
-                    <th>Lý do</th>
-                    <th>Nghỉ từ ngày</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Nguyễn Văn Thiện</td>
-                    <td>7062</td>
-                    <td>CBQL</td>
-                    <td>Phép</td>
-                    <td>10/7</td>
-                </tr>
-                <tr>
-                    <td>Vũ Quý Nghiêm</td>
-                    <td>5309</td>
-                    <td>CNKT</td>
-                    <td>Phép</td>
-                    <td>14/02/17</td>
-                </tr>
-                <tr>
-                    <td>Nguyễn Văn Anh</td>
-                    <td>8192</td>
-                    <td>CNKT</td>
-                    <td>Phép</td>
-                    <td>31/5/18</td>
-                </tr>
-                <tr>
                     <td>Trần Hữu Quang</td>
                     <td>2487</td>
                     <td>CNKT</td>
@@ -687,42 +501,15 @@
         <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Đóng</a>
     </div>
 </div>
-<ul id='dropdown_time' class='dropdown-content'>
-    <li><a class="dropdown-child-time" href="#!" name="day">Xem Theo Ngày</a></li>
-    <li><a class="dropdown-child-time" href="#!" name="month">Xem Theo Tháng</a></li>
-</ul>
 <ul id='dropdown_px' class='dropdown-content'>
-    <li><a class="dropdown-child-px" href="#!" name="All">Tất cả</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="DL3">Đào lò 3</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="DL5">Đào lò 5</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="DL7">Đào lò 7</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="DL8">Đào lò 8</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="KT1">Khai Thác 1</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="KT2">Khai Thác 2</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="KT3">Khai Thác 3</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="KT4">Khai Thác 4</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="KT5">Khai Thác 5</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="KT6">Khai Thác 6</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="KT7">Khai Thác 7</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="KT8">Khai Thác 8</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="KT9">Khai Thác 9</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="KT10">Khai Thác 10</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="KT11">Khai Thác 11</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="VTL1">Vận tải 1</a></li>
-    <li><a class="dropdown-child-px" href="#!" name="VTL2">Vận tải 2</a></li>
+    @foreach (var item in @ViewBag.TenToChuc)
+    {
+        <li><a class="dropdown-child-px" href="#!" name="@item.department_id">@item.department_name</a></li>
+    }
 </ul>
 
-<!--cac truong hop link-->
-<a id="loader-chi-tiet-vtl1-trong-ngay" data-request-url="@Url.Action("nang-suat-lao-dong-va-tien-luong-theo-ngay", "nang-suat-lao-dong-va-tien-luong", new {phanxuong = "vtl1"})" hidden></a>
-
-<a id="loader-cac-px-trong-ngay" data-request-url="@Url.Action("nang-suat-lao-dong-va-tien-luong-theo-cac-px-trong-ngay", "nang-suat-lao-dong-va-tien-luong", new { phanxuong = "tat-ca"})" hidden></a>
-
-<a id="loader-cac-ngay-trong-thang-vtl1" data-request-url="@Url.Action("nang-suat-lao-dong-va-tien-luong-theo-cac-ngay-trong-thang", "nang-suat-lao-dong-va-tien-luong", new { phanxuong = "vtl1"})" hidden></a>
-
-<a id="loader-cac-px-trong-thang" data-request-url="@Url.Action("nang-suat-lao-dong-va-tien-luong-theo-thang", "nang-suat-lao-dong-va-tien-luong", new { phanxuong = "tat-ca"})" hidden></a>
 
 <script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
-@*<script src="~/dist/js/pages/echarts/bar/bar.js"></script>*@
 <script src="~/js/tuan_js/myChart2.js"></script>
 <script>
     $('.clickable_cell').click(function () {
@@ -777,24 +564,26 @@
                 break;
         }
     });
+    function HienThiTheoCa(ca) {
+        var donvi = $(".dropdown-child-px").attr("name");
+        window.location = "/phong-tcld/bao-cao-chi-tiet-theo-ca?ca=" + ca + "&donvi=" + donvi + "&date=" + document.getElementById("minMaxDate").value;
+    }
     var elem = document.querySelector('.modal');
     var instance = M.Modal.init(elem, options);
 </script>
 
-<script src="~/assets/libs/chart.js/dist/Chart.min.js"></script>
-<script src="~/assets/extra-libs/prism/prism.js"></script>
-<!-- This page plugin js -->
-<!-- ============================================================== -->
-<script src="~/assets/extra-libs/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js"></script>
-<script src="~/assets/extra-libs/jquery.easy-pie-chart/easy-pie-chart.init.js"></script>
-<script src="~/assets/extra-libs/sparkline/sparkline.js"></script>
-<script src="~/dist/js/pages/sparkline/jquery.charts-sparkline.js"></script>
 
-<script src="~/js/Custom JS/button_watch_by.js"></script>
-
-<script src="~/js/exportToExcel/jquery.table2excel.js"></script>
 <script>
     $("#export-button").click(function () {
         window.location.href = '/excel/TCLD/Report/Báo cáo lao động, lương VTL1 ngày  15_08_2019.xls';
+    });
+</script>
+<script>
+    $('#minMaxDate').datepicker({
+        language: 'vi',
+        maxDate: new Date() // Now can select only dates, which goes after today
+    })
+    $(document).ready(function () {
+        $('.datepicker-inline').remove();
     });
 </script>

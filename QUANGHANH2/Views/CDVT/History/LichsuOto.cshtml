@@ -4,7 +4,6 @@
     Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
 }
 
-
 <link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
 <link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
@@ -13,331 +12,169 @@
 <link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
 <script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
 <script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
+<link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
+<script src="~/js/jquery.dataTables.min.js"></script>
+
+@*<style>
+        #equipmentId-edit {
+            width: 90% !important;
+        }
+
+        #check-button {
+        }
+
+        .linedisplay {
+            display: flex;
+        }
+    </style>*@
+
 <div class="card">
     <div class="card-content">
         <div class="container-fluid">
+            <div class="row m-b-40">
+                <div class="col s12">
+                    <ul class="tabs">
+                        <li class="col s6 tab"><a class="active" href="#hoatdong">Chi tiết hoạt động</a></li>
+                        <li class="col s6 tab"><a href="#nhienlieu">Chi tiết tiêu thụ nhiên liệu</a></li>
+                    </ul>
+                </div>
+            </div>
 
-            <div class="row table_container">
+            <div class="row table_container" id="hoatdong">
                 <div class="advanded-search">
                     <div class="row">
                         <div class="center">
                             <h3 class="center"><b>CẬP NHẬT HOẠT ĐỘNG</b></h3>
                         </div>
                         <hr>
-                        <div class="row center">
-                            <div class="col l4 m4 s12">
-                                <div class="row">
-                                    <div class="col l10 m10 s12 input-field">
-                                        <input type="text" placeholder="Tìm kiếm theo mã thiết bị" class='form-control' id=""
-                                               multiple />
+                        <form action="" method="post" role="form">
+                            <div class="row center">
+                                <div class="col l6 m6 s12">
+                                    <div class="row">
+                                        <div class="col l10 m10 s12 input-field">
+                                            <input type="text" placeholder="Tìm kiếm theo mã thiết bị" class='form-control' id="equipmentId-search" />
+                                        </div>
+                                        <div class="col l10 m10 s12 input-field">
+                                            <input type="text" placeholder="Tìm kiếm theo tên thiết bị" class='form-control' id="equipmentName-search" />
+                                        </div>
+                                        <div class="col l12 m12 s12 input-field">
+                                            <a class="waves-effect waves-light btn-small blue modal-trigger" href="#myaddActi">Thêm hoạt động</a>
+                                        </div>
                                     </div>
-                                    <div class="col l10 m10 s12 input-field">
-                                        <input type="text" placeholder="Tìm kiếm theo tên thiết bị" class='form-control' id="searchArea"
-                                               multiple />
+                                </div>
+                                <div class="col l6 m6 s12">
+                                    <div class="row">
+                                        <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
+                                            <input placeholder="Ngày nhập (từ)" type='text' class='datepicker-here form-control maxDate' data-language='vi' id="timeFrom-search" />
+                                        </div>
+                                        <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
+                                            <input placeholder="Ngày nhập (đến)" type='text' class='datepicker-here form-control minDate' data-language='vi' id="timeTo-search" />
+                                        </div>
+                                        <div class="col l12 m12 s12 input-field">
+                                            <a class="waves-effect waves-light btn blue darken-2 modal-close modal-trigger" id="searchButtonActi">Tìm kiếm hoạt động</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col l4 m4 s12">
-                                <div class="row">
-                                    <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
-                                        <i class="fas fa-calendar-alt icon"></i>
-                                        <input type='text' class='datepicker-here center' id="minMaxDate" data-language='vi' value="Ngày hoạt động (từ)" style="height: 24px" />
-                                    </div>
-                                    <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
-                                        <i class="fas fa-calendar-alt icon"></i>
-                                        <input type='text' class='datepicker-here center' id="minMaxDate" data-language='vi' value="Ngày hoạt động (đến)" style="height: 24px" />
-                                    </div>
-                                    <div class="col l12 m12 s12 input-field">
-                                        <button class="btn blue darken-2 btn-small" id="searchButton1">Tìm kiếm</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col l4 m4 s12">
-                                <div class="row">
-                                    <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
-                                        <input type="text" placeholder="Tìm kiếm theo phân xưởng" class='form-control' id="searchArea"
-                                               multiple />
-                                    </div>
-                                    <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
-                                        <select class="form-control" id="gender">
-                                            <option value="" disabled selected>Chọn trạng thái</option>
-                                            <option value="1">Cấp mới</option>
-                                            <option value="2">Điều động</option>
-                                            <option value="3">Sửa chữa</option>
-                                            <option value="4">Thu hồi</option>
+                            <div class="row center">
 
-                                        </select>
-                                    </div>
-                                </div>
                             </div>
-                        </div>
-                        <div class="col l12 m12 s6">
-                            <button class="btn blue darken-2 btn-small" id="searchButton2">Tìm kiếm</button>
-                        </div>
+                        </form>
+
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col s6 left">
-                        <a class="waves-effect waves-light btn-small blue modal-trigger" href="#myadd">Thêm</a>
-                    </div>
-                    <div class="col s6">
-                        <a id="type" class='dropdown-trigger btn right' href='#' data-target='dropdown1' style="width:250px;background-color:#273146;margin-bottom:20px">Xem Theo Ngày</a>
-                    </div>
-                </div>
+
+
                 <div class="col s12">
-                    <table class="table table-bordered striped table-responsive centered"
-                           style="margin-top:30px; text-align:center;">
+                    <table id="acti-table" class="table table-bordered striped table-responsive centered"
+                           style="margin-top:30px; text-align:center;width : 100%">
                         <thead>
                             <tr>
                                 <th rowspan="2" colspan="1">Ngày</th>
                                 <th colspan="2">Thông tin thiết bị</th>
                                 <th rowspan="1" colspan="3">Hoạt động </th>
-                                <th rowspan="1" colspan="3">Tiêu thụ nhiên liệu </th>
-                                <th rowspan="2" colspan="1">Tình trạng</th>
-                                <th rowspan="2" colspan="1">Vật tư tiêu hao</th>
                                 <th rowspan="2" colspan="2"></th>
                             </tr>
                             <tr>
-                                <th>Biển kiểm soát</th>
+                                <th>Mã thiết bị</th>
                                 <th>Tên thiết bị</th>
                                 <th>Công việc trong ngày</th>
                                 <th>Số giờ hoạt động trong ngày</th>
                                 <th>Sản lượng(Tấn, Khối ,...)</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+
+            </div>
+
+            <div class="row table_container" id="nhienlieu">
+                <div class="advanded-search">
+                    <div class="row">
+                        <div class="center">
+                            <h3 class="center"><b>CẬP NHẬT HOẠT ĐỘNG</b></h3>
+                        </div>
+                        <hr>
+                        <form action="" method="post" role="form">
+                            <div class="row center">
+                                <div class="col l6 m6 s12">
+                                    <div class="row">
+                                        <div class="col l10 m10 s12 input-field">
+                                            <input type="text" placeholder="Tìm kiếm theo mã thiết bị" class='form-control' id="equipmentIdfuel-search" />
+                                        </div>
+                                        <div class="col l10 m10 s12 input-field">
+                                            <input type="text" placeholder="Tìm kiếm theo tên thiết bị" class='form-control' id="equipmentNamefuel-search" />
+                                        </div>
+                                        <div class="col l12 m12 s12 input-field">
+                                            <a class="waves-effect waves-light btn-small blue modal-trigger" href="#myaddFuel">Thêm tiêu thụ nhiên liệu</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col l6 m6 s12">
+                                    <div class="row">
+                                        <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
+                                            <input placeholder="Ngày nhập (từ)" type='text' class='datepicker-here form-control maxDate' data-language='vi' id="timeFromfuel-search" />
+                                        </div>
+                                        <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
+                                            <input placeholder="Ngày nhập (đến)" type='text' class='datepicker-here form-control minDate' data-language='vi' id="timeTofuel-search" />
+                                        </div>
+                                        <div class="col l12 m12 s12 input-field">
+                                            <a class="waves-effect waves-light btn blue darken-2 modal-close modal-trigger" id="searchButtonFuel">Tìm kiếm nhiên liệu</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+                <div class="col s12">
+                    <table id="fuel-table" class="table table-bordered striped table-responsive centered"
+                           style="margin-top:30px; text-align:center;width : 100%">
+                        <thead>
+                            <tr>
+                                <th rowspan="2" colspan="1">Ngày</th>
+                                <th colspan="2">Thông tin thiết bị</th>
+                                <th rowspan="1" colspan="3">Tiêu thụ nhiên liệu </th>
+                                <th rowspan="2" colspan="2"></th>
+                            </tr>
+                            <tr>
+                                <th>Mã thiết bị</th>
+                                <th>Tên thiết bị</th>
                                 <th>Loại nhiên liệu</th>
                                 <th>Lượng tiêu thụ</th>
                                 <th>Đơn vị</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>6/8/2019</td>
-                                <td>14A-00000</td>
-                                <td>Máy xúc</td>
-                                <td>Xúc đá</td>
-                                <td>10</td>
-                                <td>50</td>
-                                <td>Điện năng</td>
-                                <td>1000</td>
-                                <td>kWh</td>
-                                <td>Cấp mơi</td>
-                                <td><a href="#vattu" class="btn blue waves-effect modal-trigger">Danh&nbsp;sách&nbsp;vật&nbsp;tư</a></td>
-                                
-                                <td style="text-align: center"><a href="#myeditsuco" class="waves-effect waves-light btn blue darken-1 modal-trigger">Chỉnh&nbspsửa</a></td>
-                            </tr>
-                            <tr>
-                                <td>6/8/2019</td>
-                                <td>14A-11111</td>
-                                <td>Máy xúc</td>
-                                <td>Xúc đá</td>
-                                <td>11</td>
-                                <td>50</td>
-                                <td>Điện năng</td>
-                                <td>1250</td>
-                                <td>kWh</td>
-                                <td>Cấp mơi</td>
-                                <td><a href="#vattu" class="btn blue waves-effect modal-trigger">Danh&nbsp;sách&nbsp;vật&nbsp;tư</a></td>
-                                
-                                <td style="text-align: center"><a href="#myeditsuco" class="waves-effect waves-light btn blue darken-1 modal-trigger">Chỉnh&nbspsửa</a></td>
-                            </tr>
-                            <tr>
-                                <td>6/8/2019</td>
-                                <td>14A-22222</td>
-                                <td>Máy xúc</td>
-                                <td>Xúc than</td>
-                                <td>12</td>
-                                <td>50</td>
-                                <td>Điện năng</td>
-                                <td>1430</td>
-                                <td>kWh</td>
-                                <td>Cấp mơi</td>
-                                <td><a href="#vattu" class="btn blue waves-effect modal-trigger">Danh&nbsp;sách&nbsp;vật&nbsp;tư</a></td>
-
-
-                                
-                                <td style="text-align: center"><a href="#myeditsuco" class="waves-effect waves-light btn blue darken-1 modal-trigger">Chỉnh&nbspsửa</a></td>
-
-                            </tr>
-                            <tr>
-                                <td>7/8/2019</td>
-                                <td>14A-00000</td>
-                                <td>Máy xúc</td>
-                                <td>Xúc đá</td>
-                                <td>10</td>
-                                <td>50</td>
-                                <td>Điện năng</td>
-                                <td>1000</td>
-                                <td>kWh</td>
-                                <td>Điều động</td>
-                                <td><a href="#vattu" class="btn blue waves-effect modal-trigger">Danh&nbsp;sách&nbsp;vật&nbsp;tư</a></td>
-
-
-                                
-                                <td style="text-align: center"><a href="#myeditsuco" class="waves-effect waves-light btn blue darken-1 modal-trigger">Chỉnh&nbspsửa</a></td>
-
-                            </tr>
-                            <tr>
-                                <td>7/8/2019</td>
-                                <td>14A-11111</td>
-                                <td>Máy xúc</td>
-                                <td>Xúc đá</td>
-                                <td>11</td>
-                                <td>50</td>
-                                <td>Điện năng</td>
-                                <td>1250</td>
-                                <td>kWh</td>
-                                <td>Điều động</td>
-                                <td><a href="#vattu" class="btn blue waves-effect modal-trigger">Danh&nbsp;sách&nbsp;vật&nbsp;tư</a></td>
-
-
-                                
-                                <td style="text-align: center"><a href="#myeditsuco" class="waves-effect waves-light btn blue darken-1 modal-trigger">Chỉnh&nbspsửa</a></td>
-
-                            </tr>
-                            <tr>
-                                <td>7/8/2019</td>
-                                <td>14A-22222</td>
-                                <td>Máy xúc</td>
-                                <td>Xúc than</td>
-                                <td>12</td>
-                                <td>50</td>
-                                <td>Điện năng</td>
-                                <td>1430</td>
-                                <td>kWh</td>
-                                <td>Điều động</td>
-                                <td><a href="#vattu" class="btn blue waves-effect modal-trigger">Danh&nbsp;sách&nbsp;vật&nbsp;tư</a></td>
-
-
-                                
-                                <td style="text-align: center"><a href="#myeditsuco" class="waves-effect waves-light btn blue darken-1 modal-trigger">Chỉnh&nbspsửa</a></td>
-
-                            </tr>
-                            <tr>
-                                <td>7/8/2019</td>
-                                <td>14A-33333</td>
-                                <td>Máy xúc</td>
-                                <td>Xúc đá</td>
-                                <td>10</td>
-                                <td>50</td>
-                                <td>Điện năng</td>
-                                <td>1000</td>
-                                <td>kWh</td>
-                                <td>Thu hồi</td>
-                                <td><a href="#vattu" class="btn blue waves-effect modal-trigger">Danh&nbsp;sách&nbsp;vật&nbsp;tư</a></td>
-
-
-                                
-                                <td style="text-align: center"><a href="#myeditsuco" class="waves-effect waves-light btn blue darken-1 modal-trigger">Chỉnh&nbspsửa</a></td>
-
-                            </tr>
-                            <tr>
-                                <td>7/8/2019</td>
-                                <td>14A-44444</td>
-                                <td>Máy xúc</td>
-                                <td>Xúc đá</td>
-                                <td>11</td>
-                                <td>50</td>
-                                <td>Điện năng</td>
-                                <td>1250</td>
-                                <td>kWh</td>
-                                <td>Thu hồi</td>
-                                <td><a href="#vattu" class="btn blue waves-effect modal-trigger">Danh&nbsp;sách&nbsp;vật&nbsp;tư</a></td>
-
-
-                                
-                                <td style="text-align: center"><a href="#myeditsuco" class="waves-effect waves-light btn blue darken-1 modal-trigger">Chỉnh&nbspsửa</a></td>
-
-                            </tr>
-                            <tr>
-                                <td>8/8/2019</td>
-                                <td>14A-00000</td>
-                                <td>Máy xúc</td>
-                                <td>Xúc than</td>
-                                <td>12</td>
-                                <td>50</td>
-                                <td>Điện năng</td>
-                                <td>1430</td>
-                                <td>kWh</td>
-                                <td>Sửa chữa</td>
-                                <td><a href="#vattu" class="btn blue waves-effect modal-trigger">Danh&nbsp;sách&nbsp;vật&nbsp;tư</a></td>
-
-
-                                
-                                <td style="text-align: center"><a href="#myeditsuco" class="waves-effect waves-light btn blue darken-1 modal-trigger">Chỉnh&nbspsửa</a></td>
-
-                            </tr>
-                            <tr>
-                                <td>8/8/2019</td>
-                                <td>14A-11111</td>
-                                <td>Máy xúc</td>
-                                <td>Xúc than</td>
-                                <td>10</td>
-                                <td>50</td>
-                                <td>Điện năng</td>
-                                <td>1000</td>
-                                <td>kWh</td>
-                                <td>Sửa chữa</td>
-                                <td><a href="#vattu" class="btn blue waves-effect modal-trigger">Danh&nbsp;sách&nbsp;vật&nbsp;tư</a></td>
-
-
-                                
-                                <td style="text-align: center"><a href="#myeditsuco" class="waves-effect waves-light btn blue darken-1 modal-trigger">Chỉnh&nbspsửa</a></td>
-
-                            </tr>
-                            <tr>
-                                <td>8/8/2019</td>
-                                <td>14A-22222</td>
-                                <td>Máy xúc</td>
-                                <td>Xúc đá</td>
-                                <td>11</td>
-                                <td>50</td>
-                                <td>Điện năng</td>
-                                <td>1250</td>
-                                <td>kWh</td>
-                                <td>Sửa chữa</td>
-                                <td><a href="#vattu" class="btn blue waves-effect modal-trigger">Danh&nbsp;sách&nbsp;vật&nbsp;tư</a></td>
-
-
-                                
-                                <td style="text-align: center"><a href="#myeditsuco" class="waves-effect waves-light btn blue darken-1 modal-trigger">Chỉnh&nbspsửa</a></td>
-
-                            </tr>
-                            <tr>
-                                <td>8/8/2019</td>
-                                <td>14A-33333</td>
-                                <td>Máy xúc</td>
-                                <td>Xúc than</td>
-                                <td>12</td>
-                                <td>50</td>
-                                <td>Điện năng</td>
-                                <td>1430</td>
-                                <td>kWh</td>
-                                <td>Sửa chữa</td>
-                                <td><a href="#vattu" class="btn blue waves-effect modal-trigger">Danh&nbsp;sách&nbsp;vật&nbsp;tư</a></td>
-
-
-                                
-                                <td style="text-align: center"><a href="#myeditsuco" class="waves-effect waves-light btn blue darken-1 modal-trigger">Chỉnh&nbspsửa</a></td>
-
-                            </tr>
-                        </tbody>
                     </table>
                 </div>
 
             </div>
-            <div class="center">
-                <ul class="pagination">
-                    <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-                    <li class="active"><a href="#!">1</a></li>
-                    <li class="waves-effect"><a href="#!">2</a></li>
-                    <li class="waves-effect"><a href="#!">3</a></li>
-                    <li class="waves-effect"><a href="#!">4</a></li>
-                    <li class="waves-effect"><a href="#!">5</a></li>
-                    <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-                </ul>
-            </div>
         </div>
     </div>
 </div>
+
 <div id="vattu" class="modal">
     <div class="modal-header center card">
         <h3><b>Danh sách vật tư tiêu hao hằng ngày</b></h3>
@@ -372,6 +209,7 @@
         <a class="btn modal-close blue darken-2">Đóng</a>
     </div>
 </div>
+
 <div class="modal" id="myeditsuco">
     <div class="modal-content">
         <div class="modal-header">
@@ -430,7 +268,129 @@
     </div>
 </div>
 
-<div class="modal fade" id="mysuco">
+
+<form action="" method="POST" id="myeditform" role="form">
+    <div class="modal fade" id="myacti">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Sửa hoạt động </h3>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="date">Mã thiết bị : </label>
+                            <div class="linedisplay">
+                                <input type="text" class="form-control" id="equipmentId-edit" list="eqID"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Ngày : </label>
+                            <input type='text' class='datepicker-here form-control' data-language='vi' id="date-edit" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Tên thiết bị  : </label>
+                            <input type="text" class="form-control" id="equipmentname-edit" readonly />
+                            <input type="hidden" class="form-control" id="activityid-edit" />
+                        </div>
+                    </div>
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="date">Công việc trong ngày  : </label>
+                            <input type="text" class="form-control" id="activityname-edit" />
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier">Số giờ hoạt động trong ngày  :</label>
+                            <input type="text" class="form-control" id="hours_per_day-edit" />
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier">Sản lượng  :</label>
+                            <input type="text" class="form-control" id="quantity-edit" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn blue darken-2 modal-close save-category " data-target="#updateBrief">Lưu</button>
+                <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-edit-button">Thoát</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="modal open" id="updateBrief">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Xác nhận cập nhật thông tin</h3>
+        </div>
+        <div class="modal-body">
+            <p class="green-text">Bạn có muốn lưu phần đã sửa?</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn blue darken-2 modal-close" type="submit">Lưu</button>
+            <button class="btn red modal-close">Hủy</button>
+        </div>
+    </div>
+</div>
+
+<form action="" method="POST" id="myFuelEdit" role="form">
+    <div class="modal fade" id="myfuel">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Sửa Nhiên Liệu Tiêu Thụ</h3>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="date">Biển kiểm soát : </label>
+                            <input type="text" class="form-control" id="equipmentIdfuel-edit" list="eqID" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Ngày : </label>
+                            <input type='text' class='datepicker-here form-control' data-language='vi' id="datefuel-edit" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Tên thiết bị  : </label>
+                            <input type="text" class="form-control" id="equipmentnamefuel-edit" readonly />
+
+                        </div>
+                    </div>
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="date">Mã nhiên liệu  : </label>
+                            <input type="text" class="form-control" id="fuel-edit" list="supplyID"/>
+                            @*save fuelID*@
+                            <input type="hidden" class="form-control" id="fuelID-edit" />
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier">Loại nhiên liệu  :</label>
+                            <input type="text" class="form-control" id="supply_name-edit" readonly />
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier">Lượng tiêu thụ   :</label>
+                            <input type="text" class="form-control" id="consumption_value-edit" />
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier">Đơn vị  :</label>
+                            <input type="text" class="form-control" id="unitfuel-edit" readonly />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn blue darken-2 modal-close save-category ">Lưu</button>
+                <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-nhienlieu-button">Thoát</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="modal fade" id="themsuco">
     <div class="modal-content">
         <div class="modal-header">
             <h3 class="modal-title">Thêm sự cố</h3>
@@ -471,10 +431,11 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="myadd">
+
+<div class="modal fade" id="myaddFuel">
     <div class="modal-content">
         <div class="modal-header">
-            <h3 class="modal-title">Thêm hoạt động</h3>
+            <h3 class="modal-title">Thêm nhiên liệu tiêu thụ</h3>
         </div>
         <div class="modal-body">
             <form>
@@ -482,66 +443,87 @@
                     <div class="col s12 m6">
                         <div class="form-group">
                             <label for="date">Tên thiết bị : </label>
-                            <input type="text" class="form-control" value="Xe tải" disabled />
+                            <input type="text" class="form-control" id="equipmentnamefuel-add" readonly />
                         </div>
                         <div class="form-group">
                             <label for="name">Ngày hoạt động : </label>
-                            <input type="date" class="form-control" />
+                            <input type="date" class="form-control" id="datefuel-add" />
                         </div>
                         <div class="form-group">
-                            <label for="name">Số giờ hoạt động : </label>
-                            <input type="text" class="form-control" />
+                            <label for="number">Mã nhiên liệu: </label>
+                            <input type="text" class="form-control" id="fuelId-add" list="supplyID" />
                         </div>
                         <div class="form-group">
-                            <label for="supplier">Lượng nhiên liệu tiêu thụ: </label>
-                            <input type="number" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label for="supplier">Vị trí: </label>
-                            <input type="text" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label for="supplier">Tình trạng: </label>
-                            <input type="text" class="form-control" />
+                            <label for="number">Tên nhiên liệu: </label>
+                            <input type="text" class="form-control" id="fuelname-add" readonly />
                         </div>
                     </div>
                     <div class="col s12 m6">
                         <div class="form-group">
                             <label for="date">Biểm kiểm soát : </label>
-                            <input type="text" class="form-control" value="14V5-30201" disabled />
+                            <input type="text" class="form-control" id="equipmentidfuel-add" list="eqID" />
                         </div>
                         <div class="form-group">
-                            <label for="supplier">Công việc :</label>
-                            <input type="text" class="form-control" />
+                            <label for="supplier">Lượng nhiên liệu tiêu thụ: </label>
+                            <input type="number" class="form-control" id="consumption_value-add" />
                         </div>
                         <div class="form-group">
-                            <label for="name">Sản lượng : </label>
-                            <input type="text" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label for="number">Loại nhiên liệu: </label>
-                            <select class="form-control">
-                                <option>Điện năng</option>
-                                <option>Xăng</option>
-                                <option>Dầu</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="supplier">Phân xưởng sử dụng: </label>
-                            <input type="text" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label for="supplier">Ghi chú: </label>
-                            <input type="text" class="form-control" />
+                            <label for="supplier">Đơn vị: </label>
+                            <input type="Text" class="form-control" id="unit-add" readonly />
                         </div>
                     </div>
                 </div>
             </form>
         </div>
         <div class="modal-footer">
-            <button type="submit" class="btn blue darken-2 modal-close save-category">Lưu</button>
-            <a href="#myvattu" class="btn blue darken-2 modal-close save-category modal-trigger">Thêm vật tư tiêu hao</a>
+            <button type="submit" class="btn blue darken-2 modal-close save-category" onclick="addFuel()">Lưu</button>
             <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myaddActi">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Thêm hoạt động</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col s12 m6">
+                    <div class="form-group">
+                        <label for="date">Tên thiết bị : </label>
+                        <input type="text" class="form-control" id="equipmentname" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Ngày hoạt động : </label>
+                        <input type="date" class="form-control" id="date-add" />
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Số giờ hoạt động : </label>
+                        <input type="text" class="form-control" id="hours_per_day-add" />
+                    </div>
+                </div>
+                <div class="col s12 m6">
+                    <div class="form-group">
+                        <label for="date">Biểm kiểm soát : </label>
+                        <input type="text" class="form-control" id="equipmentId-add" list="eqID" />
+                        @*<button type="button" class="btn light-blue lighten-1" onclick="getEquipmentname()">OK</button>*@
+                    </div>
+                    <div class="form-group">
+                        <label for="supplier">Công việc :</label>
+                        <input type="text" class="form-control" id="activity_name-add" />
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Sản lượng : </label>
+                        <input type="text" class="form-control" id="quantity" />
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn blue darken-2 modal-close save-category" onclick="add()">Lưu</button>
+            <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-add-button">Thoát</button>
         </div>
     </div>
 </div>
@@ -574,6 +556,7 @@
         <a class="btn modal-close blue darken-2">Đóng</a>
     </div>
 </div>
+
 <div class="modal fade" id="myedit">
     <div class="modal-content">
         <div class="modal-header">
@@ -631,6 +614,7 @@
         </div>
     </div>
 </div>
+
 <div id="myaleart" class="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -646,12 +630,27 @@
     </div>
 </div>
 
+<datalist id="eqID">
+    @foreach (var item in ViewBag.listEQ)
+    {
+        <option value="@item.equipmentId">@item.equipment_name</option>
+    }
+</datalist>
+
+<datalist id="supplyID">
+    @foreach (var item in ViewBag.listSupply)
+    {
+        <option value="@item.supply_id">@item.supply_name</option>
+    }
+</datalist>
+
 <ul id='dropdown1' class='dropdown-content'>
     <li><a id="day" href="#">Xem Theo Ngày</a></li>
     <li><a id="month" href="#">Xem Theo Tháng</a></li>
     <li><a id="quarter" href="#">Xem Theo Quý</a></li>
     <li><a id="year" href="#">Xem Theo Năm</a></li>
 </ul>
+
 <script>
     $(window).resize(function () {
         if ($(window).width() <= 600) {
@@ -664,7 +663,601 @@
     });
 </script>
 
-
 <link href="~/css/transfer_mobilize_history_timeline.css" rel="stylesheet" />
 <script src="~/js/Briefs_List.js"></script>
 
+<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js" rel="stylesheet" />
+
+<script>
+    $('#myacti').keydown(function (e) {
+        if (e.keyCode === 13)
+            e.preventDefault();
+    });
+    $("#equipmentId-edit").keydown(function (e) {
+        if (e.keyCode === 13)
+            getEquipmentname1();
+    })
+    $('#myaddActi').keydown(function (e) {
+        if (e.keyCode === 13)
+            e.preventDefault();
+    });
+    $("#equipmentId-add").keydown(function (e) {
+        if (e.keyCode === 13)
+            getEquipmentname();
+    })
+    $('#myfuel').keydown(function (e) {
+        if (e.keyCode === 13)
+            e.preventDefault();
+    });
+    $("#fuel-edit").keydown(function (e) {
+        if (e.keyCode === 13)
+            getsupplynameinedit();
+    })
+    $("#equipmentIdfuel-edit").keydown(function (e) {
+        if (e.keyCode === 13)
+            getEquipmentnameOnEditFuel();
+    })
+    $('#myaddFuel').keydown(function (e) {
+        if (e.keyCode === 13)
+            e.preventDefault();
+    });
+    $("#fuelId-add").keydown(function (e) {
+        if (e.keyCode === 13)
+            getsupplyname();
+    })
+    $("#equipmentidfuel-add").keydown(function (e) {
+        if (e.keyCode === 13)
+            getEquipmentnameOnAddFuel();
+
+    })
+
+</script>
+
+<script>
+    $(document).on('keypress', function (e) {
+        if (e.which == 13) {
+            dataActiTable.destroy();
+            searchActi();
+        }
+    });
+    $(document).on('keypress', function (e) {
+        if (e.which == 13) {
+            dataFuelTable.destroy();
+            searchFuel();
+        }
+    });
+</script>
+
+<script>
+    //function for date.
+    $('.maxDate').datepicker({
+        language: 'vi',
+        maxDate: new Date(),
+        minDate: new Date("1/1/1900")
+    })
+    $('.minDate').datepicker({
+        language: 'vi',
+        maxDate: new Date() // Now can select only dates, which goes after today
+    })
+    $(document).ready(function () {
+        $('.datepicker-inline').remove();
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        var today = dd + '/' + mm + '/' + yyyy;
+        $(".minDate").each(function () {
+            $(this).val(today);
+        });
+        today = new Date("1/1/1900");
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        var today = dd + '/' + mm + '/' + yyyy;
+        $(".maxDate").val(today)
+    });
+</script>
+
+@section scripts{
+    <script src="//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        var Popup, dataActiTable, dataFuelTable;
+
+        //get first data acti and fuel
+        $(document).ready(function () {
+            //get data
+            searchActi();
+            searchFuel();
+        });
+
+        //edit acti
+        $(document).on("click", ".open-EditModal", function () {
+            var activity = $(this).data('activity');
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/oto/cap-nhat-hoat-dong/getdata",
+                dataType: "json",
+                success: function (data) {
+                    $("#date-edit").val(data.stringDate);
+                    $('#equipmentId-edit').val(data.equipmentid);
+                    $('#equipmentname-edit').val(data.equipment_name);
+                    $('#activityname-edit').val(data.activityname);
+                    $('#hours_per_day-edit').val(data.hours_per_day);
+                    $('#quantity-edit').val(data.quantity);
+                    $('#activityid-edit').val(data.activityid);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $.notify("Lỗi load data", {
+                        globalPosition: "top center",
+                        className: "error"
+                    });
+                },
+                data: {
+                    activityid: Number(activity)
+                },
+
+                cache: false
+            })
+        });
+        $("#myeditform").submit(function (e) {
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/oto/cap-nhat-hoat-dong/edit",
+                dataType: "text",
+                success: function () {
+                    $.notify("Chỉnh sửa thành công", {
+                        globalPosition: "top center",
+                        className: "success"
+                    })
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $.notify(XMLHttpRequest.responseText, {
+                        globalPosition: "top center",
+                        className: "error"
+                    });
+                },
+                data: {
+                    date1: $("#date-edit").val(),
+                    equipmentId: $('#equipmentId-edit').val(),
+                    activity_name: $('#activityname-edit').val(),
+                    hours_per_day: $('#hours_per_day-edit').val(),
+                    quantity: $('#quantity-edit').val(),
+                    activityid: Number($('#activityid-edit').val())
+                },
+                cache: false
+            }).done(function () {
+                $('#exit-edit-button').click();
+                dataActiTable.ajax.reload();
+            })
+            return false;
+        });
+
+        function add() {
+            var data = {
+                date1: document.getElementById("date-add").value,
+                equipmentId: document.getElementById("equipmentId-add").value,
+                activity_name: document.getElementById("activity_name-add").value,
+                hours_per_day: document.getElementById("hours_per_day-add").value,
+                quantity: document.getElementById("quantity").value
+            };
+            $.ajax({
+                url: "/phong-cdvt/oto/cap-nhat-hoat-dong/addactivity",
+                type: "POST",
+                data: JSON.stringify(data),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function () {
+                    //alert("oke");
+                    dataActiTable.ajax.reload();
+                    $.notify("Tạo thành công", {
+                        globalPosition: "top center",
+                        className: "success"
+                    })
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //alert("fail");
+                    $.notify("Có lỗi xảy ra, vui lòng thử lại", {
+                        globalPosition: "top center",
+                        className: "error"
+                    })
+                }
+            });
+        }
+
+        //get equipment name in add fuel
+        function getEquipmentnameOnAddFuel() {
+            var id = document.getElementById("equipmentidfuel-add").value;
+            var em = { id: id };
+            $.ajax({
+                url: "/phong-cdvt/oto/cap-nhat-hoat-dong/returnEquipmentName",
+                type: "POST",
+                data: JSON.stringify(em),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    document.getElementById("equipmentnamefuel-add").value = data;
+                },
+                error: function () {
+                    $.notify("Có lỗi xảy ra , vui lòng thử lại", {
+                        globalPosition: "top center",
+                        className: "error"
+                    })
+                    //alert("fail");
+                }
+            });
+        }
+        //get equipment name in edit fuel
+        function getEquipmentnameOnEditFuel() {
+            var id = document.getElementById("equipmentIdfuel-edit").value;
+            var em = { id: id };
+            $.ajax({
+                url: "/phong-cdvt/oto/cap-nhat-hoat-dong/returnEquipmentName",
+                type: "POST",
+                data: JSON.stringify(em),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    document.getElementById("equipmentnamefuel-edit").value = data;
+                },
+                error: function () {
+                    //alert("fail");
+                }
+            });
+        }
+        //get equipment name in add activity
+        function getEquipmentname() {
+            var id = document.getElementById("equipmentId-add").value;
+            var em = { id: id };
+            $.ajax({
+                url: "/phong-cdvt/oto/cap-nhat-hoat-dong/returnEquipmentName",
+                type: "POST",
+                data: JSON.stringify(em),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    document.getElementById("equipmentname").value = data;
+                },
+                error: function () {
+                    //alert("fail");
+                }
+            });
+        }
+        //get supply name and unit in edit fuel
+        function getsupplynameinedit() {
+            var id = document.getElementById("fuel-edit").value;
+            var tmp = {
+                fuel_type: id
+            };
+            $.ajax({
+                url: "/phong-cdvt/oto/cap-nhat-hoat-dong/returnsupplyName",
+                type: "POST",
+                data: JSON.stringify(tmp),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    document.getElementById("supply_name-edit").value = data.split("^")[0];
+                    document.getElementById("unitfuel-edit").value = data.split("^")[1];
+                },
+                error: function () {
+                    //alert("fail");
+                }
+            });
+        }
+
+        //get equipment name in edit activity
+        function getEquipmentname1() {
+            var id = document.getElementById("equipmentidfuel-add").value;
+            var em = { id: id };
+            $.ajax({
+                url: "/phong-cdvt/oto/cap-nhat-hoat-dong/returnEquipmentName",
+                type: "POST",
+                data: JSON.stringify(em),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    document.getElementById("equipmentname-edit").value = data;
+                },
+                error: function () {
+                    //alert("fail");
+                }
+            });
+        }
+
+        //get supply name and unit in add fuel
+        function getsupplyname() {
+            var id = document.getElementById("fuelId-add").value;
+            var tmp = {
+                fuel_type: id
+            };
+            $.ajax({
+                url: "/phong-cdvt/oto/cap-nhat-hoat-dong/returnsupplyName",
+                type: "POST",
+                data: JSON.stringify(tmp),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    document.getElementById("fuelname-add").value = data.split("^")[0];
+                    document.getElementById("unit-add").value = data.split("^")[1];
+                },
+                error: function () {
+                    //alert("fail");
+                }
+            });
+        }
+
+        //edit fuel
+        $(document).on("click", ".open-fuelEdit", function () {
+            var fuel = $(this).data('fuel');
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/oto/cap-nhat-hoat-dong/getFuel",
+                dataType: "json",
+                success: function (data) {
+                    $('#equipmentIdfuel-edit').val(data.equipmentId);
+                    $("#datefuel-edit").val(data.stringDate);
+                    $('#equipmentnamefuel-edit').val(data.equipment_name);
+                    $('#fuel-edit').val(data.fuel_type);
+                    $('#supply_name-edit').val(data.supply_name);
+                    $('#consumption_value-edit').val(data.consumption_value);
+                    $('#unitfuel-edit').val(data.unit);
+                    $('#fuelID-edit').val(data.fuelid);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $.notify(XMLHttpRequest.responseText, {
+                        globalPosition: "top center",
+                        className: "error"
+                    });
+                },
+                data: {
+                    fuelid: Number(fuel)
+                },
+
+                cache: false
+            })
+        });
+
+        $("#myFuelEdit").submit(function (e) {
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/oto/cap-nhat-hoat-dong/edit-fuel",
+                dataType: "text",
+                success: function () {
+                    $.notify("Chỉnh sửa thành công", {
+                        globalPosition: "top center",
+                        className: "success"
+                    })
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $.notify("Có lỗi xảy ra, vui lòng thử lại", {
+                        globalPosition: "top center",
+                        className: "error"
+                    });
+                },
+                data: {
+                    equipmentId: $('#equipmentIdfuel-edit').val(),
+                    date1: $("#datefuel-edit").val(),
+                    fuel_type: $('#fuel-edit').val(),
+                    consumption_value: $('#consumption_value-edit').val(),
+                    fuelid: Number($('#fuelID-edit').val())
+                },
+                cache: false
+            }).done(function () {
+                $('#exit-nhienlieu-button').click();
+                dataFuelTable.ajax.reload();
+            })
+            return false;
+        });
+
+        //add fuel
+        function addFuel() {
+            var data = {
+                consumption_value: document.getElementById("consumption_value-add").value,
+                fuel_type: document.getElementById("fuelId-add").value,
+                date1: document.getElementById("datefuel-add").value,
+                equipmentId: document.getElementById("equipmentidfuel-add").value
+            };
+            $.ajax({
+
+                url: "/phong-cdvt/oto/cap-nhat-hoat-dong/addfuel",
+                type: "POST",
+                data: JSON.stringify(data),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function () {
+                    //alert("oke");
+                    dataFuelTable.ajax.reload();
+                    $.notify("Tạo thành công", {
+                        globalPosition: "top center",
+                        className: "success"
+                    })
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $.notify("Có lỗi xảy ra, vui lòng thử lại", {
+                        globalPosition: "top center",
+                        className: "error"
+                    });
+                    //alert("fail");
+                }
+
+            });
+        }
+
+        //ajax CRUD acti
+        $(document).ready(function () {
+            //ajax search
+            $("#searchButtonActi").click(function () {
+                dataActiTable.ajax.reload(function () {
+                    $.notify("Tìm kiếm thành công", {
+                        globalPosition: "top center",
+                        className: "success"
+                    })
+                });
+            });
+        });
+
+        //ajax CRUD fuel
+        $(document).ready(function () {
+            //ajax search
+            $("#searchButtonFuel").click(function () {
+                dataFuelTable.ajax.reload(function () {
+                    $.notify("Tìm kiếm thành công", {
+                        globalPosition: "top center",
+                        className: "success"
+                    })
+                });
+            });
+        });
+
+        function searchActi() {
+
+            //get data
+            dataActiTable = $('#acti-table').on('preXhr.dt', function (e, settings, data) {
+                $("#pre-load").show("slow", function () {
+                });
+                $("#pre-load").css("z-index", "99999");
+            }).DataTable({
+                "language": {
+                    "emptyTable": "Không tìm thấy dữ liệu",
+                    "paginate": {
+                        "first": "Đầu",
+                        "last": "Cuối",
+                        "next": "Sau",
+                        "previous": "Trước"
+                    }
+                },
+                "ajax": {
+                    "url": "/phong-cdvt/oto/cap-nhat-hoat-dong/search-acti",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": {
+                        "equipmentId": function () { return $('#equipmentId-search').val() },
+                        "equipmentName": function () { return $('#equipmentName-search').val() },
+                        "timeFrom": function () { return $('#timeFrom-search').val() },
+                        "timeTo": function () { return $('#timeTo-search').val() }
+                    },
+                    "cache": "false"
+                },
+                "drawCallback": function (settings) {
+                    ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
+                    $("#pre-load").hide("slow", function () {
+                    });
+                    ////////////////////////////////////////////////
+                },
+                "columns": [
+                    { "data": "stringDate", "name": "date" },
+                    { "data": "equipmentid", "name": "equipmentid" },
+                    { "data": "equipment_name", "name": "equipment_name" },
+                    { "data": "activityname", "name": "activityname" },
+                    { "data": "hours_per_day", "name": "hours_per_day" },
+                    { "data": "quantity", "name": "quantity" },
+                    {
+                        "data": "activityid", "render": function (data) {
+                            return "<a href=\"#myacti\" data-toggle=\"modal\" class=\"open-EditModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-activity=\"" + data + "\">Chỉnh&nbsp;Sửa</a>";
+                        },
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "150px"
+                    }
+                ],
+                "serverSide": true,
+                "rowId": "activityid",
+                "bLengthChange": false,
+                "bFilter": false,
+                "bInfo": false,
+                "bAutoWidth": false,
+                "order": [0, "asc"],
+                "initComplete": function (settings, json) {
+                    ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
+                    $("#pre-load").hide("slow", function () {
+                    });
+                    //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
+                }
+            });
+        }
+
+        function searchFuel() {
+            dataFuelTable = $('#fuel-table').on('preXhr.dt', function (e, settings, data) {
+                $("#pre-load").show("slow", function () {
+                });
+                $("#pre-load").css("z-index", "99999");
+            }).DataTable({
+                "language": {
+                    "emptyTable": "Không tìm thấy dữ liệu",
+                    "paginate": {
+                        "first": "Đầu",
+                        "last": "Cuối",
+                        "next": "Sau",
+                        "previous": "Trước"
+                    }
+                },
+                "ajax": {
+                    "url": "/phong-cdvt/oto/cap-nhat-hoat-dong/search-fuel",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": {
+                        "equipmentId": function () { return $('#equipmentIdfuel-search').val() },
+                        "equipmentName": function () { return $('#equipmentNamefuel-search').val() },
+                        "timeFrom": function () { return $('#timeFromfuel-search').val() },
+                        "timeTo": function () { return $('#timeTofuel-search').val() }
+                    },
+                    "cache": "false"
+                },
+                "drawCallback": function (settings) {
+                    ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
+                    $("#pre-load").hide("slow", function () {
+                    });
+                    ////////////////////////////////////////////////
+                },
+                "columns": [
+                    { "data": "stringDate", "name": "date" },
+                    { "data": "equipmentId", "name": "equipmentId" },
+                    { "data": "equipment_name", "name": "equipment_name" },
+                    { "data": "supply_name", "name": "supply_name" },
+                    { "data": "consumption_value", "name": "consumption_value" },
+                    { "data": "unit", "name": "unit" },
+                    {
+                        "data": "fuelid", "render": function (data) {
+                            return "<a href=\"#myfuel\" data-toggle=\"modal\" class=\"open-fuelEdit waves-effect waves-light btn blue darken-1 modal-trigger\" data-fuel=\"" + data + "\">Chỉnh&nbsp;Sửa</a>";
+                        },
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "150px"
+                    }
+                ],
+                "serverSide": true,
+                "rowId": "fuelid",
+                "bLengthChange": false,
+                "bFilter": false,
+                "bInfo": false,
+                "bAutoWidth": false,
+                "order": [0, "asc"],
+                "initComplete": function (settings, json) {
+                    ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
+                    $("#pre-load").hide("slow", function () {
+                    });
+                    //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
+                }
+            });
+        }
+
+    </script>
+
+}

@@ -23,13 +23,21 @@
                         </div>
                         <div class="col l10 m10 s12 input-field">
                             <select class="form-control" id="type-search">
-                                <option value="0">Tất cả</option>
+                                <option value="0">Tất cả loại quyết định</option>
                                 <option value="1">Sửa chữa</option>
                                 <option value="2">Bảo dưỡng</option>
                                 <option value="3">Điều động</option>
                                 <option value="4">Thu hồi</option>
                                 <option value="5">Thanh lý</option>
                                 <option value="6">Trung đại tu</option>
+                            </select>
+                        </div>
+                        <div class="col l10 m10 s12 input-field">
+                            <select class="form-control" id="status-search">
+                                <option value="0">Tất cả trạng thái</option>
+                                <option value="1">Đang xử lý</option>
+                                <option value="2">Đã xử lý chưa nghiệm thu</option>
+                                <option value="3">Đã nghiệm thu</option>
                             </select>
                         </div>
                     </div>
@@ -47,7 +55,7 @@
                 <div class="col l4 m4 s12">
                     <div class="row">
                         <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
-                            <input type="text" placeholder="Tìm kiếm theo lý do quyết định" class='form-control' id="reason-search" />
+                            <input type="text" placeholder="Tìm kiếm theo nội dung quyết định" class='form-control' id="reason-search" />
                         </div>
                         <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
                             <input type="text" placeholder="Tìm kiếm theo phân xưởng chịu trách nhiệm" class='form-control' id="department-search" />
@@ -67,7 +75,7 @@
                             <th>Đơn vị đang sử dụng</th>
                             <th>Ngày tạo quyết định</th>
                             <th>Người tạo quyết định</th>
-                            <th>Lý do quyết định</th>
+                            <th>Nội dung quyết định</th>
                             <th>Nguồn vốn/thu</th>
                             <th>Trạng thái quyết định</th>
                         </tr>
@@ -150,7 +158,8 @@
                         "department": function () { return $('#department-search').val() },
                         "reason": function () { return $('#reason-search').val() },
                         "dateStart": function () { return $('#date-start-search').val() },
-                        "dateEnd": function () { return $('#date-end-search').val() }
+                        "dateEnd": function () { return $('#date-end-search').val() },
+                        "status": function () { return $('#status-search').val() }
                     },
                     "datatype": "json",
                     "cache": false
@@ -159,7 +168,7 @@
                     {
                         "data": "linkIdCode", "name": "documentary_id",
                         "render": function (data) {
-                            return "<a href=\"quyet-dinh/" + data.link + "?id=" + data.id + "\"> " + data.code + "</a>";
+                            return "<a href=\"/phong-cdvt/cap-nhat/quyet-dinh/" + data.link + "?id=" + data.id + "\"> " + data.code + "</a>";
                         },
                     },
                     { "data": "stringtype", "name": "stringtype" },

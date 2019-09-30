@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Transactions;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Script.Serialization;
@@ -31,33 +32,41 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
         }
 
         [Route("phan-xuong-khai-thac/nang-suat-lao-dong")]
-        public ActionResult NSLD(string intCa, string strDate)
+        public ActionResult NSLD(string Ca, string Date, string Donvi)
         {
-            if (intCa == null)
+            if (Ca == null)
             {
-                intCa = "1";
+                Ca = "1";
             }
-            if (strDate == null)
+            if (Date == null)
             {
-                strDate = string.Format("{0:dd/MM/yyyy}", DateTime.Now);
+                Date = string.Format("{0:dd/MM/yyyy}", DateTime.Now);
             }
-            var calamviec = Convert.ToInt32(intCa);
-            var date = DateTime.ParseExact(strDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            if (Donvi == null)
+            {
+                Donvi = "DL1";
+            }
+            var calamviec = Convert.ToInt32(Ca);
+            var date = DateTime.ParseExact(Date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
+                ViewBag.TenToChuc = db.Departments.ToList();
                 List<DiemDanh_NangSuatLaoDong> list = db.DiemDanh_NangSuatLaoDong
                     .Where(a => a.NgayDiemDanh == date)
-                    .Where(a => a.CaDiemDanh == calamviec).ToList();
+                    .Where(a => a.CaDiemDanh == calamviec)
+                    .Where(a => a.MaDonVi == Donvi).ToList();
                 List<BaoCaoTheoCa> customNSLDs = new List<BaoCaoTheoCa>();
                 BaoCaoTheoCa cus;
+                int num = 1;
                 foreach (var i in list)
                 {
                     cus = new BaoCaoTheoCa
                     {
                         ID = i.MaDiemDanh,
+                        STT = num,
                         Name = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().Ten,
-                        BacTho = "6/6",
-                        ChucDanh = "MT",
+                        BacTho = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().BacLuong,
+                        ChucDanh = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec == null ? "" : db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec.TenCongViec,
                         DuBaoNguyCo = i.DuBaoNguyCo,
                         HeSoChiaLuong = i.HeSoChiaLuong.ToString(),
                         LuongSauDuyet = i.Luong.ToString(),
@@ -68,6 +77,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                         YeuCauBPKTAT = i.GiaiPhapNguyCo
                     };
                     customNSLDs.Add(cus);
+                num++;
                 }
                 ViewBag.nsld = customNSLDs;
             }
@@ -108,7 +118,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
 
                         transaction.Commit();
                     }
-                    catch (Exception ex)
+                    catch (Exception )
                     {
                         transaction.Rollback();
                     }
@@ -144,6 +154,8 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                                       select new
                                       {
                                           maNV = emp.MaNV,
+                                          maDD =(int?) att.MaDiemDanh,
+                                          maDV = att.MaDonVi,
                                           tenNV = emp.Ten,
                                           status = att.DiLam,
                                           timeAttendance = att.ThoiGianThucTeDiemDanh,
@@ -157,11 +169,85 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
             }
         }
 
+        [HttpPost]
+        [Route("phan-xuong-khai-thac/diem-danh/cap-nhat")]
+        public ActionResult updateAttendance()
+        {
+            var listUpdateJSON = Request["sessionId"];
+            var listUpdate = JsonConvert.DeserializeObject<List<updateStatus>>(listUpdateJSON);
+            using (var transaction = new TransactionScope())
+            {
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    foreach (var item in listUpdate)
+                    {
+                        DiemDanh_NangSuatLaoDong dn = new DiemDanh_NangSuatLaoDong();
+                        dn.MaDiemDanh = Int32.Parse(item.maDD);
+                        dn.MaNV = item.maNV;
+                        dn.DiLam = item.status;
+                        //if (item.timeAttendance != "")
+                        //{
+                        //    dn.ThoiGianThucTeDiemDanh = DateTime.ParseExact(item.timeAttendance, "M/d/yyyy hh:mm:ss", null);
+                        //}
+                        dn.MaDonVi = item.maDV;
+                        dn.LyDoVangMat = item.reason;
+                        dn.GhiChu = item.description;
+                        dn.CaDiemDanh = 1;
+                        dn.NgayDiemDanh = Convert.ToDateTime("2019-09-10");
+                        db.Entry(dn).State = EntityState.Modified;
+                    }
+                    db.SaveChanges();
+                    transaction.Complete();
+                }
+            }
+            return Json(new {success = true ,data = listUpdateJSON }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        [Route("phan-xuong-khai-thac/diem-danh/dang-ky-nhan-vien")]
+        public ActionResult registerEmployee()
+        {
+            return View("/Views/PX/PXKT/registerEmployee.cshtml");
+        }
+
+        [HttpPost]
+        [Route("phan-xuong-khai-thac/diem-danh/dang-ky-nhan-vien")]
+        public ActionResult loadEmployee()
+        {
+            int start = Convert.ToInt32(Request["start"]);
+            int length = Convert.ToInt32(Request["length"]);
+            string searchValue = Request["search[value]"];
+            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+            string sortDirection = Request["order[0][dir]"];
+            using(QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                var listNV = db.NhanViens.ToList();
+                listNV = listNV.Skip(start).Take(length).ToList<NhanVien>();
+                int totalrows = listNV.Count;
+                int totalrowsafterfiltering = listNV.Count;
+                return Json(new { success = true, data = listNV, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
 
     }
+
+    public class updateStatus
+    {
+        public string maDD { get; set; }
+        public string maDV { get; set; }
+        public string maNV { get; set; }
+        public string tenNV { get; set; }
+        public bool status { get; set; }
+        public string timeAttendance { get; set; }
+        public string reason { get; set; }
+        public string description { get; set; }
+    }
+
     public class BaoCaoTheoCa
     {
         public int ID { get; set; }
+        public int STT { get; set; }
         public string Name { get; set; }
         public string SoThe { get; set; }
         public string BacTho { get; set; }

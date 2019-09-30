@@ -1,14 +1,18 @@
-﻿using QUANGHANH2.Models;
+﻿using OfficeOpenXml;
+using QUANGHANH2.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Hosting;
 using System.Web.Mvc;using System.Web.Routing;
 
 namespace QUANGHANHCORE.Controllers.CDVT.Report
 {
     public class WaterController : Controller
     {
+        /*aa*/
         [Route("phong-cdvt/bao-cao/thoat-nuoc")]
         public ActionResult Water(string type, string date, string month, string quarter, string year)
         {
@@ -119,9 +123,67 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
             }
         }
         [Route("phong-cdvt/bao-cao/thoat-nuoc/excel")]
-        public ActionResult Export()
+        public ActionResult Export(string type, string date, string month, string quarter, string year)
         {
-            return File( "~/excel/CDVT/thoatnuoc.xls", contentType: "text/plain; charset=utf-8", fileDownloadName: "thoatnuoc.xls");
+            string path = HostingEnvironment.MapPath("/excel/CDVT/thoatnuoc.xlsx");
+            string saveAsPath = ("/excel/CDVT/download/thoatnuoc.xlsx");
+            FileInfo file = new FileInfo(path);
+            using (ExcelPackage excelPackage = new ExcelPackage(file))
+            {
+                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
+                ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    Wherecondition(type, date, month, quarter, year);
+                    int totaltieuthu = 0, totalsanluong = 0, totalgio = 0;
+                    if (ViewBag.ContentReport != null)
+                    {
+                        foreach (var item in ViewBag.ContentReport)
+                        {
+                            totaltieuthu += item.LuongTieuThu;
+                        }
+                    }
+                    if (ViewBag.ContentReport != null)
+                    {
+                        foreach (var item in ViewBag.ContentReport)
+                        {
+                            totalsanluong += item.SanLuong;
+                        }
+                    }
+                    if (ViewBag.ContentReport != null)
+                    {
+                        foreach (var item in ViewBag.ContentReport)
+                        {
+                            totalgio += item.GioHoatDong;
+                        }
+                    }
+                    List<contentreportWater> content = ViewBag.ContentReport;
+                    int k = 3;
+                    for(int i = 0; i < content.Count; i++)
+                    {
+                        excelWorksheet.Cells[k, 1].Value = content.ElementAt(i).Thang + "/" + content.ElementAt(i).Nam;
+                        excelWorksheet.Cells[k, 2].Value = content.ElementAt(i).TenThietBi;
+                        excelWorksheet.Cells[k, 3].Value = content.ElementAt(i).MaThietBi;
+                        excelWorksheet.Cells[k, 4].Value = content.ElementAt(i).MaTSCD;
+                        excelWorksheet.Cells[k, 5].Value = content.ElementAt(i).ViTriDat;
+                        excelWorksheet.Cells[k, 6].Value = content.ElementAt(i).GioHoatDong;
+                        excelWorksheet.Cells[k, 7].Value = content.ElementAt(i).LuongTieuThu;
+                        excelWorksheet.Cells[k, 8].Value = content.ElementAt(i).SanLuong;
+                        k++;
+                    }
+                    excelWorksheet.Cells[k, 5].Value = "Tổng";
+                    excelWorksheet.Cells[k, 6].Value = totalgio;
+                    excelWorksheet.Cells[k, 7].Value = totaltieuthu;
+                    excelWorksheet.Cells[k, 8].Value = totalsanluong;
+                    excelWorksheet.Cells[k, 5].Style.Font.Bold = true;
+                    excelWorksheet.Cells[k, 5].Style.Font.Color.SetColor(System.Drawing.Color.Red);
+                    excelWorksheet.Cells[k, 6].Style.Font.Color.SetColor(System.Drawing.Color.Red);
+                    excelWorksheet.Cells[k, 7].Style.Font.Color.SetColor(System.Drawing.Color.Red);
+                    excelWorksheet.Cells[k, 8].Style.Font.Color.SetColor(System.Drawing.Color.Red);
+                    excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath(saveAsPath)));
+                }
+            }
+                return Json(new { success = true, location = saveAsPath }, JsonRequestBehavior.AllowGet);
         }
     }
     public class contentreportWater

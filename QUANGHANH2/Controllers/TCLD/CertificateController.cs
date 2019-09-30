@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml;
+﻿
+using OfficeOpenXml;
 using QUANGHANH2.Models;
 using System;
 using System.Collections.Generic;
@@ -7,12 +8,10 @@ using System.IO;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Threading.Tasks;
-using System.Web.Helpers;
 using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Script.Serialization;
-
 namespace QUANGHANHCORE.Controllers.TCLD
 {
     public class CertificateController : Controller
@@ -101,12 +100,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpGet]
         public ActionResult AddCertificate()
         {
-            Dictionary<int, string> list = new Dictionary<int, string>();
-            list.Add(1, "Vĩnh viễn");
-            list.Add(2, "Thời hạn");
+            getListTypeCertificate();
 
-            SelectList listOption = new SelectList(list, "Key", "Value");
-            ViewBag.listOption = listOption;
             return View();
 
         }
@@ -117,16 +112,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
             {
                 if (chungChi != null)
                 {
-                    if(chungChi.ThoiHan.Equals("Vĩnh viễn"))
-                    {
-                        chungChi.ThoiHan = "-1";
-                        db.ChungChis.Add(chungChi);
-                    }
-                    else
-                    {
-                        db.ChungChis.Add(chungChi);
-                    }
-                    
+
+                    db.ChungChis.Add(chungChi);
                     db.SaveChanges();
                 }
                 return RedirectToAction("List");
@@ -136,6 +123,12 @@ namespace QUANGHANHCORE.Controllers.TCLD
         }
         [HttpGet]
         public ActionResult AddCertificateEmployee()
+        {
+            getListInforEmployeeCirtificate();
+            return View();
+
+        }
+        public void getListInforEmployeeCirtificate()
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
@@ -150,9 +143,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 ViewBag.List_nhanvien = listEmployee;
                 ViewBag.listdata_nv = listdata_nv;
 
-                return View();
             }
-
         }
         [HttpPost]
         public ActionResult validateID(string id)
@@ -189,7 +180,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     {
                         return Json(new { success = true, message = "id has been exist" }, JsonRequestBehavior.AllowGet);
                     }
-                    
+
                 }
                 else
                 {
@@ -213,19 +204,20 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 }
             }
         }
+
         [HttpPost]
-        public ActionResult getName(string id)
+        public ActionResult getNameEmployee(string id)
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 var chungchi_nvs = db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault<NhanVien>();
                 if (chungchi_nvs != null)
                 {
-                    return Json(new { data = chungchi_nvs.Ten, success = true, message = "id has been exist" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { data = chungchi_nvs.Ten, success = true, message = "success" }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
-                    return Json(new { success = false, message = "right id" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { data = "Không tồn tại", success = false, message = "right id" }, JsonRequestBehavior.AllowGet);
                 }
             }
         }
@@ -251,16 +243,28 @@ namespace QUANGHANHCORE.Controllers.TCLD
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                Dictionary<int, string> list = new Dictionary<int, string>();
-                list.Add(1, "Vĩnh viễn");
-                list.Add(2, "Thời hạn");
 
-                SelectList listOption = new SelectList(list, "Key", "Value");
-                ViewBag.listOption = listOption;
+                getListTypeCertificate();
                 ChungChi chungchi = db.ChungChis.Where(x => x.MaChungChi == id).FirstOrDefault<ChungChi>();
                 return View(chungchi);
             }
 
+        }
+        public void getListTypeCertificate()
+        {
+            Dictionary<int, string> list = new Dictionary<int, string>();
+            list.Add(1, "Vĩnh viễn");
+            list.Add(2, "Thời hạn");
+
+            SelectList listOption = new SelectList(list, "Key", "Value");
+            ViewBag.listOption = listOption;
+            Dictionary<int, string> listTypes = new Dictionary<int, string>();
+            listTypes.Add(1, "Photo");
+            listTypes.Add(2, "Sao, Công chứng");
+            listTypes.Add(3, "Bản gốc");
+            listTypes.Add(4, "Dấu đỏ");
+            SelectList listTypeCert = new SelectList(listTypes, "Value", "Value");
+            ViewBag.listTypeCert = listTypeCert;
         }
         [HttpPost]
         public ActionResult EditCertificate(ChungChi chungChi)
@@ -269,17 +273,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
             {
                 if (chungChi != null)
                 {
-                    if (chungChi.ThoiHan.Equals("Vĩnh viễn"))
-                    {
-                        chungChi.ThoiHan = "-1";
-                        db.Entry(chungChi).State = EntityState.Modified;
-                    }
-                    else
-                    {
-                        db.Entry(chungChi).State = EntityState.Modified;
-                    }
 
-                    
+                    db.Entry(chungChi).State = EntityState.Modified;
                     db.SaveChanges();
                 }
                 return RedirectToAction("List");
@@ -290,15 +285,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                List<ChungChi> listdata_chungchi = db.ChungChis.ToList<ChungChi>();
-                List<NhanVien> listdata_nv = db.NhanViens.ToList<NhanVien>();
-
-                SelectList listCirtificate = new SelectList(listdata_chungchi, "MaChungChi", "TenChungChi");
-                SelectList listEmployee = new SelectList(listdata_nv, "MaNV", "MaNV");
-
-                ViewBag.List_chungchi = listCirtificate;
-                ViewBag.List_nhanvien = listEmployee;
-                var cirtificate_emp = db.ChungChi_NhanVien.Where(x => x.SoHieu == id).FirstOrDefault<ChungChi_NhanVien>();
+                getListInforEmployeeCirtificate();
+                   var cirtificate_emp = db.ChungChi_NhanVien.Where(x => x.SoHieu == id).FirstOrDefault<ChungChi_NhanVien>();
                 if (cirtificate_emp != null)
                 {
                     var emp = db.NhanViens.Where(x => x.MaNV == cirtificate_emp.MaNV).FirstOrDefault<NhanVien>();
@@ -351,9 +339,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     }
 
                 }
-                
+
                 db.SaveChanges();
-                return Json(new { success = true, message = "Delete successful" }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = true, message = "Xóa thành công" }, JsonRequestBehavior.AllowGet);
 
             }
         }
@@ -364,9 +352,17 @@ namespace QUANGHANHCORE.Controllers.TCLD
             {
 
                 ChungChi_NhanVien chungchi_nv = db.ChungChi_NhanVien.Where(x => x.SoHieu == id).FirstOrDefault<ChungChi_NhanVien>();
-                db.ChungChi_NhanVien.Remove(chungchi_nv);
-                db.SaveChanges();
-                return Json(new { success = true, message = "Delete successful" }, JsonRequestBehavior.AllowGet);
+                if (chungchi_nv != null)
+                {
+                    db.ChungChi_NhanVien.Remove(chungchi_nv);
+                    db.SaveChanges();
+                    return Json(new { success = true, message = "Xóa thành công" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { success = true, message = "Xóa thất bại" }, JsonRequestBehavior.AllowGet);
+                }
+                
 
             }
         }
@@ -474,31 +470,108 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 return dataJson;
             }
         }
+        [Route("phong-tcld/chung-chi/danh-sach-chung-chi/xuat-file-excel")]
+        [HttpPost]
+        public ActionResult ExporTotExcel()
+        {
+            string path = HostingEnvironment.MapPath("/excel/TCLD/Certificate/Chứng chỉ của cả công ty.xlsx");
+            string saveAsPath = ("/excel/TCLD/download/Certificate.xlsx");
+            FileInfo file = new FileInfo(path);
+            using (ExcelPackage excelPackage = new ExcelPackage(file))
+            {
+                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
+                ExcelWorksheet ws = excelWorkbook.Worksheets.First();
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    List<ChungChi> listdata = db.ChungChis.ToList<ChungChi>();
 
-        [Route("phong-tcld/chung-chi/danh-sach-nhan-vien-co-chung-chi-kiem-dinh-ky-thuat-an-toan-lao-dong")]
-        public ActionResult ListBriefsByCertificate()
-        {
-            ViewBag.nameDepartment = "vld-antoan";
-            return View("/Views/TCLD/Certificate/ListBriefByCertificate.cshtml");
-        }
-        [Route("phong-tcld/chung-chi-chung-nhan-dao-tao")]
-        public ActionResult ViewJobRegister()
-        {
-            ViewBag.nameDepartment = "vld-antoan";
-            return View("/Views/TCLD/Certificate/ViewJobRegister.cshtml");
-        }
+                    ws.Cells["A1"].Value = "Mã chứng chỉ";
+                    ws.Cells["B1"].Value = "Tên chứng chỉ";
+                    ws.Cells["C1"].Value = "Thời hạn (tháng)";
+                    ws.Cells["D1"].Value = "Kiểu chứng chỉ";
+                    int rowStart = 2;
+                    foreach (var i in listdata)
+                    {
+                        ws.Cells[string.Format("A{0}", rowStart)].Value = i.MaChungChi;
+                        ws.Cells[string.Format("B{0}", rowStart)].Value = i.TenChungChi;
+                        if (i.ThoiHan == -1)
+                        {
+                            ws.Cells[string.Format("C{0}", rowStart)].Value = "Vĩnh viễn";
+                        }
+                        else
+                        {
+                            ws.Cells[string.Format("C{0}", rowStart)].Value = i.ThoiHan;
+                        }
 
-        [Route("phong-tcld/dang-ky-cong-viec")]
-        public ActionResult ViewJobByPX()
-        {
-            ViewBag.nameDepartment = "vld-antoan";
-            return View("/Views/TCLD/Certificate/ViewJobByPX.cshtml");
+                        ws.Cells[string.Format("D{0}", rowStart)].Value = i.KieuChungChi;
+                        rowStart++;
+
+                    }
+                }
+                excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath(saveAsPath)));
+            }
+            return Json(new { success = true, location = saveAsPath }, JsonRequestBehavior.AllowGet);
         }
-        [Route("phong-tcld/bao-cao-tinh-trang-chung-chi-cho-cong-viec")]
-        public ActionResult ReportJob()
+        [Route("phong-tcld/chung-chi/danh-sach-chung-chi-cua-nhan-vien/xuat-file-excel")]
+        [HttpPost]
+        public ActionResult ExporTotExcelCertificateEmp()
         {
-            ViewBag.nameDepartment = "vld-antoan";
-            return View("/Views/TCLD/Certificate/ReportJob.cshtml");
+            string path = HostingEnvironment.MapPath("/excel/TCLD/Certificate/Chứng chỉ của nhân viên.xlsx");
+            string saveAsPath = ("/excel/TCLD/download/CertificateOfEmployee.xlsx");
+            FileInfo file = new FileInfo(path);
+            using (ExcelPackage excelPackage = new ExcelPackage(file))
+            {
+                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
+                ExcelWorksheet ws_cert_emp = excelWorkbook.Worksheets.First();
+                List<ChungChi_NhanVien_Model> listdata_certificate_Emp = new List<ChungChi_NhanVien_Model>();
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+
+                    listdata_certificate_Emp = (from ccnv in db.ChungChi_NhanVien
+                                 join cc in db.ChungChis on ccnv.MaChungChi equals cc.MaChungChi
+                                 join nv in db.NhanViens on ccnv.MaNV equals nv.MaNV
+                                 select new
+                                 {
+                                     SoHieu = ccnv.SoHieu,
+                                     NgayCap = ccnv.NgayCap,
+                                     MaNV = ccnv.MaNV,
+                                     TenNV = nv.Ten,
+                                     MaChungChi = ccnv.MaChungChi,
+                                     TenChungChi = cc.TenChungChi,
+
+                                 }).ToList().Select(p => new ChungChi_NhanVien_Model
+                                 {
+
+                                     SoHieu = p.SoHieu,
+                                     NgayCap = p.NgayCap,
+                                     MaNV = p.MaNV,
+                                     MaChungChi = p.MaChungChi,
+                                     TenNV = p.TenNV,
+                                     TenChungChi = p.TenChungChi,
+                                 }).ToList();
+
+                    ws_cert_emp.Cells["A1"].Value = "Số hiệu";
+                    ws_cert_emp.Cells["B1"].Value = "Tên chứng chỉ";
+                    ws_cert_emp.Cells["C1"].Value = "Mã nhân viên";
+                    ws_cert_emp.Cells["D1"].Value = "Tên nhân viên";
+                    ws_cert_emp.Cells["E1"].Value = "Ngày cấp";
+                    int rowStart = 2;
+
+                    foreach (var item in listdata_certificate_Emp)
+                    {
+                        ws_cert_emp.Cells[string.Format("A{0}", rowStart)].Value = item.SoHieu;
+                        ws_cert_emp.Cells[string.Format("B{0}", rowStart)].Value = item.TenChungChi;
+                        ws_cert_emp.Cells[string.Format("C{0}", rowStart)].Value = item.MaNV;
+                        ws_cert_emp.Cells[string.Format("D{0}", rowStart)].Value = item.TenNV;
+                        ws_cert_emp.Cells[string.Format("E{0}", rowStart)].Value = item.NgayCap;
+
+                        rowStart++;
+
+                    }
+                }
+                excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath(saveAsPath)));
+            }
+            return Json(new { success = true, location = saveAsPath }, JsonRequestBehavior.AllowGet);
         }
 
 

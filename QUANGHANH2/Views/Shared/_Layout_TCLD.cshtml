@@ -68,6 +68,12 @@
 
     <!--Custom JS Decentralization-->
     <script src="~/js/Custom JS/decentralization_user.js"></script>
+
+    <!--Quang Hanh Alert-->
+    <link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
+    <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
+    <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
+    <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
 </head>
 
 <body>
@@ -355,17 +361,17 @@
                         </li>
 
                         <li><a href="/phong-tcld/chung-chi/danh-sach-chung-chi" class="collapsible-header"><i class="material-icons">brightness_7</i><span class="hide-menu">Danh sách chứng chỉ</span></a></li>
+                        <li><a href="/phong-tcld/bang-cap-va-giay-chung-nhan/danh-sach-bang-cap-va-giay-chung-nhan" class="collapsible-header"><i class="material-icons">brightness_7</i><span class="hide-menu">Bằng cấp - Giấy chứng nhận</span></a></li>
 
                         <li>
-                            <a href="javascipt:void(0);" class="collapsible-header has-arrow"><i class="material-icons">brightness_7</i><span class="hide-menu">Quản lý chứng chỉ</span></a>
+                            <a href="javascipt:void(0);" class="collapsible-header has-arrow"><i class="material-icons">brightness_7</i><span class="hide-menu">Quản lý nhiệm vụ</span></a>
                             <div class="collapsible-body">
                                 <ul>
-                                    <li><a href="/phong-tcld/chung-chi-chung-nhan-dao-tao"><i class="material-icons">brightness_7</i><span class="hide-menu">CC,CN Đào tạo</span></a></li>
                                     <li>
-                                        <a href="/phong-tcld/dang-ky-cong-viec" id=""><i class="material-icons">list</i><span class="hide-menu">Đăng ký công việc</span></a>
+                                        <a href="/phong-tcld/dang-ky-cong-viec" id=""><i class="material-icons">brightness_7</i><span class="hide-menu">Đăng ký nhiệm vụ</span></a>
                                     </li>
                                     <li>
-                                        <a href="/phong-tcld/bao-cao-tinh-trang-chung-chi-cho-cong-viec" id=""><i class="material-icons">list</i><span class="hide-menu">Tình trạng chứng chỉ</span></a>
+                                        <a href="/phong-tcld/bao-cao-tinh-trang-chung-chi-cho-cong-viec" id=""><i class="material-icons">list</i><span class="hide-menu">Tình trạng nhiệm vụ</span></a>
                                     </li>
                                 </ul>
                             </div>
@@ -770,7 +776,7 @@
     <script src="~/Scripts/notify.min.js"></script>
     <script src="~/Scripts/jquery.validate.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
-    @Scripts.Render("~/Scripts/moment.js")
+    @*@Scripts.Render("~/Scripts/moment.js")*@
     <script>
         $(".loading").css("z-index", 99999);
         $('body').css('overflow', '');

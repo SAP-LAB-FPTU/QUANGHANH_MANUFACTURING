@@ -1,4 +1,7 @@
+
+
 $(function () {
+    
             "use strict";
             // ------------------------------
             // Basic pie chart
@@ -90,12 +93,12 @@ $(function () {
                     show: true
                 },
                 data: [
-                    { value: 7000, name: 'Đang hoạt động' },
-                    { value: 1000, name: 'Sửa chữa' },
-                    { value: 1000, name: 'Bảo dưỡng' },
-                    { value: 1000, name: 'Kiểm định' },
-                    { value: 1000, name: 'Thanh lí' },
-                    { value: 1000, name: 'Thu hồi' }
+                    { value: total, name: 'Đang hoạt động' },
+                    { value: total_repair, name: 'Sửa chữa' },
+                    { value: total_main, name: 'Bảo dưỡng' },
+                    { value: total_KD, name: 'Kiểm định' },
+                    { value: total_TL, name: 'Thanh lí' },
+                    { value: total_TH, name: 'Thu hồi' }
                 ]
             }]
         }

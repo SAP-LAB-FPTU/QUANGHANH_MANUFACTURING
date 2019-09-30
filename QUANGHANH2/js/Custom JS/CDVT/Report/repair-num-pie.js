@@ -82,8 +82,8 @@
                 radius: '75%',
                 center: ['50%', '40%'],
                 data: [
-                    { value: 270, name: 'SC Lớn' },
-                    { value: 230, name: 'SCTX' }
+                    { value: scl, name: 'SC Lớn' },
+                    { value: sctx, name: 'SCTX' }
                 ]
             }]
         };
@@ -167,8 +167,8 @@
                 },
                 center: ['50%', '40%'],
                 data: [
-                    { value: 270, name: 'SC Lớn' },
-                    { value: 230, name: 'SCTX' }
+                    { value: scl, name: 'SC Lớn' },
+                    { value: sctx, name: 'SCTX' }
                 ]
             }]
         };

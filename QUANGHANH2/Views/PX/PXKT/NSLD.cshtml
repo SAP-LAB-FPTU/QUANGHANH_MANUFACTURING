@@ -5,38 +5,79 @@
 }
 
 <link href="~/assets/Custom css/PX/PXKT/ReportProduct.css" rel="stylesheet" />
-<style>
-    table {
-        counter-reset: tableCount;
-    }
+<link href="~/dist/css/pages/data-table.css" rel="stylesheet" />
+<link href="~/assets/extra-libs/DataTables/datatables.min.css" rel="stylesheet" />
+<script src="~/assets/extra-libs/DataTables/datatables.min.js"></script>
 
-    .counterCell:before {
-        content: counter(tableCount);
-        counter-increment: tableCount;
-    }
-</style>
+
 
 <script>
     $(document).ready(function () {
         var url_string = window.location.href;
         var url = new URL(url_string);
-        var c = url.searchParams.get("intCa");
-        var time = url.searchParams.get("strDate");
+        var c = url.searchParams.get("Ca");
+        var time = url.searchParams.get("Date");
+        $("#px").html("Đào Lò 1");
+        $("#ca").html("CA 1");
+        var donvi = url.searchParams.get("Donvi");
+        if (donvi == null) {
+            donvi = 'DL1';
+        }
+        var text = document.getElementsByName(donvi)[0].innerHTML;
+        if (donvi != null) {
+            $("#px").html(text);
+            $("#px").attr("name", donvi)
+        }
+        $("#dropdown_px").on("click", ".dropdown-child-px", function () {
+            select = $(this).attr("name");
+            text = $(this).text();
+            $("#px").html(text);
+            $("#px").attr("name", select);
+            $(".dropdown-child-px").attr("name", select);
+            $('.dropdown-trigger').dropdown('close');
+        });
         if (c == 1) {
-            document.getElementById("ca").innerText = "CA 1";
+            $("#ca").html("CA 1");
         }
         if (c == 2) {
-            document.getElementById("ca").innerText = "CA 2";
+            $("#ca").html("CA 2");
         }
         if (c == 3) {
-            document.getElementById("ca").innerText = "CA 3";
+            $("#ca").html("CA 3");
         }
+        $("#dropdown_ca").on("click", ".dropdown-child-ca", function () {
+            select = $(this).attr("name");
+            text = $(this).text();
+            $("#ca").html(text);
+            $("#ca").attr("name", text);
+            $(".dropdown-child-ca").attr("name", select);
+            $('.dropdown-trigger').dropdown('close');
+        });
         if (time == null) {
             document.getElementById("inputdate").value = "@string.Format("{0:dd/MM/yyyy}", System.DateTime.Now)";
         } else {
             document.getElementById("inputdate").value = time;
         }
+        dataTable = $("#content-table").DataTable({
+            "language": {
+                emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                paginate:
+                {
+                    previous: "Trang trước",
+                    next: "Trang sau",
+                    first: "|<",
+                    last: ">|",
 
+                },
+                info: "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
+            },
+            "autoWidth": false,
+            "searching": false,
+            "drawCallback": function () {
+                $('#pre-load').hide();
+            }
+        });
     });
 
 </script>
@@ -46,7 +87,10 @@
         <form>
             <div class="row center">
                 <h3>
-                    KHỐI LƯỢNG CÔNG VIỆC CỦA VTL1 <a class="dropdown-trigger btn" id="ca" href="#" data-target="dropdown_ca" style="background-color:#273146">CA 1</a> NGÀY <input type="text" id="inputdate" class="datepicker-here center" data-language="vi" >
+                    KHỐI LƯỢNG CÔNG VIỆC CỦA  <a class='dropdown-trigger btn' id="px" href='#' data-target='dropdown_px'
+                                                 style="width:250px;background-color:#273146" name="VTL1">
+                        VTL1
+                    </a> <a class="dropdown-trigger btn" id="ca" href="#" data-target="dropdown_ca" style="background-color:#273146">CA 1</a> NGÀY <input type="text" id="inputdate" class="datepicker-here center" data-language="vi">
                     <a class="btn waves-effect waves-light blue modal-trigger" id="btn-view" href="#" onclick="getcontent();">Xem</a>
                     <br><br>
                 </h3>
@@ -55,11 +99,11 @@
             <div class="row table1" style="overflow-x:auto!important">
                 @if (ViewBag.nsld.Count > 0)
                 {
-                    <table id="" class="table table-bordered table-responsive centered highlight">
+                    <table id="content-table" class="table table-bordered table-responsive centered highlight">
                         <thead>
                             <tr>
                                 <th style="display:none;"></th>
-                                <th width="3%">TT</th>
+                                <th width="3%">STT</th>
                                 <th width="10%">Tên</th>
                                 <th width="5%">Số thẻ</th>
                                 <th width="5%">Bậc thợ</th>
@@ -71,23 +115,23 @@
                                 <th>Dự báo nguy cơ</th>
                                 <th>-Yêu cầu BPKTAT<br>-Giải pháp loại trừ nguy cơ</th>
                             </tr>
-                            
+
                         </thead>
                         <tbody id="contentNSLD">
                             @foreach (var item in ViewBag.nsld)
                             {
                                 <tr>
                                     <td style="display:none;"><input class="madiemdanh" value="@item.ID" /></td>
-                                    <td class="counterCell"></td>
+                                    <td>@item.STT</td>
                                     <td>@item.Name</td>
                                     <td>@item.SoThe</td>
                                     <td>@item.BacTho</td>
                                     <td>@item.ChucDanh</td>
                                     <td>@item.NoiDungCongViec</td>
                                     <td><input type="number" value="@item.NSLD" class="form-control updateNSLD" style="border:none; text-align: center;" id="nsld"></td>
-                                    <td><input type="number" value="@item.HeSoChiaLuong" class="form-control HeSoChiaLuong" style="border:none; text-align: center;" ></td>
+                                    <td><input type="number" value="@item.HeSoChiaLuong" class="form-control HeSoChiaLuong" style="border:none; text-align: center;"></td>
                                     <td><input type="number" value="@item.LuongTruocDuyet" class="form-control Luong" style="border:none; text-align: center;"></td>
-                                    
+
                                     <td><textarea class="DuBaoNguyCo">@item.DuBaoNguyCo</textarea></td>
                                     <td><textarea class="GiaiPhapNguyCo">@item.YeuCauBPKTAT</textarea></td>
                                 </tr>
@@ -98,15 +142,24 @@
                         <a class="btn waves-effect waves-light blue modal-trigger" id="btn-save" href="#modal1">Lưu</a>
                     </div>
                 }
+                else
+                {
+                    <div class="row">
+                        <h3 style="text-align:center;">
+                            <p>Chưa có dữ liệu điểm danh</p>
+                        </h3>
+                        <hr>
+                    </div>
+                }
             </div>
-           
+
         </form>
     </div>
 </div>
 <ul id='dropdown_ca' class='dropdown-content'>
-    <li><a class="dropdown-child-ca" href="#" name="ca1">CA 1</a></li>
-    <li><a class="dropdown-child-ca" href="#" name="ca2">CA 2</a></li>
-    <li><a class="dropdown-child-ca" href="#" name="ca3">CA 3</a></li>
+    <li><a class="dropdown-child-ca" href="#" name="CA 1">CA 1</a></li>
+    <li><a class="dropdown-child-ca" href="#" name="CA 2">CA 2</a></li>
+    <li><a class="dropdown-child-ca" href="#" name="CA 3">CA 3</a></li>
 </ul>
 
 
@@ -120,11 +173,14 @@
     </div>
 </div>
 
+<ul id='dropdown_px' class='dropdown-content'>
+    @foreach (var item in @ViewBag.TenToChuc)
+    {
+        <li><a class="dropdown-child-px" href="#!" name="@item.department_id">@item.department_name</a></li>
+    }
+</ul>
+
 <script type="text/javascript">
-
-
-
-
     var ca;
     var intCa;
     function getInner() {
@@ -141,9 +197,9 @@
     }
 
     function getcontent() {
-
         getInner();
-        window.location = "/phan-xuong-khai-thac/nang-suat-lao-dong?intCa=" + intCa + "&strDate=" + document.getElementById("inputdate").value;
+        var tendonvi = $("#px").attr("name");
+        window.location = "/phan-xuong-khai-thac/nang-suat-lao-dong?Ca=" + intCa + "&Date=" + document.getElementById("inputdate").value + "&Donvi=" + tendonvi;
     }
     function Update() {
         $('#pre-load').show();
@@ -190,8 +246,7 @@
             contentType: "application/json;charset=utf-8",
             type: "POST",
             success: function () {
-
-                window.location = "/phan-xuong-khai-thac/nang-suat-lao-dong?intCa=" + intCa + "&strDate=" + document.getElementById("inputdate").value;
+                getcontent();
             },
             error: function () {
             }
@@ -211,6 +266,5 @@
     });
 </script>
 
-<script src="~/js/Custom JS/button_watch_by.js"></script>
 
 

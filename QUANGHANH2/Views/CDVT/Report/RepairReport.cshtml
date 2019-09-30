@@ -1,14 +1,22 @@
 ﻿@{
-   Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
 }
 <link rel="stylesheet" type="text/css" href="~/assets/extra-libs/c3/c3.min.css">
 <link href="~/assets/extra-libs/prism/prism.css" rel="stylesheet" />
 <link rel="stylesheet" href="~/css/tuan_css/css/baocaoluong_css/style.css" />
 <link href="/assets/extra-libs/css-chart/css-chart.css" rel="stylesheet">
+<link href="~/assets/extra-libs/prism/prism.css" rel="stylesheet" />
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
+<link href="~/assets/Custom css/TABLE_BORDERED.css" rel="stylesheet" />
+<script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
+<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
+
+
 <script>
     $(function () {
-        var url_string = window.location.href;
-        var url = new URL(url_string);
         $("#txtmonth").datepicker({
             onSelect: function () {
                 $('#pre-load').show();
@@ -49,7 +57,7 @@
         var month = url.searchParams.get("month");
         var quater = url.searchParams.get("quarter");
         var year = url.searchParams.get("year");
-          $("#minMaxDate").val("@string.Format("{0:dd/MM/yyyy}", System.DateTime.Now)");
+        $("#minMaxDate").val("@string.Format("{0:dd/MM/yyyy}", System.DateTime.Now)");
         $("#txtmonth").val("Tháng @DateTime.Now.Month @DateTime.Now.Year");
         $("#txtyear").val("@DateTime.Now.Year");
         $("#quateryear").val("@DateTime.Now.Year");
@@ -93,230 +101,201 @@
 </script>
 <div class="card">
     <div class="card-content">
-        <div class="col s12">
-            <div class="center">
-                <h3 class="centered" style="padding-top:20px"><b>BÁO CÁO SỬA CHỮA VÀ BẢO DƯỠNG THIẾT BỊ</b></h3>
-                <div class="day" id="visibleday">
-                    <h3>
-                        <i class="fas fa-calendar-alt icon"></i>
-                        <input type='text' class='datepicker-here center' id="minMaxDate" data-language='vi'/>
-                    </h3>
-                </div>
-                <div class="month" id="visiblemonth" style="display: none">
-                    <h3>
-                        <i class="fas fa-calendar-alt icon"></i>
-                        <input type="text"
-                               id="txtmonth"
-                               class="datepicker-here center"
-                               data-language='vi'
-                               data-min-view="months"
-                               data-view="months"
-                               data-date-format="MM yyyy" />
-                    </h3>
-                </div>
-                <div class="quarter" id="visiblequater" style="display: none">
-                    <div class="row">
-                        <div class="col l4 m4"></div>
-                        <div class="col l2 m2 s4">
-                            <select class="form-control" style="width: 30%" id="txtquarter">
-                                <option value="1">Quý I</option>
-                                <option value="2" selected>Quý II</option>
-                                <option value="3">Quý III</option>
-                                <option value="4">Quý IV</option>
-                            </select>
-                        </div>
-                        <div class="col l2 m2 s6">
+        <div class="row">
+            <div class="col s12">
+                <div class="center">
+                    <h3 class="centered" style="padding-top:20px"><b>BÁO CÁO SỬA CHỮA VÀ BẢO DƯỠNG THIẾT BỊ</b></h3>
+                    <div class="day" id="visibleday">
+                        <h3>
+                            <i class="fas fa-calendar-alt icon"></i>
+                            <input type='text' class='datepicker-here center' id="minMaxDate" data-language='vi' />
+                        </h3>
+                    </div>
+                    <div class="month" id="visiblemonth" style="display: none">
+                        <h3>
+                            <i class="fas fa-calendar-alt icon"></i>
                             <input type="text"
-                                   id="quateryear"
-                                   class="datepicker-here center form-control"
+                                   id="txtmonth"
+                                   class="datepicker-here center"
+                                   data-language='vi'
+                                   data-min-view="months"
+                                   data-view="months"
+                                   data-date-format="MM yyyy" />
+                        </h3>
+                    </div>
+                    <div class="quarter" id="visiblequater" style="display: none">
+                        <div class="row">
+                            <div class="col l4 m4"></div>
+                            <div class="col l2 m2 s4">
+                                <select class="form-control" style="width: 30%" id="txtquarter">
+                                    <option value="1">Quý I</option>
+                                    <option value="2" selected>Quý II</option>
+                                    <option value="3">Quý III</option>
+                                    <option value="4">Quý IV</option>
+                                </select>
+                            </div>
+                            <div class="col l2 m2 s6">
+                                <input type="text"
+                                       id="quateryear"
+                                       class="datepicker-here center form-control"
+                                       data-language='vi'
+                                       data-min-view="years"
+                                       data-view="years"
+                                       data-date-format="yyyy" value="@DateTime.Now.Year" style="width: 150px !important" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="year" id="visibleyear" style="display: none">
+                        <h3>
+                            <i class="fas fa-calendar-alt icon"></i>
+                            <input type="text"
+                                   id="txtyear"
+                                   class="datepicker-here center"
                                    data-language='vi'
                                    data-min-view="years"
                                    data-view="years"
-                                   data-date-format="yyyy" value="@DateTime.Now.Year" style="width: 150px !important" />
-                        </div>
+                                   data-date-format="yyyy" />
+                        </h3>
                     </div>
                 </div>
-                <div class="year" id="visibleyear" style="display: none">
-                    <h3>
-                        <i class="fas fa-calendar-alt icon"></i>
-                        <input type="text"
-                               id="txtyear"
-                               class="datepicker-here center"
-                               data-language='vi'
-                               data-min-view="years"
-                               data-view="years"
-                               data-date-format="yyyy" />
-                    </h3>
-                </div>
             </div>
-
+            <hr />
         </div>
-
+        <ul id='dropdown1' class='dropdown-content'>
+            <li onclick="ViewbyDay();"><a id="day" href="#" ;>Xem Theo Ngày</a></li>
+            <li onclick="ViewbyMonth();"><a id="month" href="#" ;>Xem Theo Tháng</a></li>
+            <li onclick="ViewbyQuarter();"><a id="quarter" href="#" ;>Xem Theo Quý</a></li>
+            <li onclick="ViewbyYear();"><a id="year" href="#" ;>Xem Theo Năm</a></li>
+        </ul>
         <div class="row">
             <div class="col s12">
                 <a id="typeview" class='dropdown-trigger btn' href='#' data-target='dropdown1' style="width:250px;background-color:#273146;margin-bottom:20px">Xem Theo Ngày</a>
             </div>
             <div class="col s12">
-                <ul class="tabs">
+                <ul class="tabs" style="overflow-x:hidden;overflow-y:hidden">
                     <li class="tab col s6"><a class="active" onclick="ResizeChart()" href="#bieudo"><b>Biểu đồ</b></a></li>
                     <li class="tab col s6"><a href="#solieu"><b>Bảng báo cáo</b></a></li>
                 </ul>
             </div>
-        </div>
+            <div id="bieudo">
+                <div class="row">
+                    <div class="col s12 l6">
+                        <div class="card" style="height: 180px">
+                            <div class="card-content align-items-center">
+                                <div class="row">
+                                    <div class="col s12">
+                                        <h6 class="card-subtitle">Tổng thiết bị sửa chữa</h6>
+                                        <h4>@ViewBag.suachua thiết bị</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-    </div>
-
-</div>
-<ul id='dropdown1' class='dropdown-content'>
-    <li onclick="ViewbyDay();"><a id="day" href="#" ;>Xem Theo Ngày</a></li>
-    <li onclick="ViewbyMonth();"><a id="month" href="#" ;>Xem Theo Tháng</a></li>
-    <li onclick="ViewbyQuarter();"><a id="quarter" href="#" ;>Xem Theo Quý</a></li>
-    <li onclick="ViewbyYear();"><a id="year" href="#" ;>Xem Theo Năm</a></li>
-</ul>
-
-<div id="bieudo">
-    <div class="row">
-        <div class="col s12 l6">
-            <div class="card" style="height: 180px">
-                <div class="card-content align-items-center">
-                    <div class="row">
-                        <div class="col s12">
-                            <h6 class="card-subtitle">Tổng thiết bị sửa chữa</h6>
-                            <h4>@ViewBag.suachua thiết bị</h4>
+                    <div class="col s12 l6">
+                        <div class="card" style="height: 180px">
+                            <div class="card-content align-items-center">
+                                <div class="row">
+                                    <div class="col s12">
+                                        <h6 class="card-subtitle">Tổng thiết bị bảo dưỡng</h6>
+                                        <h4>@ViewBag.baoduong thiết bị</h4>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="col s12 l6">
-            <div class="card" style="height: 180px">
-                <div class="card-content align-items-center">
-                    <div class="row">
-                        <div class="col s12">
-                            <h6 class="card-subtitle">Tổng thiết bị bảo dưỡng</h6>
-                            <h4>@ViewBag.baoduong thiết bị</h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="card">
-    <div class="row">
         <div id="solieu" class="col s12">
-                <div class="row">
-                        <div class="col l12">
-                            <table class=" table-bordered table-responsive striped">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center" rowspan="2">STT</th>
-                                        <th class="text-center" rowspan="2">Tên thiết bị</th>
-                                        <th class="text-center" rowspan="2">Mã thiết bị</th>
-                                        <th class="text-center" rowspan="2">Mã TSCĐ</th>
-                                        <th class="text-center" colspan="7">Số lần</th>
-                                    </tr>
-                                    <tr>
-                                        <th>BD 125h</th>
-                                        <th>BD 250h</th>
-                                        <th>BD 500h</th>
-                                        <th>BD 1000h</th>
-                                        <th>BD 2000h</th>
-                                        <th>SC đột xuất</th>
-                                        <th>SC thường xuyên</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in ViewBag.all)
-                                    {
-                                        <tr>
-                                            <td>@item.Thang/@item.Nam</td>
-                                            <td>@item.MaThietBi</td>
-                                            <td>@item.TenThietBi</td>
-                                            <td>@item.MaTSCD</td>
-                                            <td>@item.h100</td>
-                                            <td>@item.h200</td>
-                                            <td>@item.h500</td>
-                                            <td>@item.h1000</td>
-                                            <td>@item.h2000</td>
-                                            <td>@item.DotXuat</td>
-                                            <td>@item.ThuongXuyen</td>
-                                        </tr>
-                                    }
-                                <tr style="color:crimson">
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>Tổng cộng</td>
-                                    <td>@ViewBag.h100</td>
-                                    <td>@ViewBag.h200</td>
-                                    <td>@ViewBag.h500</td>
-                                    <td>@ViewBag.h1000</td>
-                                    <td>@ViewBag.h2000</td>
-                                    <td>@ViewBag.dotxuat</td>
-                                    <td>@ViewBag.thuongxuyen</td>
+            <div class="row table_container">
+                <div class="col l12">
+                    <table class="table table-bordered striped table-responsive" style="overflow-x:scroll">
+                        <thead>
+                            <tr>
+                                <th class="text-center" rowspan="2">STT</th>
+                                <th class="text-center" rowspan="2">Tên thiết bị</th>
+                                <th class="text-center" rowspan="2">Mã thiết bị</th>
+                                <th class="text-center" rowspan="2">Mã TSCĐ</th>
+                                <th class="text-center" colspan="7">Số lần</th>
+                            </tr>
+                            <tr>
+                                <th>BD 125h</th>
+                                <th>BD 250h</th>
+                                <th>BD 500h</th>
+                                <th>BD 1000h</th>
+                                <th>BD 2000h</th>
+                                <th>SC đột xuất</th>
+                                <th>SC thường xuyên</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.all)
+                            {
+                                <tr>
+                                    <td>@item.Thang/@item.Nam</td>
+                                    <td>@item.MaThietBi</td>
+                                    <td>@item.TenThietBi</td>
+                                    <td>@item.MaTSCD</td>
+                                    <td>@item.h100</td>
+                                    <td>@item.h200</td>
+                                    <td>@item.h500</td>
+                                    <td>@item.h1000</td>
+                                    <td>@item.h2000</td>
+                                    <td>@item.DotXuat</td>
+                                    <td>@item.ThuongXuyen</td>
                                 </tr>
-                                </tbody>
-                            </table>
+                            }
+                            <tr style="color:crimson">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>Tổng cộng</td>
+                                <td>@ViewBag.h100</td>
+                                <td>@ViewBag.h200</td>
+                                <td>@ViewBag.h500</td>
+                                <td>@ViewBag.h1000</td>
+                                <td>@ViewBag.h2000</td>
+                                <td>@ViewBag.dotxuat</td>
+                                <td>@ViewBag.thuongxuyen</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 left">
+                    <div class="export_btn_container">
+                        <a class="waves-effect waves-light btn mybtn" id="export">Xuất ra file excel</a>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-12 left">
-                        <div class="export_btn_container">
-                            <a class="waves-effect waves-light btn mybtn" onclick="window.open('sua-chua/excel')">Xuất ra file excel</a>
-                        </div>
-                    </div>
-                    <div class="col l12">
-                        <h3>TỔNG HỢP BÁO CÁO: </h3>
-                    </div>
+                <div class="col l12">
+                    <h3>TỔNG HỢP BÁO CÁO: </h3>
                 </div>
-
-                <div class="row">
-                    <div class="summary_container">
-                        <div class="col l6 summary_left">
-                            <table class=" table-bordered striped">
-                                <tbody>
-                                    <tr>
-                                        <th class="total_row">Tổng số thiết bị sữa chữa: </th>
-                                        <th class="total_row">Tổng số thiết bị bảo dưỡng: </th>
-                                    </tr>
-                                    <tr style="color:crimson">
-                                        <td>@ViewBag.suachua</td>
-                                        <td>@ViewBag.baoduong</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+            </div>
+            <div class="row">
+                <div class="summary_container">
+                    <div class="col l6 summary_left">
+                        <table class=" table-bordered striped">
+                            <tbody>
+                                <tr>
+                                    <th class="total_row">Tổng số thiết bị sữa chữa: </th>
+                                    <th class="total_row">Tổng số thiết bị bảo dưỡng: </th>
+                                </tr>
+                                <tr style="color:crimson">
+                                    <td>@ViewBag.suachua</td>
+                                    <td>@ViewBag.baoduong</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
+        </div>
     </div>
 </div>
 
-
 <script src="~/assets/extra-libs/prism/prism.js"></script>
-<!-- This page plugin js -->
-<!-- ============================================================== -->
-<script src="/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
-<script src="/assets/libs/gaugeJS/dist/gauge.min.js"></script>
-
-<link href="~/assets/Custom css/TABLE_BORDERED.css" rel="stylesheet" />
-<script src="~/js/thang_js/ChangeDateType.js"></script>
-<link href="~/assets/extra-libs/prism/prism.css" rel="stylesheet" />
-<link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
-<link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
-<link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
-<link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
-<script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
-<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
-<script src="~/assets/extra-libs/prism/prism.js"></script>
-
-
-
-<script src="~/js/Custom JS/CDVT/Report/DetailManu.js"></script>
-<script src="~/js/Custom JS/CDVT/Report/ChangeDateType.js"></script>
 <script type="text/javascript">
     function ViewbyDay() {
         $('#pre-load').show();
@@ -336,6 +315,40 @@
         $('#pre-load').show();
         window.location = "/phong-cdvt/bao-cao/sua-chua?type=year&year=" + document.getElementById("txtyear").value;
     }
+    $("#export").click(function () {
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        var c = url.searchParams.get("type");
+        var day = url.searchParams.get("date");
+        var month = url.searchParams.get("month");
+        var quater = url.searchParams.get("quarter");
+        var year = url.searchParams.get("year");
+        var emb = {
+            type: c,
+            date: day,
+            month: month,
+            quarter: quater,
+            year: year
+        };
+        $('#pre-load').show();
+        $.ajax({
+            url: '/phong-cdvt/bao-cao/sua-chua/excel',
+            type: 'POST',
+            data: JSON.stringify(emb),
+            contentType: "application/json;charset=utf-8",
+            dataType: 'JSON',
+            success: function (response) {
+                if (response.success) {
+                    window.location.href = response.location;
+                    $("#pre-load").hide("slow", function () {
+                    });
+                } else {
+                    alert("error");
+                }
+            }
+        });
+        $("#pre-load").hide();
+    });
 </script>
 <script>
     $('#minMaxDate').datepicker({

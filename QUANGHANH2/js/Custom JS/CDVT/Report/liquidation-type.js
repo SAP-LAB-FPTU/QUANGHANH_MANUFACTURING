@@ -82,8 +82,8 @@
                 radius: '75%',
                 center: ['50%', '40%'],
                 data: [
-                    { value: 150, name: 'Đã thanh lý' },
-                    { value: 150, name: 'Chờ thanh lý' }
+                    { value: daTL, name: 'Đã thanh lý' },
+                    { value: dangTL, name: 'Chờ thanh lý' }
                 ]
             }]
         };
@@ -167,8 +167,8 @@
                     show: false
                 },
                 data: [
-                    { value: 150, name: 'Đã thanh lý' },
-                    { value: 150, name: 'Chờ thanh lý' }
+                    { value: daTL, name: 'Đã thanh lý' },
+                    { value: dangTL, name: 'Chờ thanh lý' }
                 ]
             }]
         };

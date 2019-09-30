@@ -21,8 +21,10 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
             try
             {
                 QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-                Documentary documentary = DBContext.Database.SqlQuery<Documentary>("SELECT docu.*, docu.[out/in_come] as out_in_come FROM equipment_moveline_status as detail inner join Documentary as docu on detail.documentary_id = docu.documentary_id WHERE docu.documentary_code IS NOT NULL AND detail.documentary_id = @documentary_id",
+                Documentary documentary = DBContext.Database.SqlQuery<Documentary>("SELECT docu.*, docu.[out/in_come] as out_in_come FROM Documentary_moveline_details as detail inner join Documentary as docu on detail.documentary_id = docu.documentary_id WHERE docu.documentary_code IS NOT NULL AND detail.documentary_id = @documentary_id",
                     new SqlParameter("documentary_id", id)).First();
+                if (documentary.documentary_status == 0) ViewBag.AddAble = true;
+                else ViewBag.AddAble = false;
                 ViewBag.id = documentary.documentary_id;
                 ViewBag.code = documentary.documentary_code as string;
                 return View("/Views/CDVT/Cap_nhat/Chitiet/Dieudong.cshtml");
@@ -52,6 +54,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
             {
                 item.stringDate = item.date_to.ToString("dd/MM/yyyy");
                 item.statusAndEquip = item.equipment_moveline_status + "^" + item.equipmentId;
+                item.idAndEquip = id + "^" + item.equipmentId;
             }
             int totalrows = equips.Count;
             int totalrowsafterfiltering = equips.Count;
@@ -84,6 +87,14 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
                         {
                             Documentary_moveline_details temp = DBContext.Documentary_moveline_details.Find(idnumber, item);
                             temp.equipment_moveline_status = 1;
+                            Acceptance a = new Acceptance();
+                            a.acceptance_date = DateTime.Now;
+                            a.acceptance_result = null;
+                            a.documentary_id = idnumber;
+                            a.documentary_process_result = null;
+                            a.equipmentId = item;
+                            a.equipmentStatus = 2;
+                            DBContext.Acceptances.Add(a);
                             DBContext.SaveChanges();
                         }
                         if (DBContext.Database.SqlQuery<Documentary_moveline_detailsDB>("select details.equipment_moveline_status from Department depa inner join Documentary docu on depa.department_id = docu.department_id inner join Documentary_moveline_details details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 3 and details.documentary_id = @documentary_id and equipment_moveline_status = '0'", new SqlParameter("documentary_id", id)).Count() == 0)

@@ -17,14 +17,18 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public NhanVien()
         {
+            this.ChamDut_NhanVien = new HashSet<ChamDut_NhanVien>();
             this.ChiTiet_BangCap_GiayChungNhan = new HashSet<ChiTiet_BangCap_GiayChungNhan>();
+            this.ChiTiet_NhiemVu_NhanVien = new HashSet<ChiTiet_NhiemVu_NhanVien>();
             this.ChungChi_NhanVien = new HashSet<ChungChi_NhanVien>();
             this.DiemDanh_NangSuatLaoDong = new HashSet<DiemDanh_NangSuatLaoDong>();
             this.DieuDong_NhanVien = new HashSet<DieuDong_NhanVien>();
+            this.FakeAPIs = new HashSet<FakeAPI>();
             this.GiayToes = new HashSet<GiayTo>();
-            this.ChiTiet_NhiemVu_NhanVien = new HashSet<ChiTiet_NhiemVu_NhanVien>();
+            this.LichSuBoSungSYLLs = new HashSet<LichSuBoSungSYLL>();
             this.QuanHeGiaDinhs = new HashSet<QuanHeGiaDinh>();
             this.QuaTrinhCongTacs = new HashSet<QuaTrinhCongTac>();
+            this.TuyenDung_NhanVien = new HashSet<TuyenDung_NhanVien>();
         }
     
         public string MaNV { get; set; }
@@ -33,7 +37,6 @@ namespace QUANGHANH2.Models
         public bool GioiTinh { get; set; }
         public string CapUyHienTai { get; set; }
         public string CapUyKiem { get; set; }
-        public string ChucVu { get; set; }
         public Nullable<double> PhuCapChucVu { get; set; }
         public System.DateTime NgaySinh { get; set; }
         public string NoiSinh { get; set; }
@@ -51,7 +54,6 @@ namespace QUANGHANH2.Models
         public System.DateTime NgayNhapNgu { get; set; }
         public System.DateTime NgayXuatNgu { get; set; }
         public string QuanHamChucVuCaoNhat { get; set; }
-        public string TrinhDoHocVan { get; set; }
         public string HocHamHocViCaoNhat { get; set; }
         public string LyLuanChinhTri { get; set; }
         public string NgoaiNgu { get; set; }
@@ -74,7 +76,6 @@ namespace QUANGHANH2.Models
         public System.DateTime NgayCapCMND { get; set; }
         public string NoiCapCMND { get; set; }
         public System.DateTime NgayDiLam { get; set; }
-        public string TrangThaiLamViec { get; set; }
         public string MaPhongBan { get; set; }
         public Nullable<int> MaUyQuyen { get; set; }
         public string SoBHXH { get; set; }
@@ -82,12 +83,23 @@ namespace QUANGHANH2.Models
         public string LoaiNhanVien { get; set; }
         public Nullable<int> MaCongViec { get; set; }
         public Nullable<double> MucLuong { get; set; }
-        public Nullable<int> MaChuyenNganh { get; set; }
         public Nullable<int> MaTrinhDo { get; set; }
         public Nullable<int> MaTruong { get; set; }
+        public string BacLuong { get; set; }
+        public string NgheTruoc { get; set; }
+        public Nullable<System.DateTime> NgayTuyenDungTruoc { get; set; }
+        public string CoQuanTruoc { get; set; }
+        public Nullable<double> HeSo { get; set; }
+        public Nullable<int> TuThang { get; set; }
+        public int MaTrangThai { get; set; }
+        public string MaChuyenNganh { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ChamDut_NhanVien> ChamDut_NhanVien { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChiTiet_BangCap_GiayChungNhan> ChiTiet_BangCap_GiayChungNhan { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ChiTiet_NhiemVu_NhanVien> ChiTiet_NhiemVu_NhanVien { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChungChi_NhanVien> ChungChi_NhanVien { get; set; }
         public virtual ChuyenNganh ChuyenNganh { get; set; }
@@ -98,16 +110,21 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DieuDong_NhanVien> DieuDong_NhanVien { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FakeAPI> FakeAPIs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GiayTo> GiayToes { get; set; }
         public virtual HoSo HoSo { get; set; }
-        public virtual NguoiUyQuyenLayHoSo_BaoHiem NguoiUyQuyenLayHoSo_BaoHiem { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChiTiet_NhiemVu_NhanVien> ChiTiet_NhiemVu_NhanVien { get; set; }
+        public virtual ICollection<LichSuBoSungSYLL> LichSuBoSungSYLLs { get; set; }
+        public virtual NguoiUyQuyenLayHoSo_BaoHiem NguoiUyQuyenLayHoSo_BaoHiem { get; set; }
+        public virtual TrangThai TrangThai { get; set; }
         public virtual TrinhDo TrinhDo { get; set; }
         public virtual Truong Truong { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QuanHeGiaDinh> QuanHeGiaDinhs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QuaTrinhCongTac> QuaTrinhCongTacs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TuyenDung_NhanVien> TuyenDung_NhanVien { get; set; }
     }
 }

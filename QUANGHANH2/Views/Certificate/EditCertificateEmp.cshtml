@@ -26,7 +26,8 @@
                     <div class="form-group col s12 m12 l12">
                         @Html.LabelFor(model => model.NgayCap, "Ngày cấp", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.NgayCap, "Ngày cấp", new { htmlAttributes = new { @class = "form-control" } })
+                            <input id="edit_start_time" class="form-control" />
+                            @Html.EditorFor(model => model.NgayCap, "Ngày cấp", new { htmlAttributes = new { @style = "display: none !important", @class = "form-control", @id = "ngaycap_edit_cert" } })
                             @Html.ValidationMessageFor(model => model.NgayCap, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -42,6 +43,7 @@
                                 }
                             </datalist>
                             @Html.ValidationMessageFor(model => model.MaNV, "", new { @class = "text-danger" })
+                            <p hidden style="color:red" id="message_checkNameExist_edit">Mã nhân viên không tồn tại. Hãy nhập lại</p>
                         </div>
                     </div>
 
@@ -65,27 +67,51 @@
                         <div class="control-label col-md-2"></div>
                         <br />
                         <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Lưu" class=" waves-light btn blue darken-2 white-text" id="submit_form_edit"/>
+                            <input type="submit" value="Lưu" class=" waves-light btn blue darken-2 white-text " id="submit_form_edit" />
                         </div>
                     </div>
                 </div>
-                
+
             </div>
         }
     </div>
 </body>
 </html>
+@Scripts.Render("~/bundles/jqueryval")
 <script>
+    $(document).ready(function () {
+        var date_start_edit = $("#ngaycap_edit_cert").val();
+        $("#edit_start_time").val(getDate(date_start_edit));
+        $("#edit_start_time").datepicker({ dateFormat: 'dd/mm/yyyy', changeYear: true });
+        $("#edit_start_time").keydown(function (e) {
+            e.preventDefault();
+        });
+    });
+    function addZeroIfRequired(dayOrMonth) {
+        return dayOrMonth > 9 ? dayOrMonth : "0" + dayOrMonth;
+    }
+
+    function getDate(dateString) {
+        var date = dateString ? new Date(dateString) : new Date();
+        return addZeroIfRequired(date.getDate()) + "/" + addZeroIfRequired((date.getUTCMonth() + 1)) + "/" + 
+            date.getUTCFullYear();
+    }
+    //show name 
     $('#manv').change(function () {
         var manv = $(this).val();
       $.ajax({
-            url:'@Url.Action("getName", "Certificate")',
+            url:'@Url.Action("getNameEmployee", "Certificate")',
             type: "POST",
             data: { id: $(this).val() },
             success: (response) => {
                 if (response.success) {
                     $('#nameEmpEdit').val(response.data);
+                    $('#message_checkNameExist_edit').hide();
+                    $('#submit_form_edit').attr("disabled", false);
                 } else {
+                    $('#nameEmpEdit').val(response.data);
+                    $('#message_checkNameExist_edit').show();
+                    $('#submit_form_edit').attr("disabled", true);
                 }
             },
             error: (response) => {
@@ -94,7 +120,7 @@
         })
 
     });
-    
+   
     var first_cir = $('#macc_edit').val();
     $('#macc_edit').blur(function () {
         var manv = $('#manv').val();
@@ -113,11 +139,17 @@
                 } else {
                     $('#message_cirt_emp_edit').hide();
                     $('#submit_form_edit').attr("disabled", false);
+                    $('#submit_form_edit').closest;
                 }
             },
             error: (response) => {
 
             },
         })
+    })
+    $('#submit_form_edit').click(function () {
+        var ngaycap = $('#edit_start_time').val();
+        var arr = ngaycap.split('/');
+        $('#ngaycap_edit_cert').val(arr[1] + "/" + arr[0] + "/" + arr[2]);
     })
 </script>

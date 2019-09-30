@@ -1,14 +1,18 @@
-﻿using QUANGHANH2.Models;
+﻿using OfficeOpenXml;
+using QUANGHANH2.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Hosting;
 using System.Web.Mvc;using System.Web.Routing;
 
 namespace QUANGHANHCORE.Controllers.CDVT.Report
 {
     public class RepairReportController : Controller
     {
+        /*aa*/
         [Route("phong-cdvt/bao-cao/sua-chua")]
         public ActionResult Index(string type, string date, string month, string quarter, string year)
         {
@@ -72,13 +76,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                 }
                 db.SaveChanges();
             }
-            //foreach(var item in content)
-            //{
-            //    if (String.IsNullOrEmpty(item.MaThietBi))
-            //    {
-            //        content.Remove(item);
-            //    }
-            //}
             ViewBag.all = content;
             ViewBag.h100 = h100bag;
             ViewBag.h200 = h200bag;
@@ -182,9 +179,108 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
             }
         }
         [Route("phong-cdvt/bao-cao/sua-chua/excel")]
-        public ActionResult Export()
+        public ActionResult Export(string type, string date, string month, string quarter, string year)
         {
-            return File( "~/excel/CDVT/suachua.xls", contentType: "text/plain; charset=utf-8", fileDownloadName: "suachua.xls");
+            string path = HostingEnvironment.MapPath("/excel/CDVT/suachua.xlsx");
+            string saveAsPath = ("/excel/CDVT/download/suachua.xlsx");
+            FileInfo file = new FileInfo(path);
+            using (ExcelPackage excelPackage = new ExcelPackage(file))
+            {
+                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
+                ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    int h100bag = 0, h200bag = 0, h500bag = 0, h1000bag = 0, h2000bag = 0, dotxuatbag = 0, thuongxuyenbag = 0;
+                    Wherecondition(type, date, month, quarter, year);
+                    List<Content> content = new List<Content>();
+                        var eqID = db.Database.SqlQuery<Eqp>("select dm.equipmentId as id from Documentary_maintain_details dm union select dr.equipmentId as id from Documentary_repair_details dr").ToList();
+                        foreach (var item in eqID)
+                        {
+                            if (ViewBag.ContentBaoDuong.Count > 0 || ViewBag.ContentSuaChua.Count > 0)
+                            {
+                                string id = item.id;
+                                int h100 = 0, h200 = 0, h500 = 0, h1000 = 0, h2000 = 0, DotXuat = 0, ThuongXuyen = 0, Thang = 0, Nam = 0;
+                                string MaThietBi = ""; string TenThietBi = ""; string MaTSCD = "";
+                                foreach (var item1 in ViewBag.ContentBaoDuong)
+                                {
+                                    if (id.Equals(item1.MaThietBi))
+                                    {
+                                        if (item1.LoaiBaoDuong.Equals("Bảo dưỡng 100h")) { h100++; h100bag++; }
+                                        if (item1.LoaiBaoDuong.Equals("Bảo dưỡng 200h")) { h200++; h200bag++; }
+                                        if (item1.LoaiBaoDuong.Equals("Bảo dưỡng 500h")) { h500++; h500bag++; }
+                                        if (item1.LoaiBaoDuong.Equals("Bảo dưỡng 1000h")) { h1000++; h1000bag++; }
+                                        if (item1.LoaiBaoDuong.Equals("Bảo dưỡng 2000h")) { h2000++; h2000bag++; }
+                                        MaThietBi = item1.MaThietBi; TenThietBi = item1.TenThietBi; MaTSCD = item1.MaTSCD;
+                                        Thang = item1.Thang; Nam = item1.Nam;
+                                    }
+                                }
+                                foreach (var item1 in ViewBag.ContentSuaChua)
+                                {
+                                    if (id.Equals(item1.MaThietBi))
+                                    {
+                                        if (item1.LoaiSuaChua.Equals("sửa chữa lớn")) { DotXuat++; dotxuatbag++; }
+                                        if (item1.LoaiSuaChua.Equals("sửa chữa nhỏ")) { ThuongXuyen++; thuongxuyenbag++; }
+                                        MaThietBi = item1.MaThietBi; TenThietBi = item1.TenThietBi; MaTSCD = item1.MaTSCD;
+                                        Thang = item1.Thang; Nam = item1.Nam;
+                                    }
+                                }
+                                if (!String.IsNullOrEmpty(MaThietBi))
+                                {
+                                    content.Add(new Content
+                                    {
+                                        Thang = Thang,
+                                        Nam = Nam,
+                                        MaThietBi = MaThietBi,
+                                        TenThietBi = TenThietBi,
+                                        MaTSCD = MaTSCD,
+                                        h100 = h100,
+                                        h200 = h200,
+                                        h500 = h500,
+                                        h1000 = h1000,
+                                        h2000 = h2000,
+                                        DotXuat = DotXuat,
+                                        ThuongXuyen = ThuongXuyen
+                                    });
+                                }
+                            }
+                        }
+                    int k = 3;
+                    for(int i = 0; i < content.Count; i++)
+                    {
+                        excelWorksheet.Cells[k, 1].Value = content.ElementAt(i).Thang + "/" + content.ElementAt(i).Nam;
+                        excelWorksheet.Cells[k, 2].Value = content.ElementAt(i).MaThietBi;
+                        excelWorksheet.Cells[k, 3].Value = content.ElementAt(i).TenThietBi;
+                        excelWorksheet.Cells[k, 4].Value = content.ElementAt(i).MaTSCD;
+                        excelWorksheet.Cells[k, 5].Value = content.ElementAt(i).h100;
+                        excelWorksheet.Cells[k, 6].Value = content.ElementAt(i).h200;
+                        excelWorksheet.Cells[k, 7].Value = content.ElementAt(i).h500;
+                        excelWorksheet.Cells[k, 8].Value = content.ElementAt(i).h1000;
+                        excelWorksheet.Cells[k, 9].Value = content.ElementAt(i).h2000;
+                        excelWorksheet.Cells[k, 10].Value = content.ElementAt(i).DotXuat;
+                        excelWorksheet.Cells[k, 11].Value = content.ElementAt(i).ThuongXuyen;
+                        k++;
+                    }
+                    excelWorksheet.Cells[k, 4].Value = "Tổng";
+                    excelWorksheet.Cells[k, 5].Value = h100bag;
+                    excelWorksheet.Cells[k, 6].Value = h200bag;
+                    excelWorksheet.Cells[k, 7].Value = h500bag;
+                    excelWorksheet.Cells[k, 8].Value = h1000bag;
+                    excelWorksheet.Cells[k, 9].Value = h2000bag;
+                    excelWorksheet.Cells[k, 10].Value = dotxuatbag;
+                    excelWorksheet.Cells[k, 11].Value = thuongxuyenbag;
+                    excelWorksheet.Cells[k, 4].Style.Font.Bold = true;
+                    excelWorksheet.Cells[k, 4].Style.Font.Color.SetColor(System.Drawing.Color.Red);
+                    excelWorksheet.Cells[k, 5].Style.Font.Color.SetColor(System.Drawing.Color.Red);
+                    excelWorksheet.Cells[k, 6].Style.Font.Color.SetColor(System.Drawing.Color.Red);
+                    excelWorksheet.Cells[k, 7].Style.Font.Color.SetColor(System.Drawing.Color.Red);
+                    excelWorksheet.Cells[k, 8].Style.Font.Color.SetColor(System.Drawing.Color.Red);
+                    excelWorksheet.Cells[k, 9].Style.Font.Color.SetColor(System.Drawing.Color.Red);
+                    excelWorksheet.Cells[k, 10].Style.Font.Color.SetColor(System.Drawing.Color.Red);
+                    excelWorksheet.Cells[k, 11].Style.Font.Color.SetColor(System.Drawing.Color.Red);
+                    excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath(saveAsPath)));
+                }
+            }
+                return Json(new { success = true, location = saveAsPath }, JsonRequestBehavior.AllowGet);
         }
     }
     public class contentBaoDuong

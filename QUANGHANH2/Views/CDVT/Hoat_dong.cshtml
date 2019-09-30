@@ -5,7 +5,7 @@
     ViewData["Title"] = "GeneralList";
     Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
 }
-@{List<string> right = (List<string>)Session["RightIDs"]; }
+@{List<string> right = (List<string>)Session["RightIDs"];}
 <link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
 <link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
@@ -38,10 +38,10 @@
                                     <div class="col l10 m10 s12 input-field">
                                         <select class="form-control" id="department-search">
                                             <option value="" selected>Tất cả</option>
-                                         @foreach (var item in ViewBag.listDepeartment)
-                                         {
-                                            <option value="@item.department_id">@item.department_name</option>
-                                         }
+                                            @foreach (var item in ViewBag.listDepeartment)
+                                            {
+                                                <option value="@item.department_id">@item.department_name</option>
+                                            }
 
                                         </select>
                                     </div>
@@ -92,29 +92,34 @@
 
                 <div class="col s12" style="margin-bottom:20px">
                     <div class="left" style="text-align:left !important">
-                        <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="myadd" onclick="PopupForm('@Url.Action("AddOrEdit","Hoatdong")')"><i class="fa fa-plus"></i> Thêm</a>
-                        <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="myadd3" @*onclick="PopupForm('@Url.Action("AddOrEdit","Hoatdong")')*@><i class="fa fa-plus"></i> Thêm nhóm thiết bị</a>
-                        <a class="waves-effect waves-light btn-small blue modal-trigger" id="export-button">Xuất ra Excel</a>
-                        <a class="waves-effect waves-light btn-small blue modal-trigger" href="#kiemdinh">Cập nhật ngày kiểm định</a>
 
-                        @*@{
+                        @{
                             foreach (var item in right)
                             {
                                 if (item.Equals("1"))
                                 {
+                                    <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="myadd" onclick="PopupForm('@Url.Action("AddOrEdit","Hoatdong")')"><i class="fa fa-plus"></i> Thêm</a>
+                                    <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="myadd3" @*onclick="PopupForm('@Url.Action("AddOrEdit","Hoatdong")')*@><i class="fa fa-plus"></i> Thêm nhóm thiết bị</a>
+
                                 }
                                 if (item.Equals("114"))
                                 {
+                                    <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="myadd3" @*onclick="PopupForm('@Url.Action("AddOrEdit","Hoatdong")')*@><i class="fa fa-plus"></i> Thêm nhóm thiết bị</a>
+
                                 }
                                 if (item.Equals("3"))
                                 {
+                                    <a class="waves-effect waves-light btn-small blue modal-trigger" id="export-button">Xuất ra Excel</a>
+
                                 }
                                 if (item.Equals("2"))
                                 {
+                                    <a class="waves-effect waves-light btn-small blue modal-trigger" href="#kiemdinh">Cập nhật ngày kiểm định</a>
+
                                 }
 
                             }
-                        }*@
+                        }
                     </div>
                     <div class="right">
                         <a class='dropdown-trigger btn' id="filter" href='#' data-target='dropdown1'
@@ -171,25 +176,25 @@
                         <div class="card mymanu card-hover" style="height: 200px">
                             <div class="card-content center-align table_container" style="overflow-x: auto !important">
                                 <div class="row">
-                                    
-                                        <div class="col s12">
-                                            <h6 class="card-subtitle center-align m-b-0 white-text">Tổng</h6>
-                                            <h2 class="font-light font-medium m-b-0 white-text" style="padding-top: 10px"> @ViewBag.Thongke.total </h2>
+
+                                    <div class="col s12">
+                                        <h6 class="card-subtitle center-align m-b-0 white-text">Tổng</h6>
+                                        <h2 class="font-light font-medium m-b-0 white-text" style="padding-top: 10px"> @ViewBag.Thongke.total </h2>
+                                    </div>
+                                    <div class="col s12">
+                                        <div class="progress">
+                                            <div class="determinate amber darken+5" style="width: 100%"></div>
                                         </div>
-                                        <div class="col s12">
-                                            <div class="progress">
-                                                <div class="determinate amber darken+5" style="width: 100%"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col s6 center-align">
-                                            <h5 class="card-subtitle white-text">Đang hoạt động</h5>
-                                            <h5 class="white-text">7000</h5>
-                                        </div>
-                                        <div class="col s6 center-align">
-                                            <h6 class="card-subtitle white-text">Không hoạt động</h6>
-                                            <h5 class="white-text">3700</h5>
-                                        </div>
-                                    
+                                    </div>
+                                    <div class="col s6 center-align">
+                                        <h5 class="card-subtitle white-text">Đang hoạt động</h5>
+                                        <h5 class="white-text">7000</h5>
+                                    </div>
+                                    <div class="col s6 center-align">
+                                        <h6 class="card-subtitle white-text">Không hoạt động</h6>
+                                        <h5 class="white-text">3700</h5>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -400,27 +405,10 @@
 </div>
 <div class="modal fade" id="myadd3">
     <div class="modal-header center-align">
-        <h3>Thêm thuộc tính thiết bị</h3>
+        <h3>Thêm nhóm thiết bị</h3>
     </div>
-    <div class="modal-body">
-        <div class="row">
-            <div class="col l6">
-                <div class="col l12">
-                    <input class="form-control" placeholder="Mã nhóm thiết bị" />
-                </div>
-                
-            </div>
-            <div class="col l6">
-                <div class="col l12">
-                    <input class="form-control" placeholder="Tên nhóm thiết bị" />
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button type="button" onclick="myFunction()" class="btn blue btn-small"><i class="large material-icons">add</i></button>
+    @Html.Action("AddCategory", "Hoatdong")
 
-    </div>
 </div>
 
 
@@ -432,7 +420,7 @@
             <h3 class="modal-title">Sửa</h3>
         </div>
         @Html.Action("Edit", "Hoatdong")
-        
+
     </div>
 </div>
 
@@ -441,28 +429,26 @@
         <div class="modal-header">
             <h3>Cập nhật ngày kiểm định</h3>
         </div>
-        <div class="modal-body">
-            <form>
+        <form action="/phong-cdvt/huy-dong/kd" method="post">
+            <div class="modal-body">
                 <div class="row">
                     <div class="col s12 m6">
-                        <div class="form-group">
-                            <label for="number">Mã thiết bị: </label>
-                            <input type="text" class="form-control" />
-                        </div>
+                        <label for="number">Mã thiết bị: </label>
+                        <input type="text" name="id" class="form-control" />
                     </div>
                     <div class="col s12 m6">
-                        <div class="form-group">
-                            <label for="number">Ngày kiểm định: </label>
-                            <input type="datetime" class="form-control datepicker-here" />
-                        </div>
+                        <label for="number">Ngày kiểm định: </label>
+                        <input type="datetime" name="date" class="form-control datepicker-here maxDate" />
                     </div>
                 </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <a class="btn light-blue modal-close">Cập nhật</a>
-            <a class="btn light-blue modal-close">Đóng</a>
-        </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-offset-2 col-md-10">
+                    <button type="submit" id="save" class="btn blue btn-default modal-close" style="color:white">Cập nhật</button>
+                    @*<input type="submit" value="Cập nhật" class="btn blue btn-default modal-close" />*@
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 <form asp-action="Delete" method="post">
@@ -501,7 +487,10 @@
 <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
 <script src="~/js/Custom JS/CDVT/Home/DetailManu_Daily.js"></script>
 <script>
-  
+    $("#Mybtn").click(function () {
+        var temp = $("#date_import").val();
+        alert(temp);
+    });
 
     $(window).resize(function () {
         if ($(window).width() <= 600) {
@@ -512,10 +501,9 @@
             $("#searchButton2").hide();
         }
     });
-     $('.Datemv').datepicker({
+    $('.Datemv').datepicker({
         language: 'vi',
         maxDate: new Date(),
-        minDate: new Date("1/1/1900")
     })
     $('.maxDate').datepicker({
         language: 'vi',
@@ -559,7 +547,7 @@
     });
 
 
-   
+
     $(document).ready(function () {
         $('input[required]').each(function myfunction() {
             $(this).attr("oninvalid", "setCustomValidity('Không được bỏ trống ô này')");
@@ -572,9 +560,6 @@
 @section scripts{
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script>
-         $(document).ready(function () {
-            $(".myinput").attr("data-language", "vi");
-        }); 
         //export fuction
         $("#export-button").click(function () {
             $("#pre-load").show();
@@ -588,13 +573,26 @@
             })
         });
 
-        var Popup, dataTable;
-
+        var Popup, dataTable, bol,bol2;
+        @{
+    var hihi = right.Contains("4");
+    var hehe = right.Contains("5");
+}
+        bol = @hihi.ToString().ToLower();
+        bol2 = @hehe.ToString().ToLower();
         $(document).ready(function () {
 
-            dataTable = $('#equipmentTable').DataTable({
-                "ajax": {
-                    "url": "/phong-cdvt/huy-dong",
+            dataTable = $('#equipmentTable')
+                .on('preXhr.dt', function (e, settings, data) {
+                    ////////////////////////////////////HIỆN LÊN MỖI KHI CHẠY AJAX//////////////////////////////////
+                    $("#pre-load").show("slow", function () {
+                    });
+                    $("#pre-load").css("z-index", "99999");
+                    ////////////////////////////////////////////////////////////////////////
+                })
+                .DataTable({
+                    "ajax": {
+                        "url": "/phong-cdvt/huy-dong",
                     "type": "POST",
                     "datatype": "json",
                 },
@@ -602,41 +600,41 @@
                     {
                         "data": "equipmentId", "name": "equipmentId", "render": function (data) {
                             //return ("<form id='myform' action='thiet-bi' method='POST'><input name='id' value='" + data + "' type='hidden' /><a class='btn' onclick='abc()'>" + data + "</a></form>");
-                            return ("<form action=\"thiet-bi\" method=\"post\"><input type=\"hidden\" name=\"id\" value=\"" + data + "\" class=\"form-control\"/><button class='btn' onclick='submit'>"+data+"</button></form>");
+                            return ("<form action=\"thiet-bi\" method=\"post\"><input type=\"hidden\" name=\"id\" value=\"" + data + "\" class=\"form-control\"/><button class='btn' onclick='submit'>" + data + "</button></form>");
                         }
                     },
-                    { "data": "equipment_name" , "name" : "equipment_name" },
+                    { "data": "equipment_name", "name": "equipment_name" },
                     { "data": "supplier", "name": "supplier" },
                     {
                         "data": "date_import", "name": "date_import", "render": function (data) {
-                             return dateFormat(new Date(parseInt((data).match(/\d+/)[0]))) +" ";
+                            return dateFormat2(data) + " ";
                         },
-                       
+
                     },
-                    { "data": "depreciation_estimate" , "name" : "depreciation_estimate"},
-                    { "data": "depreciation_present" , "name" : "depreciation_present" },
+                    { "data": "depreciation_estimate", "name": "depreciation_estimate" },
+                    { "data": "depreciation_present", "name": "depreciation_present" },
                     {
-                         "data": "durationOfInspection", "name": "durationOfInspection", "render": function (data) {
-                             return dateFormat(new Date(parseInt((data).match(/\d+/)[0]))) +" ";
-                        },
-                    },
-                    {
-                         "data": "durationOfInsurance", "name": "durationOfInsurance", "render": function (data) {
-                             return dateFormat(new Date(parseInt((data).match(/\d+/)[0]))) +" ";
+                        "data": "durationOfInspection", "name": "durationOfInspection", "render": function (data) {
+                            return dateFormat2(data) + " ";
                         },
                     },
                     {
-                         "data": "usedDay", "name": "usedDay", "render": function (data) {
-                             return dateFormat(new Date(parseInt((data).match(/\d+/)[0]))) +" ";
+                        "data": "durationOfInsurance", "name": "durationOfInsurance", "render": function (data) {
+                            return dateFormat2(data) + " ";
+                        },
+                    },
+                    {
+                        "data": "usedDay", "name": "usedDay", "render": function (data) {
+                            return dateFormat2(data) + " ";
                         },
                     },
                     {
                         "data": "nearest_Maintenance_Day", "name": "nearest_Maintenance_Day", "render": function (data) {
-                             return dateFormat(new Date(parseInt((data).match(/\d+/)[0]))) +" ";
+                            return dateFormat2(data) + " ";
                         },
                     },
                     { "data": "total_operating_hours" , "name" : "total_operating_hours"},
-                    { "data": "current_Status", "name" : "current_Status"},
+                    { "data": "status_name", "name" : "status_name"},
                     { "data": "fabrication_number", "name": "fabrication_number" },
                     { "data": "mark_code", "name" : "mark_code"},
                     { "data": "quality_type" , "name" : "quality_type"},
@@ -644,155 +642,188 @@
                     { "data": "category_name", "name" : "category_name"},
                     { "data": "department_name" , "name" : "department_name"},
                     //
-                      {
-                        "data": "equipmentId", "render": function (data) {
-                            return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='myedit' onclick=Edit('@Url.Action("Edit","Hoatdong")/" + data + "')><i class='fa fa-pencil'></i>Chỉnh&nbsp;sửa</a>";
-                        },
+                    {
+                        "data": "equipmentId", "visible":bol,"render": function (data) {
+                return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='myedit' onclick=Edit('@Url.Action("Edit","Hoatdong")/" + data + "')><i class='fa fa-pencil'></i>Chỉnh&nbsp;sửa</a>";
+            },
                         "orderable": false,
                         "searchable":false,
                         "width":"150px"
                     },
                     {
-                        "data": "equipmentId", "render": function (data) {
-                            return "<a class='waves-effect waves-light btn-small blue' style='margin-left:5px' onclick=Delete('@Url.Action("Delete","Hoatdong")/" + data + "')><i class='fa fa-trash'></i>Xóa</a>";
-                        },
+                        "data": "equipmentId", "visible":bol2, "render": function (data) {
+                return "<a class='waves-effect waves-light btn-small blue' style='margin-left:5px' onclick=Delete('@Url.Action("Delete","Hoatdong")/" + data + "')><i class='fa fa-trash'></i>Xóa</a>";
+            },
                         "orderable": false,
                         "searchable":false,
                         "width":"150px"
                     }
-                ],
+                    ],
+                "drawCallback": function (settings) {
+                        ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
+                        $("#pre-load").hide("slow", function () {
+                        });
+                        ////////////////////////////////////////////////
+                    },
                 "serverSide": "true",
                 "bLengthChange": false,
                 "bFilter": false,
                 "bInfo": false,
                 "bAutoWidth": false,
-                "order" : [0, "asc"]
-            });
+                "order": [0, "asc"],
+                "language": {
+                        emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                        paginate:
+                        {
+                            previous: "Trang trước",
+                            next: "Trang sau",
+                            first: "|<",
+                            last: ">|"
+                        }
+                    },
+                "initComplete": function (settings, json) {
+                        ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
+                        $("#pre-load").hide("slow", function () {
+                        });
+                        //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
+                    },
+
+                });
+                //$("#pre-load").hide();
         });
 
          $("#searchButton1").click(function () {
-             $("#pre-load").show(); 
-             dataTable.destroy();
+                dataTable.destroy();
 
-                dataTable = $('#equipmentTable').DataTable({
-                    "language": {
-                        "equipmentTable": "Không tìm thấy dữ liệu"
-                    },
+                dataTable = $('#equipmentTable')
+                .on('preXhr.dt', function (e, settings, data) {
+                    ////////////////////////////////////HIỆN LÊN MỖI KHI CHẠY AJAX//////////////////////////////////
+                    $("#pre-load").show("slow", function () {
+                    });
+                    $("#pre-load").css("z-index", "99999");
+                    ////////////////////////////////////////////////////////////////////////
+                })
+                .DataTable({
                     "ajax": {
-                        "url": "/phong-cdvt/huy-dong/search",
-                        "type": "POST", 
-                        "search": false,
-                        "datatype": "json",
-                        "data": {
-                            "equipmentId": $('#equipmentId-search').val(),
-                            "equipmentName": $('#equipmentName-search').val(),
-                            "department": $('#department-search').val(),
-                            "quality": $('#equipmentQuality-search').val(),
-                            "dateStart": $('#date-start-search').val(),
-                            "dateEnd": $('#date-end-search').val(),
-                            "category": $('#category-search').val(),
-                            "sup": $('#supplier-search').val()
-                        },
-                        "cache": false
-                    },
-                    "columns": [
+                        "url": "/phong-cdvt/huy-dong",
+                    "type": "POST",
+                    "datatype": "json",
+                },
+                "columns": [
                     {
                         "data": "equipmentId", "name": "equipmentId", "render": function (data) {
                             //return ("<form id='myform' action='thiet-bi' method='POST'><input name='id' value='" + data + "' type='hidden' /><a class='btn' onclick='abc()'>" + data + "</a></form>");
-                            return ("<form action=\"thiet-bi\" method=\"post\"><input type=\"hidden\" name=\"id\" value=\"" + data + "\" class=\"form-control\"/><button class='btn' onclick='submit'>"+data+"</button></form>");
+                            return ("<form action=\"thiet-bi\" method=\"post\"><input type=\"hidden\" name=\"id\" value=\"" + data + "\" class=\"form-control\"/><button class='btn' onclick='submit'>" + data + "</button></form>");
                         }
                     },
-                    { "data": "equipment_name" , "name" : "equipment_name" },
+                    { "data": "equipment_name", "name": "equipment_name" },
                     { "data": "supplier", "name": "supplier" },
                     {
                         "data": "date_import", "name": "date_import", "render": function (data) {
-                            return dateFormat(new Date(parseInt((data).match(/\d+/)[0]))) +" ";
+                            return dateFormat2(data) + " ";
                         },
-                       
+
                     },
-                    { "data": "depreciation_estimate" , "name" : "depreciation_estimate"},
-                    { "data": "depreciation_present" , "name" : "depreciation_present" },
+                    { "data": "depreciation_estimate", "name": "depreciation_estimate" },
+                    { "data": "depreciation_present", "name": "depreciation_present" },
                     {
-                         "data": "durationOfInspection", "name": "durationOfInspection", "render": function (data) {
-                            return dateFormat(new Date(parseInt((data).match(/\d+/)[0]))) +" ";
-                        },
-                    },
-                    {
-                         "data": "durationOfInsurance", "name": "durationOfInsurance", "render": function (data) {
-                            return dateFormat(new Date(parseInt((data).match(/\d+/)[0]))) +" ";
+                        "data": "durationOfInspection", "name": "durationOfInspection", "render": function (data) {
+                            return dateFormat2(data) + " ";
                         },
                     },
                     {
-                         "data": "usedDay", "name": "usedDay", "render": function (data) {
-                            return dateFormat(new Date(parseInt((data).match(/\d+/)[0]))) +" ";
+                        "data": "durationOfInsurance", "name": "durationOfInsurance", "render": function (data) {
+                            return dateFormat2(data) + " ";
                         },
                     },
                     {
-                         "data": "nearest_Maintenance_Day", "name": "nearest_Maintenance_Day", "render": function (data) {
-                            return dateFormat(new Date(parseInt((data).match(/\d+/)[0]))) +" ";
+                        "data": "usedDay", "name": "usedDay", "render": function (data) {
+                            return dateFormat2(data) + " ";
+                        },
+                    },
+                    {
+                        "data": "nearest_Maintenance_Day", "name": "nearest_Maintenance_Day", "render": function (data) {
+                            return dateFormat2(data) + " ";
                         },
                     },
                     { "data": "total_operating_hours" , "name" : "total_operating_hours"},
-                    { "data": "current_Status", "name" : "current_Status"},
+                    { "data": "status_name", "name" : "status_name"},
                     { "data": "fabrication_number", "name": "fabrication_number" },
                     { "data": "mark_code", "name" : "mark_code"},
                     { "data": "quality_type" , "name" : "quality_type"},
                     { "data": "input_channel", "name" : "input_channel"},
-                    { "data": "Equipment_category_name", "name" : "Equipment_category_name"},
+                    { "data": "category_name", "name" : "category_name"},
                     { "data": "department_name" , "name" : "department_name"},
                     //
-                     {
-                        "data": "equipmentId", "render": function (data) {
-                            return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='myedit' onclick=Edit('@Url.Action("Edit","Hoatdong")/" + data + "')><i class='fa fa-pencil'></i>Chỉnh&nbsp;sửa</a>";
-                        },
+                    {
+                        "data": "equipmentId", "visible":bol,"render": function (data) {
+                return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='myedit' onclick=Edit('@Url.Action("Edit","Hoatdong")/" + data + "')><i class='fa fa-pencil'></i>Chỉnh&nbsp;sửa</a>";
+            },
                         "orderable": false,
                         "searchable":false,
                         "width":"150px"
                     },
                     {
-                        "data": "equipmentId", "render": function (data) {
-                            return "<a class='waves-effect waves-light btn-small blue' style='margin-left:5px' onclick=Delete('@Url.Action("Delete","Hoatdong")/" + data + "')><i class='fa fa-trash'></i>Xóa</a>";
-                        },
+                        "data": "equipmentId", "visible":bol2, "render": function (data) {
+                return "<a class='waves-effect waves-light btn-small blue' style='margin-left:5px' onclick=Delete('@Url.Action("Delete","Hoatdong")/" + data + "')><i class='fa fa-trash'></i>Xóa</a>";
+            },
                         "orderable": false,
                         "searchable":false,
                         "width":"150px"
                     }
-                ],
-                    "serverSide": "true",
-                    "order": [0, "asc"],
-                    "rowId": "incident_id",
-                    "lengthChange": false,
-                    "searching": false,
-                    "bInfo": false,
-                    "initComplete": function (settings, json) {
-                        $.notify("Tìm kiếm thành công", {
-                            globalPosition: "top center",
-                            className: "success"
-                        })
-                    }
+                    ],
+                    "drawCallback": function (settings) {
+                        ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
+                        $("#pre-load").hide("slow", function () {
+                        });
+                        ////////////////////////////////////////////////
+                    },
+                "serverSide": "true",
+                "bLengthChange": false,
+                "bFilter": false,
+                "bInfo": false,
+                "bAutoWidth": false,
+                "order": [0, "asc"],
+                "language": {
+                        emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                        paginate:
+                        {
+                            previous: "Trang trước",
+                            next: "Trang sau",
+                            first: "|<",
+                            last: ">|"
+                        }
+                    },
+                "initComplete": function (settings, json) {
+                        ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
+                        $("#pre-load").hide("slow", function () {
+                        });
+                        //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
+                    },
+
                 });
-                $('#pre-load').hide();
-            });
+        });
+
         function dateFormat2(d) {
-            var dateString = d.substr(6);
-            var currentTime = new Date(parseInt(dateString));
-            var month = currentTime.getMonth() + 1;
-            var day = currentTime.getDate();
-            var year = currentTime.getFullYear();
-            var date = day + "/" + month + "/" + year;
-            return (date);
-        }
-        function dateFormat(d) {
-            console.log(d);
-            return ((d.getMonth() + 1) + "").padStart(2, "0")
-                + "/" + (d.getDate() + "").padStart(2, "0")
-                + "/" + d.getFullYear();
-        }
-        function PopupForm(url) {
-            var formDiv = $('<div/>');
+                var dateString = d.substr(6);
+                var currentTime = new Date(parseInt(dateString));
+                var month = currentTime.getMonth() + 1;
+                var day = currentTime.getDate();
+                var year = currentTime.getFullYear();
+                var date = day + "/" + month + "/" + year;
+                return (date);
+            }
+            function dateFormat(d) {
+                console.log(d);
+                return ((d.getMonth() + 1) + "").padStart(2, "0")
+                    + "/" + (d.getDate() + "").padStart(2, "0")
+                    + "/" + d.getFullYear();
+            }
+            function PopupForm(url) {
+                var formDiv = $('<div/>');
             $.get(url)
             .done(function (response) {
-                formDiv.html(response);
+                    formDiv.html(response);
 
                     Popup = formDiv.dialog({
                     autoOpen: true,
@@ -801,26 +832,31 @@
                     height: 1000,
                     width: 800,
                     close: function () {
-                        Popup.dialog('destroy').remove();
-                    }
+                            Popup.dialog('destroy').remove();
+                        }
 
+                    });
                 });
-            });
-        }
+            }
 
         function UpdateEquipment(form) {
+            $("#pre-load").show("slow", function () {
+            });
+            $("#pre-load").css("z-index", "99999");
             $.validator.unobtrusive.parse(form);
-            if($(form).valid()){
+            if ($(form).valid()) {
                 $.ajax({
-                    type : "POST",
-                    url : form.action,
-                    data : $(form).serialize(),
-                    success : function (data) {
-                            dataTable.ajax.reload();
-                            $.notify("Cập nhật thành công",{
-                                globalPosition :"top center",
-                                className : "success"
-                            })
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        dataTable.ajax.reload();
+                        $("#pre-load").hide("slow", function () {
+                        });
+                        $.notify("Cập nhật thành công", {
+                            globalPosition: "top center",
+                            className: "success"
+                        })
 
                     },
                     error: function () {
@@ -828,53 +864,69 @@
                     }
                 });
             }
+
+
             return false;
         }
 
         function SubmitForm(form) {
+            $("#pre-load").show("slow", function () {
+            });
+
             $.validator.unobtrusive.parse(form);
 
-            if($(form).valid()){
+            if ($(form).valid()) {
                 $.ajax({
-                    type : "POST",
+                    type: "POST",
                     url: form.action,
                     data: $(form).serialize(),
                     success: function (data) {
                         dataTable.ajax.reload();
-                        $("#btn-submit").addClass("modal-close");
+                        $("#pre-load").hide("slow", function () {
+                        });
                         $.notify("Thêm thành công", {
                             globalPosition: "top center",
                             className: "success"
-                            })
+                        })
 
-                        }
+                    }
                 });
             }
+
+
             return false;
         }
             function Edit(url) {
              $.get(url)
                  .done(function (response) {
                      $("#edit-modal-body").html(response)
-
             });
+
                 return false;
-        }
+            }
 
 
 
         function Delete(url) {
-             $.get(url)
-                 .done(function (response) {
+            $("#pre-load").show("slow", function () {
+            });
+            $("#pre-load").css("z-index", "99999");
+            $.get(url)
+                .done(function (response) {
 
-                         dataTable.ajax.reload();
-                         $.notify("Hihi Xóa Xong", {
-                             globalPosition: "top center",
-                             className: "success"
-                         })
+                    dataTable.ajax.reload();
+                    $("#pre-load").hide("slow", function () {
+                    });
+                    $.notify("Hihi Xóa Xong", {
+                        globalPosition: "top center",
+                        className: "success"
+                    })
 
-                 });
-                return false;
+                });
+
+            return false;
         }
+
+
     </script>
 }
