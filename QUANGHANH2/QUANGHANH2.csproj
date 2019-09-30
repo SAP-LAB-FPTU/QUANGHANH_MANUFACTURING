@@ -590,6 +590,7 @@
     <Content Include="css\Custom css\TCLD\table_job_register.css" />
     <Content Include="css\jquery.dataTables.min.css" />
     <Content Include="css\pre-loader\css.css" />
+    <Content Include="css\pre-loader\logo.png" />
     <Content Include="css\preloader\css.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -6871,6 +6872,10 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="doc\TCLD\dieudong\motnguoi\dieudong-template.docx" />
+    <Content Include="doc\TCLD\dieudong\nhieunguoi\dieudong-template.docx" />
+    <Content Include="doc\TCLD\dieudong\quyetdinh-dieudong.docx" />
+    <Content Include="doc\TCLD\dieudong\temp.docx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
