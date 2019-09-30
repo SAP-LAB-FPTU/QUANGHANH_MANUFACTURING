@@ -56,12 +56,14 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
         }
         private class NewEquipment : Equipment
         {
+            public string status_name { get; set; }
             public string department_name { get; set; }
             public string category_name { get; set; }
         }
 
         public class EquipWithName : Equipment
         {
+            public string statusname { get; set; }
             public string Equipment_category_name { get; set; }
             public string department_name { get; set; }
         }
@@ -84,6 +86,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                                  join e in db.Equipment_category on p.Equipment_category_id equals e.Equipment_category_id
                                  join d in db.Departments on p.department_id equals d.department_id
                                  join ea in db.Equipment_category_attribute on p.Equipment_category_id equals ea.Equipment_category_id
+                                 join s in db.Status on p.current_Status equals s.statusid
                                  where ea.Equipment_category_attribute_name.Equals("Số khung") || ea.Equipment_category_attribute_name.Equals("Số máy")
                                  select new
                                  {
@@ -106,7 +109,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                                      Equipment_category_id = p.Equipment_category_id,
                                      department_id = p.department_id,
                                      department_name = d.department_name,
-                                     category_name = e.Equipment_category_name
+                                     category_name = e.Equipment_category_name,
+                                     status_name = s.statusname
                                  }).ToList().Distinct().Select(p => new NewEquipment
                                  {
                                      equipmentId = p.equipmentId,
@@ -128,7 +132,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                                      Equipment_category_id = p.Equipment_category_id,
                                      department_id = p.department_id,
                                      department_name = p.department_name,
-                                     category_name = p.category_name
+                                     category_name = p.category_name,
+                                     status_name = p.status_name
                                  }).ToList();
 
                 //var equipList = db.Database.SqlQuery<NewEquipment>("select e.*, d.department_name, ec.Equipment_category_name" +
@@ -166,6 +171,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                                                     join e in db.Equipment_category on p.Equipment_category_id equals e.Equipment_category_id
                                                     join d in db.Departments on p.department_id equals d.department_id
                                                     join ea in db.Equipment_category_attribute on p.Equipment_category_id equals ea.Equipment_category_id
+                                                    join s in db.Status on p.current_Status equals s.statusid
                                                     where ea.Equipment_category_attribute_name.Equals("Số khung") || ea.Equipment_category_attribute_name.Equals("Số máy")
                                                     select new
                                                     {
@@ -188,7 +194,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                                                         Equipment_category_id = p.Equipment_category_id,
                                                         department_id = p.department_id,
                                                         department_name = d.department_name,
-                                                        category_name = e.Equipment_category_name
+                                                        category_name = e.Equipment_category_name,
+                                                        status_name = s.statusname
                                                     }).ToList().Distinct().Select(p => new NewEquipment
                                                     {
                                                         equipmentId = p.equipmentId,
@@ -210,7 +217,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                                                         Equipment_category_id = p.Equipment_category_id,
                                                         department_id = p.department_id,
                                                         department_name = p.department_name,
-                                                        category_name = p.category_name
+                                                        category_name = p.category_name,
+                                                        status_name = p.status_name
                                                     }).ToList();
                     int k = 2;
                     for (int i = 0; i < equipList.Count; i++)
@@ -226,7 +234,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                         excelWorksheet.Cells[k, 9].Value = equipList.ElementAt(i).usedDay.ToString("dd/MM/yyyy");
                         excelWorksheet.Cells[k, 10].Value = equipList.ElementAt(i).nearest_Maintenance_Day.ToString("dd/MM/yyyy");
                         excelWorksheet.Cells[k, 11].Value = equipList.ElementAt(i).total_operating_hours;
-                        excelWorksheet.Cells[k, 12].Value = equipList.ElementAt(i).current_Status;
+                        excelWorksheet.Cells[k, 12].Value = equipList.ElementAt(i).status_name;
                         excelWorksheet.Cells[k, 13].Value = equipList.ElementAt(i).fabrication_number;
                         excelWorksheet.Cells[k, 14].Value = equipList.ElementAt(i).mark_code;
                         excelWorksheet.Cells[k, 15].Value = equipList.ElementAt(i).quality_type;
@@ -258,8 +266,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             DateTime dtStart = DateTime.ParseExact(dateStart, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             DateTime dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
-            string query = "select e.*,ec.Equipment_category_name,d.department_name " +
-                "from Equipment e, Department d, Equipment_category ec, " +
+            string query = "select e.*,ec.Equipment_category_name,d.department_name,s.statusname " +
+                "from Equipment e, Department d, Equipment_category ec,Status s " +
                 "(select distinct e.equipmentId, e.equipment_name from Equipment e inner join Equipment_category_attribute ea on ea.Equipment_category_id = e.Equipment_category_id where ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') a" +
                 " where a.equipmentId = e.equipmentId and e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id AND ";
 
