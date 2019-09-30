@@ -110,7 +110,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                         string next_remodel_type = (string)item.Value["next_remodel_type"];
                         DateTime end_date = DateTime.ParseExact(datestring, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                         datestring = (string)item.Value["next_end_time"];
-                        DateTime next_end_time = DateTime.ParseExact(datestring, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                        //DateTime next_end_time = DateTime.ParseExact(datestring, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                        double next_end_time = 100;
                         Documentary_big_maintain_details drd = new Documentary_big_maintain_details();
                         drd.equipment_big_maintain_status = 0;
                         drd.remodel_type = remodel_type;

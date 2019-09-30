@@ -32,30 +32,38 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
         }
 
         [Route("phan-xuong-khai-thac/nang-suat-lao-dong")]
-        public ActionResult NSLD(string intCa, string strDate)
+        public ActionResult NSLD(string Ca, string Date, string Donvi)
         {
-            if (intCa == null)
+            if (Ca == null)
             {
-                intCa = "1";
+                Ca = "1";
             }
-            if (strDate == null)
+            if (Date == null)
             {
-                strDate = string.Format("{0:dd/MM/yyyy}", DateTime.Now);
+                Date = string.Format("{0:dd/MM/yyyy}", DateTime.Now);
             }
-            var calamviec = Convert.ToInt32(intCa);
-            var date = DateTime.ParseExact(strDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            if (Donvi == null)
+            {
+                Donvi = "DL1";
+            }
+            var calamviec = Convert.ToInt32(Ca);
+            var date = DateTime.ParseExact(Date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
+                ViewBag.TenToChuc = db.Departments.ToList();
                 List<DiemDanh_NangSuatLaoDong> list = db.DiemDanh_NangSuatLaoDong
                     .Where(a => a.NgayDiemDanh == date)
-                    .Where(a => a.CaDiemDanh == calamviec).ToList();
+                    .Where(a => a.CaDiemDanh == calamviec)
+                    .Where(a => a.MaDonVi == Donvi).ToList();
                 List<BaoCaoTheoCa> customNSLDs = new List<BaoCaoTheoCa>();
                 BaoCaoTheoCa cus;
+                int num = 1;
                 foreach (var i in list)
                 {
                     cus = new BaoCaoTheoCa
                     {
                         ID = i.MaDiemDanh,
+                        STT = num,
                         Name = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().Ten,
                         BacTho = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().BacLuong,
                         ChucDanh = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec == null ? "" : db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec.TenCongViec,
@@ -69,6 +77,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                         YeuCauBPKTAT = i.GiaiPhapNguyCo
                     };
                     customNSLDs.Add(cus);
+                num++;
                 }
                 ViewBag.nsld = customNSLDs;
             }
@@ -238,6 +247,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
     public class BaoCaoTheoCa
     {
         public int ID { get; set; }
+        public int STT { get; set; }
         public string Name { get; set; }
         public string SoThe { get; set; }
         public string BacTho { get; set; }
