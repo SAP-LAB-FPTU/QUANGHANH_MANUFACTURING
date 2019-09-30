@@ -26,7 +26,7 @@
                 </div>
                 <div class="col l9">
                     <h3>
-                        ĐIỂM DANH CỦA <a class="dropdown-trigger btn" id="ca" href="#" data-target="dropdown_px" style="background-color:#273146">DL1</a> <a class="dropdown-trigger btn" id="ca" href="#" data-target="dropdown_ca" style="background-color:#273146">CA 1</a> NGÀY <input type="text" id="inputdate" class="datepicker-here center" data-language="vi" value="" />
+                        ĐIỂM DANH CỦA <a class="dropdown-trigger btn" id="phanxuong" href="#" data-target="dropdown_px" style="background-color:#273146">DL1</a> <a class="dropdown-trigger btn" id="ca" href="#" data-target="dropdown_ca" style="background-color:#273146">CA 1</a> NGÀY <input type="text" id="inputdate" class="datepicker-here center" data-language="vi" value="" />
                         <a class="btn waves-effect waves-light blue modal-trigger" id="btn-view" href="#" onclick="getcontent();">Xem</a>
                         <br><br>
                     </h3>
@@ -144,7 +144,11 @@
                             if (row['status']) {
                                 return ""
                             } else {
-                                return "<span class=\"reasonBox\">" + data + "</span>"
+                                if (data != null) {
+                                    return "<span class=\"reasonBox\">" + data + "</span>"
+                                } else {
+                                    return "<span class=\"reasonBox\">" + "</span>"
+                                }
                             }
                         }
                     },
@@ -159,6 +163,15 @@
                 ]
             })
         })
+
+        function convertToSQLDate(dateInput) {
+            var date = dateInput.split("/")[0]
+            var month = dateInput.split("/")[1]
+            var year = dateInput.split("/")[2]
+            //
+            return year + "-" + month + "-" + date;
+            //
+        }
 
         function validateInput() {
 
@@ -194,13 +207,28 @@
         }
 
         function clickConfirm(checkbox) {
-            var clickedID = $(checkbox).attr("id").split("-")[0] + "-confirmed";
-            console.log(clickedID);
-            $("#" + clickedID).attr("checked", $(checkbox).is(":checked"));
+            // format : id+"confirm" or id+"status"
+            var clickedID = $(checkbox).attr("id");
+            //
+            var confirm = $("#" + clickedID.split("-")[0] + "-confirmed").is(":checked");
+            var status = $("#" + clickedID.split("-")[0] + "-status").is(":checked");
+            console.log("confirm: " +confirm)
+            console.log("status: " +status)
+            if (clickedID.split("-")[1] == "confirmed") {
+                if (!confirm) {
+                    $("#" + clickedID.split("-")[0] + "-status").attr("checked", false);
+                }
+            }
+            else {
+                if (!confirm && status) {
+                    $("#" + clickedID.split("-")[0] + "-confirmed").attr("checked", true);
+                    console.log("#" + clickedID.split("-")[0] + "-confirmed")
+                }
+            }
         }
 
         function updateReason() {
-            var heads = ["maDD", "maNV", "maDV", "tenNV", "status", "timeAttendance", "reason", "description"];
+            var heads = ["DSList","maDD", "maNV", "maDV", "tenNV", "status", "timeAttendance", "reason", "description"];
             //
             var rows = [];
             count = 0;
@@ -209,7 +237,7 @@
                 cur["maDD"] = $("#attendanceTable").DataTable().row(count).data()["maDD"];
                 count++;
                 $(this).find("td").each(function (i, v) {
-                    if (heads[i] != "maDD") {
+                    if (heads[i] != "maDD" && heads[i] != "DSList") {
                         if (heads[i] != "status" && heads[i] != "reason") {
                             cur[heads[i]] = $(this).text().trim();
                         }
@@ -235,6 +263,9 @@
             $("#attendanceTable").on('preXhr.dt', function (e, settings, data) {
                 data.workChecked = $("#workedAllCheckbox").is(":checked");
                 data.notWorkChecked = $("#notWorkedAllCheckbox").is(":checked");
+                data.session = $("#ca").text().split(" ")[1];
+                data.department = $("#phanxuong").text();
+                data.date = convertToSQLDate($("#inputdate").val());
             })
             $("#attendanceTable").DataTable().ajax.url("/phan-xuong-khai-thac/diem-danh/lua-chon-diem-danh").load();
         }
@@ -246,6 +277,9 @@
             var day = currentTime.getDate();
             var year = currentTime.getFullYear();
             var date = day + "/" + month + "/" + year;
+            // default date 
+            date = "10/09/2019"
+            //
             $("#inputdate").val(date);
             //
         })

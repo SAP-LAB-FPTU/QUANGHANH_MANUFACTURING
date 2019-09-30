@@ -171,22 +171,28 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
                     foreach (var item in listUpdate)
-                    {
-                        DiemDanh_NangSuatLaoDong dn = new DiemDanh_NangSuatLaoDong();
-                        dn.MaDiemDanh = Int32.Parse(item.maDD);
-                        dn.MaNV = item.maNV;
-                        dn.DiLam = item.status;
-                        //if (item.timeAttendance != "")
-                        //{
-                        //    dn.ThoiGianThucTeDiemDanh = DateTime.ParseExact(item.timeAttendance, "M/d/yyyy hh:mm:ss", null);
-                        //}
-                        dn.MaDonVi = item.maDV;
-                        dn.LyDoVangMat = item.reason;
-                        dn.GhiChu = item.description;
-                        dn.CaDiemDanh = 1;
-                        dn.NgayDiemDanh = Convert.ToDateTime("2019-09-10");
-                        db.Entry(dn).State = EntityState.Modified;
-                    }
+                        if (item.status)
+                        {
+                            DiemDanh_NangSuatLaoDong dn = new DiemDanh_NangSuatLaoDong();
+                            dn.MaNV = item.maNV;
+                            dn.DiLam = item.status;
+                            //if (item.timeAttendance != "")
+                            //{
+                            //    dn.ThoiGianThucTeDiemDanh = DateTime.ParseExact(item.timeAttendance, "M/d/yyyy hh:mm:ss", null);
+                            //}
+                            dn.MaDonVi = item.maDV;
+                            dn.LyDoVangMat = item.reason;
+                            dn.GhiChu = item.description;
+                            dn.CaDiemDanh = 1;
+                            dn.NgayDiemDanh = Convert.ToDateTime("2019-09-10");
+                            if (item.maDD != null)
+                            {
+                                db.Entry(dn).State = EntityState.Modified;
+                            } else
+                            {
+                                db.DiemDanh_NangSuatLaoDong.Add(dn);
+                            }
+                        }
                     db.SaveChanges();
                     transaction.Complete();
                 }
@@ -228,9 +234,9 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
             var workAll = bool.Parse(Request["workChecked"]);
             var notWorkAll = bool.Parse(Request["notWorkChecked"]);
             // fixxing
-            var departmentID = "DL1";
-            var dateAtt = Convert.ToDateTime("2019-09-10");
-            int ca = 1;
+            var departmentID = Request["department"];
+            var dateAtt = Convert.ToDateTime(Request["date"]);
+            int ca = Int32.Parse(Request["session"]);
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
