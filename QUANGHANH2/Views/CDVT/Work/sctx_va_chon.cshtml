@@ -213,7 +213,7 @@
                 var item = output[id].vattu[i];
                 var $tr = $('<tr>').append(
                     $('<td>').html("<input type='text' list='supplyID' class='form-control required' value='" + item.supply_id + "' /> "),
-                    $('<td>').html("<input type='number' min='1' value='1' class='form-control' value='" + item.quantity + "' /> ")
+                    $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> ")
                 );
                 if (item.supplyStatus == 'Qua sử dụng')
                     $tr.append($('<td>').html("<select class='form-control'><option>Mới 100%</option><option selected>Qua sử dụng</option></select> "))
