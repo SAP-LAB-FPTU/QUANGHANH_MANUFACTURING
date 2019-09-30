@@ -174,6 +174,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                     excelWorksheet.Cells[k, 6].Value = totalgio;
                     excelWorksheet.Cells[k, 7].Value = totaltieuthu;
                     excelWorksheet.Cells[k, 8].Value = totalsanluong;
+                    excelWorksheet.Cells[k, 5].Style.Font.Bold = true;
+                    excelWorksheet.Cells[k, 5].Style.Font.Color.SetColor(System.Drawing.Color.Red);
+                    excelWorksheet.Cells[k, 6].Style.Font.Color.SetColor(System.Drawing.Color.Red);
+                    excelWorksheet.Cells[k, 7].Style.Font.Color.SetColor(System.Drawing.Color.Red);
+                    excelWorksheet.Cells[k, 8].Style.Font.Color.SetColor(System.Drawing.Color.Red);
                     excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath(saveAsPath)));
                 }
             }

@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using QUANGHANH2.Models;
 using System;
 using System.Collections.Generic;
@@ -231,9 +232,10 @@ namespace QUANGHANH2.Controllers.CDVT.Report
                     excelWorksheet.Cells[k, 4].Value = "Tổng";
                     excelWorksheet.Cells[k, 5].Value = tangbag;
                     excelWorksheet.Cells[k, 6].Value = giambag;
-                    //excelWorksheet.Cells[k, 4].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Red);
-                    //excelWorksheet.Cells[k, 5].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Red);
-                    //excelWorksheet.Cells[k, 6].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Red);
+                    excelWorksheet.Cells[k, 4].Style.Font.Bold = true;
+                    excelWorksheet.Cells[k, 4].Style.Font.Color.SetColor(System.Drawing.Color.Red);
+                    excelWorksheet.Cells[k, 5].Style.Font.Color.SetColor(System.Drawing.Color.Red);
+                    excelWorksheet.Cells[k, 6].Style.Font.Color.SetColor(System.Drawing.Color.Red);
                     excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath(saveAsPath)));
                 }
             }

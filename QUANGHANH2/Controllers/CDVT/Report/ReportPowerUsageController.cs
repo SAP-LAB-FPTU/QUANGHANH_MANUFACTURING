@@ -265,9 +265,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                     excelWorksheet.Cells[k, 3].Value = "Tổng";
                     excelWorksheet.Cells[k, 4].Value = totaltieuthu;
                     excelWorksheet.Cells[k, 5].Value = totalsanluong;
-                    //excelWorksheet.Cells[k, 3].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Red);
-                    //excelWorksheet.Cells[k, 4].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Red);
-                    //excelWorksheet.Cells[k, 5].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Red);
+                    excelWorksheet.Cells[k, 3].Style.Font.Bold = true;
+                    excelWorksheet.Cells[k, 3].Style.Font.Color.SetColor(System.Drawing.Color.Red);
+                    excelWorksheet.Cells[k, 4].Style.Font.Color.SetColor(System.Drawing.Color.Red);
+                    excelWorksheet.Cells[k, 5].Style.Font.Color.SetColor(System.Drawing.Color.Red);
                     excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath(saveAsPath)));
                 }
             }

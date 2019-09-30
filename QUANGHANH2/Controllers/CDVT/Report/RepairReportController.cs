@@ -267,14 +267,15 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                     excelWorksheet.Cells[k, 9].Value = h2000bag;
                     excelWorksheet.Cells[k, 10].Value = dotxuatbag;
                     excelWorksheet.Cells[k, 11].Value = thuongxuyenbag;
-                    //excelWorksheet.Cells[k, 4].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Red);
-                    //excelWorksheet.Cells[k, 5].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Red);
-                    //excelWorksheet.Cells[k, 6].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Red);
-                    //excelWorksheet.Cells[k, 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Red);
-                    //excelWorksheet.Cells[k, 8].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Red);
-                    //excelWorksheet.Cells[k, 9].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Red);
-                    //excelWorksheet.Cells[k, 10].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Red);
-                    //excelWorksheet.Cells[k, 11].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Red);
+                    excelWorksheet.Cells[k, 4].Style.Font.Bold = true;
+                    excelWorksheet.Cells[k, 4].Style.Font.Color.SetColor(System.Drawing.Color.Red);
+                    excelWorksheet.Cells[k, 5].Style.Font.Color.SetColor(System.Drawing.Color.Red);
+                    excelWorksheet.Cells[k, 6].Style.Font.Color.SetColor(System.Drawing.Color.Red);
+                    excelWorksheet.Cells[k, 7].Style.Font.Color.SetColor(System.Drawing.Color.Red);
+                    excelWorksheet.Cells[k, 8].Style.Font.Color.SetColor(System.Drawing.Color.Red);
+                    excelWorksheet.Cells[k, 9].Style.Font.Color.SetColor(System.Drawing.Color.Red);
+                    excelWorksheet.Cells[k, 10].Style.Font.Color.SetColor(System.Drawing.Color.Red);
+                    excelWorksheet.Cells[k, 11].Style.Font.Color.SetColor(System.Drawing.Color.Red);
                     excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath(saveAsPath)));
                 }
             }

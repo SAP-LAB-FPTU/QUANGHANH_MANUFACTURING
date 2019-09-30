@@ -6829,7 +6829,6 @@
     <Content Include="lib\jquery\dist\jquery.min.map" />
     <Content Include="excel\CDVT\huydong.xls" />
     <Content Include="excel\CDVT\kiemdinh.xls" />
-    <Content Include="excel\CDVT\nhienlieu.xls" />
     <Content Include="excel\CDVT\thanhly.xls" />
     <Content Include="excel\CDVT\thuhoi.xls" />
     <Content Include="excel\CDVT\tonghop.xls" />
