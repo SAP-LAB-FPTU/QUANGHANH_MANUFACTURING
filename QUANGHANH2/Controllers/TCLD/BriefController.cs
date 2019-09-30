@@ -43,12 +43,12 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
 
 
-        [Route("phong-tcld/quan-ly-ho-so/chuan-hoa-ten")]
-        public ActionResult Regulation()
-        {
-            ViewBag.nameDepartment = "quanlyhoso";
-            return View("/Views/TCLD/Brief/ManageBrief/Regulations.cshtml");
-        }
+        //[Route("phong-tcld/quan-ly-ho-so/chuan-hoa-ten")]
+        //public ActionResult Regulation()
+        //{
+        //    ViewBag.nameDepartment = "quanlyhoso";
+        //    return View("/Views/TCLD/Brief/ManageBrief/Regulations.cshtml");
+        //}
 
 
         //listByThuong
@@ -186,7 +186,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                          maNV = nv.MaNV,
                                          ten = nv.Ten,
                                          namBoSung = lsbs.NamBoSung.ToString(),
-                                         dotBoSung = lsbs.DotBoSung
+                                         //dotBoSung = lsbs.DotBoSung
 
                                      };
             var dataJson = Json(new { success = true, data = LichSuBoSungByMaNV });

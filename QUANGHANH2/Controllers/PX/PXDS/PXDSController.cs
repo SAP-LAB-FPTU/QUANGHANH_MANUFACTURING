@@ -1,5 +1,6 @@
 ﻿using QUANGHANH2.ModelViews;
 using QUANGHANH2.Repositories.Intefaces;
+using QUANGHANH2.SupportClass;
 using QUANGHANH2.Utils;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace QUANGHANH2.Controllers.PX.PXDS
             return View("/Views/PX/PXDS/View.cshtml");
         }
 
+        [Auther(RightID = "145")]
         [HttpGet]
         [Route("phan-xuong-doi-song/dang-ky-suat-an")]
         public ActionResult Input()
@@ -34,6 +36,7 @@ namespace QUANGHANH2.Controllers.PX.PXDS
             return View("/Views/PX/PXDS/Input.cshtml");
         }
 
+        [Auther(RightID = "145")]
         [HttpGet]
         [Route("phan-xuong-doi-song/dang-ky-suat-an/details")]
         public ActionResult RegistrationDetail()
@@ -46,6 +49,7 @@ namespace QUANGHANH2.Controllers.PX.PXDS
             }, JsonRequestBehavior.AllowGet);
         }
 
+        [Auther(RightID = "145")]
         [HttpPost]
         [Route("phan-xuong-doi-song/dang-ky-suat-an/save")]
         public ActionResult RegistrationSave(IList<PxdsModelView> details)

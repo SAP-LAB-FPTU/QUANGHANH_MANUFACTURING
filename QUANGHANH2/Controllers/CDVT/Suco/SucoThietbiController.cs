@@ -21,6 +21,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
         [HttpGet]
         public ActionResult Index()
         {
+            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            List<Equipment> equipments = DBContext.Equipments.ToList();
+            List<Department> departments = DBContext.Departments.ToList();
+            ViewBag.equipments = equipments;
+            ViewBag.departments = departments;
             return View("/Views/CDVT/Suco/SucoThietbi.cshtml");
         }
 
