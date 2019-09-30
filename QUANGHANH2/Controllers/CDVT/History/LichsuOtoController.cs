@@ -9,11 +9,13 @@ using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq.Dynamic;
 using System.Globalization;
+using QUANGHANH2.SupportClass;
 
 namespace QUANGHANHCORE.Controllers.CDVT.History
 {
     public class LichsuOtoController : Controller
     {
+        [Auther(RightID = "13")]
         [Route("phong-cdvt/oto/cap-nhat-hoat-dong")]
         [HttpGet]
         public ActionResult Index()
@@ -199,6 +201,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             }
         }
 
+        [Auther(RightID = "15")]
         [Route("phong-cdvt/oto/cap-nhat-hoat-dong/edit")]
         [HttpPost]
         public ActionResult Edit(float quantity, string activity_name, int hours_per_day, string date1, String equipmentId, int activityid)
@@ -239,7 +242,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             }
         }
 
-
+        [Auther(RightID = "14")]
         [Route("phong-cdvt/oto/cap-nhat-hoat-dong/addactivity")]
         [HttpPost]
         public ActionResult AddActivity(float quantity, string activity_name, int hours_per_day, string date1, String equipmentId)
@@ -397,6 +400,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
 
         }
 
+        [Auther(RightID = "15")]
         [Route("phong-cdvt/oto/cap-nhat-hoat-dong/edit-fuel")]
         [HttpPost]
         public ActionResult EditFuel(int consumption_value, string fuel_type, string date1, String equipmentId, int fuelid)
@@ -495,6 +499,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             }
         }
 
+        [Auther(RightID = "14")]
         [Route("phong-cdvt/oto/cap-nhat-hoat-dong/addfuel")]
         [HttpPost]
         public ActionResult AddFuel(int consumption_value, string fuel_type, string date1, String equipmentId)
