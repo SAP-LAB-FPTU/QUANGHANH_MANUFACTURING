@@ -38,7 +38,7 @@
                         </div>
                         <div class="col s3 m3">
                             <input class="form-control" type="text" disabled value="@ViewBag.department_name" />
-                            <input name="department_id" type="hidden" readonly value="@ViewBag.department_id" />
+                            <input name="department_id" id="depa-id" type="hidden" readonly value="@ViewBag.department_id" />
                         </div>
                         <div class="col s3 m3">
                             <input name="reason" class="form-control" type="text" required placeholder="nội dung quyết định" />
@@ -219,7 +219,7 @@
             $('<td>').html("<input type='text' list='supplyID' class='form-control required' />"),
             $('<td>').html("<input type='number' min='1' value='1' class='form-control' />"),
             $('<td>').html("<select class='form-control'><option>Mới 100%</option><option>Qua sử dụng</option></select>"),
-            $('<td>').html("<input type='text' list='departmentName' class='form-control required' />")
+            $('<td>').html("<input type='text' value='" + $('#depa-id').val() + "' list='departmentName' class='form-control required' />")
         );
         $tr.appendTo('#test tbody');
     });
