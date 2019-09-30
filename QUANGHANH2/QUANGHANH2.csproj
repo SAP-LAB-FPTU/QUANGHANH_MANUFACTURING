@@ -7105,6 +7105,8 @@
     <Content Include="Views\TCLD\Task\ReportJob.cshtml" />
     <Content Include="Views\TCLD\Task\ViewCertificateByNV.cshtml" />
     <Content Include="Views\TCLD\Task\ViewJobByPX.cshtml" />
+    <Content Include="Views\CDVT\Report\bao_cao_trung_tu.cshtml" />
+    <Content Include="Views\CDVT\Report\TangGiam.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

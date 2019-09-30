@@ -135,20 +135,14 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
             return View("/Views/PX/PXKT/takeAttendance.cshtml");
         }
 
-        [HttpPost]
-        [Route("phan-xuong-khai-thac/diem-danh")]
-        public ActionResult takeAttendance()
+        public ActionResult getAll(int session, string departmentID, DateTime date)
         {
-            // fixxing
-            var departmentID = "DL1";
-            var dateAtt = Convert.ToDateTime("2019-09-10");
-            int ca = 1;
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 var listAttendance = (from emp in db.NhanViens
                                       join per in db.DiemDanh_NangSuatLaoDong
-                                        .Where(per => per.MaDonVi == departmentID && per.NgayDiemDanh == dateAtt && per.CaDiemDanh == ca)
+                                        .Where(per => per.MaDonVi == departmentID && per.NgayDiemDanh == date && per.CaDiemDanh == session)
                                       on emp.MaNV equals per.MaNV into attendance
                                       from att in attendance.DefaultIfEmpty()
                                       select new
@@ -170,50 +164,93 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
         }
 
         [HttpPost]
+        [Route("phan-xuong-khai-thac/diem-danh")]
+        public ActionResult takeAttendance()
+        {
+            // fixxing
+            var departmentID = "DL1";
+            var dateAtt = Convert.ToDateTime("2019-09-10");
+            int session = 1;
+            //
+            return getAll(session, departmentID, dateAtt);
+
+        }
+
+        [HttpPost]
         [Route("phan-xuong-khai-thac/diem-danh/cap-nhat")]
         public ActionResult updateAttendance()
         {
             var listUpdateJSON = Request["sessionId"];
+            var departmentID = Request["department"];
+            var dateAtt = Convert.ToDateTime(Request["date"]);
+            int session = Int32.Parse(Request["session"]);
             var listUpdate = JsonConvert.DeserializeObject<List<updateStatus>>(listUpdateJSON);
             using (var transaction = new TransactionScope())
             {
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
                     foreach (var item in listUpdate)
-                        if (item.status)
+                    {
+                        DiemDanh_NangSuatLaoDong dn = new DiemDanh_NangSuatLaoDong();
+                        dn.MaNV = item.maNV;
+                        dn.DiLam = item.status;
+                        //if (item.timeAttendance != "")
+                        //{
+                        //    dn.ThoiGianThucTeDiemDanh = DateTime.ParseExact(item.timeAttendance, "M/d/yyyy hh:mm:ss", null);
+                        //}
+                        dn.MaDonVi = item.maDV;
+                        dn.LyDoVangMat = item.reason;
+                        dn.GhiChu = item.description;
+                        dn.CaDiemDanh = session;
+                        dn.NgayDiemDanh = dateAtt;
+                        dn.MaDonVi = departmentID;
+                        if (item.isEnvolved)
                         {
-                            DiemDanh_NangSuatLaoDong dn = new DiemDanh_NangSuatLaoDong();
-                            dn.MaNV = item.maNV;
-                            dn.DiLam = item.status;
-                            //if (item.timeAttendance != "")
-                            //{
-                            //    dn.ThoiGianThucTeDiemDanh = DateTime.ParseExact(item.timeAttendance, "M/d/yyyy hh:mm:ss", null);
-                            //}
-                            dn.MaDonVi = item.maDV;
-                            dn.LyDoVangMat = item.reason;
-                            dn.GhiChu = item.description;
-                            dn.CaDiemDanh = 1;
-                            dn.NgayDiemDanh = Convert.ToDateTime("2019-09-10");
-                            if (item.maDD != null)
+                            if (item.status)
                             {
-                                // db.Entry(dn).State = EntityState.Modified;
-                                var entry = db.Entry(dn);
-                                if (entry.State == EntityState.Detached || entry.State == EntityState.Modified)
+                                if (item.maDD != null)
                                 {
-                                    entry.State = EntityState.Modified; //do it here
-                                    db.Set<DiemDanh_NangSuatLaoDong>().Attach(dn); //attach
+                                    // db.Entry(dn).State = EntityState.Modified;
+                                    dn.MaDiemDanh = Int32.Parse(item.maDD);
+                                    db.Entry(dn).State = EntityState.Modified; //do it here
+
+                                }
+                                else
+                                {
+                                    db.DiemDanh_NangSuatLaoDong.Add(dn);
+                                    db.SaveChanges();
                                 }
                             }
                             else
                             {
-                                db.DiemDanh_NangSuatLaoDong.Add(dn);
+                                if (item.maDD != null)
+                                {
+                                    // db.Entry(dn).State = EntityState.Modified;
+                                    dn.MaDiemDanh = Int32.Parse(item.maDD);
+                                    db.Entry(dn).State = EntityState.Deleted; //do it here
+                                }
+                                else
+                                {
+                                    db.DiemDanh_NangSuatLaoDong.Add(dn);
+                                    db.SaveChanges();
+                                }
                             }
                         }
+                        else
+                        {
+                            if (item.maDD != null)
+                            {
+                                // db.Entry(dn).State = EntityState.Modified;
+                                dn.MaDiemDanh = Int32.Parse(item.maDD);
+                                db.Entry(dn).State = EntityState.Deleted; //do it here
+                            }
+                        }
+                    }
                     db.SaveChanges();
                     transaction.Complete();
                 }
             }
-            return Json(new { success = true, data = listUpdateJSON }, JsonRequestBehavior.AllowGet);
+            return getAll(session, departmentID, dateAtt);
         }
 
         [HttpGet]
@@ -285,6 +322,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
 
     public class updateStatus
     {
+        public bool isEnvolved { get; set; }
         public string maDD { get; set; }
         public string maDV { get; set; }
         public string maNV { get; set; }

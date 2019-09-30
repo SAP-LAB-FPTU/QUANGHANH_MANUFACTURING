@@ -24,12 +24,15 @@
                         </label>
                     </div>
                 </div>
-                <div class="col l9">
+                <div class="col l6">
                     <h3>
                         ĐIỂM DANH CỦA <a class="dropdown-trigger btn" id="phanxuong" href="#" data-target="dropdown_px" style="background-color:#273146">DL1</a> <a class="dropdown-trigger btn" id="ca" href="#" data-target="dropdown_ca" style="background-color:#273146">CA 1</a> NGÀY <input type="text" id="inputdate" class="datepicker-here center" data-language="vi" value="" />
                         <a class="btn waves-effect waves-light blue modal-trigger" id="btn-view" href="#" onclick="getcontent();">Xem</a>
                         <br><br>
                     </h3>
+                </div>
+                <div class="col l3">
+                    <a class="waves-effect waves-light btn-large">Cập nhật điểm danh</a>
                 </div>
                 <hr>
             </div>
@@ -110,8 +113,8 @@
 
                 "columns": [
                     {
-                        data: "status", render: function (data, type, row) {
-                            if (data) {
+                        data: "maDD", render: function (data, type, row) {
+                            if (data != null) {
                                 return "<label><input onclick=\"clickConfirm(this)\" type=\"checkbox\" checked=\"checked\" disabled=\"disabled\" class=\"checkBox1\" id='" + row["maNV"] + "-confirmed'/><span></span></label>";
                             } else {
                                 return "<label><input onclick=\"clickConfirm(this)\" type=\"checkbox\"disabled=\"disabled\"class=\"checkBox1\" id=\"" + row["maNV"].trim() + "-confirmed\"/><span></span></label>";
@@ -195,6 +198,9 @@
                 if (dataUpdate.length > 0) {
                     $("#attendanceTable").on('preXhr.dt', function (e, settings, data) {
                         data.sessionId = JSON.stringify(dataUpdate)
+                        data.session = $("#ca").text().split(" ")[1];
+                        data.department = $("#phanxuong").text();
+                        data.date = convertToSQLDate($("#inputdate").val());
                     })
                     $("#attendanceTable").DataTable().ajax.url("/phan-xuong-khai-thac/diem-danh/cap-nhat").load();
                 } else {
@@ -212,8 +218,8 @@
             //
             var confirm = $("#" + clickedID.split("-")[0] + "-confirmed").is(":checked");
             var status = $("#" + clickedID.split("-")[0] + "-status").is(":checked");
-            console.log("confirm: " +confirm)
-            console.log("status: " +status)
+            console.log("confirm: " + confirm)
+            console.log("status: " + status)
             if (clickedID.split("-")[1] == "confirmed") {
                 if (!confirm) {
                     $("#" + clickedID.split("-")[0] + "-status").attr("checked", false);
@@ -228,7 +234,7 @@
         }
 
         function updateReason() {
-            var heads = ["DSList","maDD", "maNV", "maDV", "tenNV", "status", "timeAttendance", "reason", "description"];
+            var heads = ["isEnvolved", "maDD", "maNV", "maDV", "tenNV", "status", "timeAttendance", "reason", "description"];
             //
             var rows = [];
             count = 0;
@@ -237,16 +243,22 @@
                 cur["maDD"] = $("#attendanceTable").DataTable().row(count).data()["maDD"];
                 count++;
                 $(this).find("td").each(function (i, v) {
-                    if (heads[i] != "maDD" && heads[i] != "DSList") {
+                    if (heads[i] != "maDD") {
                         if (heads[i] != "status" && heads[i] != "reason") {
                             cur[heads[i]] = $(this).text().trim();
                         }
-                        if (heads[i] == "status") {
+                        if (heads[i] == "status" || heads[i] == "isEnvolved") {
                             var attr = $(this).children("label").children("input");
                             cur[heads[i]] = attr.is(":checked");
                         }
                         if (heads[i] == "reason") {
-                            cur[heads[i]] = $(this).children("span").find(":selected").text();
+                            var text = $(this).children("span").find(":selected").text();
+                            if (text == "Lựa chọn lý do") {
+                                cur[heads[i]] == "";
+                                console.log("hihi");
+                            } else {
+                                cur[heads[i]] == text;
+                            }
                         }
                         if (heads[i] == "description") {
                             cur[heads[i]] = $(this).children("input").val();
@@ -277,7 +289,7 @@
             var day = currentTime.getDate();
             var year = currentTime.getFullYear();
             var date = day + "/" + month + "/" + year;
-            // default date 
+            // default date
             date = "10/09/2019"
             //
             $("#inputdate").val(date);
