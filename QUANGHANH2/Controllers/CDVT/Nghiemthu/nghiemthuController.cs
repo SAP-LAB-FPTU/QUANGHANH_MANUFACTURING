@@ -89,96 +89,35 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
         [HttpGet]
         public ActionResult Edit(string id)
         {
-            //List<Acceptance> AcceptanceList = new List<Acceptance>();
-            List<Supply_Documentary_Equipment> DocEquiList = new List<Supply_Documentary_Equipment>();
-            List<Document> documentList = new List<Document>();
+            List<Acceptance> AcceptanceList = new List<Acceptance>();
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                //Boolean status = true;
+                Boolean status = true;
                 db.Configuration.LazyLoadingEnabled = false;
-                //AcceptanceList = db.Acceptances.ToList<Acceptance>();
+                try
+                {
+                    var query = "  UPDATE Acceptance SET acceptance_date = getdate(), equipmentStatus = 3 where equipmentId =  '" + id + "'";
+                    db.Database.ExecuteSqlCommand(query);
+                }
+                catch (Exception e)
+                {
 
-                db.Configuration.LazyLoadingEnabled = false;
-                documentList = (from a in db.Acceptances
-                                join b in db.Documentaries on a.documentary_id equals b.documentary_id
-                                where a.equipmentId == id
-                                select new
-                                {
-                                    documentary_id = b.documentary_id,
-                                    documentary_type = b.documentary_type
-
-                                }).ToList().Select(p => new Document
-                                {
-                                    documentary_id = p.documentary_id,
-                                    documentary_type = p.documentary_type
-                                }).ToList();
-                foreach (Document items in documentList) {
-                    try
+                }
+                db.SaveChanges();
+                AcceptanceList = db.Acceptances.ToList<Acceptance>();
+                var acceptance = db.Acceptances.ToList<Acceptance>();
+                foreach (Acceptance items in AcceptanceList)
+                {
+                    if (items.equipmentStatus != 3 && items.equipmentId == id)
                     {
-                        var query = "  UPDATE Acceptance SET acceptance_date = getdate(), equipmentStatus = 3 where equipmentId =  '" + id + "'";
-                        var query2 = " UPDATE Supply_Documentary_Equipment SET supply_documentary_status = 1 WHERE equipmentId = '" + id + "' and documentary_id = '" + items.documentary_id + "' ";
-                        db.Database.ExecuteSqlCommand(query);
-                        db.Database.ExecuteSqlCommand(query2);
-                        db.SaveChanges();
+                        status = false;
                         break;
                     }
-                    catch (Exception e)
-                    {
-                        Response.Write("Có lỗi xảy ra");
-                        return new HttpStatusCodeResult(400);
-                    }
-
                 }
-
-                int count1 = 0, count2 = 0;
-                foreach (Document items in documentList)
+                if (status)
                 {
-                    var query = db.Database.SqlQuery<Document>("select count(documentary_id) as countID from Acceptance where documentary_id =" + items.documentary_id).First();
-                    count2 = query.countID;
-                    switch (items.documentary_type)
-                    {
-                        case "1":
-                            var query1 = db.Database.SqlQuery<Document>("select count(documentary_id) as countID from Documentary_repair_details where documentary_id =" + items.documentary_id).First();
-                            count1 = query1.countID;
-                            break;
-                        case "2":
-                            var query2 = db.Database.SqlQuery<Document>("select count(documentary_id) as countID from Documentary_maintain_details where documentary_id =" + items.documentary_id).First();
-                            count1 = query2.countID;
-                            break;
-                        case "3":
-                            var query3 = db.Database.SqlQuery<Document>("select count(documentary_id) as countID from Documentary_moveline_details where documentary_id =" + items.documentary_id).First();
-                            count1 = query3.countID;
-                            break;
-                        case "4":
-                            var query4 = db.Database.SqlQuery<Document>("select count(documentary_id) as countID from Documentary_revoke_details where documentary_id =" + items.documentary_id).First();
-                            count1 = query4.countID;
-                            break;
-                        case "5":
-                            var query5 = db.Database.SqlQuery<Document>("select count(documentary_id) as countID from Documentary_liquidation_details where documentary_id =" + items.documentary_id).First();
-                            count1 = query5.countID;
-                            break;
-                        case "6":
-                            var query6 = db.Database.SqlQuery<Document>("select count(documentary_id) as countID from Documentary_big_maintain_details where documentary_id =" + items.documentary_id).First();
-                            count1 = query6.countID;
-                            break;
-                    }
-                    if(count1 == count2)
-                    {
-                        ChangeStatus(id);
-                    }
+                    ChangeStatus(id);
                 }
-                //foreach (Acceptance items in AcceptanceList)
-                //{
-                //    if (items.equipmentStatus != 3 && items.equipmentId == id)
-                //    {
-                //        status = false;
-                //        break;
-                //    }
-                //}
-                //if (status)
-                //{
-                //    ChangeStatus(id);
-                //}
                 return View();
                 //return RedirectToAction("Search");
             }
@@ -194,21 +133,13 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                     db.Database.ExecuteSqlCommand(query);
                     db.SaveChanges();
                 }
-                catch(Exception e)
+                catch
                 {
-                    Response.Write("Có lỗi xảy ra");
-                    return new HttpStatusCodeResult(400);
+
                 }
                 return RedirectToAction("Search");
             }
         }
-    }
-    public class Document
-    {
-        public string documentary_type { get; set; }
-        public int documentary_id { get; set; }
-
-        public int countID { get; set; }
     }
 
 }

@@ -87,12 +87,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                     Department d = db.Database.SqlQuery<Department>(" select * from Department" +
                     " where department_name like @department_name",
                     new SqlParameter("department_name", department_name)).First();
-                    DateTime dateTime = DateTime.ParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    DateTime dateTime = DateTime.ParseExact(date, "dd/MM/yyyy", null);
 
 
                     db.Database.ExecuteSqlCommand("insert into Maintain_Car values(@equipmentId, @date, (select department_id from Department where department_name =@department_name),@maintain_content)",
                      new SqlParameter("equipmentId", equipmentId),
-                     new SqlParameter("date", DateTime.ParseExact(date, "yyyy-MM-dd", null)),
+                     new SqlParameter("date", DateTime.ParseExact(date, "dd/MM/yyyy", null)),
                      new SqlParameter("department_name", department_name),
                      new SqlParameter("maintain_content", maintain_content));
 
