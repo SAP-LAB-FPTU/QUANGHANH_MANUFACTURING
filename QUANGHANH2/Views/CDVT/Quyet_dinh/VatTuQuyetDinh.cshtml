@@ -50,11 +50,15 @@
                                     </tr>
                                 }
                             }
-                            @if (ViewBag.ListSup.Count > 0)
+                            @*@if (ViewBag.ListSup.Count > 0)
                             {
                             <td colspan="5">Kết quả: @ViewBag.ListSup[0].documentary_process_result</td>
                             }
                             else
+                            {
+                                <td colspan="5">Không có dữ liệu</td>
+                            }*@
+                            @if(ViewBag.ListSup.Count == 0)
                             {
                                 <td colspan="5">Không có dữ liệu</td>
                             }
@@ -94,11 +98,15 @@
                                     </tr>
                                 }
                             }
-                            @if (ViewBag.ListSup2.Count > 0)
+                            @*@if (ViewBag.ListSup2.Count > 0)
                             {
                             <td colspan="5">Kết quả: @ViewBag.ListSup2[0].documentary_process_result</td>
                             }
                             else
+                            {
+                                <td colspan="5">Không có dữ liệu</td>
+                            }*@
+                            @if(ViewBag.ListSup2.Count == 0)
                             {
                                 <td colspan="5">Không có dữ liệu</td>
                             }
