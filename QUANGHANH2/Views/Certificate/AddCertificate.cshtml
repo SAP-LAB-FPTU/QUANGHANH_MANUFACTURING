@@ -35,7 +35,7 @@
                 </div>
             </div>
             <div class="form-group">
-                @Html.LabelFor(model => model.ThoiHan, "Thời hạn", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.ThoiHan, "Thời hạn (Tháng)", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     <input id="add_cert" class="form-control" />
                     @Html.EditorFor(model => model.ThoiHan, new { htmlAttributes = new { @style = "display: none !important", @class = "form-control editform", @id = "addform" } })
@@ -43,7 +43,7 @@
                     @*@Html.EditorFor(model => model.ThoiHan, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled", @id = "show" } })
                     @Html.ValidationMessageFor(model => model.ThoiHan, "", new { @class = "text-danger" })
                     @Html.HiddenFor(model => model.ThoiHan, new { htmlAttributes = new { } })*@
-
+                    <p hidden style="color:red" id="message_isNum">Thời hạn là một số dương. Vui lòng nhập lại</p>
                 </div>
             </div>
 
@@ -103,8 +103,26 @@
             //show
             $('#add_cert').removeAttr("disabled", "disabled");
             $('#add_cert').val("");
+
+            $('#add_cert').blur(function () {
+                var isNum = $(this).val();
+                if (!isNumeric(isNum) || (new Number(isNum) < 0)) {
+                    //Check if Thoihan is numeric
+                    $("#message_isNum").show(); //Show error
+                    $('#submit_cirtificate_btn').attr("disabled", true);
+                   
+                }
+                else {
+                    $("#message_isNum").hide();
+                    $('#submit_cirtificate_btn').attr("disabled", false);
+                }
+            })
+            
         }
     })
+    function isNumeric(value) {
+        return /^-{0,1}\d+$/.test(value);
+    }
     $("#submit_cirtificate_btn").click(function () {
         var add_end = $("#add_cert").val();
         if (add_end == "Vĩnh viễn") {
@@ -115,6 +133,7 @@
         }
 
     })
+    
 </script>
 
 

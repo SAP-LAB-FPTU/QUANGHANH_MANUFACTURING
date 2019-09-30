@@ -495,12 +495,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             }
         }
 
-        [Route("addfuel")]
+        [Route("phong-cdvt/oto/cap-nhat-hoat-dong/addfuel")]
         [HttpPost]
         public ActionResult AddFuel(int consumption_value, string fuel_type, string date1, String equipmentId)
         {
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-
+            //bug : depend on supply_tieuhao.
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
             {
                 try
