@@ -12,11 +12,12 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class LichSuBoSungSYLL
+    public partial class FakeAPI
     {
-        public int ID { get; set; }
         public string MaNV { get; set; }
-        public string NamBoSung { get; set; }
+        public System.DateTime NgayDiemDanh { get; set; }
+        public int CaDiemDanh { get; set; }
+        public Nullable<System.DateTime> GioDiemDanh { get; set; }
     
         public virtual NhanVien NhanVien { get; set; }
     }
