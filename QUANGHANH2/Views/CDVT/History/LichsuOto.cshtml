@@ -887,7 +887,7 @@
             var id = document.getElementById("equipmentidfuel-add").value;
             var em = { id: id };
             $.ajax({
-                url: "/returnEquipmentName",
+                url: "/phong-cdvt/oto/cap-nhat-hoat-dong/returnEquipmentName",
                 type: "POST",
                 data: JSON.stringify(em),
                 contentType: "application/json;charset=utf-8",
@@ -909,7 +909,7 @@
             var id = document.getElementById("equipmentIdfuel-edit").value;
             var em = { id: id };
             $.ajax({
-                url: "/returnEquipmentName",
+                url: "/phong-cdvt/oto/cap-nhat-hoat-dong/returnEquipmentName",
                 type: "POST",
                 data: JSON.stringify(em),
                 contentType: "application/json;charset=utf-8",
@@ -927,7 +927,7 @@
             var id = document.getElementById("equipmentId-add").value;
             var em = { id: id };
             $.ajax({
-                url: "/returnEquipmentName",
+                url: "/phong-cdvt/oto/cap-nhat-hoat-dong/returnEquipmentName",
                 type: "POST",
                 data: JSON.stringify(em),
                 contentType: "application/json;charset=utf-8",
@@ -988,7 +988,7 @@
                 fuel_type: id
             };
             $.ajax({
-                url: "/returnsupplyName",
+                url: "/phong-cdvt/oto/cap-nhat-hoat-dong/returnsupplyName",
                 type: "POST",
                 data: JSON.stringify(tmp),
                 contentType: "application/json;charset=utf-8",
@@ -1076,7 +1076,7 @@
             };
             $.ajax({
 
-                url: "/addfuel",
+                url: "/phong-cdvt/oto/cap-nhat-hoat-dong/addfuel",
                 type: "POST",
                 data: JSON.stringify(data),
                 contentType: "application/json;charset=utf-8",

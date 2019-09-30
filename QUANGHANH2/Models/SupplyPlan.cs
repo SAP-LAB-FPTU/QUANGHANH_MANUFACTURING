@@ -14,6 +14,7 @@ namespace QUANGHANH2.Models
     
     public partial class SupplyPlan
     {
+        public int id { get; set; }
         public string supplyid { get; set; }
         public string departmentid { get; set; }
         public string equipmentid { get; set; }
@@ -26,7 +27,6 @@ namespace QUANGHANH2.Models
         public virtual Department Department { get; set; }
         public virtual Department Department1 { get; set; }
         public virtual Equipment Equipment { get; set; }
-        public virtual Equipment Equipment1 { get; set; }
         public virtual Supply Supply { get; set; }
         public virtual Supply Supply1 { get; set; }
     }

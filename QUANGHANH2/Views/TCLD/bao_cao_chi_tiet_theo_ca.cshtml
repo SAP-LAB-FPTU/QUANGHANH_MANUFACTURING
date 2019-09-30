@@ -38,7 +38,17 @@
                 { "data": "YeuCauBPKTAT", "name": "YeuCauBPKTAT" },
             ],
             "language": {
-                "emptyTable": "No data found"
+                emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                paginate:
+                {
+                    previous: "Trang trước",
+                    next: "Trang sau",
+                    first: "|<",
+                    last: ">|",
+
+                },
+                info: "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
             },
             "autoWidth": false,
             "searching": false,
@@ -93,6 +103,13 @@
                     <tbody></tbody>
                 </table>
             </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="export_btn_container">
+                        <a class="waves-effect waves-light btn blue" id="export-button">Xuất ra file excel</a>
+                    </div>
+                </div>
+            </div>
         </form>
     </div>
 </div>
@@ -123,4 +140,8 @@
 
 <script src="~/js/Custom JS/button_watch_by.js"></script>
 
-
+<script>
+    $("#export-button").click(function () {
+        window.location.href = '/excel/TCLD/Report/Báo cáo lao động, lương VTL1 ngày  15_08_2019.xls';
+    });
+</script>
