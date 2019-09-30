@@ -220,6 +220,8 @@
     <Compile Include="Controllers\CDVT\Quyetdinh\ThuhoiController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\TrungdaituController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\VatTuQuyetDinhController.cs" />
+    <Compile Include="Controllers\CDVT\Report\TangGiamController.cs" />
+    <Compile Include="Controllers\CDVT\Report\TrungdaituReportController.cs" />
     <Compile Include="Controllers\CDVT\Useless\ThongtinsucoController.cs" />
     <Compile Include="Controllers\CDVT\Report\KiemdinhController.cs" />
     <Compile Include="Controllers\CDVT\Report\LiquidationReportController.cs" />
