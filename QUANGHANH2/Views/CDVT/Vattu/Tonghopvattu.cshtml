@@ -179,7 +179,18 @@
                 "searching": false,
                 "initComplete": function (settings, json) {
                     $("#pre-load").hide();
-                }
+                },
+                "language": {
+                    "emptyTable": "Không tìm thấy dữ liệu",
+                    "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                    "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                    "paginate": {
+                        "first": "Trang đầu",
+                        "last": "Trang cuối",
+                        "next": "Trang sau",
+                        "previous": "Trang trước"
+                    }
+                },
             });
             $("#pre-load").show();
             tbl_summary = $('#tbl_summary').DataTable({
@@ -229,6 +240,17 @@
                 "searching": false,
                 "initComplete": function (settings, json) {
                     $("#pre-load").hide();
+                },
+                "language": {
+                    "emptyTable": "Không tìm thấy dữ liệu",
+                    "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                    "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                    "paginate": {
+                        "first": "Trang đầu",
+                        "last": "Trang cuối",
+                        "next": "Trang sau",
+                        "previous": "Trang trước"
+                    }
                 }
             });
             
@@ -255,7 +277,10 @@
                             window.location = '/phong-cdvt/tong-hop-vat-tu/download?fileGuid=' + response.FileGuid
                                 + '&filename=' + response.FileName;
                         } else {
-                            alert('Có lỗi xảy ra.');
+                            $.notify('Không xuất ra được excel.', {
+                                globalPosition: 'top center',
+                                className:'error'
+                            });
                         }
                     }
                 });
