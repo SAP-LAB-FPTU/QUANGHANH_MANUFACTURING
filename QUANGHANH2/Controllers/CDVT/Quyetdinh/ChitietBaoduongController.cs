@@ -16,7 +16,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
   
         public ActionResult LoadPage(String id)
         {
-            ViewBag.id = Base64Encode(id).ToString();
+            ViewBag.id = id.ToString();
             return View("/Views/CDVT/Quyet_dinh/Chi_tiet_bao_duong.cshtml");
         }
 
@@ -35,7 +35,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
         public ActionResult Detail()
         {
             string requestID = Request["sessionId"];
-            requestID = Base64Decode(requestID).ToString();
+            int id = Int32.Parse(requestID);
             int start = Convert.ToInt32(Request["start"]);
             int length = 10;
             string searchValue = Request["search[value]"];
@@ -46,23 +46,29 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 int count = 1;
-                List<Documentary_maintain_detailsDB> documentariesList = (from a in db.Documentary_maintain_details
-                                                                       
+                List<Documentary_maintain_detailsDB> documentariesList = (from a in db.Documentary_maintain_details                                                                       
                                                                         join b in db.Documentaries on a.documentary_id equals b.documentary_id
                                                                         join c in db.Equipments on a.equipmentId equals c.equipmentId
                                                                         join d in db.Departments on c.department_id equals d.department_id
-                                                                          where (b.documentary_code == requestID)
-                                                                          select new
-
-                                                                        {
+                                                                        where (b.documentary_id == id)
+                                                                        select new
+                                                                        {                                                                           
+                                                                            documentary_code = b.documentary_code,
+                                                                            equipmentId = c.equipmentId,
                                                                             documentary_id = a.documentary_id,
                                                                             equipment_name = c.equipment_name,
                                                                             department_name = d.department_name,
                                                                             department_id = c.department_id,
                                                                             reason = b.reason,
+                                                                            maintain_type = a.maintain_type,
+                                                                            finish_date_plan= a.finish_date_plan
 
                                                                         }).ToList().Select(p => new Documentary_maintain_detailsDB
                                                                         {
+                                                                            maintain_type = p.maintain_type,
+                                                                            finish_date_plan = p.finish_date_plan,
+                                                                            documentary_code = p.documentary_code,
+                                                                            equipmentId = p.equipmentId,
                                                                             documentary_id = p.documentary_id,
                                                                             equipment_name = p.equipment_name,
                                                                             department_name = p.department_name,
@@ -72,6 +78,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
                 foreach (var el in documentariesList)
                 {
                     el.order_number = count++;
+                    el.idAndEquip = el.documentary_id + "^" + el.equipmentId;
 
                 }
                 int totalrows = documentariesList.Count;

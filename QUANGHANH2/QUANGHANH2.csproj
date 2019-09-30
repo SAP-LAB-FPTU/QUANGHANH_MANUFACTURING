@@ -220,6 +220,8 @@
     <Compile Include="Controllers\CDVT\Quyetdinh\ThuhoiController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\TrungdaituController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\VatTuQuyetDinhController.cs" />
+    <Compile Include="Controllers\CDVT\Report\TangGiamController.cs" />
+    <Compile Include="Controllers\CDVT\Report\TrungdaituReportController.cs" />
     <Compile Include="Controllers\CDVT\Useless\ThongtinsucoController.cs" />
     <Compile Include="Controllers\CDVT\Report\KiemdinhController.cs" />
     <Compile Include="Controllers\CDVT\Report\LiquidationReportController.cs" />
@@ -272,6 +274,7 @@
     <Compile Include="Controllers\TCLD\BonusAnDesciplineController.cs" />
     <Compile Include="Controllers\TCLD\BriefController.cs" />
     <Compile Include="Controllers\TCLD\CertificateController.cs" />
+    <Compile Include="Controllers\TCLD\DiplomaController.cs" />
     <Compile Include="Controllers\TCLD\EatingController.cs" />
     <Compile Include="Controllers\TCLD\EmployeesController.cs" />
     <Compile Include="Controllers\TCLD\ManagerController.cs" />
@@ -300,6 +303,8 @@
     <Compile Include="Models\Activity.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\BangCap_GiayChungNhan_detailsDB.cs" />
+    <Compile Include="Models\BangCap_detailsDB.cs" />
     <Compile Include="Models\BangCap_GiayChungNhan.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -6860,6 +6865,9 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="excel\TCLD\download\Danh_sách_nhân_viên.xlsx" />
+    <Content Include="excel\TCLD\download\Báo cáo năng suất lao động và tiền lương theo các phân xưởng theo ngày.xlsx" />
+    <Content Include="excel\TCLD\Report\Báo cáo năng suất lao động và tiền lương theo các phân xưởng theo ngày.xlsx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />

@@ -1,0 +1,155 @@
+﻿@model QUANGHANH2.Models.ChiTiet_BangCap_GiayChungNhan
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>EditDiplomaEmployee</title>
+</head>
+<body>
+    <div id="edit_diploma_emp_model">
+        @using (Html.BeginForm("EditDiplomaEmployee", "Diploma", FormMethod.Post, new { onSubmit = "return SubmitFormDiploma(this) " }))
+        {
+            @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.SoHieu)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.MaBangCap_GiayChungNhan, "Tên bằng cấp", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("MaBangCap_GiayChungNhan", (SelectList)ViewBag.listSelect_bangcap, htmlAttributes: new { @class = "form-control",@id="ma_bc" })
+                    @Html.ValidationMessageFor(model => model.MaBangCap_GiayChungNhan, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.NgayCap, "Ngày cấp", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input id="edit_start_time_diploma" class="form-control" />
+                    @Html.EditorFor(model => model.NgayCap, new { htmlAttributes = new { @style = "display: none !important", @class = "form-control", @id = "date_start_dip_edit" } })
+                    @Html.ValidationMessageFor(model => model.NgayCap, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.MaNV, "Mã nhân viên", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.MaNV, new { htmlAttributes = new { @class = "form-control", @list = "list_nhavien", @id = "dip_empID_edit" } })
+                    <datalist id="list_nhavien">
+                        @foreach (var item in (IEnumerable<SelectListItem>)ViewBag.listSelect_nhanvien)
+                        {
+                            <option id="@item.Value" value="@item.Text">@item.Text</option>
+                        }
+                    </datalist>
+                    @Html.ValidationMessageFor(model => model.MaNV, "", new { @class = "text-danger" })
+                </div>
+                <p hidden style="color:red" id="message_checkNameExist_dip_edit">Mã nhân viên không tồn tại. Hãy nhập lại</p>
+            </div>
+            <div class="form-group col s6 m6 l6">
+                @Html.LabelFor(model => model.MaNV, "Tên nhân viên", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    <input type="text" value="@ViewBag.nameEmpEdit" class="form-control " id="nameEmpEdit_show" disabled />
+                </div>
+                <p hidden style="color:red" id="message_dip_emp_edit">Bằng của nhân viên này đã tồn tại. Hãy chọn lại</p>
+            </div>
+            <hr />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Sửa" class=" waves-light btn blue darken-2 white-text " id="submit_form_edit_dip_emp"/>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+
+</body>
+</html>
+<script>
+    $(document).ready(function () {
+        var date_start_edit = $("#date_start_dip_edit").val();
+        $("#edit_start_time_diploma").val(getDate(date_start_edit));
+        $("#edit_start_time_diploma").datepicker({ dateFormat: 'dd/mm/yyyy', changeYear: true });
+        $("#edit_start_time_diploma").keydown(function (e) {
+            e.preventDefault();
+        });
+    });
+    function addZeroIfRequired(dayOrMonth) {
+        return dayOrMonth > 9 ? dayOrMonth : "0" + dayOrMonth;
+    }
+
+    function getDate(dateString) {
+        var date = dateString ? new Date(dateString) : new Date();
+        return addZeroIfRequired(date.getDate()) + "/" + addZeroIfRequired((date.getUTCMonth() + 1)) + "/" +
+            date.getUTCFullYear();
+    }
+    //set name employee
+    $('#dip_empID_edit').change(function () {
+        var manv = $(this).val();
+      $.ajax({
+            url:'@Url.Action("getName", "Diploma")',
+            type: "POST",
+            data: { id: $(this).val() },
+            success: (response) => {
+                if (response.success) {
+                    $('#nameEmpEdit_show').val(response.data);
+                    $('#message_checkNameExist_dip_edit').hide();
+                    $('#submit_form_edit_dip_emp').attr("disabled", false);
+                } else {
+                    $('#nameEmpEdit_show').val(response.data);
+                    $('#message_checkNameExist_dip_edit').show();
+                    $('#submit_form_edit_dip_emp').attr("disabled", true);
+                }
+            },
+            error: (response) => {
+
+            },
+        })
+
+    });
+    var first_diploma = $('#ma_bc').val();
+
+    $('#ma_bc').change(function () {
+        var mabangcap = $(this).val();
+        var manv = $('#dip_empID_edit').val();
+        //alert(manv);
+        $('#dip_empID_edit').blur(function () {           
+            var manv = $(this).val();
+        })
+         $.ajax({
+            url:'@Url.Action("validateExistDiplomaOfEmp", "Diploma")',
+            type: "POST",
+                data: {
+                    manv: manv,
+                    mabangcap: mabangcap,
+                    first_diploma: first_diploma,
+                },
+            success: (response) => {
+                if (response.success) {
+                    //alert("ok");
+                    $('#message_dip_emp_edit').show();
+                    $('#submit_form_edit_dip_emp').attr("disabled", true);
+                } else {
+                    $('#message_dip_emp_edit').hide();
+                    $('#submit_form_edit_dip_emp').attr("disabled", false);
+                    $('#submit_form_edit_dip_emp').closest;
+                }
+            },
+            error: (response) => {
+
+            },
+        })
+    })
+    $('#submit_form_edit_dip_emp').click(function () {
+        var ngaycap = $('#edit_start_time_diploma').val();
+        var arr = ngaycap.split('/');
+        $('#date_start_dip_edit').val(arr[1] + "/" + arr[0] + "/" + arr[2]);
+    })
+</script>

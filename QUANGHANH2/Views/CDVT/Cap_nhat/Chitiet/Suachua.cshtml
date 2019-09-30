@@ -22,7 +22,7 @@
             <h3 class="center">Chi tiết quyết định sửa chữa số @ViewBag.code</h3>
             <div class="col s12 table_container">
                 <table class="table-bordered striped table-responsive centered"
-                        style="margin-top:30px; text-align:center;" id="complex_header">
+                       style="margin-top:30px; text-align:center;" id="complex_header">
                     <thead>
                         <tr>
                             <th>Mã thiết bị</th>
@@ -55,7 +55,6 @@
                         <thead>
                             <tr>
                                 <th>Mã vật tư</th>
-                                <th>Tên vật tư</th>
                                 <th>Chất lượng</th>
                                 <th>Số lượng thay thế</th>
                                 <th>Số lượng có thể tái sử dụng</th>
@@ -69,12 +68,22 @@
             <input type="hidden" id="maquyetdinh" disabled />
         </div>
         <div class="modal-footer">
-            <a id="addcolumn" class="waves-effect waves-light btn blue darken-2 left">Thêm</a>
+            @if (ViewBag.AddAble == true)
+            {
+                <a id="addcolumn" class="waves-effect waves-light btn blue darken-2 left">Thêm</a>
+            }
             <a id="submitvattu" class="waves-effect waves-light btn blue darken-2 modal-trigger">Lưu</a>
             <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-button">Thoát</button>
         </div>
     </div>
 </div>
+
+<datalist id="supplyID">
+    @foreach (var item in ViewBag.Supplies)
+    {
+        <option value="@item.supply_id">@item.supply_name</option>
+    }
+</datalist>
 
 <!-- ============================================================== -->
 <!-- Apps -->
@@ -107,39 +116,38 @@
 
     $("#addcolumn").click(function () {
         var $tr = $('<tr>').append(
-            $('<td>').html("<input type='text' id='vattu' class='form-control td-id' />"),
-            $('<td>'),
+            $('<td>').html("<input type='text' list='supplyID' id='vattu' class='form-control td-id' />"),
             $('<td>').html("<select class='form-control' id='type-search'><option>Mới 100%</option><option>Qua sử dụng</option></select>"),
             $('<td>').html("<input type='number' min='1' class='form-control' />"),
             $('<td>').html("<input type='number' min='1' class='form-control' />")
         );
         $tr.appendTo('#test tbody');
-        $("#mylist #test tbody tr input:first-child").on("keypress", function (e) {
-            var $td = $(this);
-            if (e.keyCode == 13) {
-                $("#pre-load").show();
-                $.ajax({
-                    type: "POST",
-                    url: "/phong-cdvt/cap-nhat/quyet-dinh/GetSupplyName",
-                    dataType: "json",
-                    success: function (data) {
-                        $('#pre-load').hide();
-                        $td.parent().next().text(data.supply_name)
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        $('#pre-load').hide();
-                        $.notify(XMLHttpRequest.responseText, {
-                            globalPosition: "top center",
-                            className: "error"
-                        });
-                    },
-                    data: {
-                        supply_id: $td.val()
-                    },
-                    cache: false
-                })
-            }
-        });
+        //$("#mylist #test tbody tr input:first-child").on("keypress", function (e) {
+        //    var $td = $(this);
+        //    if (e.keyCode == 13) {
+        //        $("#pre-load").show();
+        //        $.ajax({
+        //            type: "POST",
+        //            url: "/phong-cdvt/cap-nhat/quyet-dinh/GetSupplyName",
+        //            dataType: "json",
+        //            success: function (data) {
+        //                $('#pre-load').hide();
+        //                $td.parent().next().text(data.supply_name)
+        //            },
+        //            error: function (XMLHttpRequest, textStatus, errorThrown) {
+        //                $('#pre-load').hide();
+        //                $.notify(XMLHttpRequest.responseText, {
+        //                    globalPosition: "top center",
+        //                    className: "error"
+        //                });
+        //            },
+        //            data: {
+        //                supply_id: $td.val()
+        //            },
+        //            cache: false
+        //        })
+        //    }
+        //});
     })
 
     $(document).on("click", ".open-Modal", function () {
@@ -158,7 +166,6 @@
                     $.each(data, function (i, item) {
                         var $tr = $('<tr>').append(
                             $('<td>').text(item.supply_id),
-                            $('<td>').text(item.supply_name),
                             $('<td>').text(item.supplyStatus),
                             $('<td>').text(item.quantity),
                             $('<td>').text(item.reuse)

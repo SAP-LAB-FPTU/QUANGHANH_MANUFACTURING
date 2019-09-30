@@ -307,6 +307,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             Maintain_Car_Detail m = new Maintain_Car_Detail();
             using (DbContextTransaction transaction = db.Database.BeginTransaction())
             {
+                //note:  thiếu data db cho supply id
                 try
                 {
                     foreach (Maintain_Car_Detail item in supplyDetail)
@@ -316,7 +317,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                             Maintain_Car e = db.Maintain_Car.Where(x => x.maintainid == item.maintainid).FirstOrDefault();
 
                             Supply_tieuhao su = db.Supply_tieuhao.Where(x => x.supplyid == item.supplyid && x.departmentid == e.departmentid && x.date.Month == e.date.Month).First();
-                            //Supply_tieuhao su = db.Database.SqlQuery<Supply_tieuhao>("").First();
 
                             if (item.supplyStatus == 1) { su.used = su.used + item.quantity; /*db.Entry(s).State = EntityState.Modified;*/ }
                             else { su.thuhoi = su.thuhoi + item.quantity; /*db.Entry(s).State = EntityState.Modified;*/ }
