@@ -5,9 +5,9 @@
 <link href="~/dist/css/pages/data-table.css" rel="stylesheet">
 
 @*@{
-        ViewBag.Title = "Add";
-        List<string> right = (List<string>)Session["RightIDs"];
-    }*@
+    ViewBag.Title = "Add";
+    List<string> right = (List<string>)Session["RightIDs"];
+}*@
 
 <div class="col s12 m12 l12">
     <div class="card">
@@ -345,7 +345,7 @@
                         ////////////////////////////////////////////////
                     },
                     "serverSide": "true",
-                    "language": {
+                   "language": {
                         emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
                         paginate:
                         {
@@ -353,7 +353,7 @@
                             next: "Trang sau",
                             first: "|<",
                             last: ">|",
-
+                                                  
                         },
                         info: "Đang hiện START đến END của TOTAL bản ghi",
                         infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
@@ -424,31 +424,30 @@
             return (date);
         }
 
-        //function SubmitForm(form) {
-        //    $.validator.unobtrusive.parse(form);
-        //    if ($(form).valid()) {
-        //        $.ajax({
-        //            type: "POST",
-        //            url: form.action,
-        //            data: $(form).serialize(),
-        //            dataTable.ajax.reload();
-        //            success: function (data) {
-        //                console.log('ahihi');
-        //                if (data.success) {
-        //                    Popup.dialog('close');
-        //                    dataTable.ajax.reload();
+        function SubmitForm(form) {
+            $.validator.unobtrusive.parse(form);
+            if ($(form).valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        console.log('ahihi');
+                        if (data.success) {
+                            Popup.dialog('close');
+                            dataTable.ajax.reload();
 
-        //                    $.notify(data.message, {
-        //                        globalPosition: "top center",
-        //                        className: "success"
-        //                    })
+                            $.notify(data.message, {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
 
-        //                }
-        //            }
-        //        });
-        //    }
-        //    return false;
-        //}
+                        }
+                    }
+                });
+            }
+            return false;
+        }
 
         $("#danhsachhosonhanvien").click(function () {
             $("#pre-load").show();

@@ -23,8 +23,7 @@ namespace QUANGHANH2.Controllers.PX.PXDS
         {
             return View("/Views/PX/PXDS/View.cshtml");
         }
-
-        [Auther(RightID = "145")]
+        
         [HttpGet]
         [Route("phan-xuong-doi-song/dang-ky-suat-an")]
         public ActionResult Input()
@@ -36,7 +35,6 @@ namespace QUANGHANH2.Controllers.PX.PXDS
             return View("/Views/PX/PXDS/Input.cshtml");
         }
 
-        [Auther(RightID = "145")]
         [HttpGet]
         [Route("phan-xuong-doi-song/dang-ky-suat-an/details")]
         public ActionResult RegistrationDetail()
@@ -48,7 +46,6 @@ namespace QUANGHANH2.Controllers.PX.PXDS
                 data = details
             }, JsonRequestBehavior.AllowGet);
         }
-
         [Auther(RightID = "145")]
         [HttpPost]
         [Route("phan-xuong-doi-song/dang-ky-suat-an/save")]

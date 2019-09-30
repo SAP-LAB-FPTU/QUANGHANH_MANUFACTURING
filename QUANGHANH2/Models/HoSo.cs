@@ -14,6 +14,12 @@ namespace QUANGHANH2.Models
     
     public partial class HoSo
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public HoSo()
+        {
+            this.LichSuBoSungSYLLs = new HashSet<LichSuBoSungSYLL>();
+        }
+    
         public string TrangThaiHoSo { get; set; }
         public Nullable<System.DateTime> NgayNhanHoSo { get; set; }
         public string NguoiGiaoHoSo { get; set; }
@@ -32,5 +38,7 @@ namespace QUANGHANH2.Models
         public string DonViKyQuyetDinhChamDut { get; set; }
     
         public virtual NhanVien NhanVien { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LichSuBoSungSYLL> LichSuBoSungSYLLs { get; set; }
     }
 }

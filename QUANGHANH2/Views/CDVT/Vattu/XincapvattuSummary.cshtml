@@ -99,15 +99,9 @@
                         success: function (res) {
                             $("#pre-load").hide();
                             if (res.success) {
-                                $.notify('Duyệt đơn thành công.', {
-                                    globalPosition: 'top center',
-                                    className: 'success'
-                                });
+                                alert('Duyệt đơn thành công.')
                             } else {
-                                $.notify('Duyệt đơn không thành công.', {
-                                    globalPosition: 'top center',
-                                    className: 'error'
-                                });
+                                alert('Có lỗi xảy ra.')
                             }
                         }
                     });
@@ -180,17 +174,6 @@
                 "paging": false,
                 "initComplete": function (settings, json) {
                     $("#pre-load").hide();
-                },
-                "language": {
-                    "emptyTable": "Không tìm thấy dữ liệu",
-                    "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
-                    "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
-                    "paginate": {
-                        "first": "Trang đầu",
-                        "last": "Trang cuối",
-                        "next": "Trang sau",
-                        "previous": "Trang trước"
-                    }
                 }
             });
         }

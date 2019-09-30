@@ -14,13 +14,11 @@ using OfficeOpenXml;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Globalization;
-using QUANGHANH2.SupportClass;
 
 namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
 {
     public class HoatdongController : Controller
     {
-        /*aa*/
         [Route("phong-cdvt/huy-dong/export")]
         public void export()
         {
@@ -112,7 +110,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
 
             }
         }
-        [Auther(RightID ="6")]
+
         [Route("phong-cdvt/huy-dong")]
         [HttpGet]
         public ActionResult Index()
@@ -224,7 +222,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 List<Department> listDepeartment = db.Departments.ToList<Department>();
                 ViewBag.listDepeartment = listDepeartment;
                 ViewBag.bolEdit = false;
-                return Json(new { success = true, data = equipList, draw = Request["draw"], message = new Message().searchSuccessfully(), recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = true, data = equipList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
             }
         }
         public class EquipThongKe
@@ -500,7 +498,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             //return Json(new { success = true, message = "Cập nhật thành công" , data= db.Equipments.Where(x => x.equipmentId == id).FirstOrDefault<Equipment>()}, JsonRequestBehavior.AllowGet);
 
         }
-        [Auther(RightID ="5")]
+        
         [HttpGet]
         public ActionResult Delete(string id)
         {
