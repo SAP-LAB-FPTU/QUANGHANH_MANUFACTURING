@@ -35,6 +35,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                     List<NewEquipment> equipList = (from p in db.Equipments
                                                     join e in db.Equipment_category on p.Equipment_category_id equals e.Equipment_category_id
                                                     join d in db.Departments on p.department_id equals d.department_id
+                                                    join s in db.Status on p.current_Status equals s.statusid
                                                     select new
                                                     {
                                                         equipmentId = p.equipmentId,
@@ -56,7 +57,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                                                         Equipment_category_id = p.Equipment_category_id,
                                                         department_id = p.department_id,
                                                         department_name = d.department_name,
-                                                        category_name = e.Equipment_category_name
+                                                        category_name = e.Equipment_category_name,
+                                                        status = s.statusname
                                                     }).ToList().Select(p => new NewEquipment
                                                     {
                                                         equipmentId = p.equipmentId,
@@ -78,7 +80,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                                                         Equipment_category_id = p.Equipment_category_id,
                                                         department_id = p.department_id,
                                                         department_name = p.department_name,
-                                                        category_name = p.category_name
+                                                        category_name = p.category_name,
+                                                        status_name = p.status
                                                     }).ToList();
                     int k = 2;
                     for (int i = 0; i < equipList.Count; i++)
@@ -94,7 +97,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         excelWorksheet.Cells[k, 9].Value = equipList.ElementAt(i).usedDay.ToString("dd/MM/yyyy");
                         excelWorksheet.Cells[k, 10].Value = equipList.ElementAt(i).nearest_Maintenance_Day.ToString("dd/MM/yyyy");
                         excelWorksheet.Cells[k, 11].Value = equipList.ElementAt(i).total_operating_hours;
-                        excelWorksheet.Cells[k, 12].Value = equipList.ElementAt(i).current_Status;
+                        excelWorksheet.Cells[k, 12].Value = equipList.ElementAt(i).status_name;
                         excelWorksheet.Cells[k, 13].Value = equipList.ElementAt(i).fabrication_number;
                         excelWorksheet.Cells[k, 14].Value = equipList.ElementAt(i).mark_code;
                         excelWorksheet.Cells[k, 15].Value = equipList.ElementAt(i).quality_type;
@@ -168,6 +171,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 var equipList = (from p in db.Equipments
                                  join e in db.Equipment_category on p.Equipment_category_id equals e.Equipment_category_id
                                  join d in db.Departments on p.department_id equals d.department_id
+                                 join s in db.Status on p.current_Status equals s.statusid
                                  select new
                                  {
                                      equipmentId = p.equipmentId,
@@ -189,7 +193,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                                      Equipment_category_id = p.Equipment_category_id,
                                      department_id = p.department_id,
                                      department_name = d.department_name,
-                                     category_name = e.Equipment_category_name
+                                     category_name = e.Equipment_category_name,
+                                     status_name = s.statusname
                                  }).ToList().Select(p => new NewEquipment
                                  {
                                      equipmentId = p.equipmentId,
@@ -211,7 +216,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                                      Equipment_category_id = p.Equipment_category_id,
                                      department_id = p.department_id,
                                      department_name = p.department_name,
-                                     category_name = p.category_name
+                                     category_name = p.category_name,
+                                     status_name = p.status_name
                                  }).ToList();
                 int totalrows = equipList.Count;
                 int totalrowsafterfiltering = equipList.Count;
@@ -238,12 +244,14 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         }
         private class NewEquipment : Equipment
         {
+            public string status_name { get; set; }
             public string department_name { get; set; }
             public string category_name { get; set; }
         }
 
         public class EquipWithName : Equipment
         {
+            public string statusname { get; set; }
             public string Equipment_category_name { get; set; }
             public string department_name { get; set; }
         }
@@ -266,7 +274,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             //    "on d.department_id = i.department_id where i.start_time BETWEEN @start_time1 AND @start_time2 AND ";
 
             //string query = "select e.equipmentId,e.equipment_name,e.supplier,e.date_import,e.depreciation_estimate,e.depreciation_present,e.durationOfInspection,e.durationOfInsurance,e.usedDay,e.nearest_Maintenance_Day,e.total_operating_hours,e.current_Status,e.fabrication_number,e.mark_code,e.quality_type,e.input_channel,ec.Equipment_category_name,d.department_name from Equipment e, Department d, Equipment_category ec where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id AND ";
-            string query = "select e.*,ec.Equipment_category_name,d.department_name from Equipment e, Department d, Equipment_category ec where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id AND ";
+            string query = "select e.*,ec.Equipment_category_name,d.department_name,s.statusname from Equipment e, Department d, Equipment_category ec, Status s where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id AND e.current_Status = s.statusid AND ";
             if (!equipmentId.Equals("") || !equipmentName.Equals("") || !department.Equals("") || !quality.Equals("") || !category.Equals("") || !sup.Equals(""))
             {
                 if (!equipmentId.Equals("")) query += "e.equipmentId LIKE @equipmentId AND ";
