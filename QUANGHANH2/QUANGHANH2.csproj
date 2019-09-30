@@ -274,6 +274,7 @@
     <Compile Include="Controllers\TCLD\BonusAnDesciplineController.cs" />
     <Compile Include="Controllers\TCLD\BriefController.cs" />
     <Compile Include="Controllers\TCLD\CertificateController.cs" />
+    <Compile Include="Controllers\TCLD\DiplomaController.cs" />
     <Compile Include="Controllers\TCLD\EatingController.cs" />
     <Compile Include="Controllers\TCLD\EmployeesController.cs" />
     <Compile Include="Controllers\TCLD\ManagerController.cs" />
@@ -302,6 +303,8 @@
     <Compile Include="Models\Activity.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\BangCap_GiayChungNhan_detailsDB.cs" />
+    <Compile Include="Models\BangCap_detailsDB.cs" />
     <Compile Include="Models\BangCap_GiayChungNhan.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

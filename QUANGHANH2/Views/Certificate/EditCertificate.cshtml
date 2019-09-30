@@ -37,7 +37,7 @@
                         <input id="edit_cert" class="form-control" />
                         @Html.EditorFor(model => model.ThoiHan, new { htmlAttributes = new { @style = "display: none !important", @class = "form-control editform", @id = "editform" } })
                         @Html.ValidationMessageFor(model => model.ThoiHan, "", new { @class = "text-danger" })
-                        @*@Html.HiddenFor(model => model.ThoiHan, new { htmlAttributes = new { } })*@
+                        <p hidden style="color:red" id="message_isNum_edit">Thời hạn là một số dương. Vui lòng nhập lại</p>
                     </div>
                 </div>
                 <div class="form-group">
@@ -72,6 +72,20 @@
         else {
             $('#option_cert_edit').val(2);
             $("#edit_cert").val($("#editform").val())
+
+            $('#edit_cert').blur(function () {
+                var isNum = $(this).val();
+                if (!isNumeric(isNum) || (new Number(isNum) < 0)) {
+                    //Check if Thoihan is numeric
+                    $("#message_isNum_edit").show(); //Show error
+                    $('#save').attr("disabled", true);
+
+                }
+                else {
+                    $("#message_isNum_edit").hide();
+                    $('#save').attr("disabled", false);
+                }
+            })
         }
         $('#option_cert_edit').change(function () {
             var option = $(this).val();
@@ -85,6 +99,20 @@
                 //show
                 $('#edit_cert').removeAttr("disabled", "disabled");
                 $('#edit_cert').val("");
+
+                $('#edit_cert').blur(function () {
+                    var isNum = $(this).val();
+                    if (!isNumeric(isNum) || (new Number(isNum) < 0)) {
+                        //Check if Thoihan is numeric
+                        $("#message_isNum_edit").show(); //Show error
+                        $('#save').attr("disabled", true);
+
+                    }
+                    else {
+                        $("#message_isNum_edit").hide();
+                        $('#save').attr("disabled", false);
+                    }
+                })
             }
         })
         $("#save").click(function () {
@@ -99,7 +127,7 @@
         })
 
     })
-
-
-
+    function isNumeric(value) {
+        return /^-{0,1}\d+$/.test(value);
+    }
 </script>
