@@ -1081,26 +1081,6 @@
                 }
             });
         }
-
-        //get equipment name in edit activity
-        function getEquipmentname1() {
-            var id = document.getElementById("equipmentId-edit").value;
-            var em = { id: id };
-            $.ajax({
-                url: "/phong-cdvt/cap-nhat-hoat-dong/getEQname",
-                type: "POST",
-                data: JSON.stringify(em),
-                contentType: "application/json;charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    document.getElementById("equipmentname-edit").value = data;
-                },
-                error: function () {
-                    //alert("fail");
-                }
-            });
-        }
-
     </script>
 
 }
