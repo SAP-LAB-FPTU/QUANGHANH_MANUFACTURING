@@ -21,17 +21,17 @@ namespace QUANGHANH2.Models
         }
     
         public Nullable<int> MaTruong { get; set; }
-        public Nullable<int> MaChuyenNghanh { get; set; }
         public int MaBangCap_GiayChungNhan { get; set; }
         public Nullable<int> MaTrinhDo { get; set; }
         public string KieuBangCap { get; set; }
         public string ThoiHan { get; set; }
         public string TenBangCap { get; set; }
         public string Loai { get; set; }
+        public string MaChuyenNganh { get; set; }
     
+        public virtual ChuyenNganh ChuyenNganh { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChiTiet_BangCap_GiayChungNhan> ChiTiet_BangCap_GiayChungNhan { get; set; }
-        public virtual ChuyenNganh ChuyenNganh { get; set; }
         public virtual TrinhDo TrinhDo { get; set; }
         public virtual Truong Truong { get; set; }
     }

@@ -211,14 +211,13 @@ namespace QUANGHANH2.Controllers.TCLD
 
         [Route("UpdateSoQD")]
         [HttpPost]
-        public ActionResult UpdateSoQD(string id, string SoQD)
+        public JsonResult UpdateSoQD(string id, string SoQD)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             db.Configuration.LazyLoadingEnabled = false;
-            string query = "update QuyetDinh set SoQuyetDinh = "+SoQD+", NgayQuyetDinh = GETDATE() where MaQuyetDinh = "+id;
+            string query = "update QuyetDinh set SoQuyetDinh = " + SoQD + ", NgayQuyetDinh = GETDATE() where MaQuyetDinh = " + id;
             db.Database.ExecuteSqlCommand(query);
-            return RedirectToAction("NotYet");
-
+            return Json("", JsonRequestBehavior.AllowGet);
         }
     }
 }

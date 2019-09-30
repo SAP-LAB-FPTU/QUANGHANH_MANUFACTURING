@@ -1,9 +1,12 @@
-﻿using QUANGHANH2.Models;
+﻿using OfficeOpenXml;
+using QUANGHANH2.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Script.Serialization;
@@ -12,6 +15,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
 {
     public class NhienlieuController : Controller
     {
+        /*aa*/
         [Route("phong-cdvt/bao-cao/nhien-lieu")]
         public ActionResult Index(string type, string date, string month, string quarter, string year)
         {
@@ -70,9 +74,35 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
 
 
         [Route("phong-cdvt/bao-cao/nhien-lieu/excel")]
-        public ActionResult Export()
+        public ActionResult Export(string type, string date, string month, string quarter, string year)
         {
-            return File("~/excel/CDVT/nhienlieu.xls", contentType: "text/plain; charset=utf-8", fileDownloadName: "nhienlieu.xls");
+            string path = HostingEnvironment.MapPath("/excel/CDVT/nhienlieu.xlsx");
+            string saveAsPath = ("/excel/CDVT/download/nhienlieu.xlsx");
+            FileInfo file = new FileInfo(path);
+            using (ExcelPackage excelPackage = new ExcelPackage(file))
+            {
+                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
+                ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    string query = "";
+                    query = Wherecondition(type, date, month, quarter, year);
+                    List<contentreport> listdata = db.Database.SqlQuery<contentreport>(query).ToList();
+                    int k = 3;
+                    for (int i = 0; i < listdata.Count; i++)
+                    {
+                        excelWorksheet.Cells[k, 1].Value = listdata.ElementAt(i).Thang + "/" + listdata.ElementAt(i).Nam;
+                        excelWorksheet.Cells[k, 2].Value = listdata.ElementAt(i).MaThietBi;
+                        excelWorksheet.Cells[k, 3].Value = listdata.ElementAt(i).TenThietBi;
+                        excelWorksheet.Cells[k, 4].Value = listdata.ElementAt(i).LoaiNhienLieu;
+                        excelWorksheet.Cells[k, 5].Value = listdata.ElementAt(i).LuongTieuThu;
+                        excelWorksheet.Cells[k, 6].Value = listdata.ElementAt(i).DonVi;
+                        k++;
+                    }
+                    excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath(saveAsPath)));
+                }
+            }
+            return Json(new { success = true, location = saveAsPath }, JsonRequestBehavior.AllowGet);
         }
 
         private void getContentbyDay(DateTime date)

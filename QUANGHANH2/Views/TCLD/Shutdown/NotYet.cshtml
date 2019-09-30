@@ -57,7 +57,14 @@
         </div>
     </div>
 </div>
-<form action="/UpdateSoQD" method="POST">
+@using (Html.BeginForm("UpdateSoQD", "ShutDown", FormMethod.Post, new
+{
+    enctype = "multipart/form-data",
+    onSubmit = "return SubmitForm1(this);",
+    data_restUrl = Url.Action("UpdateSoQD", "ShutDown", new { id = "" })
+}))
+{
+
     <div id="detail" class="modal open">
         <div class="modal-content">
             <div class="modal-header">
@@ -84,12 +91,12 @@
             </div>
             <div class="modal-footer">
                 <input type="hidden" name="id" id="MaQD" />
-                <button type="submit" class="waves-effect waves-light btn blue darken-2 btn-small">Thêm</button>
+                <button type="submit" class="waves-effect waves-light btn blue darken-2 btn-small modal-close">Thêm</button>
                 <a class="waves-effect waves-light btn blue darken-2 btn-small modal-close">Hủy</a>
             </div>
         </div>
     </div>
-</form>
+}
 <div id="confirm" class="open modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -189,7 +196,7 @@
                         {
                             "data": "MaQuyetDinh", "render": function (data) {
                                 return "<a name='detail' class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='detail(" + data + ")' data-target='detail' ><span class='ti-pencil-alt'>&nbsp;Chi tiết</span></a>&nbsp;" +
-                                    "<a class='waves-effect waves-light btn blue darken-2 btn-small' onclick='delDetail("+data+")'><span class='ti-pencil-alt'>&nbsp;Xóa</span></a>";
+                                    "<a class='waves-effect waves-light btn blue darken-2 btn-small' onclick='delDetail(" + data + ")'><span class='ti-pencil-alt'>&nbsp;Xóa</span></a>";
 
                             },
                             "orderable": false,
@@ -243,7 +250,7 @@
                 });
             });
         });
-         function delDetail(id) {
+        function delDetail(id) {
             $.ajax({
                 type: 'post',
                 url: '/deleteDetail',
@@ -287,21 +294,21 @@
                     }
                 })
         }
-        function UpdateSoQD(id, SoQD) {
-            $.ajax({
-                type: 'post',
-                url: '/UpdateSoQD',
-                dataType: 'json',
-                data: { id: JSON.stringify(id), SoQD: JSON.stringify(SoQD) },
-                success: function (data) {
-                    dataTable.ajax.reload();
-                    $.notify("Cập nhật hoàn tất", {
-                        globalPosition: "top center",
-                        className: "success"
-                    })
-                },
-            })
-        }
+        //function UpdateSoQD(id, SoQD) {
+        //    $.ajax({
+        //        type: 'post',
+        //        url: '/UpdateSoQD',
+        //        dataType: 'json',
+        //        data: { id: JSON.stringify(id), SoQD: JSON.stringify(SoQD) },
+        //        success: function (data) {
+        //            dataTable.ajax.reload();
+        //            $.notify("Cập nhật hoàn tất", {
+        //                globalPosition: "top center",
+        //                className: "success"
+        //            })
+        //        },
+        //    })
+        //}
 
         function dateFormat(d) {
             if (d == null) {
@@ -314,6 +321,39 @@
             var year = currentTime.getFullYear();
             var date = day + "/" + month + "/" + year;
             return (date);
+        }
+
+        function SubmitForm1(form) {
+            $.validator.unobtrusive.parse(form);
+            if ($(form).valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(),
+
+                    //success: function (data) {
+                    //    dataTable.ajax.reload();
+                    //    console.log('ahihi');
+                    //    if (data.success) {
+                    //        Popup.dialog('close');
+
+                    //        $.notify(data.message, {
+                    //            globalPosition: "top center",
+                    //            className: "success"
+                    //        })
+
+                    //    }
+                    //}
+                });
+                dataTable.ajax.reload(function () {
+                    this.ajax.reload();
+                    $.notify("Tìm kiếm thành công", {
+                        globalPosition: "top center",
+                        className: "success"
+                    })
+                });
+            }
+            return false;
         }
     </script>
 }
