@@ -12,6 +12,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
 {
     public class WaterController : Controller
     {
+        /**/
         [Route("phong-cdvt/bao-cao/thoat-nuoc")]
         public ActionResult Water(string type, string date, string month, string quarter, string year)
         {

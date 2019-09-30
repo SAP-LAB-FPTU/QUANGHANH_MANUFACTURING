@@ -12,6 +12,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
 {
     public class RepairReportController : Controller
     {
+        /**/
         [Route("phong-cdvt/bao-cao/sua-chua")]
         public ActionResult Index(string type, string date, string month, string quarter, string year)
         {

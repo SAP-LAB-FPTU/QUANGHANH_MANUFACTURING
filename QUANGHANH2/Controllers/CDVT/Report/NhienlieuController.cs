@@ -15,6 +15,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
 {
     public class NhienlieuController : Controller
     {
+        /**/
         [Route("phong-cdvt/bao-cao/nhien-lieu")]
         public ActionResult Index(string type, string date, string month, string quarter, string year)
         {
