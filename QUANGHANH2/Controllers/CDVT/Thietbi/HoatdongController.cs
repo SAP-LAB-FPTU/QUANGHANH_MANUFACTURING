@@ -20,7 +20,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
 {
     public class HoatdongController : Controller
     {
-        /*a*/
+        /*aa*/
         [Route("phong-cdvt/huy-dong/export")]
         public void export()
         {

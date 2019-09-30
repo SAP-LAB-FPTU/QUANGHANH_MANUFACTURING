@@ -14,7 +14,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
 {
     public class ReportPowerUsageController : Controller
     {
-        /*a*/
+        /*aa*/
         [Route("phong-cdvt/bao-cao/dien-nang")]
         public ActionResult Quarter(string type, string date, string month, string quarter, string year)
         {

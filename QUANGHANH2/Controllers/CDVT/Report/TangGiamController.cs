@@ -13,7 +13,7 @@ namespace QUANGHANH2.Controllers.CDVT.Report
 {
     public class TangGiamController : Controller
     {
-        /*a*/
+        /*aa*/
         [Route("phong-cdvt/bao-cao/tang-giam")]
         public ActionResult Index(string type, string date, string month, string quarter, string year)
         {
