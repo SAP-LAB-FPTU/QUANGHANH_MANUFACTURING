@@ -11,44 +11,13 @@
                     <h3 class="center"><b>HỢP ĐỒNG CHƯA THANH LÍ</b></h3>
                 </div>
                 <div class="row center">
-                    <div class="col l2 m12 s12 input-field">
-                        <input type="text" placeholder="Tìm kiếm theo mã nhân viên" class='form-control' id="searchArea" multiple />
+                    <div class="col l5 m12 s12 input-field">
+                        <input type="text" placeholder="Tìm kiếm theo mã quyết định" class='form-control' id="searchMaQD" multiple />
                     </div>
-                    <div class="col l2 m12 s12 input-field">
-                        <input type="text" placeholder="Tìm kiếm theo tên nhân viên" class='form-control' id="searchArea" multiple />
+                    <div class="col l5 m12 s12 input-field">
+                        <input type="text" placeholder="Tìm kiếm theo ngày chấm dứt" class='form-control datepicker-here datepicker-add' id="searchNgayCD" multiple />
                     </div>
-                    <div class="col l2 m12 s12 input-field">
-                        <select class="form-control" id="gender">
-                            <option value="" disabled selected>Chọn giới tính</option>
-                            <option value="1">Nam</option>
-                            <option value="2">Nữ</option>
-                        </select>
-                    </div>
-                    <div class="col l2 m12 s12 input-field">
-                        <select class="form-control" id="departure">
-                            <option value="" disabled selected>Chọn phòng ban</option>
-                            <option value="1">Phòng tổ chức lao động</option>
-                            <option value="2">Phòng cơ điện vận tải</option>
-                            <option value="2">Phòng an toàn</option>
-                            <option value="2">Phân xưởng khai thác 1</option>
-                            <option value="2">Phân xưởng khai thác 2</option>
-                            <option value="2">Phân xưởng khai thác 3</option>
-                            <option value="2">Phân xưởng khai thác 5</option>
-                            <option value="2">Phân xưởng đào lò 1</option>
-                            <option value="2">Phân xưởng đào lò 2</option>
-                            <option value="2">Phân xưởng đào lò 3</option>
-                            <option value="2">Phân xưởng đào lò 5</option>
-                        </select>
-                    </div>
-                    <div class="col l2 m12 s12 input-field">
-                        <select class="form-control" id="position">
-                            <option value="" disabled selected>Chọn phòng chức vụ</option>
-                            <option value="1">Trưởng phòng</option>
-                            <option value="2">Nhân viên kinh doanh</option>
-                            <option value="2">Phó quản đốc</option>
-                            <option value="2">Quản đốc</option>
-                        </select>
-                    </div>
+
                     <div class="col l2 m12 s12 input-field">
                         <button class="btn blue darken-2 btn-small" id="searchButton">Tìm kiếm</button>
                     </div>
@@ -72,115 +41,55 @@
                 <br />
                 <div class="col s12 m12 l12">
                     <br />
-                    <table class="striped responsive-table table-bordered">
-                        <tr>
-                            <th class="center">Chọn</th>
-                            <th class="center">Số thứ tự</th>
-                            <th class="center">Mã nhân viên</th>
-                            <th class="center">Họ và tên</th>
-                            <th class="center">Lý do chấm dứt</th>
-                            <th class="center">Ngày chấm dứt</th>
-                        </tr>
-                        <tr>
-                            <td class="center"><label id="check"><input class="inputCheck" type="checkbox" /><span></span></label></td>
-                            <td class="center">1</td>
-                            <td class="center">7751</td>
-                            <td class="center">Nguyễn Văn Hùng</td>
-                            <td class="center">Đi nhập ngũ</td>
-                            <td class="center">15/12/2018</td>
-                        </tr>
-                        <tr>
-                            <td class="center"><label id="check"><input class="inputCheck" type="checkbox" /><span></span></label></td>
-                            <td class="center">2</td>
-                            <td class="center">2179</td>
-                            <td class="center">Nguyễn Xuân Thoảng</td>
-                            <td class="center">Hưu trí</td>
-                            <td class="center">03/09/2017</td>
-                        </tr>
-                        <tr>
-                            <td class="center"><label id="check"><input class="inputCheck" type="checkbox" /><span></span></label></td>
-                            <td class="center">3</td>
-                            <td class="center">3506</td>
-                            <td class="center">Nguyễn Văn Hùng</td>
-                            <td class="center">Hưu trí</td>
-                            <td class="center">04/09/2017</td>
-
-                        </tr>
-                        <tr>
-                            <td class="center"><label id="check"><input class="inputCheck" type="checkbox" /><span></span></label></td>
-                            <td class="center">4</td>
-                            <td class="center">2041</td>
-                            <td class="center">Nguyễn Văn Hưng</td>
-                            <td class="center">Sa thải</td>
-                            <td class="center">05/09/2017</td>
-                        </tr>
-                        <tr>
-                            <td class="center"><label id="check"><input class="inputCheck" type="checkbox" /><span></span></label></td>
-                            <td class="center">5</td>
-                            <td class="center">4472</td>
-                            <td class="center">Nguyễn Văn Hoa</td>
-                            <td class="center">Đi đơn vị ngoài</td>
-                            <td class="center">05/09/2017</td>
-                        </tr>
-                        <tr>
-                            <td class="center"><label id="check"><input class="inputCheck" type="checkbox" /><span></span></label></td>
-                            <td class="center">6</td>
-                            <td class="center">7430</td>
-                            <td class="center">Đông Văn Đai</td>
-                            <td class="center">Sa thải</td>
-                            <td class="center">05/09/2017</td>
-                        </tr>
-                        <tr>
-                            <td class="center"><label id="check"><input class="inputCheck" type="checkbox" /><span></span></label></td>
-                            <td class="center">7</td>
-                            <td class="center">7564</td>
-                            <td class="center">Nguyễn Văn Sơn</td>
-                            <td class="center">Đi đơn vị ngoài</td>
-                            <td class="center">05/09/2017</td>
-                        </tr>
-                        <tr>
-                            <td class="center"><label id="check"><input class="inputCheck" type="checkbox" /><span></span></label></td>
-                            <td class="center">8</td>
-                            <td class="center">7598</td>
-                            <td class="center">Đăng Tung</td>
-                            <td class="center">Sa thải</td>
-                            <td class="center">06/09/2017</td>
-                        </tr>
-                        <tr>
-                            <td class="center"><label id="check"><input class="inputCheck" type="checkbox" /><span></span></label></td>
-                            <td class="center">9</td>
-                            <td class="center">5132</td>
-                            <td class="center">Lệnh Văn Hương</td>
-                            <td class="center">Hưu trí</td>
-                            <td class="center">06/09/2017</td>
-                        </tr>
-                        <tr>
-                            <td class="center"><label id="check"><input class="inputCheck" type="checkbox" /><span></span></label></td>
-                            <td class="center">10</td>
-                            <td class="center">3352</td>
-                            <td class="center">Phạm Văn Phú</td>
-                            <td class="center">Đi đơn vị ngoài</td>
-                            <td class="center">07/09/2017</td>
-                       
-                        </tr>
+                    <table id="notyet-table" class="striped responsive-table table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="center">Mã quyết định</th>
+                                <th class="center">Ngày chấm dứt</th>
+                                <th class="center"></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
                     </table>
                 </div>
                 <br />
-                <div class="col l12 s12 m12 center paging_container" style="margin-top:10px">
-                    <ul class="pagination">
-                        <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-                        <li class="active"><a href="#!">1</a></li>
-                        <li class="waves-effect"><a href="#!">2</a></li>
-                        <li class="waves-effect"><a href="#!">3</a></li>
-                        <li class="waves-effect"><a href="#!">4</a></li>
-                        <li class="waves-effect"><a href="#!">5</a></li>
-                        <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-                    </ul>
-                </div>
             </div>
         </div>
     </div>
 </div>
+<form action="/UpdateSoQD" method="POST">
+    <div id="detail" class="modal open">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Chi tiết quyết định</h3>
+            </div>
+            <div class="modal-body row">
+                <div class="col s3 m3 l3">
+                    <input class="form-control" id="soqd" required placeholder="Số quyết định" name="SoQD" />
+                    <br />
+                </div>
+                <div>
+                    <table class="table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Mã nhân viên</th>
+                                <th>Tên nhân viên</th>
+                                <th>Loại chấm dứt</th>
+                                <th>Ngày chấm dứt</th>
+                            </tr>
+                        </thead>
+                        <tbody id="detail-table"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" name="id" id="MaQD" />
+                <button type="submit" class="waves-effect waves-light btn blue darken-2 btn-small">Thêm</button>
+                <a class="waves-effect waves-light btn blue darken-2 btn-small modal-close">Hủy</a>
+            </div>
+        </div>
+    </div>
+</form>
 <div id="confirm" class="open modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -232,4 +141,179 @@
             }
         });
     });
+
 </script>
+<script src="~/assets/extra-libs/Datatables/datatables.min.js"></script>
+<script src="~/dist/js/pages/datatable/datatable-basic.init.js"></script>
+<script src="~/Scripts/notify.min.js"></script>
+<script src="~/Scripts/Scripts.js"></script>
+<script src="~/assets/libs/toastr/build/toastr.min.js"></script>
+<link href="~/assets/libs/toastr/build/toastr.min.css" rel="stylesheet" />
+
+@section scripts{
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+        var Popup, dataTable;
+        $(document).ready(function () {
+            $("#pre-load").show("slow", function () {
+            });
+            $("#pre-load").css("z-index", "99999");
+            dataTable = $('#notyet-table')
+                .on('preXhr.dt', function (e, settings, data) {
+                    ////////////////////////////////////HIỆN LÊN MỖI KHI CHẠY AJAX//////////////////////////////////
+                    $("#pre-load").show("slow", function () {
+                    });
+                    $("#pre-load").css("z-index", "99999");
+                    ////////////////////////////////////////////////////////////////////////
+                })
+                .DataTable({
+                    "ajax": {
+                        "url": "/phong-tcld/quan-ly-nhan-vien/chua-xu-ly-cham-dut",
+                        "type": "POST",
+                        "datatype": "json",
+                        "data": {
+                            "MaQuyetDinh": function () { return $('#searchMaQD').val() },
+                            "NgayChamDut": function () { return $('#searchNgayCD').val() },
+                        }
+                    },
+                    "columns": [
+                        {
+                            "data": "MaQuyetDinh", "name": "MaQuyetDinh"
+
+                        },
+                        {
+                            "data": "NgayChamDut", "name": "NgayChamDut", "render": function (data) {
+                                return dateFormat(data);
+                            }
+                        },
+                        {
+                            "data": "MaQuyetDinh", "render": function (data) {
+                                return "<a name='detail' class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='detail(" + data + ")' data-target='detail' ><span class='ti-pencil-alt'>&nbsp;Chi tiết</span></a>&nbsp;" +
+                                    "<a class='waves-effect waves-light btn blue darken-2 btn-small' onclick='delDetail("+data+")'><span class='ti-pencil-alt'>&nbsp;Xóa</span></a>";
+
+                            },
+                            "orderable": false,
+                            "searchable": false,
+                            "min-width": "70px"
+                        },
+
+                    ],
+                    "drawCallback": function (settings) {
+                        ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
+                        $("#pre-load").hide("slow", function () {
+                        });
+                        ////////////////////////////////////////////////
+                    },
+                    "serverSide": "true",
+                    "language": {
+                        emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                        paginate:
+                        {
+                            previous: "Trang trước",
+                            next: "Trang sau",
+                            first: "|<",
+                            last: ">|",
+
+                        },
+                        info: "Đang hiện START đến END của TOTAL bản ghi",
+                        infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
+                    },
+                    "order": [0, "asc"],
+                    "bLengthChange": false,
+                    "bFilter": false,
+                    "bInfo": false,
+                    "bAutoWidth": false,
+                    "initComplete": function (settings, json) {
+                        ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
+                        $("#pre-load").hide("slow", function () {
+                        });
+                        //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
+                    }
+
+                });
+        });
+        $(document).ready(function () {
+            var dataTable = $('#notyet-table').DataTable();
+            $("#searchButton").click(function () {
+                dataTable.ajax.reload(function () {
+                    $.notify("Tìm kiếm thành công", {
+                        globalPosition: "top center",
+                        className: "success"
+                    })
+                });
+            });
+        });
+         function delDetail(id) {
+            $.ajax({
+                type: 'post',
+                url: '/deleteDetail',
+                dataType: 'json',
+                data: { id: JSON.stringify(id) },
+                success: function (data) {
+                    dataTable.ajax.reload();
+                    $.notify("Xóa hoàn tất", {
+                        globalPosition: "top center",
+                        className: "success"
+                    })
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $.notify(XMLHttpRequest.responseText, {
+                        globalPosition: "top center",
+                        className: "failed"
+                    })
+                }
+            })
+        }
+
+
+        function detail(id) {
+            $("#MaQD").val(id);
+            $("#soqd").empty();
+            $.ajax({
+                type: 'post',
+                url: '/NotYetDetail',
+                dataType: 'json',
+                data: { id: JSON.stringify(id) },
+            })
+                .done(function (data) {
+                    for (i = 0; i < data.length; i++) {
+                        $("#detail-table").empty();
+                        $("#detail-table").append("<tr>");
+                        $("#detail-table").append("<td>" + data[i].MaNV + "</td>");
+                        $("#detail-table").append("<td>" + data[i].Ten + "</td>");
+                        $("#detail-table").append("<td>" + data[i].LoaiChamDut + "</td>");
+                        $("#detail-table").append("<td>" + dateFormat(data[i].NgayChamDut) + "</td>");
+                        $("#detail-table").append("</tr>");
+                    }
+                })
+        }
+        function UpdateSoQD(id, SoQD) {
+            $.ajax({
+                type: 'post',
+                url: '/UpdateSoQD',
+                dataType: 'json',
+                data: { id: JSON.stringify(id), SoQD: JSON.stringify(SoQD) },
+                success: function (data) {
+                    dataTable.ajax.reload();
+                    $.notify("Cập nhật hoàn tất", {
+                        globalPosition: "top center",
+                        className: "success"
+                    })
+                },
+            })
+        }
+
+        function dateFormat(d) {
+            if (d == null) {
+                return "";
+            }
+            var dateString = d.substr(6);
+            var currentTime = new Date(parseInt(dateString));
+            var month = currentTime.getMonth() + 1;
+            var day = currentTime.getDate();
+            var year = currentTime.getFullYear();
+            var date = day + "/" + month + "/" + year;
+            return (date);
+        }
+    </script>
+}

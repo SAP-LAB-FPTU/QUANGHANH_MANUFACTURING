@@ -96,10 +96,16 @@
                                 </div>
                                 <div class="input-field col m12">
                                     <div class="col m6">
-                                        @Html.LabelFor(model => model.ChucVu, "Chức vụ", htmlAttributes: new { @class = "custom-label" })
+                                        @Html.LabelFor(model => model.MaCongViec, "Chức vụ", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.ChucVu, new { htmlAttributes = new { @class = "form-control", @placeholder = "Chức vụ", @type = "text" } })
-                                            @Html.ValidationMessageFor(model => model.ChucVu, "", new { @class = "text-danger" })
+                                            <input id="MaCongViecDis" list="listJob" class="form-control" name="test" value="@ViewBag.loadJob"/>
+                                            <datalist id="listJob">
+                                                @foreach (var item in (IEnumerable<SelectListItem>)ViewBag.job)
+                                                {
+                                                <option value="@item.Text" />
+                                                }
+                                            </datalist>
+                                            @Html.ValidationMessageFor(model => model.MaCongViec, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col m6">
@@ -272,11 +278,11 @@
                                     </div>
                                 </div>
                                 <div class="input-field col m12">
-                                    <div class="col m12">
-                                        @Html.LabelFor(model => model.TrinhDoHocVan, "Trình độ học vấn", htmlAttributes: new { @class = "custom-label" })
+                                    <div class="col m6">
+                                        @Html.LabelFor(model => model.MaTrinhDo, "Trình độ học vấn", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            @Html.DropDownListFor(model => model.TrinhDoHocVan, new SelectList(ViewBag.level, "Value", "Text"), htmlAttributes: new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(model => model.TrinhDoHocVan, "", new { @class = "text-danger" })
+                                            @Html.DropDownListFor(model => model.MaTrinhDo, new SelectList(ViewBag.level, "Value", "Text"), htmlAttributes: new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.MaTrinhDo, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col m6">
@@ -335,35 +341,25 @@
                                     </div>
                                     <div class="input-field col m12">
                                         <div class="col m4">
-                                            <label class='custom-label'>Bậc lương</label>
-                                            <select class="custom-select">
-                                                <option>Không có</option>
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                            </select>
+                                            @Html.LabelFor(model => model.BacLuong, "Bậc lương", htmlAttributes: new { @class = "custom-label" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.BacLuong, new { htmlAttributes = new { @class = " form-control", @placeholder = "Bậc lương", @type = "number", @min = "0" } })
+                                                @Html.ValidationMessageFor(model => model.BacLuong, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
                                         <div class="col m4">
-                                            <label class='custom-label'>Hệ số</label>
-                                            <input type="text" class=" form-control" placeholder="Hệ số" />
+                                            @Html.LabelFor(model => model.HeSo, "Hệ số", htmlAttributes: new { @class = "custom-label" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.HeSo, new { htmlAttributes = new { @class = " form-control", @placeholder = "Hệ số", @type = "number", @min = "0" } })
+                                                @Html.ValidationMessageFor(model => model.HeSo, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
                                         <div class="col m4">
-                                            <label class='custom-label'>Từ tháng</label>
-                                            <select class="custom-select">
-                                                <option>Không có</option>
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                                <option>6</option>
-                                                <option>7</option>
-                                                <option>8</option>
-                                                <option>9</option>
-                                                <option>10</option>
-                                                <option>11</option>
-                                                <option>12</option>
-                                            </select>
+                                            @Html.LabelFor(model => model.TuThang, "Từ tháng", htmlAttributes: new { @class = "custom-label" })
+                                            <div class="col-md-10">
+                                                @Html.DropDownListFor(model => model.TuThang, new SelectList(ViewBag.months, "Value", "Text"), htmlAttributes: new { @class = " form-control" })
+                                                @Html.ValidationMessageFor(model => model.TuThang, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="input-field col m12">
@@ -411,7 +407,9 @@
                                     </div>
                                 </div>
                             </div>
-                            @Html.HiddenFor(model => model.MaPhongBan, new { htmlAttributes = new { @class = "form-control", @placeholder = "Kỷ luật" } })
+
+                            @Html.HiddenFor(model => model.MaPhongBan)
+                            @Html.HiddenFor(model => model.MaTrangThai)
                             <!--Sức khỏe-->
                             <div id="suckhoe" class="col m12">
                                 <div class="row">
@@ -686,92 +684,6 @@
 <script src="~/js/Custom JS/TCLD/Brief/Briefs_Edit.js"></script>
 <script src="~/js/Custom JS/TCLD/Brief/DateError.js"></script>
 <script>
+  
 </script>
 
-@*<script>
-    //$(function () {
-    //    $.validator.methods.date = function (value, element) {
-    //        return this.optional(element) || moment(value, "DD.MM.YYYY", true).isValid();
-    //    }
-    //});
-    $(document).ready(function () {
-
-        $("#NgaySinhFix").val($("#NgaySinh").val())
-        $("#save").click(function () {
-            var temp = $("#NgaySinhFix").val();
-            var arr = temp.split("/");
-            $('#NgaySinh').val(arr[1] + "/" + arr[0] + "/" + arr[2])
-        });
-
-        $("#NgayThamGiaCachMangFix").val($("#NgayThamGiaCachMang").val())
-        $("#save").click(function () {
-            var temp = $("#NgayThamGiaCachMangFix").val();
-            var arr = temp.split("/");
-            $('#NgayThamGiaCachMang').val(arr[1] + "/" + arr[0] + "/" + arr[2])
-        });
-
-        $("#NgayThamGiaCachMangFix").val($("#NgayThamGiaCachMang").val())
-        $("#save").click(function () {
-            var temp = $("#NgayThamGiaCachMangFix").val();
-            var arr = temp.split("/");
-            $('#NgayThamGiaCachMang').val(arr[1] + "/" + arr[0] + "/" + arr[2])
-        });
-        
-        $("#NgayVaoDangCSVNFix").val($("#NgayVaoDangCSVN").val())
-        $("#save").click(function () {
-            var temp = $("#NgayVaoDangCSVNFix").val();
-            var arr = temp.split("/");
-            $('#NgayVaoDangCSVN').val(arr[1] + "/" + arr[0] + "/" + arr[2])
-        });
-        
-        $("#NgayChinhThucFix").val($("#NgayChinhThuc").val())
-        $("#save").click(function () {
-            var temp = $("#NgayChinhThucFix").val();
-            var arr = temp.split("/");
-            $('#NgayChinhThuc').val(arr[1] + "/" + arr[0] + "/" + arr[2])
-        });
-        
-        $("#NgayVaoToChucCTXHFix").val($("#NgayVaoToChucCTXH").val())
-        $("#save").click(function () {
-            var temp = $("#NgayVaoToChucCTXHFix").val();
-            var arr = temp.split("/");
-            $('#NgayVaoToChucCTXH').val(arr[1] + "/" + arr[0] + "/" + arr[2])
-        });
-        
-        $("#NgayVaoToChucCTXHFix").val($("#NgayVaoToChucCTXH").val())
-        $("#save").click(function () {
-            var temp = $("#NgayVaoToChucCTXHFix").val();
-            var arr = temp.split("/");
-            $('#NgayVaoToChucCTXH').val(arr[1] + "/" + arr[0] + "/" + arr[2])
-        });
-        
-        $("#NgayNhapNguFix").val($("#NgayNhapNgu").val())
-        $("#save").click(function () {
-            var temp = $("#NgayNhapNguFix").val();
-            var arr = temp.split("/");
-            $('#NgayNhapNgu').val(arr[1] + "/" + arr[0] + "/" + arr[2])
-        });
-        
-        $("#NgayXuatNguFix").val($("#NgayXuatNgu").val())
-        $("#save").click(function () {
-            var temp = $("#NgayXuatNguFix").val();
-            var arr = temp.split("/");
-            $('#NgayXuatNgu').val(arr[1] + "/" + arr[0] + "/" + arr[2])
-        });
-        
-        $("#NgayXuatNguFix").val($("#NgayXuatNgu").val())
-        $("#save").click(function () {
-            var temp = $("#NgayXuatNguFix").val();
-            var arr = temp.split("/");
-            $('#NgayXuatNgu').val(arr[1] + "/" + arr[0] + "/" + arr[2])
-        });
-        
-        $("#NgayCapCMNDFix").val($("#NgayCapCMND").val())
-        $("#save").click(function () {
-            var temp = $("#NgayCapCMNDFix").val();
-            var arr = temp.split("/");
-            $('#NgayCapCMND').val(arr[1] + "/" + arr[0] + "/" + arr[2])
-        });
-
-    });
-</script>*@

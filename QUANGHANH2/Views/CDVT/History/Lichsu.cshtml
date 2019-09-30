@@ -191,7 +191,7 @@
                     <div class="col s12 m6">
                         <div class="form-group">
                             <label for="date"> Mã nhiên liệu  : </label>
-                            <input type="text" class="form-control" id="fuel-edit" />
+                            <input type="text" class="form-control" id="fuel-edit" list="supplyID"/>
                             <input type="hidden" class="form-control" id="fuelID-edit" />
                         </div>
                         <div class="form-group">
@@ -1007,7 +1007,7 @@
                 fuel_type: id
             };
             $.ajax({
-                url: "/returnsupplyName",
+                url: "/phong-cdvt/cap-nhat-hoat-dong/returnsupplyName",
                 type: "POST",
                 data: JSON.stringify(tmp),
                 contentType: "application/json;charset=utf-8",
@@ -1081,7 +1081,6 @@
                 }
             });
         }
-
     </script>
 
 }
