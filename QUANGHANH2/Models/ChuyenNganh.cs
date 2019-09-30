@@ -21,11 +21,11 @@ namespace QUANGHANH2.Models
             this.NhanViens = new HashSet<NhanVien>();
         }
     
-        public int MaChuyenNganh { get; set; }
+        public string MaChuyenNganh { get; set; }
         public string TenChuyenNganh { get; set; }
         public string CapBac { get; set; }
         public string ChiTiet { get; set; }
-        public int MaNganh { get; set; }
+        public string MaNganh { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BangCap_GiayChungNhan> BangCap_GiayChungNhan { get; set; }
