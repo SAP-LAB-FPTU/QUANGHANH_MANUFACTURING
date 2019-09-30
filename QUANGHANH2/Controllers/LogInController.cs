@@ -133,7 +133,7 @@ namespace QUANGHANHCORE.Controllers
                 }
                 if (url.Equals("12"))
                 {
-                    Session["url"] = "phan-xuong-doi-song";
+                    Session["url"] = "phan-xuong-doi-song/theo-doi-suat-an";
                     RightIDs.Add("012");
                 }
             }
