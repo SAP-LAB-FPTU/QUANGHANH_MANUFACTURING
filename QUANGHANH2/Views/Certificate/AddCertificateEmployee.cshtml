@@ -29,6 +29,7 @@
                             }
                         </datalist>
                         @Html.ValidationMessageFor(model => model.MaNV, "", new { @class = "text-danger" })
+                        <p hidden style="color:red" id="message_checkNameExist">Mã nhân viên không tồn tại. Hãy nhập lại</p>
                     </div>
                 </div>
 
@@ -52,7 +53,8 @@
                 <div class="form-group col s12 m12 l12">
                     @Html.LabelFor(model => model.NgayCap, "Ngày Cấp", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.NgayCap, new { htmlAttributes = new { @class = "form-control" } })
+                        <input id="start_time" class="form-control" />
+                        @Html.EditorFor(model => model.NgayCap, new { htmlAttributes = new { @style = "display: none !important", @class = "form-control", @id = "ngaycap_add_cert" } })
                         @Html.ValidationMessageFor(model => model.NgayCap, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -89,7 +91,14 @@
 
 </html>
 <script>
+    $(document).ready(function () {
 
+        $("#start_time").datepicker({ dateFormat: 'dd/mm/yyyy', changeYear: true });
+        $("#start_time").keydown(function (e) {
+            e.preventDefault();
+        });
+
+    });
     $('#sohieu').blur(function () {
         $.ajax({
             url:'@Url.Action("validateID", "Certificate")',
@@ -109,18 +118,22 @@
             },
         })
     });
+
     $('#manv_add').change(function () {
-        var manv = $(this).val();
-        
+        var manv = $(this).val();       
       $.ajax({
-            url:'@Url.Action("getName", "Certificate")',
+            url:'@Url.Action("getNameEmployee", "Certificate")',
             type: "POST",
             data: { id: $(this).val() },
             success: (response) => {
                 if (response.success) {
                     $('#nameEmp_add').val(response.data);
+                    $('#message_checkNameExist').hide();
+                    $('#submit_form').attr("disabled", false);
                 } else {
-                   
+                    $('#nameEmp_add').val(response.data);
+                    $('#message_checkNameExist').show();
+                    $('#submit_form').attr("disabled", true);
                 }
             },
             error: (response) => {
@@ -147,7 +160,7 @@
                     $('#submit_form').attr("disabled", true);
                 } else {
                     $('#message_cirt_emp').hide();
-                $('#submit_form').attr("disabled", false);
+                    $('#submit_form').attr("disabled", false);
                 }
             },
             error: (response) => {
@@ -156,6 +169,18 @@
         })
         })
     })
+    //$("#start_time_add_certificate_Emp").on("change", function () {
+    //    var fromdate = $(this).val();
+    //    alert(fromdate);
+    //});
+    $('#submit_form').click(function () {
+
+        var ngaycap = $('#start_time').val();
+        var arr  = ngaycap.split('/');
+        $('#ngaycap_add_cert').val(arr[1] + "/" + arr[0] + "/" + arr[2]);
+
+    })
+
 </script>
 
 
