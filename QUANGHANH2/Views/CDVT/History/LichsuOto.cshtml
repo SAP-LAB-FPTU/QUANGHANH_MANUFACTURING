@@ -273,7 +273,7 @@
     <div class="modal fade" id="myacti">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">Sửa hoạt động</h3>
+                <h3 class="modal-title">Sửa hoạt động </h3>
             </div>
             <div class="modal-body">
 
@@ -363,6 +363,7 @@
                         <div class="form-group">
                             <label for="date">Mã nhiên liệu  : </label>
                             <input type="text" class="form-control" id="fuel-edit" list="supplyID"/>
+                            @*save fuelID*@
                             <input type="hidden" class="form-control" id="fuelID-edit" />
                         </div>
                         <div class="form-group">
@@ -716,13 +717,13 @@
 <script>
     $(document).on('keypress', function (e) {
         if (e.which == 13) {
-            if (dataActiTable.data().any()) {
-                dataActiTable.destroy();
-            }
-            if (dataFuelTable.data().any()) {
-                dataFuelTable.destroy();
-            }
+            dataActiTable.destroy();
             searchActi();
+        }
+    });
+    $(document).on('keypress', function (e) {
+        if (e.which == 13) {
+            dataFuelTable.destroy();
             searchFuel();
         }
     });
@@ -886,7 +887,7 @@
             var id = document.getElementById("equipmentidfuel-add").value;
             var em = { id: id };
             $.ajax({
-                url: "/returnEquipmentName",
+                url: "/phong-cdvt/oto/cap-nhat-hoat-dong/returnEquipmentName",
                 type: "POST",
                 data: JSON.stringify(em),
                 contentType: "application/json;charset=utf-8",
@@ -908,7 +909,7 @@
             var id = document.getElementById("equipmentIdfuel-edit").value;
             var em = { id: id };
             $.ajax({
-                url: "/returnEquipmentName",
+                url: "/phong-cdvt/oto/cap-nhat-hoat-dong/returnEquipmentName",
                 type: "POST",
                 data: JSON.stringify(em),
                 contentType: "application/json;charset=utf-8",
@@ -926,7 +927,7 @@
             var id = document.getElementById("equipmentId-add").value;
             var em = { id: id };
             $.ajax({
-                url: "/returnEquipmentName",
+                url: "/phong-cdvt/oto/cap-nhat-hoat-dong/returnEquipmentName",
                 type: "POST",
                 data: JSON.stringify(em),
                 contentType: "application/json;charset=utf-8",
@@ -946,7 +947,7 @@
                 fuel_type: id
             };
             $.ajax({
-                url: "/returnsupplyName",
+                url: "/phong-cdvt/oto/cap-nhat-hoat-dong/returnsupplyName",
                 type: "POST",
                 data: JSON.stringify(tmp),
                 contentType: "application/json;charset=utf-8",
@@ -960,12 +961,13 @@
                 }
             });
         }
+
         //get equipment name in edit activity
         function getEquipmentname1() {
             var id = document.getElementById("equipmentidfuel-add").value;
             var em = { id: id };
             $.ajax({
-                url: "/returnEquipmentName",
+                url: "/phong-cdvt/oto/cap-nhat-hoat-dong/returnEquipmentName",
                 type: "POST",
                 data: JSON.stringify(em),
                 contentType: "application/json;charset=utf-8",
@@ -978,6 +980,7 @@
                 }
             });
         }
+
         //get supply name and unit in add fuel
         function getsupplyname() {
             var id = document.getElementById("fuelId-add").value;
@@ -985,7 +988,7 @@
                 fuel_type: id
             };
             $.ajax({
-                url: "/returnsupplyName",
+                url: "/phong-cdvt/oto/cap-nhat-hoat-dong/returnsupplyName",
                 type: "POST",
                 data: JSON.stringify(tmp),
                 contentType: "application/json;charset=utf-8",
@@ -1073,7 +1076,7 @@
             };
             $.ajax({
 
-                url: "/addfuel",
+                url: "/phong-cdvt/oto/cap-nhat-hoat-dong/addfuel",
                 type: "POST",
                 data: JSON.stringify(data),
                 contentType: "application/json;charset=utf-8",
@@ -1124,6 +1127,7 @@
         });
 
         function searchActi() {
+
             //get data
             dataActiTable = $('#acti-table').on('preXhr.dt', function (e, settings, data) {
                 $("#pre-load").show("slow", function () {

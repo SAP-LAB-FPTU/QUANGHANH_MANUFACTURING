@@ -191,7 +191,7 @@
                     <div class="col s12 m6">
                         <div class="form-group">
                             <label for="date"> Mã nhiên liệu  : </label>
-                            <input type="text" class="form-control" id="fuel-edit" />
+                            <input type="text" class="form-control" id="fuel-edit" list="supplyID"/>
                             <input type="hidden" class="form-control" id="fuelID-edit" />
                         </div>
                         <div class="form-group">
@@ -554,6 +554,21 @@
     });
 </script>
 
+<script>
+    $(document).on('keypress', function (e) {
+        if (e.which == 13) {
+            dataActiTable.destroy();
+            searchActi();
+        }
+    });
+    $(document).on('keypress', function (e) {
+        if (e.which == 13) {
+            dataFuelTable.destroy();
+            searchFuel();
+        }
+    });
+</script>
+
 @section scripts{
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 
@@ -563,6 +578,12 @@
         //get first data acti and fuel
         $(document).ready(function () {
             //get data
+            searchActi();
+            searchFuel();
+        });
+
+        function searchActi() {
+
             dataActiTable = $('#acti-table').on('preXhr.dt', function (e, settings, data) {
                 $("#pre-load").show("slow", function () {
                 });
@@ -625,7 +646,9 @@
                     //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
                 }
             });
+        }
 
+        function searchFuel() {
             dataFuelTable = $('#fuel-table').on('preXhr.dt', function (e, settings, data) {
                 $("#pre-load").show("slow", function () {
                 });
@@ -688,7 +711,7 @@
                     //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
                 }
             });
-        });
+        }
 
         //export excel fuction
         $("#acti-export-button").click(function () {
@@ -984,7 +1007,7 @@
                 fuel_type: id
             };
             $.ajax({
-                url: "/returnsupplyName",
+                url: "/phong-cdvt/cap-nhat-hoat-dong/returnsupplyName",
                 type: "POST",
                 data: JSON.stringify(tmp),
                 contentType: "application/json;charset=utf-8",
@@ -1058,7 +1081,6 @@
                 }
             });
         }
-
     </script>
 
 }

@@ -21,6 +21,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
         [HttpGet]
         public ActionResult Index()
         {
+            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            List<Equipment> equipments = DBContext.Equipments.ToList();
+            List<Department> departments = DBContext.Departments.ToList();
+            ViewBag.equipments = equipments;
+            ViewBag.departments = departments;
             return View("/Views/CDVT/Suco/SucoThietbi.cshtml");
         }
 
@@ -36,13 +41,13 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                 {
                     Department d = DBContext.Database.SqlQuery<Department>("SELECT * FROM Department WHERE department_name = N'" + department + "'").First();
                     Equipment e = DBContext.Equipments.Find(equipment);
-                    if(e.current_Status == "Hỏng")
+                    if(e.current_Status == 1)
                     {
                         transaction.Rollback();
                         Response.Write("Thiết bị đang có trạng thái hỏng\n không thể thêm sự cố");
                         return new HttpStatusCodeResult(400);
                     }
-                    e.current_Status = "Hỏng";
+                    e.current_Status = 1;
                     i.department_id = d.department_id;
                     i.detail_location = detail;
                     i.equipmentId = equipment;

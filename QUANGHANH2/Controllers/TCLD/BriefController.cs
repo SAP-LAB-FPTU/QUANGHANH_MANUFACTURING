@@ -1,14 +1,17 @@
 ﻿
 using Newtonsoft.Json.Linq;
+using OfficeOpenXml;
 using QUANGHANH2.Models;
 using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Threading.Tasks;
+using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Script.Serialization;
@@ -455,8 +458,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
             return RedirectToAction("listAllHoSo");
         }
-		//***start hoang
-
+        //***start hoang
+        
 
 
         [Route("phong-tcld/quan-ly-ho-so/ho-so-ngoai-cong-ty")]
@@ -486,6 +489,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                   sobhxh = p.SoBHXH,
                                   sdt = p.SoDienThoai,
                                   diachi = p.NoiOHienTai,
+                                  loaichamdut = p2.LoaiChamDut,
                                   edit = true
                               }).ToList();
 
@@ -575,6 +579,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
+
+                var listTenChamdut = (from p in db.ChamDut_NhanVien
+                                      select p.LoaiChamDut).Distinct().ToList();
                 var mydata = (from p in db.ChamDut_NhanVien
                               join p1 in db.QuyetDinhs on p.MaQuyetDinh equals p1.MaQuyetDinh
                               where p.MaNV == mnv
@@ -583,7 +590,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                   tenLoaiChamDut = p.LoaiChamDut,
                                   soQD = p.MaQuyetDinh,
                                   ngayQD = p1.NgayQuyetDinh,
-                                  ngayCD = p.NgayChamDut
+                                  ngayCD = p.NgayChamDut,
+                                  listChamDut=listTenChamdut
                               }).ToList();
                 Debug.WriteLine(mydata.Count(), "TAG");
                 return Json(new { success = true, data = mydata, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
@@ -739,18 +747,20 @@ namespace QUANGHANHCORE.Controllers.TCLD
             String mnv = Request.QueryString["manv"];
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                //var x = (from a in db.GiayChungNhan_NhanVien
-                //         join b in db.GiayChungNhans on a.MaChungNhan equals b.MaChungNhan
-                //         where a.MaNV == mnv
-                //         select
-                //new
-                //{
-                //    kieu = b.KieuChungNhan,
-                //    ngaytra = a.NgayTra,
-                //    sohieu = a.SoHieu,
-                //    manv = a.MaNV
+                var x = (from a in db.GiayToes
+                         
+                         where a.MaNV == mnv
+                         select
+                new
+                {
+                    kieu = a.KieuGiayTo,
+                    ngaytra = a.NgayTra,
+                    sohieu = "",
+                    ngaycap = a.NgayTra,
+                    ten = a.TenGiayTo,
+                    manv = a.MaNV
 
-                //}).ToList();
+                }).ToList();
                 var y = (from a in db.ChungChi_NhanVien
                          join b in db.ChungChis on a.MaChungChi equals b.MaChungChi
                          where a.MaNV == mnv
@@ -760,6 +770,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
                              kieu = b.KieuChungChi,
                              ngaytra = a.NgayTra,
                              sohieu = a.SoHieu,
+                             ngaycap=a.NgayCap,
+                             ten=b.TenChungChi,
                              manv = a.MaNV
                          }
                         ).ToList();
@@ -772,10 +784,12 @@ namespace QUANGHANHCORE.Controllers.TCLD
                              kieu = b.KieuBangCap,
                              ngaytra = a.NgayTra,
                              sohieu = a.SoHieu,
+                             ngaycap = a.NgayCap,
+                             ten = b.TenBangCap,
                              manv = a.MaNV
                          }
                         ).ToList();
-                var m = y.Union(z).ToList();
+                var m = y.Union(z.Union(x)).ToList();
                 return Json(new { success = true, data = m, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
             }
 
@@ -838,7 +852,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                               where /*p1.TrangThaiHoSo == "ngoai" &*/
                               p.MaNV.Contains(manv)
                               & (p.Ten.Contains(ten) | p.Ten == null)
-                              & (p2.LoaiChamDut.Contains(loaichamdut) | p2.LoaiChamDut == null)
+                              & (p2.LoaiChamDut.Contains(loaichamdut) | loaichamdut =="")
                               select new
                               {
                                   stt = "1",
@@ -848,6 +862,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                   sobhxh = p.SoBHXH,
                                   sdt = p.SoDienThoai,
                                   diachi = p.NoiOHienTai,
+                                  loaichamdut = p2.LoaiChamDut,
                                   edit = true
                               }).ToList();
                 //return Json(new { success = true, data = mydata, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
@@ -892,6 +907,67 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 return Json(new { success = false, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
             }
 
+
+        }
+
+
+
+        [HttpPost]
+        public ActionResult ExportExcel()
+        {
+
+            
+            string path = HostingEnvironment.MapPath("/excel/TCLD/Hoso/ho-so-ngoai.xlsx");
+
+            string saveAsPath = ("/excel/TCLD/download/ho-so-ngoai.xlsx");
+            FileInfo file = new FileInfo(path);
+            using (ExcelPackage excelPackage = new ExcelPackage(file))
+            {
+                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
+                ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    var mydata = (from p in db.NhanViens
+                                  join p1 in db.HoSoes on p.MaNV equals p1.MaNV
+                                  join p2 in db.ChamDut_NhanVien on p1.MaNV equals p2.MaNV
+                                  join p3 in db.Departments on p.MaPhongBan equals p3.department_id
+                                  //  where p1.TrangThaiHoSo == "ngoai" 
+                                  select new
+                                  {
+                                      stt = "1",
+                                      manv = p.MaNV,
+                                      ten = p.Ten,
+                                      dvcdhd = p3.department_name,
+                                      sobhxh = p.SoBHXH,
+                                      sdt = p.SoDienThoai,
+                                      diachi = p.NoiOHienTai,
+                                      loaichamdut = p2.LoaiChamDut,
+                                      edit = true
+                                  }).ToList();
+                    int index = 2;
+                    int stt = 1;
+                    foreach (var item in mydata)
+                    {
+                        excelWorksheet.Cells[index, 1].Value = stt;
+                        excelWorksheet.Cells[index, 2].Value = item.manv;
+                        excelWorksheet.Cells[index, 3].Value = item.ten;
+                        excelWorksheet.Cells[index, 4].Value = item.dvcdhd;
+                        excelWorksheet.Cells[index, 5].Value = item.sobhxh;
+                        excelWorksheet.Cells[index, 6].Value = item.sdt;
+                        excelWorksheet.Cells[index, 7].Value = item.diachi;
+                        excelWorksheet.Cells[index, 8].Value = item.loaichamdut;
+                        
+                        index++;
+                        stt++;
+
+                    }
+
+                    excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath(saveAsPath)));
+                    return Json(new { success = true, location = saveAsPath }, JsonRequestBehavior.AllowGet);
+                }
+            }
+
+            
 
         }
 

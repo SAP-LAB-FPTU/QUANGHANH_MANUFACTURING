@@ -1,19 +1,14 @@
-﻿using System;
+﻿using QUANGHANH2.Models;
+using QUANGHANHCORE.Controllers.CDVT.History;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Linq.Dynamic;
 using System.Web.Mvc;
 using System.Web.Routing;
-using QUANGHANH2.Models;
-using System.Data.Entity;
-
-
-using System.Data.SqlClient;
-
-
-using System.Linq.Dynamic;
-using System.Globalization;
-using QUANGHANHCORE.Controllers.CDVT.History;
 
 namespace QUANGHANHCORE.Controllers.CDVT.Oto
 {
@@ -24,11 +19,18 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
         public ActionResult Index()
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            List<Equipment> listEQ = db.Equipments.ToList<Equipment>();
-            List<Supply> listSupply = db.Supplies.ToList<Supply>();
+            List<FuelDB> listEQ = db.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from " +
+               " (select distinct e.equipmentId, e.equipment_name from Equipment e inner join Equipment_category_attribute ea " +
+               "  on ea.Equipment_category_id = e.Equipment_category_id where " +
+               " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') as t "
+            ).ToList();
+            List<Supply> listSupply = db.Supplies.Where(x => x.unit != "L" && x.unit != "kWh").ToList();
+            List<Department> listDepartment = db.Departments.ToList<Department>();
 
+            ViewBag.listDepartment = listDepartment;
             ViewBag.listSupply = listSupply;
             ViewBag.listEQ = listEQ;
+
             return View("/Views/CDVT/Car/baoduonghangngay.cshtml");
         }
         [Route("phong-cdvt/oto/bao-duong-hang-ngay")]
@@ -78,8 +80,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                 //Truncate Table to delete all old records.
                 //Check for NULL.
 
-                //try
-                //{
+                try
+                {
                     Equipment e = db.Equipments.Find(equipmentId);
                     //Department d = db.Departments.Find(department_name);
                     Department d = db.Database.SqlQuery<Department>(" select * from Department" +
@@ -90,9 +92,9 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
 
                     db.Database.ExecuteSqlCommand("insert into Maintain_Car values(@equipmentId, @date, (select department_id from Department where department_name =@department_name),@maintain_content)",
                      new SqlParameter("equipmentId", equipmentId),
-                           new SqlParameter("date", DateTime.ParseExact(date, "yyyy-MM-dd", null)),
-                           new SqlParameter("department_name", department_name),
-                           new SqlParameter("maintain_content", maintain_content));
+                     new SqlParameter("date", DateTime.ParseExact(date, "yyyy-MM-dd", null)),
+                     new SqlParameter("department_name", department_name),
+                     new SqlParameter("maintain_content", maintain_content));
 
                     //Loop and insert records.
                     foreach (Maintain_Car_DetailDB item in maintain)
@@ -106,27 +108,27 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                            new SqlParameter("supplyid", item.supplyid),
                            new SqlParameter("quantity", item.quantity),
                            new SqlParameter("supplyType", item.supplyType),
-                           new SqlParameter("supplyStatus", item.supplyStatus))
-                        ;
+                           new SqlParameter("supplyStatus", item.supplyStatus));
                     }
+
                     db.SaveChanges();
                     transaction.Commit();
                     return Json("", JsonRequestBehavior.AllowGet);
-                //}
-                //catch (Exception)
-                //{
-                //    transaction.Rollback();
-                //    string output = "";
-                //    if (db.Equipments.Where(x => x.equipmentId == equipmentId).Count() == 0)
-                //        output += "Mã thiết bị không tồn tại\n";
-                //    if (db.Departments.Where(x => x.department_name == department_name).Count() == 0)
-                //        output += "Phân xưởng không tồn tại\n";
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                    string output = "";
+                    if (db.Equipments.Where(x => x.equipmentId == equipmentId).Count() == 0)
+                        output += "Mã thiết bị không tồn tại\n";
+                    if (db.Departments.Where(x => x.department_name == department_name).Count() == 0)
+                        output += "Phân xưởng không tồn tại\n";
 
-                //    if (output == "")
-                //        output += "Có lỗi xảy ra, xin vui lòng nhập lại";
-                //    Response.Write(output);
-                //    return Json("Có lỗi xảy ra vui lòng nhập lại ", JsonRequestBehavior.AllowGet);
-                //}
+                    if (output == "")
+                        output += "Có lỗi xảy ra, xin vui lòng nhập lại";
+                    Response.Write(output);
+                    return Json("Có lỗi xảy ra vui lòng nhập lại ", JsonRequestBehavior.AllowGet);
+                }
             }
 
         }
@@ -143,7 +145,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                 //"from Maintain_Car m inner join Equipment e on m.equipmentid = e.equipmentId " +
                 //  "inner join Department d on d.department_id = m.departmentid where m.maintainid = @maintainId ", new SqlParameter("maintainId", maintainId )).SingleOrDefault();
                 //Check for NULL.
-                List<Maintain_Car_DetailDB> m = db.Database.SqlQuery<Maintain_Car_DetailDB>("select m.supplyid,s.supply_name,s.unit, m.quantity, m.supplyType, m.supplyStatus from Maintain_Car_Detail m inner " +
+                List<Maintain_Car_DetailDB> m = db.Database.SqlQuery<Maintain_Car_DetailDB>("select m.supplyid,s.supply_name,s.unit, m.quantity, m.supplyType, m.supplyStatus,m.maintaindetailid from Maintain_Car_Detail m inner " +
 "join Supply s on m.supplyid = s.supply_id " +
 "where m.maintainid = @maintainId ", new SqlParameter("maintainId", maintainId)).ToList();
                 //maintainCar.stringDate = maintainCar.date.ToString("dd/MM/yyyy");
@@ -163,9 +165,9 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
 
             {
                 //Truncate Table to delete all old records.
-                Maintain_CarDB maintainCar = db.Database.SqlQuery<Maintain_CarDB>("select m.[date],  e.equipment_name, m.equipmentid,d.department_name,m.maintain_content " +
-            "from Maintain_Car m inner join Equipment e on m.equipmentid = e.equipmentId " +
-              "inner join Department d on d.department_id = m.departmentid where m.maintainid = @maintainId ", new SqlParameter("maintainId", maintainId)).SingleOrDefault();
+                Maintain_CarDB maintainCar = db.Database.SqlQuery<Maintain_CarDB>("select m.[date], m.maintainid ,e.equipment_name, m.equipmentid,d.department_name,m.maintain_content,m.maintainid " +
+                          "from Maintain_Car m inner join Equipment e on m.equipmentid = e.equipmentId " +
+                          "inner join Department d on d.department_id = m.departmentid where m.maintainid = @maintainId ", new SqlParameter("maintainId", maintainId)).SingleOrDefault();
                 //Check for NULL.
 
                 maintainCar.stringDate = maintainCar.date.ToString("dd/MM/yyyy");
@@ -251,23 +253,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             }
         }
 
-        [Route("returnsupplyName")]
-        [HttpPost]
-        public JsonResult returnsupplyname(String fuel_type)
-        {
-            try
-            {
-                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-                var equipment = db.Supplies.Where(x => x.supply_id == fuel_type).SingleOrDefault();
-                String item = equipment.supply_name + "^" + equipment.unit;
-                return Json(item, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception)
-            {
-                return Json("Mã nhiên liệu không tồn tại", JsonRequestBehavior.AllowGet);
-            }
 
-        }
+
         [Route("phong-cdvt/oto/bao-duong-hang-ngay/edit")]
         [HttpPost]
         public ActionResult EditMaintain(string date, String equipmentId, String department_name, String maintain_content, int maintainid)
@@ -320,21 +307,22 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             Maintain_Car_Detail m = new Maintain_Car_Detail();
             using (DbContextTransaction transaction = db.Database.BeginTransaction())
             {
+                //note:  thiếu data db cho supply id
                 try
                 {
-
-
                     foreach (Maintain_Car_Detail item in supplyDetail)
                     {
                         if (item.maintaindetailid == 0)
                         {
                             Maintain_Car e = db.Maintain_Car.Where(x => x.maintainid == item.maintainid).FirstOrDefault();
-                           
-                            Supply_tieuhao su = db.Supply_tieuhao.Where(x => x.supplyid == item.supplyid && x.departmentid == e.departmentid&& x.date.Month == e.date.Month).First();
+
+                            Supply_tieuhao su = db.Supply_tieuhao.Where(x => x.supplyid == item.supplyid && x.departmentid == e.departmentid && x.date.Month == e.date.Month).First();
+
                             if (item.supplyStatus == 1) { su.used = su.used + item.quantity; /*db.Entry(s).State = EntityState.Modified;*/ }
                             else { su.thuhoi = su.thuhoi + item.quantity; /*db.Entry(s).State = EntityState.Modified;*/ }
                             db.Entry(su).State = EntityState.Modified;
                             Supply s = db.Supplies.Find(item.supplyid);
+
                             //db.Database.ExecuteSqlCommand("insert Maintain_Car_Detail values(@maintainid, @supplyid, @quantity, @supplyType, @supplyStatus)",
                             //new SqlParameter("maintainid", item.maintainid), new SqlParameter("supplyid", item.supplyid),
                             //   new SqlParameter("quantity", item.quantity),
@@ -359,23 +347,51 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                                 Supply_tieuhao sup = db.Supply_tieuhao.Where(x => x.supplyid == ma.supplyid && x.departmentid == e.departmentid && x.date.Month == e.date.Month).First();
                                 if (ma.supplyStatus == 1) { sup.used = sup.used - ma.quantity; /*db.Entry(s).State = EntityState.Modified;*/ }
                                 else { sup.thuhoi = sup.thuhoi - ma.quantity; /*db.Entry(s).State = EntityState.Modified;*/ }
-                               
-                                if (item.supplyStatus == 1) {
+
+                                if (item.supplyStatus == 1)
+                                {
                                     su.used = su.used + item.quantity;
-                                  }
+                                }
 
                                 else { su.thuhoi = su.thuhoi + item.quantity; }
 
                             }
                             else
                             {
-                                if (item.supplyStatus == 1)
+                                if (item.quantity < ma.quantity)
                                 {
-                                    su.used = su.used + item.quantity;
+                                    if (item.supplyStatus == 1)
+                                    {
+                                        su.used = su.used + (item.quantity - ma.quantity);
+                                    }
+                                    else { su.thuhoi = su.thuhoi + (item.quantity - ma.quantity); }
                                 }
-                                else { su.thuhoi = su.thuhoi + item.quantity; }
+                                else if (item.quantity > ma.quantity)
+                                {
+                                    if (item.supplyStatus == 1)
+                                    {
+                                        su.used = su.used + (item.quantity - ma.quantity);
+                                    }
+                                    else { su.thuhoi = su.thuhoi + (item.quantity - ma.quantity); }
+                                }
+                                else
+                                {
+                                    if (item.supplyStatus != ma.supplyStatus)
+                                    {
+                                        if (item.supplyStatus == 1)
+                                        {
+                                            su.used = su.used + ma.quantity;
+                                            su.thuhoi = su.thuhoi - ma.quantity;
+                                        }
+                                        else
+                                        {
+                                            su.used = su.used - ma.quantity;
+                                            su.thuhoi = su.thuhoi + ma.quantity;
+                                        }
+                                    }
+                                }
                             }
-                           
+
                             db.Entry(su).State = EntityState.Modified;
                             Supply s = db.Supplies.Find(item.supplyid);
                             db.Database.ExecuteSqlCommand("update Maintain_Car_Detail set supplyid=@supplyid, quantity=@quantity,supplyType=@supplyType,supplyStatus=@supplyStatus where maintaindetailid=@maintaindetailid",
@@ -427,7 +443,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             try
             {
                 QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-                Supply supply = db.Supplies.Where(x => x.supply_id == supplyid).FirstOrDefault();
+                var supply = db.Supplies.Where(x => (x.supply_id == supplyid) && (x.unit != "L" && x.unit != "kWh")).SingleOrDefault();
                 //String item = equipment.supply_name + "^" + equipment.unit;
                 return Json(new
                 {

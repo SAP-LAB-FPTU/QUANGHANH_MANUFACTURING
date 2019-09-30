@@ -21,8 +21,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         public ActionResult Index()
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            List<Equipment> listEQ = db.Equipments.ToList<Equipment>();
-            List<Supply> listSupply = db.Supplies.ToList<Supply>();
+            List<FuelDB> listEQ = db.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from Equipment ").ToList();
+            List<Supply> listSupply = db.Supplies.Where(x => x.unit == "L" || x.unit == "kWh").ToList();
 
             ViewBag.listSupply = listSupply;
             ViewBag.listEQ = listEQ;
@@ -490,8 +490,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 {
                     Equipment e = DBContext.Equipments.Find(equipmentId);
                     a.equipmentid = e.equipmentId;
-                    string date = DateTime.ParseExact(date1, "yyyy-MM-dd", null).ToString("yyyy-MM-dd");
-                    a.date = DateTime.Parse(date);
+                    //fix bug
+                    a.date = DateTime.ParseExact(date1, "dd/MM/yyyy", null);
                     a.quantity = quantity;
                     a.hours_per_day = hours_per_day;
                     a.activityname = activity_name;
@@ -522,7 +522,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             try
             {
                 QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-                var equipment = db.Supplies.Where(x => x.supply_id == fuel_type).SingleOrDefault();
+                var equipment = db.Supplies.Where(x => (x.supply_id == fuel_type) && (x.unit == "L" || x.unit == "kWh")).SingleOrDefault();
                 String item = equipment.supply_name + "^" + equipment.unit;
                 return Json(item, JsonRequestBehavior.AllowGet);
             }
@@ -538,11 +538,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         public ActionResult AddFuel(int consumption_value, string fuel_type, string date1, String equipmentId)
         {
             string output = "";
-            //fix bug negative number.
-            //if (consumption_value <= 0)
-            //{
-            //    return new HttpStatusCodeResult(400);
-            //}
 
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             fuelDB f = new fuelDB();

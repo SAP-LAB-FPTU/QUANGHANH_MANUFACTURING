@@ -196,7 +196,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @{
+                        @*@{
                             i = 1;
                             foreach (var item in ViewBag.listKD)
                             {
@@ -207,7 +207,7 @@
                                 </tr>
                                 i++;
                             }
-                        }
+                        }*@
                     </tbody>
                 </table>
             </div>
@@ -220,7 +220,7 @@
                         <div class="row">
                             <div class="col s12" style="padding-top: 45px">
                                 <h6 class="card-subtitle">Kiểm định</h6>
-                                <h4> @ViewBag.Thongke.total_KD</h4>
+                                @*<h4> @ViewBag.Thongke.total_KD</h4>*@
                             </div>
 
                             @*<div class="col s12">

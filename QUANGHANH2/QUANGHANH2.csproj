@@ -215,11 +215,14 @@
     <Compile Include="Controllers\CDVT\Quyetdinh\ChitietThanhliController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ChitietThuhoiController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\DieudongController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\ProcessDetailsController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\SuachuaController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ThanhlyController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ThuhoiController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\TrungdaituController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\VatTuQuyetDinhController.cs" />
+    <Compile Include="Controllers\CDVT\Report\TangGiamController.cs" />
+    <Compile Include="Controllers\CDVT\Report\TrungdaituReportController.cs" />
     <Compile Include="Controllers\CDVT\Useless\ThongtinsucoController.cs" />
     <Compile Include="Controllers\CDVT\Report\KiemdinhController.cs" />
     <Compile Include="Controllers\CDVT\Report\LiquidationReportController.cs" />
@@ -272,6 +275,7 @@
     <Compile Include="Controllers\TCLD\BonusAnDesciplineController.cs" />
     <Compile Include="Controllers\TCLD\BriefController.cs" />
     <Compile Include="Controllers\TCLD\CertificateController.cs" />
+    <Compile Include="Controllers\TCLD\DiplomaController.cs" />
     <Compile Include="Controllers\TCLD\EatingController.cs" />
     <Compile Include="Controllers\TCLD\EmployeesController.cs" />
     <Compile Include="Controllers\TCLD\ManagerController.cs" />
@@ -279,6 +283,7 @@
     <Compile Include="Controllers\TCLD\RecruitmentAndEndController.cs" />
     <Compile Include="Controllers\TCLD\ReportController.cs" />
     <Compile Include="Controllers\TCLD\ShutDownController.cs" />
+    <Compile Include="Controllers\TCLD\TaskController.cs" />
     <Compile Include="Controllers\TCLD\TCLDController.cs" />
     <Compile Include="Controllers\TCLD\TransferController.cs" />
     <Compile Include="Global.asax.cs">
@@ -302,6 +307,8 @@
     <Compile Include="Models\BangCap_GiayChungNhan.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\BangCap_GiayChungNhan_detailsDB.cs" />
+    <Compile Include="Models\BangCap_detailsDB.cs" />
     <Compile Include="Models\Category_attribute_value.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -443,6 +450,7 @@
     <Compile Include="Models\NhanVien.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\NhanVien_Extend.cs" />
     <Compile Include="Models\NhiemVu.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -525,6 +533,10 @@
     <Content Include="assets\Custom css\TCLD\Brief\ManageBrief\Inside.css" />
     <Content Include="assets\Custom css\TCLD\Brief\ManageBrief\ListAll.css" />
     <Content Include="assets\Custom css\TCLD\Eating\Register.css" />
+    <Content Include="assets\sweetalert\alert-quanghanh-js.js" />
+    <Content Include="assets\sweetalert\sweetalert2.all.min.js" />
+    <Content Include="assets\sweetalert\sweetalert2.min.css" />
+    <Content Include="assets\sweetalert\sweetalert2.min.js" />
     <Content Include="Content\DataTables\Buttons-1.5.6\css\buttons.bootstrap.css" />
     <Content Include="Content\DataTables\Buttons-1.5.6\css\buttons.bootstrap.min.css" />
     <Content Include="Content\DataTables\Buttons-1.5.6\css\buttons.bootstrap4.css" />
@@ -6845,6 +6857,11 @@
     <Content Include="Content\DataTables\Buttons-1.5.6\css\mixins.scss" />
     <Content Include="excel\CDVT\download\tong-hop-vat-tu.xlsx" />
     <Content Include="excel\CDVT\download\tong-hop-vat-tu-download.xlsx" />
+    <Content Include="doc\CDVT\QD\quyetdinh-template.docx" />
+    <Content Include="excel\CDVT\download\huy-dong-oto.xlsx" />
+    <Content Include="excel\TCLD\download\Danh_sách_nhân_viên.xlsx" />
+    <Content Include="excel\TCLD\download\Báo cáo năng suất lao động và tiền lương theo các phân xưởng theo ngày.xlsx" />
+    <Content Include="excel\TCLD\Report\Báo cáo năng suất lao động và tiền lương theo các phân xưởng theo ngày.xlsx" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -6852,8 +6869,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="doc\CDVT\QD\quyetdinh-template.docx" />
-    <Content Include="excel\CDVT\download\huy-dong-oto.xlsx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
@@ -7090,6 +7105,16 @@
     <Content Include="Views\CDVT\Work\thuhoi.cshtml" />
     <Content Include="Views\CDVT\Work\thuhoichon.cshtml" />
     <Content Include="Views\Hoatdong\AddCategory.cshtml" />
+    <Content Include="Views\TCLD\Task\ReportJob.cshtml" />
+    <Content Include="Views\TCLD\Task\ViewCertificateByNV.cshtml" />
+    <Content Include="Views\TCLD\Task\ViewJobByPX.cshtml" />
+    <Content Include="Views\TCLD\Diploma\List.cshtml" />
+    <Content Include="Views\Diploma\AddDiploma.cshtml" />
+    <Content Include="Views\Diploma\AddDiplomaEmployee.cshtml" />
+    <Content Include="Views\Diploma\EditDiploma.cshtml" />
+    <Content Include="Views\Diploma\EditDiplomaEmployee.cshtml" />
+    <Content Include="Views\CDVT\Report\bao_cao_trung_tu.cshtml" />
+    <Content Include="Views\CDVT\Report\TangGiam.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

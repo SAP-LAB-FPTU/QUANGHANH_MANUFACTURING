@@ -20,11 +20,43 @@
                             <th>Tên thiết bị</th>
                             <th>Vị trí điều động</th>
                             <th>Phân xưởng chịu trách nhiệm</th>
+                            <th>Loại bảo dương</th>
+                            <th>Ngày dự kiến hoàn thành</th>
                             <th>Trạng thái</th>
+                            <th></th>
                         </tr>
                     </thead>
                 </table>
             </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="mylist">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title" id="listId">Danh sách vật tư đi kèm</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <table id="test" class="striped table-responsive centered table-bordered mytable">
+                    <thead>
+                        <tr>
+                            <th>Mã vật tư</th>
+                            <th>Tên vật tư</th>
+                            <th>Số lượng</th>
+                            <th>Chất lượng</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <input type="hidden" id="dsvattu" disabled />
+            <input type="hidden" id="mathietbi" disabled />
+            <input type="hidden" id="maquyetdinh" disabled />
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-add-button">Thoát</button>
         </div>
     </div>
 </div>
@@ -41,22 +73,45 @@
                     $("#pre-load").show();
                     $("#pre-load").css("z-index", "9999");
                     data.sessionId = "@ViewBag.id";
-                } ).DataTable({
+                }).DataTable({
+                         "language": {
+                "emptyTable": "Không tìm thấy dữ liệu",
+                "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                "paginate": {
+                    "first": "Trang đầu",
+                    "last": "Trang cuối",
+                    "next": "Trang sau",
+                    "previous": "Trang trước"
+                }
+            },
                 "ajax": {
                     "url": "@Url.Action("Detail","ChitietBaoduong")",
                     "type": "POST",
                     "datatype": "json",
-                    },                   
+                    },
                     "drawCallback": function () {
-                        $("#pre-load").hide();  
+                        $("#pre-load").hide();
                     },
                     "columns": [
                         { "data": "order_number", "name": "order_number" },
-                        { "data": "documentary_code", "name": "documentary_code" },
+                        { "data": "equipmentId", "name": "equipmentId" },
                         { "data": "equipment_name", "name": "equipment_name" },
                         { "data": "department_id", "name": "department_id" },
                         { "data": "department_name", "name": "department_name" },
-                        { "data": "reason", "name": "reason" }
+                        { "data": "maintain_type", "name": "maintain_type" },
+                           {
+                            "data": "finish_date_plan", "name": "finish_date_plan", "render": function (data) {
+                                return dateFormat2(data);
+                            },
+                        },
+                        { "data": "reason", "name": "reason" },
+
+                         {
+                            "data": "idAndEquip", "name": "idAndEquip", "render": function (data) {
+                            return "<a data-list=\"" + data + "\" class=\"waves-effect waves-light btn-small blue modal-trigger open-Modal\" href=\"#mylist\">Vật tư đi kèm</a>";
+                             },
+                        }
 
                 ],
                     "serverSide": true,
@@ -69,6 +124,58 @@
 
             });
         });
+
+
+              //get data and push to modal list
+        $(document).on("click", ".open-Modal", function () {
+            $("#pre-load").show();
+            $("#test").find("tr:gt(0)").remove();
+            var QDIdAndEquipId = $(this).data('list');
+            $('#listId').text("Danh sách vật tư đi kèm của thiết bị " + QDIdAndEquipId.split("^")[1])
+            $("#mathietbi").val(QDIdAndEquipId.split("^")[1])
+            $("#maquyetdinh").val(QDIdAndEquipId.split("^")[0])
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/quyet-dinh/GetSupplyMaintain",
+                dataType: "json",
+                success: function (data) {
+                    $(function () {
+                        $.each(data, function (i, item) {
+                            var $tr = $('<tr>').append(
+                                $('<td>').text(item.MaVT),
+                                $('<td>').text(item.TenVT),
+                                $('<td>').text(item.SLVT),
+                                $('<td>').text(item.TLVT)
+                            );
+                             $tr.appendTo('#test');
+                        });
+                    });
+                    $("#pre-load").hide();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {             
+                    $.notify(XMLHttpRequest.responseText, {
+                        globalPosition: "top center",
+                        className: "error"
+                    });
+                     $("#pre-load").hide();
+                },
+                data: {
+                    documentary_id: QDIdAndEquipId.split("^")[0],
+                    equipmentId: QDIdAndEquipId.split("^")[1]
+                },
+                cache: false
+            })
+        });
+
+        function dateFormat2(d) {
+            var dateString = d.substr(6);
+            var currentTime = new Date(parseInt(dateString));
+            var month = currentTime.getMonth() + 1;
+            var day = currentTime.getDate();
+            var year = currentTime.getFullYear();
+            var date = day + "/" + month + "/" + year;
+            return (date);
+            }
     </script>
 }
 

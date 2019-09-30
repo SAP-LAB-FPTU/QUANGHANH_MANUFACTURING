@@ -33,7 +33,6 @@ namespace QUANGHANH2.Models
             this.Maintain_Car = new HashSet<Maintain_Car>();
             this.Supply_Documentary_Equipment = new HashSet<Supply_Documentary_Equipment>();
             this.SupplyPlans = new HashSet<SupplyPlan>();
-            this.SupplyPlans1 = new HashSet<SupplyPlan>();
         }
     
         public string equipmentId { get; set; }
@@ -47,7 +46,7 @@ namespace QUANGHANH2.Models
         public System.DateTime usedDay { get; set; }
         public System.DateTime nearest_Maintenance_Day { get; set; }
         public int total_operating_hours { get; set; }
-        public string current_Status { get; set; }
+        public int current_Status { get; set; }
         public Nullable<double> fabrication_number { get; set; }
         public string mark_code { get; set; }
         public string quality_type { get; set; }
@@ -74,6 +73,7 @@ namespace QUANGHANH2.Models
         public virtual ICollection<Documentary_repair_details> Documentary_repair_details { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Documentary_revoke_details> Documentary_revoke_details { get; set; }
+        public virtual Status Status { get; set; }
         public virtual Equipment_category Equipment_category { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Equipment_attribute> Equipment_attribute { get; set; }
@@ -89,7 +89,5 @@ namespace QUANGHANH2.Models
         public virtual ICollection<Supply_Documentary_Equipment> Supply_Documentary_Equipment { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SupplyPlan> SupplyPlans { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SupplyPlan> SupplyPlans1 { get; set; }
     }
 }

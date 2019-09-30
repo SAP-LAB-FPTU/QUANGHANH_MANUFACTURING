@@ -19,8 +19,14 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         public ActionResult Index()
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            List<Equipment> listEQ = db.Equipments.ToList<Equipment>();
-            List<Supply> listSupply = db.Supplies.ToList<Supply>();
+            List<Supply> listSupply = db.Supplies.Where(x => x.unit == "L" || x.unit == "kWh").ToList();
+            //List<Supply> listSupply = db.Supplies.Where(x => x.unit != "L" && x.unit != "kWh").ToList();
+            //List<Supply> listSupply = db.Supplies.ToList<Supply>();
+            List<FuelDB> listEQ = db.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from " +
+               " (select distinct e.equipmentId, e.equipment_name from Equipment e inner join Equipment_category_attribute ea " +
+               "  on ea.Equipment_category_id = e.Equipment_category_id where " +
+               " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') as t "
+            ).ToList();
 
             ViewBag.listSupply = listSupply;
             ViewBag.listEQ = listEQ;
@@ -351,7 +357,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             }
         }
 
-        [Route("returnEquipmentName")]
+        [Route("phong-cdvt/oto/cap-nhat-hoat-dong/returnEquipmentName")]
         [HttpPost]
         public JsonResult returnname(string id)
         {
@@ -373,14 +379,14 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
 
         }
 
-        [Route("returnsupplyName")]
+        [Route("phong-cdvt/oto/cap-nhat-hoat-dong/returnsupplyName")]
         [HttpPost]
         public JsonResult returnsupplyname(String fuel_type)
         {
             try
             {
                 QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-                var equipment = db.Supplies.Where(x => x.supply_id == fuel_type).SingleOrDefault();
+                var equipment = db.Supplies.Where(x => (x.supply_id == fuel_type) && (x.unit == "L" || x.unit == "kWh")).SingleOrDefault();
                 String item = equipment.supply_name + "^" + equipment.unit;
                 return Json(item, JsonRequestBehavior.AllowGet);
             }
@@ -398,7 +404,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
             {
-
                 try
                 {
                     //update 
@@ -408,7 +413,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     string date = DateTime.ParseExact(date1, "dd/MM/yyyy", null).ToString("MM-dd-yyyy");
                     DBContext.Database.ExecuteSqlCommand("UPDATE Fuel_activities_consumption  set fuel_type =@fuel_type, [date] =@date1, consumption_value = @consumption_value, equipmentId = @equipmentId where fuelId= @fuelid",
                         new SqlParameter("fuel_type", fuel_type), new SqlParameter("date1", date), new SqlParameter("consumption_value", consumption_value), new SqlParameter("equipmentId", equipmentId), new SqlParameter("fuelId", fuelid));
-
 
                     //get old and new.
                     string oldFuelType = f.fuel_type;
@@ -491,12 +495,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             }
         }
 
-        [Route("addfuel")]
+        [Route("phong-cdvt/oto/cap-nhat-hoat-dong/addfuel")]
         [HttpPost]
         public ActionResult AddFuel(int consumption_value, string fuel_type, string date1, String equipmentId)
         {
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-
+            //bug : depend on supply_tieuhao.
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
             {
                 try
