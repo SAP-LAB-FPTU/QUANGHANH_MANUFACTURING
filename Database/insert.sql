@@ -1675,6 +1675,8 @@ INSERT [dbo].[Account_Right_Detail] ([ID], [AccountID], [RightID]) VALUES (3160,
 GO
 INSERT [dbo].[Account_Right_Detail] ([ID], [AccountID], [RightID]) VALUES (3161, 27, 144)
 GO
+INSERT [dbo].[Account_Right_Detail] ([ID], [AccountID], [RightID]) VALUES (3166, 28, 145)
+GO
 SET IDENTITY_INSERT [dbo].[Account_Right_Detail] OFF
 GO
 INSERT [dbo].[Module] ([ID], [Module]) VALUES (N'7', N'ADMIN')
