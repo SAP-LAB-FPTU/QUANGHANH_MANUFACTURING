@@ -127,7 +127,7 @@
                         </div>
                         <div class="form-group">
                             <label for="id">Ngày sửa chữa : </label>
-                            <input type="date" class="form-control" id="date-add" />
+                            <input type="text" class=" datepicker-here form-control" id="date-add" />
                         </div>
                     </div>
                 </div>
@@ -170,7 +170,7 @@
         </div>
         <div class="modal-footer">
             <a class="left"><button id="them1" type="submit" class="btn light-blue lighten-1"><i class="large material-icons">add</i></button></a>
-
+            <a class="left"><button id="remove" onclick="deleterow('addMaintain')" class="btn light-blue lighten-1"><i class="large material-icons">remove</i></button></a>
             <button type="submit" class="btn blue darken-2 modal-close save-category" onclick="addMaintainCar()">Lưu</button>
             <button type="button" id="exit" class="btn light-blue lighten-1 modal-close">Thoát</button>
         </div>
@@ -246,6 +246,7 @@
     </div>
     <div class="modal-footer">
         <a class="left"><button id="them" type="submit" class="btn light-blue lighten-1"><i class="large material-icons">add</i></button></a>
+        <a class="left"><button id="remove" onclick="deleterowedit('supplyMaintain_edit')" class="btn light-blue lighten-1"><i class="large material-icons">remove</i></button></a>
         <a href="#myaleart1" class="btn blue darken-2  save-category modal-trigger">Lưu</a>
         <button type="button" id="closeForm" class="btn light-blue lighten-1 modal-close">Thoát</button>
     </div>
@@ -579,18 +580,40 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (r) {
-                    //$.notify("Thao tác thành công", {
-                    //    globalPosition: "top center",
-                    //    className: "success"
-                    //});
-                    dataTable.ajax.reload();
+                     $.notify("Thao tác thành công", {
+                        globalPosition: "top center",
+                        className: "success"
+                    });
+                        var i = 0;
+            $("#addMaintain TBODY TR").each(function () {
+                i++;
+               
+                document.getElementById("supplyid_add"+i).value='';
+                    document.getElementById("quantity_add"+i).value='';
+                    document.getElementById("supplyType_add"+i).value='';
+                document.getElementById("supplyStatus_add" + i).value = '';
+                document.getElementById("supplyname_add" + i).value = '';
+                  document.getElementById("unit_add"+i).value='';
+
+            });
+                    
+                    document.getElementById("date-add").value='';
+                    document.getElementById("equipmentID-add").value='';
+                    document.getElementById("departmentId-add").value='';
+                    document.getElementById("maintain_content-add").value = '';
+                    document.getElementById("equipmentName").value = '';
+
+                    
+                
+                   
+                    $('#maintain').ajax.reload();
 
                 }, error: function (XMLHttpRequest, textStatus, errorThrown) {
                     //alert("fail");
-                    //$.notify("Có lỗi xảy ra, vui lòng thử lại", {
-                    //    globalPosition: "top center",
-                    //    className: "error"
-                    //});
+                    $.notify("Có lỗi xảy ra, vui lòng thử lại", {
+                        globalPosition: "top center",
+                        className: "error"
+                    });
                     $('#pre-load').hide();
                 }
 
@@ -847,5 +870,15 @@
                 }
             });
         }
+          function deleterow(tableID) {
+    var table = document.getElementById(tableID);
+            table.deleteRow(-1);
+            dem1--;
+        }
+          function deleterowedit(tableID) {
+    var table = document.getElementById(tableID);
+            table.deleteRow(-1);
+            dem--;
+}
     </script>
 }
