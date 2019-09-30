@@ -77,7 +77,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                         YeuCauBPKTAT = i.GiaiPhapNguyCo
                     };
                     customNSLDs.Add(cus);
-                num++;
+                    num++;
                 }
                 ViewBag.nsld = customNSLDs;
             }
@@ -196,8 +196,15 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                             dn.NgayDiemDanh = Convert.ToDateTime("2019-09-10");
                             if (item.maDD != null)
                             {
-                                db.Entry(dn).State = EntityState.Modified;
-                            } else
+                                // db.Entry(dn).State = EntityState.Modified;
+                                var entry = db.Entry(dn);
+                                if (entry.State == EntityState.Detached || entry.State == EntityState.Modified)
+                                {
+                                    entry.State = EntityState.Modified; //do it here
+                                    db.Set<DiemDanh_NangSuatLaoDong>().Attach(dn); //attach
+                                }
+                            }
+                            else
                             {
                                 db.DiemDanh_NangSuatLaoDong.Add(dn);
                             }
