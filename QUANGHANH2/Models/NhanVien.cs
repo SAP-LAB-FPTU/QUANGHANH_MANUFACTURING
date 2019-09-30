@@ -23,7 +23,9 @@ namespace QUANGHANH2.Models
             this.ChungChi_NhanVien = new HashSet<ChungChi_NhanVien>();
             this.DiemDanh_NangSuatLaoDong = new HashSet<DiemDanh_NangSuatLaoDong>();
             this.DieuDong_NhanVien = new HashSet<DieuDong_NhanVien>();
+            this.FakeAPIs = new HashSet<FakeAPI>();
             this.GiayToes = new HashSet<GiayTo>();
+            this.LichSuBoSungSYLLs = new HashSet<LichSuBoSungSYLL>();
             this.QuanHeGiaDinhs = new HashSet<QuanHeGiaDinh>();
             this.QuaTrinhCongTacs = new HashSet<QuaTrinhCongTac>();
             this.TuyenDung_NhanVien = new HashSet<TuyenDung_NhanVien>();
@@ -81,7 +83,6 @@ namespace QUANGHANH2.Models
         public string LoaiNhanVien { get; set; }
         public Nullable<int> MaCongViec { get; set; }
         public Nullable<double> MucLuong { get; set; }
-        public Nullable<int> MaChuyenNganh { get; set; }
         public Nullable<int> MaTrinhDo { get; set; }
         public Nullable<int> MaTruong { get; set; }
         public string BacLuong { get; set; }
@@ -91,6 +92,7 @@ namespace QUANGHANH2.Models
         public Nullable<double> HeSo { get; set; }
         public Nullable<int> TuThang { get; set; }
         public int MaTrangThai { get; set; }
+        public string MaChuyenNganh { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChamDut_NhanVien> ChamDut_NhanVien { get; set; }
@@ -108,8 +110,12 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DieuDong_NhanVien> DieuDong_NhanVien { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FakeAPI> FakeAPIs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GiayTo> GiayToes { get; set; }
         public virtual HoSo HoSo { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LichSuBoSungSYLL> LichSuBoSungSYLLs { get; set; }
         public virtual NguoiUyQuyenLayHoSo_BaoHiem NguoiUyQuyenLayHoSo_BaoHiem { get; set; }
         public virtual TrangThai TrangThai { get; set; }
         public virtual TrinhDo TrinhDo { get; set; }
