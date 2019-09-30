@@ -224,7 +224,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 List<Department> listDepeartment = db.Departments.ToList<Department>();
                 ViewBag.listDepeartment = listDepeartment;
                 ViewBag.bolEdit = false;
-                return Json(new { success = true, data = equipList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = true, data = equipList, draw = Request["draw"], message = new Message().searchSuccessfully(), recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
             }
         }
         public class EquipThongKe
