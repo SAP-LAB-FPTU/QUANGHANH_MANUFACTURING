@@ -312,14 +312,22 @@ namespace QUANGHANH2.Controllers.TCLD
         }
         [Route("delete")]
         [HttpPost]
-        public ActionResult TLHD(string id, string soQD, string lydo, string dateTLHD, string group1, string group2, string elseCase)
+        public ActionResult TLHD(string id, string soQD, string lydo, string dateQD, string dateTLHD, string group1, string group2, string elseCase)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             using (DbContextTransaction dbct = db.Database.BeginTransaction())
             {
                 try
                 {
-
+                    string dateQDFix = "";
+                    if (dateQD != null && !dateQD.Equals(""))
+                    {
+                        string[] arr1 = dateQD.Split('/');
+                        for (int i = 0; i < arr1.Length; i++)
+                        {
+                            dateQDFix = arr1[1] + "/" + arr1[0] + "/" + arr1[2];
+                        }
+                    }
                     string[] arr2 = dateTLHD.Split('/');
                     string dateTLHDFix = "";
                     for (int i = 0; i < arr2.Length; i++)
@@ -332,7 +340,10 @@ namespace QUANGHANH2.Controllers.TCLD
 
                     QuyetDinh qd = new QuyetDinh();
                     qd.SoQuyetDinh = soQD;
-                    qd.NgayQuyetDinh = DateTime.Today;
+                    if (!dateQDFix.Equals("") && dateQDFix != null)
+                    {
+                        qd.NgayQuyetDinh = Convert.ToDateTime(dateQDFix);
+                    }
                     db.QuyetDinhs.Add(qd);
 
                     ChamDut_NhanVien tlhd = new ChamDut_NhanVien();

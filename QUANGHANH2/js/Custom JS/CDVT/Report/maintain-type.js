@@ -64,11 +64,11 @@
                 x: 'center',
                 type: 'scroll',
                 bottom: 0,
-                data: ['Bảo dưỡng 100h', 'Bảo dưỡng 200h', 'Bảo dưỡng 500h', 'Bảo dưỡng 1000h', 'Bảo dưỡng 2000h', 'Tiểu tu']
+                data: ['Bảo dưỡng 100h', 'Bảo dưỡng 500h', 'Bảo dưỡng 1000h', 'Bảo dưỡng 2000h', 'Tiểu tu']
             },
 
             // Add custom colors
-            color: ['#ffbc34', '#43cbff', '#4fc3f7', '#FF7777', '#FC7A41', '#62FF5A'],
+            color: ['#ffbc34', '#4fc3f7', '#FF7777', '#FC7A41', '#62FF5A'],
 
             // Display toolbox
 
@@ -82,12 +82,11 @@
                 radius: '80%',
                 center: ['50%', '40%'],
                 data: [
-                    { value: bd100, name: 'Bảo dưỡng 100h' },
-                    { value: bd200, name: 'Bảo dưỡng 200h' },
-                    { value: bd500, name: 'Bảo dưỡng 500h' },
-                    { value: bd1000, name: 'Bảo dưỡng 1000h' },
-                    { value: bd2000, name: 'Bảo dưỡng 2000h' },
-                    { value: tt, name: 'Tiểu tu' }
+                    { value: 150, name: 'Bảo dưỡng 100h' },
+                    { value: 150, name: 'Bảo dưỡng 500h' },
+                    { value: 150, name: 'Bảo dưỡng 1000h' },
+                    { value: 250, name: 'Bảo dưỡng 2000h' },
+                    { value: 200, name: 'Tiểu tu' }
                 ]
             }]
         };
@@ -150,11 +149,11 @@
                 x: 'center',
                 type: 'scroll',
                 bottom: 0,
-                data: ['Bảo dưỡng 100h', 'Bảo dưỡng 200h', 'Bảo dưỡng 500h', 'Bảo dưỡng 1000h', 'Bảo dưỡng 2000h', 'Tiểu tu']
+                data: ['Bảo dưỡng 100h', 'Bảo dưỡng 500h', 'Bảo dưỡng 1000h', 'Bảo dưỡng 2000h', 'Tiểu tu']
             },
 
             // Add custom colors
-            color: ['#ffbc34', '#43cbff', '#4fc3f7', '#FF7777', '#FC7A41', '#62FF5A'],
+            color: ['#ffbc34', '#4fc3f7', '#FF7777', '#FC7A41', '#62FF5A'],
 
             // Display toolbox
 
@@ -172,7 +171,6 @@
                 center: ['50%', '40%'],
                 data: [
                     { value: 150, name: 'Bảo dưỡng 100h' },
-                    { value: 150, name: 'Bảo dưỡng 200h' },
                     { value: 150, name: 'Bảo dưỡng 500h' },
                     { value: 150, name: 'Bảo dưỡng 1000h' },
                     { value: 250, name: 'Bảo dưỡng 2000h' },

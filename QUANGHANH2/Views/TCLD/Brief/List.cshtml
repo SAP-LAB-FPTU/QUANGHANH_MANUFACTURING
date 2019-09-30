@@ -109,10 +109,15 @@
             <div class="modal-body">
                 <p class="red-text">Lý do thanh lý hợp đồng?</p>
                 <div class="row">
-                    <div class="col s6 m6 l12">
+                    <div class="col s6 m6 l6">
                         <label>Số quyết định</label>
                         <input name="soQD" class=' form-control' placeholder="Số quyết định" />
                     </div>
+                    <div class="col s6 m6 l6">
+                        <label>Ngày quyết định</label>
+                        <input name="dateQD" class='datepicker-here form-control' data-language='vi' placeholder="Ngày quyết định" type="text" />
+                    </div>
+
                     <div class="col s6 m6 l6">
                         <label>Lí do chấm dứt</label>
                         <select name="lydo" class="form-control" id="tlhd" onchange="onSelectTypeOfEndContract()">

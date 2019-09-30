@@ -186,6 +186,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                          maNV = nv.MaNV,
                                          ten = nv.Ten,
                                          namBoSung = lsbs.NamBoSung.ToString(),
+                                         dotBoSung = lsbs.DotBoSung
 
                                      };
             var dataJson = Json(new { success = true, data = LichSuBoSungByMaNV });
