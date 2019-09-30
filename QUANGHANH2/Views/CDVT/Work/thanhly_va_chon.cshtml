@@ -31,7 +31,7 @@
                     <form method="post" id="myform">
                         <div class="col s3 m3">
                             <textarea name="data" hidden value="" id="json"></textarea>
-                            <input name="documentary_code" class="form-control" type="text" placeholder="Nhập mã quyết định" />
+                            <input id="documentary_code" name="documentary_code" class="form-control" type="text" placeholder="Nhập mã quyết định" />
                         </div>
                         <div class="col s3 m3">
                             <input name="out_in_come" class="form-control" type="text" required placeholder="Nhập nguồn vốn" />
@@ -78,7 +78,7 @@
                         </div>
                     </form>
                     <div class="col l12 m12 s12 center">
-                        <a onclick="inQuyetDinh()" class="btn blue darken-2">Xuất quyết định</a>
+                        <a  id="export-button" class="btn blue darken-2">Xuất quyết định</a>
                         <a id="submit" class="btn blue darken-2 modal-trigger">Xác nhận thanh lý thiết bị</a>
                         <a href="thanh-ly" class="btn blue darken-2 ">Quay lại</a>
                     </div>
@@ -230,6 +230,7 @@
         }
         thietbi.vattu = arr;
         output[rownumber] = thietbi;
+        $('#json').val(JSON.stringify(output))
     })
 
     $(document).ready(function () {
@@ -240,6 +241,7 @@
             thietbi.vattu = arr;
             output[i] = thietbi;
         }
+        $('#json').val(JSON.stringify(output))
     })
 </script>
 <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
@@ -274,6 +276,31 @@
         $('#create').click(function () {
             $('#myform').submit();
         })
+
+        $("#export-button").click(function () {
+            $("#pre-load").show();
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/thanh-ly-chon/export",
+                data: {
+                    data: $('#json').val(),
+                    documentary_code: $('#documentary_code').val()
+                },
+                cache: false,
+                success: function (response) {
+                    if (response.success) {
+                        window.location.href = response.location;
+                        $("#pre-load").hide("slow", function () {
+                        });
+                    } else {
+                        $.notify("ối, có lỗi xảy ra", {
+                            globalPosition: "top center",
+                            className: "error"
+                        });
+                    }
+                }
+            });
+        });
     </script>
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 

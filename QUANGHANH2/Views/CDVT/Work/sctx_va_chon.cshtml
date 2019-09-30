@@ -31,7 +31,7 @@
                     <form method="post" id="myform">
                         <div class="col s3 m3">
                             <textarea name="data" hidden value="" id="json"></textarea>
-                            <input name="documentary_code" class="form-control" type="text" placeholder="Nhập mã quyết định" />
+                            <input id="documentary_code" name="documentary_code" class="form-control" type="text" placeholder="Nhập mã quyết định" />
                         </div>
                         <div class="col s3 m3">
                             <input name="out_in_come" class="form-control" type="text" required placeholder="Nhập nguồn vốn" />
@@ -93,7 +93,7 @@
                         </div>
                     </form>
                     <div class="col l12 m12 s12 center">
-                        <a onclick="inQuyetDinh()" class="btn blue darken-2">Xuất quyết định</a>
+                        <a id="export-button" class="btn blue darken-2">Xuất quyết định</a>
                         <a id="submit" class="btn blue darken-2 modal-trigger">Xác nhận trung đại tu</a>
                         <a href="quyet-dinh/trung-dai-tu" class="btn blue darken-2 ">Quay lại</a>
                     </div>
@@ -219,7 +219,7 @@
                     $tr.append($('<td>').html("<select class='form-control'><option>Mới 100%</option><option selected>Qua sử dụng</option></select> "))
                 else
                     $tr.append($('<td>').html("<select class='form-control'><option>Mới 100%</option><option>Qua sử dụng</option></select> "))
-                $tr.append($('<td>').html("<input type='text' list='departmentName' class='form-control required' value='" + item.department_name + "' /> "))
+                $tr.append($('<td>').html("<input type='text' list='departmentName' class='form-control required' value='" + item.department_id + "' /> "))
                 $tr.appendTo('#test tbody');
             }
         }
@@ -254,7 +254,19 @@
             }
             thietbi.vattu = arr;
             output[rownumber] = thietbi;
+            $('#json').val(JSON.stringify(output)) //wo1
         }
+    })
+
+    $(document).ready(function () {
+        for (var i = 0; i < $('#mytablevattu tbody tr').length; i++) {
+            var thietbi = {};
+            var arr = [];
+            thietbi.id = $('#mytablevattu tbody tr:nth-child(' + (i + 1) + ') td').eq(0).text();
+            thietbi.vattu = arr;
+            output[i] = thietbi;
+        }
+        $('#json').val(JSON.stringify(output))
     })
 </script>
 <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
@@ -299,6 +311,32 @@
         $('#create').click(function () {
             $('#myform').submit();
         })
+
+
+        $("#export-button").click(function () {
+            $("#pre-load").show();
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/dai-trung-tu-chon/export",
+                data: {
+                    data: $('#json').val(),
+                    documentary_code: $('#documentary_code').val()
+                },
+                cache: false,
+                success: function (response) {
+                    if (response.success) {
+                        window.location.href = response.location;
+                        $("#pre-load").hide("slow", function () {
+                        });
+                    } else {
+                        $.notify("ối, có lỗi xảy ra", {
+                            globalPosition: "top center",
+                            className: "error"
+                        });
+                    }
+                }
+            });
+        });
     </script>
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 
