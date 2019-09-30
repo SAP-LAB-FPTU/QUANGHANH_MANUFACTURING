@@ -30,6 +30,7 @@
                             <th>Vị trí ban đầu</th>
                             <th>Thời gian điều động đến</th>
                             <th>Vị trí lắp đặt chi tiết</th>
+                            <th>Danh sách vật tư đi kèm</th>
                             <th>Đã đến</th>
                         </tr>
                     </thead>
@@ -148,6 +149,11 @@
                 { "data": "department_name", "name": "department_name" },
                 { "data": "stringDate", "name": "stringDate" },
                 { "data": "department_detail", "name": "department_detail" },
+                {
+                    "data": "idAndEquip", "name": "person_created", "render": function (data) {
+                        return "<a data-list=\"" + data + "\" class=\"waves-effect waves-light btn-small blue modal-trigger open-Modal\" href=\"#mylist\">Vật tư đi kèm</a>";
+                    }
+                },
                 {
                     "data": "statusAndEquip", "name": "person_created", "render": function (data) {
                         if (data.split("^")[0] == "0") return "<button id=\"buttonChon\" class='btn blue darken-2 buttonChon' value=\"" + data.split("^")[1] + "\">Chưa nhận</button>";
