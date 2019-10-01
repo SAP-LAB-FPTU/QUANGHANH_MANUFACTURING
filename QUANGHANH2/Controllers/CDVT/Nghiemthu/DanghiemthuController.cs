@@ -44,6 +44,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
             DateTime dend;
             if (date_end == "") dend = DateTime.Now;
             else dend = DateTime.ParseExact(date_end, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            dend = dend.AddHours(23);
+            dend = dend.AddMinutes(59);
 
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
