@@ -35,8 +35,11 @@
                     </thead>
                 </table>
                 <input name="id" hidden value="@ViewBag.id" id="id" />
-                <input name="edit" hidden id="edit" />
-                <a class="btn blue darken-2" id="submit">Lưu</a>
+                @if (ViewBag.AddAble == true)
+                {
+                    <a class="btn blue" id="submit">Lưu</a>
+                    <a class="btn blue darken-2 modal-trigger" href="#alert">Xác nhận đã xử lý</a>
+                }
             </div>
         </div>
     </div>
@@ -70,9 +73,24 @@
             @if (ViewBag.AddAble == true)
             {
                 <a id="addcolumn" class="waves-effect waves-light btn blue darken-2 left">Thêm</a>
+                <a id="submitvattu" class="waves-effect waves-light btn blue darken-2 modal-trigger">Lưu</a>
             }
-            <a id="submitvattu" class="waves-effect waves-light btn blue darken-2 modal-trigger">Lưu</a>
             <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-button">Thoát</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="alert">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Xác nhận đã xử lý xong quyết định</h3>
+        </div>
+        <div class="modal-body">
+            <h4>Lưu ý: bạn không thể thêm vật tư cho quyết định sau khi đã xử lý xong</h4>
+        </div>
+        <div class="modal-footer">
+            <a id="submit2" class="waves-effect waves-light btn blue darken-2 modal-trigger">Lưu</a>
+            <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-button2">Thoát</button>
         </div>
     </div>
 </div>
@@ -101,16 +119,11 @@
     var created = 0;
 
     $("#complex_header").on("click", ".buttonChon", function () {
-        var output = "";
         if ($(this).text() == "Chưa nhận") {
             $(this).text('Đã nhận')
-            if (!output.includes($(this).val())) output += $(this).val() + "^";
-            $('#edit').val(output)
         }
         else {
             $(this).text('Chưa nhận')
-            output = output.replace(($(this).val() + "^"), "")
-            $('#edit').val(output)
         }
     });
 
@@ -122,32 +135,6 @@
             $('<td>').html("<input type='number' min='1' class='form-control' />")
         );
         $tr.appendTo('#test tbody');
-        //$("#mylist #test tbody tr input:first-child").on("keypress", function (e) {
-        //    var $td = $(this);
-        //    if (e.keyCode == 13) {
-        //        $("#pre-load").show();
-        //        $.ajax({
-        //            type: "POST",
-        //            url: "/phong-cdvt/cap-nhat/quyet-dinh/GetSupplyName",
-        //            dataType: "json",
-        //            success: function (data) {
-        //                $('#pre-load').hide();
-        //                $td.parent().next().text(data.supply_name)
-        //            },
-        //            error: function (XMLHttpRequest, textStatus, errorThrown) {
-        //                $('#pre-load').hide();
-        //                $.notify(XMLHttpRequest.responseText, {
-        //                    globalPosition: "top center",
-        //                    className: "error"
-        //                });
-        //            },
-        //            data: {
-        //                supply_id: $td.val()
-        //            },
-        //            cache: false
-        //        })
-        //    }
-        //});
     })
 
     $(document).on("click", ".open-Modal", function () {
@@ -222,7 +209,6 @@
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script>
         var Popup, dataTable;
-        var output = "";
         $('#pre-load').show();
         dataTable = $('#complex_header').dataTable({
             "language": {
@@ -283,13 +269,17 @@
         });
 
         $("#submit").click(function (e) {
+            var equipments = "";
+            for (var i = 0; i < $('#complex_header tbody tr').length; i++) {
+                if ($('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').text() == "Đã nhận")
+                    equipments += $('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').val() + "^"
+            }
             $("#pre-load").show();
             $.ajax({
                 type: "POST",
                 url: "/phong-cdvt/cap-nhat/quyet-dinh/bao-duong/edit",
                 dataType: "text",
                 success: function () {
-                    $('#edit').val("");
                     var table = $('#complex_header').DataTable();
                     table.ajax.reload(function () {
                         $('#pre-load').hide();
@@ -308,7 +298,43 @@
                 },
                 data: {
                     id: $('#id').val(),
-                    edit: $('#edit').val()
+                    edit: equipments
+                },
+                cache: false
+            })
+            return false;
+        });
+
+        $("#submit2").click(function (e) {
+            var equipments = "";
+            for (var i = 0; i < $('#complex_header tbody tr').length; i++) {
+                if ($('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').text() == "Đã nhận")
+                    equipments += $('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').val() + "^"
+            }
+            $("#pre-load").show();
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/cap-nhat/quyet-dinh/bao-duong/done",
+                dataType: "text",
+                success: function () {
+                    var table = $('#complex_header').DataTable();
+                    table.ajax.reload(function () {
+                        $.notify("Lưu thành công", {
+                            globalPosition: "top center",
+                            className: "success"
+                        });
+                    }, true);
+                    window.location.reload(true);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#pre-load').hide();
+                    $.notify(XMLHttpRequest.responseText, {
+                        globalPosition: "top center",
+                        className: "error"
+                    });
+                },
+                data: {
+                    id: $('#id').val()
                 },
                 cache: false
             })
