@@ -32,7 +32,7 @@
                     </h3>
                 </div>
                 <div class="col l3">
-                    <a class="waves-effect waves-light btn-large">Cập nhật điểm danh</a>
+                    <a class="waves-effect waves-light btn-large" onclick="fetchAPI()">Cập nhật điểm danh</a>
                 </div>
                 <hr>
             </div>
@@ -269,6 +269,16 @@
                 cur = {};
             });
             return rows;
+        }
+
+        function fetchAPI() {
+            $("#attendanceTable").on('preXhr.dt', function (e, settings, data) {
+                data.sessionId = JSON.stringify(dataUpdate)
+                data.session = $("#ca").text().split(" ")[1];
+                data.department = $("#phanxuong").text();
+                data.date = convertToSQLDate($("#inputdate").val());
+            })
+            $("#attendanceTable").DataTable().ajax.url("/phan-xuong-khai-thac/diem-danh/lay-thong-tin").load();
         }
 
         function searchEmployee() {

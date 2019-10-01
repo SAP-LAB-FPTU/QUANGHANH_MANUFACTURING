@@ -317,7 +317,17 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
             }
         }
 
+        [HttpPost]
+        [Route("phan-xuong-khai-thac/diem-danh/lay-thong-tin")]
+        public ActionResult fetchAPI()
+        {
+            using(QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                var listAttendance = db.FakeAPIs.ToList();
 
+            }
+            return View();
+        }
     }
 
     public class updateStatus
