@@ -13,11 +13,14 @@ using System.IO;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
 using System.Data.Entity;
+using QUANGHANH2.SupportClass;
+using System.Text.RegularExpressions;
 
 namespace QUANGHANHCORE.Controllers.CDVT.Work
 {
     public class kiemdinhchonController : Controller
     {
+        [Auther(RightID = "89")]
         [Route("phong-cdvt/thu-hoi-chon")]
         [HttpGet]
         public ActionResult Index(String selectListJson)
@@ -71,6 +74,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
             return View("/Views/CDVT/Work/thuhoichon.cshtml");
         }
 
+        [Auther(RightID = "89")]
         [Route("phong-cdvt/thu-hoi-chon")]
         [HttpPost]
         public ActionResult GetData(string documentary_code, string out_in_come, string data, string department_id, string reason)
@@ -115,7 +119,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                             sde.equipmentId = equipmentId;
                             sde.supply_id = supply_id;
                             sde.quantity = quantity;
-                            sde.supplyType = 1;
+                            sde.supplyType = 3;
                             sde.supplyStatus = supplyStatus;
                             sde.supply_documentary_status = 0;
                             DBContext.Supply_Documentary_Equipment.Add(sde);
@@ -137,42 +141,84 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
         }
 
         //export file world
-
-        [Route("phong-cdvt/export-quyet-dinh-thu-hoi")]
+        [Auther(RightID = "89")]
+        [Route("phong-cdvt/thu-hoi-chon/export")]
         [HttpPost]
-        public ActionResult ExportQuyetDinh(List<ListVatTu> listVatTu, ListThietBi listThietBi)
+        public ActionResult ExportQuyetDinh(string data, string documentary_code)
         {
-            string Flocation = "/doc/CDVT/quyetdinhsuachua/quyetdinhsuachua.docx";
-            string fileName = HostingEnvironment.MapPath("/doc/CDVT/quyetdinhsuachua/quyetdinh-template.docx");
+            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            string Flocation = "/doc/CDVT/QD/quyetdinhthuhoi.docx";
+            string fileName = HostingEnvironment.MapPath("/doc/CDVT/QD/quyetdinh-template.docx");
             byte[] byteArray = System.IO.File.ReadAllBytes(fileName);
             using (var stream = new MemoryStream())
             {
                 stream.Write(byteArray, 0, byteArray.Length);
                 using (var doc = WordprocessingDocument.Open(stream, true))
                 {
+                    ////////////////////////////////////replace/////////////////////////////////
                     string docText = null;
                     using (StreamReader sr = new StreamReader(doc.MainDocumentPart.GetStream()))
                     {
                         docText = sr.ReadToEnd();
                     }
 
-                    //Regex regexText = new Regex("%soquyetdinh%");
-                    //docText = regexText.Replace(docText, "ABC");
+                    Regex regexText = new Regex("%soquyetdinh%");
+                    docText = regexText.Replace(docText, documentary_code);
 
                     using (StreamWriter sw = new StreamWriter(doc.MainDocumentPart.GetStream(FileMode.Create)))
                     {
                         sw.Write(docText);
                     }
+                    /////////////////////////////////////////////////////////////////////
+                    JObject json = JObject.Parse(data);
+
                     Table table =
                     doc.MainDocumentPart.Document.Body.Elements<Table>().ElementAt(1);
                     int i = 0;
-                    if (listVatTu != null)
+                    foreach (var item in json)
                     {
-                        foreach (ListVatTu l in listVatTu)
+                        string equipmentId = (string)item.Value["id"];
+                        JArray vattu = (JArray)item.Value.SelectToken("vattu");
+                        if (vattu.Count == 0)
                         {
-                            int j = 0;
-                            foreach (string m in l.tenvattu)
+                            TableRow tr = new TableRow();
+
+                            TableCell tc1 = new TableCell();
+                            tc1.Append(new Paragraph(new Run(new Text((i + 1).ToString()))));
+                            tr.Append(tc1);
+
+                            TableCell tc2 = new TableCell();
+                            tc2.Append(new Paragraph(new Run(new Text(equipmentId))));
+                            tr.Append(tc2);
+
+                            TableCell tc3 = new TableCell();
+                            tc3.Append(new Paragraph(new Run(new Text(""))));
+                            tr.Append(tc3);
+
+                            TableCell tc4 = new TableCell();
+                            tc4.Append(new Paragraph(new Run(new Text(""))));
+                            tr.Append(tc4);
+
+                            TableCell tc5 = new TableCell();
+                            tc5.Append(new Paragraph(new Run(new Text(""))));
+                            tr.Append(tc5);
+
+                            TableCell tc6 = new TableCell();
+                            tc6.Append(new Paragraph(new Run(new Text(""))));
+                            tr.Append(tc6);
+
+                            TableCell tc7 = new TableCell();
+                            tc7.Append(new Paragraph(new Run(new Text(""))));
+                            tr.Append(tc7);
+
+                            table.Append(tr);
+                        }
+                        else
+                            foreach (JObject jObject in vattu)
                             {
+                                string supply_id = (string)jObject["supply_id"];
+                                int quantity = (int)jObject["quantity"];
+                                Supply s = DBContext.Supplies.Find(supply_id);
                                 TableRow tr = new TableRow();
 
                                 TableCell tc1 = new TableCell();
@@ -180,19 +226,19 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                                 tr.Append(tc1);
 
                                 TableCell tc2 = new TableCell();
-                                tc2.Append(new Paragraph(new Run(new Text(l.thietbi))));
+                                tc2.Append(new Paragraph(new Run(new Text(equipmentId))));
                                 tr.Append(tc2);
 
                                 TableCell tc3 = new TableCell();
-                                tc3.Append(new Paragraph(new Run(new Text(m))));
+                                tc3.Append(new Paragraph(new Run(new Text(s.supply_name))));
                                 tr.Append(tc3);
 
                                 TableCell tc4 = new TableCell();
-                                tc4.Append(new Paragraph(new Run(new Text(l.donvi[j]))));
+                                tc4.Append(new Paragraph(new Run(new Text(s.unit))));
                                 tr.Append(tc4);
 
                                 TableCell tc5 = new TableCell();
-                                tc5.Append(new Paragraph(new Run(new Text(l.soluong[j]))));
+                                tc5.Append(new Paragraph(new Run(new Text(quantity.ToString()))));
                                 tr.Append(tc5);
 
                                 TableCell tc6 = new TableCell();
@@ -202,14 +248,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                                 TableCell tc7 = new TableCell();
                                 tc7.Append(new Paragraph(new Run(new Text(""))));
                                 tr.Append(tc7);
-                                i++;
-                                j++;
+
                                 table.Append(tr);
                             }
-                            doc.MainDocumentPart.Document.Save(); // won't update the original file 
-                        }
+                        doc.MainDocumentPart.Document.Save();
                     }
-                    
                     // Save the file with the new name
 
                     string savePath = HostingEnvironment.MapPath(Flocation);
@@ -220,7 +263,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
             }
             return Json(new { success = true, location = Flocation }, JsonRequestBehavior.AllowGet);
         }
-
 
         public class ListVatTu
         {
