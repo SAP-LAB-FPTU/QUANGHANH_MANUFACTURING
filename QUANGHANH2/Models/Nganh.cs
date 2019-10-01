@@ -20,7 +20,7 @@ namespace QUANGHANH2.Models
             this.ChuyenNganhs = new HashSet<ChuyenNganh>();
         }
     
-        public string MaNganh { get; set; }
+        public int MaNganh { get; set; }
         public string TenNganh { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

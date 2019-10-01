@@ -101,6 +101,20 @@
                                 <h6 class="card-subtitle">Sửa chữa</h6>
                                 <h4> @ViewBag.Thongke.total_repair </h4>
                             </div>
+
+                            @*<div class="col s12">
+                                    <div class="progress">
+                                        <div class="determinate amber darken+5" style="width: 100%"></div>
+                                    </div>
+                                </div>
+                                <div class="col s6 center-align">
+                                    <h5 class="card-subtitle">Đã sửa</h5>
+                                    <h5>300</h5>
+                                </div>
+                                <div class="col s6 center-align">
+                                    <h6 class="card-subtitle">Đang sửa</h6>
+                                    <h5>200</h5>
+                                </div>*@
                         </div>
                     </div>
                 </a>
@@ -147,6 +161,21 @@
                                 <h6 class="card-subtitle">Bảo dưỡng </h6>
                                 <h4> @ViewBag.Thongke.total_maintain</h4>
                             </div>
+
+                            @*<div class="col s12">
+                                    <div class="progress">
+                                        <div class="determinate amber darken+5" style="width: 100%"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col s6 center-align">
+                                    <h5 class="card-subtitle">Đã bảo dưỡng</h5>
+                                    <h5>700</h5>
+                                </div>
+                                <div class="col s6 center-align">
+                                    <h6 class="card-subtitle">Đang bảo dưỡng</h6>
+                                    <h5>200</h5>
+                                </div>*@
                         </div>
                     </div>
                 </a>
@@ -167,7 +196,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @{
+                        @*@{
                             i = 1;
                             foreach (var item in ViewBag.listKD)
                             {
@@ -178,7 +207,7 @@
                                 </tr>
                                 i++;
                             }
-                        }
+                        }*@
                     </tbody>
                 </table>
             </div>
@@ -191,8 +220,22 @@
                         <div class="row">
                             <div class="col s12" style="padding-top: 45px">
                                 <h6 class="card-subtitle">Kiểm định</h6>
-                                <h4> @ViewBag.Thongke.total_KD</h4>
+                                @*<h4> @ViewBag.Thongke.total_KD</h4>*@
                             </div>
+
+                            @*<div class="col s12">
+                                    <div class="progress">
+                                        <div class="determinate amber darken+5" style="width: 100%"></div>
+                                    </div>
+                                </div>
+                                <div class="col s6 center-align">
+                                    <h5 class="card-subtitle">Hoàn thành</h5>
+                                    <h5>700</h5>
+                                </div>
+                                <div class="col s6 center-align">
+                                    <h6 class="card-subtitle">Sắp đến hạn</h6>
+                                    <h5>300</h5>
+                                </div>*@
                         </div>
                     </div>
                 </a>
@@ -239,6 +282,21 @@
                                 <h6 class="card-subtitle">Thanh lý</h6>
                                 <h4> @ViewBag.Thongke.total_TL </h4>
                             </div>
+
+                            @*<div class="col s12">
+                                    <div class="progress">
+                                        <div class="determinate amber darken+5" style="width: 100%"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col s5 center-align">
+                                    <h5 class="card-subtitle">Đã thanh lý</h5>
+                                    <h5>100</h5>
+                                </div>
+                                <div class="col s6 offset-s1 center-align">
+                                    <h6 class="card-subtitle">Đang thanh lý</h6>
+                                    <h5>200</h5>
+                                </div>*@
                         </div>
                     </div>
                 </a>
@@ -283,7 +341,7 @@
                         <div class="row">
                             <div class="col s12 center-align" style="padding-top: 45px">
                                 <h6 class="card-subtitle">Thu hồi</h6>
-                                <h4 class="font-medium m-b-0"> @ViewBag.Thongke.total_TH </h4>
+                                <h4 class="font-medium m-b-0"> @ViewBag.Thongke.total_TH </h>
                             </div>
                         </div>
                     </div>
@@ -303,7 +361,7 @@
                         <div class="d-flex no-block align-items-center">
                             <div>
                                 <h6 class="white-text op-1">Sắp hết hạn đăng kiểm (chiếc)</h6>
-                                <h3 class="white-text m-b-5">@ViewBag.soSapKD</h3>
+                                <h3 class="white-text m-b-5">100</h3>
                                 <h6 class="white-text op-1"></h6>
                                 <br />
                             </div>
@@ -327,8 +385,8 @@
                     <div class="card-content">
                         <div class="d-flex no-block align-items-center">
                             <div>
-                                <h6 class="white-text op-1">Sắp hết hạn bảo hiểm (chiếc)</h6>
-                                <h3 class="white-text m-b-5">@ViewBag.soHetBH</h3>
+                                <h6 class="white-text op-1">Sắp đến hạn bảo dưỡng (chiếc)</h6>
+                                <h3 class="white-text m-b-5">100</h3>
                                 <h6 class="white-text op-1"></h6>
                                 <br />
                             </div>
@@ -350,8 +408,8 @@
                     <div class="card-content">
                         <div class="d-flex no-block align-items-center">
                             <div>
-                                <h6 class="white-text op-1">TB Đang thanh lý (chiếc)</h6>
-                                <h3 class="white-text m-b-5">@ViewBag.Thongke.total_TL</h3>
+                                <h6 class="white-text op-1">TB Đang chờ thanh lý (chiếc)</h6>
+                                <h3 class="white-text m-b-5">100</h3>
                                 <h6 class="white-text op-1"></h6>
                                 <br />
                             </div>
@@ -694,25 +752,56 @@
         <table class="table-bordered striped">
             <thead>
                 <tr>
-                    <th>Mã thiết bị</th>
+                    <th>STT</th>
                     <th>Tên thiết bị</th>
+                    <th>Mã TSCĐ</th>
                     <th>Ngày hết hạn kiểm định</th>
                 </tr>
             </thead>
             <tbody>
-                @{
-                    foreach (var item in ViewBag.listSapKD)
-                    {
-                        <tr>
-                            <td>@item.equipmentId</td>
-                            <td>@item.equipment_name</td>
-                            <td>@item.durationOfInspection</td>
-                        </tr>
-
-                    }
-                }
+                <tr>
+                    <td>1</td>
+                    <td>Máy khoan</td>
+                    <td>001</td>
+                    <td>10/1/2020</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Máng cào</td>
+                    <td>002</td>
+                    <td>10/1/2020</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Băng chuyền</td>
+                    <td>003</td>
+                    <td>10/1/2020</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Quạt gió</td>
+                    <td>004</td>
+                    <td>10/1/2020</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Máy khoan</td>
+                    <td>005</td>
+                    <td>10/1/2020</td>
+                </tr>
             </tbody>
         </table>
+        <div class="center">
+            <ul class="pagination">
+                <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                <li class="active"><a href="#!">1</a></li>
+                <li class="waves-effect"><a href="#!">2</a></li>
+                <li class="waves-effect"><a href="#!">3</a></li>
+                <li class="waves-effect"><a href="#!">4</a></li>
+                <li class="waves-effect"><a href="#!">5</a></li>
+                <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+            </ul>
+        </div>
     </div>
 </div>
 <div id="baoduong" class="modal">
@@ -723,24 +812,56 @@
         <table class="table-bordered striped">
             <thead>
                 <tr>
-                    <th>Mã thiết bị</th>
+                    <th>STT</th>
                     <th>Tên thiết bị</th>
-                    <th>Ngày đến hạn bảo hiểm</th>
+                    <th>Mã TSCĐ</th>
+                    <th>Ngày đến hạn bảo dưỡng</th>
                 </tr>
             </thead>
             <tbody>
-                @{
-                    foreach (var item in ViewBag.listHetBH)
-                    {
-                        <tr>
-                            <td>@item.equipmentId</td>
-                            <td>@item.equipment_name</td>
-                            <td>@item.durationOfInsurance</td>
-                        </tr>
-                    }
-                }
+                <tr>
+                    <td>1</td>
+                    <td>Máy khoan</td>
+                    <td>001</td>
+                    <td>10/1/2020</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Máng cào</td>
+                    <td>002</td>
+                    <td>10/1/2020</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Băng chuyền</td>
+                    <td>003</td>
+                    <td>10/1/2020</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Quạt gió</td>
+                    <td>004</td>
+                    <td>10/1/2020</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Máy khoan</td>
+                    <td>005</td>
+                    <td>10/1/2020</td>
+                </tr>
             </tbody>
         </table>
+        <div class="center">
+            <ul class="pagination">
+                <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                <li class="active"><a href="#!">1</a></li>
+                <li class="waves-effect"><a href="#!">2</a></li>
+                <li class="waves-effect"><a href="#!">3</a></li>
+                <li class="waves-effect"><a href="#!">4</a></li>
+                <li class="waves-effect"><a href="#!">5</a></li>
+                <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+            </ul>
+        </div>
     </div>
 </div>
 <div id="thanhly" class="modal">
@@ -751,26 +872,59 @@
         <table class="table-bordered striped">
             <thead>
                 <tr>
-                    <th>Mã TSCĐ</th>
+                    <th>STT</th>
                     <th>Tên thiết bị</th>
+                    <th>Mã TSCĐ</th>
+                    <th>Ngày thanh lý (dự tính)</th>
                 </tr>
             </thead>
             <tbody>
-                @{ 
-                    foreach(var item in ViewBag.listTL)
-                    {
-                        <tr>
-                            <td>@item.equipmentId</td>
-                            <td>@item.equipment_name</td>
-                        </tr>
-                    }
-                }
+                <tr>
+                    <td>1</td>
+                    <td>Máy khoan</td>
+                    <td>001</td>
+                    <td>10/1/2020</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Máng cào</td>
+                    <td>002</td>
+                    <td>10/1/2020</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Băng chuyền</td>
+                    <td>003</td>
+                    <td>10/1/2020</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Quạt gió</td>
+                    <td>004</td>
+                    <td>10/1/2020</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Máy khoan</td>
+                    <td>005</td>
+                    <td>10/1/2020</td>
+                </tr>
             </tbody>
         </table>
+        <div class="center">
+            <ul class="pagination">
+                <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                <li class="active"><a href="#!">1</a></li>
+                <li class="waves-effect"><a href="#!">2</a></li>
+                <li class="waves-effect"><a href="#!">3</a></li>
+                <li class="waves-effect"><a href="#!">4</a></li>
+                <li class="waves-effect"><a href="#!">5</a></li>
+                <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+            </ul>
+        </div>
     </div>
 </div>
 <script>
-    //bieu do thong ke
     @{ 
         var total_temp = ViewBag.Thongke.total;
         var repair_temp = ViewBag.Thongke.total_repair;
@@ -785,21 +939,6 @@
     var total_KD = @KD_temp;
     var total_TL = @TL_temp;
     var total_TH = @TH_temp;
-
-    //bieu do bao duong
-    var bd100 = @ViewBag.bd100;
-    var bd200 = @ViewBag.bd200;
-    var bd500 = @ViewBag.bd500;
-    var bd1000 = @ViewBag.bd1000;
-    var bd2000 = @ViewBag.bd2000;
-    var tt = @ViewBag.tt;
-
-    var scl = @ViewBag.scl;
-    var sctx = @ViewBag.sctx;
-
-    var daTL = @ViewBag.daTL;
-    var dangTL = @ViewBag.dangTL;
-
 </script>
 <script src="/assets/libs/chartist/dist/chartist.min.js"></script>
 <script src="/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>

@@ -32,13 +32,13 @@ namespace QUANGHANH2.Controllers.TCLD
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 listdataDip = (from bc in db.BangCap_GiayChungNhan
-                               join cn in db.ChuyenNganhs on bc.MaChuyenNganh equals cn.MaChuyenNganh
+                               join cn in db.ChuyenNganhs on bc.MaChuyenNghanh equals cn.MaChuyenNganh
                                join td in db.TrinhDoes on bc.MaTrinhDo equals td.MaTrinhDo
                                join truong in db.Truongs on bc.MaTruong equals truong.MaTruong
                                select new
                                {
                                    MaTruong = bc.MaTruong,
-                                   MaChuyenNganh = bc.MaChuyenNganh,
+                                   MaChuyenNghanh = bc.MaChuyenNghanh,
                                    MaBangCap_GiayChungNhan = bc.MaBangCap_GiayChungNhan,
                                    MaTrinhDo = bc.MaTrinhDo,
                                    KieuBangCap = bc.KieuBangCap,
@@ -51,7 +51,7 @@ namespace QUANGHANH2.Controllers.TCLD
                                }).ToList().Select(bangcap => new BangCap_detailsDB
                                {
                                    MaTruong = bangcap.MaTruong,
-                                   MaChuyenNganh = bangcap.MaChuyenNganh,
+                                   MaChuyenNghanh = bangcap.MaChuyenNghanh,
                                    MaBangCap_GiayChungNhan = bangcap.MaBangCap_GiayChungNhan,
                                    MaTrinhDo = bangcap.MaTrinhDo,
                                    KieuBangCap = bangcap.KieuBangCap,
@@ -351,7 +351,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 {
                     listdataDip = (from bc in db.BangCap_GiayChungNhan
                                    where (bc.TenBangCap.Contains(bangcap_text))
-                                   join cn in db.ChuyenNganhs on bc.MaChuyenNganh equals cn.MaChuyenNganh
+                                   join cn in db.ChuyenNganhs on bc.MaChuyenNghanh equals cn.MaChuyenNganh
                                    where (cn.TenChuyenNganh.Contains(nganh_text))
                                    join td in db.TrinhDoes on bc.MaTrinhDo equals td.MaTrinhDo
                                    where (td.TenTrinhDo.Contains(trinhdo_text))
@@ -360,7 +360,7 @@ namespace QUANGHANH2.Controllers.TCLD
                                    select new
                                    {
                                        MaTruong = bc.MaTruong,
-                                       MaChuyenNganh = bc.MaChuyenNganh,
+                                       MaChuyenNghanh = bc.MaChuyenNghanh,
                                        MaBangCap_GiayChungNhan = bc.MaBangCap_GiayChungNhan,
                                        MaTrinhDo = bc.MaTrinhDo,
                                        KieuBangCap = bc.KieuBangCap,
@@ -373,7 +373,7 @@ namespace QUANGHANH2.Controllers.TCLD
                                    }).ToList().Select(bangcap => new BangCap_detailsDB
                                    {
                                        MaTruong = bangcap.MaTruong,
-                                       MaChuyenNganh = bangcap.MaChuyenNganh,
+                                       MaChuyenNghanh = bangcap.MaChuyenNghanh,
                                        MaBangCap_GiayChungNhan = bangcap.MaBangCap_GiayChungNhan,
                                        MaTrinhDo = bangcap.MaTrinhDo,
                                        KieuBangCap = bangcap.KieuBangCap,

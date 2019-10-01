@@ -22,10 +22,8 @@ namespace QUANGHANH2.Models
             this.Documentary_big_maintain_details = new HashSet<Documentary_big_maintain_details>();
             this.Documentary_big_maintain_details1 = new HashSet<Documentary_big_maintain_details>();
             this.Documentary_maintain_details = new HashSet<Documentary_maintain_details>();
-            this.Documentary_maintain_details1 = new HashSet<Documentary_maintain_details>();
+            this.Documentary_big_maintain_details = new HashSet<Documentary_big_maintain_details>();
             this.Documentary_moveline_details = new HashSet<Documentary_moveline_details>();
-            this.Documentary_moveline_details1 = new HashSet<Documentary_moveline_details>();
-            this.Documentary_repair_details = new HashSet<Documentary_repair_details>();
             this.Documentary_repair_details1 = new HashSet<Documentary_repair_details>();
             this.Equipments = new HashSet<Equipment>();
             this.Incidents = new HashSet<Incident>();
@@ -54,15 +52,17 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Documentary_maintain_details> Documentary_maintain_details { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documentary_maintain_details> Documentary_maintain_details1 { get; set; }
+        public virtual ICollection<Documentary_big_maintain_details> Documentary_big_maintain_details { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Documentary_moveline_details> Documentary_moveline_details { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documentary_moveline_details> Documentary_moveline_details1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documentary_repair_details> Documentary_repair_details { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Documentary_repair_details> Documentary_repair_details1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Documentary_maintain_details> Documentary_maintain_details1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Documentary_big_maintain_details> Documentary_big_maintain_details1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Documentary_moveline_details> Documentary_moveline_details1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Equipment> Equipments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

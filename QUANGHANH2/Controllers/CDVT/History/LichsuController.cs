@@ -12,13 +12,11 @@ using System.Linq.Dynamic;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Globalization;
-using QUANGHANH2.SupportClass;
 
 namespace QUANGHANHCORE.Controllers.CDVT.History
 {
     public class LichsuController : Controller
     {
-        [Auther(RightID = "7")]
         [Route("phong-cdvt/cap-nhat-hoat-dong")]
         public ActionResult Index()
         {
@@ -30,6 +28,74 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             ViewBag.listEQ = listEQ;
             return View("/Views/CDVT/History/Lichsu.cshtml");
         }
+
+        //get acti data
+        //[Route("phong-cdvt/cap-nhat-hoat-dong")]
+        //[HttpPost]
+        //public ActionResult GetActiData()
+        //{
+        //    //Server Side Parameter
+        //    int start = Convert.ToInt32(Request["start"]);
+        //    int length = Convert.ToInt32(Request["length"]);
+        //    string searchValue = Request["search[value]"];
+        //    string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+        //    string sortDirection = Request["order[0][dir]"];
+
+        //    QUANGHANHABCEntities1 DBContext = new QUANGHANHABCEntities1();
+        //    List<activitiesDB> listActi = DBContext.Database.SqlQuery<activitiesDB>("select a.[date], a.equipmentId, e.equipment_name , a.activity_name, a.hours_per_day, a.quantity ,a.[activity_id] "
+        //        + " from Activity a , Equipment e"
+        //        + " where e.equipmentId = a.equipmentId"
+        //        + " order by a.[date] desc ").ToList();
+
+        //    int totalrows = listActi.Count;
+        //    int totalrowsafterfiltering = listActi.Count;
+
+        //    //sorting
+        //    listActi = listActi.OrderBy(sortColumnName + " " + sortDirection).ToList<activitiesDB>();
+
+        //    //paging
+        //    listActi = listActi.Skip(start).Take(length).ToList<activitiesDB>();
+        //    foreach (activitiesDB item in listActi)
+        //    {
+        //        item.stringDate = item.date.Value.ToString("dd/MM/yyyy");
+        //    }
+        //    return Json(new { success = true, data = listActi, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+        //}
+
+        //get fuel data
+        //[Auther(RightID="")]
+
+        //[Route("phong-cdvt/cap-nhat-hoat-dong/nhien-lieu")]
+        //[HttpPost]
+        //public ActionResult GetFuelData()
+        //{
+        //    //Server Side Parameter
+        //    int start = Convert.ToInt32(Request["start"]);
+        //    int length = Convert.ToInt32(Request["length"]);
+        //    string searchValue = Request["search[value]"];
+        //    string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+        //    string sortDirection = Request["order[0][dir]"];
+
+        //    QUANGHANHABCEntities1 DBContext = new QUANGHANHABCEntities1();
+        //    List<fuelDB> listFuelConsump = DBContext.Database.SqlQuery<fuelDB>("select f.fuelId, f.[date], f.equipmentId, e.equipment_name , s.supply_name , f.consumption_value , s.unit"
+        //        + " from Fuel_activities_consumption f, Equipment e , Supply s"
+        //        + " where e.equipmentId = f.equipmentId and s.supply_id = f.fuel_type"
+        //        + " order by f.[date] desc ").ToList();
+
+        //    int totalrows = listFuelConsump.Count;
+        //    int totalrowsafterfiltering = listFuelConsump.Count;
+        //    //sorting
+        //    listFuelConsump = listFuelConsump.OrderBy(sortColumnName + " " + sortDirection).ToList<fuelDB>();
+
+        //    //paging
+        //    listFuelConsump = listFuelConsump.Skip(start).Take(length).ToList<fuelDB>();
+
+        //    foreach (fuelDB item in listFuelConsump)
+        //    {
+        //        item.stringDate = item.date.ToString("dd/MM/yyyy");
+        //    }
+        //    return Json(new { success = true, data = listFuelConsump, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+        //}
 
         //export acti
         [Route("phong-cdvt/cap-nhat-hoat-dong/export-acti")]
@@ -255,7 +321,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         }
 
         //edit activity
-        [Auther(RightID = "9")]
         [Route("phong-cdvt/cap-nhat-hoat-dong/edit-acti")]
         [HttpPost]
         public ActionResult Edit(float quantity, string activity_name, int hours_per_day, string date1, String equipmentId, int activityid)
@@ -296,7 +361,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         }
 
         //edit fuel
-        [Auther(RightID = "9")]
         [Route("phong-cdvt/cap-nhat-hoat-dong/edit-fuel")]
         [HttpPost]
         public ActionResult EditFuel(int consumption_value, string fuel_type, string date1, String equipmentId, int fuelid)
@@ -406,7 +470,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         }
 
         //Add activity
-        [Auther(RightID = "8")]
         [Route("phong-cdvt/cap-nhat-hoat-dong/add-acti")]
         [HttpPost]
         public ActionResult AddActivity(float quantity, string activity_name, int hours_per_day, string date1, String equipmentId)
@@ -470,7 +533,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         }
 
         //Add fuel
-        [Auther(RightID = "8")]
         [Route("phong-cdvt/cap-nhat-hoat-dong/add-fuel")]
         [HttpPost]
         public ActionResult AddFuel(int consumption_value, string fuel_type, string date1, String equipmentId)

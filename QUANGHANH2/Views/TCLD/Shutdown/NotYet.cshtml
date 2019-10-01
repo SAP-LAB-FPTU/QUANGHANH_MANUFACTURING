@@ -2,7 +2,6 @@
     ViewData["Title"] = "History";
     Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
 }
-<link href="~/dist/css/pages/data-table.css" rel="stylesheet">
 
 <div class="row">
     <div class="col s12 m12 l12">
@@ -42,11 +41,10 @@
                 <br />
                 <div class="col s12 m12 l12">
                     <br />
-                    <table id="notyet-table" class="mytablr striped responsive-table table-bordered">
+                    <table id="notyet-table" class="striped responsive-table table-bordered">
                         <thead>
                             <tr>
                                 <th class="center">Mã quyết định</th>
-                                <th class="center">Ngày quyết định</th>
                                 <th class="center">Ngày chấm dứt</th>
                                 <th class="center"></th>
                             </tr>
@@ -59,14 +57,7 @@
         </div>
     </div>
 </div>
-@using (Html.BeginForm("UpdateSoQD", "ShutDown", FormMethod.Post, new
-{
-    enctype = "multipart/form-data",
-    onSubmit = "return SubmitForm1(this);",
-    data_restUrl = Url.Action("UpdateSoQD", "ShutDown", new { id = "" })
-}))
-{
-
+<form action="/UpdateSoQD" method="POST">
     <div id="detail" class="modal open">
         <div class="modal-content">
             <div class="modal-header">
@@ -74,7 +65,7 @@
             </div>
             <div class="modal-body row">
                 <div class="col s3 m3 l3">
-                    <input class="form-control" id="soqd" placeholder="Số quyết định" name="SoQD" />
+                    <input class="form-control" id="soqd" required placeholder="Số quyết định" name="SoQD" />
                     <br />
                 </div>
                 <div>
@@ -93,35 +84,27 @@
             </div>
             <div class="modal-footer">
                 <input type="hidden" name="id" id="MaQD" />
-                <button type="submit" class="waves-effect waves-light btn blue darken-2 btn-small modal-close">Thêm</button>
+                <button type="submit" class="waves-effect waves-light btn blue darken-2 btn-small">Thêm</button>
                 <a class="waves-effect waves-light btn blue darken-2 btn-small modal-close">Hủy</a>
             </div>
         </div>
     </div>
-}
-@using (Html.BeginForm("DidDetailDel", "ShutDown", FormMethod.Post, new
-{
-    enctype = "multipart/form-data",
-    onSubmit = "return delQDAjax(this);",
-    data_restUrl = Url.Action("DidDetailDel", "ShutDown")
-}))
-{
-    <div id="confirm" class="open modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Xác nhận hủy quyết định</h3>
-            </div>
-            <div class="modal-body">
-                <p class="red-text">Hủy quyết định đã chọn</p>
-            </div>
-            <div class="modal-footer">
-                <input type="hidden" name="id" id="del" />
-                <button type="submit" class="btn red darken-2 modal-close">Xác nhận</button>
-                <button type="button" class="btn blue modal-close">Hủy</button>
-            </div>
+</form>
+<div id="confirm" class="open modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Xác nhận hủy quyết định</h3>
+        </div>
+        <div class="modal-body">
+            <p class="red-text">Hủy quyết định đã chọn</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn red darken-2 modal-close">Xác nhận</button>
+            <button type="button" class="btn blue modal-close">Hủy</button>
         </div>
     </div>
-}
+</div>
+
 <div id="add" class="open modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -138,7 +121,6 @@
         </div>
     </div>
 </div>
-
 <script src="~/js/Custom JS/Disable_input_material.js"></script>
 <link href="~/css/TABLE_BORDERED.css" rel="stylesheet" />
 
@@ -167,13 +149,11 @@
 <script src="~/Scripts/Scripts.js"></script>
 <script src="~/assets/libs/toastr/build/toastr.min.js"></script>
 <link href="~/assets/libs/toastr/build/toastr.min.css" rel="stylesheet" />
-<script src="~/assets/extra-libs/toastr/toastr-init.js"></script>
 
 @section scripts{
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script>
         var Popup, dataTable;
-
         $(document).ready(function () {
             $("#pre-load").show("slow", function () {
             });
@@ -202,11 +182,6 @@
 
                         },
                         {
-                            "data": "NgayQuyetDinh", "name": "NgayQuyetDinh", "render": function (data) {
-                                return dateFormat(data);
-                            }
-                        },
-                        {
                             "data": "NgayChamDut", "name": "NgayChamDut", "render": function (data) {
                                 return dateFormat(data);
                             }
@@ -214,7 +189,7 @@
                         {
                             "data": "MaQuyetDinh", "render": function (data) {
                                 return "<a name='detail' class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='detail(" + data + ")' data-target='detail' ><span class='ti-pencil-alt'>&nbsp;Chi tiết</span></a>&nbsp;" +
-                                    "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='addId(" + data + ")'  data-target='confirm' ><span class='ti-pencil-alt'>&nbsp;Xóa</span></a>";
+                                    "<a class='waves-effect waves-light btn blue darken-2 btn-small' onclick='delDetail("+data+")'><span class='ti-pencil-alt'>&nbsp;Xóa</span></a>";
 
                             },
                             "orderable": false,
@@ -268,44 +243,29 @@
                 });
             });
         });
-        function delDetail(id) {
+         function delDetail(id) {
             $.ajax({
                 type: 'post',
                 url: '/deleteDetail',
                 dataType: 'json',
                 data: { id: JSON.stringify(id) },
                 success: function (data) {
-                    if (data.success) {
-                        dataTable.ajax.reload();
-                        $.notify("Xóa thành công", {
-                            globalPosition: "top center",
-                            className: "success"
-                        })
-                    } else {
-                        $.notify("Có lỗi khi xóa", {
-                            globalPosition: "top center",
-                            className: ""
-                        })
-                    }
+                    dataTable.ajax.reload();
+                    $.notify("Xóa hoàn tất", {
+                        globalPosition: "top center",
+                        className: "success"
+                    })
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $.notify(XMLHttpRequest.responseText, {
+                        globalPosition: "top center",
+                        className: "failed"
+                    })
                 }
             })
         }
 
-        //function delQDAjax(form) {
-        //    $("#pre-load").show();
 
-        //    $.validator.unobtrusive.parse(form);
-        //    if ($(form).valid()) {
-        //        $.ajax({
-        //            type: "POST",
-        //            url: form.action,
-        //            dataType: "text",
-        //            data: $(form).serialize(),
-
-        //        });
-        //    }
-
-      
         function detail(id) {
             $("#MaQD").val(id);
             $("#soqd").empty();
@@ -327,21 +287,21 @@
                     }
                 })
         }
-        //function UpdateSoQD(id, SoQD) {
-        //    $.ajax({
-        //        type: 'post',
-        //        url: '/UpdateSoQD',
-        //        dataType: 'json',
-        //        data: { id: JSON.stringify(id), SoQD: JSON.stringify(SoQD) },
-        //        success: function (data) {
-        //            dataTable.ajax.reload();
-        //            $.notify("Cập nhật hoàn tất", {
-        //                globalPosition: "top center",
-        //                className: "success"
-        //            })
-        //        },
-        //    })
-        //}
+        function UpdateSoQD(id, SoQD) {
+            $.ajax({
+                type: 'post',
+                url: '/UpdateSoQD',
+                dataType: 'json',
+                data: { id: JSON.stringify(id), SoQD: JSON.stringify(SoQD) },
+                success: function (data) {
+                    dataTable.ajax.reload();
+                    $.notify("Cập nhật hoàn tất", {
+                        globalPosition: "top center",
+                        className: "success"
+                    })
+                },
+            })
+        }
 
         function dateFormat(d) {
             if (d == null) {
@@ -354,67 +314,6 @@
             var year = currentTime.getFullYear();
             var date = day + "/" + month + "/" + year;
             return (date);
-        }
-
-        function SubmitForm1(form) {
-            $.validator.unobtrusive.parse(form);
-            if ($(form).valid()) {
-                $.ajax({
-                    type: "POST",
-                    url: form.action,
-                    data: $(form).serialize(),
-
-                    success: function (data) {
-                        if (data.success) {
-                            dataTable.ajax.reload();
-                            $.notify("Thêm thành công", {
-                                globalPosition: "top center",
-                                className: "success"
-                            })
-
-                        } else {
-                            $.notify("Thêm không thành công", {
-                                globalPosition: "top center",
-                                className: ""
-                            })
-                        }
-                    }
-                });
-
-            }
-            return false;
-        }
-          function addId(id) {
-            $("#del").val(id);
-        }
-
-        function delQDAjax(form) {
-            $.validator.unobtrusive.parse(form);
-            if ($(form).valid()) {
-                $.ajax({
-                    type: "POST",
-                    url: form.action,
-                    data: $(form).serialize(),
-
-                    success: function (data) {
-                        if (data.success) {
-                            dataTable.ajax.reload();
-                            $.notify("Xóa thành công", {
-                                globalPosition: "top center",
-                                className: "success"
-                            })
-
-                        } else {
-                            $.notify("Xóa không thành công", {
-                                globalPosition: "top center",
-                                className: ""
-                            })
-                        }
-                    }
-                });
-
-            }
-            return false;
         }
     </script>
 }

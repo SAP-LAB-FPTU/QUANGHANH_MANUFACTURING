@@ -15,7 +15,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
     [SessionState(SessionStateBehavior.Default)]
     public class ThanhlyController : Controller
     {
-        //[Auther(RightID = "83")]
+        [Auther(RightID = "91")]
         [Route("phong-cdvt/thanh-ly")]
         public ActionResult Index()
         {
@@ -35,7 +35,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
             return View("/Views/CDVT/Work/thanhly.cshtml");
         }
 
-   //     [Auther(RightID = "83")]
+        [Auther(RightID = "91")]
         [Route("phong-cdvt/thanh-ly/search")]
         [HttpPost]
         public ActionResult Search(string equipmentId, string department_name, string equipmentName)
