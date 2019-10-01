@@ -7128,6 +7128,7 @@
     <Content Include="Views\Diploma\EditDiplomaEmployee.cshtml" />
     <Content Include="Views\CDVT\Report\bao_cao_trung_tu.cshtml" />
     <Content Include="Views\CDVT\Report\TangGiam.cshtml" />
+    <Content Include="Views\TCLD\Brief\ManageBrief\OutSideDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

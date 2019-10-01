@@ -580,7 +580,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         //***start hoang
         
 
-
+        [Auther(RightID = "132")]
         [Route("phong-tcld/quan-ly-ho-so/ho-so-ngoai-cong-ty")]
         public ActionResult Outside()
         {
@@ -617,6 +617,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
 
         }
+
+        [Auther(RightID="133")]
         [HttpGet]
         [Route("phong-tcld/quan-ly-ho-so/ho-so-ngoai-cong-ty/chi-tiet-ho-so")]
         public ActionResult OutSideDetail()
