@@ -204,7 +204,7 @@ namespace QUANGHANH2.Controllers.TCLD
             string sortDirection = Request["order[0][dir]"];
             string query = "select n.*, t.TenTrangThai from NhanVien n inner join" +
                 " [TrangThai] t on n.MaTrangThai = t.MaTrangThai " +
-                "where n.MaTrangThai != 2 AND ";
+                "where n.MaTrangThai = 1 AND ";
             if (!MaNV.Equals("") || !TenNV.Equals("") || !Gender.Equals(""))
             {
                 if (!MaNV.Equals("")) query += "n.MaNV LIKE @MaNV AND ";
@@ -327,7 +327,13 @@ namespace QUANGHANH2.Controllers.TCLD
                         dateTLHDFix = arr2[1] + "/" + arr2[0] + "/" + arr2[2];
                     }
                     var emp = db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault();
-                    emp.MaTrangThai = 2;
+                    if (soQD.Equals(""))
+                    {
+                        emp.MaTrangThai = 4;
+                    }else
+                    {
+                        emp.MaTrangThai = 2;
+                    }
                     db.Entry(emp).State = EntityState.Modified;
 
                     QuyetDinh qd = new QuyetDinh();
