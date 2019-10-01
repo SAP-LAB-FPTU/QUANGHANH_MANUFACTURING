@@ -15,10 +15,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
     [SessionState(SessionStateBehavior.Default)]
     public class ThuhoiController : Controller
     {
+        [Auther(RightID = "89")]
         [Route("phong-cdvt/thu-hoi")]
         public ActionResult Index()
         {
-            //   [Auther(RightID = "83")]
             HttpCookie cookie;
             if (HttpContext.Request.Cookies.Get("ThuHoiThietBi") == null)
             {
@@ -35,7 +35,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
             return View("/Views/CDVT/Work/thuhoi.cshtml");
         }
 
-     //   [Auther(RightID = "83")]
+        [Auther(RightID = "89")]
         [Route("phong-cdvt/thu-hoi/search")]
         [HttpPost]
         public ActionResult Search(string equipmentId, string department_name, string equipmentName)

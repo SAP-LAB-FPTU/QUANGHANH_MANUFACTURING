@@ -83,3 +83,30 @@
             }
         });
     }
+
+function submitSingle(title, confirmButtonText, func) {
+    Swal.fire({
+        title: title,
+        input: 'text',
+        inputAttributes: {
+            autocapitalize: 'off'
+        },
+        showCancelButton: true,
+        confirmButtonText: confirmButtonText,
+        showLoaderOnConfirm: true,
+        preConfirm: (info) => {
+            if (info.trim() === "") {
+                Swal.showValidationMessage(
+                    `Lỗi: hãy kiểm tra lại thông tin`
+                )
+            }
+        },
+        allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+        //alert(result.value);
+        if (result.value.trim() !== "") {
+            func(result.value);
+        }
+    })
+}
+    

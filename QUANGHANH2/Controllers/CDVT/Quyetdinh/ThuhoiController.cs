@@ -157,7 +157,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
             DateTime dtEnd;
             if (dateEnd == "") dtEnd = DateTime.Now;
             else dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-
+            dtEnd = dtEnd.AddHours(23);
+            dtEnd = dtEnd.AddMinutes(59);
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
              incidents = (from document in db.Documentaries
                           where document.documentary_type.Equals("4") && (document.documentary_code.Contains(documentary_code) || document.documentary_code == null) && document.person_created.Contains(person_created) && (document.date_created >= dtStart && document.date_created <= dtEnd)

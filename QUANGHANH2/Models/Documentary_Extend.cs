@@ -13,7 +13,7 @@ namespace QUANGHANH2.Models
 
         public string documentary_code { get; set; }
         public string temp { get; set; }
-        public System.DateTime acceptance_date { get; set; }
+        public Nullable<System.DateTime> acceptance_date { get; set; }
         public int count { get; set; }
     }
 }
