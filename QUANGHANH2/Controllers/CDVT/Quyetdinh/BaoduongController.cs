@@ -16,7 +16,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
 {
     public class BaoduongQDController : Controller
     {
-        [Auther(RightID = "30")]
+        [Auther(RightID = "85")]
         [Route("phong-cdvt/quyet-dinh/bao-duong")]
         public ActionResult Index()
         {
@@ -64,6 +64,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
 
         }
 
+        [Auther(RightID = "85")]
         [Route("phong-cdvt/quyet-dinh/bao-duong/update")]
         public ActionResult UpdateID(int documentary_id, string documentary_code)
         {
@@ -102,6 +103,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
 
 
 
+        [Auther(RightID = "85")]
         [HttpPost]
         public ActionResult GetById(List<String> docID)
         {
@@ -138,6 +140,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
 
         }
 
+        [Auther(RightID = "85")]
         [Route("phong-cdvt/quyet-dinh/bao-duong/search")]
         [HttpPost]
         public ActionResult Search(string documentary_code, string person_created, string dateStart, string dateEnd)
@@ -206,6 +209,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
         }
 
 
+        [Auther(RightID = "85")]
         public void ExportExcel()
         {
             string path = HostingEnvironment.MapPath("/excel/CDVT/danhsachsuachua_Template.xlsx");

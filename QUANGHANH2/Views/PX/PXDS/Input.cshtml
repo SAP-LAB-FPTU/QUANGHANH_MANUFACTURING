@@ -163,18 +163,6 @@
                 "paging": false,
                 "initComplete": function (settings, json) {
                     $("#pre-load").hide();
-                },
-                "info": false,
-                "language": {
-                    "emptyTable": "Không tìm thấy dữ liệu",
-                    "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
-                    "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
-                    "paginate": {
-                        "first": "Trang đầu",
-                        "last": "Trang cuối",
-                        "next": "Trang sau",
-                        "previous": "Trang trước"
-                    }
                 }
             });
 
@@ -192,15 +180,9 @@
                     data: JSON.stringify(payload),
                     success: function (res) {
                         if (res.success) {
-                            $.notify('Đăng ký suất ăn thành công.', {
-                                globalPosition: 'top center',
-                                className: 'success'
-                            });
+                            alert('Đăng ký suất ăn thành công.');
                         } else {
-                            $.notify('Không đăng ký được suất ăn.', {
-                                globalPosition: 'top center',
-                                className: 'error'
-                            });
+                            alert('Có lỗi xảy ra.');
                         }
                     }
                 });
@@ -247,6 +229,7 @@
                     }
                 }
             }
+            console.log(payload);
         }
 
         function parse2PosInt(value) {

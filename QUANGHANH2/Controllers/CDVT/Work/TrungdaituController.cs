@@ -18,8 +18,7 @@ namespace QUANGHANH2.Controllers.CDVT.Work
     [SessionState(SessionStateBehavior.Default)]
     public class TrungdaituController : Controller
     {
-        // GET: sctx
-     //   [Auther(RightID = "83")]
+      [Auther(RightID = "95")]
         [Route("phong-cdvt/trung-dai-tu")]
         public ActionResult Index()
         {
@@ -39,7 +38,7 @@ namespace QUANGHANH2.Controllers.CDVT.Work
             return View("/Views/CDVT/Work/sctx.cshtml");
         }
 
-  //      [Auther(RightID = "83")]
+        [Auther(RightID = "95")]
         [Route("phong-cdvt/trung-dai-tu/search")]
         [HttpPost]
         public ActionResult Search(string equipmentId, string department_name, string equipmentName)

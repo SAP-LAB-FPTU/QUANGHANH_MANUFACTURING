@@ -14,10 +14,10 @@ namespace QUANGHANH2.Models
     
     public partial class LichSuBoSungSYLL
     {
-        public int ID { get; set; }
-        public string MaNV { get; set; }
         public string NamBoSung { get; set; }
+        public string DotBoSung { get; set; }
+        public string MaNV { get; set; }
     
-        public virtual NhanVien NhanVien { get; set; }
+        public virtual HoSo HoSo { get; set; }
     }
 }

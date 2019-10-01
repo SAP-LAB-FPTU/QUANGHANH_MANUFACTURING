@@ -123,17 +123,6 @@
                 "paging": false,
                 "initComplete": function (settings, json) {
                     $("#pre-load").hide();
-                },
-                "language": {
-                    "emptyTable": "Không tìm thấy dữ liệu",
-                    "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
-                    "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
-                    "paginate": {
-                        "first": "Trang đầu",
-                        "last": "Trang cuối",
-                        "next": "Trang sau",
-                        "previous": "Trang trước"
-                    }
                 }
             });
             $("#submit").click(function () {
@@ -149,15 +138,9 @@
                             if (res.success) {
                                 $("#submit").attr("disabled", true);
                                 $("#update").attr("disabled", true);
-                                $.notify('Nộp đơn thành công.', {
-                                    globalPosition: 'top center',
-                                    className: 'success'
-                                });
+                                alert('Nộp đơn thành công.');
                             } else {
-                                $.notify('Nộp đơn thất bại.', {
-                                    globalPosition: 'top center',
-                                    className: 'error'
-                                });
+                                alert('Nộp đơn thất bại.');
                             }
                         }
                     });
@@ -220,16 +203,10 @@
                 data: JSON.stringify(payload),
                 success: function (res) {
                     if (res.success) {
-                        $.notify('Cập nhật đơn thành công.', {
-                            globalPosition: 'top center',
-                            className: 'success'
-                        });
+                        alert('Cập nhật đơn thành công.');
                         window.location.reload();
                     } else {
-                        $.notify('Cập nhật đơn thất bại.', {
-                            globalPosition: 'top center',
-                            className: 'error'
-                        });
+                        alert('Cập nhật đơn thất bại.');
                     }
                 }
             });

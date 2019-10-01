@@ -15,6 +15,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
     [SessionState(SessionStateBehavior.Default)]
     public class dieudongController : Controller
     {
+        [Auther(RightID = "87")]
         [Route("phong-cdvt/dieu-dong")]
         public ActionResult Index()
         {
@@ -34,6 +35,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
             return View("/Views/CDVT/Work/dieu_dong.cshtml");
         }
 
+        [Auther(RightID = "87")]
         [Route("phong-cdvt/dieu-dong/search")]
         [HttpPost]
         public ActionResult Search(string equipmentId, string department_name, string equipmentName)
