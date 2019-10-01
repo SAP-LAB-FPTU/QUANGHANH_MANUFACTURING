@@ -1,4 +1,5 @@
 ﻿using QUANGHANH2.Models;
+using QUANGHANH2.SupportClass;
 using QUANGHANHCORE.Controllers.CDVT.History;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
 {
     public class SuachuahangngayController : Controller
     {
+        [Auther(RightID = "16")]
         [Route("phong-cdvt/oto/bao-duong-hang-ngay")]
         [HttpGet]
         public ActionResult Index()
@@ -69,7 +71,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                 return Json(new { success = true, data = maintainCar, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
             }
         }
-
+        
         [Route("phong-cdvt/oto/bao-duong-hang-ngay/insertMaintainCar")]
         [HttpPost]
         public JsonResult InsertMaintainCar(List<Maintain_Car_DetailDB> maintain, string equipmentId, string department_name, string date, string maintain_content)
@@ -132,7 +134,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             }
 
         }
-
+        [Auther(RightID = "18")]
         [Route("phong-cdvt/oto/bao-duong-hang-ngay/getMaintainCarDetail")]
         [HttpPost]
         public JsonResult getMaintainCarDetail(int maintainId)
@@ -156,7 +158,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                 return Json(m);
             }
         }
-
+        [Auther(RightID = "18")]
         [Route("phong-cdvt/oto/bao-duong-hang-ngay/getMaintainCar")]
         [HttpPost]
         public JsonResult getMaintainCar(int maintainId)
@@ -254,7 +256,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
         }
 
 
-
+        [Auther(RightID = "18")]
         [Route("phong-cdvt/oto/bao-duong-hang-ngay/edit")]
         [HttpPost]
         public ActionResult EditMaintain(string date, String equipmentId, String department_name, String maintain_content, int maintainid)
@@ -298,7 +300,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                 }
             }
         }
-
+        [Auther(RightID = "18")]
         [Route("phong-cdvt/oto/bao-duong-hang-ngay/editMaintainDetail")]
         [HttpPost]
         public ActionResult EditMaintainDetail(List<Maintain_Car_Detail> supplyDetail)

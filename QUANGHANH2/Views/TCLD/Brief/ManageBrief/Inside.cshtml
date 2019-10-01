@@ -65,8 +65,6 @@
 
 
 <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
-
-
 <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script>
     var datatable_inside, stt;
@@ -94,7 +92,11 @@
                         return dateFormat(data);
                     },},
                 { "data": "NguoiGiaoHoSo", "name": "NguoiGiaoHoSo" },
-                { "data": "NgayNhanHoSo", "name": "NgayNhanHoSo"},
+                {
+                    "data": "NgayNhanHoSo", "name": "NgayNhanHoSo", "render": function (data) {
+                        return dateFormat(data);
+                    },
+                },
                 { "data": "NguoiGiuHoSo", "name": "NguoiGiuHoSo"},
                 {
                     "data": "MaNV", "render": function (data) {
@@ -104,7 +106,17 @@
                     "searchable": false,
                     "width": "150px"
                 }
-            ],
+                ],
+                "language": {
+                    "zeroRecords": "Không có dữ liệu",
+                    paginate:
+                    {
+                        previous: "Trang trước",
+                        next: "Trang sau",
+                        first: "|<",
+                        last: ">|"
+                    }
+                },
             "serverSide": "true",
             "order": [0, "asc"],
             "bLengthChange": false,
@@ -149,13 +161,19 @@
     })
 
     function dateFormat(d) {
-        var dateString = d.substr(6);
-        var currentTime = new Date(parseInt(dateString));
-        var month = currentTime.getMonth() + 1;
-        var day = currentTime.getDate();
-        var year = currentTime.getFullYear();
-        var date = day + "/" + month + "/" + year;
-        return (date);
+        if (d != null && d != "") {
+            var dateString = d.substr(6);
+            var currentTime = new Date(parseInt(dateString));
+            var month = currentTime.getMonth() + 1;
+            var day = currentTime.getDate();
+            var year = currentTime.getFullYear();
+            var date = day + "/" + month + "/" + year;
+            return (date);
+        }
+        else {
+            return (d);
+        }
+       
     }
 </script>
 

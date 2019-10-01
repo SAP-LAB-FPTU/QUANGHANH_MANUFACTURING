@@ -405,6 +405,7 @@
     <Compile Include="Models\Incident.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\InsideExcel.cs" />
     <Compile Include="Models\KeHoach_TieuChi.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -587,6 +588,7 @@
     <Content Include="css\Custom css\TCLD\table_job_register.css" />
     <Content Include="css\jquery.dataTables.min.css" />
     <Content Include="css\pre-loader\css.css" />
+    <Content Include="css\pre-loader\logo.png" />
     <Content Include="css\preloader\css.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -6862,6 +6864,15 @@
     <Content Include="excel\TCLD\download\Danh_sách_nhân_viên.xlsx" />
     <Content Include="excel\TCLD\download\Báo cáo năng suất lao động và tiền lương theo các phân xưởng theo ngày.xlsx" />
     <Content Include="excel\TCLD\Report\Báo cáo năng suất lao động và tiền lương theo các phân xưởng theo ngày.xlsx" />
+    <Content Include="excel\TCLD\Hoso\ho-so-ngoai.xlsx" />
+    <Content Include="excel\TCLD\suat-an\Báo cáo lao động Ngày 19-08-2019.xls" />
+    <Content Include="excel\TCLD\suat-an\suat-an.xlsx" />
+    <Content Include="excel\TCLD\download\Certificate.xlsx" />
+    <Content Include="excel\TCLD\download\CertificateOfEmployee.xlsx" />
+    <Content Include="doc\TCLD\dieudong\motnguoi\dieudong-template.docx" />
+    <Content Include="doc\TCLD\dieudong\nhieunguoi\dieudong-template.docx" />
+    <Content Include="doc\TCLD\dieudong\quyetdinh-dieudong.docx" />
+    <Content Include="doc\TCLD\dieudong\temp.docx" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -7115,6 +7126,7 @@
     <Content Include="Views\Diploma\EditDiplomaEmployee.cshtml" />
     <Content Include="Views\CDVT\Report\bao_cao_trung_tu.cshtml" />
     <Content Include="Views\CDVT\Report\TangGiam.cshtml" />
+    <Content Include="Views\TCLD\Brief\ManageBrief\OutSideDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

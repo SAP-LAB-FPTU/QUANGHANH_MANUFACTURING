@@ -573,5 +573,49 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
             return Json(new { success = true, location = saveAsPath }, JsonRequestBehavior.AllowGet);
         }
+
+
+        //[Route("phong-tcld/chung-chi/danh-sach-chung-chi/xuat-file-excel")]
+        //[HttpPost]
+        //public ActionResult ExporTotExcel()
+        //{
+        //    string path = HostingEnvironment.MapPath("/excel/TCLD/Certificate/Chứng chỉ của cả công ty.xlsx");
+        //    string saveAsPath = ("/excel/TCLD/Certificate/List/download/ListCertificate.xlsx");
+        //    FileInfo file = new FileInfo(path);
+        //    using (ExcelPackage excelPackage = new ExcelPackage(file))
+        //    {
+        //        ExcelWorkbook excelWorkbook = excelPackage.Workbook;
+        //        ExcelWorksheet ws = excelWorkbook.Worksheets.First();
+        //        using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+        //        {
+        //            List<ChungChi> listdata = db.ChungChis.ToList<ChungChi>();
+                   
+        //            ws.Cells["A1"].Value = "Mã chứng chỉ";
+        //            ws.Cells["B1"].Value = "Tên chứng chỉ";
+        //            ws.Cells["C1"].Value = "Thời hạn (tháng)";
+        //            ws.Cells["D1"].Value = "Kiểu chứng chỉ";
+        //            int rowStart = 2;
+        //            foreach (var i in listdata)
+        //            {
+        //                ws.Cells[string.Format("A{0}", rowStart)].Value = i.MaChungChi;
+        //                ws.Cells[string.Format("B{0}", rowStart)].Value = i.TenChungChi;
+        //                if (i.ThoiHan == -1) {
+        //                    ws.Cells[string.Format("C{0}", rowStart)].Value = "Vĩnh viễn";
+        //                }
+        //                else
+        //                {
+        //                    ws.Cells[string.Format("C{0}", rowStart)].Value = i.ThoiHan;
+        //                }
+                        
+        //                ws.Cells[string.Format("D{0}", rowStart)].Value = i.KieuChungChi;
+        //                rowStart++;
+
+        //            }
+        //        }
+        //        excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath(saveAsPath)));
+        //    }
+        //    return Json(new { success = true, location = saveAsPath }, JsonRequestBehavior.AllowGet);
+        //}
+        
     }
 }

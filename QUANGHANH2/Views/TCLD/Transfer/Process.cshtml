@@ -2,363 +2,784 @@
     ViewData["Title"] = "Select";
     Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
 }
+<link href="~/assets/libs/toastr/build/toastr.min.css" rel="stylesheet">
+<style>
+
+    #toast-container {
+        min-width: 10%;
+        top: 0;
+        right: 50%;
+        transform: translateX(50%) translateY(50%);
+    }
+
+    #export-button {
+        float: right !important;
+    }
+</style>
 <div class="row" id="chondieuchuyen">
-    <div class="col m12">
-        <div class="card">
-            <div class="card-content">
-                <div class="row center">
-                    <div>
-                        <h3 class="center">ĐIỀU ĐỘNG NHÂN VIÊN</h3>
-                    </div>
-                    <div class="col l5 m12 s12 input-field">
-                        <input type="text" placeholder="Tìm kiếm theo mã nhân viên" class='form-control' id="searchArea" multiple />
-                    </div>
-                    <div class="col l5 m12 s12 input-field">
-                        <input type="text" placeholder="Tìm kiếm theo tên nhân viên" class='form-control' id="searchArea" multiple />
-                    </div>
-                    <div class="col l5 m12 s12 input-field">
-                        <select class="form-control" id="departure">
-                            <option value="" disabled selected>Chọn phòng ban</option>
-                            <option value="1">Phòng tổ chức lao động</option>
-                            <option value="2">Phòng cơ điện vận tải</option>
-                            <option value="2">Phòng an toàn</option>
-                            <option value="2">Phân xưởng khai thác 1</option>
-                            <option value="2">Phân xưởng khai thác 2</option>
-                            <option value="2">Phân xưởng khai thác 3</option>
-                            <option value="2">Phân xưởng khai thác 5</option>
-                            <option value="2">Phân xưởng đào lò 1</option>
-                            <option value="2">Phân xưởng đào lò 2</option>
-                            <option value="2">Phân xưởng đào lò 3</option>
-                            <option value="2">Phân xưởng đào lò 5</option>
-                        </select>
-                    </div>
-                    <div class="col l5 m12 s12 input-field">
-                        <select class="form-control" id="position">
-                            <option value="" disabled selected>Chọn phòng chức vụ</option>
-                            <option value="1">Trưởng phòng</option>
-                            <option value="2">Nhân viên kinh doanh</option>
-                            <option value="2">Phó quản đốc</option>
-                            <option value="2">Quản đốc</option>
-                        </select>
-                    </div>
-                    <div class="col l2 m12 s12 input-field">
-                        <button class="btn blue darken-2 btn-small" id="searchButton">Tìm kiếm</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div class="col m12">
         <div class="card">
-            <div class="card-content">
-
-                <div id="table-wrapper">
-                    <div>
-                        <div class="row">
-                            <table id="myTable" class="striped responsive-table table-bordered">
-                                <tr>
-                                    <th class="center">Số thứ tự</th>
-                                    <th class="center">Mã nhân viên</th>
-                                    <th class="center">Họ và tên</th>
-                                    <th class="center">Đơn vị hiện tại</th>
-                                    <th class="center">Chức vụ hiện tại</th>
-                                    <th class="center">Tình trạng sức khỏe</th>
-                                    <th class="center"></th>
-                                </tr>
-                                <tr>
-                                    <td class="center">1</td>
-                                    <td class="center">2179</td>
-                                    <td class="center">Nguyễn Xuân Thoảng</td>
-                                    <td class="center">Phân xưởng cơ khí</td>
-                                    <td class="center">Thợ sửa chữa</td>
-                                    <td class="center"><a id="sucKhoe" class="btn green darken-2">Tốt</a></td>
-                                    <td><a id="buttonChon" class="2179 btn blue darken-2">Chọn</a></td>
-                                </tr>
-                                <tr>
-                                    <td class="center">2</td>
-                                    <td class="center">7751</td>
-                                    <td class="center">Nguyễn Văn Hùng</td>
-                                    <td class="center">Phân xưởng phục vụ</td>
-                                    <td class="center">Kế toán</td>
-                                    <td class="center"><a id="sucKhoe" class="btn green darken-2">Tốt</a></td>
-                                    <td class="center"><a id="buttonChon" class="7751 btn blue darken-2">Chọn</a></td>
-                                </tr>
-                                <tr>
-                                    <td class="center">3</td>
-                                    <td class="center">3506</td>
-                                    <td class="center">Nguyễn Văn Hùng</td>
-                                    <td class="center">Phân xưởng đào lò</td>
-                                    <td class="center">Kế toán</td>
-                                    <td class="center"><a id="sucKhoe" class="btn green darken-2">Tốt</a></td>
-                                    <td class="center"><a id="buttonChon" class="3506 btn blue darken-2">Chọn</a></td>
-                                </tr>
-                                <tr>
-                                    <td class="center">4</td>
-                                    <td class="center">2041</td>
-                                    <td class="center">Nguyễn Văn Hưng</td>
-                                    <td class="center">Phân xưởng xây dựng</td>
-                                    <td class="center">Kế toán</td>
-                                    <td class="center"><a id="sucKhoe" class="btn green darken-2">Tốt</a></td>
-                                    <td class="center"><a id="buttonChon" class="2041 btn blue darken-2">Chọn</a></td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col m12" id="table2" hidden="hidden">
-        <div class="card">
-            <div class="card-content">
+            <div class="card-content wizard-content">
                 <div>
-                    <div class="row">
-                        <div id="table-wrapper2">
-
-                        </div>
-                    </div>
+                    <h3 class="center"><b>ĐIỀU ĐỘNG NHÂN VIÊN</b></h3>
                 </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<div class="row" id="chondiadiemthoigiandieuchuyen" style="display: none">
-    <div class="col m12">
-        <div class="card">
-            <div class="card-content">
-                <div class="row">
-                    <div class="center col s12 m12 l12">
-                        <h3>VỊ TRÍ ĐIỀU ĐỘNG</h3>
-                    </div>
-                    <div class="col s12 m2 l2">
-                        <input class="form-control" type="text" placeholder="Mã quyết định" />
-                    </div>
-                    <div class="input-field col x12 s12 m12 l12">
-                        <div class="table_container">
-                            <table class="striped table-responsive table-bordered" style="width:150%">
-                                <tr>
-                                    <th>Số thứ tự</th>
-                                    <th>Mã nhân viên</th>
-                                    <th>Họ và tên</th>
-                                    <th>Đơn vị hiện tại</th>
-                                    <th>Chức vụ hiện tại</th>
-                                    <th style="width: 200px">Bậc</th>
-                                    <th style="width: 200px">Mức lương</th>
-                                    <th style="width: 200px">Thang bậc lương</th>
-                                    <th style="width: 200px">Phụ cấp</th>
-                                    <th style="width: 500px">Đơn vị điều động</th>
-                                    <th style="width: 200px">Chức vụ điều động</th>
-                                    <th style="width:80px">Từ ngày</th>
-                                    <th style="width:80px">Đến ngày</th>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2179</td>
-                                    <td>Nguyễn Xuân Thoảng</td>
-                                    <td>Phân xưởng cơ khí</td>
-                                    <td>Thợ sửa chữa</td>
-                                    <td><input type="text" class="form-control" placeholder="Bậc" /></td>
-                                    <td><input type="text" class="form-control" placeholder="Lương" /></td>
-                                    <td><input type="text" class="form-control" placeholder="Thang" /></td>
-                                    <td><input type="text" class="form-control" placeholder="Phụ cấp" /></td>
-                                    <td>
-                                        <select class="form-control">
-                                            <option>Phân xưởng cơ khí</option>
-                                            <option>Phân xưởng đào lò</option>
-                                            <option>Phân xưởng phục vụ</option>
-                                            <option>Phân xưởng điện mỏ</option>
-                                            <option>Phân xưởng khai thác</option>
-                                            <option>Phân xưởng lộ thiên</option>
-                                            <option>Phân xưởng sàng tuyển</option>
-                                            <option>Phân xưởng thông gió quản lý mỏ</option>
-                                            <option>Phân xưởng vận tải</option>
-                                            <option>Phân xưởng xây dựng</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input type="text"  list="accounts" class="input100 form-control" placeholder="Chức vụ" />
-                                        <datalist id="accounts">
-                                            <option>Chánh văn phòng</option>
-                                            <option>Kế toán trưởng</option>
-                                            <option>Quản đốc</option>
-                                            <option>Trưởng phòng</option>
-                                        </datalist>
-                                    </td>
-                                    <!-- datepicker loi mau chu -->
-                                    <!--<td><input class="datepicker form-control" type="text"/></td>-->
-                                    <td><input class="datepicker-here center form-control" data-language='vi' value="mm/dd/yyyy" /></td>
-                                    <td><input class="datepicker-here center form-control" data-language='vi' value="mm/dd/yyyy" /></td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>7751</td>
-                                    <td>Nguyễn Văn Hùng</td>
-                                    <td>Phân xưởng phục vụ</td>
-                                    <td>Kế toán</td>
-                                    <td><input type="text" class="form-control" placeholder="Bậc" /></td>
-                                    <td><input type="text" class="form-control" placeholder="Lương" /></td>
-                                    <td><input type="text" class="form-control" placeholder="Thang" /></td>
-                                    <td><input type="text" class="form-control" placeholder="Phụ cấp" /></td>
-                                    <td>
-                                        <select class="form-control">
-                                            <option>Phân xưởng cơ khí</option>
-                                            <option>Phân xưởng đào lò</option>
-                                            <option>Phân xưởng phục vụ</option>
-                                            <option>Phân xưởng điện mỏ</option>
-                                            <option>Phân xưởng khai thác</option>
-                                            <option>Phân xưởng lộ thiên</option>
-                                            <option>Phân xưởng sàng tuyển</option>
-                                            <option>Phân xưởng thông gió quản lý mỏ</option>
-                                            <option>Phân xưởng vận tải</option>
-                                            <option>Phân xưởng xây dựng</option>
-                                        </select>
-                                    </td>
-                                    <td><input type="text" class="form-control" placeholder="Chức vụ" required /></td>
-                                    <!-- datepicker loi mau chu -->
-                                    <!--<td><input class="datepicker form-control" type="text"/></td>-->
-                                    <td><input class="datepicker-here center form-control" data-language='vi' value="mm/dd/yyyy" /></td>
-                                    <td><input class="datepicker-here center form-control" data-language='vi' value="mm/dd/yyyy" /></td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>3506</td>
-                                    <td>Nguyễn Văn Hùng</td>
-                                    <td>Phân xưởng đào lò</td>
-                                    <td>Kế toán</td>
-                                    <td><input type="text" class="form-control" placeholder="Bậc" /></td>
-                                    <td><input type="text" class="form-control" placeholder="Lương" /></td>
-                                    <td><input type="text" class="form-control" placeholder="Thang" /></td>
-                                    <td><input type="text" class="form-control" placeholder="Phụ cấp" /></td>
-                                    <td>
-                                        <select class="form-control">
-                                            <option>Phân xưởng cơ khí</option>
-                                            <option>Phân xưởng đào lò</option>
-                                            <option>Phân xưởng phục vụ</option>
-                                            <option>Phân xưởng điện mỏ</option>
-                                            <option>Phân xưởng khai thác</option>
-                                            <option>Phân xưởng lộ thiên</option>
-                                            <option>Phân xưởng sàng tuyển</option>
-                                            <option>Phân xưởng thông gió quản lý mỏ</option>
-                                            <option>Phân xưởng vận tải</option>
-                                            <option>Phân xưởng xây dựng</option>
-                                        </select>
-                                    </td>
-                                    <td><input type="text" class="form-control" placeholder="Chức vụ" /></td>
-                                    <!-- datepicker loi mau chu -->
-                                    <!--<td><input class="datepicker form-control" type="text"/></td>-->
-                                    <td><input class="center datepicker-here form-control" data-language='vi' value="mm/dd/yyyy" /></td>
-                                    <td><input class="center datepicker-here form-control" data-language='vi' value="mm/dd/yyyy" /></td>
-                                </tr>
+                <form action="#" class="validation-wizard wizard-circle m-t-40">
+                    <!-- Step 1 -->
+                    <h6>Chọn nhân viên</h6>
+                    <section>
+                        <div class="row" style="overflow-x:scroll  ;margin-bottom: 20px">
+                            <div class="row center">
+                                <div class="col l5 m12 s12 input-field">
+                                    <input type="text" placeholder="Tìm kiếm theo mã nhân viên" class='form-control' id="searchMa" multiple />
+                                </div>
+                                <div class="col l5 m12 s12 input-field">
+                                    <input type="text" placeholder="Tìm kiếm theo tên nhân viên" class='form-control' id="searchTen" multiple />
+                                </div>
+                                <div class="col l5 m12 s12 input-field">
+                                    <select class="form-control" id="phongbanSearch">
+                                        <option value="-1" selected>Phòng ban - Tất cả</option>
+                                        @foreach (var phongban in ViewBag.listPhongBan)
+                                        {
+                                            <option value="@phongban.department_id">@phongban.department_name</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col l5 m12 s12 input-field">
+                                    <select class="form-control" id="chucVuSearch">
+                                        <option value="-1"  selected>Chức vụ - Tất cả</option>
+                                        @foreach (var cv in ViewBag.listCongViec)
+                                        {
+                                            <option value="@cv.MaCongViec">@cv.TenCongViec</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col l2 m12 s12 input-field">
+                                    <button class="btn blue darken-2 btn-small" id="searchButton">Tìm kiếm</button>
+                                </div>
+                            </div>
+                            <br />
+                            <table id="nhanVienTable" class="table striped table-responsive table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Số thẻ</th>
+                                        <th>Họ và tên</th>
+                                        <th>Giới tính</th>
+                                        <th>Ngày sinh</th>
+                                        <th>Phân xưởng hiện tại</th>
+                                        <th>Chức vụ</th>
+                                        <th>Chọn</th>
+                                    </tr>
+                                </thead>
                             </table>
-                            <div class="col m12">
-                                <div class=" div-center custom-divider"></div>
+                        </div>
+                    </section>
+                    <!-- Step 2 -->
+                    <h6>Nhập thông tin điều động</h6>
+                    <section>
+                        <div class="row">
+                            <div class="center col s12 m12 l12">
+
                             </div>
-                            <div class="center">
-                                <a href='javascript:void(0);' class="btn red darken-2 modal-trigger" id="quaylaichondieuchuyen">Quay lại chọn điều động</a>
-                                <a href='#confirmTransfer' class="btn blue darken-2 modal-trigger">Xác nhận điều động</a>
+                            <div class="col s12 m2 l2">
+                                <input class="form-control" id="so-quyet-dinh" type="text" placeholder="Số quyết định" required />
+                            </div>
+                            <div class="col s12 m5 l5">
+                                <input id="ngay-quyet-dinh" class="thoigian datepicker-here center form-control" data-language='vi' placeholder="Ngày quyết định" />
+                            </div>
+                            <div class="input-field col x12 s12 m12 l12">
+                                <div class="table_container">
+                                    <table class="striped table table-responsive table-bordered" style="width:150%">
+                                        <thead>
+                                            <tr>
+                                                <th>Số thứ tự</th>
+                                                <th>Mã nhân viên</th>
+                                                <th>Họ và tên</th>
+                                                <th>Đơn vị hiện tại</th>
+                                                <th>Chức vụ hiện tại</th>
+                                                <th style="width: 150px">Đơn vị điều động</th>
+                                                <th width="200px">Chức vụ điều động</th>
+                                                <th style="width: 100px">Bậc</th>
+                                                <th style="width: 200px">Mức lương</th>
+                                                <th style="width: 200px">Thang bậc lương</th>
+                                                <th style="width: 200px">Phụ cấp</th>
+                                                <th style="width: 300px">Lý do điều động</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="selected-container">
+                                        </tbody>
+                                    </table>
+                                    <div class="col m12">
+                                        <div class=" div-center custom-divider"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </section>
+                    <!-- Step 3 -->
+                    <h6>Xác nhận điều động</h6>
+                    <section>
+                        <div class="row" style="overflow-x:scroll; margin-bottom:10px;">
+                            <h5>Số quyết định: <b id="maqd-preview"></b></h5>
+                            <div class="row" style="margin-bottom:10px">
+                                <div class="col l9 l9">
+                                    <h5>Ngày quyết định: <b id="ngayqd-preview"></b></h5>
+                                </div>
+                                <div class="col l3 m3">
+                                    <div class=" btn cyan left waves-effect waves-light" id="export-button">
+                                        <i class="fas fa-file-word"></i><span> Xuất Quyết định</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="striped responsive-table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Số thứ tự</th>
+                                        <th>Mã nhân viên</th>
+                                        <th>Họ và tên</th>
+                                        <th>Đơn vị hiện tại</th>
+                                        <th>Chức vụ hiện tại</th>
+                                        <th style="width: 500px">Đơn vị điều động</th>
+                                        <th style="width: 200px">Chức vụ điều động</th>
+                                        <th style="width: 200px">Thang bậc lương</th>
+                                        <th style="width: 200px">Phụ cấp</th>
+                                        <th style="width: 200px">Bậc</th>
+                                        <th style="width: 200px">Mức lương</th>
+                                        <th style="width: 300px">Lý do điều động</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="preview-table">
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </section>
+                    <!-- Step 4 -->
+                    @*<h6>Hoàn thành</h6>
+                        <section>
+                            <div class="row">
+
+                            </div>
+                        </section>*@
+                </form>
             </div>
         </div>
+
     </div>
+
 </div>
-<div class="modal" id="confirmTransfer">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title center">XÁC NHẬN ĐIỀU ĐỘNG</h3>
-        </div>
-        <div class="modal-body">
-            <table class="striped responsive-table table-bordered">
-                <tr>
-                    <th>Số thứ tự</th>
-                    <th>Mã nhân viên</th>
-                    <th>Họ và tên</th>
-                    <th>Đơn vị hiện tại</th>
-                    <th>Chức vụ hiện tại</th>
-                    <th style="width: 200px">Bậc</th>
-                    <th style="width: 200px">Mức lương</th>
-                    <th style="width: 200px">Thang bậc lương</th>
-                    <th style="width: 200px">Phụ cấp</th>
-                    <th style="width: 500px">Đơn vị điều động</th>
-                    <th style="width: 200px">Chức vụ điều động</th>
-                    <th style="width:80px">Từ ngày</th>
-                    <th style="width:80px">Đến ngày</th>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>2179</td>
-                    <td>Nguyễn Xuân Thoảng</td>
-                    <td>Phân xưởng cơ khí</td>
-                    <td>Thợ sửa chữa</td>
-                    <td>1/2</td>
-                    <td>1,000,000</td>
-                    <td></td>
-                    <td></td>
-                    <td>Phân xưởng đào lò</td>
-                    <td>Tổ trưởng tổ sửa chữa</td>
-                    <!-- datepicker loi mau chu -->
-                    <!--<td><input class="datepicker form-control" type="text"/></td>-->
-                    <td>19-06-2018</td>
-                    <td>19-06-2019</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>7751</td>
-                    <td>Nguyễn Văn Hùng</td>
-                    <td>Phân xưởng phục vụ</td>
-                    <td>Kế toán</td>
-                    <td>1/2</td>
-                    <td>1,000,000</td>
-                    <td></td>
-                    <td></td>
-                    <td>Phân xưởng lộ thiên</td>
-                    <td>Công nhân đào lò</td>
-                    <!-- datepicker loi mau chu -->
-                    <!--<td><input class="datepicker form-control" type="text"/></td>-->
-                    <td>19-06-2018</td>
-                    <td>19-06-2019</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>3506</td>
-                    <td>Nguyễn Văn Hùng</td>
-                    <td>Phân xưởng đào lò</td>
-                    <td>Kế toán</td>
-                    <td>1/2</td>
-                    <td>1,000,000</td>
-                    <td></td>
-                    <td></td>
-                    <td>Phân xưởng thông gió quản lý mỏ</td>
-                    <td>Phó quản đốc</td>
-                    <!-- datepicker loi mau chu -->
-                    <!--<td><input class="datepicker form-control" type="text"/></td>-->
-                    <td>19-06-2018</td>
-                    <td>19-06-2019</td>
-                </tr>
-            </table>
-        </div>
-        <div id="quyetdinhdieuchuyen" class="modal-footer">
-            <a href="javascript:void(0);" class="btn blue darken-2 left" id="export-button">Xuất Ra File Word</a>
-            <a href="@Url.Content("/phong-tcld/dieu-chuyen/chua-xu-li-dieu-chuyen")" class="btn blue darken-2 modal-close" id="update">Quyết định</a>
-            <a id="chinhsua" class="btn blue darken-2 modal-close">Chỉnh sửa</a>
-        </div>
-    </div>
-</div>
+
+
+
+
 <script src="~/js/Custom JS/TCLD/Transfer/Transfer_Select.js"></script>
 <script src="~/js/Custom JS/Disable_input_material.js"></script>
-<script>
-    $("#export-button").click(function () {
-        window.location.href = "/excel/TCLD/QuyetDinhDieuChuyen.doc";
-    });
-</script>
-
 
 <link href="~/dist/css/TABLE_BORDERED.css" rel="stylesheet" />
+<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+@section scripts{
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+        $("#pre-load").show("slow", function () {
+         });
+        $("#pre-load").css("z-index", "99999");
+        var Popup, dataTable;
+        @{
+            var listFromServer = "[]";
+            if (ViewBag.selectedList != null)
+            {
+                listFromServer = ViewBag.selectedList;
+            }
+         }
+        var arrCarSelected = JSON.parse("@listFromServer");
+        $(document).ready(function () {
+            dataTable = $('#nhanVienTable')
+                .on('preXhr.dt', function (e, settings, data) {
+                    $("#pre-load").show("slow", function () {
+                    });
+                    $("#pre-load").css("z-index", "99999");
+                    data.sessionId = "@ViewBag.id";
+                    data.selectList = JSON.stringify(arrCarSelected);
+                    data.searchMa = $("#searchMa").val();
+                    data.searchTen = $("#searchTen").val();
+                    data.phongbanSearch = $("#phongbanSearch").val();
+                    data.chucVuSearch = $("#chucVuSearch").val();
+
+                })
+                .DataTable({
+                    "ajax": {
+                        "url": "/phong-tcld/dieu-chuyen/tien-hanh-dieu-chuyen",
+                        "type": "POST",
+                        "datatype": "json"
+                        //"data": {
+                        //    "selectListJson": JSON.stringify(arrCarSelected),
+                        //    "searchMa": function () { return $("#searchMa").val()},
+                        //    "searchTen": function () { return $("#searchTen").val()},
+                        //    "phongbanSearch": function () { return $("#phongbanSearch").val(),},
+                        //    "chucVuSearch": function () { return $("#chucVuSearch").val()},
+                        //}
+                    },
+                    "drawCallback": function (settings) {
+                        $("#pre-load").hide("slow", function () {
+                        });
+
+                    },
+                    "columns": [
+                        { "data": "MaNV", "name": "MaNV", "searchable": true },
+                        { "data": "Ten", "name": "Ten" },
+                        {
+                            "data": "GioiTinh", "name": "GioiTinh",
+                            "render": function (data) {
+                                return data ? "Nam" : "Nữ";
+                            }
+                        },
+                        {
+                            "data": "NgaySinh", "name": "NgaySinh",
+                            "render": function (data) {
+                                var dateString = data.substr(6);
+                                var currentTime = new Date(parseInt(dateString ));
+                                var month = currentTime.getMonth() + 1;
+                                var day = currentTime.getDate();
+                                var year = currentTime.getFullYear();
+                                var date = day + "/" + month + "/" + year;
+                                return date;
+                            }
+                        },
+                        { "data": "department_name", "name": "department_name" },
+                        { "data": "TenCongViec", "name": "TenCongViec" },
+                        {
+                            "data": "MaNV", "render": function (data, type, full) {
+                                if (full.MaTrangThai != 1) {
+                                    return "<i>"+ full.TenTrangThai +"</i>";
+                                }
+                                if (arrCarSelected != null) {
+                                    for (let i = 0; i < arrCarSelected.length; i++)
+                                        if (arrCarSelected[i] == data) {
+                                            return "<label><input class='my_checkbox'  name='abc' id ='" + data + "' value='" + data + "' type ='checkbox' onclick=updateList('" + data + "') checked><span></span></label>";
+                                        }
+                                }
+                                return "<label><input class='my_checkbox'  name='abc' id ='" + data + "' value='" + data + "' type ='checkbox' onclick=updateList('" + data + "')><span></span></label>";
+                            },
+                            "orderable": false,
+                            "searchable": false,
+                            "width": "150px"
+                        }
+                    ],
+                    "serverSide": "true",
+                    "order": [4, "desc"],
+                    "searching": false,
+                    "bLengthChange": false,
+                    "autoWidth": false,
+                    "bFilter": true,
+                    "bInfo": false,
+                    "language": {
+                        emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                        paginate:
+                        {
+                            previous: "Trang trước",
+                            next: "Trang sau",
+                            first: "|<",
+                            last: ">|"
+                        }
+                    },
+                    "initComplete": function (settings, json) {
+
+                        $("#pre-load").hide("slow", function () {
+                        });
+                    }
+                });
+            $(".dataTables_paginate").css("float", "left");
+
+            $("#searchButton").click(function () {
+                dataTable.ajax.reload();
+            });
+
+            function changeState(value, state) {
+                $.ajax({
+                type: "POST",
+                    url: "/sua-chua/save-session/",
+                    data: {
+                    id: JSON.stringify(value),
+                        state: JSON.stringify(state)
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        alert("here" + data.d.toString());
+                    }
+                });
+            }
+        });
+        function updateList(id) {
+                isExist = false;
+                for (let i = 0; i < arrCarSelected.length; i++) {
+                    if (arrCarSelected[i] == id) {
+                        isExist = true;
+                        arrCarSelected.splice(i, 1);
+                        break;
+                    }
+                }
+                if (!isExist && id != "" && id != null) {
+                    arrCarSelected.push(id)
+            }
+            }
+        function sendData() {
+            $.each($("input[name='abc']:checked"), function () {
+                });
+            }
+    </script>
+    <script>
+        //Custom design form example
+        $(".tab-wizard").steps({
+            headerTag: "h6",
+            bodyTag: "section",
+            transitionEffect: "fade",
+            titleTemplate: '<span class="step">#index#</span> #title#',
+            labels: {
+                next: "Tiếp tục",
+                previous: "Quay lại",
+                finish: "Lưu"
+            },
+            onFinished: function (event, currentIndex) {
+                swal("Form Submitted!", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lorem erat eleifend ex semper, lobortis purus sed.");
+
+            }
+        });
+
+
+        var form = $(".validation-wizard").show();
+
+        $(".validation-wizard").steps({
+            headerTag: "h6",
+            bodyTag: "section",
+            transitionEffect: "fade",
+            titleTemplate: '<span class="step">#index#</span> #title#',
+            labels: {
+                next: "Tiếp tục",
+                previous: "Quay lại",
+                finish: "Xác nhận"
+            },
+            onStepChanging: function (event, currentIndex, newIndex) {
+                switch (newIndex) {
+                    case 0:
+                        if (currentIndex === 1) {
+                            return confirm('Mọi thay đổi của bạn sẽ không được lưu lại?');
+                        }
+                        break;
+                    case 1:
+                        if (currentIndex === 0) {
+                            if (arrCarSelected.length === 0) {
+                                toastr.error('Hãy chọn ít nhất một nhân viên', '');
+                                return false;
+                            } else {
+                                step2();
+                                return true;
+                            }
+                        } else {
+                            return true;
+                        }
+                        break;
+                    case 2:
+                        var a = validateThongTin();
+                        if (a === true) {
+                            step3();
+                        }
+                        return a;
+                        break;
+                }
+            },
+            onFinishing: function (event, currentIndex) {
+                confirmAlert(
+                'Xác nhận tạo quyết định?',
+                'Có thể xem lại quyết định đã tạo trong các mục quyết định đã/chưa xử lý',
+                function ahihi(){
+                  execute();
+                });
+            },
+            onFinished: function (event, currentIndex) {
+
+            }
+        }), $(".validation-wizard").validate({
+            ignore: "input[type=hidden]",
+            errorClass: "text-danger",
+            successClass: "text-success",
+            highlight: function (element, errorClass) {
+                $(element).removeClass(errorClass)
+            },
+            unhighlight: function (element, errorClass) {
+                $(element).removeClass(errorClass)
+            },
+            errorPlacement: function (error, element) {
+                error.insertAfter(element)
+            },
+            rules: {
+                email: {
+                    email: !0
+                }
+            }
+        })
+    </script>
+    <!------------------------------ WIZARD ------------------------------>
+    <!------------------------------ STEP2 ------------------------------>
+    <script>
+        //check selected index:
+        function step2() {
+            $("#pre-load").show("slow", function () {
+            });
+            $.ajax({
+                type: 'POST',
+                url: '/phong-tcld/dieu-chuyen/tien-hanh-dieu-chuyen-step-2',
+                data: { 'selectedList': JSON.stringify(arrCarSelected) },
+                dataType: 'json',
+                success: function (response) {
+                    if (response.success) {
+                        $("#so-quyet-dinh").empty();
+                        $("#selected-container").empty();
+                        var date = new Date();
+                        $("#ngay-quyet-dinh").val(date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear());
+                        var tagCV = "";
+                        tagCV += "<option value='-1' disabled selected>Chọn chức vụ</option>\n";
+                        for (var k = 0; k < response.cviecs.length; k++) {
+                            tagCV += "<option value=\"" + response.cviecs[k].MaCongViec + "\">" + response.cviecs[k].TenCongViec + "</option>\n";
+                        }
+                        for (var i = 0; i < response.data.length; i++) {
+                            var selectPhongBan = "";
+                            for (var j = 0; j < response.phongbans.length; j++) {
+                                if (response.phongbans[j].department_id !== response.data[i].MaPhongBan) {
+                                    selectPhongBan += "<option value=\"" + response.phongbans[j].department_id + "\">" + response.phongbans[j].department_name + "</option>\n";
+                                }
+                            }
+                            $("#selected-container").append("<tr>\n");
+                            $("#selected-container").append("<td>" + (i + 1) + "</td>\n");
+                            $("#selected-container").append("<td>" + response.data[i].MaNV + "</td>\n");
+                            $("#selected-container").append("<td>" + response.data[i].Ten + "</td>\n");
+                            $("#selected-container").append("<td>" + response.data[i].department_name + "</td>\n");
+                            $("#selected-container").append("<td>" + response.data[i].TenCongViec + "</td>\n");
+                            $("#selected-container").append("<td><select id=\"" + "donvi" + "-" + response.data[i].MaNV + "\" class=\"donvi form-control\">" + selectPhongBan + "</select></td>\n");
+                            $("#selected-container").append(" <td><select id=\"" + "chucvu" + "-" + response.data[i].MaNV + "\" class=\"chucvu form-control\">" + tagCV + "</select></td>\n");
+                            $("#selected-container").append("<td><input id=\"" + "bac" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"bac form-control\" placeholder=\"Bậc\" required/></td>\n");
+                            $("#selected-container").append("<td><input id=\"" + "luong" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"luong numberInput form-control\" placeholder=\"Lương\" required /></td>\n");
+                            $("#selected-container").append("<td><input id=\"" + "thang" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"thang  form-control\" placeholder=\"Thang\" disabled /></td>\n");
+                            $("#selected-container").append("<td><input id=\"" + "phucap" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"phucap numberInput form-control\" placeholder=\"Phụ cấp\" disabled /></td>\n");
+                            $("#selected-container").append("<td><input id=\"" + "lydo" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"lydo form-control\" placeholder=\"Lý do điều động\" /></td>\n");
+                            $("#selected-container").append(" </tr>\n");
+                        }
+                        //$(".date-chooser").removeClass("datepicker-here");
+                        $(".form-control").each(function () {
+                            $(this).attr('oninvalid', 'this.setCustomValidity(\"Please Enter valid email\")');
+                            $(this).attr('oninput', 'setCustomValidity(\"\")');
+                        });
+                        //$(".date-chooser").datepicker({
+                        //    language: 'vi',
+                        //    range: true,
+                        //    multipleDatesSeparator: '-'
+                        //});
+                        $(".date-chooser").data('datepicker');
+                        ////////////////////////////////////////THANG LUONG///////////////
+
+                        $(".chucvu").change(function () {
+                            var value = $(this).find(":selected").val();
+                            for (var n = 0; n < response.cviecs.length; n++) {
+                                if (response.cviecs[n].MaCongViec == value) {
+                                    $("#thang-" + $(this).attr('id').split('-')[1]).val(response.cviecs[n].ThangLuong);
+                                    $("#phucap-" + $(this).attr('id').split('-')[1]).val(AddComma(response.cviecs[n].PhuCap) === 'null' ? "0" : AddComma(response.cviecs[n].PhuCap));
+                                    break;
+                                }
+                            }
+                            //var b = $(this).attr('id').split('-');
+                            //$("#thang-" + $(this).attr('id').split('-')[1]).val(thangluong[a]);
+                        });
+
+                        //////////////////////////////////--VALIDATE--/////////////////////////////////////
+                        $(".numberInput").keydown(function (e) {
+                            var acceptList = [45, 35, 40, 34, 37, 9, 12, 39, 36, 38, 33, 8, 65, 86, 67, 90];
+                            for (var i = 48; i <= 57; i++) {
+                                acceptList.push(i);
+                            }
+                            if (acceptList.indexOf(e.keyCode) === -1) {
+                                e.preventDefault();
+                            }
+                        });
+                        $(".numberInput").keyup(function () {
+                            var text = $(this).val().toLowerCase();
+                            var doubleReg = /[+-]?([0-9]*[,])?[0-9]+$/;
+                            if (!doubleReg.test(text)) {
+                                $(this).val("");
+                            } else {
+                                $(this).val(AddComma(text));
+                            }
+                            text = $(this).val().toLowerCase();
+                        });
+                        $(".bac").keydown(function (e) {
+                            var acceptList = [45, 35, 40, 34, 37, 9, 12, 39, 36, 38, 33, 8];
+                            for (var i = 48; i <= 57; i++) {
+                                acceptList.push(i);
+                            }
+                            for (var i = 96; i <= 105; i++) {
+                                acceptList.push(i);
+                            }
+                            if (acceptList.indexOf(e.keyCode) === -1) {
+                                e.preventDefault();
+                            }
+                            if ($(this).val().length === 3) {
+                                $(this).val("");
+                            }
+                        });
+                        $(".bac").keyup(function (e) {
+                            var text = $(this).val();
+                            if (text.length === 1) {
+                                $(this).val(text + "/");
+                            }
+                        });
+                        //////////////////////CHU VU//////////////////////
+                        $(".chucvu").keydown(function (e) {
+                        });
+                        /////////////////////NGAY//////////////////////
+                        $(".thoigian").keydown(function (e) {
+                            e.preventDefault();
+                        });
+                        $("#pre-load").hide("slow", function () {
+                        });
+                    } else {
+
+                    }
+                },
+            })
+        }
+        //get list:
+    </script>
+    <!------------------------------ VALIDATE STEP 2 ------------------------------>
+    <script>
+        //validate function:
+        function validateThongTin() {
+            var rs = true;
+
+            //if ($("#so-quyet-dinh").val() === null || $("#so-quyet-dinh").val() === "") {
+            //    toastr.error('Số quyết định không được bỏ trống', '');
+            //    rs = false;
+            //    return rs;
+            //}
+
+            if (rs !== false) {
+                $(".numberInput").each(function () {
+                    if ($(this).val() === "" || $(this).val() === null) {
+                        toastr.error('Hãy nhập thông tin đầy đủ ', '');
+                        rs = false;
+                        return rs;
+                    }
+                });
+            }
+            if (rs !== false) {
+                $(".thang").each(function () {
+                    if ($(this).val() === "" || $(this).val() === null) {
+                        toastr.error('Hãy nhập thông tin đầy đủ ', '');
+                        rs = false;
+                        return rs;
+                    }
+                });
+            } if (rs !== false) {
+                $(".bac").each(function () {
+                    if ($(this).val() === "" || $(this).val() === null) {
+                        toastr.error('Hãy nhập thông tin đầy đủ ', '');
+                        rs = false;
+                        return rs;
+                    }
+                });
+            }
+
+            return rs;
+        }
+    </script>
+    <!------------------------------ STEP 3 ------------------------------>
+    <script>
+        function step3() {
+            $("#pre-load").show("slow", function () {
+            });
+            var selectedList = [];
+            for (var i = 0; i < arrCarSelected.length; i++) {
+                //var date = $("#thoigian-" + arrCarSelected[i]).val().split('-');
+               
+                var obj = {
+                    'SoQD': $("#so-quyet-dinh").val(),
+                    'MaNV': arrCarSelected[i],
+                    'BacLuong': $("#bac-" + arrCarSelected[i]).val(),
+                    'MucLuong': joinArr($("#luong-" + arrCarSelected[i]).val().split(',')),
+                    'ThangBacLuong': joinArr($("#thang-" + arrCarSelected[i]).val().split(',')),
+                    'PhuCap': joinArr($("#phucap-" + arrCarSelected[i]).val().split(',')),
+                    'DonViMoi': $("#donvi-" + arrCarSelected[i]+" :selected").text(),
+                    'ChucVu': {
+                        'maChucVu': $("#chucvu-" + arrCarSelected[i]).val(),
+                        'tenChucVu': $("#chucvu-" + arrCarSelected[i] + " :selected").text(),
+                    },
+                    'NgayQD': $("#ngay-quyet-dinh").val(),
+                    'LyDo': $("#lydo-" + arrCarSelected[i]).val()
+                }
+                selectedList.push(obj);
+            }
+            $.ajax({
+                type: 'Post',
+                url: '/phong-tcld/dieu-chuyen/tien-hanh-dieu-chuyen-step-3',
+                data: { selectedList: JSON.stringify(selectedList) },
+                dataType: 'json',
+                success: function (response) {
+                    if (response.success) {
+                        $("#maqd-preview").empty();
+                        $("#ngayqd-preview").empty();
+                        $("#preview-table").empty();
+                        $("#maqd-preview").append(response.data[0].SoQD === "" ? "Chưa có (lưu vào chờ xử lý)" : response.data[0].SoQD);
+                        $("#ngayqd-preview").append(response.data[0].NgayQD);
+                        for (var i = 0; i < response.data.length; i++) {
+                            $("#preview-table").append("<tr>\n");
+                            $("#preview-table").append("<td>" + (i + 1) + "</td>\n");
+                            $("#preview-table").append("<td>" + response.data[i].MaNV + "</td>\n");
+                            $("#preview-table").append("<td width=\"500px\">" + response.data[i].HoTen + "</td>\n");
+                            $("#preview-table").append("<td>" + response.data[i].DonViHienTai + "</td>\n");
+                            $("#preview-table").append("<td>" + response.data[i].ChucVuHienTai.tenChucVu + "</td>\n");                                    $("#preview-table").append("<td>" + response.data[i].DonViMoi + "</td>\n");
+                            $("#preview-table").append("<td>" + response.data[i].ChucVu.tenChucVu + "</td>\n");                 
+                            $("#preview-table").append("<td>" + AddComma(response.data[i].ThangBacLuong) + "</td>\n");
+                            $("#preview-table").append("<td>" + AddComma(response.data[i].PhuCap) + "</td>\n");
+                            $("#preview-table").append("<td>" + AddComma(response.data[i].BacLuong) + "</td>\n");
+                            $("#preview-table").append("<td>" + AddComma(response.data[i].MucLuong) + "</td>\n");
+                            $("#preview-table").append("<td>" + response.data[i].LyDo + "</td>\n");
+                            $("#preview-table").append(" </tr>\n");
+                        }
+                    }
+                    $("#pre-load").hide("slow", function () {
+                    });
+                }
+            });
+        }
+        function joinArr(res) {
+            var r = "";
+            for (var i = 0; i < res.length; i++) {
+                r += res[i];
+            }
+            return r;
+        }
+    </script>
+    <!------------------------------ CREATE QUYET DINH ------------------------------>
+    <script>
+        function execute() {
+            $("#pre-load").show("slow", function () {
+            });
+            var selectedList = [];
+            for (var i = 0; i < arrCarSelected.length; i++) {
+                //var date = $("#thoigian-" + arrCarSelected[i]).val().split('-');
+                var obj = {
+                    'SoQD': $("#so-quyet-dinh").val(),
+                    'MaNV': arrCarSelected[i],
+                    'BacLuong': $("#bac-" + arrCarSelected[i]).val(),
+                    'MucLuong': joinArr($("#luong-" + arrCarSelected[i]).val().split(',')),
+                    'ThangBacLuong': joinArr($("#thang-" + arrCarSelected[i]).val().split(',')),
+                    'PhuCap': joinArr($("#phucap-" + arrCarSelected[i]).val().split(',')),
+                    'DonViMoi': $("#donvi-" + arrCarSelected[i]).val(),
+                    'ChucVu': {
+                        'maChucVu': $("#chucvu-" + arrCarSelected[i]).val(),
+                        'tenChucVu': $("#chucvu-" + arrCarSelected[i] + " :selected").text(),
+                    },
+                    'NgayQD': $("#ngay-quyet-dinh").val(),
+                    'LyDo': $("#lydo-" + arrCarSelected[i]).val()
+                }
+                selectedList.push(obj);
+            }
+            $.ajax({
+                type: 'post',
+                url: '/phong-tcld/dieu-chuyen/thuc-hien-dieu-dong',
+                data: { selectedList: JSON.stringify(selectedList) },
+                dataType: 'json',
+                success: function (response) {
+                    if (response.success) {
+                        $("#pre-load").hide("slow", function () {
+                        });
+                        reloadAlert('Tạo quyết định thành công',3000);
+                    } else {
+                        $("#pre-load").hide("slow", function () {
+                        });
+                        errorAlert(response.message,'');
+                    }
+                }
+            });
+        }
+    </script>
+    <!------------------------------ VALIDATE FUNCTIONS ------------------------------>
+    <script>
+        function AddComma(Num) { //function to add commas to textboxes
+            Num += '';
+            Num = Num.replace(',', ''); Num = Num.replace(',', ''); Num = Num.replace(',', '');
+            Num = Num.replace(',', ''); Num = Num.replace(',', ''); Num = Num.replace(',', '');
+            x = Num.split('.');
+            x1 = x[0];
+            x2 = x.length > 1 ? '.' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1))
+                x1 = x1.replace(rgx, '$1' + ',' + '$2');
+            return x1 + x2;
+        }
+    </script>
+
+    <!------------------------------ EXPORT HANDLER ------------------------------>
+    <script>
+        $("#export-button").click(function () {
+            $("#pre-load").show("slow", function () {
+            });
+            var selectedList = [];
+            for (var i = 0; i < arrCarSelected.length; i++) {
+                //var date = $("#thoigian-" + arrCarSelected[i]).val().split('-');
+                selectedList.push({
+                    'SoQD': $("#so-quyet-dinh").val(),
+                    'MaNV': arrCarSelected[i],
+                    'HoTen': "",
+                    'DonViHienTai': "",
+                    'ChucVuHienTai': "",
+                    'BacLuong': $("#bac-" + arrCarSelected[i]).val(),
+                    'MucLuong': $("#luong-" + arrCarSelected[i]).val(),
+                    'ThangBacLuong': $("#thang-" + arrCarSelected[i]).val(),
+                    'PhuCap': $("#phucap-" + arrCarSelected[i]).val(),
+                    'DonViMoi': $("#donvi-" + arrCarSelected[i]).val(),
+                    'ChucVu': {
+                        'maChucVu': $("#chucvu-" + arrCarSelected[i]).val(),
+                        'tenChucVu': $("#chucvu-" + arrCarSelected[i] + " :selected").text(),
+                    },
+                    'NgayQD': $("#ngay-quyet-dinh").val(),
+                    'LyDo': $("#lydo-" + arrCarSelected[i]).val()
+                });
+            }
+            //var urlToSend = '/phong-tcld/dieu-chuyen/export-quyet-dinh';
+            //var req = new XMLHttpRequest();
+            //req.open("POST", urlToSend, true);
+            //req.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+            //req.responseType = "blob";
+            //req.onload = function (event) {
+            //    console.log(req.response);
+            //    var blob = req.response;
+            //    var fileName = "quyetdinh-dieudong.docx";
+            //    var link = document.createElement('a');
+            //    link.href = window.URL.createObjectURL(blob);
+            //    link.download = fileName;
+            //    link.click();
+            //};
+            //$("#pre-load").hide("slow", function () {
+            //});
+            //req.send(JSON.stringify(selectedList));
+            $.ajax({
+                type: 'Post',
+                url: '/phong-tcld/dieu-chuyen/export-quyet-dinh',
+                data: { selectedList: JSON.stringify(selectedList) },
+                dataType: 'json',
+                success: function (response) {
+                    if (response.success) {
+                        window.location.href = response.location;
+                        $("#pre-load").hide("slow", function () {
+                        });
+
+                    } else {
+                        alert("error");
+                    }
+                }
+            });
+
+        });
+    </script>
+    <script src="~/assets/libs/toastr/build/toastr.min.js"></script>
+    <script src="~/assets/extra-libs/toastr/toastr-init.js"></script>
+}  <!-- This page plugin js -->
+<!-- ============================================================== -->

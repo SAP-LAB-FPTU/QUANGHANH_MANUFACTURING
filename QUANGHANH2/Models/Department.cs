@@ -18,15 +18,13 @@ namespace QUANGHANH2.Models
         public Department()
         {
             this.DiemDanh_NangSuatLaoDong = new HashSet<DiemDanh_NangSuatLaoDong>();
-            this.Documentary_repair_details = new HashSet<Documentary_repair_details>();
+            this.Documentaries = new HashSet<Documentary>();
+            this.Documentary_big_maintain_details = new HashSet<Documentary_big_maintain_details>();
+            this.Documentary_big_maintain_details1 = new HashSet<Documentary_big_maintain_details>();
             this.Documentary_maintain_details = new HashSet<Documentary_maintain_details>();
             this.Documentary_big_maintain_details = new HashSet<Documentary_big_maintain_details>();
             this.Documentary_moveline_details = new HashSet<Documentary_moveline_details>();
             this.Documentary_repair_details1 = new HashSet<Documentary_repair_details>();
-            this.Documentary_maintain_details1 = new HashSet<Documentary_maintain_details>();
-            this.Documentary_big_maintain_details1 = new HashSet<Documentary_big_maintain_details>();
-            this.Documentary_moveline_details1 = new HashSet<Documentary_moveline_details>();
-            this.Documentaries = new HashSet<Documentary>();
             this.Equipments = new HashSet<Equipment>();
             this.Incidents = new HashSet<Incident>();
             this.KeHoach_TieuChi = new HashSet<KeHoach_TieuChi>();
@@ -46,7 +44,11 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DiemDanh_NangSuatLaoDong> DiemDanh_NangSuatLaoDong { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documentary_repair_details> Documentary_repair_details { get; set; }
+        public virtual ICollection<Documentary> Documentaries { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Documentary_big_maintain_details> Documentary_big_maintain_details { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Documentary_big_maintain_details> Documentary_big_maintain_details1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Documentary_maintain_details> Documentary_maintain_details { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -61,8 +63,6 @@ namespace QUANGHANH2.Models
         public virtual ICollection<Documentary_big_maintain_details> Documentary_big_maintain_details1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Documentary_moveline_details> Documentary_moveline_details1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documentary> Documentaries { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Equipment> Equipments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

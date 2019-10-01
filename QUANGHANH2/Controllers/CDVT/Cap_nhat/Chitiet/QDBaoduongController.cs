@@ -99,11 +99,6 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
                             DBContext.Acceptances.Add(a);
                             DBContext.SaveChanges();
                         }
-                        if (DBContext.Database.SqlQuery<Documentary_maintain_detailsDB>("select details.equipment_maintain_status from Department depa inner join Documentary docu on depa.department_id = docu.department_id inner join Documentary_maintain_details details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 2 and details.documentary_id = @documentary_id and equipment_maintain_status = '0'", new SqlParameter("documentary_id", id)).Count() == 0)
-                        {
-                            Documentary docu = DBContext.Documentaries.Find(idnumber);
-                            docu.documentary_status = 2;
-                        }
 
                         DBContext.SaveChanges();
                         transaction.Commit();
@@ -118,6 +113,27 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
                 }
             }
             return new HttpStatusCodeResult(201);
+        }
+
+        [Auther(RightID = "86")]
+        [Route("phong-cdvt/cap-nhat/quyet-dinh/bao-duong/done")]
+        [HttpPost]
+        public ActionResult done(string id)
+        {
+            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            int idnumber = int.Parse(id);
+            if (DBContext.Database.SqlQuery<Documentary_maintain_detailsDB>("select details.equipment_maintain_status from Department depa inner join Documentary docu on depa.department_id = docu.department_id inner join Documentary_maintain_details details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 2 and details.documentary_id = @documentary_id and equipment_maintain_status = '0'", new SqlParameter("documentary_id", id)).Count() == 0)
+            {
+                Documentary docu = DBContext.Documentaries.Find(idnumber);
+                docu.documentary_status = 2;
+                DBContext.SaveChanges();
+                return new HttpStatusCodeResult(201);
+            }
+            else
+            {
+                Response.Write("Bạn không thể chuyển trạng thái quyết định khi chưa nhận đủ thiết bị");
+                return new HttpStatusCodeResult(400);
+            }
         }
     }
 }
