@@ -1,10 +1,12 @@
 ﻿
+using Newtonsoft.Json.Linq;
 using OfficeOpenXml;
 using QUANGHANH2.Models;
 using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Linq.Dynamic;
@@ -239,7 +241,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                        join nv in db.NhanViens on ctbc.MaNV equals nv.MaNV
                                        join bc in db.BangCap_GiayChungNhan on ctbc.MaBangCap_GiayChungNhan equals bc.MaBangCap_GiayChungNhan
                                        join truong in db.Truongs on bc.MaTruong equals truong.MaTruong
-                                       join cn in db.ChuyenNganhs on bc.MaChuyenNghanh equals cn.MaChuyenNganh
+                                       join cn in db.ChuyenNganhs on bc.MaChuyenNganh equals cn.MaChuyenNganh
                                        join nganh in db.Nganhs on cn.MaNganh equals nganh.MaNganh
                                        where
                                         ctbc.MaNV == id_
