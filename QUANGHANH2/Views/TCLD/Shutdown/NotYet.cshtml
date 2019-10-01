@@ -75,7 +75,11 @@
             <div class="modal-body row">
                 <div class="col s3 m3 l3">
                     <input class="form-control" id="soqd" placeholder="Số quyết định" name="SoQD" />
+
                     <br />
+                </div>
+                <div class="col s3 m3 l3">
+                    <p id="message" style="display: none !important ">Mã nhân viên bị trùng</p>
                 </div>
                 <div>
                     <table class="table-bordered">
@@ -93,7 +97,7 @@
             </div>
             <div class="modal-footer">
                 <input type="hidden" name="id" id="MaQD" />
-                <button type="submit" class="waves-effect waves-light btn blue darken-2 btn-small modal-close">Thêm</button>
+                <button type="submit" id="them" disabled class="waves-effect waves-light btn blue darken-2 btn-small modal-close">Thêm</button>
                 <a class="waves-effect waves-light btn blue darken-2 btn-small modal-close">Hủy</a>
             </div>
         </div>
@@ -305,7 +309,7 @@
         //        });
         //    }
 
-      
+
         function detail(id) {
             $("#MaQD").val(id);
             $("#soqd").empty();
@@ -416,5 +420,35 @@
             }
             return false;
         }
+
+
+
+        $('#soqd').blur(function () {
+        $.ajax({
+            url:'@Url.Action("validateID", "ShutDown")',
+            type: "POST",
+            data: { id: $(this).val() },
+            success: (response) => {
+                if (response.success) {
+                    $('#message').show();
+                    $('#them').attr("type", "");
+                     $('#them').attr("disabled", true);
+
+                } else {
+                    $('#message').hide();
+                     $('#them').attr("type", "submit");
+                     $('#them').attr("disabled", false);
+                }
+            },
+            error: (response) => {
+
+            },
+        })
+    })
     </script>
 }
+<script>
+    $(".datepicker-here").keydown(function (e) {
+        e.preventDefault();
+    });
+</script>

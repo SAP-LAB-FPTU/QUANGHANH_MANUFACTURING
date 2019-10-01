@@ -54,7 +54,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 "on q.MaQuyetDinh = cd.MaQuyetDinh where cd.LoaiChamDut is not null and q.SoQuyetDinh != '' and ";
             if (!NgayQuyetDinh.Equals(""))
             {
-                string[] fixDate1 = NgayQuyetDinh.Split('/');
+                string[] fixDate1 = NgayQuyetDinh.ToString().Split('/');
                 dateQDFixed = fixDate1[1] + "/" + fixDate1[0] + "/" + fixDate1[2];
                 if (!NgayQuyetDinh.Equals("")) query += "q.NgayQuyetDinh = @NgayQD AND ";
             }
@@ -232,6 +232,23 @@ namespace QUANGHANH2.Controllers.TCLD
                 catch (Exception)
                 {
                     dbct.Rollback();
+                    return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                }
+            }
+        }
+
+        [HttpPost]
+        public ActionResult validateID(string id)
+        {
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                QuyetDinh nv = db.QuyetDinhs.Where(x => x.SoQuyetDinh == id).FirstOrDefault<QuyetDinh>();
+                if (nv != null)
+                {
+                    return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
                     return Json(new { success = false }, JsonRequestBehavior.AllowGet);
                 }
             }
