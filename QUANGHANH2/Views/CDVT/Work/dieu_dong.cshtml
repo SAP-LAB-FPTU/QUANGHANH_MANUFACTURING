@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "đieuong";
+    ViewData["Title"] = "dieudong";
     Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
 }
 
@@ -152,6 +152,15 @@
                                 }
                                 if (data == 12) {
                                     return "<p> Đến hạn bảo dưỡng </p>"
+                                }
+                                if (data == 13) {
+                                    return "Mới mua"
+                                }
+                                if (data == 14) {
+                                    return "Cấp mới"
+                                }
+                                if (data == 15) {
+                                    return "Đang tiểu tu"
                                 }
                                 else {
                                     return data;
