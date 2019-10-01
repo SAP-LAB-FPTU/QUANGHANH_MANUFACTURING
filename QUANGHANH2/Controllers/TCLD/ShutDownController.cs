@@ -1,4 +1,5 @@
 ﻿using QUANGHANH2.Models;
+using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -26,6 +27,7 @@ namespace QUANGHANH2.Controllers.TCLD
             public string MaNV { get; set; }
 
         }
+        [Auther(RightID="127")]
         // GET: ShutDown
         [Route("phong-tcld/quan-ly-nhan-vien/da-xu-ly-cham-dut")]
         [HttpGet]
@@ -34,7 +36,7 @@ namespace QUANGHANH2.Controllers.TCLD
             ViewBag.nameDepartment = "baohiem";
             return View("/Views/TCLD/Shutdown/Did.cshtml");
         }
-
+        [Auther(RightID = "127")]
         [Route("phong-tcld/quan-ly-nhan-vien/da-xu-ly-cham-dut")]
         [HttpPost]
         public ActionResult DidList(string NgayQuyetDinh, string SoQuyetDinh, string NgayChamDut)
@@ -106,7 +108,7 @@ namespace QUANGHANH2.Controllers.TCLD
             return Json(list, JsonRequestBehavior.AllowGet);
 
         }
-
+        [Auther(RightID="128")]
         [Route("deleteDetail")]
         [HttpPost]
         public JsonResult DidDetailDel(string id)
@@ -139,7 +141,41 @@ namespace QUANGHANH2.Controllers.TCLD
 
             }
         }
+        [Auther(RightID="126")]
+        [Route("deleteNotYet")]
+        [HttpPost]
+        public JsonResult NotYetDelete(string id)
+        {
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            db.Configuration.LazyLoadingEnabled = false;
+            using (DbContextTransaction dbct = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    string query3 = "select cd.* from ChamDut_NhanVien cd inner join NhanVien nv on cd.MaNV = nv.MaNV inner join QuyetDinh q on q.MaQuyetDinh = cd.MaQuyetDinh where cd.MaQuyetDinh = " + id;
+                    List<ChamDut_NhanVien> list = db.Database.SqlQuery<ChamDut_NhanVien>(query3).ToList();
+                    string query4 = "update NhanVien set MaTrangThai = 1 where MaNV = " + list[0].MaNV;
+                    db.Database.ExecuteSqlCommand(query4);
 
+                    string query1 = "delete from ChamDut_NhanVien where MaQuyetDinh = " + id;
+                    db.Database.ExecuteSqlCommand(query1);
+                    string query2 = "delete from QuyetDinh where MaQuyetDinh = " + id;
+                    db.Database.ExecuteSqlCommand(query2);
+                    //db.SaveChanges();
+                    dbct.Commit();
+                    return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+
+                }
+                catch (Exception)
+                {
+                    dbct.Rollback();
+                    return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                }
+
+            }
+        }
+
+        [Auther(RightID="124")]
         [Route("phong-tcld/quan-ly-nhan-vien/chua-xu-ly-cham-dut")]
         [HttpGet]
         public ActionResult NotYet()
@@ -147,7 +183,7 @@ namespace QUANGHANH2.Controllers.TCLD
             return View("/Views/TCLD/Shutdown/NotYet.cshtml");
         }
 
-
+        [Auther(RightID = "124")]
         [Route("phong-tcld/quan-ly-nhan-vien/chua-xu-ly-cham-dut")]
         [HttpPost]
         public ActionResult NotYetList(string MaQuyetDinh, string NgayChamDut)
@@ -210,6 +246,7 @@ namespace QUANGHANH2.Controllers.TCLD
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
+        [Auther(RightID = "125")]
         [Route("UpdateSoQD")]
         [HttpPost]
         public JsonResult UpdateSoQD(string id, string SoQD)
