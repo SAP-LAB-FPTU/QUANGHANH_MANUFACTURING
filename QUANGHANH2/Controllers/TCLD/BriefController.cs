@@ -15,6 +15,7 @@ using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Script.Serialization;
+using System.Data.SqlClient;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -34,12 +35,232 @@ namespace QUANGHANHCORE.Controllers.TCLD
             return View("/Views/TCLD/Brief/ManageBrief/Inside.cshtml");
         }
 
-        [Route("phong-tcld/quan-ly-ho-so/chuan-hoa-ten")]
-        public ActionResult Regulation()
+
+
+
+        /// /////////////////////////Long/////////////////////////////////////////////
+
+        [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to")]
+        IEnumerable<NhanVien> getAllNhanVien()
         {
-            ViewBag.nameDepartment = "quanlyhoso";
-            return View("/Views/TCLD/Brief/ManageBrief/Regulations.cshtml");
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                return db.NhanViens.ToList<NhanVien>();
+            }
         }
+        //[HttpPost]
+        //public ActionResult GetAllDocuments()
+        //{
+        //    int start = Convert.ToInt32(Request["start"]);
+        //    int length = Convert.ToInt32(Request["length"]);
+        //    string searchValue = Request["search[value]"];
+        //    string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+        //    string sortDirection = Request["order[0][dir]"];
+        //    using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+        //    {
+        //        db.Configuration.LazyLoadingEnabled = false;
+        //        List<TenNV> list = db.Database.SqlQuery<TenNV>("select n.Ten,g.* from GiayTo g, NhanVien n where g.MaNV = n.MaNV").ToList<TenNV>();
+        //        ViewBag.giaytolist = list;
+        //        int totalrows = list.Count;
+        //        int totalrowsafterfiltering = list.Count;
+        //        //sorting
+        //        list = list.OrderBy(sortColumnName + " " + sortDirection).ToList<TenNV>();
+        //        //paging
+        //        list = list.Skip(start).Take(length).ToList<TenNV>();
+        //        return Json(new { success = true, data = list, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
+        public class TenNV : GiayTo
+        {
+            public string Ten { get; set; }
+        }
+        //Sửa giấy tờ
+
+        [HttpPost]
+        public ActionResult suaGiayTo(GiayTo document)
+        {
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                try
+                {
+                    db.Entry(document).State = EntityState.Modified;//
+                    db.SaveChanges();
+
+                    return RedirectToAction("GetAllDocuments");
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
+                }
+
+            }
+
+
+        }
+        [HttpGet]
+        public ActionResult suaGiayTo(string id)
+        {
+
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                //tạo data bên popup của sửa giấy tờ
+                List<SelectListItem> KieuGT = new List<SelectListItem>
+                    {
+                        new SelectListItem { Text = "Gốc", Value = "Gốc" },
+                        new SelectListItem { Text = "Dấu đỏ", Value = "Dấu đỏ" },
+                        new SelectListItem { Text = "Sao,Công chứng", Value = "Sao,Công chứng" },
+                        new SelectListItem { Text = "Photo", Value = "Photo" }
+                    };
+                ViewBag.kindODoc = KieuGT;
+                GiayTo doc = new GiayTo();
+                var documents = db.GiayToes.ToList<GiayTo>();
+                doc = db.GiayToes.Where(x => x.MaGiayTo.ToString() == id).FirstOrDefault<GiayTo>();
+                return View(doc);
+            }
+        }
+        //thêm giấy tờ
+        [HttpGet]
+        public ActionResult themGiayTo()
+        {
+            List<SelectListItem> listNV = new List<SelectListItem>();
+
+            var a = getAllNhanVien();
+            foreach (NhanVien nvs in a)
+            {
+                listNV.Add(new SelectListItem { Text = nvs.MaNV, Value = nvs.Ten });
+            }
+            ViewBag.nhanvien = listNV;
+            List<SelectListItem> KieuGT = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Gốc", Value = "Gốc" },
+                new SelectListItem { Text = "Dấu đỏ", Value = "Dấu đỏ" },
+                new SelectListItem { Text = "Sao,Công chứng", Value = "Sao,Công chứng" },
+                new SelectListItem { Text = "Photo", Value = "Photo" }
+            };
+            ViewBag.kindODoc = KieuGT;
+            return View(new GiayTo());
+        }
+        [HttpPost]
+        public ActionResult themGiayTo(GiayTo g)
+        {
+
+            var a = getAllNhanVien();
+            ViewBag.nhanvien = a;
+
+
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                try
+                {
+
+                    db.GiayToes.Add(g);
+                    db.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+
+                    return Json(new { message = "Failed" }, JsonRequestBehavior.AllowGet);
+
+                }
+            }
+
+            return RedirectToAction("Inside");
+
+        }
+        //check id của nhân viên
+        [HttpPost]
+        public ActionResult validateID(string id)
+        {
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                NhanVien nv = db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault<NhanVien>();
+                if (nv == null)
+                {
+                    return Json(new { success = true, responseText = "id has been exist" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { success = false, responseText = nv.Ten }, JsonRequestBehavior.AllowGet);
+                }
+            }
+        }
+
+
+        [HttpPost, ActionName("Delete")]
+        public ActionResult DeleteDoc(int id)
+        {
+            //id = id.Substring(1, id.Length - 2);
+            //nameOfDoc = nameOfDoc.Substring(1, nameOfDoc.Length - 2);
+            try
+            {
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    GiayTo emp = db.GiayToes.Where(x => x.MaGiayTo == id).FirstOrDefault<GiayTo>();
+                    db.GiayToes.Remove(emp);
+                    db.SaveChanges();
+                    List<GiayTo> list = db.Database.SqlQuery<TenNV>("select n.Ten,g.* from GiayTo g, NhanVien n where g.MaNV = n.MaNV").ToList<GiayTo>();
+                    return Json(new { success = true, responseText = "Your message successfuly sent!", list }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false, responseText = "The attached file is not supported." }, JsonRequestBehavior.AllowGet);
+            }
+        }
+             [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to")]
+        [HttpPost]
+        public ActionResult Search(string MaNV, string TenNV, string TenGT, string KieuGT)
+        {
+            int start = Convert.ToInt32(Request["start"]);
+            int length = Convert.ToInt32(Request["length"]);
+            string searchValue = Request["search[value]"];
+            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+            string sortDirection = Request["order[0][dir]"];
+            string query = "select n.Ten,g.* from GiayTo g, NhanVien n where g.MaNV = n.MaNV AND ";
+            if (!MaNV.Equals("") || !TenNV.Equals("") || !TenGT.Equals("") || !KieuGT.Equals(""))
+            {
+                if (!MaNV.Equals("")) query += "n.MaNV LIKE @MaNV AND ";
+                if (!TenNV.Equals("")) query += "n.Ten LIKE @Ten AND ";
+                if (!TenGT.Equals("")) query += "g.TenGiayTo LIKE @TenGiayTo AND ";
+                if (!KieuGT.Equals("")) query += "g.KieuGiayTo LIKE @KieuGiayTo AND ";
+            }
+            query = query.Substring(0, query.Length - 5);
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            db.Configuration.LazyLoadingEnabled = false;
+            string kieuGT = "";
+            if (KieuGT.Equals("goc"))
+            {
+                kieuGT = "Gốc";
+            }
+            else if (KieuGT.Equals("daudo"))
+            {
+                kieuGT = "Dấu đỏ";
+            }
+            else if (KieuGT.Equals("sao"))
+            {
+                kieuGT = "Sao,Công chứng";
+            }
+            else
+            {
+                kieuGT = "Photo";
+            }
+            List<TenNV> searchList = db.Database.SqlQuery<TenNV>(query,
+                new SqlParameter("MaNV", '%' + MaNV + '%'),
+                new SqlParameter("Ten", '%' + TenNV + '%'),
+                new SqlParameter("TenGiayTo", '%' + TenGT + '%'),
+                new SqlParameter("KieuGiayTo", kieuGT)
+                ).ToList();
+            int totalrows = searchList.Count;
+            int totalrowsafterfiltering = searchList.Count;
+            //sorting
+            searchList = searchList.OrderBy(sortColumnName + " " + sortDirection).ToList<TenNV>();
+            //paging
+            searchList = searchList.Skip(start).Take(length).ToList<TenNV>();
+
+            return Json(new { data = searchList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+
+        }
+        /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //listByThuong
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty")]
