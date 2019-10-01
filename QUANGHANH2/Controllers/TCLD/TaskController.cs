@@ -572,7 +572,8 @@ namespace QUANGHANH2.Controllers.TCLD
             return View("/Views/TCLD/Task/ReportJob.cshtml");
         }
 
-        [HttpGet]
+        [Auther(RightID = "141")]
+        [HttpPost]
         public ActionResult getGiaHanPopUpInfo(string maNV, int maCC)
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
@@ -604,38 +605,6 @@ namespace QUANGHANH2.Controllers.TCLD
             }
         }
 
-        [HttpGet]
-        public ActionResult getThemMoiPopUpInfo(string maNV, int maCC)
-        {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-            {
-                var temp = (from ccnv in db.ChungChi_NhanVien
-                            join
-                            nv in db.NhanViens on ccnv.MaNV equals nv.MaNV
-                            join cc in db.ChungChis
-                            on ccnv.MaChungChi equals cc.MaChungChi
-                            where nv.MaNV.Equals(maNV) && ccnv.MaChungChi == maCC
-                            select new
-                            {
-                                TenNhanVien = nv.Ten,
-                                TenChungChi = cc.TenChungChi,
-                                SoHieu = ccnv.SoHieu,
-                                MaNhanVien = nv.MaNV,
-                                MaChungChi = cc.MaChungChi
-                            }).ToList();
-
-                List<ChungChi_NhanVien_Model> dt = temp.Select(p => new ChungChi_NhanVien_Model
-                {
-                    TenNV = p.TenNhanVien,
-                    TenChungChi = p.TenChungChi,
-                    SoHieu = p.SoHieu
-                                                                        ,
-                    MaNV = p.MaNhanVien,
-                    MaChungChi = p.MaChungChi
-                }).ToList();
-                return Json(new { success = true, data = dt }, JsonRequestBehavior.AllowGet);
-            }
-        }
 
         [Auther(RightID = "142")]
         [HttpPost]
