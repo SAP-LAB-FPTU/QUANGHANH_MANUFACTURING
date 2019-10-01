@@ -408,6 +408,7 @@
     <Compile Include="Models\Incident.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\InsideExcel.cs" />
     <Compile Include="Models\KeHoach_TieuChi.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -6865,13 +6866,6 @@
     <Content Include="excel\TCLD\download\Danh_sách_nhân_viên.xlsx" />
     <Content Include="excel\TCLD\download\Báo cáo năng suất lao động và tiền lương theo các phân xưởng theo ngày.xlsx" />
     <Content Include="excel\TCLD\Report\Báo cáo năng suất lao động và tiền lương theo các phân xưởng theo ngày.xlsx" />
-    <EntityDeploy Include="Models\Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Content>
     <Content Include="excel\TCLD\Hoso\ho-so-ngoai.xlsx" />
     <Content Include="excel\TCLD\suat-an\Báo cáo lao động Ngày 19-08-2019.xls" />
     <Content Include="excel\TCLD\suat-an\suat-an.xlsx" />
@@ -6881,6 +6875,13 @@
     <Content Include="doc\TCLD\dieudong\nhieunguoi\dieudong-template.docx" />
     <Content Include="doc\TCLD\dieudong\quyetdinh-dieudong.docx" />
     <Content Include="doc\TCLD\dieudong\temp.docx" />
+    <EntityDeploy Include="Models\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
