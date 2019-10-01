@@ -274,6 +274,7 @@
     <Compile Include="Controllers\PX\PXKT\PXKTController.cs" />
     <Compile Include="Controllers\TCLD\BonusAnDesciplineController.cs" />
     <Compile Include="Controllers\TCLD\BriefController.cs" />
+    <Compile Include="Controllers\TCLD\BriefRegulationController.cs" />
     <Compile Include="Controllers\TCLD\CertificateController.cs" />
     <Compile Include="Controllers\TCLD\DiplomaController.cs" />
     <Compile Include="Controllers\TCLD\EatingController.cs" />
