@@ -420,7 +420,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     ((DieuDongModel)result[i]).DonViHienTai = getInfo[i].MaPhongBan;
                     ((DieuDongModel)result[i]).ChucVuHienTai = new ChucVuModel(getInfo[i].MaCongViec.ToString(), getInfo[i].TenCongViec);
                     ((DieuDongModel)result[i]).BacLuongCu = getInfo[i].BacLuong;
-                    ((DieuDongModel)result[i]).MucLuongCu = getInfo[i].MucLuong.ToString();
+                        ((DieuDongModel)result[i]).MucLuongCu = getInfo[i].MucLuong.ToString();
                 }
             }
             List<DieuDongModel> listNhanVien = new List<DieuDongModel>();
@@ -633,12 +633,12 @@ namespace QUANGHANHCORE.Controllers.TCLD
             string sql = "select \n" +
                        "tb1.MaQuyetDinh,tb1.SoQuyetDinh,tb1.NgayQuyetDinh,tb1.MaNV,tb1.Ten,tb1.MaDonViCu,\n" +
                        "tb1.DonViCu,tb1.MaChucVuCu,tb1.ChucVuCu,tb2.MaDonViMoi,tb2.DonViMoi,\n" +
-                       "tb2.MaChucVuMoi,tb2.ChucVuMoi,tb1.ThangLuong,\n" +
-                       "tb1.PhuCap,tb1.BacLuongMoi,tb1.MucLuongMoi,tb1.BacLuongCu,tb1.MucLuongCu,tb1.LyDoDieuDong\n" +
+                       "tb2.MaChucVuMoi,tb2.ChucVuMoi,tb2.ThangLuong,\n" +
+                       "tb2.PhuCap,tb1.BacLuongMoi,tb1.MucLuongMoi,tb1.BacLuongCu,tb1.MucLuongCu,tb1.LyDoDieuDong\n" +
                        "from\n" +
                        "(select qd.MaQuyetDinh,qd.SoQuyetDinh, dd.MaNV, nv.Ten, dp.department_id as MaDonViCu,\n" +
                        "dp.department_name as DonViCu,cv.MaCongViec as MaChucVuCu, cv.TenCongViec as ChucVuCu,\n" +
-                       "qd.NgayQuyetDinh, cv.ThangLuong, cv.PhuCap,\n" +
+                       "qd.NgayQuyetDinh,\n" +
                        "dd.BacLuongMoi, dd.MucLuongMoi,dd.BacLuongCu, dd.MucLuongCu, dd.LyDoDieuDong\n" +
                        "from QuyetDinh qd, DieuDong_NhanVien dd, NhanVien nv,\n" +
                        "CongViec cv, Department dp\n" +
@@ -649,7 +649,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                        "and cv.MaCongViec = dd.ChucVuCu\n" +
                        "and dp.department_id = dd.DonViCu) tb1,\n" +
                        "(select dd.MaNV,dp.department_id as MaDonViMoi,dp.department_name as DonViMoi,\n" +
-                       "cv.MaCongViec as MaChucVuMoi, cv.TenCongViec as ChucVuMoi\n" +
+                       "cv.MaCongViec as MaChucVuMoi, cv.TenCongViec as ChucVuMoi, cv.ThangLuong, cv.PhuCap\n" +
                        "from Department dp, DieuDong_NhanVien dd, CongViec cv\n" +
                        "where dp.department_id = dd.DonViMoi and\n" +
                        "cv.MaCongViec = dd.ChucVuMoi\n" +
@@ -677,30 +677,30 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     try
                     {
                         string sql = "select \n" +
-                        "tb1.MaQuyetDinh,tb1.SoQuyetDinh,tb1.NgayQuyetDinh,tb1.MaNV,tb1.Ten,tb1.MaDonViCu,\n" +
-                        "tb1.DonViCu,tb1.MaChucVuCu,tb1.ChucVuCu,tb2.MaDonViMoi,tb2.DonViMoi,\n" +
-                        "tb2.MaChucVuMoi,tb2.ChucVuMoi,tb1.ThangLuong,\n" +
-                        "tb1.PhuCap,tb1.BacLuongMoi,tb1.MucLuongMoi,tb1.BacLuongCu,tb1.MucLuongCu,tb1.LyDoDieuDong\n" +
-                        "from\n" +
-                        "(select qd.MaQuyetDinh,qd.SoQuyetDinh, dd.MaNV, nv.Ten, dp.department_id as MaDonViCu,\n" +
-                        "dp.department_name as DonViCu,cv.MaCongViec as MaChucVuCu, cv.TenCongViec as ChucVuCu,\n" +
-                        "qd.NgayQuyetDinh, cv.ThangLuong, cv.PhuCap,\n" +
-                        "dd.BacLuongMoi, dd.MucLuongMoi,dd.BacLuongCu, dd.MucLuongCu, dd.LyDoDieuDong\n" +
-                        "from QuyetDinh qd, DieuDong_NhanVien dd, NhanVien nv,\n" +
-                        "CongViec cv, Department dp\n" +
-                        "where\n" +
-                        "nv.MaNv = dd.MaNV and\n" +
-                        "qd.MaQuyetDinh = dd.MaQuyetDinh\n" +
-                        "and qd.MaQuyetDinh = @MaQD1\n" +
-                        "and cv.MaCongViec = dd.ChucVuCu\n" +
-                        "and dp.department_id = dd.DonViCu) tb1,\n" +
-                        "(select dd.MaNV,dp.department_id as MaDonViMoi,dp.department_name as DonViMoi,\n" +
-                        "cv.MaCongViec as MaChucVuMoi, cv.TenCongViec as ChucVuMoi\n" +
-                        "from Department dp, DieuDong_NhanVien dd, CongViec cv\n" +
-                        "where dp.department_id = dd.DonViMoi and\n" +
-                        "cv.MaCongViec = dd.ChucVuMoi\n" +
-                        "and dd.MaQuyetDinh = @MaQD2) tb2\n" +
-                        "where tb1.MaNV = tb2.MaNV";
+                      "tb1.MaQuyetDinh,tb1.SoQuyetDinh,tb1.NgayQuyetDinh,tb1.MaNV,tb1.Ten,tb1.MaDonViCu,\n" +
+                      "tb1.DonViCu,tb1.MaChucVuCu,tb1.ChucVuCu,tb2.MaDonViMoi,tb2.DonViMoi,\n" +
+                      "tb2.MaChucVuMoi,tb2.ChucVuMoi,tb2.ThangLuong,\n" +
+                      "tb2.PhuCap,tb1.BacLuongMoi,tb1.MucLuongMoi,tb1.BacLuongCu,tb1.MucLuongCu,tb1.LyDoDieuDong\n" +
+                      "from\n" +
+                      "(select qd.MaQuyetDinh,qd.SoQuyetDinh, dd.MaNV, nv.Ten, dp.department_id as MaDonViCu,\n" +
+                      "dp.department_name as DonViCu,cv.MaCongViec as MaChucVuCu, cv.TenCongViec as ChucVuCu,\n" +
+                      "qd.NgayQuyetDinh,\n" +
+                      "dd.BacLuongMoi, dd.MucLuongMoi,dd.BacLuongCu, dd.MucLuongCu, dd.LyDoDieuDong\n" +
+                      "from QuyetDinh qd, DieuDong_NhanVien dd, NhanVien nv,\n" +
+                      "CongViec cv, Department dp\n" +
+                      "where\n" +
+                      "nv.MaNv = dd.MaNV and\n" +
+                      "qd.MaQuyetDinh = dd.MaQuyetDinh\n" +
+                      "and qd.MaQuyetDinh = @MaQD1\n" +
+                      "and cv.MaCongViec = dd.ChucVuCu\n" +
+                      "and dp.department_id = dd.DonViCu) tb1,\n" +
+                      "(select dd.MaNV,dp.department_id as MaDonViMoi,dp.department_name as DonViMoi,\n" +
+                      "cv.MaCongViec as MaChucVuMoi, cv.TenCongViec as ChucVuMoi, cv.ThangLuong, cv.PhuCap\n" +
+                      "from Department dp, DieuDong_NhanVien dd, CongViec cv\n" +
+                      "where dp.department_id = dd.DonViMoi and\n" +
+                      "cv.MaCongViec = dd.ChucVuMoi\n" +
+                      "and dd.MaQuyetDinh = @MaQD2) tb2\n" +
+                      "where tb1.MaNV = tb2.MaNV";
                         List<DetailDieuDongClass> list = new List<DetailDieuDongClass>();
                         list = db.Database.SqlQuery<DetailDieuDongClass>(sql,
                                 new SqlParameter("MaQD1", MaQD),

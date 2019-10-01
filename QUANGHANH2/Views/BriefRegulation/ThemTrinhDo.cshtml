@@ -1,0 +1,78 @@
+﻿@model QUANGHANH2.Models.TrinhDo
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ThemTrinhDo</title>
+</head>
+<body>
+
+    @using (Html.BeginForm("ThemTrinhDo", "BriefRegulation", FormMethod.Post, new { onSubmit = "return SubmitForm(this)" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.MaTrinhDo, "Mã Trình Độ", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.MaTrinhDo, new { htmlAttributes = new { @class = "form-control", @id = "validate_td" } })
+                    @Html.ValidationMessageFor(model => model.MaTrinhDo, "", new { @class = "text-danger" })
+                    <p hidden style="color:red" id="messageTD">Mã trình độ đã tồn tại. Hãy nhập lại</p>
+                    <p hidden style="color:red" id="messageTDNull">Không được để trống ô này</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TenTrinhDo, "Tên Trình Độ", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TenTrinhDo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TenTrinhDo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Tạo" class="btn btn-default" id="btn_saveTD_doc" disabled />
+                </div>
+            </div>
+        </div>
+    }
+    
+</body>
+</html>
+<script>
+    $('#validate_td').blur(function () {
+        if ($(this).val() == null || $(this).val() == "") {
+            $('#messageTD').hide();
+            $('#messageTDNull').show();
+            return false;
+        }
+            $.ajax({
+                url:'@Url.Action("validateIDTD", "BriefRegulation")',
+                type: "POST",
+                data: { id: $(this).val() },
+                success: (response) => {
+                    if (response.success) {
+                        $('#messageTD').hide();
+                        $('#messageTDNull').hide();
+                        $('#btn_saveTD_doc').attr("disabled", false);
+                    } else {
+                        $('#btn_saveTD_doc').attr("disabled", true);
+                        $('#messageTD').show();
+                        $('#messageTDNull').hide();
+                    }
+                
+                },
+                error: (response) => {
+                    alert("error")
+                },
+                })
+         })
+</script>
