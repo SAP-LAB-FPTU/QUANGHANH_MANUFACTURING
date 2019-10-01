@@ -1,8 +1,6 @@
 ﻿@{
     Layout = null;
 }
-
-
 <!DOCTYPE html>
 <html>
 
@@ -28,7 +26,8 @@
     <link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
     <link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
     <link href="~/css/preloader/css.css" rel="stylesheet" />
-
+    <!--Font css-->
+    <link href="~/assets/Custom css/font-family.css" rel="stylesheet" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -65,9 +64,6 @@
     <!--Custom Datepicker JS-->
     <script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
     <script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
-
-    <!--Custom JS Decentralization-->
-    <script src="~/js/Custom JS/decentralization_user.js"></script>
 
     <!--Quang Hanh Alert-->
     <link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
@@ -274,28 +270,28 @@
                         <!-- Profile icon scss in header.scss -->
                         <!-- ============================================================== -->
                         <li>
-                            <a class="dropdown-trigger" href="javascript: void(0);" data-target="user_dropdown"><img src="~/assets/images/users/2.jpg" alt="user" class="circle profile-pic"></a>
+                            <a class="dropdown-trigger" href="javascript: void(0);" data-target="user_dropdown"><img src="/assets/images/users/2.jpg" alt="user" class="circle profile-pic"></a>
                             <ul id="user_dropdown" class="mailbox dropdown-content dropdown-user">
                                 <li>
                                     <div class="dw-user-box">
                                         <div class="u-img"><img src="/assets/images/users/2.jpg" alt="user"></div>
                                         <div class="u-text">
-                                            <h4>@ViewBag.name</h4>
-                                            <p></p>
+                                            <h4>@Session["Name"]</h4>
+                                            <p>@Session["username"]</p>
                                             <a class="waves-effect waves-light btn-small red white-text">Xem Hồ Sơ</a>
                                         </div>
                                     </div>
                                 </li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="#"><i class="material-icons">account_circle</i> Hồ Sơ Của Tôi</a></li>
-                                <li><a href="#"><i class="material-icons">inbox</i> Tin nhắn</a></li>
+                                <li><a href="#"><i class="small material-icons">account_circle</i> Hồ Sơ Của Tôi</a></li>
+                                <li><a href="#"><i class="small material-icons">inbox</i> Tin nhắn</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="#"><i class="material-icons">settings</i> Cài Đặt Tài Khoản</a></li>
+                                <li><a href="#"><i class="small material-icons">settings</i> Cài Đặt Tài Khoản</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="@Url.Action("Logout","LogIn")"><i class="material-icons">power_settings_new</i>Đăng Xuất</a></li>
+                                <li><a href="@Url.Action("Logout","LogIn")"><i class="small material-icons">power_settings_new</i>Đăng Xuất</a></li>
                             </ul>
                         </li>
-                        <li id="user-icon"></li>
+                        <li id="user-icon"><a href="javascript:void(0);">@Session["Name"]<span class="new badge red" data-badge-caption="@Session["Position"]"></span></a></li>
                     </ul>
                     <!-- ============================================================== -->
                     <!-- Right topbar icon scss in header.scss -->
@@ -318,11 +314,9 @@
                         <li>
                             <a href="/phong-tcld" class="collapsible-header" id="dashboard"><i class="material-icons">home</i><span class="hide-menu">Phòng Tổ Chức Lao Động</span></a>
                         </li>
-                        <li><a href="/phong-tcld/danh-sach-toan-cong-ty" class="collapsible-header"><i class="material-icons">view_list</i><span class="hide-menu">Danh sách toàn công ty</span></a></li>
 
                         <li>
                             <a href="/phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien" class="collapsible-header"><i class="material-icons">person</i><span class="hide-menu">Quản lý nhân viên</span></a>
-
                         </li>
 
                         <li>
@@ -361,7 +355,7 @@
                         </li>
 
                         <li><a href="/phong-tcld/chung-chi/danh-sach-chung-chi" class="collapsible-header"><i class="material-icons">brightness_7</i><span class="hide-menu">Danh sách chứng chỉ</span></a></li>
-                        <li><a href="/phong-tcld/bang-cap-va-giay-chung-nhan/danh-sach-bang-cap-va-giay-chung-nhan" class="collapsible-header"><i class="material-icons">brightness_7</i><span class="hide-menu">Bằng cấp - Giấy chứng nhận</span></a></li>
+                        <li><a href="/phong-tcld/bang-cap-va-giay-chung-nhan/danh-sach-bang-cap-va-giay-chung-nhan" class="collapsible-header"><i class="material-icons">brightness_7</i><span class="hide-menu">Bằng cấp-Giấy chứng nhận</span></a></li>
 
                         <li>
                             <a href="javascipt:void(0);" class="collapsible-header has-arrow"><i class="material-icons">brightness_7</i><span class="hide-menu">Quản lý nhiệm vụ</span></a>
@@ -377,11 +371,6 @@
                             </div>
                         </li>
 
-
-                        <li>
-                            <a href="/phong-tcld/bao-ho-lao-dong/danh-sach-bhld-cua-cac-phan-xuong" class="collapsible-header" id="baohold"><i class="material-icons">enhanced_encryption</i><span class="hide-menu">Bảo hộ lao động</span></a>
-                        </li>
-
                         <li>
                             <a href="javascript:void(0);" class="collapsible-header has-arrow" id="nsldvatienluong"><i class="material-icons">library_books</i><span class="hide-menu">NSLĐ và tiền lương</span></a>
                             <div class="collapsible-body">
@@ -390,8 +379,6 @@
                                     <li>
                                         <a href="/phong-tcld/nang-suat-lao-dong-va-tien-luong/nang-suat-lao-dong-va-tien-luong-theo-cac-px-trong-ngay" id=""><i class="material-icons">list</i><span class="hide-menu">Theo ngày</span></a>
                                     </li>
-                                    @*
-                                    <li><a href="/phong-tcld/nang-suat-lao-dong-va-tien-luong/nang-suat-lao-dong-va-tien-luong-theo-cac-px-trong-ngay"><i class="material-icons">bookmark</i><span class="hide-menu">NSLĐ và tiền lương theo ca</span></a></li>*@
                                 </ul>
                             </div>
                         </li>
@@ -409,21 +396,9 @@
                                     <li>
                                         <a href="@Url.Content("/phong-tcld/cham-dut-va-tuyen-dung/tong-hop-cham-dut")"><i class="material-icons">subdirectory_arrow_left</i><span class="hide-menu">Tổng hợp chấm dứt</span></a>
                                     </li>
-                                    <li>
-                                        <a href="@Url.Content("/phong-tcld/cham-dut-va-tuyen-dung/tang-giam-lao-dong")"><i class="material-icons">swap_vert</i><span class="hide-menu">Tăng giảm lao động</span></a>
-                                    </li>
                                 </ul>
                             </div>
                         </li>
-
-                        <li>
-                            <a href="/phong-tcld/bien-ban-chung" class="collapsible-header" id=""><i class="material-icons">note</i><span class="hide-menu">Biên bản chung</span></a>
-                        </li>
-
-                        <li>
-                            <a href="/phong-tcld/dang-ky-suat-an" class="collapsible-header" id=""><i class="material-icons">local_dining</i><span class="hide-menu">Đăng ký suất ăn</span></a>
-                        </li>
-
                     </ul>
                 </li>
             </ul>
