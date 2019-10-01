@@ -25,9 +25,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         // GET: /<controller>/
 
         public static string id_ = "";
-
        
-
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty")]
         [HttpGet]
         public ActionResult Inside()
@@ -36,14 +34,12 @@ namespace QUANGHANHCORE.Controllers.TCLD
             return View("/Views/TCLD/Brief/ManageBrief/Inside.cshtml");
         }
 
-
         [Route("phong-tcld/quan-ly-ho-so/chuan-hoa-ten")]
         public ActionResult Regulation()
         {
             ViewBag.nameDepartment = "quanlyhoso";
             return View("/Views/TCLD/Brief/ManageBrief/Regulations.cshtml");
         }
-
 
         //listByThuong
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty")]

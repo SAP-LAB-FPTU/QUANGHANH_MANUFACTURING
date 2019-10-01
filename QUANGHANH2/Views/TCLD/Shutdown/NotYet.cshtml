@@ -103,11 +103,11 @@
         </div>
     </div>
 }
-@using (Html.BeginForm("DidDetailDel", "ShutDown", FormMethod.Post, new
+@using (Html.BeginForm("NotYetDelete", "ShutDown", FormMethod.Post, new
 {
     enctype = "multipart/form-data",
     onSubmit = "return delQDAjax(this);",
-    data_restUrl = Url.Action("DidDetailDel", "ShutDown")
+    data_restUrl = Url.Action("NotYetDelete", "ShutDown")
 }))
 {
     <div id="confirm" class="open modal">
@@ -275,7 +275,7 @@
         function delDetail(id) {
             $.ajax({
                 type: 'post',
-                url: '/deleteDetail',
+                url: '/deleteNotYet',
                 dataType: 'json',
                 data: { id: JSON.stringify(id) },
                 success: function (data) {
