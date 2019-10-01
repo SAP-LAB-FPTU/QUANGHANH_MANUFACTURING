@@ -130,7 +130,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                 int count1 = 0, count2 = 0;
                 foreach (Document items in documentList)
                 {
-                    Document query = db.Database.SqlQuery<Document>("select count(documentary_id) as countID from Acceptance where documentary_id = '" + items.documentary_id + "'").First();
+                    Document query = db.Database.SqlQuery<Document>("select count(documentary_id) as countID from Acceptance where equipmentStatus = 3 and documentary_id = '" + items.documentary_id + "'").First();
                     count1 = query.countID;
                     switch (items.documentary_type)
                     {
