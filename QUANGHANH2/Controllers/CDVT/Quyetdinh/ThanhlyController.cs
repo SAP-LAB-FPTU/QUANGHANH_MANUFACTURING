@@ -155,7 +155,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
             DateTime dtEnd;
             if (dateEnd == "") dtEnd = DateTime.Now;
             else dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-
+            dtEnd = dtEnd.AddHours(23);
+            dtEnd = dtEnd.AddMinutes(59);
 
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
           

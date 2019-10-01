@@ -2,295 +2,357 @@
     ViewData["Title"] = "History";
     Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
 }
+<style>
+        #detailModal {
+            max-height: 90%  !important;
+            overflow-y: scroll;
+            width: 90%;
+        }
 
+        #toast-container {
+            min-width: 10%;
+            top: 0;
+            right: 50%;
+            transform: translateX(50%) translateY(50%);
+        }
+
+        #export-button {
+            float: right !important;
+            margin-bottom: 10px !important;
+        }
+</style>
 <div class="row">
     <div class="col s12 m12 l12">
         <div class="card">
-            <div class="card-content">
-                <div>
-                    <h3 class="center">QUYẾT ĐỊNH ĐÃ XỬ LÍ</h3>
-                </div>
-                <div class="row center">
-                    <div class="col l2 m12 s12 input-field">
-                        <input type="text" placeholder="Tìm kiếm theo mã nhân viên" class='form-control' id="searchArea" multiple />
-                    </div>
-                    <div class="col l2 m12 s12 input-field">
-                        <input type="text" placeholder="Tìm kiếm theo tên nhân viên" class='form-control' id="searchArea" multiple />
-                    </div>
-                    <div class="col l2 m12 s12 input-field">
-                        <select class="form-control" id="gender">
-                            <option value="" disabled selected>Chọn giới tính</option>
-                            <option value="1">Nam</option>
-                            <option value="2">Nữ</option>
-                        </select>
-                    </div>
-                    <div class="col l2 m12 s12 input-field">
-                        <select class="form-control" id="departure">
-                            <option value="" disabled selected>Chọn phòng ban</option>
-                            <option value="1">Phòng tổ chức lao động</option>
-                            <option value="2">Phòng cơ điện vận tải</option>
-                            <option value="2">Phòng an toàn</option>
-                            <option value="2">Phân xưởng khai thác 1</option>
-                            <option value="2">Phân xưởng khai thác 2</option>
-                            <option value="2">Phân xưởng khai thác 3</option>
-                            <option value="2">Phân xưởng khai thác 5</option>
-                            <option value="2">Phân xưởng đào lò 1</option>
-                            <option value="2">Phân xưởng đào lò 2</option>
-                            <option value="2">Phân xưởng đào lò 3</option>
-                            <option value="2">Phân xưởng đào lò 5</option>
-                        </select>
-                    </div>
-                    <div class="col l2 m12 s12 input-field">
-                        <select class="form-control" id="position">
-                            <option value="" disabled selected>Chọn phòng chức vụ</option>
-                            <option value="1">Trưởng phòng</option>
-                            <option value="2">Nhân viên kinh doanh</option>
-                            <option value="2">Phó quản đốc</option>
-                            <option value="2">Quản đốc</option>
-                        </select>
-                    </div>
-                    <div class="col l2 m12 s12 input-field">
-                        <button class="btn blue darken-2 btn-small" id="searchButton">Tìm kiếm</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col s12 m12 l12">
-        <div class="card">
             <div class="card-content row">
-                <div class="col s12 m12 l12">
-                    <div class="col s2 m2 l2">
-                        <label id="cancelChecked" style="display:none">
-                            &nbsp;
-                            <a href="#confirm" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle">&nbsp;Hủy đã chọn</span></a>
-                        </label>
+                <div>
+                    <h3 class="center"><b>QUYẾT ĐỊNH ĐÃ XỬ LÍ</b></h3>
+                </div>
+                <div class="row">
+                    <div class="input-field col s1">
+
                     </div>
-                    <br />
+                    <div class="input-field col s3">
+                        <input type="text" placeholder="Tìm kiếm theo số quyết định" class='input-field form-control ' id="searchSoQuyetDinh" multiple />
+                    </div>
+                    <div class="input-field col s3">
+                        <input type="text" placeholder="Tìm kiếm theo mã nhân viên" class='input-field form-control ' id="searchMaNV" multiple />
+                    </div>
+                    <div class="input-field col s3">
+                        <input type="text" placeholder="Tìm kiếm theo ngày" class=' input-field thoigian datepicker-here form-control ' id="searchDate" multiple />
+                    </div>
+                    <div class="input-field col s2">
+                        <button class=" waves-effect waves-light btn blue darken-2 btn-small" id="searchButton">Tìm kiếm</button>
+                    </div>
                 </div>
                 <br />
                 <div class="col s12 m12 l12">
                     <br />
-                    <table class="striped responsive-table table-bordered">
-                        <tr>
-                            <th class="center">Chọn</th>
-                            <th class="center">Số thứ tự</th>
-                            <th class="center">Mã nhân viên</th>
-                            <th class="center">Họ và tên</th>
-                            <th class="center">Ngày bắt đầu điều động</th>
-                            <th class="center">Ngày kết thúc điều động</th>
-                            <th class="center">Chức vụ trước khi điều động</th>
-                            <th class="center">Chức vụ sau khi điều động</th>
-                            <th class="center">Người ký điều động</th>
-                            <th class="center">Người phê duyệt</th>
-                            <th class="center">Ngày ký duyệt</th>
-                            <th class="center">Số quyết định</th>
-                        </tr>
-                        <tr>
-                            <td class="center"><label id="check"><input class="inputCheck" type="checkbox" /><span></span></label></td>
-                            <td class="center">1</td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/chi-tiet-dieu-chuyen")" style="color: dodgerblue;">7751</a></td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/chi-tiet-dieu-chuyen")" style="color: dodgerblue;">Nguyễn Văn Hùng</a></td>
-                            <td class="center">15/12/2018</td>
-                            <td class="center">21/10/2021</td>
-                            <td class="center">Công nhân đào lò</td>
-                            <td class="center"></td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/xem-chi-tiet-ho-so")" style="color: dodgerblue;">Nguyễn Thị Hưởng</a></td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/xem-chi-tiet-ho-so")" style="color: dodgerblue;">Trần Quốc Anh</a></td>
-                            <td class="center">20/05/2018</td>
-                            <td class="center"><a href="javascript:void(0);" class="modal-trigger word">QĐ-324</a></td>
-
-                        </tr>
-                        <tr>
-                            <td class="center"><label id="check"><input class="inputCheck" type="checkbox" /><span></span></label></td>
-                            <td class="center">2</td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/chi-tiet-dieu-chuyen")" style="color: dodgerblue;">2179</a></td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/chi-tiet-dieu-chuyen")" style="color: dodgerblue;">Nguyễn Xuân Thoảng</a></td>
-                            <td class="center">03/09/2017</td>
-                            <td class="center">05/06/2019</td>
-                            <td class="center">Công nhân sửa chữa cơ khí</td>
-                            <td class="center">Phó quản đốc</td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/xem-chi-tiet-ho-so")" style="color: dodgerblue;">Nguyễn Thị Hưởng</a></td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/xem-chi-tiet-ho-so")" style="color: dodgerblue;">Trần Quốc Anh</a></td>
-                            <td class="center">01/08/2017</td>
-                            <td class="center"><a href="javascript:void(0);" class="modal-trigger word">QĐ-324</a></td>
-
-                        </tr>
-                        <tr>
-                            <td class="center"><label id="check"><input class="inputCheck" type="checkbox" /><span></span></label></td>
-                            <td class="center">3</td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/chi-tiet-dieu-chuyen")" style="color: dodgerblue;">3506</a></td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/chi-tiet-dieu-chuyen")" style="color: dodgerblue;">Nguyễn Văn Hùng</a></td>
-                            <td class="center">03/09/2017</td>
-                            <td class="center">07/10/2020</td>
-                            <td class="center">Nhân viên phục vụ</td>
-                            <td class="center"></td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/xem-chi-tiet-ho-so")" style="color: dodgerblue;">Nguyễn Thị Hưởng</a></td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/xem-chi-tiet-ho-so")" style="color: dodgerblue;">Trần Quốc Anh</a></td>
-                            <td class="center">01/04/2017</td>
-                            <td class="center"><a href="javascript:void(0);" class="modal-trigger word">QĐ-324</a></td>
-
-                        </tr>
-                        <tr>
-                            <td class="center"><label id="check"><input class="inputCheck" type="checkbox" /><span></span></label></td>
-                            <td class="center">4</td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/chi-tiet-dieu-chuyen")" style="color: dodgerblue;">2041</a></td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/chi-tiet-dieu-chuyen")" style="color: dodgerblue;">Nguyễn Văn Hưng</a></td>
-                            <td class="center">03/09/2017</td>
-                            <td class="center">07/10/2020</td>
-                            <td class="center">Nhân viên phục vụ</td>
-                            <td class="center"></td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/xem-chi-tiet-ho-so")" style="color: dodgerblue;">Nguyễn Thị Hưởng</a></td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/xem-chi-tiet-ho-so")" style="color: dodgerblue;">Trần Quốc Anh</a></td>
-                            <td class="center">01/04/2017</td>
-                            <td class="center"><a href="javascript:void(0);" class="modal-trigger word">QĐ-324</a></td>
-
-                        </tr>
-                        <tr>
-                            <td class="center"><label id="check"><input class="inputCheck" type="checkbox" /><span></span></label></td>
-                            <td class="center">5</td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/chi-tiet-dieu-chuyen")" style="color: dodgerblue;">4472</a></td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/chi-tiet-dieu-chuyen")" style="color: dodgerblue;">Nguyễn Văn Hoa</a></td>
-                            <td class="center">03/09/2017</td>
-                            <td class="center">07/10/2020</td>
-                            <td class="center">Nhân viên phục vụ</td>
-                            <td class="center"></td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/xem-chi-tiet-ho-so")" style="color: dodgerblue;">Nguyễn Thị Hưởng</a></td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/xem-chi-tiet-ho-so")" style="color: dodgerblue;">Trần Quốc Anh</a></td>
-                            <td class="center">01/04/2017</td>
-                            <td class="center"><a href="javascript:void(0);" class="modal-trigger word">QĐ-324</a></td>
-
-                        </tr>
-                        <tr>
-                            <td class="center"><label id="check"><input class="inputCheck" type="checkbox" /><span></span></label></td>
-                            <td class="center">6</td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/chi-tiet-dieu-chuyen")" style="color: dodgerblue;">7430</a></td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/chi-tiet-dieu-chuyen")" style="color: dodgerblue;">Đông Văn Đai</a></td>
-                            <td class="center">03/09/2017</td>
-                            <td class="center">07/10/2020</td>
-                            <td class="center">Nhân viên phục vụ</td>
-                            <td class="center"></td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/xem-chi-tiet-ho-so")" style="color: dodgerblue;">Nguyễn Thị Hưởng</a></td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/xem-chi-tiet-ho-so")" style="color: dodgerblue;">Trần Quốc Anh</a></td>
-                            <td class="center">01/04/2017</td>
-                            <td class="center"><a href="javascript:void(0);" class="modal-trigger word">QĐ-324</a></td>
-
-                        </tr>
-                        <tr>
-                            <td class="center"><label id="check"><input class="inputCheck" type="checkbox" /><span></span></label></td>
-                            <td class="center">7</td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/chi-tiet-dieu-chuyen")" style="color: dodgerblue;">7564</a></td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/chi-tiet-dieu-chuyen")" style="color: dodgerblue;">Nguyễn Văn Sơn</a></td>
-                            <td class="center">03/09/2017</td>
-                            <td class="center">07/10/2020</td>
-                            <td class="center">Nhân viên phục vụ</td>
-                            <td class="center"></td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/xem-chi-tiet-ho-so")" style="color: dodgerblue;">Nguyễn Thị Hưởng</a></td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/xem-chi-tiet-ho-so")" style="color: dodgerblue;">Trần Quốc Anh</a></td>
-                            <td class="center">01/04/2017</td>
-                            <td class="center"><a href="javascript:void(0);" class="modal-trigger word">QĐ-324</a></td>
-
-                        </tr>
-                        <tr>
-                            <td class="center"><label id="check"><input class="inputCheck" type="checkbox" /><span></span></label></td>
-                            <td class="center">8</td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/chi-tiet-dieu-chuyen")" style="color: dodgerblue;">7598</a></td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/chi-tiet-dieu-chuyen")" style="color: dodgerblue;">Đăng Tung</a></td>
-                            <td class="center">03/09/2017</td>
-                            <td class="center">07/10/2020</td>
-                            <td class="center">Nhân viên phục vụ</td>
-                            <td class="center"></td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/xem-chi-tiet-ho-so")" style="color: dodgerblue;">Nguyễn Thị Hưởng</a></td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/xem-chi-tiet-ho-so")" style="color: dodgerblue;">Trần Quốc Anh</a></td>
-                            <td class="center">01/04/2017</td>
-                            <td class="center"><a href="javascript:void(0);" class="modal-trigger word">QĐ-324</a></td>
-
-                        </tr>
-                        <tr>
-                            <td class="center"><label id="check"><input class="inputCheck" type="checkbox" /><span></span></label></td>
-                            <td class="center">9</td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/chi-tiet-dieu-chuyen")" style="color: dodgerblue;">5132</a></td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/chi-tiet-dieu-chuyen")" style="color: dodgerblue;">Lệnh Văn Hương</a></td>
-                            <td class="center">03/09/2017</td>
-                            <td class="center">07/10/2020</td>
-                            <td class="center">Nhân viên phục vụ</td>
-                            <td class="center"></td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/xem-chi-tiet-ho-so")" style="color: dodgerblue;">Nguyễn Thị Hưởng</a></td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/xem-chi-tiet-ho-so")" style="color: dodgerblue;">Trần Quốc Anh</a></td>
-                            <td class="center">01/04/2017</td>
-                            <td class="center"><a href="javascript:void(0);" class="modal-trigger word">QĐ-324</a></td>
-
-                        </tr>
-                        <tr>
-                            <td class="center"><label id="check"><input class="inputCheck" type="checkbox" /><span></span></label></td>
-                            <td class="center">10</td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/chi-tiet-dieu-chuyen")" style="color: dodgerblue;">3352</a></td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/chi-tiet-dieu-chuyen")" style="color: dodgerblue;">Phạm Văn Phú</a></td>
-                            <td class="center">03/09/2017</td>
-                            <td class="center">07/10/2020</td>
-                            <td class="center">Nhân viên phục vụ</td>
-                            <td class="center"></td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/xem-chi-tiet-ho-so")" style="color: dodgerblue;">Nguyễn Thị Hưởng</a></td>
-                            <td class="center"><a href="@Url.Content("/phong-tcld/ho-so/xem-chi-tiet-ho-so")" style="color: dodgerblue;">Trần Quốc Anh</a></td>
-                            <td class="center">01/04/2017</td>
-                            <td class="center"><a href="javascript:void(0);" class="modal-trigger word">QĐ-324</a></td>
-
-                        </tr>
+                    <table id="quyetDinhTable" class="striped responsive-table table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="center">Số thứ tự</th>
+                                <th class="center">Số quyết định</th>
+                                <th class="center">Ngày quyết định</th>
+                                <th class="center"></th>
+                            </tr>
+                        </thead>
                     </table>
                 </div>
                 <br />
-                <div class="col l12 s12 m12 center paging_container">
-                    <ul class="pagination">
-                        <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-                        <li class="active"><a href="#!">1</a></li>
-                        <li class="waves-effect"><a href="#!">2</a></li>
-                        <li class="waves-effect"><a href="#!">3</a></li>
-                        <li class="waves-effect"><a href="#!">4</a></li>
-                        <li class="waves-effect"><a href="#!">5</a></li>
-                        <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-                    </ul>
-                </div>
+
             </div>
         </div>
     </div>
 </div>
-<div id="confirm" class="open modal">
+<div id="detailModal" class="modal">
     <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Xác nhận hủy quyết định</h3>
+        <h4>Chi tiết điều động</h4>
+        <p>Số quyết định: <b id="soqd-detail"></b></p>
+        <p>Ngày quyết định: <b id="ngayqd-detail"></b></p>
+        <div class="col l3 m3">
+            <div class=" btn cyan left waves-effect waves-light" id="export-button">
+                <i class="fas fa-file-word"></i><span> Xuất Quyết định</span>
+            </div>
         </div>
-        <div class="modal-body">
-            <p class="red-text">Hủy quyết định đã chọn</p>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn red darken-2 modal-close">Xác nhận</button>
-            <button type="button" class="btn blue modal-close">Hủy</button>
-        </div>
+        <table class="striped responsive-table table-bordered">
+            <thead>
+                <tr>
+                    <th>Số thứ tự</th>
+                    <th>Mã nhân viên</th>
+                    <th style="width: 400px">Họ và tên</th>
+                    <th style="width: 300px">Đơn vị cũ</th>
+                    <th style="width: 200px">Chức vụ cũ</th>
+                    <th style="width: 300px">Đơn vị điều động</th>
+                    <th style="width: 200px">Chức vụ điều động</th>
+                    <th style="width: 200px">Thang bậc lương</th>
+                    <th style="width: 200px">Phụ cấp</th>
+                    <th style="width: 200px">Bậc</th>
+                    <th style="width: 200px">Mức lương</th>
+                    <th style="width: 300px">Lý do điều động</th>
+                </tr>
+            </thead>
+            <tbody id="detail-table">
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Đóng</a>
     </div>
 </div>
 <script src="~/js/Custom JS/Disable_input_material.js"></script>
-<script>
-    $(document).ready(function () {
-        $(".word").on("click", function () {
-            window.location.href = '/excel/TCLD/QuyetDinh/QĐ-324.docx';
-        });
-    });
-</script>
+<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+@section scripts{
 
-<link href="~/css/TABLE_BORDERED.css" rel="stylesheet" />
-<script>
-    var count = 0;
-    $(document).ready(function () {
-        $('.inputCheck').change(function () {
-            if ($(this).prop("checked") == true) {
-                $('#cancelChecked').css('display', 'block');
-                count++;
-            } else if (($(this).prop("checked") == false)) {
-                count--;
-                if (count == 0) {
-                    $('#cancelChecked').css('display', 'none');
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+        var elem = document.querySelector('.modal');
+        $(document).ready(function () {
+            $('.modal').modal();
+        });
+    </script>
+    <script>
+        ///////////////////DATATABLES AND SEARCHING///////////////////
+        $("#pre-load").show("slow", function () {
+        });
+        $("#pre-load").css("z-index", "99999");
+        var Popup, dataTable;
+
+        $(document).ready(function () {
+            var stt = 0;
+            dataTable = $('#quyetDinhTable')
+                .on('preXhr.dt', function (e, settings, data) {
+                    $("#pre-load").show("slow", function () {
+                    });
+                    $("#pre-load").css("z-index", "99999");
+                    data.searchSoQuyetDinh = $("#searchSoQuyetDinh").val();
+                    data.searchMaNV = $("#searchMaNV").val();
+                    data.searchDate = $("#searchDate").val();
+                })
+                .DataTable({
+                    "ajax": {
+                        "url": "/phong-tcld/dieu-chuyen/da-xu-li-dieu-chuyen",
+                        "type": "POST",
+                        "datatype": "json",
+                    },
+                    "drawCallback": function (settings) {
+                        $("#pre-load").hide("slow", function () {
+                        });
+                    },
+                    "columns": [
+                        {
+                            "data": "SoQuyetDinh", "name": "SoQuyetDinh",
+                            "render": function () {
+                                return 1;
+                            }
+                        },
+                        { "data": "SoQuyetDinh", "name": "SoQuyetDinh" },
+                        {
+                            "data": "NgayQuyetDinh", "name": "NgayQuyetDinh",
+                            "render": function (data) {
+                                var dateString = data.substr(6);
+                                var currentTime = new Date(parseInt(dateString));
+                                var month = currentTime.getMonth() + 1;
+                                var day = currentTime.getDate();
+                                var year = currentTime.getFullYear();
+                                var date = day + "/" + month + "/" + year;
+                                return date;
+                            }
+                        },
+                        {
+                            "render": function (data, type, full) {
+                                return "<a class=\"waves-effect waves-light btn  blue modal-trigger\" href=\"#detailModal\" onclick='detail(" + full.MaQuyetDinh + ")'><i class=\"fas fa-file-alt\"></i><span> Chi tiết</a>\n" +
+                                    "<a class=\" waves-effect waves-light btn blue darken-2 btn-small \" onclick='deleteQD(" + full.MaQuyetDinh + ")'><i class=\"fa fa-trash\"></i><span> Xóa</a>";
+                            }
+                        }
+                    ],
+                    "serverSide": "true",
+                    "order": [2, "desc"],
+                    "searching": false,
+                    "bLengthChange": false,
+                    "autoWidth": false,
+                    "bFilter": true,
+                    "bInfo": false,
+                    "language": {
+                        emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                        paginate:
+                        {
+                            previous: "Trang trước",
+                            next: "Trang sau",
+                            first: "|<",
+                            last: ">|"
+                        }
+                    },
+                    "initComplete": function (settings, json) {
+
+                        $("#pre-load").hide("slow", function () {
+                        });
+                    }
+
+                });
+            $(".dataTables_paginate").css("float", "left");
+
+            $("#searchButton").click(function () {
+                if ($("#searchSoQuyetDinh").val() !== "" || $("#searchMaNV").val() !== "" || $("#searchDate").val() !== "") {
+                    dataTable.ajax.reload();
                 }
+            });
+            $(".input-field").keydown(function (e) {
+                if (($("#searchSoQuyetDinh").val() !== "" || $("#searchMaNV").val() !== "" || $("#searchDate").val() !== "") && e.keyCode === 13) {
+                    dataTable.ajax.reload();
+                }
+            });
+
+
+            function changeState(value, state) {
+                $.ajax({
+                    type: "POST",
+                    url: "/sua-chua/save-session/",
+                    data: {
+                        id: JSON.stringify(value),
+                        state: JSON.stringify(state)
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        alert("here" + data.d.toString());
+                    }
+                });
             }
         });
-    });
-</script>
+        function updateList(id) {
+            isExist = false;
+            for (let i = 0; i < arrCarSelected.length; i++) {
+                if (arrCarSelected[i] == id) {
+                    isExist = true;
+                    arrCarSelected.splice(i, 1);
+                    break;
+                }
+            }
+            if (!isExist && id != "" && id != null) {
+                arrCarSelected.push(id)
+            }
+        }
+        function sendData() {
+            $.each($("input[name='abc']:checked"), function () {
+            });
+        }
+
+        ///////////////////VALIDATE/////////////
+        $(".thoigian").keydown(function (e) {
+            e.preventDefault();
+        });
+    </script>
+    <script>
+        function detail(id) {
+            $("#pre-load").show("slow", function () {
+            });
+            
+            $("#detail-table").empty();
+            $("#soqd-detail").empty();
+            $("#ngayqd-detail").empty();
+            $.ajax({
+                type: 'post',
+                url: '/phong-tcld/dieu-chuyen/da-xu-li-dieu-chuyen-detail',
+                data: { MaQD: JSON.stringify(id) },
+                success: function (response) {
+                    $("#soqd-detail").append(" "+response.list[0].SoQuyetDinh);
+                    $("#ngayqd-detail").append(" " + convertDate(response.list[0].NgayQuyetDinh));
+                    $("#export-button").attr('onclick', 'exportQD(' + response.list[0].MaQuyetDinh + ')');
+                    if (response.success) {
+                        var stt = 1;
+                        for (var i = 0; i < response.list.length; i++) {
+                            $("#detail-table").append("<tr>");
+                            $("#detail-table").append("<td>" + (stt++) + "</td>");
+                            $("#detail-table").append("<td>" + response.list[i].MaNV + "</td>");
+                            $("#detail-table").append("<td>" + response.list[i].Ten + "</td>");
+                            $("#detail-table").append("<td>" + response.list[i].DonViCu + "</td>");
+                            $("#detail-table").append("<td>" + response.list[i].ChucVuCu + "</td>");
+                            $("#detail-table").append("<td>" + response.list[i].DonViMoi + "</td>");
+                            $("#detail-table").append("<td>" + response.list[i].ChucVuMoi + "</td>");
+                            $("#detail-table").append("<td>" + response.list[i].ThangLuong + "</td>");
+                            $("#detail-table").append("<td>" + AddComma(response.list[i].PhuCap) + "</td>");
+                            $("#detail-table").append("<td>" + response.list[i].BacLuongMoi + "</td>");
+                            $("#detail-table").append("<td>" + AddComma(response.list[i].MucLuongMoi) + "</td>");
+                            $("#detail-table").append("<td>" + response.list[i].LyDoDieuDong + "</td>");
+                            $("#detail-table").append("</tr>");
+                        }
+                        $("#pre-load").hide("slow", function () {
+                        });
+                    } else {
+
+                    }
+                }
+            })
+            $('body').css('overflow', 'auto');
+        }
+        function convertDate(data) {
+                                var dateString = data.substr(6);
+                                var currentTime = new Date(parseInt(dateString ));
+                                var month = currentTime.getMonth() + 1;
+                                var day = currentTime.getDate();
+                                var year = currentTime.getFullYear();
+                                var date = day + "/" + month + "/" + year;
+                                return date;
+        }
+        function exportQD(id) {
+             $("#pre-load").show("slow", function () {
+            });
+            $.ajax({
+                type:'post',
+                url: '/phong-tcld/dieu-chuyen/da-xu-li-dieu-chuyen-detail-export',
+                data: { MaQD: JSON.stringify(id) },
+                success: function (response) {
+                    if (response.success) {
+                        window.location.href = response.location;
+                        $("#pre-load").hide("slow", function () {
+                        });
+                    } else {
+                        $("#pre-load").hide("slow", function () {
+                        });
+                        errorAlert("Lỗi", "");
+                    }
+                }
+            })
+        }
+    </script>
+    <script>
+        function deleteQD(id) {
+            confirmAlert("Xác nhận xóa", "Xóa quyết định",
+                function () {
+                    $("#pre-load").show("slow", function () {
+                    });
+                    $.ajax({
+                        type: 'post',
+                        url: '/phong-tcld/dieu-chuyen/da-xu-li-dieu-chuyen-delete',
+                        data: {MaQD: JSON.stringify(id)},
+                        success: function (response) {
+                            if (response.success) {
+                                $("#pre-load").hide("slow", function () {
+                                });
+                                reloadAlert("Xóa quyết định thành công!", 3000);
+                            } else {
+                                $("#pre-load").hide("slow", function () {
+                                });
+                                errorAlert(response.message, "");
+                            }
+                        }
+                    })
+                }
+            )
+        }
+    </script>
+    <script>
+        function AddComma(Num) { //function to add commas to textboxes
+            Num += '';
+            Num = Num.replace(',', ''); Num = Num.replace(',', ''); Num = Num.replace(',', '');
+            Num = Num.replace(',', ''); Num = Num.replace(',', ''); Num = Num.replace(',', '');
+            x = Num.split('.');
+            x1 = x[0];
+            x2 = x.length > 1 ? '.' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1))
+                x1 = x1.replace(rgx, '$1' + ',' + '$2');
+            return x1 + x2;
+        }
+    </script>
+}
