@@ -535,6 +535,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\Custom css\CDVT\StyleSheet1.css" />
+    <Content Include="assets\Custom css\font-family.css" />
     <Content Include="assets\Custom css\TCLD\Brief\AddBrief.css" />
     <Content Include="assets\Custom css\TCLD\Brief\ManageBrief\beo_ho_so_ngoai.css" />
     <Content Include="assets\Custom css\TCLD\Brief\ManageBrief\beo_regulations.css" />
