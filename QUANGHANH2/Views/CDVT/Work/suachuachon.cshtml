@@ -34,14 +34,14 @@
                             <input id="documentary_code" name="documentary_code" class="form-control" type="text" placeholder="Nhập mã quyết định" />
                         </div>
                         <div class="col s3 m3">
-                            <input name="out_in_come" class="form-control" type="text" required placeholder="Nhập nguồn vốn" />
+                            <input name="out_in_come" class="form-control" type="text"  placeholder="Nhập nguồn vốn" />
                         </div>
                         <div class="col s3 m3">
                             <input class="form-control" type="text" disabled value="@ViewBag.department_name" />
-                            <input name="department_id" type="hidden" readonly value="@ViewBag.department_id" />
+                            <input name="department_id" id="depa-id" type="hidden" readonly value="@ViewBag.department_id" />
                         </div>
                         <div class="col s3 m3">
-                            <input name="reason" class="form-control" type="text" required placeholder="nội dung quyết định" />
+                            <input name="reason" class="form-control" type="text" required placeholder="Nội dung quyết định" />
                         </div>
                         <div class="col s12 table_container">
                             <table id="mytablevattu" class="striped table-responsive center table-bordered">
@@ -200,7 +200,7 @@
                 var item = output[id].vattu[i];
                 var $tr = $('<tr>').append(
                     $('<td>').html("<input type='text' list='supplyID' class='form-control required' value='" + item.supply_id + "' /> "),
-                    $('<td>').html("<input type='number' min='1' value='1' class='form-control' value='" + item.quantity + "' /> ")
+                    $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> ")
                 );
                 if (item.supplyStatus == 'Qua sử dụng')
                     $tr.append($('<td>').html("<select class='form-control'><option>Mới 100%</option><option selected>Qua sử dụng</option></select> "))
@@ -217,7 +217,7 @@
             $('<td>').html("<input type='text' list='supplyID' class='form-control required' />"),
             $('<td>').html("<input type='number' min='1' value='1' class='form-control' />"),
             $('<td>').html("<select class='form-control'><option>Mới 100%</option><option>Qua sử dụng</option></select>"),
-            $('<td>').html("<input type='text' list='departmentName' class='form-control required' />")
+            $('<td>').html("<input type='text' value='" + $('#depa-id').val() + "' list='departmentName' class='form-control required' />")
         );
         $tr.appendTo('#test tbody');
     });
@@ -241,7 +241,7 @@
             }
             thietbi.vattu = arr;
             output[rownumber] = thietbi;
-            $('#json').val(JSON.stringify(output))
+            $('#json').val(JSON.stringify(output)) //wo1
         }
     })
 

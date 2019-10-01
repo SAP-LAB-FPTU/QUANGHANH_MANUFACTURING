@@ -18,92 +18,213 @@
         {
             @Html.AntiForgeryToken()
 
-            <div class="form-horizontal">
-                <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    <strong for="worker-numb">Trạng thái hố sơ</strong>
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.TrangThaiHoSo, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.TrangThaiHoSo, "", new { @class = "text-danger" })
-                    </div>
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @*<div class="form-group">
+                <strong for="worker-numb">Trạng thái hố sơ</strong>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TrangThaiHoSo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TrangThaiHoSo, "", new { @class = "text-danger" })
                 </div>
+            </div>*@
 
-                <div class="form-group">
-                    <strong for="worker-numb">Ngày nhận hồ sơ</strong>
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.NgayNhanHoSo, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.NgayNhanHoSo, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <strong for="worker-numb">Người giao hồ sơ</strong>
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.NguoiGiaoHoSo, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.NguoiGiaoHoSo, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <strong for="worker-numb">Cam kết tuyển dụng</strong>
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.CamKetTuyenDung, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.CamKetTuyenDung, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <strong for="worker-numb">Quyết định tiếp nhận DVC</strong>
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.QuyetDinhTiepNhanDVC, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.QuyetDinhTiepNhanDVC, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <strong for="worker-numb">Quyết định chấm dứt hợp đồng DVC</strong>
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.QDChamDutHopDongDVC, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.QDChamDutHopDongDVC, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <strong for="worker-numb">NLD Theo chỉ tiêu CTDT</strong>
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.NLDHocTheoChiTieuCTDT, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.NLDHocTheoChiTieuCTDT, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <strong for="worker-numb">Người bàn giao hồ sơ nhập kho</strong>
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.NguoiBanGiaoBangNhapKho, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.NguoiBanGiaoBangNhapKho, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <strong for="worker-numb">Người giữ hồ sơ</strong>
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.NguoiGiuHoSo, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.NguoiGiuHoSo, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                @Html.HiddenFor(model => model.MaNV)
-
-                <br />
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Lưu" class="waves-light btn blue darken-2 white-text" />
-                    </div>
+            <div class="form-group">
+                <strong for="worker-numb">Ngày nhận hồ sơ</strong>
+                <div class="col-md-10">
+                    <input id="edit_hoso_ngaynhan" class="form-control" />
+                    @Html.EditorFor(model => model.NgayNhanHoSo, new { htmlAttributes = new { @style = "display: none !important", @class = "form-control",@id="ngaynhan" } })
+                    @Html.ValidationMessageFor(model => model.NgayNhanHoSo, "", new { @class = "text-danger" })
                 </div>
             </div>
+
+            <div class="form-group">
+                <strong for="worker-numb">Người giao hồ sơ</strong>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.NguoiGiaoHoSo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.NguoiGiaoHoSo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <strong for="worker-numb">Người giữ hồ sơ</strong>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.NguoiGiuHoSo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.NguoiGiuHoSo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <strong for="worker-numb">Người bàn giao hồ sơ nhập kho</strong>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.NguoiBanGiaoBangNhapKho, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.NguoiBanGiaoBangNhapKho, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <strong for="worker-numb">Cam kết tuyển dụng</strong>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CamKetTuyenDung, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CamKetTuyenDung, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <strong for="worker-numb">Kiểu quyết định tiếp nhận đơn vị cũ</strong>
+                <div class="col-md-10">
+                    @Html.DropDownList("QuyetDinhTiepNhanDVC", (IEnumerable<SelectListItem>)ViewBag.listOptionBrief, "Chọn kiểu Quyết định", htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.QuyetDinhTiepNhanDVC, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <strong for="worker-numb">Ngày quyết định tuyển dụng</strong>
+                <div class="col-md-10">
+                    <input id="edit_hoso_ngayQD" class="form-control" />
+                    @Html.EditorFor(model => model.NgayQuyetDinhTuyenDung, new { htmlAttributes = new { @style = "display: none !important", @class = "form-control",@id="ngayQD" } })
+                    @Html.ValidationMessageFor(model => model.NgayQuyetDinhTuyenDung, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <strong for="worker-numb">Ngày đi làm</strong>
+                <div class="col-md-10">
+                    <input id="edit_hoso_ngayQdilam" class="form-control" />
+                    @Html.EditorFor(model => model.NgayDiLam, new { htmlAttributes = new { @style = "display: none !important", @class = "form-control",@id="ngaydilam" } })
+                    @Html.ValidationMessageFor(model => model.NgayDiLam, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <strong for="worker-numb">Đợn vị ký quyết định tiếp nhận</strong>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DonViKyQuyetDinhTiepNhan, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.DonViKyQuyetDinhTiepNhan, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <strong for="worker-numb">Kiểu quyết định chấm dứt hợp đồng đơn vị cũ</strong>
+                <div class="col-md-10">
+                    @Html.DropDownList("QDChamDutHopDongDVC", (IEnumerable<SelectListItem>)ViewBag.listOptionBrief, "Chọn kiểu hợp đồng", htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.QDChamDutHopDongDVC, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <strong for="worker-numb">Ngày quyết định chấm dứt</strong>
+                <div class="col-md-10">
+                    <input id="edit_hoso_ngayQDchamdut" class="form-control" />
+                    @Html.EditorFor(model => model.NgayQuyetDinhChamDut, new { htmlAttributes = new { @style = "display: none !important", @class = "form-control", @id = "ngayQDchamdut" } })
+                    @Html.ValidationMessageFor(model => model.NgayQuyetDinhChamDut, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <strong for="worker-numb">Ngày chấm dứt</strong>
+                <div class="col-md-10">
+                    <input id="edit_hoso_ngaychamdut" class="form-control" />
+                    @Html.EditorFor(model => model.NgayChamDut, new { htmlAttributes = new { @style = "display: none !important", @class = "form-control", @id = "ngaychamdut" } })
+                    @Html.ValidationMessageFor(model => model.NgayChamDut, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <strong for="worker-numb">Đơn vị ký quyết định chấm dứt</strong>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DonViKyQuyetDinhChamDut, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.DonViKyQuyetDinhChamDut, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <strong for="worker-numb">NLD Theo chỉ tiêu CTDT</strong>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.NLDHocTheoChiTieuCTDT, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.NLDHocTheoChiTieuCTDT, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            @Html.HiddenFor(model => model.MaNV)
+
+            <br />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Lưu" class="waves-light btn blue darken-2 white-text" id="submit_form_hoso" />
+                </div>
+            </div>
+        </div>
         }
 
     </div>
 </body>
 </html>
+<script>
+    $(document).ready(function () {
+
+        var date_start_edit1 = $("#ngaynhan").val();
+        $("#edit_hoso_ngaynhan").val(getDate(date_start_edit1));
+
+        $("#edit_hoso_ngaynhan").datepicker({ dateFormat: 'dd/mm/yyyy', changeYear: true });
+        $("#edit_hoso_ngaynhan").keydown(function (e) {
+            e.preventDefault();
+        });
+        var date_start_edit2 = $("#ngayQD").val();
+        $("#edit_hoso_ngayQD").val(getDate(date_start_edit2));
+
+        $("#edit_hoso_ngayQD").datepicker({ dateFormat: 'dd/mm/yyyy', changeYear: true });
+        $("#edit_hoso_ngayQD").keydown(function (e) {
+            e.preventDefault();
+        });
+        var date_start_edit3 = $("#ngaydilam").val();
+        $("#edit_hoso_ngayQdilam").val(getDate(date_start_edit3));
+
+        $("#edit_hoso_ngayQdilam").datepicker({ dateFormat: 'dd/mm/yyyy', changeYear: true });
+        $("#edit_hoso_ngayQdilam").keydown(function (e) {
+            e.preventDefault();
+        });
+        var date_start_edit4 = $("#ngayQDchamdut").val();
+        $("#edit_hoso_ngayQDchamdut").val(getDate(date_start_edit4));
+
+        $("#edit_hoso_ngayQDchamdut").datepicker({ dateFormat: 'dd/mm/yyyy', changeYear: true });
+        $("#edit_hoso_ngayQDchamdut").keydown(function (e) {
+            e.preventDefault();
+        });
+        var date_start_edit5 = $("#ngaychamdut").val();
+        $("#edit_hoso_ngaychamdut").val(getDate(date_start_edit5));
+
+        $("#edit_hoso_ngaychamdut").datepicker({ dateFormat: 'dd/mm/yyyy', changeYear: true });
+        $("#edit_hoso_ngaychamdut").keydown(function (e) {
+            e.preventDefault();
+        });
+
+    });
+    $('#submit_form_hoso').click(function () {
+        //alert("hahah");
+        var ngaycap = $('#edit_hoso_ngaynhan').val();
+        var arr = ngaycap.split('/');
+        $('#ngaynhan').val(arr[1] + "/" + arr[0] + "/" + arr[2]);
+        var ngayquyetdinh = $('#edit_hoso_ngaynhan').val().split('/');;
+        $('#ngayQD').val(ngayquyetdinh[1] + "/" + ngayquyetdinh[0] + "/" + ngayquyetdinh[2]);
+        var ngaydilam_arr = $('#edit_hoso_ngayQdilam').val().split('/');;
+        $('#ngaydilam').val(ngaydilam_arr[1] + "/" + ngaydilam_arr[0] + "/" + ngaydilam_arr[2]);
+        var ngayQDchamdut_arr = $('#edit_hoso_ngayQDchamdut').val().split('/');;
+        $('#ngayQDchamdut').val(ngayQDchamdut_arr[1] + "/" + ngayQDchamdut_arr[0] + "/" + ngayQDchamdut_arr[2]);
+        var ngaychamdut_arr = $('#edit_hoso_ngaychamdut').val().split('/');;
+        $('#ngaychamdut').val(ngaychamdut_arr[1] + "/" + ngaychamdut_arr[0] + "/" + ngaychamdut_arr[2]);
+
+    })
+    function addZeroIfRequired(dayOrMonth) {
+        return dayOrMonth > 9 ? dayOrMonth : "0" + dayOrMonth;
+    }
+
+    function getDate(dateString) {
+        var date = dateString ? new Date(dateString) : new Date();
+        return addZeroIfRequired(date.getDate()) + "/" + addZeroIfRequired((date.getUTCMonth() + 1)) + "/" +
+            date.getUTCFullYear();
+    }
+</script>

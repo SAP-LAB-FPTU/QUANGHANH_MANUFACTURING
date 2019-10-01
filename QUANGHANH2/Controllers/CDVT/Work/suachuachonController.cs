@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Dynamic;
 using System.Web.Mvc;
 using System.Web.Routing;
+using QUANGHANH2.SupportClass;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
@@ -19,6 +20,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
 {
     public class suachuachonController : Controller
     {
+        [Auther(RightID = "83")]
         [Route("phong-cdvt/sua-chua-chon")]
         [HttpGet]
         public ActionResult Index(String selectListJson)
@@ -72,6 +74,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
             return View("/Views/CDVT/Work/suachuachon.cshtml");
         }
 
+        [Auther(RightID = "83")]
         [Route("phong-cdvt/sua-chua-chon")]
         [HttpPost]
         public ActionResult GetData(string documentary_code, string out_in_come, string data, string department_id, string reason)
@@ -141,7 +144,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                 }
             }
         }
-
+        [Auther(RightID = "83")]
         [Route("phong-cdvt/sua-chua-chon/export")]
         [HttpPost]
         public ActionResult ExportQuyetDinh(string data, string documentary_code)
