@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using QUANGHANH2.Models;
+using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -17,9 +18,7 @@ namespace QUANGHANH2.Controllers.TCLD
             return View();
         }
 
-        
-
-
+        [Auther(RightID = "138")]
         public ActionResult SearchEmployee(string data)
         {
 
@@ -104,6 +103,7 @@ namespace QUANGHANH2.Controllers.TCLD
             }
         }
 
+        [Auther(RightID="138")]
         [Route("phong-tcld/dang-ky-cong-viec")]
         public ActionResult ViewJobByPX()
         {
@@ -159,7 +159,7 @@ namespace QUANGHANH2.Controllers.TCLD
         }
 
 
-
+        [Auther(RightID = "139")]
         [HttpPost]
         public ActionResult AssignTask(List<string> tasks)
         {
@@ -208,6 +208,7 @@ namespace QUANGHANH2.Controllers.TCLD
             return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
+        [Auther(RightID = "138")]
         [HttpPost]
         public ActionResult GetNhanVienByPX(string tenPhanXuong = "")
         {
@@ -250,7 +251,7 @@ namespace QUANGHANH2.Controllers.TCLD
             }
         }
 
-
+        [Auther(RightID = "140")]
         [Route("phong-tcld/chung-chi-cua-nhan-vien")]
         [HttpGet]
         public ActionResult ViewChungChiNhanVien()
@@ -296,6 +297,7 @@ namespace QUANGHANH2.Controllers.TCLD
             }
         }
 
+        [Auther(RightID = "138")]
         [HttpPost]
         public ActionResult GetAllNhanVienByPX()
         {
@@ -367,6 +369,7 @@ namespace QUANGHANH2.Controllers.TCLD
             }
         }
 
+        [Auther(RightID = "141")]
         [Route("phong-tcld/bao-cao-tinh-trang-chung-chi-cho-cong-viec")]
         public ActionResult ReportJob(string maPhongBan = "", string tenPhongBan = "")
         {
@@ -634,6 +637,7 @@ namespace QUANGHANH2.Controllers.TCLD
             }
         }
 
+        [Auther(RightID = "142")]
         [HttpPost]
         public ActionResult XacNhanGiaHan(string data)
         {
@@ -659,6 +663,7 @@ namespace QUANGHANH2.Controllers.TCLD
             }
         }
 
+        [Auther(RightID = "143")]
         [HttpPost]
         public ActionResult XacNhanThemMoi(string data)
         {
