@@ -13,34 +13,54 @@
 </head>
 <body>
 
-    <div id="EditLichSuBoSung"></div>
 
-    @using (Html.BeginForm("EditLichSuBoSung", "Brief", FormMethod.Post, new { onSubmit = "return SubmitForm(this) " }))
-    {
-        @Html.AntiForgeryToken()
+    <div id="EditLichSuBoSung">
 
-    <div class="form-horizontal">
 
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.NamBoSung)
+        @using (Html.BeginForm("EditLichSuBoSung", "Brief", FormMethod.Post, new { onSubmit = "return SubmitForm(this) " }))
+        {
+            @Html.AntiForgeryToken()
 
-        @Html.HiddenFor(model => model.DotBoSung)
-        <div class="form-group">
-            @Html.LabelFor(model => model.MaNV, "MaNV", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("MaNV", (IEnumerable<SelectListItem>)ViewBag.listMaNv, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.MaNV, "", new { @class = "text-danger" })
+            <div class="form-horizontal">
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.ID)
+
+
+                <div class="form-group input-group date">
+                    <strong for="worker-numb">Năm bổ sung</strong>
+                    <div class="col-md-10">
+                        <input type="text"
+                               id="date_year"
+                               class="datepicker-here datepicker-add center"
+                               data-language='vi'
+                               data-min-view="years"
+                               data-view="years"
+                               data-date-format="yyyy" />
+                        @Html.EditorFor(model => model.NamBoSung, new { htmlAttributes = new { @style = "display: none !important", @class = "form-control", @id = "date_start_year" } })
+                        @Html.ValidationMessageFor(model => model.NamBoSung, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <hr/>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Lưu" class="waves-light btn blue darken-2 white-text" id="save_syll" />
+                    </div>
+                </div>
+
+
             </div>
-        </div>
+        }
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
     </div>
-    }
-
-
 </body>
 </html>
+
+<script>
+    $(document).ready(function () {
+        $('#date_year').val($('#date_start_year').val());
+    })
+    $('#save_syll').click(function () {
+        $('#date_start_year').val($('#date_year').val());
+    })
+</script>
