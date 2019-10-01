@@ -41,13 +41,13 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                 {
                     Department d = DBContext.Database.SqlQuery<Department>("SELECT * FROM Department WHERE department_name = N'" + department + "'").First();
                     Equipment e = DBContext.Equipments.Find(equipment);
-                    if(e.current_Status == 1)
+                    if(e.current_Status == 4)
                     {
                         transaction.Rollback();
                         Response.Write("Thiết bị đang có trạng thái hỏng\n không thể thêm sự cố");
                         return new HttpStatusCodeResult(400);
                     }
-                    e.current_Status = 1;
+                    e.current_Status = 4;
                     i.department_id = d.department_id;
                     i.detail_location = detail;
                     i.equipmentId = equipment;
@@ -153,6 +153,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             DateTime dtStart = DateTime.ParseExact(dateStart, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             DateTime dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            dtEnd = dtEnd.AddHours(23);
+            dtEnd = dtEnd.AddMinutes(59);
             string query = "SELECT e.equipment_name, d.department_name, i.*, DATEDIFF(HOUR, i.start_time, i.end_time) as time_different FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId inner join Department d " +
                 "on d.department_id = i.department_id where i.start_time BETWEEN @start_time1 AND @start_time2 AND ";
             if (!equipmentId.Equals("") || !equipmentName.Equals("") || !department.Equals("") || !detail.Equals("") || !reason.Equals(""))
@@ -180,7 +182,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             incidents = incidents.Skip(start).Take(length).ToList<IncidentDB>();
             foreach (IncidentDB item in incidents)
             {
-                item.stringStartTime = item.start_time.ToString("hh:mm tt dd/MM/yyyy");
+                item.stringStartTime = item.start_time.ToString("HH:mm dd/MM/yyyy");
                 item.stringEndTime = item.getEndtime();
                 item.stringDiffTime = item.getDiffTime();
                 if (item.time_different.ToString() == "") item.editAble = item.incident_id + "^false";
@@ -213,7 +215,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                         excelWorksheet.Cells[i, 6].Value = incidents.ElementAt(k).fabrication_number;
                         excelWorksheet.Cells[i, 7].Value = incidents.ElementAt(k).detail_location;
                         excelWorksheet.Cells[i, 8].Value = incidents.ElementAt(k).department_name;
-                        excelWorksheet.Cells[i, 9].Value = incidents.ElementAt(k).start_time.ToString("hh:mm tt dd/MM/yyyy");
+                        excelWorksheet.Cells[i, 9].Value = incidents.ElementAt(k).start_time.ToString("HH:mm dd/MM/yyyy");
                         excelWorksheet.Cells[i, 10].Value = incidents.ElementAt(k).getEndtime();
                         excelWorksheet.Cells[i, 11].Value = incidents.ElementAt(k).getDiffTime();
                         excelWorksheet.Cells[i, 12].Value = incidents.ElementAt(k).reason;

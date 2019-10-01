@@ -5,7 +5,9 @@
 }
 
 
-
+@{ 
+    List<string> list = (List<string>)Session["RightIDs"];
+}
 <link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
 <link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
@@ -34,9 +36,18 @@
                                     <div class="col l10 m10 s12 input-field">
                                         <input type="text" placeholder="Tìm kiếm theo tên thiết bị" class='form-control' id="equipmentName-search" />
                                     </div>
-                                    <div class="col l10 m10 s12 input-field">
-                                        <a class="waves-effect waves-light btn-small blue modal-trigger" href="#myadd">Thêm bảo dưỡng ô tô hằng ngày</a>
-                                    </div>
+                                    @{
+                                        foreach (var item in list)
+                                        {
+                                            if (item.Equals("17"))
+                                            {
+                                                <div class="col l10 m10 s12 input-field">
+                                                    <a class="waves-effect waves-light btn-small blue modal-trigger" href="#myadd">Thêm bảo dưỡng ô tô hằng ngày</a>
+                                                </div>
+                                            }
+                                        }
+                                    }
+
                                 </div>
                             </div>
                             <div class="col l4 m4 s12">
@@ -248,7 +259,7 @@
         <a class="left"><button id="them" type="submit" class="btn light-blue lighten-1"><i class="large material-icons">add</i></button></a>
         <a class="left"><button id="remove" onclick="deleterowedit('supplyMaintain_edit')" class="btn light-blue lighten-1"><i class="large material-icons">remove</i></button></a>
         <a href="#myaleart1" class="btn blue darken-2  save-category modal-trigger">Lưu</a>
-        <button type="button" id="closeForm" class="btn light-blue lighten-1 modal-close">Thoát</button>
+        <button type="button" id="closeForm1" class="btn light-blue lighten-1 modal-close">Thoát</button>
     </div>
 </div>
 

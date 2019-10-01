@@ -34,7 +34,6 @@
                     </thead>
                 </table>
                 <input name="id" hidden value="@ViewBag.id" id="id" />
-                <input name="edit" hidden id="edit" />
                 <a class="btn blue darken-2" id="submit">Lưu</a>
             </div>
         </div>
@@ -85,16 +84,11 @@
 <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
 <script>
     $("#complex_header").on("click", ".buttonChon", function () {
-        var output = "";
         if ($(this).text() == "Chưa nhận") {
             $(this).text('Đã nhận')
-            if (!output.includes($(this).val())) output += $(this).val() + "^";
-            $('#edit').val(output)
         }
         else {
             $(this).text('Chưa nhận')
-            output = output.replace(($(this).val() + "^"), "")
-            $('#edit').val(output)
         }
     });
 
@@ -118,7 +112,6 @@
     <script src="~/js/jquery.dataTables.min.js"></script>
     <script>
         var Popup, dataTable;
-        var output = "";
         $('#pre-load').show();
         dataTable = $('#complex_header').dataTable({
             "language": {
@@ -178,13 +171,17 @@
         });
 
         $("#submit").click(function (e) {
+            var equipments = "";
+            for (var i = 0; i < $('#complex_header tbody tr').length; i++) {
+                if ($('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').text() == "Đã nhận")
+                    equipments += $('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').val() + "^"
+            }
             $("#pre-load").show();
             $.ajax({
                 type: "POST",
                 url: "/phong-cdvt/cap-nhat/quyet-dinh/thanh-ly/edit",
                 dataType: "text",
                 success: function () {
-                    $('#edit').val("");
                     var table = $('#complex_header').DataTable();
                     table.ajax.reload(function () {
                         $('#pre-load').hide();
@@ -203,7 +200,7 @@
                 },
                 data: {
                     id: $('#id').val(),
-                    edit: $('#edit').val()
+                    edit: equipments
                 },
                 cache: false
             })
@@ -217,7 +214,6 @@
                 url: "/phong-cdvt/cap-nhat/quyet-dinh/EditSupplyStatus",
                 dataType: "text",
                 success: function () {
-                    $('#edit').val("");
                     var table = $('#complex_header').DataTable();
                     table.ajax.reload(function () {
                         $.notify("Lưu thành công", {

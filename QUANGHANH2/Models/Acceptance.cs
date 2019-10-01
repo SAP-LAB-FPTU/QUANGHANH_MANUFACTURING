@@ -15,7 +15,7 @@ namespace QUANGHANH2.Models
     public partial class Acceptance
     {
         public int equipmentStatus { get; set; }
-        public System.DateTime acceptance_date { get; set; }
+        public Nullable<System.DateTime> acceptance_date { get; set; }
         public int documentary_id { get; set; }
         public string equipmentId { get; set; }
         public string acceptance_result { get; set; }
