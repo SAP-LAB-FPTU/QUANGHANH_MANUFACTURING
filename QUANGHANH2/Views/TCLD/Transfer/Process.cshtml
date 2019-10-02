@@ -495,6 +495,9 @@
                             for (var i = 48; i <= 57; i++) {
                                 acceptList.push(i);
                             }
+                            for (var i = 100; i <= 109; i++) {
+                                acceptList.push(i);
+                            }
                             if (acceptList.indexOf(e.keyCode) === -1) {
                                 e.preventDefault();
                             }
@@ -635,7 +638,7 @@
                             $("#preview-table").append("<td>" + response.data[i].DonViHienTai + "</td>\n");
                             $("#preview-table").append("<td>" + response.data[i].ChucVuHienTai.tenChucVu + "</td>\n");                                    $("#preview-table").append("<td>" + response.data[i].DonViMoi + "</td>\n");
                             $("#preview-table").append("<td>" + response.data[i].ChucVu.tenChucVu + "</td>\n");                 
-                            $("#preview-table").append("<td>" + AddComma(response.data[i].ThangBacLuong) + "</td>\n");
+                            $("#preview-table").append("<td>" + response.data[i].ThangBacLuong+ "</td>\n");
                             $("#preview-table").append("<td>" + AddComma(response.data[i].PhuCap) + "</td>\n");
                             $("#preview-table").append("<td>" + AddComma(response.data[i].BacLuong) + "</td>\n");
                             $("#preview-table").append("<td>" + AddComma(response.data[i].MucLuong) + "</td>\n");
