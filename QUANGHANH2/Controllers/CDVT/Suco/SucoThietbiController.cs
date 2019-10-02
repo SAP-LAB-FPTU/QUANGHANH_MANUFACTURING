@@ -248,6 +248,24 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                 return new HttpStatusCodeResult(400);
             }
         }
+
+        [Route("phong-cdvt/su-co/getDepartment")]
+        [HttpPost]
+        public ActionResult getDepartment(string equipmentId)
+        {
+            try
+            {
+                QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+                Equipment e = DBContext.Equipments.Find(equipmentId);
+                Department d = DBContext.Departments.Find(e.department_id);
+                return Json(d.department_name);
+            }
+            catch (Exception)
+            {
+                Response.Write("Mã thiết bị không tồn tại, xin vui lòng nhập lại");
+                return new HttpStatusCodeResult(400);
+            }
+        }
     }
 
     public class IncidentDB : Incident

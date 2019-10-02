@@ -102,6 +102,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                         string repair_type = (string)item.Value["repair_type"];
                         string repair_reason = (string)item.Value["repair_reason"];
                         string datestring = (string)item.Value["finish_date_plan"];
+                        if (documentary_code != "")
+                        {
+                            Equipment e = DBContext.Equipments.Find(equipmentId);
+                            e.current_Status = 5;
+                        }
                         DateTime finish_date_plan = DateTime.ParseExact(datestring, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                         Documentary_maintain_details drd = new Documentary_maintain_details();
                         drd.equipment_maintain_status = 0;

@@ -37,7 +37,8 @@
                                     </div>
                                     <div class="col l10 m10 s12 input-field">
                                         <select class="form-control" id="department-search">
-                                            <option value="" selected>Tất cả</option>
+                                            <option value="" disabled selected>Chọn phân xưởng</option>
+                                            <option value="">Tất cả</option>
                                             @foreach (var item in ViewBag.listDepeartment)
                                             {
                                                 <option value="@item.department_id">@item.department_name</option>
@@ -71,6 +72,7 @@
                                     <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
                                         <select class="form-control" id="equipmentQuality-search">
                                             <option value="" disabled selected>Chọn loại chất lượng</option>
+                                            <option value="">Tất cả</option>
                                             <option value="A">A</option>
                                             <option value="B">B</option>
                                             <option value="C">C</option>
@@ -102,11 +104,11 @@
                                     <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="myadd3" @*onclick="PopupForm('@Url.Action("AddOrEdit","Hoatdong")')*@><i class="fa fa-plus"></i> Thêm nhóm thiết bị</a>
 
                                 }
-                                if (item.Equals("114"))
+                                @*if (item.Equals("114"))
                                 {
-                                    <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="myadd3" @*onclick="PopupForm('@Url.Action("AddOrEdit","Hoatdong")')*@><i class="fa fa-plus"></i> Thêm nhóm thiết bị</a>
+                                    <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="myadd3" onclick="PopupForm('@Url.Action("AddOrEdit","Hoatdong")')><i class="fa fa-plus"></i> Thêm nhóm thiết bị</a>
 
-                                }
+                                }*@
                                 if (item.Equals("3"))
                                 {
                                     <a class="waves-effect waves-light btn-small blue modal-trigger" id="export-button">Xuất ra Excel</a>
@@ -114,20 +116,20 @@
                                 }
                                 if (item.Equals("2"))
                                 {
-                                    <a class="waves-effect waves-light btn-small blue modal-trigger" href="#kiemdinh">Cập nhật ngày kiểm định</a>
+                                    @*<a class="waves-effect waves-light btn-small blue modal-trigger" href="#kiemdinh">Cập nhật ngày kiểm định</a>*@
 
                                 }
 
                             }
                         }
                     </div>
-                    <div class="right">
+                    @*<div class="right">
                         <a class='dropdown-trigger btn' id="filter" href='#' data-target='dropdown1'
                            style="width:250px;background-color:#273146">
                             Xem
                             theo
                         </a>
-                    </div>
+                    </div>*@
                 </div>
 
                 <div class="row">
@@ -627,7 +629,7 @@
                         },
                     },
                     { "data": "total_operating_hours" , "name" : "total_operating_hours"},
-                    { "data": "current_Status", "name" : "current_Status"},
+                    { "data": "statusname", "name" : "statusname"},
                     { "data": "fabrication_number", "name": "fabrication_number" },
                     { "data": "mark_code", "name" : "mark_code"},
                     { "data": "quality_type" , "name" : "quality_type"},
@@ -753,7 +755,7 @@
                          { "data": "department_name", "name": "department_name" },
                     //
                      {
-                        "data": "equipmentId", "render": function (data) {
+                        "data": "equipmentId", "visible":bol, "render": function (data) {
                 return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='myedit' onclick=Edit('@Url.Action("Edit","Hoatdong")/" + data + "')><i class='fa fa-pencil'></i>Chỉnh&nbsp;sửa</a>";
             },
                         "orderable": false,
@@ -761,7 +763,7 @@
                         "width":"150px"
                     },
                     {
-                        "data": "equipmentId", "render": function (data) {
+                        "data": "equipmentId", "visible":bol2, "render": function (data) {
                 return "<a class='waves-effect waves-light btn-small blue' style='margin-left:5px' onclick=Delete('@Url.Action("Delete","Hoatdong")/" + data + "')><i class='fa fa-trash'></i>Xóa</a>";
             },
                         "orderable": false,
@@ -883,13 +885,9 @@
              $.get(url)
                  .done(function (response) {
                      $("#edit-modal-body").html(response)
-                     setTimeout(() => {
-                         var temp = $("#date_import").val();
-                         alert(temp);
-                     },2000);
+                     
             });
 
-                alert(temp);
                 return false;
             }
 
