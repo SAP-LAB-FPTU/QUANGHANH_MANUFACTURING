@@ -139,9 +139,8 @@
                     },
                     "columns": [
                         {
-                            "data": "SoQuyetDinh", "name": "SoQuyetDinh",
-                            "render": function () {
-                                return 1;
+                            "render": function (data, type, full, meta) {
+                                return meta.row+1;
                             }
                         },
                         {
@@ -166,7 +165,8 @@
                             "render": function (data, type, full) {
                                 return "<a class=\"waves-effect waves-light btn  blue modal-trigger\" href=\"#detailModal\" onclick='detail(" + full.MaQuyetDinh + ")'><i class=\"fas fa-file-alt\"></i><span> Chi tiết</a>\n" +
                                     "<a class=\" waves-effect waves-light btn blue darken-2 btn-small \" onclick='deleteQD(" + full.MaQuyetDinh + ")'><i class=\"fa fa-trash\"></i><span> Xóa</a>";
-                            }
+                            },
+                            "orderable": false
                         }
                     ],
                     "serverSide": "true",
@@ -274,7 +274,7 @@
                             $("#detail-table").append("<td>" + response.list[i].DonViMoi + "</td>");
                             $("#detail-table").append("<td>" + response.list[i].ChucVuMoi + "</td>");
                             $("#detail-table").append("<td>" + response.list[i].ThangLuong + "</td>");
-                            $("#detail-table").append("<td>" + AddComma(response.list[i].PhuCap) + "</td>");
+                            $("#detail-table").append("<td>" + AddComma(response.list[i].PhuCap==null?"0":response.list[i].PhuCap) + "</td>");
                             $("#detail-table").append("<td>" + response.list[i].BacLuongMoi + "</td>");
                             $("#detail-table").append("<td>" + AddComma(response.list[i].MucLuongMoi) + "</td>");
                             $("#detail-table").append("<td>" + response.list[i].LyDoDieuDong + "</td>");

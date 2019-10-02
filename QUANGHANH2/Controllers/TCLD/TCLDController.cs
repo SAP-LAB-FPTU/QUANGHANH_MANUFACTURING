@@ -28,14 +28,34 @@ namespace QUANGHANHCORE.Controllers.TCLD
             {
                 db.Configuration.LazyLoadingEnabled = false;
 
+                ////////////////////////////GET so luot huy dong////////////////////////////////
                 string sql = "select count(MaQuyetDinh) as SoLuotHuyDong from quyetdinh\n" +
                 "where maquyetdinh in\n" +
                 "(SELECT  distinct MaQuyetDinh FROM DIEUDONG_NHANVIEN)\n" +
                 "AND NgayQuyetDinh = (SELECT CONVERT(VARCHAR(10), getdate() - 1, 101))";
-#pragma warning disable S1854 // Dead stores should be removed
                 soLuotHuyDong = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
-#pragma warning restore S1854 // Dead stores should be removed
 
+                ////////////////////////////GET SO LUONG TAI NAN//////////////////////////////
+                sql = "select Count(tn.MaNV)  from \n" +
+                      "(select MaNV, Ngay from TaiNan where\n" +
+                      "Ngay = (SELECT CONVERT(VARCHAR(10), getdate() - 1, 101))) as tn";
+                vuTaiNan = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
+
+                ///////////////////////////////GET SO LUONG HET HAN CC//////////////////////////////
+                sql = "select sum(th.st) \n" +
+                      "from(select cn.MaNV, cn.NgayCap, cc.ThoiHan, (case\n" +
+                      "when DATEADD(MONTH, cc.ThoiHan, cn.NgayCap) <= GETDATE()\n" +
+                      "then 1 else 0 end) as st\n" +
+                      "from ChungChi_NhanVien cn join ChungChi cc on cn.MaChungChi = cc.MaChungChi) as th";
+                hetHanChungChi = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
+
+                ////////////////////////////GET SO LUONG NGHI VLD//////////////////////////////
+                sql = "select Count(vld.MaNV) from \n" +
+                        "(select MaNV, NgayDiemDanh from DiemDanh_NangSuatLaoDong\n" +
+                        "where NgayDiemDanh = (SELECT CONVERT(VARCHAR(10), getdate() - 1, 101))\n" +
+                        "and XacNhan = 1) as vld";
+                nghiVLD = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
+                ////////////////////////////////////////////////////////////////////////////////
             }
             ViewBag.soLuotHuyDong = soLuotHuyDong;
             ViewBag.hetHanChungChi = hetHanChungChi;
@@ -60,34 +80,46 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
                     ////////////////////////////GET so luot huy dong////////////////////////////////
-                    
+
                     db.Configuration.LazyLoadingEnabled = false;
                     string sql = "select count(MaQuyetDinh) as SoLuotHuyDong from quyetdinh\n" +
                     "where maquyetdinh in\n" +
                     "(SELECT  distinct MaQuyetDinh FROM DIEUDONG_NHANVIEN)\n" +
                     "AND NgayQuyetDinh = @NgayQuyetDinh";
-                    #pragma warning disable S1854 // Dead stores should be removed
                     soLuotHuyDong = db.Database.SqlQuery<int>(sql,
-                        new SqlParameter("NgayQuyetDinh",DateTime.Parse(date) )).ToList<int>()[0];
-                    #pragma warning restore S1854 // Dead stores should be removed
+                        new SqlParameter("NgayQuyetDinh", DateTime.Parse(date))).ToList<int>()[0];
 
                     ////////////////////////////GET SO LUONG TAI NAN//////////////////////////////
-                    sql = "";
+                    sql = "select Count(tn.MaNV)  from \n" +
+                      "(select MaNV, Ngay from TaiNan where\n" +
+                      "Ngay = @NgayQuyetDinh) as tn";
+                    vuTaiNan = db.Database.SqlQuery<int>(sql,
+                        new SqlParameter("NgayQuyetDinh", DateTime.Parse(date))).ToList<int>()[0];
                     //////////////////////////////////////////////////////////////////////////////
 
-                    /// ////////////////////////////GET SO LUONG TAI NAN//////////////////////////////
-                    sql = "";
+                    /// ////////////////////////////GET SO LUONG HET HAN CC//////////////////////////////
+                    sql = "select sum(th.st) \n" +
+                      "from(select cn.MaNV, cn.NgayCap, cc.ThoiHan, (case\n" +
+                      "when DATEADD(MONTH, cc.ThoiHan, cn.NgayCap) <= GETDATE()\n" +
+                      "then 1 else 0 end) as st\n" +
+                      "from ChungChi_NhanVien cn join ChungChi cc on cn.MaChungChi = cc.MaChungChi) as th";
+                    hetHanChungChi = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
                     //////////////////////////////////////////////////////////////////////////////
 
                     /// ////////////////////////////GET SO LUONG NGHI VLD//////////////////////////////
-                    sql = "";
+                    sql = "select Count(vld.MaNV) from \n" +
+                        "(select MaNV, NgayDiemDanh from DiemDanh_NangSuatLaoDong\n" +
+                        "where NgayDiemDanh = @NgayQuyetDinh\n" +
+                        "and XacNhan = 1) as vld";
+                    nghiVLD = db.Database.SqlQuery<int>(sql,
+                    new SqlParameter("NgayQuyetDinh", DateTime.Parse(date))).ToList<int>()[0];
                     //////////////////////////////////////////////////////////////////////////////
                 }
-                return Json(new { success = true, soLuongHuyDong = soLuotHuyDong, vuTaiNan = vuTaiNan, nghiVLD = nghiVLD, hetHanChungChi = hetHanChungChi },JsonRequestBehavior.AllowGet);
+                return Json(new { success = true, soLuongHuyDong = soLuotHuyDong, vuTaiNan = vuTaiNan, nghiVLD = nghiVLD, hetHanChungChi = hetHanChungChi }, JsonRequestBehavior.AllowGet);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                return Json(new { success = false, message = "Lỗi" },JsonRequestBehavior.AllowGet);
+                return Json(new { success = false, message = "Lỗi" }, JsonRequestBehavior.AllowGet);
             }
         }
         //[Route("phong-tcld/bao-cao-nhanh-lao-dong-tien-luong-vtl1")]
