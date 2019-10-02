@@ -260,6 +260,7 @@
     <Compile Include="Controllers\CDVT\Work\ThuhoiController.cs" />
     <Compile Include="Controllers\CDVT\Work\TrungdaituchonController.cs" />
     <Compile Include="Controllers\CDVT\Work\TrungdaituController.cs" />
+    <Compile Include="Controllers\DK\AccidentController.cs" />
     <Compile Include="Controllers\DK\DKController.cs" />
     <Compile Include="Controllers\DK\ReportHuman\ReportHumanController.cs" />
     <Compile Include="Controllers\DK\ReportIncidentController.cs" />
@@ -486,6 +487,7 @@
     <Compile Include="Models\Supply_tieuhao.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TaiNan.cs" />
     <Compile Include="Models\ThucHien_TieuChi.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -7132,6 +7134,7 @@
     <Content Include="Views\CDVT\Report\bao_cao_trung_tu.cshtml" />
     <Content Include="Views\CDVT\Report\TangGiam.cshtml" />
     <Content Include="Views\CDVT\Thietbi\Kiemdinh.cshtml" />
+    <Content Include="Views\DK\Acident.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
