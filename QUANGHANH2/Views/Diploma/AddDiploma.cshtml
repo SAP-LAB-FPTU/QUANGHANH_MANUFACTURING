@@ -33,7 +33,7 @@
                 <div class="form-group col s6 m6 l6">
                     @Html.LabelFor(model => model.MaChuyenNganh, "Tên chuyên ngành", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.DropDownList("MaChuyenNghanh", (SelectList)ViewBag.listSelect_chuyennganh, htmlAttributes: new { @class = "form-control" })
+                        @Html.DropDownList("MaChuyenNganh", (SelectList)ViewBag.listSelect_chuyennganh, htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.MaChuyenNganh, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                 <div class="form-group col s6 m6 l6">
                     @Html.LabelFor(model => model.KieuBangCap, "Kiểu bằng cấp", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.DropDownList("KieuBangCap", (IEnumerable<SelectListItem>)ViewBag.listTypesDip, "Chọn kiểu bằng cấp", htmlAttributes: new { @class = "form-control" })
+                        @Html.DropDownList("KieuBangCap", (IEnumerable<SelectListItem>)ViewBag.listTypesDip, htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.KieuBangCap, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -66,7 +66,7 @@
                         <input id="add_dip" class="form-control" />
                         @Html.EditorFor(model => model.ThoiHan, new { htmlAttributes = new { @style = "display: none !important", @class = "form-control", @id = "add_time" } })
                         @Html.ValidationMessageFor(model => model.ThoiHan, "", new { @class = "text-danger" })
-                        <p hidden style="color:red" id="message_isNum_diploma">Thời hạn là một số dương. Vui lòng nhập lại</p>
+                        <p hidden style="color:red" id="message_isNum_diploma">Thời hạn là một số nguyên dương. Vui lòng nhập lại</p>
                     </div>
                 </div>
 
@@ -120,7 +120,7 @@
 
             $('#add_dip').blur(function () {
                 var isNum = $(this).val();
-                if (!isNumeric(isNum) || (new Number(isNum) < 0)) {
+                if (!isNumeric(isNum) || (new Number(isNum) <= 0)) {
                     //Check if Thoihan is numeric
                     $("#message_isNum_diploma").show(); //Show error
                     $('#submit_form_diploma').attr("disabled", true);

@@ -6880,6 +6880,8 @@
     <Content Include="doc\TCLD\dieudong\quyetdinh-dieudong.docx" />
     <Content Include="doc\TCLD\dieudong\temp.docx" />
     <Content Include="excel\TCLD\CD_TD_Report.xlsx" />
+    <Content Include="excel\TCLD\Certificate\Chứng chỉ của nhân viên.xlsx" />
+    <Content Include="excel\TCLD\Certificate\List\download\ListCertificate.xlsx" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>

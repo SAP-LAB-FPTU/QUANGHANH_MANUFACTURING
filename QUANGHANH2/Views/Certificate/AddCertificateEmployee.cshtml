@@ -56,13 +56,15 @@
                         <input id="start_time" class="form-control" />
                         @Html.EditorFor(model => model.NgayCap, new { htmlAttributes = new { @style = "display: none !important", @class = "form-control", @id = "ngaycap_add_cert" } })
                         @Html.ValidationMessageFor(model => model.NgayCap, "", new { @class = "text-danger" })
+                        <p hidden style="color:red" id="message_date_add">Không đúng định dạng ngày/tháng/năm. Hãy nhập lại</p>
+                        <p hidden style="color:red" id="message_date_error_add">Thời gian không được vượt quá ngày hiện tại. Hãy nhập lại</p>
                     </div>
                 </div>
 
                 <div class="form-group col s12 m12 l12">
                     @Html.LabelFor(model => model.MaChungChi, "Tên Chứng chỉ", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.DropDownList("MaChungChi", (IEnumerable<SelectListItem>)ViewBag.List_chungchi, "Chọn chứng chỉ", htmlAttributes: new { @class = "form-control", @id = "machungchi"})
+                        @Html.DropDownList("MaChungChi", (IEnumerable<SelectListItem>)ViewBag.List_chungchi, "Chọn chứng chỉ", htmlAttributes: new { @class = "form-control", @id = "machungchi" })
                         @Html.ValidationMessageFor(model => model.MaChungChi, "", new { @class = "text-danger" })
                         <p hidden style="color:red" id="message_cirt_emp">Chứng chỉ của nhân viên này đã tồn tại. Hãy chọn lại</p>
                     </div>
@@ -94,9 +96,7 @@
     $(document).ready(function () {
 
         $("#start_time").datepicker({ dateFormat: 'dd/mm/yyyy', changeYear: true });
-        $("#start_time").keydown(function (e) {
-            e.preventDefault();
-        });
+
 
     });
     $('#sohieu').blur(function () {
@@ -120,7 +120,7 @@
     });
 
     $('#manv_add').change(function () {
-        var manv = $(this).val();       
+        var manv = $(this).val();
       $.ajax({
             url:'@Url.Action("getNameEmployee", "Certificate")',
             type: "POST",
@@ -145,7 +145,7 @@
     $('#manv_add').blur(function () {
         var manv = $(this).val();
         var first_cir = "";
-        $('#machungchi').blur(function () {           
+        $('#machungchi').blur(function () {
             $.ajax({
             url:'@Url.Action("validateExistCirtificateOfEmp", "Certificate")',
             type: "POST",
@@ -169,10 +169,56 @@
         })
         })
     })
-    //$("#start_time_add_certificate_Emp").on("change", function () {
-    //    var fromdate = $(this).val();
-    //    alert(fromdate);
-    //});
+    $('#start_time').blur(function () {
+        //alert("adasds");
+
+        var date_validate = $('#start_time').val();
+
+        var arr = date_validate.split('/');
+        var dateformat = arr[1] + "/" + arr[0] + "/" + arr[2];
+        var millis = new Date();
+        var d = new Date(dateformat);
+
+        if (date_validate.trim()) {
+            if (testDate(date_validate)) {
+                $('#message_date_add').hide();
+                if (millis < d) {
+                    $('#message_date_error_add').show();
+                    $('#submit_form').attr("disabled", true);
+                }
+                else {
+                    $('#message_date_error_add').hide();
+                    $('#submit_form').attr("disabled", false);
+                }
+
+            }
+            else {
+                $('#message_date_error_add').hide();
+                $('#message_date_add').show();
+                $('#submit_form').attr("disabled", true);
+            }
+        }
+        else {
+            $('#message_date_add').hide();
+            $('#message_date_error_add').hide();
+            $('#submit_form').attr("disabled", false);
+        }
+
+    })
+    function testDate(str) {
+
+        var t = str.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+        if (t === null)
+            return false;
+        var d = +t[1], m = +t[2], y = +t[3];
+
+        // Below should be a more acurate algorithm
+        if (m >= 1 && m <= 12 && d >= 1 && d <= 31) {
+            return true;
+        }
+
+        return false;
+    }
     $('#submit_form').click(function () {
 
         var ngaycap = $('#start_time').val();
