@@ -237,8 +237,6 @@ namespace QUANGHANH2.Controllers.TCLD
 
         }
 
-
-
         //[Route("phong-tcld/quan-ly-nhan-vien/them-nhan-vien")]
         //public ActionResult LoadAdd()
         //{
