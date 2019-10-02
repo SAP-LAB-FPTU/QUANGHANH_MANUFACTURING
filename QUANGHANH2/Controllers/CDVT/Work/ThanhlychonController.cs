@@ -102,6 +102,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                         string equipmentId = (string)item.Value["id"];
                         string buyer = (string)item.Value["buyer"];
                         string equipment_liquidation_reason = (string)item.Value["equipment_liquidation_reason"];
+                        if (documentary_code != "")
+                        {
+                            Equipment e = DBContext.Equipments.Find(equipmentId);
+                            e.current_Status = 8;
+                        }
+
                         Documentary_liquidation_details drd = new Documentary_liquidation_details();
                         drd.equipment_liquidation_status = 0;
                         drd.buyer = buyer;

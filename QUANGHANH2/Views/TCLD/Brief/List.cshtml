@@ -4,10 +4,10 @@
 }
 <link href="~/dist/css/pages/data-table.css" rel="stylesheet">
 
-@*@{
+@{
         ViewBag.Title = "Add";
         List<string> right = (List<string>)Session["RightIDs"];
-    }*@
+    }
 
 <div class="col s12 m12 l12">
     <div class="card">
@@ -138,7 +138,7 @@
                     </div>
                     <div class="col s6 m6 l6">
                         <label>Ngày chấm dứt</label>
-                        <input name="dateTLHD" type='text' class='datepicker-here form-control' data-language='vi' placeholder="Ngày chấm dứt" />
+                        <input name="dateTLHD" id="datepicker" type='text' class='datepicker-here form-control' data-language='vi' placeholder="Ngày chấm dứt" />
                     </div>
 
                 </div>
@@ -322,7 +322,6 @@
                             },
                             "orderable": false,
                             "searchable": false,
-                            "width": "150px"
                         },
                         {
                             "data": "MaNV", "render": function (data) {
@@ -330,7 +329,6 @@
                             },
                             "orderable": false,
                             "searchable": false,
-                            "width": "150px"
                         },
                         {
                             "data": "MaNV", "render": function (data) {
@@ -338,7 +336,6 @@
                             },
                             "orderable": false,
                             "searchable": false,
-                            "width": "150px"
                         }
                     ],
                     "drawCallback": function (settings) {
@@ -466,3 +463,8 @@
         });
     </script>
 }
+<script>
+     $("#datepicker").keydown(function (e) {
+        e.preventDefault();
+    });
+</script>

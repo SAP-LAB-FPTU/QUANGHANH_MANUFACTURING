@@ -38,6 +38,7 @@
                     <div class="col l4 m4 s12">
                         <div class="row">
                             <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
+                                <label>Tìm kiếm theo ngày bắt đầu sự cố</label>
                                 <input placeholder="thời gian bắt đầu sự cố từ" type='text' class='datepicker-here form-control maxDate' data-language='vi' id="date-start-search" />
                             </div>
                             <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
@@ -126,7 +127,7 @@
                         <div class="col s12 m12">
                             <div class="form-group">
                                 <label for="id">Phân xưởng chịu trách nhiệm : </label>
-                                <input required type="text" list="department_name" class="form-control" value="" id="department-add" />
+                                <input required type="text" readonly list="department_name" class="form-control" value="" id="department-add" />
                             </div>
                         </div>
                         <div class="col s12 m12">
@@ -694,6 +695,30 @@
                 },
                 cache: false
             })
+        });
+
+        $('#equipment-add').keypress(function (event) {
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == '13') {
+                $.ajax({
+                    type: "POST",
+                    url: "/phong-cdvt/su-co/getDepartment",
+                    dataType: "json",
+                    success: function (data) {
+                        $("#department-add").val(data);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        $.notify(XMLHttpRequest.responseText, {
+                            globalPosition: "top center",
+                            className: "error"
+                        });
+                    },
+                    data: {
+                        equipmentId: $(this).val()
+                    },
+                    cache: false
+                })
+            }
         });
     </script>
 }
