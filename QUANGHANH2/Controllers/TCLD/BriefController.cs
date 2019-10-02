@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Linq.Dynamic;
@@ -1091,10 +1092,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
                          select
                 new
                 {
+                    ma=a.MaGiayTo,
                     kieu = a.KieuGiayTo,
                     ngaytra = a.NgayTra,
                     sohieu = "",
-                    ngaycap = a.NgayTra,
+                    ngaycap = (DateTime?) null ,
                     ten = a.TenGiayTo,
                     manv = a.MaNV
 
@@ -1105,6 +1107,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                          select
                          new
                          {
+                             ma=a.MaChungChi,
                              kieu = b.KieuChungChi,
                              ngaytra = a.NgayTra,
                              sohieu = a.SoHieu,
@@ -1119,6 +1122,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                          select
                          new
                          {
+                             ma=a.MaBangCap_GiayChungNhan,
                              kieu = b.KieuBangCap,
                              ngaytra = a.NgayTra,
                              sohieu = a.SoHieu,
@@ -1133,25 +1137,33 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
 
         }
-
+        
         public ActionResult updateGiayTo(String json)
         {
             dynamic js = JObject.Parse(json);
             String manv = js.manv;
+            int ma = js.ma;
             String sohieu = js.sohieu;
             String kieu = js.kieu;
             String ngaytra = js.ngaytra;
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 //  GiayChungNhan_NhanVien x = (from a in db.GiayChungNhan_NhanVien where a.MaNV == manv & a.SoHieu==sohieu  select a).SingleOrDefault() ;
-                ChungChi_NhanVien x = (from a in db.ChungChi_NhanVien where a.MaNV == manv & a.SoHieu == sohieu select a).SingleOrDefault();
-                ChiTiet_BangCap_GiayChungNhan y = (from a in db.ChiTiet_BangCap_GiayChungNhan where a.MaNV == manv & a.SoHieu == sohieu select a).SingleOrDefault();
+                ChungChi_NhanVien x = (from a in db.ChungChi_NhanVien where a.MaNV == manv & a.SoHieu == sohieu & a.MaChungChi == ma select a).SingleOrDefault();
+                ChiTiet_BangCap_GiayChungNhan y = (from a in db.ChiTiet_BangCap_GiayChungNhan where a.MaNV == manv & a.SoHieu == sohieu & a.MaBangCap_GiayChungNhan==ma select a).SingleOrDefault();
+                GiayTo z = (from a in db.GiayToes where a.MaNV == manv &a.MaGiayTo ==ma  select a).SingleOrDefault();
                 if (x != null)
                 {
                     if (isValidateDateTime(ngaytra))
                         x.NgayTra = Convert.ToDateTime(ngaytra);
                 }
                 if (y != null)
+                {
+                    if (isValidateDateTime(ngaytra))
+                        y.NgayTra = Convert.ToDateTime(ngaytra);
+
+                }
+                if (z != null)
                 {
                     if (isValidateDateTime(ngaytra))
                         y.NgayTra = Convert.ToDateTime(ngaytra);
@@ -1282,10 +1294,12 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                       loaichamdut = p2.LoaiChamDut,
                                       edit = true
                                   }).ToList();
-                    int index = 2;
+                    int index = 4;
+                    int tempIndex;
                     int stt = 1;
                     foreach (var item in mydata)
                     {
+                        tempIndex=index;
                         excelWorksheet.Cells[index, 1].Value = stt;
                         excelWorksheet.Cells[index, 2].Value = item.manv;
                         excelWorksheet.Cells[index, 3].Value = item.ten;
@@ -1294,8 +1308,128 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         excelWorksheet.Cells[index, 6].Value = item.sdt;
                         excelWorksheet.Cells[index, 7].Value = item.diachi;
                         excelWorksheet.Cells[index, 8].Value = item.loaichamdut;
-                        
-                        index++;
+                        var giayto = (from p in db.GiayToes
+                                      where p.MaNV == item.manv
+                                     select
+                                     new { ten = p.TenGiayTo,
+                                           kieu =p.KieuGiayTo,
+                                           ngaycap="",
+                                           ngaytra=p.NgayTra
+
+                                     }).ToList();
+
+
+                        // not empty
+                        if (giayto.Count != 0)
+                        {
+                           int  indexGiayTo = index;
+                            foreach(var i in giayto)
+                            {
+                                excelWorksheet.Cells[indexGiayTo, 9].Value = i.ten;
+                                excelWorksheet.Cells[indexGiayTo, 10].Value = i.kieu;
+                                
+                                excelWorksheet.Cells[indexGiayTo, 11].Value = i.ngaycap;
+                                excelWorksheet.Cells[indexGiayTo, 12].Value = i.ngaytra.HasValue ? i.ngaytra.Value.ToString("dd/MM/yyyy") : string.Empty;
+                                indexGiayTo++;
+                            }
+                            if (indexGiayTo >= tempIndex) tempIndex = indexGiayTo;
+                        }
+                        var chungchi = (from p in db.ChungChis
+                                        join p1 in db.ChungChi_NhanVien on p.MaChungChi equals p1.MaChungChi
+                                        where p1.MaNV == item.manv
+                                        select new
+                                        {
+                                            ten = p.TenChungChi,
+                                            kieu =p.KieuChungChi,
+                                            ngaycap=p1.NgayCap,
+                                            ngaytra=p1.NgayTra
+                                        }
+                                       ).ToList();
+                        if (chungchi.Count != 0)
+                        {
+                            int indexChungChi = index;
+                            foreach (var i in chungchi)
+                            {
+                                excelWorksheet.Cells[indexChungChi, 13].Value = i.ten;
+                                excelWorksheet.Cells[indexChungChi, 14].Value = i.kieu;
+                                excelWorksheet.Cells[indexChungChi, 15].Value = i.ngaycap.HasValue ? i.ngaycap.Value.ToString("dd/MM/yyyy") : string.Empty; ;
+                                excelWorksheet.Cells[indexChungChi, 16].Value = i.ngaytra.HasValue ? i.ngaytra.Value.ToString("dd/MM/yyyy") : string.Empty; ;
+                                indexChungChi++;
+                            }
+                            if (indexChungChi >= tempIndex)
+                            {
+                                tempIndex = indexChungChi;
+                            }
+                        }
+                        var bangcap = (from p in db.BangCap_GiayChungNhan
+                                       join p1 in db.ChiTiet_BangCap_GiayChungNhan on p.MaBangCap_GiayChungNhan equals p1.MaBangCap_GiayChungNhan
+                                       where p1.MaNV == item.manv
+                                       select new
+                                       {
+                                           ten = p.TenBangCap,
+                                           kieu = p.KieuBangCap,
+                                           ngaycap = p1.NgayCap,
+                                           ngaytra = p1.NgayTra
+                                       }).ToList();
+                        if (bangcap.Count != 0)
+                        {
+                            int indexBangCap = index;
+                            foreach (var i in bangcap)
+                            {
+                                excelWorksheet.Cells[indexBangCap, 17].Value = i.ten;
+                                excelWorksheet.Cells[indexBangCap, 18].Value = i.kieu;
+                                excelWorksheet.Cells[indexBangCap, 19].Value = i.ngaycap.HasValue ? i.ngaycap.Value.ToString("dd/MM/yyyy") : string.Empty; ;
+                                excelWorksheet.Cells[indexBangCap, 20].Value = i.ngaytra.HasValue ? i.ngaytra.Value.ToString("dd/MM/yyyy") : string.Empty;
+                                indexBangCap++;
+                            }
+                            if (indexBangCap >= tempIndex)
+                            {
+                                tempIndex = indexBangCap;
+                            }
+                        }
+
+                        var thongtinUyQuyen = (from p in db.NguoiUyQuyenLayHoSo_BaoHiem
+                                               join p1 in db.NhanViens on p.MaUyQuyen equals p1.MaUyQuyen
+                                               where p1.MaNV == item.manv
+                                               select new
+                                               {
+                                                   ten = p.HoTen,
+                                                   quanhe = p.QuanHe,
+                                                   sdt = p.SoDienThoai,
+                                                   socmt = p.SoCMND
+                                               }).ToList();
+                        if (thongtinUyQuyen.Count != 0)
+                        {
+                            foreach(var i in thongtinUyQuyen)
+                            {
+                                excelWorksheet.Cells[index, 21].Value = i.ten;
+                                excelWorksheet.Cells[index, 22].Value = i.quanhe;
+                                excelWorksheet.Cells[index, 23].Value = i.sdt;
+                                excelWorksheet.Cells[index, 24].Value = i.socmt;
+                            }
+                        }
+
+                        //if (item.listgiayto !=null)
+                        //{
+                        //    foreach(var i in item.listgiayto)
+                        //    {
+                        //        excelWorksheet.Cells[1, indexGiayTo, indexGiayTo+3, index].Merge = true;
+                        //        excelWorksheet.Cells[1, indexGiayTo].Value = "Ten giay to";
+                        //        excelWorksheet.Cells[2, indexGiayTo].Value = "Kieu giay to";
+                        //        excelWorksheet.Cells[2, indexGiayTo + 1].Value = "Kieu giay to";
+                        //        excelWorksheet.Cells[2, indexGiayTo + 2].Value = "Kieu giay to";
+                        //        excelWorksheet.Cells[2, indexGiayTo + 3].Value = "Kieu giay to";
+                        //        indexGiayTo += 5;
+                        //    }
+                        //}
+                        //excelWorksheet.Cells[5, 1, 5, 2].Merge = true;
+                        //excelWorksheet.Cells[5, 1].Value = "Value";
+                        if (tempIndex > index) index = tempIndex;
+                        else
+                        {
+                            index++;
+                        }
+                     //   index++;
                         stt++;
 
                     }

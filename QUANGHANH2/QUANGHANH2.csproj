@@ -223,6 +223,7 @@
     <Compile Include="Controllers\CDVT\Quyetdinh\VatTuQuyetDinhController.cs" />
     <Compile Include="Controllers\CDVT\Report\TangGiamController.cs" />
     <Compile Include="Controllers\CDVT\Report\TrungdaituReportController.cs" />
+    <Compile Include="Controllers\CDVT\Thietbi\KiemdinhController.cs" />
     <Compile Include="Controllers\CDVT\Useless\ThongtinsucoController.cs" />
     <Compile Include="Controllers\CDVT\Report\KiemdinhController.cs" />
     <Compile Include="Controllers\CDVT\Report\LiquidationReportController.cs" />
@@ -348,36 +349,27 @@
     <Compile Include="Models\Documentary.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DocumentaryDB.cs" />
     <Compile Include="Models\Documentary_big_maintain_details.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Documentary_big_maintain_detailsDB.cs" />
-    <Compile Include="Models\Documentary_Extend.cs" />
     <Compile Include="Models\Documentary_liquidation_details.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Documentary_liquidation_detailsDB.cs" />
     <Compile Include="Models\Documentary_maintain_details.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Documentary_maintain_detailsDB.cs" />
     <Compile Include="Models\Documentary_moveline_details.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Documentary_moveline_detailsDB.cs" />
     <Compile Include="Models\Documentary_repair_details.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Documentary_repair_detailsDB.cs" />
     <Compile Include="Models\Documentary_revoke_details.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Documentary_revoke_detailsDB.cs" />
     <Compile Include="Models\Equipment.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\equipmentExtend.cs" />
     <Compile Include="Models\Equipment_attribute.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -390,6 +382,16 @@
     <Compile Include="Models\Equipment_Inspection.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Equipment_InspectionDB.cs" />
+    <Compile Include="Models\DocumentaryDB.cs" />
+    <Compile Include="Models\Documentary_big_maintain_detailsDB.cs" />
+    <Compile Include="Models\Documentary_Extend.cs" />
+    <Compile Include="Models\Documentary_liquidation_detailsDB.cs" />
+    <Compile Include="Models\Documentary_maintain_detailsDB.cs" />
+    <Compile Include="Models\Documentary_moveline_detailsDB.cs" />
+    <Compile Include="Models\Documentary_repair_detailsDB.cs" />
+    <Compile Include="Models\Documentary_revoke_detailsDB.cs" />
+    <Compile Include="Models\equipmentExtend.cs" />
     <Compile Include="Models\FakeAPI.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -535,7 +537,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\Custom css\CDVT\StyleSheet1.css" />
-    <Content Include="assets\Custom css\font-family.css" />
     <Content Include="assets\Custom css\TCLD\Brief\AddBrief.css" />
     <Content Include="assets\Custom css\TCLD\Brief\ManageBrief\beo_ho_so_ngoai.css" />
     <Content Include="assets\Custom css\TCLD\Brief\ManageBrief\beo_regulations.css" />
@@ -6880,6 +6881,24 @@
     <Content Include="doc\TCLD\dieudong\nhieunguoi\dieudong-template.docx" />
     <Content Include="doc\TCLD\dieudong\quyetdinh-dieudong.docx" />
     <Content Include="doc\TCLD\dieudong\temp.docx" />
+    <Content Include="excel\CDVT\BaoCaoThuHoi_Template.xlsx" />
+    <Content Include="excel\CDVT\BaoCaoTrungTu_Template.xlsx" />
+    <Content Include="excel\CDVT\diennang.xlsx" />
+    <Content Include="excel\CDVT\nhienlieu.xlsx" />
+    <Content Include="excel\CDVT\Tang-Giam.xlsx" />
+    <Content Include="excel\CDVT\suachua.xlsx" />
+    <Content Include="excel\CDVT\thoatnuoc.xlsx" />
+    <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên-hồ-sơ-trong.xlsx" />
+    <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên.xlsx" />
+    <Content Include="excel\TCLD\Brief\Hồ sơ trong.xlsx" />
+    <Content Include="excel\CDVT\download\DanhsachSuaChua.xlsx" />
+    <Content Include="excel\CDVT\download\diennang.xlsx" />
+    <Content Include="excel\CDVT\download\suachua.xlsx" />
+    <Content Include="excel\CDVT\download\ThanhLyThietBi.xlsx" />
+    <Content Include="excel\CDVT\download\ThuHoiThietBi.xlsx" />
+    <Content Include="excel\CDVT\download\thoatnuoc.xlsx" />
+    <Content Include="excel\TCLD\Certificate\Chứng chỉ của nhân viên.xlsx" />
+    <Content Include="excel\TCLD\Certificate\List\download\ListCertificate.xlsx" />
     <Content Include="excel\TCLD\CD_TD_Report.xlsx" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -6888,24 +6907,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên-hồ-sơ-trong.xlsx" />
-    <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên.xlsx" />
-    <Content Include="excel\TCLD\Brief\Hồ sơ trong.xlsx" />
-    <Content Include="excel\TCLD\Certificate\Chứng chỉ của nhân viên.xlsx" />
-    <Content Include="excel\CDVT\BaoCaoThuHoi_Template.xlsx" />
-    <Content Include="excel\CDVT\BaoCaoTrungTu_Template.xlsx" />
-    <Content Include="excel\CDVT\diennang.xlsx" />
-    <Content Include="excel\CDVT\suachua.xlsx" />
-    <Content Include="excel\CDVT\nhienlieu.xlsx" />
-    <Content Include="excel\CDVT\Tang-Giam.xlsx" />
-    <Content Include="excel\CDVT\thoatnuoc.xlsx" />
-    <Content Include="excel\CDVT\download\diennang.xlsx" />
-    <Content Include="excel\CDVT\download\DanhsachSuaChua.xlsx" />
-    <Content Include="excel\CDVT\download\suachua.xlsx" />
-    <Content Include="excel\CDVT\download\ThanhLyThietBi.xlsx" />
-    <Content Include="excel\CDVT\download\thoatnuoc.xlsx" />
-    <Content Include="excel\CDVT\download\ThuHoiThietBi.xlsx" />
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
@@ -7151,6 +7152,18 @@
     <Content Include="Views\Diploma\EditDiplomaEmployee.cshtml" />
     <Content Include="Views\CDVT\Report\bao_cao_trung_tu.cshtml" />
     <Content Include="Views\CDVT\Report\TangGiam.cshtml" />
+    <Content Include="Views\CDVT\Thietbi\Kiemdinh.cshtml" />
+    <Content Include="Views\Brief\AddLichSuBoSung.cshtml" />
+    <Content Include="Views\Brief\suaGiayTo.cshtml" />
+    <Content Include="Views\Brief\themGiayTo.cshtml" />
+    <Content Include="Views\BriefRegulation\SuaChuyenNganh.cshtml" />
+    <Content Include="Views\BriefRegulation\SuaNganh.cshtml" />
+    <Content Include="Views\BriefRegulation\SuaTrinhDo.cshtml" />
+    <Content Include="Views\BriefRegulation\SuaTruong.cshtml" />
+    <Content Include="Views\BriefRegulation\ThemChuyenNganh.cshtml" />
+    <Content Include="Views\BriefRegulation\ThemNganh.cshtml" />
+    <Content Include="Views\BriefRegulation\ThemTrinhDo.cshtml" />
+    <Content Include="Views\BriefRegulation\ThemTruong.cshtml" />
     <Content Include="Views\TCLD\Brief\ManageBrief\OutSideDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>

@@ -103,7 +103,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                     transaction.Commit();
                     return new HttpStatusCodeResult(201);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     transaction.Rollback();
                     string output = "";
@@ -236,10 +236,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                 QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
                 IncidentDB incidents = DBContext.Database.SqlQuery<IncidentDB>("SELECT e.equipment_name, d.department_name, i.*, DATEDIFF(HOUR, i.start_time, i.end_time) as time_different FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId inner join Department d " +
                     "on d.department_id = i.department_id where i.incident_id = @incident_id", new SqlParameter("incident_id", incident_id)).First();
-                incidents.stringStartTime = incidents.start_time.ToString("HH mm dd/MM/yyyy");
+                incidents.stringStartTime = incidents.start_time.ToString("HH:mm dd/MM/yyyy");
                 DateTime temp;
                 DateTime.TryParse(incidents.end_time.ToString(), out temp);
-                incidents.stringEndTime = temp.ToString("HH mm dd/MM/yyyy");
+                incidents.stringEndTime = temp.ToString("HH:mm dd/MM/yyyy");
                 return Json(incidents);
             }
             catch (Exception)
@@ -270,7 +270,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             {
                 DateTime temp;
                 DateTime.TryParse(end_time.ToString(), out temp);
-                return temp.ToString("hh:mm tt dd/MM/yyyy");
+                return temp.ToString("HH:mm dd/MM/yyyy");
             }
         }
 

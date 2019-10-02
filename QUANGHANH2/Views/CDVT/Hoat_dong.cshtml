@@ -581,16 +581,9 @@
         bol = @hihi.ToString().ToLower();
         bol2 = @hehe.ToString().ToLower();
         $(document).ready(function () {
+            $("#pre-load").show();
 
-            dataTable = $('#equipmentTable')
-                .on('preXhr.dt', function (e, settings, data) {
-                    ////////////////////////////////////HIỆN LÊN MỖI KHI CHẠY AJAX//////////////////////////////////
-                    $("#pre-load").show("slow", function () {
-                    });
-                    $("#pre-load").css("z-index", "99999");
-                    ////////////////////////////////////////////////////////////////////////
-                })
-                .DataTable({
+                dataTable = $('#equipmentTable').DataTable({
                     "ajax": {
                         "url": "/phong-cdvt/huy-dong",
                     "type": "POST",
@@ -634,7 +627,7 @@
                         },
                     },
                     { "data": "total_operating_hours" , "name" : "total_operating_hours"},
-                    { "data": "status_name", "name" : "status_name"},
+                    { "data": "current_Status", "name" : "current_Status"},
                     { "data": "fabrication_number", "name": "fabrication_number" },
                     { "data": "mark_code", "name" : "mark_code"},
                     { "data": "quality_type" , "name" : "quality_type"},
@@ -658,13 +651,7 @@
                         "searchable":false,
                         "width":"150px"
                     }
-                    ],
-                "drawCallback": function (settings) {
-                        ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
-                        $("#pre-load").hide("slow", function () {
-                        });
-                        ////////////////////////////////////////////////
-                    },
+                ],
                 "serverSide": "true",
                 "bLengthChange": false,
                 "bFilter": false,
@@ -681,82 +668,92 @@
                             last: ">|"
                         }
                     },
-                "initComplete": function (settings, json) {
-                        ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
-                        $("#pre-load").hide("slow", function () {
-                        });
-                        //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
-                    },
 
                 });
-                //$("#pre-load").hide();
+                $("#pre-load").hide();
         });
 
          $("#searchButton1").click(function () {
+             $("#pre-load").show();
                 dataTable.destroy();
 
-                dataTable = $('#equipmentTable')
-                .on('preXhr.dt', function (e, settings, data) {
+             dataTable = $('#equipmentTable')
+                  .on('preXhr.dt', function (e, settings, data) {
                     ////////////////////////////////////HIỆN LÊN MỖI KHI CHẠY AJAX//////////////////////////////////
                     $("#pre-load").show("slow", function () {
                     });
                     $("#pre-load").css("z-index", "99999");
                     ////////////////////////////////////////////////////////////////////////
                 })
-                .DataTable({
-                    "ajax": {
-                        "url": "/phong-cdvt/huy-dong",
-                    "type": "POST",
-                    "datatype": "json",
-                },
-                "columns": [
-                    {
-                        "data": "equipmentId", "name": "equipmentId", "render": function (data) {
-                            //return ("<form id='myform' action='thiet-bi' method='POST'><input name='id' value='" + data + "' type='hidden' /><a class='btn' onclick='abc()'>" + data + "</a></form>");
-                            return ("<form action=\"thiet-bi\" method=\"post\"><input type=\"hidden\" name=\"id\" value=\"" + data + "\" class=\"form-control\"/><button class='btn' onclick='submit'>" + data + "</button></form>");
-                        }
-                    },
-                    { "data": "equipment_name", "name": "equipment_name" },
-                    { "data": "supplier", "name": "supplier" },
-                    {
-                        "data": "date_import", "name": "date_import", "render": function (data) {
-                            return dateFormat2(data) + " ";
-                        },
+                 .DataTable({
+                     "language": {
+                         "equipmentTable": "Không tìm thấy dữ liệu"
+                     },
+                     "ajax": {
+                         "url": "/phong-cdvt/huy-dong/search",
+                         "type": "POST",
+                         "search": false,
+                         "datatype": "json",
+                         "data": {
+                             "equipmentId": $('#equipmentId-search').val(),
+                             "equipmentName": $('#equipmentName-search').val(),
+                             "department": $('#department-search').val(),
+                             "quality": $('#equipmentQuality-search').val(),
+                             "dateStart": $('#date-start-search').val(),
+                             "dateEnd": $('#date-end-search').val(),
+                             "category": $('#category-search').val(),
+                             "sup": $('#supplier-search').val()
+                         },
+                         "cache": false
+                     },
+                     "columns": [
+                         {
+                             "data": "equipmentId", "name": "equipmentId", "render": function (data) {
+                                 //return ("<form id='myform' action='thiet-bi' method='POST'><input name='id' value='" + data + "' type='hidden' /><a class='btn' onclick='abc()'>" + data + "</a></form>");
+                                 return ("<form action=\"thiet-bi\" method=\"post\"><input type=\"hidden\" name=\"id\" value=\"" + data + "\" class=\"form-control\"/><button class='btn' onclick='submit'>" + data + "</button></form>");
+                             }
+                         },
+                         { "data": "equipment_name", "name": "equipment_name" },
+                         { "data": "supplier", "name": "supplier" },
+                         {
+                             "data": "date_import", "name": "date_import", "render": function (data) {
+                                 return dateFormat2(data) + " ";
+                             },
 
-                    },
-                    { "data": "depreciation_estimate", "name": "depreciation_estimate" },
-                    { "data": "depreciation_present", "name": "depreciation_present" },
-                    {
-                        "data": "durationOfInspection", "name": "durationOfInspection", "render": function (data) {
-                            return dateFormat2(data) + " ";
-                        },
-                    },
-                    {
-                        "data": "durationOfInsurance", "name": "durationOfInsurance", "render": function (data) {
-                            return dateFormat2(data) + " ";
-                        },
-                    },
-                    {
-                        "data": "usedDay", "name": "usedDay", "render": function (data) {
-                            return dateFormat2(data) + " ";
-                        },
-                    },
-                    {
-                        "data": "nearest_Maintenance_Day", "name": "nearest_Maintenance_Day", "render": function (data) {
-                            return dateFormat2(data) + " ";
-                        },
-                    },
-                    { "data": "total_operating_hours" , "name" : "total_operating_hours"},
-                    { "data": "status_name", "name" : "status_name"},
-                    { "data": "fabrication_number", "name": "fabrication_number" },
-                    { "data": "mark_code", "name" : "mark_code"},
-                    { "data": "quality_type" , "name" : "quality_type"},
-                    { "data": "input_channel", "name" : "input_channel"},
-                    { "data": "category_name", "name" : "category_name"},
-                    { "data": "department_name" , "name" : "department_name"},
+                         },
+                         { "data": "depreciation_estimate", "name": "depreciation_estimate" },
+                         { "data": "depreciation_present", "name": "depreciation_present" },
+                         {
+                             "data": "durationOfInspection", "name": "durationOfInspection", "render": function (data) {
+                                 return dateFormat2(data) + " ";
+                             },
+                         },
+                         {
+                             "data": "durationOfInsurance", "name": "durationOfInsurance", "render": function (data) {
+                                 return dateFormat2(data) + " ";
+                             },
+                         },
+                         {
+                             "data": "usedDay", "name": "usedDay", "render": function (data) {
+                                 return dateFormat2(data) + " ";
+                             },
+                         },
+                         {
+                             "data": "nearest_Maintenance_Day", "name": "nearest_Maintenance_Day", "render": function (data) {
+                                 return dateFormat2(data) + " ";
+                             },
+                         },
+                         { "data": "total_operating_hours", "name": "total_operating_hours" },
+                         { "data": "statusname", "name": "statusname" },
+                         { "data": "fabrication_number", "name": "fabrication_number" },
+                         { "data": "mark_code", "name": "mark_code" },
+                         { "data": "quality_type", "name": "quality_type" },
+                         { "data": "input_channel", "name": "input_channel" },
+                         { "data": "Equipment_category_name", "name": "Equipment_category_name" },
+                         { "data": "department_name", "name": "department_name" },
                     //
-                    {
-                        "data": "equipmentId", "visible":bol,"render": function (data) {
+                     {
+                        "data": "equipmentId", "render": function (data) {
                 return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='myedit' onclick=Edit('@Url.Action("Edit","Hoatdong")/" + data + "')><i class='fa fa-pencil'></i>Chỉnh&nbsp;sửa</a>";
             },
                         "orderable": false,
@@ -764,167 +761,152 @@
                         "width":"150px"
                     },
                     {
-                        "data": "equipmentId", "visible":bol2, "render": function (data) {
+                        "data": "equipmentId", "render": function (data) {
                 return "<a class='waves-effect waves-light btn-small blue' style='margin-left:5px' onclick=Delete('@Url.Action("Delete","Hoatdong")/" + data + "')><i class='fa fa-trash'></i>Xóa</a>";
             },
                         "orderable": false,
                         "searchable":false,
                         "width":"150px"
                     }
-                    ],
-                    "drawCallback": function (settings) {
+                     ],
+                     "drawCallback": function (settings) {
                         ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
                         $("#pre-load").hide("slow", function () {
                         });
                         ////////////////////////////////////////////////
                     },
-                "serverSide": "true",
-                "bLengthChange": false,
-                "bFilter": false,
-                "bInfo": false,
-                "bAutoWidth": false,
-                "order": [0, "asc"],
-                "language": {
-                        emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
-                        paginate:
-                        {
-                            previous: "Trang trước",
-                            next: "Trang sau",
-                            first: "|<",
-                            last: ">|"
-                        }
-                    },
-                "initComplete": function (settings, json) {
-                        ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
-                        $("#pre-load").hide("slow", function () {
-                        });
-                        //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
-                    },
-
-                });
-        });
+                    "serverSide": "true",
+                    "order": [0, "asc"],
+                    "rowId": "incident_id",
+                    "lengthChange": false,
+                     "searching": false,
+                     "bInfo": false,
+                     "initComplete": function (settings, json) {
+                         $("#pre-load").hide("slow", function () {
+                         });
+                         $.notify("Tìm kiếm thành công", {
+                             globalPosition: "top center",
+                             className: "success"
+                         })
+                     }
+                 });
+                //$('#pre-load').hide();
+            });
 
         function dateFormat2(d) {
-                var dateString = d.substr(6);
-                var currentTime = new Date(parseInt(dateString));
-                var month = currentTime.getMonth() + 1;
-                var day = currentTime.getDate();
-                var year = currentTime.getFullYear();
-                var date = day + "/" + month + "/" + year;
-                return (date);
-            }
-            function dateFormat(d) {
-                console.log(d);
-                return ((d.getMonth() + 1) + "").padStart(2, "0")
-                    + "/" + (d.getDate() + "").padStart(2, "0")
-                    + "/" + d.getFullYear();
-            }
-            function PopupForm(url) {
-                var formDiv = $('<div/>');
+            var dateString = d.substr(6);
+            var currentTime = new Date(parseInt(dateString));
+            var month = currentTime.getMonth() + 1;
+            var day = currentTime.getDate();
+            var year = currentTime.getFullYear();
+            var date = day + "/" + month + "/" + year;
+            return (date);
+        }
+        function dateFormat(d) {
+            console.log(d);
+            return ((d.getMonth() + 1) + "").padStart(2, "0")
+                + "/" + (d.getDate() + "").padStart(2, "0")
+                + "/" + d.getFullYear();
+        }
+        function PopupForm(url) {
+            var formDiv = $('<div/>');
             $.get(url)
-            .done(function (response) {
+                .done(function (response) {
                     formDiv.html(response);
 
                     Popup = formDiv.dialog({
-                    autoOpen: true,
-                    resizable: false,
-                    title: 'Nhập thông tin',
-                    height: 1000,
-                    width: 800,
-                    close: function () {
+                        autoOpen: true,
+                        resizable: false,
+                        title: 'Nhập thông tin',
+                        height: 1000,
+                        width: 800,
+                        close: function () {
                             Popup.dialog('destroy').remove();
                         }
-
                     });
                 });
-            }
+        }
 
         function UpdateEquipment(form) {
-            $("#pre-load").show("slow", function () {
-            });
-            $("#pre-load").css("z-index", "99999");
+             $("#pre-load").show();
+
             $.validator.unobtrusive.parse(form);
-            if ($(form).valid()) {
+                if($(form).valid()){
                 $.ajax({
-                    type: "POST",
-                    url: form.action,
-                    data: $(form).serialize(),
-                    success: function (data) {
-                        dataTable.ajax.reload();
-                        $("#pre-load").hide("slow", function () {
-                        });
-                        $.notify("Cập nhật thành công", {
-                            globalPosition: "top center",
-                            className: "success"
-                        })
+                    type : "POST",
+                    url : form.action,
+                    data : $(form).serialize(),
+                    success : function (data) {
+                            dataTable.ajax.reload();
+                            $.notify("Cập nhật thành công",{
+                            globalPosition :"top center",
+                                className : "success"
+                            })
 
                     },
                     error: function () {
-                        alert(response.data.message)
+                            alert(response.data.message)
                     }
-                });
+                    });
+            }
+                $("#pre-load").hide();
+
+                return false;
             }
 
-
-            return false;
-        }
-
         function SubmitForm(form) {
-            $("#pre-load").show("slow", function () {
-            });
+             $("#pre-load").show();
 
             $.validator.unobtrusive.parse(form);
 
-            if ($(form).valid()) {
+                if($(form).valid()){
                 $.ajax({
-                    type: "POST",
+                    type : "POST",
                     url: form.action,
                     data: $(form).serialize(),
                     success: function (data) {
-                        dataTable.ajax.reload();
-                        $("#pre-load").hide("slow", function () {
-                        });
+                            dataTable.ajax.reload();
+                        $("#btn-submit").addClass("modal-close");
                         $.notify("Thêm thành công", {
                             globalPosition: "top center",
                             className: "success"
-                        })
+                            })
 
-                    }
-                });
+                        }
+                    });
             }
+                $("#pre-load").hide();
 
-
-            return false;
-        }
+                return false;
+            }
             function Edit(url) {
              $.get(url)
                  .done(function (response) {
                      $("#edit-modal-body").html(response)
+                     setTimeout(() => {
+                         var temp = $("#date_import").val();
+                         alert(temp);
+                     },2000);
             });
 
+                alert(temp);
                 return false;
             }
 
 
 
-        function Delete(url) {
-            $("#pre-load").show("slow", function () {
-            });
-            $("#pre-load").css("z-index", "99999");
-            $.get(url)
-                .done(function (response) {
+            function Delete(url) {
+             $.get(url)
+                 .done(function (response) {
 
                     dataTable.ajax.reload();
-                    $("#pre-load").hide("slow", function () {
-                    });
-                    $.notify("Hihi Xóa Xong", {
-                        globalPosition: "top center",
-                        className: "success"
-                    })
+                         $.notify("Hihi Xóa Xong", {
+                    globalPosition: "top center",
+                             className: "success"
+                         })
 
-                });
-
-            return false;
+                 });
+                return false;
         }
 
 

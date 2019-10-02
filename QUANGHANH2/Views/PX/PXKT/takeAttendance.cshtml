@@ -9,27 +9,36 @@
 <div class="card">
     <div class="card-content">
         <form>
-            <div class="row center">
-                <div class="col l3">
-                    <div class="row">
-                        <label>
-                            <input type="checkbox" class="filled-in" checked="checked" />
-                            <span>Những người đi làm</span>
-                        </label>
+            <div class="row">
+                <div class="col l3 row">
+                    <div class="col l6">
+                        <div class="row">
+                            <label>
+                                <input type="checkbox" class="filled-in" checked="checked" id="workedAllCheckbox" onclick="searchEmployee()" />
+                                <span>Những người đi làm</span>
+                            </label>
+                        </div>
+                        <div class="row">
+                            <label>
+                                <input type="checkbox" class="filled-in" checked="checked" id="notWorkedAllCheckbox" onclick="searchEmployee()" />
+                                <span>Những người không đi làm</span>
+                            </label>
+                        </div>
                     </div>
-                    <div class="row">
-                        <label>
-                            <input type="checkbox" class="filled-in" checked="checked" />
-                            <span>Những người không đi làm</span>
-                        </label>
+                    <div class="col l6 center">
+                        <div> <h5>Lần cuối cập nhật: </h5></div>
+                        <div> <h5 id="timeFetchSuccessfully">@ViewBag.time </h5></div>
                     </div>
                 </div>
-                <div class="col l9">
+                <div class="col l6 center">
                     <h3>
-                        ĐIỂM DANH CỦA DL3 <a class="dropdown-trigger btn" id="ca" href="#" data-target="dropdown_ca" style="background-color:#273146">CA 1</a> NGÀY <input type="text" id="inputdate" class="datepicker-here center" data-language="vi" value="" />
+                        ĐIỂM DANH CỦA <a class="dropdown-trigger btn" id="phanxuong" href="#" data-target="dropdown_px" style="background-color:#273146">DL1</a> <a class="dropdown-trigger btn" id="ca" href="#" data-target="dropdown_ca" style="background-color:#273146">CA 1</a> NGÀY <input type="text" id="inputdate" class="datepicker-here center" data-language="vi" value="" />
                         <a class="btn waves-effect waves-light blue modal-trigger" id="btn-view" href="#" onclick="getcontent();">Xem</a>
                         <br><br>
                     </h3>
+                </div>
+                <div class="col l3 center">
+                    <a class="waves-effect waves-light btn-large" onclick="fetchAPI()">Cập nhật điểm danh</a>
                 </div>
                 <hr>
             </div>
@@ -60,6 +69,12 @@
     <li><a class="dropdown-child-ca" href="#" name="ca1">CA 1</a></li>
     <li><a class="dropdown-child-ca" href="#" name="ca2">CA 2</a></li>
     <li><a class="dropdown-child-ca" href="#" name="ca3">CA 3</a></li>
+</ul>
+
+<ul id='dropdown_px' class='dropdown-content'>
+    <li><a class="dropdown-child-ca" href="#" name="dl1">DL1</a></li>
+    <li><a class="dropdown-child-ca" href="#" name="dl2">DL2</a></li>
+    <li><a class="dropdown-child-ca" href="#" name="dl3">DL3</a></li>
 </ul>
 
 
@@ -104,8 +119,8 @@
 
                 "columns": [
                     {
-                        data: "status", render: function (data, type, row) {
-                            if (data) {
+                        data: "maDD", render: function (data, type, row) {
+                            if (data != null) {
                                 return "<label><input onclick=\"clickConfirm(this)\" type=\"checkbox\" checked=\"checked\" disabled=\"disabled\" class=\"checkBox1\" id='" + row["maNV"] + "-confirmed'/><span></span></label>";
                             } else {
                                 return "<label><input onclick=\"clickConfirm(this)\" type=\"checkbox\"disabled=\"disabled\"class=\"checkBox1\" id=\"" + row["maNV"].trim() + "-confirmed\"/><span></span></label>";
@@ -138,7 +153,11 @@
                             if (row['status']) {
                                 return ""
                             } else {
-                                return "<span class=\"reasonBox\">" + data + "</span>"
+                                if (data != null) {
+                                    return "<span class=\"reasonBox\">" + data + "</span>"
+                                } else {
+                                    return "<span class=\"reasonBox\">" + "</span>"
+                                }
                             }
                         }
                     },
@@ -154,6 +173,15 @@
             })
         })
 
+        function convertToSQLDate(dateInput) {
+            var date = dateInput.split("/")[0]
+            var month = dateInput.split("/")[1]
+            var year = dateInput.split("/")[2]
+            //
+            return year + "-" + month + "-" + date;
+            //
+        }
+
         function validateInput() {
 
         }
@@ -166,7 +194,7 @@
                 $(".inputDescription").removeAttr("disabled")
                 $(".checkBox").removeAttr("disabled")
                 $(".checkBox1").removeAttr("disabled")
-                $(".reasonBox").html("<select class=\"browser-default \"> <option value=\"\" disabled selected>Lựa chọn lý do</option> <option value=\"1\">Ốm</option> <option value=\"2\">Vô lý do</option><option value=\"3\">Nghỉ phép</option></option> <option value=\"2\">Vô lý do</option><option value=\"4\">Khác</option></select>");
+                $(".reasonBox").html("<select class=\"browser-default \"> <option value=\"\" disabled selected>Lựa chọn lý do</option> <option value=\"1\">Ốm</option> <option value=\"2\">Vô lý do</option><option value=\"3\">Nghỉ phép</option></option><option value=\"4\">Khác</option></select>");
                 //
                 mode = 1;
             } else {
@@ -176,6 +204,9 @@
                 if (dataUpdate.length > 0) {
                     $("#attendanceTable").on('preXhr.dt', function (e, settings, data) {
                         data.sessionId = JSON.stringify(dataUpdate)
+                        data.session = $("#ca").text().split(" ")[1];
+                        data.department = $("#phanxuong").text();
+                        data.date = convertToSQLDate($("#inputdate").val());
                     })
                     $("#attendanceTable").DataTable().ajax.url("/phan-xuong-khai-thac/diem-danh/cap-nhat").load();
                 } else {
@@ -188,13 +219,28 @@
         }
 
         function clickConfirm(checkbox) {
-            var clickedID = $(checkbox).attr("id").split("-")[0] + "-confirmed";
-            console.log(clickedID);
-            $("#" + clickedID).attr("checked", $(checkbox).is(":checked"));
+            // format : id+"confirm" or id+"status"
+            var clickedID = $(checkbox).attr("id");
+            //
+            var confirm = $("#" + clickedID.split("-")[0] + "-confirmed").is(":checked");
+            var status = $("#" + clickedID.split("-")[0] + "-status").is(":checked");
+            console.log("confirm: " + confirm)
+            console.log("status: " + status)
+            if (clickedID.split("-")[1] == "confirmed") {
+                if (!confirm) {
+                    $("#" + clickedID.split("-")[0] + "-status").attr("checked", false);
+                }
+            }
+            else {
+                if (!confirm && status) {
+                    $("#" + clickedID.split("-")[0] + "-confirmed").attr("checked", true);
+                    console.log("#" + clickedID.split("-")[0] + "-confirmed")
+                }
+            }
         }
 
         function updateReason() {
-            var heads = ["maDD", "maNV", "maDV", "tenNV", "status", "timeAttendance", "reason", "description"];
+            var heads = ["isEnvolved", "maDD", "maNV", "maDV", "tenNV", "status", "timeAttendance", "reason", "description"];
             //
             var rows = [];
             count = 0;
@@ -207,12 +253,30 @@
                         if (heads[i] != "status" && heads[i] != "reason") {
                             cur[heads[i]] = $(this).text().trim();
                         }
-                        if (heads[i] == "status") {
+                        if (heads[i] == "status" || heads[i] == "isEnvolved") {
                             var attr = $(this).children("label").children("input");
                             cur[heads[i]] = attr.is(":checked");
                         }
                         if (heads[i] == "reason") {
-                            cur[heads[i]] = $(this).children("span").find(":selected").text();
+                            var selectValue = $(this).children("span").children("select").val();
+                            // console.log($(this).children("span").children("select").val())
+                            switch (selectValue) {
+                                case "1":
+                                    cur[heads[i]] = "Ốm";
+                                    break;
+                                case "2":
+                                    cur[heads[i]] = "Vô lý do";
+                                    break;
+                                case "3":
+                                    cur[heads[i]] = "Nghỉ phép";
+                                    break;
+                                case "4":
+                                    cur[heads[i]] = "Khác";
+                                    break;
+                                default:
+                                    cur[heads[i]] = "";
+                                    break;
+                            }
                         }
                         if (heads[i] == "description") {
                             cur[heads[i]] = $(this).children("input").val();
@@ -224,6 +288,36 @@
             });
             return rows;
         }
+
+        function updateTime(settings, data) {
+            alert(data["time"]);
+        }
+
+        function fetchAPI() {
+            $("#attendanceTable").on('preXhr.dt', function (e, settings, data) {
+                data.session = $("#ca").text().split(" ")[1];
+                data.department = $("#phanxuong").text();
+                data.date = convertToSQLDate($("#inputdate").val());
+                updateTime(settings, data)
+            })
+            $("#attendanceTable").DataTable().ajax.url("/phan-xuong-khai-thac/diem-danh/lay-thong-tin")
+                .load()
+            $("#timeFetchSuccessfully").html("@ViewBag.time")
+        }
+
+        function searchEmployee() {
+            $("#attendanceTable").on('preXhr.dt', function (e, settings, data) {
+                data.workChecked = $("#workedAllCheckbox").is(":checked");
+                data.notWorkChecked = $("#notWorkedAllCheckbox").is(":checked");
+                data.session = $("#ca").text().split(" ")[1];
+                data.department = $("#phanxuong").text();
+                data.date = convertToSQLDate($("#inputdate").val());
+            })
+            $("#attendanceTable").DataTable().ajax.url("/phan-xuong-khai-thac/diem-danh/lua-chon-diem-danh").load();
+            $("#attendanceTable").DataTable().reload(function () {
+                alert("hihi")
+            })
+        }
     </script>
     <script>
         $(document).ready(() => {
@@ -232,7 +326,10 @@
             var day = currentTime.getDate();
             var year = currentTime.getFullYear();
             var date = day + "/" + month + "/" + year;
-            $("#inputdate").attr("value", date);
+            // default date
+            date = "10/09/2019"
+            //
+            $("#inputdate").val(date);
             //
         })
     </script>

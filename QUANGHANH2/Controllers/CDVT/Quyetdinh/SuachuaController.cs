@@ -233,7 +233,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
                     List<Documentary_Extend> incidents = (from document in db.Documentaries
-                                                          where (document.reason.Equals("Sửa chữa thiết bị"))
+                                                          where (document.documentary_type.Equals("1"))
                                                           join detail in db.Documentary_repair_details on document.documentary_id equals detail.documentary_id
                                                           into temporary
                                                           select new
