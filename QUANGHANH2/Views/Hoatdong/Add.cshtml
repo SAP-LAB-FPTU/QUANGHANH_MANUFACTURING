@@ -193,28 +193,33 @@
             </div>
 
         </div>
-        <div class="modal fade" id="myadd2">
+
+        <div class="col-12" id="myadd2" style="margin-top:15px">
             <div class="modal-header center-align">
                 <h3>Thêm thuộc tính thiết bị</h3>
             </div>
             <div class="modal-body">
-                <table id="myTable" class="table-bordered">
+                <table id="myTable" class="table-bordered center-align" style="margin-left:5px;margin-right:5px">
                     <tr>
+                        <th>STT</th>
                         <th>Mã đặc tính</th>
                         <th>Tên đặc tính</th>
                         <th>Thông số</th>
                         <th>ĐVT</th>
+                        <th></th>
                     </tr>
                     <tr>
+                        <td>1</td>
                         <td><input type='text' name="id" class='form-control' placeholder='Mã đặc tính' /></td>
                         <td><input type='text' name="name" class='form-control' placeholder='Tên đặc tính' /></td>
                         <td><input type='number' name="value" class='form-control' placeholder='Thông số' /></td>
                         <td><input type='text' name="unit" class='form-control' placeholder='ĐVT' /></td>
+                        <td><button type="button" class="btnSelect btn blue btn-small left"><i class="large material-icons">remove</i></button></td>
                     </tr>
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" onclick="myFunction()" class="btn blue btn-small"><i class="large material-icons">add</i></button>
+                <button type="button" onclick="myFunction()" class="btn blue btn-small left"><i class="large material-icons">add</i></button>
 
             </div>
         </div>
@@ -224,7 +229,7 @@
     <div class="modal-footer">
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <a href="#myadd2" class="modal-trigger btn">Thêm thuộc tính</a>
+                @*<a href="#myadd2" class="modal-trigger btn">Thêm thuộc tính</a>*@
                 <button type="submit" id="save" class="btn blue btn-default modal-close" style="color:white">Thêm</button>
                 @*<button type="submit" class="btn blue btn-default modal-trgger" data-target="myadd2" style="color:white">Thêm</button>*@
                 @*<input type="submit" value="Thêm" class="btn blue btn-default" id="btn-submit" onclick="ABC()" />*@
@@ -236,6 +241,26 @@
 <script src="~/js/Custom JS/CDVT/Home/huydong.js"></script>
 <script>
 
+    $(document).ready(function () {
+
+        // code to read selected table row cell data (values).
+        $("#myTable").on('click', '.btnSelect', function () {
+            // get the current row
+            var currentRow = $(this).closest("tr");
+            var data = currentRow.find("td:eq(0)").text();
+            document.getElementById("myTable").deleteRow(data);
+            var table = document.getElementById("myTable");
+            var x = document.getElementById("myTable").rows.length;
+            var i = 1;
+            for (i = 1; i < x; i++) {
+                table.rows[i].cells[0].innerHTML = i;
+            }
+            count = document.getElementById("myTable").rows.length;
+        });
+    });
+
+    var count = 2;
+
     function myFunction() {
         var x = document.getElementById("myTable").rows.length;
         var table = document.getElementById("myTable");
@@ -244,10 +269,15 @@
         var cell2 = row.insertCell(1);
         var cell3 = row.insertCell(2);
         var cell4 = row.insertCell(3);
-        cell1.innerHTML = "<input type='text' name='id' class='form-control' placeholder='Mã đặc tính' />";
-        cell2.innerHTML = "<input type='text' name='name' class='form-control' placeholder='Tên đặc tính' />";
-        cell3.innerHTML = "<input type='number' name='value' class='form-control' placeholder='Thông số' />";
-        cell4.innerHTML = "<input type='text' name='unit' class='form-control' placeholder='ĐVT' />";
+        var cell5 = row.insertCell(4);
+        var cell6 = row.insertCell(5);
+        cell1.innerHTML = ""+count+"";
+        cell2.innerHTML = "<input type='text' name='id' class='form-control' placeholder='Mã đặc tính' />";
+        cell3.innerHTML = "<input type='text' name='name' class='form-control' placeholder='Tên đặc tính' />"
+        cell4.innerHTML = "<input type='number' name='value' class='form-control' placeholder='Thông số' />";
+        cell5.innerHTML = "<input type='text' name='unit' class='form-control' placeholder='ĐVT' />";
+        cell6.innerHTML = "<button type='button' class='btnSelect btn blue btn-small left'><i class='large material-icons'>remove</i></button>";
+        count++;
     }
 
     $(document).ready(function () {

@@ -47,26 +47,30 @@
             </div>
 
         </div>
-        <div class="modal fade" id="myadd20">
+        <div class="col-12" id="myadd20" style="margin-top:15px">
             <div class="modal-header center-align">
                 <h3>Thêm thuộc tính thiết bị</h3>
             </div>
             <div class="modal-body">
                 <table id="myTableCate" class="table-bordered">
                     <tr>
+                        <th>STT</th>
                         <th>Mã đặc tính</th>
                         <th>Tên đặc tính</th>
                         <th>ĐVT</th>
+                        <th></th>
                     </tr>
                     <tr>
+                        <td>1</td>
                         <td><input type='text' name="id" class='form-control' placeholder='Mã đặc tính' /></td>
                         <td><input type='text' name="name" class='form-control' placeholder='Tên đặc tính' /></td>
                         <td><input type='text' name="unit" class='form-control' placeholder='ĐVT' /></td>
+                        <td><button type="button" class="btnSelect2 btn blue btn-small left"><i class="large material-icons">remove</i></button></td>
                     </tr>
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" onclick="myFunction2()" class="btn blue btn-small"><i class="large material-icons">add</i></button>
+                <button type="button" onclick="myFunction2()" class="btn blue btn-small left"><i class="large material-icons">add</i></button>
 
             </div>
         </div>
@@ -74,7 +78,7 @@
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <a href="#myadd20" class="modal-trigger btn">Thêm đặc tính</a>
+                    @*<a href="#myadd20" class="modal-trigger btn">Thêm đặc tính</a>*@
                     <button type="submit" id="save" class="btn blue btn-default modal-close" style="color:white">Thêm</button>
                 </div>
             </div>
@@ -83,6 +87,24 @@
     </div>
 }
 <script>
+     $(document).ready(function () {
+
+        // code to read selected table row cell data (values).
+        $("#myTableCate").on('click', '.btnSelect2', function () {
+            // get the current row
+            var currentRow = $(this).closest("tr");
+            var data = currentRow.find("td:eq(0)").text();
+            document.getElementById("myTableCate").deleteRow(data);
+            var table = document.getElementById("myTableCate");
+            var x = document.getElementById("myTableCate").rows.length;
+            var i = 1;
+            for (i = 1; i < x; i++) {
+                table.rows[i].cells[0].innerHTML = i;
+            }
+            count2 = document.getElementById("myTableCate").rows.length;
+        });
+    });
+    var count2 = 2;
     function myFunction2() {
         var x = document.getElementById("myTableCate").rows.length;
         var table = document.getElementById("myTableCate");
@@ -90,9 +112,14 @@
         var cell1 = row.insertCell(0);
         var cell2 = row.insertCell(1);
         var cell3 = row.insertCell(2);
-        cell1.innerHTML = "<input type='text' name='id' class='form-control' placeholder='Mã đặc tính' />";
-        cell2.innerHTML = "<input type='text' name='name' class='form-control' placeholder='Tên đặc tính' />";
-        cell3.innerHTML = "<input type='text' name='unit' class='form-control' placeholder='ĐVT' />";
+        var cell4 = row.insertCell(3);
+        var cell5 = row.insertCell(4);
+        cell1.innerHTML = "" + count2 + "";
+        cell2.innerHTML = "<input type='text' name='id' class='form-control' placeholder='Mã đặc tính' />";
+        cell3.innerHTML = "<input type='text' name='name' class='form-control' placeholder='Tên đặc tính' />";
+        cell4.innerHTML = "<input type='text' name='unit' class='form-control' placeholder='ĐVT' />";
+        cell5.innerHTML = "<button type='button' class='btnSelect2 btn blue btn-small left'><i class='large material-icons'>remove</i></button>";
+        count2++;
     }
 </script>
 
