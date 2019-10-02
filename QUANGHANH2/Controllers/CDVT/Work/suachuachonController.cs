@@ -84,6 +84,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
             {
                 try
                 {
+                    //Equipment e = new Equipment();
+                    //e.current_Status = 3;
                     Documentary documentary = new Documentary();
                     documentary.documentary_code = documentary_code == "" ? null: documentary_code;
                     documentary.documentary_type = "1";
