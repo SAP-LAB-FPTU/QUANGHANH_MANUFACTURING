@@ -135,7 +135,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
             return View("/Views/PX/PXKT/takeAttendance.cshtml");
         }
 
-        public ActionResult getAll(int session, string departmentID, DateTime date)
+        public dynamic getAll(int session, string departmentID, DateTime date)
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
@@ -157,9 +157,8 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                                           reason = att.LyDoVangMat,
                                           description = att.GhiChu
                                       }).OrderBy(att => att.status).ToList();
-                JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
-                var result = JsonConvert.SerializeObject(listAttendance, Formatting.Indented, jss);
-                return Json(new { success = true, data = result }, JsonRequestBehavior.AllowGet);
+                return listAttendance;
+
             }
         }
 
@@ -172,8 +171,11 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
             var dateAtt = Convert.ToDateTime("2019-09-10");
             int session = 1;
             //
-            return getAll(session, departmentID, dateAtt);
-
+            var listAttendance = getAll(session, departmentID, dateAtt);
+            JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            var result = JsonConvert.SerializeObject(listAttendance, Formatting.Indented, jss);
+            return Json(new { success = true, data = result }, JsonRequestBehavior.AllowGet);
+            //
         }
 
         [HttpPost]
@@ -204,36 +206,19 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                         dn.CaDiemDanh = session;
                         dn.NgayDiemDanh = dateAtt;
                         dn.MaDonVi = departmentID;
+                        dn.XacNhan = true;
                         if (item.isEnvolved)
                         {
-                            if (item.status)
+                            if (item.maDD != null)
                             {
-                                if (item.maDD != null)
-                                {
-                                    // db.Entry(dn).State = EntityState.Modified;
-                                    dn.MaDiemDanh = Int32.Parse(item.maDD);
-                                    db.Entry(dn).State = EntityState.Modified; //do it here
-
-                                }
-                                else
-                                {
-                                    db.DiemDanh_NangSuatLaoDong.Add(dn);
-                                    db.SaveChanges();
-                                }
+                                // db.Entry(dn).State = EntityState.Modified;
+                                dn.MaDiemDanh = Int32.Parse(item.maDD);
+                                db.Entry(dn).State = EntityState.Modified; //do it here
                             }
                             else
                             {
-                                if (item.maDD != null)
-                                {
-                                    // db.Entry(dn).State = EntityState.Modified;
-                                    dn.MaDiemDanh = Int32.Parse(item.maDD);
-                                    db.Entry(dn).State = EntityState.Deleted; //do it here
-                                }
-                                else
-                                {
-                                    db.DiemDanh_NangSuatLaoDong.Add(dn);
-                                    db.SaveChanges();
-                                }
+                                db.DiemDanh_NangSuatLaoDong.Add(dn);
+                                db.SaveChanges();
                             }
                         }
                         else
@@ -250,7 +235,10 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                     transaction.Complete();
                 }
             }
-            return getAll(session, departmentID, dateAtt);
+            var listAttendance = getAll(session, departmentID, dateAtt);
+            JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            var result = JsonConvert.SerializeObject(listAttendance, Formatting.Indented, jss);
+            return Json(new { success = true, data = result }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -298,7 +286,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                                         .Where(per => per.MaDonVi == departmentID && per.NgayDiemDanh == dateAtt && per.CaDiemDanh == ca)
                                       on emp.MaNV equals per.MaNV into attendance
                                       from att in attendance.DefaultIfEmpty()
-                                        .Where(att => ((workAll ? (att.MaDiemDanh != null) : (att.MaDiemDanh == null)) || (notWorkAll ? (att.MaDiemDanh == null) : (att.MaDiemDanh != null))) && (workAll || notWorkAll))
+                                        .Where(att => ((workAll ? (att.DiLam == true) : (att.DiLam == false)) || (notWorkAll ? (att.DiLam == false || att.MaDiemDanh == null) : (att.DiLam == true))) && (workAll || notWorkAll))
                                       select new
                                       {
                                           maNV = emp.MaNV,
@@ -321,10 +309,51 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
         [Route("phan-xuong-khai-thac/diem-danh/lay-thong-tin")]
         public ActionResult fetchAPI()
         {
-            using(QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            var departmentID = Request["department"];
+            var dateAtt = Convert.ToDateTime(Request["date"]);
+            int session = Int32.Parse(Request["session"]);
+            //
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                var listAttendance = db.FakeAPIs.ToList();
+                var listAttendanceFromAPI = db.FakeAPIs.ToList();
+                //
+                List<String> listAttendanceFromAPI_ID = new List<string>();
+                foreach (var item in listAttendanceFromAPI)
+                {
+                    listAttendanceFromAPI_ID.Add(item.MaNV);
+                }
+                try
+                {
+                    //using (var transaction = new TransactionScope())
+                    //{
+                    //    // get all "ma nhan vien" already have been taken attendance.
+                    //    List<String> listAttendanceID = db.DiemDanh_NangSuatLaoDong.Where(dd => dd.CaDiemDanh == session && dd.MaDonVi == departmentID && dd.NgayDiemDanh == dateAtt).Select(col => col.MaNV).ToList();
+                    //    foreach (var id in listAttendanceFromAPI_ID)
+                    //    {
+                    //        if (!listAttendanceID.Contains(id))
+                    //        {
+                    //            DiemDanh_NangSuatLaoDong dn = new DiemDanh_NangSuatLaoDong();
+                    //            dn.MaDonVi = departmentID;
+                    //            dn.CaDiemDanh = session;
+                    //            dn.NgayDiemDanh = dateAtt;
+                    //            dn.MaNV = id;
+                    //            // from API
+                    //            dn.XacNhan = false;
+                    //            db.DiemDanh_NangSuatLaoDong.Add(dn);
+                    //            db.SaveChanges();
+                    //        }
+                    //    }
+                    //    transaction.Complete();
+                    //}
+                    var listAttendance = getAll(session, departmentID, dateAtt);
+                    JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+                    var result = JsonConvert.SerializeObject(listAttendance, Formatting.Indented, jss);
+                    return Json(new { success = true, data = result, time ="hihi" }, JsonRequestBehavior.AllowGet);
+                }
+                catch
+                {
 
+                }
             }
             return View();
         }

@@ -9,29 +9,35 @@
 <div class="card">
     <div class="card-content">
         <form>
-            <div class="row center">
-                <div class="col l3">
-                    <div class="row">
-                        <label>
-                            <input type="checkbox" class="filled-in" checked="checked" id="workedAllCheckbox" onclick="searchEmployee()" />
-                            <span>Những người đi làm</span>
-                        </label>
+            <div class="row">
+                <div class="col l3 row">
+                    <div class="col l6">
+                        <div class="row">
+                            <label>
+                                <input type="checkbox" class="filled-in" checked="checked" id="workedAllCheckbox" onclick="searchEmployee()" />
+                                <span>Những người đi làm</span>
+                            </label>
+                        </div>
+                        <div class="row">
+                            <label>
+                                <input type="checkbox" class="filled-in" checked="checked" id="notWorkedAllCheckbox" onclick="searchEmployee()" />
+                                <span>Những người không đi làm</span>
+                            </label>
+                        </div>
                     </div>
-                    <div class="row">
-                        <label>
-                            <input type="checkbox" class="filled-in" checked="checked" id="notWorkedAllCheckbox" onclick="searchEmployee()" />
-                            <span>Những người không đi làm</span>
-                        </label>
+                    <div class="col l6 center">
+                        <div> <h5>Lần cuối cập nhật: </h5></div>
+                        <div> <h5 id="timeFetchSuccessfully">@ViewBag.time </h5></div>
                     </div>
                 </div>
-                <div class="col l6">
+                <div class="col l6 center">
                     <h3>
                         ĐIỂM DANH CỦA <a class="dropdown-trigger btn" id="phanxuong" href="#" data-target="dropdown_px" style="background-color:#273146">DL1</a> <a class="dropdown-trigger btn" id="ca" href="#" data-target="dropdown_ca" style="background-color:#273146">CA 1</a> NGÀY <input type="text" id="inputdate" class="datepicker-here center" data-language="vi" value="" />
                         <a class="btn waves-effect waves-light blue modal-trigger" id="btn-view" href="#" onclick="getcontent();">Xem</a>
                         <br><br>
                     </h3>
                 </div>
-                <div class="col l3">
+                <div class="col l3 center">
                     <a class="waves-effect waves-light btn-large" onclick="fetchAPI()">Cập nhật điểm danh</a>
                 </div>
                 <hr>
@@ -188,7 +194,7 @@
                 $(".inputDescription").removeAttr("disabled")
                 $(".checkBox").removeAttr("disabled")
                 $(".checkBox1").removeAttr("disabled")
-                $(".reasonBox").html("<select class=\"browser-default \"> <option value=\"\" disabled selected>Lựa chọn lý do</option> <option value=\"1\">Ốm</option> <option value=\"2\">Vô lý do</option><option value=\"3\">Nghỉ phép</option></option> <option value=\"2\">Vô lý do</option><option value=\"4\">Khác</option></select>");
+                $(".reasonBox").html("<select class=\"browser-default \"> <option value=\"\" disabled selected>Lựa chọn lý do</option> <option value=\"1\">Ốm</option> <option value=\"2\">Vô lý do</option><option value=\"3\">Nghỉ phép</option></option><option value=\"4\">Khác</option></select>");
                 //
                 mode = 1;
             } else {
@@ -252,12 +258,24 @@
                             cur[heads[i]] = attr.is(":checked");
                         }
                         if (heads[i] == "reason") {
-                            var text = $(this).children("span").find(":selected").text();
-                            if (text == "Lựa chọn lý do") {
-                                cur[heads[i]] == "";
-                                console.log("hihi");
-                            } else {
-                                cur[heads[i]] == text;
+                            var selectValue = $(this).children("span").children("select").val();
+                            // console.log($(this).children("span").children("select").val())
+                            switch (selectValue) {
+                                case "1":
+                                    cur[heads[i]] = "Ốm";
+                                    break;
+                                case "2":
+                                    cur[heads[i]] = "Vô lý do";
+                                    break;
+                                case "3":
+                                    cur[heads[i]] = "Nghỉ phép";
+                                    break;
+                                case "4":
+                                    cur[heads[i]] = "Khác";
+                                    break;
+                                default:
+                                    cur[heads[i]] = "";
+                                    break;
                             }
                         }
                         if (heads[i] == "description") {
@@ -271,14 +289,20 @@
             return rows;
         }
 
+        function updateTime(settings, data) {
+            alert(data["time"]);
+        }
+
         function fetchAPI() {
             $("#attendanceTable").on('preXhr.dt', function (e, settings, data) {
-                data.sessionId = JSON.stringify(dataUpdate)
                 data.session = $("#ca").text().split(" ")[1];
                 data.department = $("#phanxuong").text();
                 data.date = convertToSQLDate($("#inputdate").val());
+                updateTime(settings, data)
             })
-            $("#attendanceTable").DataTable().ajax.url("/phan-xuong-khai-thac/diem-danh/lay-thong-tin").load();
+            $("#attendanceTable").DataTable().ajax.url("/phan-xuong-khai-thac/diem-danh/lay-thong-tin")
+                .load()
+            $("#timeFetchSuccessfully").html("@ViewBag.time")
         }
 
         function searchEmployee() {
@@ -290,6 +314,9 @@
                 data.date = convertToSQLDate($("#inputdate").val());
             })
             $("#attendanceTable").DataTable().ajax.url("/phan-xuong-khai-thac/diem-danh/lua-chon-diem-danh").load();
+            $("#attendanceTable").DataTable().reload(function () {
+                alert("hihi")
+            })
         }
     </script>
     <script>
