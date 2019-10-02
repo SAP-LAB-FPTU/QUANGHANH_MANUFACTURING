@@ -460,7 +460,7 @@ namespace QUANGHANH2.Controllers.TCLD
                                     ngay = dayStart
                                 }
                                   ).ToList();
-                    int index = 3;
+                    int index = 4;
                     foreach (var item in mydata)
                     {
                         excelWorksheet.Cells[index, 1].Value = item.mapb;
