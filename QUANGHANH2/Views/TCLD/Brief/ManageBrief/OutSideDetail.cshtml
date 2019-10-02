@@ -221,7 +221,7 @@
     </div>
 </div>
 
-<div class="col m12">
+<div class="col m12 table-responsive">
     <div class="card">
         <div class="card-content">
             <div class="row">
@@ -235,6 +235,7 @@
                                 <thead>
                                     <tr>
                                         <th>Số Hiệu</th>
+                                        <th>Mã giấy tờ</th>
                                         <th>Tên</th>
                                         <th>Kiểu </th>
                                         <th>Ngày cấp</th>
@@ -272,6 +273,10 @@
             <div class="col m4">
                 <label class='custom-label'>Số Hiệu giấy tờ</label>
                 <input disabled type="text" id="suasohieu" class="inputEdit form-control" />
+            </div>
+            <div class="col m4">
+                <label class='custom-label'>Mã giấy tờ</label>
+                <input disabled type="text" id="suama" class="inputEdit form-control" />
             </div>
             <div class="col m4">
                 <label class='custom-label'>Kiểu giấy tờ</label>
@@ -335,12 +340,7 @@
     <script>
     var table;
         $(document).ready(function () {
-            console.log(@right[0]);
-            console.log(@right[1]);
-            console.log(@right[2]);
-            console.log(@right[3]);
-            console.log(@right[4]);
-
+           
 
 
 
@@ -392,6 +392,7 @@
     },
     "columns": [
         { data: 'sohieu' },
+        {data:'ma'},
         { data: 'ten'},
         { data: 'kieu' },
         { data: 'ngaycap',"render": function (data) {
@@ -405,8 +406,8 @@
         {
             data: 'manv', "render": function (data, type, row) {
 
-                return "@{if (isAcess){<a onclick=\"getChinhSuaGiayTo('" + row['sohieu'] + "','" + row['kieu'] + "','"+ row['ten'] + "','"+ row['ngaycap'] + "','" + row['ngaytra'] + "')\" class='btn btn-small blue darken-2 modal-trigger input-field waves-effect' id='btn-fix'  href='#modal1'>Chỉnh sửa</a>}
-                    else {<a disabled onclick=\"getChinhSuaGiayTo('" + row['sohieu'] + "','" + row['kieu'] + "','"+ row['ten'] + "','"+ row['ngaycap'] + "','" + row['ngaytra'] + "')\" class='btn btn-small blue darken-2 modal-trigger input-field waves-effect' id='btn-fix'  href='#modal1'>Chỉnh sửa</a>}
+                return "@{if (isAcess){<a onclick=\"getChinhSuaGiayTo('" + row['sohieu'] + "','" + row['kieu'] + "','" + row['ma'] + "','"+ row['ten'] + "','"+ row['ngaycap'] + "','" + row['ngaytra'] + "')\" class='btn btn-small blue darken-2 modal-trigger input-field waves-effect' id='btn-fix'  href='#modal1'>Chỉnh sửa</a>}
+                    else {<a disabled onclick=\"getChinhSuaGiayTo('" + row['sohieu'] + "','" + row['kieu']+ "','" + row['ma'] + "','" + "','"+ row['ten'] + "','"+ row['ngaycap'] + "','" + row['ngaytra'] + "')\" class='btn btn-small blue darken-2 modal-trigger input-field waves-effect' id='btn-fix'  href='#modal1'>Chỉnh sửa</a>}
                 }";
             }
         }
@@ -851,12 +852,13 @@
         return (date);
     }
 
-    function getChinhSuaGiayTo(sohieu, kieu,ten,ngaycap, ngaytra) {
+    function getChinhSuaGiayTo(sohieu, kieu,ma,ten,ngaycap, ngaytra) {
         console.log('getChinhSuaGiayTo');
         //xet gia tri cho div ve thong tin chinh sua
         console.log(sohieu + ',' + kieu + ',' + ngaytra);
         $('#suasohieu').val(sohieu);
         $('#suakieu').val(kieu);
+        $('#suama').val(ma);
         if(ten!='null')
         $('#suaten').val(ten);
         if (ngaytra != 'null') {
@@ -875,6 +877,7 @@
         var dateParts = $('#suangaytra').val().split("/");
         var x4 = dateParts[1] + '/' + dateParts[0] + '/' + dateParts[2];
         var object = {
+           "ma":$('#suama').val(),
             "manv": '@ViewBag.manv',
         "sohieu": $('#suasohieu').val(),
             "kieu": $('#suakieu').val(),
