@@ -40,7 +40,7 @@
 
 <div class="row" id="baocaonhanh">
     <div class="col l6 m6 s12">
-        <div class="card @(ViewBag.hetHanChungChi==0?"info-gradient":"warning-gradient") card-hover" id="notice">
+        <div class="card @(ViewBag.hetHanChungChi==0?"info-gradient":"warning-gradient") card-hover" id="chungchi-container">
             <div class="card-content">
                 <div class="d-flex no-block align-items-center">
                     <div>
@@ -359,6 +359,33 @@
                             $("#huydong-info").text("Không có lượt huy động nào");
                         } else {
                              $("#huydong-info").text(response.soLuongHuyDong+" lượt huy động");
+                        }
+                        if (response.hetHanChungChi === 0) {
+                            $("#chungchi-info").text("Không NV hết hạn chứng chỉ");
+                            $("#chungchi-container").removeClass("warning-gradient");
+                            $("#chungchi-container").addClass("info-gradient");
+                        } else {
+                            $("#chungchi-info").text(response.hetHanChungChi + " NV hết hạn chứng chỉ");
+                            $("#chungchi-container").removeClass("info-gradient");
+                            $("#chungchi-container").addClass("warning-gradient");
+                        }
+                        if (response.vuTaiNan === 0) {
+                            $("#tainan-info").text("Không có vụ tai nạn nào");
+                             $("#tainan-container").removeClass("warning-gradient");
+                            $("#tainan-container").addClass("info-gradient");
+                        } else {
+                            $("#tainan-info").text(response.vuTaiNan + " vụ tai nạn");
+                            $("#tainan-container").removeClass("info-gradient");
+                            $("#tainan-container").addClass("warning-gradient");
+                        }
+                        if (response.nghiVLD === 0) {
+                            $("#vld-info").text("Không có lượt nghỉ VLD nào");
+                             $("#vld-container").removeClass("warning-gradient");
+                            $("#vld-container").addClass("info-gradient");
+                        } else {
+                            $("#vld-info").text(response.nghiVLD + " lượt nghỉ VLD");
+                            $("#vld-container").removeClass("info-gradient");
+                            $("#vld-container").addClass("warning-gradient");
                         }
                         ////////////////////////////////////////////////////////////////
 
