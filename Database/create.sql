@@ -74,6 +74,7 @@ CREATE TABLE [dbo].[Account_Right](
 ) ON [PRIMARY]
 
 GO
+
 /****** Object:  Table [dbo].[Account_Right_Detail]    Script Date: 10/1/2019 3:24:30 PM ******/
 SET ANSI_NULLS ON
 GO
@@ -584,7 +585,8 @@ GO
 CREATE TABLE [dbo].[Equipment_Inspection](
 	[inspect_id] [int] IDENTITY(1,1) NOT NULL,
 	[equipmentId] [nvarchar](150) NOT NULL,
-	[inspect_start_date] [datetime] NOT NULL,
+	[inspect_expected_date] [datetime] NOT NULL,
+	[inspect_start_date] [datetime] NULL,
 	[inspect_end_date] [datetime] NULL,
 PRIMARY KEY CLUSTERED 
 (
@@ -1157,6 +1159,24 @@ PRIMARY KEY CLUSTERED
 	[MaTaiNan] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Equipment_Category_Supply]    Script Date: 10/1/2019 3:24:30 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Equipment_Category_Supply](
+	[ecsId] [int] IDENTITY(1,1) NOT NULL,
+	[Equipment_category_id] [nvarchar](150) NOT NULL,
+	[supply_id] [nvarchar](150) NOT NULL,
+	foreign key ([supply_id]) references Supply(supply_id),
+	unique(Equipment_category_id, supply_id),
+ CONSTRAINT [PK_Equipment_Category_Supply] PRIMARY KEY CLUSTERED 
+( 
+	[ecsId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
 
 GO
 /****** Object:  Table [dbo].[ThucHien_TieuChi]    Script Date: 10/1/2019 3:24:30 PM ******/
