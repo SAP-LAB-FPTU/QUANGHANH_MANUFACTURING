@@ -134,7 +134,7 @@
             <h3>Thêm Giấy Tờ</h3>
         </div>
         @Html.Action("themGiayTo", "Brief")
-    </div>
+</div>
 <div class="modal fade" id="myEdit">
         <div class="modal-content">
             <div class="modal-header">
@@ -194,11 +194,11 @@
                             }
                         },
                         error: function (response) {
-
+                            swal("Đăng nhập đúng tải khoản để thực hiện!", "");
                         }
                     }).done(function () {
+                         swal("Đã xóa thành công!", "");
                     });
-                    swal("Đã xóa thành công!", "");
                 } else {
                     return false;
                 }
