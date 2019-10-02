@@ -226,7 +226,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
                     List<Documentary_Extend> incidents = (from document in db.Documentaries
-                                                          where (document.reason.Equals("Điều động đi khai thác"))
+                                                          where (document.documentary_type.Equals("3"))
                                                           join detail in db.Documentary_moveline_details on document.documentary_id equals detail.documentary_id
                                                           into temporary
                                                           select new
