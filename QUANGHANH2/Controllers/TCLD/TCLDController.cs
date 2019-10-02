@@ -22,13 +22,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         {
             return View("/Views/TCLD/bao-cao-nhanh.cshtml");
         }
-        //[Route("phong-tcld/bao-cao-nhanh-lao-dong-tien-luong-vtl1")]
-        //public ActionResult DetailReport()
-        //{
-        //    ViewBag.nameDepartment = "baocao-sanluon-laodong";
-        //    return View("/Views/TCLD/bao_cao_nhanh_tung_phan_xuong.cshtml");
-        //}
-
+        [Auther(RightID="57")]
         [Route("phong-tcld/bao-cao-chi-tiet-theo-ca")]
         public ActionResult Report1(string ca, string donvi, string date)
         {
