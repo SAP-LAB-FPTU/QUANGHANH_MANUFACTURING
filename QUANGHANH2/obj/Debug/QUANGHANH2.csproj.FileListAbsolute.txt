@@ -645,9 +645,7 @@ C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebP
 C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.Deployment.xml
 C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.Razor.xml
 C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Newtonsoft.Json.xml
-C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Antlr3.Runtime.pdb
 C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.csprojAssemblyReference.cache
 C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.csproj.CoreCompileInputs.cache
 C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.csproj.CopyComplete
 C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.dll
@@ -739,3 +737,12 @@ D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\obj\Debug\QUANGH
 D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\obj\Debug\QUANGHANH2.csproj.CopyComplete
 D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\obj\Debug\QUANGHANH2.dll
 D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\obj\Debug\QUANGHANH2.pdb
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Unity.Abstractions.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Unity.Container.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Unity.Mvc5.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\XCrypt.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Unity.Abstractions.pdb
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Unity.Container.pdb
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.csprojAssemblyReference.cache

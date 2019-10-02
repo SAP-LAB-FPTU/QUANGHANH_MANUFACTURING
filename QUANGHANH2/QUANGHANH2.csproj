@@ -7104,6 +7104,9 @@
     <Content Include="Views\PX\PXDS\Input.cshtml" />
     <Content Include="Views\Brief\EditLichSuBoSung.cshtml" />
     <Content Include="Views\PX\PXKT\registerEmployee.cshtml" />
+    <Content Include="Views\TCLD\Task\ReportJob.cshtml" />
+    <Content Include="Views\TCLD\Task\ViewCertificateByNV.cshtml" />
+    <Content Include="Views\TCLD\Task\ViewJobByPX.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_bao_duong.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_dieu_dong.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_kiem_dinh.cshtml" />
