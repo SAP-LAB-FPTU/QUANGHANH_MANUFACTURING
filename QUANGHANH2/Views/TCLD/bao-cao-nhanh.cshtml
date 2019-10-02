@@ -291,9 +291,8 @@
         </div>
     </div>*@
 <script>
-    @*var tren82="@ViewBag.tren82";*@
-        @*var tren82 = @ViewBag.tren82;
-    var duoi82= @ViewBag.duoi82;*@
+    var tren82 =@ViewBag.tren82;
+    var duoi82= @ViewBag.duoi82;
 </script>
 <!-- Editable -->
 <script type="text/javascript" src="~/assets/libs/jsgrid/dist/jsgrid.min.js"></script>
@@ -345,7 +344,7 @@
             //alert($('#minMaxDate').val());
             $("#pre-load").show("slow", function () {
             });
-            $("#pre-load").css("z-index","99999");
+            $("#pre-load").css("z-index", "99999");
             $.ajax({
                 type: 'post',
                 url: '/phong-tcld/get-data',
@@ -358,7 +357,7 @@
                         if (response.soLuongHuyDong === 0) {
                             $("#huydong-info").text("Không có lượt huy động nào");
                         } else {
-                             $("#huydong-info").text(response.soLuongHuyDong+" lượt huy động");
+                            $("#huydong-info").text(response.soLuongHuyDong + " lượt huy động");
                         }
                         if (response.hetHanChungChi === 0) {
                             $("#chungchi-info").text("Không NV hết hạn chứng chỉ");
@@ -371,7 +370,7 @@
                         }
                         if (response.vuTaiNan === 0) {
                             $("#tainan-info").text("Không có vụ tai nạn nào");
-                             $("#tainan-container").removeClass("warning-gradient");
+                            $("#tainan-container").removeClass("warning-gradient");
                             $("#tainan-container").addClass("info-gradient");
                         } else {
                             $("#tainan-info").text(response.vuTaiNan + " vụ tai nạn");
@@ -380,7 +379,7 @@
                         }
                         if (response.nghiVLD === 0) {
                             $("#vld-info").text("Không có lượt nghỉ VLD nào");
-                             $("#vld-container").removeClass("warning-gradient");
+                            $("#vld-container").removeClass("warning-gradient");
                             $("#vld-container").addClass("info-gradient");
                         } else {
                             $("#vld-info").text(response.nghiVLD + " lượt nghỉ VLD");
@@ -388,7 +387,101 @@
                             $("#vld-container").addClass("warning-gradient");
                         }
                         ////////////////////////////////////////////////////////////////
+                        tren82 = response.tren82;
+                        duoi82 = response.duoi82;
+                        var basicpieChart = echarts.init(document.getElementById('basic-pie'));
+                        option = {
+                            tooltip: {
+                                trigger: 'item',
+                                formatter: "{a} <br/>{b}: {c} ({d}%)",
+                                align: 'center'
+                            },
+                            // Add legend
+                            legend: {
+                                orient: 'vertical',
+                                x: '5%',
+                                y: '88%',
+                                data: ['Huy động dưới 82%', 'Huy động trên 82%']
+                            },
+                            // Add custom colors
+                            color: ['#f62d51', '#2962FF'],
 
+                            // Display toolbox
+                            toolbox: {
+                                show: false,
+                                orient: 'vertical',
+                                feature: {
+                                    mark: {
+                                        show: true,
+                                        title: {
+                                            mark: 'Markline switch',
+                                            markUndo: 'Undo markline',
+                                            markClear: 'Clear markline'
+                                        }
+                                    },
+                                    dataView: {
+                                        show: false,
+                                        readOnly: false,
+                                        title: 'View data',
+                                        lang: ['View chart data', 'Close', 'Update']
+                                    },
+                                    magicType: {
+                                        show: true,
+                                        title: {
+                                            pie: 'Switch to pies',
+                                            funnel: 'Switch to funnel',
+                                        },
+                                        type: ['pie', 'funnel'],
+                                        option: {
+                                            funnel: {
+                                                x: '35%',
+                                                y: '20%',
+                                                width: '50%',
+                                                height: '70%',
+                                                funnelAlign: 'left',
+                                                max: 1548
+                                            }
+                                        }
+                                    },
+                                    restore: {
+                                        show: false,
+                                        title: 'Restore'
+                                    },
+                                    saveAsImage: {
+                                        show: false,
+                                        title: 'Same as image',
+                                        lang: ['Save']
+                                    }
+                                }
+                            },
+
+                            // Enable drag recalculate
+                            calculable: true,
+
+                            // Add series
+                            series: [{
+                                name: 'Các phòng ban',
+                                type: 'pie',
+                                radius: '60%',
+                                center: ['50%', '45.5%'],
+                                label: {
+                                    formatter: "{d}%",
+                                    show: true,
+                                },
+                                data: [{
+                                    value: duoi82,
+                                    name: 'Huy động dưới 82%'
+
+                                },
+                                {
+                                    value: tren82,
+                                    name: 'Huy động trên 82%'
+                                }
+                                ]
+                            }]
+                        };
+                        basicpieChart.setOption(option);
+                        //////////////////////////////////////////////////////////////////
                     } else {
                         errorAlert(response.message);
                         $("#pre-load").hide("slow", function () {
