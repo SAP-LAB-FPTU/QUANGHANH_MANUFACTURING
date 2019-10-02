@@ -21,7 +21,7 @@
             <div class="card">
                 <div class="card-content">
                     <div class="row">
-                        <h3 class="center black-text"><b>THÊM HỒ SƠ</b></h3>
+                        <h3 class="center black-text"><b>CHỈNH SỬA THÔNG TIN NHÂN VIÊN</b></h3>
                         <hr />
                         <div class="col m12">
                             <ul class="tabs">
@@ -40,13 +40,13 @@
                                     <div class="input-field col m8">
                                         <div class="input-field col m12">
                                             <div class="col m4">
-                                                @Html.LabelFor(model => model.MaNV, htmlAttributes: new { @class = "custom-label" })
-                                                <div class="col-md-10">
-                                                    @Html.EditorFor(model => model.MaNV, "Mã nhân viên", new { htmlAttributes = new { @class = "form-control", @placeholder = "Mã", @type = "text" } })
-                                                    @Html.ValidationMessageFor(model => model.MaNV, "", new { @class = "text-danger" })
-                                                </div>
+                                                @*@Html.LabelFor(model => model.MaNV, htmlAttributes: new { @class = "custom-label" })
+                                                    <div class="col-md-10">
+                                                        @Html.EditorFor(model => model.MaNV, "Mã nhân viên", new { htmlAttributes = new { @class = "form-control", @placeholder = "Mã", @type = "text" } })
+                                                        @Html.ValidationMessageFor(model => model.MaNV, "", new { @class = "text-danger" })
+                                                    </div>*@
                                             </div>
-                                            <div class="col m8">
+                                            <div class="col m12">
                                                 @Html.LabelFor(model => model.Ten, "Họ và tên", htmlAttributes: new { @class = "custom-label" })
                                                 <div class="col-md-10">
                                                     @Html.EditorFor(model => model.Ten, new { htmlAttributes = new { @class = "form-control", @placeholder = "Tên khai sinh", @type = "text" } })
@@ -75,6 +75,8 @@
                                     </div>
                                     <div class="center col m4">
                                         <img src="/images/avatar.png" width="130" height="130"><br />
+                                        @Html.HiddenFor(model => model.MaNV, new { htmlAttributes = new { @class = "form-control", @placeholder = "Mã", @type = "text" } })
+                                        <div id="Grapper_MaNV"></div>
                                         <a class="btn btn blue darken-2 btn-small center">Chọn ảnh</a>
                                     </div>
                                 </div>
@@ -98,11 +100,11 @@
                                     <div class="col m6">
                                         @Html.LabelFor(model => model.MaCongViec, "Chức vụ", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            <input id="MaCongViecDis" list="listJob" class="form-control" name="test" value="@ViewBag.loadJob"/>
+                                            <input id="MaCongViecDis" list="listJob" class="form-control" name="test" value="@ViewBag.loadJob" />
                                             <datalist id="listJob">
                                                 @foreach (var item in (IEnumerable<SelectListItem>)ViewBag.job)
                                                 {
-                                                <option value="@item.Text" />
+                                                    <option value="@item.Text" />
                                                 }
                                             </datalist>
                                             @Html.ValidationMessageFor(model => model.MaCongViec, "", new { @class = "text-danger" })
@@ -684,6 +686,13 @@
 <script src="~/js/Custom JS/TCLD/Brief/Briefs_Edit.js"></script>
 <script src="~/js/Custom JS/TCLD/Brief/DateError.js"></script>
 <script>
-  
+    $(document).ready(function () {
+        var MaNV = $("#MaNV").val();
+        $("#Grapper_MaNV").html("<b>Mã Nhân Viên: " + MaNV + "</b>")
+    });
 </script>
-
+<script>
+    $(".datepicker-here").keydown(function (e) {
+        e.preventDefault();
+    });
+</script>
