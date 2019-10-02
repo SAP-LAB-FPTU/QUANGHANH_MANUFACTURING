@@ -1036,7 +1036,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                       nv.NgayChamDut = Convert.ToDateTime(ngayCD);
                 }
 
-                QuyetDinh cd = (from p in db.QuyetDinhs where p.SoQuyetDinh == soQD select p).SingleOrDefault();
+                QuyetDinh cd = (from p in db.QuyetDinhs where p.MaQuyetDinh == soQD1 select p).SingleOrDefault();
                 if (isValidateDateTime(ngayQD))
                 {
                     cd.NgayQuyetDinh = Convert.ToDateTime(ngayQD);
