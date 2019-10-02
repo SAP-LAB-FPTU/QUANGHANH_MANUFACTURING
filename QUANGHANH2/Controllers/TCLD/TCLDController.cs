@@ -1,4 +1,5 @@
 ﻿using QUANGHANH2.Models;
+using QUANGHANH2.SupportClass;
 using QUANGHANHCORE.Controllers.PX.PXKT;
 using System;
 using System.Collections.Generic;
@@ -15,18 +16,18 @@ namespace QUANGHANHCORE.Controllers.TCLD
     public class TCLDController : Controller
     {
         // GET: /<controller>/
-        [Route("phong-tcld/")]
+        [Auther(RightID="002")]
+        [Route("phong-tcld")]
         public ActionResult Dashboard()
         {
-            ViewBag.nameDepartment = "baocao-sanluon-laodong";
             return View("/Views/TCLD/bao-cao-nhanh.cshtml");
         }
-        [Route("phong-tcld/bao-cao-nhanh-lao-dong-tien-luong-vtl1")]
-        public ActionResult DetailReport()
-        {
-            ViewBag.nameDepartment = "baocao-sanluon-laodong";
-            return View("/Views/TCLD/bao_cao_nhanh_tung_phan_xuong.cshtml");
-        }
+        //[Route("phong-tcld/bao-cao-nhanh-lao-dong-tien-luong-vtl1")]
+        //public ActionResult DetailReport()
+        //{
+        //    ViewBag.nameDepartment = "baocao-sanluon-laodong";
+        //    return View("/Views/TCLD/bao_cao_nhanh_tung_phan_xuong.cshtml");
+        //}
 
         [Route("phong-tcld/bao-cao-chi-tiet-theo-ca")]
         public ActionResult Report1(string ca, string donvi, string date)
@@ -110,14 +111,12 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 return js;
             }
         }
-
        
-
-        [Route("phong-tcld/bien-ban-chung")]
-        public ActionResult CommonRecord()
-        {
-            ViewBag.nameDepartment = "baocao-sanluon-laodong";
-            return View("/Views/TCLD/CommonRecord.cshtml");
-        }
+        //[Route("phong-tcld/bien-ban-chung")]
+        //public ActionResult CommonRecord()
+        //{
+        //    ViewBag.nameDepartment = "baocao-sanluon-laodong";
+        //    return View("/Views/TCLD/CommonRecord.cshtml");
+        //}
     }
 }
