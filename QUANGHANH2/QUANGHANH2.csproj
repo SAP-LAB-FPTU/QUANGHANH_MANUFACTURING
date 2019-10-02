@@ -6886,6 +6886,16 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="excel\CDVT\BaoCaoThuHoi_Template.xlsx" />
+    <Content Include="excel\CDVT\BaoCaoTrungTu_Template.xlsx" />
+    <Content Include="excel\CDVT\diennang.xlsx" />
+    <Content Include="excel\CDVT\nhienlieu.xlsx" />
+    <Content Include="excel\CDVT\Tang-Giam.xlsx" />
+    <Content Include="excel\CDVT\suachua.xlsx" />
+    <Content Include="excel\CDVT\thoatnuoc.xlsx" />
+    <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên-hồ-sơ-trong.xlsx" />
+    <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên.xlsx" />
+    <Content Include="excel\TCLD\Brief\Hồ sơ trong.xlsx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
@@ -7133,6 +7143,18 @@
     <Content Include="Views\CDVT\Report\bao_cao_trung_tu.cshtml" />
     <Content Include="Views\CDVT\Report\TangGiam.cshtml" />
     <Content Include="Views\CDVT\Thietbi\Kiemdinh.cshtml" />
+    <Content Include="Views\Brief\AddLichSuBoSung.cshtml" />
+    <Content Include="Views\Brief\suaGiayTo.cshtml" />
+    <Content Include="Views\Brief\themGiayTo.cshtml" />
+    <Content Include="Views\BriefRegulation\SuaChuyenNganh.cshtml" />
+    <Content Include="Views\BriefRegulation\SuaNganh.cshtml" />
+    <Content Include="Views\BriefRegulation\SuaTrinhDo.cshtml" />
+    <Content Include="Views\BriefRegulation\SuaTruong.cshtml" />
+    <Content Include="Views\BriefRegulation\ThemChuyenNganh.cshtml" />
+    <Content Include="Views\BriefRegulation\ThemNganh.cshtml" />
+    <Content Include="Views\BriefRegulation\ThemTrinhDo.cshtml" />
+    <Content Include="Views\BriefRegulation\ThemTruong.cshtml" />
+    <Content Include="Views\TCLD\Brief\ManageBrief\OutSideDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
