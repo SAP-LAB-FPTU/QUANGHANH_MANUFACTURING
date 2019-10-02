@@ -204,6 +204,31 @@
             $("#searchButton2").hide();
         }
     });
+       $("#documentary_code-search").keyup( function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#documentary_code-search").blur();
+        }
+     });
+
+     $("#person_created-search").keyup( function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#person_created-search").blur();
+        }
+     });
+      $("#date-start-search").keyup( function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#date-start-search").blur()
+        }
+      });
+      $("#date-end-search").keyup( function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#date-end-search").blur();
+        }
+      });
 </script>
 
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
