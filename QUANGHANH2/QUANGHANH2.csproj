@@ -260,6 +260,7 @@
     <Compile Include="Controllers\CDVT\Work\ThuhoiController.cs" />
     <Compile Include="Controllers\CDVT\Work\TrungdaituchonController.cs" />
     <Compile Include="Controllers\CDVT\Work\TrungdaituController.cs" />
+    <Compile Include="Controllers\DK\AccidentController.cs" />
     <Compile Include="Controllers\DK\DKController.cs" />
     <Compile Include="Controllers\DK\ReportHuman\ReportHumanController.cs" />
     <Compile Include="Controllers\DK\ReportIncidentController.cs" />
@@ -6890,7 +6891,6 @@
     <Content Include="excel\CDVT\thoatnuoc.xlsx" />
     <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên-hồ-sơ-trong.xlsx" />
     <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên.xlsx" />
-    <Content Include="excel\TCLD\Brief\Hồ sơ trong.xlsx" />
     <Content Include="excel\CDVT\download\DanhsachSuaChua.xlsx" />
     <Content Include="excel\CDVT\download\diennang.xlsx" />
     <Content Include="excel\CDVT\download\suachua.xlsx" />
@@ -6907,6 +6907,7 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="excel\TCLD\Brief\Inside.xlsx" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
@@ -7153,6 +7154,7 @@
     <Content Include="Views\CDVT\Report\bao_cao_trung_tu.cshtml" />
     <Content Include="Views\CDVT\Report\TangGiam.cshtml" />
     <Content Include="Views\CDVT\Thietbi\Kiemdinh.cshtml" />
+    <Content Include="Views\DK\Acident.cshtml" />
     <Content Include="Views\Brief\AddLichSuBoSung.cshtml" />
     <Content Include="Views\Brief\suaGiayTo.cshtml" />
     <Content Include="Views\Brief\themGiayTo.cshtml" />

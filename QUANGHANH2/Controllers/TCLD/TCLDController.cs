@@ -18,8 +18,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
 {
     public class TCLDController : Controller
     {
+
+        // GET: /<controller>/
         [Auther(RightID="002")]
-        [Route("phong-tcld/")]
+        [Route("phong-tcld")]
         public ActionResult Dashboard()
         {
             int soLuotHuyDong = 0;
@@ -86,6 +88,22 @@ namespace QUANGHANHCORE.Controllers.TCLD
             ViewBag.duoi82 = duoi82;
             return View("/Views/TCLD/bao-cao-nhanh.cshtml");
         }
+        //[Auther(RightID="57")]
+        //[Route("phong-tcld/bao-cao-chi-tiet-theo-ca")]
+        //public ActionResult Report1(string ca, string donvi, string date)
+        //{
+        //    if(ca == null)
+        //    {
+        //        ca = "1";
+        //    }
+        //    if (date == null)
+        //    {
+        //        date = string.Format("{0:dd/MM/yyyy}", DateTime.Now);
+        //    }
+        //    if (donvi == null) { }
+           
+        //    return null;
+        //}
 
         [Route("phong-tcld/get-data")]
         [HttpPost]
@@ -164,6 +182,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 return Json(new { success = false, message = "Lỗi" }, JsonRequestBehavior.AllowGet);
             }
         }
+
         //[Route("phong-tcld/bao-cao-nhanh-lao-dong-tien-luong-vtl1")]
         //public ActionResult DetailReport()
         //{

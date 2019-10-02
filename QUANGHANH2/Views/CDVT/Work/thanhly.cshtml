@@ -147,10 +147,10 @@
                                     return "Đang thanh lý "
                                 }
                                 if (data == 9) {
-                                    return "Đang trung tu"
+                                    return "Đang trung đại tu"
                                 }
                                 if (data == 10) {
-                                    return "Đang đại tu"
+                                    return "Đang kiểm định"
                                 }
                                 if (data == 11) {
                                     return "Đang chờ nghiệm thu"
@@ -200,6 +200,27 @@
                     "drawCallback": function (settings) {
                         $('#pre-load').hide();
                     }
+            });
+
+            $("#equipmentId-search").keyup(function (event) {
+                if (event.keyCode === 13) {
+                    $("#searchButton1").click();
+                    $("#equipmentId-search").blur();
+                }
+            });
+
+            $("#equipmentName-search").keyup(function (event) {
+                if (event.keyCode === 13) {
+                    $("#searchButton1").click();
+                    $("#equipmentName-search").blur();
+                }
+            });
+
+            $("#department-search").keyup(function (event) {
+                if (event.keyCode === 13) {
+                    $("#searchButton1").click();
+                    $("#department-search").blur();
+                }
             });
 
             $("#searchButton1").click(function () {

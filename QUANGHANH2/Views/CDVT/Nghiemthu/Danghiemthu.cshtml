@@ -255,19 +255,6 @@
 
         });
 
-        function UpdateStatus(form) {
-            $.ajax({
-                type: 'POST',
-                url: form.action,
-                success: function (response) {
-                    dataTable.ajax.reload();
-                    $.notify("Cập nhật thành công", {
-                        globalPosition: "top center",
-                        className: "success"
-                    })
-                }
-            });
-        }
 
           function GetData(url) {
              window.location.href = url;
@@ -282,26 +269,6 @@
             return (date);
         }
 
-        function SubmitForm(form) {
-            $.validator.unobtrusive.parse(form);
-            if ($(form).valid()) {
-                $.ajax({
-                    type: "POST",
-                    url: form.action,
-                    data: $(form).serialize(),
-                    success: function (data) {
-                        dataTable.ajax.reload();
-
-                        $.notify(data.message, {
-                            globalPosition: "top center",
-                            className: "success"
-                        })
-
-                    }
-                });
-            }
-            return false;
-        }
         function Detail(url) {
             $.get(url)
                 .done(function (response) {
@@ -317,17 +284,6 @@
             return false;
         }
 
-        function Delete(url) {
-            $.get(url)
-                .done(function (response) {
-                    dataTable.ajax.reload();
-                    $.notify("Hihi Xóa Xong", {
-                        globalPosition: "top center",
-                        className: "success"
-                    })
-                });
-            return false;
-        }
         $(".datepicker-here").keydown(function (e) {
             e.preventDefault();
         });
@@ -383,8 +339,30 @@
                     })
                 });
         });
-
-        
+        $("#min_Date").keyup(function (event) {
+        if (event.keyCode === 13) {
+            $("#searchButton1").click();
+            $("#min_Date").blur();
+        }
+        });
+        $("#max_Date").keyup(function (event) {
+        if (event.keyCode === 13) {
+            $("#searchButton1").click();
+            $("#max_Date").blur();
+        }
+        });
+        $("#equimentid").keyup(function (event) {
+        if (event.keyCode === 13) {
+            $("#searchButton1").click();
+            $("#equimentid").blur();
+        }
+        });
+        $("#equimentname").keyup(function (event) {
+        if (event.keyCode === 13) {
+            $("#searchButton1").click();
+            $("#equimentname").blur();
+        }
+        });
 
     </script>
 }

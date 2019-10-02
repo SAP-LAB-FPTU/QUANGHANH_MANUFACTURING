@@ -108,10 +108,11 @@ namespace QUANGHANH2.Repositories
                 }
                 else
                 {
-                    query = "SELECT DISTINCT CONCAT(e.equipmentId, '_', s.supply_id) Id, e.department_id DepartementId , e.Equipment_category_id EquipmentCategoryId, e.equipmentId EquipmentId, e.equipment_name EquipmentName, i.detail_location [DetailLocation], s.supply_id SupplyId, s.supply_name SupplyName, s.unit SupplyUnit, 0 SypplyAverage, 0 SypplyPlan " +
-                        "FROM Supply s, Supply_Documentary_Equipment sde, Equipment e, Incident i " +
-                        "WHERE sde.equipmentId = e.equipmentId AND s.supply_id = sde.supply_id AND " +
-                        "i.department_id = e.department_id";
+                    query = "SELECT DISTINCT CONCAT(e.equipmentId, '_', s.supply_id) Id, e.department_id DepartementId , e.Equipment_category_id EquipmentCategoryId, e.equipmentId EquipmentId, e.equipment_name EquipmentName, dp.department_name [DetailLocation], s.supply_id SupplyId, s.supply_name SupplyName, s.unit SupplyUnit, 0 SypplyAverage, 0 SypplyPlan " +
+                        "FROM Department dp, Equipment e, Equipment_Category_Supply ecs, Supply s " +
+                        "WHERE dp.department_id = e.department_id AND " +
+                        "e.Equipment_category_id = ecs.Equipment_category_id AND " +
+                        "ecs.supply_id = s.supply_id";
                 }
                 vattus = Context.Database.SqlQuery<XincapvattuModelView>(query).ToList();
             }
