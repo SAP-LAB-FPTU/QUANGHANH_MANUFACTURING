@@ -647,10 +647,11 @@
             $("#searchButton1").click(function () {
                 $("#pre-load").show();
                 dataTable.ajax.reload(function () {
-                    $.notify("Chỉnh sửa thành công", {
+
+                    $.notify("Tìm kiếm thành công", {
                         globalPosition: "top center",
                         className: "success"
-                    });
+                    })
                     $("#pre-load").hide();
                 })
             });
