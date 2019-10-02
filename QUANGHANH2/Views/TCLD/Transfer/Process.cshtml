@@ -602,7 +602,7 @@
                 //var date = $("#thoigian-" + arrCarSelected[i]).val().split('-');
                
                 var obj = {
-                    'SoQD': $("#so-quyet-dinh").val(),
+                    'SoQD': $("#so-quyet-dinh").val().trim(),
                     'MaNV': arrCarSelected[i],
                     'BacLuong': $("#bac-" + arrCarSelected[i]).val(),
                     'MucLuong': joinArr($("#luong-" + arrCarSelected[i]).val().split(',')),
@@ -614,7 +614,7 @@
                         'tenChucVu': $("#chucvu-" + arrCarSelected[i] + " :selected").text(),
                     },
                     'NgayQD': $("#ngay-quyet-dinh").val(),
-                    'LyDo': $("#lydo-" + arrCarSelected[i]).val()
+                    'LyDo': $("#lydo-" + arrCarSelected[i]).val().trim()
                 }
                 selectedList.push(obj);
             }
@@ -628,7 +628,7 @@
                         $("#maqd-preview").empty();
                         $("#ngayqd-preview").empty();
                         $("#preview-table").empty();
-                        $("#maqd-preview").append(response.data[0].SoQD === "" ? "Chưa có (lưu vào chờ xử lý)" : response.data[0].SoQD);
+                        $("#maqd-preview").append(response.data[0].SoQD.trim() === "" ? "Chưa có (lưu vào chờ xử lý)" : response.data[0].SoQD);
                         $("#ngayqd-preview").append(response.data[0].NgayQD);
                         for (var i = 0; i < response.data.length; i++) {
                             $("#preview-table").append("<tr>\n");
@@ -642,7 +642,7 @@
                             $("#preview-table").append("<td>" + AddComma(response.data[i].PhuCap) + "</td>\n");
                             $("#preview-table").append("<td>" + AddComma(response.data[i].BacLuong) + "</td>\n");
                             $("#preview-table").append("<td>" + AddComma(response.data[i].MucLuong) + "</td>\n");
-                            $("#preview-table").append("<td>" + response.data[i].LyDo + "</td>\n");
+                            $("#preview-table").append("<td>" + response.data[i].LyDo.trim() + "</td>\n");
                             $("#preview-table").append(" </tr>\n");
                         }
                     }
@@ -668,7 +668,7 @@
             for (var i = 0; i < arrCarSelected.length; i++) {
                 //var date = $("#thoigian-" + arrCarSelected[i]).val().split('-');
                 var obj = {
-                    'SoQD': $("#so-quyet-dinh").val(),
+                    'SoQD': $("#so-quyet-dinh").val().trim(),
                     'MaNV': arrCarSelected[i],
                     'BacLuong': $("#bac-" + arrCarSelected[i]).val(),
                     'MucLuong': joinArr($("#luong-" + arrCarSelected[i]).val().split(',')),
@@ -680,7 +680,7 @@
                         'tenChucVu': $("#chucvu-" + arrCarSelected[i] + " :selected").text(),
                     },
                     'NgayQD': $("#ngay-quyet-dinh").val(),
-                    'LyDo': $("#lydo-" + arrCarSelected[i]).val()
+                    'LyDo': $("#lydo-" + arrCarSelected[i]).val().trim()
                 }
                 selectedList.push(obj);
             }
@@ -728,7 +728,7 @@
             for (var i = 0; i < arrCarSelected.length; i++) {
                 //var date = $("#thoigian-" + arrCarSelected[i]).val().split('-');
                 selectedList.push({
-                    'SoQD': $("#so-quyet-dinh").val(),
+                    'SoQD': $("#so-quyet-dinh").val().trim(),
                     'MaNV': arrCarSelected[i],
                     'HoTen': "",
                     'DonViHienTai': "",
@@ -743,7 +743,7 @@
                         'tenChucVu': $("#chucvu-" + arrCarSelected[i] + " :selected").text(),
                     },
                     'NgayQD': $("#ngay-quyet-dinh").val(),
-                    'LyDo': $("#lydo-" + arrCarSelected[i]).val()
+                    'LyDo': $("#lydo-" + arrCarSelected[i]).val().trim()
                 });
             }
             //var urlToSend = '/phong-tcld/dieu-chuyen/export-quyet-dinh';
