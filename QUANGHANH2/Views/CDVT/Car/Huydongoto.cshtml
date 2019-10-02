@@ -102,11 +102,11 @@
                                     <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="myadd3" @*onclick="PopupForm('@Url.Action("AddOrEdit","Hoatdong")')*@><i class="fa fa-plus"></i> Thêm nhóm thiết bị</a>
 
                                 }
-                                if (item.Equals("114"))
+                                @*if (item.Equals("114"))
                                 {
-                                    <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="myadd3" @*onclick="PopupForm('@Url.Action("AddOrEdit","Hoatdong")')*@><i class="fa fa-plus"></i> Thêm nhóm thiết bị</a>
+                                    <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="myadd3" onclick="PopupForm('@Url.Action("AddOrEdit","Hoatdong")')><i class="fa fa-plus"></i> Thêm nhóm thiết bị</a>
 
-                                }
+                                }*@
                                 if (item.Equals("3"))
                                 {
                                     <a class="waves-effect waves-light btn-small blue modal-trigger" id="export-button">Xuất ra Excel</a>
@@ -114,20 +114,20 @@
                                 }
                                 if (item.Equals("2"))
                                 {
-                                    <a class="waves-effect waves-light btn-small blue modal-trigger" href="#kiemdinh">Cập nhật ngày kiểm định</a>
+                                    @*<a class="waves-effect waves-light btn-small blue modal-trigger" href="#kiemdinh">Cập nhật ngày kiểm định</a>*@
 
                                 }
 
                             }
                         }
                     </div>
-                    <div class="right">
+                    @*<div class="right">
                         <a class='dropdown-trigger btn' id="filter" href='#' data-target='dropdown1'
                            style="width:250px;background-color:#273146">
                             Xem
                             theo
                         </a>
-                    </div>
+                    </div>*@
                 </div>
 
                 <div class="row">
@@ -604,7 +604,7 @@
                     { "data": "supplier", "name": "supplier" },
                     {
                         "data": "date_import", "name": "date_import", "render": function (data) {
-                            return dateFormat(new Date(parseInt((data).match(/\d+/)[0]))) + " ";
+                            return dateFormat2(data) + " ";
                         },
 
                     },
@@ -612,26 +612,26 @@
                     { "data": "depreciation_present", "name": "depreciation_present" },
                     {
                         "data": "durationOfInspection", "name": "durationOfInspection", "render": function (data) {
-                            return dateFormat(new Date(parseInt((data).match(/\d+/)[0]))) + " ";
+                            return dateFormat2(data) + " ";
                         },
                     },
                     {
                         "data": "durationOfInsurance", "name": "durationOfInsurance", "render": function (data) {
-                            return dateFormat(new Date(parseInt((data).match(/\d+/)[0]))) + " ";
+                            return dateFormat2(data) + " ";
                         },
                     },
                     {
                         "data": "usedDay", "name": "usedDay", "render": function (data) {
-                            return dateFormat(new Date(parseInt((data).match(/\d+/)[0]))) + " ";
+                            return dateFormat2(data) + " ";
                         },
                     },
                     {
                         "data": "nearest_Maintenance_Day", "name": "nearest_Maintenance_Day", "render": function (data) {
-                            return dateFormat(new Date(parseInt((data).match(/\d+/)[0]))) + " ";
+                            return dateFormat2(data) + " ";
                         },
                     },
                     { "data": "total_operating_hours" , "name" : "total_operating_hours"},
-                    { "data": "status_name", "name": "status_name"},
+                    { "data": "statusname", "name": "statusname"},
                     { "data": "fabrication_number", "name": "fabrication_number" },
                     { "data": "mark_code", "name" : "mark_code"},
                     { "data": "quality_type" , "name" : "quality_type"},
@@ -734,7 +734,7 @@
                     { "data": "supplier", "name": "supplier" },
                     {
                         "data": "date_import", "name": "date_import", "render": function (data) {
-                return dateFormat(new Date(parseInt((data).match(/\d+/)[0]))) +" ";
+                return dateFormat2(data) + " ";
             },
 
                     },
@@ -742,22 +742,22 @@
                     { "data": "depreciation_present" , "name" : "depreciation_present" },
                     {
                          "data": "durationOfInspection", "name": "durationOfInspection", "render": function (data) {
-                return dateFormat(new Date(parseInt((data).match(/\d+/)[0]))) +" ";
+                return dateFormat2(data) + " ";
             },
                     },
                     {
                          "data": "durationOfInsurance", "name": "durationOfInsurance", "render": function (data) {
-                return dateFormat(new Date(parseInt((data).match(/\d+/)[0]))) +" ";
+                return dateFormat2(data) + " ";
             },
                     },
                     {
                          "data": "usedDay", "name": "usedDay", "render": function (data) {
-                return dateFormat(new Date(parseInt((data).match(/\d+/)[0]))) +" ";
+                return dateFormat2(data) + " ";
             },
                     },
                     {
                          "data": "nearest_Maintenance_Day", "name": "nearest_Maintenance_Day", "render": function (data) {
-                return dateFormat(new Date(parseInt((data).match(/\d+/)[0]))) +" ";
+                return dateFormat2(data) + " ";
             },
                     },
                     { "data": "total_operating_hours" , "name" : "total_operating_hours"},
@@ -770,7 +770,7 @@
                     { "data": "department_name" , "name" : "department_name"},
                     //
                      {
-                        "data": "equipmentId", "render": function (data) {
+                        "data": "equipmentId", "visible":bol, "render": function (data) {
                 return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='myedit' onclick=Edit('@Url.Action("Edit","Hoatdong")/" + data + "')><i class='fa fa-pencil'></i>Chỉnh&nbsp;sửa</a>";
             },
                         "orderable": false,
@@ -778,7 +778,7 @@
                         "width":"150px"
                     },
                     {
-                        "data": "equipmentId", "render": function (data) {
+                        "data": "equipmentId", "visible":bol2, "render": function (data) {
                 return "<a class='waves-effect waves-light btn-small blue' style='margin-left:5px' onclick=Delete('@Url.Action("Delete","Hoatdong")/" + data + "')><i class='fa fa-trash'></i>Xóa</a>";
             },
                         "orderable": false,
