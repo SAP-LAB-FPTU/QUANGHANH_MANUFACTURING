@@ -87,7 +87,6 @@
                                         <th>Số lượng cấp</th>
                                         <th>Đơn vị</th>
                                         <th>Sử dụng</th>
-                                        <th>Tồn kho</th>
                                         <th>Thu hồi</th>
                                     </tr>
                                 </thead>
@@ -107,7 +106,6 @@
                                         <th>Số lượng cấp</th>
                                         <th>Đơn vị</th>
                                         <th>Sử dụng</th>
-                                        <th>Tồn kho</th>
                                         <th>Thu hồi</th>
                                     </tr>
                                 </thead>
@@ -152,7 +150,6 @@
                     { "data": "SupplyQuantity", "name": "SupplyQuantity" },
                     { "data": "SupplyUnit", "name": "SupplyUnit" },
                     { "data": "SupplyUsed", "name": "SupplyUseds" },
-                    { "data": "SupplyInventory", "name": "SupplyInventory" },
                     { "data": "SupplyEviction", "name": "SupplyEviction" },
                 ],
                 "serverSide": true,
@@ -196,7 +193,6 @@
                     { "data": "SupplyQuantity", "name": "SupplyQuantity" },
                     { "data": "SupplyUnit", "name": "SupplyUnit" },
                     { "data": "SupplyUsed", "name": "SupplyUseds" },
-                    { "data": "SupplyInventory", "name": "SupplyInventory" },
                     { "data": "SupplyEviction", "name": "SupplyEviction" },
                 ],
                 "serverSide": true,
@@ -273,7 +269,6 @@
                         obj.SupplyUnit = vattus[j].SupplyUnit;
                         obj.SupplyQuantity += vattus[j].SupplyQuantity;
                         obj.SupplyUsed += vattus[j].SupplyUsed;
-                        obj.SupplyInventory += vattus[j].SupplyInventory;
                         obj.SupplyEviction += vattus[j].SupplyEviction;
                     }
                 }
