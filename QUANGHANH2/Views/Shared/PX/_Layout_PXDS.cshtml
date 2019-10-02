@@ -253,8 +253,8 @@
                                     <div class="dw-user-box">
                                         <div class="u-img"><img src="/assets/images/users/2.jpg" alt="user"></div>
                                         <div class="u-text">
-                                            <h4>Nguyễn Đức Cương</h4>
-                                            <p>cuongnd.cdvt@gmail.com</p>
+                                            <h4>@Session["Name"]</h4>
+                                            <p>@Session["username"]</p>
                                             <a class="waves-effect waves-light btn-small red white-text">Xem Hồ Sơ</a>
                                         </div>
                                     </div>
@@ -268,7 +268,7 @@
                                 <li><a href="@Url.Action("Logout","LogIn")"><i class="material-icons">power_settings_new</i>Đăng Xuất</a></li>
                             </ul>
                         </li>
-                        <li id="user-icon"><a href="">Nguyễn Đức Cương<span class="new badge red" data-badge-caption="Quản Đốc PXKT"></span></a></li>
+                        <li id="user-icon"><a href="">@Session["Name"] <span class="new badge red" data-badge-caption="@Session["Position"]"></span></a></li>
                     </ul>
                     <!-- ============================================================== -->
                     <!-- Right topbar icon scss in header.scss -->
