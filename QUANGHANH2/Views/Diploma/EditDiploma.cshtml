@@ -24,16 +24,18 @@
                     <div class="form-group col s6 m6 l6">
                         @Html.LabelFor(model => model.MaTruong, "Tên trường", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.DropDownList("MaTruong", (SelectList)ViewBag.listSelect_truong, htmlAttributes: new { @class = "form-control" })
+                            @Html.DropDownList("MaTruong", (SelectList)ViewBag.listSelect_truong, htmlAttributes: new { @class = "form-control", @id = "edit_matruong" })
                             @Html.ValidationMessageFor(model => model.MaTruong, "", new { @class = "text-danger" })
+                            <p hidden style="color:red" id="message_matruong_edit">Không được để trống</p>
                         </div>
                     </div>
 
                     <div class="form-group col s6 m6 l6">
                         @Html.LabelFor(model => model.MaChuyenNganh, "Tên chuyên ngành", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.DropDownList("MaChuyenNganh", (SelectList)ViewBag.listSelect_chuyennganh, htmlAttributes: new { @class = "form-control" })
+                            @Html.DropDownList("MaChuyenNganh", (SelectList)ViewBag.listSelect_chuyennganh, htmlAttributes: new { @class = "form-control", @id = "edit_chuyennganh" })
                             @Html.ValidationMessageFor(model => model.MaChuyenNganh, "", new { @class = "text-danger" })
+                            <p hidden style="color:red" id="message_machuyennganh_edit">Không được để trống</p>
                         </div>
                     </div>
 
@@ -42,8 +44,9 @@
                     <div class="form-group col s6 m6 l6">
                         @Html.LabelFor(model => model.MaTrinhDo, "Tên trình độ", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.DropDownList("MaTrinhDo", (SelectList)ViewBag.listSelect_trinhdo, htmlAttributes: new { @class = "form-control" })
+                            @Html.DropDownList("MaTrinhDo", (SelectList)ViewBag.listSelect_trinhdo, htmlAttributes: new { @class = "form-control", @id = "edit_trinhdo" })
                             @Html.ValidationMessageFor(model => model.MaTrinhDo, "", new { @class = "text-danger" })
+                            <p hidden style="color:red" id="message_matrinhdo_edit">Không được để trống</p>
                         </div>
                     </div>
 
@@ -74,15 +77,16 @@
                     <div class="form-group col s6 m6 l6">
                         @Html.LabelFor(model => model.TenBangCap, "Tên bằng cấp", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.TenBangCap, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.TenBangCap, new { htmlAttributes = new { @class = "form-control", @id = "edit_bangcap" } })
                             @Html.ValidationMessageFor(model => model.TenBangCap, "", new { @class = "text-danger" })
+                            <p hidden style="color:red" id="message_tenbangcap_edit">Không được để trống</p>
                         </div>
                     </div>
 
                     <div class="form-group col s6 m6 l6">
                         @Html.LabelFor(model => model.Loai, "Loại", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Loai, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.DropDownList("Loai", (SelectList)ViewBag.listSelectListTypeDip, htmlAttributes: new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.Loai, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -142,6 +146,11 @@
             }
         })
         $("#save_edit_diploma").click(function () {
+            validate_truong();
+            validate_chuyennganh();
+            validate_trinhdo();
+            validate_thoihan();
+            validate_bangcap();
             var edit_end = $("#edit_dip_time").val();
             if (edit_end == "Vĩnh viễn") {
                 $("#edit_time").val(-1);
@@ -158,4 +167,113 @@
         return /^-{0,1}\d+$/.test(value);
     }
 
+    function validate_truong() {
+
+        if (!$('#edit_matruong').val()) {
+            $('#message_matruong_edit').show();
+            $('#save_edit_diploma').attr("disabled", true);
+        }
+        else {
+            $('#message_matruong_edit').hide();
+            $('#save_edit_diploma').attr("disabled", false);
+        }
+        $('#edit_matruong').change(function () {
+            if (!$('#edit_matruong').val()) {
+                $('#message_matruong_edit').show();
+                $('#save_edit_diploma').attr("disabled", true);
+            }
+            else {
+                $('#message_matruong_edit').hide();
+                $('#save_edit_diploma').attr("disabled", false);
+            }
+        })
+
+    }
+    function validate_chuyennganh() {
+        if (!$('#edit_chuyennganh').val()) {
+            $('#message_machuyennganh_edit').show();
+            $('#save_edit_diploma').attr("disabled", true);
+        }
+        else {
+            $('#message_machuyennganh_edit').hide();
+            $('#save_edit_diploma').attr("disabled", false);
+        }
+        $('#edit_chuyennganh').change(function () {
+
+            if (!$('#edit_chuyennganh').val()) {
+                $('#message_machuyennganh_edit').show();
+                $('#save_edit_diploma').attr("disabled", true);
+            }
+            else {
+                $('#message_machuyennganh_edit').hide();
+                $('#save_edit_diploma').attr("disabled", false);
+            }
+        })
+
+    }
+    function validate_trinhdo() {
+
+        if (!$('#edit_trinhdo').val()) {
+            $('#message_matrinhdo_edit').show();
+            $('#save_edit_diploma').attr("disabled", true);
+        }
+        else {
+            $('#message_matrinhdo_edit').hide();
+            $('#save_edit_diploma').attr("disabled", false);
+        }
+        $('#edit_trinhdo').change(function () {
+            if (!$('#edit_trinhdo').val()) {
+                $('#message_matrinhdo_edit').show();
+                $('#save_edit_diploma').attr("disabled", true);
+            }
+            else {
+                $('#message_matrinhdo_edit').hide();
+                $('#save_edit_diploma').attr("disabled", false);
+            }
+        })
+
+    }
+    function validate_thoihan() {
+
+        if (!$('#edit_time').val()) {
+            $('#message_thoihan_edit').show();
+            $('#save_edit_diploma').attr("disabled", true);
+        }
+        else {
+            $('#message_thoihan_edit').hide();
+            $('#save_edit_diploma').attr("disabled", false);
+        }
+        $('#edit_time').change(function () {
+            if (!$('#edit_time').val()) {
+                $('#message_thoihan_edit').show();
+                $('#save_edit_diploma').attr("disabled", true);
+            }
+            else {
+                $('#message_thoihan_edit').hide();
+                $('#save_edit_diploma').attr("disabled", false);
+            }
+        })
+
+    }
+    function validate_bangcap() {
+
+        if (!$('#edit_bangcap').val()) {
+            $('#message_tenbangcap_edit').show();
+            $('#save_edit_diploma').attr("disabled", true);
+        }
+        else {
+            $('#message_tenbangcap_edit').hide();
+            $('#save_edit_diploma').attr("disabled", false);
+        }
+        $('#edit_bangcap').change(function () {
+            if (!$('#edit_bangcap').val()) {
+                $('#message_tenbangcap_edit').show();
+                $('#save_edit_diploma').attr("disabled", true);
+            }
+            else {
+                $('#message_tenbangcap_edit').hide();
+                $('#save_edit_diploma').attr("disabled", false);
+            }
+        })
+    }
 </script>

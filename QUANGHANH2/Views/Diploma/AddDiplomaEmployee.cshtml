@@ -1,4 +1,4 @@
-﻿@model QUANGHANH2.Models.ChiTiet_BangCap_GiayChungNhan
+﻿@model QUANGHANH2.Models.BangCap_GiayChungNhan_detailsDB
 
 @{
     Layout = null;
@@ -24,7 +24,7 @@
                 @Html.LabelFor(model => model.SoHieu, "Số hiệu", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.SoHieu, new { htmlAttributes = new { @class = "form-control", @id = "sohieu_bangcap" } })
-                    @Html.ValidationMessageFor(model => model.SoHieu, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.SoHieu, "", new { @class = "text-danger", @style = "color: red !important" })
                     <p hidden style="color:red" id="message_dip">Số hiệu đã tồn tại. Hãy nhập lại</p>
                 </div>
             </div>
@@ -33,7 +33,7 @@
                 @Html.LabelFor(model => model.MaBangCap_GiayChungNhan, "Tên bằng cấp", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.DropDownList("MaBangCap_GiayChungNhan", (IEnumerable<SelectListItem>)ViewBag.listSelect_bangcap, "Chọn bằng cấp", htmlAttributes: new { @class = "form-control", @id = "ma_bangcap" })
-                    @Html.ValidationMessageFor(model => model.MaBangCap_GiayChungNhan, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.MaBangCap_GiayChungNhan, "", new { @class = "text-danger", @style = "color: red !important" })
                 </div>
             </div>
 
@@ -42,7 +42,7 @@
                 <div class="col-md-10">
                     <input id="start_time_dip_add" class="form-control" />
                     @Html.EditorFor(model => model.NgayCap, new { htmlAttributes = new { @style = "display: none !important", @class = "form-control datepicker-here", id = "dt_diploma" } })
-                    @Html.ValidationMessageFor(model => model.NgayCap, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.NgayCap, "", new { @class = "text-danger", @style = "color: red !important" })
                     <p hidden style="color:red" id="message_date_dip_add">Không đúng định dạng ngày/tháng/năm. Hãy nhập lại</p>
                     <p hidden style="color:red" id="message_date_error_dip_add">Thời gian không được vượt quá ngày hiện tại. Hãy nhập lại</p>
                 </div>
@@ -58,7 +58,7 @@
                             <option id="@item.Value" value="@item.Text">@item.Text</option>
                         }
                     </datalist>
-                    @Html.ValidationMessageFor(model => model.MaNV, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.MaNV, "", new { @class = "text-danger", @style = "color: red !important" })
                 </div>
             </div>
             <p hidden style="color:red" id="message_checkNameExist_dip_add">Mã nhân viên không tồn tại. Hãy nhập lại</p>
@@ -88,10 +88,10 @@
         $('#start_time_dip_add').datepicker({ dateFormat: 'dd/mm/yyyy', changeYear: true });
     });
     $('#submit_form_add_dip_emp').click(function () {
-
         var ngaycap = $('#start_time_dip_add').val();
         var arr = ngaycap.split('/');
         $('#dt_diploma').val(arr[1] + "/" + arr[0] + "/" + arr[2]);
+
 
     })
 
@@ -114,9 +114,8 @@
             },
         })
     });
-    $('#dip_empID_add').change(function () {
-        var manv = $(this).val();
-
+    $('#dip_empID_add').blur(function () {
+        
       $.ajax({
             url:'@Url.Action("getName", "Diploma")',
             type: "POST",
