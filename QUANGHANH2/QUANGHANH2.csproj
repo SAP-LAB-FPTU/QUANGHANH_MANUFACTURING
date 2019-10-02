@@ -6887,6 +6887,23 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên-hồ-sơ-trong.xlsx" />
+    <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên.xlsx" />
+    <Content Include="excel\TCLD\Brief\Hồ sơ trong.xlsx" />
+    <Content Include="excel\TCLD\Certificate\Chứng chỉ của nhân viên.xlsx" />
+    <Content Include="excel\CDVT\BaoCaoThuHoi_Template.xlsx" />
+    <Content Include="excel\CDVT\BaoCaoTrungTu_Template.xlsx" />
+    <Content Include="excel\CDVT\diennang.xlsx" />
+    <Content Include="excel\CDVT\suachua.xlsx" />
+    <Content Include="excel\CDVT\nhienlieu.xlsx" />
+    <Content Include="excel\CDVT\Tang-Giam.xlsx" />
+    <Content Include="excel\CDVT\thoatnuoc.xlsx" />
+    <Content Include="excel\CDVT\download\diennang.xlsx" />
+    <Content Include="excel\CDVT\download\DanhsachSuaChua.xlsx" />
+    <Content Include="excel\CDVT\download\suachua.xlsx" />
+    <Content Include="excel\CDVT\download\ThanhLyThietBi.xlsx" />
+    <Content Include="excel\CDVT\download\thoatnuoc.xlsx" />
+    <Content Include="excel\CDVT\download\ThuHoiThietBi.xlsx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
