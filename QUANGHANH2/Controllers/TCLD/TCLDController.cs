@@ -22,21 +22,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [Route("phong-tcld")]
         public ActionResult Dashboard()
         {
-            return View("/Views/TCLD/bao-cao-nhanh.cshtml");
-        }
-        [Auther(RightID="57")]
-        [Route("phong-tcld/bao-cao-chi-tiet-theo-ca")]
-        public ActionResult Report1(string ca, string donvi, string date)
-        {
-            if(ca == null)
-            {
-                ca = "1";
-            }
-            if (date == null)
-            {
-                date = string.Format("{0:dd/MM/yyyy}", DateTime.Now);
-            }
-            if (donvi == null)
             int soLuotHuyDong = 0;
             int vuTaiNan = 0;
             int nghiVLD = 0;
@@ -81,6 +66,22 @@ namespace QUANGHANHCORE.Controllers.TCLD
             ViewBag.tren82 = "Doan Van Thang";
             return View("/Views/TCLD/bao-cao-nhanh.cshtml");
         }
+        //[Auther(RightID="57")]
+        //[Route("phong-tcld/bao-cao-chi-tiet-theo-ca")]
+        //public ActionResult Report1(string ca, string donvi, string date)
+        //{
+        //    if(ca == null)
+        //    {
+        //        ca = "1";
+        //    }
+        //    if (date == null)
+        //    {
+        //        date = string.Format("{0:dd/MM/yyyy}", DateTime.Now);
+        //    }
+        //    if (donvi == null) { }
+           
+        //    return null;
+        //}
 
         [Route("phong-tcld/get-data")]
         [HttpPost]
