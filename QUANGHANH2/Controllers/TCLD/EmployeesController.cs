@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml;
 using QUANGHANH2.Models;
+using QUANGHANH2.SupportClass;
 //using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,6 @@ namespace QUANGHANH2.Controllers.TCLD
     public class EmployeesController : Controller
     {
 
-
         // GET: Employees
         [Route("phong-tcld/danh-sach-toan-cong-ty")]
         public ActionResult ListAll()
@@ -26,6 +26,7 @@ namespace QUANGHANH2.Controllers.TCLD
             ViewBag.nameDepartment = "baohiem";
             return View("/Views/TCLD/Brief/ListAll.cshtml");
         }
+        [Auther(RightID = "56")]
         [Route("phong-tcld/quan-ly-nhan-vien/xem-chi-tiet-nhan-vien")]
         [HttpGet]
         public ActionResult ViewInfor(string id)
@@ -90,6 +91,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 return View("/Views/TCLD/Brief/View.cshtml", db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault<NhanVien>());
             }
         }
+        [Auther(RightID="53")]
         [Route("phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien")]
         [HttpGet]
         public ActionResult LoadEdit(string id)
@@ -149,14 +151,10 @@ namespace QUANGHANH2.Controllers.TCLD
                 new SelectListItem { Text = "4/4(Thương tật từ 21% trở lên)", Value = "4" }
             };
                 ViewBag.thuongbinh = ThuongBinh;
-
-
-
                 return View("/Views/TCLD/Brief/Edit.cshtml", db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault<NhanVien>());
             }
-
         }
-
+        [Auther(RightID = "53")]
         [HttpPost]
         public ActionResult SaveEdit(NhanVien emp, string test)
         {
@@ -177,7 +175,7 @@ namespace QUANGHANH2.Controllers.TCLD
             return RedirectToAction("Search");
 
         }
-        //[Auther(RightID = "51")]
+        [Auther(RightID = "51")]
         [Route("phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien")]
         [HttpGet]
         public ActionResult List()
@@ -192,7 +190,7 @@ namespace QUANGHANH2.Controllers.TCLD
             public string TenTrinhDo { get; set; }
             public string TenCongViec { get; set; }
         }
-
+        [Auther(RightID="51")]
         [Route("phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien")]
         [HttpPost]
         public ActionResult Search(string MaNV, string TenNV, string Gender)
@@ -204,7 +202,7 @@ namespace QUANGHANH2.Controllers.TCLD
             string sortDirection = Request["order[0][dir]"];
             string query = "select n.*, t.TenTrangThai from NhanVien n inner join" +
                 " [TrangThai] t on n.MaTrangThai = t.MaTrangThai " +
-                "where n.MaTrangThai != 2 AND ";
+                "where n.MaTrangThai = 1 AND ";
             if (!MaNV.Equals("") || !TenNV.Equals("") || !Gender.Equals(""))
             {
                 if (!MaNV.Equals("")) query += "n.MaNV LIKE @MaNV AND ";
@@ -310,6 +308,7 @@ namespace QUANGHANH2.Controllers.TCLD
             ViewBag.nameDepartment = "baohiem";
             return View("/Views/TCLD/Brief/TransferHistory.cshtml");
         }
+        [Auther(RightID="55")]
         [Route("delete")]
         [HttpPost]
         public ActionResult TLHD(string id, string soQD, string lydo, string dateTLHD, string group1, string group2, string elseCase)
@@ -327,7 +326,13 @@ namespace QUANGHANH2.Controllers.TCLD
                         dateTLHDFix = arr2[1] + "/" + arr2[0] + "/" + arr2[2];
                     }
                     var emp = db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault();
-                    emp.MaTrangThai = 2;
+                    if (soQD.Equals(""))
+                    {
+                        emp.MaTrangThai = 4;
+                    }else
+                    {
+                        emp.MaTrangThai = 2;
+                    }
                     db.Entry(emp).State = EntityState.Modified;
 
                     QuyetDinh qd = new QuyetDinh();
