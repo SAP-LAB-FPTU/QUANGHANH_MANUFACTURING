@@ -6841,7 +6841,6 @@
     <Content Include="lib\jquery\dist\jquery.min.map" />
     <Content Include="excel\CDVT\huydong.xls" />
     <Content Include="excel\CDVT\kiemdinh.xls" />
-    <Content Include="excel\CDVT\nhienlieu.xls" />
     <Content Include="excel\CDVT\thanhly.xls" />
     <Content Include="excel\CDVT\thuhoi.xls" />
     <Content Include="excel\CDVT\tonghop.xls" />
@@ -6896,7 +6895,15 @@
     <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên-hồ-sơ-trong.xlsx" />
     <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên.xlsx" />
     <Content Include="excel\TCLD\Brief\Hồ sơ trong.xlsx" />
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <Content Include="excel\CDVT\download\DanhsachSuaChua.xlsx" />
+    <Content Include="excel\CDVT\download\diennang.xlsx" />
+    <Content Include="excel\CDVT\download\suachua.xlsx" />
+    <Content Include="excel\CDVT\download\ThanhLyThietBi.xlsx" />
+    <Content Include="excel\CDVT\download\ThuHoiThietBi.xlsx" />
+    <Content Include="excel\CDVT\download\thoatnuoc.xlsx" />
+    <Content Include="excel\TCLD\Certificate\Chứng chỉ của nhân viên.xlsx" />
+    <Content Include="excel\TCLD\Certificate\List\download\ListCertificate.xlsx" />
+    <Content Include="excel\TCLD\CD_TD_Report.xlsx" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
