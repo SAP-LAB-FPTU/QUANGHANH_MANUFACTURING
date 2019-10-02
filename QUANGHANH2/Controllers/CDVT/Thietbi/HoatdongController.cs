@@ -35,7 +35,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                     List<NewEquipment> equipList = (from p in db.Equipments
                                                     join e in db.Equipment_category on p.Equipment_category_id equals e.Equipment_category_id
                                                     join d in db.Departments on p.department_id equals d.department_id
-                                                    join s in db.Status on p.current_Status equals s.statusid
                                                     select new
                                                     {
                                                         equipmentId = p.equipmentId,
@@ -57,8 +56,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                                                         Equipment_category_id = p.Equipment_category_id,
                                                         department_id = p.department_id,
                                                         department_name = d.department_name,
-                                                        category_name = e.Equipment_category_name,
-                                                        status = s.statusname
+                                                        category_name = e.Equipment_category_name
                                                     }).ToList().Select(p => new NewEquipment
                                                     {
                                                         equipmentId = p.equipmentId,
@@ -80,8 +78,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                                                         Equipment_category_id = p.Equipment_category_id,
                                                         department_id = p.department_id,
                                                         department_name = p.department_name,
-                                                        category_name = p.category_name,
-                                                        status_name = p.status
+                                                        category_name = p.category_name
                                                     }).ToList();
                     int k = 2;
                     for (int i = 0; i < equipList.Count; i++)
@@ -97,7 +94,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         excelWorksheet.Cells[k, 9].Value = equipList.ElementAt(i).usedDay.ToString("dd/MM/yyyy");
                         excelWorksheet.Cells[k, 10].Value = equipList.ElementAt(i).nearest_Maintenance_Day.ToString("dd/MM/yyyy");
                         excelWorksheet.Cells[k, 11].Value = equipList.ElementAt(i).total_operating_hours;
-                        excelWorksheet.Cells[k, 12].Value = equipList.ElementAt(i).status_name;
+                        excelWorksheet.Cells[k, 12].Value = equipList.ElementAt(i).current_Status;
                         excelWorksheet.Cells[k, 13].Value = equipList.ElementAt(i).fabrication_number;
                         excelWorksheet.Cells[k, 14].Value = equipList.ElementAt(i).mark_code;
                         excelWorksheet.Cells[k, 15].Value = equipList.ElementAt(i).quality_type;
@@ -171,7 +168,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 var equipList = (from p in db.Equipments
                                  join e in db.Equipment_category on p.Equipment_category_id equals e.Equipment_category_id
                                  join d in db.Departments on p.department_id equals d.department_id
-                                 join s in db.Status on p.current_Status equals s.statusid
                                  select new
                                  {
                                      equipmentId = p.equipmentId,
@@ -193,8 +189,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                                      Equipment_category_id = p.Equipment_category_id,
                                      department_id = p.department_id,
                                      department_name = d.department_name,
-                                     category_name = e.Equipment_category_name,
-                                     status_name = s.statusname
+                                     category_name = e.Equipment_category_name
                                  }).ToList().Select(p => new NewEquipment
                                  {
                                      equipmentId = p.equipmentId,
@@ -216,8 +211,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                                      Equipment_category_id = p.Equipment_category_id,
                                      department_id = p.department_id,
                                      department_name = p.department_name,
-                                     category_name = p.category_name,
-                                     status_name = p.status_name
+                                     category_name = p.category_name
                                  }).ToList();
                 int totalrows = equipList.Count;
                 int totalrowsafterfiltering = equipList.Count;
@@ -244,14 +238,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         }
         private class NewEquipment : Equipment
         {
-            public string status_name { get; set; }
             public string department_name { get; set; }
             public string category_name { get; set; }
         }
 
         public class EquipWithName : Equipment
         {
-            public string statusname { get; set; }
             public string Equipment_category_name { get; set; }
             public string department_name { get; set; }
         }
@@ -274,14 +266,14 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             //    "on d.department_id = i.department_id where i.start_time BETWEEN @start_time1 AND @start_time2 AND ";
 
             //string query = "select e.equipmentId,e.equipment_name,e.supplier,e.date_import,e.depreciation_estimate,e.depreciation_present,e.durationOfInspection,e.durationOfInsurance,e.usedDay,e.nearest_Maintenance_Day,e.total_operating_hours,e.current_Status,e.fabrication_number,e.mark_code,e.quality_type,e.input_channel,ec.Equipment_category_name,d.department_name from Equipment e, Department d, Equipment_category ec where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id AND ";
-            string query = "select e.*,ec.Equipment_category_name,d.department_name,s.statusname from Equipment e, Department d, Equipment_category ec, Status s where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id AND e.current_Status = s.statusid AND ";
+            string query = "select e.*,ec.Equipment_category_name,d.department_name from Equipment e, Department d, Equipment_category ec where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id AND ";
             if (!equipmentId.Equals("") || !equipmentName.Equals("") || !department.Equals("") || !quality.Equals("") || !category.Equals("") || !sup.Equals(""))
             {
                 if (!equipmentId.Equals("")) query += "e.equipmentId LIKE @equipmentId AND ";
                 if (!equipmentName.Equals("")) query += "e.equipment_name LIKE @equipment_name AND ";
                 if (!department.Equals("")) query += "d.department_id = @department_name AND ";
                 if (!quality.Equals("")) query += "e.quality_type LIKE @quality AND ";
-                if (!category.Equals("")) query += "ec.Equipment_category_id LIKE @cate AND ";
+                if (!category.Equals("")) query += "ec.Equipment_category_name LIKE @cate AND ";
                 if (!sup.Equals("")) query += "e.supplier LIKE @sup AND ";
             }
             query = query.Substring(0, query.Length - 5);
@@ -375,7 +367,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             return View(new Equipment_category());
         }
         [HttpPost]
-        public ActionResult AddCategory(Equipment_category ec,string[] id, string[] name, string[] unit)
+        public ActionResult AddCategory(Equipment_category ec, string[] id, string[] name, string[] unit)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             db.Equipment_category.Add(ec);
@@ -383,12 +375,16 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             {
                 for (int i = 0; i < id.Count(); i++)
                 {
-                    Equipment_category_attribute ea = new Equipment_category_attribute();
-                    ea.Equipment_category_id = ec.Equipment_category_id;
-                    ea.Equipment_category_attribute_id = id[i];
-                    ea.unit = unit[i];
-                    ea.Equipment_category_attribute_name = name[i];
-                    db.Equipment_category_attribute.Add(ea);
+                    if (!id[i].Equals(""))
+                    {
+                        Equipment_category_attribute ea = new Equipment_category_attribute();
+                        ea.Equipment_category_id = ec.Equipment_category_id;
+                        ea.Equipment_category_attribute_id = id[i];
+                        ea.unit = unit[i];
+                        ea.Equipment_category_attribute_name = name[i];
+                        db.Equipment_category_attribute.Add(ea);
+                    }
+
                 }
             }
             db.SaveChanges();
@@ -401,7 +397,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             {
                 //import date
                 string[] date = import.Split('/');
-                string date_fix = date[1] +"/"+ date[0] +"/"+ date[2];
+                string date_fix = date[1] + "/" + date[0] + "/" + date[2];
                 emp.date_import = Convert.ToDateTime(date_fix);
                 //durationOfInspection
                 date = duraInspec.Split('/');
@@ -426,15 +422,23 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 {
                     for (int i = 0; i < id.Count(); i++)
                     {
-                        Equipment_attribute ea = new Equipment_attribute();
-                        ea.equipmentId = emp.equipmentId;
-                        ea.Equipment_attribute_id = id[i];
-                        ea.unit = unit[i];
-                        ea.value = value[i];
-                        ea.Equipment_attribute_name = name[i];
-                        db.Equipment_attribute.Add(ea);
+                        if (!id[i].Equals(""))
+                        {
+                            Equipment_attribute ea = new Equipment_attribute();
+                            ea.equipmentId = emp.equipmentId;
+                            ea.Equipment_attribute_id = id[i];
+                            ea.unit = unit[i];
+                            ea.value = value[i];
+                            ea.Equipment_attribute_name = name[i];
+                            db.Equipment_attribute.Add(ea);
+                        }
+
                     }
                 }
+                Equipment_Inspection ei = new Equipment_Inspection();
+                ei.equipmentId = emp.equipmentId;
+                ei.inspect_start_date = emp.durationOfInspection;
+                db.Equipment_Inspection.Add(ei);
                 db.SaveChanges();
                 return RedirectToAction("GetData");
             }
@@ -483,7 +487,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 ViewBag.listDepeartment = listDepeartment;
                 ViewBag.listCategory = listCategory;
                 Equipment emp = db.Equipments.Where(x => x.equipmentId == id).FirstOrDefault<Equipment>();
-                if(emp == null)
+                if (emp == null)
                 {
                     emp = new Equipment();
                 }
@@ -506,7 +510,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             //return Json(new { success = true, message = "Cập nhật thành công" , data= db.Equipments.Where(x => x.equipmentId == id).FirstOrDefault<Equipment>()}, JsonRequestBehavior.AllowGet);
 
         }
-        
+
         [HttpGet]
         public ActionResult Delete(string id)
         {

@@ -37,11 +37,11 @@
                         <div class="row center">
                             <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
                                 <i class="fas fa-calendar-alt icon"></i>
-                                <input type='text' class='datepicker-here center maxDate' id="date-start-search" data-language='vi' value="" style="height: 24px" />
+                                <input type='text' class='datepicker-here center maxDate' id="date-start-search" data-language='vi' value="Ngày ngày bắt đầu (từ)" style="height: 24px" />
                             </div>
                             <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
                                 <i class="fas fa-calendar-alt icon"></i>
-                                <input type='text' class='datepicker-here center minDate' id="date-end-search" data-language='vi' value="" style="height: 24px" />
+                                <input type='text' class='datepicker-here center minDate' id="date-end-search" data-language='vi' value="Nhập ngày kết thúc (đến)" style="height: 24px" />
                             </div>
                             <div class="col l8 m8 s6 offset-l2 offset-m2 input-field">
                                 <button class="btn blue darken-2 btn-small" id="searchButton1">Tìm kiếm</button>
@@ -148,51 +148,52 @@
                     </div>
                 </div>
             </form>
+
+            <form action="" method="POST" id="myupdateform" role="form">
+                <div id="myupdate" class="modal">
+                    <div class="modal-header center-align">
+                        <h3>Cập nhật mã quyết định</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group" hidden>
+                            <label for="date">Ngày : </label>
+                            <input type="text" class="form-control" value="" id="documentary_id_update" />
+                        </div>
+
+                        <div class="row">
+                            <div class="col s3 offset-s2 right-align">
+                                Mã quyết định
+                            </div>
+                            <div class="col s3">
+                                <input class="form-control" type="text" value="" id="UpdateCode" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" id="btnSave" class="btn blue darken-2 modal-close save-category">Lưu</button>
+                        <button type="button" id="exit-update-button" class="btn light-blue lighten-1 modal-close">Thoát</button>
+                        <td style="text-align: center"><a href="#myaleart" class="waves-effect waves-light btn red modal-trigger">Xoá bản nháp này</a></td>
+                    </div>
+                </div>
+            </form>
+
+            <div id="myaleart" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Xác nhận xóa mục này</h3>
+                    </div>
+                    <div class="modal-body">
+                        <p class="red-text">Dữ liệu không thể phục hồi sau thao tác này</p>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" id="Delete" class="btn blue darken-2 modal-close" value="Xóa">
+                        <button type="button" class="btn red modal-close">Hủy</button>
+                    </div>
+                </div>
+            </div>
         }
     }
 }
-<form action="" method="POST" id="myupdateform" role="form">
-    <div id="myupdate" class="modal">
-        <div class="modal-header center-align">
-            <h3>Cập nhật mã quyết định</h3>
-        </div>
-        <div class="modal-body">
-            <div class="form-group" hidden>
-                <label for="date">Ngày : </label>
-                <input type="text" class="form-control" value="" id="documentary_id_update" />
-            </div>
-
-            <div class="row">
-                <div class="col s3 offset-s2 right-align">
-                    Mã quyết định
-                </div>
-                <div class="col s3">
-                    <input class="form-control" type="text" value="" id="UpdateCode" />
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="submit" id="btnSave" class="btn blue darken-2 modal-close save-category">Lưu</button>
-            <button type="button" id="exit-update-button" class="btn light-blue lighten-1 modal-close">Thoát</button>
-            <td style="text-align: center"><a href="#myaleart" class="waves-effect waves-light btn red modal-trigger">Xoá bản nháp này</a></td>
-        </div>
-    </div>
-</form>
-
-<div id="myaleart" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Xác nhận xóa mục này</h3>
-        </div>
-        <div class="modal-body">
-            <p class="red-text">Dữ liệu không thể phục hồi sau thao tác này</p>
-        </div>
-        <div class="modal-footer">
-            <input type="button" id="Delete" class="btn blue darken-2 modal-close" value="Xóa">
-            <button type="button" class="btn red modal-close">Hủy</button>
-        </div>
-    </div>
-</div>
 <script>
     $(window).resize(function () {
         if ($(window).width() <= 600) {
@@ -203,6 +204,31 @@
             $("#searchButton2").hide();
         }
     });
+       $("#documentary_code-search").keyup( function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#documentary_code-search").blur();
+        }
+     });
+
+     $("#person_created-search").keyup( function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#person_created-search").blur();
+        }
+     });
+      $("#date-start-search").keyup( function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#date-start-search").blur()
+        }
+      });
+      $("#date-end-search").keyup( function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#date-end-search").blur();
+        }
+      });
 </script>
 
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
@@ -210,12 +236,12 @@
 <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
 @section scripts{
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script>
+    @*<script>
 
         $(".datepicker-here").keydown(function (e) {
             e.preventDefault();
         });
-    </script>
+    </script>*@
     <script>
      	$("#pre-load").show();
         $("#pre-load").css("z-index", "9999");
@@ -245,6 +271,13 @@
                     "url": "/phong-cdvt/quyet-dinh/dieu-dong/search",
                     "type": "POST",
                     "datatype": "json",
+                        "error": function (XMLHttpRequest, textStatus, errorThrown) {
+                        $("#pre-load").hide();
+                        $.notify(XMLHttpRequest.responseText, {
+                        globalPosition: "top center",
+                        className: "error"
+                    });
+                     },
                      "data": {
                          "documentary_code": function() { return $('#documentary_code-search').val() },
                          "person_created": function() { return $('#person_created-search').val() },
@@ -310,46 +343,46 @@
             var date = day + "/" + month + "/" + year;
             return (date);
             }
-             $('.maxDate').datepicker({
-        language: 'vi',
-        maxDate: new Date(),
-        minDate: new Date("1/1/1900")
-    })
-    $('.minDate').datepicker({
-        language: 'vi',
-        maxDate: new Date() // Now can select only dates, which goes after today
-    })
-    $(document).ready(function () {
-        $('.datepicker-inline').remove();
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1; //January is 0!
+    //         $('.maxDate').datepicker({
+    //    language: 'vi',
+    //    maxDate: new Date(),
+    //    minDate: new Date("1/1/1900")
+    //})
+    //$('.minDate').datepicker({
+    //    language: 'vi',
+    //    maxDate: new Date() // Now can select only dates, which goes after today
+    //})
+    //$(document).ready(function () {
+    //    $('.datepicker-inline').remove();
+    //    var today = new Date();
+    //    var dd = today.getDate();
+    //    var mm = today.getMonth() + 1; //January is 0!
 
-        var yyyy = today.getFullYear();
-        if (dd < 10) {
-            dd = '0' + dd;
-        }
-        if (mm < 10) {
-            mm = '0' + mm;
-        }
-        var today = dd + '/' + mm + '/' + yyyy;
-        $(".minDate").each(function () {
-            $(this).val(today);
-        });
-        today = new Date("1/1/1900");
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1; //January is 0!
+    //    var yyyy = today.getFullYear();
+    //    if (dd < 10) {
+    //        dd = '0' + dd;
+    //    }
+    //    if (mm < 10) {
+    //        mm = '0' + mm;
+    //    }
+    //    var today = dd + '/' + mm + '/' + yyyy;
+    //    $(".minDate").each(function () {
+    //        $(this).val(today);
+    //    });
+    //    today = new Date("1/1/1900");
+    //    var dd = today.getDate();
+    //    var mm = today.getMonth() + 1; //January is 0!
 
-        var yyyy = today.getFullYear();
-        if (dd < 10) {
-            dd = '0' + dd;
-        }
-        if (mm < 10) {
-            mm = '0' + mm;
-        }
-        var today = dd + '/' + mm + '/' + yyyy;
-        $(".maxDate").val(today)
-    });
+    //    var yyyy = today.getFullYear();
+    //    if (dd < 10) {
+    //        dd = '0' + dd;
+    //    }
+    //    if (mm < 10) {
+    //        mm = '0' + mm;
+    //    }
+    //    var today = dd + '/' + mm + '/' + yyyy;
+    //    $(".maxDate").val(today)
+    //});
 
 
 //---------------Search Data -----------------
@@ -519,7 +552,7 @@
                             dataTable.ajax.reload();
                              $.notify("Xóa thành công!", {
                              globalPosition: "top center",
-                             className: "success"                        
+                             className: "success"
                          })
                          $('#exit-update-button').click();
                         }

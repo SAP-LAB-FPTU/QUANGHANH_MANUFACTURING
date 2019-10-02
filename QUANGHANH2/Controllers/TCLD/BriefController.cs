@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Linq.Dynamic;
@@ -15,6 +16,7 @@ using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Script.Serialization;
+using System.Data.SqlClient;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,9 +27,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         // GET: /<controller>/
 
         public static string id_ = "";
-
        
-
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty")]
         [HttpGet]
         public ActionResult Inside()
@@ -37,13 +37,231 @@ namespace QUANGHANHCORE.Controllers.TCLD
         }
 
 
-        [Route("phong-tcld/quan-ly-ho-so/chuan-hoa-ten")]
-        public ActionResult Regulation()
+
+
+        /// /////////////////////////Long/////////////////////////////////////////////
+
+        [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to")]
+        IEnumerable<NhanVien> getAllNhanVien()
         {
-            ViewBag.nameDepartment = "quanlyhoso";
-            return View("/Views/TCLD/Brief/ManageBrief/Regulations.cshtml");
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                return db.NhanViens.ToList<NhanVien>();
+            }
+        }
+        //[HttpPost]
+        //public ActionResult GetAllDocuments()
+        //{
+        //    int start = Convert.ToInt32(Request["start"]);
+        //    int length = Convert.ToInt32(Request["length"]);
+        //    string searchValue = Request["search[value]"];
+        //    string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+        //    string sortDirection = Request["order[0][dir]"];
+        //    using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+        //    {
+        //        db.Configuration.LazyLoadingEnabled = false;
+        //        List<TenNV> list = db.Database.SqlQuery<TenNV>("select n.Ten,g.* from GiayTo g, NhanVien n where g.MaNV = n.MaNV").ToList<TenNV>();
+        //        ViewBag.giaytolist = list;
+        //        int totalrows = list.Count;
+        //        int totalrowsafterfiltering = list.Count;
+        //        //sorting
+        //        list = list.OrderBy(sortColumnName + " " + sortDirection).ToList<TenNV>();
+        //        //paging
+        //        list = list.Skip(start).Take(length).ToList<TenNV>();
+        //        return Json(new { success = true, data = list, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
+        public class TenNV : GiayTo
+        {
+            public string Ten { get; set; }
+        }
+        //Sửa giấy tờ
+
+        [HttpPost]
+        public ActionResult suaGiayTo(GiayTo document)
+        {
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                try
+                {
+                    db.Entry(document).State = EntityState.Modified;//
+                    db.SaveChanges();
+
+                    return RedirectToAction("GetAllDocuments");
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
+                }
+
+            }
+
+
+        }
+        [HttpGet]
+        public ActionResult suaGiayTo(string id)
+        {
+
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                //tạo data bên popup của sửa giấy tờ
+                List<SelectListItem> KieuGT = new List<SelectListItem>
+                    {
+                        new SelectListItem { Text = "Gốc", Value = "Gốc" },
+                        new SelectListItem { Text = "Dấu đỏ", Value = "Dấu đỏ" },
+                        new SelectListItem { Text = "Sao,Công chứng", Value = "Sao,Công chứng" },
+                        new SelectListItem { Text = "Photo", Value = "Photo" }
+                    };
+                ViewBag.kindODoc = KieuGT;
+                GiayTo doc = new GiayTo();
+                var documents = db.GiayToes.ToList<GiayTo>();
+                doc = db.GiayToes.Where(x => x.MaGiayTo.ToString() == id).FirstOrDefault<GiayTo>();
+                return View(doc);
+            }
+        }
+        //thêm giấy tờ
+        [HttpGet]
+        public ActionResult themGiayTo()
+        {
+            List<SelectListItem> listNV = new List<SelectListItem>();
+
+            var a = getAllNhanVien();
+            foreach (NhanVien nvs in a)
+            {
+                listNV.Add(new SelectListItem { Text = nvs.MaNV, Value = nvs.Ten });
+            }
+            ViewBag.nhanvien = listNV;
+            List<SelectListItem> KieuGT = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Gốc", Value = "Gốc" },
+                new SelectListItem { Text = "Dấu đỏ", Value = "Dấu đỏ" },
+                new SelectListItem { Text = "Sao,Công chứng", Value = "Sao,Công chứng" },
+                new SelectListItem { Text = "Photo", Value = "Photo" }
+            };
+            ViewBag.kindODoc = KieuGT;
+            return View(new GiayTo());
+        }
+        [HttpPost]
+        public ActionResult themGiayTo(GiayTo g)
+        {
+
+            var a = getAllNhanVien();
+            ViewBag.nhanvien = a;
+
+
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                try
+                {
+
+                    db.GiayToes.Add(g);
+                    db.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+
+                    return Json(new { message = "Failed" }, JsonRequestBehavior.AllowGet);
+
+                }
+            }
+
+            return RedirectToAction("Inside");
+
+        }
+        //check id của nhân viên
+        [HttpPost]
+        public ActionResult validateID(string id)
+        {
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                NhanVien nv = db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault<NhanVien>();
+                if (nv == null)
+                {
+                    return Json(new { success = true, responseText = "id has been exist" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { success = false, responseText = nv.Ten }, JsonRequestBehavior.AllowGet);
+                }
+            }
         }
 
+
+        [HttpPost, ActionName("Delete")]
+        public ActionResult DeleteDoc(int id)
+        {
+            //id = id.Substring(1, id.Length - 2);
+            //nameOfDoc = nameOfDoc.Substring(1, nameOfDoc.Length - 2);
+            try
+            {
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    GiayTo emp = db.GiayToes.Where(x => x.MaGiayTo == id).FirstOrDefault<GiayTo>();
+                    db.GiayToes.Remove(emp);
+                    db.SaveChanges();
+                    List<GiayTo> list = db.Database.SqlQuery<TenNV>("select n.Ten,g.* from GiayTo g, NhanVien n where g.MaNV = n.MaNV").ToList<GiayTo>();
+                    return Json(new { success = true, responseText = "Your message successfuly sent!", list }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false, responseText = "The attached file is not supported." }, JsonRequestBehavior.AllowGet);
+            }
+        }
+             [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to")]
+        [HttpPost]
+        public ActionResult Search(string MaNV, string TenNV, string TenGT, string KieuGT)
+        {
+            int start = Convert.ToInt32(Request["start"]);
+            int length = Convert.ToInt32(Request["length"]);
+            string searchValue = Request["search[value]"];
+            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+            string sortDirection = Request["order[0][dir]"];
+            string query = "select n.Ten,g.* from GiayTo g, NhanVien n where g.MaNV = n.MaNV AND ";
+            if (!MaNV.Equals("") || !TenNV.Equals("") || !TenGT.Equals("") || !KieuGT.Equals(""))
+            {
+                if (!MaNV.Equals("")) query += "n.MaNV LIKE @MaNV AND ";
+                if (!TenNV.Equals("")) query += "n.Ten LIKE @Ten AND ";
+                if (!TenGT.Equals("")) query += "g.TenGiayTo LIKE @TenGiayTo AND ";
+                if (!KieuGT.Equals("")) query += "g.KieuGiayTo LIKE @KieuGiayTo AND ";
+            }
+            query = query.Substring(0, query.Length - 5);
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            db.Configuration.LazyLoadingEnabled = false;
+            string kieuGT = "";
+            if (KieuGT.Equals("goc"))
+            {
+                kieuGT = "Gốc";
+            }
+            else if (KieuGT.Equals("daudo"))
+            {
+                kieuGT = "Dấu đỏ";
+            }
+            else if (KieuGT.Equals("sao"))
+            {
+                kieuGT = "Sao,Công chứng";
+            }
+            else
+            {
+                kieuGT = "Photo";
+            }
+            List<TenNV> searchList = db.Database.SqlQuery<TenNV>(query,
+                new SqlParameter("MaNV", '%' + MaNV + '%'),
+                new SqlParameter("Ten", '%' + TenNV + '%'),
+                new SqlParameter("TenGiayTo", '%' + TenGT + '%'),
+                new SqlParameter("KieuGiayTo", kieuGT)
+                ).ToList();
+            int totalrows = searchList.Count;
+            int totalrowsafterfiltering = searchList.Count;
+            //sorting
+            searchList = searchList.OrderBy(sortColumnName + " " + sortDirection).ToList<TenNV>();
+            //paging
+            searchList = searchList.Skip(start).Take(length).ToList<TenNV>();
+
+            return Json(new { data = searchList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+
+        }
+        /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //listByThuong
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty")]
@@ -874,10 +1092,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
                          select
                 new
                 {
+                    ma=a.MaGiayTo,
                     kieu = a.KieuGiayTo,
                     ngaytra = a.NgayTra,
                     sohieu = "",
-                    ngaycap = a.NgayTra,
+                    ngaycap = (DateTime?) null ,
                     ten = a.TenGiayTo,
                     manv = a.MaNV
 
@@ -888,6 +1107,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                          select
                          new
                          {
+                             ma=a.MaChungChi,
                              kieu = b.KieuChungChi,
                              ngaytra = a.NgayTra,
                              sohieu = a.SoHieu,
@@ -902,6 +1122,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                          select
                          new
                          {
+                             ma=a.MaBangCap_GiayChungNhan,
                              kieu = b.KieuBangCap,
                              ngaytra = a.NgayTra,
                              sohieu = a.SoHieu,
@@ -916,25 +1137,33 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
 
         }
-
+        
         public ActionResult updateGiayTo(String json)
         {
             dynamic js = JObject.Parse(json);
             String manv = js.manv;
+            int ma = js.ma;
             String sohieu = js.sohieu;
             String kieu = js.kieu;
             String ngaytra = js.ngaytra;
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 //  GiayChungNhan_NhanVien x = (from a in db.GiayChungNhan_NhanVien where a.MaNV == manv & a.SoHieu==sohieu  select a).SingleOrDefault() ;
-                ChungChi_NhanVien x = (from a in db.ChungChi_NhanVien where a.MaNV == manv & a.SoHieu == sohieu select a).SingleOrDefault();
-                ChiTiet_BangCap_GiayChungNhan y = (from a in db.ChiTiet_BangCap_GiayChungNhan where a.MaNV == manv & a.SoHieu == sohieu select a).SingleOrDefault();
+                ChungChi_NhanVien x = (from a in db.ChungChi_NhanVien where a.MaNV == manv & a.SoHieu == sohieu & a.MaChungChi == ma select a).SingleOrDefault();
+                ChiTiet_BangCap_GiayChungNhan y = (from a in db.ChiTiet_BangCap_GiayChungNhan where a.MaNV == manv & a.SoHieu == sohieu & a.MaBangCap_GiayChungNhan==ma select a).SingleOrDefault();
+                GiayTo z = (from a in db.GiayToes where a.MaNV == manv &a.MaGiayTo ==ma  select a).SingleOrDefault();
                 if (x != null)
                 {
                     if (isValidateDateTime(ngaytra))
                         x.NgayTra = Convert.ToDateTime(ngaytra);
                 }
                 if (y != null)
+                {
+                    if (isValidateDateTime(ngaytra))
+                        y.NgayTra = Convert.ToDateTime(ngaytra);
+
+                }
+                if (z != null)
                 {
                     if (isValidateDateTime(ngaytra))
                         y.NgayTra = Convert.ToDateTime(ngaytra);
@@ -1065,10 +1294,12 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                       loaichamdut = p2.LoaiChamDut,
                                       edit = true
                                   }).ToList();
-                    int index = 2;
+                    int index = 4;
+                    int tempIndex;
                     int stt = 1;
                     foreach (var item in mydata)
                     {
+                        tempIndex=index;
                         excelWorksheet.Cells[index, 1].Value = stt;
                         excelWorksheet.Cells[index, 2].Value = item.manv;
                         excelWorksheet.Cells[index, 3].Value = item.ten;
@@ -1077,8 +1308,128 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         excelWorksheet.Cells[index, 6].Value = item.sdt;
                         excelWorksheet.Cells[index, 7].Value = item.diachi;
                         excelWorksheet.Cells[index, 8].Value = item.loaichamdut;
-                        
-                        index++;
+                        var giayto = (from p in db.GiayToes
+                                      where p.MaNV == item.manv
+                                     select
+                                     new { ten = p.TenGiayTo,
+                                           kieu =p.KieuGiayTo,
+                                           ngaycap="",
+                                           ngaytra=p.NgayTra
+
+                                     }).ToList();
+
+
+                        // not empty
+                        if (giayto.Count != 0)
+                        {
+                           int  indexGiayTo = index;
+                            foreach(var i in giayto)
+                            {
+                                excelWorksheet.Cells[indexGiayTo, 9].Value = i.ten;
+                                excelWorksheet.Cells[indexGiayTo, 10].Value = i.kieu;
+                                
+                                excelWorksheet.Cells[indexGiayTo, 11].Value = i.ngaycap;
+                                excelWorksheet.Cells[indexGiayTo, 12].Value = i.ngaytra.HasValue ? i.ngaytra.Value.ToString("dd/MM/yyyy") : string.Empty;
+                                indexGiayTo++;
+                            }
+                            if (indexGiayTo >= tempIndex) tempIndex = indexGiayTo;
+                        }
+                        var chungchi = (from p in db.ChungChis
+                                        join p1 in db.ChungChi_NhanVien on p.MaChungChi equals p1.MaChungChi
+                                        where p1.MaNV == item.manv
+                                        select new
+                                        {
+                                            ten = p.TenChungChi,
+                                            kieu =p.KieuChungChi,
+                                            ngaycap=p1.NgayCap,
+                                            ngaytra=p1.NgayTra
+                                        }
+                                       ).ToList();
+                        if (chungchi.Count != 0)
+                        {
+                            int indexChungChi = index;
+                            foreach (var i in chungchi)
+                            {
+                                excelWorksheet.Cells[indexChungChi, 13].Value = i.ten;
+                                excelWorksheet.Cells[indexChungChi, 14].Value = i.kieu;
+                                excelWorksheet.Cells[indexChungChi, 15].Value = i.ngaycap.HasValue ? i.ngaycap.Value.ToString("dd/MM/yyyy") : string.Empty; ;
+                                excelWorksheet.Cells[indexChungChi, 16].Value = i.ngaytra.HasValue ? i.ngaytra.Value.ToString("dd/MM/yyyy") : string.Empty; ;
+                                indexChungChi++;
+                            }
+                            if (indexChungChi >= tempIndex)
+                            {
+                                tempIndex = indexChungChi;
+                            }
+                        }
+                        var bangcap = (from p in db.BangCap_GiayChungNhan
+                                       join p1 in db.ChiTiet_BangCap_GiayChungNhan on p.MaBangCap_GiayChungNhan equals p1.MaBangCap_GiayChungNhan
+                                       where p1.MaNV == item.manv
+                                       select new
+                                       {
+                                           ten = p.TenBangCap,
+                                           kieu = p.KieuBangCap,
+                                           ngaycap = p1.NgayCap,
+                                           ngaytra = p1.NgayTra
+                                       }).ToList();
+                        if (bangcap.Count != 0)
+                        {
+                            int indexBangCap = index;
+                            foreach (var i in bangcap)
+                            {
+                                excelWorksheet.Cells[indexBangCap, 17].Value = i.ten;
+                                excelWorksheet.Cells[indexBangCap, 18].Value = i.kieu;
+                                excelWorksheet.Cells[indexBangCap, 19].Value = i.ngaycap.HasValue ? i.ngaycap.Value.ToString("dd/MM/yyyy") : string.Empty; ;
+                                excelWorksheet.Cells[indexBangCap, 20].Value = i.ngaytra.HasValue ? i.ngaytra.Value.ToString("dd/MM/yyyy") : string.Empty;
+                                indexBangCap++;
+                            }
+                            if (indexBangCap >= tempIndex)
+                            {
+                                tempIndex = indexBangCap;
+                            }
+                        }
+
+                        var thongtinUyQuyen = (from p in db.NguoiUyQuyenLayHoSo_BaoHiem
+                                               join p1 in db.NhanViens on p.MaUyQuyen equals p1.MaUyQuyen
+                                               where p1.MaNV == item.manv
+                                               select new
+                                               {
+                                                   ten = p.HoTen,
+                                                   quanhe = p.QuanHe,
+                                                   sdt = p.SoDienThoai,
+                                                   socmt = p.SoCMND
+                                               }).ToList();
+                        if (thongtinUyQuyen.Count != 0)
+                        {
+                            foreach(var i in thongtinUyQuyen)
+                            {
+                                excelWorksheet.Cells[index, 21].Value = i.ten;
+                                excelWorksheet.Cells[index, 22].Value = i.quanhe;
+                                excelWorksheet.Cells[index, 23].Value = i.sdt;
+                                excelWorksheet.Cells[index, 24].Value = i.socmt;
+                            }
+                        }
+
+                        //if (item.listgiayto !=null)
+                        //{
+                        //    foreach(var i in item.listgiayto)
+                        //    {
+                        //        excelWorksheet.Cells[1, indexGiayTo, indexGiayTo+3, index].Merge = true;
+                        //        excelWorksheet.Cells[1, indexGiayTo].Value = "Ten giay to";
+                        //        excelWorksheet.Cells[2, indexGiayTo].Value = "Kieu giay to";
+                        //        excelWorksheet.Cells[2, indexGiayTo + 1].Value = "Kieu giay to";
+                        //        excelWorksheet.Cells[2, indexGiayTo + 2].Value = "Kieu giay to";
+                        //        excelWorksheet.Cells[2, indexGiayTo + 3].Value = "Kieu giay to";
+                        //        indexGiayTo += 5;
+                        //    }
+                        //}
+                        //excelWorksheet.Cells[5, 1, 5, 2].Merge = true;
+                        //excelWorksheet.Cells[5, 1].Value = "Value";
+                        if (tempIndex > index) index = tempIndex;
+                        else
+                        {
+                            index++;
+                        }
+                     //   index++;
                         stt++;
 
                     }

@@ -148,15 +148,24 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
             List<Documentary_Extend> incidents = new List<Documentary_Extend>();
-            if (dateStart == "") dateStart = "01/01/1900";
-            DateTime dtStart = DateTime.ParseExact(dateStart, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             DateTime dtEnd;
-            if (dateEnd == "") dtEnd = DateTime.Now;
-            else dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            dtEnd = dtEnd.AddHours(23);
-            dtEnd = dtEnd.AddMinutes(59);
+            DateTime dtStart;
+            try
+            {
+                if (dateStart == "Ngày ngày bắt đầu (từ)") dateStart = "01/01/1900";
+                dtStart = DateTime.ParseExact(dateStart, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                if (dateEnd == "Nhập ngày kết thúc (đến)") dtEnd = DateTime.Now;
+                else dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                dtEnd = dtEnd.AddHours(23);
+                dtEnd = dtEnd.AddMinutes(59);
+            }
+            catch
+            {
+                Response.Write("Vui lòng nhập đúng ngày tháng năm");
+                return new HttpStatusCodeResult(400);
+            }
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-        
+
                 incidents = (from document in db.Documentaries
                              where document.documentary_type.Equals("2") && (document.documentary_code.Contains(documentary_code) || document.documentary_code == null) && document.person_created.Contains(person_created) && (document.date_created >= dtStart && document.date_created <= dtEnd)
                              join detail in db.Documentary_maintain_details on document.documentary_id equals detail.documentary_id
@@ -193,6 +202,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
 
                 }
             
+           
 
 
             int totalrows = incidents.Count;
@@ -219,7 +229,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
                     List<Documentary_Extend> incidents = (from document in db.Documentaries
-                                                          where (document.reason.Equals("Bảo dưỡng thiết bị"))
+                                                          where (document.documentary_type.Equals("2"))
                                                           join detail in db.Documentary_maintain_details on document.documentary_id equals detail.documentary_id
                                                           into temporary
                                                           select new
