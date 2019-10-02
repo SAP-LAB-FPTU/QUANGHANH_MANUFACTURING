@@ -260,6 +260,7 @@
     <Compile Include="Controllers\CDVT\Work\ThuhoiController.cs" />
     <Compile Include="Controllers\CDVT\Work\TrungdaituchonController.cs" />
     <Compile Include="Controllers\CDVT\Work\TrungdaituController.cs" />
+    <Compile Include="Controllers\DK\AccidentController.cs" />
     <Compile Include="Controllers\DK\DKController.cs" />
     <Compile Include="Controllers\DK\ReportHuman\ReportHumanController.cs" />
     <Compile Include="Controllers\DK\ReportIncidentController.cs" />
@@ -7153,6 +7154,7 @@
     <Content Include="Views\CDVT\Report\bao_cao_trung_tu.cshtml" />
     <Content Include="Views\CDVT\Report\TangGiam.cshtml" />
     <Content Include="Views\CDVT\Thietbi\Kiemdinh.cshtml" />
+    <Content Include="Views\DK\Acident.cshtml" />
     <Content Include="Views\Brief\AddLichSuBoSung.cshtml" />
     <Content Include="Views\Brief\suaGiayTo.cshtml" />
     <Content Include="Views\Brief\themGiayTo.cshtml" />

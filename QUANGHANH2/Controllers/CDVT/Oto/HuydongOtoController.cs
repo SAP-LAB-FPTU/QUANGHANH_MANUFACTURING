@@ -56,12 +56,14 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
         }
         private class NewEquipment : Equipment
         {
+            public string statusname { get; set; }
             public string department_name { get; set; }
             public string category_name { get; set; }
         }
 
         public class EquipWithName : Equipment
         {
+            public string statusname { get; set; }
             public string Equipment_category_name { get; set; }
             public string department_name { get; set; }
         }
@@ -84,6 +86,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                                  join e in db.Equipment_category on p.Equipment_category_id equals e.Equipment_category_id
                                  join d in db.Departments on p.department_id equals d.department_id
                                  join ea in db.Equipment_category_attribute on p.Equipment_category_id equals ea.Equipment_category_id
+                                 join s in db.Status on p.current_Status equals s.statusid
                                  where ea.Equipment_category_attribute_name.Equals("Số khung") || ea.Equipment_category_attribute_name.Equals("Số máy")
                                  select new
                                  {
@@ -106,7 +109,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                                      Equipment_category_id = p.Equipment_category_id,
                                      department_id = p.department_id,
                                      department_name = d.department_name,
-                                     category_name = e.Equipment_category_name
+                                     category_name = e.Equipment_category_name,
+                                     statusname = s.statusname
                                  }).ToList().Distinct().Select(p => new NewEquipment
                                  {
                                      equipmentId = p.equipmentId,
@@ -128,7 +132,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                                      Equipment_category_id = p.Equipment_category_id,
                                      department_id = p.department_id,
                                      department_name = p.department_name,
-                                     category_name = p.category_name
+                                     category_name = p.category_name,
+                                     statusname = p.statusname
                                  }).ToList();
 
                 //var equipList = db.Database.SqlQuery<NewEquipment>("select e.*, d.department_name, ec.Equipment_category_name" +
@@ -166,6 +171,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                                                     join e in db.Equipment_category on p.Equipment_category_id equals e.Equipment_category_id
                                                     join d in db.Departments on p.department_id equals d.department_id
                                                     join ea in db.Equipment_category_attribute on p.Equipment_category_id equals ea.Equipment_category_id
+                                                    join s in db.Status on p.current_Status equals s.statusid
                                                     where ea.Equipment_category_attribute_name.Equals("Số khung") || ea.Equipment_category_attribute_name.Equals("Số máy")
                                                     select new
                                                     {
@@ -188,7 +194,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                                                         Equipment_category_id = p.Equipment_category_id,
                                                         department_id = p.department_id,
                                                         department_name = d.department_name,
-                                                        category_name = e.Equipment_category_name
+                                                        category_name = e.Equipment_category_name,
+                                                        statusname = s.statusname
                                                     }).ToList().Distinct().Select(p => new NewEquipment
                                                     {
                                                         equipmentId = p.equipmentId,
@@ -210,7 +217,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                                                         Equipment_category_id = p.Equipment_category_id,
                                                         department_id = p.department_id,
                                                         department_name = p.department_name,
-                                                        category_name = p.category_name
+                                                        category_name = p.category_name,
+                                                        statusname = p.statusname
                                                     }).ToList();
                     int k = 2;
                     for (int i = 0; i < equipList.Count; i++)
@@ -367,7 +375,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             db.Equipment_category.Add(ec);
-            if (!id[0].Equals(""))
+            if (id != null)
             {
                 for (int i = 0; i < id.Count(); i++)
                 {
@@ -407,8 +415,28 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
         }
 
         [HttpPost]
-        public ActionResult Edit(Equipment emp)
+        public ActionResult Edit(Equipment emp, string import, string inspec, string insua, string used, string main)
         {
+            //import date
+            string[] date = import.Split('/');
+            string date_fix = date[1] + "/" + date[0] + "/" + date[2];
+            emp.date_import = Convert.ToDateTime(date_fix);
+            //durationOfInspection
+            date = inspec.Split('/');
+            date_fix = date[1] + "/" + date[0] + "/" + date[2];
+            emp.durationOfInspection = Convert.ToDateTime(date_fix);
+            //durationOfInsurance
+            date = insua.Split('/');
+            date_fix = date[1] + "/" + date[0] + "/" + date[2];
+            emp.durationOfInsurance = Convert.ToDateTime(date_fix);
+            //usedDay
+            date = used.Split('/');
+            date_fix = date[1] + "/" + date[0] + "/" + date[2];
+            emp.usedDay = Convert.ToDateTime(date_fix);
+            //nearest_Maintenance_Day
+            date = main.Split('/');
+            date_fix = date[1] + "/" + date[0] + "/" + date[2];
+            emp.nearest_Maintenance_Day = Convert.ToDateTime(date_fix);
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 try
@@ -467,30 +495,32 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
 
         }
 
-        [HttpGet]
-        public ActionResult Delete(string id)
-        {
-            try
-            {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-                {
-                    Equipment emp = db.Equipments.Where(x => x.equipmentId == id).FirstOrDefault<Equipment>();
-                    List<Equipment_attribute> list = db.Equipment_attribute.Where(ea => ea.equipmentId == id).ToList();
-                    for (int i = 0; i < list.Count(); i++)
-                    {
-                        Equipment_attribute e = list.ElementAt(i);
-                        db.Equipment_attribute.Remove(e);
-                    }
-                    db.Equipments.Remove(emp);
-                    db.SaveChanges();
-                }
-                return RedirectToAction("GetData");
-                // return Json(new { success = true, html = GlobalClass.RenderRazorViewToString(this, "ViewAll", getAllEquipments()), message = "Deleted Successfully" }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //[HttpGet]
+        //public ActionResult Delete(string id)
+        //{
+        //    try
+        //    {
+        //        using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+        //        {
+        //            Equipment emp = db.Equipments.Where(x => x.equipmentId == id).FirstOrDefault<Equipment>();
+        //            List<Equipment_attribute> list = db.Equipment_attribute.Where(ea => ea.equipmentId == id).ToList();
+        //            for (int i = 0; i < list.Count(); i++)
+        //            {
+        //                Equipment_attribute e = list.ElementAt(i);
+        //                db.Equipment_attribute.Remove(e);
+        //            }
+        //            Equipment_Inspection ei = db.Equipment_Inspection.Where(x => x.equipmentId == emp.equipmentId).FirstOrDefault();
+        //            db.Equipment_Inspection.Remove(ei);
+        //            db.Equipments.Remove(emp);
+        //            db.SaveChanges();
+        //        }
+        //        return RedirectToAction("GetData");
+        //        // return Json(new { success = true, html = GlobalClass.RenderRazorViewToString(this, "ViewAll", getAllEquipments()), message = "Deleted Successfully" }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
     }
 }

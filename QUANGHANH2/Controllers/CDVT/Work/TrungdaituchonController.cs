@@ -69,6 +69,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                     }
                 }
                 Department department = db.Departments.Find(department_id);
+
+
                 ViewBag.validate = validate;
                 ViewBag.department_name = department.department_name;
                 ViewBag.department_id = department.department_id;
@@ -110,6 +112,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                         string equipment_big_maintain_reason = (string)item.Value["equipment_big_maintain_reason"];
                         string datestring = (string)item.Value["end_date"];
                         string next_remodel_type = (string)item.Value["next_remodel_type"];
+                        if (documentary_code != "")
+                        {
+                            Equipment e = DBContext.Equipments.Find(equipmentId);
+                            e.current_Status = 9;
+                        }
+
                         DateTime end_date = DateTime.ParseExact(datestring, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                         datestring = (string)item.Value["next_end_time"];
                         //DateTime next_end_time = DateTime.ParseExact(datestring, "dd/MM/yyyy", CultureInfo.InvariantCulture);

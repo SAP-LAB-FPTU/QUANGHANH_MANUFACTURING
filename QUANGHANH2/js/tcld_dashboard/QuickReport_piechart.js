@@ -1,21 +1,13 @@
+
 $(function () {
-    "use strict";
-    // ------------------------------
-    // Basic pie chart
-    // ------------------------------
-    // based on prepared DOM, initialize echarts instance
     var basicpieChart = echarts.init(document.getElementById('basic-pie'));
-    var width = document.documentElement.clientWidth;
     var option;
-    // alert(document.body.clientWidth/width);
-    // if ($(document).width()>=1460) {
         option = {
             tooltip: {
                 trigger: 'item',
                 formatter: "{a} <br/>{b}: {c} ({d}%)",
                 align:'center'
-            },
-
+            },  
             // Add legend
             legend: {
                 orient: 'vertical',
@@ -23,7 +15,6 @@ $(function () {
                 y: '88%',
                 data: ['Huy động dưới 82%', 'Huy động trên 82%']
             },
-
             // Add custom colors
             color: ['#f62d51', '#2962FF'],
 
