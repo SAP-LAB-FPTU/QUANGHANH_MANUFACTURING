@@ -71,7 +71,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                join
                                                  n in db.NhanViens on
                                                  cn.MaNV equals n.MaNV
-                                               where n.LoaiNhanVien.Equals("Cơ điện")
+                                               where n.LoaiNhanVien.Equals("CNCD")
                                                join d in db.Departments on
                                                n.MaPhongBan equals d.department_id
                                                into tb1
@@ -83,7 +83,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                  join
                                                n in db.NhanViens on
                                                cn.MaNV equals n.MaNV
-                                                 where n.LoaiNhanVien.Equals("Khai thác")
+                                                 where n.LoaiNhanVien.Equals("CNKT")
                                                  join d in db.Departments on
                                                  n.MaPhongBan equals d.department_id
                                                  into tb1
@@ -95,7 +95,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                              join
                                              n in db.NhanViens on
                                              cn.MaNV equals n.MaNV
-                                             where n.LoaiNhanVien.Equals("Cơ điện")
+                                             where n.LoaiNhanVien.Equals("CNCD")
                                              join d in db.Departments on
                                              n.MaPhongBan equals d.department_id
                                              into tb1
@@ -107,7 +107,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                join
                                                n in db.NhanViens on
                                                cn.MaNV equals n.MaNV
-                                               where n.LoaiNhanVien.Equals("Khai thác")
+                                               where n.LoaiNhanVien.Equals("CNKT")
                                                join d in db.Departments on
                                                n.MaPhongBan equals d.department_id
                                                into tb1
@@ -211,7 +211,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                join
                                                  n in db.NhanViens on
                                                  cn.MaNV equals n.MaNV
-                                               where n.LoaiNhanVien.Equals("Cơ điện")
+                                               where n.LoaiNhanVien.Equals("CNCD")
                                                && cn.NgayTuyenDung.Year == year
                                                join d in db.Departments on
                                                n.MaPhongBan equals d.department_id
@@ -224,7 +224,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                  join
                                                n in db.NhanViens on
                                                cn.MaNV equals n.MaNV
-                                                 where n.LoaiNhanVien.Equals("Khai thác")
+                                                 where n.LoaiNhanVien.Equals("CNKT")
                                                  && cn.NgayTuyenDung.Year == year
                                                  join d in db.Departments on
                                                  n.MaPhongBan equals d.department_id
@@ -237,7 +237,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                              join
                                              n in db.NhanViens on
                                              cn.MaNV equals n.MaNV
-                                             where n.LoaiNhanVien.Equals("Cơ điện")
+                                             where n.LoaiNhanVien.Equals("CNCD")
                                              && cn.NgayChamDut.Year == year
                                              join d in db.Departments on
                                              n.MaPhongBan equals d.department_id
@@ -250,7 +250,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                join
                                                n in db.NhanViens on
                                                cn.MaNV equals n.MaNV
-                                               where n.LoaiNhanVien.Equals("Khai thác")
+                                               where n.LoaiNhanVien.Equals("CNKT")
                                                && cn.NgayChamDut.Year == year
                                                join d in db.Departments on
                                                n.MaPhongBan equals d.department_id
@@ -366,7 +366,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                    join
                                                    n in db.NhanViens on
                                                    cn.MaNV equals n.MaNV
-                                                   where n.LoaiNhanVien.Equals("Cơ điện")
+                                                   where n.LoaiNhanVien.Equals("CNCD")
                                                    join d in db.Departments on
                                                    n.MaPhongBan equals d.department_id
                                                    into tb1
@@ -378,7 +378,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                      join
                                                    n in db.NhanViens on
                                                    cn.MaNV equals n.MaNV
-                                                     where n.LoaiNhanVien.Equals("Khai thác")
+                                                     where n.LoaiNhanVien.Equals("CNKT")
                                                      join d in db.Departments on
                                                      n.MaPhongBan equals d.department_id
                                                      into tb1
@@ -390,7 +390,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                  join
                                                  n in db.NhanViens on
                                                  cn.MaNV equals n.MaNV
-                                                 where n.LoaiNhanVien.Equals("Cơ điện")
+                                                 where n.LoaiNhanVien.Equals("CNCD")
                                                  join d in db.Departments on
                                                  n.MaPhongBan equals d.department_id
                                                  into tb1
@@ -402,7 +402,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                    join
                                                    n in db.NhanViens on
                                                    cn.MaNV equals n.MaNV
-                                                   where n.LoaiNhanVien.Equals("Khai thác")
+                                                   where n.LoaiNhanVien.Equals("CNKT")
                                                    join d in db.Departments on
                                                    n.MaPhongBan equals d.department_id
                                                    into tb1
@@ -514,7 +514,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                    join
                                                    n in db.NhanViens on
                                                    cn.MaNV equals n.MaNV
-                                                   where n.LoaiNhanVien.Equals("Cơ điện")
+                                                   where n.LoaiNhanVien.Equals("CNCD")
                                                    && cn.NgayTuyenDung.Year == year
                                                    join d in db.Departments on
                                                    n.MaPhongBan equals d.department_id
@@ -527,7 +527,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                      join
                                                    n in db.NhanViens on
                                                    cn.MaNV equals n.MaNV
-                                                     where n.LoaiNhanVien.Equals("Khai thác")
+                                                     where n.LoaiNhanVien.Equals("CNKT")
                                                      && cn.NgayTuyenDung.Year == year
                                                      join d in db.Departments on
                                                      n.MaPhongBan equals d.department_id
@@ -540,7 +540,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                  join
                                                  n in db.NhanViens on
                                                  cn.MaNV equals n.MaNV
-                                                 where n.LoaiNhanVien.Equals("Cơ điện")
+                                                 where n.LoaiNhanVien.Equals("CNCD")
                                                  && cn.NgayChamDut.Year == year
                                                  join d in db.Departments on
                                                  n.MaPhongBan equals d.department_id
@@ -553,7 +553,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                    join
                                                    n in db.NhanViens on
                                                    cn.MaNV equals n.MaNV
-                                                   where n.LoaiNhanVien.Equals("Khai thác")
+                                                   where n.LoaiNhanVien.Equals("CNKT")
                                                    && cn.NgayChamDut.Year == year
                                                    join d in db.Departments on
                                                    n.MaPhongBan equals d.department_id

@@ -94,8 +94,10 @@ $(document).ready(function () {
 });
 $(document).ready(function () {
     var arr = $("#NgayTuyenDungTruoc").val().split("/")
-    var arr1 = arr[2].split(" ")
-    $("#NgayTuyenDungTruocFix").val(arr[1] + "/" + arr[0] + "/" + arr1[0])
+    if ($("#NgayTuyenDungTruoc").val() != null && $("#NgayTuyenDungTruoc").val() != "") {
+        var arr1 = arr[2].split(" ")
+        $("#NgayTuyenDungTruocFix").val(arr[1] + "/" + arr[0] + "/" + arr1[0])
+    }
     $("#save").click(function () {
         var temp = $("#NgayTuyenDungTruocFix").val();
         var arr = temp.split("/");

@@ -48,9 +48,6 @@
     <!-- ============================================================== -->
     <script src="~/assets/libs/chartist/dist/chartist.min.js"></script>
     <script src="~/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
-    <script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
-    <script src="~/assets/extra-libs/sparkline/sparkline.js"></script>
-    <script src="~/dist/js/pages/dashboards/dashboard1.js"></script>
     <script src="~/js/Flexible_user_icon.js"></script>
     <script src="~/js/Custom JS/form-input-border.js"></script>
     @*START------------SCRIPT FOR DATATABLES*@
@@ -152,12 +149,7 @@
             </div>
         </div>
     </div>
-    <div class="preloader">
-        <div class="loader">
-            <div class="loader__figure"></div>
-            <p class="loader__label">Hhihi Admin</p>
-        </div>
-    </div>
+
     <header class="topbar">
         <nav>
             <div class="nav-wrapper">
@@ -204,20 +196,26 @@
         <div class="card">
             <div class="card-content">
                 <div class="row">
-                    <div class="row" style="float:left; width:50%;">
-                        <h3>Người dùng hiện thời</h3>
-                        <table id="table_account" class="table table-bordered datatables striped">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>ID</th>
-                                    <th>Tài khoản người dùng</th>
-                                    <th>Họ tên</th>
-                                </tr>
-                            </thead>
-                        </table>
-                        <button type="button" class="btn btn-danger blue" onclick="getSelected()">Xóa</button>
+                    <div class="card">
+                        <div class="content">
+                            <div class="row" style="float:left; width:50%;">
+                                <h3>Người dùng hiện thời</h3>
+                                <table id="table_account" class="table table-bordered datatables striped">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>ID</th>
+                                            <th>Tài khoản người dùng</th>
+                                            <th>Họ tên</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                                <button type="button" class="btn btn-danger blue" onclick="getSelected()">Xóa</button>
+                            </div>
+                        </div>
                     </div>
+
+
                     <div class="row" style="float:right; width:50%;">
                         <h4 style="padding-left : 3rem">Thông tin chi tiết</h4>
 
@@ -246,131 +244,119 @@
 
 
                         <div class="row">
-                            <div class="col s12">
-                                <table class="table" style="margin-left:10px" id="bodytable">
-                                    <tr>
-                                        <td><label>Cơ Điện Vận Tải</label></td>
-                                        <td>
-                                            <select class="form-control" id="module1">
-                                                <option value="0">Không</option>
-                                                @if (@Model.CDVT)
-                                                {
-                                                    <option value="1" selected>Có</option>
-                                                }
-                                                else
-                                                {
-                                                    <option value="1">Có</option>
-                                                }
-                                            </select>
-                                        </td>
-                                        <td><a href="#!" onclick="ShowRight(1)">Các quyền</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label>Tổ Chức Lao Động</label></td>
-                                        <td>
-                                            <select class="form-control" id="module2">
-                                                <option value="0">Không</option>
-                                                @if (@Model.TCLD)
-                                                {
-                                                    <option value="1" selected>Có</option>
-                                                }
-                                                else
-                                                {
-                                                    <option value="1">Có</option>
-                                                }
-                                            </select>
-                                        </td>
-                                        <td><a href="#!" onclick="ShowRight(2)">Các quyền</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label>Ban Giám Đốc</label></td>
-                                        <td>
-                                            <select class="form-control" id="module5">
-                                                <option value="0">Không</option>
-                                                @if (@Model.BGD)
-                                                {
-                                                    <option value="1" selected>Có</option>
-                                                }
-                                                else
-                                                {
-                                                    <option value="1">Có</option>
-                                                }
-                                            </select>
-                                        </td>
-                                        <td><a href="#!" onclick="ShowRight(5)">Các quyền</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label>KCS</label></td>
-                                        <td>
-                                            <select class="form-control" id="module3">
-                                                <option value="0">Không</option>
-                                                @if (@Model.KCS)
-                                                {
-                                                    <option value="1" selected>Có</option>
-                                                }
-                                                else
-                                                {
-                                                    <option value="1">Có</option>
-                                                }
-                                            </select>
-                                        </td>
-                                        <td><a href="#!" onclick="ShowRight(3)">Các quyền</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label>Phân Xưởng Khai Thác</label></td>
-                                        <td>
-                                            <select class="form-control" id="module6">
-                                                <option value="0">Không</option>
-                                                @if (@Model.PXKT)
-                                                {
-                                                    <option value="1" selected>Có</option>
-                                                }
-                                                else
-                                                {
-                                                    <option value="1">Có</option>
-                                                }
-                                            </select>
-                                        </td>
-                                        <td><a href="#!" onclick="ShowRight(6)">Các quyền</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label>Phòng Điều Khiển</label></td>
-                                        <td>
-                                            <select class="form-control" id="module4">
-                                                <option value="0">Không</option>
-                                                @if (@Model.DK)
-                                                {
-                                                    <option value="1" selected>Có</option>
-                                                }
-                                                else
-                                                {
-                                                    <option value="1">Có</option>
-                                                }
-                                            </select>
-                                        </td>
-                                        <td><a href="#!" onclick="ShowRight(4)">Các quyền</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label>Quyền quản lí</label></td>
-                                        <td>
-                                            <select class="form-control" id="module7">
-                                                <option value="0">Không</option>
-                                                @if (@Model.ADMIN)
-                                                {
-                                                    <option value="1" selected>Có</option>
-                                                }
-                                                else
-                                                {
-                                                    <option value="1">Có</option>
-                                                }
-                                            </select>
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                    <tr id="buttonshow">
-                                        <td><a href="#!" onclick="show()">Các phòng ban khác</a></td>
-                                    </tr>
-                                </table>
+                            <div class="col l12">
+                                <div class="card">
+                                    <div class="content">
+                                        <table class="table" style="margin-left:10px" id="bodytable">
+                                            <tr>
+                                                <td><label>Ban Giám Đốc</label></td>
+                                                <td>
+                                                    <select class="form-control" id="module5">
+                                                        <option value="0">Không</option>
+                                                        @if (@Model.BGD)
+                                                        {
+                                                            <option value="1" selected>Có</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="1">Có</option>
+                                                        }
+                                                    </select>
+                                                </td>
+                                                <td><a href="#!" onclick="ShowRight(5)">Các quyền</a></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label>KCS</label></td>
+                                                <td>
+                                                    <select class="form-control" id="module3">
+                                                        <option value="0">Không</option>
+                                                        @if (@Model.KCS)
+                                                        {
+                                                            <option value="1" selected>Có</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="1">Có</option>
+                                                        }
+                                                    </select>
+                                                </td>
+                                                <td><a href="#!" onclick="ShowRight(3)">Các quyền</a></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label>Cơ Điện Vận Tải</label></td>
+                                                <td>
+                                                    <select class="form-control" id="module1">
+                                                        <option value="0">Không</option>
+                                                        @if (@Model.CDVT)
+                                                        {
+                                                            <option value="1" selected>Có</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="1">Có</option>
+                                                        }
+                                                    </select>
+                                                </td>
+                                                <td><a href="#!" onclick="ShowRight(1)">Các quyền</a></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label>Tổ Chức Lao Động</label></td>
+                                                <td>
+                                                    <select class="form-control" id="module2">
+                                                        <option value="0">Không</option>
+                                                        @if (@Model.TCLD)
+                                                        {
+                                                            <option value="1" selected>Có</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="1">Có</option>
+                                                        }
+                                                    </select>
+                                                </td>
+                                                <td><a href="#!" onclick="ShowRight(2)">Các quyền</a></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label>Phòng Điều Khiển</label></td>
+                                                <td>
+                                                    <select class="form-control" id="module4">
+                                                        <option value="0">Không</option>
+                                                        @if (@Model.DK)
+                                                        {
+                                                            <option value="1" selected>Có</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="1">Có</option>
+                                                        }
+                                                    </select>
+                                                </td>
+                                                <td><a href="#!" onclick="ShowRight(4)">Các quyền</a></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label>Phân Xưởng Khai Thác</label></td>
+                                                <td>
+                                                    <select class="form-control" id="module6">
+                                                        <option value="0">Không</option>
+                                                        @if (@Model.PXKT)
+                                                        {
+                                                            <option value="1" selected>Có</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="1">Có</option>
+                                                        }
+                                                    </select>
+                                                </td>
+                                                <td><a href="#!" onclick="ShowRight(6)">Các quyền</a></td>
+                                            </tr>
+                                            <tr id="buttonshow">
+                                                <td><a href="#!" onclick="show()">Các phòng ban khác</a></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+
 
                                 @if (@Model.ID != 0)
                                 {
@@ -503,17 +489,20 @@
     });
     function show() {
         $("#buttonshow").hide();
-        $("#bodytable").append("<tr><td><label>Phân xưởng đào lò</label></td><td><select class='form-control' id='module8'><option value='0'>Không</option>@if (@Model.PXDL){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(8)'>Các quyền</a></td></tr>");
-        $("#bodytable").append("<tr><td><label>Phân xưởng vận tải</label></td><td><select class='form-control' id='module9'><option value='0'>Không</option>@if (@Model.PXVT){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(9)'>Các quyền</a></td></tr>");
-        $("#bodytable").append("<tr><td><label>Phân xưởng sàng tuyển</label></td><td><select class='form-control' id='module10'><option value='0'>Không</option>@if (@Model.PXST){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(10)'>Các quyền</a></td></tr>");
-        $("#bodytable").append("<tr><td><label>Phân xưởng phục vụ</label></td><td><select class='form-control' id='module11'><option value='0'>Không</option>@if (@Model.PXPV){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(11)'>Các quyền</a></td></tr>");
-        $("#bodytable").append("<tr><td><label>Phân xưởng đời sống</label></td><td><select class='form-control' id='module12'><option value='0'>Không</option>@if (@Model.PXDS){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(12)'>Các quyền</a></td></tr>");
-        $("#bodytable").append("<tr><td><label>Phân xưởng cơ điện mỏ</label></td><td><select class='form-control' id='module13'><option value='0'>Không</option>@if (@Model.PXCDM){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(13)'>Các quyền</a></td></tr>");
-        $("#bodytable").append("<tr><td><label>Phân xưởng thông gió quản lí mỏ</label></td><td><select class='form-control' id='module14'><option value='0'>Không</option>@if (@Model.PXTGQLM){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(14)'>Các quyền</a></td></tr>");
-        $("#bodytable").append("<tr><td><label>Phân xưởng xây dựng</label></td><td><select class='form-control' id='module15'><option value='0'>Không</option>@if (@Model.PXXD){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(15)'>Các quyền</a></td></tr>");
-        $("#bodytable").append("<tr><td><label>Phân xưởng lộ thiên</label></td><td><select class='form-control' id='module16'><option value='0'>Không</option>@if (@Model.PXLT){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(16)'>Các quyền</a></td></tr>");
-        $("#bodytable").append("<tr><td><label>An Toàn</label></td><td><select class='form-control' id='module17'><option value='0'>Không</option>@if (@Model.AT){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(17)'>Các quyền</a></td></tr>");
-        $("#bodytable").append("<tr><td><label>KCM</label></td><td><select class='form-control' id='module18'><option value='0'>Không</option>@if (@Model.KCM){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(18)'>Các quyền</a></td></tr>");
+        $("#bodytable").append("<tr><td><label>Phân Xưởng Đào Lò</label></td><td><select class='form-control' id='module8'><option value='0'>Không</option>@if (@Model.PXDL){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(8)'>Các quyền</a></td></tr>");
+        $("#bodytable").append("<tr><td><label>Phân Xưởng Vận Tải</label></td><td><select class='form-control' id='module9'><option value='0'>Không</option>@if (@Model.PXVT){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(9)'>Các quyền</a></td></tr>");
+        $("#bodytable").append("<tr><td><label>Phân Xưởng Lộ Thiên</label></td><td><select class='form-control' id='module16'><option value='0'>Không</option>@if (@Model.PXLT){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(16)'>Các quyền</a></td></tr>");
+        $("#bodytable").append("<tr><td><label>Phân Xưởng Sàng Tuyển</label></td><td><select class='form-control' id='module10'><option value='0'>Không</option>@if (@Model.PXST){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(10)'>Các quyền</a></td></tr>");
+        $("#bodytable").append("<tr><td><label>Phân Xưởng Cơ Điện Mỏ</label></td><td><select class='form-control' id='module13'><option value='0'>Không</option>@if (@Model.PXCDM){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(13)'>Các quyền</a></td></tr>");
+        $("#bodytable").append("<tr><td><label>Phân Xưởng Thông Gió Quản Lí Mỏ</label></td><td><select class='form-control' id='module14'><option value='0'>Không</option>@if (@Model.PXTGQLM){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(14)'>Các quyền</a></td></tr>");
+        $("#bodytable").append("<tr><td><label>Phân Xưởng Xây Dựng</label></td><td><select class='form-control' id='module15'><option value='0'>Không</option>@if (@Model.PXXD){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(15)'>Các quyền</a></td></tr>");
+        $("#bodytable").append("<tr><td><label>Phân Xưởng Phục Vụ</label></td><td><select class='form-control' id='module11'><option value='0'>Không</option>@if (@Model.PXPV){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(11)'>Các quyền</a></td></tr>");
+        $("#bodytable").append("<tr><td><label>Phân Xưởng Đời Sống</label></td><td><select class='form-control' id='module12'><option value='0'>Không</option>@if (@Model.PXDS){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(12)'>Các quyền</a></td></tr>");
+        $("#bodytable").append("<tr id='hide2'><td><label>An Toàn</label></td><td><select class='form-control' id='module17'><option value='0'>Không</option>@if (@Model.AT){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(17)'>Các quyền</a></td></tr>");
+        $("#bodytable").append("<tr id='hide1'><td><label>KCM</label></td><td><select class='form-control' id='module18'><option value='0'>Không</option>@if (@Model.KCM){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td><a href='#!' onclick='ShowRight(18)'>Các quyền</a></td></tr>");
+        $("#bodytable").append("<tr><td><label>Quyền quản lí</label></td><td><select class='form-control'id='module7'><option value='0'>Không</option>@if(@Model.ADMIN){<option value='1' selected>Có</option>}else{<option value='1'>Có</option>}</select></td><td></td></tr>");
+        $("#hide1").hide();
+        $("#hide2").hide();
     }
     function showLoading() {
         $('#pre-load').show();
@@ -1245,10 +1234,9 @@
                     right17 = result;
                 }
                 if (moduleID == 18) {
-                    right18 = result;
-                    $('#pre-load').hide();
+                    right18 = result; 
                 }
-
+                $('#pre-load').hide();
             },
             error: function (errormessage) {
 
