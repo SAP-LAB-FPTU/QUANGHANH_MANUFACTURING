@@ -3,6 +3,8 @@ GO
 /****** Object:  Database [QUANGHANHABC]    Script Date: 10/3/2019 2:58:45 PM ******/
 CREATE DATABASE [QUANGHANHABC]
 GO
+USE  [QUANGHANHABC] 
+GO
 CREATE TABLE [dbo].[Acceptance](
 	[equipmentStatus] [int] NOT NULL,
 	[acceptance_date] [date] NULL,
