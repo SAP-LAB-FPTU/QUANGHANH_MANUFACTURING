@@ -13,7 +13,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
     public class Temp
     {
         public string abc { get; set; }
-    }
+    }/*a*/
     public class DashController : Controller
     {
         [Auther(RightID = "001")]
@@ -26,15 +26,39 @@ namespace QUANGHANHCORE.Controllers.CDVT
             EquipThongKe etk = new EquipThongKe();
             var equipList = db.Equipments.ToList<Equipment>();
             etk.total = equipList.Count().ToString();
-            var temp = db.Database.SqlQuery<Temp>("select distinct e.equipmentId from Equipment e where e.current_Status = 3").ToList<Temp>();
-            etk.total_repair = temp.Count().ToString();
-            temp = db.Database.SqlQuery<Temp>("select distinct e.equipmentId from Equipment e where e.current_Status = 5").ToList<Temp>();
-            etk.total_maintain = temp.Count().ToString();
-            temp = db.Database.SqlQuery<Temp>("select distinct e.equipmentId from Equipment e where e.current_Status = 8").ToList<Temp>();
-            etk.total_TL = temp.Count().ToString();
-            temp = db.Database.SqlQuery<Temp>("select distinct e.equipmentId from Equipment e where e.current_Status = 1").ToList<Temp>();
-            etk.total_TH = temp.Count().ToString();
-            List<DashEquip> listKD = db.Database.SqlQuery<DashEquip>("select distinct t.equipmentId,t.equipment_name from (select e.equipmentId, e.equipment_name, e.current_Status,ec.Equipment_category_id from Equipment e inner join Equipment_category ec on e.Equipment_category_id = ec.Equipment_category_id where e.current_Status = 10) as t").ToList();
+            List<int> temp = db.Equipments.Where(x=>x.current_Status == 3 || x.current_Status == 8 ||x.current_Status == 1 ||x.current_Status == 5).Select(x => x.current_Status).ToList();
+            int total_repair = 0; int total_maintain = 0; int total_TL = 0; int total_TH = 0;
+            foreach (var item in temp)
+            {
+                switch (item)
+                {
+                    case 3:
+                        total_repair++;
+                        break;
+                    case 5:
+                        total_maintain++;
+                        break;
+                    case 8:
+                        total_TL++;
+                        break;
+                    case 1:
+                        total_TH++;
+                        break;
+                }
+            }
+            etk.total_repair = total_repair+"";
+            etk.total_maintain = total_maintain+"";
+            etk.total_TL = total_TL + "";
+            etk.total_TH = total_TH + "";
+            var listKD = (from equip in db.Equipments
+                                        .Where(equip => equip.current_Status == 10)
+                                      join cate in db.Equipment_category
+                                      on equip.Equipment_category_id equals cate.Equipment_category_id
+                                      select new DashEquip
+                                      {
+                                          equipmentId = equip.equipmentId,
+                                          equipment_name = equip.equipment_name
+                                      }).ToList();
             int totalKD = 0;
             foreach (var item in listKD)
             {
@@ -45,19 +69,28 @@ namespace QUANGHANHCORE.Controllers.CDVT
             etk.total_KHD = Convert.ToInt32(etk.total_repair) + Convert.ToInt32(etk.total_maintain) + Convert.ToInt32(etk.total_KD) + Convert.ToInt32(etk.total_TH) + Convert.ToInt32(etk.total_TL);
             etk.total_HD = Convert.ToInt32(etk.total) - Convert.ToInt32(etk.total_KHD);
 
-            List<DashEquip> listRepair = db.Database.SqlQuery<DashEquip>("select e.equipmentId,e.equipment_name from Equipment e where e.current_Status = 3").ToList();
+            var listRepair = db.Equipments.Where(x => x.current_Status == 3).Select(x => new DashEquip { equipmentId = x.equipmentId, equipment_name= x.equipment_name }).ToList().Distinct();
             ViewBag.listRepair = listRepair;
 
-            List<DashEquip> listMain = db.Database.SqlQuery<DashEquip>("select e.equipmentId,e.equipment_name from Equipment e where e.current_Status = 5").ToList();
+            var listMain = db.Equipments.Where(x => x.current_Status == 5).Select(x => new DashEquip { equipmentId = x.equipmentId, equipment_name = x.equipment_name }).ToList().Distinct();
             ViewBag.listMain = listMain;
 
-            List<DashEquip> listTL = db.Database.SqlQuery<DashEquip>("select e.equipmentId,e.equipment_name from Equipment e where e.current_Status = 8").ToList();
+            var listTL = db.Equipments.Where(x => x.current_Status == 8).Select(x => new DashEquip { equipmentId = x.equipmentId, equipment_name = x.equipment_name }).ToList().Distinct();
             ViewBag.listTL = listTL;
 
-            List<DashEquip> listTH = db.Database.SqlQuery<DashEquip>("select e.equipmentId,e.equipment_name from Equipment e where e.current_Status = 1").ToList();
+            var listTH = db.Equipments.Where(x => x.current_Status == 1).Select(x => new DashEquip { equipmentId = x.equipmentId, equipment_name = x.equipment_name }).ToList().Distinct();
             ViewBag.listTH = listTH;
             ViewBag.Thongke = etk;
-            List<form1> hanDangKiem = db.Database.SqlQuery<form1>("select top 10 e.equipment_name,e.equipmentId,DAY(e.durationOfInspection) as ngay,MONTH(e.durationOfInspection) as thang,YEAR(e.durationOfInspection) as nam from Equipment e where (CAST(e.durationOfInspection as datetime) - GETDATE() between -1 and 10)  and YEAR(e.durationOfInspection) = YEAR(GETDATE()) order by e.durationOfInspection asc").ToList();
+            var testTime = DateTime.Now.AddDays(10);
+            var hanDangKiem = db.Equipments.Where(x => x.durationOfInspection <= testTime && x.durationOfInspection >= DateTime.Now).OrderBy(x => x.durationOfInspection).
+                                    Select(x => new form1
+                                    {
+                                        equipment_name = x.equipment_name,
+                                        equipmentId = x.equipmentId,
+                                        ngay = x.durationOfInspection.Day,
+                                        thang = x.durationOfInspection.Month,
+                                        nam = x.durationOfInspection.Year
+                                    }).Take(10).ToList().Distinct();
             int kiemdinhtag = 0;
             foreach (var item in hanDangKiem)
             {
@@ -65,7 +98,15 @@ namespace QUANGHANHCORE.Controllers.CDVT
             }
             ViewBag.kiemdinhtag = kiemdinhtag;
             ViewBag.handangkiem = hanDangKiem;
-            List<form1> hanBaoduong = db.Database.SqlQuery<form1>("select top 10 e.equipment_name,e.equipmentId, DAY(e.nearest_Maintenance_Day) as ngay,MONTH(e.nearest_Maintenance_Day) as thang,YEAR(e.nearest_Maintenance_Day) as nam  from Equipment e where (CAST(e.nearest_Maintenance_Day as datetime) - GETDATE() between -1 and 10) and YEAR(e.nearest_Maintenance_Day) = YEAR(GETDATE()) order by e.nearest_Maintenance_Day asc").ToList();
+            var hanBaoduong = db.Equipments.Where(x => x.durationOfMaintainance <= testTime && x.durationOfMaintainance >= DateTime.Now).OrderBy(x => x.durationOfMaintainance).
+                                    Select(x => new form1
+                                    {
+                                        equipment_name = x.equipment_name,
+                                        equipmentId = x.equipmentId,
+                                        ngay = x.durationOfMaintainance.Day,
+                                        thang = x.durationOfMaintainance.Month,
+                                        nam = x.durationOfMaintainance.Year
+                                    }).Take(10).ToList().Distinct();
             int baoduongtag = 0;
             foreach (var item in hanBaoduong)
             {
@@ -74,23 +115,81 @@ namespace QUANGHANHCORE.Controllers.CDVT
             ViewBag.baoduongtag = baoduongtag;
             ViewBag.hanbaoduong = hanBaoduong;
 
-            var tongcogioi = db.Database.SqlQuery<DashEquip>("select e.equipmentId,e.equipment_name from Equipment e where e.Equipment_category_id in (select ec.Equipment_category_id from Equipment_category_attribute ec where ec.Equipment_category_attribute_name = N'Số khung' or ec.Equipment_category_attribute_name = N'Số máy')").ToList();
+            var tongcogioi = (from equip in db.Equipments
+                              join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
+                              on equip.Equipment_category_id equals cate.Equipment_category_id
+                              select new DashEquip
+                              {
+                                  equipment_name = equip.equipment_name,
+                                  equipmentId = equip.equipmentId
+                              }).ToList().Distinct();
             ViewBag.tongcogioi = tongcogioi.Count().ToString();
 
-            var cogioihd = db.Database.SqlQuery<SL>("select COUNT(e.current_Status) as abc from Equipment e where e.Equipment_category_id in (select ec.Equipment_category_id from Equipment_category_attribute ec where ec.Equipment_category_attribute_name = N'Số khung' or ec.Equipment_category_attribute_name = N'Số máy') and e.current_Status =2").FirstOrDefault();
-            ViewBag.cogioikhd = tongcogioi.Count() - cogioihd.abc;
-            ViewBag.cogioihd = cogioihd.abc;
-            List<DashEquip> cogioiSC = db.Database.SqlQuery<DashEquip>("select e.equipmentId,e.equipment_name from Equipment e where e.Equipment_category_id in (select ec.Equipment_category_id from Equipment_category_attribute ec where ec.Equipment_category_attribute_name = N'Số khung' or ec.Equipment_category_attribute_name = N'Số máy') and e.current_Status = 3").ToList();
+            var cogioihd = (from equip in db.Equipments.Where(x => x.current_Status == 2)
+                            join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
+                            on equip.Equipment_category_id equals cate.Equipment_category_id
+                            group equip by equip.current_Status into g
+                            select new
+                            {
+                               count = g.Count()
+                            }).Select(x=> new SL{ count = x.count}).Distinct().FirstOrDefault();
+            ViewBag.cogioikhd = tongcogioi.Count() - cogioihd.count;
+            ViewBag.cogioihd = cogioihd.count;
+            var cogioiSC = (from equip in db.Equipments.Where(x => x.current_Status == 3)
+                                        join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
+                                        on equip.Equipment_category_id equals cate.Equipment_category_id
+                                        select new DashEquip
+                                        {
+                                            equipment_name = equip.equipment_name,
+                                            equipmentId = equip.equipmentId
+                                        }).ToList().Distinct();
             ViewBag.cogioiSC = cogioiSC;
-            var slSC = db.Database.SqlQuery<SL>("select COUNT(e.equipmentId) as abc from Equipment e where e.Equipment_category_id in (select ec.Equipment_category_id from Equipment_category_attribute ec where ec.Equipment_category_attribute_name = N'Số khung' or ec.Equipment_category_attribute_name = N'Số máy') and e.current_Status = 3").FirstOrDefault();
-            ViewBag.slSC = slSC.abc;
+            var slSC = (from equip in db.Equipments.Where(x => x.current_Status == 3)
+                        join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
+                        on equip.Equipment_category_id equals cate.Equipment_category_id
+                        group equip by equip.current_Status into g
+                        select new
+                        {
+                            count = g.Count()
+                        }).Select(x => new SL{ count = x.count }).FirstOrDefault();
+            if (slSC == null) {
+                slSC = new SL{ count = 0 };
+            }
+            ViewBag.slSC = slSC.count;
 
-            List<DashEquip> cogioiBD = db.Database.SqlQuery<DashEquip>("select e.equipmentId,e.equipment_name from Equipment e where e.Equipment_category_id in (select ec.Equipment_category_id from Equipment_category_attribute ec where ec.Equipment_category_attribute_name = N'Số khung' or ec.Equipment_category_attribute_name = N'Số máy') and e.current_Status = 5").ToList();
+            var cogioiBD = (from equip in db.Equipments.Where(x => x.current_Status == 5)
+                                        join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
+                                        on equip.Equipment_category_id equals cate.Equipment_category_id
+                                        select new DashEquip
+                                        {
+                                            equipment_name = equip.equipment_name,
+                                            equipmentId = equip.equipmentId
+                                        }).ToList().Distinct();
             ViewBag.cogioiBD = cogioiBD;
-            var slBD = db.Database.SqlQuery<SL>("select COUNT(e.equipmentId) as abc from Equipment e where e.Equipment_category_id in (select ec.Equipment_category_id from Equipment_category_attribute ec where ec.Equipment_category_attribute_name = N'Số khung' or ec.Equipment_category_attribute_name = N'Số máy') and e.current_Status = 5").FirstOrDefault();
-            ViewBag.slBD = slBD.abc;
+            var slBD = (from equip in db.Equipments.Where(x => x.current_Status == 5)
+                        join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
+                        on equip.Equipment_category_id equals cate.Equipment_category_id
+                        group equip by equip.current_Status into g
+                        select new
+                        {
+                            count = g.Count()
+                        }).Select(x => new SL{ count = x.count }).FirstOrDefault();
+            if (slBD == null)
+            {
+                slBD = new SL{ count = 0 };
+            }
+            ViewBag.slBD = slBD.count;
 
-            List<DashEquip> cogioiKD = db.Database.SqlQuery<DashEquip>("select distinct t.equipmentId, t.equipment_name from (select e.equipmentId, e.equipment_name, e.current_Status,ec.Equipment_category_id from Equipment e inner join Equipment_category ec on e.Equipment_category_id = ec.Equipment_category_id where e.current_Status = 10) as t  inner join Equipment_category_attribute ea on ea.Equipment_category_id = t.Equipment_category_id  where ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy'").ToList();
+            var cogioiKD = (from equip in db.Equipments.Where(x => x.current_Status == 10)
+                            join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
+                            on equip.Equipment_category_id equals cate.Equipment_category_id
+                            join Equipment_category in db.Equipment_category
+                            on equip.Equipment_category_id equals Equipment_category.Equipment_category_id
+                            select new DashEquip
+                            {
+                                equipment_name = equip.equipment_name,
+                                equipmentId = equip.equipmentId
+                            }).ToList();
             int slKD = 0;
             foreach (var item in cogioiKD)
             {
@@ -99,26 +198,82 @@ namespace QUANGHANHCORE.Controllers.CDVT
             ViewBag.cogioiKD = cogioiKD;
             ViewBag.slKD = slKD;
 
-            List<DashEquip> cogioiTL = db.Database.SqlQuery<DashEquip>("select e.equipmentId,e.equipment_name from Equipment e where e.Equipment_category_id in (select ec.Equipment_category_id from Equipment_category_attribute ec where ec.Equipment_category_attribute_name = N'Số khung' or ec.Equipment_category_attribute_name = N'Số máy') and e.current_Status = 8").ToList();
+            var cogioiTL = (from equip in db.Equipments.Where(x => x.current_Status == 8)
+                            join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
+                            on equip.Equipment_category_id equals cate.Equipment_category_id
+                            select new DashEquip
+                            {
+                                equipment_name = equip.equipment_name,
+                                equipmentId = equip.equipmentId
+                            }).ToList();
             ViewBag.cogioiTL = cogioiTL;
-            var slTL = db.Database.SqlQuery<SL>("select COUNT(e.equipmentId) as abc from Equipment e where e.Equipment_category_id in (select ec.Equipment_category_id from Equipment_category_attribute ec where ec.Equipment_category_attribute_name = N'Số khung' or ec.Equipment_category_attribute_name = N'Số máy') and e.current_Status = 8").FirstOrDefault();
-            ViewBag.slTL = slTL.abc;
+            var slTL = (from equip in db.Equipments.Where(x => x.current_Status == 8)
+                        join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
+                        on equip.Equipment_category_id equals cate.Equipment_category_id
+                        group equip by equip.current_Status into g
+                        select new
+                        {
+                            count = g.Count()
+                        }).Select(x => new SL{ count = x.count }).FirstOrDefault();
+            if (slTL == null)
+            {
+                slTL = new SL{ count = 0 };
+            }
+            ViewBag.slTL = slTL.count;
 
-            List<DashEquip> cogioiTH = db.Database.SqlQuery<DashEquip>("select e.equipmentId,e.equipment_name from Equipment e where e.Equipment_category_id in (select ec.Equipment_category_id from Equipment_category_attribute ec where ec.Equipment_category_attribute_name = N'Số khung' or ec.Equipment_category_attribute_name = N'Số máy') and e.current_Status = 7").ToList();
+            var cogioiTH = (from equip in db.Equipments.Where(x => x.current_Status == 7)
+                                        join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
+                                        on equip.Equipment_category_id equals cate.Equipment_category_id
+                                        select new DashEquip
+                                        {
+                                            equipment_name = equip.equipment_name,
+                                            equipmentId = equip.equipmentId
+                                        }).ToList();
             ViewBag.cogioiTH = cogioiTH;
-            var slTH = db.Database.SqlQuery<SL>("select COUNT(e.equipmentId) as abc from Equipment e where e.Equipment_category_id in (select ec.Equipment_category_id from Equipment_category_attribute ec where ec.Equipment_category_attribute_name = N'Số khung' or ec.Equipment_category_attribute_name = N'Số máy') and e.current_Status = 7").FirstOrDefault();
-            ViewBag.slTH = slTH.abc;
+            var slTH = (from equip in db.Equipments.Where(x => x.current_Status == 7)
+                        join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
+                        on equip.Equipment_category_id equals cate.Equipment_category_id
+                        group equip by equip.current_Status into g
+                        select new
+                        {
+                            count = g.Count()
+                        }).Select(x => new SL { count = x.count }).FirstOrDefault();
+            if (slTH == null)
+            {
+                slTH = new SL{ count = 0 };
+            }
+            ViewBag.slTH = slTH.count;
 
-            List<form1> hanDangKiemcogioi = db.Database.SqlQuery<form1>("select top 10 e.equipment_name,e.equipmentId,DAY(e.durationOfInspection) as ngay,MONTH(e.durationOfInspection) as thang,YEAR(e.durationOfInspection) as nam from Equipment e where (CAST(e.durationOfInspection as datetime) - GETDATE() between -1 and 10)  and YEAR(e.durationOfInspection) = YEAR(GETDATE()) and e.Equipment_category_id in (select ec.Equipment_category_id from Equipment_category_attribute ec where ec.Equipment_category_attribute_name = N'Số khung' or ec.Equipment_category_attribute_name = N'Số máy') order by e.durationOfInspection asc").ToList();
+            var hanDangKiemcogioi = (from equip in db.Equipments.Where(x =>x.durationOfInspection <= testTime && x.durationOfInspection >=DateTime.Now).OrderBy(x=>x.durationOfInspection)
+                                     join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
+                                        on equip.Equipment_category_id equals cate.Equipment_category_id
+                                     select new form1
+                                     {
+                                         equipment_name = equip.equipment_name,
+                                         equipmentId = equip.equipmentId,
+                                         ngay = equip.durationOfInspection.Day,
+                                         thang = equip.durationOfInspection.Month,
+                                         nam = equip.durationOfInspection.Year
+                                     }).Take(10).ToList().Distinct();
             int kiemdinhcogioitag = 0;
-            foreach (var item in hanDangKiem)
+            foreach (var item in hanDangKiemcogioi)
             {
                 kiemdinhcogioitag++;
             }
             ViewBag.kiemdinhcogioitag = kiemdinhcogioitag;
             ViewBag.hanDangKiemcogioi = hanDangKiemcogioi;
 
-            List<form1> hanBaoduongcogioi = db.Database.SqlQuery<form1>("select top 10 e.equipment_name,e.equipmentId, DAY(e.nearest_Maintenance_Day) as ngay,MONTH(e.nearest_Maintenance_Day) as thang,YEAR(e.nearest_Maintenance_Day) as nam  from Equipment e where (CAST(e.nearest_Maintenance_Day as datetime) - GETDATE() between -1 and 10) and YEAR(e.nearest_Maintenance_Day) = YEAR(GETDATE()) and e.Equipment_category_id in (select ec.Equipment_category_id from Equipment_category_attribute ec where ec.Equipment_category_attribute_name = N'Số khung' or ec.Equipment_category_attribute_name = N'Số máy') order by e.nearest_Maintenance_Day asc").ToList();
+            var hanBaoduongcogioi = (from equip in db.Equipments.Where(x => x.durationOfMaintainance <= testTime && x.durationOfMaintainance >= DateTime.Now).OrderBy(x => x.durationOfMaintainance)
+                                     join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
+                                        on equip.Equipment_category_id equals cate.Equipment_category_id
+                                     select new form1
+                                     {
+                                         equipment_name = equip.equipment_name,
+                                         equipmentId = equip.equipmentId,
+                                         ngay = equip.durationOfMaintainance.Day,
+                                         thang = equip.durationOfMaintainance.Month,
+                                         nam = equip.durationOfMaintainance.Year
+                                     }).Take(10).ToList().Distinct();
             int baoduongcogioitag = 0;
             foreach (var item in hanBaoduongcogioi)
             {
@@ -128,7 +283,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             ViewBag.hanBaoduongcogioi = hanBaoduongcogioi;
 
 
-            Wherecondition(type, month, year);
+            //Wherecondition(type, month, year);
             return View("/Views/CDVT/Dashboard.cshtml");
         }
 
@@ -144,19 +299,19 @@ namespace QUANGHANHCORE.Controllers.CDVT
                 int monthnull = DateTime.Now.Date.Month;
                 int yearnull = DateTime.Now.Date.Year;
                 querySC = "select DAY(a.acceptance_date) as [date],COUNT(a.acceptance_date) as soluong from Documentary do , Acceptance a " +
-                             " where do.documentary_code = a.documentary_id and do.documentary_type = 1 " +
+                             " where do.documentary_id = a.documentary_id and do.documentary_type = 1 " +
                              " and MONTH(a.acceptance_date) = " + monthnull + " and YEAR(a.acceptance_date) = " + yearnull + " " +
                              " group by DAY(a.acceptance_date)";
                 queryBD = "select DAY(a.acceptance_date) as [date],COUNT(a.acceptance_date) as soluong from Documentary do , Acceptance a " +
-                             " where do.documentary_code = a.documentary_id and do.documentary_type = 2 " +
+                             " where do.documentary_id = a.documentary_id and do.documentary_type = 2 " +
                              " and MONTH(a.acceptance_date) = " + monthnull + " and YEAR(a.acceptance_date) = " + yearnull + " " +
                              " group by DAY(a.acceptance_date)";
                 queryTL = "select DAY(a.acceptance_date) as [date],COUNT(a.acceptance_date) as soluong from Documentary do , Acceptance a " +
-                             " where do.documentary_code = a.documentary_id and do.documentary_type = 5 " +
+                             " where do.documentary_id = a.documentary_id and do.documentary_type = 5 " +
                              " and MONTH(a.acceptance_date) = " + monthnull + " and YEAR(a.acceptance_date) = " + yearnull + " " +
                              " group by DAY(a.acceptance_date)";
                 queryTDT = "select DAY(a.acceptance_date) as [date],COUNT(a.acceptance_date) as soluong from Documentary do , Acceptance a " +
-                             " where do.documentary_code = a.documentary_id and do.documentary_type = 6 " +
+                             " where do.documentary_id = a.documentary_id and do.documentary_type = 6 " +
                              " and MONTH(a.acceptance_date) = " + monthnull + " and YEAR(a.acceptance_date) = " + yearnull + " " +
                              " group by DAY(a.acceptance_date)";
                 queryKD = "select DAY(e.inspect_end_date) as [date] ,COUNT(e.inspect_end_date) as soluong " +
@@ -168,19 +323,19 @@ namespace QUANGHANHCORE.Controllers.CDVT
                 int thang = Convert.ToInt32(month);
                 int nam = Convert.ToInt32(year);
                 querySC = "select DAY(a.acceptance_date) as [date],COUNT(a.acceptance_date) as soluong from Documentary do , Acceptance a " +
-                             " where do.documentary_code = a.documentary_id and do.documentary_type = 1 " +
+                             " where do.documentary_id = a.documentary_id and do.documentary_type = 1 " +
                              " and MONTH(a.acceptance_date) = " + thang + " and YEAR(a.acceptance_date) = " + nam + " " +
                              " group by DAY(a.acceptance_date)";
                 queryBD = "select DAY(a.acceptance_date) as [date],COUNT(a.acceptance_date) as soluong from Documentary do , Acceptance a " +
-                             " where do.documentary_code = a.documentary_id and do.documentary_type = 2 " +
+                             " where do.documentary_id = a.documentary_id and do.documentary_type = 2 " +
                              " and MONTH(a.acceptance_date) = " + thang + " and YEAR(a.acceptance_date) = " + nam + " " +
                              " group by DAY(a.acceptance_date)";
                 queryTL = "select DAY(a.acceptance_date) as [date],COUNT(a.acceptance_date) as soluong from Documentary do , Acceptance a " +
-                             " where do.documentary_code = a.documentary_id and do.documentary_type = 5 " +
+                             " where do.documentary_id = a.documentary_id and do.documentary_type = 5 " +
                              " and MONTH(a.acceptance_date) = " + thang + " and YEAR(a.acceptance_date) = " + nam + " " +
                              " group by DAY(a.acceptance_date)";
                 queryTDT = "select DAY(a.acceptance_date) as [date],COUNT(a.acceptance_date) as soluong from Documentary do , Acceptance a " +
-                             " where do.documentary_code = a.documentary_id and do.documentary_type = 6 " +
+                             " where do.documentary_id = a.documentary_id and do.documentary_type = 6 " +
                              " and MONTH(a.acceptance_date) = " + thang + " and YEAR(a.acceptance_date) = " + nam + " " +
                              " group by DAY(a.acceptance_date)";
                 queryKD = "select DAY(e.inspect_end_date) as [date] ,COUNT(e.inspect_end_date) as soluong " +
@@ -296,6 +451,6 @@ namespace QUANGHANHCORE.Controllers.CDVT
     }
     public class SL
     {
-        public int abc { get; set; }
+        public int count { get; set; }
     }
 }

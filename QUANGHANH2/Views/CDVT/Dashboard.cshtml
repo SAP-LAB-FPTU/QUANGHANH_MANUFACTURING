@@ -2,7 +2,7 @@
     ViewData["Title"] = "Dashboard";
     Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
 }
-
+@*a*@
 <link href="/dist/css/style.css" rel="stylesheet">
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
@@ -828,7 +828,7 @@
 </ul>
 <!-- Start Pie Chart -->
 <div class="row">
-    @{
+    @*@{
         if (ViewBag.suachua.Count != 0)
         {
             <div class="col l12">
@@ -885,7 +885,7 @@
                 </div>
             </div>
         }
-    }
+    }*@
 
 </div>
 
@@ -1138,7 +1138,7 @@
         maxDate: new Date() // Now can select only dates, which goes after today
     });
     $(document).ready(function () {
-        var array = @Html.Raw(Json.Encode(ViewBag.suachua));
+        @*var array = @Html.Raw(Json.Encode(ViewBag.suachua));
         var a = JSON.stringify(array);
         var jsonData = JSON.parse(a);
         var soluong = [];
@@ -1427,7 +1427,7 @@
                     a
                 ]
     };
-        myChartkd.setOption(option);
+        myChartkd.setOption(option);*@
 
         $(function () {
             $(window).on('resize', resize);
