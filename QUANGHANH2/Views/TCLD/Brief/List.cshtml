@@ -5,9 +5,9 @@
 <link href="~/dist/css/pages/data-table.css" rel="stylesheet">
 
 @{
-        ViewBag.Title = "Add";
-        List<string> right = (List<string>)Session["RightIDs"];
-    }
+    ViewBag.Title = "Add";
+    List<string> right = (List<string>)Session["RightIDs"];
+}
 
 <div class="col s12 m12 l12">
     <div class="card">
@@ -39,7 +39,7 @@
                 <div class="left col s6 m4 l6">
                     <div class="row">
                         @*<div class="col s2 m2 l2">
-                        </div>*@
+                            </div>*@
                         <div class="col s3 m3 l3">
                             <a class="btn btn-small blue darken-2 input-field" id="danhsachhosonhanvien"><i class="fas fa-file-excel"></i>&nbsp;Excel</a>
                         </div>
@@ -163,6 +163,8 @@
                 <input type="hidden" name="id" id="tlhdd" />
                 <button type="button" class="btn blue darken-2 modal-close">Hủy</button>
             </div>
+            //thuongvn
+            <input type="hidden" name="id" id="historyElementID" />
         }
     </div>
 </div>
@@ -174,7 +176,7 @@
         </div>
         <div class="modal-body row">
             <div class="col l6 m6 s6 center">
-                <a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/lich-su-lam-viec")" class="waves-light btn blue darken-2 btn-small">Lịch sử làm việc</a>
+                <a class="waves-light btn blue darken-2 btn-small" onclick=getHistoryEployee();>Lịch sử làm việc</a>
             </div>
             <div class="col l6 m6 s6 center">
                 <a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chi-tiet-dieu-chuyen")" class="waves-effect waves-light btn blue darken-2 btn-small">Điều chuyển</a>
@@ -317,7 +319,7 @@
                         },
                         {
                             "data": "MaNV", "render": function (data) {
-                                return "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' data-target='history'><span class='fas fa-history'>&nbsp;Xem</span></a>";
+                                return "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='getHistoryID(" + data + ")' data-target='history'><span class='fas fa-history'>&nbsp;Xem</span></a>";
                             },
                             "orderable": false,
                             "searchable": false,
@@ -376,8 +378,17 @@
                 });
             });
         });
+        //thuong
+        function getHistoryID(a) {
+            document.getElementById("historyElementID").value = a;
+        }
+        function getHistoryEployee() {
+            var id = document.getElementById("historyElementID").value;  
+            if (id != null) {
+            window.location.href ='@Url.Action("WorkHistory", "WorkHistory")?id=' + id;
+        }
 
-
+        }
         function getTlhd(a) {
             document.getElementById("tlhdd").value = a;
         }
@@ -456,7 +467,7 @@
     </script>
 }
 <script>
-     $("#datepicker").keydown(function (e) {
+    $("#datepicker").keydown(function (e) {
         e.preventDefault();
     });
 </script>

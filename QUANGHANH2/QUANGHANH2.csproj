@@ -289,6 +289,7 @@
     <Compile Include="Controllers\TCLD\TaskController.cs" />
     <Compile Include="Controllers\TCLD\TCLDController.cs" />
     <Compile Include="Controllers\TCLD\TransferController.cs" />
+    <Compile Include="Controllers\TCLD\WorkHistoryController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -338,6 +339,7 @@
     <Compile Include="Models\CongViec.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DayHistoryWork.cs" />
     <Compile Include="Models\Department.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -408,6 +410,7 @@
     <Compile Include="Models\GiayTo.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\HistoryWork.cs" />
     <Compile Include="Models\HoSo.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -6906,6 +6909,7 @@
     <Content Include="excel\TCLD\Certificate\Chứng chỉ của nhân viên.xlsx" />
     <Content Include="excel\TCLD\Certificate\List\download\ListCertificate.xlsx" />
     <Content Include="excel\TCLD\Brief\Inside.xlsx" />
+    <Content Include="doc\CDVT\QD\quyetdinhsuachua.docx" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -6913,7 +6917,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="doc\CDVT\QD\quyetdinhsuachua.docx" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
@@ -7179,6 +7182,7 @@
     <Folder Include="Library\" />
     <Folder Include="Views\HuyDong\" />
     <Folder Include="Views\Laydanhsachvattu\" />
+    <Folder Include="Views\WorkHistory\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
