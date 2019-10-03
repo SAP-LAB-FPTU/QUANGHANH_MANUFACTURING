@@ -56,7 +56,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             list = list.Skip(start).Take(length).ToList<Equipment_InspectionDB>();
             foreach (Equipment_InspectionDB item in list)
             {
-                item.stringStartTime = item.inspect_start_date.ToString("dd/MM/yyyy");
+                item.stringStartTime = item.inspect_start_date.HasValue? item.inspect_start_date.Value.ToString("dd/MM/yyyy") : "";
                 item.stringEndTime = item.getEndtime();
                 item.updateAble = item.stringEndTime == "" ? "1" + item.inspect_id : "0" + item.inspect_id;
             }

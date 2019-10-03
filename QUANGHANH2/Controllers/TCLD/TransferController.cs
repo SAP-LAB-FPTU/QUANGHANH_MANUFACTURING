@@ -577,8 +577,31 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
         }
 
-
-
+        [Route("phong-tcld/dieu-chuyen/check-duplicate-sqd")]
+        [HttpPost]
+        public ActionResult checkDuplicateSQD()
+        {
+            string sqd = Request["SoQD"];
+            if (sqd != null && sqd != "")
+            {
+                int result;
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    string sql = "select count(SoQuyetDinh) as sqd from QuyetDinh\n" +
+                    "where soQuyetDInh = @SoQD ";
+                    result=db.Database.SqlQuery<int>(sql,new SqlParameter("SoQD",sqd)).ToList<int>()[0];
+                }
+                if (result != 0)
+                {
+                    return Json(new { success = true, data = true });
+                }
+                else
+                {
+                    return Json(new { success = true, data = false });
+                }
+            }
+            return Json(new { success = false, message = "Lỗi" });
+        }
 
         /////////////////////////////////////////////QD DA XU LY////////////////////////////////////////////////////
 

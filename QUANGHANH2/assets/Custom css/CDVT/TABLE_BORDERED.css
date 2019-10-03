@@ -3,9 +3,19 @@
     text-align: center !important;
     background-color: #f2f2f2 !important;
 }
+.field-validation-valid {
+    display: none;
+}
 
+.validation-summary-valid {
+    display: none;
+}
 
-.myid{
+.text-danger{
+    color: red;
+}
+
+.myid {
     display: none;
 }
 
