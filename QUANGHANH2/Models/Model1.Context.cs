@@ -53,6 +53,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<Equipment_attribute> Equipment_attribute { get; set; }
         public virtual DbSet<Equipment_category> Equipment_category { get; set; }
         public virtual DbSet<Equipment_category_attribute> Equipment_category_attribute { get; set; }
+        public virtual DbSet<Equipment_Category_Supply> Equipment_Category_Supply { get; set; }
         public virtual DbSet<Equipment_Inspection> Equipment_Inspection { get; set; }
         public virtual DbSet<FakeAPI> FakeAPIs { get; set; }
         public virtual DbSet<Fuel_activities_consumption> Fuel_activities_consumption { get; set; }
