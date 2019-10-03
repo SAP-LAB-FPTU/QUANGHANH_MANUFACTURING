@@ -289,6 +289,7 @@
     <Compile Include="Controllers\TCLD\TaskController.cs" />
     <Compile Include="Controllers\TCLD\TCLDController.cs" />
     <Compile Include="Controllers\TCLD\TransferController.cs" />
+    <Compile Include="Controllers\TCLD\WorkHistoryController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -338,6 +339,7 @@
     <Compile Include="Models\CongViec.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DayHistoryWork.cs" />
     <Compile Include="Models\Department.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -408,6 +410,7 @@
     <Compile Include="Models\GiayTo.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\HistoryWork.cs" />
     <Compile Include="Models\HoSo.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -7181,6 +7184,7 @@
     <Folder Include="Library\" />
     <Folder Include="Views\HuyDong\" />
     <Folder Include="Views\Laydanhsachvattu\" />
+    <Folder Include="Views\WorkHistory\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
