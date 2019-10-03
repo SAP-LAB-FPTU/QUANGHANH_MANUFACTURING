@@ -380,6 +380,9 @@
     <Compile Include="Models\Equipment_category_attribute.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Equipment_Category_Supply.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Equipment_Inspection.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -6900,6 +6903,10 @@
     <Content Include="excel\TCLD\Certificate\Chứng chỉ của nhân viên.xlsx" />
     <Content Include="excel\TCLD\Certificate\List\download\ListCertificate.xlsx" />
     <Content Include="excel\TCLD\CD_TD_Report.xlsx" />
+    <Content Include="excel\TCLD\Certificate\Chứng chỉ của nhân viên.xlsx" />
+    <Content Include="excel\TCLD\Certificate\List\download\ListCertificate.xlsx" />
+    <Content Include="excel\TCLD\Brief\Inside.xlsx" />
+    <Content Include="doc\CDVT\QD\quyetdinhsuachua.docx" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -6907,7 +6914,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="excel\TCLD\Brief\Inside.xlsx" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />

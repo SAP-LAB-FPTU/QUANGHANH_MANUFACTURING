@@ -106,6 +106,16 @@
                         @Html.ValidationMessageFor(model => model.durationOfInsurance, "", new { @class = "text-danger" })
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label>Thời hạn bảo dưỡng</label>
+                    @*@Html.LabelFor(model => model.durationOfInsurance, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                    <div class="col-md-10">
+                        <input id="main_fix" name="main" type="text" class="form-control datepicker-here" placeholder="Thời hạn bảo dưỡng" />
+                        @Html.EditorFor(model => model.durationOfInsurance, new { htmlAttributes = new { @style = "display: none !important" } })
+                        @Html.ValidationMessageFor(model => model.durationOfInsurance, "", new { @class = "text-danger" })
+                    </div>
+                </div>
                 <div class="form-group">
                     <label>Ngày đưa vào sử dụng</label>
                     @*@Html.LabelFor(model => model.usedDay, htmlAttributes: new { @class = "control-label col-md-2" })*@
@@ -120,16 +130,6 @@
             </div>
             <div class="col s6">
 
-
-                <div class="form-group">
-                    <label>Ngày bảo dưỡng gần nhất</label>
-                    @*@Html.LabelFor(model => model.nearest_Maintenance_Day, htmlAttributes: new { @class = "control-label col-md-2" })*@
-                    <div class="col-md-10">
-                        <input id="main_fix" name="main" type="text" class="form-control datepicker-here" placeholder="Thời hạn đăng kiểm" />
-                        @Html.EditorFor(model => model.nearest_Maintenance_Day, new { htmlAttributes = new { @style = "display: none !important" } })
-                        @Html.ValidationMessageFor(model => model.nearest_Maintenance_Day, "", new { @class = "text-danger" })
-                    </div>
-                </div>
                 <div class="form-group">
                     <label>Tổng thời gian hoạt động</label>
                     @*@Html.LabelFor(model => model.total_operating_hours, htmlAttributes: new { @class = "control-label col-md-2" })*@
@@ -261,7 +261,7 @@
         data = arr[1] + "/" + arr[0] + "/" + arr1[0];
         document.getElementById("used_fix").value = data;
 
-        elms = document.querySelectorAll("[id='nearest_Maintenance_Day']");
+        elms = document.querySelectorAll("[id='durationOfMaintainance']");
         temp = elms[1].value;
         arr = temp.split("/");
         arr1 = arr[2].split(" ");

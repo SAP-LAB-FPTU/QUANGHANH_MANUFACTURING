@@ -154,7 +154,7 @@
                                     <th>Thời điểm kiểm định</th>
                                     <th>Thời hạn bảo hiểm</th>
                                     <th>Ngày đưa vào sử dụng</th>
-                                    <th>Ngày bảo dưỡng gần nhất</th>
+                                    <th>Thời hạn bảo dưỡng</th>
                                     <th>Tổng thời gian hoạt động</th>
                                     <th>Tình trạng hiện tại</th>
                                     <th>Số chế tạo</th>
@@ -611,7 +611,7 @@
                     { "data": "depreciation_estimate", "name": "depreciation_estimate" },
                     { "data": "depreciation_present", "name": "depreciation_present" },
                     {
-                        "data": "durationOfInspection", "name": "durationOfInspection", "render": function (data) {
+                        "data": "durationOfInspection_fix", "name": "durationOfInspection", "render": function (data) {
                             return dateFormat2(data) + " ";
                         },
                     },
@@ -626,7 +626,7 @@
                         },
                     },
                     {
-                        "data": "nearest_Maintenance_Day", "name": "nearest_Maintenance_Day", "render": function (data) {
+                        "data": "durationOfMaintainance", "name": "durationOfMaintainance", "render": function (data) {
                             return dateFormat2(data) + " ";
                         },
                     },
@@ -636,7 +636,7 @@
                     { "data": "mark_code", "name" : "mark_code"},
                     { "data": "quality_type" , "name" : "quality_type"},
                     { "data": "input_channel", "name" : "input_channel"},
-                    { "data": "category_name", "name" : "category_name"},
+                    { "data": "Equipment_category_name", "name" : "Equipment_category_name"},
                     { "data": "department_name" , "name" : "department_name"},
                     //
                     {
@@ -741,7 +741,7 @@
                     { "data": "depreciation_estimate" , "name" : "depreciation_estimate"},
                     { "data": "depreciation_present" , "name" : "depreciation_present" },
                     {
-                         "data": "durationOfInspection", "name": "durationOfInspection", "render": function (data) {
+                         "data": "durationOfInspection_fix", "name": "durationOfInspection", "render": function (data) {
                 return dateFormat2(data) + " ";
             },
                     },
@@ -756,9 +756,9 @@
             },
                     },
                     {
-                         "data": "nearest_Maintenance_Day", "name": "nearest_Maintenance_Day", "render": function (data) {
-                return dateFormat2(data) + " ";
-            },
+                        "data": "durationOfMaintainance", "name": "durationOfMaintainance", "render": function (data) {
+                            return dateFormat2(data) + " ";
+                        },
                     },
                     { "data": "total_operating_hours" , "name" : "total_operating_hours"},
                     { "data": "statusname", "name" : "statusname"},

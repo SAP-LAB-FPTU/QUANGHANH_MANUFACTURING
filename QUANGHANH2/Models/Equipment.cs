@@ -44,7 +44,7 @@ namespace QUANGHANH2.Models
         public System.DateTime durationOfInspection { get; set; }
         public System.DateTime durationOfInsurance { get; set; }
         public System.DateTime usedDay { get; set; }
-        public System.DateTime nearest_Maintenance_Day { get; set; }
+        public System.DateTime durationOfMaintainance { get; set; }
         public int total_operating_hours { get; set; }
         public int current_Status { get; set; }
         public Nullable<double> fabrication_number { get; set; }

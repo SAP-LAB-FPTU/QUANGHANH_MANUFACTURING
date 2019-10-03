@@ -12,15 +12,12 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ChiTiet_NhiemVu_NhanVien
+    public partial class Equipment_Category_Supply
     {
-        public System.DateTime NgayNhanNhiemVu { get; set; }
-        public string MaNV { get; set; }
-        public int MaNhiemVu { get; set; }
-        public int MaChiTiet_NhiemVu_NhanVien { get; set; }
-        public bool IsInProcess { get; set; }
+        public int ecsId { get; set; }
+        public string Equipment_category_id { get; set; }
+        public string supply_id { get; set; }
     
-        public virtual NhanVien NhanVien { get; set; }
-        public virtual NhiemVu NhiemVu { get; set; }
+        public virtual Supply Supply { get; set; }
     }
 }
