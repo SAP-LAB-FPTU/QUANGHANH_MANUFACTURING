@@ -16,20 +16,20 @@
                         <h3><b>BÁO CÁO NHANH NĂNG SUẤT, LAO ĐỘNG</b></h3>
                         <h5>
                             <i class="fas fa-calendar-alt icon"></i>
-                            <input type='text' class='datepicker-here center' data-language='vi' />
+                            <input type='text' class='datepicker-here center' id="minMaxDate" data-language='vi' />
                         </h5>
                     </div>
                     <hr />
-                    <div class="col s12">
-                        <ul class="tabs">
-                            <li class="tab col l6 s6">
-                                <a class="active" href="#baocaonhanh">Báo cáo nhanh theo ngày</a>
-                            </li>
-                            <li class="tab col l6 s6">
-                                <a href="#chitiet">Chi tiết báo cáo nhanh</a>
-                            </li>
-                        </ul>
-                    </div>
+                    @*<div class="col s12">
+                            <ul class="tabs">
+                                <li class="tab col l6 s6">
+                                    <a class="active" href="#baocaonhanh">Báo cáo nhanh theo ngày</a>
+                                </li>
+                                <li class="tab col l6 s6">
+                                    <a href="#chitiet">Chi tiết báo cáo nhanh</a>
+                                </li>
+                            </ul>
+                        </div>*@
                 </div>
             </div>
         </div>
@@ -40,30 +40,25 @@
 
 <div class="row" id="baocaonhanh">
     <div class="col l6 m6 s12">
-        <div class="card warning-gradient card-hover" id="notice">
+        <div class="card @(ViewBag.hetHanChungChi==0?"info-gradient":"warning-gradient") card-hover" id="chungchi-container">
             <div class="card-content">
                 <div class="d-flex no-block align-items-center">
                     <div>
-                        <h3 class="white-text m-b-5">Xảy ra 1 sự cố</h3>
-                        <h6 class="white-text op-1">Đang xử lý</h6>
-                        <h6 class="white-text op-1"></h6>
-                        <br />
-                    </div>
-                    <div class="ml-auto">
-                        <span class="white-text display-6">
-                            <i class="material-icons dp48">report_problem</i>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col l6 m6 s12">
-        <div class="card warning-gradient card-hover" id="notice">
-            <div class="card-content">
-                <div class="d-flex no-block align-items-center">
-                    <div>
-                        <h3 class="white-text m-b-5">1 nhân viên hêt hạn chứng chỉ</h3>
+                        @if (@ViewBag.hetHanChungChi == null)
+                        {
+                            <h3 id="chungchi-info" class="white-text m-b-5">Chưa có dữ liệu</h3>
+                        }
+                        else
+                        {
+                            if (@ViewBag.hetHanChungChi == 0)
+                            {
+                                <h3 id="chungchi-info" class="white-text m-b-5">Không có chứng chỉ hết hạn </h3>
+                            }
+                            else
+                            {
+                                <h3 id="chungchi-info" class="white-text m-b-5">@ViewBag.hetHanChungChi nhân viên hêt hạn chứng chỉ</h3>
+                            }
+                        }
                         <h6 class="white-text op-1">Chứng chỉ</h6>
                         <h6 class="white-text op-1"></h6>
                         <br>
@@ -78,11 +73,25 @@
         </div>
     </div>
     <div class="col l6 m6 s12">
-        <div class="card info-gradient card-hover">
+        <div class="card info-gradient  info-gradient  card-hover" id="huydong-container">
             <div class="card-content">
                 <div class="d-flex no-block align-items-center">
                     <div>
-                        <h3 class="white-text m-b-5">3 lượt huy động</h3>
+                        @if (@ViewBag.soLuotHuyDong == null)
+                        {
+                            <h3 id="huydong-info" class="white-text m-b-5">Chưa có dữ liệu</h3>
+                        }
+                        else
+                        {
+                            if (@ViewBag.soLuotHuyDong == 0)
+                            {
+                                <h3 id="huydong-info" class="white-text m-b-5">Không có lượt huy động nào</h3>
+                            }
+                            else
+                            {
+                                <h3 id="huydong-info" class="white-text m-b-5">@ViewBag.soLuotHuyDong lượt huy động</h3>
+                            }
+                        }
                         <h6 class="white-text op-1">Huy động</h6>
                         <h6 class="white-text op-1"></h6>
                         <br />
@@ -97,12 +106,26 @@
         </div>
     </div>
     <div class="col l6 m6 s12">
-        <div class="card info-gradient card-hover">
+        <div class="card @(ViewBag.vuTaiNan==0?"info-gradient":"warning-gradient") card-hover" id="tainan-container">
             <div class="card-content">
                 <div class="d-flex no-block align-items-center">
                     <div>
-                        <h3 class="white-text m-b-5">3 vụ tai nạn nhẹ</h3>
-                        <h6 class="white-text op-1">Công tác an toàn</h6>
+                        @if (@ViewBag.vuTaiNan == null)
+                        {
+                            <h3 id="tainan-info" class="white-text m-b-5">Chưa có dữ liệu</h3>
+                        }
+                        else
+                        {
+                            if (@ViewBag.vuTaiNan == 0)
+                            {
+                                <h3 id="tainan-info" class="white-text m-b-5">Không có vụ tai nạn nào</h3>
+                            }
+                            else
+                            {
+                                <h3 id="tainan-info" class="white-text m-b-5">@ViewBag.vuTaiNan vụ tai nạn</h3>
+                            }
+                        }
+                        <h6 class="white-text op-1">An toàn lao động</h6>
                         <h6 class="white-text op-1"></h6>
                         <br>
                     </div>
@@ -116,161 +139,161 @@
         </div>
     </div>
     <div class="col l6 m6 s12">
-        <div class="card success-gradient card-hover">
+        <div class="card @(ViewBag.nghiVLD==0?"info-gradient":"warning-gradient") card-hover" id="vld-container">
             <div class="card-content">
                 <div class="d-flex no-block align-items-center">
                     <div>
-                        <h3 class="white-text m-b-5">33%</h3>
-                        <h6 class="white-text op-1">Mức độ doanh thu hiện tại so với tháng</h6>
-                        <h6 class="white-text op-1"></h6>
-                        <br>
-                    </div>
-                    <div class="ml-auto">
-                        <span class="white-text display-6">
-                            <i class="fas fa-dollar-sign"></i>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col l6 m6 s12">
-        <div class="card success-gradient card-hover">
-            <div class="card-content">
-                <div class="d-flex no-block align-items-center">
-                    <div>
-                        <h3 class="white-text m-b-5">12 công nhân</h3>
+                        @if (@ViewBag.nghiVLD == null)
+                        {
+                            <h3 id="vld-info" class="white-text m-b-5">Chưa có dữ liệu</h3>
+                        }
+                        else
+                        {
+                            if (@ViewBag.nghiVLD == 0)
+                            {
+                                <h3 id="vld-info" class="white-text m-b-5">Không có lượt nghỉ VLD nào</h3>
+                            }
+                            else
+                            {
+                                <h3 id="vld-info" class="white-text m-b-5">@ViewBag.nghiVLD lượt nghỉ VLD</h3>
+                            }
+                        }
                         <h6 class="white-text op-1">Nghỉ vô lý do</h6>
                         <h6 class="white-text op-1"></h6>
                         <br>
                     </div>
                     <div class="ml-auto">
                         <span class="white-text display-6">
-                            <i class="fas fa-bed"></i>
+                            <i class="fas fa-blind"></i>
                         </span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col l6 s12 m6">
-            <div class="card">
-                <div class="card-content analytics-info">
-                    <h5 class="card-title">Báo cáo tỷ lệ huy động trong ngày 19/10</h5>
-                    <div id="basic-pie" style="height:400px;"></div>
-                </div>
-            </div>
-        </div>
-        <div class="col s12 l6 m6">
-            <div class="card">
-                <div class="card-content analytics-info">
-                    <h5 class="card-title">Biểu đồ năng suất lao động trong ngày 19/10</h5>
-                    <div id="basic-line" style="height:400px;"></div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col l6 s12">
-                <div class="card">
-                    <div class="card-content analytics-info">
-                        <h5 class="card-title">Lao động nghỉ VLD</h5>
-                        <div id="table_nghidai" style="height:400px;"></div>
-                    </div>
-                </div>
-            </div>
+</div>
 
-            <div class="col l6 s12">
-                <div class="card">
-                    <div class="card-content">
-                        <h5 class="card-title">Báo cáo sản lượng</h5>
-                        <div id="table_sanluong"></div>
-                    </div>
+<div class="row">
+    <div class="col l6 s12 m6">
+        <div class="card">
+            <div class="card-content analytics-info">
+                <h5 class="card-title">Báo cáo tỷ lệ huy động trong ngày </h5>
+                <div id="basic-pie" style="height:400px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col s12 l6 m6">
+        <div class="card">
+            <div class="card-content analytics-info">
+                <h5 class="card-title">Biểu đồ năng suất lao động trong ngày </h5>
+                <div id="basic-line" style="height:400px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col l6 s12">
+            <div class="card">
+                <div class="card-content analytics-info">
+                    <h5 class="card-title">Lao động nghỉ VLD</h5>
+                    <div id="table_nghidai" style="height:400px;"></div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col l12 s12">
-                <div class="card">
-                    <div class="card-content analytics-info">
-                        <h5 class="card-title">Biểu đồ nhân lực trong ngày 19/10</h5>
-                        <div id="basic-bar" style="height:400px;"></div>
-                    </div>
+
+        <div class="col l6 s12">
+            <div class="card">
+                <div class="card-content">
+                    <h5 class="card-title">Báo cáo sản lượng</h5>
+                    <div id="table_sanluong"></div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col l12 s12">
+            <div class="card">
+                <div class="card-content analytics-info">
+                    <h5 class="card-title">Biểu đồ nhân lực trong ngày </h5>
+                    <div id="basic-bar" style="height:400px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 
 <!-- Chi tiet -->
-
-<div class="row" id="chitiet">
-    <div class="col s12 m12 l12">
-        <div class="card">
-            <div class="card-content">
-                <div class="center">
-                    <h5 class="black-text m-b-5">Báo cáo nhanh theo ngày</h5>
-                </div>
-                <div class="table-responsive">
-                    <table class="table table-bordered centered">
-                        <thead>
-                            <tr>
-                                <th>STT</th>
-                                <th>Đơn vị</th>
-                                <th>Lũy kế NSLĐ</th>
-                                <th>Tổng nhân lực</th>
-                                <th>Điểm lương phân phối cho người lao động</th>
-                                <th>Điểm lương bình quân</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="black-text text-darken-4">
-                                <td>1</td>
-                                <td><a href="@Url.Content("/phong-tcld/bao-cao-nhanh-lao-dong-tien-luong-vtl1")">Vận tải lò 1</a></td>
-                                <td>13,5</td>
-                                <td>181</td>
-                                <td>70768</td>
-                                <td>463</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td><a href="@Url.Content("/phong-tcld/bao-cao-nhanh-lao-dong-tien-luong-vtl1")">Khai thác 1</a></td>
-                                <td>15.5</td>
-                                <td>194</td>
-                                <td>74623</td>
-                                <td>4533</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td><a href="@Url.Content("/phong-tcld/bao-cao-nhanh-lao-dong-tien-luong-vtl1")">Khai thác 2</a></td>
-                                <td>17</td>
-                                <td>121</td>
-                                <td>70763</td>
-                                <td>445</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td><a href="@Url.Content("/phong-tcld/bao-cao-nhanh-lao-dong-tien-luong-vtl1")">Khai thác 3</a></td>
-                                <td>15</td>
-                                <td>121</td>
-                                <td>70763</td>
-                                <td>445</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td><a href="@Url.Content("/phong-tcld/bao-cao-nhanh-lao-dong-tien-luong-vtl1")">Khai thác 6</a></td>
-                                <td>13</td>
-                                <td>99</td>
-                                <td>70763</td>
-                                <td>445</td>
-                            </tr>
-                        </tbody>
-                    </table>
+@*<div class="row" id="chitiet">
+        <div class="col s12 m12 l12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="center">
+                        <h5 class="black-text m-b-5">Báo cáo nhanh theo ngày</h5>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered centered">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Đơn vị</th>
+                                    <th>Lũy kế NSLĐ</th>
+                                    <th>Tổng nhân lực</th>
+                                    <th>Điểm lương phân phối cho người lao động</th>
+                                    <th>Điểm lương bình quân</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="black-text text-darken-4">
+                                    <td>1</td>
+                                    <td><a href="@Url.Content("/phong-tcld/bao-cao-nhanh-lao-dong-tien-luong-vtl1")">Vận tải lò 1</a></td>
+                                    <td>13,5</td>
+                                    <td>181</td>
+                                    <td>70768</td>
+                                    <td>463</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td><a href="@Url.Content("/phong-tcld/bao-cao-nhanh-lao-dong-tien-luong-vtl1")">Khai thác 1</a></td>
+                                    <td>15.5</td>
+                                    <td>194</td>
+                                    <td>74623</td>
+                                    <td>4533</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td><a href="@Url.Content("/phong-tcld/bao-cao-nhanh-lao-dong-tien-luong-vtl1")">Khai thác 2</a></td>
+                                    <td>17</td>
+                                    <td>121</td>
+                                    <td>70763</td>
+                                    <td>445</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td><a href="@Url.Content("/phong-tcld/bao-cao-nhanh-lao-dong-tien-luong-vtl1")">Khai thác 3</a></td>
+                                    <td>15</td>
+                                    <td>121</td>
+                                    <td>70763</td>
+                                    <td>445</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td><a href="@Url.Content("/phong-tcld/bao-cao-nhanh-lao-dong-tien-luong-vtl1")">Khai thác 6</a></td>
+                                    <td>13</td>
+                                    <td>99</td>
+                                    <td>70763</td>
+                                    <td>445</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </div>*@
+<script>
+    var tren82 =@ViewBag.tren82;
+    var duoi82= @ViewBag.duoi82;
+</script>
 <!-- Editable -->
 <script type="text/javascript" src="~/assets/libs/jsgrid/dist/jsgrid.min.js"></script>
 <script src="~/dist/dashboard_Tuan/jsgrid-init_Tuan.js"></script>
@@ -295,13 +318,181 @@
 <script src="~/js/Custom JS/TCLD/table_init.js"></script>
 <!--Auto -->
 <script>
+
+</script>
+<script>
     $(document).ready(function () {
         $('.datepicker-inline').remove();
     });
     $(document).ready(function () {
-        var date = new Date();
+        var date = new Date(new Date().setDate(new Date().getDate() - 1));
         var d = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
         $(".datepicker-here").val(d);
     });
+
 </script>
+<script>
+    var prevDay;
+    $('#minMaxDate').datepicker({
+        language: 'vi',
+        maxDate: new Date(new Date().setDate(new Date().getDate() - 1)), // Now can select only dates, which goes after today
+        onSelect: function (fd, d, picker) {
+            if (!d) return;
+            var day = d.getDay();
+            if (prevDay != undefined && prevDay == day) return;
+            prevDay = day;
+            //alert($('#minMaxDate').val());
+            $("#pre-load").show("slow", function () {
+            });
+            $("#pre-load").css("z-index", "99999");
+            $.ajax({
+                type: 'post',
+                url: '/phong-tcld/get-data',
+                data: { date: $('#minMaxDate').val() },
+                success: function (response) {
+                    if (response.success) {
+                        $("#pre-load").hide("slow", function () {
+                        });
+                        ////////////////////////////////////////////////////////////////
+                        if (response.soLuongHuyDong === 0) {
+                            $("#huydong-info").text("Không có lượt huy động nào");
+                        } else {
+                            $("#huydong-info").text(response.soLuongHuyDong + " lượt huy động");
+                        }
+                        if (response.hetHanChungChi === 0) {
+                            $("#chungchi-info").text("Không NV hết hạn chứng chỉ");
+                            $("#chungchi-container").removeClass("warning-gradient");
+                            $("#chungchi-container").addClass("info-gradient");
+                        } else {
+                            $("#chungchi-info").text(response.hetHanChungChi + " NV hết hạn chứng chỉ");
+                            $("#chungchi-container").removeClass("info-gradient");
+                            $("#chungchi-container").addClass("warning-gradient");
+                        }
+                        if (response.vuTaiNan === 0) {
+                            $("#tainan-info").text("Không có vụ tai nạn nào");
+                            $("#tainan-container").removeClass("warning-gradient");
+                            $("#tainan-container").addClass("info-gradient");
+                        } else {
+                            $("#tainan-info").text(response.vuTaiNan + " vụ tai nạn");
+                            $("#tainan-container").removeClass("info-gradient");
+                            $("#tainan-container").addClass("warning-gradient");
+                        }
+                        if (response.nghiVLD === 0) {
+                            $("#vld-info").text("Không có lượt nghỉ VLD nào");
+                            $("#vld-container").removeClass("warning-gradient");
+                            $("#vld-container").addClass("info-gradient");
+                        } else {
+                            $("#vld-info").text(response.nghiVLD + " lượt nghỉ VLD");
+                            $("#vld-container").removeClass("info-gradient");
+                            $("#vld-container").addClass("warning-gradient");
+                        }
+                        ////////////////////////////////////////////////////////////////
+                        tren82 = response.tren82;
+                        duoi82 = response.duoi82;
+                        var basicpieChart = echarts.init(document.getElementById('basic-pie'));
+                        option = {
+                            tooltip: {
+                                trigger: 'item',
+                                formatter: "{a} <br/>{b}: {c} ({d}%)",
+                                align: 'center'
+                            },
+                            // Add legend
+                            legend: {
+                                orient: 'vertical',
+                                x: '5%',
+                                y: '88%',
+                                data: ['Huy động dưới 82%', 'Huy động trên 82%']
+                            },
+                            // Add custom colors
+                            color: ['#f62d51', '#2962FF'],
+
+                            // Display toolbox
+                            toolbox: {
+                                show: false,
+                                orient: 'vertical',
+                                feature: {
+                                    mark: {
+                                        show: true,
+                                        title: {
+                                            mark: 'Markline switch',
+                                            markUndo: 'Undo markline',
+                                            markClear: 'Clear markline'
+                                        }
+                                    },
+                                    dataView: {
+                                        show: false,
+                                        readOnly: false,
+                                        title: 'View data',
+                                        lang: ['View chart data', 'Close', 'Update']
+                                    },
+                                    magicType: {
+                                        show: true,
+                                        title: {
+                                            pie: 'Switch to pies',
+                                            funnel: 'Switch to funnel',
+                                        },
+                                        type: ['pie', 'funnel'],
+                                        option: {
+                                            funnel: {
+                                                x: '35%',
+                                                y: '20%',
+                                                width: '50%',
+                                                height: '70%',
+                                                funnelAlign: 'left',
+                                                max: 1548
+                                            }
+                                        }
+                                    },
+                                    restore: {
+                                        show: false,
+                                        title: 'Restore'
+                                    },
+                                    saveAsImage: {
+                                        show: false,
+                                        title: 'Same as image',
+                                        lang: ['Save']
+                                    }
+                                }
+                            },
+
+                            // Enable drag recalculate
+                            calculable: true,
+
+                            // Add series
+                            series: [{
+                                name: 'Các phòng ban',
+                                type: 'pie',
+                                radius: '60%',
+                                center: ['50%', '45.5%'],
+                                label: {
+                                    formatter: "{d}%",
+                                    show: true,
+                                },
+                                data: [{
+                                    value: duoi82,
+                                    name: 'Huy động dưới 82%'
+
+                                },
+                                {
+                                    value: tren82,
+                                    name: 'Huy động trên 82%'
+                                }
+                                ]
+                            }]
+                        };
+                        basicpieChart.setOption(option);
+                        //////////////////////////////////////////////////////////////////
+                    } else {
+                        errorAlert(response.message);
+                        $("#pre-load").hide("slow", function () {
+                        });
+                    }
+                }
+            });
+
+
+        }
+    })
+</script>
+
 

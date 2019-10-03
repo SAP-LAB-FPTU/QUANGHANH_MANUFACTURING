@@ -239,40 +239,7 @@
 
         });
 
-        function UpdateStatus(form) {
-             $.ajax({
-                 type: 'POST',
-                 url: form.action,
-                success: function (response) {
-                    dataTable.ajax.reload();
-                    $.notify("Cập nhật thành công",{
-                       globalPosition :"top center",
-                       className : "success"
-                    })
-                }
-            });
-        }
 
-        function SubmitForm(form) {
-            $.validator.unobtrusive.parse(form);
-            if($(form).valid()){
-                $.ajax({
-                    type : "POST",
-                    url : form.action,
-                    data : $(form).serialize(),
-                    success : function (data) {
-                            dataTable.ajax.reload();
-
-                            $.notify(data.message,{
-                                globalPosition :"top center",
-                                className : "success"
-                            })
-
-                        }
-                });
-            }
-            return false;
-        }
             function Detail(url) {
              $.get(url)
                  .done(function (response) {
@@ -297,18 +264,6 @@
 
         }
 
-        function Delete(url) {
-             $.get(url)
-                 .done(function (response) {
-                     dataTable.ajax.reload();
-                     $.notify("Hihi Xóa Xong", {
-                         globalPosition: "top center",
-                         className: "success"
-                     })
-                 });
-                return false;
-        }
-
         $("#searchButton").click(function () {
             $("#pre-load").show();
            dataTable.ajax.reload(function () {
@@ -318,7 +273,24 @@
                     })
                 });
                 });
-
+        $("#doccumentid").keyup(function (event) {
+                if (event.keyCode === 13) {
+                    $("#searchButton").click();
+                    $("#doccumentid").blur();
+                }
+        });
+        $("#equimentid").keyup(function (event) {
+        if (event.keyCode === 13) {
+            $("#searchButton").click();
+            $("#equimentid").blur();
+        }
+        });
+        $("#equimentname").keyup(function (event) {
+        if (event.keyCode === 13) {
+            $("#searchButton").click();
+            $("#equimentname").blur();
+        }
+        });
           
     </script>
 }

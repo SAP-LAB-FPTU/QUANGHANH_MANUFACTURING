@@ -106,7 +106,7 @@
                             <table id="giayto_detail" class="table table-bordered table-responsive centered highlight">
                                 <thead>
                                     <tr>
-                     
+
                                         <th>Tên giấy tờ</th>
                                         <th>Kiểu giấy tờ</th>
                                     </tr>
@@ -139,9 +139,6 @@
                                         <th>Ngành</th>
                                         <th>Ngày cấp</th>
                                         <th>Thời hạn</th>
-
-
-
 
                                     </tr>
                                 </thead>
@@ -313,7 +310,7 @@
         $(document).ready(function () {
             datatable_hs = $('#hoso_detail').DataTable({
                 "ajax": {
-                    "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/chi-tiet-ho-so",
+                    "url": '@Url.Action("listHoSo","Brief")',
                     "type": "POST",
                     "datatype": "json"
                 },
@@ -343,7 +340,7 @@
                     },
                     { "data": "donViKyQuyetDinhTiepNhan", "name": "donViKyQuyetDinhTiepNhan" },
                     { "data": "quyetDinhChamDut", "name": "quyetDinhChamDut" },
-                  
+
                     {
                         "data": "ngayQDChamDut", "name": "ngayQDChamDut", "render": function (data) {
                             return dateFormat(data);
@@ -375,7 +372,7 @@
                     "zeroRecords": "Không có dữ liệu",
                 },
                 "initComplete": function () {
-                    
+
                 }, "bPaginate": false
             });
 
@@ -407,7 +404,7 @@
         getBasicInfo();
         datatable_chitiet = $('#giayto_detail').DataTable({
             "ajax": {
-                "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/chi-tiet-giay-to",
+                "url": '@Url.Action("listGiayTo", "Brief")',
                 "type": "POST",
                 "datatype": "json"
             },
@@ -437,8 +434,8 @@
     });
     function getBasicInfo() {
         $.ajax({
-            type: "GET",
-            url: "/Brief/listNhanVien",
+            type: "POST",
+            url: '@Url.Action("listNhanVien","Brief")',
             dataType: "json",
             success: function (data) {
                 $('#cb_maNV').val(data.data[0].maNV);
@@ -457,7 +454,7 @@
     var chungchichitiet, stt;
     $("#pre-load").show();
     $(document).ready(function () {
-        getBasicInfo();
+
         datatable_chitiet = $('#chung_chi_chi_tiet').DataTable({
             "ajax": {
                 "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/chi-tiet-chung-chi",
@@ -473,7 +470,7 @@
                         return dateFormat(data);
                     },
                 }
-                
+
 
 
 
@@ -505,7 +502,7 @@
     $(document).ready(function () {
         datatable_bangcap = $('#bangcap_detail').DataTable({
             "ajax": {
-                "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/chi-tiet-bang-cap",
+                "url": '@Url.Action("chiTietbangCap", "Brief")',
                 "type": "POST",
                 "datatype": "json"
             },
@@ -523,10 +520,10 @@
                     },
                 },
                 { "data": "thoiHan", "name": "thoiHan" }
-               
-                
-                
-                
+
+
+
+
 
                 //{
                 //    "data": "MaNV", "render": function (data) {
@@ -576,7 +573,7 @@
     $(document).ready(function () {
         datatable_quanhe = $('#quanhe_detail').DataTable({
             "ajax": {
-                "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/quan-he-gia-dinh",
+                "url": '@Url.Action("quanHeGiadinh", "Brief")',
                 "type": "POST",
                 "datatype": "json"
             },
@@ -585,14 +582,14 @@
                 { "data": "moiQuanhe", "name": "moiQuanhe" },
                 { "data": "tenQH", "name": "tenQH" },
 
-                
+
                 {
                     "data": "ngaySinh", "name": "ngaySinh", "render": function (data) {
                         return dateFormat(data);
                     },
                 },
                 { "data": "lyLich", "name": "lyLich" }
-                
+
 
             ],
             "serverSide": "true",
@@ -602,7 +599,7 @@
             "bInfo": false,
             "bAutoWidth": false,
             "language": {
-                
+
                 "zeroRecords": "Không có dữ liệu",
 
             },
@@ -636,7 +633,7 @@
     $(document).ready(function () {
         datatable_syll = $('#syll_detail').DataTable({
             "ajax": {
-                "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/syll-bo-sung",
+                "url": '@Url.Action("listLichSuBoSung", "Brief")',
                 "type": "POST",
                 "datatype": "json"
             },
@@ -684,28 +681,25 @@
                 }
                 function SubmitForm(form) {
                     $.validator.unobtrusive.parse(form);
-
-                    if ($(this).valid()) {
+                    if ($(form).valid()) {
                         $("#pre-load").show("slow", function () {
                         });
                         $("#pre-load").css("z-index", "99999");
                         $.ajax({
-                            url: form.action,
                             type: "POST",
-                            data: function () {
-                                return $(form).serialize()
-                            },
+                            url: form.action,
+                            data: $(form).serialize(),
                             success: function (data) {
-                                if (data.success) {
-                                    successAlert('Thành công', '');
-                                    dataTable.ajax.reload();
-                                }
-                                else {
-                                    errorAlert('Lỗi', 'Thử lại');
-                                }
+                                dataTable.ajax.reload();
+                                dataCertificateEmp.ajax.reload();
                                 $("#pre-load").hide("slow", function () {
                                 });
+                                successAlert('Thành công', '');
+                                $(".modal").modal();
                             },
+                            error: function () {
+                                errorAlert('Lỗi', 'Thử lại');
+                            }
                         })
                     }
                     return false;
@@ -728,6 +722,7 @@
         }
 
     }
+
 </script>
 
 

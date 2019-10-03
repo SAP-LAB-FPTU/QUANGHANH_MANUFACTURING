@@ -233,9 +233,16 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
                 for (int i = 0; i < result.Count; i++)
                 {
-                    ((DieuDongModel)result[i]).HoTen = getInfo[i].Ten;
-                    ((DieuDongModel)result[i]).DonViHienTai = getInfo[i].department_name;
-                    ((DieuDongModel)result[i]).ChucVuHienTai = new ChucVuModel(getInfo[i].MaCongViec.ToString(), getInfo[i].TenCongViec);
+                    for(int j = 0; j < result.Count; j++)
+                    {
+                        if (((DieuDongModel)result[j]).MaNV==getInfo[i].MaNV)
+                        {
+                            ((DieuDongModel)result[j]).HoTen = getInfo[i].Ten;
+                            ((DieuDongModel)result[j]).DonViHienTai = getInfo[i].department_name;
+                            ((DieuDongModel)result[j]).ChucVuHienTai = new ChucVuModel(getInfo[i].MaCongViec.ToString(), getInfo[i].TenCongViec);
+                        }
+                    }
+                    
                 }
             }
             List<DieuDongModel> listNhanVien = new List<DieuDongModel>();
@@ -570,8 +577,31 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
         }
 
-
-
+        [Route("phong-tcld/dieu-chuyen/check-duplicate-sqd")]
+        [HttpPost]
+        public ActionResult checkDuplicateSQD()
+        {
+            string sqd = Request["SoQD"];
+            if (sqd != null && sqd != "")
+            {
+                int result;
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    string sql = "select count(SoQuyetDinh) as sqd from QuyetDinh\n" +
+                    "where soQuyetDInh = @SoQD ";
+                    result=db.Database.SqlQuery<int>(sql,new SqlParameter("SoQD",sqd)).ToList<int>()[0];
+                }
+                if (result != 0)
+                {
+                    return Json(new { success = true, data = true });
+                }
+                else
+                {
+                    return Json(new { success = true, data = false });
+                }
+            }
+            return Json(new { success = false, message = "Lỗi" });
+        }
 
         /////////////////////////////////////////////QD DA XU LY////////////////////////////////////////////////////
 
@@ -1038,7 +1068,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                             tr.Append(tc6);
 
                             TableCell tc7 = new TableCell();
-                            tc7.Append(new Paragraph(new Run(new Text(d.BacLuongMoi))));
+                            tc7.Append(new Paragraph(new Run(new Text(d.BacLuongMoi==null?"0":d.BacLuongMoi))));
                             tr.Append(tc7);
 
                             TableCell tc8 = new TableCell();

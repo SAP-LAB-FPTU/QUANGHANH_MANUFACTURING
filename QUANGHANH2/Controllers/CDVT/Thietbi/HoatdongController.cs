@@ -35,6 +35,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                     List<NewEquipment> equipList = (from p in db.Equipments
                                                     join e in db.Equipment_category on p.Equipment_category_id equals e.Equipment_category_id
                                                     join d in db.Departments on p.department_id equals d.department_id
+                                                    join s in db.Status on p.current_Status equals s.statusid
                                                     select new
                                                     {
                                                         equipmentId = p.equipmentId,
@@ -43,10 +44,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                                                         date_import = p.date_import,
                                                         depreciation_estimate = p.depreciation_estimate,
                                                         depreciation_present = p.depreciation_present,
-                                                        durationOfInspection = p.durationOfInspection,
+                                                        durationOfInspection = (from ei in db.Equipment_Inspection where ei.equipmentId == p.equipmentId select ei.inspect_start_date).Max(),
                                                         durationOfInsurance = p.durationOfInsurance,
                                                         usedDay = p.usedDay,
-                                                        nearest_Maintenance_Day = p.nearest_Maintenance_Day,
+                                                        durationOfMaintainance = p.durationOfMaintainance,
                                                         total_operating_hours = p.total_operating_hours,
                                                         current_Status = p.current_Status,
                                                         fabrication_number = p.fabrication_number,
@@ -56,7 +57,9 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                                                         Equipment_category_id = p.Equipment_category_id,
                                                         department_id = p.department_id,
                                                         department_name = d.department_name,
-                                                        category_name = e.Equipment_category_name
+                                                        category_name = e.Equipment_category_name,
+                                                        statusname = s.statusname
+
                                                     }).ToList().Select(p => new NewEquipment
                                                     {
                                                         equipmentId = p.equipmentId,
@@ -65,10 +68,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                                                         date_import = p.date_import,
                                                         depreciation_estimate = p.depreciation_estimate,
                                                         depreciation_present = p.depreciation_present,
-                                                        durationOfInspection = p.durationOfInspection,
+                                                        durationOfInspection = (System.DateTime)p.durationOfInspection,
                                                         durationOfInsurance = p.durationOfInsurance,
                                                         usedDay = p.usedDay,
-                                                        nearest_Maintenance_Day = p.nearest_Maintenance_Day,
+                                                        durationOfMaintainance =(System.DateTime) p.durationOfMaintainance,
                                                         total_operating_hours = p.total_operating_hours,
                                                         current_Status = p.current_Status,
                                                         fabrication_number = p.fabrication_number,
@@ -78,7 +81,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                                                         Equipment_category_id = p.Equipment_category_id,
                                                         department_id = p.department_id,
                                                         department_name = p.department_name,
-                                                        category_name = p.category_name
+                                                        category_name = p.category_name,
+                                                        statusname = p.statusname
                                                     }).ToList();
                     int k = 2;
                     for (int i = 0; i < equipList.Count; i++)
@@ -92,7 +96,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         excelWorksheet.Cells[k, 7].Value = equipList.ElementAt(i).durationOfInspection.ToString("dd/MM/yyyy");
                         excelWorksheet.Cells[k, 8].Value = equipList.ElementAt(i).durationOfInsurance.ToString("dd/MM/yyyy");
                         excelWorksheet.Cells[k, 9].Value = equipList.ElementAt(i).usedDay.ToString("dd/MM/yyyy");
-                        excelWorksheet.Cells[k, 10].Value = equipList.ElementAt(i).nearest_Maintenance_Day.ToString("dd/MM/yyyy");
+                        excelWorksheet.Cells[k, 10].Value = equipList.ElementAt(i).durationOfMaintainance.ToString("dd/MM/yyyy");
                         excelWorksheet.Cells[k, 11].Value = equipList.ElementAt(i).total_operating_hours;
                         excelWorksheet.Cells[k, 12].Value = equipList.ElementAt(i).current_Status;
                         excelWorksheet.Cells[k, 13].Value = equipList.ElementAt(i).fabrication_number;
@@ -115,6 +119,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         [HttpGet]
         public ActionResult Index()
         {
+
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             List<Department> listDepeartment = db.Departments.ToList<Department>();
             ViewBag.listDepeartment = listDepeartment;
@@ -134,6 +139,14 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             Equipment emp = new Equipment();
             ViewBag.e = emp;
             ViewBag.Thongke = etk;
+            List<SelectListItem> listStatus = new List<SelectListItem>();
+            var statsu = db.Status.ToList<Status>();
+            foreach (Status item in statsu)
+            {
+                listStatus.Add(new SelectListItem { Text = item.statusid.ToString(), Value = item.statusname });
+            }
+            //listForSelect.Add(new SelectListItem { Text = "Your text", Value = "TRAI" });
+            ViewBag.listStatus = listStatus;
             return View("/Views/CDVT/Hoat_dong.cshtml");
         }
 
@@ -168,6 +181,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 var equipList = (from p in db.Equipments
                                  join e in db.Equipment_category on p.Equipment_category_id equals e.Equipment_category_id
                                  join d in db.Departments on p.department_id equals d.department_id
+                                 join s in db.Status on p.current_Status equals s.statusid
                                  select new
                                  {
                                      equipmentId = p.equipmentId,
@@ -176,10 +190,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                                      date_import = p.date_import,
                                      depreciation_estimate = p.depreciation_estimate,
                                      depreciation_present = p.depreciation_present,
-                                     durationOfInspection = p.durationOfInspection,
+                                     durationOfInspection = (from di in db.Equipment_Inspection where di.equipmentId == p.equipmentId select di.inspect_start_date).Max(),
                                      durationOfInsurance = p.durationOfInsurance,
                                      usedDay = p.usedDay,
-                                     nearest_Maintenance_Day = p.nearest_Maintenance_Day,
+                                     durationOfMaintainance = p.durationOfMaintainance,
                                      total_operating_hours = p.total_operating_hours,
                                      current_Status = p.current_Status,
                                      fabrication_number = p.fabrication_number,
@@ -189,7 +203,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                                      Equipment_category_id = p.Equipment_category_id,
                                      department_id = p.department_id,
                                      department_name = d.department_name,
-                                     category_name = e.Equipment_category_name
+                                     category_name = e.Equipment_category_name,
+                                     statusname = s.statusname
                                  }).ToList().Select(p => new NewEquipment
                                  {
                                      equipmentId = p.equipmentId,
@@ -198,10 +213,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                                      date_import = p.date_import,
                                      depreciation_estimate = p.depreciation_estimate,
                                      depreciation_present = p.depreciation_present,
-                                     durationOfInspection = p.durationOfInspection,
+                                     durationOfInspection = (System.DateTime) p.durationOfInspection,
                                      durationOfInsurance = p.durationOfInsurance,
                                      usedDay = p.usedDay,
-                                     nearest_Maintenance_Day = p.nearest_Maintenance_Day,
+                                     durationOfMaintainance = p.durationOfMaintainance,
                                      total_operating_hours = p.total_operating_hours,
                                      current_Status = p.current_Status,
                                      fabrication_number = p.fabrication_number,
@@ -211,7 +226,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                                      Equipment_category_id = p.Equipment_category_id,
                                      department_id = p.department_id,
                                      department_name = p.department_name,
-                                     category_name = p.category_name
+                                     category_name = p.category_name,
+                                     statusname = p.statusname
                                  }).ToList();
                 int totalrows = equipList.Count;
                 int totalrowsafterfiltering = equipList.Count;
@@ -238,12 +254,14 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         }
         private class NewEquipment : Equipment
         {
+            public string statusname { get; set; }
             public string department_name { get; set; }
             public string category_name { get; set; }
         }
 
         public class EquipWithName : Equipment
         {
+            public string statusname { get; set; }
             public string Equipment_category_name { get; set; }
             public string department_name { get; set; }
         }
@@ -266,7 +284,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             //    "on d.department_id = i.department_id where i.start_time BETWEEN @start_time1 AND @start_time2 AND ";
 
             //string query = "select e.equipmentId,e.equipment_name,e.supplier,e.date_import,e.depreciation_estimate,e.depreciation_present,e.durationOfInspection,e.durationOfInsurance,e.usedDay,e.nearest_Maintenance_Day,e.total_operating_hours,e.current_Status,e.fabrication_number,e.mark_code,e.quality_type,e.input_channel,ec.Equipment_category_name,d.department_name from Equipment e, Department d, Equipment_category ec where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id AND ";
-            string query = "select e.*,ec.Equipment_category_name,d.department_name from Equipment e, Department d, Equipment_category ec where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id AND ";
+            string query = "SELECT e.[equipmentId],[equipment_name],[supplier],[date_import],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_start_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection',[durationOfInsurance],[usedDay],[nearest_Maintenance_Day],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name FROM [Equipment] e, Status s, Department d, Equipment_category ec where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id and e.current_Status = s.statusid and ";
             if (!equipmentId.Equals("") || !equipmentName.Equals("") || !department.Equals("") || !quality.Equals("") || !category.Equals("") || !sup.Equals(""))
             {
                 if (!equipmentId.Equals("")) query += "e.equipmentId LIKE @equipmentId AND ";
@@ -334,6 +352,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         {
             List<SelectListItem> listDepeartment = new List<SelectListItem>();
             List<SelectListItem> listCategory = new List<SelectListItem>();
+            List<SelectListItem> listStatus = new List<SelectListItem>();
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 var departments = db.Departments.ToList<Department>();
@@ -349,7 +368,13 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                     listCategory.Add(new SelectListItem { Text = items.Equipment_category_id, Value = items.Equipment_category_name });
 
                 }
+                var statsu = db.Status.ToList<Status>();
+                foreach(Status item in statsu)
+                {
+                    listStatus.Add(new SelectListItem { Text = item.statusid.ToString(), Value = item.statusname });
+                }
                 //listForSelect.Add(new SelectListItem { Text = "Your text", Value = "TRAI" });
+                ViewBag.listStatus = listStatus;
                 ViewBag.listDepeartment = listDepeartment;
                 ViewBag.listCategory = listCategory;
             }
@@ -371,7 +396,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             db.Equipment_category.Add(ec);
-            if (!id[0].Equals(""))
+            if (id != null)
             {
                 for (int i = 0; i < id.Count(); i++)
                 {
@@ -414,11 +439,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 //nearest_Maintenance_Day
                 date = nearmain.Split('/');
                 date_fix = date[1] + "/" + date[0] + "/" + date[2];
-                emp.nearest_Maintenance_Day = Convert.ToDateTime(date_fix);
+                emp.durationOfMaintainance = Convert.ToDateTime(date_fix);
 
 
                 db.Equipments.Add(emp);
-                if (!id[0].Equals(""))
+                if (id != null)
                 {
                     for (int i = 0; i < id.Count(); i++)
                     {
@@ -445,8 +470,28 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         }
 
         [HttpPost]
-        public ActionResult Edit(Equipment emp, string import)
+        public ActionResult Edit(Equipment emp, string import, string inspec, string insua, string used, string main)
         {
+            //import date
+            string[] date = import.Split('/');
+            string date_fix = date[1] + "/" + date[0] + "/" + date[2];
+            emp.date_import = Convert.ToDateTime(date_fix);
+            //durationOfInspection
+            date = inspec.Split('/');
+            date_fix = date[1] + "/" + date[0] + "/" + date[2];
+            emp.durationOfInspection = Convert.ToDateTime(date_fix);
+            //durationOfInsurance
+            date = insua.Split('/');
+            date_fix = date[1] + "/" + date[0] + "/" + date[2];
+            emp.durationOfInsurance = Convert.ToDateTime(date_fix);
+            //usedDay
+            date = used.Split('/');
+            date_fix = date[1] + "/" + date[0] + "/" + date[2];
+            emp.usedDay = Convert.ToDateTime(date_fix);
+            //nearest_Maintenance_Day
+            date = main.Split('/');
+            date_fix = date[1] + "/" + date[0] + "/" + date[2];
+            emp.durationOfMaintainance = Convert.ToDateTime(date_fix);
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 try
@@ -493,6 +538,14 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 }
                 ViewBag.e = emp;
                 emp.date_import = DateTime.Parse(emp.date_import.ToString("dd-MMM-yyyy"));
+                List<SelectListItem> listStatus = new List<SelectListItem>();
+                var statsu = db.Status.ToList<Status>();
+                foreach (Status item in statsu)
+                {
+                    listStatus.Add(new SelectListItem { Text = item.statusid.ToString(), Value = item.statusname });
+                }
+                //listForSelect.Add(new SelectListItem { Text = "Your text", Value = "TRAI" });
+                ViewBag.listStatus = listStatus;
                 return View(db.Equipments.Where(x => x.equipmentId == id).FirstOrDefault<Equipment>());
                 //return Json(new { success = true, message = "Cập nhật thành công" , data= db.Equipments.Where(x => x.equipmentId == id).FirstOrDefault<Equipment>()}, JsonRequestBehavior.AllowGet);
             }
@@ -511,31 +564,34 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
 
         }
 
-        [HttpGet]
-        public ActionResult Delete(string id)
-        {
-            try
-            {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-                {
-                    Equipment emp = db.Equipments.Where(x => x.equipmentId == id).FirstOrDefault<Equipment>();
-                    List<Equipment_attribute> list = db.Equipment_attribute.Where(ea => ea.equipmentId == id).ToList();
-                    for (int i = 0; i < list.Count(); i++)
-                    {
-                        Equipment_attribute e = list.ElementAt(i);
-                        db.Equipment_attribute.Remove(e);
-                    }
-                    db.Equipments.Remove(emp);
-                    db.SaveChanges();
-                }
-                return RedirectToAction("GetData");
-                // return Json(new { success = true, html = GlobalClass.RenderRazorViewToString(this, "ViewAll", getAllEquipments()), message = "Deleted Successfully" }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
-            }
-        }
+
+        //[HttpGet]
+        //public ActionResult Delete(string id)
+        //{
+        //    try
+        //    {
+        //        using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+        //        {
+        //            Equipment emp = db.Equipments.Where(x => x.equipmentId == id).FirstOrDefault<Equipment>();
+        //            List<Equipment_attribute> list = db.Equipment_attribute.Where(ea => ea.equipmentId == id).ToList();
+        //            for (int i = 0; i < list.Count(); i++)
+        //            {
+        //                Equipment_attribute e = list.ElementAt(i);
+        //                db.Equipment_attribute.Remove(e);
+        //            }
+        //            Equipment_Inspection ei = db.Equipment_Inspection.Where(x => x.equipmentId == emp.equipmentId).FirstOrDefault();
+        //            db.Equipment_Inspection.Remove(ei);
+        //            db.Equipments.Remove(emp);
+        //            db.SaveChanges();
+        //        }
+        //        return RedirectToAction("GetData");
+        //        // return Json(new { success = true, html = GlobalClass.RenderRazorViewToString(this, "ViewAll", getAllEquipments()), message = "Deleted Successfully" }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
 
     }
 }

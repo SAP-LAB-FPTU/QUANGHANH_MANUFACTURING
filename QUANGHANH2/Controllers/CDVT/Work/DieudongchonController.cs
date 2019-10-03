@@ -105,6 +105,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                         string department_detail = (string)item.Value["department_detail"];
                         string equipment_moveline_reason = (string)item.Value["equipment_moveline_reason"];
                         string datestring = (string)item.Value["date_to"];
+                        if (documentary_code != "")
+                        {
+                            Equipment e = DBContext.Equipments.Find(equipmentId);
+                            e.current_Status = 6;
+                        }
                         DateTime date_to = DateTime.ParseExact(datestring, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                         Documentary_moveline_details drd = new Documentary_moveline_details();
                         drd.equipment_moveline_status = 0;
