@@ -13,7 +13,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
     public class Temp
     {
         public string abc { get; set; }
-    }
+    }/*a*/
     public class DashController : Controller
     {
         [Auther(RightID = "001")]
@@ -132,7 +132,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                             select new
                             {
                                count = g.Count()
-                            }).Select(x=> new { count = x.count}).FirstOrDefault();
+                            }).Select(x=> new SL{ count = x.count}).Distinct().FirstOrDefault();
             ViewBag.cogioikhd = tongcogioi.Count() - cogioihd.count;
             ViewBag.cogioihd = cogioihd.count;
             var cogioiSC = (from equip in db.Equipments.Where(x => x.current_Status == 3)
@@ -142,7 +142,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                                         {
                                             equipment_name = equip.equipment_name,
                                             equipmentId = equip.equipmentId
-                                        }).ToList();
+                                        }).ToList().Distinct();
             ViewBag.cogioiSC = cogioiSC;
             var slSC = (from equip in db.Equipments.Where(x => x.current_Status == 3)
                         join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
@@ -151,9 +151,9 @@ namespace QUANGHANHCORE.Controllers.CDVT
                         select new
                         {
                             count = g.Count()
-                        }).Select(x => new { count = x.count }).FirstOrDefault();
+                        }).Select(x => new SL{ count = x.count }).FirstOrDefault();
             if (slSC == null) {
-                slSC = new { count = 0 };
+                slSC = new SL{ count = 0 };
             }
             ViewBag.slSC = slSC.count;
 
@@ -164,7 +164,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                                         {
                                             equipment_name = equip.equipment_name,
                                             equipmentId = equip.equipmentId
-                                        }).ToList();
+                                        }).ToList().Distinct();
             ViewBag.cogioiBD = cogioiBD;
             var slBD = (from equip in db.Equipments.Where(x => x.current_Status == 5)
                         join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
@@ -173,10 +173,10 @@ namespace QUANGHANHCORE.Controllers.CDVT
                         select new
                         {
                             count = g.Count()
-                        }).Select(x => new { count = x.count }).FirstOrDefault();
+                        }).Select(x => new SL{ count = x.count }).FirstOrDefault();
             if (slBD == null)
             {
-                slBD = new { count = 0 };
+                slBD = new SL{ count = 0 };
             }
             ViewBag.slBD = slBD.count;
 
@@ -214,10 +214,10 @@ namespace QUANGHANHCORE.Controllers.CDVT
                         select new
                         {
                             count = g.Count()
-                        }).Select(x => new { count = x.count }).FirstOrDefault();
+                        }).Select(x => new SL{ count = x.count }).FirstOrDefault();
             if (slTL == null)
             {
-                slTL = new { count = 0 };
+                slTL = new SL{ count = 0 };
             }
             ViewBag.slTL = slTL.count;
 
@@ -237,10 +237,10 @@ namespace QUANGHANHCORE.Controllers.CDVT
                         select new
                         {
                             count = g.Count()
-                        }).Select(x => new { count = x.count }).FirstOrDefault();
+                        }).Select(x => new SL { count = x.count }).FirstOrDefault();
             if (slTH == null)
             {
-                slTH = new { count = 0 };
+                slTH = new SL{ count = 0 };
             }
             ViewBag.slTH = slTH.count;
 
@@ -289,7 +289,6 @@ namespace QUANGHANHCORE.Controllers.CDVT
 
         private void Wherecondition(string type, string month, string year)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             string querySC = "";
             string queryBD = "";
             string queryTL = "";
@@ -299,26 +298,20 @@ namespace QUANGHANHCORE.Controllers.CDVT
             {
                 int monthnull = DateTime.Now.Date.Month;
                 int yearnull = DateTime.Now.Date.Year;
-                //var suachua = (from docu in db.Documentaries
-                //                .Where(x => x.documentary_type == 1.ToString())
-                //               join acc in db.Acceptances
-                //               .Where(x => (x.acceptance_date.HasValue ? x.acceptance_date.Value.Month == monthnull : 1 == 1) || (x.acceptance_date.HasValue ? x.acceptance_date.Value.Year == yearnull : 1 == 1))
-                //               on docu.documentary_code equals acc.documentary_id
-                //               select new
-                //               {
-                //                   date = acc.acceptance_date.Value.Day,
-                //                   soluong = 
-                //               });
+                querySC = "select DAY(a.acceptance_date) as [date],COUNT(a.acceptance_date) as soluong from Documentary do , Acceptance a " +
+                             " where do.documentary_id = a.documentary_id and do.documentary_type = 1 " +
+                             " and MONTH(a.acceptance_date) = " + monthnull + " and YEAR(a.acceptance_date) = " + yearnull + " " +
+                             " group by DAY(a.acceptance_date)";
                 queryBD = "select DAY(a.acceptance_date) as [date],COUNT(a.acceptance_date) as soluong from Documentary do , Acceptance a " +
-                             " where do.documentary_code = a.documentary_id and do.documentary_type = 2 " +
+                             " where do.documentary_id = a.documentary_id and do.documentary_type = 2 " +
                              " and MONTH(a.acceptance_date) = " + monthnull + " and YEAR(a.acceptance_date) = " + yearnull + " " +
                              " group by DAY(a.acceptance_date)";
                 queryTL = "select DAY(a.acceptance_date) as [date],COUNT(a.acceptance_date) as soluong from Documentary do , Acceptance a " +
-                             " where do.documentary_code = a.documentary_id and do.documentary_type = 5 " +
+                             " where do.documentary_id = a.documentary_id and do.documentary_type = 5 " +
                              " and MONTH(a.acceptance_date) = " + monthnull + " and YEAR(a.acceptance_date) = " + yearnull + " " +
                              " group by DAY(a.acceptance_date)";
                 queryTDT = "select DAY(a.acceptance_date) as [date],COUNT(a.acceptance_date) as soluong from Documentary do , Acceptance a " +
-                             " where do.documentary_code = a.documentary_id and do.documentary_type = 6 " +
+                             " where do.documentary_id = a.documentary_id and do.documentary_type = 6 " +
                              " and MONTH(a.acceptance_date) = " + monthnull + " and YEAR(a.acceptance_date) = " + yearnull + " " +
                              " group by DAY(a.acceptance_date)";
                 queryKD = "select DAY(e.inspect_end_date) as [date] ,COUNT(e.inspect_end_date) as soluong " +
@@ -330,19 +323,19 @@ namespace QUANGHANHCORE.Controllers.CDVT
                 int thang = Convert.ToInt32(month);
                 int nam = Convert.ToInt32(year);
                 querySC = "select DAY(a.acceptance_date) as [date],COUNT(a.acceptance_date) as soluong from Documentary do , Acceptance a " +
-                             " where do.documentary_code = a.documentary_id and do.documentary_type = 1 " +
+                             " where do.documentary_id = a.documentary_id and do.documentary_type = 1 " +
                              " and MONTH(a.acceptance_date) = " + thang + " and YEAR(a.acceptance_date) = " + nam + " " +
                              " group by DAY(a.acceptance_date)";
                 queryBD = "select DAY(a.acceptance_date) as [date],COUNT(a.acceptance_date) as soluong from Documentary do , Acceptance a " +
-                             " where do.documentary_code = a.documentary_id and do.documentary_type = 2 " +
+                             " where do.documentary_id = a.documentary_id and do.documentary_type = 2 " +
                              " and MONTH(a.acceptance_date) = " + thang + " and YEAR(a.acceptance_date) = " + nam + " " +
                              " group by DAY(a.acceptance_date)";
                 queryTL = "select DAY(a.acceptance_date) as [date],COUNT(a.acceptance_date) as soluong from Documentary do , Acceptance a " +
-                             " where do.documentary_code = a.documentary_id and do.documentary_type = 5 " +
+                             " where do.documentary_id = a.documentary_id and do.documentary_type = 5 " +
                              " and MONTH(a.acceptance_date) = " + thang + " and YEAR(a.acceptance_date) = " + nam + " " +
                              " group by DAY(a.acceptance_date)";
                 queryTDT = "select DAY(a.acceptance_date) as [date],COUNT(a.acceptance_date) as soluong from Documentary do , Acceptance a " +
-                             " where do.documentary_code = a.documentary_id and do.documentary_type = 6 " +
+                             " where do.documentary_id = a.documentary_id and do.documentary_type = 6 " +
                              " and MONTH(a.acceptance_date) = " + thang + " and YEAR(a.acceptance_date) = " + nam + " " +
                              " group by DAY(a.acceptance_date)";
                 queryKD = "select DAY(e.inspect_end_date) as [date] ,COUNT(e.inspect_end_date) as soluong " +
@@ -414,27 +407,27 @@ namespace QUANGHANHCORE.Controllers.CDVT
                              " where DATEADD(year, Number, '01/01/2010') <= GETDATE()) as t left join Equipment_Inspection e " +
                              " on t.[year] = year(e.inspect_end_date) group by t.[year] order by t.[year] asc";
             }
-            //using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-            //{
-            //    ViewBag.suachua = db.Database.SqlQuery<form>(querySC).ToList();
-            //    ViewBag.baoduong = db.Database.SqlQuery<form>(queryBD).ToList();
-            //    ViewBag.thanhli = db.Database.SqlQuery<form>(queryTL).ToList();
-            //    ViewBag.trungdaitu = db.Database.SqlQuery<form>(queryTDT).ToList();
-            //    ViewBag.kiemdinh = db.Database.SqlQuery<form>(queryKD).ToList();
-            //    if (type == "month" || type == null)
-            //    {
-            //        ViewBag.type = "month";
-            //    }
-            //    if (type == "year")
-            //    {
-            //        ViewBag.type = "year";
-            //    }
-            //    if (type == "yearss")
-            //    {
-            //        ViewBag.type = "yearss";
-            //    }
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                ViewBag.suachua = db.Database.SqlQuery<form>(querySC).ToList();
+                ViewBag.baoduong = db.Database.SqlQuery<form>(queryBD).ToList();
+                ViewBag.thanhli = db.Database.SqlQuery<form>(queryTL).ToList();
+                ViewBag.trungdaitu = db.Database.SqlQuery<form>(queryTDT).ToList();
+                ViewBag.kiemdinh = db.Database.SqlQuery<form>(queryKD).ToList();
+                if (type == "month" || type == null)
+                {
+                    ViewBag.type = "month";
+                }
+                if (type == "year")
+                {
+                    ViewBag.type = "year";
+                }
+                if (type == "yearss")
+                {
+                    ViewBag.type = "yearss";
+                }
 
-            //}
+            }
         }
     }
 
@@ -458,6 +451,6 @@ namespace QUANGHANHCORE.Controllers.CDVT
     }
     public class SL
     {
-        public int abc { get; set; }
+        public int count { get; set; }
     }
 }
