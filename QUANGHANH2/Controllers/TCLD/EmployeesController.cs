@@ -414,7 +414,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 return View("/Views/TCLD/Brief/View.cshtml", db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault<NhanVien>());
             }
         }
-        [Auther(RightID="53")]
+        [Auther(RightID = "53")]
         [Route("phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien")]
         [HttpGet]
         public ActionResult LoadEdit(string id)
@@ -474,14 +474,17 @@ namespace QUANGHANH2.Controllers.TCLD
                 new SelectListItem { Text = "4/4(Thương tật từ 21% trở lên)", Value = "4" }
             };
                 ViewBag.thuongbinh = ThuongBinh;
+
+
                 return View("/Views/TCLD/Brief/Edit.cshtml", db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault<NhanVien>());
             }
         }
         [Auther(RightID = "53")]
         [HttpPost]
-        public ActionResult SaveEdit(NhanVien emp, string test)
+        public ActionResult SaveEdit(NhanVien emp, string test, string[] giaDinh, string[] ngaySinhGiaDinh, string[] hoTen, string[] moiQuanHe, string[] lyLich)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            using (DbContextTransaction dbct = db.Database.BeginTransaction())
             {
                 List<CongViec> Jobdb = db.CongViecs.ToList<CongViec>();
                 foreach (CongViec cv in Jobdb)
@@ -492,8 +495,28 @@ namespace QUANGHANH2.Controllers.TCLD
                         break;
                     }
                 }
+                QuanHeGiaDinh gd = new QuanHeGiaDinh();
+                for (int i = 0; i < giaDinh.Length; i++)
+                {
+                    gd.MaNV = emp.MaNV;
+                    gd.LoaiGiaDinh = giaDinh[i];
+                    if (ngaySinhGiaDinh[i] != "")
+                    {
+                        string[] date = ngaySinhGiaDinh[i].Split('/');
+                        gd.NgaySinh = Convert.ToDateTime(date[1] + "/" + date[0] + "/" + date[2]);
+                    }
+                    gd.HoTen = hoTen[i];
+                    gd.MoiQuanHe = moiQuanHe[i];
+                    gd.LyLich = lyLich[i];
+                    db.QuanHeGiaDinhs.Add(gd);
+                    db.SaveChanges();
+
+                }
                 db.Entry(emp).State = EntityState.Modified;
                 db.SaveChanges();
+                dbct.Commit();
+
+
             }
             return RedirectToAction("Search");
 
@@ -513,7 +536,7 @@ namespace QUANGHANH2.Controllers.TCLD
             public string TenTrinhDo { get; set; }
             public string TenCongViec { get; set; }
         }
-        [Auther(RightID="51")]
+        [Auther(RightID = "51")]
         [Route("phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien")]
         [HttpPost]
         public ActionResult Search(string MaNV, string TenNV, string Gender)
@@ -629,7 +652,7 @@ namespace QUANGHANH2.Controllers.TCLD
             ViewBag.nameDepartment = "baohiem";
             return View("/Views/TCLD/Brief/TransferHistory.cshtml");
         }
-        [Auther(RightID="55")]
+        [Auther(RightID = "55")]
         [Route("delete")]
         [HttpPost]
         public ActionResult TLHD(string id, string soQD, string lydo, string dateTLHD, string group1, string group2, string elseCase)
@@ -639,7 +662,18 @@ namespace QUANGHANH2.Controllers.TCLD
             {
                 try
                 {
-
+                    QuyetDinh qd = new QuyetDinh();
+                    List<QuyetDinh> qdList = db.QuyetDinhs.ToList<QuyetDinh>();
+                    if (!soQD.Equals(""))
+                    {
+                        foreach (var qdL in qdList)
+                        {
+                            if (soQD == qdL.SoQuyetDinh)
+                            {
+                                return Json(new { message = "Số quyết định đã tồn tại", success = "soQDExist" }, JsonRequestBehavior.AllowGet);
+                            }
+                        }
+                    }
                     string[] arr2 = dateTLHD.Split('/');
                     string dateTLHDFix = "";
                     for (int i = 0; i < arr2.Length; i++)
@@ -650,13 +684,13 @@ namespace QUANGHANH2.Controllers.TCLD
                     if (soQD.Equals(""))
                     {
                         emp.MaTrangThai = 4;
-                    }else
+                    }
+                    else
                     {
                         emp.MaTrangThai = 2;
                     }
                     db.Entry(emp).State = EntityState.Modified;
 
-                    QuyetDinh qd = new QuyetDinh();
                     qd.SoQuyetDinh = soQD;
                     qd.NgayQuyetDinh = DateTime.Today;
                     db.QuyetDinhs.Add(qd);
@@ -686,21 +720,29 @@ namespace QUANGHANH2.Controllers.TCLD
                     db.ChamDut_NhanVien.Add(tlhd);
                     db.SaveChanges();
                     dbct.Commit();
-                    return RedirectToAction("Search");
+                    return Json(new { data = "" }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception)
                 {
                     dbct.Rollback();
-                    string output = "";
-                    if (output == "")
-                        output += "Vui lòng nhập ngày chấm dứt";
-                    Response.Write(output);
-                    return new HttpStatusCodeResult(400);
+                    return Json(new { success = true , message = "Chưa nhập ngày chấm dứt" }, JsonRequestBehavior.AllowGet);
+
                 }
 
 
 
             }
+
+        }
+        public class NhanVienExcel : NhanVien
+        {
+            public string TenTrinhDo { get; set; }
+
+            public string TenChuyenNganh { get; set; }
+
+            public string TenCongViec { get; set; }
+            public string ThangLuong { get; set; }
+
 
         }
 
@@ -718,20 +760,22 @@ namespace QUANGHANH2.Controllers.TCLD
                 {
                     string query = "select * from NhanVien";
                     List<NhanVien> list = db.Database.SqlQuery<NhanVien>(query).ToList();
-                    int k = 3;
+                    int k = 4;
                     for (int i = 0; i < list.Count; i++)
                     {
-                        excelWorksheet.Cells[k, 1].Value = list.ElementAt(i).MaNV;
-                        excelWorksheet.Cells[k, 2].Value = list.ElementAt(i).Ten;
+
+                        excelWorksheet.Cells[k, 1].Value = i + 1;
+                        excelWorksheet.Cells[k, 2].Value = list.ElementAt(i).MaNV;
+                        excelWorksheet.Cells[k, 3].Value = list.ElementAt(i).Ten;
                         if (list.ElementAt(i).GioiTinh)
                         {
-                            excelWorksheet.Cells[k, 3].Value = "Nam";
+                            excelWorksheet.Cells[k, 4].Value = "Nam";
                         }
                         else
                         {
-                            excelWorksheet.Cells[k, 3].Value = "Nữ";
+                            excelWorksheet.Cells[k, 4].Value = "Nữ";
                         }
-                        excelWorksheet.Cells[k, 4].Value = list.ElementAt(i).NgaySinh.HasValue? list.ElementAt(i).NgaySinh.Value.ToString("dd/MM/yyyy"): "";
+                        excelWorksheet.Cells[k, 4].Value = list.ElementAt(i).NgaySinh.HasValue ? list.ElementAt(i).NgaySinh.Value.ToString("dd/MM/yyyy") : "";
                         excelWorksheet.Cells[k, 5].Value = list.ElementAt(i).SoBHXH;
                         if (list.ElementAt(i).MaTrinhDo != null)
                         {
@@ -759,7 +803,7 @@ namespace QUANGHANH2.Controllers.TCLD
                         excelWorksheet.Cells[k, 20].Value = list.ElementAt(i).QueQuan;
                         k++;
                     }
-                    excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath("/excel/TCLD/download/Danh_sách_nhân_viên.xlsx")));
+                    excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath("/excel/TCLD/download/Danh-sách-nhân-viên.xlsx")));
                 }
             }
 

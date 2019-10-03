@@ -6873,7 +6873,6 @@
     <Content Include="excel\CDVT\download\tong-hop-vat-tu-download.xlsx" />
     <Content Include="doc\CDVT\QD\quyetdinh-template.docx" />
     <Content Include="excel\CDVT\download\huy-dong-oto.xlsx" />
-    <Content Include="excel\TCLD\download\Danh_sách_nhân_viên.xlsx" />
     <Content Include="excel\TCLD\download\Báo cáo năng suất lao động và tiền lương theo các phân xưởng theo ngày.xlsx" />
     <Content Include="excel\TCLD\Report\Báo cáo năng suất lao động và tiền lương theo các phân xưởng theo ngày.xlsx" />
     <Content Include="excel\TCLD\Hoso\ho-so-ngoai.xlsx" />
@@ -6914,6 +6913,9 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên.xlsx" />
+    <Content Include="excel\TCLD\download\Danh-sách-nhân-viên.xlsx" />
+    <Content Include="doc\CDVT\QD\quyetdinhsuachua.docx" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
