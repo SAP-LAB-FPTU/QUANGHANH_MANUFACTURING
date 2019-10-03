@@ -24,7 +24,7 @@
                 </div>
                 @if (ViewBag.validate == 0)
                 {
-                    <h4>Bạn đã chọn 2 hoặc nhiều thiết bị khác vị trí, xin vui lòng quay lại</h4>
+                    <h4>Bạn đã chọn 2 hoặc nhiều thiết bị khác vị trí, xin vui lòng <a href="/phong-cdvt/sua-chua">quay lại</a></h4>
                 }
                 else
                 {
@@ -295,6 +295,13 @@
 
         $('#create').click(function () {
             $('#myform').submit();
+            $.ajax({
+                success:
+                    $.notify("Thêm quyết định thành công", {
+                        globalPosition: "top center",
+                        className: "success"
+                    })
+            });
         })
 
         $("#export-button").click(function () {

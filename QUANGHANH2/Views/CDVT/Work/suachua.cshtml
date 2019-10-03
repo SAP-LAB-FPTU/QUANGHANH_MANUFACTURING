@@ -21,7 +21,7 @@
                 <div class="col l6 m6 s12">
                     <div class="row">
                         <div class="col l10 m10 offset-l2 offset-m2 s12 input-field">
-                            <input type="text" placeholder="Tìm kiếm theo mã thiết bị" class='form-control' id="equipmentId-search" />
+                            <input type="text" placeholder="Tìm kiếm theo mã thiết bị" class='form-control' id="equipmentId-search"  />
                         </div>
                         <div class="col l10 m10 offset-l2 offset-m2 s12 input-field">
                             <input type="text" placeholder="Tìm kiếm theo tên thiết bị" class='form-control' id="equipmentName-search" />
@@ -62,6 +62,19 @@
 <script type="text/javascript" src="~/js/Custom JS/CDVT/Work/suachua.js"></script>
 <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
 
+@*<datalist id="equipmentId-search">
+    @foreach (var item in ViewBag.EquipmentID)
+    {
+    <option value="@item.equipment_id">@item.equipment_id</option>
+    }
+</datalist>*@
+
+
+
+
+
+
+
 @section scripts{
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script>
@@ -75,6 +88,9 @@
             }
          }
         var arrCarSelected = JSON.parse("@listFromServer".replace(/(&quot\;)/g, "\""));
+        window.onbeforeunload = function (e) {
+            document.cookie = 'SuaChuaThietBi=; expires=' + d.toGMTString() + ';';
+        }
         $("#drop").click(function () {
             $(".my_checkbox").each(function () {
                 if ($(this).is(":checked")) $(this).click();

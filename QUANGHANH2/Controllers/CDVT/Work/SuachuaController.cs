@@ -26,7 +26,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                 cookie.Expires = DateTime.Now.AddDays(1);
                 Response.Cookies.Add(cookie);
                 cookie.Value = "[]";
-            }
+        }
             else
             {
                 cookie = HttpContext.Request.Cookies.Get("SuaChuaThietBi");
