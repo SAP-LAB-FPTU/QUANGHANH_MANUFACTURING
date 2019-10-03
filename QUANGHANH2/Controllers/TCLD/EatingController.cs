@@ -23,6 +23,8 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpGet]
         public ActionResult searchSuatAn(String data, DateTime time)
         {
+            int start = Convert.ToInt32(Request["start"]);
+            int length = Convert.ToInt32(Request["length"]);
             dynamic js = JObject.Parse(data);
             String mapb1 = js.mapb;
             String tenpb1 = js.tenpb;
@@ -163,15 +165,18 @@ namespace QUANGHANH2.Controllers.TCLD
                             }
                               ).ToList();
 
-
-                return Json(new { success = true, data = mydata, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
+                int totalrows = mydata.Count;
+                int totalrowsafterfiltering = mydata.Count;
+                mydata = mydata.Skip(start).Take(length).ToList();
+                return Json(new { success = true, data = mydata, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
             }
         }
         // display suat an
         [HttpGet]
         public ActionResult getDataSuatAn(DateTime time)
         {
-
+            int start = Convert.ToInt32(Request["start"]);
+            int length = Convert.ToInt32(Request["length"]);
             DateTime now = time;
             now = now.AddDays(1);
             DateTime dayStart;
@@ -307,7 +312,11 @@ namespace QUANGHANH2.Controllers.TCLD
                                 ngay = dayStart
                             }
                               ).ToList();
-                return Json(new { success = true, data = mydata, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
+
+                int totalrows = mydata.Count;
+                int totalrowsafterfiltering = mydata.Count;
+                mydata = mydata.Skip(start).Take(length).ToList();
+                return Json(new { success = true, data = mydata, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
 
             }
 
