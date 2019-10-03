@@ -49,9 +49,18 @@ namespace QUANGHANH2.Controllers.TCLD
                 try
                 {
                     checkNull = true;
+                    
+                    if (checkQD(soqd) == false)
+                    {
+                        return Json(new { message = "MaQD" }, JsonRequestBehavior.AllowGet);
+                    }
                     QuyetDinh qd = new QuyetDinh();
                     qd.SoQuyetDinh = soqd;
                     DateTime dayQD = convertDate(ngayqd);
+                    if (checkDate(dayQD) == false)
+                    {
+                        return Json(new { message = "NgayQD" }, JsonRequestBehavior.AllowGet);
+                    }
                     qd.NgayQuyetDinh = dayQD;
                     DBcontext.QuyetDinhs.Add(qd);
                     DBcontext.SaveChanges();
@@ -60,16 +69,17 @@ namespace QUANGHANH2.Controllers.TCLD
                     {
                         string id = (string)item["0"];
                         string names = (string)item["1"];
-                        DateTime dob = convertDOB((string)item["2"]);
-                        string unit = (string)item["3"];
-                        string kind = (string)item["4"];
-                        string level = (string)item["5"];
-                        string specialized = (string)item["6"];
-                        string working = (string)item["7"];
-                        string place = (string)item["8"];
-                        string salary = (string)item["9"];
-                        string leveWork = (string)item["10"];
-                        string salaryMonth = (string)item["11"];
+                        string dob = (string)item["2"];
+                        string gender = (string)item["3"];
+                        string unit = (string)item["4"];
+                        string kind = (string)item["5"];
+                        string level = (string)item["6"];
+                        string specialized = (string)item["7"];
+                        string working = (string)item["8"];
+                        string place = (string)item["9"];
+                        string salary = (string)item["10"];
+                        string leveWork = (string)item["11"];
+                        string salaryMonth = (string)item["12"];
                         TuyenDung_NhanVien tdnv = new TuyenDung_NhanVien();
                         tdnv.MaQuyetDinh = maQD;
                         tdnv.MaNV = id;
@@ -78,19 +88,49 @@ namespace QUANGHANH2.Controllers.TCLD
                         //add tabel nhanvien
                         if(checkSalry(salary) == false)
                         {
-                         
+                            transaction.Rollback();
                             return Json(new { message = "SalaryFaile" , responseText = id}, JsonRequestBehavior.AllowGet);
                         }
                         NhanVien emp = new NhanVien();
                         emp.MaNV = id;
                         emp.Ten = names;
-                        emp.NgaySinh = dob;
+                        emp.NgaySinh = convertDOB(dob);
+                       
+                        if (checkDate(emp.NgaySinh) == false)
+                        {
+                            transaction.Rollback();
+                            return Json(new { message = "NgaySinh", responseText = id }, JsonRequestBehavior.AllowGet);
+                        }
                         emp.LoaiNhanVien = kind;
                         emp.BacLuong = leveWork;
+                        if(gender.Equals("nam"))
+                        {
+                            emp.GioiTinh = true;
+                        }
+                        else
+                        {
+                            emp.GioiTinh = false;
+                        }
+                        if (checkPhongBan(unit) == true) {
+                            transaction.Rollback();
+                            return Json(new { message = "DonVi", responseText = id }, JsonRequestBehavior.AllowGet);
+                        }
                         emp.MaPhongBan = unit;
                         emp.NoiOHienTai = place;
-                        emp.MaCongViec = getMaCongViec(salary, working);
-                        emp.MaChuyenNganh = getMaChuyenNganh(specialized);
+                        if (working != null) {
+                            emp.MaCongViec = getMaCongViec(salary, working);
+                            if (emp.MaCongViec == -1) {
+                                transaction.Rollback();
+                                return Json(new { message = "CongViec", responseText = id }, JsonRequestBehavior.AllowGet);
+                            }
+                        }
+                        if (specialized != null) {
+                            emp.MaChuyenNganh = getMaChuyenNganh(specialized);
+                            if (emp.MaChuyenNganh.Equals("-1")) {
+                                transaction.Rollback();
+                                return Json(new { message = "ChuyenNganh", responseText = id }, JsonRequestBehavior.AllowGet);
+                            }
+                        }
                         emp.MucLuong = convertSalary(salaryMonth);
                         emp.MaTrangThai = 1;
                         DBcontext.NhanViens.Add(emp);
@@ -100,19 +140,37 @@ namespace QUANGHANH2.Controllers.TCLD
                     }
                     DBcontext.SaveChanges();
                     transaction.Commit();
-                    if (checkNull == false)
-                    {
-                        transaction.Rollback();
-                        return Json(new { message = "Failed" }, JsonRequestBehavior.AllowGet);
-                    }
                 }
                 catch (Exception)
                 {
                     transaction.Rollback();
                     return Json(new { message = "RollBack" }, JsonRequestBehavior.AllowGet);
                 }
-                }
-                return Redirect("/phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien");
+            }
+            return Redirect("/phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien");
+        }
+        public Boolean checkQD(string soqd)
+        {
+
+            QuyetDinh quyetdinh = null;
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                quyetdinh = db.QuyetDinhs.Where(x => x.SoQuyetDinh.Equals(soqd)).FirstOrDefault<QuyetDinh>();
+            }
+            if (quyetdinh == null)
+            {
+                return true;
+            }
+            return false;
+        }
+        public Boolean checkDate(DateTime date)
+        {
+            DateTime check = DateTime.Parse("1/1/0001");
+            if (date.Equals(check) == true)
+            {
+                return false;
+            }
+            return true;
         }
         public Boolean checkSalry(string salaryInput) {
           
@@ -126,8 +184,20 @@ namespace QUANGHANH2.Controllers.TCLD
                 return false;
             }
             return true;
-        
+        }
+        public Boolean checkPhongBan(string phongban)
+        {
 
+            Department dep = null;
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                dep = db.Departments.Where(x => x.department_id.Equals(phongban)).FirstOrDefault<Department>();
+            }
+            if (dep == null)
+            {
+                return true;
+            }
+            return false;
         }
         public double convertSalary(string salary)
         {
@@ -139,7 +209,7 @@ namespace QUANGHANH2.Controllers.TCLD
             else
             {
                 checkNull = false;
-                return -1;
+                return 0;
             }
             
             
@@ -218,48 +288,77 @@ namespace QUANGHANH2.Controllers.TCLD
         }
         public DateTime convertDate(string date)
         {
-            if(date.Trim() != null)
+            string dateStr = "";
+            try
             {
-                string[] dateSplit = date.Split(' ');
-                string dateStr = "";
-                if (dateSplit[2].Length == 2)
+                if (date.Trim() != null)
                 {
-                    dateStr = dateSplit[3] + "-" + dateSplit[2] + "-" + dateSplit[0];
-                }
-                else
-                {
-                    dateStr = dateSplit[3] + "-0" + dateSplit[2] + "-" + dateSplit[0];
-                }
+                    string[] dateSplit = date.Trim().Split(' ');
+                    
+                    if (dateSplit[0].Length == 2 && dateSplit[2].Length == 2)
+                    {
+                        dateStr = dateSplit[3] + "-" + dateSplit[2] + "-" + dateSplit[0];
+                    }
+                    else if (dateSplit[0].Length == 1 && dateSplit[2].Length == 2)
+                    {
+                        dateStr = dateSplit[3] + "-" + dateSplit[2] + "-0" + dateSplit[0];
+                    }
+                    else if (dateSplit[0].Length == 2 && dateSplit[2].Length == 1)
+                    {
+                        dateStr = dateSplit[3] + "-0" + dateSplit[2] + "-" + dateSplit[0];
+                    }
+                    else if (dateSplit[0].Length == 1 && dateSplit[2].Length == 1)
+                    {
+                        dateStr = dateSplit[3] + "-0" + dateSplit[2] + "-0" + dateSplit[0];
+                    }
 
+                    
+                }
                 string dateConvert = DateTime.ParseExact(dateStr, "yyyy-MM-dd", null).ToString("yyyy-MM-dd");
                 return DateTime.Parse(dateConvert);
             }
-            else
+            catch (FormatException)
             {
-                return DateTime.Parse("1111-01-1");
+                return DateTime.Parse("1-1-0001");
             }
+          
         }
         public DateTime convertDOB(string date)
         {
-           try
+            string dateStr = "";
+            try
             {
-                string[] dateSplit = date.Split('/');
-                string dateStr = "";
-                if (dateSplit[1].Length == 2)
+                if (date.Trim() != null)
                 {
-                    dateStr = dateSplit[2] + "/" + dateSplit[1] + "/" + dateSplit[0];
+                    string[] dateSplit = date.Trim().Split('/');
+
+                    if (dateSplit[0].Length == 2 && dateSplit[1].Length == 2)
+                    {
+                        dateStr = dateSplit[2] + "-" + dateSplit[1] + "-" + dateSplit[0];
+                    }
+                    else if (dateSplit[0].Length != 2 && dateSplit[1].Length == 2)
+                    {
+                        dateStr = dateSplit[2] + "-" + dateSplit[1] + "-0" + dateSplit[0];
+                    }
+                    else if (dateSplit[0].Length == 2 && dateSplit[1].Length != 2)
+                    {
+                        dateStr = dateSplit[2] + "-0" + dateSplit[1] + "-" + dateSplit[0];
+                    }
+                    else if (dateSplit[0].Length != 2 && dateSplit[1].Length != 2)
+                    {
+                        dateStr = dateSplit[2] + "-0" + dateSplit[1] + "-0" + dateSplit[0];
+                    }
                 }
-                else
-                {
-                    dateStr = dateSplit[2] + "/0" + dateSplit[1] + "/" + dateSplit[0];
-                }
-                return DateTime.Parse(dateStr);
+                string dateConvert = DateTime.ParseExact(dateStr, "yyyy-MM-dd", null).ToString("yyyy-MM-dd");
+                return DateTime.Parse(dateConvert);
             }
-            catch(NullReferenceException )
+            catch (FormatException)
             {
-                return DateTime.Parse("1111/01/1");
+                return DateTime.Parse("1-1-0001");
             }
         }
+
+
         [Auther(RightID = "52")]
         [Route("phong-tcld/quan-ly-nhan-vien/tuyen-dung-nhan-vien-import-excel")]
         [HttpPost]
@@ -311,6 +410,10 @@ namespace QUANGHANH2.Controllers.TCLD
                         a.ThangLuong = workSheet.Cells[i, 10].Value == null ? "" : workSheet.Cells[i, 10].Value.ToString();
                         a.Bac = workSheet.Cells[i, 11].Value == null ? "" : workSheet.Cells[i, 11].Value.ToString();
                         a.MucLuong = workSheet.Cells[i, 12].Value == null ? "" : workSheet.Cells[i, 12].Value.ToString();
+                        a.ngay = workSheet.Cells[3,6].Value == null ? "" : workSheet.Cells[3, 6].Value.ToString();
+                        a.thang = workSheet.Cells[3, 8].Value == null ? "" : workSheet.Cells[3, 8].Value.ToString();
+                        a.nam = workSheet.Cells[3, 10].Value == null ? "" : workSheet.Cells[3, 10].Value.ToString();
+                        a.soqd = workSheet.Cells[2, 8].Value == null ? "" : workSheet.Cells[2, 8].Value.ToString();
                         list.Add(a);
                     }
                 }
@@ -331,6 +434,11 @@ namespace QUANGHANH2.Controllers.TCLD
             public string ThangLuong { get; set; }
             public string Bac { get; set; }
             public string MucLuong { get; set; }
+            public string ngay { get; set; }
+            public string thang { get; set; }
+            public string nam { get; set; }
+
+            public string soqd { get; set; }
         }
     }
 }

@@ -34,7 +34,8 @@
                         <h4>
                             Kèm theo Quyết định số: <input id="soqd" name="soqd" class="center" type="text" style="width:120px" /> /QĐ-VQHC
                         </h4>
-                        <input type="text"
+                        <input id="ngayqd"
+                               type="text"
                                name="ngayqd"
                                class="datepicker-here center"
                                data-language='vi'
@@ -57,6 +58,7 @@
                                     <th class="center-align">Số thẻ</th>
                                     <th class="center-align">Họ tên</th>
                                     <th class="center-align">Ngày sinh</th>
+                                    <th class="center-align" width="9%">Giới tính</th>
                                     <th class="center-align">Đơn vị</th>
                                     <th class="center-align" width="15%">Loại</th>
                                     <th class="center-align">Trình độ</th>
@@ -71,8 +73,8 @@
                             <tbody id="tablecontent">
                             </tbody>
                         </table>
-                        <textarea readonly hidden name="jsonname" id="jsonid"></textarea>
-                        <button class="btn btn-small blue darken-2 modal-trigger input-field right" type="submit" disabled id="btn_Save">Xác nhận</button>
+                        <textarea readonly  name="jsonname" hidden id="jsonid"></textarea>
+                        <button class="btn btn-small blue darken-2 modal-trigger input-field right" type="submit" id="btn_Save">Xác nhận</button>
                     </div>
                 </div>
             </div>
@@ -148,7 +150,7 @@
         for (var i = 1; i < $('#tuyendung tr').length; i++) {
             var temp = {};
             for (var j = 0; j < $('#tuyendung thead tr:nth-child(1) th').length; j++) {
-                if (j == 4) {
+                if (j == 3 || j == 5) {
                     temp[j] = $('#tablecontent tr:nth-child(' + i + ') td select').val();
                 } else {
                     temp[j] = $('#tablecontent tr:nth-child(' + i + ') td').eq(j).text();
@@ -201,8 +203,21 @@
                         errorAlert('Lỗi', 'Hãy chọn file exel');
                     } else if (result.message === "SalaryFaile") {
                         errorAlert('Lỗi', 'Hãy kiểm tra lại thang lương của nhân viên mã ' + result.responseText);
-                    }else {
-                        reloadAlert('Ahihi thành công rồi', 3000);
+                    } else if (result.message === "NgayQD") {
+                         errorAlert('Lỗi', 'Kiểm tra lại ngày quyết định')
+                    } else if (result.message === "NgaySinh") {
+                         errorAlert('Lỗi', 'Hãy kiểm tra lại ngày sinh của nhân viên mã ' + result.responseText);
+                    } else if (result.message === "MaQD") {
+                         errorAlert('Lỗi', 'Mã quyết định đã tồn tại ');
+                    }else if (result.message === "CongViec") {
+                         errorAlert('Lỗi', 'Hãy kiểm tra lại công việc của nhân viên mã ' + result.responseText);
+                    }else if (result.message === "ChuyenNganh") {
+                         errorAlert('Lỗi', 'Hãy kiểm tra lại chuyên ngành của nhân viên mã ' + result.responseText);
+                    }else if (result.message === "DonVi") {
+                         errorAlert('Lỗi', 'Hãy kiểm tra lại đơn vị của nhân viên mã ' + result.responseText);
+                    }
+                    else {
+                        reloadAlert('Thêm thành công', 3000);
                         window.location.href = "/phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien";
                     }
 
@@ -282,18 +297,21 @@
                     if (!data.success) {
                         toastr.warning(data.message, 'Hệ thống');
                     } else {
-                        
+                        var gender = '<select class="form-control"><option value="nam" selected>Nam</option><option value="nu">Nữ</option></select>';
                         var select = '<select class="form-control"><option value="CBQL" selected>Cán bộ quản lý</option><option value="CNKT">Công nhân khai thác</option><option value="CD">Công nhân cơ điện</option><option value="HSTT">Học sinh thực tập</option></select>';
                         if (checkInput == false) {
                             $('#tablecontent tr').remove();
                         }
+
                         for (var i = 0; i < data.list.length; i++) {
-                            
                             if (data.list[i].SoThe.trim() != "") {
+                                $('#soqd').val(data.list[i].soqd);
+                                $('#ngayqd').val(data.list[i].ngay +' Tháng '+data.list[i].thang+' '+data.list[i].nam);
                                 $tr = $("<tr>")
                                 $tr.append("<td>" + data.list[i].SoThe + "</td>");
                                 $tr.append("<td>" + data.list[i].HoTen + "</td>");
                                 $tr.append("<td>" + formatDate(data.list[i].NgaySinh) + "</td>");
+                                $tr.append("<td>" + gender + "</td>");
                                 $tr.append("<td>" + data.list[i].DonVi + "</td>");
                                 $tr.append("<td>" + select + "</td>");
                                 $tr.append("<td>" + data.list[i].TrinhDo + "</td>");
