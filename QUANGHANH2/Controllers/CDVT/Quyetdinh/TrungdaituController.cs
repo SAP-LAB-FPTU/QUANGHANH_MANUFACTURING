@@ -111,6 +111,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
                 Documentary_Extend incidents = DBContext.Database.SqlQuery<Documentary_Extend>("Select documentary_id,documentary_code,department_id,person_created,date_created,reason, [out/in_come] as out_in_come from Documentary where documentary_id = @documentary_id", new SqlParameter("documentary_id", id)).First();
                 incidents.tempId = id;
                 ViewBag.ID = id;
+                incidents.date_created = DateTime.Now;
                 return Json(incidents);
             }
             catch (Exception)
