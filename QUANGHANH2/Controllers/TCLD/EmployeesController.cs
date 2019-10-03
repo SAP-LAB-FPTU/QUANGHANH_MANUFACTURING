@@ -91,7 +91,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 return View("/Views/TCLD/Brief/View.cshtml", db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault<NhanVien>());
             }
         }
-        [Auther(RightID="53")]
+        [Auther(RightID = "53")]
         [Route("phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien")]
         [HttpGet]
         public ActionResult LoadEdit(string id)
@@ -156,9 +156,10 @@ namespace QUANGHANH2.Controllers.TCLD
         }
         [Auther(RightID = "53")]
         [HttpPost]
-        public ActionResult SaveEdit(NhanVien emp, string test)
+        public ActionResult SaveEdit(NhanVien emp, string test, string[] giaDinh, string[] ngaySinhGiaDinh, string[] hoTen, string[] moiQuanHe, string[] lyLich)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            using (DbContextTransaction dbct = db.Database.BeginTransaction())
             {
                 List<CongViec> Jobdb = db.CongViecs.ToList<CongViec>();
                 foreach (CongViec cv in Jobdb)
@@ -169,8 +170,28 @@ namespace QUANGHANH2.Controllers.TCLD
                         break;
                     }
                 }
+                QuanHeGiaDinh gd = new QuanHeGiaDinh();
+                for (int i = 0; i < giaDinh.Length; i++)
+                {
+                    gd.MaNV = emp.MaNV;
+                    gd.LoaiGiaDinh = giaDinh[i];
+                    if (ngaySinhGiaDinh[i] != "")
+                    {
+                        string[] date = ngaySinhGiaDinh[i].Split('/');
+                        gd.NgaySinh = Convert.ToDateTime(date[1] + "/" + date[0] + "/" + date[2]);
+                    }
+                    gd.HoTen = hoTen[i];
+                    gd.MoiQuanHe = moiQuanHe[i];
+                    gd.LyLich = lyLich[i];
+                    db.QuanHeGiaDinhs.Add(gd);
+                    db.SaveChanges();
+
+                }
                 db.Entry(emp).State = EntityState.Modified;
                 db.SaveChanges();
+                dbct.Commit();
+
+
             }
             return RedirectToAction("Search");
 
@@ -190,7 +211,7 @@ namespace QUANGHANH2.Controllers.TCLD
             public string TenTrinhDo { get; set; }
             public string TenCongViec { get; set; }
         }
-        [Auther(RightID="51")]
+        [Auther(RightID = "51")]
         [Route("phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien")]
         [HttpPost]
         public ActionResult Search(string MaNV, string TenNV, string Gender)
@@ -306,7 +327,7 @@ namespace QUANGHANH2.Controllers.TCLD
             ViewBag.nameDepartment = "baohiem";
             return View("/Views/TCLD/Brief/TransferHistory.cshtml");
         }
-        [Auther(RightID="55")]
+        [Auther(RightID = "55")]
         [Route("delete")]
         [HttpPost]
         public ActionResult TLHD(string id, string soQD, string lydo, string dateTLHD, string group1, string group2, string elseCase)
@@ -327,7 +348,8 @@ namespace QUANGHANH2.Controllers.TCLD
                     if (soQD.Equals(""))
                     {
                         emp.MaTrangThai = 4;
-                    }else
+                    }
+                    else
                     {
                         emp.MaTrangThai = 2;
                     }
@@ -380,6 +402,17 @@ namespace QUANGHANH2.Controllers.TCLD
             }
 
         }
+        public class NhanVienExcel : NhanVien
+        {
+            public string TenTrinhDo { get; set; }
+
+            public string TenChuyenNganh { get; set; }
+
+            public string TenCongViec { get; set; }
+            public string ThangLuong { get; set; }
+
+
+        }
 
         [Route("phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien/excel")]
         [HttpPost]
@@ -395,21 +428,26 @@ namespace QUANGHANH2.Controllers.TCLD
                 {
                     string query = "select * from NhanVien";
                     List<NhanVien> list = db.Database.SqlQuery<NhanVien>(query).ToList();
-                    int k = 3;
+                    int k = 4;
                     for (int i = 0; i < list.Count; i++)
                     {
-                        excelWorksheet.Cells[k, 1].Value = list.ElementAt(i).MaNV;
-                        excelWorksheet.Cells[k, 2].Value = list.ElementAt(i).Ten;
+
+                        excelWorksheet.Cells[k, 1].Value = i + 1;
+                        excelWorksheet.Cells[k, 2].Value = list.ElementAt(i).MaNV;
+                        excelWorksheet.Cells[k, 3].Value = list.ElementAt(i).Ten;
                         if (list.ElementAt(i).GioiTinh)
                         {
-                            excelWorksheet.Cells[k, 3].Value = "Nam";
+                            excelWorksheet.Cells[k, 4].Value = "Nam";
                         }
                         else
                         {
-                            excelWorksheet.Cells[k, 3].Value = "Nữ";
+                            excelWorksheet.Cells[k, 4].Value = "Nữ";
                         }
-                        excelWorksheet.Cells[k, 4].Value = list.ElementAt(i).NgaySinh.ToString("dd/MM/yyyy");
-                        excelWorksheet.Cells[k, 5].Value = list.ElementAt(i).SoBHXH;
+                        excelWorksheet.Cells[k, 5].Value = list.ElementAt(i).NgaySinh.ToString("dd/MM/yyyy");
+                        excelWorksheet.Cells[k, 6].Value = list.ElementAt(i).SoCMND;
+                        excelWorksheet.Cells[k, 7].Value = list.ElementAt(i).SoBHXH;
+                        excelWorksheet.Cells[k, 8].Value = list.ElementAt(i).CoQuanTruoc;
+                        excelWorksheet.Cells[k, 9].Value = list.ElementAt(i).CongViecDaLamLauNhat;
                         if (list.ElementAt(i).MaTrinhDo != null)
                         {
                             if (list.ElementAt(i).MaTrinhDo.Equals("1"))
@@ -436,7 +474,7 @@ namespace QUANGHANH2.Controllers.TCLD
                         excelWorksheet.Cells[k, 20].Value = list.ElementAt(i).QueQuan;
                         k++;
                     }
-                    excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath("/excel/TCLD/download/Danh_sách_nhân_viên.xlsx")));
+                    excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath("/excel/TCLD/download/Danh-sách-nhân-viên.xlsx")));
                 }
             }
 
