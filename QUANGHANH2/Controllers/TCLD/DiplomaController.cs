@@ -7,6 +7,9 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using System.Linq.Dynamic;
 using System.Data.Entity;
+using System.Web.Hosting;
+using System.IO;
+using OfficeOpenXml;
 
 namespace QUANGHANH2.Controllers.TCLD
 {
@@ -89,27 +92,27 @@ namespace QUANGHANH2.Controllers.TCLD
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 listdataDipEmp = (from bc_chitiet in db.ChiTiet_BangCap_GiayChungNhan
-                               join nv in db.NhanViens on bc_chitiet.MaNV equals nv.MaNV
-                               join bc in db.BangCap_GiayChungNhan on bc_chitiet.MaBangCap_GiayChungNhan equals bc.MaBangCap_GiayChungNhan
-                               select new
-                               {
-                                   SoHieu=bc_chitiet.SoHieu,
-                                   MaBangCap_GiayChungNhan=bc_chitiet.MaBangCap_GiayChungNhan,
-                                   NgayCap=bc_chitiet.NgayCap,
-                                   MaNV=bc_chitiet.MaNV,
-                                   NgayTra= bc_chitiet.NgayTra,
-                                   TenBangCap=bc.TenBangCap,
-                                   TenNV=nv.Ten,
-                               }).ToList().Select(dip => new BangCap_GiayChungNhan_detailsDB
-                               {
-                                   SoHieu = dip.SoHieu,
-                                   MaBangCap_GiayChungNhan = dip.MaBangCap_GiayChungNhan,
-                                   NgayCap = dip.NgayCap,
-                                   MaNV = dip.MaNV,
-                                   NgayTra = dip.NgayTra,
-                                   TenBangCap = dip.TenBangCap,
-                                   Ten = dip.TenNV,
-                               }).ToList();
+                                  join nv in db.NhanViens on bc_chitiet.MaNV equals nv.MaNV
+                                  join bc in db.BangCap_GiayChungNhan on bc_chitiet.MaBangCap_GiayChungNhan equals bc.MaBangCap_GiayChungNhan
+                                  select new
+                                  {
+                                      SoHieu = bc_chitiet.SoHieu,
+                                      MaBangCap_GiayChungNhan = bc_chitiet.MaBangCap_GiayChungNhan,
+                                      NgayCap = bc_chitiet.NgayCap,
+                                      MaNV = bc_chitiet.MaNV,
+                                      NgayTra = bc_chitiet.NgayTra,
+                                      TenBangCap = bc.TenBangCap,
+                                      TenNV = nv.Ten,
+                                  }).ToList().Select(dip => new BangCap_GiayChungNhan_detailsDB
+                                  {
+                                      SoHieu = dip.SoHieu,
+                                      MaBangCap_GiayChungNhan = dip.MaBangCap_GiayChungNhan,
+                                      NgayCap = dip.NgayCap,
+                                      MaNV = dip.MaNV,
+                                      NgayTra = dip.NgayTra,
+                                      TenBangCap = dip.TenBangCap,
+                                      Ten = dip.TenNV,
+                                  }).ToList();
 
                 int totalrows = listdataDipEmp.Count;
                 int totalrowsafterfiltering = listdataDipEmp.Count;
@@ -233,38 +236,51 @@ namespace QUANGHANH2.Controllers.TCLD
                 ViewBag.listSelect_chuyennganh = listSelect_chuyennganh;
             }
         }
-       //Delete Diploma
+        //Delete Diploma
         [HttpPost]
         public ActionResult DeleteDiploma(int id = 0)
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
 
-                BangCap_GiayChungNhan bangcap = db.BangCap_GiayChungNhan.Where(x => x.MaBangCap_GiayChungNhan == id).FirstOrDefault<BangCap_GiayChungNhan>();
-
-                db.BangCap_GiayChungNhan.Remove(bangcap);
-                //List<ChungChi_NhanVien> ccnv = new List<ChungChi_NhanVien>();
-                var bcnv = from item in db.ChiTiet_BangCap_GiayChungNhan
-                           where item.MaBangCap_GiayChungNhan == id
-                           select item;
-                //var chungchi_nvs = db.ChungChi_NhanVien.Where(x => x.MaChungChi == id).FirstOrDefault<ChungChi_NhanVien>();
-                if (bcnv != null)
+                using (DbContextTransaction transaction = db.Database.BeginTransaction())
                 {
-                    foreach (var item in bcnv)
+                    try
                     {
-                        db.ChiTiet_BangCap_GiayChungNhan.Remove(item);
+
+                        BangCap_GiayChungNhan bangcap = db.BangCap_GiayChungNhan.Where(x => x.MaBangCap_GiayChungNhan == id).FirstOrDefault<BangCap_GiayChungNhan>();
+
+                        db.BangCap_GiayChungNhan.Remove(bangcap);
+                        //List<ChungChi_NhanVien> ccnv = new List<ChungChi_NhanVien>();
+                        var bcnv = from item in db.ChiTiet_BangCap_GiayChungNhan
+                                   where item.MaBangCap_GiayChungNhan == id
+                                   select item;
+                        //var chungchi_nvs = db.ChungChi_NhanVien.Where(x => x.MaChungChi == id).FirstOrDefault<ChungChi_NhanVien>();
+                        if (bcnv != null)
+                        {
+                            foreach (var item in bcnv)
+                            {
+                                db.ChiTiet_BangCap_GiayChungNhan.Remove(item);
+                            }
+
+                        }
+
+                        db.SaveChanges();
+                        transaction.Commit();
+                        return Json(new { success = true, message = "Xóa thành công" }, JsonRequestBehavior.AllowGet);
                     }
-
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        Console.WriteLine("Error occurred.");
+                    }
                 }
-
-                db.SaveChanges();
-                return Json(new { success = true, message = "Xóa thành công" }, JsonRequestBehavior.AllowGet);
-
+                return RedirectToAction("List");
             }
         }
         //Delete Diploma's Employee
         [HttpPost]
-        public ActionResult DeleteDiplomaEmployee(string id )
+        public ActionResult DeleteDiplomaEmployee(string id)
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
@@ -275,7 +291,7 @@ namespace QUANGHANH2.Controllers.TCLD
                     db.ChiTiet_BangCap_GiayChungNhan.Remove(chitiet_bangcap);
                     db.SaveChanges();
                 }
-                
+
                 return Json(new { success = true, message = "Xóa thành công" }, JsonRequestBehavior.AllowGet);
 
             }
@@ -347,7 +363,7 @@ namespace QUANGHANH2.Controllers.TCLD
             var bangcap_text = idsArray[3];
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                if (truong_text != null || nganh_text != null || trinhdo_text != null|| bangcap_text != null)
+                if (truong_text != null || nganh_text != null || trinhdo_text != null || bangcap_text != null)
                 {
                     listdataDip = (from bc in db.BangCap_GiayChungNhan
                                    where (bc.TenBangCap.Contains(bangcap_text))
@@ -360,7 +376,7 @@ namespace QUANGHANH2.Controllers.TCLD
                                    select new
                                    {
                                        MaTruong = bc.MaTruong,
-                                       MaChuyenNganh = bc.MaChuyenNganh,
+                                       MaChuyenNghanh = bc.MaChuyenNganh,
                                        MaBangCap_GiayChungNhan = bc.MaBangCap_GiayChungNhan,
                                        MaTrinhDo = bc.MaTrinhDo,
                                        KieuBangCap = bc.KieuBangCap,
@@ -373,7 +389,7 @@ namespace QUANGHANH2.Controllers.TCLD
                                    }).ToList().Select(bangcap => new BangCap_detailsDB
                                    {
                                        MaTruong = bangcap.MaTruong,
-                                       MaChuyenNganh = bangcap.MaChuyenNganh,
+                                       MaChuyenNganh = bangcap.MaChuyenNghanh,
                                        MaBangCap_GiayChungNhan = bangcap.MaBangCap_GiayChungNhan,
                                        MaTrinhDo = bangcap.MaTrinhDo,
                                        KieuBangCap = bangcap.KieuBangCap,
@@ -419,7 +435,7 @@ namespace QUANGHANH2.Controllers.TCLD
                     listdataDipEmp = (from bc_chitiet in db.ChiTiet_BangCap_GiayChungNhan
                                       join nv in db.NhanViens on bc_chitiet.MaNV equals nv.MaNV
                                       join bc in db.BangCap_GiayChungNhan on bc_chitiet.MaBangCap_GiayChungNhan equals bc.MaBangCap_GiayChungNhan
-                                      where (bc_chitiet.SoHieu.Contains(sohieu_text))&(nv.Ten.Contains(tennv_text))&(bc.TenBangCap.Contains(bangcap_text))
+                                      where (bc_chitiet.SoHieu.Contains(sohieu_text)) & (nv.Ten.Contains(tennv_text)) & (bc.TenBangCap.Contains(bangcap_text))
                                       select new
                                       {
                                           SoHieu = bc_chitiet.SoHieu,
@@ -482,7 +498,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 }
                 else
                 {
-                    return Json(new { data="Không tồn tại",success = false, message = "wrong" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { data = "Không tồn tại", success = false, message = "wrong" }, JsonRequestBehavior.AllowGet);
                 }
             }
         }
@@ -513,6 +529,156 @@ namespace QUANGHANH2.Controllers.TCLD
                     return Json(new { success = false, message = "right id" }, JsonRequestBehavior.AllowGet);
                 }
             }
+        }
+        [Route("phong-tcld/bang-cap/danh-sach-bang-cap/xuat-file-excel")]
+        [HttpPost]
+        public ActionResult ExporTotExcelDiploma()
+        {
+            string path = HostingEnvironment.MapPath("/excel/TCLD/Diploma/Bằng cấp - giấy chứng nhận.xlsx");
+            string saveAsPath = ("/excel/TCLD/download/Bằng cấp - giấy chứng nhận.xlsx");
+            FileInfo file = new FileInfo(path);
+            using (ExcelPackage excelPackage = new ExcelPackage(file))
+            {
+                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
+                ExcelWorksheet ws_cert_emp = excelWorkbook.Worksheets.First();
+                List<BangCap_detailsDB> listdataDiploma = new List<BangCap_detailsDB>();
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+
+                    listdataDiploma = (from bc in db.BangCap_GiayChungNhan
+                                       join cn in db.ChuyenNganhs on bc.MaChuyenNganh equals cn.MaChuyenNganh
+                                       join td in db.TrinhDoes on bc.MaTrinhDo equals td.MaTrinhDo
+                                       join truong in db.Truongs on bc.MaTruong equals truong.MaTruong
+                                       select new
+                                       {
+                                           MaTruong = bc.MaTruong,
+                                           MaChuyenNganh = bc.MaChuyenNganh,
+                                           MaBangCap_GiayChungNhan = bc.MaBangCap_GiayChungNhan,
+                                           MaTrinhDo = bc.MaTrinhDo,
+                                           KieuBangCap = bc.KieuBangCap,
+                                           ThoiHan = bc.ThoiHan,
+                                           TenBangCap = bc.TenBangCap,
+                                           Loai = bc.Loai,
+                                           TenTruong = truong.TenTruong,
+                                           TenChuyenNganh = cn.TenChuyenNganh,
+                                           TenTrinhDo = td.TenTrinhDo
+                                       }).ToList().Select(bangcap => new BangCap_detailsDB
+                                       {
+                                           MaTruong = bangcap.MaTruong,
+                                           MaChuyenNganh = bangcap.MaChuyenNganh,
+                                           MaBangCap_GiayChungNhan = bangcap.MaBangCap_GiayChungNhan,
+                                           MaTrinhDo = bangcap.MaTrinhDo,
+                                           KieuBangCap = bangcap.KieuBangCap,
+                                           ThoiHan = bangcap.ThoiHan,
+                                           TenBangCap = bangcap.TenBangCap,
+                                           Loai = bangcap.Loai,
+                                           TenTruong = bangcap.TenTruong,
+                                           TenChuyenNganh = bangcap.TenChuyenNganh,
+                                           TenTrinhDo = bangcap.TenTrinhDo
+                                       }).ToList();
+
+                    ws_cert_emp.Cells["A1"].Value = "Tên trường";
+                    ws_cert_emp.Cells["B1"].Value = "Tên chuyên ngành";
+                    ws_cert_emp.Cells["C1"].Value = "Tên trình độ";
+                    ws_cert_emp.Cells["D1"].Value = "Tên bằng cấp";
+                    ws_cert_emp.Cells["E1"].Value = "Kiểu bằng cấp";
+                    ws_cert_emp.Cells["F1"].Value = "Thời hạn";
+                    ws_cert_emp.Cells["G1"].Value = "Loại";
+                    int rowStart = 2;
+
+                    foreach (var item in listdataDiploma)
+                    {
+                        ws_cert_emp.Cells[string.Format("A{0}", rowStart)].Value = item.TenTruong;
+                        ws_cert_emp.Cells[string.Format("B{0}", rowStart)].Value = item.TenChuyenNganh;
+                        ws_cert_emp.Cells[string.Format("C{0}", rowStart)].Value = item.TenTrinhDo;
+                        ws_cert_emp.Cells[string.Format("D{0}", rowStart)].Value = item.TenBangCap;
+                        ws_cert_emp.Cells[string.Format("E{0}", rowStart)].Value = item.KieuBangCap;
+                        ws_cert_emp.Cells[string.Format("G{0}", rowStart)].Value = item.Loai;
+
+                        if (item.ThoiHan.Equals("-1"))
+                        {
+                            ws_cert_emp.Cells[string.Format("F{0}", rowStart)].Value = "Vĩnh viễn";
+                        }
+                        else
+                        {
+                            ws_cert_emp.Cells[string.Format("F{0}", rowStart)].Value = item.ThoiHan;
+                        }
+
+
+                        rowStart++;
+
+                    }
+                }
+                excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath(saveAsPath)));
+            }
+            return Json(new { success = true, location = saveAsPath }, JsonRequestBehavior.AllowGet);
+        }
+        [Route("phong-tcld/bang-cap/danh-sach-bang-cap-cua-nhan-vien/xuat-file-excel")]
+        [HttpPost]
+        public ActionResult ExporTotExcelDiplomaEmployee()
+        {
+            string path = HostingEnvironment.MapPath("/excel/TCLD/Diploma/bằng cấp và giấy chứng nhận của nhân viên.xlsx");
+            string saveAsPath = ("/excel/TCLD/download/Bằng cấp - giấy chứng nhận của nhân viên.xlsx");
+            FileInfo file = new FileInfo(path);
+            using (ExcelPackage excelPackage = new ExcelPackage(file))
+            {
+                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
+                ExcelWorksheet ws_cert_emp = excelWorkbook.Worksheets.First();
+                List<BangCap_GiayChungNhan_detailsDB> listdataDipEmpDetail = new List<BangCap_GiayChungNhan_detailsDB>();
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    listdataDipEmpDetail = (from bc_chitiet in db.ChiTiet_BangCap_GiayChungNhan
+                                            join nv in db.NhanViens on bc_chitiet.MaNV equals nv.MaNV
+                                            join bc in db.BangCap_GiayChungNhan on bc_chitiet.MaBangCap_GiayChungNhan equals bc.MaBangCap_GiayChungNhan
+                                            select new
+                                            {
+                                                SoHieu = bc_chitiet.SoHieu,
+                                                MaBangCap_GiayChungNhan = bc_chitiet.MaBangCap_GiayChungNhan,
+                                                NgayCap = bc_chitiet.NgayCap,
+                                                MaNV = bc_chitiet.MaNV,
+                                                NgayTra = bc_chitiet.NgayTra,
+                                                TenBangCap = bc.TenBangCap,
+                                                TenNV = nv.Ten,
+                                            }).ToList().Select(dip => new BangCap_GiayChungNhan_detailsDB
+                                            {
+                                                SoHieu = dip.SoHieu,
+                                                MaBangCap_GiayChungNhan = dip.MaBangCap_GiayChungNhan,
+                                                NgayCap = dip.NgayCap,
+                                                MaNV = dip.MaNV,
+                                                NgayTra = dip.NgayTra,
+                                                TenBangCap = dip.TenBangCap,
+                                                Ten = dip.TenNV,
+                                            }).ToList();
+
+                    ws_cert_emp.Cells["A1"].Value = "Số hiệu";
+                    ws_cert_emp.Cells["B1"].Value = "Tên bằng cấp";
+                    ws_cert_emp.Cells["C1"].Value = "Tên nhân viên";
+                    ws_cert_emp.Cells["D1"].Value = "Ngày cấp";
+                    int rowStart = 2;
+
+                    foreach (var item in listdataDipEmpDetail)
+                    {
+                        ws_cert_emp.Cells[string.Format("A{0}", rowStart)].Value = item.SoHieu;
+                        ws_cert_emp.Cells[string.Format("B{0}", rowStart)].Value = item.TenBangCap;
+                        ws_cert_emp.Cells[string.Format("C{0}", rowStart)].Value = item.Ten;
+
+                        if (item.NgayCap != null)
+                        {
+                            ws_cert_emp.Cells[string.Format("D{0}", rowStart)].Value = ((DateTime)item.NgayCap).ToString("dd/MM/yyyy");
+                        }
+                        else
+                        {
+                            ws_cert_emp.Cells[string.Format("D{0}", rowStart)].Value = item.NgayCap;
+                        }
+
+
+                        rowStart++;
+
+                    }
+                }
+                excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath(saveAsPath)));
+            }
+            return Json(new { success = true, location = saveAsPath }, JsonRequestBehavior.AllowGet);
         }
     }
 }

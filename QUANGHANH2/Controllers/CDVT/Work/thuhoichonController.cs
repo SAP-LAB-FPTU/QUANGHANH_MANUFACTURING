@@ -100,6 +100,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                     {
                         string equipmentId = (string)item.Value["id"];
                         string equipment_revoke_reason = (string)item.Value["equipment_revoke_reason"];
+                        if (documentary_code != "")
+                        {
+                            Equipment e = DBContext.Equipments.Find(equipmentId);
+                            e.current_Status = 7;
+                        }
+
                         Documentary_revoke_details drd = new Documentary_revoke_details();
                         drd.equipment_revoke_status = 0;
                         drd.equipment_revoke_reason = equipment_revoke_reason;

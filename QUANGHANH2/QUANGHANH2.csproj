@@ -260,6 +260,7 @@
     <Compile Include="Controllers\CDVT\Work\ThuhoiController.cs" />
     <Compile Include="Controllers\CDVT\Work\TrungdaituchonController.cs" />
     <Compile Include="Controllers\CDVT\Work\TrungdaituController.cs" />
+    <Compile Include="Controllers\DK\AccidentController.cs" />
     <Compile Include="Controllers\DK\DKController.cs" />
     <Compile Include="Controllers\DK\ReportHuman\ReportHumanController.cs" />
     <Compile Include="Controllers\DK\ReportIncidentController.cs" />
@@ -377,6 +378,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Equipment_category_attribute.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Equipment_Category_Supply.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Equipment_Inspection.cs">
@@ -6890,7 +6894,6 @@
     <Content Include="excel\CDVT\thoatnuoc.xlsx" />
     <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên-hồ-sơ-trong.xlsx" />
     <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên.xlsx" />
-    <Content Include="excel\TCLD\Brief\Hồ sơ trong.xlsx" />
     <Content Include="excel\CDVT\download\DanhsachSuaChua.xlsx" />
     <Content Include="excel\CDVT\download\diennang.xlsx" />
     <Content Include="excel\CDVT\download\suachua.xlsx" />
@@ -6900,6 +6903,9 @@
     <Content Include="excel\TCLD\Certificate\Chứng chỉ của nhân viên.xlsx" />
     <Content Include="excel\TCLD\Certificate\List\download\ListCertificate.xlsx" />
     <Content Include="excel\TCLD\CD_TD_Report.xlsx" />
+    <Content Include="excel\TCLD\Certificate\Chứng chỉ của nhân viên.xlsx" />
+    <Content Include="excel\TCLD\Certificate\List\download\ListCertificate.xlsx" />
+    <Content Include="excel\TCLD\Brief\Inside.xlsx" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -6907,6 +6913,7 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="doc\CDVT\QD\quyetdinhsuachua.docx" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
@@ -7153,6 +7160,7 @@
     <Content Include="Views\CDVT\Report\bao_cao_trung_tu.cshtml" />
     <Content Include="Views\CDVT\Report\TangGiam.cshtml" />
     <Content Include="Views\CDVT\Thietbi\Kiemdinh.cshtml" />
+    <Content Include="Views\DK\Acident.cshtml" />
     <Content Include="Views\Brief\AddLichSuBoSung.cshtml" />
     <Content Include="Views\Brief\suaGiayTo.cshtml" />
     <Content Include="Views\Brief\themGiayTo.cshtml" />

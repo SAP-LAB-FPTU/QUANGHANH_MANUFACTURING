@@ -142,10 +142,10 @@
                                     return "<p> Đang thanh lý  </p>"
                                 }
                                 if (data == 9) {
-                                    return "<p> Đang trung tu </p>"
+                                    return "<p> Đang trung đại tu </p>"
                                 }
                                 if (data == 10) {
-                                    return "<p> Đang đại tu </p>"
+                                    return "<p> Đang kiểm định </p>"
                                 }
                                 if (data == 11) {
                                     return "<p> Đang chờ nghiệm thu </p>"
@@ -195,6 +195,27 @@
                         $('#pre-load').hide();
                     }
                 });
+
+            $("#equipmentId-search").keyup(function (event) {
+                if (event.keyCode === 13) {
+                    $("#searchButton1").click();
+                    $("#equipmentId-search").blur();
+                }
+            });
+
+            $("#equipmentName-search").keyup(function (event) {
+                if (event.keyCode === 13) {
+                    $("#searchButton1").click();
+                    $("#equipmentName-search").blur();
+                }
+            });
+
+            $("#department-search").keyup(function (event) {
+                if (event.keyCode === 13) {
+                    $("#searchButton1").click();
+                    $("#department-search").blur();
+                }
+            });
 
             $("#searchButton1").click(function () {
                 $("#pre-load").show();

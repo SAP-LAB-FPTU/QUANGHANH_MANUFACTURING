@@ -46,7 +46,7 @@
                         </div>
                     </div>
                     <div>
-                        <a class="btn btn-small blue darken-2 btn-mg" href="~/excel/TCLD/Certificate/Chứng chỉ của cả công ty.xlsx">Xuất ra file excel</a>
+                        <a class="btn btn-small blue darken-2 btn-mg" id="export_excel_brief">Xuất ra file excel</a>
                     </div>
 
                     <br />
@@ -509,7 +509,24 @@
         else {
             return (d);
         }
-
     }
+    $('#export_excel_brief').click(function () {
+        $('pre-load').show();
+        $.ajax({
+            type: 'POST',
+            url: '/phong-tcld/chung-chi/danh-sach-ho-so-trong/xuat-file-excel',
+            dataType: 'json',
+            success: function (response) {
+                if (response.success) {
+                    window.location.href = response.location;
+                    $("#pre-load").hide("slow", function () { });
+
+                } else {
+                    alert("Lỗi khi tải file");
+                }
+            }
+        });
+        $('pre-load').hide();
+    });
 </script>
 <!----------------------------------------------------Long----------------------------------->
