@@ -28,7 +28,7 @@ namespace QUANGHANH2.Controllers.TCLD
             String tenpb1 = js.tenpb;
 
             DateTime now = time;
-            now = now.AddDays(0);
+            now = now.AddDays(1);
             DateTime dayStart;
             switch (now.DayOfWeek)
             {
@@ -173,7 +173,7 @@ namespace QUANGHANH2.Controllers.TCLD
         {
 
             DateTime now = time;
-            now = now.AddDays(0);
+            now = now.AddDays(1);
             DateTime dayStart;
             switch (now.DayOfWeek)
             {
@@ -319,7 +319,7 @@ namespace QUANGHANH2.Controllers.TCLD
         {
 
             DateTime now = time;
-            now = now.AddDays(0);
+            now = now.AddDays(1);
             DateTime dayStart;
             switch (now.DayOfWeek)
             {

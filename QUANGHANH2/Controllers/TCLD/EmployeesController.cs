@@ -408,7 +408,7 @@ namespace QUANGHANH2.Controllers.TCLD
                         {
                             excelWorksheet.Cells[k, 3].Value = "Nữ";
                         }
-                        excelWorksheet.Cells[k, 4].Value = list.ElementAt(i).NgaySinh.ToString("dd/MM/yyyy");
+                        excelWorksheet.Cells[k, 4].Value = list.ElementAt(i).NgaySinh.HasValue? list.ElementAt(i).NgaySinh.Value.ToString("dd/MM/yyyy"): "";
                         excelWorksheet.Cells[k, 5].Value = list.ElementAt(i).SoBHXH;
                         if (list.ElementAt(i).MaTrinhDo != null)
                         {

@@ -47,7 +47,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                                                         durationOfInspection = (from ei in db.Equipment_Inspection where ei.equipmentId == p.equipmentId select ei.inspect_start_date).Max(),
                                                         durationOfInsurance = p.durationOfInsurance,
                                                         usedDay = p.usedDay,
-                                                        nearest_Maintenance_Day = p.nearest_Maintenance_Day,
+                                                        durationOfMaintainance = p.durationOfMaintainance,
                                                         total_operating_hours = p.total_operating_hours,
                                                         current_Status = p.current_Status,
                                                         fabrication_number = p.fabrication_number,
@@ -68,10 +68,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                                                         date_import = p.date_import,
                                                         depreciation_estimate = p.depreciation_estimate,
                                                         depreciation_present = p.depreciation_present,
-                                                        durationOfInspection = p.durationOfInspection,
+                                                        durationOfInspection = (System.DateTime)p.durationOfInspection,
                                                         durationOfInsurance = p.durationOfInsurance,
                                                         usedDay = p.usedDay,
-                                                        nearest_Maintenance_Day = p.nearest_Maintenance_Day,
+                                                        durationOfMaintainance =(System.DateTime) p.durationOfMaintainance,
                                                         total_operating_hours = p.total_operating_hours,
                                                         current_Status = p.current_Status,
                                                         fabrication_number = p.fabrication_number,
@@ -96,7 +96,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         excelWorksheet.Cells[k, 7].Value = equipList.ElementAt(i).durationOfInspection.ToString("dd/MM/yyyy");
                         excelWorksheet.Cells[k, 8].Value = equipList.ElementAt(i).durationOfInsurance.ToString("dd/MM/yyyy");
                         excelWorksheet.Cells[k, 9].Value = equipList.ElementAt(i).usedDay.ToString("dd/MM/yyyy");
-                        excelWorksheet.Cells[k, 10].Value = equipList.ElementAt(i).nearest_Maintenance_Day.ToString("dd/MM/yyyy");
+                        excelWorksheet.Cells[k, 10].Value = equipList.ElementAt(i).durationOfMaintainance.ToString("dd/MM/yyyy");
                         excelWorksheet.Cells[k, 11].Value = equipList.ElementAt(i).total_operating_hours;
                         excelWorksheet.Cells[k, 12].Value = equipList.ElementAt(i).current_Status;
                         excelWorksheet.Cells[k, 13].Value = equipList.ElementAt(i).fabrication_number;
@@ -193,7 +193,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                                      durationOfInspection = (from di in db.Equipment_Inspection where di.equipmentId == p.equipmentId select di.inspect_start_date).Max(),
                                      durationOfInsurance = p.durationOfInsurance,
                                      usedDay = p.usedDay,
-                                     nearest_Maintenance_Day = p.nearest_Maintenance_Day,
+                                     durationOfMaintainance = p.durationOfMaintainance,
                                      total_operating_hours = p.total_operating_hours,
                                      current_Status = p.current_Status,
                                      fabrication_number = p.fabrication_number,
@@ -213,10 +213,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                                      date_import = p.date_import,
                                      depreciation_estimate = p.depreciation_estimate,
                                      depreciation_present = p.depreciation_present,
-                                     durationOfInspection = p.durationOfInspection,
+                                     durationOfInspection = (System.DateTime) p.durationOfInspection,
                                      durationOfInsurance = p.durationOfInsurance,
                                      usedDay = p.usedDay,
-                                     nearest_Maintenance_Day = p.nearest_Maintenance_Day,
+                                     durationOfMaintainance = p.durationOfMaintainance,
                                      total_operating_hours = p.total_operating_hours,
                                      current_Status = p.current_Status,
                                      fabrication_number = p.fabrication_number,
@@ -439,7 +439,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 //nearest_Maintenance_Day
                 date = nearmain.Split('/');
                 date_fix = date[1] + "/" + date[0] + "/" + date[2];
-                emp.nearest_Maintenance_Day = Convert.ToDateTime(date_fix);
+                emp.durationOfMaintainance = Convert.ToDateTime(date_fix);
 
 
                 db.Equipments.Add(emp);
@@ -491,7 +491,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             //nearest_Maintenance_Day
             date = main.Split('/');
             date_fix = date[1] + "/" + date[0] + "/" + date[2];
-            emp.nearest_Maintenance_Day = Convert.ToDateTime(date_fix);
+            emp.durationOfMaintainance = Convert.ToDateTime(date_fix);
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 try

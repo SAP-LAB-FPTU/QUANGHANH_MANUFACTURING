@@ -99,7 +99,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                                      durationOfInspection = p.durationOfInspection,
                                      durationOfInsurance = p.durationOfInsurance,
                                      usedDay = p.usedDay,
-                                     nearest_Maintenance_Day = p.nearest_Maintenance_Day,
+                                     durationOfMaintainance = p.durationOfMaintainance,
                                      total_operating_hours = p.total_operating_hours,
                                      current_Status = p.current_Status,
                                      fabrication_number = p.fabrication_number,
@@ -122,7 +122,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                                      durationOfInspection = p.durationOfInspection,
                                      durationOfInsurance = p.durationOfInsurance,
                                      usedDay = p.usedDay,
-                                     nearest_Maintenance_Day = p.nearest_Maintenance_Day,
+                                     durationOfMaintainance = p.durationOfMaintainance,
                                      total_operating_hours = p.total_operating_hours,
                                      current_Status = p.current_Status,
                                      fabrication_number = p.fabrication_number,
@@ -184,7 +184,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                                                         durationOfInspection = p.durationOfInspection,
                                                         durationOfInsurance = p.durationOfInsurance,
                                                         usedDay = p.usedDay,
-                                                        nearest_Maintenance_Day = p.nearest_Maintenance_Day,
+                                                        durationOfMaintainance = p.durationOfMaintainance,
                                                         total_operating_hours = p.total_operating_hours,
                                                         current_Status = p.current_Status,
                                                         fabrication_number = p.fabrication_number,
@@ -207,7 +207,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                                                         durationOfInspection = p.durationOfInspection,
                                                         durationOfInsurance = p.durationOfInsurance,
                                                         usedDay = p.usedDay,
-                                                        nearest_Maintenance_Day = p.nearest_Maintenance_Day,
+                                                        durationOfMaintainance = p.durationOfMaintainance,
                                                         total_operating_hours = p.total_operating_hours,
                                                         current_Status = p.current_Status,
                                                         fabrication_number = p.fabrication_number,
@@ -232,7 +232,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                         excelWorksheet.Cells[k, 7].Value = equipList.ElementAt(i).durationOfInspection.ToString("dd/MM/yyyy");
                         excelWorksheet.Cells[k, 8].Value = equipList.ElementAt(i).durationOfInsurance.ToString("dd/MM/yyyy");
                         excelWorksheet.Cells[k, 9].Value = equipList.ElementAt(i).usedDay.ToString("dd/MM/yyyy");
-                        excelWorksheet.Cells[k, 10].Value = equipList.ElementAt(i).nearest_Maintenance_Day.ToString("dd/MM/yyyy");
+                        excelWorksheet.Cells[k, 10].Value = equipList.ElementAt(i).durationOfMaintainance.ToString("dd/MM/yyyy");
                         excelWorksheet.Cells[k, 11].Value = equipList.ElementAt(i).total_operating_hours;
                         excelWorksheet.Cells[k, 12].Value = equipList.ElementAt(i).current_Status;
                         excelWorksheet.Cells[k, 13].Value = equipList.ElementAt(i).fabrication_number;
@@ -436,7 +436,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             //nearest_Maintenance_Day
             date = main.Split('/');
             date_fix = date[1] + "/" + date[0] + "/" + date[2];
-            emp.nearest_Maintenance_Day = Convert.ToDateTime(date_fix);
+            emp.durationOfMaintainance = Convert.ToDateTime(date_fix);
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 try
