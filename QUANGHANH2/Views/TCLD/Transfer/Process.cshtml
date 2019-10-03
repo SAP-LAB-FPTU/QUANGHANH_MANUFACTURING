@@ -47,7 +47,7 @@
                                 </div>
                                 <div class="col l5 m12 s12 input-field">
                                     <select class="form-control" id="chucVuSearch">
-                                        <option value="-1"  selected>Chức vụ - Tất cả</option>
+                                        <option value="-1" selected>Chức vụ - Tất cả</option>
                                         @foreach (var cv in ViewBag.listCongViec)
                                         {
                                             <option value="@cv.MaCongViec">@cv.TenCongViec</option>
@@ -389,11 +389,11 @@
             },
             onFinishing: function (event, currentIndex) {
                 confirmAlert(
-                'Xác nhận tạo quyết định?',
-                'Có thể xem lại quyết định đã tạo trong các mục quyết định đã/chưa xử lý',
-                function ahihi(){
-                  execute();
-                });
+                    'Xác nhận tạo quyết định?',
+                    'Có thể xem lại quyết định đã tạo trong các mục quyết định đã/chưa xử lý',
+                    function ahihi() {
+                        execute();
+                    });
             },
             onFinished: function (event, currentIndex) {
 
@@ -495,6 +495,9 @@
                             for (var i = 48; i <= 57; i++) {
                                 acceptList.push(i);
                             }
+                            for (var i = 100; i <= 109; i++) {
+                                acceptList.push(i);
+                            }
                             if (acceptList.indexOf(e.keyCode) === -1) {
                                 e.preventDefault();
                             }
@@ -552,18 +555,39 @@
         //validate function:
         function validateThongTin() {
             var rs = true;
+            if (rs !== false) {
+                $("#pre-load").show("slow", function () {
+                });
+                $.ajax({
+                    url: "/phong-tcld/dieu-chuyen/check-duplicate-sqd",
+                    type: "post",
+                    data: { SoQD: $("#so-quyet-dinh").val().trim() },
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.success) {
+                            if (response.data === true) {
+                                rs = false;
+                            }
+                        }
+                    },
+                    async: false
+                });
+            }
 
-            //if ($("#so-quyet-dinh").val() === null || $("#so-quyet-dinh").val() === "") {
-            //    toastr.error('Số quyết định không được bỏ trống', '');
-            //    rs = false;
-            //    return rs;
-            //}
+            if (rs == false) {
+                toastr.error('Mã Quyết định đã tồn tại', '');
+                 $("#pre-load").hide("slow", function () {
+                        });
+                return rs;
+            }
 
             if (rs !== false) {
                 $(".numberInput").each(function () {
                     if ($(this).val() === "" || $(this).val() === null) {
                         toastr.error('Hãy nhập thông tin đầy đủ ', '');
                         rs = false;
+                         $("#pre-load").hide("slow", function () {
+                        });
                         return rs;
                     }
                 });
@@ -573,6 +597,8 @@
                     if ($(this).val() === "" || $(this).val() === null) {
                         toastr.error('Hãy nhập thông tin đầy đủ ', '');
                         rs = false;
+                         $("#pre-load").hide("slow", function () {
+                        });
                         return rs;
                     }
                 });
@@ -581,11 +607,14 @@
                     if ($(this).val() === "" || $(this).val() === null) {
                         toastr.error('Hãy nhập thông tin đầy đủ ', '');
                         rs = false;
+                         $("#pre-load").hide("slow", function () {
+                        });
                         return rs;
                     }
                 });
             }
-
+            $("#pre-load").hide("slow", function () {
+                        });
             return rs;
         }
     </script>
@@ -597,21 +626,21 @@
             var selectedList = [];
             for (var i = 0; i < arrCarSelected.length; i++) {
                 //var date = $("#thoigian-" + arrCarSelected[i]).val().split('-');
-               
+
                 var obj = {
-                    'SoQD': $("#so-quyet-dinh").val(),
+                    'SoQD': $("#so-quyet-dinh").val().trim(),
                     'MaNV': arrCarSelected[i],
                     'BacLuong': $("#bac-" + arrCarSelected[i]).val(),
                     'MucLuong': joinArr($("#luong-" + arrCarSelected[i]).val().split(',')),
                     'ThangBacLuong': joinArr($("#thang-" + arrCarSelected[i]).val().split(',')),
                     'PhuCap': joinArr($("#phucap-" + arrCarSelected[i]).val().split(',')),
-                    'DonViMoi': $("#donvi-" + arrCarSelected[i]+" :selected").text(),
+                    'DonViMoi': $("#donvi-" + arrCarSelected[i] + " :selected").text(),
                     'ChucVu': {
                         'maChucVu': $("#chucvu-" + arrCarSelected[i]).val(),
                         'tenChucVu': $("#chucvu-" + arrCarSelected[i] + " :selected").text(),
                     },
                     'NgayQD': $("#ngay-quyet-dinh").val(),
-                    'LyDo': $("#lydo-" + arrCarSelected[i]).val()
+                    'LyDo': $("#lydo-" + arrCarSelected[i]).val().trim()
                 }
                 selectedList.push(obj);
             }
@@ -625,7 +654,7 @@
                         $("#maqd-preview").empty();
                         $("#ngayqd-preview").empty();
                         $("#preview-table").empty();
-                        $("#maqd-preview").append(response.data[0].SoQD === "" ? "Chưa có (lưu vào chờ xử lý)" : response.data[0].SoQD);
+                        $("#maqd-preview").append(response.data[0].SoQD.trim() === "" ? "Chưa có (lưu vào chờ xử lý)" : response.data[0].SoQD);
                         $("#ngayqd-preview").append(response.data[0].NgayQD);
                         for (var i = 0; i < response.data.length; i++) {
                             $("#preview-table").append("<tr>\n");
@@ -633,13 +662,13 @@
                             $("#preview-table").append("<td>" + response.data[i].MaNV + "</td>\n");
                             $("#preview-table").append("<td width=\"500px\">" + response.data[i].HoTen + "</td>\n");
                             $("#preview-table").append("<td>" + response.data[i].DonViHienTai + "</td>\n");
-                            $("#preview-table").append("<td>" + response.data[i].ChucVuHienTai.tenChucVu + "</td>\n");                                    $("#preview-table").append("<td>" + response.data[i].DonViMoi + "</td>\n");
-                            $("#preview-table").append("<td>" + response.data[i].ChucVu.tenChucVu + "</td>\n");                 
-                            $("#preview-table").append("<td>" + AddComma(response.data[i].ThangBacLuong) + "</td>\n");
+                            $("#preview-table").append("<td>" + response.data[i].ChucVuHienTai.tenChucVu + "</td>\n"); $("#preview-table").append("<td>" + response.data[i].DonViMoi + "</td>\n");
+                            $("#preview-table").append("<td>" + response.data[i].ChucVu.tenChucVu + "</td>\n");
+                            $("#preview-table").append("<td>" + response.data[i].ThangBacLuong + "</td>\n");
                             $("#preview-table").append("<td>" + AddComma(response.data[i].PhuCap) + "</td>\n");
                             $("#preview-table").append("<td>" + AddComma(response.data[i].BacLuong) + "</td>\n");
                             $("#preview-table").append("<td>" + AddComma(response.data[i].MucLuong) + "</td>\n");
-                            $("#preview-table").append("<td>" + response.data[i].LyDo + "</td>\n");
+                            $("#preview-table").append("<td>" + response.data[i].LyDo.trim() + "</td>\n");
                             $("#preview-table").append(" </tr>\n");
                         }
                     }
@@ -665,7 +694,7 @@
             for (var i = 0; i < arrCarSelected.length; i++) {
                 //var date = $("#thoigian-" + arrCarSelected[i]).val().split('-');
                 var obj = {
-                    'SoQD': $("#so-quyet-dinh").val(),
+                    'SoQD': $("#so-quyet-dinh").val().trim(),
                     'MaNV': arrCarSelected[i],
                     'BacLuong': $("#bac-" + arrCarSelected[i]).val(),
                     'MucLuong': joinArr($("#luong-" + arrCarSelected[i]).val().split(',')),
@@ -677,7 +706,7 @@
                         'tenChucVu': $("#chucvu-" + arrCarSelected[i] + " :selected").text(),
                     },
                     'NgayQD': $("#ngay-quyet-dinh").val(),
-                    'LyDo': $("#lydo-" + arrCarSelected[i]).val()
+                    'LyDo': $("#lydo-" + arrCarSelected[i]).val().trim()
                 }
                 selectedList.push(obj);
             }
@@ -690,11 +719,11 @@
                     if (response.success) {
                         $("#pre-load").hide("slow", function () {
                         });
-                        reloadAlert('Tạo quyết định thành công',3000);
+                        reloadAlert('Tạo quyết định thành công', 3000);
                     } else {
                         $("#pre-load").hide("slow", function () {
                         });
-                        errorAlert(response.message,'');
+                        errorAlert(response.message, '');
                     }
                 }
             });
@@ -725,7 +754,7 @@
             for (var i = 0; i < arrCarSelected.length; i++) {
                 //var date = $("#thoigian-" + arrCarSelected[i]).val().split('-');
                 selectedList.push({
-                    'SoQD': $("#so-quyet-dinh").val(),
+                    'SoQD': $("#so-quyet-dinh").val().trim(),
                     'MaNV': arrCarSelected[i],
                     'HoTen': "",
                     'DonViHienTai': "",
@@ -740,7 +769,7 @@
                         'tenChucVu': $("#chucvu-" + arrCarSelected[i] + " :selected").text(),
                     },
                     'NgayQD': $("#ngay-quyet-dinh").val(),
-                    'LyDo': $("#lydo-" + arrCarSelected[i]).val()
+                    'LyDo': $("#lydo-" + arrCarSelected[i]).val().trim()
                 });
             }
             //var urlToSend = '/phong-tcld/dieu-chuyen/export-quyet-dinh';

@@ -34,7 +34,14 @@ namespace QUANGHANHCORE.Controllers.CDVT
             etk.total_TL = temp.Count().ToString();
             temp = db.Database.SqlQuery<Temp>("select distinct e.equipmentId from Equipment e where e.current_Status = 1").ToList<Temp>();
             etk.total_TH = temp.Count().ToString();
-
+            List<DashEquip> listKD = db.Database.SqlQuery<DashEquip>("select distinct t.equipmentId,t.equipment_name from (select e.equipmentId, e.equipment_name, e.current_Status,ec.Equipment_category_id from Equipment e inner join Equipment_category ec on e.Equipment_category_id = ec.Equipment_category_id where e.current_Status = 10) as t").ToList();
+            int totalKD = 0;
+            foreach (var item in listKD)
+            {
+                totalKD++;
+            }
+            ViewBag.listKD = listKD;
+            ViewBag.totalKD = totalKD;
             etk.total_KHD = Convert.ToInt32(etk.total_repair) + Convert.ToInt32(etk.total_maintain) + Convert.ToInt32(etk.total_KD) + Convert.ToInt32(etk.total_TH) + Convert.ToInt32(etk.total_TL);
             etk.total_HD = Convert.ToInt32(etk.total) - Convert.ToInt32(etk.total_KHD);
 
@@ -50,10 +57,78 @@ namespace QUANGHANHCORE.Controllers.CDVT
             List<DashEquip> listTH = db.Database.SqlQuery<DashEquip>("select e.equipmentId,e.equipment_name from Equipment e where e.current_Status = 1").ToList();
             ViewBag.listTH = listTH;
             ViewBag.Thongke = etk;
+            List<form1> hanDangKiem = db.Database.SqlQuery<form1>("select top 10 e.equipment_name,e.equipmentId,DAY(e.durationOfInspection) as ngay,MONTH(e.durationOfInspection) as thang,YEAR(e.durationOfInspection) as nam from Equipment e where (CAST(e.durationOfInspection as datetime) - GETDATE() between -1 and 10)  and YEAR(e.durationOfInspection) = YEAR(GETDATE()) order by e.durationOfInspection asc").ToList();
+            int kiemdinhtag = 0;
+            foreach (var item in hanDangKiem)
+            {
+                kiemdinhtag++;
+            }
+            ViewBag.kiemdinhtag = kiemdinhtag;
+            ViewBag.handangkiem = hanDangKiem;
+            List<form1> hanBaoduong = db.Database.SqlQuery<form1>("select top 10 e.equipment_name,e.equipmentId, DAY(e.nearest_Maintenance_Day) as ngay,MONTH(e.nearest_Maintenance_Day) as thang,YEAR(e.nearest_Maintenance_Day) as nam  from Equipment e where (CAST(e.nearest_Maintenance_Day as datetime) - GETDATE() between -1 and 10) and YEAR(e.nearest_Maintenance_Day) = YEAR(GETDATE()) order by e.nearest_Maintenance_Day asc").ToList();
+            int baoduongtag = 0;
+            foreach (var item in hanBaoduong)
+            {
+                baoduongtag++;
+            }
+            ViewBag.baoduongtag = baoduongtag;
+            ViewBag.hanbaoduong = hanBaoduong;
+
+            var tongcogioi = db.Database.SqlQuery<DashEquip>("select e.equipmentId,e.equipment_name from Equipment e where e.Equipment_category_id in (select ec.Equipment_category_id from Equipment_category_attribute ec where ec.Equipment_category_attribute_name = N'Số khung' or ec.Equipment_category_attribute_name = N'Số máy')").ToList();
+            ViewBag.tongcogioi = tongcogioi.Count().ToString();
+
+            var cogioihd = db.Database.SqlQuery<SL>("select COUNT(e.current_Status) as abc from Equipment e where e.Equipment_category_id in (select ec.Equipment_category_id from Equipment_category_attribute ec where ec.Equipment_category_attribute_name = N'Số khung' or ec.Equipment_category_attribute_name = N'Số máy') and e.current_Status =2").FirstOrDefault();
+            ViewBag.cogioikhd = tongcogioi.Count() - cogioihd.abc;
+            ViewBag.cogioihd = cogioihd.abc;
+            List<DashEquip> cogioiSC = db.Database.SqlQuery<DashEquip>("select e.equipmentId,e.equipment_name from Equipment e where e.Equipment_category_id in (select ec.Equipment_category_id from Equipment_category_attribute ec where ec.Equipment_category_attribute_name = N'Số khung' or ec.Equipment_category_attribute_name = N'Số máy') and e.current_Status = 3").ToList();
+            ViewBag.cogioiSC = cogioiSC;
+            var slSC = db.Database.SqlQuery<SL>("select COUNT(e.equipmentId) as abc from Equipment e where e.Equipment_category_id in (select ec.Equipment_category_id from Equipment_category_attribute ec where ec.Equipment_category_attribute_name = N'Số khung' or ec.Equipment_category_attribute_name = N'Số máy') and e.current_Status = 3").FirstOrDefault();
+            ViewBag.slSC = slSC.abc;
+
+            List<DashEquip> cogioiBD = db.Database.SqlQuery<DashEquip>("select e.equipmentId,e.equipment_name from Equipment e where e.Equipment_category_id in (select ec.Equipment_category_id from Equipment_category_attribute ec where ec.Equipment_category_attribute_name = N'Số khung' or ec.Equipment_category_attribute_name = N'Số máy') and e.current_Status = 5").ToList();
+            ViewBag.cogioiBD = cogioiBD;
+            var slBD = db.Database.SqlQuery<SL>("select COUNT(e.equipmentId) as abc from Equipment e where e.Equipment_category_id in (select ec.Equipment_category_id from Equipment_category_attribute ec where ec.Equipment_category_attribute_name = N'Số khung' or ec.Equipment_category_attribute_name = N'Số máy') and e.current_Status = 5").FirstOrDefault();
+            ViewBag.slBD = slBD.abc;
+
+            List<DashEquip> cogioiKD = db.Database.SqlQuery<DashEquip>("select distinct t.equipmentId, t.equipment_name from (select e.equipmentId, e.equipment_name, e.current_Status,ec.Equipment_category_id from Equipment e inner join Equipment_category ec on e.Equipment_category_id = ec.Equipment_category_id where e.current_Status = 10) as t  inner join Equipment_category_attribute ea on ea.Equipment_category_id = t.Equipment_category_id  where ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy'").ToList();
+            int slKD = 0;
+            foreach (var item in cogioiKD)
+            {
+                slKD++;
+            }
+            ViewBag.cogioiKD = cogioiKD;
+            ViewBag.slKD = slKD;
+
+            List<DashEquip> cogioiTL = db.Database.SqlQuery<DashEquip>("select e.equipmentId,e.equipment_name from Equipment e where e.Equipment_category_id in (select ec.Equipment_category_id from Equipment_category_attribute ec where ec.Equipment_category_attribute_name = N'Số khung' or ec.Equipment_category_attribute_name = N'Số máy') and e.current_Status = 8").ToList();
+            ViewBag.cogioiTL = cogioiTL;
+            var slTL = db.Database.SqlQuery<SL>("select COUNT(e.equipmentId) as abc from Equipment e where e.Equipment_category_id in (select ec.Equipment_category_id from Equipment_category_attribute ec where ec.Equipment_category_attribute_name = N'Số khung' or ec.Equipment_category_attribute_name = N'Số máy') and e.current_Status = 8").FirstOrDefault();
+            ViewBag.slTL = slTL.abc;
+
+            List<DashEquip> cogioiTH = db.Database.SqlQuery<DashEquip>("select e.equipmentId,e.equipment_name from Equipment e where e.Equipment_category_id in (select ec.Equipment_category_id from Equipment_category_attribute ec where ec.Equipment_category_attribute_name = N'Số khung' or ec.Equipment_category_attribute_name = N'Số máy') and e.current_Status = 7").ToList();
+            ViewBag.cogioiTH = cogioiTH;
+            var slTH = db.Database.SqlQuery<SL>("select COUNT(e.equipmentId) as abc from Equipment e where e.Equipment_category_id in (select ec.Equipment_category_id from Equipment_category_attribute ec where ec.Equipment_category_attribute_name = N'Số khung' or ec.Equipment_category_attribute_name = N'Số máy') and e.current_Status = 7").FirstOrDefault();
+            ViewBag.slTH = slTH.abc;
+
+            List<form1> hanDangKiemcogioi = db.Database.SqlQuery<form1>("select top 10 e.equipment_name,e.equipmentId,DAY(e.durationOfInspection) as ngay,MONTH(e.durationOfInspection) as thang,YEAR(e.durationOfInspection) as nam from Equipment e where (CAST(e.durationOfInspection as datetime) - GETDATE() between -1 and 10)  and YEAR(e.durationOfInspection) = YEAR(GETDATE()) and e.Equipment_category_id in (select ec.Equipment_category_id from Equipment_category_attribute ec where ec.Equipment_category_attribute_name = N'Số khung' or ec.Equipment_category_attribute_name = N'Số máy') order by e.durationOfInspection asc").ToList();
+            int kiemdinhcogioitag = 0;
+            foreach (var item in hanDangKiem)
+            {
+                kiemdinhcogioitag++;
+            }
+            ViewBag.kiemdinhcogioitag = kiemdinhcogioitag;
+            ViewBag.hanDangKiemcogioi = hanDangKiemcogioi;
+
+            List<form1> hanBaoduongcogioi = db.Database.SqlQuery<form1>("select top 10 e.equipment_name,e.equipmentId, DAY(e.nearest_Maintenance_Day) as ngay,MONTH(e.nearest_Maintenance_Day) as thang,YEAR(e.nearest_Maintenance_Day) as nam  from Equipment e where (CAST(e.nearest_Maintenance_Day as datetime) - GETDATE() between -1 and 10) and YEAR(e.nearest_Maintenance_Day) = YEAR(GETDATE()) and e.Equipment_category_id in (select ec.Equipment_category_id from Equipment_category_attribute ec where ec.Equipment_category_attribute_name = N'Số khung' or ec.Equipment_category_attribute_name = N'Số máy') order by e.nearest_Maintenance_Day asc").ToList();
+            int baoduongcogioitag = 0;
+            foreach (var item in hanBaoduongcogioi)
+            {
+                baoduongcogioitag++;
+            }
+            ViewBag.baoduongcogioitag = baoduongcogioitag;
+            ViewBag.hanBaoduongcogioi = hanBaoduongcogioi;
 
 
             Wherecondition(type, month, year);
-
             return View("/Views/CDVT/Dashboard.cshtml");
         }
 
@@ -115,69 +190,67 @@ namespace QUANGHANHCORE.Controllers.CDVT
             if (type == "year")
             {
                 int nam = Convert.ToInt32(year);
-                querySC = "select t.[month] as [date], count(g.equipmentId) as soluong from " +
-                            " (select number as [month] from master..spt_values where Type = 'P' and number <= 12 and number > 0) as t left join " +
-                            " (select a.acceptance_date, a.equipmentId from " +
-                            " Acceptance a left join Documentary d on d.documentary_id = a.documentary_id " +
-                            " where d.documentary_type = 1 and YEAR(a.acceptance_date) = " + nam + " ) as g " +
-                            " on t.[month] = month(g.acceptance_date) " +
-                            "group by t.[month] order by t.[month] asc";
-                queryBD = "select t.[month] as [date], count(g.equipmentId) as soluong from " +
-                            " (select number as [month] from master..spt_values where Type = 'P' and number <= 12 and number > 0) as t left join " +
-                            " (select a.acceptance_date, a.equipmentId from " +
-                            " Acceptance a left join Documentary d on d.documentary_id = a.documentary_id " +
-                            " where d.documentary_type = 2 and YEAR(a.acceptance_date) = " + nam + ") as g " +
-                            " on t.[month] = month(g.acceptance_date) " +
-                            " group by t.[month] order by t.[month] asc";
-                queryTL = "select t.[month] as [date], count(g.equipmentId) as soluong from " +
-                            " (select number as [month] from master..spt_values where Type = 'P' and number <= 12 and number > 0) as t left join " +
-                            " (select a.acceptance_date, a.equipmentId from " +
-                            " Acceptance a left join Documentary d on d.documentary_id = a.documentary_id " +
-                            " where d.documentary_type = 5 and YEAR(a.acceptance_date) = " + nam + ") as g " +
-                            " on t.[month] = month(g.acceptance_date) " +
-                            " group by t.[month] order by t.[month] asc";
-                queryTDT = "select t.[month] as [date], count(g.equipmentId) as soluong from " +
-                            " (select number as [month] from master..spt_values where Type = 'P' and number <= 12 and number > 0) as t left join " +
-                            " (select a.acceptance_date, a.equipmentId from " +
-                            " Acceptance a left join Documentary d on d.documentary_id = a.documentary_id " +
-                            " where d.documentary_type = 6 and YEAR(a.acceptance_date) = " + nam + ") as g " +
-                            " on t.[month] = month(g.acceptance_date) " +
-                            " group by t.[month] order by t.[month] asc";
-                queryKD = "select t.[month] as [date], count(e.equipmentId) as soluong from (select number as [month] " +
-                            " from master..spt_values where Type = 'P' and number <= 12 and number > 0) as t left join Equipment_Inspection e " +
-                            " on t.[month] = month(e.inspect_end_date) and YEAR(e.inspect_end_date) = " + nam + " group by t.[month]";
+                querySC = "select CAST(t.[month] as int) as [date], count(g.equipmentId) as soluong from (select number as [month] " +
+                            " from(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) a(n), " +
+                            " (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a where number <= 12 and number > 0) as t left join " +
+                            " (select a.acceptance_date, a.equipmentId from Acceptance a left join Documentary d " +
+                            " on d.documentary_id = a.documentary_id where d.documentary_type = 1) as g " +
+                            " on t.[month] = month(g.acceptance_date) and YEAR(g.acceptance_date) = "+nam+" group by t.[month] order by t.[month] asc";
+                queryBD = "select CAST(t.[month] as int) as [date], count(g.equipmentId) as soluong from (select number as [month] " +
+                            " from(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) a(n), " +
+                            " (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a where number <= 12 and number > 0) as t left join " +
+                            " (select a.acceptance_date, a.equipmentId from Acceptance a left join Documentary d " +
+                            " on d.documentary_id = a.documentary_id where d.documentary_type = 2) as g " +
+                            " on t.[month] = month(g.acceptance_date) and YEAR(g.acceptance_date) = " + nam + " group by t.[month] order by t.[month] asc";
+                queryTL = "select CAST(t.[month] as int) as [date], count(g.equipmentId) as soluong from (select number as [month] " +
+                            " from(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) a(n), " +
+                            " (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a where number <= 12 and number > 0) as t left join " +
+                            " (select a.acceptance_date, a.equipmentId from Acceptance a left join Documentary d " +
+                            " on d.documentary_id = a.documentary_id where d.documentary_type = 5) as g " +
+                            " on t.[month] = month(g.acceptance_date) and YEAR(g.acceptance_date) = " + nam + " group by t.[month] order by t.[month] asc";
+                queryTDT = "select CAST(t.[month] as int) as [date], count(g.equipmentId) as soluong from (select number as [month] " +
+                            " from(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) a(n), " +
+                            " (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a where number <= 12 and number > 0) as t left join " +
+                            " (select a.acceptance_date, a.equipmentId from Acceptance a left join Documentary d " +
+                            " on d.documentary_id = a.documentary_id where d.documentary_type = 6) as g " +
+                            " on t.[month] = month(g.acceptance_date) and YEAR(g.acceptance_date) = " + nam + " group by t.[month] order by t.[month] asc";
+                queryKD = "select CAST(t.[month] as int) as [date], count(e.equipmentId) as soluong from (select number as [month] " +
+                             " FROM(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) a(n), " +
+                             " (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a where number <= 12 and number > 0) as t left join Equipment_Inspection e " +
+                             " on t.[month] = month(e.inspect_end_date) and YEAR(e.inspect_end_date) = "+nam+" group by t.[month]";
             }
             if (type == "yearss")
             {
-                querySC = "select t.[year] as [date], count(g.equipmentId) as soluong from " +
-                            " (SELECT[year] = year(DATEADD(year, Number, cast('01/01/2010' as date))) FROM  master..spt_values " +
-                            " WHERE Type = 'P' AND DATEADD(year, Number, '01/01/2010') <= GETDATE()) as t left join " +
-                            " (select a.acceptance_date, a.equipmentId from Acceptance a left join Documentary d " +
-                            " on d.documentary_id = a.documentary_id where d.documentary_type = 1) as g " +
-                            " on t.[year] = year(g.acceptance_date) group by t.[year] order by t.[year] asc";
-                queryBD = "select t.[year] as [date], count(g.equipmentId) as soluong from " +
-                            " (SELECT[year] = year(DATEADD(year, Number, cast('01/01/2010' as date))) FROM  master..spt_values " +
-                            " WHERE Type = 'P' AND DATEADD(year, Number, '01/01/2010') <= GETDATE()) as t left join " +
-                            " (select a.acceptance_date, a.equipmentId from Acceptance a left join Documentary d " +
-                            " on d.documentary_id = a.documentary_id where d.documentary_type = 2) as g " +
-                            " on t.[year] = year(g.acceptance_date) group by t.[year] order by t.[year] asc";
-                queryTL = "select t.[year] as [date], count(g.equipmentId) as soluong from " +
-                            " (SELECT[year] = year(DATEADD(year, Number, cast('01/01/2010' as date))) FROM  master..spt_values " +
-                            " WHERE Type = 'P' AND DATEADD(year, Number, '01/01/2010') <= GETDATE()) as t left join " +
-                            " (select a.acceptance_date, a.equipmentId from Acceptance a left join Documentary d " +
-                            " on d.documentary_id = a.documentary_id where d.documentary_type = 5) as g " +
-                            " on t.[year] = year(g.acceptance_date) group by t.[year] order by t.[year] asc";
-                queryTDT = "select t.[year] as [date], count(g.equipmentId) as soluong from " +
-                            " (SELECT[year] = year(DATEADD(year, Number, cast('01/01/2010' as date))) FROM  master..spt_values " +
-                            " WHERE Type = 'P' AND DATEADD(year, Number, '01/01/2010') <= GETDATE()) as t left join " +
-                            " (select a.acceptance_date, a.equipmentId from Acceptance a left join Documentary d " +
-                            " on d.documentary_id = a.documentary_id where d.documentary_type = 6) as g " +
-                            " on t.[year] = year(g.acceptance_date) group by t.[year] order by t.[year] asc";
-                queryKD = "select t.[year] as [date], count(e.equipmentId) as soluong from " +
-                            " (SELECT[year] = year(DATEADD(year, Number, cast('01/01/2010' as date))) " +
-                            " FROM  master..spt_values WHERE Type = 'P' " +
-                            " AND DATEADD(year, Number, '01/01/2010') <= GETDATE()) as t left join Equipment_Inspection e " +
-                            " on t.[year] = year(e.inspect_end_date) group by t.[year]";
+                querySC = "select t.[year] as [date], count(g.equipmentId) as soluong from  (SELECT[year] = year(DATEADD(year, Number, cast('01/01/2010' as date))) "+
+                            " FROM(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) a(n), " +
+                            " (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a WHERE DATEADD(year, Number, '01/01/2010') <= GETDATE()) as t left join " +
+                              " (select a.acceptance_date, a.equipmentId from Acceptance a left join Documentary d " +
+                              " on d.documentary_id = a.documentary_id where d.documentary_type = 1) as g on t.[year] = year(g.acceptance_date) " +
+                            " group by t.[year] order by t.[year] asc";
+                queryBD = "select t.[year] as [date], count(g.equipmentId) as soluong from  (SELECT[year] = year(DATEADD(year, Number, cast('01/01/2010' as date))) " +
+                            " FROM(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) a(n), " +
+                            " (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a WHERE DATEADD(year, Number, '01/01/2010') <= GETDATE()) as t left join " +
+                              " (select a.acceptance_date, a.equipmentId from Acceptance a left join Documentary d " +
+                              " on d.documentary_id = a.documentary_id where d.documentary_type = 2) as g on t.[year] = year(g.acceptance_date) " +
+                            " group by t.[year] order by t.[year] asc";
+                queryTL = "select t.[year] as [date], count(g.equipmentId) as soluong from  (SELECT[year] = year(DATEADD(year, Number, cast('01/01/2010' as date))) " +
+                            " FROM(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) a(n), " +
+                            " (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a WHERE DATEADD(year, Number, '01/01/2010') <= GETDATE()) as t left join " +
+                              " (select a.acceptance_date, a.equipmentId from Acceptance a left join Documentary d " +
+                              " on d.documentary_id = a.documentary_id where d.documentary_type = 5) as g on t.[year] = year(g.acceptance_date) " +
+                            " group by t.[year] order by t.[year] asc";
+                queryTDT = "select t.[year] as [date], count(g.equipmentId) as soluong from  (SELECT[year] = year(DATEADD(year, Number, cast('01/01/2010' as date))) " +
+                            " FROM(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) a(n), " +
+                            " (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a WHERE DATEADD(year, Number, '01/01/2010') <= GETDATE()) as t left join " +
+                              " (select a.acceptance_date, a.equipmentId from Acceptance a left join Documentary d " +
+                              " on d.documentary_id = a.documentary_id where d.documentary_type = 6) as g on t.[year] = year(g.acceptance_date) " +
+                            " group by t.[year] order by t.[year] asc";
+                queryKD = "select t.[year] as [date], count(e.equipmentId) as soluong from "+
+                             " (SELECT[year] = year(DATEADD(year, Number, cast('01/01/2010' as date))) " +
+                             " FROM(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) a(n), " +
+                             " (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a " +
+                             " where DATEADD(year, Number, '01/01/2010') <= GETDATE()) as t left join Equipment_Inspection e " +
+                             " on t.[year] = year(e.inspect_end_date) group by t.[year] order by t.[year] asc";
             }
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
@@ -212,5 +285,17 @@ namespace QUANGHANHCORE.Controllers.CDVT
     {
         public int date { get; set; }
         public int soluong { get; set; }
+    }
+    public class form1
+    {
+        public string equipment_name { get; set; }
+        public string equipmentId { get; set; }
+        public int ngay { get; set; }
+        public int thang { get; set; }
+        public int nam { get; set; }
+    }
+    public class SL
+    {
+        public int abc { get; set; }
     }
 }

@@ -443,11 +443,8 @@ namespace QUANGHANH2.Controllers.TCLD
                         {
                             excelWorksheet.Cells[k, 4].Value = "Nữ";
                         }
-                        excelWorksheet.Cells[k, 5].Value = list.ElementAt(i).NgaySinh.ToString("dd/MM/yyyy");
-                        excelWorksheet.Cells[k, 6].Value = list.ElementAt(i).SoCMND;
-                        excelWorksheet.Cells[k, 7].Value = list.ElementAt(i).SoBHXH;
-                        excelWorksheet.Cells[k, 8].Value = list.ElementAt(i).CoQuanTruoc;
-                        excelWorksheet.Cells[k, 9].Value = list.ElementAt(i).CongViecDaLamLauNhat;
+                        excelWorksheet.Cells[k, 4].Value = list.ElementAt(i).NgaySinh.HasValue? list.ElementAt(i).NgaySinh.Value.ToString("dd/MM/yyyy"): "";
+                        excelWorksheet.Cells[k, 5].Value = list.ElementAt(i).SoBHXH;
                         if (list.ElementAt(i).MaTrinhDo != null)
                         {
                             if (list.ElementAt(i).MaTrinhDo.Equals("1"))

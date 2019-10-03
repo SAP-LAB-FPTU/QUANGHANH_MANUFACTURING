@@ -1,6 +1,6 @@
-﻿
-using OfficeOpenXml;
+﻿using OfficeOpenXml;
 using QUANGHANH2.Models;
+using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -16,13 +16,14 @@ namespace QUANGHANHCORE.Controllers.TCLD
 {
     public class CertificateController : Controller
     {
+        [Auther(RightID = "149")]
         [Route("phong-tcld/chung-chi/danh-sach-chung-chi")]
         [HttpGet]
         public ActionResult Index()
         {
             return View("/Views/TCLD/Certificate/List.cshtml");
         }
-
+        [Auther(RightID = "149")]
         [Route("phong-tcld/chung-chi/danh-sach-chung-chi")]
         [HttpPost]
         public ActionResult List()
@@ -34,10 +35,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
             string sortDirection = Request["order[0][dir]"];
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
+                //string name = Session["Name"].ToString()  ;
 
+                //Session["Accept"] = name;
                 db.Configuration.ProxyCreationEnabled = false;
                 List<ChungChi> listdata = db.ChungChis.ToList<ChungChi>();
-
                 int totalrows = listdata.Count;
                 int totalrowsafterfiltering = listdata.Count;
                 listdata = listdata.OrderBy(sortColumnName + " " + sortDirection).ToList<ChungChi>();
@@ -48,6 +50,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 return js;
             }
         }
+        [Auther(RightID = "153")]
         [Route("phong-tcld/chung-chi/danh-sach-chung-chi-nhan-vien")]
         [HttpPost]
         public ActionResult ListEmployeeCirtificate()
@@ -96,7 +99,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
 
         }
-
+        [Auther(RightID = "150")]
         [HttpGet]
         public ActionResult AddCertificate()
         {
@@ -105,6 +108,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             return View();
 
         }
+        [Auther(RightID = "150")]
         [HttpPost]
         public ActionResult AddCertificate(ChungChi chungChi)
         {
@@ -116,11 +120,12 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     db.ChungChis.Add(chungChi);
                     db.SaveChanges();
                 }
-                return RedirectToAction("List");
+                return RedirectToAction("List", "Certificate");
             }
 
 
         }
+        [Auther(RightID = "154")]
         [HttpGet]
         public ActionResult AddCertificateEmployee()
         {
@@ -161,11 +166,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 }
             }
         }
-        public ActionResult validateExistCirtificateOfEmp(string manv, int id,string first_cir)
+        public ActionResult validateExistCirtificateOfEmp(string manv, int id, string first_cir)
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                var chungchi_nvs = db.ChungChi_NhanVien.Where(x => (x.MaNV == manv) &&(x.MaChungChi==id)).FirstOrDefault<ChungChi_NhanVien>();
+                var chungchi_nvs = db.ChungChi_NhanVien.Where(x => (x.MaNV == manv) && (x.MaChungChi == id)).FirstOrDefault<ChungChi_NhanVien>();
                 if (chungchi_nvs != null)
                 {
                     if (first_cir != "" && (chungchi_nvs.MaChungChi.ToString()).Equals(first_cir))
@@ -221,6 +226,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 }
             }
         }
+        [Auther(RightID = "154")]
         [HttpPost]
         public ActionResult AddCertificateEmployee(ChungChi_NhanVien chungChi_nhanVien)
         {
@@ -238,6 +244,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
 
         }
+        [Auther(RightID = "151")]
         [HttpGet]
         public ActionResult EditCertificate(int id = 0)
         {
@@ -266,6 +273,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             SelectList listTypeCert = new SelectList(listTypes, "Value", "Value");
             ViewBag.listTypeCert = listTypeCert;
         }
+        [Auther(RightID = "151")]
         [HttpPost]
         public ActionResult EditCertificate(ChungChi chungChi)
         {
@@ -280,13 +288,14 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 return RedirectToAction("List");
             }
         }
+        [Auther(RightID = "155")]
         [HttpGet]
         public ActionResult EditCertificateEmp(string id)
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 getListInforEmployeeCirtificate();
-                   var cirtificate_emp = db.ChungChi_NhanVien.Where(x => x.SoHieu == id).FirstOrDefault<ChungChi_NhanVien>();
+                var cirtificate_emp = db.ChungChi_NhanVien.Where(x => x.SoHieu == id).FirstOrDefault<ChungChi_NhanVien>();
                 if (cirtificate_emp != null)
                 {
                     var emp = db.NhanViens.Where(x => x.MaNV == cirtificate_emp.MaNV).FirstOrDefault<NhanVien>();
@@ -304,6 +313,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
 
         }
+        [Auther(RightID = "155")]
         [HttpPost]
         public ActionResult EditCertificateEmp(ChungChi_NhanVien chungchinv)
         {
@@ -317,34 +327,53 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 return RedirectToAction("List");
             }
         }
+        [Auther(RightID = "152")]
         [HttpPost]
         public ActionResult DeleteCertificate(int id = 0)
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-
-                ChungChi chungChi = db.ChungChis.Where(x => x.MaChungChi == id).FirstOrDefault<ChungChi>();
-
-                db.ChungChis.Remove(chungChi);
-                //List<ChungChi_NhanVien> ccnv = new List<ChungChi_NhanVien>();
-                var ccnv = from item in db.ChungChi_NhanVien
-                       where item.MaChungChi==id
-                       select item;
-                //var chungchi_nvs = db.ChungChi_NhanVien.Where(x => x.MaChungChi == id).FirstOrDefault<ChungChi_NhanVien>();
-                if (ccnv != null)
+                using (DbContextTransaction transaction = db.Database.BeginTransaction())
                 {
-                    foreach (var item in ccnv)
+                    try
                     {
-                        db.ChungChi_NhanVien.Remove(item);
+
+                        ChungChi chungChi = db.ChungChis.Where(x => x.MaChungChi == id).FirstOrDefault<ChungChi>();
+
+                        db.ChungChis.Remove(chungChi);
+                        //List<ChungChi_NhanVien> ccnv = new List<ChungChi_NhanVien>();
+                        var ccnv = from item in db.ChungChi_NhanVien
+                                   where item.MaChungChi == id
+                                   select item;
+                        var nhiemvu = db.NhiemVus.Where(x => x.MaChungChi==id).ToList();
+                        //var chungchi_nvs = db.ChungChi_NhanVien.Where(x => x.MaChungChi == id).FirstOrDefault<ChungChi_NhanVien>();
+                        if (ccnv != null)
+                        {
+                            
+                            db.ChungChi_NhanVien.RemoveRange(db.ChungChi_NhanVien.Where(x => x.MaChungChi == id));
+                        }
+                        if (nhiemvu != null)
+                        {
+
+                            nhiemvu.ForEach(item => item.MaChungChi = null);
+                        }
+
+                        db.SaveChanges();
+                        transaction.Commit();
+                        return Json(new { success = true, message = "Xóa thành công" }, JsonRequestBehavior.AllowGet);
                     }
-
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        Console.WriteLine("Error occurred.");
+                    }
                 }
-
-                db.SaveChanges();
-                return Json(new { success = true, message = "Xóa thành công" }, JsonRequestBehavior.AllowGet);
+                return RedirectToAction("List");
+                
 
             }
         }
+        [Auther(RightID = "156")]
         [HttpPost]
         public ActionResult DeleteCertificateEmp(string id)
         {
@@ -362,7 +391,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 {
                     return Json(new { success = true, message = "Xóa thất bại" }, JsonRequestBehavior.AllowGet);
                 }
-                
+
 
             }
         }
@@ -429,14 +458,13 @@ namespace QUANGHANHCORE.Controllers.TCLD
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 db.Configuration.ProxyCreationEnabled = false;
-                if (sohieu != null|| tenchungchi != null|| tennv != null)
+                if (sohieu != null || tenchungchi != null || tennv != null)
                 {
 
-                    equipList = (from ccnv in db.ChungChi_NhanVien where (ccnv.SoHieu.Contains(sohieu))
+                    equipList = (from ccnv in db.ChungChi_NhanVien
                                  join cc in db.ChungChis on ccnv.MaChungChi equals cc.MaChungChi
-                                 where (cc.TenChungChi.Contains(tenchungchi))
                                  join nv in db.NhanViens on ccnv.MaNV equals nv.MaNV
-                                 where (nv.Ten.Contains(tennv))
+                                 where ((nv.Ten.Contains(tennv)) && (ccnv.SoHieu.Contains(sohieu)) && (cc.TenChungChi.Contains(tenchungchi)))
                                  select new
                                  {
                                      SoHieu = ccnv.SoHieu,
@@ -475,7 +503,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         public ActionResult ExporTotExcel()
         {
             string path = HostingEnvironment.MapPath("/excel/TCLD/Certificate/Chứng chỉ của cả công ty.xlsx");
-            string saveAsPath = ("/excel/TCLD/download/Certificate.xlsx");
+            string saveAsPath = ("/excel/TCLD/download/Chứng chỉ của cả công ty.xlsx");
             FileInfo file = new FileInfo(path);
             using (ExcelPackage excelPackage = new ExcelPackage(file))
             {
@@ -485,25 +513,23 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 {
                     List<ChungChi> listdata = db.ChungChis.ToList<ChungChi>();
 
-                    ws.Cells["A1"].Value = "Mã chứng chỉ";
-                    ws.Cells["B1"].Value = "Tên chứng chỉ";
-                    ws.Cells["C1"].Value = "Thời hạn (tháng)";
-                    ws.Cells["D1"].Value = "Kiểu chứng chỉ";
+                    ws.Cells["A1"].Value = "Tên chứng chỉ";
+                    ws.Cells["B1"].Value = "Thời hạn (tháng)";
+                    ws.Cells["C1"].Value = "Kiểu chứng chỉ";
                     int rowStart = 2;
                     foreach (var i in listdata)
                     {
-                        ws.Cells[string.Format("A{0}", rowStart)].Value = i.MaChungChi;
-                        ws.Cells[string.Format("B{0}", rowStart)].Value = i.TenChungChi;
+                        ws.Cells[string.Format("A{0}", rowStart)].Value = i.TenChungChi;
                         if (i.ThoiHan == -1)
                         {
-                            ws.Cells[string.Format("C{0}", rowStart)].Value = "Vĩnh viễn";
+                            ws.Cells[string.Format("B{0}", rowStart)].Value = "Vĩnh viễn";
                         }
                         else
                         {
-                            ws.Cells[string.Format("C{0}", rowStart)].Value = i.ThoiHan;
+                            ws.Cells[string.Format("B{0}", rowStart)].Value = i.ThoiHan;
                         }
 
-                        ws.Cells[string.Format("D{0}", rowStart)].Value = i.KieuChungChi;
+                        ws.Cells[string.Format("C{0}", rowStart)].Value = i.KieuChungChi;
                         rowStart++;
 
                     }
@@ -517,7 +543,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         public ActionResult ExporTotExcelCertificateEmp()
         {
             string path = HostingEnvironment.MapPath("/excel/TCLD/Certificate/Chứng chỉ của nhân viên.xlsx");
-            string saveAsPath = ("/excel/TCLD/download/CertificateOfEmployee.xlsx");
+            string saveAsPath = ("/excel/TCLD/download/Chứng chỉ của nhân viên.xlsx");
             FileInfo file = new FileInfo(path);
             using (ExcelPackage excelPackage = new ExcelPackage(file))
             {
@@ -528,27 +554,27 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 {
 
                     listdata_certificate_Emp = (from ccnv in db.ChungChi_NhanVien
-                                 join cc in db.ChungChis on ccnv.MaChungChi equals cc.MaChungChi
-                                 join nv in db.NhanViens on ccnv.MaNV equals nv.MaNV
-                                 select new
-                                 {
-                                     SoHieu = ccnv.SoHieu,
-                                     NgayCap = ccnv.NgayCap,
-                                     MaNV = ccnv.MaNV,
-                                     TenNV = nv.Ten,
-                                     MaChungChi = ccnv.MaChungChi,
-                                     TenChungChi = cc.TenChungChi,
+                                                join cc in db.ChungChis on ccnv.MaChungChi equals cc.MaChungChi
+                                                join nv in db.NhanViens on ccnv.MaNV equals nv.MaNV
+                                                select new
+                                                {
+                                                    SoHieu = ccnv.SoHieu,
+                                                    NgayCap = ccnv.NgayCap,
+                                                    MaNV = ccnv.MaNV,
+                                                    TenNV = nv.Ten,
+                                                    MaChungChi = ccnv.MaChungChi,
+                                                    TenChungChi = cc.TenChungChi,
 
-                                 }).ToList().Select(p => new ChungChi_NhanVien_Model
-                                 {
+                                                }).ToList().Select(p => new ChungChi_NhanVien_Model
+                                                {
 
-                                     SoHieu = p.SoHieu,
-                                     NgayCap = p.NgayCap,
-                                     MaNV = p.MaNV,
-                                     MaChungChi = p.MaChungChi,
-                                     TenNV = p.TenNV,
-                                     TenChungChi = p.TenChungChi,
-                                 }).ToList();
+                                                    SoHieu = p.SoHieu,
+                                                    NgayCap = p.NgayCap,
+                                                    MaNV = p.MaNV,
+                                                    MaChungChi = p.MaChungChi,
+                                                    TenNV = p.TenNV,
+                                                    TenChungChi = p.TenChungChi,
+                                                }).ToList();
 
                     ws_cert_emp.Cells["A1"].Value = "Số hiệu";
                     ws_cert_emp.Cells["B1"].Value = "Tên chứng chỉ";
@@ -563,7 +589,14 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         ws_cert_emp.Cells[string.Format("B{0}", rowStart)].Value = item.TenChungChi;
                         ws_cert_emp.Cells[string.Format("C{0}", rowStart)].Value = item.MaNV;
                         ws_cert_emp.Cells[string.Format("D{0}", rowStart)].Value = item.TenNV;
-                        ws_cert_emp.Cells[string.Format("E{0}", rowStart)].Value = item.NgayCap;
+                        if (item.NgayCap != null)
+                        {
+                            ws_cert_emp.Cells[string.Format("E{0}", rowStart)].Value = ((DateTime)item.NgayCap).ToString("dd/MM/yyyy");
+                        }
+                        else
+                        {
+                            ws_cert_emp.Cells[string.Format("E{0}", rowStart)].Value = item.NgayCap;
+                        }
 
                         rowStart++;
 
@@ -573,49 +606,5 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
             return Json(new { success = true, location = saveAsPath }, JsonRequestBehavior.AllowGet);
         }
-
-
-        //[Route("phong-tcld/chung-chi/danh-sach-chung-chi/xuat-file-excel")]
-        //[HttpPost]
-        //public ActionResult ExporTotExcel()
-        //{
-        //    string path = HostingEnvironment.MapPath("/excel/TCLD/Certificate/Chứng chỉ của cả công ty.xlsx");
-        //    string saveAsPath = ("/excel/TCLD/Certificate/List/download/ListCertificate.xlsx");
-        //    FileInfo file = new FileInfo(path);
-        //    using (ExcelPackage excelPackage = new ExcelPackage(file))
-        //    {
-        //        ExcelWorkbook excelWorkbook = excelPackage.Workbook;
-        //        ExcelWorksheet ws = excelWorkbook.Worksheets.First();
-        //        using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-        //        {
-        //            List<ChungChi> listdata = db.ChungChis.ToList<ChungChi>();
-                   
-        //            ws.Cells["A1"].Value = "Mã chứng chỉ";
-        //            ws.Cells["B1"].Value = "Tên chứng chỉ";
-        //            ws.Cells["C1"].Value = "Thời hạn (tháng)";
-        //            ws.Cells["D1"].Value = "Kiểu chứng chỉ";
-        //            int rowStart = 2;
-        //            foreach (var i in listdata)
-        //            {
-        //                ws.Cells[string.Format("A{0}", rowStart)].Value = i.MaChungChi;
-        //                ws.Cells[string.Format("B{0}", rowStart)].Value = i.TenChungChi;
-        //                if (i.ThoiHan == -1) {
-        //                    ws.Cells[string.Format("C{0}", rowStart)].Value = "Vĩnh viễn";
-        //                }
-        //                else
-        //                {
-        //                    ws.Cells[string.Format("C{0}", rowStart)].Value = i.ThoiHan;
-        //                }
-                        
-        //                ws.Cells[string.Format("D{0}", rowStart)].Value = i.KieuChungChi;
-        //                rowStart++;
-
-        //            }
-        //        }
-        //        excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath(saveAsPath)));
-        //    }
-        //    return Json(new { success = true, location = saveAsPath }, JsonRequestBehavior.AllowGet);
-        //}
-        
     }
 }
