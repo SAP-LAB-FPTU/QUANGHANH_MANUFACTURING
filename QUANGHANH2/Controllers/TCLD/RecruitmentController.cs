@@ -94,12 +94,14 @@ namespace QUANGHANH2.Controllers.TCLD
                         NhanVien emp = new NhanVien();
                         emp.MaNV = id;
                         emp.Ten = names;
-                        emp.NgaySinh = convertDOB(dob);
-                       
-                        if (checkDate(emp.NgaySinh) == false)
-                        {
-                            transaction.Rollback();
-                            return Json(new { message = "NgaySinh", responseText = id }, JsonRequestBehavior.AllowGet);
+                        if (dob.Trim() != "") {
+                            emp.NgaySinh = convertDOB(dob);
+
+                            if (emp.NgaySinh.HasValue ? checkDate(emp.NgaySinh.Value) == false : false)
+                            {
+                                transaction.Rollback();
+                                return Json(new { message = "NgaySinh", responseText = id }, JsonRequestBehavior.AllowGet);
+                            }
                         }
                         emp.LoaiNhanVien = kind;
                         emp.BacLuong = leveWork;
