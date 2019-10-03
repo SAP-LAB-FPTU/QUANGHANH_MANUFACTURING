@@ -98,11 +98,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                 queryBD = "select MONTH(dm.finish_date_plan) as Thang,YEAR(dm.finish_date_plan) as Nam,e.equipmentId as MaThietBi, "+
                             " e.equipment_name as TenThietBi,e.mark_code as MaTSCD,dm.maintain_type as LoaiBaoDuong " +
                             " from Equipment e,Documentary_maintain_details dm, Documentary do where e.equipmentId = dm.equipmentId " +
-                            " and do.documentary_code = dm.documentary_id and dm.finish_date_plan = '"+ngay+"'";
+                            " and do.documentary_id = dm.documentary_id and dm.finish_date_plan = '"+ngay+"'";
                 querySC = "select MONTH(dm.finish_date_plan) as Thang,YEAR(dm.finish_date_plan) as Nam,e.equipmentId as MaThietBi, "+
                             " e.equipment_name as TenThietBi,e.mark_code as MaTSCD,dm.repair_type as LoaiSuaChua " +
                             " from Equipment e,Documentary_repair_details dm, Documentary do where e.equipmentId = dm.equipmentId " +
-                            " and do.documentary_code = dm.documentary_id and dm.finish_date_plan = '"+ngay+"'";
+                            " and do.documentary_id = dm.documentary_id and dm.finish_date_plan = '"+ngay+"'";
             }
             if (type == "day")
             {
@@ -110,11 +110,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                 queryBD = "select MONTH(dm.finish_date_plan) as Thang,YEAR(dm.finish_date_plan) as Nam,e.equipmentId as MaThietBi, " +
                             " e.equipment_name as TenThietBi,e.mark_code as MaTSCD,dm.maintain_type as LoaiBaoDuong " +
                             " from Equipment e,Documentary_maintain_details dm, Documentary do where e.equipmentId = dm.equipmentId " +
-                            " and do.documentary_code = dm.documentary_id and dm.finish_date_plan = '" + ngay + "'";
+                            " and do.documentary_id = dm.documentary_id and dm.finish_date_plan = '" + ngay + "'";
                 querySC = "select MONTH(dm.finish_date_plan) as Thang,YEAR(dm.finish_date_plan) as Nam,e.equipmentId as MaThietBi, " +
                             " e.equipment_name as TenThietBi,e.mark_code as MaTSCD,dm.repair_type as LoaiSuaChua " +
                             " from Equipment e,Documentary_repair_details dm, Documentary do where e.equipmentId = dm.equipmentId " +
-                            " and do.documentary_code = dm.documentary_id and dm.finish_date_plan = '" + ngay + "'";
+                            " and do.documentary_id = dm.documentary_id and dm.finish_date_plan = '" + ngay + "'";
                 ViewBag.now = date;
             }
             if (type == "month")
@@ -124,11 +124,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                 queryBD = "select MONTH(dm.finish_date_plan) as Thang,YEAR(dm.finish_date_plan) as Nam,e.equipmentId as MaThietBi, " +
                             " e.equipment_name as TenThietBi,e.mark_code as MaTSCD,dm.maintain_type as LoaiBaoDuong " +
                             " from Equipment e,Documentary_maintain_details dm, Documentary do where e.equipmentId = dm.equipmentId " +
-                            " and do.documentary_code = dm.documentary_id and MONTH(dm.finish_date_plan) = '"+thang+"' and YEAR(dm.finish_date_plan) = '"+nam+"'";
+                            " and do.documentary_id = dm.documentary_id and MONTH(dm.finish_date_plan) = '"+thang+"' and YEAR(dm.finish_date_plan) = '"+nam+"'";
                 querySC = "select MONTH(dm.finish_date_plan) as Thang,YEAR(dm.finish_date_plan) as Nam,e.equipmentId as MaThietBi, " +
                             " e.equipment_name as TenThietBi,e.mark_code as MaTSCD,dm.repair_type as LoaiSuaChua " +
                             " from Equipment e,Documentary_repair_details dm, Documentary do where e.equipmentId = dm.equipmentId " +
-                            " and do.documentary_code = dm.documentary_id and MONTH(dm.finish_date_plan) = '" + thang + "' and YEAR(dm.finish_date_plan) = '" + nam + "'";
+                            " and do.documentary_id = dm.documentary_id and MONTH(dm.finish_date_plan) = '" + thang + "' and YEAR(dm.finish_date_plan) = '" + nam + "'";
             }
             if (type == "quarter")
             {
@@ -153,11 +153,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                 queryBD = "select MONTH(dm.finish_date_plan) as Thang,YEAR(dm.finish_date_plan) as Nam,e.equipmentId as MaThietBi, " +
                             " e.equipment_name as TenThietBi,e.mark_code as MaTSCD,dm.maintain_type as LoaiBaoDuong " +
                             " from Equipment e,Documentary_maintain_details dm, Documentary do where e.equipmentId = dm.equipmentId " +
-                            " and do.documentary_code = dm.documentary_id and MONTH(dm.finish_date_plan) in "+quy+" and YEAR(dm.finish_date_plan) = '"+nam+"'";
+                            " and do.documentary_id = dm.documentary_id and MONTH(dm.finish_date_plan) in "+quy+" and YEAR(dm.finish_date_plan) = '"+nam+"'";
                 querySC = "select MONTH(dm.finish_date_plan) as Thang,YEAR(dm.finish_date_plan) as Nam,e.equipmentId as MaThietBi, " +
                             " e.equipment_name as TenThietBi,e.mark_code as MaTSCD,dm.repair_type as LoaiSuaChua " +
                             " from Equipment e,Documentary_repair_details dm, Documentary do where e.equipmentId = dm.equipmentId " +
-                            " and do.documentary_code = dm.documentary_id and MONTH(dm.finish_date_plan) in " + quy + " and YEAR(dm.finish_date_plan) = '" + nam + "'";
+                            " and do.documentary_id = dm.documentary_id and MONTH(dm.finish_date_plan) in " + quy + " and YEAR(dm.finish_date_plan) = '" + nam + "'";
             }
             if (type == "year")
             {
@@ -165,11 +165,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                 queryBD = "select MONTH(dm.finish_date_plan) as Thang,YEAR(dm.finish_date_plan) as Nam,e.equipmentId as MaThietBi, " +
                             " e.equipment_name as TenThietBi,e.mark_code as MaTSCD,dm.maintain_type as LoaiBaoDuong " +
                             " from Equipment e,Documentary_maintain_details dm, Documentary do where e.equipmentId = dm.equipmentId " +
-                            " and do.documentary_code = dm.documentary_id and YEAR(dm.finish_date_plan) = '"+nam+"'";
+                            " and do.documentary_id = dm.documentary_id and YEAR(dm.finish_date_plan) = '"+nam+"'";
                 querySC = "select MONTH(dm.finish_date_plan) as Thang,YEAR(dm.finish_date_plan) as Nam,e.equipmentId as MaThietBi, " +
                             " e.equipment_name as TenThietBi,e.mark_code as MaTSCD,dm.repair_type as LoaiSuaChua " +
                             " from Equipment e,Documentary_repair_details dm, Documentary do where e.equipmentId = dm.equipmentId " +
-                            " and do.documentary_code = dm.documentary_id and YEAR(dm.finish_date_plan) = '" + nam + "'";
+                            " and do.documentary_id = dm.documentary_id and YEAR(dm.finish_date_plan) = '" + nam + "'";
             }
 
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
