@@ -127,6 +127,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     sql += chucVuSearch == "-1" ? "" : " A.MaCongViec = @maCongViec AND";
                     sql = sql.Substring(0, sql.Length - 4).Trim();
                 }
+               sql +=sql.Contains("where") ? " AND A.MaTrangThai<>3" : " WHERE A.MaTrangThai<>2"; ;
                 listNhanVien = db.Database.SqlQuery<NhanVienModel>(sql,
                     new SqlParameter("maNV", "%" + searchMa + "%"),
                     new SqlParameter("tenNV", "%" + searchTen + "%"),
@@ -137,6 +138,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 totalrowsafterfiltering = listNhanVien.Count;
                 listNhanVien = listNhanVien.OrderBy(sortColumnName + " " + sortDirection).ToList<NhanVienModel>();
                 listNhanVien = listNhanVien.Skip(start).Take(length).ToList<NhanVienModel>();
+               
             }
             return Json(new { success = true, data = listNhanVien, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
@@ -968,11 +970,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
            "tb1.MaQuyetDinh,tb1.SoQuyetDinh,tb1.NgayQuyetDinh,tb1.MaNV,tb1.Ten,tb1.MaDonViCu,\n" +
            "tb1.DonViCu,tb1.MaChucVuCu,tb1.ChucVuCu,tb2.MaDonViMoi,tb2.DonViMoi,\n" +
            "tb2.MaChucVuMoi,tb2.ChucVuMoi,tb1.ThangLuong,\n" +
-           "tb1.PhuCap,tb1.BacLuongMoi,tb1.MucLuongMoi,tb1.LyDoDieuDong\n" +
+           "tb2.PhuCap,tb1.BacLuongMoi,tb1.MucLuongMoi,tb1.LyDoDieuDong\n" +
            "from\n" +
            "(select qd.MaQuyetDinh,qd.SoQuyetDinh, dd.MaNV, nv.Ten, dp.department_id as MaDonViCu,\n" +
            "dp.department_name as DonViCu,cv.MaCongViec as MaChucVuCu, cv.TenCongViec as ChucVuCu,\n" +
-           "qd.NgayQuyetDinh, cv.ThangLuong, cv.PhuCap,\n" +
+           "qd.NgayQuyetDinh, cv.ThangLuong,\n" +
            "dd.BacLuongMoi, dd.MucLuongMoi, dd.LyDoDieuDong\n" +
            "from QuyetDinh qd, DieuDong_NhanVien dd, NhanVien nv,\n" +
            "CongViec cv, Department dp\n" +
@@ -983,7 +985,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
            "and cv.MaCongViec = dd.ChucVuCu\n" +
            "and dp.department_id = dd.DonViCu) tb1,\n" +
            "(select dd.MaNV,dp.department_id as MaDonViMoi,dp.department_name as DonViMoi,\n" +
-           "cv.MaCongViec as MaChucVuMoi, cv.TenCongViec as ChucVuMoi\n" +
+           "cv.MaCongViec as MaChucVuMoi, cv.PhuCap, cv.TenCongViec as ChucVuMoi\n" +
            "from Department dp, DieuDong_NhanVien dd, CongViec cv\n" +
            "where dp.department_id = dd.DonViMoi and\n" +
            "cv.MaCongViec = dd.ChucVuMoi\n" +
