@@ -411,11 +411,14 @@
                 }";
             }
         }
-    ],
-        "processing": false,
+            ],
+
+            "processing": false,
             "searching": false,
                 "info": false,
-                    "paging": false,
+                    "bAutoWidth": false,
+                        "serverSide": "true",
+                        "bFilter": false,
                         "bLengthChange": false,
                             "initComplete": function(settings, json) {
                                 $("#pre-load").hide("slow", function () {
