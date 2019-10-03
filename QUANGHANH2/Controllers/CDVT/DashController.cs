@@ -26,15 +26,40 @@ namespace QUANGHANHCORE.Controllers.CDVT
             EquipThongKe etk = new EquipThongKe();
             var equipList = db.Equipments.ToList<Equipment>();
             etk.total = equipList.Count().ToString();
-            var temp = db.Database.SqlQuery<Temp>("select distinct e.equipmentId from Equipment e where e.current_Status = 3").ToList<Temp>();
-            etk.total_repair = temp.Count().ToString();
-            temp = db.Database.SqlQuery<Temp>("select distinct e.equipmentId from Equipment e where e.current_Status = 5").ToList<Temp>();
-            etk.total_maintain = temp.Count().ToString();
-            temp = db.Database.SqlQuery<Temp>("select distinct e.equipmentId from Equipment e where e.current_Status = 8").ToList<Temp>();
-            etk.total_TL = temp.Count().ToString();
-            temp = db.Database.SqlQuery<Temp>("select distinct e.equipmentId from Equipment e where e.current_Status = 1").ToList<Temp>();
-            etk.total_TH = temp.Count().ToString();
-            List<DashEquip> listKD = db.Database.SqlQuery<DashEquip>("select distinct t.equipmentId,t.equipment_name from (select e.equipmentId, e.equipment_name, e.current_Status,ec.Equipment_category_id from Equipment e inner join Equipment_category ec on e.Equipment_category_id = ec.Equipment_category_id where e.current_Status = 10) as t").ToList();
+            List<int> temp = db.Equipments.Where(x=>x.current_Status == 3 || x.current_Status == 8 ||x.current_Status == 1 ||x.current_Status == 5).Select(x => x.current_Status).ToList();
+            int total_repair = 0; int total_maintain = 0; int total_TL = 0; int total_TH = 0; int totalKD = 0;
+            foreach (var item in temp)
+            {
+                switch (item)
+                {
+                    case 3:
+                        total_repair++;
+                        break;
+                    case 5:
+                        total_maintain++;
+                        break;
+                    case 8:
+                        total_TL++;
+                        break;
+                    case 1:
+                        total_TH++;
+                        break;
+                }
+            }
+            etk.total_repair = total_repair+"";
+            etk.total_maintain = total_maintain+"";
+            etk.total_TL = total_TL + "";
+            etk.total_TH = total_TH + "";
+            List<DashEquip> listKD = (from equip in db.Equipments
+                                        .Where(equip => equip.current_Status == 10)
+                                      join cate in db.Equipment_category
+                                      on equip.Equipment_category_id equals cate.Equipment_category_id
+                                      select new
+                                      {
+                                          equipmentID = equip.equipmentId,
+                                          equipmentName = equip.equipment_name
+
+                                      }).ToList();
             int totalKD = 0;
             foreach (var item in listKD)
             {
