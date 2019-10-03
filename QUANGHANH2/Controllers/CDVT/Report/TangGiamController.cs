@@ -1,6 +1,7 @@
 ﻿using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using QUANGHANH2.Models;
+using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,6 +12,7 @@ using System.Web.Mvc;
 
 namespace QUANGHANH2.Controllers.CDVT.Report
 {
+    [Auther(RightID ="47")]
     public class TangGiamController : Controller
     {
         /*aa*/
