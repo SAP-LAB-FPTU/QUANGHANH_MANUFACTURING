@@ -5,9 +5,9 @@
 <link href="~/dist/css/pages/data-table.css" rel="stylesheet">
 
 @{
-        ViewBag.Title = "Add";
-        List<string> right = (List<string>)Session["RightIDs"];
-    }
+    ViewBag.Title = "Add";
+    List<string> right = (List<string>)Session["RightIDs"];
+}
 
 <div class="col s12 m12 l12">
     <div class="card">
@@ -171,6 +171,8 @@
                 <input type="hidden" name="id" id="tlhdd" />
                 <button type="button" class="btn blue darken-2 modal-close">Hủy</button>
             </div>
+            //thuongvn
+            <input type="hidden" name="id" id="historyElementID" />
         }
     </div>
 </div>
@@ -182,7 +184,7 @@
         </div>
         <div class="modal-body row">
             <div class="col l6 m6 s6 center">
-                <a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/lich-su-lam-viec")" class="waves-light btn blue darken-2 btn-small">Lịch sử làm việc</a>
+                <a class="waves-light btn blue darken-2 btn-small" onclick=getHistoryEployee();>Lịch sử làm việc</a>
             </div>
             <div class="col l6 m6 s6 center">
                 <a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chi-tiet-dieu-chuyen")" class="waves-effect waves-light btn blue darken-2 btn-small">Điều chuyển</a>
@@ -212,7 +214,6 @@
 
         function tlhdAjax(form) {
             $("#pre-load").show();
-
             $.validator.unobtrusive.parse(form);
             if ($(form).valid()) {
                 $.ajax({
@@ -220,24 +221,20 @@
                     url: form.action,
                     dataType: "text",
                     data: $(form).serialize(),
-                    success: function (data) {
+                    success: function (respone) {
                         dataTable.ajax.reload();
-                        $.notify("Thanh lý hoàn tất", {
-                            globalPosition: "top center",
-                            className: "success"
-                        })
-
+                        if (JSON.parse(respone)["success"]) {
+                            errorAlert('Lỗi', JSON.parse(respone)["message"]);
+                        } else if (JSON.parse(respone)["success"] == "soQDExist") {
+                            errorAlert('Lỗi', JSON.parse(respone)["message"]);
+                        }
+                        else {
+                            successAlert('Thành công', 'Thanh lý thành công');
+                        }
                     },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        $.notify(XMLHttpRequest.responseText, {
-                            globalPosition: "top center",
-                            className: "failed"
-                        })
-                    }
                 });
             }
             $("#pre-load").hide();
-
             return false;
         }
 
@@ -262,14 +259,15 @@
                 dataType: "json",
                 success: function (result) {
                     dataTable.ajax.reload();
-                    $.notify("Thanh lý hoàn tất", {
-                        globalPosition: "top center",
-                        className: "success"
-                    })
-                },
-                error: function () {
+                    if (result.message === "Rollback") {
+                        errorAlert('Lỗi', 'Chưa nhập ngày chấm dứt');
+                    } else {
+                        successAlert('Thành công', 'Thanh lý thành công');
 
-                }
+                    }
+
+                },
+
             });
         }
 
@@ -325,7 +323,7 @@
                         },
                         {
                             "data": "MaNV", "render": function (data) {
-                                return "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' data-target='history'><span class='fas fa-history'>&nbsp;Xem</span></a>";
+                                return "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='getHistoryID(" + data + ")' data-target='history'><span class='fas fa-history'>&nbsp;Xem</span></a>";
                             },
                             "orderable": false,
                             "searchable": false,
@@ -377,15 +375,25 @@
             var dataTable = $('#test-table').DataTable();
             $("#searchButton").click(function () {
                 dataTable.ajax.reload(function () {
-                    $.notify("Tìm kiếm thành công", {
-                        globalPosition: "top center",
-                        className: "success"
-                    })
+                    //$.notify("Tìm kiếm thành công", {
+                    //    globalPosition: "top center",
+                    //    className: "success"
+                    //})
+                    successAlert('Thành công', 'Tìm kiếm thành công');
                 });
             });
         });
+        //thuong
+        function getHistoryID(a) {
+            document.getElementById("historyElementID").value = a;
+        }
+        function getHistoryEployee() {
+            var id = document.getElementById("historyElementID").value;  
+            if (id != null) {
+            window.location.href ='@Url.Action("WorkHistory", "WorkHistory")?id=' + id;
+        }
 
-
+        }
         function getTlhd(a) {
             document.getElementById("tlhdd").value = a;
         }
@@ -457,14 +465,14 @@
                 url: "/phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien/excel",
                 cache: false
             }).done(function () {
-                window.location.href = "/excel/TCLD/download/Danh_sách_nhân_viên.xlsx";
+                window.location.href = "/excel/TCLD/download/Danh-sách-nhân-viên.xlsx";
                 $("#pre-load").hide();
             })
         });
     </script>
 }
 <script>
-     $("#datepicker").keydown(function (e) {
+    $("#datepicker").keydown(function (e) {
         e.preventDefault();
     });
 </script>

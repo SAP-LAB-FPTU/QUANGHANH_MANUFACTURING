@@ -244,7 +244,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             }
             ViewBag.slTH = slTH.count;
 
-            var hanDangKiemcogioi = (from equip in db.Equipments.Where(x =>x.durationOfInspection <= testTime && x.durationOfInspection >=DateTime.Now).OrderBy(x=>x.durationOfInspection)
+            var hanDangKiemcogioi = (from equip in db.Equipments.Where(x =>x.durationOfInspection <= testTime && x.durationOfInspection >=DateTime.Now)
                                      join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
                                         on equip.Equipment_category_id equals cate.Equipment_category_id
                                      select new form1
@@ -254,7 +254,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                                          ngay = equip.durationOfInspection.Day,
                                          thang = equip.durationOfInspection.Month,
                                          nam = equip.durationOfInspection.Year
-                                     }).Take(10).ToList().Distinct();
+                                     }).Take(10).ToList().Distinct().OrderBy(x=>x.ngay);
             int kiemdinhcogioitag = 0;
             foreach (var item in hanDangKiemcogioi)
             {
