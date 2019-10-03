@@ -4,103 +4,103 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="bb893a8b8cbf4748ad4ea49f0bc701eb" Name="Diagram1">
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Acceptance" Width="1.5" PointX="5.25" PointY="67.625" IsExpanded="true" />
+      <Diagram DiagramId="2493c9d1dd6b4dfa931806f2004b4dbc" Name="Diagram1">
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Acceptance" Width="1.5" PointX="5.25" PointY="67.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Account" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Account_Right" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Account_Right_Detail" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Activity" Width="1.5" PointX="13.25" PointY="53.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.BangCap_GiayChungNhan" Width="1.5" PointX="20" PointY="72.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Category_attribute_value" Width="1.5" PointX="16.25" PointY="64.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.ChamDut_NhanVien" Width="1.5" PointX="16.25" PointY="67.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.ChiTiet_BangCap_GiayChungNhan" Width="1.5" PointX="22.25" PointY="64.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.ChiTiet_NhiemVu_NhanVien" Width="1.5" PointX="22.25" PointY="61.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.ChungChi" Width="1.5" PointX="17.75" PointY="53.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.ChungChi_NhanVien" Width="1.5" PointX="22.25" PointY="68.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.ChuyenNganh" Width="1.5" PointX="11.75" PointY="48.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.CongViec" Width="1.5" PointX="11.75" PointY="70.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Department" Width="1.5" PointX="0.75" PointY="62.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Activity" Width="1.5" PointX="13.25" PointY="53.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.BangCap_GiayChungNhan" Width="1.5" PointX="20" PointY="72.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Category_attribute_value" Width="1.5" PointX="16.25" PointY="64.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.ChamDut_NhanVien" Width="1.5" PointX="16.25" PointY="67.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.ChiTiet_BangCap_GiayChungNhan" Width="1.5" PointX="22.25" PointY="64.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.ChiTiet_NhiemVu_NhanVien" Width="1.5" PointX="22.25" PointY="60.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.ChungChi" Width="1.5" PointX="17.75" PointY="52.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.ChungChi_NhanVien" Width="1.5" PointX="22.25" PointY="68.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.ChuyenNganh" Width="1.5" PointX="11.75" PointY="48.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.CongViec" Width="1.5" PointX="11.75" PointY="71" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Department" Width="1.5" PointX="0.75" PointY="62.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.DiemDanh_NangSuatLaoDong" Width="1.5" PointX="3" PointY="61.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.DieuDong_NhanVien" Width="1.5" PointX="22.25" PointY="56.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Documentary" Width="1.5" PointX="3" PointY="66.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Documentary_big_maintain_details" Width="1.5" PointX="8.25" PointY="60.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Documentary_liquidation_details" Width="1.5" PointX="8.25" PointY="67.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.DieuDong_NhanVien" Width="1.5" PointX="18.25" PointY="55.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Documentary" Width="1.5" PointX="3" PointY="66.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Documentary_big_maintain_details" Width="1.5" PointX="8.25" PointY="60.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Documentary_liquidation_details" Width="1.5" PointX="8.25" PointY="67.875" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Documentary_maintain_details" Width="1.5" PointX="5.25" PointY="71.375" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Documentary_moveline_details" Width="1.5" PointX="5.25" PointY="59.375" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Documentary_repair_details" Width="1.5" PointX="8.25" PointY="71.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Documentary_revoke_details" Width="1.5" PointX="8.25" PointY="64.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Equipment" Width="1.5" PointX="11" PointY="61.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Equipment_attribute" Width="1.5" PointX="13.25" PointY="75.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Equipment_category" Width="1.5" PointX="8.75" PointY="76.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Equipment_category_attribute" Width="1.5" PointX="14" PointY="82.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Documentary_revoke_details" Width="1.5" PointX="8.25" PointY="65" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Equipment" Width="1.5" PointX="11" PointY="61.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Equipment_attribute" Width="1.5" PointX="13.25" PointY="75.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Equipment_category" Width="1.5" PointX="8.75" PointY="76.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Equipment_category_attribute" Width="1.5" PointX="14" PointY="82.375" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Equipment_Category_Supply" Width="1.5" PointX="16.25" PointY="49.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Equipment_Inspection" Width="1.5" PointX="13.25" PointY="78.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.FakeAPI" Width="1.5" PointX="16.25" PointY="70.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Fuel_activities_consumption" Width="1.5" PointX="16.25" PointY="60.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.GhiChu" Width="1.5" PointX="10.25" PointY="52.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.GiayTo" Width="1.5" PointX="16.25" PointY="73.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.HoSo" Width="1.5" PointX="16.25" PointY="76.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Incident" Width="1.5" PointX="19.25" PointY="64" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.KeHoach_TieuChi" Width="1.5" PointX="3" PointY="56.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.KeHoach_TieuChi_VatLieuSanXuat" Width="1.5" PointX="15.5" PointY="54" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.LichSuBoSungSYLL" Width="1.5" PointX="16.25" PointY="81.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Equipment_Inspection" Width="1.5" PointX="13.25" PointY="78.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.FakeAPI" Width="1.5" PointX="16.25" PointY="71" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Fuel_activities_consumption" Width="1.5" PointX="16.25" PointY="60.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.GhiChu" Width="1.5" PointX="10.25" PointY="52.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.GiayTo" Width="1.5" PointX="16.25" PointY="73.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.HoSo" Width="1.5" PointX="16.25" PointY="76.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Incident" Width="1.5" PointX="19.25" PointY="64.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.KeHoach_TieuChi" Width="1.5" PointX="3" PointY="56.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.KeHoach_TieuChi_VatLieuSanXuat" Width="1.5" PointX="15.5" PointY="54.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.LichSuBoSungSYLL" Width="1.5" PointX="16.25" PointY="81.625" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Maintain_Car" Width="1.5" PointX="19.25" PointY="60.125" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Maintain_Car_Detail" Width="1.5" PointX="24.5" PointY="60.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.MealRegistration" Width="1.5" PointX="3" PointY="100.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.MealRegistration" Width="1.5" PointX="3" PointY="100.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Module" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Nganh" Width="1.5" PointX="9.5" PointY="49" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Nganh" Width="1.5" PointX="9.5" PointY="49.125" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.NguoiUyQuyenLayHoSo_BaoHiem" Width="1.5" PointX="11.75" PointY="45.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.NhanVien" Width="1.5" PointX="14" PointY="56.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.NhiemVu" Width="1.5" PointX="20" PointY="53.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.QuanHeGiaDinh" Width="1.5" PointX="16.25" PointY="83.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.QuaTrinhCongTac" Width="1.5" PointX="16.25" PointY="87.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.QuyetDinh" Width="1.5" PointX="20" PointY="56.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Status" Width="1.5" PointX="8.75" PointY="79" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Supply" Width="1.5" PointX="14" PointY="48.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Supply_Documentary_Equipment" Width="1.5" PointX="5.25" PointY="63.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.NhanVien" Width="1.5" PointX="14" PointY="57" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.NhiemVu" Width="1.5" PointX="20" PointY="52.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.QuanHeGiaDinh" Width="1.5" PointX="16.25" PointY="84.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.QuaTrinhCongTac" Width="1.5" PointX="16.25" PointY="87.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.QuyetDinh" Width="1.5" PointX="16" PointY="45.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Status" Width="1.5" PointX="8.75" PointY="79.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Supply" Width="1.5" PointX="14" PointY="48.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Supply_Documentary_Equipment" Width="1.5" PointX="5.25" PointY="63.5" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Supply_tieuhao" Width="1.5" PointX="3" PointY="72.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.SupplyPlan" Width="1.5" PointX="19.25" PointY="67.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.TaiNan" Width="1.5" PointX="16.25" PointY="90.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.ThucHien_TieuChi" Width="1.5" PointX="8" PointY="55.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.TieuChi" Width="1.5" PointX="5.75" PointY="56.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.TieuChi_VatLieuSanXuat" Width="1.5" PointX="10.25" PointY="56.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.TrangThai" Width="1.5" PointX="11.75" PointY="81.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.TrinhDo" Width="1.5" PointX="11.75" PointY="83.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Truong" Width="1.5" PointX="11.75" PointY="86.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.TuyenDung_NhanVien" Width="1.5" PointX="16.25" PointY="57.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.SupplyPlan" Width="1.5" PointX="19.25" PointY="67.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.TaiNan" Width="1.5" PointX="16.25" PointY="90.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.ThucHien_TieuChi" Width="1.5" PointX="8" PointY="56" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.TieuChi" Width="1.5" PointX="5.75" PointY="56.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.TieuChi_VatLieuSanXuat" Width="1.5" PointX="10.25" PointY="56.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.TrangThai" Width="1.5" PointX="11.75" PointY="81.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.TrinhDo" Width="1.5" PointX="11.75" PointY="84" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Truong" Width="1.5" PointX="11.75" PointY="86.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.TuyenDung_NhanVien" Width="1.5" PointX="21.25" PointY="57.5" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.VatLieuSanXuat" Width="1.5" PointX="8" PointY="52.5" IsExpanded="true" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__Acceptanc__docum__2A164134" ManuallyRouted="false" />
-        <AssociationConnector Association="QUANGHANHABCModel.FK__Acceptanc__equip__123EB7A3" ManuallyRouted="false" />
-        <AssociationConnector Association="QUANGHANHABCModel.FK__Activity__equipm__1332DBDC" ManuallyRouted="false" />
-        <AssociationConnector Association="QUANGHANHABCModel.FK__BangCap_G__MaChu__14270015" ManuallyRouted="false" />
-        <AssociationConnector Association="QUANGHANHABCModel.FK__ChiTiet_B__MaBan__1BC821DD" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK__Acceptanc__equip__114A936A" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK__Activity__equipm__123EB7A3" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK__BangCap_G__MaChu__1332DBDC" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK__ChiTiet_B__MaBan__1AD3FDA4" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK_BangCap_TrinhDo" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK_BangCap_Truong" ManuallyRouted="false" />
-        <AssociationConnector Association="QUANGHANHABCModel.FK__Category___equip__17036CC0" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK__Category___equip__160F4887" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK__Category___Equip__17036CC0" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__Category___Equip__17F790F9" ManuallyRouted="false" />
-        <AssociationConnector Association="QUANGHANHABCModel.FK__Category___Equip__18EBB532" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__ChamDut_N__MaQuy__0B91BA14" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK_ChamDut_NhanVien_NhanVien" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK_ChiTiet_BangCap_NhanVien" ManuallyRouted="false" />
-        <AssociationConnector Association="QUANGHANHABCModel.FK__ChiTiet_Nh__MaNV__1DB06A4F" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK__ChiTiet_Nh__MaNV__1CBC4616" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK_ChiTiet_NhiemVu_NhanVien_NhiemVu" ManuallyRouted="false" />
-        <AssociationConnector Association="QUANGHANHABCModel.FK__ChungChi___MaChu__1F98B2C1" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK__ChungChi___MaChu__1EA48E88" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK_NhiemVu_ChungChi" ManuallyRouted="false" />
-        <AssociationConnector Association="QUANGHANHABCModel.FK__ChungChi_N__MaNV__208CD6FA" ManuallyRouted="false" />
-        <AssociationConnector Association="QUANGHANHABCModel.FK__ChuyenNga__MaNga__2180FB33" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK__ChungChi_N__MaNV__1F98B2C1" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK__ChuyenNga__MaNga__208CD6FA" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__NhanVien__MaChuy__5224328E" ManuallyRouted="false" />
-        <AssociationConnector Association="QUANGHANHABCModel.FK__NhanVien__MaCong__531856C7" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK_NhanVien_CongViec" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__DiemDanh___MaDon__3C34F16F" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK__Documenta__depar__2645B050" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__Documenta__depar__2739D489" ManuallyRouted="false" />
-        <AssociationConnector Association="QUANGHANHABCModel.FK__Documenta__depar__282DF8C2" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK__Documenta__depar__2BFE89A6" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__Documenta__depar__2CF2ADDF" ManuallyRouted="false" />
-        <AssociationConnector Association="QUANGHANHABCModel.FK__Documenta__depar__2DE6D218" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK__Documenta__depar__2FCF1A8A" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__Documenta__depar__30C33EC3" ManuallyRouted="false" />
-        <AssociationConnector Association="QUANGHANHABCModel.FK__Documenta__depar__31B762FC" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK__Documenta__depar__339FAB6E" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__Documenta__depar__3493CFA7" ManuallyRouted="false" />
-        <AssociationConnector Association="QUANGHANHABCModel.FK__Documenta__depar__3587F3E0" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__Documenta__depar__40058253" ManuallyRouted="false" />
-        <AssociationConnector Association="QUANGHANHABCModel.FK__Equipment__depar__3B40CD36" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK__Equipment__depar__3A4CA8FD" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__Incident__depart__46B27FE2" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__KeHoach_T__MaPho__489AC854" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__Maintain___depar__4D5F7D71" ManuallyRouted="false" />
@@ -120,23 +120,23 @@
         <AssociationConnector Association="QUANGHANHABCModel.FK__Documenta__docum__489AC854" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__Documenta__docum__4A8310C6" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__Supply_Do__docum__671F4F74" ManuallyRouted="false" />
-        <AssociationConnector Association="QUANGHANHABCModel.FK__Documenta__equip__2A164134" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK__Documenta__equip__29221CFB" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__Documenta__equip__43D61338" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__Documenta__equip__45BE5BA9" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__Documenta__equip__47A6A41B" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__Documenta__equip__498EEC82" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__Documenta__equip__4B7734FA" ManuallyRouted="false" />
-        <AssociationConnector Association="QUANGHANHABCModel.FK__Equipment__curre__3A4CA8FD" ManuallyRouted="false" />
-        <AssociationConnector Association="QUANGHANHABCModel.FK__Equipment__Equip__3C34F16F" ManuallyRouted="false" />
-        <AssociationConnector Association="QUANGHANHABCModel.FK__Equipment__equip__3D2915A8" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK__Equipment__curre__395884C4" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK__Equipment__Equip__3B40CD36" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK__Equipment__equip__3C34F16F" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__Equipment__equip__3F115E1A" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__Fuel_acti__equip__40F9A68C" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__Incident__equipm__47A6A41B" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__Maintain___equip__4E53A1AA" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__Supply_Do__equip__5CA1C101" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__SupplyPla__equip__625A9A57" ManuallyRouted="false" />
-        <AssociationConnector Association="QUANGHANHABCModel.FK__Equipment__Equip__3E1D39E1" ManuallyRouted="false" />
-        <AssociationConnector Association="QUANGHANHABCModel.FK__Equipment__suppl__7E37BEF6" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK__Equipment__Equip__3D2915A8" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK__Equipment__suppl__3E1D39E1" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__FakeAPI__MaNV__40058253" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__Fuel_acti__fuel___41EDCAC5" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__GhiChu__MaKeHoac__42E1EEFE" ManuallyRouted="false" />
@@ -149,10 +149,10 @@
         <AssociationConnector Association="QUANGHANHABCModel.FK__LichSuBoSu__MaNV__4C6B5938" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__Maintain___maint__4F47C5E3" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__Maintain___suppl__503BEA1C" ManuallyRouted="false" />
-        <AssociationConnector Association="QUANGHANHABCModel.FK__NhanVien__MaUyQu__56E8E7AB" ManuallyRouted="false" />
-        <AssociationConnector Association="QUANGHANHABCModel.FK__NhanVien__MaTran__540C7B00" ManuallyRouted="false" />
-        <AssociationConnector Association="QUANGHANHABCModel.FK__NhanVien__MaTrin__55009F39" ManuallyRouted="false" />
-        <AssociationConnector Association="QUANGHANHABCModel.FK__NhanVien__MaTruo__55F4C372" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK__NhanVien__MaUyQu__55F4C372" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK__NhanVien__MaTran__531856C7" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK__NhanVien__MaTrin__540C7B00" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK__NhanVien__MaTruo__55009F39" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__QuanHeGiaD__MaNV__59C55456" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__QuaTrinhCo__MaNV__5AB9788F" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__TaiNan__MaNV__65370702" ManuallyRouted="false" />
