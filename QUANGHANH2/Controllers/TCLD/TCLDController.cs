@@ -30,6 +30,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             int hetHanChungChi = 0;
             int tren82=0;
             int duoi82=0;
+            List<NghiVLD> listNghiVLD = new List<NghiVLD>();
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
@@ -79,6 +80,14 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 }
 
                 ////////////////////////////////////////////////////////////////////////////////////////////////
+
+                //////////////////////////////////////GET NV NGHI VLD////////////////////////////////////////
+                sql = "select dd.MaNV,n.Ten as HoTen,d.department_name as TenDonVi from DiemDanh_NangSuatLaoDong dd,Department d,NhanVien n\n" +
+                "where Dilam = 0 and LyDoVangMat = 'vld'\n" +
+                "and dd.MaDonVi = d.department_id and n.MaNV = dd.MaNV and NgayDiemDanh=(SELECT CONVERT(VARCHAR(10), getdate() - 1, 101))";
+                listNghiVLD = db.Database.SqlQuery<NghiVLD>(sql).ToList<NghiVLD>();
+                //listNghiVLD.Add(new NghiVLD("7887", "aHIHI", "QuangHanh"));
+                ///////////////////////////////////////////////////////////////////////////////////////////////////
             }
             ViewBag.soLuotHuyDong = soLuotHuyDong;
             ViewBag.hetHanChungChi = hetHanChungChi;
@@ -86,6 +95,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             ViewBag.nghiVLD = nghiVLD;
             ViewBag.tren82 = tren82;
             ViewBag.duoi82 = duoi82;
+            ViewBag.listNghiVLD = listNghiVLD;
             return View("/Views/TCLD/bao-cao-nhanh.cshtml");
         }
         //[Auther(RightID="57")]
@@ -119,6 +129,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 int hetHanChungChi = 0;
                 int tren82 = 0;
                 int duoi82 = 0;
+                List<NghiVLD> listNghiVLD = new List<NghiVLD>();
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
                     ////////////////////////////GET so luot huy dong////////////////////////////////
@@ -156,7 +167,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     nghiVLD = db.Database.SqlQuery<int>(sql,
                     new SqlParameter("NgayQuyetDinh", DateTime.Parse(date))).ToList<int>()[0];
                     //////////////////////////////////////////////////////////////////////////////
-                    ///
+                    
                     //////////////////////////////////////GET TI LE HUY DONG////////////////////////////////////////
                     string tempDate = date.Split('/')[2] + "/" + date.Split('/')[1] + "/" + date.Split('/')[0];
                     sql = QUANGHANHCORE.Controllers.TCLD.ReportController.QueryForReportAlll(tempDate);
@@ -172,10 +183,16 @@ namespace QUANGHANHCORE.Controllers.TCLD
                             duoi82++;
                         }
                     }
-
                     ////////////////////////////////////////////////////////////////////////////////////////////////
+
+                    //////////////////////////////////////GET NV NGHI VLD////////////////////////////////////////
+                    sql = "select dd.MaNV,n.Ten as HoTen,d.department_name as TenDonVi from DiemDanh_NangSuatLaoDong dd,Department d,NhanVien n\n" +
+                    "where XacNhan = 0 and LyDoVangMat = 'vld'\n" +
+                    "and dd.MaDonVi = d.department_id and n.MaNV = dd.MaNV and NgayDiemDanh=@NgayDiemDanh";
+                    listNghiVLD = db.Database.SqlQuery<NghiVLD>(sql,new SqlParameter("NgayDiemDanh", date)).ToList<NghiVLD>();
+                    ///////////////////////////////////////////////////////////////////////////////////////////////////
                 }
-                return Json(new { success = true, tren82=tren82, duoi82= duoi82, soLuongHuyDong = soLuotHuyDong, vuTaiNan = vuTaiNan, nghiVLD = nghiVLD, hetHanChungChi = hetHanChungChi }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = true, tren82=tren82, duoi82= duoi82, soLuongHuyDong = soLuotHuyDong, vuTaiNan = vuTaiNan, nghiVLD = nghiVLD, hetHanChungChi = hetHanChungChi, listNghiVLD= listNghiVLD }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -279,5 +296,22 @@ namespace QUANGHANHCORE.Controllers.TCLD
         //    ViewBag.nameDepartment = "baocao-sanluon-laodong";
         //    return View("/Views/TCLD/CommonRecord.cshtml");
         //}
+    }
+    public class NghiVLD
+    {
+        public string MaNV { get; set; }
+        public string HoTen { get; set; }
+        public string TenDonVi { get; set; }
+
+        public NghiVLD()
+        {
+        }
+
+        public NghiVLD(string maNV, string hoTen, string tenDonVi)
+        {
+            MaNV = maNV;
+            HoTen = hoTen;
+            TenDonVi = tenDonVi;
+        }
     }
 }
