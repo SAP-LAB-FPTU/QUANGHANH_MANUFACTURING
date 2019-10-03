@@ -18,6 +18,7 @@ namespace QUANGHANH2.Models
         public string MaNV { get; set; }
         public int MaNhiemVu { get; set; }
         public int MaChiTiet_NhiemVu_NhanVien { get; set; }
+        public bool IsInProcess { get; set; }
     
         public virtual NhanVien NhanVien { get; set; }
         public virtual NhiemVu NhiemVu { get; set; }

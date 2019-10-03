@@ -97,6 +97,17 @@
                             @Html.ValidationMessageFor(model => model.durationOfInsurance, "", new { @class = "text-danger" })
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label>Thời hạn bảo dưỡng</label>
+                        @*@Html.LabelFor(model => model.durationOfInsurance, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <div class="col-md-10">
+                            <input name="duramain" type="text" class="form-control datepicker-here maxDate" />
+                            @Html.EditorFor(model => model.durationOfMaintainance, new { htmlAttributes = new { @style = "display: none !important" } })
+                            @Html.ValidationMessageFor(model => model.durationOfMaintainance, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label>Ngày đưa vào sử dụng</label>
                         @*@Html.LabelFor(model => model.usedDay, htmlAttributes: new { @class = "control-label col-md-2" })*@
@@ -111,16 +122,6 @@
                 </div>
                 <div class="col s6">
 
-
-                    <div class="form-group">
-                        <label>Ngày bảo dưỡng gần nhất</label>
-                        @*@Html.LabelFor(model => model.nearest_Maintenance_Day, htmlAttributes: new { @class = "control-label col-md-2" })*@
-                        <div class="col-md-10">
-                            <input name="nearmain" type="text" class="form-control datepicker-here maxDate" />
-                            @Html.EditorFor(model => model.nearest_Maintenance_Day, new { htmlAttributes = new { @style = "display: none !important" } })
-                            @Html.ValidationMessageFor(model => model.nearest_Maintenance_Day, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
                     <div class="form-group">
                         <label>Tổng thời gian hoạt động</label>
                         @*@Html.LabelFor(model => model.total_operating_hours, htmlAttributes: new { @class = "control-label col-md-2" })*@
