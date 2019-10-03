@@ -5,9 +5,9 @@
 <link href="~/dist/css/pages/data-table.css" rel="stylesheet">
 
 @{
-        ViewBag.Title = "Add";
-        List<string> right = (List<string>)Session["RightIDs"];
-    }
+    ViewBag.Title = "Add";
+    List<string> right = (List<string>)Session["RightIDs"];
+}
 
 <div class="col s12 m12 l12">
     <div class="card">
@@ -39,7 +39,7 @@
                 <div class="left col s6 m4 l6">
                     <div class="row">
                         @*<div class="col s2 m2 l2">
-                        </div>*@
+                            </div>*@
                         <div class="col s3 m3 l3">
                             <a class="btn btn-small blue darken-2 input-field" id="danhsachhosonhanvien"><i class="fas fa-file-excel"></i>&nbsp;Excel</a>
                         </div>
@@ -204,7 +204,6 @@
 
         function tlhdAjax(form) {
             $("#pre-load").show();
-
             $.validator.unobtrusive.parse(form);
             if ($(form).valid()) {
                 $.ajax({
@@ -212,24 +211,20 @@
                     url: form.action,
                     dataType: "text",
                     data: $(form).serialize(),
-                    success: function (data) {
+                    success: function (respone) {
                         dataTable.ajax.reload();
-                        $.notify("Thanh lý hoàn tất", {
-                            globalPosition: "top center",
-                            className: "success"
-                        })
-
+                        if (JSON.parse(respone)["success"]) {
+                            errorAlert('Lỗi', JSON.parse(respone)["message"]);
+                        } else if (JSON.parse(respone)["success"] == "soQDExist") {
+                            errorAlert('Lỗi', JSON.parse(respone)["message"]);
+                        }
+                        else {
+                            successAlert('Thành công', 'Thanh lý thành công');
+                        }
                     },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        $.notify(XMLHttpRequest.responseText, {
-                            globalPosition: "top center",
-                            className: "failed"
-                        })
-                    }
                 });
             }
             $("#pre-load").hide();
-
             return false;
         }
 
@@ -254,14 +249,15 @@
                 dataType: "json",
                 success: function (result) {
                     dataTable.ajax.reload();
-                    $.notify("Thanh lý hoàn tất", {
-                        globalPosition: "top center",
-                        className: "success"
-                    })
-                },
-                error: function () {
+                    if (result.message === "Rollback") {
+                        errorAlert('Lỗi', 'Chưa nhập ngày chấm dứt');
+                    } else {
+                        successAlert('Thành công', 'Thanh lý thành công');
 
-                }
+                    }
+
+                },
+
             });
         }
 
@@ -369,10 +365,11 @@
             var dataTable = $('#test-table').DataTable();
             $("#searchButton").click(function () {
                 dataTable.ajax.reload(function () {
-                    $.notify("Tìm kiếm thành công", {
-                        globalPosition: "top center",
-                        className: "success"
-                    })
+                    //$.notify("Tìm kiếm thành công", {
+                    //    globalPosition: "top center",
+                    //    className: "success"
+                    //})
+                    successAlert('Thành công', 'Tìm kiếm thành công');
                 });
             });
         });
@@ -456,7 +453,7 @@
     </script>
 }
 <script>
-     $("#datepicker").keydown(function (e) {
+    $("#datepicker").keydown(function (e) {
         e.preventDefault();
     });
 </script>

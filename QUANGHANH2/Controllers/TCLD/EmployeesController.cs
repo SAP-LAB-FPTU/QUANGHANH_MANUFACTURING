@@ -151,6 +151,8 @@ namespace QUANGHANH2.Controllers.TCLD
                 new SelectListItem { Text = "4/4(Thương tật từ 21% trở lên)", Value = "4" }
             };
                 ViewBag.thuongbinh = ThuongBinh;
+
+
                 return View("/Views/TCLD/Brief/Edit.cshtml", db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault<NhanVien>());
             }
         }
@@ -337,7 +339,18 @@ namespace QUANGHANH2.Controllers.TCLD
             {
                 try
                 {
-
+                    QuyetDinh qd = new QuyetDinh();
+                    List<QuyetDinh> qdList = db.QuyetDinhs.ToList<QuyetDinh>();
+                    if (!soQD.Equals(""))
+                    {
+                        foreach (var qdL in qdList)
+                        {
+                            if (soQD == qdL.SoQuyetDinh)
+                            {
+                                return Json(new { message = "Số quyết định đã tồn tại", success = "soQDExist" }, JsonRequestBehavior.AllowGet);
+                            }
+                        }
+                    }
                     string[] arr2 = dateTLHD.Split('/');
                     string dateTLHDFix = "";
                     for (int i = 0; i < arr2.Length; i++)
@@ -355,7 +368,6 @@ namespace QUANGHANH2.Controllers.TCLD
                     }
                     db.Entry(emp).State = EntityState.Modified;
 
-                    QuyetDinh qd = new QuyetDinh();
                     qd.SoQuyetDinh = soQD;
                     qd.NgayQuyetDinh = DateTime.Today;
                     db.QuyetDinhs.Add(qd);
@@ -385,16 +397,13 @@ namespace QUANGHANH2.Controllers.TCLD
                     db.ChamDut_NhanVien.Add(tlhd);
                     db.SaveChanges();
                     dbct.Commit();
-                    return RedirectToAction("Search");
+                    return Json(new { data = "" }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception)
                 {
                     dbct.Rollback();
-                    string output = "";
-                    if (output == "")
-                        output += "Vui lòng nhập ngày chấm dứt";
-                    Response.Write(output);
-                    return new HttpStatusCodeResult(400);
+                    return Json(new { success = true , message = "Chưa nhập ngày chấm dứt" }, JsonRequestBehavior.AllowGet);
+
                 }
 
 
@@ -443,7 +452,7 @@ namespace QUANGHANH2.Controllers.TCLD
                         {
                             excelWorksheet.Cells[k, 4].Value = "Nữ";
                         }
-                        excelWorksheet.Cells[k, 4].Value = list.ElementAt(i).NgaySinh.HasValue? list.ElementAt(i).NgaySinh.Value.ToString("dd/MM/yyyy"): "";
+                        excelWorksheet.Cells[k, 4].Value = list.ElementAt(i).NgaySinh.HasValue ? list.ElementAt(i).NgaySinh.Value.ToString("dd/MM/yyyy") : "";
                         excelWorksheet.Cells[k, 5].Value = list.ElementAt(i).SoBHXH;
                         if (list.ElementAt(i).MaTrinhDo != null)
                         {
