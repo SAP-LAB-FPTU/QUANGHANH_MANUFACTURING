@@ -74,12 +74,12 @@
             </div>
             <div class="modal-body row">
                 <div class="col s3 m3 l3">
-                    <input class="form-control" id="soqd" placeholder="Số quyết định" name="SoQD" />
+                    <input class="form-control" id="soqd" placeholder="Số quyết định" name="SoQD"  />
 
                     <br />
                 </div>
                 <div class="col s3 m3 l3">
-                    <p id="message" style="display: none !important ">Mã nhân viên bị trùng</p>
+                    @*<p id="message" style="display: none !important ">Mã nhân viên bị trùng</p>*@
                 </div>
                 <div>
                     <table class="table-bordered">
@@ -97,7 +97,7 @@
             </div>
             <div class="modal-footer">
                 <input type="hidden" name="id" id="MaQD" />
-                <button type="submit" id="them" disabled class="waves-effect waves-light btn blue darken-2 btn-small modal-close">Thêm</button>
+                <button type="submit" id="them" class="waves-effect waves-light btn blue darken-2 btn-small modal-close">Thêm</button>
                 <a class="waves-effect waves-light btn blue darken-2 btn-small modal-close">Hủy</a>
             </div>
         </div>
@@ -272,28 +272,22 @@
                 });
             });
         });
-        function delDetail(id) {
-            $.ajax({
-                type: 'post',
-                url: '/deleteNotYet',
-                dataType: 'json',
-                data: { id: JSON.stringify(id) },
-                success: function (data) {
-                    if (data.success) {
-                        dataTable.ajax.reload();
-                        $.notify("Xóa thành công", {
-                            globalPosition: "top center",
-                            className: "success"
-                        })
-                    } else {
-                        $.notify("Có lỗi khi xóa", {
-                            globalPosition: "top center",
-                            className: ""
-                        })
-                    }
-                }
-            })
-        }
+        //function delDetail(id) {
+        //    $.ajax({
+        //        type: 'post',
+        //        url: '/deleteNotYet',
+        //        dataType: 'json',
+        //        data: { id: JSON.stringify(id) },
+        //        success: function (data) {
+        //            if (data.success) {
+        //                dataTable.ajax.reload();
+        //                    successAlert('Thành công', 'Xóa quyết định thành công');
+        //            } else {
+        //               errorAlert('Lỗi', 'Xóa không thành công');
+        //            }
+        //        }
+        //    })
+        //}
 
         //function delQDAjax(form) {
         //    $("#pre-load").show();
@@ -360,6 +354,26 @@
             return (date);
         }
 
+        @*function changeTextField() {
+            $.ajax({
+            url:'@Url.Action("validateID", "ShutDown")',
+            type: "POST",
+            data: { id: $("#soQD").val() },
+            success: (response) => {
+                if (response.success) {
+                    $('#message').show();
+                    $('#them').attr("type", "");
+                     $('#them').attr("disabled", true);
+
+                } else {
+                    $('#message').hide();
+                     $('#them').attr("type", "submit");
+                     $('#them').attr("disabled", false);
+                }
+            },
+        })*@
+
+
         function SubmitForm1(form) {
             $.validator.unobtrusive.parse(form);
             if ($(form).valid()) {
@@ -368,19 +382,12 @@
                     url: form.action,
                     data: $(form).serialize(),
 
-                    success: function (data) {
-                        if (data.success) {
+                    success: function (respone) {
+                        if ((respone)["success"]) {
                             dataTable.ajax.reload();
-                            $.notify("Thêm thành công", {
-                                globalPosition: "top center",
-                                className: "success"
-                            })
-
+                            successAlert('Thành công',(respone)["message"]);
                         } else {
-                            $.notify("Thêm không thành công", {
-                                globalPosition: "top center",
-                                className: ""
-                            })
+                             errorAlert('Lỗi', (respone)["message"]);
                         }
                     }
                 });
@@ -403,16 +410,10 @@
                     success: function (data) {
                         if (data.success) {
                             dataTable.ajax.reload();
-                            $.notify("Xóa thành công", {
-                                globalPosition: "top center",
-                                className: "success"
-                            })
-
+                           successAlert('Thành công', 'Xóa quyết định thành công');
                         } else {
-                            $.notify("Xóa không thành công", {
-                                globalPosition: "top center",
-                                className: ""
-                            })
+                           errorAlert('Lỗi', 'Xóa không thành công');
+
                         }
                     }
                 });
@@ -424,26 +425,7 @@
 
 
         $('#soqd').blur(function () {
-        $.ajax({
-            url:'@Url.Action("validateID", "ShutDown")',
-            type: "POST",
-            data: { id: $(this).val() },
-            success: (response) => {
-                if (response.success) {
-                    $('#message').show();
-                    $('#them').attr("type", "");
-                     $('#them').attr("disabled", true);
 
-                } else {
-                    $('#message').hide();
-                     $('#them').attr("type", "submit");
-                     $('#them').attr("disabled", false);
-                }
-            },
-            error: (response) => {
-
-            },
-        })
     })
     </script>
 }
@@ -451,5 +433,5 @@
     $(".datepicker-here").keydown(function (e) {
         e.preventDefault();
     });
-   
+
 </script>

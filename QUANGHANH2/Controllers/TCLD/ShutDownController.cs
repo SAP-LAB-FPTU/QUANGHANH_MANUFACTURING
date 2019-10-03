@@ -27,7 +27,7 @@ namespace QUANGHANH2.Controllers.TCLD
             public string MaNV { get; set; }
 
         }
-        [Auther(RightID="127")]
+        [Auther(RightID = "127")]
         // GET: ShutDown
         [Route("phong-tcld/quan-ly-nhan-vien/da-xu-ly-cham-dut")]
         [HttpGet]
@@ -108,7 +108,7 @@ namespace QUANGHANH2.Controllers.TCLD
             return Json(list, JsonRequestBehavior.AllowGet);
 
         }
-        [Auther(RightID="128")]
+        [Auther(RightID = "128")]
         [Route("deleteDetail")]
         [HttpPost]
         public JsonResult DidDetailDel(string id)
@@ -141,7 +141,7 @@ namespace QUANGHANH2.Controllers.TCLD
 
             }
         }
-        [Auther(RightID="126")]
+        [Auther(RightID = "126")]
         [Route("deleteNotYet")]
         [HttpPost]
         public JsonResult NotYetDelete(string id)
@@ -175,7 +175,7 @@ namespace QUANGHANH2.Controllers.TCLD
             }
         }
 
-        [Auther(RightID="124")]
+        [Auther(RightID = "124")]
         [Route("phong-tcld/quan-ly-nhan-vien/chua-xu-ly-cham-dut")]
         [HttpGet]
         public ActionResult NotYet()
@@ -256,20 +256,44 @@ namespace QUANGHANH2.Controllers.TCLD
             {
                 try
                 {
-                    db.Configuration.LazyLoadingEnabled = false;
-                    string query = "update QuyetDinh set SoQuyetDinh = " + SoQD + ", NgayQuyetDinh = GETDATE() where MaQuyetDinh = " + id;
-                    db.Database.ExecuteSqlCommand(query);
-                    if (id == null || id.Equals(""))
+                    if (!SoQD.Equals(""))
                     {
-                        throw new Exception("");
+
+                        List<QuyetDinh> qdList = db.QuyetDinhs.ToList();
+                        foreach (var item in qdList)
+                        {
+                            if (SoQD.Equals(item.SoQuyetDinh))
+                            {
+                                return Json(new { success = false, message = "Số quyết định trùng" }, JsonRequestBehavior.AllowGet);
+                            } else
+                            {
+                                if (item.MaQuyetDinh == Int32.Parse(id))
+                                {
+                                    item.SoQuyetDinh = SoQD;
+                                    item.NgayQuyetDinh = System.DateTime.Now.AddDays(2);
+                                    db.Entry(item).State = EntityState.Modified;
+                                    //
+                                    var maNV = db.ChamDut_NhanVien.Where(x => x.MaQuyetDinh == item.MaQuyetDinh).Select(x => x.MaNV).FirstOrDefault();
+                                    //
+                                    var Nv = db.NhanViens.Where(nv => nv.MaNV == maNV).FirstOrDefault();
+                                    Nv.MaTrangThai = 2;
+                                    db.Entry(Nv).State = EntityState.Modified;
+                                    db.SaveChanges();
+                                    dbct.Commit();
+                                    break;
+                                }
+                            }
+                        }
                     }
-                    dbct.Commit();
-                    return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+
+                    return Json(new { success = true, message = "Thêm thành công" }, JsonRequestBehavior.AllowGet);
+
+
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     dbct.Rollback();
-                    return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = false, message = "Có lỗi khi thêm" }, JsonRequestBehavior.AllowGet);
                 }
             }
         }
