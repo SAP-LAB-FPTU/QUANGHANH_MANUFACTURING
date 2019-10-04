@@ -258,7 +258,13 @@
             }
             var searchObjJson = JSON.stringify(searchObj)
 
-            dataTable.ajax.url('@Url.Action("SearchEmployee", "Task")?data=' + searchObjJson).load(() => { $("#pre-load").hide()},true)
+            dataTable.ajax.url('@Url.Action("SearchEmployee", "Task")?data=' + searchObjJson).load((response) => {
+                $("#pre-load").hide()
+                $.notify("Tìm kiếm thành công", {
+                         globalPosition: "top center",
+                         className: "success"
+                            })
+            }, true)
 
         }
 
