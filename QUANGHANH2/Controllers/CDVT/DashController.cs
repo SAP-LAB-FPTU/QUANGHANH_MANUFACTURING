@@ -26,7 +26,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             EquipThongKe etk = new EquipThongKe();
             var equipList = db.Equipments.ToList<Equipment>();
             etk.total = equipList.Count().ToString();
-            List<int> temp = db.Equipments.Where(x=>x.current_Status == 3 || x.current_Status == 8 ||x.current_Status == 1 ||x.current_Status == 5).Select(x => x.current_Status).ToList();
+            List<int> temp = db.Equipments.Where(x => x.current_Status == 3 || x.current_Status == 8 || x.current_Status == 1 || x.current_Status == 5).Select(x => x.current_Status).ToList();
             int total_repair = 0; int total_maintain = 0; int total_TL = 0; int total_TH = 0;
             foreach (var item in temp)
             {
@@ -46,19 +46,19 @@ namespace QUANGHANHCORE.Controllers.CDVT
                         break;
                 }
             }
-            etk.total_repair = total_repair+"";
-            etk.total_maintain = total_maintain+"";
+            etk.total_repair = total_repair + "";
+            etk.total_maintain = total_maintain + "";
             etk.total_TL = total_TL + "";
             etk.total_TH = total_TH + "";
             var listKD = (from equip in db.Equipments
                                         .Where(equip => equip.current_Status == 10)
-                                      join cate in db.Equipment_category
-                                      on equip.Equipment_category_id equals cate.Equipment_category_id
-                                      select new DashEquip
-                                      {
-                                          equipmentId = equip.equipmentId,
-                                          equipment_name = equip.equipment_name
-                                      }).ToList();
+                          join cate in db.Equipment_category
+                          on equip.Equipment_category_id equals cate.Equipment_category_id
+                          select new DashEquip
+                          {
+                              equipmentId = equip.equipmentId,
+                              equipment_name = equip.equipment_name
+                          }).ToList();
             int totalKD = 0;
             foreach (var item in listKD)
             {
@@ -69,7 +69,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             etk.total_KHD = Convert.ToInt32(etk.total_repair) + Convert.ToInt32(etk.total_maintain) + Convert.ToInt32(etk.total_KD) + Convert.ToInt32(etk.total_TH) + Convert.ToInt32(etk.total_TL);
             etk.total_HD = Convert.ToInt32(etk.total) - Convert.ToInt32(etk.total_KHD);
 
-            var listRepair = db.Equipments.Where(x => x.current_Status == 3).Select(x => new DashEquip { equipmentId = x.equipmentId, equipment_name= x.equipment_name }).ToList().Distinct();
+            var listRepair = db.Equipments.Where(x => x.current_Status == 3).Select(x => new DashEquip { equipmentId = x.equipmentId, equipment_name = x.equipment_name }).ToList().Distinct();
             ViewBag.listRepair = listRepair;
 
             var listMain = db.Equipments.Where(x => x.current_Status == 5).Select(x => new DashEquip { equipmentId = x.equipmentId, equipment_name = x.equipment_name }).ToList().Distinct();
@@ -122,19 +122,19 @@ namespace QUANGHANHCORE.Controllers.CDVT
                               {
                                   equipment_name = equip.equipment_name,
                                   equipmentId = equip.equipmentId
-                              }).ToList().Distinct();
-            ViewBag.tongcogioi = tongcogioi.Count().ToString();
+                              }).GroupBy(x => x.equipment_name + x.equipmentId).Select(x => x.FirstOrDefault());
+            ViewBag.tongcogioi = tongcogioi.Count();
 
             var cogioihd = (from equip in db.Equipments.Where(x => x.current_Status == 2)
                             join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
                             on equip.Equipment_category_id equals cate.Equipment_category_id
-                            group equip by equip.current_Status into g
-                            select new
+                            select new DashEquip
                             {
-                               count = g.Count()
-                            }).Select(x=> new SL{ count = x.count}).Distinct().FirstOrDefault();
-            ViewBag.cogioikhd = tongcogioi.Count() - cogioihd.count;
-            ViewBag.cogioihd = cogioihd.count;
+                                equipment_name = equip.equipment_name,
+                                equipmentId = equip.equipmentId
+                            }).GroupBy(x => x.equipment_name + x.equipmentId).Select(x => x.FirstOrDefault());
+            ViewBag.cogioikhd = tongcogioi.Count() - cogioihd.Count();
+            ViewBag.cogioihd = cogioihd.Count();
             var cogioiSC = (from equip in db.Equipments.Where(x => x.current_Status == 3)
                                         join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
                                         on equip.Equipment_category_id equals cate.Equipment_category_id
@@ -142,20 +142,9 @@ namespace QUANGHANHCORE.Controllers.CDVT
                                         {
                                             equipment_name = equip.equipment_name,
                                             equipmentId = equip.equipmentId
-                                        }).ToList().Distinct();
+                                        }).GroupBy(x => x.equipment_name + x.equipmentId).Select(x => x.FirstOrDefault());
             ViewBag.cogioiSC = cogioiSC;
-            var slSC = (from equip in db.Equipments.Where(x => x.current_Status == 3)
-                        join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
-                        on equip.Equipment_category_id equals cate.Equipment_category_id
-                        group equip by equip.current_Status into g
-                        select new
-                        {
-                            count = g.Count()
-                        }).Select(x => new SL{ count = x.count }).FirstOrDefault();
-            if (slSC == null) {
-                slSC = new SL{ count = 0 };
-            }
-            ViewBag.slSC = slSC.count;
+            ViewBag.slSC = cogioiSC.Count();
 
             var cogioiBD = (from equip in db.Equipments.Where(x => x.current_Status == 5)
                                         join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
@@ -164,21 +153,9 @@ namespace QUANGHANHCORE.Controllers.CDVT
                                         {
                                             equipment_name = equip.equipment_name,
                                             equipmentId = equip.equipmentId
-                                        }).ToList().Distinct();
+                                        }).GroupBy(x => x.equipment_name + x.equipmentId).Select(x => x.FirstOrDefault());
             ViewBag.cogioiBD = cogioiBD;
-            var slBD = (from equip in db.Equipments.Where(x => x.current_Status == 5)
-                        join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
-                        on equip.Equipment_category_id equals cate.Equipment_category_id
-                        group equip by equip.current_Status into g
-                        select new
-                        {
-                            count = g.Count()
-                        }).Select(x => new SL{ count = x.count }).FirstOrDefault();
-            if (slBD == null)
-            {
-                slBD = new SL{ count = 0 };
-            }
-            ViewBag.slBD = slBD.count;
+            ViewBag.slBD = cogioiBD.Count();
 
             var cogioiKD = (from equip in db.Equipments.Where(x => x.current_Status == 10)
                             join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
@@ -189,14 +166,9 @@ namespace QUANGHANHCORE.Controllers.CDVT
                             {
                                 equipment_name = equip.equipment_name,
                                 equipmentId = equip.equipmentId
-                            }).ToList();
-            int slKD = 0;
-            foreach (var item in cogioiKD)
-            {
-                slKD++;
-            }
+                            }).GroupBy(x => x.equipment_name + x.equipmentId).Select(x => x.FirstOrDefault());
             ViewBag.cogioiKD = cogioiKD;
-            ViewBag.slKD = slKD;
+            ViewBag.slKD = cogioiKD.Count();
 
             var cogioiTL = (from equip in db.Equipments.Where(x => x.current_Status == 8)
                             join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
@@ -205,21 +177,9 @@ namespace QUANGHANHCORE.Controllers.CDVT
                             {
                                 equipment_name = equip.equipment_name,
                                 equipmentId = equip.equipmentId
-                            }).ToList();
+                            }).GroupBy(x => x.equipment_name + x.equipmentId).Select(x => x.FirstOrDefault());
             ViewBag.cogioiTL = cogioiTL;
-            var slTL = (from equip in db.Equipments.Where(x => x.current_Status == 8)
-                        join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
-                        on equip.Equipment_category_id equals cate.Equipment_category_id
-                        group equip by equip.current_Status into g
-                        select new
-                        {
-                            count = g.Count()
-                        }).Select(x => new SL{ count = x.count }).FirstOrDefault();
-            if (slTL == null)
-            {
-                slTL = new SL{ count = 0 };
-            }
-            ViewBag.slTL = slTL.count;
+            ViewBag.slTL = cogioiTL.Count();
 
             var cogioiTH = (from equip in db.Equipments.Where(x => x.current_Status == 7)
                                         join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
@@ -228,23 +188,11 @@ namespace QUANGHANHCORE.Controllers.CDVT
                                         {
                                             equipment_name = equip.equipment_name,
                                             equipmentId = equip.equipmentId
-                                        }).ToList();
+                                        }).GroupBy(x => x.equipment_name + x.equipmentId).Select(x => x.FirstOrDefault());
             ViewBag.cogioiTH = cogioiTH;
-            var slTH = (from equip in db.Equipments.Where(x => x.current_Status == 7)
-                        join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
-                        on equip.Equipment_category_id equals cate.Equipment_category_id
-                        group equip by equip.current_Status into g
-                        select new
-                        {
-                            count = g.Count()
-                        }).Select(x => new SL { count = x.count }).FirstOrDefault();
-            if (slTH == null)
-            {
-                slTH = new SL{ count = 0 };
-            }
-            ViewBag.slTH = slTH.count;
+            ViewBag.slTH = cogioiTH.Count();
 
-            var hanDangKiemcogioi = (from equip in db.Equipments.Where(x =>x.durationOfInspection <= testTime && x.durationOfInspection >=DateTime.Now)
+            var hanDangKiemcogioi = (from equip in db.Equipments.Where(x => x.durationOfInspection <= testTime && x.durationOfInspection >= DateTime.Now).OrderBy(x => x.durationOfInspection)
                                      join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
                                         on equip.Equipment_category_id equals cate.Equipment_category_id
                                      select new form1
@@ -254,13 +202,8 @@ namespace QUANGHANHCORE.Controllers.CDVT
                                          ngay = equip.durationOfInspection.Day,
                                          thang = equip.durationOfInspection.Month,
                                          nam = equip.durationOfInspection.Year
-                                     }).Take(10).ToList().Distinct().OrderBy(x=>x.ngay);
-            int kiemdinhcogioitag = 0;
-            foreach (var item in hanDangKiemcogioi)
-            {
-                kiemdinhcogioitag++;
-            }
-            ViewBag.kiemdinhcogioitag = kiemdinhcogioitag;
+                                     }).Take(10).GroupBy(x=>x.equipment_name + x.equipmentId + x.ngay+x.thang+x.nam).Select(x=>x.FirstOrDefault());
+            ViewBag.kiemdinhcogioitag = hanDangKiemcogioi.Count();
             ViewBag.hanDangKiemcogioi = hanDangKiemcogioi;
 
             var hanBaoduongcogioi = (from equip in db.Equipments.Where(x => x.durationOfMaintainance <= testTime && x.durationOfMaintainance >= DateTime.Now).OrderBy(x => x.durationOfMaintainance)
@@ -273,17 +216,12 @@ namespace QUANGHANHCORE.Controllers.CDVT
                                          ngay = equip.durationOfMaintainance.Day,
                                          thang = equip.durationOfMaintainance.Month,
                                          nam = equip.durationOfMaintainance.Year
-                                     }).Take(10).ToList().Distinct();
-            int baoduongcogioitag = 0;
-            foreach (var item in hanBaoduongcogioi)
-            {
-                baoduongcogioitag++;
-            }
-            ViewBag.baoduongcogioitag = baoduongcogioitag;
+                                     }).Take(10).GroupBy(x => x.equipment_name + x.equipmentId + x.ngay + x.thang + x.nam).Select(x => x.FirstOrDefault());
+            ViewBag.baoduongcogioitag = hanBaoduongcogioi.Count();
             ViewBag.hanBaoduongcogioi = hanBaoduongcogioi;
 
 
-            //Wherecondition(type, month, year);
+            Wherecondition(type, month, year);
             return View("/Views/CDVT/Dashboard.cshtml");
         }
 
