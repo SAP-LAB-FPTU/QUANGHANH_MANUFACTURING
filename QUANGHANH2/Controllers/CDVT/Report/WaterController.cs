@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml;
 using QUANGHANH2.Models;
+using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,6 +11,7 @@ using System.Web.Mvc;using System.Web.Routing;
 
 namespace QUANGHANHCORE.Controllers.CDVT.Report
 {
+    [Auther(RightID ="45")]
     public class WaterController : Controller
     {
         /*aa*/

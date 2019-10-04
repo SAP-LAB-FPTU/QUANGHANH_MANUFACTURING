@@ -8,17 +8,19 @@ namespace QUANGHANH2.Models
     public class Equipment_InspectionDB : Equipment_Inspection
     {
         public string equipment_name { get; set; }
+        public string statusname { get; set; }
+        public string stringExpectedTime { get; set; }
         public string stringStartTime { get; set; }
         public string stringEndTime { get; set; }
         public string updateAble { get; set; }
 
-        public string getEndtime()
+        public string getStringtime(Nullable<DateTime> dateTime)
         {
-            if (inspect_end_date == null) return "";
+            if (dateTime == null) return "";
             else
             {
                 DateTime temp;
-                DateTime.TryParse(inspect_end_date.ToString(), out temp);
+                DateTime.TryParse(dateTime.ToString(), out temp);
                 return temp.ToString("dd/MM/yyyy");
             }
         }
