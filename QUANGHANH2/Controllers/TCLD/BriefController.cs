@@ -76,7 +76,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             public string Ten { get; set; }
         }
         //Sửa giấy tờ
-
+        [Auther(RightID = "147")]
         [HttpPost]
         public ActionResult suaGiayTo(GiayTo document)
         {
@@ -98,6 +98,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
 
         }
+        [Auther(RightID = "147")]
         [HttpGet]
         public ActionResult suaGiayTo(string id)
         {
@@ -120,6 +121,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
         }
         //thêm giấy tờ
+        [Auther(RightID = "157")]
         [HttpGet]
         public ActionResult themGiayTo()
         {
@@ -141,27 +143,24 @@ namespace QUANGHANHCORE.Controllers.TCLD
             ViewBag.kindODoc = KieuGT;
             return View(new GiayTo());
         }
+        [Auther(RightID = "157")]
         [HttpPost]
         public ActionResult themGiayTo(GiayTo g)
         {
 
             var a = getAllNhanVien();
             ViewBag.nhanvien = a;
-
-
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 try
                 {
-
                     db.GiayToes.Add(g);
                     db.SaveChanges();
                 }
-                catch (Exception ex)
+                catch (Exception )
                 {
 
                     return Json(new { message = "Failed" }, JsonRequestBehavior.AllowGet);
-
                 }
             }
 
@@ -186,7 +185,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
         }
 
-
+        [Auther(RightID = "148")]
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteDoc(int id)
         {
@@ -208,7 +207,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 return Json(new { success = false, responseText = "The attached file is not supported." }, JsonRequestBehavior.AllowGet);
             }
         }
-             [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to")]
+        [Auther(RightID = "146")]
+        [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to")]
         [HttpPost]
         public ActionResult Search(string MaNV, string TenNV, string TenGT, string KieuGT)
         {
@@ -851,7 +851,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult Outside(String mnv)
         {
-
+            int start = Convert.ToInt32(Request["start"]);
+            int length = Convert.ToInt32(Request["length"]);
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 var mydata = (from p in db.NhanViens
@@ -871,8 +872,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                   loaichamdut = p2.LoaiChamDut,
                                   edit = true
                               }).ToList();
-
-                return Json(new { success = true, data = mydata, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
+                int totalrows = mydata.Count;
+                int totalrowsafterfiltering = mydata.Count;
+                mydata = mydata.Skip(start).Take(length).ToList();
+                return Json(new { success = true, data = mydata, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
             }
 
 
@@ -1058,7 +1061,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             {
                 DateTime dt = Convert.ToDateTime(dateTime);
             }
-            catch (Exception e)
+            catch (Exception )
             {
                 return false;
             }
@@ -1125,6 +1128,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
         public ActionResult thongTinGiayTo()
         {
+            int start = Convert.ToInt32(Request["start"]);
+            int length = Convert.ToInt32(Request["length"]);
             String mnv = Request.QueryString["manv"];
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
@@ -1174,7 +1179,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                          }
                         ).ToList();
                 var m = y.Union(z.Union(x)).ToList();
-                return Json(new { success = true, data = m, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
+                int totalrows = m.Count;
+                int totalrowsafterfiltering = m.Count;
+                m = m.Skip(start).Take(length).ToList();
+                return Json(new { success = true, data = m, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
             }
 
 
@@ -1229,7 +1237,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
             String manv = js.manv;
             String ten = js.ten;
             String loaichamdut = js.loaichamdut;
-
+            int start = Convert.ToInt32(Request["start"]);
+            int length = Convert.ToInt32(Request["length"]);
 
             // String 
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
@@ -1257,46 +1266,12 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                   loaichamdut = p2.LoaiChamDut,
                                   edit = true
                               }).ToList();
-                //return Json(new { success = true, data = mydata, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
+                int totalrows = mydata.Count;
+                int totalrowsafterfiltering = mydata.Count;
+                mydata = mydata.Skip(start).Take(length).ToList();
+                return Json(new { success = true, data = mydata, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
 
-
-                //    var mydata1 = (from p in db.NhanViens
-                //                  join p1 in db.HoSoes on p.MaNV equals p1.MaNV
-                //                  join p2 in db.ChamDut_NhanVien on p1.MaNV equals p2.MaNV
-                //                  where /*p1.TrangThaiHoSo == "ngoai" &*/  p.Ten.Contains(ten) & ten !=""
-                //                  select new
-                //                  {
-                //                      stt = "1",
-                //                      manv = p.MaNV,
-                //                      ten = p.Ten,
-                //                      dvcdhd = p2.DonViKhiChamDut,
-                //                      sobhxh = p.SoBHXH,
-                //                      sdt = p.SoDienThoai,
-                //                      diachi = p.NoiOHienTai,
-                //                      edit = true
-                //                  }).ToList();
-                //   // return Json(new { success = true, data = mydata, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
-
-
-                //    var mydata2 = (from p in db.NhanViens
-                //                  join p1 in db.HoSoes on p.MaNV equals p1.MaNV
-                //                  join p2 in db.ChamDut_NhanVien on p1.MaNV equals p2.MaNV
-                //                  where /*p1.TrangThaiHoSo == "ngoai" &*/  p2.LoaiChamDut.Contains(loaichamdut) & loaichamdut!=""
-                //                  select new
-                //                  {
-                //                      stt = "1",
-                //                      manv = p.MaNV,
-                //                      ten = p.Ten,
-                //                      dvcdhd = p2.DonViKhiChamDut,
-                //                      sobhxh = p.SoBHXH,
-                //                      sdt = p.SoDienThoai,
-                //                      diachi = p.NoiOHienTai,
-                //                      edit = true
-                //                  }).ToList();
-                //var x = mydata.Union(mydata1.Union(mydata2)).Distinct();
-                return Json(new { success = true, data = mydata, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
-
-                return Json(new { success = false, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
+              
             }
 
 
@@ -1394,8 +1369,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
                             {
                                 excelWorksheet.Cells[indexChungChi, 13].Value = i.ten;
                                 excelWorksheet.Cells[indexChungChi, 14].Value = i.kieu;
-                                excelWorksheet.Cells[indexChungChi, 15].Value = i.ngaycap.HasValue ? i.ngaycap.Value.ToString("dd/MM/yyyy") : string.Empty; ;
-                                excelWorksheet.Cells[indexChungChi, 16].Value = i.ngaytra.HasValue ? i.ngaytra.Value.ToString("dd/MM/yyyy") : string.Empty; ;
+                                excelWorksheet.Cells[indexChungChi, 15].Value = i.ngaycap.HasValue ? i.ngaycap.Value.ToString("dd/MM/yyyy") : string.Empty;
+                                excelWorksheet.Cells[indexChungChi, 16].Value = i.ngaytra.HasValue ? i.ngaytra.Value.ToString("dd/MM/yyyy") : string.Empty;
                                 indexChungChi++;
                             }
                             if (indexChungChi >= tempIndex)

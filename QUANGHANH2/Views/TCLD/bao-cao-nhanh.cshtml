@@ -7,6 +7,11 @@
 <link href="~/assets/extra-libs/css-chart/css-chart.css" rel="stylesheet">
 <link href="~/dist/dashboard_Tuan/customDashboard.css" rel="stylesheet">
 <link href="~/assets/extra-libs/prism/prism.css" rel="stylesheet" />
+<style>
+    .jsgrid-grid-body{
+        height:350px !important;
+    }
+</style>
 <div class="row">
     <div class="col l12 m12 s12">
         <div class="card">
@@ -182,25 +187,25 @@
             </div>
         </div>
     </div>
-    <div class="col s12 l6 m6">
-        <div class="card">
-            <div class="card-content analytics-info">
-                <h5 class="card-title">Biểu đồ năng suất lao động trong ngày </h5>
-                <div id="basic-line" style="height:400px;"></div>
+    @*<div class="col s12 l6 m6">
+            <div class="card">
+                <div class="card-content analytics-info">
+                    <h5 class="card-title">Biểu đồ năng suất lao động trong ngày </h5>
+                    <div id="basic-area" style="height:400px;"></div>
+                </div>
             </div>
-        </div>
-    </div>
+        </div>*@
     <div class="row">
         <div class="col l6 s12">
             <div class="card">
-                <div class="card-content analytics-info">
+                <div class="card-content analytics-info" style="min-height:482px;">
                     <h5 class="card-title">Lao động nghỉ VLD</h5>
-                    <div id="table_nghidai" style="height:400px;"></div>
+                    <div id="table_nghidai"></div>
                 </div>
             </div>
         </div>
 
-        <div class="col l6 s12">
+        <div class="col l12 s12">
             <div class="card">
                 <div class="card-content">
                     <h5 class="card-title">Báo cáo sản lượng</h5>
@@ -219,7 +224,6 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 
 <!-- Chi tiet -->
@@ -292,7 +296,8 @@
     </div>*@
 <script>
     var tren82 =@ViewBag.tren82;
-    var duoi82= @ViewBag.duoi82;
+    var duoi82 = @ViewBag.duoi82;
+    var listNghiVLD = @Html.Raw(Json.Encode(ViewBag.listNghiVLD));
 </script>
 <!-- Editable -->
 <script type="text/javascript" src="~/assets/libs/jsgrid/dist/jsgrid.min.js"></script>
@@ -312,13 +317,221 @@
 <script src="~/js/tcld_dashboard/QuickReport_piechart.js"></script>
 <script src="~/assets/extra-libs/prism/prism.js"></script>
 
-
 <!-- Table -->
-<script src="~/js/Custom JS/TCLD/db_issue.js"></script>
-<script src="~/js/Custom JS/TCLD/table_init.js"></script>
+@*<script src="~/js/Custom JS/TCLD/db_issue.js"></script>*@
+@*<script src="~/js/Custom JS/TCLD/table_init.js"></script>*@
 <!--Auto -->
 <script>
+    (function () {
+        var db = {
+            insertItem: function (insertingClient) {
+                this.clients.push(insertingClient);
+            },
 
+            updateItem: function (updatingClient) { },
+
+            deleteItem: function (deletingClient) {
+                var clientIndex = $.inArray(deletingClient, this.clients);
+                this.clients.splice(clientIndex, 1);
+            }
+        };
+        window.db = db;
+        db.nghidai = [];
+        for (var i = 0; i < listNghiVLD.length; i++) {
+            var stt = (i + 1);
+            var MaNV = listNghiVLD[i].MaNV;
+            var HoTen = listNghiVLD[i].HoTen;
+            var TenDonVi = listNghiVLD[i].TenDonVi;
+            db.nghidai.push(
+                {
+                    "STT": (i + 1),
+                    "Số thẻ": MaNV,
+                    "Họ và tên": HoTen,
+                    "Đơn vị": TenDonVi
+                });
+        }
+        db.sanluong = [
+            {
+                "STT": 'A',
+                "Danh mục": "Kế hoạch năm 2019",
+            },
+            {
+                "STT": 1,
+                "Danh mục": "Tấn than",
+                "DVT": "Tấn",
+                "Kế hoạch": "28.000",
+                "Thực hiện": "9.057",
+                "Chênh lệch": "32"
+            },
+            {
+                "STT": 2,
+                "Danh mục": "Mét lò",
+                "DVT": "m",
+                "Kế hoạch": "3.100",
+                "Thực hiện": "853",
+                "Chênh lệch": "28"
+            },
+            {
+                "STT": 'B',
+                "Danh mục": "Kế hoạch quý 3/2019",
+            },
+            {
+                "STT": 1,
+                "Danh mục": "Tấn than",
+                "DVT": "Tấn",
+                "Kế hoạch": "2.375",
+                "Thực hiện": "630",
+                "Chênh lệch": "12"
+            },
+            {
+                "STT": 2,
+                "Danh mục": "Mét lò",
+                "DVT": "m",
+                "Kế hoạch": "275",
+                "Thực hiện": "71",
+                "Chênh lệch": "6"
+            }
+        ];
+    }());
+    ! function (document, window, $) {
+        "use strict";
+        var Site = window.Site;
+        $(document).ready(function ($) {
+
+        }), jsGrid.setDefaults({
+            tableClass: "jsgrid-table table table-striped table-hover"
+        }), jsGrid.setDefaults("text", {
+            _createTextBox: function () {
+                return $("<input>").attr("type", "text").attr("class", "")
+            }
+        }), jsGrid.setDefaults("number", {
+            _createTextBox: function () {
+                return $("<input>").attr("type", "number").attr("class", "")
+            }
+        }), jsGrid.setDefaults("textarea", {
+            _createTextBox: function () {
+                return $("<input>").attr("type", "textarea").attr("class", "materialize-textarea")
+            }
+        }), jsGrid.setDefaults("control", {
+            _createGridButton: function (cls, tooltip, clickHandler) {
+                var grid = this._grid;
+                return $("<button>").addClass(this.buttonClass).addClass(cls).attr({
+                    type: "button",
+                    title: tooltip
+                }).on("click", function (e) {
+                    clickHandler(grid, e)
+                })
+            }
+        }), jsGrid.setDefaults("select", {
+            _createSelect: function () {
+                var $result = $("<select>").attr("class", ""),
+                    valueField = this.valueField,
+                    textField = this.textField,
+                    selectedIndex = this.selectedIndex;
+                return $.each(this.items, function (index, item) {
+                    var value = valueField ? item[valueField] : index,
+                        text = textField ? item[textField] : item,
+                        $option = $("<option>").attr("value", value).text(text).appendTo($result);
+                    $option.prop("selected", selectedIndex === index)
+                }), $result
+            }
+        }),
+            //REPORT SỰ CỐ
+            function () {
+                $("#table_nghidai").jsGrid({
+                    height: "400px",
+                    width: "100%",
+                    sorting: !0,
+                    paging: !0,
+                    data: db.nghidai,
+                    noDataContent: "Không có dữ liệu",
+                    fields: [{
+                        name: "STT",
+                        type: "number",
+                        width: 40
+                    }, {
+                        name: "Số thẻ",
+                        type: "text",
+                        width: 70
+                    }, {
+                        name: "Họ và tên",
+                        type: "text",
+                        width: 150
+                    }, {
+                        name: "Đơn vị",
+                        type: "text",
+                        width: 70
+                    },]
+                })
+            }(),
+            function () {
+                $("#table_sanluong").jsGrid({
+                    height: "300px",
+                    width: "100%",
+                    sorting: !0,
+                    paging: !0,
+                    data: db.sanluong,
+                    noDataContent: "Không có dữ liệu",
+                    fields: [{
+                        name: "STT",
+                        type: "text",
+                        width: 40
+                    }, {
+                        name: "Danh mục",
+                        type: "text",
+                        width: 150
+                    }, {
+                        name: "DVT",
+                        type: "text",
+                        width: 70
+                    }, {
+                        name: "Thực hiện",
+                        type: "number",
+                        width: 70
+                    }, {
+                        name: "Chênh lệch",
+                        type: "number",
+                        width: 70
+                    }]
+                })
+            }(),
+
+
+            function () {
+                var MyDateField = function (config) {
+                    jsGrid.Field.call(this, config)
+                };
+                MyDateField.prototype = new jsGrid.Field({
+                    sorter: function (date1, date2) {
+                        return new Date(date1) - new Date(date2)
+                    },
+                    itemTemplate: function (value) {
+                        return new Date(value).toDateString()
+                    },
+                    insertTemplate: function () {
+                        if (!this.inserting) return "";
+                        var $result = this.insertControl = this._createTextBox();
+                        return $result
+                    },
+                    editTemplate: function (value) {
+                        if (!this.editing) return this.itemTemplate(value);
+                        var $result = this.editControl = this._createTextBox();
+                        return $result.val(value), $result
+                    },
+                    insertValue: function () {
+                        return this.insertControl.datepicker("getDate")
+                    },
+                    editValue: function () {
+                        return this.editControl.datepicker("getDate")
+                    },
+                    _createTextBox: function () {
+                        return $("<input>").attr("type", "text").addClass("form-control input-sm").datepicker({
+                            autoclose: !0
+                        })
+                    }
+                })
+            }()
+    }(document, window, jQuery);
 </script>
 <script>
     $(document).ready(function () {
@@ -386,7 +599,7 @@
                             $("#vld-container").removeClass("info-gradient");
                             $("#vld-container").addClass("warning-gradient");
                         }
-                        ////////////////////////////////////////////////////////////////
+                        ///////////////////////////BIEU DO HUY DONG/////////////////////////////
                         tren82 = response.tren82;
                         duoi82 = response.duoi82;
                         var basicpieChart = echarts.init(document.getElementById('basic-pie'));
@@ -481,7 +694,47 @@
                             }]
                         };
                         basicpieChart.setOption(option);
-                        //////////////////////////////////////////////////////////////////
+                        /////////////////////////DANH SACH NGHI VLD//////////////////////////
+                        db.nghidai = [];
+                        for (var i = 0; i < response.listNghiVLD.length; i++) {
+                            var stt = (i + 1);
+                            var MaNV = response.listNghiVLD[i].MaNV;
+                            var HoTen = response.listNghiVLD[i].HoTen;
+                            var TenDonVi = response.listNghiVLD[i].TenDonVi;
+                            db.nghidai.push(
+                                {
+                                    "STT": (i + 1),
+                                    "Số thẻ": MaNV,
+                                    "Họ và tên": HoTen,
+                                    "Đơn vị": TenDonVi
+                                });
+                        }
+                        $("#table_nghidai").jsGrid({
+                            height: "400px",
+                            width: "100%",
+                            sorting: !0,
+                            paging: !0,
+                            data: db.nghidai,
+                            noDataContent: "Không có dữ liệu",
+                            fields: [{
+                                name: "STT",
+                                type: "number",
+                                width: 40
+                            }, {
+                                name: "Số thẻ",
+                                type: "text",
+                                width: 70
+                            }, {
+                                name: "Họ và tên",
+                                type: "text",
+                                width: 150
+                            }, {
+                                name: "Đơn vị",
+                                type: "text",
+                                width: 70
+                            },]
+                        });
+                        /////////////////////////////////////////////////
                     } else {
                         errorAlert(response.message);
                         $("#pre-load").hide("slow", function () {
@@ -489,10 +742,91 @@
                     }
                 }
             });
-
-
         }
     })
+</script>
+
+
+<script>
+    var bareaChart = echarts.init(document.getElementById('basic-area'));
+    var option = {
+        // Setup grid
+        grid: {
+            left: '1%',
+            right: '2%',
+            bottom: '3%',
+            containLabel: true
+        },
+
+        // Add Tooltip
+        tooltip: {
+            trigger: 'axis',
+
+        },
+
+        // Add Legend
+        legend: {
+            data: ['Na']
+        },
+
+        // Add custom colors
+        color: ['#2962FF', '#4fc3f7'],
+
+        // Enable drag recalculate
+        calculable: true,
+
+        // Horizontal Axiz
+        xAxis: [
+            {
+                type: 'category',
+                boundaryGap: false,
+                data: ['Ca 1', 'Ca 2', 'Ca 3']
+            }
+        ],
+
+        // Vertical Axis
+        yAxis: [
+            {
+                type: 'value',
+                max: 10,
+                axisLabel: {
+                    formatter: '{value}'// %'
+                }
+            }
+        ],
+
+        // Add Series
+        series: [
+            {
+                name: '',
+                type: 'line',
+                areaStyle: {},
+                data: [1, 5, 7],
+                markPoint: {
+                    data: [
+                        { type: 'max', name: 'Max' },
+                        { type: 'min', name: 'Min' }
+                    ]
+                },
+                markLine: {
+                    data: [
+                        { type: 'average', name: 'Average' }
+                    ]
+                }
+            },
+        ]
+    };
+    bareaChart.setOption(option);
+    $(function () {
+        $(window).on('resize', resize);
+        $(".sidebartoggler").on('click', resize);
+        function resize() {
+            setTimeout(function () {
+                bareaChart.resize();
+            }, 200);
+        }
+        bareaChart.resize();
+    });
 </script>
 
 
