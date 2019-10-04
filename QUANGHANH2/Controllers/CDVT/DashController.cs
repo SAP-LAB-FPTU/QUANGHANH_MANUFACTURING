@@ -21,8 +21,6 @@ namespace QUANGHANHCORE.Controllers.CDVT
         public ActionResult Index(string type, string month, string year)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            List<Department> listDepeartment = db.Departments.ToList<Department>();
-            ViewBag.listDepeartment = listDepeartment;
             EquipThongKe etk = new EquipThongKe();
             var equipList = db.Equipments.ToList<Equipment>();
             etk.total = equipList.Count().ToString();
