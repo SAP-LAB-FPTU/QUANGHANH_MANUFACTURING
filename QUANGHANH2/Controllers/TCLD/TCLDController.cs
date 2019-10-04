@@ -31,6 +31,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             int tren82=0;
             int duoi82=0;
             List<NghiVLD> listNghiVLD = new List<NghiVLD>();
+            int temp = 0;
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
@@ -40,13 +41,15 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 "where maquyetdinh in\n" +
                 "(SELECT  distinct MaQuyetDinh FROM DIEUDONG_NHANVIEN)\n" +
                 "AND NgayQuyetDinh = (SELECT CONVERT(VARCHAR(10), getdate() - 1, 101))";
-                soLuotHuyDong = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
+                temp = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
+                soLuotHuyDong = temp != null ? temp : 0;
 
                 ////////////////////////////GET SO LUONG TAI NAN///////////////////////////////////////////
                 sql = "select Count(tn.MaNV)  from \n" +
                       "(select MaNV, Ngay from TaiNan where\n" +
                       "Ngay = (SELECT CONVERT(VARCHAR(10), getdate() - 1, 101))) as tn";
-                vuTaiNan = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
+                temp = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
+                vuTaiNan = temp != null ? temp : 0;
 
                 ///////////////////////////////GET SO LUONG HET HAN CC///////////////////////////////////////////
                 sql = "select sum(th.st) \n" +
@@ -54,14 +57,16 @@ namespace QUANGHANHCORE.Controllers.TCLD
                       "when DATEADD(MONTH, cc.ThoiHan, cn.NgayCap) <= GETDATE()\n" +
                       "then 1 else 0 end) as st\n" +
                       "from ChungChi_NhanVien cn join ChungChi cc on cn.MaChungChi = cc.MaChungChi) as th";
-                hetHanChungChi = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
+                temp = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
+                hetHanChungChi = temp!=null?temp:0;
 
                 ////////////////////////////GET SO LUONG NGHI VLD///////////////////////////////////////////
                 sql = "select Count(vld.MaNV) from \n" +
                         "(select MaNV, NgayDiemDanh from DiemDanh_NangSuatLaoDong\n" +
                         "where NgayDiemDanh = (SELECT CONVERT(VARCHAR(10), getdate() - 1, 101))\n" +
                         "and XacNhan = 1) as vld";
-                nghiVLD = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
+                temp = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
+                nghiVLD = temp != null ? temp : 0;
                 /////////////////////////////////////////////////////////////////////////////////////////////
 
                 //////////////////////////////////////GET TI LE HUY DONG////////////////////////////////////////
