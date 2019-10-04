@@ -54,15 +54,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             public string total_TL { get; set; }
             public string total_TH { get; set; }
         }
-        private class NewEquipment : Equipment
-        {
-            public string statusname { get; set; }
-            public string department_name { get; set; }
-            public string category_name { get; set; }
-        }
 
         public class EquipWithName : Equipment
         {
+            public Nullable<System.DateTime> durationOfInspection_fix { get; set; }
             public string statusname { get; set; }
             public string Equipment_category_name { get; set; }
             public string department_name { get; set; }
@@ -82,71 +77,20 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
 
-                var equipList = (from p in db.Equipments
-                                 join e in db.Equipment_category on p.Equipment_category_id equals e.Equipment_category_id
-                                 join d in db.Departments on p.department_id equals d.department_id
-                                 join ea in db.Equipment_category_attribute on p.Equipment_category_id equals ea.Equipment_category_id
-                                 join s in db.Status on p.current_Status equals s.statusid
-                                 where ea.Equipment_category_attribute_name.Equals("Số khung") || ea.Equipment_category_attribute_name.Equals("Số máy")
-                                 select new
-                                 {
-                                     equipmentId = p.equipmentId,
-                                     equipment_name = p.equipment_name,
-                                     supplier = p.supplier,
-                                     date_import = p.date_import,
-                                     depreciation_estimate = p.depreciation_estimate,
-                                     depreciation_present = p.depreciation_present,
-                                     durationOfInspection = p.durationOfInspection,
-                                     durationOfInsurance = p.durationOfInsurance,
-                                     usedDay = p.usedDay,
-                                     durationOfMaintainance = p.durationOfMaintainance,
-                                     total_operating_hours = p.total_operating_hours,
-                                     current_Status = p.current_Status,
-                                     fabrication_number = p.fabrication_number,
-                                     mark_code = p.mark_code,
-                                     quality_type = p.quality_type,
-                                     input_channel = p.input_channel,
-                                     Equipment_category_id = p.Equipment_category_id,
-                                     department_id = p.department_id,
-                                     department_name = d.department_name,
-                                     category_name = e.Equipment_category_name,
-                                     statusname = s.statusname
-                                 }).ToList().Distinct().Select(p => new NewEquipment
-                                 {
-                                     equipmentId = p.equipmentId,
-                                     equipment_name = p.equipment_name,
-                                     supplier = p.supplier,
-                                     date_import = p.date_import,
-                                     depreciation_estimate = p.depreciation_estimate,
-                                     depreciation_present = p.depreciation_present,
-                                     durationOfInspection = p.durationOfInspection,
-                                     durationOfInsurance = p.durationOfInsurance,
-                                     usedDay = p.usedDay,
-                                     durationOfMaintainance = p.durationOfMaintainance,
-                                     total_operating_hours = p.total_operating_hours,
-                                     current_Status = p.current_Status,
-                                     fabrication_number = p.fabrication_number,
-                                     mark_code = p.mark_code,
-                                     quality_type = p.quality_type,
-                                     input_channel = p.input_channel,
-                                     Equipment_category_id = p.Equipment_category_id,
-                                     department_id = p.department_id,
-                                     department_name = p.department_name,
-                                     category_name = p.category_name,
-                                     statusname = p.statusname
-                                 }).ToList();
 
-                //var equipList = db.Database.SqlQuery<NewEquipment>("select e.*, d.department_name, ec.Equipment_category_name" +
-                //    "from Equipment e, Equipment_category_attribute ea, Department d, Equipment_category ec" +
-                //    "where e.Equipment_category_id = ec.Equipment_category_id and e.department_id = d.department_id and e.Equipment_category_id = ea.Equipment_category_id" +
-                //    "and ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy'").ToList();
+                var equipList = db.Database.SqlQuery<EquipWithName>("SELECT e.[equipmentId],e.[equipment_name],[supplier],[date_import],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_expected_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfMaintainance],[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
+                "from Equipment e, Department d, Equipment_category ec,Status s, " +
+                "(select distinct e.equipmentId, e.equipment_name from Equipment e inner join Equipment_category_attribute ea on ea.Equipment_category_id = e.Equipment_category_id where ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') a" +
+                " where a.equipmentId = e.equipmentId and e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id AND e.current_Status = s.statusid").ToList();
+
+
 
                 int totalrows = equipList.Count;
                 int totalrowsafterfiltering = equipList.Count;
                 //sorting
-                equipList = equipList.OrderBy(sortColumnName + " " + sortDirection).ToList<NewEquipment>();
+                equipList = equipList.OrderBy(sortColumnName + " " + sortDirection).ToList<EquipWithName>();
                 //paging
-                equipList = equipList.Skip(start).Take(length).ToList<NewEquipment>();
+                equipList = equipList.Skip(start).Take(length).ToList<EquipWithName>();
                 List<Department> listDepeartment = db.Departments.ToList<Department>();
                 ViewBag.listDepeartment = listDepeartment;
                 ViewBag.bolEdit = false;
@@ -167,59 +111,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
 
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    List<NewEquipment> equipList = (from p in db.Equipments
-                                                    join e in db.Equipment_category on p.Equipment_category_id equals e.Equipment_category_id
-                                                    join d in db.Departments on p.department_id equals d.department_id
-                                                    join ea in db.Equipment_category_attribute on p.Equipment_category_id equals ea.Equipment_category_id
-                                                    join s in db.Status on p.current_Status equals s.statusid
-                                                    where ea.Equipment_category_attribute_name.Equals("Số khung") || ea.Equipment_category_attribute_name.Equals("Số máy")
-                                                    select new
-                                                    {
-                                                        equipmentId = p.equipmentId,
-                                                        equipment_name = p.equipment_name,
-                                                        supplier = p.supplier,
-                                                        date_import = p.date_import,
-                                                        depreciation_estimate = p.depreciation_estimate,
-                                                        depreciation_present = p.depreciation_present,
-                                                        durationOfInspection = p.durationOfInspection,
-                                                        durationOfInsurance = p.durationOfInsurance,
-                                                        usedDay = p.usedDay,
-                                                        durationOfMaintainance = p.durationOfMaintainance,
-                                                        total_operating_hours = p.total_operating_hours,
-                                                        current_Status = p.current_Status,
-                                                        fabrication_number = p.fabrication_number,
-                                                        mark_code = p.mark_code,
-                                                        quality_type = p.quality_type,
-                                                        input_channel = p.input_channel,
-                                                        Equipment_category_id = p.Equipment_category_id,
-                                                        department_id = p.department_id,
-                                                        department_name = d.department_name,
-                                                        category_name = e.Equipment_category_name,
-                                                        statusname = s.statusname
-                                                    }).ToList().Distinct().Select(p => new NewEquipment
-                                                    {
-                                                        equipmentId = p.equipmentId,
-                                                        equipment_name = p.equipment_name,
-                                                        supplier = p.supplier,
-                                                        date_import = p.date_import,
-                                                        depreciation_estimate = p.depreciation_estimate,
-                                                        depreciation_present = p.depreciation_present,
-                                                        durationOfInspection = p.durationOfInspection,
-                                                        durationOfInsurance = p.durationOfInsurance,
-                                                        usedDay = p.usedDay,
-                                                        durationOfMaintainance = p.durationOfMaintainance,
-                                                        total_operating_hours = p.total_operating_hours,
-                                                        current_Status = p.current_Status,
-                                                        fabrication_number = p.fabrication_number,
-                                                        mark_code = p.mark_code,
-                                                        quality_type = p.quality_type,
-                                                        input_channel = p.input_channel,
-                                                        Equipment_category_id = p.Equipment_category_id,
-                                                        department_id = p.department_id,
-                                                        department_name = p.department_name,
-                                                        category_name = p.category_name,
-                                                        statusname = p.statusname
-                                                    }).ToList();
+                    var equipList = db.Database.SqlQuery<EquipWithName>("SELECT e.[equipmentId],e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_expected_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
+               "from Equipment e, Department d, Equipment_category ec,Status s, " +
+               "(select distinct e.equipmentId, e.equipment_name from Equipment e inner join Equipment_category_attribute ea on ea.Equipment_category_id = e.Equipment_category_id where ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') a" +
+               " where a.equipmentId = e.equipmentId and e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id AND e.current_Status = s.statusid").ToList();
+
+
                     int k = 2;
                     for (int i = 0; i < equipList.Count; i++)
                     {
@@ -229,18 +126,17 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                         excelWorksheet.Cells[k, 4].Value = equipList.ElementAt(i).date_import.ToString("dd/MM/yyyy");
                         excelWorksheet.Cells[k, 5].Value = equipList.ElementAt(i).depreciation_estimate;
                         excelWorksheet.Cells[k, 6].Value = equipList.ElementAt(i).depreciation_present;
-                        excelWorksheet.Cells[k, 7].Value = equipList.ElementAt(i).durationOfInspection.ToString("dd/MM/yyyy");
+                        excelWorksheet.Cells[k, 7].Value = equipList.ElementAt(i).durationOfInspection_fix;
                         excelWorksheet.Cells[k, 8].Value = equipList.ElementAt(i).durationOfInsurance.ToString("dd/MM/yyyy");
                         excelWorksheet.Cells[k, 9].Value = equipList.ElementAt(i).usedDay.ToString("dd/MM/yyyy");
-                        excelWorksheet.Cells[k, 10].Value = equipList.ElementAt(i).durationOfMaintainance.ToString("dd/MM/yyyy");
-                        excelWorksheet.Cells[k, 11].Value = equipList.ElementAt(i).total_operating_hours;
-                        excelWorksheet.Cells[k, 12].Value = equipList.ElementAt(i).current_Status;
-                        excelWorksheet.Cells[k, 13].Value = equipList.ElementAt(i).fabrication_number;
-                        excelWorksheet.Cells[k, 14].Value = equipList.ElementAt(i).mark_code;
-                        excelWorksheet.Cells[k, 15].Value = equipList.ElementAt(i).quality_type;
-                        excelWorksheet.Cells[k, 16].Value = equipList.ElementAt(i).input_channel;
-                        excelWorksheet.Cells[k, 17].Value = equipList.ElementAt(i).category_name;
-                        excelWorksheet.Cells[k, 18].Value = equipList.ElementAt(i).department_name;
+                        excelWorksheet.Cells[k, 10].Value = equipList.ElementAt(i).total_operating_hours;
+                        excelWorksheet.Cells[k, 11].Value = equipList.ElementAt(i).current_Status;
+                        excelWorksheet.Cells[k, 12].Value = equipList.ElementAt(i).fabrication_number;
+                        excelWorksheet.Cells[k, 13].Value = equipList.ElementAt(i).mark_code;
+                        excelWorksheet.Cells[k, 14].Value = equipList.ElementAt(i).quality_type;
+                        excelWorksheet.Cells[k, 15].Value = equipList.ElementAt(i).input_channel;
+                        excelWorksheet.Cells[k, 16].Value = equipList.ElementAt(i).Equipment_category_name;
+                        excelWorksheet.Cells[k, 17].Value = equipList.ElementAt(i).department_name;
                         k++;
                     }
                     excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath("/excel/CDVT/download/baocaohoatdong.xlsx")));
@@ -266,7 +162,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             DateTime dtStart = DateTime.ParseExact(dateStart, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             DateTime dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
-            string query = "select e.*,ec.Equipment_category_name,d.department_name,s.statusname " +
+            string query = "SELECT e.[equipmentId],e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_expected_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
                 "from Equipment e, Department d, Equipment_category ec,Status s, " +
                 "(select distinct e.equipmentId, e.equipment_name from Equipment e inner join Equipment_category_attribute ea on ea.Equipment_category_id = e.Equipment_category_id where ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') a" +
                 " where a.equipmentId = e.equipmentId and e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id AND e.current_Status = s.statusid AND ";
@@ -368,10 +264,13 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             listType.Add(new SelectListItem { Text = "Sàng tuyển", Value = "Sàng tuyển" });
             listType.Add(new SelectListItem { Text = "Cung cấp điện, truyền dẫn", Value = "Cung cấp điện, truyền dẫn" });
             ViewBag.listType = listType;
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            List<Supply> listSup = db.Supplies.ToList<Supply>();
+            ViewBag.listSup = listSup;
             return View(new Equipment_category());
         }
         [HttpPost]
-        public ActionResult AddCategory(Equipment_category ec, string[] id, string[] name, string[] unit)
+        public ActionResult AddCategory(Equipment_category ec, string[] id, string[] name, string[] unit, string[] nameSup, int[] quantitySup)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             db.Equipment_category.Add(ec);
@@ -379,41 +278,86 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             {
                 for (int i = 0; i < id.Count(); i++)
                 {
-                    Equipment_category_attribute ea = new Equipment_category_attribute();
-                    ea.Equipment_category_id = ec.Equipment_category_id;
-                    ea.Equipment_category_attribute_id = id[i];
-                    ea.unit = unit[i];
-                    ea.Equipment_category_attribute_name = name[i];
-                    db.Equipment_category_attribute.Add(ea);
+                    if (!id[i].Equals(""))
+                    {
+                        Equipment_category_attribute ea = new Equipment_category_attribute();
+                        ea.Equipment_category_id = ec.Equipment_category_id;
+                        ea.Equipment_category_attribute_id = id[i];
+                        ea.unit = unit[i];
+                        ea.Equipment_category_attribute_name = name[i];
+                        db.Equipment_category_attribute.Add(ea);
+                    }
+
+                }
+            }
+            if (nameSup != null)
+            {
+                for (int i = 0; i < nameSup.Count(); i++)
+                {
+                    if (!nameSup[i].Equals(""))
+                    {
+
+                    }
+
                 }
             }
             db.SaveChanges();
             return RedirectToAction("GetData");
         }
+
         [HttpPost]
-        public ActionResult Add(Equipment emp, string[] id, string[] name, int[] value, string[] unit)
+        public ActionResult Add(Equipment emp, string import, string duraInspec, string duraInsura, string used, string duramain, string[] id, string[] name, int[] value, string[] unit)
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
+                //import date
+                string[] date = import.Split('/');
+                string date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                emp.date_import = Convert.ToDateTime(date_fix);
+                //durationOfInspection
+                date = duraInspec.Split('/');
+                date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                emp.durationOfInspection = Convert.ToDateTime(date_fix);
+                //durationOfInsurance
+                date = duraInsura.Split('/');
+                date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                emp.durationOfInsurance = Convert.ToDateTime(date_fix);
+                //usedDay
+                date = used.Split('/');
+                date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                emp.usedDay = Convert.ToDateTime(date_fix);
+                //nearest_Maintenance_Day
+                date = duramain.Split('/');
+                date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                emp.durationOfMaintainance = Convert.ToDateTime(date_fix);
+
+
                 db.Equipments.Add(emp);
-                if (!id[0].Equals(""))
+                if (id != null)
                 {
                     for (int i = 0; i < id.Count(); i++)
                     {
-                        Equipment_attribute ea = new Equipment_attribute();
-                        ea.equipmentId = emp.equipmentId;
-                        ea.Equipment_attribute_id = id[i];
-                        ea.unit = unit[i];
-                        ea.value = value[i];
-                        ea.Equipment_attribute_name = name[i];
-                        db.Equipment_attribute.Add(ea);
+                        if (!id[i].Equals(""))
+                        {
+                            Equipment_attribute ea = new Equipment_attribute();
+                            ea.equipmentId = emp.equipmentId;
+                            ea.Equipment_attribute_id = id[i];
+                            ea.unit = unit[i];
+                            ea.value = value[i];
+                            ea.Equipment_attribute_name = name[i];
+                            db.Equipment_attribute.Add(ea);
+                        }
+
                     }
                 }
+                Equipment_Inspection ei = new Equipment_Inspection();
+                ei.equipmentId = emp.equipmentId;
+                ei.inspect_start_date = emp.durationOfInspection;
+                db.Equipment_Inspection.Add(ei);
                 db.SaveChanges();
                 return RedirectToAction("GetData");
             }
         }
-
         [HttpPost]
         public ActionResult Edit(Equipment emp, string import, string inspec, string insua, string used, string main)
         {

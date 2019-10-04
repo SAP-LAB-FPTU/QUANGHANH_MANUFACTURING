@@ -16,8 +16,8 @@ namespace QUANGHANH2.Models
     {
         public int MaDiemDanh { get; set; }
         public string MaNV { get; set; }
-        public Nullable<System.DateTime> NgayDiemDanh { get; set; }
-        public Nullable<int> CaDiemDanh { get; set; }
+        public System.DateTime NgayDiemDanh { get; set; }
+        public int CaDiemDanh { get; set; }
         public Nullable<System.DateTime> ThoiGianThucTeDiemDanh { get; set; }
         public string MaDonVi { get; set; }
         public Nullable<double> NangSuatLaoDong { get; set; }
