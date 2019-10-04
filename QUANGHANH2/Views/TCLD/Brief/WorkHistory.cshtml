@@ -21,43 +21,35 @@
                 <table class="table-bordered">
                     <tr>
                         <th>Mã nhân viên:</th>
-                        <td>3506</td>
+                        <td><input disabled type="text" id="ws_maNV" class="center" /></td>
                     </tr>
                     <tr>
                         <th>Họ và tên: </th>
-                        <td>Nguyễn Văn Hùng</td>
+                        <td><input disabled type="text" id="ws_ten" class="center" /></td>
                     </tr>
                     <tr>
                         <th>Giới tính: </th>
-                        <td>Nam</td>
+                        <td><input disabled type="text" id="ws_gioiTinh" class="center" /></td>
                     </tr>
                     <tr>
                         <th>Ngày sinh: </th>
-                        <td>19/07/1991</td>
+                        <td><input disabled type="text" id="ws_ngaySinh" class="center" /></td>
                     </tr>
                     <tr>
                         <th>Địa chỉ: </th>
-                        <td>Tổ 2, khu Vũng Bún, Phường Trung Sơn Trầm, Thị xã Sơn Tây, Hà Nội</td>
+                        <td><input disabled type="text" id="ws_diaChi" class="center" /></td>
                     </tr>
                     <tr>
                         <th>Chức vụ: </th>
-                        <td>Công nhân</td>
+                        <td><input disabled type="text" id="ws_chucVu" class="center" /></td>
                     </tr>
                     <tr>
                         <th>Bộ phận: </th>
-                        <td>Phân xưởng cơ khí</td>
+                        <td><input disabled type="text" id="ws_boPhan" class="center" /></td>
                     </tr>
                     <tr>
                         <th>Ngày gần nhất đi làm: </th>
-                        <td>29/06/2019</td>
-                    </tr>
-                    <tr>
-                        <th>Khen thưởng: </th>
-                        <td>Năng suất làm việc tốt</td>
-                    </tr>
-                    <tr>
-                        <th>Kỷ luật: </th>
-                        <td>Không có</td>
+                        <td><input disabled type="text" id="ws_ngayDiLamGanNhat" class="center" /></td>
                     </tr>
                 </table>
             </div>
@@ -73,143 +65,23 @@
         <div class="center">
             <h3><b>LỊCH SỬ ĐI LÀM</b></h3>
         </div>
-        <div class="col l4 m6 s12">
-            <div class="input-field">
-                <input class="datepicker-here form-control" data-language='vi' placeholder="mm/dd/yyyy" />
-            </div>
-        </div>
+
         <div class="col l12 s12">
-            <table class="table table-bordered striped table-responsive">
+            <table class="table table-bordered striped table-responsive" id="work_history_table">
                 <thead>
                     <tr>
-                        <th>STT</th>
                         <th>Ngày đi làm</th>
                         <th>Ca làm</th>
                         <th>Ghi chú</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>29/06/2019</td>
-                        <td>2,3,4</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>28/06/2019</td>
-                        <td>2,3,4</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>27/06/2019</td>
-                        <td>2,3,4</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>26/06/2019</td>
-                        <td>2,3,4</td>
-                        <td></td>
-                    <tr>
-                        <td>5</td>
-                        <td>25/06/2019</td>
-                        <td>3,4,5</td>
-                        <td></td>
-                    <tr>
-                        <td>6</td>
-                        <td>24/06/2019</td>
-                        <td>1,2,5</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>7</td>
-                        <td>23/06/2019</td>
-                        <td>3,4,5</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>8</td>
-                        <td>22/06/2019</td>
-                        <td>2,3,4</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>9</td>
-                        <td>21/06/2019</td>
-                        <td>2,3,4</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>10</td>
-                        <td>20/06/2019</td>
-                        <td>2,3,4</td>
-                        <td></td>
-                    </tr>
-                </tbody>
             </table>
         </div>
         <br />
-        <div class="col l12 s12 m12 center paging_container">
-            <ul class="pagination">
-                <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-                <li class="active"><a href="#!">1</a></li>
-                <li class="waves-effect"><a href="#!">2</a></li>
-                <li class="waves-effect"><a href="#!">3</a></li>
-                <li class="waves-effect"><a href="#!">4</a></li>
-                <li class="waves-effect"><a href="#!">5</a></li>
-                <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-            </ul>
-        </div>
+
     </div>
 </div>
 
-<div class="card">
-    <div class="card-content">
-        <div class="center">
-            <h3><b>THÔNG TIN HUẤN LUYỆN</b></h3>
-        </div>
-        <div class="col s12 m12 l12">
-            <table class="table table-bordered striped table-responsive">
-               
-            </table>
-        </div>
-    </div>
-</div>
-
-<div class="card">
-    <div class="card-content">
-        <div class="center">
-            <h3><b>LỊCH SỬ ĐÀO TẠO</b></h3>
-        </div>
-        <div class="col s12 m12 l12">
-            <table class="table table-bordered striped table-responsive">
-                <tr>
-                    <th>STT</th>
-                    <th>Thời gian bắt đầu</th>
-                    <th>Thời gian hoàn thành</th>
-                    <th>Nội dung đào tạo</th>
-                    <th>Tình trạng</th>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>19/10/2019</td>
-                    <td>20/10/2020</td>
-                    <td>An toàn khi xuống dưới hầm lò</td>
-                    <td>Chưa học xong</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>17/10/2017</td>
-                    <td>20/10/2018</td>
-                    <td>Kế toán</td>
-                    <td>Đã xong</td>
-                </tr>
-            </table>
-        </div>
-    </div>
-</div>
 <script src="~/assets/libs/pickadate/lib/compressed/picker.js"></script>
 <script src="~/assets/libs/pickadate/lib/compressed/picker.date.js"></script>
 <script src="~/assets/libs/pickadate/lib/compressed/picker.time.js"></script>
@@ -217,3 +89,92 @@
 <script src="~/assets/libs/moment/moment.js"></script>
 <script src="~/assets/libs/daterangepicker/daterangepicker.js"></script>
 <script src="~/dist/js/pages/forms/datetimepicker/datetimepicker.init.js"></script>
+
+<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script>
+    var datatable_day_history;
+    //$("#pre-load").show();
+    $(document).ready(function () {
+
+        getHistoryWork();
+        datatable_day_history = $('#work_history_table').DataTable({
+
+            "ajax": {
+                "url": '@Url.Action("getDataHistoryWork", "WorkHistory")',
+                "type": "POST",
+                "datatype": "json",
+            },
+            "columns": [
+                {
+                    "data": "ngayDiemDanh", "name": "ngayDiemDanh", "render": function (data) {
+                        return dateFormat(data);
+                    }
+                },
+       
+                {
+                    "data": "calamViec", "name": "calamViec"
+                },
+                {
+                    "data": "ghiChu", "name": "ghiChu"
+                }
+
+            ],
+            "language": {
+                "zeroRecords": "Không có dữ liệu",
+                paginate:
+                {
+                    previous: "Trang trước",
+                    next: "Trang sau",
+                    first: "|<",
+                    last: ">|"
+                }
+            },
+            "serverSide": "true",
+            "order": [0, "asc"],
+            "bLengthChange": false,
+            "bFilter": false,
+            "bInfo": false,
+            "bAutoWidth": false,
+            "initComplete": function () {
+                $("#pre-load").hide();
+            }
+        });
+        datatable_inside.ajax.reload();
+    });
+
+    function getHistoryWork() {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("workHistoryOfEmployee", "WorkHistory")',
+            dataType: "json",
+            success: function (data) {
+                console.log(data.data);
+                $('#ws_maNV').val(data.data[0].MaNV);
+                $('#ws_ten').val(data.data[0].Ten);
+                $('#ws_gioiTinh').val(data.data[0].GioiTinh);
+                $('#ws_ngaySinh').val(dateFormat(data.data[0].NgaySinh));
+                $('#ws_diaChi').val(data.data[0].DiaChi);
+                $('#ws_chucVu').val(data.data[0].ChucVu);
+                $('#ws_boPhan').val(data.data[0].BoPhan);
+                $('#ws_ngayDiLamGanNhat').val(dateFormat(data.data[0].NgayDiLamGanNhat));
+            }
+        });
+    }
+    function dateFormat(d) {
+        if (d != null && d != "") {
+            var dateString = d.substr(6);
+            var currentTime = new Date(parseInt(dateString));
+            var month = currentTime.getMonth() + 1;
+            var day = currentTime.getDate();
+            var year = currentTime.getFullYear();
+            var date = day + "/" + month + "/" + year;
+            return (date);
+        }
+        else {
+            return (d);
+        }
+    }
+</script>
