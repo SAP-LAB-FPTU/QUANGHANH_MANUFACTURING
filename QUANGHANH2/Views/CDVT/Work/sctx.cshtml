@@ -64,6 +64,17 @@
 <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
 
 
+<script>
+    @if (ViewBag.alert == true)
+    {
+        <text>
+    $(document).ready(function () {
+                errorAlert('Lỗi', 'Bạn đã nhập sai vật tư');
+            })
+        </text>
+    }
+</script>
+
 
 @section scripts{
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>

@@ -54,22 +54,34 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
 
                 List<Supply> supplies = db.Supplies.ToList();
                 List<Department> departments = db.Departments.ToList();
-                int validate = 1;
-                var department_id = result[0].department_id;
-                foreach (var item in result)
+                
+                try
                 {
-                    if(!item.department_id.Equals(department_id))
+                    int validate = 1;
+                    var department_id = result[0].department_id;
+                    foreach (var item in result)
                     {
-                        validate = 0;
-                        break;
+                        if (!item.department_id.Equals(department_id))
+                        {
+                            validate = 0;
+                            break;
+                        }
                     }
+                    Department department = db.Departments.Find(department_id);
+                    ViewBag.validate = validate;
+                    ViewBag.department_name = department.department_name;
+                    ViewBag.department_id = department.department_id;
+                    ViewBag.Supplies = supplies;
+                    ViewBag.Departments = departments;
                 }
-                Department department = db.Departments.Find(department_id);
-                ViewBag.validate = validate;
-                ViewBag.department_name = department.department_name;
-                ViewBag.department_id = department.department_id;
-                ViewBag.Supplies = supplies;
-                ViewBag.Departments = departments;
+                catch(Exception e)
+                {
+                    ViewBag.alert = true;
+                    TempData["shortMessage"] = true;
+                    return Redirect("sua-chua");
+                    throw e;
+                }
+               
             }
             return View("/Views/CDVT/Work/suachuachon.cshtml");
         }
@@ -84,8 +96,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
             {
                 try
                 {
-                    //Equipment e = new Equipment();
-                    //e.current_Status = 3;
                     Documentary documentary = new Documentary();
                     documentary.documentary_code = documentary_code == "" ? null: documentary_code;
                     documentary.documentary_type = "1";
@@ -145,9 +155,9 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                 catch (Exception e)
                 {
                     transaction.Rollback();
+                    TempData["shortMessage"] = true;
+                    return Redirect("sua-chua");
                     throw e;
-                    Response.Write("Có lỗi xảy ra, xin vui lòng nhập lại");
-                    return new HttpStatusCodeResult(400);
                 }
             }
         }
