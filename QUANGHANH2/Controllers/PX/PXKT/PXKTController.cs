@@ -155,7 +155,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                                           tenNV = emp.Ten,
                                           status = att.DiLam,
                                           timeAttendance = att.ThoiGianThucTeDiemDanh,
-                                          dateAttendance = att.NgayDiemDanh,
+                                          dateAttendance = (DateTime?) att.NgayDiemDanh,
                                           reason = att.LyDoVangMat,
                                           description = att.GhiChu
                                       }).OrderBy(att => att.status).ToList();
