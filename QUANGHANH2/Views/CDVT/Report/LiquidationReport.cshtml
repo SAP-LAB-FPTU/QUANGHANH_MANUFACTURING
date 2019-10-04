@@ -185,26 +185,14 @@
 
 <div id="bieudo">
     <div class="row">
-        <div class="col s12 l6">
-            <div class="card" style="height: 180px">
-                <div class="card-content align-items-center">
-                    <div class="row">
-                        <div class="col s12">
-                            <h6 class="card-subtitle">Thiết bị đang thanh lí</h6>
-                            <h4></h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="col s12 l6">
+        <div class="col l6 offset-l3">
             <div class="card" style="height: 180px">
                 <div class="card-content align-items-center">
                     <div class="row">
-                        <div class="col s12">
-                            <h6 class="card-subtitle">Thiết bị đã thanh lí</h6>
-                            <h4></h4>
+                        <div class="col s12 center">
+                            <h4>Thiết bị đã thanh lí</h4>
+                            <h3>@ViewBag.sl</h3>
                         </div>
                     </div>
                 </div>
@@ -220,34 +208,7 @@
         <div id="solieu" class="col s12">
             <div class="row ">
                 <div class="col l12">
-                    <div class="col l6">
-                        <table class="table-bordered table-responsive striped">
-                            <thead>
-                                <tr>
-                                    <td rowspan="2">Ngày tháng</td>
-                                    <td colspan="2">Đang thanh lý</td>
-                                </tr>
-                                <tr>
-                                    <td>Tên thiết bị</td>
-                                    <td>Mã thiết bị</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @*@foreach (var item in ViewBag.ContentReport)
-                    {
-                        <tr>
-                            <td>@item.Thang/@item.Nam</td>
-                            <td>@item.MaThietBi</td>
-                            <td>@item.TenThietBi</td>
-                            <td>@item.LuongTieuThu</td>
-                            <td>@item.SanLuong</td>
-                            <td>tấn</td>
-                        </tr>
-                    }*@
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="col l6">
+                    <div class="col l12">
                         <table class="table-bordered table-responsive striped">
                             <thead>
                                 <tr>
@@ -260,24 +221,21 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @*@foreach (var item in ViewBag.ContentReport)
-                    {
-                        <tr>
-                            <td>@item.Thang/@item.Nam</td>
-                            <td>@item.MaThietBi</td>
-                            <td>@item.TenThietBi</td>
-                            <td>@item.LuongTieuThu</td>
-                            <td>@item.SanLuong</td>
-                            <td>tấn</td>
-                        </tr>
-                    }*@
+                                @foreach (var item in ViewBag.ContentReport)
+                                    {
+                                        <tr>
+                                            <td>@item.Thang/@item.Nam</td>
+                                            <td>@item.MaThietBi</td>
+                                            <td>@item.TenThietBi</td>
+                                        </tr>
+                                    }
                             </tbody>
                         </table>
                     </div>
 
-                    <div class="row" style="margin:20px 0px 20px 0px">
+                    <div class="row" style="margin:20px 0px 20px 0px;">
                         <div class="col-lg-12 left">
-                            <div class="export_btn_container">
+                            <div class="export_btn_container" style="margin-top:20px">
                                 <a class="waves-effect waves-light btn mybtn" id="export">Xuất ra file excel</a>
                             </div>
                         </div>
@@ -295,15 +253,10 @@
                                 <table class="table table-bordered striped">
                                     <tbody>
                                         <tr>
-                                            <th colspan="2" class="total_row">Số lượng</th>
+                                            <th class="total_row">Số lượng</th>
                                         </tr>
                                         <tr>
-                                            <th>Đang thanh lý</th>
-                                            <th>Đã thanh lý</th>
-                                        </tr>
-                                        <tr>
-                                            <td class="center">1</td>
-                                            <td class="center">1</td>
+                                            <td class="center" style="color:crimson">@ViewBag.sl</td>
                                         </tr>
                                     </tbody>
                                 </table>

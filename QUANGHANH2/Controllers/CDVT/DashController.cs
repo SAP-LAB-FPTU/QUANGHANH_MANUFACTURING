@@ -24,7 +24,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             EquipThongKe etk = new EquipThongKe();
             var equipList = db.Equipments.ToList<Equipment>();
             etk.total = equipList.Count().ToString();
-            List<int> temp = db.Equipments.Where(x => x.current_Status == 3 || x.current_Status == 8 || x.current_Status == 1 || x.current_Status == 5).Select(x => x.current_Status).ToList();
+            List<int> temp = db.Equipments.Where(x => x.current_Status == 3 || x.current_Status == 8 || x.current_Status == 7 || x.current_Status == 5).Select(x => x.current_Status).ToList();
             int total_repair = 0; int total_maintain = 0; int total_TL = 0; int total_TH = 0;
             foreach (var item in temp)
             {
@@ -39,7 +39,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                     case 8:
                         total_TL++;
                         break;
-                    case 1:
+                    case 7:
                         total_TH++;
                         break;
                 }
@@ -65,7 +65,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             ViewBag.listKD = listKD;
             ViewBag.totalKD = totalKD;
             etk.total_KHD = Convert.ToInt32(etk.total_repair) + Convert.ToInt32(etk.total_maintain) + Convert.ToInt32(etk.total_KD) + Convert.ToInt32(etk.total_TH) + Convert.ToInt32(etk.total_TL);
-            etk.total_HD = Convert.ToInt32(etk.total) - Convert.ToInt32(etk.total_KHD);
+            etk.total_HD = db.Equipments.Where(x => x.current_Status == 2).Count();
 
             var listRepair = db.Equipments.Where(x => x.current_Status == 3).Select(x => new DashEquip { equipmentId = x.equipmentId, equipment_name = x.equipment_name }).ToList().Distinct();
             ViewBag.listRepair = listRepair;
@@ -76,7 +76,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             var listTL = db.Equipments.Where(x => x.current_Status == 8).Select(x => new DashEquip { equipmentId = x.equipmentId, equipment_name = x.equipment_name }).ToList().Distinct();
             ViewBag.listTL = listTL;
 
-            var listTH = db.Equipments.Where(x => x.current_Status == 1).Select(x => new DashEquip { equipmentId = x.equipmentId, equipment_name = x.equipment_name }).ToList().Distinct();
+            var listTH = db.Equipments.Where(x => x.current_Status == 7).Select(x => new DashEquip { equipmentId = x.equipmentId, equipment_name = x.equipment_name }).ToList().Distinct();
             ViewBag.listTH = listTH;
             ViewBag.Thongke = etk;
             var testTime = DateTime.Now.AddDays(10);
