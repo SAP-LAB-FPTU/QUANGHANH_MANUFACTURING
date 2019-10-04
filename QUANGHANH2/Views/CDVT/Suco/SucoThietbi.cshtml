@@ -38,11 +38,12 @@
                     <div class="col l4 m4 s12">
                         <div class="row">
                             <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
-                                <label>Tìm kiếm theo ngày bắt đầu sự cố</label>
-                                <input placeholder="thời gian bắt đầu sự cố từ" type='text' class='datepicker-here form-control maxDate' data-language='vi' id="date-start-search" />
+                                <label>Ngày bắt đầu từ</label>
+                                <input required placeholder="thời gian bắt đầu sự cố từ" type='text' class='datepicker-here form-control maxDate' data-language='vi' id="date-start-search" />
                             </div>
                             <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
-                                <input placeholder="thời gian bắt đầu sự cố đến" type='text' class='datepicker-here form-control minDate' data-language='vi' id="date-end-search" />
+                                <label>Ngày bắt đầu đến</label>
+                                <input required placeholder="thời gian bắt đầu sự cố đến" type='text' class='datepicker-here form-control minDate' data-language='vi' id="date-end-search" />
                             </div>
                         </div>
                     </div>
@@ -103,7 +104,7 @@
                         <div class="col s12 m6">
                             <div class="form-group">
                                 <label for="date">Thời gian bắt đầu sự cố : </label>
-                                <input type='text' class='datepicker-here form-control minDate' data-language='vi' id="date-start-add" />
+                                <input required type='text' class='datepicker-here form-control minDate' data-language='vi' id="date-start-add" />
                             </div>
                         </div>
                         <div class="col s12 m3">
@@ -141,7 +142,7 @@
                         <div class="col s12 m6">
                             <div class="form-group">
                                 <label for="date">Thời gian kết thúc sự cố : </label>
-                                <input type='text' class='datepicker-here form-control minDate' data-language='vi' id="date-end-add" />
+                                <input required type='text' class='datepicker-here form-control minDate' data-language='vi' id="date-end-add" />
                             </div>
                         </div>
                         <div class="col s12 m3">
@@ -193,7 +194,7 @@
                         <div class="col s12 m6">
                             <div class="form-group">
                                 <label for="date">Thời gian bắt đầu sự cố : </label>
-                                <input type='text' class='datepicker-here form-control minDate' data-language='vi' id="date-start-edit" />
+                                <input required type='text' class='datepicker-here form-control minDate' data-language='vi' id="date-start-edit" />
                             </div>
                         </div>
                         <div class="col s12 m3">
@@ -231,7 +232,7 @@
                         <div class="col s12 m6">
                             <div class="form-group">
                                 <label for="date">Thời gian kết thúc sự cố : </label>
-                                <input type='text' class='datepicker-here form-control' data-language='vi' id="date-end-edit" />
+                                <input required type='text' class='datepicker-here form-control' data-language='vi' id="date-end-edit" />
                             </div>
                         </div>
                         <div class="col s12 m3">
@@ -275,7 +276,7 @@
                     <div class="col s12 m4">
                         <div class="form-group">
                             <label for="date">Thời gian kết thúc sự cố : </label>
-                            <input type='text' class='datepicker-here form-control minDate' data-language='vi' value="" id="date-end-update" />
+                            <input required type='text' class='datepicker-here form-control minDate' data-language='vi' value="" id="date-end-update" />
                         </div>
                     </div>
                     <div class="col s12 m2">
@@ -505,14 +506,31 @@
                     type: "POST",
                     url: "/phong-cdvt/su-co/add",
                     dataType: "text",
-                    success: function () {
+                    success: function (data) {
                         dataTable.ajax.reload();
-
-                        $.notify("Tạo thành công", {
-                            globalPosition: "top center",
-                            className: "success"
-                        })
-
+                        if (JSON.parse(data).success == true) {
+                            $.notify(JSON.parse(data).message, {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
+                            $('#exit-add-button').click();
+                            $('#pre-load').hide();
+                            $('#equipment-add').val("");
+                            $('#department-add').val("");
+                            $('#reason-add').val("");
+                            $('#detail-add').val("");
+                            $('#date-start-add').val().split("/")[2];
+                            $('#hour-start-add').val(0);
+                            $('#minute-start-add').val(0);
+                            $('#date-end-add').val().split("/")[0];
+                            $('#hour-end-add').val(0);
+                            $('#minute-end-add').val(0)
+                        }
+                        else
+                            $.notify(JSON.parse(data).message, {
+                                globalPosition: "top center",
+                                className: "error"
+                            });
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
                         $('#pre-load').hide();
@@ -523,7 +541,6 @@
                     },
                     data: {
                         equipment: $('#equipment-add').val(),
-                        department: $('#department-add').val(),
                         reason: $('#reason-add').val(),
                         detail: $('#detail-add').val(),
                         yearStart: $('#date-start-add').val().split("/")[2],
@@ -539,19 +556,6 @@
                         checkBox: $('#checkbox-add').val()
                     },
                     cache: false
-                }).done(function () {
-                    $('#pre-load').hide();
-                    $('#exit-add-button').click();
-                    $('#equipment-add').val("");
-                    $('#department-add').val("");
-                    $('#reason-add').val("");
-                    $('#detail-add').val("");
-                    $('#date-start-add').val().split("/")[2];
-                    $('#hour-start-add').val(0);
-                    $('#minute-start-add').val(0);
-                    $('#date-end-add').val().split("/")[0];
-                    $('#hour-end-add').val(0);
-                    $('#minute-end-add').val(0)
                 })
                 return false;
             });
@@ -563,14 +567,20 @@
                     type: "POST",
                     url: "/phong-cdvt/su-co/edit",
                     dataType: "text",
-                    success: function () {
+                    success: function (data) {
                         dataTable.ajax.reload();
-
-                        $.notify("Chỉnh sửa thành công", {
-                            globalPosition: "top center",
-                            className: "success"
-                        })
-
+                        if (JSON.parse(data).success == true) {
+                            $.notify(JSON.parse(data).message, {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
+                            $('#exit-edit-button').click();
+                        }
+                        else
+                            $.notify(JSON.parse(data).message, {
+                                globalPosition: "top center",
+                                className: "error"
+                            });
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
                         $('#pre-load').hide();
@@ -599,7 +609,6 @@
                     cache: false
                 }).done(function () {
                     $('#pre-load').hide();
-                    $('#exit-edit-button').click();
                 })
                 return false;
             });
@@ -611,14 +620,20 @@
                     type: "POST",
                     url: "/phong-cdvt/su-co/update",
                     dataType: "text",
-                    success: function () {
+                    success: function (data) {
                         dataTable.ajax.reload();
-
-                        $.notify("Cập nhật thành công", {
-                            globalPosition: "top center",
-                            className: "success"
-                        })
-
+                        if (JSON.parse(data).success == true) {
+                            $.notify(JSON.parse(data).message, {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
+                            $("#exit-update-button").click();
+                        }
+                        else
+                            $.notify(JSON.parse(data).message, {
+                                globalPosition: "top center",
+                                className: "error"
+                            });
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
                         $('#pre-load').hide();
@@ -639,7 +654,6 @@
                     cache: false
                 }).done(function () {
                     $("#pre-load").hide();
-                    $("#exit-update-button").click();
                 })
                 return false;
             });
@@ -677,12 +691,12 @@
                     $('#department-edit').val(data.department_name);
                     $('#detail-edit').val(data.detail_location);
                     $('#reason-edit').val(data.reason);
-                    $('#date-start-edit').val(data.stringStartTime.split(" ")[2]);
-                    $('#hour-start-edit').val(data.stringStartTime.split(" ")[0]);
-                    $('#minute-start-edit').val(data.stringStartTime.split(" ")[1]);
-                    $('#date-end-edit').val(data.stringEndTime.split(" ")[2]);
-                    $('#hour-end-edit').val(data.stringEndTime.split(" ")[0]);
-                    $('#minute-end-edit').val(data.stringEndTime.split(" ")[1]);
+                    $('#date-start-edit').val(data.stringStartTime.split(" ")[1]);
+                    $('#hour-start-edit').val(data.stringStartTime.substr(0, 2));
+                    $('#minute-start-edit').val(data.stringStartTime.substr(3, 2));
+                    $('#date-end-edit').val(data.stringEndTime.split(" ")[1]);
+                    $('#hour-end-edit').val(data.stringEndTime.substr(0, 2));
+                    $('#minute-end-edit').val(data.stringEndTime.substr(3, 2));
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     $.notify(XMLHttpRequest.responseText, {
@@ -705,7 +719,15 @@
                     url: "/phong-cdvt/su-co/getDepartment",
                     dataType: "json",
                     success: function (data) {
-                        $("#department-add").val(data);
+                        if (data.success == false) {
+                            $.notify(data.message, {
+                                globalPosition: "top center",
+                                className: "error"
+                            })
+                        }
+                        else {
+                            $("#department-add").val(data.message);
+                        }
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
                         $.notify(XMLHttpRequest.responseText, {
