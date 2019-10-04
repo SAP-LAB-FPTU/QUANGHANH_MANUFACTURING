@@ -152,7 +152,14 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                     }
                     DBContext.SaveChanges();
                     transaction.Commit();
-                    return Redirect("quyet-dinh/dieu-dong");
+                    if (documentary_code == "")
+                    {
+                        return Redirect("quyet-dinh/dieu-dong");
+                    }
+                    else
+                    {
+                        return Redirect("cap-nhat/quyet-dinh");
+                    }
                 }
                 catch (Exception e)
                 {
