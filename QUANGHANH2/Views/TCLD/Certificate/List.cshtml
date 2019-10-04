@@ -411,6 +411,7 @@
                         });
                         successAlert('Thành công', '');
                         $(".modal").modal();
+                        $("body").css("overflow","");   
                         $("#add_cir_emp").load('@Url.Action("AddCertificateEmployee")');
                     },
                     error: function () {

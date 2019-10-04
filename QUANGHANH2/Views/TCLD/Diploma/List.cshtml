@@ -396,6 +396,7 @@
                         });
                         successAlert('Thành công', '');
                         $(".modal").modal();
+                        $("body").css("overflow", "");  
                         $("#addDiplomaEmp").load('@Url.Action("AddDiplomaEmployee")');
                     },
                     error: function () {
