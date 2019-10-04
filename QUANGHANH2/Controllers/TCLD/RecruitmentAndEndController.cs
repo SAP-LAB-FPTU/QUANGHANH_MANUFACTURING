@@ -7,6 +7,7 @@ using System.Web.Hosting;
 using System.Linq.Dynamic;
 using System.Web.Mvc;
 using System.Web.Routing;
+using QUANGHANH2.SupportClass;
 
 namespace QUANGHANHCORE.Controllers.TCLD
 {
@@ -46,6 +47,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             public int count { get; set; }
         }
 
+        [Auther(RightID = "104")]
         [Route("phong-tcld/cham-dut-va-tuyen-dung/tong-hop-cac-don-vi-cham-dut-tuyen-dung")]
         public ActionResult RecruitmentAndEnd()
         {

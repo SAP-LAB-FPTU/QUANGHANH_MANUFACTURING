@@ -187,9 +187,19 @@
             //validate for input field
             $("#tm-in-ngaycap").blur(() => { if ($("#tm-in-ngaycap").val() == null || $("#tm-in-ngaycap").val() == "") { $("#tm-nc-warning").show()  } })
             $("#tm-in-ngaycap").focus(() => { $("#tm-nc-warning").hide(); $("#tm-nc-warning2").hide()  })
-            
+
+            // set default date cho datetime picker
+           
         });
 
+
+        function setDefaultDate() {
+            var date = new Date();
+            $(".datepicker-here").val(date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear());
+            $(".datepicker-here").datepicker({
+                toggleSelected: false
+            })
+        }
         // popup len form gia han khi nhan vao nhan vien cos chung chi het han
         var popupGiaHan = (mnv, mcc) => {
             $("#pre-load").show();
@@ -206,6 +216,7 @@
                     $("#gh-in-tenchungchi").val(data.TenChungChi)
                     $("#gh-in-mnv").val(data.MaNV)
                     $("#gh-in-mcc").val(data.MaChungChi)
+                    setDefaultDate()
                     $("#pre-load").hide();
                 },
                 error: () => {
@@ -222,7 +233,7 @@
         $("#tm-in-tenchungchi").val(tcc)
         $("#tm-in-mnv").val(mnv)
         $("#tm-in-mcc").val(mcc)
-
+        setDefaultDate()
     };
         var xacNhanThemMoi = () => {
 
