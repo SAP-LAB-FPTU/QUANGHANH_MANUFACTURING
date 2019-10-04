@@ -76,7 +76,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             public string Ten { get; set; }
         }
         //Sửa giấy tờ
-
+        [Auther(RightID = "147")]
         [HttpPost]
         public ActionResult suaGiayTo(GiayTo document)
         {
@@ -98,6 +98,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
 
         }
+        [Auther(RightID = "147")]
         [HttpGet]
         public ActionResult suaGiayTo(string id)
         {
@@ -120,6 +121,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
         }
         //thêm giấy tờ
+        [Auther(RightID = "157")]
         [HttpGet]
         public ActionResult themGiayTo()
         {
@@ -141,27 +143,24 @@ namespace QUANGHANHCORE.Controllers.TCLD
             ViewBag.kindODoc = KieuGT;
             return View(new GiayTo());
         }
+        [Auther(RightID = "157")]
         [HttpPost]
         public ActionResult themGiayTo(GiayTo g)
         {
 
             var a = getAllNhanVien();
             ViewBag.nhanvien = a;
-
-
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 try
                 {
-
                     db.GiayToes.Add(g);
                     db.SaveChanges();
                 }
-                catch (Exception ex)
+                catch (Exception )
                 {
 
                     return Json(new { message = "Failed" }, JsonRequestBehavior.AllowGet);
-
                 }
             }
 
@@ -186,7 +185,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
         }
 
-
+        [Auther(RightID = "148")]
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteDoc(int id)
         {
@@ -208,7 +207,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 return Json(new { success = false, responseText = "The attached file is not supported." }, JsonRequestBehavior.AllowGet);
             }
         }
-             [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to")]
+        [Auther(RightID = "146")]
+        [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to")]
         [HttpPost]
         public ActionResult Search(string MaNV, string TenNV, string TenGT, string KieuGT)
         {
@@ -1061,7 +1061,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             {
                 DateTime dt = Convert.ToDateTime(dateTime);
             }
-            catch (Exception e)
+            catch (Exception )
             {
                 return false;
             }
