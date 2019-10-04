@@ -85,7 +85,7 @@
                                 <input class="form-control" id="so-quyet-dinh" type="text" placeholder="Số quyết định" required />
                             </div>
                             <div class="col s12 m5 l5">
-                                <input id="ngay-quyet-dinh" class="thoigian datepicker-here center form-control" toggleSelected="false" data-language='vi' placeholder="Ngày quyết định" />
+                                <input id="ngay-quyet-dinh" class="thoigian center form-control"/>
                             </div>
                             <div class="input-field col x12 s12 m12 l12">
                                 <div class="table_container">
@@ -821,8 +821,14 @@
         });
     </script>
     <script>
-        $(".datepicker-here").datepicker({
-            toggleSelected: false
+        $("#ngay-quyet-dinh").datepicker({
+            toggleSelected: false,
+            language: 'vi'
+        });
+    </script>
+    <script>
+        $(function () {
+            $(".datepicker-inline").remove();
         })
     </script>
     <script src="~/assets/libs/toastr/build/toastr.min.js"></script>

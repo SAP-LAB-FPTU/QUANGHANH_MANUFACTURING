@@ -43,7 +43,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 ////////////////////////////GET so luot huy dong////////////////////////////////
                 string sql = "select count(MaQuyetDinh) as SoLuotHuyDong from quyetdinh\n" +
                 "where maquyetdinh in\n" +
-                "(SELECT  distinct MaQuyetDinh FROM DIEUDONG_NHANVIEN)\n" +
+                "(SELECT  distinct dd.MaQuyetDinh FROM DIEUDONG_NHANVIEN dd,QuyetDinh qd where dd.MaQuyetDinh=qd.MaQuyetDinh and qd.SoQuyetDinh<>'' )\n" +
                 "AND NgayQuyetDinh = (SELECT CONVERT(VARCHAR(10), getdate() - 1, 101))";
                 temp = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
                 soLuotHuyDong = temp != null ? temp : 0;
@@ -100,8 +100,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
                 ////////////////////////////////////////GET DATA NHAN LUC////////////////////////////////////////////////
-                sql = "select tb1.department_id,\n" +
-                "(case when tb2.soluong is null then 0 else tb2.soluong end) as soluong\n" +
+                sql = "select tb1.department_id as MaDonVi,\n" +
+                "(case when tb2.soluong is null then 0 else tb2.soluong end) as SoLuong\n" +
                 "from\n" +
                 "(select * from Department) tb1\n" +
                 "left join\n" +
@@ -158,6 +158,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 int tren82 = 0;
                 int duoi82 = 0;
                 List<NghiVLD> listNghiVLD = new List<NghiVLD>();
+                List<NhanLuc> listNhanLuc = new List<NhanLuc>();
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
                     ////////////////////////////GET so luot huy dong////////////////////////////////
@@ -165,7 +166,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     db.Configuration.LazyLoadingEnabled = false;
                     string sql = "select count(MaQuyetDinh) as SoLuotHuyDong from quyetdinh\n" +
                     "where maquyetdinh in\n" +
-                    "(SELECT  distinct MaQuyetDinh FROM DIEUDONG_NHANVIEN)\n" +
+                    "(SELECT  distinct dd.MaQuyetDinh FROM DIEUDONG_NHANVIEN dd,QuyetDinh qd where dd.MaQuyetDinh=qd.MaQuyetDinh and qd.SoQuyetDinh<>'' )\n" +
                     "AND NgayQuyetDinh = @NgayQuyetDinh";
                     soLuotHuyDong = db.Database.SqlQuery<int>(sql,
                         new SqlParameter("NgayQuyetDinh", DateTime.Parse(date))).ToList<int>()[0];
@@ -219,8 +220,21 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     "and dd.MaDonVi = d.department_id and n.MaNV = dd.MaNV and NgayDiemDanh=@NgayDiemDanh";
                     listNghiVLD = db.Database.SqlQuery<NghiVLD>(sql, new SqlParameter("NgayDiemDanh", date)).ToList<NghiVLD>();
                     ///////////////////////////////////////////////////////////////////////////////////////////////////
+                    ///
+                    ////////////////////////////////////////GET DATA NHAN LUC////////////////////////////////////////////////
+                    sql = "select tb1.department_id as MaDonVi,\n" +
+                    "(case when tb2.soluong is null then 0 else tb2.soluong end) as SoLuong\n" +
+                    "from\n" +
+                    "(select * from Department) tb1\n" +
+                    "left join\n" +
+                    "(select MaDonVi,count(MaNV) as soluong from DiemDanh_NangSuatLaoDong \n" +
+                    "where NgayDiemDanh = @NgayDiemDanh and DiLam = 1 \n" +
+                    "group by MaDonVi) tb2\n" +
+                    "on tb1.department_id=tb2.MaDonVi\n" +
+                    "group by tb1.department_id,tb2.soluong";
+                    listNhanLuc = db.Database.SqlQuery<NhanLuc>(sql, new SqlParameter("NgayDiemDanh",date)).ToList<NhanLuc>();
                 }
-                return Json(new { success = true, tren82 = tren82, duoi82 = duoi82, soLuongHuyDong = soLuotHuyDong, vuTaiNan = vuTaiNan, nghiVLD = nghiVLD, hetHanChungChi = hetHanChungChi, listNghiVLD = listNghiVLD }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = true, tren82 = tren82, duoi82 = duoi82, soLuongHuyDong = soLuotHuyDong, vuTaiNan = vuTaiNan, nghiVLD = nghiVLD, hetHanChungChi = hetHanChungChi, listNghiVLD = listNghiVLD, listNhanLuc= listNhanLuc }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
