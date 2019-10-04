@@ -42,15 +42,23 @@
                                             data_restUrl = Url.Action("Change", "Hoatdong")
                                         }))
                                         {
-                                            <input list="IDlist" type="text" placeholder="Tìm kiếm theo mã thiết bị" onchange="changeText()" name="id" class='form-control' id="equipmentId-search"
+                                            <input list="IDlist" type="text" placeholder="Tìm kiếm theo mã thiết bị" name="id" class='form-control' id="equipmentId-search"
                                                    multiple />
                                         }
 
                                     </div>
                                     <div class="col l10 m10 s12 input-field">
-                                        <input type="text" placeholder="Tìm kiếm theo tên thiết bị" class='form-control' id="equipmentName-search"
-                                               multiple />
-                                    </div>
+                                        @using (Html.BeginForm("ChangeName", "Hoatdong", FormMethod.Post, new
+                                        {
+                                            enctype = "multipart/form-data",
+                                            onSubmit = "return Change(this);",
+                                            data_restUrl = Url.Action("ChangeName", "Hoatdong")
+                                        }))
+                                        {
+                                            <input list="IDlist" type="text" placeholder="Tìm kiếm theo tên thiết bị" name="name" class='form-control' id="equipmentName-search"
+                                                   multiple />
+                                        }
+                                        </div>
                                     <div class="col l10 m10 s12 input-field">
                                         <select class="form-control" id="department-search">
                                             <option value="" disabled selected>Chọn phân xưởng</option>
@@ -68,11 +76,11 @@
                                 <div class="row">
                                     <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
                                         <i class="fas fa-calendar-alt icon"></i>
-                                        <input type='text' class='datepicker-here center maxDate' value="" id="date-start-search" data-language='vi' placeholder="Ngày đưa vào sử dụng (từ)" style="height: 24px" />
+                                        <input type='text' class='datepicker-here center maxDate' id="date-start-search" data-language='vi' placeholder="Ngày đưa vào sử dụng (từ)" style="height: 24px" />
                                     </div>
                                     <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
                                         <i class="fas fa-calendar-alt icon"></i>
-                                        <input type='text' class='datepicker-here center minDate' value="" id="date-end-search" data-language='vi' placeholder="Ngày đưa vào sử dụng (đến)" style="height: 24px" />
+                                        <input type='text' class='datepicker-here center minDate' id="date-end-search" data-language='vi' placeholder="Ngày đưa vào sử dụng (đến)" style="height: 24px" />
                                     </div>
                                     <div class="col l12 m12 s12 input-field">
                                         <button class="btn blue darken-2 btn-small" id="searchButton1">Tìm kiếm</button>
@@ -82,9 +90,18 @@
                             <div class="col l4 m4 s12">
                                 <div class="row">
                                     <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
-                                        <input type="text" placeholder="Tìm kiếm theo nhóm thiết bị" class='form-control' id="category-search"
-                                               multiple />
-                                    </div>
+                                        @using (Html.BeginForm("ChangeCateName", "Hoatdong", FormMethod.Post, new
+                                        {
+                                            enctype = "multipart/form-data",
+                                            onSubmit = "return Change(this);",
+                                            data_restUrl = Url.Action("ChangeCateName", "Hoatdong")
+                                        }))
+                                        {
+                                            <input list="IDlist" type="text" placeholder="Tìm kiếm theo nhóm thiết bị" name="name" class='form-control' id="category-search"
+                                                   multiple />
+                                        }
+                                        </div>
+                                        
                                     <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
                                         <select class="form-control" id="equipmentQuality-search">
                                             <option value="" disabled selected>Chọn loại chất lượng</option>
@@ -96,9 +113,17 @@
                                         </select>
                                     </div>
                                     <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
-                                        <input type="text" placeholder="Tìm kiếm theo nhà cung cấp" class='form-control' id="supplier-search"
-                                               multiple />
-                                    </div>
+                                        @using (Html.BeginForm("ChangeSup", "Hoatdong", FormMethod.Post, new
+                                        {
+                                            enctype = "multipart/form-data",
+                                            onSubmit = "return Change(this);",
+                                            data_restUrl = Url.Action("ChangeSup", "Hoatdong")
+                                        }))
+                                        {
+                                            <input list="IDlist" type="text" placeholder="Tìm kiếm theo nhà cung cấp" name="name" class='form-control' id="supplier-search"
+                                                   multiple />
+                                        }
+                                        </div>
                                 </div>
                             </div>
                         </div>
@@ -508,12 +533,14 @@
     $('#equipmentId-search').change(function () {
         $(this).closest('form').submit();
     });
-    //function changeText() {
-    //    $(this).closest('form').submit();
-    //}
-    $("#Mybtn").click(function () {
-        var temp = $("#date_import").val();
-        alert(temp);
+    $('equipmentName-search').change(function () {
+        $(this).closest('form').submit();
+    });
+    $('category-search').change(function () {
+        $(this).closest('form').submit();
+    });
+    $('supplier-search').change(function () {
+        $(this).closest('form').submit();
     });
 
     $(window).resize(function () {
@@ -539,33 +566,33 @@
     })
     $(document).ready(function () {
         $('.datepicker-inline').remove();
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1; //January is 0!
+        //var today = new Date();
+        //var dd = today.getDate();
+        //var mm = today.getMonth() + 1; //January is 0!
 
-        var yyyy = today.getFullYear();
-        if (dd < 10) {
-            dd = '0' + dd;
-        }
-        if (mm < 10) {
-            mm = '0' + mm;
-        }
-        var today = dd + '/' + mm + '/' + yyyy;
+        //var yyyy = today.getFullYear();
+        //if (dd < 10) {
+        //    dd = '0' + dd;
+        //}
+        //if (mm < 10) {
+        //    mm = '0' + mm;
+        //}
+        //var today = dd + '/' + mm + '/' + yyyy;
         //$(".minDate").each(function () {
         //    $(this).val(today);
         //});
-        today = new Date("1/1/1900");
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1; //January is 0!
+        //today = new Date("1/1/1900");
+        //var dd = today.getDate();
+        //var mm = today.getMonth() + 1; //January is 0!
 
-        var yyyy = today.getFullYear();
-        if (dd < 10) {
-            dd = '0' + dd;
-        }
-        if (mm < 10) {
-            mm = '0' + mm;
-        }
-        var today = dd + '/' + mm + '/' + yyyy;
+        //var yyyy = today.getFullYear();
+        //if (dd < 10) {
+        //    dd = '0' + dd;
+        //}
+        //if (mm < 10) {
+        //    mm = '0' + mm;
+        //}
+        //var today = dd + '/' + mm + '/' + yyyy;
         //$(".maxDate").val(today)
     });
 
@@ -907,19 +934,28 @@
             $.validator.unobtrusive.parse(form);
 
                 if($(form).valid()){
-                $.ajax({
-                    type : "POST",
-                    url: form.action,
-                    data: $(form).serialize(),
-                    success: function (data) {
+                    $.ajax({
+                        type: "POST",
+                        url: form.action,
+                        data: $(form).serialize(),
+                        success: function (data) {
                             dataTable.ajax.reload();
-                        $("#btn-submit").addClass("modal-close");
-                        $.notify("Thêm thành công", {
-                            globalPosition: "top center",
-                            className: "success"
+                            $("#btn-submit").addClass("modal-close");
+                            $.notify("Thêm thành công", {
+                                globalPosition: "top center",
+                                className: "success"
                             })
 
-                        }
+                        },
+                        error: function (data) {
+                            dataTable.ajax.reload();
+                            $("#btn-submit").addClass("modal-close");
+                            $.notify("Lỗi", {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
+
+                        },
                     });
             }
                 $("#pre-load").hide();

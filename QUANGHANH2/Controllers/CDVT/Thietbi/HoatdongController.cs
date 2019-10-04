@@ -14,11 +14,13 @@ using OfficeOpenXml;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Globalization;
+using QUANGHANH2.SupportClass;
 
 namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
 {
     public class HoatdongController : Controller
     {
+        [Auther(RightID = "3")]
         [Route("phong-cdvt/huy-dong/export")]
         public void export()
         {
@@ -99,7 +101,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             }
             //listForSelect.Add(new SelectListItem { Text = "Your text", Value = "TRAI" });
             ViewBag.listStatus = listStatus;
-            List<EquipWithName> listID = db.Database.SqlQuery<EquipWithName>("select e.equipmentId from Equipment e").Take(20).ToList();
+            List<EquipWithName> listID = new List<EquipWithName>();
             ViewBag.listID = listID;
             return View("/Views/CDVT/Hoat_dong.cshtml");
         }
@@ -175,6 +177,53 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
 
         }
 
+        [HttpPost]
+        public ActionResult ChangeName(string name)
+        {
+            ViewBag.listID = null;
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            List<EquipWithName> listID = db.Database.SqlQuery<EquipWithName>("select e.equipment_name from Equipment e where e.equipment_name like N'%" + name + "%'").Take(10).ToList();
+            ViewBag.listID = listID;
+            string d = "";
+            foreach (var item in listID)
+            {
+                d += "<option value='" + item.equipment_name + "'/>";
+            }
+            return Json(new { success = true, data = d }, JsonRequestBehavior.AllowGet);
+
+
+        }
+
+        [HttpPost]
+        public ActionResult ChangeCateName(string name)
+        {
+            ViewBag.listID = null;
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            List<Equipment_category> listID = db.Database.SqlQuery<Equipment_category>("select e.* from Equipment_category e where e.Equipment_category_name like N'%"+name+"%'").Take(10).ToList();
+            ViewBag.listID = listID;
+            string d = "";
+            foreach (var item in listID)
+            {
+                d += "<option value='" + item.Equipment_category_name + "'/>";
+            }
+            return Json(new { success = true, data = d }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult ChangeSup(string name)
+        {
+            ViewBag.listID = null;
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            List<EquipWithName> listID = db.Database.SqlQuery<EquipWithName>("select distinct e.supplier from Equipment e where e.supplier like N'%" + name + "%'").Take(10).ToList();
+            ViewBag.listID = listID;
+            string d = "";
+            foreach (var item in listID)
+            {
+                d += "<option value='" + item.supplier + "'/>";
+            }
+            return Json(new { success = true, data = d }, JsonRequestBehavior.AllowGet);
+        }
+
         [Route("phong-cdvt/huy-dong/search")]
         [HttpPost]
         public ActionResult Search(string equipmentId, string equipmentName, string department, string quality, string dateStart, string dateEnd, string category, string sup)
@@ -189,14 +238,21 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             DateTime dtStart = Convert.ToDateTime("01/01/2000");
             DateTime dtEnd = DateTime.Today;
-            if (!dateStart.Equals("") && !dateEnd.Equals(""))
+            if (!dateStart.Equals(""))
             {
-                dtStart = DateTime.ParseExact(dateStart, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                string[] date = dateStart.Split('/');
+                string date_fix = date[2] + "/" + date[1] + "/" + date[0];
+                dtStart = DateTime.ParseExact(date_fix, "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            }
+            if (!dateEnd.Equals(""))
+            {
+                string[] date = dateEnd.Split('/');
+                string date_fix = date[2] + "/" + date[1] + "/" + date[0];
+                dtEnd = DateTime.ParseExact(date_fix, "yyyy/MM/dd", CultureInfo.InvariantCulture);
             }
             string query = "SELECT e.[equipmentId],[equipment_name],[supplier],[date_import],[durationOfMaintainance],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_expected_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
                 "FROM [Equipment] e, Status s, Department d, Equipment_category ec " +
-                "where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id and e.current_Status = s.statusid and ";
+                "where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id and e.current_Status = s.statusid and e.usedDay between @start_time1 and @start_time2 and ";
             if (!equipmentId.Equals("") || !equipmentName.Equals("") || !department.Equals("") || !quality.Equals("") || !category.Equals("") || !sup.Equals(""))
             {
                 if (!equipmentId.Equals("")) query += "e.equipmentId LIKE @equipmentId AND ";

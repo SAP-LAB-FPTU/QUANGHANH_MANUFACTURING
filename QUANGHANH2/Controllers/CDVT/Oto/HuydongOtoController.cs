@@ -42,7 +42,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             temp = db.Database.SqlQuery<Temp>("select distinct dr.equipmentId as 'abc' from Documentary_revoke_details dr").ToList<Temp>();
             etk.total_TH = temp.Count().ToString();
             ViewBag.Thongke = etk;
-            List<EquipWithName> listID = db.Database.SqlQuery<EquipWithName>("select e.equipmentId from Equipment e").Take(20).ToList();
+            List<EquipWithName> listID = new List<EquipWithName>();
             ViewBag.listID = listID;
             return View("/Views/CDVT/Car/Huydongoto.cshtml");
         }
@@ -165,15 +165,22 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             DateTime dtStart = Convert.ToDateTime("01/01/2000");
             DateTime dtEnd = DateTime.Today;
-            if (!dateStart.Equals("") && !dateEnd.Equals(""))
+            if (!dateStart.Equals(""))
             {
-                dtStart = DateTime.ParseExact(dateStart, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                string[] date = dateStart.Split('/');
+                string date_fix = date[2] + "/" + date[1] + "/" + date[0];
+                dtStart = DateTime.ParseExact(date_fix, "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            }
+            if (!dateEnd.Equals(""))
+            {
+                string[] date = dateEnd.Split('/');
+                string date_fix = date[2] + "/" + date[1] + "/" + date[0];
+                dtEnd = DateTime.ParseExact(date_fix, "yyyy/MM/dd", CultureInfo.InvariantCulture);
             }
             string query = "SELECT e.[equipmentId],e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_expected_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
                 "from Equipment e, Department d, Equipment_category ec,Status s, " +
                 "(select distinct e.equipmentId, e.equipment_name from Equipment e inner join Equipment_category_attribute ea on ea.Equipment_category_id = e.Equipment_category_id where ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') a" +
-                " where a.equipmentId = e.equipmentId and e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id AND e.current_Status = s.statusid AND ";
+                " where a.equipmentId = e.equipmentId and e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id AND e.current_Status = s.statusid AND e.usedDay between @start_time1 and @start_time2 and ";
 
 
             if (!equipmentId.Equals("") || !equipmentName.Equals("") || !department.Equals("") || !quality.Equals("") || !category.Equals("") || !sup.Equals(""))

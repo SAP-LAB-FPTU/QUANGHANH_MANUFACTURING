@@ -115,7 +115,7 @@
                                     </tr>
                                     <tr>
                                         <td>Ngày bảo dưỡng gần nhất</td>
-                                        <td>@ViewBag.equipment.nearest_Maintenance_Day.ToString("dd/MM/yyyy")</td>
+                                        <td>@ViewBag.equipment.durationOfMaintainance.ToString("dd/MM/yyyy")</td>
                                     </tr>
                                     <tr>
                                         <td>Tổng giờ hoạt động</td>
@@ -123,88 +123,13 @@
                                     </tr>
                                     <tr>
                                         <td>Vị trí hiện tại</td>
-                                        <td>@ViewBag.equipment.department_id</td>
+                                        <td>@ViewBag.equipment.department_name</td>
                                     </tr>
                                     <tr>
                                         <td>Tình trạng hiện tại</td>
-                                        <td>@ViewBag.equipment.current_Status</td>
+                                        <td>@ViewBag.equipment.statusname</td>
                                     </tr>
-                                    <tr class="parent" id="rowA1" style="cursor: pointer">
-                                        <th>- NĂNG SUẤT</th>
-                                        <th></th>
-                                    </tr>
-                                    <tr class="child-rowA1" style="display:none">
-                                        <td>Tốc độ quay</td>
-                                        <td>13 Vòng/phút</td>
-                                    </tr>
-                                    <tr class="child-rowA1" style="display:none">
-                                        <td>Tốc độ di chuyển</td>
-                                        <td>4 (số 1) km/h ; 5,5 (số 2) km/h</td>
-                                    </tr>
-                                    <tr class="child-rowA1" style="display:none">
-                                        <td>Khả năng leo dốc</td>
-                                        <td>70 (350) %</td>
-                                    </tr>
-                                    <tr class="parent" id="rowA2" style="cursor: pointer">
-                                        <th>- LỰC ĐÀO </th>
-                                        <th></th>
-                                    </tr>
-                                    <tr class="child-rowA2" style="display:none">
-                                        <td>Gàu </td>
-                                        <td>11,0 tấn</td>
-                                    </tr>
-                                    <tr class="child-rowA2" style="display:none">
-                                        <td>Tay cần </td>
-                                        <td>10,4 - 8,9 - 8,2 tấn</td>
-                                    </tr>
-                                    <tr class="child-rowA2" style="display:none">
-                                        <td>Độ dài tay cần</td>
-                                        <td>2400 - 2940 - 3300 tấn</td>
-                                    </tr>
-                                    <tr class="child-rowA2" style="display:none">
-                                        <td>Lực kéo</td>
-                                        <td>11,5/16,3</td>
-                                    </tr>
-                                    <tr class="parent" id="rowA3" style="cursor: pointer">
-                                        <th>- KÍCH THƯỚC TỔNG QUÁT</th>
-                                        <th></th>
-                                    </tr>
-                                    <tr class="child-rowA3" style="display:none">
-                                        <td>Chiều dài tay cần </td>
-                                        <td>2400 - 2940 - 3300 mm</td>
-                                    </tr>
-                                    <tr class="child-rowA3" style="display:none">
-                                        <td>Chiều dài toàn bộ</td>
-                                        <td>2400 - 2940 - 3300 mm</td>
-                                    </tr>
-                                    <tr class="child-rowA3" style="display:none">
-                                        <td>Bề rộng toàn bộ</td>
-                                        <td>11,5/16,3</td>
-                                    </tr>
-                                    <tr class="child-rowA3" style="display:none">
-                                        <td>Chiều cao toàn bộ </td>
-                                        <td>11,5/16,3</td>
-                                    </tr>
-                                    <tr class="child-rowA3" style="display:none">
-                                        <td>Khoảng sáng gầm</td>
-                                        <td>465 - 465 - 465 mm</td>
-                                    </tr>
-                                    <tr class="parent" id="rowA4" style="cursor: pointer">
-                                        <th>- BÁNH XÍCH</th>
-                                        <th></th>
-                                    </tr>
-                                    <tr class="child-rowA4" style="display:none">
-                                        <td>Chiều dài toàn bộ của xích</td>
-                                        <td>4070 mm</td>
-                                    </tr>
-                                    <tr class="child-rowA4" style="display:none">
-                                        <td> Khoảng cách tâm của máy</td>
-                                        <td>2200 mm</td>
-                                    </tr>
-                                    <tr class="child-rowA4" style="display:none">
-                                        <td>Khoảng cách tâm của xích </td>
-                                        <td>3280 mm</td>
-                                    </tr>
+                                    
                                 </table>
 
                             </div>

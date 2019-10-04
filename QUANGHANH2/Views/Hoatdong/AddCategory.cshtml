@@ -95,13 +95,11 @@
                     <tr>
                         <th>STT</th>
                         <th>Tên vật ưu</th>
-                        <th>số lượng</th>
                         <th></th>
                     </tr>
                     <tr>
                         <td>1</td>
                         <td><input list="Suplist" type='text' name="nameSup" class='form-control' placeholder='Tên vật ưu' /></td>
-                        <td><input type='number' name="quantitySup" class='form-control' placeholder='số lượng' /></td>
                         <td><button type="button" class="btnSelect3 btn blue btn-small left"><i class="large material-icons">remove</i></button></td>
                     </tr>
                 </table>
@@ -182,10 +180,8 @@
         var cell1 = row.insertCell(0);
         var cell2 = row.insertCell(1);
         var cell3 = row.insertCell(2);
-        var cell4 = row.insertCell(3);
         cell1.innerHTML = "" + count3 + "";
-        cell2.innerHTML = "<input type='text' name='nameSup' class='form-control' placeholder='Tên vật ưu' />";
-        cell3.innerHTML = "<input type='number' name='quantitySup' class='form-control' placeholder='số lượng' />";
+        cell2.innerHTML = "<input list='Suplist' type='text' name='nameSup' class='form-control' placeholder='Tên vật ưu' />";
         cell4.innerHTML = "<button type='button' class='btnSelect3 btn blue btn-small left'><i class='large material-icons'>remove</i></button>";
         count3++;
     }
