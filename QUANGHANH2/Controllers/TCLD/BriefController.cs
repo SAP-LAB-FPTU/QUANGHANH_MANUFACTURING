@@ -35,10 +35,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
             ViewBag.nameDepartment = "quanlyhoso";
             return View("/Views/TCLD/Brief/ManageBrief/Inside.cshtml");
         }
-
-
-
-
         /// /////////////////////////Long/////////////////////////////////////////////
 
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to")]
