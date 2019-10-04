@@ -62,7 +62,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
 
-            if (year ==0 )
+            if (year == 0)
             {
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
@@ -72,6 +72,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                  n in db.NhanViens on
                                                  cn.MaNV equals n.MaNV
                                                where n.LoaiNhanVien.Equals("CNCD")
+                                               join qd in db.QuyetDinhs
+                                               on cn.MaQuyetDinh equals qd.MaQuyetDinh
+                                               where qd.SoQuyetDinh != null
                                                join d in db.Departments on
                                                n.MaPhongBan equals d.department_id
                                                into tb1
@@ -84,6 +87,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                n in db.NhanViens on
                                                cn.MaNV equals n.MaNV
                                                  where n.LoaiNhanVien.Equals("CNKT")
+                                                 join qd in db.QuyetDinhs
+                                               on cn.MaQuyetDinh equals qd.MaQuyetDinh
+                                                 where qd.SoQuyetDinh != null
                                                  join d in db.Departments on
                                                  n.MaPhongBan equals d.department_id
                                                  into tb1
@@ -96,6 +102,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                              n in db.NhanViens on
                                              cn.MaNV equals n.MaNV
                                              where n.LoaiNhanVien.Equals("CNCD")
+                                             join qd in db.QuyetDinhs
+                                               on cn.MaQuyetDinh equals qd.MaQuyetDinh
+                                             where qd.SoQuyetDinh != null
                                              join d in db.Departments on
                                              n.MaPhongBan equals d.department_id
                                              into tb1
@@ -108,6 +117,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                n in db.NhanViens on
                                                cn.MaNV equals n.MaNV
                                                where n.LoaiNhanVien.Equals("CNKT")
+                                               join qd in db.QuyetDinhs
+                                               on cn.MaQuyetDinh equals qd.MaQuyetDinh
+                                               where qd.SoQuyetDinh != null
                                                join d in db.Departments on
                                                n.MaPhongBan equals d.department_id
                                                into tb1
@@ -179,7 +191,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         tongTDKT = phongBan.TongTuyenDungKhaiThac;
                     }
 
-                   // row cuối cùng trong dtable để tính tổng
+                    // row cuối cùng trong dtable để tính tổng
                     TDCDModel totalModel = new TDCDModel
                     {
                         Stt = stt,
@@ -212,6 +224,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                  n in db.NhanViens on
                                                  cn.MaNV equals n.MaNV
                                                where n.LoaiNhanVien.Equals("CNCD")
+                                               join qd in db.QuyetDinhs
+                                               on cn.MaQuyetDinh equals qd.MaQuyetDinh
+                                               where qd.SoQuyetDinh != null
                                                && cn.NgayTuyenDung.Year == year
                                                join d in db.Departments on
                                                n.MaPhongBan equals d.department_id
@@ -225,7 +240,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                n in db.NhanViens on
                                                cn.MaNV equals n.MaNV
                                                  where n.LoaiNhanVien.Equals("CNKT")
-                                                 && cn.NgayTuyenDung.Year == year
+                                                 join qd in db.QuyetDinhs
+                                               on cn.MaQuyetDinh equals qd.MaQuyetDinh
+                                                 where qd.SoQuyetDinh != null
+                                                   && cn.NgayTuyenDung.Year == year
                                                  join d in db.Departments on
                                                  n.MaPhongBan equals d.department_id
                                                  into tb1
@@ -238,7 +256,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                              n in db.NhanViens on
                                              cn.MaNV equals n.MaNV
                                              where n.LoaiNhanVien.Equals("CNCD")
-                                             && cn.NgayChamDut.Year == year
+                                             join qd in db.QuyetDinhs
+                                               on cn.MaQuyetDinh equals qd.MaQuyetDinh
+                                             where qd.SoQuyetDinh != null
+                                           && cn.NgayChamDut.Year == year
                                              join d in db.Departments on
                                              n.MaPhongBan equals d.department_id
                                              into tb1
@@ -251,6 +272,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                n in db.NhanViens on
                                                cn.MaNV equals n.MaNV
                                                where n.LoaiNhanVien.Equals("CNKT")
+                                               join qd in db.QuyetDinhs
+                                               on cn.MaQuyetDinh equals qd.MaQuyetDinh
+                                               where qd.SoQuyetDinh != null
                                                && cn.NgayChamDut.Year == year
                                                join d in db.Departments on
                                                n.MaPhongBan equals d.department_id
@@ -274,7 +298,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         ChenhLech = 0,
                     }).ToList();
                     int stt = 1;
-                    int tongCD =0 , tongTD = 0 ,tongCDCD = 0,tongCDKT =0,tongTDCD =0,tongTDKT =0;
+                    int tongCD = 0, tongTD = 0, tongCDCD = 0, tongCDKT = 0, tongTDCD = 0, tongTDKT = 0;
                     foreach (var phongBan in arrPhongBan)
                     {
                         phongBan.Stt = stt++;
@@ -360,13 +384,16 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                   if(year == 0)
+                    if (year == 0)
                     {
                         var arrTuyenDungCoDien = ((from cn in db.TuyenDung_NhanVien
                                                    join
                                                    n in db.NhanViens on
                                                    cn.MaNV equals n.MaNV
                                                    where n.LoaiNhanVien.Equals("CNCD")
+                                                   join qd in db.QuyetDinhs
+                                               on cn.MaQuyetDinh equals qd.MaQuyetDinh
+                                                   where qd.SoQuyetDinh != null
                                                    join d in db.Departments on
                                                    n.MaPhongBan equals d.department_id
                                                    into tb1
@@ -379,6 +406,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                    n in db.NhanViens on
                                                    cn.MaNV equals n.MaNV
                                                      where n.LoaiNhanVien.Equals("CNKT")
+                                                     join qd in db.QuyetDinhs
+                                               on cn.MaQuyetDinh equals qd.MaQuyetDinh
+                                                     where qd.SoQuyetDinh != null
                                                      join d in db.Departments on
                                                      n.MaPhongBan equals d.department_id
                                                      into tb1
@@ -391,6 +421,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                  n in db.NhanViens on
                                                  cn.MaNV equals n.MaNV
                                                  where n.LoaiNhanVien.Equals("CNCD")
+                                                 join qd in db.QuyetDinhs
+                                               on cn.MaQuyetDinh equals qd.MaQuyetDinh
+                                                 where qd.SoQuyetDinh != null
                                                  join d in db.Departments on
                                                  n.MaPhongBan equals d.department_id
                                                  into tb1
@@ -403,6 +436,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                    n in db.NhanViens on
                                                    cn.MaNV equals n.MaNV
                                                    where n.LoaiNhanVien.Equals("CNKT")
+                                                   join qd in db.QuyetDinhs
+                                               on cn.MaQuyetDinh equals qd.MaQuyetDinh
+                                                   where qd.SoQuyetDinh != null
                                                    join d in db.Departments on
                                                    n.MaPhongBan equals d.department_id
                                                    into tb1
@@ -488,7 +524,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         int k = 0;
                         int totalCD = 0;
                         int totalTD = 0;
-                        for (int i = 3; i < arrPhongBan.Count + 3; i++)
+                        for (int i = 5; i < arrPhongBan.Count + 5; i++)
                         {
                             excelWorksheet.Cells[i, 1].Value = arrPhongBan.ElementAt(k).Stt;
                             excelWorksheet.Cells[i, 2].Value = arrPhongBan.ElementAt(k).TenPhongBan;
@@ -515,7 +551,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                    n in db.NhanViens on
                                                    cn.MaNV equals n.MaNV
                                                    where n.LoaiNhanVien.Equals("CNCD")
-                                                   && cn.NgayTuyenDung.Year == year
+                                                   join qd in db.QuyetDinhs
+                                               on cn.MaQuyetDinh equals qd.MaQuyetDinh
+                                                   where qd.SoQuyetDinh != null
+                                                       && cn.NgayTuyenDung.Year == year
                                                    join d in db.Departments on
                                                    n.MaPhongBan equals d.department_id
                                                    into tb1
@@ -528,7 +567,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                    n in db.NhanViens on
                                                    cn.MaNV equals n.MaNV
                                                      where n.LoaiNhanVien.Equals("CNKT")
-                                                     && cn.NgayTuyenDung.Year == year
+                                                     join qd in db.QuyetDinhs
+                                               on cn.MaQuyetDinh equals qd.MaQuyetDinh
+                                                     where qd.SoQuyetDinh != null
+                                                           && cn.NgayTuyenDung.Year == year
                                                      join d in db.Departments on
                                                      n.MaPhongBan equals d.department_id
                                                      into tb1
@@ -541,7 +583,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                  n in db.NhanViens on
                                                  cn.MaNV equals n.MaNV
                                                  where n.LoaiNhanVien.Equals("CNCD")
-                                                 && cn.NgayChamDut.Year == year
+                                                 join qd in db.QuyetDinhs
+                                               on cn.MaQuyetDinh equals qd.MaQuyetDinh
+                                                 where qd.SoQuyetDinh != null
+                                                   && cn.NgayChamDut.Year == year
                                                  join d in db.Departments on
                                                  n.MaPhongBan equals d.department_id
                                                  into tb1
@@ -554,7 +599,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                    n in db.NhanViens on
                                                    cn.MaNV equals n.MaNV
                                                    where n.LoaiNhanVien.Equals("CNKT")
-                                                   && cn.NgayChamDut.Year == year
+                                                   join qd in db.QuyetDinhs
+                                                   on cn.MaQuyetDinh equals qd.MaQuyetDinh
+                                                   where qd.SoQuyetDinh != null
+                                                       && cn.NgayChamDut.Year == year
                                                    join d in db.Departments on
                                                    n.MaPhongBan equals d.department_id
                                                    into tb1
@@ -638,7 +686,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         };
                         arrPhongBan.Add(totalModel);
                         int k = 0;
-                        for (int i = 3; i < arrPhongBan.Count + 3; i++)
+                        for (int i = 5; i < arrPhongBan.Count + 5; i++)
                         {
                             excelWorksheet.Cells[i, 1].Value = arrPhongBan.ElementAt(k).Stt;
                             excelWorksheet.Cells[i, 2].Value = arrPhongBan.ElementAt(k).TenPhongBan;
@@ -653,7 +701,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                             k++;
                         }
                         string location = HostingEnvironment.MapPath("/excel/TCLD/download");
-                        excelPackage.SaveAs(new FileInfo(location + "/CD_TD_Report_"+year+".xlsx"));
+                        excelPackage.SaveAs(new FileInfo(location + "/CD_TD_Report_" + year + ".xlsx"));
                     }
                 }
 
@@ -661,12 +709,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
         }
 
-        [Route("phong-tcld/cham-dut-va-tuyen-dung/tong-hop-tuyen-dung")]
-        public ActionResult Recruitment()
-        {
-            ViewBag.nameDepartment = "baocao-sanluon-laodong";
-            return View("/Views/TCLD/ReportRecruitmentAndEnd/Recruitment.cshtml");
-        }
 
         [Route("phong-tcld/cham-dut-va-tuyen-dung/tong-hop-cham-dut")]
         public ActionResult End()
@@ -675,17 +717,5 @@ namespace QUANGHANHCORE.Controllers.TCLD
             return View("/Views/TCLD/ReportRecruitmentAndEnd/End.cshtml");
         }
 
-        [Route("phong-tcld/cham-dut-va-tuyen-dung/tang-giam-lao-dong")]
-        public ActionResult ListFrequency()
-        {
-            ViewBag.nameDepartment = "baocao-sanluon-laodong";
-            return View("/Views/TCLD/ReportRecruitmentAndEnd/ListFrequency.cshtml");
-        }
-        [Route("phong-tcld/cham-dut-va-tuyen-dung/tang-giam-lao-dong/theo-quy")]
-        public ActionResult Frequency()
-        {
-            ViewBag.nameDepartment = "baocao-sanluon-laodong";
-            return View("/Views/TCLD/ReportRecruitmentAndEnd/Frequency.cshtml");
-        }
     }
 }

@@ -125,7 +125,7 @@
             <div class="col m6 l6 s12">
                 <strong>Ngày cấp</strong><strong hidden id="gh-nc-warning" class="orange-text text-justify">     không được để trống</strong>
                 <strong hidden id="gh-nc-warning2" class="orange-text text-justify">     ngày không hợp lệ</strong>
-                <input id="gh-in-ngaycap" class="form-control datepicker-here center" data-language="vi" />
+                <input id="gh-in-ngaycap"  class="form-control datepicker-here center" data-language="vi" />
             </div>
         </div>
         <div class="modal-footer">
@@ -156,7 +156,7 @@
 
                 <div class="col m6 l6 s12">
                     <strong>Tên chứng chỉ</strong>
-                    <input disabled id="tm-in-tenchungchi" class="form-control" />
+                    <input disabled id="tm-in-tenchungchi"  class="form-control" />
                 </div>
 
                 <div class="col m6 l6 s12">
@@ -190,7 +190,9 @@
             
         });
 
+        // popup len form gia han khi nhan vao nhan vien cos chung chi het han
         var popupGiaHan = (mnv, mcc) => {
+            $("#pre-load").show();
             $.ajax({
                 url: '@Url.Action("getGiaHanPopUpInfo", "Task")',
                 type: "POST",
@@ -204,13 +206,16 @@
                     $("#gh-in-tenchungchi").val(data.TenChungChi)
                     $("#gh-in-mnv").val(data.MaNV)
                     $("#gh-in-mcc").val(data.MaChungChi)
+                    $("#pre-load").hide();
                 },
                 error: () => {
-                    alert('fail')
+                     $("#pre-load").hide();
+                     errorAlert('Thất bại', 'Gặp vấn đề về mạng');
                 }
             })
         };
 
+        // popup len form them moi khi nhan vao them moi cho nhan vien chua co chung chi
     var popupThemMoi = (mnv, mcc, tnv, tcc) => {
 
         $("#tm-in-tennhanvien").val(tnv)
@@ -264,6 +269,7 @@
         })
     };
 
+        // khi nhan nut gia han trong form popup
         var xacNhanGiaHan = () => {
             
             if ($("#gh-in-ngaycap").val() == null || $("#gh-in-ngaycap").val() == "") {
@@ -307,6 +313,7 @@
 
         };
 
+        // kiem tra ngay theo dung format dd/mm/yyyy
         function isDate(txtDate) {
             var currVal = txtDate;
             if (currVal == '')
@@ -318,7 +325,6 @@
             if (dtArray == null)
                 return false;
 
-            //Checks for mm/dd/yyyy format.
             dtDay = dtArray[1];
             dtMonth = dtArray[3];
             dtYear = dtArray[5];

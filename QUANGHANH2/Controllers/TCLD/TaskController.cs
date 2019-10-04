@@ -1,22 +1,21 @@
 ﻿using Newtonsoft.Json.Linq;
+using OfficeOpenXml;
 using QUANGHANH2.Models;
 using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Linq.Dynamic;
+using System.Web.Hosting;
 using System.Web.Mvc;
 
 namespace QUANGHANH2.Controllers.TCLD
 {
     public class TaskController : Controller
     {
-        public ActionResult Index()
-        {
-            return View();
-        }
 
         [Auther(RightID = "138")]
         public ActionResult SearchEmployee(string data)
@@ -35,60 +34,68 @@ namespace QUANGHANH2.Controllers.TCLD
                 string name = dataJson.name;
                 string px = dataJson.px;
 
-                if (name == null || name.Equals("")) //chi search bang phan xuong
+                List<NhanVien_Extend> emp = null;
+                if (name == null || name.Equals(""))
                 {
                     var temp = (from pxx in db.Departments
                                 join
                                 nv in db.NhanViens
+
                                 on pxx.department_id equals nv.MaPhongBan
                                 where (pxx.department_name.Contains(px))
+                                && nv.MaTrangThai == 1
                                 select new
                                 {
                                     nv.Ten,
                                     nv.MaNV
                                 });
-                    List<NhanVien> emp = temp.ToList().Select(p => new NhanVien { MaNV = p.MaNV, Ten = p.Ten }).ToList();
-                    int totalrows = emp.Count;
-                    int totalrowsafterfiltering = emp.Count;
-                    emp = emp.Skip(start).Take(length).ToList<NhanVien>();
-                    return Json(new { success = true, data = emp, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                    emp = temp.ToList().Select(p => new NhanVien_Extend { MaNV = p.MaNV, Ten = p.Ten }).ToList();
                 }
-                else if (px == null || px.Equals("")) // chi search bang ten nv
+                else if (px == null || px.Equals(""))
                 {
                     var temp = (from pxx in db.Departments
                                 join
                                 nv in db.NhanViens
                                 on pxx.department_id equals nv.MaPhongBan
                                 where (nv.Ten.Contains(name))
+                                && nv.MaTrangThai == 1
                                 select new
                                 {
                                     nv.Ten,
                                     nv.MaNV
                                 });
-                    List<NhanVien> emp = temp.ToList().Select(p => new NhanVien { MaNV = p.MaNV, Ten = p.Ten }).ToList();
-                    int totalrows = emp.Count;
-                    int totalrowsafterfiltering = emp.Count;
-                    emp = emp.Skip(start).Take(length).ToList<NhanVien>();
-                    return Json(new { success = true, data = emp, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                    emp = temp.ToList().Select(p => new NhanVien_Extend { MaNV = p.MaNV, Ten = p.Ten }).ToList();
                 }
-                else // search bang ca 2
+                else
                 {
                     var temp = (from pxx in db.Departments
                                 join
                                 nv in db.NhanViens
                                 on pxx.department_id equals nv.MaPhongBan
-                                where (pxx.department_name.Contains(px) && nv.Ten.Contains(name))
+                                where (pxx.department_name.Contains(px) && nv.Ten.Contains(name) && nv.MaTrangThai == 1)
                                 select new
                                 {
                                     nv.Ten,
                                     nv.MaNV
                                 });
-                    List<NhanVien> emp = temp.ToList().Select(p => new NhanVien { MaNV = p.MaNV, Ten = p.Ten }).ToList();
-                    int totalrows = emp.Count;
-                    int totalrowsafterfiltering = emp.Count;
-                    emp = emp.Skip(start).Take(length).ToList<NhanVien>();
-                    return Json(new { success = true, data = emp, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                    emp = temp.ToList().Select(p => new NhanVien_Extend { MaNV = p.MaNV, Ten = p.Ten }).ToList();
                 }
+
+                int totalrows = emp.Count;
+                int totalrowsafterfiltering = emp.Count;
+                emp = emp.Skip(start).Take(length).ToList<NhanVien_Extend>();
+
+                foreach (NhanVien_Extend nv in emp)
+                {
+                    foreach (ChiTiet_NhiemVu_NhanVien nvnv in db.ChiTiet_NhiemVu_NhanVien)
+                    {
+                        if (nv.MaNV.Equals(nvnv.MaNV) && nvnv.IsInProcess == true)
+                        {
+                            nv.MaNhiemVu.Add(nvnv.MaNhiemVu);
+                        }
+                    }
+                }
+                return Json(new { success = true, data = emp, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
             }
 
         }
@@ -103,7 +110,7 @@ namespace QUANGHANH2.Controllers.TCLD
             }
         }
 
-        [Auther(RightID="138")]
+        [Auther(RightID = "138")]
         [Route("phong-tcld/dang-ky-cong-viec")]
         public ActionResult ViewJobByPX()
         {
@@ -120,13 +127,9 @@ namespace QUANGHANH2.Controllers.TCLD
                 IEnumerable<Department> arrPhanXuong = temp.Distinct().ToList().Select(p => new Department { department_name = p.TenPhanXuong });
                 ViewBag.nameDepartment = "vld-antoan";
                 ViewBag.PhanXuongs = arrPhanXuong;
-                List<string> arrNhanvienNhiemVu = new List<string>();
-
+                // myArrPhanXuong = new 
                 IOrderedEnumerable<NhiemVu> arrNhiemVu = db.NhiemVus.ToList().OrderBy(n => n.Loai);
-                foreach (NhiemVu n in arrNhiemVu)
-                {
-                    arrNhanvienNhiemVu.Add(n.MaNhiemVu.ToString());
-                }
+
                 List<MyModal> model = new List<MyModal>();
 
 
@@ -148,10 +151,6 @@ namespace QUANGHANH2.Controllers.TCLD
                         tempModel.arrNV.Add(v);
                     }
                 }
-
-
-
-                ViewBag.arrNhanVien_NhiemVu = arrNhanvienNhiemVu;
                 ViewBag.arrNhiemVu = model;
                 return View("/Views/TCLD/Task/ViewJobByPX.cshtml");
             }
@@ -161,94 +160,68 @@ namespace QUANGHANH2.Controllers.TCLD
 
         [Auther(RightID = "139")]
         [HttpPost]
-        public ActionResult AssignTask(List<string> tasks)
+        public ActionResult AssignTask(List<string> tasks, List<string> removedTask)
         {
             try
             {
                 string[] tSplit;
+                string[] rtSplit;
                 ChiTiet_NhiemVu_NhanVien cnn;
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    DateTime now = DateTime.Now;
-                    foreach (string t in tasks)
+                    if (removedTask != null)
                     {
-                        tSplit = t.Split('_');
-                        string mnv = tSplit[1];
-                        int mnvu = Convert.ToInt16(tSplit[0]);
-                        cnn = new ChiTiet_NhiemVu_NhanVien
+                        foreach (string rt in removedTask) // truong hop bo nhiem vu cua nhan vien di va khong dang ki cai moi
                         {
-                            MaNhiemVu = mnvu,
-                            MaNV = mnv,
-                            NgayNhanNhiemVu = now
-                        };
-                        var temp = db.ChiTiet_NhiemVu_NhanVien.Where(p =>p.MaNV.Equals(mnv) && p.MaNhiemVu.Equals(mnvu)).FirstOrDefault();
-                        if (temp == null)
-                        {
-                            db.ChiTiet_NhiemVu_NhanVien.Add(cnn);
+                            rtSplit = rt.Split('_');
+                            string mnv = rtSplit[1];
+                            int mnvu = Convert.ToInt16(rtSplit[0]);
+                            ChiTiet_NhiemVu_NhanVien temp = db.ChiTiet_NhiemVu_NhanVien.Where(p => p.MaNV.Equals(mnv) && p.MaNhiemVu == mnvu).Where(p => p.IsInProcess == true).FirstOrDefault();
+                            if (temp != null)
+                            {
+                                temp.IsInProcess = false;
+                            }
                         }
-                        else
+                    }
+
+                    if (tasks != null)
+                    {
+                        DateTime now = DateTime.Now;
+                        foreach (string t in tasks)
                         {
-                            db.ChiTiet_NhiemVu_NhanVien.Remove(temp);
-                            db.ChiTiet_NhiemVu_NhanVien.Add(cnn);
+                            tSplit = t.Split('_');
+                            string mnv = tSplit[1];
+                            int mnvu = Convert.ToInt16(tSplit[0]);
+                            cnn = new ChiTiet_NhiemVu_NhanVien
+                            {
+                                MaNhiemVu = mnvu,
+                                MaNV = mnv,
+                                NgayNhanNhiemVu = now,
+                                IsInProcess = true
+                            };
+                            List<ChiTiet_NhiemVu_NhanVien> temp = db.ChiTiet_NhiemVu_NhanVien.Where(p => p.MaNV.Equals(mnv)).ToList();
+
+                            if (temp != null) //set het trang thai nhiem vu cu cua nhan vien -> false(da lam)
+                            {
+                                temp.ForEach(p => p.IsInProcess = false);
+
+                            }
+
+                            db.ChiTiet_NhiemVu_NhanVien.Add(cnn); //them nhiem vu moi voi trang thai  = true (dang lam)
+
                         }
                     }
                     db.SaveChanges();
-                    foreach (ChiTiet_NhiemVu_NhanVien cn in db.ChiTiet_NhiemVu_NhanVien)
-                    {
-                        int nv = cn.MaNhiemVu;
-                    }
 
                 }
             }
-            catch
+            catch (Exception e)
             {
+                string m = e.Message;
                 return Json(new { success = false }, JsonRequestBehavior.AllowGet);
             }
 
             return Json(new { success = true }, JsonRequestBehavior.AllowGet);
-        }
-
-        [Auther(RightID = "138")]
-        [HttpPost]
-        public ActionResult GetNhanVienByPX(string tenPhanXuong = "")
-        {
-            int start = Convert.ToInt32(Request["start"]);
-            int length = Convert.ToInt32(Request["length"]);
-            string searchValue = Request["search[value]"];
-            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
-            string sortDirection = Request["order[0][dir]"];
-
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-            {
-                var temp = (from px in db.Departments
-                            join
-                            nv in db.NhanViens
-                            on px.department_id equals nv.MaPhongBan
-                            where px.department_name == tenPhanXuong
-                            select new
-                            {
-                                nv.Ten,
-                                nv.MaNV
-                            });
-                List<NhanVien_Extend> arrNhanVienByPX = temp.ToList().Select(p => new NhanVien_Extend { Ten = p.Ten, MaNV = p.MaNV }).ToList();
-
-                foreach (var nv in arrNhanVienByPX)
-                {
-                    foreach (var nvnv in db.ChiTiet_NhiemVu_NhanVien)
-                    {
-                        if (nv.MaNV.Equals(nvnv.MaNV))
-                        {
-                            nv.MaNhiemVu.Add(nvnv.MaNhiemVu) ;
-                        }
-                    }
-                }
-
-                int totalrows = arrNhanVienByPX.Count;
-                int totalrowsafterfiltering = arrNhanVienByPX.Count;
-
-                arrNhanVienByPX = arrNhanVienByPX.Skip(start).Take(length).ToList<NhanVien_Extend>();
-                return Json(new { success = true, data = arrNhanVienByPX, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
-            }
         }
 
         [Auther(RightID = "140")]
@@ -282,8 +255,8 @@ namespace QUANGHANH2.Controllers.TCLD
                                 TenChungChi = cc.TenChungChi,
                                 SoHieu = ccnv.SoHieu,
                                 NgayCap = ccnv.NgayCap,
-                                ConHan = (DbFunctions.DiffDays(DbFunctions.AddMonths(ccnv.NgayCap, cc.ThoiHan), DateTime.Now) < 0 ? "Hết Hạn" :
-                                DbFunctions.DiffDays(DbFunctions.AddMonths(ccnv.NgayCap, cc.ThoiHan), DateTime.Now) >= 0 ? "Còn Hạn" : "Còn Hạn"
+                                ConHan = (DbFunctions.DiffDays(DbFunctions.AddMonths(ccnv.NgayCap, cc.ThoiHan), DateTime.Now) > 0 ? "Hết Hạn" :
+                                DbFunctions.DiffDays(DbFunctions.AddMonths(ccnv.NgayCap, cc.ThoiHan), DateTime.Now) <= 0 ? "Còn Hạn" : "Còn Hạn"
                                 )
                             });
                 List<ChungChi_NhanVien_Model> arrChungChi = temp.ToList().Select(p => new ChungChi_NhanVien_Model
@@ -314,23 +287,24 @@ namespace QUANGHANH2.Controllers.TCLD
                             join
                             nv in db.NhanViens
                             on px.department_id equals nv.MaPhongBan
+                            where nv.MaTrangThai == 1
                             select new
                             {
                                 TenNhanVien = nv.Ten,
                                 MaNhanVien = nv.MaNV
                             });
                 List<NhanVien_Extend> arrNhanVien = temp.ToList().Select(p => new NhanVien_Extend { Ten = p.TenNhanVien, MaNV = p.MaNhanVien }).ToList();
-                foreach(var nv in arrNhanVien)
+                foreach (NhanVien_Extend nv in arrNhanVien)
                 {
-                    foreach (var nvnv in db.ChiTiet_NhiemVu_NhanVien)
+                    foreach (ChiTiet_NhiemVu_NhanVien nvnv in db.ChiTiet_NhiemVu_NhanVien)
                     {
-                        if (nv.MaNV.Equals(nvnv.MaNV))
+                        if (nv.MaNV.Equals(nvnv.MaNV) && nvnv.IsInProcess == true)
                         {
                             nv.MaNhiemVu.Add(nvnv.MaNhiemVu);
                         }
                     }
                 }
-                
+
                 IOrderedEnumerable<NhanVien_Extend> arrnvorder = arrNhanVien.OrderBy(n => n.MaNV);
                 int totalrows = arrNhanVien.Count;
                 int totalrowsafterfiltering = arrNhanVien.Count;
@@ -390,6 +364,7 @@ namespace QUANGHANH2.Controllers.TCLD
                                 on ct.MaNV equals n.MaNV
                                 join nv in db.NhiemVus
                                 on ct.MaNhiemVu equals nv.MaNhiemVu
+                                where n.MaTrangThai == 1
                                 join cc in db.ChungChis
                                 on nv.MaChungChi equals cc.MaChungChi
                                 join ccnv in db.ChungChi_NhanVien
@@ -397,6 +372,7 @@ namespace QUANGHANH2.Controllers.TCLD
                                 into tb
                                 from mtb in tb.DefaultIfEmpty()
                                 where n.MaPhongBan.Equals("DL1")
+                                && ct.IsInProcess == true
                                 orderby nv.Loai
                                 select new
                                 {
@@ -483,6 +459,7 @@ namespace QUANGHANH2.Controllers.TCLD
                                 on ct.MaNV equals n.MaNV
                                 join nv in db.NhiemVus
                                 on ct.MaNhiemVu equals nv.MaNhiemVu
+                                where n.MaTrangThai == 1
                                 join cc in db.ChungChis
                                 on nv.MaChungChi equals cc.MaChungChi
                                 join ccnv in db.ChungChi_NhanVien
@@ -490,6 +467,7 @@ namespace QUANGHANH2.Controllers.TCLD
                                 into tb
                                 from mtb in tb.DefaultIfEmpty()
                                 where n.MaPhongBan.Equals(maPhongBan)
+                                && ct.IsInProcess == true
                                 orderby nv.Loai
                                 select new
                                 {
@@ -611,11 +589,11 @@ namespace QUANGHANH2.Controllers.TCLD
         public ActionResult XacNhanGiaHan(string data)
         {
             dynamic dataJson = JObject.Parse(data);
-            var maNV = dataJson.mnv;
-            var maCC = dataJson.mcc;
-            var ngayCap = DateTime.ParseExact(Convert.ToString(dataJson.ngaycap), "dd/MM/yyyy", CultureInfo.InvariantCulture)
+            dynamic maNV = dataJson.mnv;
+            dynamic maCC = dataJson.mcc;
+            dynamic ngayCap = DateTime.ParseExact(Convert.ToString(dataJson.ngaycap), "dd/MM/yyyy", CultureInfo.InvariantCulture)
                         .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
-            var sohieu = dataJson.sohieu + "";
+            dynamic sohieu = dataJson.sohieu + "";
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 ChungChi_NhanVien ccnv = new ChungChi_NhanVien { MaNV = maNV, MaChungChi = maCC, NgayCap = Convert.ToDateTime(ngayCap), SoHieu = sohieu };
@@ -639,15 +617,15 @@ namespace QUANGHANH2.Controllers.TCLD
             try
             {
                 dynamic dataJson = JObject.Parse(data);
-                var maNV = dataJson.mnv;
-                var maCC = dataJson.mcc;
-                var ngayCap = DateTime.ParseExact(Convert.ToString(dataJson.ngaycap), "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                dynamic maNV = dataJson.mnv;
+                dynamic maCC = dataJson.mcc;
+                dynamic ngayCap = DateTime.ParseExact(Convert.ToString(dataJson.ngaycap), "dd/MM/yyyy", CultureInfo.InvariantCulture)
                             .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
-                var sohieu = dataJson.sohieu + "";
+                dynamic sohieu = dataJson.sohieu + "";
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
 
-                    ChungChi_NhanVien ccnv = new ChungChi_NhanVien { MaNV = maNV, MaChungChi = maCC, NgayCap = Convert.ToDateTime(ngayCap),  SoHieu = sohieu };
+                    ChungChi_NhanVien ccnv = new ChungChi_NhanVien { MaNV = maNV, MaChungChi = maCC, NgayCap = Convert.ToDateTime(ngayCap), SoHieu = sohieu };
                     if (ccnv.SoHieu != null && !ccnv.SoHieu.Equals(""))
                     {
                         db.ChungChi_NhanVien.Add(ccnv);
@@ -664,6 +642,150 @@ namespace QUANGHANH2.Controllers.TCLD
             {
                 return Json(new { success = false }, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        public void ExportExcel(string pb = "")
+        {
+            string path = HostingEnvironment.MapPath("/excel/TCLD/Report_Job.xlsx");
+            FileInfo file = new FileInfo(path);
+
+            using (ExcelPackage excelPackage = new ExcelPackage(file))
+            {
+                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
+                ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
+
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    List<NhanVien_Extend> arrNhanVien = null;
+                    if (pb.Equals(""))
+                    {
+                        var temp = (from px in db.Departments
+                                    join
+                                    nv in db.NhanViens
+                                    on px.department_id equals nv.MaPhongBan
+                                    where nv.MaTrangThai == 1
+                                    select new
+                                    {
+                                        TenNhanVien = nv.Ten,
+                                        MaNhanVien = nv.MaNV
+                                    });
+                        arrNhanVien = temp.ToList().Select(p => new NhanVien_Extend { Ten = p.TenNhanVien, MaNV = p.MaNhanVien }).ToList();
+                    }
+                    else
+                    {
+                        var temp = (from px in db.Departments
+                                    join
+                                    nv in db.NhanViens
+                                    on px.department_id equals nv.MaPhongBan
+                                    where px.department_name.Equals(pb)
+                                    && nv.MaTrangThai == 1
+                                    select new
+                                    {
+                                        TenNhanVien = nv.Ten,
+                                        MaNhanVien = nv.MaNV
+                                    });
+                        arrNhanVien = temp.ToList().Select(p => new NhanVien_Extend { Ten = p.TenNhanVien, MaNV = p.MaNhanVien }).ToList();
+                    }
+
+                    foreach (NhanVien_Extend nv in arrNhanVien)
+                    {
+                        foreach (ChiTiet_NhiemVu_NhanVien nvnv in db.ChiTiet_NhiemVu_NhanVien)
+                        {
+                            if (nv.MaNV.Equals(nvnv.MaNV) && nvnv.IsInProcess == true)
+                            {
+                                nv.MaNhiemVu.Add(nvnv.MaNhiemVu);
+                            }
+                        }
+                    }
+                    excelWorksheet.Cells[1, 1, 2, 1].Merge = true;
+                    excelWorksheet.Cells[1, 1].Value = "Mã nhân viên";
+                    excelWorksheet.Cells[1, 2, 2, 2].Merge = true;
+                    excelWorksheet.Cells[1, 2].Value = "Tên nhân viên";
+
+                    IOrderedEnumerable<NhiemVu> arrNhiemVu = db.NhiemVus.ToList().OrderBy(n => n.Loai);
+
+                    List<MyModal> PhanXuongModel = new List<MyModal>();
+
+
+                    MyModal tempModel = new MyModal();
+
+                    foreach (NhiemVu v in arrNhiemVu)
+                    {
+                        if (!v.Loai.Equals(tempModel.loai))
+                        {
+                            tempModel = new MyModal
+                            {
+                                loai = v.Loai
+                            };
+                            tempModel.arrNV.Add(v);
+                            PhanXuongModel.Add(tempModel);
+                        }
+                        else
+                        {
+                            tempModel.arrNV.Add(v);
+                        }
+                    }
+                    int k = 0;
+                    int currentPonter = 3;
+                    for (int i = 3; i < PhanXuongModel.Count + 3; i++) //done
+                    {
+                        excelWorksheet.Cells[1, currentPonter, 1, currentPonter + PhanXuongModel.ElementAt(k).arrNV.Count - 1].Merge = true;
+                        excelWorksheet.Cells[1, currentPonter].Value = PhanXuongModel.ElementAt(k).loai;
+                        currentPonter += PhanXuongModel.ElementAt(k).arrNV.Count;
+                        k++;
+                    }
+
+                    int m = 3;
+                    for (int i = 0; i < PhanXuongModel.Count; i++)
+                    {
+                        k = 0;
+                        for (int j = 3; j < PhanXuongModel.ElementAt(i).arrNV.Count + 3; j++)
+                        {
+                            excelWorksheet.Cells[2, m].Value = PhanXuongModel.ElementAt(i).arrNV.ElementAt(k).TenNhiemVu;
+                            k++;
+                            m++;
+                        }
+                    }
+
+                    int x = 3, y = 1;
+                    foreach (NhanVien_Extend nvien in arrNhanVien)
+                    {
+                        y = 1;
+                        excelWorksheet.Cells[x, y].Value = nvien.MaNV;
+                        y++;
+                        excelWorksheet.Cells[x, y].Value = nvien.Ten;
+                        y++;
+                        foreach (var px in PhanXuongModel)
+                        {
+                            foreach (var nvu in px.arrNV)
+                            {
+                                if (nvien.MaNhiemVu.Contains(nvu.MaNhiemVu))
+                                {
+                                    excelWorksheet.Cells[x, y].Value = "Đang làm";
+                                    y++;
+                                }
+                                else
+                                {
+                                    excelWorksheet.Cells[x, y].Value = "-";
+                                    y++;
+                                }
+
+                            }
+                        }
+                        x++;
+                    }
+                    string location = HostingEnvironment.MapPath("/excel/TCLD/download");
+                    if (pb.Equals(""))
+                    {
+                        excelPackage.SaveAs(new FileInfo(location + "/Report_Job_Total.xlsx"));
+                    }
+                    else
+                    {
+                        excelPackage.SaveAs(new FileInfo(location + "/Report_Job_" + pb + ".xlsx"));
+                    }
+                }
+            }
+
         }
     }
 }
