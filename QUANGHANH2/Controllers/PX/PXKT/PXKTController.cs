@@ -155,7 +155,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                                           tenNV = emp.Ten,
                                           status = att.DiLam,
                                           timeAttendance = att.ThoiGianThucTeDiemDanh,
-                                          dateAttendance = (DateTime?) att.NgayDiemDanh,
+                                          dateAttendance = (DateTime?)att.NgayDiemDanh,
                                           reason = att.LyDoVangMat,
                                           description = att.GhiChu
                                       }).OrderBy(att => att.status).ToList();
@@ -333,7 +333,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                             //Now assign your content to your data variable, by converting into a string using the await keyword.
                             var data = await content.ReadAsStringAsync();
                             //If the data isn't null return log convert the data using newtonsoft JObject Parse class method on the data.
-                            Console.WriteLine("HIHIHI");
+                            listAttendanceFromAPI = JsonConvert.DeserializeObject<List<FakeAPI>>(data);
                         }
                     }
                 });
@@ -346,27 +346,27 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                 }
                 try
                 {
-                    //using (var transaction = new TransactionScope())
-                    //{
-                    //    // get all "ma nhan vien" already have been taken attendance.
-                    //    List<String> listAttendanceID = db.DiemDanh_NangSuatLaoDong.Where(dd => dd.CaDiemDanh == session && dd.MaDonVi == departmentID && dd.NgayDiemDanh == dateAtt).Select(col => col.MaNV).ToList();
-                    //    foreach (var id in listAttendanceFromAPI_ID)
-                    //    {
-                    //        if (!listAttendanceID.Contains(id))
-                    //        {
-                    //            DiemDanh_NangSuatLaoDong dn = new DiemDanh_NangSuatLaoDong();
-                    //            dn.MaDonVi = departmentID;
-                    //            dn.CaDiemDanh = session;
-                    //            dn.NgayDiemDanh = dateAtt;
-                    //            dn.MaNV = id;
-                    //            // from API
-                    //            dn.XacNhan = false;
-                    //            db.DiemDanh_NangSuatLaoDong.Add(dn);
-                    //            db.SaveChanges();
-                    //        }
-                    //    }
-                    //    transaction.Complete();
-                    //}
+                    using (var transaction = new TransactionScope())
+                    {
+                        // get all "ma nhan vien" already have been taken attendance.
+                        List<String> listAttendanceID = db.DiemDanh_NangSuatLaoDong.Where(dd => dd.CaDiemDanh == session && dd.MaDonVi == departmentID && dd.NgayDiemDanh == dateAtt).Select(col => col.MaNV).ToList();
+                        foreach (var id in listAttendanceFromAPI_ID)
+                        {
+                            if (!listAttendanceID.Contains(id))
+                            {
+                                DiemDanh_NangSuatLaoDong dn = new DiemDanh_NangSuatLaoDong();
+                                dn.MaDonVi = departmentID;
+                                dn.CaDiemDanh = session;
+                                dn.NgayDiemDanh = dateAtt;
+                                dn.MaNV = id;
+                                // from API
+                                dn.XacNhan = false;
+                                db.DiemDanh_NangSuatLaoDong.Add(dn);
+                                db.SaveChanges();
+                            }
+                        }
+                        transaction.Complete();
+                    }
                     var listAttendance = getAll(session, departmentID, dateAtt);
                     JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
                     var result = JsonConvert.SerializeObject(listAttendance, Formatting.Indented, jss);
