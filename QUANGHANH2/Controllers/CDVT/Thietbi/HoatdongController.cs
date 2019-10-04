@@ -32,7 +32,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
 
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    
+
                     var equipList = db.Database.SqlQuery<EquipWithName>("SELECT e.[equipmentId],[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_expected_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
                         "FROM [Equipment] e, Status s, Department d, Equipment_category ec " +
                         "where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id and e.current_Status = s.statusid").ToList();
@@ -122,7 +122,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             //
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-               
+
                 var equipList = db.Database.SqlQuery<EquipWithName>("SELECT e.[equipmentId],[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_expected_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name FROM [Equipment] e, Status s, Department d, Equipment_category ec where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id and e.current_Status = s.statusid").ToList();
                 int totalrows = equipList.Count;
                 int totalrowsafterfiltering = equipList.Count;
@@ -163,14 +163,14 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         {
             ViewBag.listID = null;
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            List<EquipWithName> listID = db.Database.SqlQuery<EquipWithName>("select e.equipmentId from Equipment e where e.equipmentId like '%"+id+"%'").Take(10).ToList();
+            List<EquipWithName> listID = db.Database.SqlQuery<EquipWithName>("select e.equipmentId from Equipment e where e.equipmentId like '%" + id + "%'").Take(10).ToList();
             ViewBag.listID = listID;
             string d = "";
-            foreach(var item in listID)
+            foreach (var item in listID)
             {
                 d += "<option value='" + item.equipmentId + "'/>";
             }
-            return Json(new { success = true, data = d }, JsonRequestBehavior.AllowGet); 
+            return Json(new { success = true, data = d }, JsonRequestBehavior.AllowGet);
 
 
         }
@@ -281,7 +281,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
 
                 }
                 var statsu = db.Status.ToList<Status>();
-                foreach(Status item in statsu)
+                foreach (Status item in statsu)
                 {
                     listStatus.Add(new SelectListItem { Text = item.statusid.ToString(), Value = item.statusname });
                 }
@@ -294,6 +294,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 listQuality.Add(new SelectListItem { Text = "B", Value = "B" });
                 listQuality.Add(new SelectListItem { Text = "C", Value = "C" });
                 ViewBag.listQuality = listQuality;
+
+                List<SelectListItem> listDN = new List<SelectListItem>();
+                listDN.Add(new SelectListItem { Text = "Đường kế toán", Value = "Đường kế toán" });
+                listDN.Add(new SelectListItem { Text = "Đường vật tư", Value = "Đường vật tư" });
+                ViewBag.listDN = listDN;
             }
             return View(new Equipment());
         }
@@ -364,14 +369,14 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                     dbc.Commit();
                     return RedirectToAction("GetData");
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     dbc.Rollback();
                     return Json(new { success = false, message = e.Message }, JsonRequestBehavior.AllowGet);
 
                 }
             }
-            
+
 
 
         }
@@ -426,7 +431,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         }
                         Equipment_Inspection ei = new Equipment_Inspection();
                         ei.equipmentId = emp.equipmentId;
-                        ei.inspect_start_date = emp.durationOfInspection;
+                        ei.inspect_expected_date = emp.durationOfInspection;
                         db.Equipment_Inspection.Add(ei);
                         db.SaveChanges();
                         dbc.Commit();
@@ -437,9 +442,9 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         dbc.Rollback();
                         return Json(new { success = false, message = e.Message }, JsonRequestBehavior.AllowGet);
 
-                    } 
+                    }
                 }
-                
+
             }
 
         }
@@ -469,7 +474,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             emp.durationOfMaintainance = Convert.ToDateTime(date_fix);
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                using(DbContextTransaction dbc = db.Database.BeginTransaction())
+                using (DbContextTransaction dbc = db.Database.BeginTransaction())
                 {
                     try
                     {
@@ -527,6 +532,16 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 }
                 //listForSelect.Add(new SelectListItem { Text = "Your text", Value = "TRAI" });
                 ViewBag.listStatus = listStatus;
+                List<SelectListItem> listQuality = new List<SelectListItem>();
+                listQuality.Add(new SelectListItem { Text = "A", Value = "A" });
+                listQuality.Add(new SelectListItem { Text = "B", Value = "B" });
+                listQuality.Add(new SelectListItem { Text = "C", Value = "C" });
+                ViewBag.listQuality = listQuality;
+
+                List<SelectListItem> listDN = new List<SelectListItem>();
+                listDN.Add(new SelectListItem { Text = "Đường kế toán", Value = "Đường kế toán" });
+                listDN.Add(new SelectListItem { Text = "Đường vật tư", Value = "Đường vật tư" });
+                ViewBag.listDN = listDN;
                 return View(db.Equipments.Where(x => x.equipmentId == id).FirstOrDefault<Equipment>());
                 //return Json(new { success = true, message = "Cập nhật thành công" , data= db.Equipments.Where(x => x.equipmentId == id).FirstOrDefault<Equipment>()}, JsonRequestBehavior.AllowGet);
             }

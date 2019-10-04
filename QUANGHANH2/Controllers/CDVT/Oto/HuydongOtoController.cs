@@ -380,7 +380,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                         }
                         Equipment_Inspection ei = new Equipment_Inspection();
                         ei.equipmentId = emp.equipmentId;
-                        ei.inspect_start_date = emp.durationOfInspection;
+                        ei.inspect_expected_date = emp.durationOfInspection;
                         db.Equipment_Inspection.Add(ei);
                         db.SaveChanges();
                         dbc.Commit();
@@ -396,6 +396,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                 
             }
         }
+
         [HttpPost]
         public ActionResult Edit(Equipment emp, string import, string inspec, string insua, string used, string main)
         {

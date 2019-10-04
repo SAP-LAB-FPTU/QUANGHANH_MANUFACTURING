@@ -108,7 +108,7 @@
                         </div>
                     </div>
 
-                    
+
 
 
                 </div>
@@ -172,7 +172,7 @@
                         <label>Đường nhập</label>
                         @*@Html.LabelFor(model => model.input_channel, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.input_channel, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.DropDownList("input_channel", new SelectList(ViewBag.listDN, "Text", "Value"), htmlAttributes: new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.input_channel, "", new { @class = "text-danger" })
                         </div>
                     </div>
