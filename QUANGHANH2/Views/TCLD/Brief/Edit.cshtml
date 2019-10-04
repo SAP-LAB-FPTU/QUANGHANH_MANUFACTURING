@@ -13,6 +13,7 @@
     onSubmit = "return SubmitForm(this);",
     data_restUrl = Url.Action("SaveEdit", "Employees", new { id = "" })
 }))
+
 {
     @Html.AntiForgeryToken()
 
@@ -514,16 +515,16 @@
                                     </thead>
                                     <tbody id="table-htlv1">
                                         <tr>
-                                            <td contenteditable="true" id="col11" class="editable"></td>
+                                            <td id="col11" class="editable"><input name="tenTruong" id="input11" style="border:none" /></td>
                                             <td contenteditable="true" id="col12" class="editable"></td>
                                             <td id="col13">
                                                 <div class="row">
                                                     <div class="col l3"> <label class="custom-label">Từ:</label></div>
-                                                    <div class="col l9"><input id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></div>
+                                                    <div class="col l9"><input required id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></div>
                                                 </div>
                                                 <div class="row" style="margin-top:5px">
                                                     <div class="col l3"> <label class="custom-label">Đến:</label></div>
-                                                    <div class="col l9"><input id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></div>
+                                                    <div class="col l9"><input required id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></div>
                                                 </div>
                                             </td>
                                             <td contenteditable="true" id="col14" class="editable"></td>
@@ -552,11 +553,11 @@
                                             <td id="col11">
                                                 <div class="row">
                                                     <div class="col l3"> <label class="custom-label">Từ:</label></div>
-                                                    <div class="col l9"><input id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></div>
+                                                    <div class="col l9"><input required id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></div>
                                                 </div>
                                                 <div class="row" style="margin-top:5px">
                                                     <div class="col l3"> <label class="custom-label">Đến:</label></div>
-                                                    <div class="col l9"><input id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></div>
+                                                    <div class="col l9"><input required id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></div>
                                                 </div>
                                             </td>
                                             <td contenteditable="true" id="col12" class="editable"></td>
@@ -586,18 +587,18 @@
                                     <tbody id="table-gd">
                                         <tr>
                                             <td id="col11">
-                                                <select class="custom-select">
+                                                <select class="custom-select" name="giaDinh">
                                                     <option value="Bản thân">Bản thân</option>
                                                     <option value="Nhà vợ">Nhà vợ</option>
                                                     <option value="Nhà chồng">Nhà chồng</option>
                                                 </select>
                                             </td>
                                             <td id="col12">
-                                                <input id="ns" type="text" class="datepicker-here datepicker-add center form-control resize-form" data-language="vi" placeholder="dd/mm/yyyy" />
+                                                <input name="ngaySinhGiaDinh" id="input12" type="text" class="datepicker-here datepicker-add center form-control resize-form" data-language="vi" placeholder="dd/mm/yyyy" />
                                             </td>
-                                            <td contenteditable="true" id="col13" class="editable"></td>
-                                            <td contenteditable="true" id="col14" class="editable"></td>
-                                            <td contenteditable="true" id="col15" class="editable"></td>
+                                            <td id="col13" class="editable"><input id="input13" required name="hoTen" style="border:none" /></td>
+                                            <td id="col14" class="editable"><input id="input14" required name="moiQuanHe" style="border:none" /></td>
+                                            <td id="col15" class="editable"><input id="input15" required name="lyLich" style="border:none" /></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -617,7 +618,7 @@
                                     </thead>
                                     <tbody id="qt-luong">
                                         <tr>
-                                            <td id="col11"><input id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></td>
+                                            <td id="col11"><input required id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></td>
                                             <td contenteditable="true" id="col12" class="editable"></td>
                                             <td contenteditable="true" id="col13" class="editable"></td>
                                         </tr>
@@ -628,7 +629,6 @@
                                 <a id="buttonThem4" class="btn blue darken-2">Thêm</a>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -683,6 +683,11 @@
         </a>
     </li>
 </ul>
+<script src="~/js/Custom JS/TCLD/Brief/Briefs_Add.js"></script>
+<!--Custom Datepicker JS-->
+<script src="~/js/Custom JS/Disable_input_material.js"></script>
+<script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
+<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
 <script src="~/js/Custom JS/TCLD/Brief/Briefs_Edit.js"></script>
 <script src="~/js/Custom JS/TCLD/Brief/DateError.js"></script>
 <script>

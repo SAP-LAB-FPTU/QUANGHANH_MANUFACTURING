@@ -242,7 +242,12 @@
 
         ///////////////////VALIDATE/////////////
         $(".thoigian").keydown(function (e) {
-            e.preventDefault();
+            if (e.keyCode === 8) {
+                $(".thoigian").val("");
+            } else {
+                e.preventDefault();
+            }
+            
         });
     </script>
 
