@@ -36,7 +36,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             DateTime dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             dtEnd = dtEnd.AddHours(23);
             dtEnd = dtEnd.AddMinutes(59);
-            string query = "SELECT e.equipment_name, ei.* FROM Equipment e inner join Equipment_Inspection ei on e.equipmentId = ei.equipmentId WHERE inspect_start_date between @start_time1 and @start_time2 and ";
+            string query = "SELECT ei.*, e.equipment_name, s.statusname FROM Equipment_Inspection ei INNER JOIN Equipment e on e.equipmentId = ei.equipmentId INNER JOIN Status s on s.statusid = e.current_Status WHERE ei.inspect_end_date IS NULL AND inspect_expected_date between @start_time1 and @start_time2 and ";
             if (!equipmentId.Equals("") || !equipmentName.Equals(""))
             {
                 if (!equipmentId.Equals("")) query += "ei.equipmentId LIKE @equipmentId AND ";
@@ -56,82 +56,60 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             list = list.Skip(start).Take(length).ToList<Equipment_InspectionDB>();
             foreach (Equipment_InspectionDB item in list)
             {
-                item.stringStartTime = item.inspect_start_date.HasValue? item.inspect_start_date.Value.ToString("dd/MM/yyyy") : "";
-                item.stringEndTime = item.getEndtime();
-                item.updateAble = item.stringEndTime == "" ? "1" + item.inspect_id : "0" + item.inspect_id;
+                item.stringExpectedTime = item.inspect_expected_date.ToString("dd/MM/yyyy");
+                item.stringStartTime = item.getStringtime(item.inspect_start_date);
+                item.updateAble = item.stringStartTime == "" ? "1" + item.inspect_id : "0" + item.inspect_id;
             }
             return Json(new { success = true, data = list, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
         [Route("phong-cdvt/kiem-dinh/update")]
         [HttpPost]
-        public ActionResult Update(string inspect_id, string dateStart, string dateEnd, string dateTemp)
+        public ActionResult Update(string inspect_id)
         {
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
             {
                 try
                 {
-                    DateTime dtStart = DateTime.ParseExact(dateStart, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                    DateTime dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                    DateTime dtTemp = DateTime.ParseExact(dateTemp, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                    if (DateTime.Compare(dtStart,dtEnd) > 0)
-                    {
-                        Response.Write("Bạn đã nhập ngày bắt đầu \nlớn hơn ngày kết thúc");
-                        return new HttpStatusCodeResult(400);
-                    }
-                    if (DateTime.Compare(dtEnd,dtTemp) >= 0)
-                    {
-                        Response.Write("Bạn đã nhập ngày kiểm định sau\nnhỏ hơn hoặc bằng ngày kiểm định trước");
-                        return new HttpStatusCodeResult(400);
-                    }
-
                     Equipment_Inspection ei = DBContext.Equipment_Inspection.Find(int.Parse(inspect_id));
-                    ei.inspect_start_date = dtStart;
-                    ei.inspect_end_date = dtEnd;
-                    Equipment_Inspection temp = new Equipment_Inspection();
-                    temp.equipmentId = ei.equipmentId;
-                    temp.inspect_start_date = dtTemp;
-                    DBContext.Equipment_Inspection.Add(temp);
-
+                    ei.inspect_start_date = DateTime.Now;
+                    Equipment e = DBContext.Equipments.Find(ei.equipmentId);
+                    e.current_Status = 10;
                     DBContext.SaveChanges();
                     transaction.Commit();
-                    return new HttpStatusCodeResult(200);
+                    return Json(new { success = true, message = "Cập nhật thành công"}, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception)
                 {
                     transaction.Rollback();
-                    Response.Write("Có lỗi xảy ra, xin vui lòng nhập lại");
-                    return new HttpStatusCodeResult(400);
+                    return Json(new { success = false, message = "Có lỗi xảy ra\nxin vui lòng thử lại" }, JsonRequestBehavior.AllowGet);
                 }
             }
         }
 
         [Route("phong-cdvt/kiem-dinh/edit")]
         [HttpPost]
-        public ActionResult Edit(string inspect_id, string dateStart, string dateEnd)
+        public ActionResult Edit(string inspect_id, string dateTemp)
         {
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             try
             {
-                DateTime dtStart = DateTime.ParseExact(dateStart, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                DateTime dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                if (DateTime.Compare(dtStart, dtEnd) > 0)
-                {
-                    Response.Write("Bạn đã nhập ngày bắt đầu \nlớn hơn ngày kết thúc");
-                    return new HttpStatusCodeResult(400);
-                }
                 Equipment_Inspection ei = DBContext.Equipment_Inspection.Find(int.Parse(inspect_id));
-                ei.inspect_start_date = dtStart;
-                ei.inspect_end_date = dtEnd;
-
+                DateTime dtTemp = DateTime.ParseExact(dateTemp, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                ei.inspect_end_date = DateTime.Now;
+                Equipment e = DBContext.Equipments.Find(ei.equipmentId);
+                e.current_Status = 1;
+                Equipment_Inspection temp = new Equipment_Inspection();
+                temp.equipmentId = ei.equipmentId;
+                temp.inspect_expected_date = dtTemp;
+                DBContext.Equipment_Inspection.Add(temp);
                 DBContext.SaveChanges();
-                return new HttpStatusCodeResult(200);
+                return Json(new { success = true, message = "Cập nhật thành công" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {
-                Response.Write("Có lỗi xảy ra, xin vui lòng nhập lại");
-                return new HttpStatusCodeResult(400);
+                return Json(new { success = false, message = "Có lỗi xảy ra\nxin vui lòng thử lại" }, JsonRequestBehavior.AllowGet);
             }
         }
     }
