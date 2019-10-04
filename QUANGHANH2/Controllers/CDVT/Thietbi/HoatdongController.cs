@@ -99,6 +99,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             }
             //listForSelect.Add(new SelectListItem { Text = "Your text", Value = "TRAI" });
             ViewBag.listStatus = listStatus;
+            List<EquipWithName> listID = db.Database.SqlQuery<EquipWithName>("select e.equipmentId from Equipment e").Take(20).ToList();
+            ViewBag.listID = listID;
             return View("/Views/CDVT/Hoat_dong.cshtml");
         }
 
@@ -155,6 +157,24 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             public string department_name { get; set; }
         }
 
+        [Route("phong-cdvt/huy-dong/change")]
+        [HttpPost]
+        public ActionResult Change(string id)
+        {
+            ViewBag.listID = null;
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            List<EquipWithName> listID = db.Database.SqlQuery<EquipWithName>("select e.equipmentId from Equipment e where e.equipmentId like '%"+id+"%'").Take(10).ToList();
+            ViewBag.listID = listID;
+            string d = "";
+            foreach(var item in listID)
+            {
+                d += "<option value='" + item.equipmentId + "'/>";
+            }
+            return Json(new { success = true, data = d }, JsonRequestBehavior.AllowGet); 
+
+
+        }
+
         [Route("phong-cdvt/huy-dong/search")]
         [HttpPost]
         public ActionResult Search(string equipmentId, string equipmentName, string department, string quality, string dateStart, string dateEnd, string category, string sup)
@@ -167,8 +187,13 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             string sortDirection = Request["order[0][dir]"];
 
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            DateTime dtStart = DateTime.ParseExact(dateStart, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            DateTime dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            DateTime dtStart = Convert.ToDateTime("01/01/2000");
+            DateTime dtEnd = DateTime.Today;
+            if (!dateStart.Equals("") && !dateEnd.Equals(""))
+            {
+                dtStart = DateTime.ParseExact(dateStart, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            }
             string query = "SELECT e.[equipmentId],[equipment_name],[supplier],[date_import],[durationOfMaintainance],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_expected_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
                 "FROM [Equipment] e, Status s, Department d, Equipment_category ec " +
                 "where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id and e.current_Status = s.statusid and ";
@@ -264,6 +289,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 ViewBag.listStatus = listStatus;
                 ViewBag.listDepeartment = listDepeartment;
                 ViewBag.listCategory = listCategory;
+                List<SelectListItem> listQuality = new List<SelectListItem>();
+                listQuality.Add(new SelectListItem { Text = "A", Value = "A" });
+                listQuality.Add(new SelectListItem { Text = "B", Value = "B" });
+                listQuality.Add(new SelectListItem { Text = "C", Value = "C" });
+                ViewBag.listQuality = listQuality;
             }
             return View(new Equipment());
         }
@@ -286,48 +316,64 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             db.Equipment_category.Add(ec);
-            if (id != null)
+            using (DbContextTransaction dbc = db.Database.BeginTransaction())
             {
-                for (int i = 0; i < id.Count(); i++)
+                try
                 {
-                    if (!id[i].Equals(""))
+                    if (id != null)
                     {
-                        Equipment_category_attribute ea = new Equipment_category_attribute();
-                        ea.Equipment_category_id = ec.Equipment_category_id;
-                        ea.Equipment_category_attribute_id = id[i];
-                        ea.unit = unit[i];
-                        ea.Equipment_category_attribute_name = name[i];
-                        db.Equipment_category_attribute.Add(ea);
-                    }
-
-                }
-            }
-            if (nameSup != null)
-            {
-                List<Supply> listSup = db.Supplies.ToList();
-                for (int i = 0; i < nameSup.Count(); i++)
-                {
-                    if (!nameSup[i].Equals(""))
-                    {
-                        Equipment_Category_Supply ecs = new Equipment_Category_Supply();
-                        Supply s = new Supply();
-                        for (int j = 0; j < listSup.Count(); j++)
+                        for (int i = 0; i < id.Count(); i++)
                         {
-                            if (listSup.ElementAt(j).supply_name.Equals(nameSup[i]))
+                            if (!id[i].Equals(""))
                             {
-                                s.supply_id = listSup.ElementAt(j).supply_id;
-                                break;
+                                Equipment_category_attribute ea = new Equipment_category_attribute();
+                                ea.Equipment_category_id = ec.Equipment_category_id;
+                                ea.Equipment_category_attribute_id = id[i];
+                                ea.unit = unit[i];
+                                ea.Equipment_category_attribute_name = name[i];
+                                db.Equipment_category_attribute.Add(ea);
                             }
+
                         }
-                        ecs.supply_id = s.supply_id;
-                        ecs.Equipment_category_id = ec.Equipment_category_id;
-                        db.Equipment_Category_Supply.Add(ecs);
                     }
+                    if (nameSup != null)
+                    {
+                        List<Supply> listSup = db.Supplies.ToList();
+                        for (int i = 0; i < nameSup.Count(); i++)
+                        {
+                            if (!nameSup[i].Equals(""))
+                            {
+                                Equipment_Category_Supply ecs = new Equipment_Category_Supply();
+                                Supply s = new Supply();
+                                for (int j = 0; j < listSup.Count(); j++)
+                                {
+                                    if (listSup.ElementAt(j).supply_name.Equals(nameSup[i]))
+                                    {
+                                        s.supply_id = listSup.ElementAt(j).supply_id;
+                                        break;
+                                    }
+                                }
+                                ecs.supply_id = s.supply_id;
+                                ecs.Equipment_category_id = ec.Equipment_category_id;
+                                db.Equipment_Category_Supply.Add(ecs);
+                            }
+
+                        }
+                    }
+                    db.SaveChanges();
+                    dbc.Commit();
+                    return RedirectToAction("GetData");
+                }
+                catch(Exception e)
+                {
+                    dbc.Rollback();
+                    return Json(new { success = false, message = e.Message }, JsonRequestBehavior.AllowGet);
 
                 }
             }
-            db.SaveChanges();
-            return RedirectToAction("GetData");
+            
+
+
         }
 
         [HttpPost]
@@ -356,32 +402,46 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 date_fix = date[1] + "/" + date[0] + "/" + date[2];
                 emp.durationOfMaintainance = Convert.ToDateTime(date_fix);
 
-
-                db.Equipments.Add(emp);
-                if (id != null)
+                using (DbContextTransaction dbc = db.Database.BeginTransaction())
                 {
-                    for (int i = 0; i < id.Count(); i++)
+                    try
                     {
-                        if (!id[i].Equals(""))
+                        db.Equipments.Add(emp);
+                        if (id != null)
                         {
-                            Equipment_attribute ea = new Equipment_attribute();
-                            ea.equipmentId = emp.equipmentId;
-                            ea.Equipment_attribute_id = id[i];
-                            ea.unit = unit[i];
-                            ea.value = value[i];
-                            ea.Equipment_attribute_name = name[i];
-                            db.Equipment_attribute.Add(ea);
-                        }
+                            for (int i = 0; i < id.Count(); i++)
+                            {
+                                if (!id[i].Equals(""))
+                                {
+                                    Equipment_attribute ea = new Equipment_attribute();
+                                    ea.equipmentId = emp.equipmentId;
+                                    ea.Equipment_attribute_id = id[i];
+                                    ea.unit = unit[i];
+                                    ea.value = value[i];
+                                    ea.Equipment_attribute_name = name[i];
+                                    db.Equipment_attribute.Add(ea);
+                                }
 
+                            }
+                        }
+                        Equipment_Inspection ei = new Equipment_Inspection();
+                        ei.equipmentId = emp.equipmentId;
+                        ei.inspect_start_date = emp.durationOfInspection;
+                        db.Equipment_Inspection.Add(ei);
+                        db.SaveChanges();
+                        dbc.Commit();
+                        return RedirectToAction("GetData");
                     }
+                    catch (Exception e)
+                    {
+                        dbc.Rollback();
+                        return Json(new { success = false, message = e.Message }, JsonRequestBehavior.AllowGet);
+
+                    } 
                 }
-                Equipment_Inspection ei = new Equipment_Inspection();
-                ei.equipmentId = emp.equipmentId;
-                ei.inspect_start_date = emp.durationOfInspection;
-                db.Equipment_Inspection.Add(ei);
-                db.SaveChanges();
-                return RedirectToAction("GetData");
+                
             }
+
         }
 
         [HttpPost]
@@ -409,15 +469,21 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             emp.durationOfMaintainance = Convert.ToDateTime(date_fix);
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                try
+                using(DbContextTransaction dbc = db.Database.BeginTransaction())
                 {
-                    db.Entry(emp).State = EntityState.Modified;
-                    db.SaveChanges();
-                    return RedirectToAction("GetData");
-                }
-                catch (Exception ex)
-                {
-                    return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
+                    try
+                    {
+                        db.Entry(emp).State = EntityState.Modified;
+                        db.SaveChanges();
+                        dbc.Commit();
+                        return RedirectToAction("GetData");
+
+                    }
+                    catch (Exception e)
+                    {
+                        dbc.Rollback();
+                        return Json(new { success = false, message = e.Message }, JsonRequestBehavior.AllowGet);
+                    }
                 }
 
             }
@@ -465,19 +531,20 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 //return Json(new { success = true, message = "Cập nhật thành công" , data= db.Equipments.Where(x => x.equipmentId == id).FirstOrDefault<Equipment>()}, JsonRequestBehavior.AllowGet);
             }
         }
-        [Route("phong-cdvt/huy-dong/kd")]
-        [HttpPost]
-        public ActionResult EditKD(string id, DateTime date)
-        {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            Equipment emp = db.Equipments.Where(e => e.equipmentId == id).FirstOrDefault();
-            emp.durationOfInspection = date;
-            db.Entry(emp).State = EntityState.Modified;
-            db.SaveChanges();
-            return RedirectToAction("GetData");
-            //return Json(new { success = true, message = "Cập nhật thành công" , data= db.Equipments.Where(x => x.equipmentId == id).FirstOrDefault<Equipment>()}, JsonRequestBehavior.AllowGet);
 
-        }
+        //[Route("phong-cdvt/huy-dong/kd")]
+        //[HttpPost]
+        //public ActionResult EditKD(string id, DateTime date)
+        //{
+        //    QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+        //    Equipment emp = db.Equipments.Where(e => e.equipmentId == id).FirstOrDefault();
+        //    emp.durationOfInspection = date;
+        //    db.Entry(emp).State = EntityState.Modified;
+        //    db.SaveChanges();
+        //    return RedirectToAction("GetData");
+        //    //return Json(new { success = true, message = "Cập nhật thành công" , data= db.Equipments.Where(x => x.equipmentId == id).FirstOrDefault<Equipment>()}, JsonRequestBehavior.AllowGet);
+
+        //}
 
 
         //[HttpGet]

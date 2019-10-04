@@ -108,6 +108,11 @@
                         </div>
                     </div>
 
+                    
+
+
+                </div>
+                <div class="col s6">
                     <div class="form-group">
                         <label>Ngày đưa vào sử dụng</label>
                         @*@Html.LabelFor(model => model.usedDay, htmlAttributes: new { @class = "control-label col-md-2" })*@
@@ -117,11 +122,6 @@
                             @Html.ValidationMessageFor(model => model.usedDay, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
-
-                </div>
-                <div class="col s6">
-
                     <div class="form-group">
                         <label>Tổng thời gian hoạt động</label>
                         @*@Html.LabelFor(model => model.total_operating_hours, htmlAttributes: new { @class = "control-label col-md-2" })*@
@@ -134,11 +134,11 @@
                     <div class="form-group">
                         <label>Tình trạng hiện tại</label>
                         @*@Html.LabelFor(model => model.current_Status, htmlAttributes: new { @class = "control-label col-md-2" })*@
-                    <div class="col-md-10">
-                        @Html.DropDownList("current_Status", new SelectList(ViewBag.listStatus, "Text", "Value"), htmlAttributes: new { @class = "form-control" })
-                        @*@Html.EditorFor(model => model.current_Status, new { htmlAttributes = new { @class = "form-control" } })*@
-                        @Html.ValidationMessageFor(model => model.current_Status, "", new { @class = "text-danger" })
-                    </div>
+                        <div class="col-md-10">
+                            @Html.DropDownList("current_Status", new SelectList(ViewBag.listStatus, "Text", "Value"), htmlAttributes: new { @class = "form-control" })
+                            @*@Html.EditorFor(model => model.current_Status, new { htmlAttributes = new { @class = "form-control" } })*@
+                            @Html.ValidationMessageFor(model => model.current_Status, "", new { @class = "text-danger" })
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -162,7 +162,8 @@
                         <label>Loại chất lượng</label>
                         @*@Html.LabelFor(model => model.quality_type, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.quality_type, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.DropDownList("quality_type", new SelectList(ViewBag.listQuality, "Text", "Value"), htmlAttributes: new { @class = "form-control" })
+
                             @Html.ValidationMessageFor(model => model.quality_type, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -273,7 +274,7 @@
         var cell4 = row.insertCell(3);
         var cell5 = row.insertCell(4);
         var cell6 = row.insertCell(5);
-        cell1.innerHTML = ""+count+"";
+        cell1.innerHTML = "" + count + "";
         cell2.innerHTML = "<input type='text' name='id' class='form-control' placeholder='Mã đặc tính' />";
         cell3.innerHTML = "<input type='text' name='name' class='form-control' placeholder='Tên đặc tính' />"
         cell4.innerHTML = "<input type='number' name='value' class='form-control' placeholder='Thông số' />";

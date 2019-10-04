@@ -19,7 +19,14 @@
     <div class="card-content">
         <div class="container-fluid">
             <div class="row">
-
+                <datalist id="IDlist">
+                    @{
+                        foreach (var item in ViewBag.listID)
+                        {
+                            <option value="@item.equipmentId"></option>
+                        }
+                    }
+                </datalist>
                 <div class="advanded-search">
                     <div class="row">
                         <h3 class="center"><b>HUY ĐỘNG THIẾT BỊ CƠ GIỚI</b></h3>
@@ -28,7 +35,7 @@
                             <div class="col l4 m4 s12">
                                 <div class="row">
                                     <div class="col l10 m10 s12 input-field">
-                                        <input type="text" placeholder="Tìm kiếm theo mã thiết bị" class='form-control' id="equipmentId-search"
+                                        <input list="IDlist" type="text" placeholder="Tìm kiếm theo mã thiết bị" class='form-control' id="equipmentId-search"
                                                multiple />
                                     </div>
                                     <div class="col l10 m10 s12 input-field">
@@ -103,10 +110,10 @@
 
                                 }
                                 @*if (item.Equals("114"))
-                                {
-                                    <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="myadd3" onclick="PopupForm('@Url.Action("AddOrEdit","Hoatdong")')><i class="fa fa-plus"></i> Thêm nhóm thiết bị</a>
+                        {
+                            <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="myadd3" onclick="PopupForm('@Url.Action("AddOrEdit","Hoatdong")')><i class="fa fa-plus"></i> Thêm nhóm thiết bị</a>
 
-                                }*@
+                        }*@
                                 if (item.Equals("3"))
                                 {
                                     <a class="waves-effect waves-light btn-small blue modal-trigger" id="export-button">Xuất ra Excel</a>
@@ -122,12 +129,12 @@
                         }
                     </div>
                     @*<div class="right">
-                        <a class='dropdown-trigger btn' id="filter" href='#' data-target='dropdown1'
-                           style="width:250px;background-color:#273146">
-                            Xem
-                            theo
-                        </a>
-                    </div>*@
+                <a class='dropdown-trigger btn' id="filter" href='#' data-target='dropdown1'
+                   style="width:250px;background-color:#273146">
+                    Xem
+                    theo
+                </a>
+            </div>*@
                 </div>
 
                 <div class="row">
@@ -487,7 +494,9 @@
 <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
 <script src="~/js/Custom JS/CDVT/Home/DetailManu_Daily.js"></script>
 <script>
-
+    $('#equipmentId-search').change(function () {
+        $(this).closest('form').submit();
+    });
 
     $(window).resize(function () {
         if ($(window).width() <= 600) {
@@ -526,9 +535,7 @@
             mm = '0' + mm;
         }
         var today = dd + '/' + mm + '/' + yyyy;
-        $(".minDate").each(function () {
-            $(this).val(today);
-        });
+        
         today = new Date("1/1/1900");
         var dd = today.getDate();
         var mm = today.getMonth() + 1; //January is 0!
@@ -541,7 +548,6 @@
             mm = '0' + mm;
         }
         var today = dd + '/' + mm + '/' + yyyy;
-        $(".maxDate").val(today)
     });
 
 
@@ -831,6 +837,30 @@
                 return ((d.getMonth() + 1) + "").padStart(2, "0")
                     + "/" + (d.getDate() + "").padStart(2, "0")
                     + "/" + d.getFullYear();
+        }
+
+        function Change(form) {
+
+            $.validator.unobtrusive.parse(form);
+
+                if($(form).valid()){
+                $.ajax({
+                    type : "POST",
+                    url: form.action,
+                    data: $(form).serialize(),
+                    success: function (data) {
+                    var options = '';
+                        options = JSON.stringify(data);
+                        var i = options.length;;
+                        options = options.substring(24, i-2);
+                    document.getElementById('IDlist').innerHTML = options;
+
+                        }
+                    });
+            }
+
+
+                return false;
             }
             function PopupForm(url) {
                 var formDiv = $('<div/>');

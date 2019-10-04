@@ -112,8 +112,8 @@
                     @*@Html.LabelFor(model => model.durationOfInsurance, htmlAttributes: new { @class = "control-label col-md-2" })*@
                     <div class="col-md-10">
                         <input id="main_fix" name="main" type="text" class="form-control datepicker-here" placeholder="Thời hạn bảo dưỡng" />
-                        @Html.EditorFor(model => model.durationOfInsurance, new { htmlAttributes = new { @style = "display: none !important" } })
-                        @Html.ValidationMessageFor(model => model.durationOfInsurance, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.durationOfMaintainance, new { htmlAttributes = new { @style = "display: none !important" } })
+                        @Html.ValidationMessageFor(model => model.durationOfMaintainance, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">
