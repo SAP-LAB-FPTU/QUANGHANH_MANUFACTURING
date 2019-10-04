@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml;
 using QUANGHANH2.Models;
+using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -12,6 +13,7 @@ using System.Web.Routing;
 
 namespace QUANGHANHCORE.Controllers.CDVT.Report
 {
+    [Auther(RightID ="43")]
     public class ReportPowerUsageController : Controller
     {
         /*aa*/

@@ -359,7 +359,7 @@
                         <div class="row">
                             <div class="col s12 center-align" style="padding-top: 45px">
                                 <h6 class="card-subtitle">Thu hồi</h6>
-                                <h4 class="font-medium m-b-0"> @ViewBag.Thongke.total_TH </h>
+                                <h4> @ViewBag.Thongke.total_TH </h4>
                             </div>
                         </div>
                     </div>
@@ -609,7 +609,7 @@
                         <div class="card-content align-items-center table_container">
                             <div class="row">
                                 <div class="col s12" style="padding-top: 45px">
-                                    <h6 class="card-subtitle">Thanh lí</h6>
+                                    <h6 class="card-subtitle">Thanh lý</h6>
                                     <h4> @ViewBag.slTL </h4>
                                 </div>
                             </div>
@@ -828,7 +828,7 @@
 </ul>
 <!-- Start Pie Chart -->
 <div class="row">
-    @*@{
+    @{
         if (ViewBag.suachua.Count != 0)
         {
             <div class="col l12">
@@ -885,7 +885,7 @@
                 </div>
             </div>
         }
-    }*@
+    }
 
 </div>
 
@@ -1138,7 +1138,7 @@
         maxDate: new Date() // Now can select only dates, which goes after today
     });
     $(document).ready(function () {
-        @*var array = @Html.Raw(Json.Encode(ViewBag.suachua));
+        var array = @Html.Raw(Json.Encode(ViewBag.suachua));
         var a = JSON.stringify(array);
         var jsonData = JSON.parse(a);
         var soluong = [];
@@ -1427,7 +1427,7 @@
                     a
                 ]
     };
-        myChartkd.setOption(option);*@
+        myChartkd.setOption(option);
 
         $(function () {
             $(window).on('resize', resize);
