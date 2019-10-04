@@ -111,9 +111,20 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         {
             try
             {
-                //fix bug datetime
+                //validate timeFrom when input blank
+                if (timeFrom.Trim() == "") {
+                    timeFrom = "01/01/1900";
+                }
                 DateTime timeF = DateTime.ParseExact(timeFrom, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                DateTime timeT = DateTime.ParseExact(timeTo, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+                //validate timeTo when input blank
+                DateTime timeT;
+                if (timeTo.Trim() == "") {
+                    timeT = DateTime.Now;
+                } else
+                {
+                    timeT = DateTime.ParseExact(timeTo, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                }
 
                 //Server Side Parameter
                 int start = Convert.ToInt32(Request["start"]);
@@ -152,7 +163,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 Response.Write("Có lỗi xảy ra, xin vui lòng nhập lại");
                 return new HttpStatusCodeResult(400);
             }
-
         }
 
         //search fuel
@@ -162,14 +172,29 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         {
             try
             {
+                //validate timeFrom when input blank
+                if (timeFrom.Trim() == "")
+                {
+                    timeFrom = "01/01/1900";
+                }
+                DateTime timeF = DateTime.ParseExact(timeFrom, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+                //validate timeTo when input blank
+                DateTime timeT;
+                if (timeTo.Trim() == "")
+                {
+                    timeT = DateTime.Now;
+                }
+                else
+                {
+                    timeT = DateTime.ParseExact(timeTo, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                }
+
                 //Server Side Parameter
                 int start = Convert.ToInt32(Request["start"]);
                 int length = Convert.ToInt32(Request["length"]);
                 string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
                 string sortDirection = Request["order[0][dir]"];
-
-                DateTime timeF = DateTime.ParseExact(timeFrom, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                DateTime timeT = DateTime.ParseExact(timeTo, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
                 QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
                 string query = "select f.fuelId, f.[date], f.equipmentId, e.equipment_name , s.supply_name , f.consumption_value , s.unit"
@@ -307,7 +332,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 try
                 {
                     Equipment i = DBContext.Equipments.Find(equipmentId);
-                    Supply s = DBContext.Database.SqlQuery<Supply>("select * from Supply where supply_id='" + fuel_type + "'").First();
+                    Supply s = DBContext.Database.SqlQuery<Supply>("select * from Supply where supply_id=@supply_id and (unit = 'L' or unit = 'kWh')", new SqlParameter("supply_id", fuel_type)).First();
                     fuelDB f = DBContext.Database.SqlQuery<fuelDB>("select * from Fuel_activities_consumption where fuelid=@fuelid", new SqlParameter("fuelid", fuelid)).First();
                     DBContext.Database.ExecuteSqlCommand("UPDATE Fuel_activities_consumption  set fuel_type =@fuel_type, [date] =@date1, consumption_value = @consumption_value, equipmentId = @equipmentId where fuelId= @fuelid",
                         new SqlParameter("fuel_type", fuel_type), new SqlParameter("date1", DateTime.ParseExact(date1, "dd/MM/yyyy", null)), new SqlParameter("consumption_value", consumption_value), new SqlParameter("equipmentId", equipmentId), new SqlParameter("fuelId", fuelid));
@@ -378,7 +403,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     string output = "";
                     if (DBContext.Database.SqlQuery<Equipment>("SELECT * FROM Equipment WHERE equipmentId = N'" + equipmentId + "'").Count() == 0)
                         output += "Mã thiết bị không tồn tại\n";
-                    if (DBContext.Supplies.Where(x => x.supply_id == fuel_type).Count() == 0)
+                    if (DBContext.Supplies.Where(x => (x.supply_id == fuel_type) && (x.unit == "L" || x.unit == "kWh")).Count() == 0)
                         output += "Mã Nhiên Liệu không tồn tại\n";
                     if (output == "")
                         output += "Có lỗi xảy ra, xin vui lòng nhập lại";
