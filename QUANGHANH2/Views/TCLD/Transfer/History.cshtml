@@ -193,12 +193,10 @@
             $(".dataTables_paginate").css("float", "left");
 
             $("#searchButton").click(function () {
-                if ($("#searchSoQuyetDinh").val() !== "" || $("#searchMaNV").val() !== "" || $("#searchDate").val() !== "") {
                     dataTable.ajax.reload();
-                }
             });
             $(".input-field").keydown(function (e) {
-                if (($("#searchSoQuyetDinh").val() !== "" || $("#searchMaNV").val() !== "" || $("#searchDate").val() !== "") && e.keyCode === 13) {
+                if (e.keyCode === 13) {
                     dataTable.ajax.reload();
                 }
             });
@@ -239,7 +237,12 @@
 
         ///////////////////VALIDATE/////////////
         $(".thoigian").keydown(function (e) {
-            e.preventDefault();
+            if (e.keyCode === 8) {
+                $(".thoigian").val("");
+            } else {
+                e.preventDefault();
+            }
+            
         });
     </script>
     <script>

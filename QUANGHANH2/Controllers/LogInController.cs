@@ -41,6 +41,7 @@ namespace QUANGHANHCORE.Controllers
         [HttpPost]
         public ActionResult Index(string username, string password, string rm)
         {
+            if(password == null) return RedirectToAction("Index");
             string passXc = new XCryptEngine(XCryptEngine.AlgorithmType.MD5).Encrypt(password, "pl");
             var checkuser = db.Accounts.Where(x => x.Username == username).Where(y => y.Password == passXc).ToList();
             if (checkuser.Count > 0)
