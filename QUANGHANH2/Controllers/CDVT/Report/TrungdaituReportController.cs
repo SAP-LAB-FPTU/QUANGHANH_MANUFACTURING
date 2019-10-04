@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml;
 using QUANGHANH2.Models;
+using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -13,6 +14,7 @@ using System.Web.Script.Serialization;
 
 namespace QUANGHANH2.Controllers.CDVT.Report
 {
+    [Auther(RightID ="49")]
     public class TrungdaituReportController : Controller
     {
         [Route("phong-cdvt/bao-cao/trung-tu")]

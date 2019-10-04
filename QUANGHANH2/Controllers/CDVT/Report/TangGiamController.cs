@@ -1,6 +1,7 @@
 ﻿using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using QUANGHANH2.Models;
+using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,6 +12,7 @@ using System.Web.Mvc;
 
 namespace QUANGHANH2.Controllers.CDVT.Report
 {
+    [Auther(RightID ="47")]
     public class TangGiamController : Controller
     {
         /*aa*/
@@ -84,7 +86,7 @@ namespace QUANGHANH2.Controllers.CDVT.Report
                     " e.date_import = '"+ngay+"'";
                 queryG = "select MONTH(do.date_created) as Thang,YEAR(do.date_created) as Nam,ec.Equipment_category_name as MaNhom,e.mark_code as MaHieu,e.usedDay" +
                             " from Documentary do,Documentary_liquidation_details dl,Equipment e,Equipment_category ec " +
-                            " where do.documentary_code = dl.documentary_id and e.equipmentId = dl.equipmentId and e.Equipment_category_id = ec.Equipment_category_id " +
+                            " where do.documentary_id = dl.documentary_id and e.equipmentId = dl.equipmentId and e.Equipment_category_id = ec.Equipment_category_id " +
                             " and do.date_created = '"+ngay+"'";
             }
             if (type == "day")
@@ -95,7 +97,7 @@ namespace QUANGHANH2.Controllers.CDVT.Report
                     " e.date_import = '" + ngay + "'";
                 queryG = "select MONTH(do.date_created) as Thang,YEAR(do.date_created) as Nam,ec.Equipment_category_name as MaNhom,e.mark_code as MaHieu,e.usedDay" +
                             " from Documentary do,Documentary_liquidation_details dl,Equipment e,Equipment_category ec " +
-                            " where do.documentary_code = dl.documentary_id and e.equipmentId = dl.equipmentId and e.Equipment_category_id = ec.Equipment_category_id " +
+                            " where do.documentary_id = dl.documentary_id and e.equipmentId = dl.equipmentId and e.Equipment_category_id = ec.Equipment_category_id " +
                             " and do.date_created = '" + ngay + "'";
                 ViewBag.now = date;
             }
@@ -109,7 +111,7 @@ namespace QUANGHANH2.Controllers.CDVT.Report
                             " and MONTH(e.date_import) = '"+thang+ "' and YEAR(e.date_import) = '"+nam+"'";
                 queryG = "select MONTH(do.date_created) as Thang,YEAR(do.date_created) as Nam,ec.Equipment_category_name as MaNhom,e.mark_code as MaHieu,e.usedDay" +
                             " from Documentary do,Documentary_liquidation_details dl,Equipment e,Equipment_category ec " +
-                            " where do.documentary_code = dl.documentary_id and e.equipmentId = dl.equipmentId and e.Equipment_category_id = ec.Equipment_category_id " +
+                            " where do.documentary_id = dl.documentary_id and e.equipmentId = dl.equipmentId and e.Equipment_category_id = ec.Equipment_category_id " +
                             " and MONTH(do.date_created) = '"+thang+"' and YEAR(do.date_created) = '"+nam+"'";
             }
             if (type == "quarter")
@@ -138,7 +140,7 @@ namespace QUANGHANH2.Controllers.CDVT.Report
                             " and MONTH(e.date_import) in "+quy+" and YEAR(e.date_import) = '"+nam+"'";
                 queryG = "select MONTH(do.date_created) as Thang,YEAR(do.date_created) as Nam,ec.Equipment_category_name as MaNhom,e.mark_code as MaHieu,e.usedDay " +
                             " from Documentary do,Documentary_liquidation_details dl,Equipment e,Equipment_category ec " +
-                            " where do.documentary_code = dl.documentary_id and e.equipmentId = dl.equipmentId and e.Equipment_category_id = ec.Equipment_category_id " +
+                            " where do.documentary_id = dl.documentary_id and e.equipmentId = dl.equipmentId and e.Equipment_category_id = ec.Equipment_category_id " +
                             " and MONTH(do.date_created) in "+quy+" and YEAR(do.date_created) = '"+nam+"'";
             }
             if (type == "year")
@@ -150,7 +152,7 @@ namespace QUANGHANH2.Controllers.CDVT.Report
                             " and YEAR(e.date_import) = '" + nam + "'";
                 queryG = "select MONTH(do.date_created) as Thang,YEAR(do.date_created) as Nam,ec.Equipment_category_name as MaNhom,e.mark_code as MaHieu,e.usedDay " +
                             " from Documentary do,Documentary_liquidation_details dl,Equipment e,Equipment_category ec " +
-                            " where do.documentary_code = dl.documentary_id and e.equipmentId = dl.equipmentId and e.Equipment_category_id = ec.Equipment_category_id " +
+                            " where do.documentary_id = dl.documentary_id and e.equipmentId = dl.equipmentId and e.Equipment_category_id = ec.Equipment_category_id " +
                             " and YEAR(do.date_created) = '" + nam + "'";
             }
 
