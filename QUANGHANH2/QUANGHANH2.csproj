@@ -224,6 +224,7 @@
     <Compile Include="Controllers\CDVT\Report\TangGiamController.cs" />
     <Compile Include="Controllers\CDVT\Report\TrungdaituReportController.cs" />
     <Compile Include="Controllers\CDVT\Thietbi\KiemdinhController.cs" />
+    <Compile Include="Controllers\CDVT\Vattu\DanhsachvattuController.cs" />
     <Compile Include="Controllers\CDVT\Useless\ThongtinsucoController.cs" />
     <Compile Include="Controllers\CDVT\Report\KiemdinhController.cs" />
     <Compile Include="Controllers\CDVT\Report\LiquidationReportController.cs" />
@@ -6432,6 +6433,7 @@
     <Content Include="js\Custom JS\CDVT\Work\thanhli.js" />
     <Content Include="js\Custom JS\CDVT\Work\thuhoi.js" />
     <Content Include="js\Custom JS\CustomChart.js" />
+    <Content Include="js\Custom JS\Custom_input_required.js" />
     <Content Include="js\Custom JS\decentralization_user.js" />
     <Content Include="js\Custom JS\Disable_input_material.js" />
     <Content Include="js\Custom JS\DK\DetailManu_Daily.js" />
@@ -7323,12 +7325,14 @@
     <Content Include="Views\BriefRegulation\ThemTruong.cshtml" />
     <Content Include="Views\TCLD\Brief\ManageBrief\OutSideDetail.cshtml" />
     <Content Include="Views\TCLD\Recruitment\Input.cshtml" />
+    <Content Include="Views\CDVT\Vattu\Danhsachvattu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Library\" />
     <Folder Include="Views\HuyDong\" />
     <Folder Include="Views\Laydanhsachvattu\" />
+    <Folder Include="Views\Quanlyvattu\" />
     <Folder Include="Views\WorkHistory\" />
   </ItemGroup>
   <ItemGroup>
