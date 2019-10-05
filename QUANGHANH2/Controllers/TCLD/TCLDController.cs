@@ -35,6 +35,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             int duoi82 = 0;
             List<NghiVLD> listNghiVLD = new List<NghiVLD>();
             List<NhanLuc> listNhanLuc = new List<NhanLuc>();
+            SanLuong sanluong = new SanLuong();
             int temp = 0;
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
@@ -103,14 +104,23 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 sql = "select tb1.department_id as MaDonVi,\n" +
                 "(case when tb2.soluong is null then 0 else tb2.soluong end) as SoLuong\n" +
                 "from\n" +
-                "(select * from Department) tb1\n" +
-                "left join\n" +
-                "(select MaDonVi,count(MaNV) as soluong from DiemDanh_NangSuatLaoDong \n" +
-                "where NgayDiemDanh = (SELECT CONVERT(VARCHAR(10), getdate() - 1, 101)) and DiLam = 1 \n" +
+                "(select * from Department where department_id in\n" +
+                "('PXKT1', 'PXKT2', 'PXKT3', 'PXKT4', 'PXKT5', 'PXKT6', 'PXKT7', 'PXKT8', 'PXKT9', 'PXKT10', 'PXKT11',\n" +
+                "'PXDL3', 'PXDL5', 'PXDL7', 'PXDL8', 'PXVT1', 'PXVT2')) tb1\n" +
+                     "left join\n" +
+                     "(select MaDonVi, count(MaNV) as soluong from DiemDanh_NangSuatLaoDong\n" +
+                     "where NgayDiemDanh = (SELECT CONVERT(VARCHAR(10), getdate() - 1, 101)) and DiLam = 1\n" +
                 "group by MaDonVi) tb2\n" +
-                "on tb1.department_id=tb2.MaDonVi\n" +
+                "on tb1.department_id = tb2.MaDonVi\n" +
                 "group by tb1.department_id,tb2.soluong";
                 listNhanLuc = db.Database.SqlQuery<NhanLuc>(sql).ToList<NhanLuc>();
+
+                ///////////////////////////////////////GET DATA SAN LUONG///////////////////////////////////////////////
+                sql = "select (select (case when sum(tc_kh.SanLuongKeHoach) is null then 0 else sum(tc_kh.SanLuongKeHoach) end) from (select tc.MaTieuChi, tc.DonViDo, kh.SanLuongKeHoach, kh.ThangKeHoach, kh.NamKeHoach from KeHoach_TieuChi kh join TieuChi tc on kh.MaTieuChi = tc.MaTieuChi) as tc_kh where tc_kh.MaTieuChi in (1,2,3,4) and  tc_kh.ThangKeHoach = (SELECT MONTH(CONVERT(VARCHAR(10), getdate() - 1, 101))) and tc_kh.NamKeHoach = (SELECT YEAR(CONVERT(VARCHAR(10), getdate() - 1, 101)))) 'SLKH', \n" +
+                "(select (case when sum(tc_kh.SanLuongKeHoach) is null then 0 else sum(tc_kh.SanLuongKeHoach) end) from (select tc.MaTieuChi, tc.DonViDo, kh.SanLuongKeHoach, kh.ThangKeHoach, kh.NamKeHoach from KeHoach_TieuChi kh join TieuChi tc on kh.MaTieuChi = tc.MaTieuChi) as tc_kh where tc_kh.MaTieuChi in (7,8) and  tc_kh.ThangKeHoach = (SELECT MONTH(CONVERT(VARCHAR(10), getdate() - 1, 101))) and tc_kh.NamKeHoach = (SELECT YEAR(CONVERT(VARCHAR(10), getdate() - 1, 101)))) 'MLKH',\n" +
+                "(select (case when sum(tc_th.SanLuongThucHien) is null then 0 else sum(tc_th.SanLuongThucHien) end) from (select tc.MaTieuChi, tc.DonViDo, th.SanLuongThucHien, th.NgayThucHien from ThucHien_TieuChi th join TieuChi tc on th.MaTieuChi = tc.MaTieuChi) as tc_th where tc_th.MaTieuChi in (1,2,3,4) and  MONTH(tc_th.NgayThucHien) = (SELECT MONTH(CONVERT(VARCHAR(10), getdate() - 1, 101))) and YEAR(tc_th.NgayThucHien) = (SELECT YEAR(CONVERT(VARCHAR(10), getdate() - 1, 101)))) 'LKSL',\n" +
+                "(select (case when sum(tc_th.SanLuongThucHien) is null then 0 else sum(tc_th.SanLuongThucHien) end) from (select tc.MaTieuChi, tc.DonViDo, th.SanLuongThucHien, th.NgayThucHien from ThucHien_TieuChi th join TieuChi tc on th.MaTieuChi = tc.MaTieuChi) as tc_th where tc_th.MaTieuChi in (7,8) and  MONTH(tc_th.NgayThucHien) = (SELECT MONTH(CONVERT(VARCHAR(10), getdate() - 1, 101))) and YEAR(tc_th.NgayThucHien) = (SELECT YEAR(CONVERT(VARCHAR(10), getdate() - 1, 101)))) 'LKML'";
+                sanluong = db.Database.SqlQuery<SanLuong>(sql).ToList<SanLuong>()[0];
             }
             ViewBag.soLuotHuyDong = soLuotHuyDong;
             ViewBag.hetHanChungChi = hetHanChungChi;
@@ -120,6 +130,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             ViewBag.duoi82 = duoi82;
             ViewBag.listNghiVLD = listNghiVLD;
             ViewBag.listNhanLuc = listNhanLuc;
+            ViewBag.sanluong = sanluong;
             return View("/Views/TCLD/bao-cao-nhanh.cshtml");
         }
 
@@ -159,6 +170,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 int duoi82 = 0;
                 List<NghiVLD> listNghiVLD = new List<NghiVLD>();
                 List<NhanLuc> listNhanLuc = new List<NhanLuc>();
+                SanLuong sanluong = new SanLuong();
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
                     ////////////////////////////GET so luot huy dong////////////////////////////////
@@ -225,16 +237,35 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     sql = "select tb1.department_id as MaDonVi,\n" +
                     "(case when tb2.soluong is null then 0 else tb2.soluong end) as SoLuong\n" +
                     "from\n" +
-                    "(select * from Department) tb1\n" +
+                    "(select * from Department  where department_id in\n" +
+                    "('PXKT1', 'PXKT2', 'PXKT3', 'PXKT4', 'PXKT5', 'PXKT6', 'PXKT7', 'PXKT8', 'PXKT9', 'PXKT10', 'PXKT11',\n" +
+                    "'PXDL3', 'PXDL5', 'PXDL7', 'PXDL8', 'PXVT1', 'PXVT2')) tb1\n" +
                     "left join\n" +
                     "(select MaDonVi,count(MaNV) as soluong from DiemDanh_NangSuatLaoDong \n" +
                     "where NgayDiemDanh = @NgayDiemDanh and DiLam = 1 \n" +
                     "group by MaDonVi) tb2\n" +
                     "on tb1.department_id=tb2.MaDonVi\n" +
                     "group by tb1.department_id,tb2.soluong";
-                    listNhanLuc = db.Database.SqlQuery<NhanLuc>(sql, new SqlParameter("NgayDiemDanh",date)).ToList<NhanLuc>();
+                    listNhanLuc = db.Database.SqlQuery<NhanLuc>(sql, new SqlParameter("NgayDiemDanh", date)).ToList<NhanLuc>();
+
+                    ///////////////////////////////////////GET DATA SAN LUONG///////////////////////////////////////////////
+                    sql = "select (select (case when sum(tc_kh.SanLuongKeHoach) is null then 0 else sum(tc_kh.SanLuongKeHoach) end) from (select tc.MaTieuChi, tc.DonViDo, kh.SanLuongKeHoach, kh.ThangKeHoach, kh.NamKeHoach from KeHoach_TieuChi kh join TieuChi tc on kh.MaTieuChi = tc.MaTieuChi) as tc_kh where tc_kh.MaTieuChi in (1,2,3,4) and  tc_kh.ThangKeHoach = @Thang1 and tc_kh.NamKeHoach = @Nam1) 'SLKH',\n" +
+                    "(select(case when sum(tc_kh.SanLuongKeHoach) is null then 0 else sum(tc_kh.SanLuongKeHoach) end) from(select tc.MaTieuChi, tc.DonViDo, kh.SanLuongKeHoach, kh.ThangKeHoach, kh.NamKeHoach from KeHoach_TieuChi kh join TieuChi tc on kh.MaTieuChi = tc.MaTieuChi) as tc_kh where tc_kh.MaTieuChi in (7, 8) and tc_kh.ThangKeHoach = @Thang2 and tc_kh.NamKeHoach = @Nam2) 'MLKH',\n" +
+                    "(select(case when sum(tc_th.SanLuongThucHien) is null then 0 else sum(tc_th.SanLuongThucHien) end) from(select tc.MaTieuChi, tc.DonViDo, th.SanLuongThucHien, th.NgayThucHien from ThucHien_TieuChi th join TieuChi tc on th.MaTieuChi = tc.MaTieuChi) as tc_th where tc_th.MaTieuChi in (1, 2, 3, 4) and MONTH(tc_th.NgayThucHien) = @Thang3  and YEAR(tc_th.NgayThucHien) = @Nam3) 'LKSL',\n" +
+                    "(select(case when sum(tc_th.SanLuongThucHien) is null then 0 else sum(tc_th.SanLuongThucHien) end) from(select tc.MaTieuChi, tc.DonViDo, th.SanLuongThucHien, th.NgayThucHien from ThucHien_TieuChi th join TieuChi tc on th.MaTieuChi = tc.MaTieuChi) as tc_th where tc_th.MaTieuChi in (7, 8) and MONTH(tc_th.NgayThucHien) = @Thang4  and YEAR(tc_th.NgayThucHien) = @Nam4) 'LKML'";
+
+                    sanluong = db.Database.SqlQuery<SanLuong>(sql,
+                        new SqlParameter("Thang1", date.Split('/')[1]),
+                        new SqlParameter("Thang2", date.Split('/')[1]),
+                        new SqlParameter("Thang3", date.Split('/')[1]),
+                        new SqlParameter("Thang4", date.Split('/')[1]),
+                        new SqlParameter("Nam1", date.Split('/')[0]),
+                        new SqlParameter("Nam2", date.Split('/')[0]),
+                        new SqlParameter("Nam3", date.Split('/')[0]),
+                        new SqlParameter("Nam4", date.Split('/')[0])
+                        ).ToList<SanLuong>()[0];
                 }
-                return Json(new { success = true, tren82 = tren82, duoi82 = duoi82, soLuongHuyDong = soLuotHuyDong, vuTaiNan = vuTaiNan, nghiVLD = nghiVLD, hetHanChungChi = hetHanChungChi, listNghiVLD = listNghiVLD, listNhanLuc= listNhanLuc }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = true, tren82 = tren82, duoi82 = duoi82, soLuongHuyDong = soLuotHuyDong, vuTaiNan = vuTaiNan, nghiVLD = nghiVLD, hetHanChungChi = hetHanChungChi, listNghiVLD = listNghiVLD, listNhanLuc = listNhanLuc,sanluong=sanluong }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -390,6 +421,14 @@ namespace QUANGHANHCORE.Controllers.TCLD
             HoTen = hoTen;
             TenDonVi = tenDonVi;
         }
-        
+
+    }
+
+    public class SanLuong
+    {
+        public double? SLKH { get; set; }
+        public double? MLKH { get; set; }
+        public double? LKSL { get; set; }
+        public double? LKML { get; set; }
     }
 }
