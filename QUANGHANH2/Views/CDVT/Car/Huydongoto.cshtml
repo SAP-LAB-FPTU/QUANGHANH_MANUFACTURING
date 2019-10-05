@@ -142,10 +142,10 @@
 
                                 }
                                 @*if (item.Equals("114"))
-                        {
-                            <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="myadd3" onclick="PopupForm('@Url.Action("AddOrEdit","Hoatdong")')><i class="fa fa-plus"></i> Thêm nhóm thiết bị</a>
+                                    {
+                                        <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="myadd3" onclick="PopupForm('@Url.Action("AddOrEdit","Hoatdong")')><i class="fa fa-plus"></i> Thêm nhóm thiết bị</a>
 
-                        }*@
+                                    }*@
                                 if (item.Equals("3"))
                                 {
                                     <a class="waves-effect waves-light btn-small blue modal-trigger" id="export-button">Xuất ra Excel</a>
@@ -161,18 +161,18 @@
                         }
                     </div>
                     @*<div class="right">
-                <a class='dropdown-trigger btn' id="filter" href='#' data-target='dropdown1'
-                   style="width:250px;background-color:#273146">
-                    Xem
-                    theo
-                </a>
-            </div>*@
+                            <a class='dropdown-trigger btn' id="filter" href='#' data-target='dropdown1'
+                               style="width:250px;background-color:#273146">
+                                Xem
+                                theo
+                            </a>
+                        </div>*@
                 </div>
 
                 <div class="row">
                     <div class="col s12">
                         <ul class="tabs">
-                            <li class="col s6 tab"><a href="#chitiet">Chi tiết huy động</a></li>
+                            <li class="col s12 tab"><a href="#chitiet">Chi tiết huy động</a></li>
                             <li class="col s6 tab"><a href="#thongke">Thống kê huy động</a></li>
                         </ul>
                     </div>
@@ -507,7 +507,16 @@
     </div>
 </form>
 
-
+@using (Html.BeginForm("Atri", "Hoatdong", FormMethod.Post, new
+{
+    id = "myForm",
+    enctype = "multipart/form-data",
+    onSubmit = "return Atri(this);",
+    data_restUrl = Url.Action("Atri", "Hoatdong", new { id = "" })
+}))
+{
+    <input type="text" id="atri" name="name" style="display:none !important"/>
+}
 
 <ul id='dropdown1' class='dropdown-content'>
     <li><a class="dropdown-child" href="#!" name="lothien">Danh sách thiết bị lộ thiên</a></li>
@@ -537,6 +546,10 @@
     });
     $('supplier-search').change(function () {
         $(this).closest('form').submit();
+    });
+    $('#Equipment_category_id').change(function () {
+        $('#atri').val($('#Equipment_category_id').val());
+        $('#myForm').submit();
     });
 
     $(window).resize(function () {
@@ -576,7 +589,7 @@
         //    mm = '0' + mm;
         //}
         //var today = dd + '/' + mm + '/' + yyyy;
-        
+
         //today = new Date("1/1/1900");
         //var dd = today.getDate();
         //var mm = today.getMonth() + 1; //January is 0!
@@ -902,6 +915,29 @@
 
 
                 return false;
+        }
+        function Atri(form) {
+
+            $.validator.unobtrusive.parse(form);
+
+                if($(form).valid()){
+                $.ajax({
+                    type : "POST",
+                    url: form.action,
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        var options = '';
+                        options = JSON.stringify(data.data);
+                        options = options.substring(1, options.length - 1);
+                        $('#cateTB tbody').empty();
+                        $('#cateTB').append(options);
+
+                        }
+                    });
+            }
+
+
+                return false;
             }
             function PopupForm(url) {
                 var formDiv = $('<div/>');
@@ -952,6 +988,48 @@
 
             return false;
         }
+        function SubmitForm2(form) {
+             $("#pre-load").show();
+
+            $.validator.unobtrusive.parse(form);
+
+                if($(form).valid()){
+                    $.ajax({
+                        type: "POST",
+                        url: form.action,
+                        data: $(form).serialize(),
+                        success: function (data) {
+                            dataTable.ajax.reload();
+                            if (data.success == false) {
+                                $.notify("Lỗi", {
+                                    globalPosition: "top center",
+                                    className: "error"
+                                })
+                            } else {
+                                $.notify("Thêm thành công", {
+                                    globalPosition: "top center",
+                                    className: "success"
+                                });
+                                window.location.reload(true);
+                            }
+
+
+                        },
+                        error: function (data) {
+                            dataTable.ajax.reload();
+                            $("#btn-submit").addClass("modal-close");
+                            $.notify("Lỗi", {
+                                globalPosition: "top center",
+                                className: "error"
+                            })
+
+                        },
+                    });
+            }
+                $("#pre-load").hide();
+
+                return false;
+            }
 
         function SubmitForm(form) {
             $("#pre-load").show("slow", function () {
@@ -965,13 +1043,18 @@
                     url: form.action,
                     data: $(form).serialize(),
                     success: function (data) {
-                        dataTable.ajax.reload();
-                        $("#pre-load").hide("slow", function () {
-                        });
-                        $.notify("Thêm thành công", {
-                            globalPosition: "top center",
-                            className: "success"
-                        })
+                         dataTable.ajax.reload();
+                            if (data.success == false) {
+                                $.notify("Lỗi", {
+                                    globalPosition: "top center",
+                                    className: "error"
+                                })
+                            } else {
+                                $.notify("Thêm thành công", {
+                                    globalPosition: "top center",
+                                    className: "success"
+                                })
+                            }
 
                     }
                 });

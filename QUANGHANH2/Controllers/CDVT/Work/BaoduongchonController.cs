@@ -86,7 +86,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
         }
 
         [Auther(RightID = "85")]
-        [Route("phong-cdvt/bao-duong-chon")]
+        [Route("phong-cdvt/bao-duong-chon/add")]
         [HttpPost]
         public ActionResult GetData(string documentary_code, string out_in_come, string data, string department_id, string reason)
         {
@@ -162,7 +162,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                 {
                     transaction.Rollback();
                     TempData["shortMessage"] = true;
-                    return Redirect("bao-duong");
+                    return Redirect("/phong-cdvt/bao-duong");
                     throw e;
 
                 }
