@@ -35,6 +35,10 @@ namespace QUANGHANH2.Controllers.CDVT.Work
                 cookie = HttpContext.Request.Cookies.Get("TrungTuThietBi");
             }
             ViewBag.selectedList = cookie.Value;
+            if (TempData["shortMessage"] != null)
+                ViewBag.alert = true;
+            else
+                ViewBag.alert = false;
             return View("/Views/CDVT/Work/sctx.cshtml");
         }
 

@@ -50,7 +50,7 @@
                                             <div class="col m12">
                                                 @Html.LabelFor(model => model.Ten, "Họ và tên", htmlAttributes: new { @class = "custom-label" })
                                                 <div class="col-md-10">
-                                                    @Html.EditorFor(model => model.Ten, new { htmlAttributes = new { @class = "form-control", @placeholder = "Tên khai sinh", @type = "text" } })
+                                                    @Html.EditorFor(model => model.Ten, new { htmlAttributes = new { @class = "form-control", @placeholder = "Tên khai sinh", @type = "text", @autocomplete = "off" } })
                                                     @Html.ValidationMessageFor(model => model.Ten, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
@@ -59,7 +59,7 @@
                                             <div class="col m12">
                                                 @Html.LabelFor(model => model.Tenkhac, "Tên khác", htmlAttributes: new { @class = "custom-label" })
                                                 <div class="col-md-10">
-                                                    @Html.EditorFor(model => model.Tenkhac, new { htmlAttributes = new { @class = "form-control", @placeholder = "Tên gọi khác", @type = "text" } })
+                                                    @Html.EditorFor(model => model.Tenkhac, new { htmlAttributes = new { @class = "form-control", @placeholder = "Tên gọi khác", @type = "text", @autocomplete = "off" } })
                                                     @Html.ValidationMessageFor(model => model.Tenkhac, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
@@ -68,7 +68,7 @@
                                             <div class="col m12">
                                                 @Html.LabelFor(model => model.GioiTinh, "Giới tính", htmlAttributes: new { @class = "custom-label" })
                                                 <div class="col-md-10">
-                                                    @Html.DropDownListFor(model => model.GioiTinh, new SelectList(ViewBag.genders, "Value", "Text"), htmlAttributes: new { @class = "form-control" })
+                                                    @Html.DropDownListFor(model => model.GioiTinh, new SelectList(ViewBag.genders, "Value", "Text"), htmlAttributes: new { @class = "form-control", @autocomplete = "off" })
                                                     @Html.ValidationMessageFor(model => model.GioiTinh, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
@@ -85,14 +85,14 @@
                                     <div class="col m8">
                                         @Html.LabelFor(model => model.CapUyHienTai, "Cấp ủy hiện tại", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.CapUyHienTai, new { htmlAttributes = new { @class = "form-control", @placeholder = "Cấp ủy", @type = "text" } })
+                                            @Html.EditorFor(model => model.CapUyHienTai, new { htmlAttributes = new { @class = "form-control", @placeholder = "Cấp ủy", @type = "text", @autocomplete = "off" } })
                                             @Html.ValidationMessageFor(model => model.CapUyHienTai, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col m4">
                                         @Html.LabelFor(model => model.CapUyKiem, "Cấp ủy kiêm", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.CapUyKiem, new { htmlAttributes = new { @class = "form-control", @placeholder = "Cấp ủy kiêm", @type = "text" } })
+                                            @Html.EditorFor(model => model.CapUyKiem, new { htmlAttributes = new { @class = "form-control", @placeholder = "Cấp ủy kiêm", @type = "text", @autocomplete = "off" } })
                                             @Html.ValidationMessageFor(model => model.CapUyKiem, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -101,7 +101,7 @@
                                     <div class="col m6">
                                         @Html.LabelFor(model => model.MaCongViec, "Chức vụ", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            <input id="MaCongViecDis" list="listJob" class="form-control" name="test" value="@ViewBag.loadJob" />
+                                            <input id="MaCongViecDis" placeholder="Chức vụ" list="listJob" autocomplete="off" class="form-control" name="test" value="@ViewBag.loadJob" />
                                             <datalist id="listJob">
                                                 @foreach (var item in (IEnumerable<SelectListItem>)ViewBag.job)
                                                 {
@@ -114,7 +114,7 @@
                                     <div class="col m6">
                                         @Html.LabelFor(model => model.PhuCapChucVu, "Phụ cấp chức vụ", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.PhuCapChucVu, new { htmlAttributes = new { @class = "form-control", @placeholder = "Phụ cấp chức vụ", @type = "number", @min = "0", @max = "9999999999" } })
+                                            @Html.EditorFor(model => model.PhuCapChucVu, new { htmlAttributes = new { @class = "form-control", @placeholder = "Phụ cấp chức vụ", @type = "number", @min = "0", @max = "9999999999", @autocomplete = "off" } })
                                             @Html.ValidationMessageFor(model => model.PhuCapChucVu, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -123,21 +123,21 @@
                                     <div class="col m4">
                                         @Html.LabelFor(model => model.NgaySinh, "Ngày Sinh", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            <input id="NgaySinhFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày sinh" type="datetime" value="" />
+                                            <input id="NgaySinhFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày sinh" type="datetime" value="" autocomplete="off" />
                                             @Html.EditorFor(model => model.NgaySinh, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
                                         </div>
                                     </div>
                                     <div class="col m4">
                                         @Html.LabelFor(model => model.NoiSinh, "Nơi sinh", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.NoiSinh, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nơi sinh", @type = "text" } })
+                                            @Html.EditorFor(model => model.NoiSinh, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nơi sinh", @type = "text", @autocomplete = "off" } })
                                             @Html.ValidationMessageFor(model => model.NoiSinh, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col m4">
                                         @Html.LabelFor(model => model.DanToc, "Dân tộc", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.DanToc, new { htmlAttributes = new { @class = "form-control", @placeholder = "Dân tộc", @type = "text" } })
+                                            @Html.EditorFor(model => model.DanToc, new { htmlAttributes = new { @class = "form-control", @placeholder = "Dân tộc", @type = "text", @autocomplete = "off" } })
                                             @Html.ValidationMessageFor(model => model.DanToc, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -146,14 +146,14 @@
                                     <div class="col m8">
                                         @Html.LabelFor(model => model.QueQuan, "Quê quán", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.QueQuan, new { htmlAttributes = new { @class = "form-control", @placeholder = "Quê quán", @type = "text" } })
+                                            @Html.EditorFor(model => model.QueQuan, new { htmlAttributes = new { @class = "form-control", @placeholder = "Quê quán", @type = "text", @autocomplete = "off" } })
                                             @Html.ValidationMessageFor(model => model.QueQuan, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col m4">
                                         @Html.LabelFor(model => model.TonGiao, "Tôn giáo", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.TonGiao, new { htmlAttributes = new { @class = "form-control", @placeholder = "Tôn giáo", @type = "text" } })
+                                            @Html.EditorFor(model => model.TonGiao, new { htmlAttributes = new { @class = "form-control", @placeholder = "Tôn giáo", @type = "text", @autocomplete = "off" } })
                                             @Html.ValidationMessageFor(model => model.TonGiao, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -162,14 +162,14 @@
                                     <div class="col m8">
                                         @Html.LabelFor(model => model.NoiOHienTai, "Nơi ở hiện tại", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.NoiOHienTai, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nơi ở hiện tại", @type = "text" } })
+                                            @Html.EditorFor(model => model.NoiOHienTai, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nơi ở hiện tại", @type = "text", @autocomplete = "off" } })
                                             @Html.ValidationMessageFor(model => model.NoiOHienTai, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col m4">
                                         @Html.LabelFor(model => model.SoDienThoai, "Số điện thoại", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.SoDienThoai, new { htmlAttributes = new { @class = "form-control", @placeholder = "Số điện thoại", @type = "text" } })
+                                            @Html.EditorFor(model => model.SoDienThoai, new { htmlAttributes = new { @class = "form-control", @placeholder = "Số điện thoại", @type = "text", @autocomplete = "off" } })
                                             @Html.ValidationMessageFor(model => model.SoDienThoai, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -178,7 +178,7 @@
                                     <div class="col m12">
                                         @Html.LabelFor(model => model.TPGiaDinhXuatThan, "Thành phần gia đình", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.TPGiaDinhXuatThan, new { htmlAttributes = new { @class = "form-control", @placeholder = "Thành phần gia đình", @type = "text" } })
+                                            @Html.EditorFor(model => model.TPGiaDinhXuatThan, new { htmlAttributes = new { @class = "form-control", @placeholder = "Thành phần gia đình", @type = "text", @autocomplete = "off" } })
                                             @Html.ValidationMessageFor(model => model.TPGiaDinhXuatThan, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -187,7 +187,7 @@
                                     <div class="col m12">
                                         @Html.LabelFor(model => model.NgheTruoc, "Nghề trước", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.NgheTruoc, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nghề trước", @type = "text" } })
+                                            @Html.EditorFor(model => model.NgheTruoc, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nghề trước", @type = "text", @autocomplete = "off" } })
                                             @Html.ValidationMessageFor(model => model.NgheTruoc, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -196,21 +196,21 @@
                                     <div class="col m4">
                                         @Html.LabelFor(model => model.NgayTuyenDungTruoc, "Ngày tuyển dụng trước", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            <input required id="NgayTuyenDungTruocFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày tuyển dụng trước" type="datetime" value="" />
+                                            <input id="NgayTuyenDungTruocFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày tuyển dụng trước" type="datetime" value="" autocomplete="off" />
                                             @Html.EditorFor(model => model.NgayTuyenDungTruoc, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
                                         </div>
                                     </div>
                                     <div class="col m4">
                                         @Html.LabelFor(model => model.CoQuanTruoc, "Cơ quan trước", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.CoQuanTruoc, new { htmlAttributes = new { @class = "form-control", @placeholder = "Cơ quan trước", @type = "text" } })
+                                            @Html.EditorFor(model => model.CoQuanTruoc, new { htmlAttributes = new { @class = "form-control", @placeholder = "Cơ quan trước", @type = "text", @autocomplete = "off" } })
                                             @Html.ValidationMessageFor(model => model.CoQuanTruoc, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col m4">
                                         @Html.LabelFor(model => model.NgayDiLam, "Ngày vào nơi đang công tác", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            <input required id="NgayDiLamFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày vào nơi đang công tác" type="datetime" value="" />
+                                            <input id="NgayDiLamFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày vào nơi đang công tác" type="datetime" value="" autocomplete="off" />
                                             @Html.EditorFor(model => model.NgayDiLam, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
                                         </div>
                                     </div>
@@ -222,21 +222,21 @@
                                     <div class="col m4">
                                         @Html.LabelFor(model => model.NgayThamGiaCachMang, "Ngày tham gia cách mạng", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            <input id="NgayThamGiaCachMangFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày tham gia cách mạng" type="datetime" value="" />
+                                            <input id="NgayThamGiaCachMangFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày tham gia cách mạng" type="datetime" value="" autocomplete="off" />
                                             @Html.EditorFor(model => model.NgayThamGiaCachMang, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
                                         </div>
                                     </div>
                                     <div class="col m4">
                                         @Html.LabelFor(model => model.NgayVaoDangCSVN, "Ngày vào Đảng CSVN", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            <input id="NgayVaoDangCSVNFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày vào Đảng CSVN" type="datetime" value="" />
+                                            <input id="NgayVaoDangCSVNFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày vào Đảng CSVN" type="datetime" value="" autocomplete="off" />
                                             @Html.EditorFor(model => model.NgayVaoDangCSVN, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
                                         </div>
                                     </div>
                                     <div class="col m4">
                                         @Html.LabelFor(model => model.NgayChinhThuc, "Ngày chính thức", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            <input id="NgayChinhThucFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày chính thức" type="datetime" value="" />
+                                            <input id="NgayChinhThucFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày chính thức" type="datetime" value="" autocomplete="off" />
                                             @Html.EditorFor(model => model.NgayChinhThuc, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
                                         </div>
                                     </div>
@@ -245,14 +245,14 @@
                                     <div class="col m6">
                                         @Html.LabelFor(model => model.NgayVaoToChucCTXH, "Ngày vào tổ chức CTXH", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            <input id="NgayVaoToChucCTXHFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày vào tổ chức CTXH" type="datetime" value="" />
+                                            <input id="NgayVaoToChucCTXHFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày vào tổ chức CTXH" type="datetime" value="" autocomplete="off" />
                                             @Html.EditorFor(model => model.NgayVaoToChucCTXH, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
                                         </div>
                                     </div>
                                     <div class="col m6">
                                         @Html.LabelFor(model => model.ToChuc, "Tổ chức", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.ToChuc, new { htmlAttributes = new { @class = "form-control", @placeholder = "Tổ chức" } })
+                                            @Html.EditorFor(model => model.ToChuc, new { htmlAttributes = new { @class = "form-control", @placeholder = "Tổ chức", @autocomplete = "off" } })
                                             @Html.ValidationMessageFor(model => model.ToChuc, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -261,21 +261,21 @@
                                     <div class="col m3">
                                         @Html.LabelFor(model => model.NgayNhapNgu, "Ngày nhập ngũ", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            <input id="NgayNhapNguFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày nhập ngũ" type="datetime" value="" />
+                                            <input id="NgayNhapNguFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày nhập ngũ" type="datetime" value="" autocomplete="off" />
                                             @Html.EditorFor(model => model.NgayNhapNgu, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
                                         </div>
                                     </div>
                                     <div class="col m3">
                                         @Html.LabelFor(model => model.NgayXuatNgu, "Ngày xuất ngũ", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            <input id="NgayXuatNguFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày xuất ngũ" type="datetime" value="" />
+                                            <input id="NgayXuatNguFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày xuất ngũ" type="datetime" value="" autocomplete="off" />
                                             @Html.EditorFor(model => model.NgayXuatNgu, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
                                         </div>
                                     </div>
                                     <div class="col m6">
                                         @Html.LabelFor(model => model.QuanHamChucVuCaoNhat, "Quân hàm chức vụ cao nhât", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.QuanHamChucVuCaoNhat, new { htmlAttributes = new { @class = "form-control", @placeholder = "Theo năm" } })
+                                            @Html.EditorFor(model => model.QuanHamChucVuCaoNhat, new { htmlAttributes = new { @class = "form-control", @placeholder = "Theo năm", @autocomplete = "off" } })
                                             @Html.ValidationMessageFor(model => model.QuanHamChucVuCaoNhat, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -284,14 +284,14 @@
                                     <div class="col m6">
                                         @Html.LabelFor(model => model.MaTrinhDo, "Trình độ học vấn", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            @Html.DropDownListFor(model => model.MaTrinhDo, new SelectList(ViewBag.level, "Value", "Text"), htmlAttributes: new { @class = "form-control" })
+                                            @Html.DropDownListFor(model => model.MaTrinhDo, new SelectList(ViewBag.level, "Value", "Text"), htmlAttributes: new { @class = "form-control", @autocomplete = "off" })
                                             @Html.ValidationMessageFor(model => model.MaTrinhDo, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col m6">
                                         @Html.LabelFor(model => model.HocHamHocViCaoNhat, "Học hàm học vị cao nhất", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.HocHamHocViCaoNhat, new { htmlAttributes = new { @class = "form-control", @placeholder = "Học hàm cao nhất" } })
+                                            @Html.EditorFor(model => model.HocHamHocViCaoNhat, new { htmlAttributes = new { @class = "form-control", @placeholder = "Học hàm cao nhất", @autocomplete = "off" } })
                                             @Html.ValidationMessageFor(model => model.HocHamHocViCaoNhat, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -300,14 +300,14 @@
                                     <div class="col m6">
                                         @Html.LabelFor(model => model.LyLuanChinhTri, "Lý luận chính trị", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.LyLuanChinhTri, new { htmlAttributes = new { @class = "form-control", @placeholder = "Lý luận chính trị" } })
+                                            @Html.EditorFor(model => model.LyLuanChinhTri, new { htmlAttributes = new { @class = "form-control", @placeholder = "Lý luận chính trị", @autocomplete = "off" } })
                                             @Html.ValidationMessageFor(model => model.LyLuanChinhTri, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col m6">
                                         @Html.LabelFor(model => model.NgoaiNgu, "Ngoại ngữ", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.NgoaiNgu, new { htmlAttributes = new { @class = "form-control", @placeholder = "Ngoại ngữ" } })
+                                            @Html.EditorFor(model => model.NgoaiNgu, new { htmlAttributes = new { @class = "form-control", @placeholder = "Ngoại ngữ", @autocomplete = "off" } })
                                             @Html.ValidationMessageFor(model => model.NgoaiNgu, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -321,7 +321,7 @@
                                         <div class="col m12">
                                             @Html.LabelFor(model => model.CongTacChinhDangLam, "Công tác chính đang làm", htmlAttributes: new { @class = "custom-label" })
                                             <div class="col-md-10">
-                                                @Html.EditorFor(model => model.CongTacChinhDangLam, new { htmlAttributes = new { @class = "form-control", @placeholder = "Công tác chính" } })
+                                                @Html.EditorFor(model => model.CongTacChinhDangLam, new { htmlAttributes = new { @class = "form-control", @placeholder = "Công tác chính", @autocomplete = "off" } })
                                                 @Html.ValidationMessageFor(model => model.CongTacChinhDangLam, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -330,14 +330,14 @@
                                         <div class="col m6">
                                             @Html.LabelFor(model => model.NgachCongChuc, "Ngạnh công chức", htmlAttributes: new { @class = "custom-label" })
                                             <div class="col-md-10">
-                                                @Html.EditorFor(model => model.NgachCongChuc, new { htmlAttributes = new { @class = "form-control", @placeholder = "Ngạch công chức" } })
+                                                @Html.EditorFor(model => model.NgachCongChuc, new { htmlAttributes = new { @class = "form-control", @placeholder = "Ngạch công chức", @autocomplete = "off" } })
                                                 @Html.ValidationMessageFor(model => model.NgachCongChuc, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="col m6">
                                             @Html.LabelFor(model => model.MaNgach, "Mã ngạch", htmlAttributes: new { @class = "custom-label" })
                                             <div class="col-md-10">
-                                                @Html.EditorFor(model => model.MaNgach, new { htmlAttributes = new { @class = "form-control", @placeholder = "Mã ngạch", @type = "number", @min = "0" } })
+                                                @Html.EditorFor(model => model.MaNgach, new { htmlAttributes = new { @class = "form-control", @placeholder = "Mã ngạch", @type = "number", @min = "0", @autocomplete = "off" } })
                                                 @Html.ValidationMessageFor(model => model.MaNgach, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -346,21 +346,21 @@
                                         <div class="col m4">
                                             @Html.LabelFor(model => model.BacLuong, "Bậc lương", htmlAttributes: new { @class = "custom-label" })
                                             <div class="col-md-10">
-                                                @Html.EditorFor(model => model.BacLuong, new { htmlAttributes = new { @class = " form-control", @placeholder = "Bậc lương", @type = "number", @min = "0" } })
+                                                @Html.EditorFor(model => model.BacLuong, new { htmlAttributes = new { @class = " form-control", @placeholder = "Bậc lương", @type = "number", @min = "0", @autocomplete = "off" } })
                                                 @Html.ValidationMessageFor(model => model.BacLuong, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="col m4">
                                             @Html.LabelFor(model => model.HeSo, "Hệ số", htmlAttributes: new { @class = "custom-label" })
                                             <div class="col-md-10">
-                                                @Html.EditorFor(model => model.HeSo, new { htmlAttributes = new { @class = " form-control", @placeholder = "Hệ số", @type = "number", @min = "0" } })
+                                                @Html.EditorFor(model => model.HeSo, new { htmlAttributes = new { @class = " form-control", @placeholder = "Hệ số", @type = "number", @min = "0", @autocomplete = "off" } })
                                                 @Html.ValidationMessageFor(model => model.HeSo, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="col m4">
                                             @Html.LabelFor(model => model.TuThang, "Từ tháng", htmlAttributes: new { @class = "custom-label" })
                                             <div class="col-md-10">
-                                                @Html.DropDownListFor(model => model.TuThang, new SelectList(ViewBag.months, "Value", "Text"), htmlAttributes: new { @class = " form-control" })
+                                                @Html.DropDownListFor(model => model.TuThang, new SelectList(ViewBag.months, "Value", "Text"), htmlAttributes: new { @class = " form-control", @autocomplete = "off" })
                                                 @Html.ValidationMessageFor(model => model.TuThang, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -369,7 +369,7 @@
                                         <div class="col m12">
                                             @Html.LabelFor(model => model.DanhHieuDuocPhong, "Danh hiệu được phong", htmlAttributes: new { @class = "custom-label" })
                                             <div class="col-md-10">
-                                                @Html.EditorFor(model => model.DanhHieuDuocPhong, new { htmlAttributes = new { @class = "form-control", @placeholder = "Danh hiệu" } })
+                                                @Html.EditorFor(model => model.DanhHieuDuocPhong, new { htmlAttributes = new { @class = "form-control", @placeholder = "Danh hiệu", @autocomplete = "off" } })
                                                 @Html.ValidationMessageFor(model => model.DanhHieuDuocPhong, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -378,14 +378,14 @@
                                         <div class="col m6">
                                             @Html.LabelFor(model => model.SoTruongCongTac, "Sở trường công tác", htmlAttributes: new { @class = "custom-label" })
                                             <div class="col-md-10">
-                                                @Html.EditorFor(model => model.SoTruongCongTac, new { htmlAttributes = new { @class = "form-control", @placeholder = "Sở trường" } })
+                                                @Html.EditorFor(model => model.SoTruongCongTac, new { htmlAttributes = new { @class = "form-control", @placeholder = "Sở trường", @autocomplete = "off" } })
                                                 @Html.ValidationMessageFor(model => model.SoTruongCongTac, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="col m6">
                                             @Html.LabelFor(model => model.CongViecDaLamLauNhat, "Công việc đã làm lâu nhất", htmlAttributes: new { @class = "custom-label" })
                                             <div class="col-md-10">
-                                                @Html.EditorFor(model => model.CongViecDaLamLauNhat, new { htmlAttributes = new { @class = "form-control", @placeholder = "Công việc lâu nhất" } })
+                                                @Html.EditorFor(model => model.CongViecDaLamLauNhat, new { htmlAttributes = new { @class = "form-control", @placeholder = "Công việc lâu nhất", @autocomplete = "off" } })
                                                 @Html.ValidationMessageFor(model => model.CongViecDaLamLauNhat, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -394,7 +394,7 @@
                                         <div class="col m12">
                                             @Html.LabelFor(model => model.KhenThuong, "Khen thưởng", htmlAttributes: new { @class = "custom-label" })
                                             <div class="col-md-10">
-                                                @Html.EditorFor(model => model.KhenThuong, new { htmlAttributes = new { @class = "form-control", @placeholder = "Khen thưởng" } })
+                                                @Html.EditorFor(model => model.KhenThuong, new { htmlAttributes = new { @class = "form-control", @placeholder = "Khen thưởng", @autocomplete = "off" } })
                                                 @Html.ValidationMessageFor(model => model.KhenThuong, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -403,7 +403,7 @@
                                         <div class="col m12">
                                             @Html.LabelFor(model => model.KyLuat, "Kỷ luật", htmlAttributes: new { @class = "custom-label" })
                                             <div class="col-md-10">
-                                                @Html.EditorFor(model => model.KyLuat, new { htmlAttributes = new { @class = "form-control", @placeholder = "Kỷ luật" } })
+                                                @Html.EditorFor(model => model.KyLuat, new { htmlAttributes = new { @class = "form-control", @placeholder = "Kỷ luật", @autocomplete = "off" } })
                                                 @Html.ValidationMessageFor(model => model.KyLuat, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -420,14 +420,14 @@
                                         <div class="col m3">
                                             @Html.LabelFor(model => model.TinhTrangSucKhoe, "Tình trạng sức khỏe", htmlAttributes: new { @class = "custom-label" })
                                             <div class="col-md-10">
-                                                @Html.DropDownListFor(model => model.TinhTrangSucKhoe, new SelectList(ViewBag.heal, "Value", "Text"), htmlAttributes: new { @class = "form-control" })
+                                                @Html.DropDownListFor(model => model.TinhTrangSucKhoe, new SelectList(ViewBag.heal, "Value", "Text"), htmlAttributes: new { @class = "form-control", @autocomplete = "off" })
                                                 @Html.ValidationMessageFor(model => model.TinhTrangSucKhoe, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="col m9">
                                             @Html.LabelFor(model => model.ChiTietSucKhoe, "Chi tiết sức khỏe", htmlAttributes: new { @class = "custom-label" })
                                             <div class="col-md-10">
-                                                @Html.EditorFor(model => model.ChiTietSucKhoe, new { htmlAttributes = new { @class = "form-control", @placeholder = "Bệnh mãn tĩnh (Chi tiết)" } })
+                                                @Html.EditorFor(model => model.ChiTietSucKhoe, new { htmlAttributes = new { @class = "form-control", @placeholder = "Bệnh mãn tĩnh (Chi tiết)", @autocomplete = "off" } })
                                                 @Html.ValidationMessageFor(model => model.ChiTietSucKhoe, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -436,21 +436,21 @@
                                         <div class="col m4">
                                             @Html.LabelFor(model => model.ChieuCao, "Chiều cao", htmlAttributes: new { @class = "custom-label" })
                                             <div class="col-md-10">
-                                                @Html.EditorFor(model => model.ChieuCao, new { htmlAttributes = new { @class = "form-control", @placeholder = "Chiều cao (cm)", @type = "number", @min = "0" } })
+                                                @Html.EditorFor(model => model.ChieuCao, new { htmlAttributes = new { @class = "form-control", @placeholder = "Chiều cao (cm)", @type = "number", @min = "0", @autocomplete = "off" } })
                                                 @Html.ValidationMessageFor(model => model.ChieuCao, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="col m4">
                                             @Html.LabelFor(model => model.CanNang, "Cân nặng", htmlAttributes: new { @class = "custom-label" })
                                             <div class="col-md-10">
-                                                @Html.EditorFor(model => model.CanNang, new { htmlAttributes = new { @class = "form-control", @placeholder = "Cân nặng (kg)", @type = "number", @min = "0" } })
+                                                @Html.EditorFor(model => model.CanNang, new { htmlAttributes = new { @class = "form-control", @placeholder = "Cân nặng (kg)", @type = "number", @min = "0", @autocomplete = "off" } })
                                                 @Html.ValidationMessageFor(model => model.CanNang, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="col m4">
                                             @Html.LabelFor(model => model.NhomMau, "Nhóm máu", htmlAttributes: new { @class = "custom-label" })
                                             <div class="col-md-10">
-                                                @Html.EditorFor(model => model.NhomMau, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhóm máu" } })
+                                                @Html.EditorFor(model => model.NhomMau, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhóm máu", @autocomplete = "off" } })
                                                 @Html.ValidationMessageFor(model => model.NhomMau, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -459,21 +459,21 @@
                                         <div class="col m4">
                                             @Html.LabelFor(model => model.SoCMND, "Số CMND", htmlAttributes: new { @class = "custom-label" })
                                             <div class="col-md-10">
-                                                @Html.EditorFor(model => model.SoCMND, new { htmlAttributes = new { @class = "form-control", @placeholder = "CMND" } })
+                                                @Html.EditorFor(model => model.SoCMND, new { htmlAttributes = new { @class = "form-control", @placeholder = "CMND", @autocomplete = "off" } })
                                                 @Html.ValidationMessageFor(model => model.SoCMND, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="col m4">
                                             @Html.LabelFor(model => model.NgayCapCMND, "Ngày cấp CMND/CCCD", htmlAttributes: new { @class = "custom-label" })
                                             <div class="col-md-10">
-                                                <input id="NgayCapCMNDFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày cấp CMND" type="datetime" value="" />
+                                                <input id="NgayCapCMNDFix" , class="form-control datepicker-here datepicker-add" placeholder="Ngày cấp CMND" type="datetime" value="" autocomplete="off" />
                                                 @Html.EditorFor(model => model.NgayCapCMND, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
                                             </div>
                                         </div>
                                         <div class="col m4">
                                             @Html.LabelFor(model => model.NoiCapCMND, "Nơi cấp CMND", htmlAttributes: new { @class = "custom-label" })
                                             <div class="col-md-10">
-                                                @Html.EditorFor(model => model.NoiCapCMND, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nơi cấp" } })
+                                                @Html.EditorFor(model => model.NoiCapCMND, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nơi cấp", @autocomplete = "off" } })
                                                 @Html.ValidationMessageFor(model => model.NoiCapCMND, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -482,14 +482,14 @@
                                         <div class="col m4">
                                             @Html.LabelFor(model => model.HangThuongBinh, "Hạng thương binh", htmlAttributes: new { @class = "custom-label" })
                                             <div class="col-md-10">
-                                                @Html.DropDownListFor(model => model.HangThuongBinh, new SelectList(ViewBag.thuongbinh, "Value", "Text"), htmlAttributes: new { @class = "form-control", @placeholder = "Thương binh" })
+                                                @Html.DropDownListFor(model => model.HangThuongBinh, new SelectList(ViewBag.thuongbinh, "Value", "Text"), htmlAttributes: new { @class = "form-control", @placeholder = "Thương binh", @autocomplete = "off" })
                                                 @Html.ValidationMessageFor(model => model.HangThuongBinh, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="col m4">
                                             @Html.LabelFor(model => model.GiaDinhChinhSach, "Gia đình chính sách", htmlAttributes: new { @class = "custom-label" })
                                             <div class="col-md-10">
-                                                @Html.EditorFor(model => model.GiaDinhChinhSach, new { htmlAttributes = new { @class = "form-control", @placeholder = "Gia đình chính sách" } })
+                                                @Html.EditorFor(model => model.GiaDinhChinhSach, new { htmlAttributes = new { @class = "form-control", @placeholder = "Gia đình chính sách", @autocomplete = "off" } })
                                                 @Html.ValidationMessageFor(model => model.GiaDinhChinhSach, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -520,11 +520,11 @@
                                             <td id="col13">
                                                 <div class="row">
                                                     <div class="col l3"> <label class="custom-label">Từ:</label></div>
-                                                    <div class="col l9"><input required id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></div>
+                                                    <div class="col l9"><input id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></div>
                                                 </div>
                                                 <div class="row" style="margin-top:5px">
                                                     <div class="col l3"> <label class="custom-label">Đến:</label></div>
-                                                    <div class="col l9"><input required id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></div>
+                                                    <div class="col l9"><input id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></div>
                                                 </div>
                                             </td>
                                             <td contenteditable="true" id="col14" class="editable"></td>
@@ -553,11 +553,11 @@
                                             <td id="col11">
                                                 <div class="row">
                                                     <div class="col l3"> <label class="custom-label">Từ:</label></div>
-                                                    <div class="col l9"><input required id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></div>
+                                                    <div class="col l9"><input id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></div>
                                                 </div>
                                                 <div class="row" style="margin-top:5px">
                                                     <div class="col l3"> <label class="custom-label">Đến:</label></div>
-                                                    <div class="col l9"><input required id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></div>
+                                                    <div class="col l9"><input id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></div>
                                                 </div>
                                             </td>
                                             <td contenteditable="true" id="col12" class="editable"></td>
@@ -596,37 +596,42 @@
                                             <td id="col12">
                                                 <input name="ngaySinhGiaDinh" id="input12" type="text" class="datepicker-here datepicker-add center form-control resize-form" data-language="vi" placeholder="dd/mm/yyyy" />
                                             </td>
-                                            <td id="col13" class="editable"><input id="input13" required name="hoTen" style="border:none" /></td>
-                                            <td id="col14" class="editable"><input id="input14" required name="moiQuanHe" style="border:none" /></td>
-                                            <td id="col15" class="editable"><input id="input15" required name="lyLich" style="border:none" /></td>
+                                            <td id="col13" class="editable"><input id="input13" name="hoTen" style="border:none" /></td>
+                                            <td id="col14" class="editable"><input id="input14" name="moiQuanHe" style="border:none" /></td>
+                                            <td id="col15" class="editable"><input id="input15" name="lyLich" style="border:none" /></td>
                                         </tr>
+                                    </tbody>
+                                </table>
+                                <br />
+                                <table class="table table-bordered centered table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th width="20%">Gia đình</th>
+                                            <th width="20%">Ngày sinh</th>
+                                            <th width="20%">Họ và tên</th>
+                                            <th width="20%">Mối quan hệ</th>
+                                            <th width="20%">Lý lịch</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in ViewBag.qhList)
+                                        {
+                                            <tr>
+                                                <td>@item.MaQuanHeGiaDinh</td>
+                                                <td class="center">@item.LoaiGiaDinh</td>
+                                                <td class="center">@item.NgaySinh</td>
+                                                <td class="center">@item.HoTen</td>
+                                                <td class="center">@item.MoiQuanHe</td>
+                                                <td class="center">@item.LyLich</td>
+                                            </tr>
+                                        }
+
                                     </tbody>
                                 </table>
                             </div>
                             <div class="col m12 center div_them3" style="margin-top:10px;margin-bottom:10px">
                                 <a id="buttonThem3" class="btn blue darken-2">Thêm</a>
-                            </div>
-                            <div class="row" style="margin-top:10px;margin-bottom:10px"><label class="custom-label">B.Diễn biến quá trình lương của cán bộ, công chức</label></div>
-                            <div class="row">
-                                <table class="table table-bordered centered table-responsive">
-                                    <thead>
-                                        <tr>
-                                            <th width="30%">Tháng/Năm</th>
-                                            <th width="35%">Mã ngành/Bậc</th>
-                                            <th width="35%">Hệ số lương</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="qt-luong">
-                                        <tr>
-                                            <td id="col11"><input required id="ns" type='text' class='datepicker-here datepicker-add center form-control resize-form' data-language='vi' placeholder="mm/yyyy" data-min-view="months" data-view="months" data-date-format="MM yyyy" /></td>
-                                            <td contenteditable="true" id="col12" class="editable"></td>
-                                            <td contenteditable="true" id="col13" class="editable"></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="col m12 center div_them4" style="margin-top:10px">
-                                <a id="buttonThem4" class="btn blue darken-2">Thêm</a>
                             </div>
                         </div>
                     </div>

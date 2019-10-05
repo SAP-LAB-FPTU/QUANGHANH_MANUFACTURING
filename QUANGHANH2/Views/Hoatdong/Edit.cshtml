@@ -112,8 +112,8 @@
                     @*@Html.LabelFor(model => model.durationOfInsurance, htmlAttributes: new { @class = "control-label col-md-2" })*@
                     <div class="col-md-10">
                         <input id="main_fix" name="main" type="text" class="form-control datepicker-here" placeholder="Thời hạn bảo dưỡng" />
-                        @Html.EditorFor(model => model.durationOfInsurance, new { htmlAttributes = new { @style = "display: none !important" } })
-                        @Html.ValidationMessageFor(model => model.durationOfInsurance, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.durationOfMaintainance, new { htmlAttributes = new { @style = "display: none !important" } })
+                        @Html.ValidationMessageFor(model => model.durationOfMaintainance, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">
@@ -171,23 +171,24 @@
                 <div class="form-group">
                     <label>Loại chất lượng</label>
                     @*@Html.LabelFor(model => model.quality_type, htmlAttributes: new { @class = "control-label col-md-2" })*@
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.quality_type, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.quality_type, "", new { @class = "text-danger" })
-                    </div>
+                <div class="col-md-10">
+                    @Html.DropDownList("quality_type", new SelectList(ViewBag.listQuality, "Text", "Value"), htmlAttributes: new { @class = "form-control" })
+
+                    @Html.ValidationMessageFor(model => model.quality_type, "", new { @class = "text-danger" })
+                </div>
                 </div>
 
                 <div class="form-group">
                     <label>Đường nhập</label>
                     @*@Html.LabelFor(model => model.input_channel, htmlAttributes: new { @class = "control-label col-md-2" })*@
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.input_channel, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.input_channel, "", new { @class = "text-danger" })
-                    </div>
+                <div class="col-md-10">
+                    @Html.DropDownList("input_channel", new SelectList(ViewBag.listDN, "Text", "Value"), htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.input_channel, "", new { @class = "text-danger" })
+                </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-2">Mã nhóm</label>
+                    <label class="control-label col-md-2">Tên nhóm thiết bị</label>
                     <div class="col-md-10">
                         @Html.DropDownList("Equipment_category_id", new SelectList(ViewBag.listCategory, "Text", "Value"), htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.Equipment_category_id, "", new { @class = "text-danger" })

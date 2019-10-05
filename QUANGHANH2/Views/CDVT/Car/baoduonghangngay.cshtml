@@ -52,21 +52,23 @@
                             </div>
                             <div class="col l4 m4 s12">
                                 <div class="row">
-                                    <div class="col l10 m10 s12 input-field">
-                                        <input type="text" placeholder="Tìm kiếm theo vị trí sửa chữa" class='form-control' id="position-search" />
+                                    <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
+                                        <i class="fas fa-calendar-alt icon"></i>
+                                        <input placeholder="Nhập ngày bắt đầu (từ)" type='text' class='datepicker-here center maxDate' data-language='vi' id="timeFrom-search" />
                                     </div>
-                                    <div class="col l10 m10 s12 input-field">
-                                        <input type="text" placeholder="Tìm kiếm theo nội dung sửa chữa" class='form-control' id="content-search" />
+                                    <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
+                                        <i class="fas fa-calendar-alt icon"></i>
+                                        <input placeholder="Nhập ngày kết thúc (đến)" type='text' class='datepicker-here center minDate' data-language='vi' id="timeTo-search" />
                                     </div>
                                 </div>
                             </div>
                             <div class="col l4 m4 s12">
                                 <div class="row">
-                                    <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
-                                        <input placeholder="Ngày nhập (từ)" type='text' class='datepicker-here form-control maxDate' data-language='vi' id="timeFrom-search" />
+                                    <div class="col l10 m10 s12 input-field">
+                                        <input type="text" placeholder="Tìm kiếm theo vị trí sửa chữa" class='form-control' id="position-search" />
                                     </div>
-                                    <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
-                                        <input placeholder="Ngày nhập (đến)" type='text' class='datepicker-here form-control minDate' data-language='vi' id="timeTo-search" />
+                                    <div class="col l10 m10 s12 input-field">
+                                        <input type="text" placeholder="Tìm kiếm theo nội dung sửa chữa" class='form-control' id="content-search" />
                                     </div>
                                     <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
                                         <button class="btn blue darken-2 btn-small" id="searchButton">Tìm kiếm </button>
@@ -365,9 +367,9 @@
             mm = '0' + mm;
         }
         var today = dd + '/' + mm + '/' + yyyy;
-        $(".minDate").each(function () {
-            $(this).val(today);
-        });
+        //$(".minDate").each(function () {
+        //    $(this).val(today);
+        //});
         today = new Date("1/1/1900");
         var dd = today.getDate();
         var mm = today.getMonth() + 1; //January is 0!
@@ -380,7 +382,7 @@
             mm = '0' + mm;
         }
         var today = dd + '/' + mm + '/' + yyyy;
-        $(".maxDate").val(today)
+        //$(".maxDate").val(today)
     });
 </script>
 

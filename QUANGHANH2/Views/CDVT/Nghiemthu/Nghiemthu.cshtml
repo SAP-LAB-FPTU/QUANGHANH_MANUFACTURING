@@ -252,15 +252,26 @@
         }
 
         function Update(url) {
-            if (confirm("Bạn có muốn nghiệm thu quyết định này không!")) {
-                 $.get(url)
+            //if (confirm("Bạn có muốn nghiệm thu quyết định này không!")) {
+            //     $.get(url)
+            //     .done(function (response) {
+            //         $("#update").html(response)
+            //          dataTable.ajax.reload();
+            //         //window.location.reload();
+            //});
+            //    return false;
+            //}
+            confirmAlert('Nghiệm thu',
+                'Bạn có muốn tiếp tục nghiệm thu không?',
+                function () {
+                  $.get(url)
                  .done(function (response) {
-                     $("#update").html(response)
+                     $("#update").html(response)  
+                     successAlert('Nghiệm thu thành công','');
                       dataTable.ajax.reload();
                      //window.location.reload();
             });
-                return false;
-            }
+                });
 
         }
 
