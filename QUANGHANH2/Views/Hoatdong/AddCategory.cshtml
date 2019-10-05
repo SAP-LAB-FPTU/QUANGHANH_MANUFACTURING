@@ -9,7 +9,7 @@
 @using (Html.BeginForm("AddCategory", "Hoatdong", FormMethod.Post, new
 {
     enctype = "multipart/form-data",
-    onSubmit = "return SubmitForm(this);",
+    onSubmit = "return SubmitForm2(this);",
     data_restUrl = Url.Action("AddCategory", "Hoatdong", new { id = "" })
 }))
 {
