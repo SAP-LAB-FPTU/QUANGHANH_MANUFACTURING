@@ -129,9 +129,10 @@
                 type: "POST",
                 url: "/phong-cdvt/quyet-dinh/GetSupply",
                 dataType: "json",
-                success: function (data) {
-                    $(function () {
-                        $.each(data, function (i, item) {
+               success: function (data) {
+                    if (data.success == true) {
+                     $(function () {
+                        $.each(data.data, function (i, item) {
                             var $tr = $('<tr>').append(
                                 $('<td>').text(item.MaVT),
                                 $('<td>').text(item.TenVT),
@@ -141,7 +142,12 @@
                              $tr.appendTo('#test');
                         });
                     });
-                    $("#pre-load").hide();
+                    }
+                     else {
+                       errorAlert('', data.message);
+                       $("#exit-add-button").click();
+                   }
+                           $("#pre-load").hide();
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {             
                     $.notify(XMLHttpRequest.responseText, {
