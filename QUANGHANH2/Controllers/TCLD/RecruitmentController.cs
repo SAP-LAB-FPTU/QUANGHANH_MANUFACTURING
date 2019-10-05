@@ -133,7 +133,7 @@ namespace QUANGHANH2.Controllers.TCLD
                                 return Json(new { message = "ChuyenNganh", responseText = id }, JsonRequestBehavior.AllowGet);
                             }
                         }
-                        if (salaryMonth != null)
+                        if (salaryMonth.Trim() != "")
                         {
                             emp.MucLuong = convertSalary(salaryMonth);
                             if (emp.MucLuong == -1)
