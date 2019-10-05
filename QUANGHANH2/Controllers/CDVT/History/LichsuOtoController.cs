@@ -42,14 +42,29 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         {
             try
             {
+                //validate timeFrom when input blank
+                if (timeFrom.Trim() == "")
+                {
+                    timeFrom = "01/01/1900";
+                }
+                DateTime timeF = DateTime.ParseExact(timeFrom, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+                //validate timeTo when input blank
+                DateTime timeT;
+                if (timeTo.Trim() == "")
+                {
+                    timeT = DateTime.Now;
+                }
+                else
+                {
+                    timeT = DateTime.ParseExact(timeTo, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                }
+
                 //Server Side Parameter
                 int start = Convert.ToInt32(Request["start"]);
                 int length = Convert.ToInt32(Request["length"]);
                 string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
                 string sortDirection = Request["order[0][dir]"];
-
-                DateTime timeF = DateTime.ParseExact(timeFrom, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                DateTime timeT = DateTime.ParseExact(timeTo, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
                 QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
                 string query = "select q.[date], q.equipmentId, t.equipment_name, q.activityname, q.hours_per_day, q.quantity,q.activityid"
@@ -94,47 +109,68 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         [HttpPost]
         public ActionResult SearchFuel(string equipmentId, string equipmentName, string timeFrom, string timeTo)
         {
-            //Server Side Parameter
-            int start = Convert.ToInt32(Request["start"]);
-            int length = Convert.ToInt32(Request["length"]);
-            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
-            string sortDirection = Request["order[0][dir]"];
+            try {
+                //validate timeFrom when input blank
+                if (timeFrom.Trim() == "")
+                {
+                    timeFrom = "01/01/1900";
+                }
+                DateTime timeF = DateTime.ParseExact(timeFrom, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
-            DateTime timeF = DateTime.ParseExact(timeFrom, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            DateTime timeT = DateTime.ParseExact(timeTo, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                //validate timeTo when input blank
+                DateTime timeT;
+                if (timeTo.Trim() == "")
+                {
+                    timeT = DateTime.Now;
+                }
+                else
+                {
+                    timeT = DateTime.ParseExact(timeTo, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                }
 
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            string query = "select f.[date], f.equipmentId, t.equipment_name, f.fuel_type, f.consumption_value, s.unit,s.supply_name,fuelId from(select distinct e.equipmentId, e.equipment_name"
-                + " from Equipment e inner join Equipment_category_attribute ea "
-                + " on ea.Equipment_category_id = e.Equipment_category_id where  "
-                + " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = 'So may') "
-                + " as t join Fuel_activities_consumption f  "
-                + " on t.equipmentId = f.equipmentId "
-                + " join Supply s on s.supply_id = f.fuel_type "
-                + " where f.equipmentId LIKE @equipmentId "
-                + " AND t.equipment_name LIKE @equipment_name AND f.[date] between @timeFrom AND @timeTo order by f.[date] desc";
+                //Server Side Parameter
+                int start = Convert.ToInt32(Request["start"]);
+                int length = Convert.ToInt32(Request["length"]);
+                string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+                string sortDirection = Request["order[0][dir]"];
 
-            List<fuelDB> listFuelConsump = DBContext.Database.SqlQuery<fuelDB>(query,
-                new SqlParameter("equipmentId", '%' + equipmentId + '%'),
-                new SqlParameter("equipment_name", '%' + equipmentName + '%'),
-                new SqlParameter("timeFrom", timeF),
-                new SqlParameter("timeTo", timeT)
-                ).ToList();
+                QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+                string query = "select f.[date], f.equipmentId, t.equipment_name, f.fuel_type, f.consumption_value, s.unit,s.supply_name,fuelId from(select distinct e.equipmentId, e.equipment_name"
+                    + " from Equipment e inner join Equipment_category_attribute ea "
+                    + " on ea.Equipment_category_id = e.Equipment_category_id where  "
+                    + " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = 'So may') "
+                    + " as t join Fuel_activities_consumption f  "
+                    + " on t.equipmentId = f.equipmentId "
+                    + " join Supply s on s.supply_id = f.fuel_type "
+                    + " where f.equipmentId LIKE @equipmentId "
+                    + " AND t.equipment_name LIKE @equipment_name AND f.[date] between @timeFrom AND @timeTo order by f.[date] desc";
 
-            int totalrows = listFuelConsump.Count;
-            int totalrowsafterfiltering = listFuelConsump.Count;
-            //sorting
-            listFuelConsump = listFuelConsump.OrderBy(sortColumnName + " " + sortDirection).ToList<fuelDB>();
+                List<fuelDB> listFuelConsump = DBContext.Database.SqlQuery<fuelDB>(query,
+                    new SqlParameter("equipmentId", '%' + equipmentId + '%'),
+                    new SqlParameter("equipment_name", '%' + equipmentName + '%'),
+                    new SqlParameter("timeFrom", timeF),
+                    new SqlParameter("timeTo", timeT)
+                    ).ToList();
 
-            //paging
-            listFuelConsump = listFuelConsump.Skip(start).Take(length).ToList<fuelDB>();
+                int totalrows = listFuelConsump.Count;
+                int totalrowsafterfiltering = listFuelConsump.Count;
+                //sorting
+                listFuelConsump = listFuelConsump.OrderBy(sortColumnName + " " + sortDirection).ToList<fuelDB>();
 
-            foreach (fuelDB item in listFuelConsump)
-            {
-                item.stringDate = item.date.ToString("dd/MM/yyyy");
+                //paging
+                listFuelConsump = listFuelConsump.Skip(start).Take(length).ToList<fuelDB>();
+
+                foreach (fuelDB item in listFuelConsump)
+                {
+                    item.stringDate = item.date.ToString("dd/MM/yyyy");
+                }
+                return Json(new { success = true, data = listFuelConsump, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
             }
-
-            return Json(new { success = true, data = listFuelConsump, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+            catch (Exception)
+            {
+                Response.Write("Có lỗi xảy ra, xin vui lòng nhập lại");
+                return new HttpStatusCodeResult(400);
+            }            
         }
 
         [Route("phong-cdvt/oto/cap-nhat-hoat-dong")]
@@ -151,7 +187,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             //
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-
                 List<ActivityDB> incidents = db.Database.SqlQuery<ActivityDB>("select q.[date], q.equipmentId, t.equipment_name, q.activity_name, q.hours_per_day, q.quantity,q.activity_id " +
                     "from (select distinct e.equipmentId, e.equipment_name " +
                     "from Equipment e inner join Equipment_category_attribute ea " +
@@ -412,7 +447,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 {
                     //update 
                     Equipment i = DBContext.Equipments.Find(equipmentId);
-                    Supply s = DBContext.Database.SqlQuery<Supply>("select * from Supply where supply_id='" + fuel_type + "'").First();
+                    Supply s = DBContext.Database.SqlQuery<Supply>("select * from Supply where supply_id=@supply_id and (unit = 'L' or unit = 'kWh')", new SqlParameter("supply_id", fuel_type)).First();
                     FuelDB f = DBContext.Database.SqlQuery<FuelDB>("select * from Fuel_activities_consumption where fuelid=" + fuelid + "").First();
                     string date = DateTime.ParseExact(date1, "dd/MM/yyyy", null).ToString("MM-dd-yyyy");
                     DBContext.Database.ExecuteSqlCommand("UPDATE Fuel_activities_consumption  set fuel_type =@fuel_type, [date] =@date1, consumption_value = @consumption_value, equipmentId = @equipmentId where fuelId= @fuelid",
@@ -489,7 +524,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     string output = "";
                     if (DBContext.Database.SqlQuery<Equipment>("SELECT * FROM Equipment WHERE equipmentId = N'" + equipmentId + "'").Count() == 0)
                         output += "Mã thiết bị không tồn tại\n";
-                    if (DBContext.Supplies.Where(x => x.supply_id == fuel_type).Count() == 0)
+                    if (DBContext.Supplies.Where(x => (x.supply_id == fuel_type) && (x.unit == "L" || x.unit == "kWh")).Count() == 0)
                         output += "Mã Nhiên Liệu không tồn tại\n";
                     if (output == "")
                         output += "Có lỗi xảy ra, xin vui lòng nhập lại";

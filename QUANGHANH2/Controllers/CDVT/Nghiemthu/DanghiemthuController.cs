@@ -39,13 +39,27 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
             //DateTime dstart = DateTime.ParseExact(date_start, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             //DateTime dend = DateTime.ParseExact(date_end, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             //
-            if (date_start == "") date_start = "01/01/1900";
-            DateTime dstart = DateTime.ParseExact(date_start, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            //if (date_start == "") date_start = "01/01/1900";
+            DateTime dstart;
             DateTime dend;
-            if (date_end == "") dend = DateTime.Now;
-            else dend = DateTime.ParseExact(date_end, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            dend = dend.AddHours(23);
-            dend = dend.AddMinutes(59);
+            //if (date_end == "") dend = DateTime.Now;
+            //else dend = DateTime.ParseExact(date_end, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            //dend = dend.AddHours(23);
+            //dend = dend.AddMinutes(59);
+            try
+            {
+                if (date_start == "Nhập ngày bắt đầu (từ)" || date_start == "") date_start = "01/01/1900";
+                dstart = DateTime.ParseExact(date_start, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                if (date_end == "Nhập ngày kết thúc (đến)" || date_end == "") dend = DateTime.Now;
+                else dend = DateTime.ParseExact(date_end, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                dend = dend.AddHours(23);
+                dend = dend.AddMinutes(59);
+            }
+            catch
+            {
+                Response.Write("Vui lòng nhập đúng ngày tháng năm");
+                return new HttpStatusCodeResult(400);
+            }
 
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {

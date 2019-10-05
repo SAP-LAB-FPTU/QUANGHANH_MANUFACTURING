@@ -203,9 +203,7 @@
             //company's certificates
             dataTable = $("#table_chungchi")
                 .on('preXhr.dt', function (e, settings, data) {
-                    $("#pre-load").show("slow", function () {
-                    });
-                    $("#pre-load").css("z-index", "99999");
+                    $("#pre-load").show();
                 })
                 .DataTable({
                 "ajax": {
@@ -274,7 +272,6 @@
                 .on('preXhr.dt', function (e, settings, data) {
                     $("#pre-load").show("slow", function () {
                     });
-                    $("#pre-load").css("z-index", "99999");
                 })
                 .DataTable({
                     "bLengthChange": false,
@@ -411,6 +408,7 @@
                         });
                         successAlert('Thành công', '');
                         $(".modal").modal();
+                        $("body").css("overflow","");   
                         $("#add_cir_emp").load('@Url.Action("AddCertificateEmployee")');
                     },
                     error: function () {
@@ -523,7 +521,13 @@
             var result = name_cirtificate.replace(/\s+/g, " ").trim()
             //alert(result);
             $("#pre-load").show("slow", function () { });
-            dataTable.ajax.url('@Url.Action("SearchCertificate", "Certificate")?TenChungChi=' + result).load(() => { $("#pre-load").hide("slow", function () { }) }, true)
+            dataTable.ajax.url('@Url.Action("SearchCertificate", "Certificate")?TenChungChi=' + result).load( () => {
+                $("#pre-load").hide("slow", function () { })
+                $.notify("Tìm kiếm thành công", {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
+            }, true)
         });
 
         $("#searchEmpButton").click(function () {
@@ -536,7 +540,13 @@
             stringArray[1] = searchNameCirTxt.replace(/\s+/g, " ").trim();
             stringArray[2] = searchNameCirEmpTxt.replace(/\s+/g, " ").trim();
             //alert(stringArray[0]);
-            dataCertificateEmp.ajax.url('@Url.Action("SearchCertificateByNV", "Certificate")?ListSearch=' + stringArray).load(() => { $("#pre-load").hide("slow", function () { }) }, true)
+            dataCertificateEmp.ajax.url('@Url.Action("SearchCertificateByNV", "Certificate")?ListSearch=' + stringArray).load(() => {
+                $("#pre-load").hide("slow", function () { })
+                $.notify("Tìm kiếm thành công", {
+                    globalPosition: "top center",
+                    className: "success"
+                })
+            }, true)
         });
 
         $('#export_excel_certificate').click(function () {

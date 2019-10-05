@@ -79,7 +79,7 @@
                         @Html.EditorFor(model => model.TenBangCap, new { htmlAttributes = new { @class = "form-control", @id = "add_bangcap" } })
                         @Html.ValidationMessageFor(model => model.TenBangCap, "", new { @class = "text-danger" })
                         <p hidden style="color:red" id="message_tenbangcap">Không được để trống</p>
-
+                        <p hidden style="color:red" id="message_error_duplicate">Tên bằng cấp đã tồn tại. Hãy nhập lại</p>
                     </div>
                 </div>
 
@@ -92,8 +92,6 @@
                 </div>
                 <hr />
                 <div class="form-group col s12 m12 l12">
-                    <div class="control-label col-md-2"></div>
-                    <br />
                     <div class="col-md-offset-2 col-md-10">
                         <input type="submit" value="Thêm" class=" waves-light btn blue darken-2 white-text " id="submit_form_diploma" />
                     </div>
@@ -254,15 +252,34 @@
             $('#message_tenbangcap').hide();
             $('#submit_form_diploma').attr("disabled", false);
         }
-        $('#add_bangcap').change(function () {
-            if (!$('#add_bangcap').val()) {
-                $('#message_tenbangcap').show();
-                $('#submit_form_diploma').attr("disabled", true);
-            }
-            else {
-                $('#message_tenbangcap').hide();
-                $('#submit_form_diploma').attr("disabled", false);
-            }
-        })
+
     }
+    $('#add_bangcap').change(function () {
+        if (!$('#add_bangcap').val()) {
+            $('#message_tenbangcap').show();
+            $('#submit_form_diploma').attr("disabled", true);
+        }
+        else {
+            $('#message_tenbangcap').hide();
+            $('#submit_form_diploma').attr("disabled", false);
+        }
+                 $.ajax({
+                    url:'@Url.Action("validateNameDuplicateDiploma", "Diploma")',
+                    type: "POST",
+                     data: { name_diploma: $(this).val() },
+                    success: (response) => {
+                        if (response.success) {
+                            $('#message_error_duplicate').show();
+                            $('#submit_form_diploma').attr("disabled", true);
+                        } else {
+                            $('#message_error_duplicate').hide();
+                            $('#submit_form_diploma').attr("disabled", false);
+                        }
+                    },
+                     error: (response) => {
+                         
+                    },
+                })
+
+     })
 </script>
