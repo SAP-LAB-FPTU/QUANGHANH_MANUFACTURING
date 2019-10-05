@@ -4,16 +4,15 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Dynamic;
-using System.Web;
 using System.Web.Mvc;
 using QUANGHANH2.SupportClass;
 using System.Data.Entity;
-using System.Data.SqlClient;
 
 namespace QUANGHANH2.Controllers.CDVT.Vattu
 {
     public class DanhsachvattuController : Controller
     {
+        [Auther(RightID = "172")]
         [Route("phong-cdvt/danh-sach-vat-tu")]
         [HttpGet]
         public ActionResult Index()
@@ -21,6 +20,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
             return View("/Views/CDVT/Vattu/Danhsachvattu.cshtml");
         }
 
+        [Auther(RightID = "172")]
         [Route("phong-cdvt/danh-sach-vat-tu")]
         [HttpPost]
         public ActionResult Index(string supply_id, string supply_name)
@@ -53,6 +53,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
             return Json(new { success = true, data = supplies, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
+        [Auther(RightID = "173")]
         [Route("phong-cdvt/danh-sach-vat-tu/add")]
         [HttpPost]
         public ActionResult Add(string supply_id, string supply_name, string unit)
@@ -73,6 +74,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
             }
         }
 
+        [Auther(RightID = "174")]
         [Route("phong-cdvt/danh-sach-vat-tu/delete")]
         [HttpPost]
         public ActionResult Delete(string supply_id)

@@ -24,10 +24,7 @@
                     <h3><b>DANH SÁCH QUYẾT ĐỊNH TRUNG ĐẠI TU</b></h3>
                     <div class="col l6 m6 s12">
                         <div class="row">
-                            <div class="col l8 m8 s12 offset-l1 offset-m1 input-field">
-                                <input type="text" placeholder="Tìm kiếm theo số quyết định" class='form-control' id="documentary_code-search"
-                                       multiple />
-                            </div>
+                     
                             <div class="col l8 m8 s12 offset-l1 offset-m1 input-field">
                                 <input type="text" placeholder="Tìm kiếm theo tên người lập quyết định" class='form-control' id="person_created-search"
                                        multiple />
@@ -302,7 +299,7 @@
                     }
                 ],
                 "serverSide": "true",
-                "order": [0, "desc"],
+                "order": [1, "desc"],
                 "lengthChange": false,
                     "searching": false,
                  "initComplete": function () {
@@ -330,11 +327,15 @@
 //---------------Search Data -----------------
 
 
-
-        $("#searchButton1").click(function () {
+    $("#searchButton1").click(function () {
 
             $("#pre-load").show();
-            dataTable.ajax.reload();
+            dataTable.ajax.reload(function () {
+               $.notify("Tìm kiếm thành công", {
+                      globalPosition: "top center",
+                     className: "success"
+                    })
+            });
             });
 
 
@@ -389,13 +390,16 @@
                 $.ajax({
                     type: "POST",
                     url: "/phong-cdvt/quyet-dinh/trung-dai-tu/update",
-                    dataType: "text",
-                    success: function () {
-                        dataTable.ajax.reload();
-                        $.notify("Update thành công", {
-                            globalPosition: "top center",
-                            className: "success"
-                        })
+                    dataType: "json",
+                        success: function (data) {
+                        if (data.success == true) {
+                            dataTable.ajax.reload();
+                            redirectAlert('Cập nhật thông tin thành công', '/phong-cdvt/cap-nhat/quyet-dinh');
+                        }
+                        else {
+                            errorAlert('Lỗi',data.message);
+                        }
+                       
 
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -438,13 +442,11 @@
                         data: '{docID: ' + docID + '}',
                         contentType: "application/json",
                         dataType: "script",
-                         success: function (response) {
-                            dataTable.ajax.reload();
-                             $.notify("Xóa thành công!", {
-                             globalPosition: "top center",
-                             className: "success"
-                         })
-         $("#pre-load").hide();
+                    success: function () {
+                             dataTable.ajax.reload();
+                             successAlert('Xóa quyết định thành công','');
+                           
+                             $("#pre-load").hide();
                          $('#exit-update-button').click();
                         }
                     });
