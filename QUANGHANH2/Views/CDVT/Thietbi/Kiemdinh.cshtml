@@ -270,22 +270,17 @@
                 $.ajax({
                     type: "POST",
                     url: "/phong-cdvt/kiem-dinh/update",
-                    dataType: "text",
+                    dataType: "json",
                     success: function (data) {
                         dataTable.ajax.reload();
-
-                        $.notify("Cập nhật thành công", {
-                            globalPosition: "top center",
-                            className: "success"
-                        })
-
+                        if(data.success == true)
+                            successAlert('Thành công', data.message);
+                        else
+                            errorAlert('Lỗi', data.message);
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
                         $('#pre-load').hide();
-                        $.notify(XMLHttpRequest.responseText, {
-                            globalPosition: "top center",
-                            className: "error"
-                        });
+                        errorAlert('Lỗi', 'Có lỗi xảy ra');
                     },
                     data: {
                         inspect_id: $('#id-update').val(),
@@ -304,27 +299,18 @@
                 $.ajax({
                     type: "POST",
                     url: "/phong-cdvt/kiem-dinh/edit",
-                    dataType: "text",
+                    dataType: "json",
                     success: function (data) {
                         dataTable.ajax.reload();
-                        if (JSON.parse(data).success == true)
-                            $.notify(JSON.parse(data).message, {
-                                globalPosition: "top center",
-                                className: "success"
-                            })
+                        if (data.success == true)
+                            successAlert('Thành công', data.message);
                         else
-                            $.notify(JSON.parse(data).message, {
-                                globalPosition: "top center",
-                                className: "error"
-                            });
+                            errorAlert('Lỗi', data.message);
                         $('#exit-edit-button').click();
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
                         $('#pre-load').hide();
-                        $.notify(XMLHttpRequest.responseText, {
-                            globalPosition: "top center",
-                            className: "error"
-                        });
+                        errorAlert('Lỗi', 'Có lỗi xảy ra');
                     },
                     data: {
                         inspect_id: $('#id-edit').val(),
@@ -342,10 +328,6 @@
             $("#searchButton1").click(function () {
                 $("#pre-load").show();
                 dataTable.ajax.reload(function () {
-                    $.notify("Tìm kiếm thành công", {
-                        globalPosition: "top center",
-                        className: "success"
-                    })
                     $("#pre-load").hide();
                 })
             });
