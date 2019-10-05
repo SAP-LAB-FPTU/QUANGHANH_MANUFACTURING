@@ -14,7 +14,6 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
 {
     public class VattucuaQDController : Controller
     {
-        [Auther(RightID = "88")]
         [Route("phong-cdvt/cap-nhat/quyet-dinh/GetSupply")]
         [HttpPost]
         public ActionResult GetSupply(string documentary_id, string equipmentId)
@@ -26,7 +25,6 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
             return Json(supplies);
         }
 
-        [Auther(RightID = "88")]
         [Route("phong-cdvt/cap-nhat/quyet-dinh/GetSupply2")]
         [HttpPost]
         public ActionResult GetSupply2(string documentary_id, string equipmentId)
@@ -38,7 +36,6 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
             return Json(supplies);
         }
 
-        [Auther(RightID = "88")]
         [Route("phong-cdvt/cap-nhat/quyet-dinh/GetSupplyName")]
         [HttpPost]
         public ActionResult GetSupplyName(string supply_id)
@@ -57,7 +54,6 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
             }
         }
 
-        [Auther(RightID = "88")]
         [Route("phong-cdvt/cap-nhat/quyet-dinh/EditSupplyStatus")]
         [HttpPost]
         public ActionResult EditSupplyStatus(string documentary_id, string equipmentId, string listSupplies)
@@ -96,7 +92,6 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
             return new HttpStatusCodeResult(201);
         }
 
-        [Auther(RightID = "88")]
         [Route("phong-cdvt/cap-nhat/quyet-dinh/AddSupply")]
         [HttpPost]
         public ActionResult AddSupply(string list, string documentary_id, string equipmentId)
