@@ -442,31 +442,32 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                //import date
-                string[] date = import.Split('/');
-                string date_fix = date[1] + "/" + date[0] + "/" + date[2];
-                emp.date_import = Convert.ToDateTime(date_fix);
-                //durationOfInspection
-                date = duraInspec.Split('/');
-                date_fix = date[1] + "/" + date[0] + "/" + date[2];
-                emp.durationOfInspection = Convert.ToDateTime(date_fix);
-                //durationOfInsurance
-                date = duraInsura.Split('/');
-                date_fix = date[1] + "/" + date[0] + "/" + date[2];
-                emp.durationOfInsurance = Convert.ToDateTime(date_fix);
-                //usedDay
-                date = used.Split('/');
-                date_fix = date[1] + "/" + date[0] + "/" + date[2];
-                emp.usedDay = Convert.ToDateTime(date_fix);
-                //nearest_Maintenance_Day
-                date = duramain.Split('/');
-                date_fix = date[1] + "/" + date[0] + "/" + date[2];
-                emp.durationOfMaintainance = Convert.ToDateTime(date_fix);
+               
 
                 using (DbContextTransaction dbc = db.Database.BeginTransaction())
                 {
                     try
                     {
+                        //import date
+                        string[] date = import.Split('/');
+                        string date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                        emp.date_import = Convert.ToDateTime(date_fix);
+                        //durationOfInspection
+                        date = duraInspec.Split('/');
+                        date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                        emp.durationOfInspection = Convert.ToDateTime(date_fix);
+                        //durationOfInsurance
+                        date = duraInsura.Split('/');
+                        date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                        emp.durationOfInsurance = Convert.ToDateTime(date_fix);
+                        //usedDay
+                        date = used.Split('/');
+                        date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                        emp.usedDay = Convert.ToDateTime(date_fix);
+                        //nearest_Maintenance_Day
+                        date = duramain.Split('/');
+                        date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                        emp.durationOfMaintainance = Convert.ToDateTime(date_fix);
                         db.Equipments.Add(emp);
                         if (id != null)
                         {
@@ -508,32 +509,33 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         [HttpPost]
         public ActionResult Edit(Equipment emp, string import, string inspec, string insua, string used, string main)
         {
-            //import date
-            string[] date = import.Split('/');
-            string date_fix = date[1] + "/" + date[0] + "/" + date[2];
-            emp.date_import = Convert.ToDateTime(date_fix);
-            //durationOfInspection
-            date = inspec.Split('/');
-            date_fix = date[1] + "/" + date[0] + "/" + date[2];
-            emp.durationOfInspection = Convert.ToDateTime(date_fix);
-            //durationOfInsurance
-            date = insua.Split('/');
-            date_fix = date[1] + "/" + date[0] + "/" + date[2];
-            emp.durationOfInsurance = Convert.ToDateTime(date_fix);
-            //usedDay
-            date = used.Split('/');
-            date_fix = date[1] + "/" + date[0] + "/" + date[2];
-            emp.usedDay = Convert.ToDateTime(date_fix);
-            //nearest_Maintenance_Day
-            date = main.Split('/');
-            date_fix = date[1] + "/" + date[0] + "/" + date[2];
-            emp.durationOfMaintainance = Convert.ToDateTime(date_fix);
+            
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 using (DbContextTransaction dbc = db.Database.BeginTransaction())
                 {
                     try
                     {
+                        //import date
+                        string[] date = import.Split('/');
+                        string date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                        emp.date_import = Convert.ToDateTime(date_fix);
+                        //durationOfInspection
+                        date = inspec.Split('/');
+                        date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                        emp.durationOfInspection = Convert.ToDateTime(date_fix);
+                        //durationOfInsurance
+                        date = insua.Split('/');
+                        date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                        emp.durationOfInsurance = Convert.ToDateTime(date_fix);
+                        //usedDay
+                        date = used.Split('/');
+                        date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                        emp.usedDay = Convert.ToDateTime(date_fix);
+                        //nearest_Maintenance_Day
+                        date = main.Split('/');
+                        date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                        emp.durationOfMaintainance = Convert.ToDateTime(date_fix);
                         db.Entry(emp).State = EntityState.Modified;
                         db.SaveChanges();
                         dbc.Commit();
