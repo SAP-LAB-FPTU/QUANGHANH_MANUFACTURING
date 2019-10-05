@@ -236,20 +236,28 @@ namespace QUANGHANH2.Controllers.TCLD
         }
         public string getMaChuyenNganh(string tenChuyenNganh)
         {
-            try
-            {
+            //try
+            //{
                 ChuyenNganh specialized = null;
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    specialized = db.ChuyenNganhs.Where(x => x.TenChuyenNganh.ToLower().Trim().Equals(tenChuyenNganh.ToLower().Trim())).FirstOrDefault<ChuyenNganh>();
+                ChuyenNganh test = db.ChuyenNganhs.Where(x => x.MaChuyenNganh.Equals("20103")).FirstOrDefault<ChuyenNganh>();
+                specialized = db.ChuyenNganhs.Where(x => x.TenChuyenNganh.Replace("\r\n",String.Empty).ToLower().Trim().Equals(tenChuyenNganh.ToLower().Trim())).FirstOrDefault<ChuyenNganh>();
                 }
-                return specialized.MaChuyenNganh;
-            }
-            catch (NullReferenceException )
-            {
-                checkNull = false;
+                
+            if (specialized == null) {
                 return "-1";
             }
+            else
+            {
+                return specialized.MaChuyenNganh;
+            }
+            //}
+            //catch (NullReferenceException )
+            //{
+            //    checkNull = false;
+            //    return "-1";
+            //}
 
         }
         public int getMaTrinhDo(string tenTrinhDo)
