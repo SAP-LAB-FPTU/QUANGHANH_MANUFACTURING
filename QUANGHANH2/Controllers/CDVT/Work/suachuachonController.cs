@@ -34,6 +34,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                 var result = (from e in db.Equipments
                               where listConvert.Contains(e.equipmentId)
                               join d in db.Departments on e.department_id equals d.department_id
+                              join c in db.Status on e.current_Status equals c.statusid
                               select new
                               {
                                   equipmentId = e.equipmentId,
@@ -41,6 +42,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                                   department_name = d.department_name,
                                   department_id = e.department_id,
                                   current_Status = e.current_Status,
+                                  statusname = c.statusname,
                               }).ToList().Select(s => new equipmentExtend
                               {
                                   equipmentId = s.equipmentId,
@@ -48,6 +50,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                                   department_name = s.department_name,
                                   department_id = s.department_id,
                                   current_Status = s.current_Status,
+                                  statusname = s.statusname,
 
                               }).ToList();
                 ViewBag.DataThietBi = result;
@@ -112,6 +115,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                     {
                         string equipmentId = (string)item.Value["id"];
                         string repair_type = (string)item.Value["repair_type"];
+                        string department_id_to = (string)item.Value["department_id"];//
                         string repair_reason = (string)item.Value["repair_reason"];
                         string datestring = (string)item.Value["finish_date_plan"];
                         if(documentary_code != "")
@@ -124,6 +128,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                         drd.equipment_repair_status = 0;
                         drd.repair_type = repair_type;
                         drd.repair_reason = repair_reason;
+                        drd.department_id = department_id_to;//
                         drd.finish_date_plan = finish_date_plan;
                         drd.documentary_id = documentary.documentary_id;
                         drd.equipmentId = equipmentId;

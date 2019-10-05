@@ -324,17 +324,31 @@
         </div>
     </div>*@
 <script>
+    function AddComma(Num) { //function to add commas to textboxes
+        Num += '';
+        Num = Num.replace(',', ''); Num = Num.replace(',', ''); Num = Num.replace(',', '');
+        Num = Num.replace(',', ''); Num = Num.replace(',', ''); Num = Num.replace(',', '');
+        x = Num.split('.');
+        x1 = x[0];
+        x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1))
+            x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        return x1 + x2;
+    }
+</script>
+<script>
     var tren82 =@ViewBag.tren82;
     var duoi82 = @ViewBag.duoi82;
     var listNghiVLD = @Html.Raw(Json.Encode(ViewBag.listNghiVLD));
     var listNhanLuc =@Html.Raw(Json.Encode(ViewBag.listNhanLuc));
     var sanluong = @Html.Raw(Json.Encode(ViewBag.sanluong));
-    $("#slkh").text(sanluong.SLKH);
-    $("#lksl").text(sanluong.LKSL);
-    $("#slcl").text(sanluong.SLKH-sanluong.LKSL);
-    $("#mlkh").text(sanluong.MLKH);
-    $("#lkml").text(sanluong.LKML);
-    $("#mlcl").text(sanluong.MLKH-sanluong.LKML);
+    $("#slkh").text(AddComma(sanluong.SLKH));
+    $("#lksl").text(AddComma(sanluong.LKSL));
+    $("#slcl").text(AddComma(sanluong.SLKH-sanluong.LKSL));
+    $("#mlkh").text(AddComma(sanluong.MLKH));
+    $("#lkml").text(AddComma(sanluong.LKML));
+    $("#mlcl").text(AddComma(sanluong.MLKH-sanluong.LKML));
 </script>
 <!-- Editable -->
 <script type="text/javascript" src="~/assets/libs/jsgrid/dist/jsgrid.min.js"></script>
@@ -358,6 +372,7 @@
 @*<script src="~/js/Custom JS/TCLD/db_issue.js"></script>*@
 @*<script src="~/js/Custom JS/TCLD/table_init.js"></script>*@
 <!--Auto -->
+
 <script>
     (function () {
         var db = {
@@ -704,12 +719,12 @@
                             },]
                         });
                         /////////////////////////////BAO CAO SAN LUONG//////////////////////////
-                        $("#slkh").text(response.sanluong.SLKH);
-                        $("#lksl").text(response.sanluong.LKSL);
-                        $("#slcl").text(response.sanluong.SLKH - response.sanluong.LKSL);
-                        $("#mlkh").text(response.sanluong.MLKH);
-                        $("#lkml").text(response.sanluong.LKML);
-                        $("#mlcl").text(response.sanluong.MLKH - response.sanluong.LKML);
+                        $("#slkh").text(AddComma(response.sanluong.SLKH));
+                        $("#lksl").text(AddComma(response.sanluong.LKSL));
+                        $("#slcl").text(AddComma(response.sanluong.SLKH - response.sanluong.LKSL));
+                        $("#mlkh").text(AddComma(response.sanluong.MLKH));
+                        $("#lkml").text(AddComma(response.sanluong.LKML));
+                        $("#mlcl").text(AddComma(response.sanluong.MLKH - response.sanluong.LKML));
                         ///////////////////////////BIEU DO BARCHARRT NHAN LUC/////////////////
                         var donvi = [];
                         for (var i = 0; i < response.listNhanLuc.length; i++) {
@@ -796,6 +811,7 @@
         }
     })
 </script>
+
 
 
 <script>
@@ -890,4 +906,3 @@
         $(".datepicker-inline").remove();
     })
 </script>
-
