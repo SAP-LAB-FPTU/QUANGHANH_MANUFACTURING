@@ -99,7 +99,7 @@ namespace QUANGHANH2.Controllers.TCLD
             int totalrows = list.Count;
             int totalrowsafterfiltering = list.Count;
             list = list.Skip(start).Take(length).ToList();
-            return Json(new { success = true, data =list , draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true, data = list, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
 
 
         }
@@ -475,7 +475,9 @@ namespace QUANGHANH2.Controllers.TCLD
             };
                 ViewBag.thuongbinh = ThuongBinh;
 
-
+                QuanHeGiaDinh qh = new QuanHeGiaDinh();
+                List<QuanHeGiaDinh> qhList = db.QuanHeGiaDinhs.Where(x => x.MaNV == id).ToList();
+                ViewBag.qhList = qhList;
                 return View("/Views/TCLD/Brief/Edit.cshtml", db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault<NhanVien>());
             }
         }
@@ -495,28 +497,54 @@ namespace QUANGHANH2.Controllers.TCLD
                         break;
                     }
                 }
-                QuanHeGiaDinh gd = new QuanHeGiaDinh();
+               
+
+                List<QuanHeGiaDinh> qhList = db.QuanHeGiaDinhs.ToList();
                 for (int i = 0; i < giaDinh.Length; i++)
                 {
-                    gd.MaNV = emp.MaNV;
-                    gd.LoaiGiaDinh = giaDinh[i];
-                    if (ngaySinhGiaDinh[i] != "")
+                    string moiQuanHeX = moiQuanHe[i];
+                    string giaDinhX = giaDinh[i];
+                    List<QuanHeGiaDinh> Gd = db.QuanHeGiaDinhs.Where(nv => (nv.MaNV.Equals(emp.MaNV)) && (nv.MoiQuanHe.Equals(moiQuanHeX)) && (nv.LoaiGiaDinh.Equals(giaDinhX))).ToList();
+                    if (Gd.Count == 0)
                     {
-                        string[] date = ngaySinhGiaDinh[i].Split('/');
-                        gd.NgaySinh = Convert.ToDateTime(date[1] + "/" + date[0] + "/" + date[2]);
-                    }
-                    gd.HoTen = hoTen[i];
-                    gd.MoiQuanHe = moiQuanHe[i];
-                    gd.LyLich = lyLich[i];
-                    db.QuanHeGiaDinhs.Add(gd);
-                    db.SaveChanges();
+                        QuanHeGiaDinh gd = new QuanHeGiaDinh();
+                        gd.MaNV = emp.MaNV;
+                        gd.LoaiGiaDinh = giaDinh[i];
+                        if (ngaySinhGiaDinh[i] != "")
+                        {
+                            string[] date = ngaySinhGiaDinh[i].Split('/');
+                            gd.NgaySinh = Convert.ToDateTime(date[1] + "/" + date[0] + "/" + date[2]);
+                        }
+                        gd.HoTen = hoTen[i];
+                        gd.MoiQuanHe = moiQuanHe[i];
+                        gd.LyLich = lyLich[i];
+                        db.QuanHeGiaDinhs.Add(gd);
+                        db.SaveChanges();
 
+                    }
+                    else
+                    {
+                        QuanHeGiaDinh gd = new QuanHeGiaDinh();
+                        gd.MaNV = emp.MaNV;
+                        gd.LoaiGiaDinh = giaDinh[i];
+                        
+                        var GD = db.QuanHeGiaDinhs.Where(nv => (nv.MaNV.Equals(emp.MaNV)) && (nv.MoiQuanHe.Equals(moiQuanHeX)) && (nv.LoaiGiaDinh.Equals(giaDinhX))).FirstOrDefault();
+                        GD.HoTen = hoTen[i];
+                        if (ngaySinhGiaDinh[i] != "")
+                        {
+                            string[] date = ngaySinhGiaDinh[i].Split('/');
+                            GD.NgaySinh = Convert.ToDateTime(date[1] + "/" + date[0] + "/" + date[2]);
+                        }
+                        GD.MoiQuanHe = moiQuanHe[i];
+                        GD.LyLich = lyLich[i];
+                        db.Entry(GD).State = EntityState.Modified;
+                        db.SaveChanges();
+
+                    }
                 }
                 db.Entry(emp).State = EntityState.Modified;
                 db.SaveChanges();
                 dbct.Commit();
-
-
             }
             return RedirectToAction("Search");
 
@@ -725,7 +753,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 catch (Exception)
                 {
                     dbct.Rollback();
-                    return Json(new { success = true , message = "Chưa nhập ngày chấm dứt" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = true, message = "Chưa nhập ngày chấm dứt" }, JsonRequestBehavior.AllowGet);
 
                 }
 

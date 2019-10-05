@@ -6445,8 +6445,8 @@
     <Content Include="js\Custom JS\Flexible_user_icon.js" />
     <Content Include="js\Custom JS\form-input-border.js" />
     <Content Include="js\Custom JS\PX\PXKT\add_product_report.js" />
-    <Content Include="js\Custom JS\TCLD\beo_bar_chart.js" />
-    <Content Include="js\Custom JS\TCLD\beo_line_chart.js" />
+    <Content Include="js\tcld_dashboard\bar_chart.js" />
+    <Content Include="js\tcld_dashboard\line_chart.js" />
     <Content Include="js\Custom JS\TCLD\Brief\Briefs_Add.js" />
     <Content Include="js\Custom JS\TCLD\Brief\Briefs_Edit.js" />
     <Content Include="js\Custom JS\TCLD\Brief\Briefs_List.js" />
@@ -6458,12 +6458,12 @@
     <Content Include="js\Custom JS\TCLD\Certificate\certificate.js" />
     <Content Include="js\Custom JS\TCLD\Certificate\formValidation.js" />
     <Content Include="js\Custom JS\TCLD\dateAnddepartment.js" />
-    <Content Include="js\Custom JS\TCLD\db_issue.js" />
+    <Content Include="js\tcld_dashboard\db_issue.js" />
     <Content Include="js\Custom JS\TCLD\ModifiedHistory\dbHistory.js" />
     <Content Include="js\Custom JS\TCLD\ModifiedHistory\jsGridTCLD.js" />
     <Content Include="js\Custom JS\TCLD\QuickReport.js" />
     <Content Include="js\Custom JS\TCLD\RecruitmentAndEnd\RecruitAndEnd.js" />
-    <Content Include="js\Custom JS\TCLD\table_init.js" />
+    <Content Include="js\tcld_dashboard\table_init.js" />
     <Content Include="js\Custom JS\TCLD\Transfer\Transfer_PlaceAndTime.js" />
     <Content Include="js\Custom JS\TCLD\Transfer\Transfer_Select.js" />
     <Content Include="js\fixingSelectFault.js" />
@@ -6938,9 +6938,6 @@
     <Content Include="lib\jquery\dist\jquery.min.map" />
     <Content Include="excel\CDVT\huydong.xls" />
     <Content Include="excel\CDVT\kiemdinh.xls" />
-    <Content Include="excel\CDVT\thanhly.xls" />
-    <Content Include="excel\CDVT\thuhoi.xls" />
-    <Content Include="excel\CDVT\tonghop.xls" />
     <Content Include="excel\DK\DetailReport\chi-tiet-san-xuat.xls" />
     <Content Include="excel\KCS\Báo cáo phòng KCS tháng 07 2019.xls" />
     <Content Include="excel\TCLD\Brief\HopDongLaoDong.docx" />
@@ -6995,6 +6992,9 @@
     <Content Include="excel\TCLD\Certificate\Chứng chỉ của nhân viên.xlsx" />
     <Content Include="excel\TCLD\Certificate\List\download\ListCertificate.xlsx" />
     <Content Include="excel\TCLD\Brief\Inside.xlsx" />
+    <Content Include="doc\CDVT\QD\quyetdinhsuachua.docx" />
+    <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên.xlsx" />
+    <Content Include="excel\TCLD\download\Danh-sách-nhân-viên.xlsx" />
     <Content Include="doc\CDVT\QD\quyetdinhsuachua.docx" />
     <Content Include="excel\TCLD\Brief\Inside.xlsx" />
     <Content Include="doc\CDVT\QD\quyetdinhsuachua.docx" />
@@ -7057,6 +7057,10 @@
     </Content>
     <Content Include="excel\TCLD\TuyenDung\UploadContainer\temp.xlsx" />
     <Content Include="excel\TCLD\TuyenDung\Template\TuyenDungForm.xlsx" />
+    <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên.xlsx" />
+    <Content Include="excel\TCLD\download\Danh-sách-nhân-viên.xlsx" />
+    <Content Include="doc\CDVT\QD\quyetdinhsuachua.docx" />
+    <Content Include="excel\CDVT\thanhly.xlsx" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />

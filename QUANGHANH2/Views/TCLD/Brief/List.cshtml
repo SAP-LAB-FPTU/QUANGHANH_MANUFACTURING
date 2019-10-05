@@ -31,7 +31,7 @@
                             </select>
                         </div>
                         <div class="col l3 m12 s12 input-field">
-                            <button class="btn blue darken-2 btn-small" id="searchButton"><i class="fas fas fa-search"></i></button>
+                            <button class="waves-effect waves-light btn blue darken-2 btn-small" id="searchButton"><i class="fas fas fa-search"></i></button>
                         </div>
                     </div>
                 </div>
@@ -41,13 +41,13 @@
                         <div class="left col s12 m6 l12">
                             <div class="row">
                                 <div class="col s3 m3 l3">
-                                    <a class="btn btn-small blue darken-2 modal-trigger input-field" href="/phong-tcld/quan-ly-nhan-vien/tuyen-dung-nhan-vien" style="width:120px" data-target="tuyendung">Tuyển Dụng</a>
+                                    <a class="waves-effect waves-light btn btn-small blue darken-2 modal-trigger input-field" href="/phong-tcld/quan-ly-nhan-vien/tuyen-dung-nhan-vien" style="width:120px" data-target="tuyendung">Tuyển Dụng</a>
                                 </div>
                                 @*<div class="col s2 m3 l3">
-                                    <a class="btn btn-small blue darken-2 modal-trigger input-field" style="width:120px" href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/them-nhan-vien")">Thêm</a>
+                                    <a class="waves-effect waves-light btn btn-small blue darken-2 modal-trigger input-field" style="width:120px" href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/them-nhan-vien")">Thêm</a>
                                 </div>*@
                                 <div class="col s3 m3 l3">
-                                    <a class="btn btn-small blue darken-2 input-field" id="danhsachhosonhanvien"><i class="fas fa-file-excel"></i>&nbsp;Excel</a>
+                                    <a class="waves-effect waves-light btn btn-small blue darken-2 input-field" id="danhsachhosonhanvien"><i class="fas fa-file-excel"></i>&nbsp;Excel</a>
                                 </div>
                             </div>
                         </div>
@@ -81,8 +81,6 @@
                                     </th>
                                     <th>
                                     </th>
-                                    <th></th>
-                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -167,9 +165,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn blue darken-2 modal-close">Xác nhận</button>
+                <button type="submit" class="waves-effect waves-light btn blue darken-2 modal-close">Xác nhận</button>
                 <input type="hidden" name="id" id="tlhdd" />
-                <button type="button" class="btn blue darken-2 modal-close">Hủy</button>
+                <button type="button" class="waves-effect waves-light btn blue darken-2 modal-close">Hủy</button>
             </div>
             //thuongvn
             <input type="hidden" name="id" id="historyElementID" />
@@ -315,26 +313,28 @@
                         { "data": "TenTrangThai", "name": "TenTrangThai" },
                         {
                             "data": "MaNV", "render": function (data) {
-                                return "<a class='waves-effect waves-light btn blue darken-2 btn-small' href='/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien?id=" + data + "'  data-target='dropdown1'><span class='ti-pencil-alt'>&nbsp;Sửa</span></a>";
+                                return "<a class='waves-effect waves-light btn blue darken-2 btn-small' href='/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien?id=" + data + "'  data-target='dropdown1'><span class='ti-pencil-alt'>&nbsp;Sửa</span></a> &nbsp;&nbsp;&nbsp;" +
+                                    "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='getHistoryID(" + data + ")' data-target='history'> <span class='fas fa-history'>&nbsp;Xem</span></a>&nbsp;&nbsp;&nbsp;" +
+                                    "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='getTlhd(" + data + ")' data-target='deleteBriefs'><span class='fas fa-times-circle'>&nbsp;TLHĐ</span></a>";
 
                             },
                             "orderable": false,
                             "searchable": false,
-                        },
-                        {
-                            "data": "MaNV", "render": function (data) {
-                                return "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='getHistoryID(" + data + ")' data-target='history'><span class='fas fa-history'>&nbsp;Xem</span></a>";
-                            },
-                            "orderable": false,
-                            "searchable": false,
-                        },
-                        {
-                            "data": "MaNV", "render": function (data) {
-                                return "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='getTlhd(" + data + ")' data-target='deleteBriefs'><span class='fas fa-times-circle'>&nbsp;TLHĐ</span></a>";
-                            },
-                            "orderable": false,
-                            "searchable": false,
                         }
+                        //{
+                        //    "data": "MaNV", "render": function (data) {
+                        //        return "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='getHistoryID(" + data + ")' data-target='history'><span class='fas fa-history'>&nbsp;Xem</span></a>";
+                        //    },
+                        //    "orderable": false,
+                        //    "searchable": false,
+                        //},
+                        //{
+                        //    "data": "MaNV", "render": function (data) {
+                        //        return "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='getTlhd(" + data + ")' data-target='deleteBriefs'><span class='fas fa-times-circle'>&nbsp;TLHĐ</span></a>";
+                        //    },
+                        //    "orderable": false,
+                        //    "searchable": false,
+                        //}
                     ],
                     "drawCallback": function (settings) {
                         ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
@@ -379,7 +379,7 @@
                     //    globalPosition: "top center",
                     //    className: "success"
                     //})
-                    successAlert('Thành công', 'Tìm kiếm thành công');
+                    //successAlert('Thành công', 'Tìm kiếm thành công');
                 });
             });
         });
@@ -388,7 +388,7 @@
             document.getElementById("historyElementID").value = a;
         }
         function getHistoryEployee() {
-            var id = document.getElementById("historyElementID").value;  
+            var id = document.getElementById("historyElementID").value;
             if (id != null) {
             window.location.href ='@Url.Action("WorkHistory", "WorkHistory")?id=' + id;
         }
