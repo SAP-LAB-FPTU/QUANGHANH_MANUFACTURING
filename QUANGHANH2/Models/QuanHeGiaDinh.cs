@@ -14,6 +14,7 @@ namespace QUANGHANH2.Models
     
     public partial class QuanHeGiaDinh
     {
+        public int MaQuanHeGiaDinh { get; set; }
         public string LoaiGiaDinh { get; set; }
         public string MoiQuanHe { get; set; }
         public Nullable<System.DateTime> NgaySinh { get; set; }
