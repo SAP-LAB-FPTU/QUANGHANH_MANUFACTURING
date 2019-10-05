@@ -855,7 +855,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                               join p1 in db.HoSoes on p.MaNV equals p1.MaNV
                               join p2 in db.ChamDut_NhanVien on p1.MaNV equals p2.MaNV
                               join p3 in db.Departments on p.MaPhongBan equals p3.department_id
-                              //  where p1.TrangThaiHoSo == "ngoai" 
+                              where p.MaTrangThai ==2
                               select new
                               {
                                   stt = "1",
@@ -889,7 +889,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 var count = (from p in db.NhanViens
                              join p1 in db.HoSoes on p.MaNV equals p1.MaNV
                              join p2 in db.ChamDut_NhanVien on p1.MaNV equals p2.MaNV
-                             where /*p1.TrangThaiHoSo == "ngoai" &*/ p.MaNV == mnv
+                             where p.MaTrangThai == 2 &p.MaNV == mnv
                              select p).Count();
                 if (count != 1)
                 {
@@ -1246,7 +1246,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                               join p1 in db.HoSoes on p.MaNV equals p1.MaNV
                               join p2 in db.ChamDut_NhanVien on p1.MaNV equals p2.MaNV
                               join p3 in db.Departments on p.MaPhongBan equals p3.department_id
-                              where /*p1.TrangThaiHoSo == "ngoai" &*/
+                              where p.MaTrangThai == 2&
                               p.MaNV.Contains(manv)
                               & (p.Ten.Contains(ten) | p.Ten == null)
                               & (p2.LoaiChamDut.Contains(loaichamdut) | loaichamdut =="")
