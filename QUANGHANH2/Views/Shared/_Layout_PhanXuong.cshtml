@@ -59,7 +59,11 @@
     <script src="~/dist/js/pages/dashboards/dashboard1.js"></script>
     <script src="~/js/Flexible_user_icon.js"></script>
     <script src="~/js/Custom JS/form-input-border.js"></script>
-
+    <style>
+        .btn-nhap{
+            cursor:pointer;
+        }
+    </style>
 </head>
 
 <body>
@@ -110,14 +114,14 @@
                     <!-- Logo you can find that scss in header.scss -->
                     <!-- ============================================================== -->
                     <a href="javascript:void(0)" class="brand-logo">
-                        @*<span class="icon">
-                                <img class="light-logo" src="~/assets/images/logo-light-icon.png">
-                                <img class="dark-logo" src="~/assets/images/logo-icon.png">
-                            </span>
-                            <span class="text">
-                                <img class="light-logo" src="~/assets/images/logo-light-text.png">
-                                <img class="dark-logo" src="~/assets/images/logo-text.png">
-                            </span>*@
+                        <span class="icon">
+                            <img class="light-logo" src="~/assets/images/logo-light-icon.png">
+                            <img class="dark-logo" src="~/assets/images/logo-icon.png">
+                        </span>
+                        <span class="text">
+                            <img class="light-logo" src="~/assets/images/logo-light-text.png">
+                            <img class="dark-logo" src="~/assets/images/logo-text.png">
+                        </span>
                     </a>
                     <!-- ============================================================== -->
                     <!-- Logo you can find that scss in header.scss -->
@@ -317,6 +321,97 @@
         <!-- ============================================================== -->
         <!-- Sidebar scss in sidebar.scss -->
         <!-- ============================================================== -->
+        <aside class="left-sidebar">
+            <ul id="slide-out" class="sidenav">
+                <li>
+                    <ul class="collapsible slidebar">
+
+
+                        <li>
+                           <a href="/" class="collapsible-header">
+                                <i class="material-icons">home</i><span class="hide-menu">
+                                    Phân Xưởng Khai Thác
+                                </span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/" class="collapsible-header">
+                                <i class="material-icons">home</i><span class="hide-menu">
+                                    Phân Xưởng Đào Lò
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/" class="collapsible-header">
+                                <i class="material-icons">home</i><span class="hide-menu">
+                                    Phân Xưởng Vận Tải
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/" class="collapsible-header">
+                                <i class="material-icons">home</i><span class="hide-menu">
+                                    Phân Xưởng Sàng Tuyển
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/" class="collapsible-header">
+                                <i class="material-icons">home</i><span class="hide-menu">
+                                    Phân Xưởng Phục Vụ
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/" class="collapsible-header">
+                                <i class="material-icons">home</i><span class="hide-menu">
+                                    Phân Xưởng Đời Sống
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/" class="collapsible-header">
+                                <i class="material-icons">home</i><span class="hide-menu">
+                                    Phân Xưởng Cơ Điện Mỏ
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/phong-dieu-khien/bao-cao-tai-nan" class="collapsible-header">
+                                <i class="material-icons">home</i><span class="hide-menu">
+                                    Phân Xưởng Thông Gió-Quản Lí Mỏ
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/phong-dieu-khien/bao-cao-tai-nan" class="collapsible-header">
+                                <i class="material-icons">home</i><span class="hide-menu">
+                                    Phân Xưởng Xây Dựng
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/phong-dieu-khien/bao-cao-tai-nan" class="collapsible-header">
+                                <i class="material-icons">home</i><span class="hide-menu">
+                                    Phân Xưởng Lộ Thiên
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/phong-dieu-khien/bao-cao-tai-nan" class="collapsible-header">
+                                <i class="material-icons">home</i><span class="hide-menu">
+                                    Phân Xưởng Cơ Khí,Sửa Chữa
+                                </span>
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </li>
+            </ul>
+        </aside>
+
         <!-- ============================================================== -->
         <!-- Page wrapper scss in scafholding.scss -->
         <!-- ============================================================== -->
@@ -329,12 +424,154 @@
             <!-- ============================================================== -->
             <div class="container-fluid">
                 @RenderBody()
+                @*<div class="card">
+            <div class="card-content">
+                <div class="row">
+                    <div class="center col l6 m6 s12">
+                        <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
+                    </div>
+                    <div class="center col l6 m6 s12">
+                        <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
+                    </div>
+                    <div class="center col l6 m6 s12">
+                        <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
+                    </div>
+                    <div class="center col l6 m6 s12">
+                        <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+                <div class="row">
+                    <div class="col l12 m12 s12">
+                        <div class="card">
+                            <div class="card-content">
+                                <h3 class="center">
+                                    <b>PHÂN XƯỞNG ... </b>
+  
+                                </h3>
+                               
+                                <div class="row">
+                                    <div id="nhap-hoat-dong-hang-ngay" class="waves btn-nhap col l6 m6 s12">
+                                        <div class="card info-gradient card-hover">
+                                            <div class="card-content">
+                                                <div class="d-flex no-block align-items-center">
+                                                    <div>
+                                                        <h2 class="white-text m-b-5">Nhập hoạt động hằng ngày</h2>
+                                                        <h6 class="white-text op-1"></h6>
+                                                        <br>
+                                                    </div>
+                                                    <div class="ml-auto">
+                                                        <span class="white-text display-6">
+                                                            <i class="material-icons">receipt</i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="nhap-xin-cap-vat-tu" class="btn-nhap col l6 m6 s12">
+                                        <div class="card info-gradient card-hover">
+                                            <div class="card-content">
+                                                <div class="d-flex no-block align-items-center">
+                                                    <div>
+                                                        <h2 class="white-text m-b-5">Nhập xin cấp vật tư</h2>
+                                                        <h6 class="white-text op-1"></h6>
+                                                        <br>
+                                                    </div>
+                                                    <div class="ml-auto">
+                                                        <span class="white-text display-6">
+                                                            <i class="material-icons">build</i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="nhap-su-co" class="btn-nhap col l6 m6 s12">
+                                        <div class="card info-gradient card-hover">
+                                            <div class="card-content">
+                                                <div class="d-flex no-block align-items-center">
+                                                    <div>
+                                                        <h2 class="white-text m-b-5">Nhập sự cố</h2>
+                                                        <h6 class="white-text op-1"></h6>
+                                                        <br>
+                                                    </div>
+                                                    <div class="ml-auto">
+                                                        <span class="white-text display-6">
+                                                            <i class="material-icons">receipt</i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="nhap-nhien-lieu-hang-ngay" class="btn-nhap col l6 m6 s12">
+                                        <div class="card info-gradient card-hover">
+                                            <div class="card-content">
+                                                <div class="d-flex no-block align-items-center">
+                                                    <div>
+                                                        <h2 class="white-text m-b-5">Nhập nhiên liệu hằng ngày</h2>
+                                                        <h6 class="white-text op-1"></h6>
+                                                        <br>
+                                                    </div>
+                                                    <div class="ml-auto">
+                                                        <span class="white-text display-6">
+                                                            <i class="material-icons">receipt</i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="nghiem-thu" class="btn-nhap col l6 m6 s12">
+                                        <div class="card info-gradient card-hover">
+                                            <div class="card-content">
+                                                <div class="d-flex no-block align-items-center">
+                                                    <div>
+                                                        <h2 class="white-text m-b-5">Nghiệm thu</h2>
+                                                        <h6 class="white-text op-1"></h6>
+                                                        <br>
+                                                    </div>
+                                                    <div class="ml-auto">
+                                                        <span class="white-text display-6">
+                                                            <i class="material-icons">receipt</i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="xu-li-quyet-dinh" class="btn-nhap col l6 m6 s12">
+                                        <div class="card info-gradient card-hover">
+                                            <div class="card-content">
+                                                <div class="d-flex no-block align-items-center">
+                                                    <div>
+                                                        <h2 class="white-text m-b-5">Xử lí quyết định</h2>
+                                                        <h6 class="white-text op-1"></h6>
+                                                        <br>
+                                                    </div>
+                                                    <div class="ml-auto">
+                                                        <span class="white-text display-6">
+                                                            <i class="material-icons">receipt</i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <!-- ============================================================== -->
             <!-- Container fluid scss in scafholding.scss -->
             <!-- ============================================================== -->
         </div>
-        <!-- ============================================================== -->
+        <!-- ==========================<div==================================== -->
         <!-- Page wrapper scss in scafholding.scss -->
         <!-- ============================================================== -->
         <!-- ============================================================== -->
@@ -344,7 +581,11 @@
         <!-- Right Sidebar -->
         <!-- ============================================================== -->
     </div>
-
+    <script>
+        $("#nhap-hoat-dong-hang-ngay").click(function () {
+            window.location.href = "#";
+        });
+    </script>
     <script>
 $(window).resize(function () {
             if ($(window).width() <= 600) {
