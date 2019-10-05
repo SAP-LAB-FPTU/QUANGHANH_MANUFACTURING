@@ -36,7 +36,7 @@
                                name="ngayqd"
                                class="center"
                                data-language='vi'
-                               disabled
+                               
                                style="width:200px"
                                placeholder="Ngày quyết định" />
                     </div>
@@ -156,26 +156,7 @@
         output.data = abc;
         $('#jsonid').val(JSON.stringify(output));
     })
-    $('#soqd').blur(function () {
-        var myStr = $('#soqd').val();
-        myStr = jQuery.trim(myStr);
-        var date = $(".datepicker-here").val();
-        if (myStr != "" && date != "") {
-            $('#btn_Save').attr("disabled", false);
-        } else {
-            $('#btn_Save').attr("disabled", true);
-        }
-    })
-    $('.datepicker-here').blur(function () {
-        var myStr = $('#soqd').val();
-        myStr = jQuery.trim(myStr);
-        var date = $(".datepicker-here").val();
-        if (myStr != "" && date != "") {
-            $('#btn_Save').attr("disabled", false);
-        } else {
-            $('#btn_Save').attr("disabled", true);
-        }
-    })
+ 
     $(".datepicker-here").keydown(function (e) {
         e.preventDefault();
     });
@@ -203,7 +184,7 @@
                     } else if (result.message === "NgaySinh") {
                          errorAlert('Lỗi', 'Hãy kiểm tra lại ngày sinh của nhân viên mã ' + result.responseText);
                     } else if (result.message === "MaQD") {
-                         errorAlert('Lỗi', 'Mã quyết định đã tồn tại ');
+                         errorAlert('Lỗi', 'Hãy kiểm tra lại mã quyết định ');
                     }else if (result.message === "CongViec") {
                          errorAlert('Lỗi', 'Hãy kiểm tra lại công việc của nhân viên mã ' + result.responseText);
                     }else if (result.message === "ChuyenNganh") {

@@ -7048,6 +7048,12 @@
     <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên.xlsx" />
     <Content Include="excel\TCLD\download\Danh-sách-nhân-viên.xlsx" />
     <Content Include="doc\CDVT\QD\quyetdinhsuachua.docx" />
+    <Content Include="excel\TCLD\TuyenDung\UploadContainer\temp.xlsx" />
+    <Content Include="excel\TCLD\TuyenDung\Template\TuyenDungForm.xlsx" />
+    <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên.xlsx" />
+    <Content Include="excel\TCLD\download\Danh-sách-nhân-viên.xlsx" />
+    <Content Include="doc\CDVT\QD\quyetdinhsuachua.docx" />
+    <Content Include="excel\CDVT\thanhly.xlsx" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -7055,12 +7061,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="excel\TCLD\TuyenDung\UploadContainer\temp.xlsx" />
-    <Content Include="excel\TCLD\TuyenDung\Template\TuyenDungForm.xlsx" />
-    <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên.xlsx" />
-    <Content Include="excel\TCLD\download\Danh-sách-nhân-viên.xlsx" />
-    <Content Include="doc\CDVT\QD\quyetdinhsuachua.docx" />
-    <Content Include="excel\CDVT\thanhly.xlsx" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
