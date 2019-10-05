@@ -502,109 +502,127 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult ExporTotExcel()
         {
-            string path = HostingEnvironment.MapPath("/excel/TCLD/Certificate/Chứng chỉ của cả công ty.xlsx");
-            string saveAsPath = ("/excel/TCLD/download/Chứng chỉ của cả công ty.xlsx");
-            FileInfo file = new FileInfo(path);
-            using (ExcelPackage excelPackage = new ExcelPackage(file))
-            {
-                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
-                ExcelWorksheet ws = excelWorkbook.Worksheets.First();
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            try { 
+                string path = HostingEnvironment.MapPath("/excel/TCLD/Certificate/Chứng chỉ của cả công ty.xlsx");
+                string saveAsPath = ("/excel/TCLD/download/Chứng chỉ của cả công ty.xlsx");
+                FileInfo file = new FileInfo(path);
+                using (ExcelPackage excelPackage = new ExcelPackage(file))
                 {
-                    List<ChungChi> listdata = db.ChungChis.ToList<ChungChi>();
-
-                    ws.Cells["A1"].Value = "Tên chứng chỉ";
-                    ws.Cells["B1"].Value = "Thời hạn (tháng)";
-                    ws.Cells["C1"].Value = "Kiểu chứng chỉ";
-                    int rowStart = 2;
-                    foreach (var i in listdata)
+                    ExcelWorkbook excelWorkbook = excelPackage.Workbook;
+                    ExcelWorksheet ws = excelWorkbook.Worksheets.First();
+                    using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                     {
-                        ws.Cells[string.Format("A{0}", rowStart)].Value = i.TenChungChi;
-                        if (i.ThoiHan == -1)
+                        List<ChungChi> listdata = db.ChungChis.ToList<ChungChi>();
+                        ws.Cells["A1"].Value = "Bảng danh sách chứng chỉ công ty";
+                        ws.Cells["B1"].Value = "Tên chứng chỉ";
+                        ws.Cells["C1"].Value = "Thời hạn (tháng)";
+                        ws.Cells["D1"].Value = "Kiểu chứng chỉ";
+                        int rowStart = 3;
+                        int count = 0;
+                        foreach (var i in listdata)
                         {
-                            ws.Cells[string.Format("B{0}", rowStart)].Value = "Vĩnh viễn";
-                        }
-                        else
-                        {
-                            ws.Cells[string.Format("B{0}", rowStart)].Value = i.ThoiHan;
-                        }
+                            count++;
+                            ws.Cells[string.Format("A{0}", rowStart)].Value = count;
+                            ws.Cells[string.Format("B{0}", rowStart)].Value = i.TenChungChi;
+                            if (i.ThoiHan == -1)
+                            {
+                                ws.Cells[string.Format("C{0}", rowStart)].Value = "Vĩnh viễn";
+                            }
+                            else
+                            {
+                                ws.Cells[string.Format("C{0}", rowStart)].Value = i.ThoiHan;
+                            }
 
-                        ws.Cells[string.Format("C{0}", rowStart)].Value = i.KieuChungChi;
-                        rowStart++;
+                            ws.Cells[string.Format("D{0}", rowStart)].Value = i.KieuChungChi;
+                            rowStart++;
 
+                        }
                     }
+                    excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath(saveAsPath)));
                 }
-                excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath(saveAsPath)));
+                return Json(new { success = true, location = saveAsPath }, JsonRequestBehavior.AllowGet);
             }
-            return Json(new { success = true, location = saveAsPath }, JsonRequestBehavior.AllowGet);
+            catch(Exception ex )
+            {
+                return Json(new { success = false}, JsonRequestBehavior.AllowGet);
+            }
         }
         [Route("phong-tcld/chung-chi/danh-sach-chung-chi-cua-nhan-vien/xuat-file-excel")]
         [HttpPost]
         public ActionResult ExporTotExcelCertificateEmp()
         {
-            string path = HostingEnvironment.MapPath("/excel/TCLD/Certificate/Chứng chỉ của nhân viên.xlsx");
-            string saveAsPath = ("/excel/TCLD/download/Chứng chỉ của nhân viên.xlsx");
-            FileInfo file = new FileInfo(path);
-            using (ExcelPackage excelPackage = new ExcelPackage(file))
+            try
             {
-                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
-                ExcelWorksheet ws_cert_emp = excelWorkbook.Worksheets.First();
-                List<ChungChi_NhanVien_Model> listdata_certificate_Emp = new List<ChungChi_NhanVien_Model>();
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                string path = HostingEnvironment.MapPath("/excel/TCLD/Certificate/Chứng chỉ của nhân viên.xlsx");
+                string saveAsPath = ("/excel/TCLD/download/Chứng chỉ của nhân viên.xlsx");
+                FileInfo file = new FileInfo(path);
+                using (ExcelPackage excelPackage = new ExcelPackage(file))
                 {
-
-                    listdata_certificate_Emp = (from ccnv in db.ChungChi_NhanVien
-                                                join cc in db.ChungChis on ccnv.MaChungChi equals cc.MaChungChi
-                                                join nv in db.NhanViens on ccnv.MaNV equals nv.MaNV
-                                                select new
-                                                {
-                                                    SoHieu = ccnv.SoHieu,
-                                                    NgayCap = ccnv.NgayCap,
-                                                    MaNV = ccnv.MaNV,
-                                                    TenNV = nv.Ten,
-                                                    MaChungChi = ccnv.MaChungChi,
-                                                    TenChungChi = cc.TenChungChi,
-
-                                                }).ToList().Select(p => new ChungChi_NhanVien_Model
-                                                {
-
-                                                    SoHieu = p.SoHieu,
-                                                    NgayCap = p.NgayCap,
-                                                    MaNV = p.MaNV,
-                                                    MaChungChi = p.MaChungChi,
-                                                    TenNV = p.TenNV,
-                                                    TenChungChi = p.TenChungChi,
-                                                }).ToList();
-
-                    ws_cert_emp.Cells["A1"].Value = "Số hiệu";
-                    ws_cert_emp.Cells["B1"].Value = "Tên chứng chỉ";
-                    ws_cert_emp.Cells["C1"].Value = "Mã nhân viên";
-                    ws_cert_emp.Cells["D1"].Value = "Tên nhân viên";
-                    ws_cert_emp.Cells["E1"].Value = "Ngày cấp";
-                    int rowStart = 2;
-
-                    foreach (var item in listdata_certificate_Emp)
+                    ExcelWorkbook excelWorkbook = excelPackage.Workbook;
+                    ExcelWorksheet ws_cert_emp = excelWorkbook.Worksheets.First();
+                    List<ChungChi_NhanVien_Model> listdata_certificate_Emp = new List<ChungChi_NhanVien_Model>();
+                    using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                     {
-                        ws_cert_emp.Cells[string.Format("A{0}", rowStart)].Value = item.SoHieu;
-                        ws_cert_emp.Cells[string.Format("B{0}", rowStart)].Value = item.TenChungChi;
-                        ws_cert_emp.Cells[string.Format("C{0}", rowStart)].Value = item.MaNV;
-                        ws_cert_emp.Cells[string.Format("D{0}", rowStart)].Value = item.TenNV;
-                        if (item.NgayCap != null)
-                        {
-                            ws_cert_emp.Cells[string.Format("E{0}", rowStart)].Value = ((DateTime)item.NgayCap).ToString("dd/MM/yyyy");
-                        }
-                        else
-                        {
-                            ws_cert_emp.Cells[string.Format("E{0}", rowStart)].Value = item.NgayCap;
-                        }
+                    
+                        listdata_certificate_Emp = (from ccnv in db.ChungChi_NhanVien
+                                                    join cc in db.ChungChis on ccnv.MaChungChi equals cc.MaChungChi
+                                                    join nv in db.NhanViens on ccnv.MaNV equals nv.MaNV
+                                                    select new
+                                                    {
+                                                        SoHieu = ccnv.SoHieu,
+                                                        NgayCap = ccnv.NgayCap,
+                                                        MaNV = ccnv.MaNV,
+                                                        TenNV = nv.Ten,
+                                                        MaChungChi = ccnv.MaChungChi,
+                                                        TenChungChi = cc.TenChungChi,
 
-                        rowStart++;
+                                                    }).ToList().Select(p => new ChungChi_NhanVien_Model
+                                                    {
 
+                                                        SoHieu = p.SoHieu,
+                                                        NgayCap = p.NgayCap,
+                                                        MaNV = p.MaNV,
+                                                        MaChungChi = p.MaChungChi,
+                                                        TenNV = p.TenNV,
+                                                        TenChungChi = p.TenChungChi,
+                                                    }).ToList();
+                        ws_cert_emp.Cells["A1"].Value = "Bảng danh sách chứng chỉ của nhân viên";
+                        ws_cert_emp.Cells["B1"].Value = "Số hiệu";
+                        ws_cert_emp.Cells["C1"].Value = "Tên chứng chỉ";
+                        ws_cert_emp.Cells["D1"].Value = "Mã nhân viên";
+                        ws_cert_emp.Cells["E1"].Value = "Tên nhân viên";
+                        ws_cert_emp.Cells["F1"].Value = "Ngày cấp";
+                        int rowStart = 3;
+                        int count = 0;
+                        foreach (var item in listdata_certificate_Emp)
+                        {
+                            count++;
+                            ws_cert_emp.Cells[string.Format("A{0}", rowStart)].Value = count;
+                            ws_cert_emp.Cells[string.Format("B{0}", rowStart)].Value = item.SoHieu;
+                            ws_cert_emp.Cells[string.Format("C{0}", rowStart)].Value = item.TenChungChi;
+                            ws_cert_emp.Cells[string.Format("D{0}", rowStart)].Value = item.MaNV;
+                            ws_cert_emp.Cells[string.Format("E{0}", rowStart)].Value = item.TenNV;
+                            if (item.NgayCap != null)
+                            {
+                                ws_cert_emp.Cells[string.Format("F{0}", rowStart)].Value = ((DateTime)item.NgayCap).ToString("dd/MM/yyyy");
+                            }
+                            else
+                            {
+                                ws_cert_emp.Cells[string.Format("F{0}", rowStart)].Value = item.NgayCap;
+                            }
+
+                            rowStart++;
+
+                        }
                     }
+                    excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath(saveAsPath)));
                 }
-                excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath(saveAsPath)));
+                return Json(new { success = true, location = saveAsPath }, JsonRequestBehavior.AllowGet);
             }
-            return Json(new { success = true, location = saveAsPath }, JsonRequestBehavior.AllowGet);
+            catch (Exception ex)
+            {
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }
