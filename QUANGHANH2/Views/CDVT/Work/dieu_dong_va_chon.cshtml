@@ -63,7 +63,8 @@
                                     <tr id="@i">
                                         <td>@ViewBag.DataThietBi[i].equipmentId</td>
                                         <td>@ViewBag.DataThietBi[i].equipment_name</td>
-                                        <td>@ViewBag.DataThietBi[i].current_Status</td>
+                                        <td>@ViewBag.DataThietBi[i].statusname</td>
+
                                         <td>
                                             <input list='departmentName' type="text" required class="form-control" />
                                         </td>
@@ -276,6 +277,7 @@
 
                 else {
                     for (var key in output) {
+
                         output[key].department_id = $('#' + key + ' input').eq(0).val();
                         output[key].department_detail = $('#' + key + ' input').eq(1).val();
                         output[key].date_to = $('#' + key + ' input').eq(2).val();
