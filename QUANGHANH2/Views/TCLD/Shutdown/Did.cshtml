@@ -22,7 +22,7 @@
                         <input type="text" placeholder="Tìm kiếm theo ngày chấm dứt" class='form-control datepicker-here datepicker-add' id="searchNgayCD" multiple />
                     </div>
                     <div class="col l3 m12 s12 input-field">
-                        <button class="btn blue darken-2 btn-small" id="searchButton">Tìm kiếm</button>
+                        <button class="waves-effect waves-light btn blue darken-2 btn-small" id="searchButton">Tìm kiếm</button>
                     </div>
                 </div>
             </div>
@@ -78,8 +78,8 @@
             </div>
             <div class="modal-footer">
                 <input type="hidden" name="id" id="del" />
-                <button type="submit" class="btn red darken-2 modal-close">Xác nhận</button>
-                <button type="button" class="btn blue modal-close">Hủy</button>
+                <button type="submit" class="waves-effect waves-light btn red darken-2 modal-close">Xác nhận</button>
+                <button type="button" class="waves-effect waves-light btn blue modal-close">Hủy</button>
             </div>
         </div>
     </div>
@@ -237,10 +237,6 @@
             var dataTable = $('#did-table').DataTable();
             $("#searchButton").click(function () {
                 dataTable.ajax.reload(function () {
-                    $.notify("Tìm kiếm thành công", {
-                        globalPosition: "top center",
-                        className: "success"
-                    })
                 });
             });
         });
@@ -291,19 +287,8 @@
                     data: $(form).serialize(),
 
                     success: function (data) {
-                        if (data.success) {
-                            dataTable.ajax.reload();
-                            $.notify("Xóa thành công", {
-                                globalPosition: "top center",
-                                className: "success"
-                            })
-
-                        } else {
-                            $.notify("Xóa không thành công", {
-                                globalPosition: "top center",
-                                className: ""
-                            })
-                        }
+                        dataTable.ajax.reload();
+                            successAlert('Thành công','Xóa thành công');
                     }
                 });
 

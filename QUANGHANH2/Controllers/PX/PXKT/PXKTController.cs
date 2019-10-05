@@ -47,10 +47,14 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                 Donvi = "DL1";
             }
             var calamviec = Convert.ToInt32(Ca);
+           
             var date = DateTime.ParseExact(Date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                ViewBag.TenToChuc = db.Departments.ToList();
+                
+                List<Department> listDepartment = db.Departments
+                    .Where(a => a.department_id.Contains("KT")).ToList();
+                ViewBag.TenToChuc = listDepartment;
                 List<DiemDanh_NangSuatLaoDong> list = db.DiemDanh_NangSuatLaoDong
                     .Where(a => a.NgayDiemDanh == date)
                     .Where(a => a.CaDiemDanh == calamviec)
