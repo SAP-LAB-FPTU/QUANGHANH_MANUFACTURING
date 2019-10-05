@@ -397,6 +397,30 @@ namespace QUANGHANH2.Controllers.TCLD
                     //        }
                     //    }
                     //}
+                    //Check Exel
+                    Boolean checkExel = true;
+                    if (!workSheet.Cells[4, 2].Value.ToString().Equals("Số thẻ")) checkExel = false;
+                    if (!workSheet.Cells[4, 3].Value.ToString().Equals("Họ và tên")) checkExel = false;
+                    if (!workSheet.Cells[4, 4].Value.ToString().Equals("Ngày sinh")) checkExel = false;
+                    if (!workSheet.Cells[4, 5].Value.ToString().Equals("Đơn vị")) checkExel = false;
+                    if (!workSheet.Cells[4, 6].Value.ToString().Equals("Trình độ")) checkExel = false;
+                    if (!workSheet.Cells[4, 7].Value.ToString().Equals("Chuyên Nghành")) checkExel = false;
+                    if (!workSheet.Cells[4, 8].Value.ToString().Equals("Công việc bố trí")) checkExel = false;
+                    if (!workSheet.Cells[4, 9].Value.ToString().Equals("Thường trú")) checkExel = false;
+                    if (!workSheet.Cells[4, 10].Value.ToString().Equals("Thang lương")) checkExel = false;
+                    if (!workSheet.Cells[4, 11].Value.ToString().Equals("Bậc")) checkExel = false;
+                    if (!workSheet.Cells[4, 12].Value.ToString().Equals("Mức lương (đồng/ tháng)")) checkExel = false;
+                    if (!workSheet.Cells[3, 5].Value.ToString().Equals("Ngày")) checkExel = false;
+                    if (!workSheet.Cells[3, 7].Value.ToString().Equals("Tháng")) checkExel = false;
+                    if (!workSheet.Cells[3, 9].Value.ToString().Equals("Năm")) checkExel = false;
+                    if (!workSheet.Cells[2, 1].Value.ToString().Equals("Kèm theo Quyết Định Số :")) checkExel = false;
+                    if (!workSheet.Cells[2, 9].Value.ToString().Equals("/QĐ-VQHC")) checkExel = false;
+                    if(checkExel == false)
+                    {
+                        return Json(new { success = true, message = "Excel" });
+                    }
+                        
+                    
                     //Get excel value:
                     for (int i = 5; i <= totalRows; i++)
                     {

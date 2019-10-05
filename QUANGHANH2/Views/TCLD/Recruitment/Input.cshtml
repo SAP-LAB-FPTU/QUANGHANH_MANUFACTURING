@@ -103,7 +103,7 @@
                                 <i class="material-icons dp48">send</i>
                                 Tải lên
                             </button>
-                            <a href="~/excel/KCS/FileHandler/MauBaoCaoKCS.xlsx" style="float:right;">Tải file mẫu</a>
+                            <a href="~/excel/TCLD/TuyenDung/Template/TuyenDungForm.xlsx" style="float:right;">Tải file mẫu</a>
                         </div>
                     </div>
                 </div>
@@ -290,7 +290,11 @@
                 processData: false,
                 success: function (data) {
                     if (!data.success) {
+                        alert(data.message);
                         toastr.warning(data.message, 'Hệ thống');
+                    } else if (data.message == "Excel")
+                    {
+                        errorAlert('Lỗi','Hãy dùng bản mẫu excel của hệ thống');
                     } else {
                         var gender = '<select class="form-control"><option value="nam" selected>Nam</option><option value="nu">Nữ</option></select>';
                         var select = '<select class="form-control"><option value="CBQL" selected>Cán bộ quản lý</option><option value="CNKT">Công nhân khai thác</option><option value="CD">Công nhân cơ điện</option><option value="HSTT">Học sinh thực tập</option></select>';
