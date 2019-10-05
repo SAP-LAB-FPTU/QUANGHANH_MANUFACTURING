@@ -191,6 +191,8 @@
                          errorAlert('Lỗi', 'Hãy kiểm tra lại chuyên ngành của nhân viên mã ' + result.responseText);
                     }else if (result.message === "DonVi") {
                          errorAlert('Lỗi', 'Hãy kiểm tra lại đơn vị của nhân viên mã ' + result.responseText);
+                    }else if (result.message === "MucLuong") {
+                         errorAlert('Lỗi', 'Hãy kiểm tra lại mức lương của nhân viên mã ' + result.responseText);
                     }
                     else {
                         reloadAlert('Thêm thành công', 3000);

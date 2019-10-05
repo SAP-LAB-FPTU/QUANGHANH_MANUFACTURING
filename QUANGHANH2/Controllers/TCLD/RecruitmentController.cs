@@ -133,7 +133,16 @@ namespace QUANGHANH2.Controllers.TCLD
                                 return Json(new { message = "ChuyenNganh", responseText = id }, JsonRequestBehavior.AllowGet);
                             }
                         }
-                        emp.MucLuong = convertSalary(salaryMonth);
+                        if (salaryMonth != null)
+                        {
+                            emp.MucLuong = convertSalary(salaryMonth);
+                            if (emp.MucLuong == -1)
+                            {
+                                transaction.Rollback();
+                                return Json(new { message = "MucLuong", responseText = id }, JsonRequestBehavior.AllowGet);
+                            }
+                        }
+                        
                         emp.MaTrangThai = 1;
                         DBcontext.NhanViens.Add(emp);
                         HoSo document = new HoSo();
@@ -205,16 +214,21 @@ namespace QUANGHANH2.Controllers.TCLD
         {
             if(salary != null)
             {
-                salary = salary.Replace(".", string.Empty);
-                return Double.Parse(salary);
+                try
+                {
+                    salary = salary.Replace(".", string.Empty);
+                    return Double.Parse(salary);
+                }
+                catch (FormatException)
+                {
+                    return -1;
+                }
             }
             else
             {
                 checkNull = false;
                 return 0;
             }
-            
-            
         }
         public string getMaDonVi(string nameDonvi)
         {
