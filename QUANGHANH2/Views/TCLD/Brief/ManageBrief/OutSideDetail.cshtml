@@ -69,7 +69,7 @@
                             </div>
                             <div class="col m4">
                                 <label class='custom-label'>Ngày tháng năm sinh</label>
-                                <input disabled="" type="text" id="ngaythangnamsinh" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="datepicker-here datepicker-add center inputEdit form-control" placeholder="dd/mm/yyyy" />
+                                <input  disabled="" type="text" id="ngaythangnamsinh" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="validatengay datepicker-here datepicker-add center inputEdit form-control" placeholder="dd/mm/yyyy" />
                             </div>
                         </div>
                         <div class="input-field col m12">
@@ -78,12 +78,12 @@
                                 <input disabled type="text" id="donvicd" class="inputEdit form-control" />
                             </div>
                             <div class="col m3">
-                                <label class='custom-label'>Số sổ BHXH</label>
-                                <input disabled type="text" id="soBH" class="inputEdit form-control" />
+                                <label class='custom-label '>Số sổ BHXH</label>
+                                <input disabled type="text" id="soBH" class="inputEdit form-control number" />
                             </div>
                             <div class="col m3">
                                 <label class='custom-label'>Số điện thoại NLĐ</label>
-                                <input disabled type="text" id="sodt" class="inputEdit form-control" />
+                                <input disabled type="text" id="sodt" class="inputEdit form-control number" />
                             </div>
                             <div class="col m3">
                                 <label class='custom-label'>Địa chỉ thường trú NLĐ</label>
@@ -150,11 +150,11 @@
 
                             <div class="col m3">
                                 <label class='custom-label'>Ngày tháng năm QĐ</label>
-                                <input disabled type="text" id="ngayQD" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
+                                <input disabled type="text" id="ngayQD" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="validatengay datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
                             </div>
                             <div class="col m3">
                                 <label class='custom-label'>Ngày chấm dứt</label>
-                                <input disabled type="text" id="ngayCD" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
+                                <input disabled type="text" id="ngayCD" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="validatengay datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
                             </div>
                         </div>
                     </div>
@@ -205,13 +205,13 @@
                                 <label class='custom-label'>Quan hệ với người ủy quyền</label>
                                 <input disabled type="text" id="quanHeNguoiUyQuyen" class="inputEdit form-control" />
                             </div>
-                            <div class="col m3">
+                            <div class="col m3 ">
                                 <label class='custom-label'>Số CMND</label>
-                                <input disabled type="text" id="soCMT" class="inputEdit form-control" />
+                                <input disabled type="text" id="soCMT" class="inputEdit form-control number" />
                             </div>
                             <div class="col m3">
-                                <label class='custom-label'>Số ĐT người được ủy quyền</label>
-                                <input disabled type="text" id="soDT" class="inputEdit form-control" />
+                                <label class='custom-label number'>Số ĐT người được ủy quyền</label>
+                                <input disabled type="text" id="soDT" class="inputEdit form-control number" />
                             </div>
                         </div>
                     </div>
@@ -292,7 +292,7 @@
             </div>
             <div class="col m4">
                 <label class='custom-label'>Ngày trả</label>
-                <input type="text" id="suangaytra" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
+                <input type="text" id="suangaytra" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="validatengay datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
             </div>
 
         </div>
@@ -453,7 +453,13 @@
             $('#sodt').val(data.data[0].sodt);
             $('#diachithuongtru').val(data.data[0].diachithuongtru);
 
-        },
+            }
+        ,
+         error: () => {
+                            $("#pre-load").hide()
+                         
+                            errorAlert('Thất bại', 'Đã xảy ra lỗi');
+                        }
 
 
 
@@ -490,7 +496,13 @@
 
             }
             console.log(data.data[0].listChamDut);
-        }
+            }
+        ,
+         error: () => {
+                            $("#pre-load").hide()
+                         
+                            errorAlert('Thất bại', 'Đã xảy ra lỗi');
+                        }
 
             });
 
@@ -517,7 +529,13 @@
             $('#quanHeNguoiUyQuyen').val(data.data[0].quanHeNguoiUyQuyen);
             $('#soCMT').val(data.data[0].soCMT);
             $('#soDT').val(data.data[0].soDT);
-        }
+            }
+        ,
+         error: () => {
+                            $("#pre-load").hide()
+                         
+                            errorAlert('Thất bại', 'Đã xảy ra lỗi');
+                        }
 
             });
         }
@@ -679,7 +697,7 @@
 
         var x1 = $('#sothe').val();
         var x2 = $('#hoVaTen').val();
-
+        var zz = $('#ngaythangnamsinh').val();
         var dateParts = $('#ngaythangnamsinh').val().split("/");
         var x3 = dateParts[1]+'/'+ dateParts[0]+'/' +dateParts[2];
 
@@ -777,7 +795,15 @@
 
                 //  alert('ddd');
                 loadThongTinCoBan();
+                
+                successAlert('Thành công', 'Cập nhật thông tin cơ bản');
             }
+            ,
+         error: () => {
+                            $("#pre-load").hide()
+                         
+                            errorAlert('Thất bại', 'Đã xảy ra lỗi');
+                        }
 
         });
     }
@@ -796,7 +822,14 @@
                 //  alert('updateChamDut');
 
                 loadLoaiChamDut();
+                successAlert('Thành công', 'Cập nhật thông tin chấm dứt');
             }
+            ,
+         error: () => {
+                            $("#pre-load").hide()
+                         
+                            errorAlert('Thất bại', 'Đã xảy ra lỗi');
+                        }
 
         });
     }
@@ -814,7 +847,14 @@
             success: function (data) {
                 // alert('updateChamDut');
                 loadUyQuyen();
+                 successAlert('Thành công', 'Cập nhật thông tin ủy quyền');
             }
+            ,
+         error: () => {
+                            $("#pre-load").hide()
+                         
+                            errorAlert('Thất bại', 'Đã xảy ra lỗi');
+                        }
 
         });
     }
@@ -896,16 +936,20 @@
         url: "/Brief/updateGiayTo",
         data: { json: JSON.stringify(object) },
         dataType: "json",
-        success: function (data) {
-            // alert('updateChamDut');
-            console.log('update giay to');
-
+        success: function (data) {        
             //loadThongTinGiayTo();
             //     setTimeout(() => {
-            table.ajax.reload(() => { }, false);
+            table.ajax.reload(() => { successAlert('Thành công', 'Cập nhật giấy tờ thành công'); }, false);
             //     },500)
+            
+        },
+         error: () => {
+                            $("#pre-load").hide()
+                         
+                            errorAlert('Thất bại', 'Đã xảy ra lỗi');
+                        }
 
-        }
+
 
     });
 
@@ -929,6 +973,98 @@
         //table.ajax.url('@Url.Action("thongTinGiayTo", "Brief")').load(() => { $("#pre-load").hide() }, false);
     }
 
+
+
+        ///////////////////////////////////////////NUMBER/////////////////////////////////////////////////
+$(".number").keydown(function (e) {
+    var text = $(this).val().toLowerCase();
+    var doubleReg = /[+-]?([0-9]*[,])?[0-9]+$/;
+    if (!doubleReg.test(text)) {
+         $(this).val("");
+    }
+    var acceptList = [45, 35, 40, 34, 37, 9, 12, 39, 36, 38, 33, 8];// , 65, 86, 67, 90
+    for (var i = 48; i <= 57; i++) {
+        acceptList.push(i);
+    }
+    for (var i = 96; i <= 105; i++) {
+        acceptList.push(i);
+    }
+    if (e.ctrlKey) {
+        if (e.keyCode !== 65 && e.keyCode !== 86 && e.keyCode !== 67 && e.keyCode !== 90&& e.keyCode !== 88) {
+            e.preventDefault();
+        } else {
+            acceptList.push(e.keyCode);
+        }
+    }
+    if (acceptList.indexOf(e.keyCode) === -1) {
+        e.preventDefault();
+    }
+
+});
+
+//////////////////////////////////////////number with comma///////////////////////////////////////
+$(".number-with-comma").keyup(function () {
+    var text = $(this).val().toLowerCase();
+    var doubleReg = /[+-]?([0-9]*[,])?[0-9]+$/;
+    if (!doubleReg.test(text)) {
+         $(this).val("");
+    } else {
+        $(this).val(AddComma(text));
+    }
+    text = $(this).val().toLowerCase();
+});
+
+/////////////////////////////////DATEPICKER-VALIDATE/////////////////////////////////////////////
+$(".datepicker-here").keydown(function (e) {
+    if (e.keyCode === 8) {
+        $(".datepicker-here").val("");
+    } else {
+        e.preventDefault();
+    }
+});
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+function AddComma(Num) { //function to add commas to textboxes
+    Num += '';
+    Num = Num.replace(',', ''); Num = Num.replace(',', ''); Num = Num.replace(',', '');
+    Num = Num.replace(',', ''); Num = Num.replace(',', ''); Num = Num.replace(',', '');
+    x = Num.split('.');
+    x1 = x[0];
+    x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1))
+        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    return x1 + x2;
+}
+
+function revert(res) {
+    var r = "";
+    for (var i = 0; i < res.length; i++) {
+        r += res[i];
+    }
+    return r;
+}
+
+        /////////////////////////////////////SET TODAY DEFAULT///////////////////////////////////////////
+ var date = new Date();
+ $(".datepicker-here").val(date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear());
+
+//////////////////////////////////////TURN OF TOGGLE SELECTED//////////////////////////////////
+$(function(){
+    $(".datepicker-here").datepicker({
+        toggleSelected: false
+    })
+})
+
+
+
+        $('.validatengay').datepicker({   
+        language: 'vi',
+        maxDate: new Date() // Now can select only dates, which goes after today
+        })
+        $(document).ready(function () {
+            $('.datepicker-inline').remove();
+        });
 
 
 
