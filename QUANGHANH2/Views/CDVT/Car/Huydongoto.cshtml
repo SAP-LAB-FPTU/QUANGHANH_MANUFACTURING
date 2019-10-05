@@ -653,14 +653,16 @@
                     "type": "POST",
                     "datatype": "json",
                 },
-                "columns": [
+               "columns": [
+                    { "data": "Equipment_category_name", "name" : "Equipment_category_name"},
                     {
                         "data": "equipmentId", "name": "equipmentId", "render": function (data) {
-                            //return ("<form id='myform' action='thiet-bi' method='POST'><input name='id' value='" + data + "' type='hidden' /><a class='btn' onclick='abc()'>" + data + "</a></form>");
-                            return ("<form action=\"/phong-cdvt/thiet-bi\" method=\"post\"><input type=\"hidden\" name=\"id\" value=\"" + data + "\" class=\"form-control\"/><button class='btn' onclick='submit'>" + data + "</button></form>");
+                            return ("<form action=\"thiet-bi\" method=\"post\"><input type=\"hidden\" name=\"id\" value=\"" + data + "\" class=\"form-control\"/><button class='btn' onclick='submit'>" + data + "</button></form>");
                         }
                     },
                     { "data": "equipment_name", "name": "equipment_name" },
+                    { "data": "fabrication_number", "name": "fabrication_number" },
+                    { "data": "mark_code", "name" : "mark_code"},
                     { "data": "supplier", "name": "supplier" },
                     {
                         "data": "date_import", "name": "date_import", "render": function (data) {
@@ -668,20 +670,21 @@
                         },
 
                     },
-                    { "data": "depreciation_estimate", "name": "depreciation_estimate" },
-                    { "data": "depreciation_present", "name": "depreciation_present" },
                     {
-                        "data": "durationOfInspection_fix", "name": "durationOfInspection", "render": function (data) {
+                        "data": "usedDay", "name": "usedDay", "render": function (data) {
                             return dateFormat2(data) + " ";
                         },
                     },
+                    { "data": "total_operating_hours" , "name" : "total_operating_hours"},
+                    { "data": "quality_type" , "name" : "quality_type"},
+                    { "data": "input_channel", "name": "input_channel" },
                     {
                         "data": "durationOfInsurance", "name": "durationOfInsurance", "render": function (data) {
                             return dateFormat2(data) + " ";
                         },
                     },
                     {
-                        "data": "usedDay", "name": "usedDay", "render": function (data) {
+                        "data": "durationOfInspection_fix", "name": "durationOfInspection", "render": function (data) {
                             return dateFormat2(data) + " ";
                         },
                     },
@@ -690,14 +693,13 @@
                             return dateFormat2(data) + " ";
                         },
                     },
-                    { "data": "total_operating_hours" , "name" : "total_operating_hours"},
-                    { "data": "statusname", "name": "statusname"},
-                    { "data": "fabrication_number", "name": "fabrication_number" },
-                    { "data": "mark_code", "name" : "mark_code"},
-                    { "data": "quality_type" , "name" : "quality_type"},
-                    { "data": "input_channel", "name" : "input_channel"},
-                    { "data": "Equipment_category_name", "name" : "Equipment_category_name"},
                     { "data": "department_name" , "name" : "department_name"},
+                    { "data": "statusname", "name" : "statusname"},
+                    { "data": "depreciation_estimate", "name": "depreciation_estimate" },
+                    { "data": "depreciation_present", "name": "depreciation_present" },
+                    
+                    
+                    
                     //
                     {
                         "data": "equipmentId", "visible":bol,"render": function (data) {
@@ -714,7 +716,7 @@
                         "orderable": false,
                         "searchable":false,
                         "width":"150px"
-                    }
+                        }
                     ],
                  "drawCallback": function (settings) {
                         ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
@@ -783,54 +785,56 @@
                         },
                         "cache": false
                     },
-                    "columns": [
+                   "columns": [
+                    { "data": "Equipment_category_name", "name" : "Equipment_category_name"},
                     {
                         "data": "equipmentId", "name": "equipmentId", "render": function (data) {
-                            //return ("<form id='myform' action='thiet-bi' method='POST'><input name='id' value='" + data + "' type='hidden' /><a class='btn' onclick='abc()'>" + data + "</a></form>");
-                            return ("<form action=\"thiet-bi\" method=\"post\"><input type=\"hidden\" name=\"id\" value=\"" + data + "\" class=\"form-control\"/><button class='btn' onclick='submit'>"+data+"</button></form>");
+                            return ("<form action=\"thiet-bi\" method=\"post\"><input type=\"hidden\" name=\"id\" value=\"" + data + "\" class=\"form-control\"/><button class='btn' onclick='submit'>" + data + "</button></form>");
                         }
                     },
-                    { "data": "equipment_name" , "name" : "equipment_name" },
+                    { "data": "equipment_name", "name": "equipment_name" },
+                    { "data": "fabrication_number", "name": "fabrication_number" },
+                    { "data": "mark_code", "name" : "mark_code"},
                     { "data": "supplier", "name": "supplier" },
                     {
                         "data": "date_import", "name": "date_import", "render": function (data) {
-                return dateFormat2(data) + " ";
-            },
+                            return dateFormat2(data) + " ";
+                        },
 
                     },
-                    { "data": "depreciation_estimate" , "name" : "depreciation_estimate"},
-                    { "data": "depreciation_present" , "name" : "depreciation_present" },
                     {
-                         "data": "durationOfInspection_fix", "name": "durationOfInspection", "render": function (data) {
-                return dateFormat2(data) + " ";
-            },
+                        "data": "usedDay", "name": "usedDay", "render": function (data) {
+                            return dateFormat2(data) + " ";
+                        },
+                    },
+                    { "data": "total_operating_hours" , "name" : "total_operating_hours"},
+                    { "data": "quality_type" , "name" : "quality_type"},
+                    { "data": "input_channel", "name": "input_channel" },
+                    {
+                        "data": "durationOfInsurance", "name": "durationOfInsurance", "render": function (data) {
+                            return dateFormat2(data) + " ";
+                        },
                     },
                     {
-                         "data": "durationOfInsurance", "name": "durationOfInsurance", "render": function (data) {
-                return dateFormat2(data) + " ";
-            },
-                    },
-                    {
-                         "data": "usedDay", "name": "usedDay", "render": function (data) {
-                return dateFormat2(data) + " ";
-            },
+                        "data": "durationOfInspection_fix", "name": "durationOfInspection", "render": function (data) {
+                            return dateFormat2(data) + " ";
+                        },
                     },
                     {
                         "data": "durationOfMaintainance", "name": "durationOfMaintainance", "render": function (data) {
                             return dateFormat2(data) + " ";
                         },
                     },
-                    { "data": "total_operating_hours" , "name" : "total_operating_hours"},
-                    { "data": "statusname", "name" : "statusname"},
-                    { "data": "fabrication_number", "name": "fabrication_number" },
-                    { "data": "mark_code", "name" : "mark_code"},
-                    { "data": "quality_type" , "name" : "quality_type"},
-                    { "data": "input_channel", "name" : "input_channel"},
-                    { "data": "Equipment_category_name", "name" : "Equipment_category_name"},
                     { "data": "department_name" , "name" : "department_name"},
+                    { "data": "statusname", "name" : "statusname"},
+                    { "data": "depreciation_estimate", "name": "depreciation_estimate" },
+                    { "data": "depreciation_present", "name": "depreciation_present" },
+                    
+                    
+                    
                     //
-                     {
-                        "data": "equipmentId", "visible":bol, "render": function (data) {
+                    {
+                        "data": "equipmentId", "visible":bol,"render": function (data) {
                 return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='myedit' onclick=Edit('@Url.Action("Edit","Hoatdong")/" + data + "')><i class='fa fa-pencil'></i>Chỉnh&nbsp;sửa</a>";
             },
                         "orderable": false,
@@ -844,8 +848,8 @@
                         "orderable": false,
                         "searchable":false,
                         "width":"150px"
-                    }
-                     ],
+                        }
+                    ],
                      "drawCallback": function (settings) {
                         ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
                         $("#pre-load").hide("slow", function () {

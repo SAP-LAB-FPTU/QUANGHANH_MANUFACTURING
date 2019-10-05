@@ -38,6 +38,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                 var result = (from e in db.Equipments
                               where listConvert.Contains(e.equipmentId)
                               join d in db.Departments on e.department_id equals d.department_id
+                              join c in db.Status on e.current_Status equals c.statusid
                               select new
                               {
                                   equipmentId = e.equipmentId,
@@ -45,6 +46,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                                   department_name = d.department_name,
                                   department_id = e.department_id,
                                   current_Status = e.current_Status,
+                                  statusname = c.statusname,
                               }).ToList().Select(s => new equipmentExtend
                               {
                                   equipmentId = s.equipmentId,
@@ -52,6 +54,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                                   department_name = s.department_name,
                                   department_id = s.department_id,
                                   current_Status = s.current_Status,
+                                  statusname = s.statusname,
 
                               }).ToList();
                 ViewBag.DataThietBi = result;
@@ -122,6 +125,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                     {
                         string equipmentId = (string)item.Value["id"];
                         string remodel_type = (string)item.Value["remodel_type"];
+                        string department_id_to = (string)item.Value["department_id"];//
                         string equipment_big_maintain_reason = (string)item.Value["equipment_big_maintain_reason"];
                         string datestring = (string)item.Value["end_date"];
                         string next_remodel_type = (string)item.Value["next_remodel_type"];
@@ -139,6 +143,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                         drd.equipment_big_maintain_status = 0;
                         drd.remodel_type = remodel_type;
                         drd.equipment_big_maintain_reason = equipment_big_maintain_reason;
+                        drd.department_id = department_id_to;//
                         drd.end_date = end_date;
                         drd.next_remodel_type = next_remodel_type;
                         drd.next_end_time = next_end_time;
