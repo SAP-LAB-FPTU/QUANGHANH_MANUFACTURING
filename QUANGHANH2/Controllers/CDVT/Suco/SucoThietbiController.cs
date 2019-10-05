@@ -50,7 +50,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                     }
                     DateTime start = new DateTime(yearStart, monthStart, dayStart, hourStart, minuteStart, 0);
                     DateTime end = new DateTime(yearEnd, monthEnd, dayEnd, hourEnd, minuteEnd, 0);
-                    if (DateTime.Compare(start,end) >= 0)
+                    if (checkBox.Equals("no") && DateTime.Compare(start,end) >= 0)
                         return Json(new { success = false, message = "Bạn đã nhập ngày bắt đầu lớn hơn ngày kết thúc" }, JsonRequestBehavior.AllowGet);
                     e.current_Status = 4;
                     i.department_id = e.department_id;

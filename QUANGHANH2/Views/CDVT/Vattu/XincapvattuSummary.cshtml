@@ -88,7 +88,7 @@
             });
 
             $("#submit").click(function () {
-                if (confirm('Duyệt đơn xin cấp mới cho đơn vị này?')) {
+                confirmAlert('Xác nhận', 'Duyệt đơn xin cấp mới cho đơn vị này?', function () {
                     $("#pre-load").show();
                     $.ajax({
                         dataType: "json",
@@ -103,6 +103,7 @@
                                     globalPosition: 'top center',
                                     className: 'success'
                                 });
+                                $("#submit").attr("disabled", true);
                             } else {
                                 $.notify('Duyệt đơn không thành công.', {
                                     globalPosition: 'top center',
@@ -111,9 +112,8 @@
                             }
                         }
                     });
-                } else {
-                    // Do nothing!
-                }
+                });
+                
             });
         });
 
@@ -179,6 +179,11 @@
                 "searching": false,
                 "paging": false,
                 "initComplete": function (settings, json) {
+                    if (payload.length == 0) {
+                        $("#submit").attr("disabled", true);
+                    } else {
+                        $("#submit").attr("disabled", false);
+                    }
                     $("#pre-load").hide();
                 },
                 "language": {

@@ -142,10 +142,10 @@
 
                                 }
                                 @*if (item.Equals("114"))
-                        {
-                            <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="myadd3" onclick="PopupForm('@Url.Action("AddOrEdit","Hoatdong")')><i class="fa fa-plus"></i> Thêm nhóm thiết bị</a>
+                                    {
+                                        <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="myadd3" onclick="PopupForm('@Url.Action("AddOrEdit","Hoatdong")')><i class="fa fa-plus"></i> Thêm nhóm thiết bị</a>
 
-                        }*@
+                                    }*@
                                 if (item.Equals("3"))
                                 {
                                     <a class="waves-effect waves-light btn-small blue modal-trigger" id="export-button">Xuất ra Excel</a>
@@ -161,18 +161,18 @@
                         }
                     </div>
                     @*<div class="right">
-                <a class='dropdown-trigger btn' id="filter" href='#' data-target='dropdown1'
-                   style="width:250px;background-color:#273146">
-                    Xem
-                    theo
-                </a>
-            </div>*@
+                            <a class='dropdown-trigger btn' id="filter" href='#' data-target='dropdown1'
+                               style="width:250px;background-color:#273146">
+                                Xem
+                                theo
+                            </a>
+                        </div>*@
                 </div>
 
                 <div class="row">
                     <div class="col s12">
                         <ul class="tabs">
-                            <li class="col s6 tab"><a href="#chitiet">Chi tiết huy động</a></li>
+                            <li class="col s12 tab"><a href="#chitiet">Chi tiết huy động</a></li>
                             <li class="col s6 tab"><a href="#thongke">Thống kê huy động</a></li>
                         </ul>
                     </div>
@@ -507,7 +507,16 @@
     </div>
 </form>
 
-
+@using (Html.BeginForm("Atri", "Hoatdong", FormMethod.Post, new
+{
+    id = "myForm",
+    enctype = "multipart/form-data",
+    onSubmit = "return Atri(this);",
+    data_restUrl = Url.Action("Atri", "Hoatdong", new { id = "" })
+}))
+{
+    <input type="text" id="atri" name="name" style="display:none !important"/>
+}
 
 <ul id='dropdown1' class='dropdown-content'>
     <li><a class="dropdown-child" href="#!" name="lothien">Danh sách thiết bị lộ thiên</a></li>
@@ -537,6 +546,10 @@
     });
     $('supplier-search').change(function () {
         $(this).closest('form').submit();
+    });
+    $('#Equipment_category_id').change(function () {
+        $('#atri').val($('#Equipment_category_id').val());
+        $('#myForm').submit();
     });
 
     $(window).resize(function () {
@@ -576,7 +589,7 @@
         //    mm = '0' + mm;
         //}
         //var today = dd + '/' + mm + '/' + yyyy;
-        
+
         //today = new Date("1/1/1900");
         //var dd = today.getDate();
         //var mm = today.getMonth() + 1; //January is 0!
@@ -884,46 +897,69 @@
 
             $.validator.unobtrusive.parse(form);
 
-                if($(form).valid()){
+            if ($(form).valid()) {
                 $.ajax({
-                    type : "POST",
+                    type: "POST",
                     url: form.action,
                     data: $(form).serialize(),
                     success: function (data) {
-                    var options = '';
+                        var options = '';
                         options = JSON.stringify(data);
                         var i = options.length;;
-                        options = options.substring(24, i-2);
-                    document.getElementById('IDlist').innerHTML = options;
+                        options = options.substring(24, i - 2);
+                        document.getElementById('IDlist').innerHTML = options;
 
-                        }
-                    });
+                    }
+                });
             }
 
 
-                return false;
+            return false;
+        }
+        function Atri(form) {
+
+            $.validator.unobtrusive.parse(form);
+
+            if ($(form).valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        var options = '';
+                        options = JSON.stringify(data.data);
+                        options = options.substring(1, options.length - 1);
+                        $('#cateTB tbody').empty();
+                        $('#cateTB').append(options);
+
+                    }
+                });
             }
-            function PopupForm(url) {
-                var formDiv = $('<div/>');
+
+
+            return false;
+        }
+        function PopupForm(url) {
+            var formDiv = $('<div/>');
             $.get(url)
-            .done(function (response) {
+                .done(function (response) {
                     formDiv.html(response);
 
                     Popup = formDiv.dialog({
-                    autoOpen: true,
-                    resizable: false,
-                    title: 'Nhập thông tin',
-                    height: 1000,
-                    width: 800,
-                    close: function () {
+                        autoOpen: true,
+                        resizable: false,
+                        title: 'Nhập thông tin',
+                        height: 1000,
+                        width: 800,
+                        close: function () {
                             Popup.dialog('destroy').remove();
                         }
 
                     });
                 });
-            }
+        }
 
-       function UpdateEquipment(form) {
+        function UpdateEquipment(form) {
             $("#pre-load").show("slow", function () {
             });
             $("#pre-load").css("z-index", "99999");
@@ -947,8 +983,58 @@
                         alert(response.data.message)
                     }
                 });
+                $("#pre-load").hide("slow", function () {
+                });
+                $("#pre-load").hide();
             }
 
+
+            return false;
+        }
+        function SubmitForm2(form) {
+            //$("#pre-load").show();
+            $("#pre-load").show("slow", function () {
+            });
+            $("#pre-load").css("z-index", "99999");
+            $.validator.unobtrusive.parse(form);
+
+            if ($(form).valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        dataTable.ajax.reload();
+                        if (data.success == false) {
+                            $.notify("Lỗi", {
+                                globalPosition: "top center",
+                                className: "error"
+                            })
+                        } else {
+                            $.notify("Thêm thành công", {
+                                globalPosition: "top center",
+                                className: "success"
+                            });
+                            window.location.reload(true);
+                        }
+
+
+                    },
+                    error: function (data) {
+                        dataTable.ajax.reload();
+                        $("#btn-submit").addClass("modal-close");
+                        $.notify("Lỗi", {
+                            globalPosition: "top center",
+                            className: "error"
+                        })
+
+                    },
+                });
+            }
+            $("#pre-load").hide("slow", function () {
+            });
+            $("#pre-load").hide();
+            //$("#pre-load").hide();
 
             return false;
         }
@@ -966,28 +1052,41 @@
                     data: $(form).serialize(),
                     success: function (data) {
                         dataTable.ajax.reload();
-                        $("#pre-load").hide("slow", function () {
-                        });
-                        $.notify("Thêm thành công", {
-                            globalPosition: "top center",
-                            className: "success"
-                        })
+                        if (data.success == false) {
+                            $.notify("Lỗi", {
+                                globalPosition: "top center",
+                                className: "error"
+                            })
+                        } else {
+                            $.notify("Thêm thành công", {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
+                        }
 
                     }
                 });
             }
 
-
+            $("#pre-load").hide("slow", function () {
+            });
+            $("#pre-load").hide();
             return false;
         }
         function Edit(url) {
-             $.get(url)
-                 .done(function (response) {
-                     $("#edit-modal-body").html(response)
-
+            $("#pre-load").show("slow", function () {
             });
-                return false;
-            }
+            $("#pre-load").css("z-index", "99999");
+            $.get(url)
+                .done(function (response) {
+                    $("#edit-modal-body").html(response)
+
+                });
+            $("#pre-load").hide("slow", function () {
+            });
+            $("#pre-load").hide();
+            return false;
+        }
 
 
 

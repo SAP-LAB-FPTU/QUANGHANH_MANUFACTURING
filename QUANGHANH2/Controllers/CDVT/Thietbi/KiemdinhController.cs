@@ -94,7 +94,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             }
         }
 
-        [Auther(RightID = "170")]
+        [Auther(RightID = "171")]
         [Route("phong-cdvt/kiem-dinh/edit")]
         [HttpPost]
         public ActionResult Edit(string inspect_id, string dateTemp)
