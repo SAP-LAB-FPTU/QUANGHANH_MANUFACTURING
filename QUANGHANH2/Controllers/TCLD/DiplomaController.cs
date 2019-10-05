@@ -10,17 +10,20 @@ using System.Data.Entity;
 using System.Web.Hosting;
 using System.IO;
 using OfficeOpenXml;
+using QUANGHANH2.SupportClass;
 
 namespace QUANGHANH2.Controllers.TCLD
 {
     public class DiplomaController : Controller
     {
         // GET: Diploma
+        [Auther(RightID = "159")]
         [Route("phong-tcld/bang-cap-va-giay-chung-nhan/danh-sach-bang-cap-va-giay-chung-nhan")]
         public ActionResult Index()
         {
             return View("/Views/TCLD/Diploma/List.cshtml");
         }
+        [Auther(RightID = "159")]
         //Get list Diploma
         [Route("phong-tcld/bang-cap-va-giay-chung-nhan/danh-sach-bang-cap-va-giay-chung-nhan")]
         [HttpPost]
@@ -78,6 +81,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 return dataJson;
             }
         }
+        [Auther(RightID = "163")]
         //Get list Diploma's Employee
         [Route("phong-tcld/bang-cap-va-giay-chung-nhan/danh-sach-bang-cap-va-giay-chung-nhan-cua-nhan-vien")]
         [HttpPost]
@@ -127,6 +131,7 @@ namespace QUANGHANH2.Controllers.TCLD
             }
         }
         //Add Diploma
+        [Auther(RightID = "160")]
         [HttpGet]
         public ActionResult AddDiploma()
         {
@@ -134,6 +139,7 @@ namespace QUANGHANH2.Controllers.TCLD
             return View();
 
         }
+        [Auther(RightID = "160")]
         [HttpPost]
         public ActionResult AddDiploma(BangCap_GiayChungNhan bangcap)
         {
@@ -150,6 +156,7 @@ namespace QUANGHANH2.Controllers.TCLD
 
 
         }
+        [Auther(RightID = "164")]
         //Add Diploma's Employee
         [HttpGet]
         public ActionResult AddDiplomaEmployee()
@@ -159,6 +166,7 @@ namespace QUANGHANH2.Controllers.TCLD
             return View();
 
         }
+        [Auther(RightID = "164")]
         [HttpPost]
         public ActionResult AddDiplomaEmployee(ChiTiet_BangCap_GiayChungNhan chitietbangcap)
         {
@@ -176,6 +184,7 @@ namespace QUANGHANH2.Controllers.TCLD
 
         }
         //Edit Diploma
+        [Auther(RightID = "161")]
         [HttpGet]
         public ActionResult EditDiploma(int id = 0)
         {
@@ -187,6 +196,7 @@ namespace QUANGHANH2.Controllers.TCLD
             }
 
         }
+        [Auther(RightID = "161")]
         [HttpPost]
         public ActionResult EditDiploma(BangCap_GiayChungNhan bangcap)
         {
@@ -236,6 +246,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 ViewBag.listSelect_chuyennganh = listSelect_chuyennganh;
             }
         }
+        [Auther(RightID = "162")]
         //Delete Diploma
         [HttpPost]
         public ActionResult DeleteDiploma(int id = 0)
@@ -279,6 +290,7 @@ namespace QUANGHANH2.Controllers.TCLD
             }
         }
         //Delete Diploma's Employee
+        [Auther(RightID = "166")]
         [HttpPost]
         public ActionResult DeleteDiplomaEmployee(string id)
         {
@@ -311,6 +323,7 @@ namespace QUANGHANH2.Controllers.TCLD
             }
         }
         //Edit Diploma's Emp
+        [Auther(RightID = "165")]
         [HttpGet]
         public ActionResult EditDiplomaEmployee(string id)
         {
@@ -333,6 +346,7 @@ namespace QUANGHANH2.Controllers.TCLD
             }
 
         }
+        [Auther(RightID = "165")]
         [HttpPost]
         public ActionResult EditDiplomaEmployee(ChiTiet_BangCap_GiayChungNhan chitiet_bc)
         {
