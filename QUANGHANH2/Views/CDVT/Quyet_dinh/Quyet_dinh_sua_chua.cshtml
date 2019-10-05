@@ -306,7 +306,7 @@
                     }
                 ],
                 "serverSide": "true",
-                "order": [0, "desc"],
+                "order": [1, "desc"],
                 "lengthChange": false,
                 "searching": false,
                 "initComplete": function () {
@@ -332,14 +332,16 @@
 
 
 //---------------Search Data -----------------
-
-
-        $("#searchButton1").click(function () {
+    $("#searchButton1").click(function () {
 
             $("#pre-load").show();
-            dataTable.ajax.reload();
+            dataTable.ajax.reload(function () {
+               $.notify("Tìm kiếm thành công", {
+                      globalPosition: "top center",
+                     className: "success"
+                    })
             });
-
+            });
 
  //--------------Get Data--------------------
 
@@ -394,12 +396,15 @@
                     type: "POST",
                     url: "/phong-cdvt/quyet-dinh/sua-chua/update",
                     dataType: "text",
-                    success: function () {
-                        dataTable.ajax.reload();
-                        $.notify("Update thành công", {
-                            globalPosition: "top center",
-                            className: "success"
-                        })
+                        success: function (data) {
+                        if (data.success == true) {
+                            dataTable.ajax.reload();
+                            redirectAlert('Sửa thông tin thành công', '/phong-cdvt/cap-nhat/quyet-dinh');
+                        }
+                        else {
+                            errorAlert('Lỗi',data.message);
+                        }
+                       
 
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -442,13 +447,11 @@
                         data: '{docID: ' + docID + '}',
                         contentType: "application/json",
                         dataType: "script",
-                        success: function (response) {
-                            dataTable.ajax.reload();
-                             $.notify("Xóa thành công!", {
-                             globalPosition: "top center",
-                             className: "success"
-                             })
-                            $("#pre-load").hide();
+                        success: function () {
+                             dataTable.ajax.reload();
+                             successAlert('Xóa quyết định thành công','');
+                           
+                             $("#pre-load").hide();
                          $('#exit-update-button').click();
                         }
                     });
