@@ -40,9 +40,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
-
+                
                 ////////////////////////////GET so luot huy dong////////////////////////////////
-                string sql = "select count(MaQuyetDinh) as SoLuotHuyDong from quyetdinh\n" +
+                string sql = "select (case when count(MaQuyetDinh)  is null then 0 else count(MaQuyetDinh) end ) as SoLuotHuyDong from quyetdinh\n" +
                 "where maquyetdinh in\n" +
                 "(SELECT  distinct dd.MaQuyetDinh FROM DIEUDONG_NHANVIEN dd,QuyetDinh qd where dd.MaQuyetDinh=qd.MaQuyetDinh and qd.SoQuyetDinh<>'' )\n" +
                 "AND NgayQuyetDinh = (SELECT CONVERT(VARCHAR(10), getdate() - 1, 101))";
@@ -50,23 +50,23 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 soLuotHuyDong = temp != null ? temp : 0;
 
                 ////////////////////////////GET SO LUONG TAI NAN///////////////////////////////////////////
-                sql = "select Count(tn.MaNV)  from \n" +
+                sql = "select (case when Count(tn.MaNV) is null then 0 else Count(tn.MaNV) end )  from \n" +
                       "(select MaNV, Ngay from TaiNan where\n" +
                       "Ngay = (SELECT CONVERT(VARCHAR(10), getdate() - 1, 101))) as tn";
                 temp = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
                 vuTaiNan = temp != null ? temp : 0;
 
                 ///////////////////////////////GET SO LUONG HET HAN CC///////////////////////////////////////////
-                sql = "select sum(th.st) \n" +
+                sql = "select (case when sum(th.st)  is null then 0 else sum(th.st) end ) \n" +
                       "from(select cn.MaNV, cn.NgayCap, cc.ThoiHan, (case\n" +
                       "when DATEADD(MONTH, cc.ThoiHan, cn.NgayCap) <= GETDATE()\n" +
                       "then 1 else 0 end) as st\n" +
                       "from ChungChi_NhanVien cn join ChungChi cc on cn.MaChungChi = cc.MaChungChi) as th";
-                temp = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
-                hetHanChungChi = temp != null ? temp : 0;
+                    temp = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
+
 
                 ////////////////////////////GET SO LUONG NGHI VLD///////////////////////////////////////////
-                sql = "select Count(vld.MaNV) from \n" +
+                sql = "select (case when Count(vld.MaNV)  is null then 0 else Count(vld.MaNV) end ) from \n" +
                         "(select MaNV, NgayDiemDanh from DiemDanh_NangSuatLaoDong\n" +
                         "where NgayDiemDanh = (SELECT CONVERT(VARCHAR(10), getdate() - 1, 101))\n" +
                         "and DiLam=0 and LyDoVangMat=N'VLD') as vld";
@@ -176,15 +176,15 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     ////////////////////////////GET so luot huy dong////////////////////////////////
 
                     db.Configuration.LazyLoadingEnabled = false;
-                    string sql = "select count(MaQuyetDinh) as SoLuotHuyDong from quyetdinh\n" +
+                    string sql = "select (case when count(MaQuyetDinh) is null then 0 else count(MaQuyetDinh) end ) as SoLuotHuyDong from quyetdinh\n" +
                     "where maquyetdinh in\n" +
                     "(SELECT  distinct dd.MaQuyetDinh FROM DIEUDONG_NHANVIEN dd,QuyetDinh qd where dd.MaQuyetDinh=qd.MaQuyetDinh and qd.SoQuyetDinh<>'' )\n" +
                     "AND NgayQuyetDinh = @NgayQuyetDinh";
-                    soLuotHuyDong = db.Database.SqlQuery<int>(sql,
+                        soLuotHuyDong = db.Database.SqlQuery<int>(sql,
                         new SqlParameter("NgayQuyetDinh", DateTime.Parse(date))).ToList<int>()[0];
 
                     ////////////////////////////GET SO LUONG TAI NAN//////////////////////////////
-                    sql = "select Count(tn.MaNV)  from \n" +
+                    sql = "select (case when Count(tn.MaNV) is null then 0 else Count(tn.MaNV) end )  from \n" +
                       "(select MaNV, Ngay from TaiNan where\n" +
                       "Ngay = @NgayQuyetDinh) as tn";
                     vuTaiNan = db.Database.SqlQuery<int>(sql,
@@ -192,21 +192,23 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     //////////////////////////////////////////////////////////////////////////////
 
                     /// ////////////////////////////GET SO LUONG HET HAN CC//////////////////////////////
-                    sql = "select sum(th.st) \n" +
+                    sql = "select (case when sum(th.st)  is null then 0 else sum(th.st) end ) \n" +
                       "from(select cn.MaNV, cn.NgayCap, cc.ThoiHan, (case\n" +
                       "when DATEADD(MONTH, cc.ThoiHan, cn.NgayCap) <= @NgayQuyetDinh\n" +
                       "then 1 else 0 end) as st\n" +
                       "from ChungChi_NhanVien cn join ChungChi cc on cn.MaChungChi = cc.MaChungChi) as th";
-                    hetHanChungChi = db.Database.SqlQuery<int>(sql, new SqlParameter("NgayQuyetDinh", DateTime.Parse(date))).ToList<int>()[0];
+                        hetHanChungChi = db.Database.SqlQuery<int>(sql, new SqlParameter("NgayQuyetDinh", DateTime.Parse(date))).ToList<int>()[0];
+     
                     //////////////////////////////////////////////////////////////////////////////
 
                     /// ////////////////////////////GET SO LUONG NGHI VLD//////////////////////////////
-                    sql = "select Count(vld.MaNV) from \n" +
+                    sql = "select (case when Count(vld.MaNV)  is null then 0 else Count(vld.MaNV) end ) from \n" +
                         "(select MaNV, NgayDiemDanh from DiemDanh_NangSuatLaoDong\n" +
                         "where NgayDiemDanh = @NgayQuyetDinh\n" +
                         "and DiLam=0 and LyDoVangMat=N'VLD') as vld";
-                    nghiVLD = db.Database.SqlQuery<int>(sql,
+                        nghiVLD = db.Database.SqlQuery<int>(sql,
                     new SqlParameter("NgayQuyetDinh", DateTime.Parse(date))).ToList<int>()[0];
+
                     //////////////////////////////////////////////////////////////////////////////
 
                     //////////////////////////////////////GET TI LE HUY DONG////////////////////////////////////////
