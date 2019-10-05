@@ -35,7 +35,7 @@
         calculable: true,
         xAxis: [
             {
-                type: 'category',
+                boundaryGap: false,
                 data: donvi
             }
         ],

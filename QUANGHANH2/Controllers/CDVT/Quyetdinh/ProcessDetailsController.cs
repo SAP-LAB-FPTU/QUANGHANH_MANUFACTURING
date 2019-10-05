@@ -21,20 +21,28 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
             int count = supplies.Count;
             if (count == 0)
             {
-                Response.Write("Không có vật tư nào");
-                return new HttpStatusCodeResult(400);
+                return Json(new
+                {
+                    success = false,
+                    data = supplies,
+                    message = "Không có vật tư nào!"
+                }, JsonRequestBehavior.AllowGet);
             }
             else
-                return Json(supplies);
-        }
+                return Json(new
+                {
+                    success = true,
+                    data = supplies
+                }, JsonRequestBehavior.AllowGet);
 
-    }
-    public class Supply_Detail
-    {
-        public string MaVT { get; set; }
-        public string TenVT { get; set; }
-        public int SLVT { get; set; }
-        public string TLVT { get; set; }
-        public bool test { get; set; }
+        }
+        public class Supply_Detail
+        {
+            public string MaVT { get; set; }
+            public string TenVT { get; set; }
+            public int SLVT { get; set; }
+            public string TLVT { get; set; }
+            public bool test { get; set; }
+        }
     }
 }

@@ -232,6 +232,10 @@
                             <input type="text" class="form-control col 12" value="@Model.Position" id="txtPosition">
                         </div>
                         <div class="row" style="padding-left : 3rem">
+                            <label class="control-label col-3 align-self-center text-right">Liên kết mã nhân viên</label>
+                            <input type="text" class="form-control col 12" value="@Model.NVID" id="txtNVID">
+                        </div>
+                        <div class="row" style="padding-left : 3rem">
                             <label class="control-label col-3 align-self-center text-right">Mật khẩu</label>
                             <input type="password" class="form-control col" id="txtPassword">
                         </div>
@@ -548,11 +552,11 @@
                                                         @if (@Model.ADMIN)
                                                         {
                                                             <option value='1' selected>Có</option>
-}
+                                                        }
                                                         else
                                                         {
                                                             <option value='1'>Có</option>
-}
+                                                        }
                                                     </select>
                                                 </td>
                                                 <td></td>
@@ -673,6 +677,7 @@
     $('body').css('overflow', '');
 
     $(document).ready(function () {
+        $('#pre-load').show();
         $("#hide1").hide();
         $("#hide2").hide();
         $("#hide3").hide();
@@ -702,6 +707,9 @@
         GetRightFromDBNotFill(16);
         GetRightFromDBNotFill(17);
         GetRightFromDBNotFill(18);
+        $(document).ajaxStop(function () {
+            $('#pre-load').hide();
+        });  
     });
     function show() {
         $("#hide1").show();
@@ -730,7 +738,6 @@
             $("#modalNotify").modal();
         } else {
             $('#pre-load').show();
-
             var module1 = $('#module1').val();
             var module2 = $('#module2').val();
             var module3 = $('#module3').val();
@@ -826,6 +833,7 @@
                 Position: document.getElementById("txtPosition").value,
                 Password: document.getElementById("txtPassword").value,
                 RepeatPassword: document.getElementById("txtRepeatPassword").value,
+                NVID: document.getElementById("txtNVID").value,
                 module1: module1,
                 module2: module2,
                 module3: module3,
@@ -984,6 +992,7 @@
                 Position: document.getElementById("txtPosition").value,
                 Password: document.getElementById("txtPassword").value,
                 RepeatPassword: document.getElementById("txtRepeatPassword").value,
+                NVID: document.getElementById("txtNVID").value,
                 module1: module1,
                 module2: module2,
                 module3: module3,
@@ -1450,7 +1459,6 @@
                 if (moduleID == 18) {
                     right18 = result;
                 }
-                $('#pre-load').hide();
             },
             error: function (errormessage) {
 

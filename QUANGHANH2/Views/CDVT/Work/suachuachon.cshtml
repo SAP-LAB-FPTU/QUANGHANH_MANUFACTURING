@@ -51,6 +51,7 @@
                                         <th class="center-align">Mã thiết bị<span></span></th>
                                         <th class="center-align">Tên thiết bị<span></span></th>
                                         <th class="center-align">Tình trạng thiết bị<span></span></th>
+                                        <th class="center-align">Sửa chữa đến<span></span></th>
                                         <th class="center-align">Loại sửa chữa<span></span></th>
                                         <th class="center-align">Lý do sửa chữa<span></span></th>
                                         <th class="center-align">Ngày dự kiến xong<span></span></th>
@@ -63,7 +64,10 @@
                                         <tr id="@i">
                                             <td>@ViewBag.DataThietBi[i].equipmentId</td>
                                             <td>@ViewBag.DataThietBi[i].equipment_name</td>
-                                            <td>@ViewBag.DataThietBi[i].current_Status</td>
+                                            <td>@ViewBag.DataThietBi[i].statusname</td>
+                                            <td>
+                                                <input type="text" required class='form-control' list="departmentName" value="@ViewBag.department_id" />
+                                            </td>
                                             <td>
                                                 <select class='form-control'><option>Thường xuyên</option><option>Sự cố</option></select>
                                             </td>
@@ -279,9 +283,10 @@
                     });
                 else {
                     for (var key in output) {
+                        output[key].department_id = $('#' + key + ' input').eq(0).val();//
                         output[key].repair_type = $('#' + key + ' select').val();
-                        output[key].repair_reason = $('#' + key + ' input').eq(0).val();
-                        output[key].finish_date_plan = $('#' + key + ' input').eq(1).val();
+                        output[key].repair_reason = $('#' + key + ' input').eq(1).val();
+                        output[key].finish_date_plan = $('#' + key + ' input').eq(2).val();
                     }
                     $('#json').val(JSON.stringify(output))
                     $('#confirm').modal("open");

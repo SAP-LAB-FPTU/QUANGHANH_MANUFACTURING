@@ -28,7 +28,7 @@
                 }
                 else
                 {
-                    <form method="post" id="myform">
+                    <form action="/phong-cdvt/bao-duong-chon/add" method="post" id="myform">
                         <div class="col s3 m3">
                             <textarea name="data" hidden value="" id="json"></textarea>
                             <input id="documentary_code" name="documentary_code" class="form-control" type="text" placeholder="Nhập mã quyết định" />
@@ -50,6 +50,7 @@
                                         <th class="center-align">Mã thiết bị<span></span></th>
                                         <th class="center-align">Tên thiết bị<span></span></th>
                                         <th class="center-align">Tình trạng thiết bị<span></span></th>
+                                        <th class="center-align">Bảo dưỡng đến<span></span></th>
                                         <th class="center-align">Loại bảo dưỡng<span></span></th>
                                         <th class="center-align">Lý do bảo dưỡng (không bắt buộc)<span></span></th>
                                         <th class="center-align">Ngày dự kiến xong<span></span></th>
@@ -59,23 +60,26 @@
                                 <tbody>
                                     @for (int i = 0; i < ViewBag.DataThietBi.Count; i++)
                                     {
-                                        <tr id="@i">
-                                            <td>@ViewBag.DataThietBi[i].equipmentId</td>
-                                            <td>@ViewBag.DataThietBi[i].equipment_name</td>
-                                            <td>@ViewBag.DataThietBi[i].current_Status</td>
-                                            <td>
-                                                <select class='form-control'><option>Tiểu tu</option><option>Trung tu</option><option>Đại tu</option> <option>125h</option><option>200h</option><option>500h</option><option>1000h</option><option>2000h</option></select>
-                                            </td>
-                                            <td>
-                                                <input type='text' class='form-control' />
-                                            </td>
-                                            <td>
-                                                <input type='text' required class='center datepicker-here form-control minDate' data-language='vi' />
-                                            </td>
-                                            <td>
-                                                <a class="btn blue darken-2 modal-trigger open-Modal" data-id="@i" href="#mylist">Vật tư cần</a>
-                                            </td>
-                                        </tr>
+                                    <tr id="@i">
+                                        <td>@ViewBag.DataThietBi[i].equipmentId</td>
+                                        <td>@ViewBag.DataThietBi[i].equipment_name</td>
+                                        <td>@ViewBag.DataThietBi[i].statusname</td>
+                                        <td>
+                                            <input type="text" required class='form-control' list="departmentName" value="@ViewBag.department_id" />
+                                        </td>
+                                        <td>
+                                            <select class='form-control'><option>Tiểu tu</option><option>Trung tu</option><option>Đại tu</option> <option>125h</option><option>200h</option><option>500h</option><option>1000h</option><option>2000h</option></select>
+                                        </td>
+                                        <td>
+                                            <input type='text' class='form-control' />
+                                        </td>
+                                        <td>
+                                            <input type='text' required class='center datepicker-here form-control minDate' data-language='vi' />
+                                        </td>
+                                        <td>
+                                            <a class="btn blue darken-2 modal-trigger open-Modal" data-id="@i" href="#mylist">Vật tư cần</a>
+                                        </td>
+                                    </tr>
                                     }
                                 </tbody>
                             </table>
@@ -281,9 +285,10 @@
                     });
                 else {
                     for (var key in output) {
+                        output[key].department_id = $('#' + key + ' input').eq(0).val();//
                         output[key].repair_type = $('#' + key + ' select').val();
-                        output[key].repair_reason = $('#' + key + ' input').eq(0).val();
-                        output[key].finish_date_plan = $('#' + key + ' input').eq(1).val();
+                        output[key].repair_reason = $('#' + key + ' input').eq(1).val();
+                        output[key].finish_date_plan = $('#' + key + ' input').eq(2).val();
                     }
                     $('#json').val(JSON.stringify(output))
                     $('#confirm').modal("open");

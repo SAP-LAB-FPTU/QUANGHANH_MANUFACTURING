@@ -49,9 +49,11 @@
                                 <button class="btn blue darken-2 btn-small" onclick="timKiem()" id="searchButton">Tim Kiếm</button>
                             </div>
                         </div>
+                        <br />
                         <div class="row">
                             <a class="btn btn-small blue darken-2 modal-trigger btn-mg" data-target="them_chuyennganh">Thêm thông tin chuyên ngành</a>
                         </div>
+                        <br />
                         <table class="table table-bordered table-responsive centered highlight" id="thongtinchuyennganh">
                             <thead>
                                 <tr>
@@ -79,6 +81,7 @@
                         <div class="row">
                             <a class="btn btn-small blue darken-2 modal-trigger btn-mg" data-target="them_nganh">Thêm thông tin ngành</a>
                         </div>
+                        <br />
                         <table class="table table-bordered table-responsive centered highlight" id="thongtinnganh">
                             <thead>
                                 <tr>
@@ -103,6 +106,7 @@
                         <div class="row">
                             <a class="btn btn-small blue darken-2 modal-trigger btn-mg" data-target="them_truong">Thêm thông tin trường</a>
                         </div>
+                        <br />
                         <table class="table table-bordered table-responsive centered highlight" id="thongtintruong">
                             <thead>
                                 <tr>
@@ -127,6 +131,7 @@
                         <div class="row">
                             <a class="btn btn-small blue darken-2 modal-trigger btn-mg" data-target="them_trinhdo">Thêm thông tin trình độ</a>
                         </div>
+                        <br />
                         <table class="table table-bordered table-responsive centered highlight" id="trinhdo">
                             <thead>
                                 <tr>
@@ -159,12 +164,6 @@
 </div>
 <div id="deletechuyennganh" class="modal">
     <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Xác nhận xóa thông tin chuyên ngành</h3>
-        </div>
-        <div class="modal-body">
-            <p class="red-text">Bạn có muốn xóa thông tin này?</p>
-        </div>
         <div class="modal-footer">
             <a class="btn blue darken-2 modal-close" onclick="deleteChuyenNganh()">Xóa</a>
             <a class="btn red modal-close">Hủy</a>
@@ -327,9 +326,6 @@
                     "url": "/phong-tcld/quan-ly-ho-so/chuan-hoa-ten",
                     "type": "POST",
                     "datatype": "json",
-                    "dataSrc": function (json) {
-                        return JSON.parse(json.data);
-                        }
                     },
                     "drawCallback": function (settings) {
                         $("#pre-load").hide("slow", function () {
@@ -343,17 +339,17 @@
                     { "data": "MaNganh", "name": "MaNganh" },
                     {
                         "data": "MaChuyenNganh", "name": "MaChuyenNganh", "render": function (data) {
-                            return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='sua_chuyennganh'  style='margin-left:5px' onclick=getEditChuyenNganh('" + data.replace("\" ","") + "') ><i class=''></i> Sửa</a>";
+                            return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='sua_chuyennganh'  style='margin-left:5px' onclick=getEditChuyenNganh(" + data + ") ><i class='far fa-edit'></i> Sửa</a>";
                         }
                     },
                     {
                         "data": "MaChuyenNganh", "render": function (data) {
-                           return "<a  class='waves-effect waves-light btn-small blue modal-trigger' data-target='deletechuyennganh' style='margin-left:5px' onclick=\"getDeleteIdNganh('" +data.replace(/(\r\n|\n|\r)/gm,"") + "')\"><i class=''></i> Xóa</a>";
+                           return "<a  class='waves-effect waves-light btn-small blue'  style='margin-left:5px' onclick=\"deleteChuyenNganh(" + data + ")\"><i class='fa fa-trash'></i> Xóa</a>";
                         }
                     },
                 ],
                 "serverSide": true,
-                    "order": [4, "desc"],
+                    "order": [0, "desc"],
                     "searching": false,
                     "bLengthChange": false,
                     "autoWidth": false,
@@ -391,9 +387,9 @@
                     "url": "/phong-tcld/quan-ly-ho-so/chuan-hoa-ten/nganh",
                     "type": "POST",
                     "datatype": "json",
-                    "dataSrc": function (json) {
-                        return JSON.parse(json.data);
-                    }
+                    //"dataSrc": function (json) {
+                    //    return JSON.parse(json.data);
+                    //}
                     },
                     "drawCallback": function (settings) {
                         $("#pre-load").hide("slow", function () {
@@ -404,18 +400,18 @@
                     { "data": "TenNganh", "name": "TenNganh" },
                     {
                         "data": "MaNganh", "name": "MaNganh", "render": function (data) {
-                            return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='sua_nganh' style='margin-left:5px' onclick='getEditNganh(" + data + ")' ><i class=''></i> Sửa</a>";
+                            return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='sua_nganh' style='margin-left:5px' onclick='getEditNganh(" + data + ")' ><i class='far fa-edit'></i> Sửa</a>";
                         }
                     },
                     {
                         "data": "MaNganh", "name": "MaNganh", "render": function (data) {
-                            return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='deletenganh' style='margin-left:5px' onclick=getDeleteId(" + data + ") ><i class=''></i> Xóa</a>";
+                            return "<a class='waves-effect waves-light btn-small blue '  style='margin-left:5px' onclick=deleteNganh(" + data + ") ><i class='fa fa-trash'></i> Xóa</a>";
                         }
                     },
                 ],
                 "serverSide": true,
                 "order": [0, "asc"],
-                "bPaginate": false,
+                "bPaginate": true,
                 "bFilter": false,
                 "bInfo": false,
                 "language": {
@@ -459,24 +455,27 @@
                     "url": "/phong-tcld/quan-ly-ho-so/chuan-hoa-ten/truong",
                     "type": "POST",
                     "datatype": "json",
+                    //"dataSrc": function (json) {
+                    //    return JSON.parse(json.data);
+                    //}
                 },
                 "columns": [
                     { "data": "MaTruong", "name": "MaTruong" },
                     { "data": "TenTruong", "name": "TenTruong" },
                     {
                         "data": "MaTruong", "name": "MaTruong", "render": function (data) {
-                            return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='sua_truong' style='margin-left:5px' onclick='getEditTruong(" + data + ")' ><i class=''></i> Sửa</a>";
+                            return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='sua_truong' style='margin-left:5px' onclick='getEditTruong(" + data + ")' ><i class='far fa-edit'></i> Sửa</a>";
                         }
                     },
                     {
                         "data": "MaTruong", "name": "MaTruong", "render": function (data) {
-                            return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='deletetruong' style='margin-left:5px' onclick=getDeleteId(" + data + ") ><i class=''></i> Xóa</a>";
+                            return "<a class='waves-effect waves-light btn-small blue '  style='margin-left:5px' onclick=deleteTruong(" + data + ") ><i class='fa fa-trash'></i> Xóa</a>";
                         }
                     },
                 ],
                 "serverSide": true,
                 "order": [0, "asc"],
-                "bPaginate": false,
+                "bPaginate": true,
                 "bFilter": false,
                 "bInfo": false,
                  "language": {
@@ -519,24 +518,27 @@
                     "url": "/phong-tcld/quan-ly-ho-so/chuan-hoa-ten/trinhdo",
                     "type": "POST",
                     "datatype": "json",
+                    //"dataSrc": function (json) {
+                    //    return JSON.parse(json.data);
+                    //}
                 },
                 "columns": [
                     { "data": "MaTrinhDo", "name": "MaTrinhDo" },
                     { "data": "TenTrinhDo", "name": "TenTrinhDo" },
                     {
                         "data": "MaTrinhDo", "name": "MaTrinhDo", "render": function (data) {
-                            return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='sua_trinhdo' style='margin-left:5px' onclick=getEditTrinhDo(" + data + ") ><i class=''></i> Sửa</a>";
+                            return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='sua_trinhdo' style='margin-left:5px' onclick=getEditTrinhDo(" + data + ") ><i class='far fa-edit'></i> Sửa</a>";
                         }
                     },
                     {
                         "data": "MaTrinhDo", "name": "MaTrinhDo", "render": function (data) {
-                            return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='deletetrinhdo' style='margin-left:5px' onclick=getDeleteId(" + data + ") ><i class=''></i> Xóa</a>";
+                            return "<a class='waves-effect waves-light btn-small blue ' style='margin-left:5px' onclick=deleteTrinhDo(" + data + ") ><i class='fa fa-trash'></i> Xóa</a>";
                         }
                     },
                 ],
                 "serverSide": true,
                 "order": [0, "asc"],
-                "bPaginate": false,
+                "bPaginate": true,
                 "bFilter": false,
                 "bInfo": false,
                  "language": {
@@ -573,23 +575,20 @@
         });
 
 
-        function getDeleteIdNganh(id) {
-            delete_id_nganh = id.toString();
-        }
-
-        function deleteChuyenNganh() {
+        function deleteChuyenNganh(id) {
+            confirmAlert(
+                'Xóa',
+                'Bạn có chắc muốn xóa?',
+                function ahihi() {
                 $.ajax({
                     type: "POST",
                     url: '@Url.Action("deleteChuyenNganh", "BriefRegulation")',
-                    data: {id : delete_id_nganh},
+                    data: {id : id},
                     success: function (data) {
                         if (data.success)
                         {
                             dataTable.ajax.reload();
-                            $.notify(data.message, {
-                                globalPosition: "top center",
-                                className: "success"
-                            });
+                            successAlert('Thành công','Xóa thành công');
                             location.reload();
 
                         }
@@ -597,7 +596,7 @@
 
 
                 });
-
+            });
         }
         function SubmitForm(form) {
             $.validator.unobtrusive.parse(form);
@@ -617,51 +616,50 @@
             }
             return false;
         }
-        function getDeleteId(id) {
-            delete_id = id;
-        }
-        function deleteTruong() {
-            if (delete_id != null) {
+        
+        function deleteTruong(id) {
+            confirmAlert(
+                'Xóa',
+                'Bạn có chắc muốn xóa?',
+                function ahihi() {
                 $.ajax({
                     type: "POST",
-                    url: '@Url.Action("deleteTruong", "BriefRegulation")/' + delete_id,
+                    url: '@Url.Action("deleteTruong", "BriefRegulation")',
+                    data: {id : id},
                     success: function (data) {
                         if (data.success)
                         {
-                            dataTableTruong.ajax.reload();
-                            $.notify(data.message, {
-                                globalPosition: "top center",
-                                className: "success"
-                            });
-
-                        }
-                    }
-
-                });
-            }
-
-        }
-
-        function deleteNganh() {
-            if (delete_id != null) {
-                $.ajax({
-                    type: "POST",
-                    url: '@Url.Action("deleteNganh", "BriefRegulation")/' + delete_id,
-                    success: function (data) {
-                        if (data.success)
-                        {
-                            dataTableNganh.ajax.reload();
                             dataTable.ajax.reload();
-                            $.notify(data.message, {
-                                globalPosition: "top center",
-                                className: "success"
-                            });
+                            successAlert('Thành công','Xóa thành công');
+                            location.reload();
 
                         }
                     }
-
                 });
-            }
+            });
+
+        }
+
+        function deleteNganh(id) {
+            confirmAlert(
+                'Xóa',
+                'Bạn có chắc muốn xóa?',
+                function ahihi() {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("deleteNganh", "BriefRegulation")',
+                    data: {id : id},
+                    success: function (data) {
+                        if (data.success)
+                        {
+                            dataTable.ajax.reload();
+                            successAlert('Thành công','Xóa thành công');
+                            location.reload();
+
+                        }
+                    }
+                });
+            });
 
         }
 
@@ -713,25 +711,26 @@
             }
         }
 
-        function deleteTrinhDo() {
-            if (delete_id != null) {
+        function deleteTrinhDo(id) {
+            confirmAlert(
+                'Xóa',
+                'Bạn có chắc muốn xóa?',
+                function ahihi() {
                 $.ajax({
                     type: "POST",
-                    url: '@Url.Action("deleteTrinhDo", "BriefRegulation")/' + delete_id,
+                    url: '@Url.Action("deleteTrinhDo", "BriefRegulation")',
+                    data: {id : id},
                     success: function (data) {
                         if (data.success)
                         {
-                            dataTableTrinhDo.ajax.reload();
-                            $.notify(data.message, {
-                                globalPosition: "top center",
-                                className: "success"
-                            });
+                            dataTable.ajax.reload();
+                            successAlert('Thành công','Xóa thành công');
+                            location.reload();
 
                         }
                     }
-
                 });
-            }
+            });
 
         }
 

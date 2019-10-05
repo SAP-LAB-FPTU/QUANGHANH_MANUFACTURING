@@ -123,7 +123,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 return RedirectToAction("List", "Certificate");
             }
 
-
         }
         [Auther(RightID = "154")]
         [HttpGet]
