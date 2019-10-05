@@ -241,7 +241,6 @@ namespace QUANGHANH2.Controllers.TCLD
                 ChuyenNganh specialized = null;
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                ChuyenNganh test = db.ChuyenNganhs.Where(x => x.MaChuyenNganh.Equals("20103")).FirstOrDefault<ChuyenNganh>();
                 specialized = db.ChuyenNganhs.Where(x => x.TenChuyenNganh.Replace("\r\n",String.Empty).ToLower().Trim().Equals(tenChuyenNganh.ToLower().Trim())).FirstOrDefault<ChuyenNganh>();
                 }
                 
