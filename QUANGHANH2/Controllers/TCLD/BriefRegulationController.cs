@@ -9,6 +9,7 @@ using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Linq.Dynamic;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Script.Serialization;
@@ -20,7 +21,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
     public class BriefRegulationController : Controller
     {
         private object sqlBuilder;
-
+        [Auther(RightID = "135")]
         [Route("phong-tcld/quan-ly-ho-so/chuan-hoa-ten")]
         [HttpGet]
         public ActionResult Regulation()
@@ -28,6 +29,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             ViewBag.nameDepartment = "quanlyhoso";
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
+
                 var temp = (from cn in db.ChuyenNganhs select new { capbac = cn.CapBac }).Distinct();
                 var data = temp.ToList().Select(p => new ChuyenNganh { CapBac = p.capbac }).ToList();
 
@@ -40,12 +42,24 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult List()
         {
+            int start = Convert.ToInt32(Request["start"]);
+            int length = 10;
+            string searchValue = Request["search[value]"];
+            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+            string sortDirection = Request["order[0][dir]"];
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
+                db.Configuration.ProxyCreationEnabled = false;
                 List<ChuyenNganh> listdata = db.ChuyenNganhs.ToList<ChuyenNganh>();
-                JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
-                var result = JsonConvert.SerializeObject(listdata, Formatting.Indented, jss);
-                return Json(new { success = true, data = result }, JsonRequestBehavior.AllowGet);
+
+                int totalrows = listdata.Count;
+                int totalrowsafterfiltering = listdata.Count;
+                listdata = listdata.OrderBy(sortColumnName + " " + sortDirection).ToList<ChuyenNganh>();
+                //paging
+                listdata = listdata.Skip(start).Take(length).ToList<ChuyenNganh>();
+                var js = Json(new { success = true, data = listdata, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                var dataserialize = new JavaScriptSerializer().Serialize(js.Data);
+                return js;
             }
         }
 
@@ -53,12 +67,25 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult ListTruong()
         {
+            int start = Convert.ToInt32(Request["start"]);
+            int length = 10;
+            string searchValue = Request["search[value]"];
+            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+            string sortDirection = Request["order[0][dir]"];
+            List<Truong> listdata = new List<Truong>();
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                List<Truong> listdata = db.Truongs.ToList<Truong>();
-                var js = Json(new { success = true, data = listdata }, JsonRequestBehavior.AllowGet);
-                var dataserialize = new JavaScriptSerializer().Serialize(js.Data);
-                return js;
+                db.Configuration.ProxyCreationEnabled = false;
+                listdata = db.Truongs.ToList<Truong>();
+
+                int totalrows = listdata.Count;
+                int totalrowsafterfiltering = listdata.Count;
+                listdata = listdata.OrderBy(sortColumnName + " " + sortDirection).ToList<Truong>();
+                //paging
+                listdata = listdata.Skip(start).Take(length).ToList<Truong>();
+                var json = Json(new { success = true, data = listdata, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                var dataserialize = new JavaScriptSerializer().Serialize(json.Data);
+                return json;
             }
         }
 
@@ -66,12 +93,24 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult ListTrinhDo()
         {
+            int start = Convert.ToInt32(Request["start"]);
+            int length = 10;
+            string searchValue = Request["search[value]"];
+            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+            string sortDirection = Request["order[0][dir]"];
+            List<TrinhDo> listdata = new List<TrinhDo>();
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                List<TrinhDo> listdata = db.TrinhDoes.ToList<TrinhDo>();
-                var js = Json(new { success = true, data = listdata }, JsonRequestBehavior.AllowGet);
-                var dataserialize = new JavaScriptSerializer().Serialize(js.Data);
-                return js;
+                db.Configuration.ProxyCreationEnabled = false;
+                listdata = db.TrinhDoes.ToList();
+                int totalrows = listdata.Count;
+                int totalrowsafterfiltering = listdata.Count;
+                listdata = listdata.OrderBy(sortColumnName + " " + sortDirection).ToList<TrinhDo>();
+                //paging
+                listdata = listdata.Skip(start).Take(length).ToList<TrinhDo>();
+                var json = Json(new { success = true, data = listdata, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                var dataserialize = new JavaScriptSerializer().Serialize(json.Data);
+                return json;
             }
         }
 
@@ -79,28 +118,52 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult ListNganh()
         {
+            int start = Convert.ToInt32(Request["start"]);
+            int length = 10;
+            string searchValue = Request["search[value]"];
+            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+            string sortDirection = Request["order[0][dir]"];
+            List<Nganh> listdata = new List<Nganh>();
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                List<Nganh> listdata = db.Nganhs.ToList();
-                JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
-                var result = JsonConvert.SerializeObject(listdata, Formatting.Indented, jss);
-                return Json(new { success = true, data = result }, JsonRequestBehavior.AllowGet);
+                db.Configuration.ProxyCreationEnabled = false;
+                listdata = db.Nganhs.ToList();
+
+                int totalrows = listdata.Count;
+                int totalrowsafterfiltering = listdata.Count;
+                listdata = listdata.OrderBy(sortColumnName + " " + sortDirection).ToList<Nganh>();
+                //paging
+                listdata = listdata.Skip(start).Take(length).ToList<Nganh>();
+                var json = Json(new { success = true, data = listdata, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                var dataserialize = new JavaScriptSerializer().Serialize(json.Data);
+                return json;
 
             }
         }
-
+        [Auther(RightID = "167")]
         [HttpPost]
         public ActionResult deleteChuyenNganh(string id = "")
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                ChuyenNganh chuyenNganh = db.ChuyenNganhs.Where(x => x.MaChuyenNganh.ToString().Replace("\r\n", "").Equals(id)).FirstOrDefault<ChuyenNganh>();
+                ChuyenNganh chuyenNganh = db.ChuyenNganhs.Where(x => x.MaChuyenNganh.ToString().Equals(id)).FirstOrDefault<ChuyenNganh>();
+                var bangcaps = db.BangCap_GiayChungNhan.Where(x => x.MaChuyenNganh.ToString().Equals(id)).ToList<BangCap_GiayChungNhan>();
                 db.ChuyenNganhs.Remove(chuyenNganh);
+                foreach (var bangcap in bangcaps)
+                {
+                    bangcap.MaChuyenNganh = null;
+                }
+                var nvs = db.NhanViens.Where(x => x.MaTrinhDo.ToString().Equals(id)).ToList<NhanVien>();
+                foreach (var nv in nvs)
+                {
+                    nv.MaChuyenNganh = null;
+                }
                 db.SaveChanges();
                 return Json(new { success = true, message = "Xóa Thành Công" }, JsonRequestBehavior.AllowGet);
 
             }
         }
+        [Auther(RightID = "167")]
 
         [HttpPost]
         public ActionResult deleteNganh(string id = "")
@@ -110,7 +173,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 Nganh nganh = db.Nganhs.Where(x => x.MaNganh.Equals(id)).FirstOrDefault<Nganh>();
                 var cnganhs = db.ChuyenNganhs.Where(x => x.MaNganh.Equals(id)).ToList<ChuyenNganh>();
                 db.Nganhs.Remove(nganh);
-                foreach(var cnganh in cnganhs)
+                foreach (var cnganh in cnganhs)
                 {
                     db.ChuyenNganhs.Remove(cnganh);
                 }
@@ -119,33 +182,53 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
             }
         }
-
+        [Auther(RightID = "167")]
         [HttpPost]
-        public ActionResult deleteTruong(int id = 0)
+        public ActionResult deleteTruong(string id = "")
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                Truong truong = db.Truongs.Where(x => x.MaTruong == id).FirstOrDefault<Truong>();
+                Truong truong = db.Truongs.Where(x => x.MaTruong.ToString().Equals(id)).FirstOrDefault<Truong>();
+                var bangcaps = db.BangCap_GiayChungNhan.Where(x => x.MaTruong.ToString().Equals(id)).ToList<BangCap_GiayChungNhan>();
+                foreach (var bangcap in bangcaps)
+                {
+                    bangcap.MaTruong = null;
+                }
+                var nvs = db.NhanViens.Where(x => x.MaTrinhDo.ToString().Equals(id)).ToList<NhanVien>();
+                foreach (var nv in nvs)
+                {
+                    nv.MaTruong = null;
+                }
                 db.Truongs.Remove(truong);
                 db.SaveChanges();
                 return Json(new { success = true, message = "Xóa Thành Công" }, JsonRequestBehavior.AllowGet);
 
             }
         }
-
+        [Auther(RightID = "167")]
         [HttpPost]
-        public ActionResult deleteTrinhDo(int id = 0)
+        public ActionResult deleteTrinhDo(string id = "")
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                TrinhDo trinhDo = db.TrinhDoes.Where(x => x.MaTrinhDo == id).FirstOrDefault<TrinhDo>();
+                TrinhDo trinhDo = db.TrinhDoes.Where(x => x.MaTrinhDo.ToString().Equals(id)).FirstOrDefault<TrinhDo>();
+                var bangcaps = db.BangCap_GiayChungNhan.Where(x => x.MaTrinhDo.ToString().Equals(id)).ToList<BangCap_GiayChungNhan>();
+                foreach (var bangcap in bangcaps)
+                {
+                    bangcap.MaTrinhDo = null;
+                }
+                var nvs = db.NhanViens.Where(x => x.MaTrinhDo.ToString().Equals(id)).ToList<NhanVien>();
+                foreach (var nv in nvs)
+                {
+                    nv.MaTrinhDo = null;
+                }
                 db.TrinhDoes.Remove(trinhDo);
                 db.SaveChanges();
                 return Json(new { success = true, message = "Xóa Thành Công" }, JsonRequestBehavior.AllowGet);
 
             }
         }
-
+        [Auther(RightID = "136")]
         [HttpGet]
         public ActionResult ThemChuyenNganh()
         {
@@ -166,7 +249,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 return View();
             }
         }
-
+        [Auther(RightID = "136")]
         [HttpPost]
         public ActionResult ThemChuyenNganh(ChuyenNganh chuyenNganh)
         {
@@ -180,7 +263,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
             return RedirectToAction("List");
         }
-
+        [Auther(RightID = "137")]
         [HttpGet]
         public ActionResult SuaChuyenNganh(string id)
         {
@@ -208,7 +291,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 return View(temp);
             }
         }
-
+        [Auther(RightID = "137")]
         [HttpPost]
         public ActionResult SuaChuyenNganh(ChuyenNganh chuyenNganh)
         {
@@ -222,7 +305,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
             return RedirectToAction("List");
         }
-
+        [Auther(RightID = "137")]
         [HttpGet]
         public ActionResult SuaTruong(int id = 0)
         {
@@ -232,7 +315,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 return View(truong);
             }
         }
-
+        [Auther(RightID = "137")]
         [HttpPost]
         public ActionResult SuaTruong(Truong truong)
         {
@@ -246,7 +329,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
             return RedirectToAction("List");
         }
-
+        [Auther(RightID = "137")]
         [HttpPost]
         public ActionResult SuaNganh(Nganh nganh)
         {
@@ -260,7 +343,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
             return RedirectToAction("List");
         }
-
+        [Auther(RightID = "137")]
         [HttpGet]
         public ActionResult SuaNganh(string id = "")
         {
@@ -272,7 +355,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         }
 
 
-
+        [Auther(RightID = "137")]
         [HttpGet]
         public ActionResult SuaTrinhDo(int id = 0)
         {
@@ -282,7 +365,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 return View(trinhDo);
             }
         }
-
+        [Auther(RightID = "137")]
         [HttpPost]
         public ActionResult SuaTrinhDo(TrinhDo trinhDo)
         {
@@ -296,7 +379,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
             return RedirectToAction("List");
         }
-
+        [Auther(RightID = "136")]
         [HttpGet]
         public ActionResult ThemNganh()
         {
@@ -315,12 +398,13 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
             return RedirectToAction("List");
         }
-
+        [Auther(RightID = "136")]
         [HttpGet]
         public ActionResult ThemTruong()
         {
             return View();
         }
+        [Auther(RightID = "136")]
         [HttpPost]
         public ActionResult ThemTruong(Truong truong)
         {
@@ -334,12 +418,13 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
             return RedirectToAction("List");
         }
-
+        [Auther(RightID = "136")]
         [HttpGet]
         public ActionResult ThemTrinhDo()
         {
             return View();
         }
+        [Auther(RightID = "136")]
         [HttpPost]
         public ActionResult ThemTrinhDo(TrinhDo trinhDo)
         {
@@ -483,38 +568,37 @@ namespace QUANGHANHCORE.Controllers.TCLD
             string cb = jsonData.cb;
             if (name == "" && cb == "-1")
             {
+                db.Configuration.ProxyCreationEnabled = false;
                 List<ChuyenNganh> listdata = db.ChuyenNganhs.ToList();
-                JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
-                var result = JsonConvert.SerializeObject(listdata, Formatting.Indented, jss);
-                return Json(new { success = true, data = result }, JsonRequestBehavior.AllowGet);
+                var js = Json(new { success = true, data = listdata }, JsonRequestBehavior.AllowGet);
+                var dataserialize = new JavaScriptSerializer().Serialize(js.Data);
+                return js;
 
             }
             else if (name == "" && cb != "")
             {
                 var temp = db.ChuyenNganhs.Where(p => p.CapBac.Equals(cb)).ToList();
                 var result = temp.Select(p => new ChuyenNganh { MaChuyenNganh = p.MaChuyenNganh, TenChuyenNganh = p.TenChuyenNganh, CapBac = p.CapBac, ChiTiet = p.ChiTiet, MaNganh = p.MaNganh }).ToList();
-
-                JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
-                var result1 = JsonConvert.SerializeObject(result, Formatting.Indented, jss);
-                return Json(new { success = true, message = "Search Thành Công", data = result1 }, JsonRequestBehavior.AllowGet);
+                var jss = Json(new { success = true, message = "Search Thành Công", data = result }, JsonRequestBehavior.AllowGet);
+                var result1 = JsonConvert.SerializeObject(jss);
+                return jss;
             }
             else if (name != "" && cb == "-1")
             {
                 var temp = db.ChuyenNganhs.Where(p => p.TenChuyenNganh.Contains(name)).ToList();
                 var result = temp.Select(p => new ChuyenNganh { MaChuyenNganh = p.MaChuyenNganh, TenChuyenNganh = p.TenChuyenNganh, CapBac = p.CapBac, ChiTiet = p.ChiTiet, MaNganh = p.MaNganh });
-                JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
-                var result1 = JsonConvert.SerializeObject(result, Formatting.Indented, jss);
-                return Json(new { success = true, message = "Search Thành Công", data = result1 }, JsonRequestBehavior.AllowGet);
+                var jss = Json(new { success = true, message = "Search Thành Công", data = result }, JsonRequestBehavior.AllowGet);
+                var result1 = JsonConvert.SerializeObject(jss);
+                return jss;
 
             }
             else
-
             {
                 var temp = db.ChuyenNganhs.Where(p => p.TenChuyenNganh.Contains(name) && p.CapBac.Equals(cb)).ToList();
                 var result = temp.Select(p => new ChuyenNganh { MaChuyenNganh = p.MaChuyenNganh, TenChuyenNganh = p.TenChuyenNganh, CapBac = p.CapBac, ChiTiet = p.ChiTiet, MaNganh = p.MaNganh });
-                JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
-                var result1 = JsonConvert.SerializeObject(result, Formatting.Indented, jss);
-                return Json(new { success = true, message = "Search Thành Công", data = result1 }, JsonRequestBehavior.AllowGet);
+                var jss = Json(new { success = true, message = "Search Thành Công", data = result }, JsonRequestBehavior.AllowGet);
+                var result1 = JsonConvert.SerializeObject(jss);
+                return jss;
             }
 
         }
