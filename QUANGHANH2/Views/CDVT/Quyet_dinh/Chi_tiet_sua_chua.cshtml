@@ -22,7 +22,6 @@
                             <th>Phân xưởng chịu trách nhiệm</th>
                             <th>Lý do sửa chữa</th>
                             <th>Loại sửa chữa</th>
-                            <th>Trạng thái</th>
                             <th>Ngày dự kiến hoàn thành</th>
                             <th></th>
                         </tr>
@@ -105,7 +104,6 @@
                         { "data": "department_name", "name": "department_name" },
                         { "data": "repair_reason", "name": "repair_reason" },
                         { "data": "repair_type", "name": "repair_type" },
-                        { "data": "reason", "name": "reason" },
                         {
                             "data": "finish_date_plan", "name": "finish_date_plan", "render": function (data) {
                                 return dateFormat2(data);
@@ -141,19 +139,25 @@
                 type: "POST",
                 url: "/phong-cdvt/quyet-dinh/GetSupply",
                 dataType: "json",
-                success: function (data) {
-                    $(function () {
-                        $.each(data, function (i, item) {
-                            var $tr = $('<tr>').append(
-                                $('<td>').text(item.MaVT),
-                                $('<td>').text(item.TenVT),
-                                $('<td>').text(item.SLVT),
-                                $('<td>').text(item.TLVT)
-                            );
-                             $tr.appendTo('#test');
-                        });
-                    });
-                    $("#pre-load").hide();
+               success: function (data) {
+                   if (data.success == true) {
+                       $(function () {
+                           $.each(data.data, function (i, item) {
+                               var $tr = $('<tr>').append(
+                                   $('<td>').text(item.MaVT),
+                                   $('<td>').text(item.TenVT),
+                                   $('<td>').text(item.SLVT),
+                                   $('<td>').text(item.TLVT)
+                               );
+                               $tr.appendTo('#test');
+                           });
+                       });
+                   }
+                    else {
+                       errorAlert('', data.message);
+                       $("#exit-add-button").click();
+                   }
+                           $("#pre-load").hide();
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {             
                     $.notify(XMLHttpRequest.responseText, {

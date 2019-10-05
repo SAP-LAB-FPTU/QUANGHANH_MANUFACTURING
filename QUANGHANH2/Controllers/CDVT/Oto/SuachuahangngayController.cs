@@ -51,11 +51,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             {
 
                 List<Maintain_CarDB> maintainCar = db.Database.SqlQuery<Maintain_CarDB>("select m.[date],  e.equipment_name, m.equipmentid,d.department_name,m.maintain_content,m.maintainid " +
-              "from Maintain_Car m inner join Equipment e on m.equipmentid = e.equipmentId " +
+                "from Maintain_Car m inner join Equipment e on m.equipmentid = e.equipmentId " +
                 "inner join Department d on d.department_id = m.departmentid").ToList();
-
-
-
 
                 int totalrows = maintainCar.Count;
                 int totalrowsafterfiltering = maintainCar.Count;
@@ -189,14 +186,30 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
 
             try
             {
+                //validate timeFrom when input blank
+                if (timeFrom.Trim() == "")
+                {
+                    timeFrom = "01/01/1900";
+                }
+                DateTime timeF = DateTime.ParseExact(timeFrom, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+                //validate timeTo when input blank
+                DateTime timeT;
+                if (timeTo.Trim() == "")
+                {
+                    timeT = DateTime.Now;
+                }
+                else
+                {
+                    timeT = DateTime.ParseExact(timeTo, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                }
+
+
                 //Server Side Parameter
                 int start = Convert.ToInt32(Request["start"]);
                 int length = Convert.ToInt32(Request["length"]);
                 string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
                 string sortDirection = Request["order[0][dir]"];
-
-                DateTime timeF = DateTime.ParseExact(timeFrom, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                DateTime timeT = DateTime.ParseExact(timeTo, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
                 QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
                 string query = "select m.[date],  e.equipment_name, m.equipmentid,d.department_name,m.maintain_content,m.maintainid"

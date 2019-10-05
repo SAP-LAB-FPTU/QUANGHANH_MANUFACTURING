@@ -530,94 +530,122 @@ namespace QUANGHANH2.Controllers.TCLD
                 }
             }
         }
+        [HttpPost]
+        public ActionResult validateNameDuplicateDiploma(string name_diploma)
+        {
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                var bangcap = db.BangCap_GiayChungNhan.Where(x => x.TenBangCap == name_diploma).FirstOrDefault<BangCap_GiayChungNhan>();
+                if (bangcap != null)
+                {
+                    return Json(new { success = true, message = "id has been exist" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { success = false, message = "right id" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+        }
         [Route("phong-tcld/bang-cap/danh-sach-bang-cap/xuat-file-excel")]
         [HttpPost]
         public ActionResult ExporTotExcelDiploma()
         {
-            string path = HostingEnvironment.MapPath("/excel/TCLD/Diploma/Bằng cấp - giấy chứng nhận.xlsx");
-            string saveAsPath = ("/excel/TCLD/download/Bằng cấp - giấy chứng nhận.xlsx");
-            FileInfo file = new FileInfo(path);
-            using (ExcelPackage excelPackage = new ExcelPackage(file))
-            {
-                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
-                ExcelWorksheet ws_cert_emp = excelWorkbook.Worksheets.First();
-                List<BangCap_detailsDB> listdataDiploma = new List<BangCap_detailsDB>();
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            try
                 {
-
-                    listdataDiploma = (from bc in db.BangCap_GiayChungNhan
-                                       join cn in db.ChuyenNganhs on bc.MaChuyenNganh equals cn.MaChuyenNganh
-                                       join td in db.TrinhDoes on bc.MaTrinhDo equals td.MaTrinhDo
-                                       join truong in db.Truongs on bc.MaTruong equals truong.MaTruong
-                                       select new
-                                       {
-                                           MaTruong = bc.MaTruong,
-                                           MaChuyenNganh = bc.MaChuyenNganh,
-                                           MaBangCap_GiayChungNhan = bc.MaBangCap_GiayChungNhan,
-                                           MaTrinhDo = bc.MaTrinhDo,
-                                           KieuBangCap = bc.KieuBangCap,
-                                           ThoiHan = bc.ThoiHan,
-                                           TenBangCap = bc.TenBangCap,
-                                           Loai = bc.Loai,
-                                           TenTruong = truong.TenTruong,
-                                           TenChuyenNganh = cn.TenChuyenNganh,
-                                           TenTrinhDo = td.TenTrinhDo
-                                       }).ToList().Select(bangcap => new BangCap_detailsDB
-                                       {
-                                           MaTruong = bangcap.MaTruong,
-                                           MaChuyenNganh = bangcap.MaChuyenNganh,
-                                           MaBangCap_GiayChungNhan = bangcap.MaBangCap_GiayChungNhan,
-                                           MaTrinhDo = bangcap.MaTrinhDo,
-                                           KieuBangCap = bangcap.KieuBangCap,
-                                           ThoiHan = bangcap.ThoiHan,
-                                           TenBangCap = bangcap.TenBangCap,
-                                           Loai = bangcap.Loai,
-                                           TenTruong = bangcap.TenTruong,
-                                           TenChuyenNganh = bangcap.TenChuyenNganh,
-                                           TenTrinhDo = bangcap.TenTrinhDo
-                                       }).ToList();
-
-                    ws_cert_emp.Cells["A1"].Value = "Tên trường";
-                    ws_cert_emp.Cells["B1"].Value = "Tên chuyên ngành";
-                    ws_cert_emp.Cells["C1"].Value = "Tên trình độ";
-                    ws_cert_emp.Cells["D1"].Value = "Tên bằng cấp";
-                    ws_cert_emp.Cells["E1"].Value = "Kiểu bằng cấp";
-                    ws_cert_emp.Cells["F1"].Value = "Thời hạn";
-                    ws_cert_emp.Cells["G1"].Value = "Loại";
-                    int rowStart = 2;
-
-                    foreach (var item in listdataDiploma)
+                    string path = HostingEnvironment.MapPath("/excel/TCLD/Diploma/Bằng cấp - giấy chứng nhận.xlsx");
+                string saveAsPath = ("/excel/TCLD/download/Bằng cấp - giấy chứng nhận.xlsx");
+                FileInfo file = new FileInfo(path);
+                using (ExcelPackage excelPackage = new ExcelPackage(file))
+                {
+                    ExcelWorkbook excelWorkbook = excelPackage.Workbook;
+                    ExcelWorksheet ws_cert_emp = excelWorkbook.Worksheets.First();
+                    List<BangCap_detailsDB> listdataDiploma = new List<BangCap_detailsDB>();
+                    using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                     {
-                        ws_cert_emp.Cells[string.Format("A{0}", rowStart)].Value = item.TenTruong;
-                        ws_cert_emp.Cells[string.Format("B{0}", rowStart)].Value = item.TenChuyenNganh;
-                        ws_cert_emp.Cells[string.Format("C{0}", rowStart)].Value = item.TenTrinhDo;
-                        ws_cert_emp.Cells[string.Format("D{0}", rowStart)].Value = item.TenBangCap;
-                        ws_cert_emp.Cells[string.Format("E{0}", rowStart)].Value = item.KieuBangCap;
-                        ws_cert_emp.Cells[string.Format("G{0}", rowStart)].Value = item.Loai;
+                        int count = 0;
+                        listdataDiploma = (from bc in db.BangCap_GiayChungNhan
+                                           join cn in db.ChuyenNganhs on bc.MaChuyenNganh equals cn.MaChuyenNganh
+                                           join td in db.TrinhDoes on bc.MaTrinhDo equals td.MaTrinhDo
+                                           join truong in db.Truongs on bc.MaTruong equals truong.MaTruong
+                                           select new
+                                           {
+                                               MaTruong = bc.MaTruong,
+                                               MaChuyenNganh = bc.MaChuyenNganh,
+                                               MaBangCap_GiayChungNhan = bc.MaBangCap_GiayChungNhan,
+                                               MaTrinhDo = bc.MaTrinhDo,
+                                               KieuBangCap = bc.KieuBangCap,
+                                               ThoiHan = bc.ThoiHan,
+                                               TenBangCap = bc.TenBangCap,
+                                               Loai = bc.Loai,
+                                               TenTruong = truong.TenTruong,
+                                               TenChuyenNganh = cn.TenChuyenNganh,
+                                               TenTrinhDo = td.TenTrinhDo
+                                           }).ToList().Select(bangcap => new BangCap_detailsDB
+                                           {
+                                               MaTruong = bangcap.MaTruong,
+                                               MaChuyenNganh = bangcap.MaChuyenNganh,
+                                               MaBangCap_GiayChungNhan = bangcap.MaBangCap_GiayChungNhan,
+                                               MaTrinhDo = bangcap.MaTrinhDo,
+                                               KieuBangCap = bangcap.KieuBangCap,
+                                               ThoiHan = bangcap.ThoiHan,
+                                               TenBangCap = bangcap.TenBangCap,
+                                               Loai = bangcap.Loai,
+                                               TenTruong = bangcap.TenTruong,
+                                               TenChuyenNganh = bangcap.TenChuyenNganh,
+                                               TenTrinhDo = bangcap.TenTrinhDo
+                                           }).ToList();
 
-                        if (item.ThoiHan.Equals("-1"))
+                        ws_cert_emp.Cells["A1"].Value = "Bảng danh sách bằng cấp và giấy chứng nhận";
+                        ws_cert_emp.Cells["B1"].Value = "Tên trường";
+                        ws_cert_emp.Cells["C1"].Value = "Tên chuyên ngành";
+                        ws_cert_emp.Cells["D1"].Value = "Tên trình độ";
+                        ws_cert_emp.Cells["E1"].Value = "Tên bằng cấp";
+                        ws_cert_emp.Cells["F1"].Value = "Kiểu bằng cấp";
+                        ws_cert_emp.Cells["G1"].Value = "Thời hạn";
+                        ws_cert_emp.Cells["H1"].Value = "Loại";
+                        int rowStart = 3;
+
+                        foreach (var item in listdataDiploma)
                         {
-                            ws_cert_emp.Cells[string.Format("F{0}", rowStart)].Value = "Vĩnh viễn";
+                            count++;
+                            ws_cert_emp.Cells[string.Format("A{0}", rowStart)].Value = count;
+                            ws_cert_emp.Cells[string.Format("B{0}", rowStart)].Value = item.TenTruong;
+                            ws_cert_emp.Cells[string.Format("C{0}", rowStart)].Value = item.TenChuyenNganh;
+                            ws_cert_emp.Cells[string.Format("D{0}", rowStart)].Value = item.TenTrinhDo;
+                            ws_cert_emp.Cells[string.Format("E{0}", rowStart)].Value = item.TenBangCap;
+                            ws_cert_emp.Cells[string.Format("F{0}", rowStart)].Value = item.KieuBangCap;
+                            ws_cert_emp.Cells[string.Format("G{0}", rowStart)].Value = item.Loai;
+
+                            if (item.ThoiHan.Equals("-1"))
+                            {
+                                ws_cert_emp.Cells[string.Format("H{0}", rowStart)].Value = "Vĩnh viễn";
+                            }
+                            else
+                            {
+                                ws_cert_emp.Cells[string.Format("H{0}", rowStart)].Value = item.ThoiHan;
+                            }
+
+
+                            rowStart++;
+
                         }
-                        else
-                        {
-                            ws_cert_emp.Cells[string.Format("F{0}", rowStart)].Value = item.ThoiHan;
-                        }
-
-
-                        rowStart++;
-
                     }
+                    excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath(saveAsPath)));
                 }
-                excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath(saveAsPath)));
+                return Json(new { success = true, location = saveAsPath }, JsonRequestBehavior.AllowGet);
             }
-            return Json(new { success = true, location = saveAsPath }, JsonRequestBehavior.AllowGet);
+            catch (Exception ex)
+            {
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
         }
         [Route("phong-tcld/bang-cap/danh-sach-bang-cap-cua-nhan-vien/xuat-file-excel")]
         [HttpPost]
         public ActionResult ExporTotExcelDiplomaEmployee()
         {
-            string path = HostingEnvironment.MapPath("/excel/TCLD/Diploma/bằng cấp và giấy chứng nhận của nhân viên.xlsx");
+            try
+            {
+                string path = HostingEnvironment.MapPath("/excel/TCLD/Diploma/bằng cấp và giấy chứng nhận của nhân viên.xlsx");
             string saveAsPath = ("/excel/TCLD/download/Bằng cấp - giấy chứng nhận của nhân viên.xlsx");
             FileInfo file = new FileInfo(path);
             using (ExcelPackage excelPackage = new ExcelPackage(file))
@@ -627,6 +655,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 List<BangCap_GiayChungNhan_detailsDB> listdataDipEmpDetail = new List<BangCap_GiayChungNhan_detailsDB>();
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
+                    int count = 0;
                     listdataDipEmpDetail = (from bc_chitiet in db.ChiTiet_BangCap_GiayChungNhan
                                             join nv in db.NhanViens on bc_chitiet.MaNV equals nv.MaNV
                                             join bc in db.BangCap_GiayChungNhan on bc_chitiet.MaBangCap_GiayChungNhan equals bc.MaBangCap_GiayChungNhan
@@ -649,26 +678,28 @@ namespace QUANGHANH2.Controllers.TCLD
                                                 TenBangCap = dip.TenBangCap,
                                                 Ten = dip.TenNV,
                                             }).ToList();
-
-                    ws_cert_emp.Cells["A1"].Value = "Số hiệu";
-                    ws_cert_emp.Cells["B1"].Value = "Tên bằng cấp";
-                    ws_cert_emp.Cells["C1"].Value = "Tên nhân viên";
-                    ws_cert_emp.Cells["D1"].Value = "Ngày cấp";
-                    int rowStart = 2;
+                    ws_cert_emp.Cells["A1"].Value = "Bảng danh sách bằng cấp - giấy chứng nhận của nhân viên";
+                    ws_cert_emp.Cells["B1"].Value = "Số hiệu";
+                    ws_cert_emp.Cells["C1"].Value = "Tên bằng cấp";
+                    ws_cert_emp.Cells["D1"].Value = "Tên nhân viên";
+                    ws_cert_emp.Cells["E1"].Value = "Ngày cấp";
+                    int rowStart = 3;
 
                     foreach (var item in listdataDipEmpDetail)
                     {
-                        ws_cert_emp.Cells[string.Format("A{0}", rowStart)].Value = item.SoHieu;
-                        ws_cert_emp.Cells[string.Format("B{0}", rowStart)].Value = item.TenBangCap;
-                        ws_cert_emp.Cells[string.Format("C{0}", rowStart)].Value = item.Ten;
+                        count++;
+                        ws_cert_emp.Cells[string.Format("A{0}", rowStart)].Value = count;
+                        ws_cert_emp.Cells[string.Format("B{0}", rowStart)].Value = item.SoHieu;
+                        ws_cert_emp.Cells[string.Format("C{0}", rowStart)].Value = item.TenBangCap;
+                        ws_cert_emp.Cells[string.Format("D{0}", rowStart)].Value = item.Ten;
 
                         if (item.NgayCap != null)
                         {
-                            ws_cert_emp.Cells[string.Format("D{0}", rowStart)].Value = ((DateTime)item.NgayCap).ToString("dd/MM/yyyy");
+                            ws_cert_emp.Cells[string.Format("E{0}", rowStart)].Value = ((DateTime)item.NgayCap).ToString("dd/MM/yyyy");
                         }
                         else
                         {
-                            ws_cert_emp.Cells[string.Format("D{0}", rowStart)].Value = item.NgayCap;
+                            ws_cert_emp.Cells[string.Format("E{0}", rowStart)].Value = item.NgayCap;
                         }
 
 
@@ -679,6 +710,11 @@ namespace QUANGHANH2.Controllers.TCLD
                 excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath(saveAsPath)));
             }
             return Json(new { success = true, location = saveAsPath }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

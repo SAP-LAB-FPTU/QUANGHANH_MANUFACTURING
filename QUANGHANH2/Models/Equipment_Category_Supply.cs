@@ -18,6 +18,7 @@ namespace QUANGHANH2.Models
         public string Equipment_category_id { get; set; }
         public string supply_id { get; set; }
     
+        public virtual Equipment_category Equipment_category { get; set; }
         public virtual Supply Supply { get; set; }
     }
 }

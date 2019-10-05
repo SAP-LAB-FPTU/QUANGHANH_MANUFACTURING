@@ -86,7 +86,7 @@
                         if (payload.length == 0) {
                             $("#submit").attr("disabled", true);
                             $("#update").attr("disabled", true);
-                            alert('Đơn xin cấp mới vật tư sửa chữa đã được gửi.');
+                            errorAlert('Không có vật tư cấp mới.');
                         }
                         return json.data;
                     }
@@ -137,7 +137,7 @@
                 }
             });
             $("#submit").click(function () {
-                if (confirm('Nộp đơn xin cấp mới?')) {
+                confirmAlert('Xác nhận', 'Nộp đơn xin cấp mới?', function () {
                     $("#pre-load").show();
                     $.ajax({
                         dataType: "json",
@@ -162,9 +162,7 @@
                         }
                     });
                     $("#pre-load").hide();
-                } else {
-                    // Do nothing!
-                }
+                });
             });
             $("#update").click(update);
         });

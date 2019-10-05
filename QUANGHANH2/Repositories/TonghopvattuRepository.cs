@@ -26,7 +26,7 @@ namespace QUANGHANH2.Repositories
         {
             DateTime monthPicked = DateTime.Parse(search.MonthPicked);
             string query = $"SELECT tmp.SupplyId, s.supply_name SupplyName, s.unit SupplyUnit, tmp.SupplyAverage, st.quantity SupplyQuantity " +
-                $"FROM (SELECT supplyid SupplyId, SUM(dinh_muc) AS SupplyAverage FROM SupplyPlan WHERE departmentid = '{search.DepartmentId}' AND YEAR([date]) = {monthPicked.Year} AND MONTH([date]) = {monthPicked.Month} GROUP BY supplyid) tmp, Supply s, Supply_tieuhao st " +
+                $"FROM (SELECT supplyid SupplyId, SUM(dinh_muc) AS SupplyAverage FROM SupplyPlan WHERE departmentid = '{search.DepartmentId}' AND YEAR([date]) = {monthPicked.Year} AND MONTH([date]) = {monthPicked.Month} AND [status] = 1 GROUP BY supplyid) tmp, Supply s, Supply_tieuhao st " +
                 $"WHERE st.supplyid = tmp.SupplyId AND s.supply_id = tmp.SupplyId AND " +
                 $"st.departmentid = '{search.DepartmentId}' AND " +
                 $"s.supply_id LIKE N'%{search.SupplyId}%' AND " +
