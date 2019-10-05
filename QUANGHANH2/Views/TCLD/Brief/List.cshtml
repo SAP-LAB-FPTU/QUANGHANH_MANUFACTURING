@@ -18,10 +18,10 @@
                 <div class="col s12 m12 l12">
                     <div class="row center">
                         <div class="col l3 m12 s12 input-field">
-                            <input type="text" placeholder="Mã nhân viên" class='form-control autocomplete_MNV' id="searchMaNV" multiple />
+                            <input type="text" placeholder="Mã nhân viên" class='form-control autocomplete_MNV input-field' id="searchMaNV" multiple />
                         </div>
                         <div class="col l3 m12 s12 input-field">
-                            <input type="text" placeholder="Tên nhân viên" class='form-control autocomplete_Name' id="searchTenNV" multiple />
+                            <input type="text" placeholder="Tên nhân viên" class='form-control autocomplete_Name input-field' id="searchTenNV" multiple />
                         </div>
                         <div class="col l3 m12 s12 input-field">
                             <select class="form-control" id="searchGioiTinh">
@@ -117,7 +117,7 @@
                 <div class="row">
                     <div class="col s6 m6 l12">
                         <label>Số quyết định</label>
-                        <input name="soQD" class=' form-control' placeholder="Số quyết định" />
+                        <input name="soQD" class=' form-control' placeholder="Số quyết định" autocomplete = "off"/>
                     </div>
                     <div class="col s6 m6 l6">
                         <label>Lí do chấm dứt</label>
@@ -136,7 +136,7 @@
                     </div>
                     <div class="col s6 m6 l6">
                         <label>Ngày chấm dứt</label>
-                        <input name="dateTLHD" id="datepicker" type='text' class='datepicker-here form-control' data-language='vi' placeholder="Ngày chấm dứt" />
+                        <input name="dateTLHD" id="datepicker" type='text' class='datepicker-here form-control' autocomplete = "off" data-language='vi' placeholder="Ngày chấm dứt" />
                     </div>
 
                 </div>
@@ -159,7 +159,7 @@
                         <br />
                         <label>
                             <input id="else2" name="group2" type="radio" />
-                            <span><input id="else" name="elseCase" class="form-control" placeholder="Trường hợp khác" required disabled /></span>
+                            <span><input id="else" name="elseCase" class="form-control" placeholder="Trường hợp khác" required disabled autocomplete = "off"/></span>
                         </label>
                     </div>
                 </div>
@@ -381,6 +381,11 @@
                     //})
                     //successAlert('Thành công', 'Tìm kiếm thành công');
                 });
+            });
+             $(".input-field").keydown(function (e) {
+                if (e.keyCode === 13) {
+                    dataTable.ajax.reload();
+                }
             });
         });
         //thuong
