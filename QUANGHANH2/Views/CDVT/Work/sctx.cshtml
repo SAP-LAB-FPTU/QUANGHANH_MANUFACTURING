@@ -16,7 +16,7 @@
 <div class="card">
     <div class="card-content">
         <div class="row">
-            <h3 class="center"><b>ĐẠI TRUNG TU THIẾT BỊ</b></h3>
+            <h3 class="center"><b>TRUNG ĐẠI TU THIẾT BỊ</b></h3>
             <hr>
             <form action="" method="POST" id="mysearchform" role="form">
                 <div class="col l6 m6 s12">
@@ -63,6 +63,17 @@
 <script type="text/javascript" src="~/js/Custom JS/CDVT/Work/suachua.js"></script>
 <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
 
+
+<script>
+    @if (ViewBag.alert == true)
+    {
+        <text>
+    $(document).ready(function () {
+                errorAlert('Lỗi', 'Bạn đã nhập sai vật tư');
+            })
+        </text>
+    }
+</script>
 
 
 @section scripts{
