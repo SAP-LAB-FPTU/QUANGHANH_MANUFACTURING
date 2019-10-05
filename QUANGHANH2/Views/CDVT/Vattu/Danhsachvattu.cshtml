@@ -231,10 +231,7 @@
                     success: function (data) {
                         dataTable.ajax.reload();
                         if (data.success == true) {
-                            $.notify(data.message, {
-                                globalPosition: "top center",
-                                className: "success"
-                            })
+                            successAlert('Thành công', data.message);
                             $('#exit-add-button').click();
                             $('#pre-load').hide();
                             $('#supply_id_add').val("");
@@ -242,10 +239,7 @@
                             $('#unit_add').val("")
                         }
                         else
-                            $.notify(data.message, {
-                                globalPosition: "top center",
-                                className: "error"
-                            });
+                            errorAlert('Lỗi', data.message);
                     },
                     data: {
                         supply_id: $('#supply_id_add').val(),
@@ -261,11 +255,6 @@
             $("#searchButton1").click(function () {
                 $("#pre-load").show();
                 dataTable.ajax.reload(function () {
-
-                    $.notify("Tìm kiếm thành công", {
-                        globalPosition: "top center",
-                        className: "success"
-                    })
                     $("#pre-load").hide();
                 })
             });
@@ -280,18 +269,12 @@
                     success: function (data) {
                         dataTable.ajax.reload();
                         if (data.success == true) {
-                            $.notify(data.message, {
-                                globalPosition: "top center",
-                                className: "success"
-                            })
+                            successAlert('Thành công', data.message);
                             $('#exit-delete-button').click();
                             $('#pre-load').hide();
                         }
                         else
-                            $.notify(data.message, {
-                                globalPosition: "top center",
-                                className: "error"
-                            });
+                            errorAlert('Lỗi', data.message);
                     },
                     data: {
                         supply_id: $('#supply_id_delete').val()
