@@ -29,11 +29,11 @@
                             </div>
                             <div class="col l2 m12 s12 input-field">
                                 <i class="fas fa-calendar-alt icon"></i>
-                                <input type='text' class='datepicker-here center maxDate' id="min_Date" data-language='vi' value="Ngày nhập (đi)" style="height: 24px" />
+                                <input type='text' class='datepicker-here center maxDate' id="min_Date" data-language='vi' value="Nhập ngày bắt đầu (từ)" style="height: 24px" />
                             </div>
                             <div class="col l2 m12 s12 input-field">
                                 <i class="fas fa-calendar-alt icon"></i>
-                                <input type='text' class='datepicker-here center minDate' id="max_Date" data-language='vi' value="Ngày nhập (đến)" style="height: 24px" />
+                                <input type='text' class='datepicker-here center minDate' id="max_Date" data-language='vi' value="Nhập ngày kết thúc (đến)" style="height: 24px" />
                             </div>
                             <div class="col l1 m12 s12 input-field">
 
@@ -287,47 +287,7 @@
         $(".datepicker-here").keydown(function (e) {
             e.preventDefault();
         });
-       $('.maxDate').datepicker({
-        language: 'vi',
-        maxDate: new Date(),
-        minDate: new Date("1/1/1900")
-        })
-        $('.minDate').datepicker({
-            language: 'vi',
-            maxDate: new Date() 
-        })
-    $(document).ready(function () {
-        $('.datepicker-inline').remove();
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1;
-
-        var yyyy = today.getFullYear();
-        if (dd < 10) {
-            dd = '0' + dd;
-        }
-        if (mm < 10) {
-            mm = '0' + mm;
-        }
-        var today = dd + '/' + mm + '/' + yyyy;
-        $(".minDate").each(function () {
-            $(this).val(today);
-        });
-        today = new Date("1/1/1900");
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1;
-
-        var yyyy = today.getFullYear();
-        if (dd < 10) {
-            dd = '0' + dd;
-        }
-        if (mm < 10) {
-            mm = '0' + mm;
-        }
-        var today = dd + '/' + mm + '/' + yyyy;
-        $(".maxDate").val(today)
-    });
-
+      
 
         
         $("#searchButton1").click(function () {

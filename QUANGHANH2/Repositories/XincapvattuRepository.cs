@@ -96,13 +96,13 @@ namespace QUANGHANH2.Repositories
                 if (HasDraft())
                 {
                     var today = DateTime.Now;
-                    query = $"SELECT DISTINCT CAST(sp.id AS VARCHAR(10)) Id, sp.departmentid DepartmentId, sp.supplyid SupplyId, sp.equipmentid EquipmentId, sp.dinh_muc SupplyAverage, sp.quantity_plan SupplyPlan, e.Equipment_category_id EquipmentCategoryId, i.detail_location DetailLocation, s.supply_name SupplyName, s.unit SupplyUnit, e.equipment_name EquipmentName " +
-                        $"FROM SupplyPlan sp, Equipment e, Incident i, Supply s " +
+                    query = $"SELECT DISTINCT CAST(sp.id AS VARCHAR(10)) Id, sp.departmentid DepartmentId, sp.supplyid SupplyId, sp.equipmentid EquipmentId, sp.dinh_muc SupplyAverage, sp.quantity_plan SupplyPlan, e.Equipment_category_id EquipmentCategoryId, dp.department_name DetailLocation, s.supply_name SupplyName, s.unit SupplyUnit, e.equipment_name EquipmentName " +
+                        $"FROM SupplyPlan sp, Equipment e, Department dp, Supply s " +
                         $"WHERE sp.[status] = 0 AND " +
-                        $"YEAR(sp.[date]) = ${today.Year} AND " +
-                        $"MONTH(sp.[date]) = ${today.Month} AND " +
+                        $"YEAR(sp.[date]) = {today.Year} AND " +
+                        $"MONTH(sp.[date]) = {today.Month} AND " +
                         $"e.equipmentId = sp.equipmentid AND " +
-                        $"e.department_id = i.department_id AND " +
+                        $"e.department_id = dp.department_id AND " +
                         $"s.supply_id = sp.supplyid " +
                         $"ORDER BY DepartmentId";
                 }

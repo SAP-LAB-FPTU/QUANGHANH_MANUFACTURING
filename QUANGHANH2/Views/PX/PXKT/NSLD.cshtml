@@ -8,7 +8,7 @@
 <link href="~/dist/css/pages/data-table.css" rel="stylesheet" />
 <link href="~/assets/extra-libs/DataTables/datatables.min.css" rel="stylesheet" />
 <script src="~/assets/extra-libs/DataTables/datatables.min.js"></script>
-
+<link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
 
 
 <script>
@@ -17,25 +17,18 @@
         var url = new URL(url_string);
         var c = url.searchParams.get("Ca");
         var time = url.searchParams.get("Date");
-        $("#px").html("Đào Lò 1");
+        $("#px").html("Khai thác 1");[Auther(RightID = "129")]
         $("#ca").html("CA 1");
         var donvi = url.searchParams.get("Donvi");
         if (donvi == null) {
-            donvi = 'DL1';
+            donvi = 'KT1';
         }
         var text = document.getElementsByName(donvi)[0].innerHTML;
         if (donvi != null) {
             $("#px").html(text);
             $("#px").attr("name", donvi)
         }
-        $("#dropdown_px").on("click", ".dropdown-child-px", function () {
-            select = $(this).attr("name");
-            text = $(this).text();
-            $("#px").html(text);
-            $("#px").attr("name", select);
-            $(".dropdown-child-px").attr("name", select);
-            $('.dropdown-trigger').dropdown('close');
-        });
+
         if (c == 1) {
             $("#ca").html("CA 1");
         }
@@ -152,7 +145,6 @@
                     </div>
                 }
             </div>
-
         </form>
     </div>
 </div>
@@ -199,7 +191,13 @@
     function getcontent() {
         getInner();
         var tendonvi = $("#px").attr("name");
-        window.location = "/phan-xuong-khai-thac/nang-suat-lao-dong?Ca=" + intCa + "&Date=" + document.getElementById("inputdate").value + "&Donvi=" + tendonvi;
+        var date = $('#inputdate').val();
+        if (date == '') {
+            errorAlert('Lỗi', 'Bạn chưa nhập ngày');
+        } else {
+            window.location = "/phan-xuong-khai-thac/nang-suat-lao-dong?Ca=" + intCa + "&Date=" + document.getElementById("inputdate").value + "&Donvi=" + tendonvi;
+        }
+
     }
     function Update() {
         $('#pre-load').show();
@@ -264,7 +262,19 @@
     $(document).ready(function () {
         $("#type").html("Xem Theo Ngày");
     });
-</script>
+    $("#dropdown_px").on("click", ".dropdown-child-px", function () {
+        select = $(this).attr("name");
+        text = $(this).text();
+        $("#px").html(text);
+        $("#px").attr("name", select);
+        $(".dropdown-child-px").attr("name", select);
+        $('.dropdown-trigger').dropdown('close');
+    });
 
+</script>
+<script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
+<script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
+<script src="~/assets/sweetalert/sweetalert2.min.js"></script>
+<script src="~/js/Custom JS/Disable_input_material.js"></script>
 
 

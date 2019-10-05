@@ -63,13 +63,15 @@
                         }, "orderable": true
                     },
                 ],
+                "bInfo": false,
                 "bLengthChange": false,
                 "initComplete": () => { $("#pre-load").hide() },
                 "searching": false,
                 "paging": false,
                 "serverSide": true,
                 "language": {
-                    emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                    emptyTable: "Không có dữ liệu",
+                    zeroRecords: "Không có dữ liệu",
                     paginate:
                     {
                         previous: "Trang trước",
@@ -84,10 +86,11 @@
             })
         })
 
+        // format lai ngay nhan duoc tu db sang dd/mm/yyyy
         function dateFormat(d) {
             console.log(d);
-            return ((d.getMonth() + 1) + "").padStart(2, "0")
-                + "/" + (d.getDate() + "").padStart(2, "0")
+            return ((d.getDate()) +  "").padStart(2, "0")
+                + "/" + (d.getMonth() + 1 + "").padStart(2, "0")
                 + "/" + d.getFullYear();
             }
 
