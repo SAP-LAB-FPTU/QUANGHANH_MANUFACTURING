@@ -199,7 +199,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         {
             ViewBag.listID = null;
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            List<Equipment_category> listID = db.Database.SqlQuery<Equipment_category>("select e.* from Equipment_category e where e.Equipment_category_name like N'%"+name+"%'").Take(10).ToList();
+            List<Equipment_category> listID = db.Database.SqlQuery<Equipment_category>("select e.* from Equipment_category e where e.Equipment_category_name like N'%" + name + "%'").Take(10).ToList();
             ViewBag.listID = listID;
             string d = "";
             foreach (var item in listID)
@@ -221,6 +221,24 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             {
                 d += "<option value='" + item.supplier + "'/>";
             }
+            return Json(new { success = true, data = d }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult Atri(string name)
+        {
+            ViewBag.listID = null;
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            String d = "";
+            List<Equipment_category_attribute> list = db.Database.SqlQuery<Equipment_category_attribute>("select * from Equipment_category_attribute where Equipment_category_id = '" + name + "'").ToList();
+            foreach (var item in list)
+            {
+                d += "<tr>";
+                d += "<td>" + item.Equipment_category_attribute_name + "</td>";
+                d += "<td><input type='number' name='attri' class='form-control'/></td>";
+                d += "</tr>";
+            }
+
             return Json(new { success = true, data = d }, JsonRequestBehavior.AllowGet);
         }
 
@@ -438,11 +456,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         }
 
         [HttpPost]
-        public ActionResult Add(Equipment emp, string import, string duraInspec, string duraInsura, string used, string duramain, string[] id, string[] name, int[] value, string[] unit)
+        public ActionResult Add(Equipment emp, string import, string duraInspec, string duraInsura, string used, string duramain, string[] id, string[] name, int[] value, string[] unit, int[] attri)
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-               
+
 
                 using (DbContextTransaction dbc = db.Database.BeginTransaction())
                 {
@@ -469,6 +487,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         date_fix = date[1] + "/" + date[0] + "/" + date[2];
                         emp.durationOfMaintainance = Convert.ToDateTime(date_fix);
                         db.Equipments.Add(emp);
+                        List<Equipment_category_attribute> list = db.Database.SqlQuery<Equipment_category_attribute>("select * from Equipment_category_attribute where Equipment_category_id = '" + emp.Equipment_category_id + "'").ToList();
                         if (id != null)
                         {
                             for (int i = 0; i < id.Count(); i++)
@@ -484,6 +503,21 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                                     db.Equipment_attribute.Add(ea);
                                 }
 
+                            }
+                        }
+                        if (attri != null)
+                        {
+                            for (int i = 0; i < attri.Count(); i++)
+                            {
+                                if (!attri[i].Equals(""))
+                                {
+                                    Category_attribute_value cav = new Category_attribute_value();
+                                    cav.Value = attri[i];
+                                    cav.equipmentId = emp.equipmentId;
+                                    cav.Equipment_category_id = emp.Equipment_category_id;
+                                    cav.Equipment_category_attribute_id = list.ElementAt(i).Equipment_category_attribute_id;
+                                    db.Category_attribute_value.Add(cav);
+                                }
                             }
                         }
                         Equipment_Inspection ei = new Equipment_Inspection();
@@ -509,7 +543,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         [HttpPost]
         public ActionResult Edit(Equipment emp, string import, string inspec, string insua, string used, string main)
         {
-            
+
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 using (DbContextTransaction dbc = db.Database.BeginTransaction())
