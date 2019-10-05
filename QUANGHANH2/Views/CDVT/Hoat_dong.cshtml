@@ -519,111 +519,111 @@
     data_restUrl = Url.Action("Atri", "Hoatdong", new { id = "" })
 }))
 {
-    <input type="text" id="atri" name="name" style="display:none !important"/>
+    <input type="text" id="atri" name="name" style="display:none !important" />
 }
 
 
-    <ul id='dropdown1' class='dropdown-content'>
-        <li><a class="dropdown-child" href="#!" name="lothien">Danh sách thiết bị lộ thiên</a></li>
-        <li><a class="dropdown-child" href="#!" name="hamlo">Danh sách thiết bị hầm lò</a></li>
-        <li><a class="dropdown-child" href="#!" name="baohiem">Danh sách hết bảo hiểm</a></li>
-        <li><a class="dropdown-child" href="#!" name="khauhao">Danh sách hết khấu hao</a></li>
-        <li><a class="dropdown-child" href="#!" name="baoduong">Danh sách đang bảo dưỡng</a></li>
-        <li><a class="dropdown-child" href="#!" name="suachua">Danh sách đang sửa chữa</a></li>
-        <li><a class="dropdown-child" href="#!" name="suco">Danh sách đang gặp sự cố</a></li>
-        <li><a class="dropdown-child" href="#!" name="kiemdinh">Danh sách đang kiểm định</a></li>
-        <li><a class="dropdown-child" href="#!" name="kiemdinh">Danh sách đang trung đại tu</a></li>
-        <li><a class="dropdown-child" href="#!" name="kiemdinh">Danh sách các thiết bị dùng chung</a></li>
-    </ul>
-    <script src="~/js/Briefs_List.js"></script>
-    <script src="~/js/Custom JS/CDVT/Home/huydong.js"></script>
-    <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
-    <script src="~/js/Custom JS/CDVT/Home/DetailManu_Daily.js"></script>
+<ul id='dropdown1' class='dropdown-content'>
+    <li><a class="dropdown-child" href="#!" name="lothien">Danh sách thiết bị lộ thiên</a></li>
+    <li><a class="dropdown-child" href="#!" name="hamlo">Danh sách thiết bị hầm lò</a></li>
+    <li><a class="dropdown-child" href="#!" name="baohiem">Danh sách hết bảo hiểm</a></li>
+    <li><a class="dropdown-child" href="#!" name="khauhao">Danh sách hết khấu hao</a></li>
+    <li><a class="dropdown-child" href="#!" name="baoduong">Danh sách đang bảo dưỡng</a></li>
+    <li><a class="dropdown-child" href="#!" name="suachua">Danh sách đang sửa chữa</a></li>
+    <li><a class="dropdown-child" href="#!" name="suco">Danh sách đang gặp sự cố</a></li>
+    <li><a class="dropdown-child" href="#!" name="kiemdinh">Danh sách đang kiểm định</a></li>
+    <li><a class="dropdown-child" href="#!" name="kiemdinh">Danh sách đang trung đại tu</a></li>
+    <li><a class="dropdown-child" href="#!" name="kiemdinh">Danh sách các thiết bị dùng chung</a></li>
+</ul>
+<script src="~/js/Briefs_List.js"></script>
+<script src="~/js/Custom JS/CDVT/Home/huydong.js"></script>
+<link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
+<script src="~/js/Custom JS/CDVT/Home/DetailManu_Daily.js"></script>
+<script>
+    $('#equipmentId-search').change(function () {
+        $(this).closest('form').submit();
+    });
+    $('equipmentName-search').change(function () {
+        $(this).closest('form').submit();
+    });
+    $('category-search').change(function () {
+        $(this).closest('form').submit();
+    });
+    $('supplier-search').change(function () {
+        $(this).closest('form').submit();
+    });
+    $('#Equipment_category_id').change(function () {
+        $('#atri').val($('#Equipment_category_id').val());
+        $('#myForm').submit();
+    });
+
+    $(window).resize(function () {
+        if ($(window).width() <= 600) {
+            $("#searchButton1").hide();
+            $("#searchButton2").show();
+        } else {
+            $("#searchButton1").show();
+            $("#searchButton2").hide();
+        }
+    });
+    $('.Datemv').datepicker({
+        language: 'vi',
+        maxDate: new Date(),
+    })
+    $('.maxDate').datepicker({
+        language: 'vi',
+        maxDate: new Date(),
+    })
+    $('.minDate').datepicker({
+        language: 'vi',
+        maxDate: new Date() // Now can select only dates, which goes after today
+    })
+    $(document).ready(function () {
+        $('.datepicker-inline').remove();
+        //var today = new Date();
+        //var dd = today.getDate();
+        //var mm = today.getMonth() + 1; //January is 0!
+
+        //var yyyy = today.getFullYear();
+        //if (dd < 10) {
+        //    dd = '0' + dd;
+        //}
+        //if (mm < 10) {
+        //    mm = '0' + mm;
+        //}
+        //var today = dd + '/' + mm + '/' + yyyy;
+        //$(".minDate").each(function () {
+        //    $(this).val(today);
+        //});
+        //today = new Date("1/1/1900");
+        //var dd = today.getDate();
+        //var mm = today.getMonth() + 1; //January is 0!
+
+        //var yyyy = today.getFullYear();
+        //if (dd < 10) {
+        //    dd = '0' + dd;
+        //}
+        //if (mm < 10) {
+        //    mm = '0' + mm;
+        //}
+        //var today = dd + '/' + mm + '/' + yyyy;
+        //$(".maxDate").val(today)
+    });
+
+
+
+    $(document).ready(function () {
+        $('input[required]').each(function myfunction() {
+            $(this).attr("oninvalid", "setCustomValidity('Không được bỏ trống ô này')");
+            $(this).attr("oninput", "this.setCustomValidity('')");
+        })
+    })
+</script>
+
+<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+@section scripts{
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script>
-        $('#equipmentId-search').change(function () {
-            $(this).closest('form').submit();
-        });
-        $('equipmentName-search').change(function () {
-            $(this).closest('form').submit();
-        });
-        $('category-search').change(function () {
-            $(this).closest('form').submit();
-        });
-        $('supplier-search').change(function () {
-            $(this).closest('form').submit();
-        });
-        $('#Equipment_category_id').change(function () {
-            $('#atri').val($('#Equipment_category_id').val());
-            $('#myForm').submit();
-        });
-
-        $(window).resize(function () {
-            if ($(window).width() <= 600) {
-                $("#searchButton1").hide();
-                $("#searchButton2").show();
-            } else {
-                $("#searchButton1").show();
-                $("#searchButton2").hide();
-            }
-        });
-        $('.Datemv').datepicker({
-            language: 'vi',
-            maxDate: new Date(),
-        })
-        $('.maxDate').datepicker({
-            language: 'vi',
-            maxDate: new Date(),
-        })
-        $('.minDate').datepicker({
-            language: 'vi',
-            maxDate: new Date() // Now can select only dates, which goes after today
-        })
-        $(document).ready(function () {
-            $('.datepicker-inline').remove();
-            //var today = new Date();
-            //var dd = today.getDate();
-            //var mm = today.getMonth() + 1; //January is 0!
-
-            //var yyyy = today.getFullYear();
-            //if (dd < 10) {
-            //    dd = '0' + dd;
-            //}
-            //if (mm < 10) {
-            //    mm = '0' + mm;
-            //}
-            //var today = dd + '/' + mm + '/' + yyyy;
-            //$(".minDate").each(function () {
-            //    $(this).val(today);
-            //});
-            //today = new Date("1/1/1900");
-            //var dd = today.getDate();
-            //var mm = today.getMonth() + 1; //January is 0!
-
-            //var yyyy = today.getFullYear();
-            //if (dd < 10) {
-            //    dd = '0' + dd;
-            //}
-            //if (mm < 10) {
-            //    mm = '0' + mm;
-            //}
-            //var today = dd + '/' + mm + '/' + yyyy;
-            //$(".maxDate").val(today)
-        });
-
-
-
-        $(document).ready(function () {
-            $('input[required]').each(function myfunction() {
-                $(this).attr("oninvalid", "setCustomValidity('Không được bỏ trống ô này')");
-                $(this).attr("oninput", "this.setCustomValidity('')");
-            })
-        })
-    </script>
-
-    <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
-    @section scripts{
-        <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-        <script>
         //export fuction
         $("#export-button").click(function () {
             $("#pre-load").show();
@@ -647,7 +647,15 @@
         $(document).ready(function () {
             $("#pre-load").show();
 
-                dataTable = $('#equipmentTable').DataTable({
+            dataTable = $('#equipmentTable')
+                .on('preXhr.dt', function (e, settings, data) {
+                    ////////////////////////////////////HIỆN LÊN MỖI KHI CHẠY AJAX//////////////////////////////////
+                    $("#pre-load").show("slow", function () {
+                    });
+                    $("#pre-load").css("z-index", "99999");
+                    ////////////////////////////////////////////////////////////////////////
+                })
+                .DataTable({
                     "ajax": {
                         "url": "/phong-cdvt/huy-dong",
                     "type": "POST",
@@ -714,14 +722,20 @@
                         "orderable": false,
                         "searchable":false,
                         "width":"150px"
-                    }
-                ],
-                "serverSide": "true",
-                "bLengthChange": false,
-                "bFilter": false,
-                "bInfo": false,
-                "bAutoWidth": false,
-                "order": [0, "asc"],
+                        }
+                    ],
+                    "drawCallback": function (settings) {
+                        ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
+                        $("#pre-load").hide("slow", function () {
+                        });
+                        ////////////////////////////////////////////////
+                    },
+                    "serverSide": "true",
+                    "bLengthChange": false,
+                    "bFilter": false,
+                    "bInfo": false,
+                    "bAutoWidth": false,
+                    "order": [0, "asc"],
                 "language": {
                         emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
                         paginate:
@@ -734,7 +748,9 @@
                     },
 
                 });
-                $("#pre-load").hide();
+            $("#pre-load").hide("slow", function () {
+                        });
+                //$("#pre-load").hide();
         });
 
          $("#searchButton1").click(function () {
@@ -854,6 +870,8 @@
                          })
                      }
                  });
+             $("#pre-load").hide("slow", function () {
+                        });
                 //$('#pre-load').hide();
             });
 
@@ -963,101 +981,116 @@
             }
 
 
-                return false;
-            }
-            function SubmitForm2(form) {
-             $("#pre-load").show();
+            return false;
+        }
+        function SubmitForm2(form) {
+            $("#pre-load").show("slow", function () {
+            });
+            $("#pre-load").css("z-index", "99999");
+            $("#pre-load").show();
 
             $.validator.unobtrusive.parse(form);
 
-                if($(form).valid()){
-                    $.ajax({
-                        type: "POST",
-                        url: form.action,
-                        data: $(form).serialize(),
-                        success: function (data) {
-                            dataTable.ajax.reload();
-                            if (data.success == false) {
-                                $.notify("Lỗi", {
-                                    globalPosition: "top center",
-                                    className: "error"
-                                })
-                            } else {
-                                $.notify("Thêm thành công", {
-                                    globalPosition: "top center",
-                                    className: "success"
-                                });
-                                window.location.reload(true);
-                            }
-
-
-                        },
-                        error: function (data) {
-                            dataTable.ajax.reload();
-                            $("#btn-submit").addClass("modal-close");
+            if ($(form).valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        dataTable.ajax.reload();
+                        if (data.success == false) {
                             $.notify("Lỗi", {
                                 globalPosition: "top center",
                                 className: "error"
                             })
+                        } else {
+                            $.notify("Thêm thành công", {
+                                globalPosition: "top center",
+                                className: "success"
+                            });
+                            window.location.reload(true);
+                        }
 
-                        },
-                    });
-            }
-                $("#pre-load").hide();
 
-                return false;
+                    },
+                    error: function (data) {
+                        dataTable.ajax.reload();
+                        $("#btn-submit").addClass("modal-close");
+                        $.notify("Lỗi", {
+                            globalPosition: "top center",
+                            className: "error"
+                        })
+
+                    },
+                });
             }
+            $("#pre-load").hide("slow", function () {
+            });
+            $("#pre-load").hide();
+
+            return false;
+        }
 
         function SubmitForm(form) {
-             $("#pre-load").show();
+            $("#pre-load").show("slow", function () {
+            });
+            $("#pre-load").css("z-index", "99999");
+            $("#pre-load").show();
 
             $.validator.unobtrusive.parse(form);
 
-                if($(form).valid()){
-                    $.ajax({
-                        type: "POST",
-                        url: form.action,
-                        data: $(form).serialize(),
-                        success: function (data) {
-                            dataTable.ajax.reload();
-                            if (data.success == false) {
-                                $.notify("Lỗi", {
-                                    globalPosition: "top center",
-                                    className: "error"
-                                })
-                            } else {
-                                $.notify("Thêm thành công", {
-                                    globalPosition: "top center",
-                                    className: "success"
-                                })
-                            }
-
-
-                        },
-                        error: function (data) {
-                            dataTable.ajax.reload();
-                            $("#btn-submit").addClass("modal-close");
+            if ($(form).valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        dataTable.ajax.reload();
+                        if (data.success == false) {
                             $.notify("Lỗi", {
                                 globalPosition: "top center",
                                 className: "error"
                             })
+                        } else {
+                            $.notify("Thêm thành công", {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
+                        }
 
-                        },
-                    });
+
+                    },
+                    error: function (data) {
+                        dataTable.ajax.reload();
+                        $("#btn-submit").addClass("modal-close");
+                        $.notify("Lỗi", {
+                            globalPosition: "top center",
+                            className: "error"
+                        })
+
+                    },
+                });
             }
-                $("#pre-load").hide();
-
-                return false;
-            }
-            function Edit(url) {
-             $.get(url)
-                 .done(function (response) {
-                     $("#edit-modal-body").html(response)
-
+            $("#pre-load").hide("slow", function () {
             });
+            $("#pre-load").hide();
 
-                return false;
-            }
+            return false;
+        }
+        function Edit(url) {
+            $("#pre-load").show("slow", function () {
+            });
+            $("#pre-load").css("z-index", "99999");
+            $.get(url)
+                .done(function (response) {
+                    $("#edit-modal-body").html(response)
+
+                });
+            $("#pre-load").hide("slow", function () {
+            });
+            $("#pre-load").hide();
+            return false;
+        }
 
 
 
@@ -1076,5 +1109,5 @@
         }
 
 
-        </script>
-    }
+    </script>
+}

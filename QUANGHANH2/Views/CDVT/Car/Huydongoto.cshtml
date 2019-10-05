@@ -897,32 +897,32 @@
 
             $.validator.unobtrusive.parse(form);
 
-                if($(form).valid()){
+            if ($(form).valid()) {
                 $.ajax({
-                    type : "POST",
+                    type: "POST",
                     url: form.action,
                     data: $(form).serialize(),
                     success: function (data) {
-                    var options = '';
+                        var options = '';
                         options = JSON.stringify(data);
                         var i = options.length;;
-                        options = options.substring(24, i-2);
-                    document.getElementById('IDlist').innerHTML = options;
+                        options = options.substring(24, i - 2);
+                        document.getElementById('IDlist').innerHTML = options;
 
-                        }
-                    });
+                    }
+                });
             }
 
 
-                return false;
+            return false;
         }
         function Atri(form) {
 
             $.validator.unobtrusive.parse(form);
 
-                if($(form).valid()){
+            if ($(form).valid()) {
                 $.ajax({
-                    type : "POST",
+                    type: "POST",
                     url: form.action,
                     data: $(form).serialize(),
                     success: function (data) {
@@ -932,34 +932,34 @@
                         $('#cateTB tbody').empty();
                         $('#cateTB').append(options);
 
-                        }
-                    });
+                    }
+                });
             }
 
 
-                return false;
-            }
-            function PopupForm(url) {
-                var formDiv = $('<div/>');
+            return false;
+        }
+        function PopupForm(url) {
+            var formDiv = $('<div/>');
             $.get(url)
-            .done(function (response) {
+                .done(function (response) {
                     formDiv.html(response);
 
                     Popup = formDiv.dialog({
-                    autoOpen: true,
-                    resizable: false,
-                    title: 'Nhập thông tin',
-                    height: 1000,
-                    width: 800,
-                    close: function () {
+                        autoOpen: true,
+                        resizable: false,
+                        title: 'Nhập thông tin',
+                        height: 1000,
+                        width: 800,
+                        close: function () {
                             Popup.dialog('destroy').remove();
                         }
 
                     });
                 });
-            }
+        }
 
-       function UpdateEquipment(form) {
+        function UpdateEquipment(form) {
             $("#pre-load").show("slow", function () {
             });
             $("#pre-load").css("z-index", "99999");
@@ -983,53 +983,61 @@
                         alert(response.data.message)
                     }
                 });
+                $("#pre-load").hide("slow", function () {
+                });
+                $("#pre-load").hide();
             }
 
 
             return false;
         }
         function SubmitForm2(form) {
-             $("#pre-load").show();
-
+            //$("#pre-load").show();
+            $("#pre-load").show("slow", function () {
+            });
+            $("#pre-load").css("z-index", "99999");
             $.validator.unobtrusive.parse(form);
 
-                if($(form).valid()){
-                    $.ajax({
-                        type: "POST",
-                        url: form.action,
-                        data: $(form).serialize(),
-                        success: function (data) {
-                            dataTable.ajax.reload();
-                            if (data.success == false) {
-                                $.notify("Lỗi", {
-                                    globalPosition: "top center",
-                                    className: "error"
-                                })
-                            } else {
-                                $.notify("Thêm thành công", {
-                                    globalPosition: "top center",
-                                    className: "success"
-                                });
-                                window.location.reload(true);
-                            }
-
-
-                        },
-                        error: function (data) {
-                            dataTable.ajax.reload();
-                            $("#btn-submit").addClass("modal-close");
+            if ($(form).valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        dataTable.ajax.reload();
+                        if (data.success == false) {
                             $.notify("Lỗi", {
                                 globalPosition: "top center",
                                 className: "error"
                             })
+                        } else {
+                            $.notify("Thêm thành công", {
+                                globalPosition: "top center",
+                                className: "success"
+                            });
+                            window.location.reload(true);
+                        }
 
-                        },
-                    });
-            }
-                $("#pre-load").hide();
 
-                return false;
+                    },
+                    error: function (data) {
+                        dataTable.ajax.reload();
+                        $("#btn-submit").addClass("modal-close");
+                        $.notify("Lỗi", {
+                            globalPosition: "top center",
+                            className: "error"
+                        })
+
+                    },
+                });
             }
+            $("#pre-load").hide("slow", function () {
+            });
+            $("#pre-load").hide();
+            //$("#pre-load").hide();
+
+            return false;
+        }
 
         function SubmitForm(form) {
             $("#pre-load").show("slow", function () {
@@ -1043,34 +1051,42 @@
                     url: form.action,
                     data: $(form).serialize(),
                     success: function (data) {
-                         dataTable.ajax.reload();
-                            if (data.success == false) {
-                                $.notify("Lỗi", {
-                                    globalPosition: "top center",
-                                    className: "error"
-                                })
-                            } else {
-                                $.notify("Thêm thành công", {
-                                    globalPosition: "top center",
-                                    className: "success"
-                                })
-                            }
+                        dataTable.ajax.reload();
+                        if (data.success == false) {
+                            $.notify("Lỗi", {
+                                globalPosition: "top center",
+                                className: "error"
+                            })
+                        } else {
+                            $.notify("Thêm thành công", {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
+                        }
 
                     }
                 });
             }
 
-
+            $("#pre-load").hide("slow", function () {
+            });
+            $("#pre-load").hide();
             return false;
         }
         function Edit(url) {
-             $.get(url)
-                 .done(function (response) {
-                     $("#edit-modal-body").html(response)
-
+            $("#pre-load").show("slow", function () {
             });
-                return false;
-            }
+            $("#pre-load").css("z-index", "99999");
+            $.get(url)
+                .done(function (response) {
+                    $("#edit-modal-body").html(response)
+
+                });
+            $("#pre-load").hide("slow", function () {
+            });
+            $("#pre-load").hide();
+            return false;
+        }
 
 
 
