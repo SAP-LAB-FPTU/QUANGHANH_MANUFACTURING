@@ -120,75 +120,74 @@
         </div>
     </div>
 </div>
-<div id="addDiploma" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Thêm Bằng cấp</h3>
+@{
+    List<string> right = (List<string>)Session["RightIDs"];
+}
+@foreach (var item in right)
+{
+    if (item.Equals("160"))
+    {
+        <div class="card">
+            <div class="card-content">
+                <div id="addDiploma" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">Thêm Bằng cấp</h3>
+                        </div>
+                        <div class="modal-body">
+                            @Html.Action("AddDiploma", "Diploma")
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="modal-body">
-            @Html.Action("AddDiploma", "Diploma")
+    }
+    if (item.Equals("164"))
+    {
+        <div class="card">
+            <div class="card-content">
+                <div id="addDiplomaEmp" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            @Html.Action("AddDiplomaEmployee", "Diploma")
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-<div id="addDiplomaEmp" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Thêm bằng cấp cho nhân viên</h3>
+    }
+    if (item.Equals("161"))
+    {
+        <div class="card">
+            <div class="card-content">
+                <div id="editDiploma" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">Sửa bằng cấp</h3>
+                        </div>
+                        <div class="modal-body">
+                            @Html.Action("EditDiploma", "Diploma")
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="modal-body">
-            @Html.Action("AddDiplomaEmployee", "Diploma")
+    }
+    if (item.Equals("165"))
+    {
+        <div class="card">
+            <div class="card-content">
+                <div id="editDiplomaEmp" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            @Html.Action("EditDiplomaEmployee", "Diploma")
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-<div id="editDiploma" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Sửa bằng cấp</h3>
-        </div>
-        <div class="modal-body">
-            @Html.Action("EditDiploma", "Diploma")
-        </div>
-    </div>
-</div>
-<div id="editDiplomaEmp" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Sửa bằng cấp</h3>
-        </div>
-        <div class="modal-body">
-            @Html.Action("EditDiplomaEmployee", "Diploma")
-        </div>
-    </div>
-</div>
-<div id="deletediploma" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Xác nhận xóa bằng cấp </h3>
-        </div>
-        <div class="modal-body">
-            <p class="red-text">Bạn có muốn xóa bằng cấp này?</p>
-        </div>
-        <div class="modal-footer">
-            <a class="btn blue darken-2 modal-close" onclick="DeleteDiploma()">Xóa</a>
-            <a class="btn red modal-close">Hủy</a>
-        </div>
-    </div>
-</div>
-<div id="deletediplomaEmp" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Xác nhận xóa bằng cấp </h3>
-        </div>
-        <div class="modal-body">
-            <p class="red-text">Bạn có muốn xóa bằng cấp này?</p>
-        </div>
-        <div class="modal-footer">
-            <a class="btn blue darken-2 modal-close" onclick="DeleteDiplomaEmployee()">Xóa</a>
-            <a class="btn red modal-close">Hủy</a>
-        </div>
-    </div>
-</div>
-
+    }
+}
 <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
 <script src="~/js/Custom JS/TCLD/Certificate/certificate.js"></script>
 <script src="~/js/Custom JS/form-input-border.js"></script>
@@ -396,7 +395,7 @@
                         });
                         successAlert('Thành công', '');
                         $(".modal").modal();
-                        $("body").css("overflow", "");  
+                        $("body").css("overflow", "");
                         $("#addDiplomaEmp").load('@Url.Action("AddDiplomaEmployee")');
                     },
                     error: function () {
@@ -443,7 +442,7 @@
                             successAlert('Thành công', 'Xóa chứng chỉ thành công');
                         }
                         else {
-                            errorAlert('Lỗi', 'Vui lòng thử lại');
+                            errorAlert('Bạn không có quyền hạn này', '');
                         }
                     }
                 });

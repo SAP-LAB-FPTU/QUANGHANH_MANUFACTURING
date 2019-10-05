@@ -45,7 +45,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
 
 
@@ -64,7 +64,7 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="row">
-                            <a class="btn btn-small blue darken-2 modal-trigger btn-mg input-field" data-target="myadd" >Thêm chứng chỉ</a>
+                            <a class="btn btn-small blue darken-2 modal-trigger btn-mg input-field" data-target="myadd">Thêm chứng chỉ</a>
                             <a class="btn btn-small blue darken-2 btn-mg input-field" id="export_excel_certificate">Xuất ra file excel</a>
                         </div>
                         <div class="table-responsive">
@@ -115,48 +115,76 @@
         </div>
     </div>
 </div>
+@{
+    List<string> right = (List<string>)Session["RightIDs"];
+}
+@foreach (var item in right)
+{
+    if (item.Equals("150"))
+    {
+        <div class="card">
+            <div class="card-content">
+                <div id="myadd" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">Thêm Chứng Chỉ</h3>
+                        </div>
+                        <div class="modal-body">
+                            @Html.Action("AddCertificate", "Certificate")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    if (item.Equals("154"))
+    {
+        <div class="card">
+            <div class="card-content">
+                <div id="add_cir_emp" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            @Html.Action("AddCertificateEmployee", "Certificate")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    if (item.Equals("151"))
+    {
+        <div class="card">
+            <div class="card-content">
+                <div id="myedit" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">Sửa Chứng Chỉ</h3>
+                        </div>
+                        <div class="modal-body">
+                            @Html.Action("EditCertificate", "Certificate")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    if (item.Equals("155"))
+    {
+        <div class="card">
+            <div class="card-content">
+                <div id="edit_employee" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            @Html.Action("EditCertificateEmp", "Certificate")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 
-<div id="myadd" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Thêm Chứng Chỉ</h3>
-        </div>
-        <div class="modal-body">
-            @Html.Action("AddCertificate", "Certificate")
-        </div>
-    </div>
-</div>
-<div id="add_cir_emp" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Thêm Chứng Chỉ</h3>
-        </div>
-        <div class="modal-body">
-            @Html.Action("AddCertificateEmployee", "Certificate")
-        </div>
-    </div>
-</div>
-<div id="myedit" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Sửa Chứng Chỉ</h3>
-        </div>
-        <div class="modal-body">
-            @Html.Action("EditCertificate", "Certificate")
-        </div>
-    </div>
-</div>
-<div id="edit_employee" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Sửa Chứng Chỉ</h3>
-        </div>
-        <div class="modal-body">
-            @Html.Action("EditCertificateEmp", "Certificate")
-        </div>
-    </div>
-</div>
 
+}
 <div id="message" class="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -168,7 +196,6 @@
         </div>
     </div>
 </div>
-
 <p>
 
 </p>
@@ -366,31 +393,6 @@
 
         }
 
-        //function SubmitForm(form) {
-        //    $.validator.unobtrusive.parse(form);
-        //    if ($(form).valid()) {
-        //        $("#pre-load").show("slow", function () {
-        //        });
-        //        $("#pre-load").css("z-index", "99999");
-        //        $.ajax({
-        //            url: form.action,
-        //            type: "POST",
-        //            data: function () {
-        //                return $(form).serialize()
-        //            },
-        //            success: function (data) {
-        //                successAlert('Thành công', '');
-        //                dataTable.ajax.reload();
-        //                $("#pre-load").hide("slow", function () {
-        //                });
-        //            },
-        //            error: function (data) {
-        //                errorAlert('Lỗi', 'Thử lại');
-        //                }
-        //        })
-        //    }
-        //    return false;
-        //}
         function SubmitForm(form) {
             $.validator.unobtrusive.parse(form);
             if ($(form).valid()) {
@@ -408,7 +410,7 @@
                         });
                         successAlert('Thành công', '');
                         $(".modal").modal();
-                        $("body").css("overflow","");   
+                        $("body").css("overflow","");
                         $("#add_cir_emp").load('@Url.Action("AddCertificateEmployee")');
                     },
                     error: function () {
@@ -443,7 +445,7 @@
                             successAlert('Thành công', 'Xóa chứng chỉ của nhân viên thành công');
                         }
                         else {
-                            errorAlert('Lỗi', 'Thử lại');
+                            errorAlert('Bạn không có quyền hạn này', '');
                         }
                     }
                 });
@@ -480,7 +482,7 @@
                             successAlert('Thành công', 'Xóa chứng chỉ thành công');
                         }
                         else {
-                            errorAlert('Lỗi', 'Vui lòng thử lại');
+                            errorAlert('Bạn không có quyền hạn này', '');
                         }
                     }
 
