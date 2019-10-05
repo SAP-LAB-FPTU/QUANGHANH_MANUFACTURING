@@ -68,7 +68,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             return Json(new { success = true, data = list, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
-        [Auther(RightID = "169")]
+        [Auther(RightID = "170")]
         [Route("phong-cdvt/kiem-dinh/update")]
         [HttpPost]
         public ActionResult Update(string inspect_id)
@@ -94,7 +94,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             }
         }
 
-        [Auther(RightID = "169")]
+        [Auther(RightID = "170")]
         [Route("phong-cdvt/kiem-dinh/edit")]
         [HttpPost]
         public ActionResult Edit(string inspect_id, string dateTemp)

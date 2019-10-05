@@ -198,7 +198,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             return Json(new { success = true, data = incidents, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
-        [Auther(RightID = "168")]
+        [Auther(RightID = "170")]
         [Route("phong-cdvt/su-co/export")]
         public void Export()
         {
