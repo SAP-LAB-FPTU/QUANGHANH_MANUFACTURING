@@ -1,4 +1,5 @@
 ﻿using QUANGHANH2.Models;
+using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -13,6 +14,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
 {
     public class KiemdinhController : Controller
     {
+        [Auther(RightID = "24")]
         [Route("phong-cdvt/kiem-dinh")]
         [HttpGet]
         public ActionResult Index()
@@ -20,6 +22,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             return View("/Views/CDVT/Thietbi/Kiemdinh.cshtml");
         }
 
+        [Auther(RightID = "24")]
         [Route("phong-cdvt/kiem-dinh")]
         [HttpPost]
         public ActionResult GetData(string equipmentId, string equipmentName, string dateStart, string dateEnd)
@@ -32,22 +35,24 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             string sortDirection = Request["order[0][dir]"];
 
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            DateTime dtStart = DateTime.ParseExact(dateStart, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            DateTime dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            dtEnd = dtEnd.AddHours(23);
-            dtEnd = dtEnd.AddMinutes(59);
-            string query = "SELECT ei.*, e.equipment_name, s.statusname FROM Equipment_Inspection ei INNER JOIN Equipment e on e.equipmentId = ei.equipmentId INNER JOIN Status s on s.statusid = e.current_Status WHERE ei.inspect_end_date IS NULL AND inspect_expected_date between @start_time1 and @start_time2 and ";
-            if (!equipmentId.Equals("") || !equipmentName.Equals(""))
+            string query = "SELECT ei.*, e.equipment_name, s.statusname FROM Equipment_Inspection ei INNER JOIN Equipment e on e.equipmentId = ei.equipmentId INNER JOIN Status s on s.statusid = e.current_Status WHERE ei.inspect_end_date IS NULL AND ";
+            if (!equipmentId.Equals("") || !equipmentName.Equals("") || !(dateStart.Equals("") || dateEnd.Equals("")))
             {
+                if (!dateStart.Equals("") && !dateEnd.Equals(""))
+                {
+                    DateTime dtStart = DateTime.ParseExact(dateStart, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    DateTime dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    dtEnd = dtEnd.AddHours(23);
+                    dtEnd = dtEnd.AddMinutes(59);
+                    query += "inspect_expected_date BETWEEN '" + dtStart + "' AND '" + dtEnd + "' AND ";
+                }
                 if (!equipmentId.Equals("")) query += "ei.equipmentId LIKE @equipmentId AND ";
                 if (!equipmentName.Equals("")) query += "e.equipment_name LIKE @equipment_name AND ";
             }
             query = query.Substring(0, query.Length - 5);
             List<Equipment_InspectionDB> list = DBContext.Database.SqlQuery<Equipment_InspectionDB>(query,
                 new SqlParameter("equipmentId", '%' + equipmentId + '%'),
-                new SqlParameter("equipment_name", '%' + equipmentName + '%'),
-                new SqlParameter("start_time1", dtStart),
-                new SqlParameter("start_time2", dtEnd)).ToList();
+                new SqlParameter("equipment_name", '%' + equipmentName + '%')).ToList();
             int totalrows = list.Count;
             int totalrowsafterfiltering = list.Count;
             //sorting
@@ -63,6 +68,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             return Json(new { success = true, data = list, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
+        [Auther(RightID = "170")]
         [Route("phong-cdvt/kiem-dinh/update")]
         [HttpPost]
         public ActionResult Update(string inspect_id)
@@ -88,6 +94,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             }
         }
 
+        [Auther(RightID = "170")]
         [Route("phong-cdvt/kiem-dinh/edit")]
         [HttpPost]
         public ActionResult Edit(string inspect_id, string dateTemp)
