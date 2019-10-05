@@ -22,6 +22,7 @@ namespace QUANGHANH2.Controllers.TCLD
     public class RecruitmentController : Controller
     {
         // GET: Recruitment
+        [Auther(RightID = "52")]
         [Route("phong-tcld/quan-ly-nhan-vien/tuyen-dung-nhan-vien")]
         [HttpGet]
         public ActionResult Index()
@@ -30,7 +31,7 @@ namespace QUANGHANH2.Controllers.TCLD
             return View("/Views/TCLD/Recruitment/Input.cshtml");
         }
         Boolean checkNull = true;
-        [Auther(RightID = "52")]
+        
         [Route("phong-tcld/quan-ly-nhan-vien/tuyen-dung-nhan-vien")]
         [HttpPost]
         public ActionResult Add(string jsonname,string soqd,string ngayqd)
@@ -49,7 +50,6 @@ namespace QUANGHANH2.Controllers.TCLD
                 try
                 {
                     checkNull = true;
-                    
                     if (checkQD(soqd) == false)
                     {
                         return Json(new { message = "MaQD" }, JsonRequestBehavior.AllowGet);
@@ -153,7 +153,7 @@ namespace QUANGHANH2.Controllers.TCLD
         }
         public Boolean checkQD(string soqd)
         {
-
+            if (soqd.Trim().Equals("")) return false;
             QuyetDinh quyetdinh = null;
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
@@ -193,7 +193,7 @@ namespace QUANGHANH2.Controllers.TCLD
             Department dep = null;
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                dep = db.Departments.Where(x => x.department_id.Equals(phongban)).FirstOrDefault<Department>();
+                dep = db.Departments.Where(x => x.department_id.ToLower().Trim().Equals(phongban.ToLower().Trim())).FirstOrDefault<Department>();
             }
             if (dep == null)
             {
@@ -223,7 +223,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 Department dep = null;
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    dep = db.Departments.Where(x => x.department_name.Equals(nameDonvi)).FirstOrDefault<Department>();
+                    dep = db.Departments.Where(x => x.department_name.ToLower().Trim().Equals(nameDonvi.ToLower().Trim())).FirstOrDefault<Department>();
                 }
                 return dep.department_id;
             }
@@ -241,7 +241,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 ChuyenNganh specialized = null;
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    specialized = db.ChuyenNganhs.Where(x => x.TenChuyenNganh.ToLower().Equals(tenChuyenNganh.ToLower())).FirstOrDefault<ChuyenNganh>();
+                    specialized = db.ChuyenNganhs.Where(x => x.TenChuyenNganh.ToLower().Trim().Equals(tenChuyenNganh.ToLower().Trim())).FirstOrDefault<ChuyenNganh>();
                 }
                 return specialized.MaChuyenNganh;
             }
@@ -259,7 +259,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 TrinhDo level = null;
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    level = db.TrinhDoes.Where(x => x.TenTrinhDo.Equals(tenTrinhDo)).FirstOrDefault<TrinhDo>();
+                    level = db.TrinhDoes.Where(x => x.TenTrinhDo.ToLower().Trim().Equals(tenTrinhDo.ToLower().Trim())).FirstOrDefault<TrinhDo>();
                 }
                 return level.MaTrinhDo;
             }
@@ -276,7 +276,7 @@ namespace QUANGHANH2.Controllers.TCLD
             CongViec working = null;
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                working = db.CongViecs.Where(x => (x.TenCongViec.ToLower().Equals(tenCongViec.ToLower()))).FirstOrDefault<CongViec>();
+                working = db.CongViecs.Where(x => (x.TenCongViec.ToLower().Trim().Equals(tenCongViec.ToLower().Trim()))).FirstOrDefault<CongViec>();
             }
             if(working != null)
             {
@@ -290,13 +290,14 @@ namespace QUANGHANH2.Controllers.TCLD
         }
         public DateTime convertDate(string date)
         {
+          
             string dateStr = "";
             try
             {
                 if (date.Trim() != null)
                 {
                     string[] dateSplit = date.Trim().Split(' ');
-                    
+
                     if (dateSplit[0].Length == 2 && dateSplit[2].Length == 2)
                     {
                         dateStr = dateSplit[3] + "-" + dateSplit[2] + "-" + dateSplit[0];
@@ -313,8 +314,6 @@ namespace QUANGHANH2.Controllers.TCLD
                     {
                         dateStr = dateSplit[3] + "-0" + dateSplit[2] + "-0" + dateSplit[0];
                     }
-
-                    
                 }
                 string dateConvert = DateTime.ParseExact(dateStr, "yyyy-MM-dd", null).ToString("yyyy-MM-dd");
                 return DateTime.Parse(dateConvert);
@@ -397,6 +396,30 @@ namespace QUANGHANH2.Controllers.TCLD
                     //        }
                     //    }
                     //}
+                    //Check Exel
+                    Boolean checkExel = true;
+                    if (!workSheet.Cells[4, 2].Value.ToString().Equals("Số thẻ")) checkExel = false;
+                    if (!workSheet.Cells[4, 3].Value.ToString().Equals("Họ và tên")) checkExel = false;
+                    if (!workSheet.Cells[4, 4].Value.ToString().Equals("Ngày sinh")) checkExel = false;
+                    if (!workSheet.Cells[4, 5].Value.ToString().Equals("Đơn vị")) checkExel = false;
+                    if (!workSheet.Cells[4, 6].Value.ToString().Equals("Trình độ")) checkExel = false;
+                    if (!workSheet.Cells[4, 7].Value.ToString().Equals("Chuyên Nghành")) checkExel = false;
+                    if (!workSheet.Cells[4, 8].Value.ToString().Equals("Công việc bố trí")) checkExel = false;
+                    if (!workSheet.Cells[4, 9].Value.ToString().Equals("Thường trú")) checkExel = false;
+                    if (!workSheet.Cells[4, 10].Value.ToString().Equals("Thang lương")) checkExel = false;
+                    if (!workSheet.Cells[4, 11].Value.ToString().Equals("Bậc")) checkExel = false;
+                    if (!workSheet.Cells[4, 12].Value.ToString().Equals("Mức lương (đồng/ tháng)")) checkExel = false;
+                    if (!workSheet.Cells[3, 5].Value.ToString().Equals("Ngày")) checkExel = false;
+                    if (!workSheet.Cells[3, 7].Value.ToString().Equals("Tháng")) checkExel = false;
+                    if (!workSheet.Cells[3, 9].Value.ToString().Equals("Năm")) checkExel = false;
+                    if (!workSheet.Cells[2, 1].Value.ToString().Equals("Kèm theo Quyết Định Số :")) checkExel = false;
+                    if (!workSheet.Cells[2, 9].Value.ToString().Equals("/QĐ-VQHC")) checkExel = false;
+                    if(checkExel == false)
+                    {
+                        return Json(new { success = true, message = "Excel" });
+                    }
+                        
+                    
                     //Get excel value:
                     for (int i = 5; i <= totalRows; i++)
                     {
