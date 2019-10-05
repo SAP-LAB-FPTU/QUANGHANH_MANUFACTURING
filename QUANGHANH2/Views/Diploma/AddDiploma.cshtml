@@ -24,7 +24,7 @@
                 <div class="form-group col s6 m6 l6">
                     @Html.LabelFor(model => model.MaTruong, "Tên trường", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.DropDownList("MaTruong", (SelectList)ViewBag.listSelect_truong, htmlAttributes: new { @class = "form-control",@id="add_matruong" })
+                        @Html.DropDownList("MaTruong", (SelectList)ViewBag.listSelect_truong,"Chọn trường", htmlAttributes: new { @class = "form-control",@id="add_matruong" })
                         @Html.ValidationMessageFor(model => model.MaTruong, "", new { @class = "text-danger" })
                         <p hidden style="color:red" id="message_matruong">Không được để trống</p>
                     </div>
@@ -33,7 +33,7 @@
                 <div class="form-group col s6 m6 l6">
                     @Html.LabelFor(model => model.MaChuyenNganh, "Tên chuyên ngành", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.DropDownList("MaChuyenNganh", (SelectList)ViewBag.listSelect_chuyennganh, htmlAttributes: new { @class = "form-control", @id = "add_chuyennganh" })
+                        @Html.DropDownList("MaChuyenNganh", (SelectList)ViewBag.listSelect_chuyennganh, "Chọn chuyên ngành", htmlAttributes: new { @class = "form-control", @id = "add_chuyennganh" })
                         @Html.ValidationMessageFor(model => model.MaChuyenNganh, "", new { @class = "text-danger" })
                         <p hidden style="color:red" id="message_machuyennganh">Không được để trống</p>
                     </div>
@@ -42,7 +42,7 @@
                 <div class="form-group col s6 m6 l6">
                     @Html.LabelFor(model => model.MaTrinhDo, "Tên trình độ", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.DropDownList("MaTrinhDo", (SelectList)ViewBag.listSelect_trinhdo, htmlAttributes: new { @class = "form-control", @id = "add_trinhdo" })
+                        @Html.DropDownList("MaTrinhDo", (SelectList)ViewBag.listSelect_trinhdo, "Chọn trình độ", htmlAttributes: new { @class = "form-control", @id = "add_trinhdo" })
                         @Html.ValidationMessageFor(model => model.MaTrinhDo, "", new { @class = "text-danger" })
                         <p hidden style="color:red" id="message_matrinhdo">Không được để trống</p>
                     </div>
@@ -137,10 +137,10 @@
     //click submit form
     $("#submit_form_diploma").click(function () {
         //check validate input
-        validate_truong_add();
-        validate_chuyennganh_add();
-        validate_trinhdo_add();
-        validate_thoihan_add();
+        //validate_truong_add();
+       // validate_chuyennganh_add();
+        //validate_trinhdo_add();
+        //validate_thoihan_add();
         validate_bangcap_add();
         var add_end = $("#add_dip").val();
         if (add_end == "Vĩnh viễn") {
