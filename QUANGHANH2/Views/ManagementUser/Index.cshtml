@@ -677,6 +677,7 @@
     $('body').css('overflow', '');
 
     $(document).ready(function () {
+        $('#pre-load').show();
         $("#hide1").hide();
         $("#hide2").hide();
         $("#hide3").hide();
@@ -706,6 +707,9 @@
         GetRightFromDBNotFill(16);
         GetRightFromDBNotFill(17);
         GetRightFromDBNotFill(18);
+        $(document).ajaxStop(function () {
+            $('#pre-load').hide();
+        });  
     });
     function show() {
         $("#hide1").show();
@@ -1455,7 +1459,6 @@
                 if (moduleID == 18) {
                     right18 = result;
                 }
-                $('#pre-load').hide();
             },
             error: function (errormessage) {
 
