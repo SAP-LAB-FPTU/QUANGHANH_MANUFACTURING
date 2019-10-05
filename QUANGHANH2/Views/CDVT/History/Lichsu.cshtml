@@ -183,12 +183,11 @@
                         </div>
                         <div class="form-group">
                             <label for="name"> Ngày : </label>
-                            <input type='text' class='datepicker-here form-control' data-language='vi' id="datefuel-edit" />
+                            <input type='text' class='datepicker-here form-control maxDate' data-language='vi' id="datefuel-edit" />
                         </div>
                         <div class="form-group">
                             <label for="name"> Tên thiết bị  : </label>
                             <input type="text" class="form-control" id="equipmentnamefuel-edit" readonly />
-
                         </div>
                     </div>
                     <div class="col s12 m6">
@@ -252,7 +251,7 @@
                     </div>
                     <div class="form-group">
                         <label for="name">Sản lượng : </label>
-                        <input type="number" min="0" class="form-control number" id="quantity"/>
+                        <input type="number" min="1" class="form-control number" id="quantity"/>
                     </div>
                 </div>
             </div>
@@ -293,7 +292,7 @@
                         </div>
                         <div class="form-group">
                             <label for="name">Ngày hoạt động : </label>
-                            <input type="date" class="form-control" id="datefuel-add" />
+                            <input type='text' class='datepicker-here form-control maxDate' data-language='vi'  id="datefuel-add" />
                         </div>
                         <div class="form-group">
                             <label for="number">Mã nhiên liệu: </label>
@@ -347,7 +346,7 @@
                         </div>
                         <div class="form-group">
                             <label for="name">Ngày : </label>
-                            <input type='text' class='datepicker-here form-control' data-language='vi' id="date-edit" />
+                            <input type='text' class='datepicker-here form-control maxDate' data-language='vi' id="date-edit" />
                         </div>
                         <div class="form-group">
                             <label for="name">Tên thiết bị  : </label>
@@ -366,7 +365,7 @@
                         </div>
                         <div class="form-group">
                             <label for="supplier">Sản lượng  :</label>
-                            <input type="number" min="0" class="form-control number" id="quantity-edit" />
+                            <input type="number" min="1" class="form-control number" id="quantity-edit" />
                         </div>
                     </div>
                 </div>
@@ -397,7 +396,7 @@
 </div>
 
 <script>
-    $('#myacti').keydown(function (e) {
+     $('#myacti').keydown(function (e) {
         if (e.keyCode === 13)
             e.preventDefault();
     });
@@ -405,7 +404,7 @@
         if (e.keyCode === 13)
             getEquipmentname1();
     })
-    $('#myaddActi').keydown(function (e) {
+    $('#myaddacti').keydown(function (e) {
         if (e.keyCode === 13)
             e.preventDefault();
     });
@@ -425,7 +424,7 @@
         if (e.keyCode === 13)
             getEquipmentnameOnEditFuel();
     })
-    $('#myaddFuel').keydown(function (e) {
+    $('#myaddfuel').keydown(function (e) {
         if (e.keyCode === 13)
             e.preventDefault();
     });
@@ -705,30 +704,18 @@
         });
 
         //ajax CRUD acti
-        $(document).ready(function () {
+        $(document).ready(function (){
             //ajax search acti
             $("#searchButtonActi").click(function () {
                 $.ajax({
                     success: function () {
                         dataActiTable.ajax.reload();
-                        $.notify("Tìm kiếm thành công", {
-                            globalPosition: "top center",
-                            className: "success"
-                        })
+
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        $.notify("Có lỗi xảy ra, vui lòng thử lại", {
-                            globalPosition: "top center",
-                            className: "error"
-                        });
+                        errorAlert('Lỗi','Có lỗi xảy ra , vui lòng nhập lại');
                     }
                 });
-                //dataActiTable.ajax.reload(function () {
-                //    $.notify("Tìm kiếm thành công", {
-                //        globalPosition: "top center",
-                //        className: "success"
-                //    })
-                //});
             });
         });
 
@@ -747,19 +734,11 @@
                 contentType: "application/json;charset=utf-8",
                 dataType: "json",
                 success: function () {
-                    //alert("oke");
                     dataFuelTable.ajax.reload();
-                    $.notify("Tạo thành công", {
-                        globalPosition: "top center",
-                        className: "success"
-                    })
+                    successAlert('Thành công','Thêm thành công');
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    //alert("fail");
-                    $.notify("Có lỗi xảy ra , vui lòng thử lại", {
-                        globalPosition: "top center",
-                        className: "error"
-                    });
+                    errorAlert('Lỗi','Có lỗi xảy ra , vui lòng nhập lại');
                 }
             });
         }
@@ -769,10 +748,7 @@
             //ajax search fuel
             $("#searchButtonFuel").click(function () {
                 dataFuelTable.ajax.reload(function () {
-                    $.notify("Tìm kiếm thành công", {
-                        globalPosition: "top center",
-                        className: "success"
-                    })
+                    
                 });
             });
         });
@@ -812,23 +788,10 @@
                 url: "/phong-cdvt/cap-nhat-hoat-dong/edit-acti",
                 dataType: "text",
                 success: function () {
-                    $("#pre-load").show("slow", function () {
-                    });
-                    $("#pre-load").css("z-index", "99999");
-                    $.notify("Chỉnh sửa thành công", {
-                        globalPosition: "top center",
-                        className: "success"
-                    })
+                    successAlert('Thành công','Chỉnh sửa thành công ');
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    $("#pre-load").show("slow", function () {
-                    });
-                    $("#pre-load").css("z-index", "99999");
-                    $.notify(XMLHttpRequest.responseText, {
-                        globalPosition: "top center",
-                        className: "error"
-                    });
-                    $("#pre-load").hide("slow", function () { });
+                    errorAlert('Lỗi','Có lỗi xảy ra , vui lòng nhập lại');
                 },
                 data: {
                     date1: $("#date-edit").val(),
@@ -875,7 +838,6 @@
                 },
                 cache: false
             })
-            $("#pre-load").hide("slow", function () { });
         });
 
         $("#myFuelEdit").submit(function (e) {
@@ -884,16 +846,10 @@
                 url: "/phong-cdvt/cap-nhat-hoat-dong/edit-fuel",
                 dataType: "text",
                 success: function () {
-                    $.notify("Chỉnh sửa thành công", {
-                        globalPosition: "top center",
-                        className: "success"
-                    })
+                    successAlert('Thành công','Chỉnh sửa thành công');
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    $.notify("Có lỗi xảy ra , vui lòng thử lại", {
-                        globalPosition: "top center",
-                        className: "error"
-                    });
+                    errorAlert('Lỗi','Có lỗi xảy ra , vui lòng nhập lại');
                 },
                 data: {
                     equipmentId: $('#equipmentIdfuel-edit').val(),
@@ -907,7 +863,6 @@
                 dataFuelTable.ajax.reload();
             })
             return false;
-            $("#pre-load").hide("slow", function () { });
         });
 
         //getName after enter ID input
@@ -945,20 +900,11 @@
                 contentType: "application/json;charset=utf-8",
                 dataType: "json",
                 success: function () {
-                    //alert("oke");
-                    $.notify("Thêm thành công", {
-                        globalPosition: "top center",
-                        className: "success"
-                    });
+                    successAlert('Thành công','Chỉnh sửa thành công');
                     dataActiTable.ajax.reload();
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    //$('#pre-load').hide();
-                    //alert("fail");
-                    $.notify("Có lỗi xảy ra , vui lòng thử lại", {
-                        globalPosition: "top center",
-                        className: "error"
-                    });
+                    errorAlert('Lỗi','Có lỗi xảy ra , vui lòng nhập lại');
                 }
             });
         }

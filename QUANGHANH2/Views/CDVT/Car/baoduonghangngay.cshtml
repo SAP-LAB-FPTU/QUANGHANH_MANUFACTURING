@@ -387,7 +387,10 @@
 </script>
 
 <script>
-   
+    $('#myedit').keydown(function (e) {
+        if (e.keyCode === 13)
+            e.preventDefault();
+    });
     $("#equipmentedit").keydown(function (e) {
         if (e.keyCode === 13)
             getEquipmentnameEdit();
@@ -593,14 +596,10 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (r) {
-                   
-                     $.notify("Thao tác thành công", {
-                        globalPosition: "top center",
-                        className: "success"
-                     });
+                     successAlert('Thành công','Thao tác thành công');
                      dataTable.ajax.reload();
                         var i = 0;
-            $("#addMaintain TBODY TR").each(function () {
+                    $("#addMaintain TBODY TR").each(function () {
                 i++;
                
                 document.getElementById("supplyid_add"+i).value='';
@@ -622,10 +621,7 @@
 
                 }, error: function (XMLHttpRequest, textStatus, errorThrown) {
                     //alert("fail");
-                    $.notify("Có lỗi xảy ra, vui lòng thử lại", {
-                        globalPosition: "top center",
-                        className: "error"
-                    });
+                    errorAlert('Lỗi','Có lỗi xảy ra , vui lòng nhập lại');
                     $('#pre-load').hide();
                 }
 
@@ -676,15 +672,11 @@
 
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    $.notify(XMLHttpRequest.responseText, {
-                        globalPosition: "top center",
-                        className: "error"
-                    });
+                    errorAlert('Lỗi','Có lỗi xảy ra');
                 },
                 data: {
                     maintainid: Number(maintainid)
                 },
-
                 cache: false
             })
         });
@@ -705,10 +697,7 @@
                     $('#maintainid').val(data.maintainid);
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    $.notify(XMLHttpRequest.responseText, {
-                        globalPosition: "top center",
-                        className: "error"
-                    });
+                    errorAlert('Lỗi','Có lỗi xảy ra');
                 },
                 data: {
                     maintainid: Number(maintainid)
@@ -722,18 +711,13 @@
                 url: "/phong-cdvt/oto/bao-duong-hang-ngay/edit",
                 dataType: "text",
                 success: function () {
-
                     dataTable.ajax.reload();
-
-                    $.notify("Chỉnh sửa thành công", {
-                        globalPosition: "top center",
-                        className: "success"
-                    })
-
+                    successAlert('Thành công','Chỉnh sửa thành công');
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     $('#pre-load').hide();
-                    alert("Có lỗi xảy ra vui lòng nhập lại");
+                    errorAlert('Lỗi', 'Có lỗi xảy ra , vui lòng nhập lại');
+                    $('#close').click();
                 },
                 data: {
                     date: $('#date_edit').val(),
@@ -744,7 +728,6 @@
                 },
                 cache: false
             }).done(function () {
-
                 $('#closeForm').click();
                 $('#close').click();
 
@@ -754,7 +737,6 @@
         });
         $("#submitedit1").click(function (e) {
             var supplyDetail = new Array();
-
             var i = 0;
             $("#supplyMaintain_edit TBODY TR").each(function () {
                 i++;
@@ -776,25 +758,15 @@
                 data: JSON.stringify(supplyDetail),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: function () {
-
+                success: function (){
                     dataTable.ajax.reload();
-
-                    $.notify("Tạo thành công", {
-                        globalPosition: "top center",
-                        className: "success"
-                    })
-
+                    successAlert('Thành công','Chỉnh sửa thành công');
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     $('#pre-load').hide();
-                    //alert("fail");
-                    $.notify("Có lỗi xảy ra, vui lòng thử lại", {
-                        globalPosition: "top center",
-                        className: "error"
-                    });
+                    errorAlert('Lỗi', 'Có lỗi xảy ra , vui lòng nhập lại');
+                    $('#close1').click();
                 },
-
                 cache: false
             }).done(function () {
 
@@ -811,10 +783,10 @@
             //ajax search
             $("#searchButton").click(function () {
                 dataTable.ajax.reload(function () {
-                    $.notify("Tìm kiếm thành công", {
-                        globalPosition: "top center",
-                        className: "success"
-                    })
+                    //$.notify("Tìm kiếm thành công", {
+                    //    globalPosition: "top center",
+                    //    className: "success"
+                    //})
                 });
             });
         });
