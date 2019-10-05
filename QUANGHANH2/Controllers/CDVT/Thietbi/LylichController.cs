@@ -11,6 +11,13 @@ namespace QUANGHANHCORE.Controllers.CDVT
 
     public class LylichController : Controller
     {
+        public class EquipWithName : Equipment
+        {
+            public Nullable<System.DateTime> durationOfInspection_fix { get; set; }
+            public string statusname { get; set; }
+            public string Equipment_category_name { get; set; }
+            public string department_name { get; set; }
+        }
         [HttpGet]
         [Route("phong-cdvt/thiet-bi")]
         public ActionResult Index()
@@ -48,7 +55,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                 listbyyear.Add(tempyear);
             }
             ViewBag.incidents = listbyyear;
-            var equipment = DBContext.Database.SqlQuery<Equipment>("SELECT * FROM Equipment WHERE Equipment.equipmentId = '" + id + "'").First();
+            var equipment = DBContext.Database.SqlQuery<EquipWithName>("SELECT e.*,d.department_name,s.statusname FROM Equipment e,Status s,Department d WHERE d.department_id = e.department_id and e.current_Status = s.statusid and e.equipmentId = '" + id + "'").First();
             ViewBag.equipment = equipment;
             //NK dieu dong
             var yearDD = DBContext.Database.SqlQuery<int>("SELECT distinct year(d.date_created) as years FROM Documentary d, Documentary_moveline_details dm, Equipment e where e.equipmentId = '" + id + "' and e.equipmentId = dm.equipmentId and dm.documentary_id = d.documentary_id order by years desc").ToList<int>();

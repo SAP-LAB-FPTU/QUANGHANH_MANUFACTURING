@@ -49,7 +49,6 @@
                                     <th class="jsgrid-header-cell center" colspan="3">Số lượng chấm dứt</th>
                                     <th class="jsgrid-header-cell center" colspan="3">Số lượng tuyển dụng</th>
                                     <th class="jsgrid-header-cell center" rowspan="2">Chênh lệch</th>
-                                    <th class="jsgrid-header-cell center" rowspan="2">Ghi chú</th>
                                 </tr>
                                 <tr>
                                     <th class="jsgrid-header-cell center">Tổng</th>
@@ -99,8 +98,8 @@
                     });
                 },
                 "columns": [
-                    { "data": "Stt", "name": "Stt", "render": (data) => { return data }, "orderable": true},
-                    { "data": "TenPhongBan", "name": "TenPhongBan", "render": (data) => { if (data == "Tổng cộng") { return "<b>"+data+"</b>" } else { return "<a class='font-weight-bold text-success'>" + data + "</a>" } }, "orderable": true },
+                    { "data": "Stt", "name": "Stt", "render": (data) => { return data }, "orderable": false},
+                    { "data": "TenPhongBan", "name": "TenPhongBan", "render": (data) => { if (data == "Tổng cộng") { return "<b>"+data+"</b>" } else { return "<a class='font-weight-bold text-success'>" + data + "</a>" } }, "orderable": false },
                     { "data": "TongChamDut", "name": "TongChamDut", "render": (data) => { if (data != 0) { return "<b>" + data + "</b>" } else { return data } }, "orderable" : false },
                     { "data": "TongChamDutKhaiThac", "name": "TongChamDutKhaiThac", "render": (data) => { if (data != 0) { return "<b>" + data + "</b>" } else { return data } }, "orderable": false },
                     { "data": "TongChamDutCoDien", "name": "TongChamDutCoDien", "render": (data) => { if (data != 0) { return "<b>" + data + "</b>" } else { return data } }, "orderable": false },
@@ -108,9 +107,8 @@
                     { "data": "TongTuyenDungKhaiThac", "name": "TongTuyenDungKhaiThac", "render": (data) => { if (data != 0) { return "<b>" + data + "</b>" } else { return data } }, "orderable": false },
                     { "data": "TongTuyenDungCoDien", "name": "TongTuyenDungCoDien", "render": (data) => { if (data != 0) { return "<b>" + data + "</b>" } else { return data } }, "orderable": false},
                     { "data": "ChenhLech", "name": "ChenhLech", "render": (data) => { if (data != 0) { return "<b>" + data + "</b>" } else { return data } }, "orderable": false},
-                    { "data": "GhiChu", "name": "GhiChu", "render": (data) => { if (data == "") { return "<p>Không có ghi chú</P>" } else { return data } }, "orderable": false},
-
                 ],
+                "bInfo": false,
                 "order": [0, 'asc'],
                 "pageLength" : 20,
                 "bLengthChange": false,
@@ -120,7 +118,8 @@
                 "order": [0, 'asc'],
                 "serverSide": true,
                 "language": {
-                    emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                    emptyTable: "Không có dữ liệu",
+                    zeroRecords: "Không có dữ liệu",
                     paginate:
                     {
                         previous: "Trang trước",
@@ -134,7 +133,6 @@
                 },
             })
         })
-        //
         $('#btn_search').click(() => {
             if ($("#calendar").val() == null) {
                 return false;

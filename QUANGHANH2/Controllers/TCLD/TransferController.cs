@@ -20,16 +20,19 @@ using System.Text.RegularExpressions;
 using System.Data.SqlClient;
 using System.Linq.Dynamic;
 using System.Data.Entity;
+using QUANGHANH2.SupportClass;
 
 namespace QUANGHANHCORE.Controllers.TCLD
 {
     public class TransferController : Controller
     {
+        [Auther(RightID = "64")]
         public ActionResult Index()
         {
-
             return View();
         }
+
+        [Auther(RightID = "64")]
         [Route("phong-tcld/dieu-chuyen/tien-hanh-dieu-chuyen")]
         public ActionResult Select()
         {
@@ -57,6 +60,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             return View("/Views/TCLD/Transfer/Process.cshtml");
         }
 
+        [Auther(RightID = "102")]
         [Route("phong-tcld/dieu-chuyen/da-xu-li-dieu-chuyen")]
         public ActionResult Did()
         {
@@ -64,6 +68,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             return View("/Views/TCLD/Transfer/History.cshtml");
         }
 
+        [Auther(RightID = "103")]
         [Route("phong-tcld/dieu-chuyen/chua-xu-li-dieu-chuyen")]
         public ActionResult NotYet()
         {
@@ -71,6 +76,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             return View("/Views/TCLD/Transfer/Temporary.cshtml");
         }
 
+        [Auther(RightID = "64")]
         [Route("phong-tcld/dieu-chuyen/tien-hanh-dieu-chuyen")]
         [HttpPost]
         public ActionResult GetData(String selectListJson, String searchMa, String searchTen, String phongbanSearch, String chucVuSearch)
@@ -127,7 +133,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     sql += chucVuSearch == "-1" ? "" : " A.MaCongViec = @maCongViec AND";
                     sql = sql.Substring(0, sql.Length - 4).Trim();
                 }
-               sql +=sql.Contains("where") ? " AND A.MaTrangThai<>3" : " WHERE A.MaTrangThai<>2"; ;
+                sql += sql.Contains("where") ? " AND A.MaTrangThai<>3" : " WHERE A.MaTrangThai<>2"; ;
                 listNhanVien = db.Database.SqlQuery<NhanVienModel>(sql,
                     new SqlParameter("maNV", "%" + searchMa + "%"),
                     new SqlParameter("tenNV", "%" + searchTen + "%"),
@@ -138,11 +144,12 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 totalrowsafterfiltering = listNhanVien.Count;
                 listNhanVien = listNhanVien.OrderBy(sortColumnName + " " + sortDirection).ToList<NhanVienModel>();
                 listNhanVien = listNhanVien.Skip(start).Take(length).ToList<NhanVienModel>();
-               
+
             }
             return Json(new { success = true, data = listNhanVien, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
+        [Auther(RightID = "64")]
         [Route("phong-tcld/dieu-chuyen/tien-hanh-dieu-chuyen-step-2")]
         [HttpPost]
         public ActionResult Step2()
@@ -206,6 +213,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             return Json(new { success = true, cviecs = listCongViec, phongbans = listPhongBan, data = listNhanVien, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
+        [Auther(RightID = "64")]
         [Route("phong-tcld/dieu-chuyen/tien-hanh-dieu-chuyen-step-3")]
         [HttpPost]
         public ActionResult Step3(string selectedList)
@@ -235,16 +243,16 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
                 for (int i = 0; i < result.Count; i++)
                 {
-                    for(int j = 0; j < result.Count; j++)
+                    for (int j = 0; j < result.Count; j++)
                     {
-                        if (((DieuDongModel)result[j]).MaNV==getInfo[i].MaNV)
+                        if (((DieuDongModel)result[j]).MaNV == getInfo[i].MaNV)
                         {
                             ((DieuDongModel)result[j]).HoTen = getInfo[i].Ten;
                             ((DieuDongModel)result[j]).DonViHienTai = getInfo[i].department_name;
                             ((DieuDongModel)result[j]).ChucVuHienTai = new ChucVuModel(getInfo[i].MaCongViec.ToString(), getInfo[i].TenCongViec);
                         }
                     }
-                    
+
                 }
             }
             List<DieuDongModel> listNhanVien = new List<DieuDongModel>();
@@ -270,6 +278,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             return Json(new { success = true, data = listNhanVien }, JsonRequestBehavior.AllowGet);
         }
 
+
         [Route("phong-tcld/dieu-chuyen/export-quyet-dinh")]
         [HttpPost]
         public ActionResult ExportReport(string selectedList)
@@ -292,9 +301,16 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
                 for (int i = 0; i < result.Count; i++)
                 {
-                    ((DieuDongModel)result[i]).HoTen = getInfo[i].Ten;
-                    ((DieuDongModel)result[i]).DonViHienTai = getInfo[i].MaPhongBan;
-                    ((DieuDongModel)result[i]).ChucVuHienTai = new ChucVuModel(getInfo[i].MaCongViec.ToString(), getInfo[i].TenCongViec);
+
+                    for (int j = 0; j < result.Count; j++)
+                    {
+                        if (((DieuDongModel)result[j]).MaNV == getInfo[i].MaNV)
+                        {
+                            ((DieuDongModel)result[j]).HoTen = getInfo[i].Ten;
+                            ((DieuDongModel)result[j]).DonViHienTai = getInfo[i].MaPhongBan;
+                            ((DieuDongModel)result[j]).ChucVuHienTai = new ChucVuModel(getInfo[i].MaCongViec.ToString(), getInfo[i].TenCongViec);
+                        }
+                    }
                 }
             }
             List<DieuDongModel> listNhanVien = new List<DieuDongModel>();
@@ -425,11 +441,18 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
                 for (int i = 0; i < result.Count; i++)
                 {
-                    ((DieuDongModel)result[i]).HoTen = getInfo[i].Ten;
-                    ((DieuDongModel)result[i]).DonViHienTai = getInfo[i].MaPhongBan;
-                    ((DieuDongModel)result[i]).ChucVuHienTai = new ChucVuModel(getInfo[i].MaCongViec.ToString(), getInfo[i].TenCongViec);
-                    ((DieuDongModel)result[i]).BacLuongCu = getInfo[i].BacLuong;
-                        ((DieuDongModel)result[i]).MucLuongCu = getInfo[i].MucLuong.ToString();
+
+                    for (int j = 0; j < result.Count; j++)
+                    {
+                        if (((DieuDongModel)result[j]).MaNV == getInfo[i].MaNV)
+                        {
+                            ((DieuDongModel)result[j]).HoTen = getInfo[i].Ten;
+                            ((DieuDongModel)result[j]).DonViHienTai = getInfo[i].MaPhongBan;
+                            ((DieuDongModel)result[j]).ChucVuHienTai = new ChucVuModel(getInfo[i].MaCongViec.ToString(), getInfo[i].TenCongViec);
+                            ((DieuDongModel)result[j]).BacLuongCu = getInfo[i].BacLuong;
+                            ((DieuDongModel)result[j]).MucLuongCu = getInfo[i].MucLuong.ToString();
+                        }
+                    }
                 }
             }
             List<DieuDongModel> listNhanVien = new List<DieuDongModel>();
@@ -591,7 +614,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 {
                     string sql = "select count(SoQuyetDinh) as sqd from QuyetDinh\n" +
                     "where soQuyetDInh = @SoQD ";
-                    result=db.Database.SqlQuery<int>(sql,new SqlParameter("SoQD",sqd)).ToList<int>()[0];
+                    result = db.Database.SqlQuery<int>(sql, new SqlParameter("SoQD", sqd)).ToList<int>()[0];
                 }
                 if (result != 0)
                 {
@@ -606,7 +629,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         }
 
         /////////////////////////////////////////////QD DA XU LY////////////////////////////////////////////////////
-
+        [Auther(RightID = "102")]
         [Route("phong-tcld/dieu-chuyen/da-xu-li-dieu-chuyen")]
         [HttpPost]
         public ActionResult DieuDongDaXuLy(String searchSoQuyetDinh, String searchMaNV, String searchDate)
@@ -658,6 +681,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             return Json(new { success = true, data = listQuyetDinh, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
+        [Auther(RightID = "102")]
         [Route("phong-tcld/dieu-chuyen/da-xu-li-dieu-chuyen-detail")]
         [HttpPost]
         public ActionResult DetailQD(string MaQD)
@@ -708,31 +732,37 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 {
                     try
                     {
+                        List<RecentQuyetDinhNhanVien> checkList = new List<RecentQuyetDinhNhanVien>();
+                        string query = "select MaNV, max(NgayQuyetDinh)  as NgayQuyetDinhGanNhat from QUyetDinh,DieuDong_NhanVien\n" +
+                        "where QuyetDinh.MaQuyetDinh = DieuDong_NhanVien.MaQuyetDinh and\n" +
+                        "DieuDong_NhanVien.MaNV in (select MaNV from DieuDong_NhanVien where MaQuyetDinh = @MaQuyetDinh)\n" +
+                        "group by MaNV\n";
+                        checkList = db.Database.SqlQuery<RecentQuyetDinhNhanVien>(query, new SqlParameter("MaQuyetDinh", MaQD)).ToList<RecentQuyetDinhNhanVien>();
                         string sql = "select \n" +
-                      "tb1.MaQuyetDinh,tb1.SoQuyetDinh,tb1.NgayQuyetDinh,tb1.MaNV,tb1.Ten,tb1.MaDonViCu,\n" +
-                      "tb1.DonViCu,tb1.MaChucVuCu,tb1.ChucVuCu,tb2.MaDonViMoi,tb2.DonViMoi,\n" +
-                      "tb2.MaChucVuMoi,tb2.ChucVuMoi,tb2.ThangLuong,\n" +
-                      "tb2.PhuCap,tb1.BacLuongMoi,tb1.MucLuongMoi,tb1.BacLuongCu,tb1.MucLuongCu,tb1.LyDoDieuDong\n" +
-                      "from\n" +
-                      "(select qd.MaQuyetDinh,qd.SoQuyetDinh, dd.MaNV, nv.Ten, dp.department_id as MaDonViCu,\n" +
-                      "dp.department_name as DonViCu,cv.MaCongViec as MaChucVuCu, cv.TenCongViec as ChucVuCu,\n" +
-                      "qd.NgayQuyetDinh,\n" +
-                      "dd.BacLuongMoi, dd.MucLuongMoi,dd.BacLuongCu, dd.MucLuongCu, dd.LyDoDieuDong\n" +
-                      "from QuyetDinh qd, DieuDong_NhanVien dd, NhanVien nv,\n" +
-                      "CongViec cv, Department dp\n" +
-                      "where\n" +
-                      "nv.MaNv = dd.MaNV and\n" +
-                      "qd.MaQuyetDinh = dd.MaQuyetDinh\n" +
-                      "and qd.MaQuyetDinh = @MaQD1\n" +
-                      "and cv.MaCongViec = dd.ChucVuCu\n" +
-                      "and dp.department_id = dd.DonViCu) tb1,\n" +
-                      "(select dd.MaNV,dp.department_id as MaDonViMoi,dp.department_name as DonViMoi,\n" +
-                      "cv.MaCongViec as MaChucVuMoi, cv.TenCongViec as ChucVuMoi, cv.ThangLuong, cv.PhuCap\n" +
-                      "from Department dp, DieuDong_NhanVien dd, CongViec cv\n" +
-                      "where dp.department_id = dd.DonViMoi and\n" +
-                      "cv.MaCongViec = dd.ChucVuMoi\n" +
-                      "and dd.MaQuyetDinh = @MaQD2) tb2\n" +
-                      "where tb1.MaNV = tb2.MaNV";
+                       "tb1.MaQuyetDinh,tb1.SoQuyetDinh,tb1.NgayQuyetDinh,tb1.MaNV,tb1.Ten,tb1.MaDonViCu,\n" +
+                       "tb1.DonViCu,tb1.MaChucVuCu,tb1.ChucVuCu,tb2.MaDonViMoi,tb2.DonViMoi,\n" +
+                       "tb2.MaChucVuMoi,tb2.ChucVuMoi,tb2.ThangLuong,\n" +
+                       "tb2.PhuCap,tb1.BacLuongMoi,tb1.MucLuongMoi,tb1.BacLuongCu,tb1.MucLuongCu,tb1.LyDoDieuDong\n" +
+                       "from\n" +
+                       "(select qd.MaQuyetDinh,qd.SoQuyetDinh, dd.MaNV, nv.Ten, dp.department_id as MaDonViCu,\n" +
+                       "dp.department_name as DonViCu,cv.MaCongViec as MaChucVuCu, cv.TenCongViec as ChucVuCu,\n" +
+                       "qd.NgayQuyetDinh,\n" +
+                       "dd.BacLuongMoi, dd.MucLuongMoi,dd.BacLuongCu, dd.MucLuongCu, dd.LyDoDieuDong\n" +
+                       "from QuyetDinh qd, DieuDong_NhanVien dd, NhanVien nv,\n" +
+                       "CongViec cv, Department dp\n" +
+                       "where\n" +
+                       "nv.MaNv = dd.MaNV and\n" +
+                       "qd.MaQuyetDinh = dd.MaQuyetDinh\n" +
+                       "and qd.MaQuyetDinh = @MaQD1\n" +
+                       "and cv.MaCongViec = dd.ChucVuCu\n" +
+                       "and dp.department_id = dd.DonViCu) tb1,\n" +
+                       "(select dd.MaNV,dp.department_id as MaDonViMoi,dp.department_name as DonViMoi,\n" +
+                       "cv.MaCongViec as MaChucVuMoi, cv.TenCongViec as ChucVuMoi, cv.ThangLuong, cv.PhuCap\n" +
+                       "from Department dp, DieuDong_NhanVien dd, CongViec cv\n" +
+                       "where dp.department_id = dd.DonViMoi and\n" +
+                       "cv.MaCongViec = dd.ChucVuMoi\n" +
+                       "and dd.MaQuyetDinh = @MaQD2) tb2\n" +
+                       "where tb1.MaNV = tb2.MaNV";
                         List<DetailDieuDongClass> list = new List<DetailDieuDongClass>();
                         list = db.Database.SqlQuery<DetailDieuDongClass>(sql,
                                 new SqlParameter("MaQD1", MaQD),
@@ -740,12 +770,16 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                 ).ToList<DetailDieuDongClass>();
                         foreach (DetailDieuDongClass n in list)
                         {
-                            string sql1 = "update NhanVien set " +
-                                "MaPhongBan=@MaDonViCu," +
-                                "MaCongViec=@MaChucVuCu," +
-                                "BacLuong=@BacLuongCu, " +
-                                "MucLuong=@MucLuongCu " +
-                                "where MaNV=@MaNV";
+                            foreach (RecentQuyetDinhNhanVien nv in checkList)
+                            {
+                                if (n.MaNV == nv.MaNV && n.NgayQuyetDinh==nv.NgayQuyetDinhGanNhat)
+                                {
+                                    string sql1 = "update NhanVien set " +
+                                          "MaPhongBan=@MaDonViCu," +
+                                          "MaCongViec=@MaChucVuCu," +
+                                          "BacLuong=@BacLuongCu, " +
+                                          "MucLuong=@MucLuongCu " +
+                                          "where MaNV=@MaNV";
                             db.Database.ExecuteSqlCommand(sql1,
                                 new SqlParameter("MaDonViCu", n.MaDonViCu),
                                 new SqlParameter("MaChucVuCu", n.MaChucVuCu == null ? 31 : n.MaChucVuCu),
@@ -753,6 +787,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                 new SqlParameter("MucLuongCu", n.MucLuongCu == null ? 0 : n.MucLuongCu),
                                 new SqlParameter("MaNV", n.MaNV)
                                 );
+                                }
+                            }
                         }
                         db.SaveChanges();
                         //////////////////////////////////////////////////////////////
@@ -780,6 +816,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         }
 
         /////////////////////////////////////////////QD CHUA XU LY////////////////////////////////////////////////////
+        [Auther(RightID = "103")]
         [Route("phong-tcld/dieu-chuyen/chua-xu-li-dieu-chuyen")]
         [HttpPost]
         public ActionResult DieuDongChuaXuLy(String searchMaNV, String searchDate)
@@ -829,6 +866,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             return Json(new { success = true, data = listQuyetDinh, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
+        [Auther(RightID = "103")]
         [Route("phong-tcld/dieu-chuyen/chua-xu-li-dieu-chuyen-delete")]
         [HttpPost]
         public ActionResult XoaDieuDongChuaXuLy(String MaQD)
@@ -878,6 +916,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
         }
 
+        [Auther(RightID = "119")]
         [Route("phong-tcld/dieu-chuyen/chua-xu-li-dieu-chuyen-update")]
         [HttpPost]
         public ActionResult CapNhatDieuDongChuaXuLy()
@@ -1070,7 +1109,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                             tr.Append(tc6);
 
                             TableCell tc7 = new TableCell();
-                            tc7.Append(new Paragraph(new Run(new Text(d.BacLuongMoi==null?"0":d.BacLuongMoi))));
+                            tc7.Append(new Paragraph(new Run(new Text(d.BacLuongMoi == null ? "0" : d.BacLuongMoi))));
                             tr.Append(tc7);
 
                             TableCell tc8 = new TableCell();
@@ -1125,6 +1164,12 @@ namespace QUANGHANHCORE.Controllers.TCLD
             public string BacLuongCu { get; set; }
             public double? MucLuongCu { get; set; }
             public string LyDoDieuDong { get; set; }
+        }
+
+        public class RecentQuyetDinhNhanVien
+        {
+            public string MaNV { get; set; }
+            public DateTime NgayQuyetDinhGanNhat { get; set; }
         }
 
     }

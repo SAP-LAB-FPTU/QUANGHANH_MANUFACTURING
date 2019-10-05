@@ -62,9 +62,31 @@
 <script type="text/javascript" src="~/js/Custom JS/CDVT/Work/suachua.js"></script>
 <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
 
+@*<datalist id="equipmentId-search">
+        @foreach (var item in ViewBag.EquipmentID)
+        {
+        <option value="@item.equipment_id">@item.equipment_id</option>
+        }
+    </datalist>*@
+
+<script>
+    @if (ViewBag.alert == true)
+    {
+        <text>
+    $(document).ready(function () {
+                errorAlert('Lỗi', 'Bạn đã nhập sai vật tư');
+            })
+        </text>
+    }
+</script>
+
+
+
+
+
 @section scripts{
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script>
+<script>
         $("#pre-load").show();
         var Popup, dataTable;
         @{
@@ -75,11 +97,14 @@
             }
          }
         var arrCarSelected = JSON.parse("@listFromServer".replace(/(&quot\;)/g, "\""));
+        window.onbeforeunload = function (e) {
+            document.cookie = 'SuaChuaThietBi=; expires=' + d.toGMTString() + ';';
+        }
         $("#drop").click(function () {
             $(".my_checkbox").each(function () {
                 if ($(this).is(":checked")) $(this).click();
             })
-            //here      
+            //here
             arrCarSelected = null;
         })
         $(document).ready(function () {
@@ -246,7 +271,7 @@
                     }
                 }
             }
-            
+
             if (!isExist && id != "" && id != null) {
                 if (arrCarSelected != null) {
                     arrCarSelected.push(id);
@@ -274,8 +299,8 @@
             $.each($("input[name='abc']:checked"), function () {
             });
         }
-    </script>
+</script>
 }
 <form action="/phong-cdvt/sua-chua-chon" id="formSaveStatus">
-    <input type="hidden" name="selectListJson" id="selectListJson" value=""/>
+    <input type="hidden" name="selectListJson" id="selectListJson" value="" />
 </form>
