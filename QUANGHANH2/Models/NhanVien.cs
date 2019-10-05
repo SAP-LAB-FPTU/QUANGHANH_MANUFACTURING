@@ -17,6 +17,7 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public NhanVien()
         {
+            this.Accounts = new HashSet<Account>();
             this.ChamDut_NhanVien = new HashSet<ChamDut_NhanVien>();
             this.ChiTiet_BangCap_GiayChungNhan = new HashSet<ChiTiet_BangCap_GiayChungNhan>();
             this.ChiTiet_NhiemVu_NhanVien = new HashSet<ChiTiet_NhiemVu_NhanVien>();
@@ -77,7 +78,6 @@ namespace QUANGHANH2.Models
         public Nullable<System.DateTime> NgayCapCMND { get; set; }
         public string NoiCapCMND { get; set; }
         public Nullable<System.DateTime> NgayDiLam { get; set; }
-        public string MaPhongBan { get; set; }
         public Nullable<int> MaUyQuyen { get; set; }
         public string SoBHXH { get; set; }
         public Nullable<System.DateTime> NgayTraBHXH { get; set; }
@@ -94,7 +94,10 @@ namespace QUANGHANH2.Models
         public Nullable<int> TuThang { get; set; }
         public int MaTrangThai { get; set; }
         public string MaChuyenNganh { get; set; }
+        public string MaPhongBan { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Account> Accounts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChamDut_NhanVien> ChamDut_NhanVien { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

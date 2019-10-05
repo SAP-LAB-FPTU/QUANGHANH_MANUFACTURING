@@ -19,6 +19,7 @@ namespace QUANGHANH2.Models
         public string Username { get; set; }
         public string Password { get; set; }
         public string Position { get; set; }
+        public string NVID { get; set; }
         public bool CDVT { get; set; }
         public bool TCLD { get; set; }
         public bool BGD { get; set; }
@@ -37,5 +38,7 @@ namespace QUANGHANH2.Models
         public bool AT { get; set; }
         public bool KCM { get; set; }
         public bool ADMIN { get; set; }
+    
+        public virtual NhanVien NhanVien { get; set; }
     }
 }
