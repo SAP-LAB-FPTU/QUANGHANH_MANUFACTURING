@@ -79,7 +79,7 @@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.TenBangCap, new { htmlAttributes = new { @class = "form-control", @id = "edit_bangcap" } })
                             @Html.ValidationMessageFor(model => model.TenBangCap, "", new { @class = "text-danger" })
-                            <p hidden style="color:red" id="message_tenbangcap_edit">Không được để trống</p>
+                            <p hidden style="color:red" id="message_bangcap_edit">Không được để trống</p>
                         </div>
                     </div>
 
@@ -258,20 +258,20 @@
     function validate_bangcap() {
 
         if (!$('#edit_bangcap').val()) {
-            $('#message_tenbangcap_edit').show();
+            $('#message_bangcap_edit').show();
             $('#save_edit_diploma').attr("disabled", true);
         }
         else {
-            $('#message_tenbangcap_edit').hide();
+            $('#message_bangcap_edit').hide();
             $('#save_edit_diploma').attr("disabled", false);
         }
         $('#edit_bangcap').change(function () {
             if (!$('#edit_bangcap').val()) {
-                $('#message_tenbangcap_edit').show();
+                $('#message_bangcap_edit').show();
                 $('#save_edit_diploma').attr("disabled", true);
             }
             else {
-                $('#message_tenbangcap_edit').hide();
+                $('#message_bangcap_edit').hide();
                 $('#save_edit_diploma').attr("disabled", false);
             }
         })

@@ -13,15 +13,18 @@
                 </div>
                 <div class="row center">
                     <div class="col l5 m12 s12 input-field">
-                        <input type="text" placeholder="Tìm kiếm theo mã quyết định" class='form-control' id="searchMaQD" multiple />
+                        <input type="text" placeholder="Tìm kiếm theo mã quyết định" class='input-field form-control' id="searchMaQD" multiple />
                     </div>
                     <div class="col l5 m12 s12 input-field">
-                        <input type="text" placeholder="Tìm kiếm theo ngày chấm dứt" class='form-control datepicker-here datepicker-add' id="searchNgayCD" multiple />
+                        <input type="text" placeholder="Tìm kiếm theo ngày chấm dứt" class='input-field form-control datepicker-here datepicker-add' id="searchNgayCD" multiple />
                     </div>
 
                     <div class="col l2 m12 s12 input-field">
                         <button class="waves-effect waves-light btn blue darken-2 btn-small" id="searchButton">Tìm kiếm</button>
                     </div>
+                    @*<div class="col l2 m12 s12 input-field">
+                        <button class="waves-effect waves-light btn blue darken-2 btn-small" id="clear">Xóa trường</button>
+                    </div>*@
                 </div>
             </div>
         </div>
@@ -31,12 +34,12 @@
             <div class="card-content row">
                 <div class="col s12 m12 l12">
                     @*<div class="col s6 m6 l6">
-                        <label id="add_Cancel_Print_Checked" style="display:none">
-                            <a href="#add" class="waves-effect waves-light btn blue darken-2 btn-small modal-trigger"><span class="fas fa-plus-circle">&nbsp;Thêm mã quyết định</span></a>
-                            <a href="#confirm" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle">&nbsp;Hủy đã chọn</span></a>
-                            <a href="#" class="waves-effect waves-light btn black btn-small"><span class="fas fa-file-word">&nbsp;Xuất quyết định</span></a>
-                        </label>
-                    </div>*@
+                            <label id="add_Cancel_Print_Checked" style="display:none">
+                                <a href="#add" class="waves-effect waves-light btn blue darken-2 btn-small modal-trigger"><span class="fas fa-plus-circle">&nbsp;Thêm mã quyết định</span></a>
+                                <a href="#confirm" class="waves-effect waves-light btn red btn-small modal-trigger"><span class="fas fa-times-circle">&nbsp;Hủy đã chọn</span></a>
+                                <a href="#" class="waves-effect waves-light btn black btn-small"><span class="fas fa-file-word">&nbsp;Xuất quyết định</span></a>
+                            </label>
+                        </div>*@
                     <br />
                 </div>
                 <br />
@@ -74,9 +77,14 @@
             </div>
             <div class="modal-body row">
                 <div class="col s3 m3 l3">
-                    <input class="form-control" id="soqd" placeholder="Số quyết định" name="SoQD"  />
-
+                    <input class="form-control" id="soqd" placeholder="Số quyết định" name="SoQD" autocomplete = "off" />
                     <br />
+                </div>
+                <div class="col s6 m6 l6">
+
+                </div>
+                <div class="col s3 m3 l3">
+                    <a class="right waves-effect waves-light btn blue darken-2 btn-small">Xuất word</a>
                 </div>
                 <div class="col s3 m3 l3">
                     @*<p id="message" style="display: none !important ">Mã nhân viên bị trùng</p>*@
@@ -120,8 +128,8 @@
             </div>
             <div class="modal-footer">
                 <input type="hidden" name="id" id="del" />
-                <button type="submit" class="waves-effect waves-light btn red darken-2 modal-close">Xác nhận</button>
-                <button type="button" class="waves-effect waves-light btn blue modal-close">Hủy</button>
+                <button type="submit" class="waves-effect waves-light btn blue darken-2 modal-close">Xác nhận</button>
+                <button type="button" class="waves-effect waves-light btn blue darken-2 modal-close">Hủy</button>
             </div>
         </div>
     </div>
@@ -265,7 +273,7 @@
             var dataTable = $('#notyet-table').DataTable();
             $("#searchButton").click(function () {
                 dataTable.ajax.reload(function () {
-                   
+
                 });
             });
         });
@@ -429,6 +437,17 @@
 <script>
     $(".datepicker-here").keydown(function (e) {
         e.preventDefault();
+    });
+
+    $(".input-field").keydown(function (e) {
+        if (e.keyCode === 13) {
+            dataTable.ajax.reload();
+        }
+    });
+
+    $("#clear").click(function(e) {
+        $("#searchNgayQD").val("");
+        $("#searchMaQD").val("");
     });
 
 </script>

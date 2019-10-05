@@ -13,13 +13,13 @@
                 </div>
                 <div class="row center">
                     <div class="col l3 m12 s12 input-field">
-                        <input type="text" placeholder="Tìm kiếm theo số quyết định" class='form-control' id="searchSoQD" multiple />
+                        <input type="text" placeholder="Tìm kiếm theo số quyết định" class='form-control input-field' id="searchSoQD" multiple />
                     </div>
                     <div class="col l3 m12 s12 input-field">
-                        <input type="text" placeholder="Tìm kiếm theo ngày quyết định" class='form-control datepicker-here datepicker-add' id="searchNgayQD" multiple />
+                        <input type="text" placeholder="Tìm kiếm theo ngày quyết định" class='input-field form-control datepicker-here datepicker-add' id="searchNgayQD" multiple />
                     </div>
                     <div class="col l3 m12 s12 input-field">
-                        <input type="text" placeholder="Tìm kiếm theo ngày chấm dứt" class='form-control datepicker-here datepicker-add' id="searchNgayCD" multiple />
+                        <input type="text" placeholder="Tìm kiếm theo ngày chấm dứt" class='input-field form-control datepicker-here datepicker-add' id="searchNgayCD" multiple />
                     </div>
                     <div class="col l3 m12 s12 input-field">
                         <button class="waves-effect waves-light btn blue darken-2 btn-small" id="searchButton">Tìm kiếm</button>
@@ -78,8 +78,8 @@
             </div>
             <div class="modal-footer">
                 <input type="hidden" name="id" id="del" />
-                <button type="submit" class="waves-effect waves-light btn red darken-2 modal-close">Xác nhận</button>
-                <button type="button" class="waves-effect waves-light btn blue modal-close">Hủy</button>
+                <button type="submit" class="waves-effect waves-light btn blue darken-2 modal-close">Xác nhận</button>
+                <button type="button" class="waves-effect waves-light btn blue darken-2 modal-close">Hủy</button>
             </div>
         </div>
     </div>
@@ -302,7 +302,11 @@
         });
 
 
-
+         $(".input-field").keydown(function (e) {
+                if (e.keyCode === 13) {
+                    dataTable.ajax.reload();
+                }
+            });
     </script>
    
 

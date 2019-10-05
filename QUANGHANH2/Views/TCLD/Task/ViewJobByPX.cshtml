@@ -174,8 +174,8 @@
                     if (!selectedJob.includes(cbxChecked.value.toString())) {
                         selectedJob.push(cbxChecked.value.toString())
                     }
-                }
-                if (selectedJob.length == 0) {
+                    }
+                    if (selectedJob.length == 0 && removeJob.length ==0) {
                     $.notify("Chưa chọn công việc", {
                         globalPosition: "top center",
                         className: "fail"
@@ -248,9 +248,6 @@
 
             var name = $("#name_search").val()
             var px = $("#sl_phan_xuong").val()
-            if (name == null || name == "" && px == null) {
-                return false;
-            }
             $("#pre-load").show()
             var searchObj = {
                 name: name,
