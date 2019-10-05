@@ -24,7 +24,7 @@
                 </div>
                 @if (ViewBag.validate == 0)
                 {
-                    <h4>Bạn đã chọn 2 hoặc nhiều thiết bị khác vị trí, xin vui lòng quay lại</h4>
+                    <h4>Bạn đã chọn 2 hoặc nhiều thiết bị khác vị trí, xin vui lòng <a href="/phong-cdvt/thanh-ly">quay lại</a></h4>
                 }
                 else
                 {
@@ -259,7 +259,6 @@
                 }
             })
             if (validate == 1) {
-                alert($('#mytablevattu tbody tr').length)
                 for (var key in output) {
                     output[key].buyer = $('#' + key + ' input').eq(0).val();
                     output[key].equipment_liquidation_reason = $('#' + key + ' input').eq(1).val();

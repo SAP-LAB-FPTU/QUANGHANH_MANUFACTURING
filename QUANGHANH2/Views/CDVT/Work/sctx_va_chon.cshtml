@@ -24,7 +24,7 @@
                 </div>
                 @if (ViewBag.validate == 0)
                 {
-                    <h4>Bạn đã chọn 2 hoặc nhiều thiết bị khác vị trí, xin vui lòng quay lại</h4>
+                    <h4>Bạn đã chọn 2 hoặc nhiều thiết bị khác vị trí, xin vui lòng <a href="/phong-cdvt/trung-dai-tu">quay lại</a></h4>
                 }
                 else
                 {
@@ -72,13 +72,13 @@
                                                 <input type='text' class='form-control' />
                                             </td>
                                             <td>
-                                                <input type='text' class='center datepicker-here form-control minDate' data-language='vi' />
+                                                <input type='text' required class='center datepicker-here form-control minDate' data-language='vi' />
                                             </td>
                                             <td>
                                                 <select class='form-control'><option>Tiểu tu</option><option>Trung tu</option><option>Đại tu</option> </select>
                                             </td>
                                             <td>
-                                                <input type='text' class='center datepicker-here form-control minDate' data-language='vi' />
+                                                <input type='text' required class='center datepicker-here form-control minDate' data-language='vi' />
                                             </td>
                                             <td>
                                                 <a class="btn blue darken-2 modal-trigger open-Modal" data-id="@i" href="#mylist">Vật tư cần</a>
