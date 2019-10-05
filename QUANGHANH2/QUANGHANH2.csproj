@@ -6442,8 +6442,8 @@
     <Content Include="js\Custom JS\Flexible_user_icon.js" />
     <Content Include="js\Custom JS\form-input-border.js" />
     <Content Include="js\Custom JS\PX\PXKT\add_product_report.js" />
-    <Content Include="js\Custom JS\TCLD\beo_bar_chart.js" />
-    <Content Include="js\Custom JS\TCLD\beo_line_chart.js" />
+    <Content Include="js\tcld_dashboard\bar_chart.js" />
+    <Content Include="js\tcld_dashboard\line_chart.js" />
     <Content Include="js\Custom JS\TCLD\Brief\Briefs_Add.js" />
     <Content Include="js\Custom JS\TCLD\Brief\Briefs_Edit.js" />
     <Content Include="js\Custom JS\TCLD\Brief\Briefs_List.js" />
@@ -6455,12 +6455,12 @@
     <Content Include="js\Custom JS\TCLD\Certificate\certificate.js" />
     <Content Include="js\Custom JS\TCLD\Certificate\formValidation.js" />
     <Content Include="js\Custom JS\TCLD\dateAnddepartment.js" />
-    <Content Include="js\Custom JS\TCLD\db_issue.js" />
+    <Content Include="js\tcld_dashboard\db_issue.js" />
     <Content Include="js\Custom JS\TCLD\ModifiedHistory\dbHistory.js" />
     <Content Include="js\Custom JS\TCLD\ModifiedHistory\jsGridTCLD.js" />
     <Content Include="js\Custom JS\TCLD\QuickReport.js" />
     <Content Include="js\Custom JS\TCLD\RecruitmentAndEnd\RecruitAndEnd.js" />
-    <Content Include="js\Custom JS\TCLD\table_init.js" />
+    <Content Include="js\tcld_dashboard\table_init.js" />
     <Content Include="js\Custom JS\TCLD\Transfer\Transfer_PlaceAndTime.js" />
     <Content Include="js\Custom JS\TCLD\Transfer\Transfer_Select.js" />
     <Content Include="js\fixingSelectFault.js" />
