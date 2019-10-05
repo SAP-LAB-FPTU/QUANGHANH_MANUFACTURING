@@ -91,6 +91,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
         {
             List<Acceptance> AcceptanceList = new List<Acceptance>();
             List<Document> documentList = new List<Document>();
+            List<Suply> supplyList = new List<Suply>();
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 //Boolean status = true;
@@ -110,6 +111,31 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                     equipmentId = p.equipmentId,
                                     documentary_type = p.documentary_type
                                 }).ToList();
+
+                supplyList = (from a in db.Supply_Documentary_Equipment
+                                join b in db.Documentaries on a.documentary_id equals b.documentary_id
+                                join c in db.Supplies on a.supply_id equals c.supply_id
+                                join d in db.Supply_tieuhao on c.supply_id equals d.supplyid
+                                where a.equipmentId == id
+                                select new
+                                {
+                                    supplyid = a.supply_id,
+                                    equipmentId = a.equipmentId,
+                                    departmentid = b.department_id
+
+
+                                }).ToList().Select(p => new Suply
+                                {
+                                    supplyid = p.supplyid,
+                                    equipmentId = p.equipmentId,
+                                    departmentid = p.departmentid
+                                }).ToList();
+
+                foreach(Suply items in supplyList)
+                {
+                    UpdateSupply(items.supplyid,items.equipmentId,items.departmentid);
+                    break;
+                }
 
                 foreach (Document items in documentList)
                 {
@@ -179,25 +205,53 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
 
 
 
-            public ActionResult ChangeStatus(string id)
+    public ActionResult ChangeStatus(string id)
+    {
+        using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+        {
+            try
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-                {
-                    try
-                    {
-                        var query = "UPDATE Documentary SET documentary_status = 3 FROM Acceptance T1, Documentary T2 WHERE T1.documentary_id = T2.documentary_id AND T1.equipmentId = '" + id + "'";
-                        db.Database.ExecuteSqlCommand(query);
-                        db.SaveChanges();
-                    }
-                    catch
-                    {
-                        Response.Write("Có lỗi xảy ra");
-                        return new HttpStatusCodeResult(400);
-                    }
-                    return RedirectToAction("Search");
-                }
+                var query = "UPDATE Documentary SET documentary_status = 3 FROM Acceptance T1, Documentary T2 WHERE T1.documentary_id = T2.documentary_id AND T1.equipmentId = '" + id + "'";
+                db.Database.ExecuteSqlCommand(query);
+                db.SaveChanges();
             }
+            catch
+            {
+                Response.Write("Có lỗi xảy ra");
+                return new HttpStatusCodeResult(400);
+            }
+            return RedirectToAction("Search");
         }
+    }
+
+
+    public ActionResult UpdateSupply(string supply_id, string equipmentId, string departmentid)
+    {
+        using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+        {
+            try
+            {
+               Suply query = db.Database.SqlQuery<Suply>(" select sum(quantity) as sum_type_1 from Supply_Documentary_Equipment where supplyType = 1 and equipmentId = '" + equipmentId + "' group by supply_id, equipmentId, documentary_id").First();
+               Suply query2 = db.Database.SqlQuery<Suply>(" select sum(quantity) as sum_type_2 from Supply_Documentary_Equipment where supplyType = 2 and equipmentId = '" + equipmentId + "' group by supply_id, equipmentId, documentary_id").First();
+               var query3 = "Update Supply_tieuhao Set used = used + '"+query.sum_type_1+"',thuhoi = thuhoi + '"+query2.sum_type_2+"' From Supply_Documentary_Equipment T1, Documentary T2, Supply T3, Supply_tieuhao T4 Where T1.documentary_id = T2.documentary_id and T1.supply_id = T3.supply_id and T3.supply_id = T4.supplyid and T3.supply_id = '"+supply_id+ "' and departmentid = '"+ departmentid + "' and month(GETDATE()) = month([date]) and year(GETDATE()) = year([date])";
+                db.Database.ExecuteSqlCommand(query3);
+                db.SaveChanges();
+            }
+            catch
+            {
+                Response.Write("Có lỗi xảy ra");
+                return new HttpStatusCodeResult(400);
+            }
+            return View();
+        }
+    }
+}
+
+
+
+
+
+
 
     public class Document
         {
@@ -207,5 +261,17 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
             public string equipmentId { get; set; }
             public int countID { get; set; }
         }
-    
+    public class Suply
+    {
+        public string supplyid { get; set; }
+        public string departmentid { get; set; }
+        public DateTime date { get; set; }
+        public int used { get; set; }
+        public int thuhoi { get; set; }
+        public int sumUsed { get; set; }
+        public int sumThuhoi { get; set; }
+        public string equipmentId { get; set; }
+        public int sum_type_1 { get; set; }
+        public int sum_type_2 { get; set; }
+    }
 }
