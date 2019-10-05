@@ -213,9 +213,9 @@
                 <a id="typeview" class='dropdown-trigger btn' href='#' data-target='dropdown1' style="width:250px;background-color:#273146;margin-bottom:20px">Xem Theo Ngày</a>
             </div>
             <div class="col s12">
-                <ul class="tabs">
-                    <li class="tab col s6"><a class="active" onclick="ResizeChart()" href="#bieudo"><b>Biểu đồ</b></a></li>
-                    <li class="tab col s6"><a href="#solieu"><b>Bảng báo cáo</b></a></li>
+                <ul class="tabs" style="overflow-x:hidden;overflow-y:hidden">
+                    @*<li class="tab col s6"><a class="active" onclick="ResizeChart()" href="#bieudo"><b>Biểu đồ</b></a></li>
+                    <li class="tab col s6"><a href="#solieu"><b>Bảng báo cáo</b></a></li>*@
                 </ul>
             </div>
         </div>
@@ -229,7 +229,7 @@
     <li onclick="ViewbyQuarter();"><a id="quarter" href="#" ;>Xem Theo Quý</a></li>
     <li onclick="ViewbyYear();"><a id="year" href="#" ;>Xem Theo Năm</a></li>
 </ul>
-<div id="bieudo">
+@*<div id="bieudo">
     <div class="row">
         <div class="col s12 l4">
             <div class="card mymanu" style="height: 200px">
@@ -284,7 +284,7 @@
             <div id="thuhoi" style="height:600px;width:100%;" class="m-t-20"></div>
         </div>
     </div>
-</div>
+</div>*@
 
 
 <div id="solieu" class="card">
@@ -314,12 +314,12 @@
                     </div>
                 </div>
 
-                <div style="padding-top:20px">
+                @*<div style="padding-top:20px">
                     <div class="col s12">
                         <h3><b>TỔNG HỢP BÁO CÁO</b></h3>
                     </div>
-                </div>
-                <div class="row">
+                </div>*@
+                @*<div class="row">
                     <div class="col s12 l6">
                         <table class="table table-bordered striped">
                             <tbody>
@@ -373,7 +373,7 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
+                </div>*@
             </div>
         </div>
     </div>

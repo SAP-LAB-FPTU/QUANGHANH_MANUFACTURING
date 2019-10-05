@@ -14,12 +14,12 @@ namespace QUANGHANH2.Models
     
     public partial class Equipment_Inspection
     {
-        public System.DateTime start_date { get; set; }
-        public System.DateTime end_date { get; set; }
-        public int documentary_id { get; set; }
+        public int inspect_id { get; set; }
         public string equipmentId { get; set; }
+        public System.DateTime inspect_expected_date { get; set; }
+        public Nullable<System.DateTime> inspect_start_date { get; set; }
+        public Nullable<System.DateTime> inspect_end_date { get; set; }
     
-        public virtual Documentary Documentary { get; set; }
         public virtual Equipment Equipment { get; set; }
     }
 }

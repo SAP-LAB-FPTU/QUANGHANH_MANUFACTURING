@@ -139,7 +139,7 @@
             $("#maquyetdinh").val(QDIdAndEquipId.split("^")[0])
             $.ajax({
                 type: "POST",
-                url: "/phong-cdvt/quyet-dinh/GetSupplyRepair",
+                url: "/phong-cdvt/quyet-dinh/GetSupply",
                 dataType: "json",
                 success: function (data) {
                     $(function () {

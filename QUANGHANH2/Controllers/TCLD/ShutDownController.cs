@@ -1,4 +1,5 @@
 ﻿using QUANGHANH2.Models;
+using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -26,6 +27,7 @@ namespace QUANGHANH2.Controllers.TCLD
             public string MaNV { get; set; }
 
         }
+        [Auther(RightID = "127")]
         // GET: ShutDown
         [Route("phong-tcld/quan-ly-nhan-vien/da-xu-ly-cham-dut")]
         [HttpGet]
@@ -34,7 +36,7 @@ namespace QUANGHANH2.Controllers.TCLD
             ViewBag.nameDepartment = "baohiem";
             return View("/Views/TCLD/Shutdown/Did.cshtml");
         }
-
+        [Auther(RightID = "127")]
         [Route("phong-tcld/quan-ly-nhan-vien/da-xu-ly-cham-dut")]
         [HttpPost]
         public ActionResult DidList(string NgayQuyetDinh, string SoQuyetDinh, string NgayChamDut)
@@ -54,7 +56,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 "on q.MaQuyetDinh = cd.MaQuyetDinh where cd.LoaiChamDut is not null and q.SoQuyetDinh != '' and ";
             if (!NgayQuyetDinh.Equals(""))
             {
-                string[] fixDate1 = NgayQuyetDinh.Split('/');
+                string[] fixDate1 = NgayQuyetDinh.ToString().Split('/');
                 dateQDFixed = fixDate1[1] + "/" + fixDate1[0] + "/" + fixDate1[2];
                 if (!NgayQuyetDinh.Equals("")) query += "q.NgayQuyetDinh = @NgayQD AND ";
             }
@@ -106,39 +108,74 @@ namespace QUANGHANH2.Controllers.TCLD
             return Json(list, JsonRequestBehavior.AllowGet);
 
         }
-
+        [Auther(RightID = "128")]
         [Route("deleteDetail")]
         [HttpPost]
         public JsonResult DidDetailDel(string id)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             db.Configuration.LazyLoadingEnabled = false;
-            //using (DbContextTransaction dbct = db.Database.BeginTransaction())
-            //{
-            //    try
-            //    {
-            string query1 = "delete from ChamDut_NhanVien where MaQuyetDinh = " + id;
-            db.Database.ExecuteSqlCommand(query1);
-            string query2 = "delete from QuyetDinh where MaQuyetDinh = " + id;
-            db.Database.ExecuteSqlCommand(query2);
-            //db.SaveChanges();
+            using (DbContextTransaction dbct = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    string query3 = "select cd.* from ChamDut_NhanVien cd inner join NhanVien nv on cd.MaNV = nv.MaNV inner join QuyetDinh q on q.MaQuyetDinh = cd.MaQuyetDinh where cd.MaQuyetDinh = " + id;
+                    List<ChamDut_NhanVien> list = db.Database.SqlQuery<ChamDut_NhanVien>(query3).ToList();
+                    string query4 = "update NhanVien set MaTrangThai = 1 where MaNV = " + list[0].MaNV;
+                    db.Database.ExecuteSqlCommand(query4);
 
-            return Json("", JsonRequestBehavior.AllowGet);
+                    string query1 = "delete from ChamDut_NhanVien where MaQuyetDinh = " + id;
+                    db.Database.ExecuteSqlCommand(query1);
+                    string query2 = "delete from QuyetDinh where MaQuyetDinh = " + id;
+                    db.Database.ExecuteSqlCommand(query2);
+                    //db.SaveChanges();
+                    dbct.Commit();
+                    return Json(new { success = true }, JsonRequestBehavior.AllowGet);
 
-            //    }
-            //    catch (Exception)
-            //    {
-            //        dbct.Rollback();
-            //        string output = "";
-            //        if (output == "")
-            //            output += "Xóa không thành công";
-            //        Response.Write(output);
-            //        return Json("", JsonRequestBehavior.AllowGet);
-            //    }
+                }
+                catch (Exception)
+                {
+                    dbct.Rollback();
+                    return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                }
 
-            //}
+            }
+        }
+        [Auther(RightID = "126")]
+        [Route("deleteNotYet")]
+        [HttpPost]
+        public JsonResult NotYetDelete(string id)
+        {
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            db.Configuration.LazyLoadingEnabled = false;
+            using (DbContextTransaction dbct = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    string query3 = "select cd.* from ChamDut_NhanVien cd inner join NhanVien nv on cd.MaNV = nv.MaNV inner join QuyetDinh q on q.MaQuyetDinh = cd.MaQuyetDinh where cd.MaQuyetDinh = " + id;
+                    List<ChamDut_NhanVien> list = db.Database.SqlQuery<ChamDut_NhanVien>(query3).ToList();
+                    string query4 = "update NhanVien set MaTrangThai = 1 where MaNV = " + list[0].MaNV;
+                    db.Database.ExecuteSqlCommand(query4);
+
+                    string query1 = "delete from ChamDut_NhanVien where MaQuyetDinh = " + id;
+                    db.Database.ExecuteSqlCommand(query1);
+                    string query2 = "delete from QuyetDinh where MaQuyetDinh = " + id;
+                    db.Database.ExecuteSqlCommand(query2);
+                    //db.SaveChanges();
+                    dbct.Commit();
+                    return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+
+                }
+                catch (Exception)
+                {
+                    dbct.Rollback();
+                    return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                }
+
+            }
         }
 
+        [Auther(RightID = "124")]
         [Route("phong-tcld/quan-ly-nhan-vien/chua-xu-ly-cham-dut")]
         [HttpGet]
         public ActionResult NotYet()
@@ -146,7 +183,7 @@ namespace QUANGHANH2.Controllers.TCLD
             return View("/Views/TCLD/Shutdown/NotYet.cshtml");
         }
 
-
+        [Auther(RightID = "124")]
         [Route("phong-tcld/quan-ly-nhan-vien/chua-xu-ly-cham-dut")]
         [HttpPost]
         public ActionResult NotYetList(string MaQuyetDinh, string NgayChamDut)
@@ -209,15 +246,78 @@ namespace QUANGHANH2.Controllers.TCLD
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
+        [Auther(RightID = "125")]
         [Route("UpdateSoQD")]
         [HttpPost]
         public JsonResult UpdateSoQD(string id, string SoQD)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            db.Configuration.LazyLoadingEnabled = false;
-            string query = "update QuyetDinh set SoQuyetDinh = " + SoQD + ", NgayQuyetDinh = GETDATE() where MaQuyetDinh = " + id;
-            db.Database.ExecuteSqlCommand(query);
-            return Json("", JsonRequestBehavior.AllowGet);
+            using (DbContextTransaction dbct = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    if (!SoQD.Equals(""))
+                    {
+
+                        List<QuyetDinh> qdList = db.QuyetDinhs.ToList();
+                        foreach (var item in qdList)
+                        {
+                            if (SoQD.Equals(item.SoQuyetDinh))
+                            {
+                                return Json(new { success = false, message = "Số quyết định trùng" }, JsonRequestBehavior.AllowGet);
+                            }
+                            else
+                            {
+                                if (item.MaQuyetDinh == Int32.Parse(id))
+                                {
+                                    item.SoQuyetDinh = SoQD;
+                                    item.NgayQuyetDinh = System.DateTime.Now.AddDays(2);
+                                    db.Entry(item).State = EntityState.Modified;
+                                    //
+                                    var maNV = db.ChamDut_NhanVien.Where(x => x.MaQuyetDinh == item.MaQuyetDinh).Select(x => x.MaNV).FirstOrDefault();
+                                    //
+                                    var Nv = db.NhanViens.Where(nv => nv.MaNV == maNV).FirstOrDefault();
+                                    Nv.MaTrangThai = 2;
+                                    db.Entry(Nv).State = EntityState.Modified;
+                                    db.SaveChanges();
+                                    dbct.Commit();
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        return Json(new { success = false, message = "Chưa nhập số quyết định" }, JsonRequestBehavior.AllowGet);
+                    }
+
+                    return Json(new { success = true, message = "Thêm thành công" }, JsonRequestBehavior.AllowGet);
+
+
+                }
+                catch (Exception)
+                {
+                    dbct.Rollback();
+                    return Json(new { success = false, message = "Có lỗi khi thêm" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+        }
+
+        [HttpPost]
+        public ActionResult validateID(string id)
+        {
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                QuyetDinh nv = db.QuyetDinhs.Where(x => x.SoQuyetDinh == id).FirstOrDefault<QuyetDinh>();
+                if (nv != null)
+                {
+                    return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                }
+            }
         }
     }
 }

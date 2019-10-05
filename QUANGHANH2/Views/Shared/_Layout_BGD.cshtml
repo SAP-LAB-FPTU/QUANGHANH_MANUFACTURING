@@ -96,9 +96,18 @@
         <!-- Preloader - style you can find in spinners.css -->
         <!-- ============================================================== -->
         <div class="preloader">
-            <div class="loader">
-                <div class="loader__figure"></div>
-                <p class="loader__label">Đang tải...</p>
+            <div class="loading">
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div><div class="gap-patch">
+                            <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- ============================================================== -->
@@ -262,8 +271,8 @@
                                     <div class="dw-user-box">
                                         <div class="u-img"><img src="/assets/images/users/2.jpg" alt="user"></div>
                                         <div class="u-text">
-                                            <h4>Trần Văn Tú</h4>
-                                            <p>tu.bgd@gmail.com</p>
+                                            <h4>@Session["Name"]</h4>
+                                            <p>@Session["username"]</p>
                                             <a class="waves-effect waves-light btn-small red white-text">Xem Hồ Sơ</a>
                                         </div>
                                     </div>
@@ -277,7 +286,7 @@
                                 <li><a href="@Url.Action("Logout","LogIn")"><i class="material-icons">power_settings_new</i>Đăng Xuất</a></li>
                             </ul>
                         </li>
-                        <li id="user-icon"><a href="">Trần Văn Tú <span class="new badge red" data-badge-caption="Giám Đốc"></span></a></li>
+                        <li id="user-icon"><a href="">@Session["Name"] <span class="new badge red" data-badge-caption="@Session["Position"]"></span></a></li>
                     </ul>
                     <!-- ============================================================== -->
                     <!-- Right topbar icon scss in header.scss -->

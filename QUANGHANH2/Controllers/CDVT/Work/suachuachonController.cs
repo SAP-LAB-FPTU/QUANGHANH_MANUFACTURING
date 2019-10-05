@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Dynamic;
 using System.Web.Mvc;
 using System.Web.Routing;
+using QUANGHANH2.SupportClass;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
@@ -19,6 +20,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
 {
     public class suachuachonController : Controller
     {
+        [Auther(RightID = "83")]
         [Route("phong-cdvt/sua-chua-chon")]
         [HttpGet]
         public ActionResult Index(String selectListJson)
@@ -72,6 +74,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
             return View("/Views/CDVT/Work/suachuachon.cshtml");
         }
 
+        [Auther(RightID = "83")]
         [Route("phong-cdvt/sua-chua-chon")]
         [HttpPost]
         public ActionResult GetData(string documentary_code, string out_in_come, string data, string department_id, string reason)
@@ -81,6 +84,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
             {
                 try
                 {
+                    //Equipment e = new Equipment();
+                    //e.current_Status = 3;
                     Documentary documentary = new Documentary();
                     documentary.documentary_code = documentary_code == "" ? null: documentary_code;
                     documentary.documentary_type = "1";
@@ -99,6 +104,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                         string repair_type = (string)item.Value["repair_type"];
                         string repair_reason = (string)item.Value["repair_reason"];
                         string datestring = (string)item.Value["finish_date_plan"];
+                        if(documentary_code != "")
+                        {
+                            Equipment e = DBContext.Equipments.Find(equipmentId);
+                            e.current_Status = 3;
+                        }
                         DateTime finish_date_plan = DateTime.ParseExact(datestring, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                         Documentary_repair_details drd = new Documentary_repair_details();
                         drd.equipment_repair_status = 0;
@@ -141,7 +151,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                 }
             }
         }
-
+        [Auther(RightID = "83")]
         [Route("phong-cdvt/sua-chua-chon/export")]
         [HttpPost]
         public ActionResult ExportQuyetDinh(string data, string documentary_code)

@@ -2,6 +2,7 @@
     ViewData["Title"] = "History";
     Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
 }
+<link href="~/dist/css/pages/data-table.css" rel="stylesheet">
 
 <div class="row">
     <div class="col s12 m12 l12">
@@ -21,7 +22,7 @@
                         <input type="text" placeholder="Tìm kiếm theo ngày chấm dứt" class='form-control datepicker-here datepicker-add' id="searchNgayCD" multiple />
                     </div>
                     <div class="col l3 m12 s12 input-field">
-                        <button class="btn blue darken-2 btn-small" id="searchButton">Tìm kiếm</button>
+                        <button class="waves-effect waves-light btn blue darken-2 btn-small" id="searchButton">Tìm kiếm</button>
                     </div>
                 </div>
             </div>
@@ -60,20 +61,31 @@
         </div>
     </div>
 </div>
-<div id="confirm" class="open modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Xác nhận hủy quyết định</h3>
-        </div>
-        <div class="modal-body">
-            <p class="red-text">Hủy quyết định đã chọn</p>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn red darken-2 modal-close">Xác nhận</button>
-            <button type="button" class="btn blue modal-close">Hủy</button>
+@using (Html.BeginForm("DidDetailDel", "ShutDown", FormMethod.Post, new
+{
+    enctype = "multipart/form-data",
+    onSubmit = "return delDidDetail(this);",
+    data_restUrl = Url.Action("DidDetailDel", "ShutDown")
+}))
+{
+    <div id="confirm" class="open modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Xác nhận hủy quyết định</h3>
+            </div>
+            <div class="modal-body">
+                <p class="red-text">Hủy quyết định đã chọn</p>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" name="id" id="del" />
+                <button type="submit" class="waves-effect waves-light btn red darken-2 modal-close">Xác nhận</button>
+                <button type="button" class="waves-effect waves-light btn blue modal-close">Hủy</button>
+            </div>
         </div>
     </div>
-</div>
+}
+
+
 
 <div id="detail" class="modal open">
     <div class="modal-content">
@@ -130,11 +142,13 @@
 <script src="~/Scripts/Scripts.js"></script>
 <script src="~/assets/libs/toastr/build/toastr.min.js"></script>
 <link href="~/assets/libs/toastr/build/toastr.min.css" rel="stylesheet" />
-
+<script src="~/assets/extra-libs/toastr/toastr-init.js"></script>
 @section scripts{
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script>
         var Popup, dataTable;
+
+
         $(document).ready(function () {
             $("#pre-load").show("slow", function () {
             });
@@ -176,7 +190,7 @@
                         {
                             "data": "MaQuyetDinh", "render": function (data) {
                                 return "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' data-target='detail' onclick='detail(" + data + ")'><span class='ti-pencil-alt'>&nbsp;Chi tiết</span></a>&nbsp;" +
-                                    "<a class='waves-effect waves-light btn blue darken-2 btn-small' onclick='delDetail("+data+")'><span class='ti-pencil-alt'>&nbsp;Xóa</span></a>";
+                                    "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='addId(" + data + ")'  data-target='confirm' ><span class='ti-pencil-alt'>&nbsp;Xóa</span></a>";
 
                             },
                             "orderable": false,
@@ -223,14 +237,9 @@
             var dataTable = $('#did-table').DataTable();
             $("#searchButton").click(function () {
                 dataTable.ajax.reload(function () {
-                    $.notify("Tìm kiếm thành công", {
-                        globalPosition: "top center",
-                        className: "success"
-                    })
                 });
             });
         });
-        //return Json(new { sjfhdk: list })
         function detail(id) {
             $.ajax({
                 type: 'post',
@@ -251,27 +260,6 @@
                     }
                 })
         }
-        function delDetail(id) {
-            $.ajax({
-                type: 'post',
-                url: '/deleteDetail',
-                dataType: 'json',
-                data: { id: JSON.stringify(id) },
-                success: function (data) {
-                    dataTable.ajax.reload();
-                    $.notify("Xóa hoàn tất", {
-                        globalPosition: "top center",
-                        className: "success"
-                    })
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    $.notify(XMLHttpRequest.responseText, {
-                        globalPosition: "top center",
-                        className: "failed"
-                    })
-                }
-            })
-        }
 
         function dateFormat(d) {
             if (d == null) {
@@ -285,5 +273,37 @@
             var date = day + "/" + month + "/" + year;
             return (date);
         }
+
+        function addId(id) {
+            $("#del").val(id);
+        }
+
+        function delDidDetail(form) {
+            $.validator.unobtrusive.parse(form);
+            if ($(form).valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(),
+
+                    success: function (data) {
+                        dataTable.ajax.reload();
+                            successAlert('Thành công','Xóa thành công');
+                    }
+                });
+
+            }
+            return false;
+        }
     </script>
+    <script>
+        $(".datepicker-here").keydown(function (e) {
+            e.preventDefault();
+        });
+
+
+
+    </script>
+   
+
 }

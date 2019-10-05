@@ -37,6 +37,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Cap_nhat
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             DateTime dtStart = DateTime.ParseExact(dateStart, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             DateTime dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            dtEnd = dtEnd.AddHours(23);
+            dtEnd = dtEnd.AddMinutes(59);
             string query = "SELECT docu.*, docu.[out/in_come] as out_in_come, depa.department_name FROM Documentary docu inner join Department depa on docu.department_id = depa.department_id" +
                 " where docu.documentary_code IS NOT NULL and docu.date_created BETWEEN @start_time1 AND @start_time2 AND ";
             if (!documentary_id.Equals("") || !type.Equals("0") || !department.Equals("") || !reason.Equals("") || !status.Equals("0"))

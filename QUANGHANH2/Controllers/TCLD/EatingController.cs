@@ -23,12 +23,14 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpGet]
         public ActionResult searchSuatAn(String data, DateTime time)
         {
+            int start = Convert.ToInt32(Request["start"]);
+            int length = Convert.ToInt32(Request["length"]);
             dynamic js = JObject.Parse(data);
             String mapb1 = js.mapb;
             String tenpb1 = js.tenpb;
 
             DateTime now = time;
-            now = now.AddDays(0);
+            now = now.AddDays(1);
             DateTime dayStart;
             switch (now.DayOfWeek)
             {
@@ -163,17 +165,20 @@ namespace QUANGHANH2.Controllers.TCLD
                             }
                               ).ToList();
 
-
-                return Json(new { success = true, data = mydata, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
+                int totalrows = mydata.Count;
+                int totalrowsafterfiltering = mydata.Count;
+                mydata = mydata.Skip(start).Take(length).ToList();
+                return Json(new { success = true, data = mydata, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
             }
         }
         // display suat an
         [HttpGet]
         public ActionResult getDataSuatAn(DateTime time)
         {
-
+            int start = Convert.ToInt32(Request["start"]);
+            int length = Convert.ToInt32(Request["length"]);
             DateTime now = time;
-            now = now.AddDays(0);
+            now = now.AddDays(1);
             DateTime dayStart;
             switch (now.DayOfWeek)
             {
@@ -307,7 +312,11 @@ namespace QUANGHANH2.Controllers.TCLD
                                 ngay = dayStart
                             }
                               ).ToList();
-                return Json(new { success = true, data = mydata, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
+
+                int totalrows = mydata.Count;
+                int totalrowsafterfiltering = mydata.Count;
+                mydata = mydata.Skip(start).Take(length).ToList();
+                return Json(new { success = true, data = mydata, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
 
             }
 
@@ -319,7 +328,7 @@ namespace QUANGHANH2.Controllers.TCLD
         {
 
             DateTime now = time;
-            now = now.AddDays(0);
+            now = now.AddDays(1);
             DateTime dayStart;
             switch (now.DayOfWeek)
             {
@@ -460,7 +469,7 @@ namespace QUANGHANH2.Controllers.TCLD
                                     ngay = dayStart
                                 }
                                   ).ToList();
-                    int index = 3;
+                    int index = 4;
                     foreach (var item in mydata)
                     {
                         excelWorksheet.Cells[index, 1].Value = item.mapb;

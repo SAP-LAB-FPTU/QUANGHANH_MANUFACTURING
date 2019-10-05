@@ -21,6 +21,7 @@
     <link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-3.3.1.js"></script>
     <link href="~/css/preloader/css.css" rel="stylesheet" />
+    <link href="~/assets/Custom css/font-family.css" rel="stylesheet" />
 
 
     <link href="~/dist/css/pages/dashboard1.css" rel="stylesheet">
@@ -82,9 +83,18 @@
         <!-- Preloader - style you can find in spinners.css -->
         <!-- ============================================================== -->
         <div class="preloader">
-            <div class="loader">
-                <div class="loader__figure"></div>
-                <p class="loader__label">Hhihi Admin</p>
+            <div class="loading">
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div><div class="gap-patch">
+                            <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- ============================================================== -->
@@ -262,8 +272,8 @@
                                     <div class="dw-user-box">
                                         <div class="u-img"><img src="/assets/images/users/2.jpg" alt="user"></div>
                                         <div class="u-text">
-                                            <h4>Trần Thị Thương</h4>
-                                            <p>thuong.cdvt@gmail.com</p>
+                                            <h4>@Session["Name"]</h4>
+                                            <p>@Session["username"]</p>
                                             <a class="waves-effect waves-light btn-small red white-text">Xem Hồ Sơ</a>
                                         </div>
                                     </div>
@@ -277,7 +287,7 @@
                                 <li><a href="@Url.Action("Logout","LogIn")"><i class="material-icons">power_settings_new</i>Đăng Xuất</a></li>
                             </ul>
                         </li>
-                        <li id="user-icon"><a href="">Trần Thị Thương <span class="new badge red" data-badge-caption="Chuyên Viên CĐVT"></span></a></li>
+                        <li id="user-icon"><a href="">@Session["Name"] <span class="new badge red" data-badge-caption="@Session["Position"]"></span></a></li>
                     </ul>
                     <!-- ============================================================== -->
                     <!-- Right topbar icon scss in header.scss -->
@@ -321,13 +331,10 @@
                             <a href="/phong-cdvt/su-co" class="collapsible-header"><i class="small material-icons">build</i><span class="hide-menu">Sự cố</span></a>
                         </li>
                         <li>
-                            <a href="javascript: void(0);" class="collapsible-header has-arrow"><i class="material-icons">autorenew</i><span class="hide-menu">Xử lý quyết định</span></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li><a href="/phong-cdvt/cap-nhat/quyet-dinh"><i class="material-icons">adjust</i><span class="hide-menu">Chưa xử lý</span></a></li>
-                                    <li><a href="/phong-cdvt/cap-nhat/quyet-dinh-da-xu-ly"><i class="material-icons">adjust</i><span class="hide-menu">Đã xử lý</span></a></li>
-                                </ul>
-                            </div>
+                            <a href="/phong-cdvt/cap-nhat/quyet-dinh" class="collapsible-header"><i class="material-icons">autorenew</i><span class="hide-menu">Xử lý quyết định</span></a>
+                        </li>
+                        <li>
+                            <a href="/phong-cdvt/kiem-dinh" class="collapsible-header"><i class="material-icons">assignment_turned_in</i><span class="hide-menu">Kiểm định</span></a>
                         </li>
                         <li>
                             <a href="javascript: void(0);" class="collapsible-header has-arrow"><i class="material-icons">event_available</i><span class="hide-menu">Nghiệm thu</span></a>
@@ -417,24 +424,24 @@
     </div>
 
     <script>
-        var pathname = window.location.pathname;
-        var name;
-        if (pathname === "/phong-cdvt/huy-dong" || pathname === "/phong-cdvt/thiet-bi/nhom" || pathname === "/phong-cdvt/thiet-bi") {
-            fname = "Lại Bình Minh";
-            sname = "minh"
-        } else if (pathname === "/phong-cdvt/oto/huy-dong" || pathname === "/phong-cdvt/oto/cap-nhat-hoat-dong" || pathname === "/phong-cdvt/oto/ly-lich" || pathname === "/phong-cdvt/oto/nhom" || pathname === "/phong-cdvt/oto/chi-tiet") {
-            fname = "Hoàng Bá Long";
-            sname = "long"
-        } else if (pathname === "/phong-cdvt/quyet-dinh/sua-chua" || pathname === "/phong-cdvt/sua-chua-chon") {
-            fname = "Nguyễn Văn Trữ";
-            sname = "tru";
-        } else if (pathname === "/phong-cdvt/quyet-dinh/kiem-dinh" || pathname === "/phong-cdvt/kiem-dinh" || pathname === "/phong-cdvt/kiem-dinh-chon") {
-            fname = "Hoàng Văn Khánh";
-            sname = "khanh";
-        }
-        $(".u-text > h4").html(fname)
-        $(".u-text > p").html(sname + ".cdvt@thanquanghanh.com.vn")
-        $("#user-icon").html("<a href='javascript: void (0);'>" + fname + " <span class='new badge red' data-badge-caption='Chuyên Viên CDVT'></span></a>")
+        //var pathname = window.location.pathname;
+        //var name;
+        //if (pathname === "/phong-cdvt/huy-dong" || pathname === "/phong-cdvt/thiet-bi/nhom" || pathname === "/phong-cdvt/thiet-bi") {
+        //    fname = "Lại Bình Minh";
+        //    sname = "minh"
+        //} else if (pathname === "/phong-cdvt/oto/huy-dong" || pathname === "/phong-cdvt/oto/cap-nhat-hoat-dong" || pathname === "/phong-cdvt/oto/ly-lich" || pathname === "/phong-cdvt/oto/nhom" || pathname === "/phong-cdvt/oto/chi-tiet") {
+        //    fname = "Hoàng Bá Long";
+        //    sname = "long"
+        //} else if (pathname === "/phong-cdvt/quyet-dinh/sua-chua" || pathname === "/phong-cdvt/sua-chua-chon") {
+        //    fname = "Nguyễn Văn Trữ";
+        //    sname = "tru";
+        //} else if (pathname === "/phong-cdvt/quyet-dinh/kiem-dinh" || pathname === "/phong-cdvt/kiem-dinh" || pathname === "/phong-cdvt/kiem-dinh-chon") {
+        //    fname = "Hoàng Văn Khánh";
+        //    sname = "khanh";
+        //}
+        //$(".u-text > h4").html(fname)
+        //$(".u-text > p").html(sname + ".cdvt@thanquanghanh.com.vn")
+        //$("#user-icon").html("<a href='javascript: void (0);'>" + fname + " <span class='new badge red' data-badge-caption='Chuyên Viên CDVT'></span></a>")
     </script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
@@ -444,6 +451,11 @@
     <script>
         $(".loading").css("z-index", 99999);
         $('body').css('overflow', '');
+    </script>
+    <script>
+        $(".datepicker-here").keydown(function (e) {
+            e.preventDefault();
+        });
     </script>
 </body>
 

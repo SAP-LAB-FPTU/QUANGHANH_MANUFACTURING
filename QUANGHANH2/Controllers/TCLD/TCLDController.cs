@@ -1,37 +1,264 @@
 ﻿using QUANGHANH2.Models;
+using QUANGHANH2.SupportClass;
 using QUANGHANHCORE.Controllers.PX.PXKT;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Mvc;using System.Web.Routing;
+using System.Web.Mvc;
+using System.Web.Routing;
 using System.Web.Script.Serialization;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace QUANGHANHCORE.Controllers.TCLD
 {
+    /// <summary>
+    /// Defines the <see cref="TCLDController" />
+    /// </summary>
     public class TCLDController : Controller
     {
         // GET: /<controller>/
-        [Route("phong-tcld/")]
+        /// <summary>
+        /// The Dashboard
+        /// </summary>
+        /// <returns>The <see cref="ActionResult"/></returns>
+        [Auther(RightID = "002")]
+        [Route("phong-tcld")]
         public ActionResult Dashboard()
         {
-            ViewBag.nameDepartment = "baocao-sanluon-laodong";
+            int soLuotHuyDong = 0;
+            int vuTaiNan = 0;
+            int nghiVLD = 0;
+            int hetHanChungChi = 0;
+            int tren82 = 0;
+            int duoi82 = 0;
+            List<NghiVLD> listNghiVLD = new List<NghiVLD>();
+            List<NhanLuc> listNhanLuc = new List<NhanLuc>();
+            int temp = 0;
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+
+                ////////////////////////////GET so luot huy dong////////////////////////////////
+                string sql = "select count(MaQuyetDinh) as SoLuotHuyDong from quyetdinh\n" +
+                "where maquyetdinh in\n" +
+                "(SELECT  distinct dd.MaQuyetDinh FROM DIEUDONG_NHANVIEN dd,QuyetDinh qd where dd.MaQuyetDinh=qd.MaQuyetDinh and qd.SoQuyetDinh<>'' )\n" +
+                "AND NgayQuyetDinh = (SELECT CONVERT(VARCHAR(10), getdate() - 1, 101))";
+                temp = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
+                soLuotHuyDong = temp != null ? temp : 0;
+
+                ////////////////////////////GET SO LUONG TAI NAN///////////////////////////////////////////
+                sql = "select Count(tn.MaNV)  from \n" +
+                      "(select MaNV, Ngay from TaiNan where\n" +
+                      "Ngay = (SELECT CONVERT(VARCHAR(10), getdate() - 1, 101))) as tn";
+                temp = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
+                vuTaiNan = temp != null ? temp : 0;
+
+                ///////////////////////////////GET SO LUONG HET HAN CC///////////////////////////////////////////
+                sql = "select sum(th.st) \n" +
+                      "from(select cn.MaNV, cn.NgayCap, cc.ThoiHan, (case\n" +
+                      "when DATEADD(MONTH, cc.ThoiHan, cn.NgayCap) <= GETDATE()\n" +
+                      "then 1 else 0 end) as st\n" +
+                      "from ChungChi_NhanVien cn join ChungChi cc on cn.MaChungChi = cc.MaChungChi) as th";
+                temp = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
+                hetHanChungChi = temp != null ? temp : 0;
+
+                ////////////////////////////GET SO LUONG NGHI VLD///////////////////////////////////////////
+                sql = "select Count(vld.MaNV) from \n" +
+                        "(select MaNV, NgayDiemDanh from DiemDanh_NangSuatLaoDong\n" +
+                        "where NgayDiemDanh = (SELECT CONVERT(VARCHAR(10), getdate() - 1, 101))\n" +
+                        "and DiLam=0 and LyDoVangMat=N'VLD') as vld";
+                temp = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
+                nghiVLD = temp != null ? temp : 0;
+                /////////////////////////////////////////////////////////////////////////////////////////////
+
+                //////////////////////////////////////GET TI LE HUY DONG////////////////////////////////////////
+                string currentDate = DateTime.Now.ToString("dd/MM/yyyy");
+                sql = QUANGHANHCORE.Controllers.TCLD.ReportController.QueryForReportAlll(currentDate);
+                List<TatCaDonVI> listTLHD = db.Database.SqlQuery<TatCaDonVI>(sql).ToList();
+                for (int i = 0; i < listTLHD.Count; i++)
+                {
+                    if (listTLHD[i].TyLe > 82)
+                    {
+                        tren82++;
+                    }
+                    else
+                    {
+                        duoi82++;
+                    }
+                }
+
+                ////////////////////////////////////////////////////////////////////////////////////////////////
+
+                //////////////////////////////////////GET NV NGHI VLD////////////////////////////////////////
+                sql = "select dd.MaNV,n.Ten as HoTen,d.department_name as TenDonVi from DiemDanh_NangSuatLaoDong dd,Department d,NhanVien n\n" +
+                "where DiLam=0 and LyDoVangMat=N'VLD'\n" +
+                "and dd.MaDonVi = d.department_id and n.MaNV = dd.MaNV and NgayDiemDanh=(SELECT CONVERT(VARCHAR(10), getdate() - 1, 101))";
+                listNghiVLD = db.Database.SqlQuery<NghiVLD>(sql).ToList<NghiVLD>();
+                //listNghiVLD.Add(new NghiVLD("7887", "aHIHI", "QuangHanh"));
+                ///////////////////////////////////////////////////////////////////////////////////////////////////
+
+                ////////////////////////////////////////GET DATA NHAN LUC////////////////////////////////////////////////
+                sql = "select tb1.department_id as MaDonVi,\n" +
+                "(case when tb2.soluong is null then 0 else tb2.soluong end) as SoLuong\n" +
+                "from\n" +
+                "(select * from Department) tb1\n" +
+                "left join\n" +
+                "(select MaDonVi,count(MaNV) as soluong from DiemDanh_NangSuatLaoDong \n" +
+                "where NgayDiemDanh = (SELECT CONVERT(VARCHAR(10), getdate() - 1, 101)) and DiLam = 1 \n" +
+                "group by MaDonVi) tb2\n" +
+                "on tb1.department_id=tb2.MaDonVi\n" +
+                "group by tb1.department_id,tb2.soluong";
+                listNhanLuc = db.Database.SqlQuery<NhanLuc>(sql).ToList<NhanLuc>();
+            }
+            ViewBag.soLuotHuyDong = soLuotHuyDong;
+            ViewBag.hetHanChungChi = hetHanChungChi;
+            ViewBag.vuTaiNan = vuTaiNan;
+            ViewBag.nghiVLD = nghiVLD;
+            ViewBag.tren82 = tren82;
+            ViewBag.duoi82 = duoi82;
+            ViewBag.listNghiVLD = listNghiVLD;
+            ViewBag.listNhanLuc = listNhanLuc;
             return View("/Views/TCLD/bao-cao-nhanh.cshtml");
         }
-        [Route("phong-tcld/bao-cao-nhanh-lao-dong-tien-luong-vtl1")]
-        public ActionResult DetailReport()
+
+        //[Auther(RightID="57")]
+        //[Route("phong-tcld/bao-cao-chi-tiet-theo-ca")]
+        //public ActionResult Report1(string ca, string donvi, string date)
+        //{
+        //    if(ca == null)
+        //    {
+        //        ca = "1";
+        //    }
+        //    if (date == null)
+        //    {
+        //        date = string.Format("{0:dd/MM/yyyy}", DateTime.Now);
+        //    }
+        //    if (donvi == null) { }
+
+        //    return null;
+        //}
+        /// <summary>
+        /// The GetData
+        /// </summary>
+        /// <returns>The <see cref="ActionResult"/></returns>
+        [Route("phong-tcld/get-data")]
+        [HttpPost]
+        public ActionResult GetData()
         {
-            ViewBag.nameDepartment = "baocao-sanluon-laodong";
-            return View("/Views/TCLD/bao_cao_nhanh_tung_phan_xuong.cshtml");
+            try
+            {
+                string date = Request["date"];
+                date = date.Split('/')[2] + "/" + date.Split('/')[1] + "/" + date.Split('/')[0];
+                int soLuotHuyDong = 0;
+                int vuTaiNan = 0;
+                int nghiVLD = 0;
+                int hetHanChungChi = 0;
+                int tren82 = 0;
+                int duoi82 = 0;
+                List<NghiVLD> listNghiVLD = new List<NghiVLD>();
+                List<NhanLuc> listNhanLuc = new List<NhanLuc>();
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    ////////////////////////////GET so luot huy dong////////////////////////////////
+
+                    db.Configuration.LazyLoadingEnabled = false;
+                    string sql = "select count(MaQuyetDinh) as SoLuotHuyDong from quyetdinh\n" +
+                    "where maquyetdinh in\n" +
+                    "(SELECT  distinct dd.MaQuyetDinh FROM DIEUDONG_NHANVIEN dd,QuyetDinh qd where dd.MaQuyetDinh=qd.MaQuyetDinh and qd.SoQuyetDinh<>'' )\n" +
+                    "AND NgayQuyetDinh = @NgayQuyetDinh";
+                    soLuotHuyDong = db.Database.SqlQuery<int>(sql,
+                        new SqlParameter("NgayQuyetDinh", DateTime.Parse(date))).ToList<int>()[0];
+
+                    ////////////////////////////GET SO LUONG TAI NAN//////////////////////////////
+                    sql = "select Count(tn.MaNV)  from \n" +
+                      "(select MaNV, Ngay from TaiNan where\n" +
+                      "Ngay = @NgayQuyetDinh) as tn";
+                    vuTaiNan = db.Database.SqlQuery<int>(sql,
+                        new SqlParameter("NgayQuyetDinh", DateTime.Parse(date))).ToList<int>()[0];
+                    //////////////////////////////////////////////////////////////////////////////
+
+                    /// ////////////////////////////GET SO LUONG HET HAN CC//////////////////////////////
+                    sql = "select sum(th.st) \n" +
+                      "from(select cn.MaNV, cn.NgayCap, cc.ThoiHan, (case\n" +
+                      "when DATEADD(MONTH, cc.ThoiHan, cn.NgayCap) <= @NgayQuyetDinh\n" +
+                      "then 1 else 0 end) as st\n" +
+                      "from ChungChi_NhanVien cn join ChungChi cc on cn.MaChungChi = cc.MaChungChi) as th";
+                    hetHanChungChi = db.Database.SqlQuery<int>(sql, new SqlParameter("NgayQuyetDinh", DateTime.Parse(date))).ToList<int>()[0];
+                    //////////////////////////////////////////////////////////////////////////////
+
+                    /// ////////////////////////////GET SO LUONG NGHI VLD//////////////////////////////
+                    sql = "select Count(vld.MaNV) from \n" +
+                        "(select MaNV, NgayDiemDanh from DiemDanh_NangSuatLaoDong\n" +
+                        "where NgayDiemDanh = @NgayQuyetDinh\n" +
+                        "and DiLam=0 and LyDoVangMat=N'VLD') as vld";
+                    nghiVLD = db.Database.SqlQuery<int>(sql,
+                    new SqlParameter("NgayQuyetDinh", DateTime.Parse(date))).ToList<int>()[0];
+                    //////////////////////////////////////////////////////////////////////////////
+
+                    //////////////////////////////////////GET TI LE HUY DONG////////////////////////////////////////
+                    string tempDate = date.Split('/')[2] + "/" + date.Split('/')[1] + "/" + date.Split('/')[0];
+                    sql = QUANGHANHCORE.Controllers.TCLD.ReportController.QueryForReportAlll(tempDate);
+                    List<TatCaDonVI> listTLHD = db.Database.SqlQuery<TatCaDonVI>(sql).ToList();
+                    for (int i = 0; i < listTLHD.Count; i++)
+                    {
+                        if (listTLHD[i].TyLe > 82)
+                        {
+                            tren82++;
+                        }
+                        else
+                        {
+                            duoi82++;
+                        }
+                    }
+                    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+                    //////////////////////////////////////GET NV NGHI VLD////////////////////////////////////////
+                    sql = "select dd.MaNV,n.Ten as HoTen,d.department_name as TenDonVi from DiemDanh_NangSuatLaoDong dd,Department d,NhanVien n\n" +
+                    "where DiLam=0 and LyDoVangMat=N'VLD'\n" +
+                    "and dd.MaDonVi = d.department_id and n.MaNV = dd.MaNV and NgayDiemDanh=@NgayDiemDanh";
+                    listNghiVLD = db.Database.SqlQuery<NghiVLD>(sql, new SqlParameter("NgayDiemDanh", date)).ToList<NghiVLD>();
+                    ///////////////////////////////////////////////////////////////////////////////////////////////////
+                    ///
+                    ////////////////////////////////////////GET DATA NHAN LUC////////////////////////////////////////////////
+                    sql = "select tb1.department_id as MaDonVi,\n" +
+                    "(case when tb2.soluong is null then 0 else tb2.soluong end) as SoLuong\n" +
+                    "from\n" +
+                    "(select * from Department) tb1\n" +
+                    "left join\n" +
+                    "(select MaDonVi,count(MaNV) as soluong from DiemDanh_NangSuatLaoDong \n" +
+                    "where NgayDiemDanh = @NgayDiemDanh and DiLam = 1 \n" +
+                    "group by MaDonVi) tb2\n" +
+                    "on tb1.department_id=tb2.MaDonVi\n" +
+                    "group by tb1.department_id,tb2.soluong";
+                    listNhanLuc = db.Database.SqlQuery<NhanLuc>(sql, new SqlParameter("NgayDiemDanh",date)).ToList<NhanLuc>();
+                }
+                return Json(new { success = true, tren82 = tren82, duoi82 = duoi82, soLuongHuyDong = soLuotHuyDong, vuTaiNan = vuTaiNan, nghiVLD = nghiVLD, hetHanChungChi = hetHanChungChi, listNghiVLD = listNghiVLD, listNhanLuc= listNhanLuc }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, message = "Lỗi" }, JsonRequestBehavior.AllowGet);
+            }
         }
 
+        //[Route("phong-tcld/bao-cao-nhanh-lao-dong-tien-luong-vtl1")]
+        //public ActionResult DetailReport()
+        //{
+        //    ViewBag.nameDepartment = "baocao-sanluon-laodong";
+        //    return View("/Views/TCLD/bao_cao_nhanh_tung_phan_xuong.cshtml");
+        //}
+        /// <summary>
+        /// The Report1
+        /// </summary>
+        /// <param name="ca">The ca<see cref="string"/></param>
+        /// <param name="donvi">The donvi<see cref="string"/></param>
+        /// <param name="date">The date<see cref="string"/></param>
+        /// <returns>The <see cref="ActionResult"/></returns>
         [Route("phong-tcld/bao-cao-chi-tiet-theo-ca")]
         public ActionResult Report1(string ca, string donvi, string date)
         {
-            if(ca == null)
+            if (ca == null)
             {
                 ca = "1";
             }
@@ -50,6 +277,13 @@ namespace QUANGHANHCORE.Controllers.TCLD
             return View("/Views/TCLD/bao_cao_chi_tiet_theo_ca.cshtml");
         }
 
+        /// <summary>
+        /// The List
+        /// </summary>
+        /// <param name="ca">The ca<see cref="string"/></param>
+        /// <param name="donvi">The donvi<see cref="string"/></param>
+        /// <param name="date">The date<see cref="string"/></param>
+        /// <returns>The <see cref="ActionResult"/></returns>
         [Route("phong-tcld/bao-cao-chi-tiet-theo-ca")]
         [HttpPost]
         public ActionResult List(string ca, string donvi, string date)
@@ -70,7 +304,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             {
                 date = string.Format("{0:dd/MM/yyyy}", DateTime.Now);
             }
-            if(donvi == null)
+            if (donvi == null)
             {
                 donvi = "DL1";
             }
@@ -91,7 +325,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         ID = stt,
                         Name = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().Ten,
                         BacTho = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().BacLuong,
-                        ChucDanh = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec == null ? "": db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec.TenCongViec,
+                        ChucDanh = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec == null ? "" : db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec.TenCongViec,
                         DuBaoNguyCo = i.DuBaoNguyCo,
                         HeSoChiaLuong = i.HeSoChiaLuong.ToString(),
                         LuongSauDuyet = i.Luong.ToString(),
@@ -110,14 +344,52 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 return js;
             }
         }
+    }
 
-       
+    /// <summary>
+    /// Defines the <see cref="NghiVLD" />
+    /// </summary>
+    public class NhanLuc
+    {
+        public string MaDonVi { get; set; }
+        public int SoLuong { get; set; }
+    }
+    public class NghiVLD
+    {
+        /// <summary>
+        /// Gets or sets the MaNV
+        /// </summary>
+        public string MaNV { get; set; }
 
-        [Route("phong-tcld/bien-ban-chung")]
-        public ActionResult CommonRecord()
+        /// <summary>
+        /// Gets or sets the HoTen
+        /// </summary>
+        public string HoTen { get; set; }
+
+        /// <summary>
+        /// Gets or sets the TenDonVi
+        /// </summary>
+        public string TenDonVi { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NghiVLD"/> class.
+        /// </summary>
+        public NghiVLD()
         {
-            ViewBag.nameDepartment = "baocao-sanluon-laodong";
-            return View("/Views/TCLD/CommonRecord.cshtml");
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NghiVLD"/> class.
+        /// </summary>
+        /// <param name="maNV">The maNV<see cref="string"/></param>
+        /// <param name="hoTen">The hoTen<see cref="string"/></param>
+        /// <param name="tenDonVi">The tenDonVi<see cref="string"/></param>
+        public NghiVLD(string maNV, string hoTen, string tenDonVi)
+        {
+            MaNV = maNV;
+            HoTen = hoTen;
+            TenDonVi = tenDonVi;
+        }
+        
     }
 }

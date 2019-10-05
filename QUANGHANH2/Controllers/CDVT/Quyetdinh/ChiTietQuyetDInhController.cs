@@ -14,7 +14,8 @@ namespace QUANGHANHCORE.Controllers.CDVT
         [Route("phong-cdvt/quyet-dinh/dieu-dong-chi-tiet")]      
         public ActionResult LoadPage(String id)
         {
-            ViewBag.id = id.ToString();
+            ViewBag.id = id.ToString().Split('^')[0];
+           
             return View("/Views/CDVT/Quyet_dinh/Chi_tiet_Quyet_dinh.cshtml");
         }
 

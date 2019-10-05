@@ -6,7 +6,15 @@
 }
 
 
-
+<link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+<link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
+<script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
+<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
+<link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
 
 @using (Html.BeginForm("Edit", "Hoatdong", FormMethod.Post, new
 {
@@ -25,11 +33,10 @@
 
             <div class="col s6">
                 <div class="form-group">
-                    <label>Mã thiết bị</label>
                     @*@Html.LabelFor(model => model.equipmentId, htmlAttributes: new { @class = "control-label col-md-2" })*@
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.equipmentId, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.equipmentId, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.equipmentId, new { htmlAttributes = new { @style = "display: none !important" } })
+                        @Html.ValidationMessageFor(model => model.equipmentId, "", new { @style = "display: none !important" })
                     </div>
                 </div>
 
@@ -55,7 +62,7 @@
                     <label>Ngày nhập</label>
                     @*@Html.LabelFor(model => model.date_import, htmlAttributes: new { @class = "control-label col-md-2" })*@
                     <div class="col-md-10">
-                        <input id="import_fix" type="datetime" class="form-control datepicker-here" placeholder="Ngày nhập" />
+                        <input id="import_fix" name="import" type="text" class="form-control datepicker-here" placeholder="Ngày nhập" />
                         @Html.EditorFor(model => model.date_import, new { htmlAttributes = new { @style = "display: none !important" } })
                     </div>
                 </div>
@@ -65,7 +72,8 @@
                     @*@Html.LabelFor(model => model.depreciation_estimate, htmlAttributes: new { @class = "control-label col-md-2" })*@
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.depreciation_estimate, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.depreciation_estimate, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.depreciation_estimate, "Khấu hao ước tính phải là số", new { @class = "text-danger" })
+
                     </div>
                 </div>
 
@@ -74,7 +82,8 @@
                     @*@Html.LabelFor(model => model.depreciation_present, htmlAttributes: new { @class = "control-label col-md-2" })*@
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.depreciation_present, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.depreciation_present, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.depreciation_present, "Khấu hao thực tại phải là số", new { @class = "text-danger" })
+
                     </div>
                 </div>
 
@@ -82,7 +91,8 @@
                     <label>Thời hạn đăng kiểm</label>
                     @*@Html.LabelFor(model => model.durationOfInspection, htmlAttributes: new { @class = "control-label col-md-2" })*@
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.durationOfInspection, new { htmlAttributes = new { @class = "form-control datepicker-here maxDate" } })
+                        <input id="Inspec_fix" name="inspec" type="text" class="form-control datepicker-here" placeholder="Thời hạn đăng kiểm" />
+                        @Html.EditorFor(model => model.durationOfInspection, new { htmlAttributes = new { @style = "display: none !important" } })
                         @Html.ValidationMessageFor(model => model.durationOfInspection, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -91,7 +101,18 @@
                     <label>Thời hạn bảo hiểm</label>
                     @*@Html.LabelFor(model => model.durationOfInsurance, htmlAttributes: new { @class = "control-label col-md-2" })*@
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.durationOfInsurance, new { htmlAttributes = new { @class = "form-control datepicker-here maxDate" } })
+                        <input id="Insua_fix" name="insua" type="text" class="form-control datepicker-here" placeholder="Thời hạn đăng kiểm" />
+                        @Html.EditorFor(model => model.durationOfInsurance, new { htmlAttributes = new { @style = "display: none !important" } })
+                        @Html.ValidationMessageFor(model => model.durationOfInsurance, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Thời hạn bảo dưỡng</label>
+                    @*@Html.LabelFor(model => model.durationOfInsurance, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                    <div class="col-md-10">
+                        <input id="main_fix" name="main" type="text" class="form-control datepicker-here" placeholder="Thời hạn bảo dưỡng" />
+                        @Html.EditorFor(model => model.durationOfInsurance, new { htmlAttributes = new { @style = "display: none !important" } })
                         @Html.ValidationMessageFor(model => model.durationOfInsurance, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -99,7 +120,8 @@
                     <label>Ngày đưa vào sử dụng</label>
                     @*@Html.LabelFor(model => model.usedDay, htmlAttributes: new { @class = "control-label col-md-2" })*@
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.usedDay, new { htmlAttributes = new { @class = "form-control datepicker-here maxDate" } })
+                        <input id="used_fix" name="used" type="text" class="form-control datepicker-here" placeholder="Thời hạn đăng kiểm" />
+                        @Html.EditorFor(model => model.usedDay, new { htmlAttributes = new { @style = "display: none !important" } })
                         @Html.ValidationMessageFor(model => model.usedDay, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -108,21 +130,13 @@
             </div>
             <div class="col s6">
 
-
-                <div class="form-group">
-                    <label>Ngày bảo dưỡng gần nhất</label>
-                    @*@Html.LabelFor(model => model.nearest_Maintenance_Day, htmlAttributes: new { @class = "control-label col-md-2" })*@
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.nearest_Maintenance_Day, new { htmlAttributes = new { @class = "form-control datepicker-here maxDate" } })
-                        @Html.ValidationMessageFor(model => model.nearest_Maintenance_Day, "", new { @class = "text-danger" })
-                    </div>
-                </div>
                 <div class="form-group">
                     <label>Tổng thời gian hoạt động</label>
                     @*@Html.LabelFor(model => model.total_operating_hours, htmlAttributes: new { @class = "control-label col-md-2" })*@
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.total_operating_hours, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.total_operating_hours, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.total_operating_hours, "Tổng thời gian hoạt động phải là số", new { @class = "text-danger" })
+
                     </div>
                 </div>
 
@@ -130,7 +144,8 @@
                     <label>Tình trạng hiện tại</label>
                     @*@Html.LabelFor(model => model.current_Status, htmlAttributes: new { @class = "control-label col-md-2" })*@
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.current_Status, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.DropDownList("current_Status", new SelectList(ViewBag.listStatus, "Text", "Value"), htmlAttributes: new { @class = "form-control" })
+                        @*@Html.EditorFor(model => model.current_Status, new { htmlAttributes = new { @class = "form-control" } })*@
                         @Html.ValidationMessageFor(model => model.current_Status, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -140,7 +155,8 @@
                     @*@Html.LabelFor(model => model.fabrication_number, htmlAttributes: new { @class = "control-label col-md-2" })*@
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.fabrication_number, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.fabrication_number, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.fabrication_number, "Số chế tạo phải là số và không được để trống", new { @class = "text-danger" })
+
                     </div>
                 </div>
                 <div class="form-group">
@@ -187,6 +203,17 @@
                 </div>
             </div>
 
+            <div class="modal" id="xn">
+                <div class="modal-header">
+                    <h3>Xác nhận cập nhập</h3>
+                </div>
+                <div class="modal-body">
+                    Thông tin sẽ được lưu sau bước này
+                </div>
+                <div class="modal-footer">
+                    <button type="submit">Xác nhận</button>
+                </div>
+            </div>
 
 
 
@@ -204,14 +231,47 @@
     </div>
 }
 <script>
+
     $(document).ready(function () {
-        onload(alert($("#date_import").val()));
-        $("#import_fix").val($("#date_import").val())
-        $("#save").click(function () {
-            var temp = $("#import_fix").val();
-            var arr = temp.split("/");
-            $('#date_import').val(arr[1] + "/" + arr[0] + "/" + arr[2])
-        });
+        var elms = document.querySelectorAll("[id='date_import']");
+        var temp = elms[1].value;
+        var arr = temp.split("/");
+        var arr1 = arr[2].split(" ");
+        var data = arr[1] + "/" + arr[0] + "/" + arr1[0];
+        document.getElementById("import_fix").value = data;
+
+        elms = document.querySelectorAll("[id='durationOfInspection']");
+        temp = elms[1].value;
+        arr = temp.split("/");
+        arr1 = arr[2].split(" ");
+        data = arr[1] + "/" + arr[0] + "/" + arr1[0];
+        document.getElementById("Inspec_fix").value = data;
+
+        elms = document.querySelectorAll("[id='durationOfInsurance']");
+        temp = elms[1].value;
+        arr = temp.split("/");
+        arr1 = arr[2].split(" ");
+        data = arr[1] + "/" + arr[0] + "/" + arr1[0];
+        document.getElementById("Insua_fix").value = data;
+
+        elms = document.querySelectorAll("[id='usedDay']");
+        temp = elms[1].value;
+        arr = temp.split("/");
+        arr1 = arr[2].split(" ");
+        data = arr[1] + "/" + arr[0] + "/" + arr1[0];
+        document.getElementById("used_fix").value = data;
+
+        elms = document.querySelectorAll("[id='durationOfMaintainance']");
+        temp = elms[1].value;
+        arr = temp.split("/");
+        arr1 = arr[2].split(" ");
+        data = arr[1] + "/" + arr[0] + "/" + arr1[0];
+        document.getElementById("main_fix").value = data;
+
+    });
+
+
+
 
 
 </script>

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using QUANGHANH2.Models;
+using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -17,9 +18,7 @@ namespace QUANGHANH2.Controllers.TCLD
             return View();
         }
 
-        
-
-
+        [Auther(RightID = "138")]
         public ActionResult SearchEmployee(string data)
         {
 
@@ -104,6 +103,7 @@ namespace QUANGHANH2.Controllers.TCLD
             }
         }
 
+        [Auther(RightID="138")]
         [Route("phong-tcld/dang-ky-cong-viec")]
         public ActionResult ViewJobByPX()
         {
@@ -159,7 +159,7 @@ namespace QUANGHANH2.Controllers.TCLD
         }
 
 
-
+        [Auther(RightID = "139")]
         [HttpPost]
         public ActionResult AssignTask(List<string> tasks)
         {
@@ -208,6 +208,7 @@ namespace QUANGHANH2.Controllers.TCLD
             return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
+        [Auther(RightID = "138")]
         [HttpPost]
         public ActionResult GetNhanVienByPX(string tenPhanXuong = "")
         {
@@ -250,7 +251,7 @@ namespace QUANGHANH2.Controllers.TCLD
             }
         }
 
-
+        [Auther(RightID = "140")]
         [Route("phong-tcld/chung-chi-cua-nhan-vien")]
         [HttpGet]
         public ActionResult ViewChungChiNhanVien()
@@ -296,6 +297,7 @@ namespace QUANGHANH2.Controllers.TCLD
             }
         }
 
+        [Auther(RightID = "138")]
         [HttpPost]
         public ActionResult GetAllNhanVienByPX()
         {
@@ -367,6 +369,7 @@ namespace QUANGHANH2.Controllers.TCLD
             }
         }
 
+        [Auther(RightID = "141")]
         [Route("phong-tcld/bao-cao-tinh-trang-chung-chi-cho-cong-viec")]
         public ActionResult ReportJob(string maPhongBan = "", string tenPhongBan = "")
         {
@@ -569,7 +572,8 @@ namespace QUANGHANH2.Controllers.TCLD
             return View("/Views/TCLD/Task/ReportJob.cshtml");
         }
 
-        [HttpGet]
+        [Auther(RightID = "141")]
+        [HttpPost]
         public ActionResult getGiaHanPopUpInfo(string maNV, int maCC)
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
@@ -601,39 +605,8 @@ namespace QUANGHANH2.Controllers.TCLD
             }
         }
 
-        [HttpGet]
-        public ActionResult getThemMoiPopUpInfo(string maNV, int maCC)
-        {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-            {
-                var temp = (from ccnv in db.ChungChi_NhanVien
-                            join
-                            nv in db.NhanViens on ccnv.MaNV equals nv.MaNV
-                            join cc in db.ChungChis
-                            on ccnv.MaChungChi equals cc.MaChungChi
-                            where nv.MaNV.Equals(maNV) && ccnv.MaChungChi == maCC
-                            select new
-                            {
-                                TenNhanVien = nv.Ten,
-                                TenChungChi = cc.TenChungChi,
-                                SoHieu = ccnv.SoHieu,
-                                MaNhanVien = nv.MaNV,
-                                MaChungChi = cc.MaChungChi
-                            }).ToList();
 
-                List<ChungChi_NhanVien_Model> dt = temp.Select(p => new ChungChi_NhanVien_Model
-                {
-                    TenNV = p.TenNhanVien,
-                    TenChungChi = p.TenChungChi,
-                    SoHieu = p.SoHieu
-                                                                        ,
-                    MaNV = p.MaNhanVien,
-                    MaChungChi = p.MaChungChi
-                }).ToList();
-                return Json(new { success = true, data = dt }, JsonRequestBehavior.AllowGet);
-            }
-        }
-
+        [Auther(RightID = "142")]
         [HttpPost]
         public ActionResult XacNhanGiaHan(string data)
         {
@@ -659,6 +632,7 @@ namespace QUANGHANH2.Controllers.TCLD
             }
         }
 
+        [Auther(RightID = "143")]
         [HttpPost]
         public ActionResult XacNhanThemMoi(string data)
         {

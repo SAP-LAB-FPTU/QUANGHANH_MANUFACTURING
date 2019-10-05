@@ -54,7 +54,7 @@
         </div>
 
         <br />
-
+        <hr />
         <div class="row">
             <h3 class="center black-text">Chi tiết hồ sơ</h3>
             <div id="hosotrongcty">
@@ -65,13 +65,26 @@
                             <table id="hoso_detail" class="table table-bordered table-responsive centered highlight">
                                 <thead>
                                     <tr>
-                                        <th>Người giữ hồ sơ</th>
-                                        <th>Ngày nhận hồ sơ</th>
-                                        <th>Nggười giao hồ sơ</th>
-                                        <th>Cam kết tuyển dụng</th>
-                                        <th>Quyết định tiếp nhận</th>
-                                        <th>Người bàn giao bằng nhập kho</th>
-                                        <th>Sửa</th>
+                                        <th rowspan="2">Người giữ hồ sơ</th>
+                                        <th rowspan="2">Ngày nhận hồ sơ</th>
+                                        <th rowspan="2">Người giao hồ sơ</th>
+                                        <th rowspan="2">Cam kết tuyển dụng</th>
+                                        <th rowspan="2">Người bàn giao bằng nhập kho</th>
+                                        <th colspan="4">Quyết định tiếp nhận đơn vị cũ</th>
+                                        <th colspan="4">Quyết định chấm dứt đơn vị cũ</th>
+                                        <th rowspan="2">Sửa</th>
+                                    </tr>
+                                    <tr>
+
+                                        <th>Kiểu</th>
+                                        <th>Ngày QD</th>
+                                        <th>Ngày đi làm</th>
+                                        <th>Đơn vị ký quyết định tiếp nhận</th>
+                                        <th>Kiểu</th>
+                                        <th>Ngày quyết định chấm dứt</th>
+                                        <th>Ngày chấm dứt</th>
+                                        <th>Đơn vị ký chấm dứt</th>
+
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -93,7 +106,7 @@
                             <table id="giayto_detail" class="table table-bordered table-responsive centered highlight">
                                 <thead>
                                     <tr>
-                                        <th>Ngày trả</th>
+
                                         <th>Tên giấy tờ</th>
                                         <th>Kiểu giấy tờ</th>
                                     </tr>
@@ -118,11 +131,15 @@
                                 <thead>
                                     <tr>
                                         <th>Số hiệu</th>
-                                        <th>Trường</th>
-                                        <th>Ngày cấp</th>
                                         <th>Loại</th>
-                                        
-                                        <th>Sửa</th>
+                                        <th>Tên bằng cấp</th>
+                                        <th>Kiểu</th>
+                                        <th>Trường</th>
+                                        <th>Chuyên ngành</th>
+                                        <th>Ngành</th>
+                                        <th>Ngày cấp</th>
+                                        <th>Thời hạn</th>
+
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -147,9 +164,10 @@
                                 <thead>
                                     <tr>
                                         <th>Số hiệu</th>
-                                        <th>Ngày cấp</th>
                                         <th>Tên chứng chỉ</th>
-                                        <th>Sửa</th>
+                                        <th>Loại</th>
+                                        <th>Ngày cấp</th>
+
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -171,11 +189,14 @@
                             <table id="quanhe_detail" class="table table-bordered table-responsive centered highlight">
                                 <thead>
                                     <tr>
+                                        <th>Loại gia đình</th>
                                         <th>Mối quan hệ</th>
+                                        <th>Tên</th>
+
                                         <th>Ngày sinh</th>
                                         <th>Lý lịch</th>
-                                        <th>Loại gia đình</th>
-                                        <th>Sửa</th>
+
+
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -189,7 +210,7 @@
 
 
         <div class="row">
-            
+
             <h3 class="center black-text">Sơ yếu lý lịch</h3>
             <div id="so_yeu_ly_lich">
                 <div class="row">
@@ -197,13 +218,12 @@
                     <div class="card">
                         <div class="card-content">
                             <br />
-                            <a class='waves-effect waves-light btn-small blue modal-trigger' style='margin-left:5px' id ="add_so_yeu_ly_lich"> Thêm</a>
+                            <a class='waves-effect waves-light btn-small blue modal-trigger' data-target="AddSyll" style='margin-left:5px' id="add_so_yeu_ly_lich"> Thêm</a>
                             <br />
                             <table id="syll_detail" class="table table-bordered table-responsive centered highlight">
                                 <thead>
                                     <tr>
                                         <th>Năm bổ sung</th>
-                                        <th>Đợt bổ sung</th>
                                         <th>Sửa</th>
                                     </tr>
                                 </thead>
@@ -265,6 +285,16 @@
     </div>
 </div>
 
+<div id="AddSyll" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Thêm sơ yếu lý lịch</h3>
+        </div>
+        <div class="modal-body">
+            @Html.Action("AddLichSuBoSung", "Brief")
+        </div>
+    </div>
+</div>
 <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
 <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
@@ -280,17 +310,49 @@
         $(document).ready(function () {
             datatable_hs = $('#hoso_detail').DataTable({
                 "ajax": {
-                    "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/chi-tiet-ho-so",
+                    "url": '@Url.Action("listHoSo","Brief")',
                     "type": "POST",
                     "datatype": "json"
                 },
                 "columns": [
                     { "data": "nguoiGiuHoSo", "name": "nguoiGiuHoSo" },
-                    { "data": "ngayNhanHoSo", "name": "ngayNhanHoSo" },
+                    {
+                        "data": "ngayNhanHoSo", "name": "ngayNhanHoSo", "render": function (data) {
+                            return dateFormat(data);
+                        },
+                    },
                     { "data": "nguoiGiaoHoSo", "name": "nguoiGiaoHoSo" },
                     { "data": "camKetTuyenDung", "name": "camKetTuyenDung" },
-                    { "data": "quyetDinhTiepNhan", "name": "quyetDinhTiepNhan" },
+
                     { "data": "nguoiBanGiaoBangNhapKho", "name": "nguoiBanGiaoBangNhapKho" },
+
+                    { "data": "quyetDinhTiepNhanDVC", "name": "quyetDinhTiepNhanDVC" },
+
+                    {
+                        "data": "ngayQDTiepNhan", "name": "ngayQDTiepNhan", "render": function (data) {
+                            return dateFormat(data);
+                        },
+                    },
+                    {
+                        "data": "ngayDiLam", "name": "ngayDiLam", "render": function (data) {
+                            return dateFormat(data);
+                        },
+                    },
+                    { "data": "donViKyQuyetDinhTiepNhan", "name": "donViKyQuyetDinhTiepNhan" },
+                    { "data": "quyetDinhChamDut", "name": "quyetDinhChamDut" },
+
+                    {
+                        "data": "ngayQDChamDut", "name": "ngayQDChamDut", "render": function (data) {
+                            return dateFormat(data);
+                        },
+                    },
+
+                    {
+                        "data": "ngayChamDut", "name": "ngayChamDut", "render": function (data) {
+                            return dateFormat(data);
+                        },
+                    },
+                    { "data": "donViKyChamDut", "name": "donViKyChamDut" },
                                     {
                     "data": "MaNV", "render": function (data) {
                         return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='myedit_suahoso' style='margin-left:5px' onclick=getEditHs('"+data+"') ><i class=''></i> Sửa</a>";
@@ -306,8 +368,11 @@
                 "bFilter": false,
                 "bInfo": false,
                 "bAutoWidth": false,
+                "language": {
+                    "zeroRecords": "Không có dữ liệu",
+                },
                 "initComplete": function () {
-                    $("#pre-load").hide();
+
                 }, "bPaginate": false
             });
 
@@ -316,7 +381,7 @@
         });
 
         function getEditHs(id) {
-            alter(id);
+
             if (id != null) {
                 $.ajax({
                     type: "GET",
@@ -339,22 +404,26 @@
         getBasicInfo();
         datatable_chitiet = $('#giayto_detail').DataTable({
             "ajax": {
-                "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/chi-tiet-giay-to",
+                "url": '@Url.Action("listGiayTo", "Brief")',
                 "type": "POST",
                 "datatype": "json"
             },
             "columns": [
-                { "data": "ngayTra", "name": "ngayTra" },
+
                 { "data": "tenGiayTo", "name": "tenGiayTo" },
                 { "data": "kieuGiayTo", "name": "kieuGiayTo" },
 
             ],
+            "language": {
+                "zeroRecords": "Không có dữ liệu",
+            },
             "serverSide": "true",
             "order": [0, "asc"],
             "bLengthChange": false,
             "bFilter": false,
             "bInfo": false,
             "bAutoWidth": false,
+
             "initComplete": function () {
                 $("#pre-load").hide();
             }, "bPaginate": false
@@ -365,8 +434,8 @@
     });
     function getBasicInfo() {
         $.ajax({
-            type: "GET",
-            url: "/Brief/listNhanVien",
+            type: "POST",
+            url: '@Url.Action("listNhanVien","Brief")',
             dataType: "json",
             success: function (data) {
                 $('#cb_maNV').val(data.data[0].maNV);
@@ -385,7 +454,7 @@
     var chungchichitiet, stt;
     $("#pre-load").show();
     $(document).ready(function () {
-        getBasicInfo();
+
         datatable_chitiet = $('#chung_chi_chi_tiet').DataTable({
             "ajax": {
                 "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/chi-tiet-chung-chi",
@@ -394,9 +463,16 @@
             },
             "columns": [
                 { "data": "soHieu", "name": "soHieu" },
-                { "data": "ngayCap", "name": "ngayCap" },
                 { "data": "tenChungChi", "name": "tenChungChi" },
-                { "data": "ngayTra", "name": "ngayTra" }
+                { "data": "loai", "name": "loai" },
+                {
+                    "data": "ngayCap", "name": "ngayCap", "render": function (data) {
+                        return dateFormat(data);
+                    },
+                }
+
+
+
 
             ],
             "serverSide": "true",
@@ -405,6 +481,9 @@
             "bFilter": false,
             "bInfo": false,
             "bAutoWidth": false,
+            "language": {
+                "zeroRecords": "Không có dữ liệu",
+            },
             "initComplete": function () {
                 $("#pre-load").hide();
             }, "bPaginate": false
@@ -423,24 +502,37 @@
     $(document).ready(function () {
         datatable_bangcap = $('#bangcap_detail').DataTable({
             "ajax": {
-                "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/chi-tiet-bang-cap",
+                "url": '@Url.Action("chiTietbangCap", "Brief")',
                 "type": "POST",
                 "datatype": "json"
             },
             "columns": [
                 { "data": "soHieu", "name": "soHieu" },
-                { "data": "truong", "name": "truong" },
-                { "data": "ngayCap", "name": "ngayCap" },
                 { "data": "loai", "name": "loai" },
-                
+                { "data": "tenBangCap", "name": "tenBangCap" },
+                { "data": "kieu", "name": "kieu" },
+                { "data": "truong", "name": "truong" },
+                { "data": "chuyenNganh", "name": "chuyenNganh" },
+                { "data": "nganh", "name": "nganh" },
                 {
-                    "data": "MaNV", "render": function (data) {
-                        return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='EditLichSuBoSung' style='margin-left:5px' onclick=getEditHs('" + data + "') ><i class=''></i> Sửa</a>";
+                    "data": "ngayCap", "name": "ngayCap", "render": function (data) {
+                        return dateFormat(data);
                     },
-                    "orderable": false,
-                    "searchable": false,
-                    "width": "150px"
-                }
+                },
+                { "data": "thoiHan", "name": "thoiHan" }
+
+
+
+
+
+                //{
+                //    "data": "MaNV", "render": function (data) {
+                //        return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='EditLichSuBoSung' style='margin-left:5px' onclick=getEditHs('" + data + "') ><i class=''></i> Sửa</a>";
+                //    },
+                //    "orderable": false,
+                //    "searchable": false,
+                //    "width": "150px"
+                //}
 
             ],
             "serverSide": "true",
@@ -449,6 +541,9 @@
             "bFilter": false,
             "bInfo": false,
             "bAutoWidth": false,
+            "language": {
+                "zeroRecords": "Không có dữ liệu",
+            },
             "initComplete": function () {
                 $("#pre-load").hide();
             }, "bPaginate": false
@@ -478,27 +573,23 @@
     $(document).ready(function () {
         datatable_quanhe = $('#quanhe_detail').DataTable({
             "ajax": {
-                "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/quan-he-gia-dinh",
+                "url": '@Url.Action("quanHeGiadinh", "Brief")',
                 "type": "POST",
                 "datatype": "json"
             },
             "columns": [
+                { "data": "loaiGiaDinh", "name": "loaiGiaDinh" },
                 { "data": "moiQuanhe", "name": "moiQuanhe" },
+                { "data": "tenQH", "name": "tenQH" },
+
+
                 {
                     "data": "ngaySinh", "name": "ngaySinh", "render": function (data) {
                         return dateFormat(data);
                     },
                 },
-                { "data": "lyLich", "name": "lyLich" },
-                { "data": "loaiGiaDinh", "name": "loaiGiaDinh" },
-                {
-                    "data": "MaNV", "render": function (data) {
-                        return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='EditQuanHeGiaDinh' style='margin-left:5px' onclick=getEditHs('" + data + "') ><i class=''></i> Sửa</a>";
-                    },
-                    "orderable": false,
-                    "searchable": false,
-                    "width": "150px"
-                }
+                { "data": "lyLich", "name": "lyLich" }
+
 
             ],
             "serverSide": "true",
@@ -507,6 +598,11 @@
             "bFilter": false,
             "bInfo": false,
             "bAutoWidth": false,
+            "language": {
+
+                "zeroRecords": "Không có dữ liệu",
+
+            },
             "initComplete": function () {
                 $("#pre-load").hide();
             }, "bPaginate": false
@@ -537,18 +633,16 @@
     $(document).ready(function () {
         datatable_syll = $('#syll_detail').DataTable({
             "ajax": {
-                "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/syll-bo-sung",
+                "url": '@Url.Action("listLichSuBoSung", "Brief")',
                 "type": "POST",
                 "datatype": "json"
             },
             "columns": [
                 {
-                    "data": "namBoSung", "name": "namBoSung", "render": function (data) {
-                        return dateFormat(data);
-                    },},
-                { "data": "dotBoSung", "name": "dotBoSung" },
+                    "data": "namBoSung", "name": "namBoSung"
+                },
                 {
-                    "data": "maNV", "render": function (data) {
+                    "data": "maNV", "name": "maNV", "render": function (data) {
                         return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='EditLichSuBoSung' style='margin-left:5px' onclick=editSYLL('" + data + "') ><i class=''></i> Sửa</a>";
                     },
                     "orderable": false,
@@ -563,6 +657,9 @@
             "bFilter": false,
             "bInfo": false,
             "bAutoWidth": false,
+            "language": {
+                "zeroRecords": "Không có dữ liệu",
+            },
             "initComplete": function () {
                 $("#pre-load").hide();
             }, "bPaginate": false
@@ -572,7 +669,6 @@
         $("#pre-load").hide();
     });
             function editSYLL(id) {
-            alter(id);
             if (id != null) {
                 $.ajax({
                     type: "GET",
@@ -582,23 +678,51 @@
                     }
 
                 });
-            }
+                }
+                function SubmitForm(form) {
+                    $.validator.unobtrusive.parse(form);
+                    if ($(form).valid()) {
+                        $("#pre-load").show("slow", function () {
+                        });
+                        $("#pre-load").css("z-index", "99999");
+                        $.ajax({
+                            type: "POST",
+                            url: form.action,
+                            data: $(form).serialize(),
+                            success: function (data) {
+                                dataTable.ajax.reload();
+                                dataCertificateEmp.ajax.reload();
+                                $("#pre-load").hide("slow", function () {
+                                });
+                                successAlert('Thành công', '');
+                                $(".modal").modal();
+                            },
+                            error: function () {
+                                errorAlert('Lỗi', 'Thử lại');
+                            }
+                        })
+                    }
+                    return false;
+                }
     }
-
-    $("#add_so_yeu_ly_lich").click(function () {
-        alert("abc");
-    });
 
 
     function dateFormat(d) {
-        var dateString = d.substr(6);
-        var currentTime = new Date(parseInt(dateString));
-        var month = currentTime.getMonth() + 1;
-        var day = currentTime.getDate();
-        var year = currentTime.getFullYear();
-        var date = day + "/" + month + "/" + year;
-        return (date);
+        if (d != null && d != "") {
+            var dateString = d.substr(6);
+            var currentTime = new Date(parseInt(dateString));
+            var month = currentTime.getMonth() + 1;
+            var day = currentTime.getDate();
+            var year = currentTime.getFullYear();
+            var date = day + "/" + month + "/" + year;
+            return (date);
+        }
+        else {
+            return (d);
+        }
+
     }
+
 </script>
 
 

@@ -65,7 +65,7 @@
                         @*@Html.LabelFor(model => model.depreciation_estimate, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.depreciation_estimate, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.depreciation_estimate, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.depreciation_estimate, "Khấu hao ước tính phải là số", new { @class = "text-danger" })
                         </div>
                     </div>
 
@@ -74,7 +74,7 @@
                         @*@Html.LabelFor(model => model.depreciation_present, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.depreciation_present, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.depreciation_present, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.depreciation_present, "Khấu hao thực tại phải là số", new { @class = "text-danger" })
                         </div>
                     </div>
 
@@ -97,6 +97,17 @@
                             @Html.ValidationMessageFor(model => model.durationOfInsurance, "", new { @class = "text-danger" })
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label>Thời hạn bảo dưỡng</label>
+                        @*@Html.LabelFor(model => model.durationOfInsurance, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <div class="col-md-10">
+                            <input name="duramain" type="text" class="form-control datepicker-here maxDate" />
+                            @Html.EditorFor(model => model.durationOfMaintainance, new { htmlAttributes = new { @style = "display: none !important" } })
+                            @Html.ValidationMessageFor(model => model.durationOfMaintainance, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label>Ngày đưa vào sử dụng</label>
                         @*@Html.LabelFor(model => model.usedDay, htmlAttributes: new { @class = "control-label col-md-2" })*@
@@ -111,32 +122,23 @@
                 </div>
                 <div class="col s6">
 
-
-                    <div class="form-group">
-                        <label>Ngày bảo dưỡng gần nhất</label>
-                        @*@Html.LabelFor(model => model.nearest_Maintenance_Day, htmlAttributes: new { @class = "control-label col-md-2" })*@
-                        <div class="col-md-10">
-                            <input name="nearmain" type="text" class="form-control datepicker-here maxDate" />
-                            @Html.EditorFor(model => model.nearest_Maintenance_Day, new { htmlAttributes = new { @style = "display: none !important" } })
-                            @Html.ValidationMessageFor(model => model.nearest_Maintenance_Day, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
                     <div class="form-group">
                         <label>Tổng thời gian hoạt động</label>
                         @*@Html.LabelFor(model => model.total_operating_hours, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.total_operating_hours, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.total_operating_hours, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.total_operating_hours, "Tổng thời gian hoạt động phải là số", new { @class = "text-danger" })
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label>Tình trạng hiện tại</label>
                         @*@Html.LabelFor(model => model.current_Status, htmlAttributes: new { @class = "control-label col-md-2" })*@
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.current_Status, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.current_Status, "", new { @class = "text-danger" })
-                        </div>
+                    <div class="col-md-10">
+                        @Html.DropDownList("current_Status", new SelectList(ViewBag.listStatus, "Text", "Value"), htmlAttributes: new { @class = "form-control" })
+                        @*@Html.EditorFor(model => model.current_Status, new { htmlAttributes = new { @class = "form-control" } })*@
+                        @Html.ValidationMessageFor(model => model.current_Status, "", new { @class = "text-danger" })
+                    </div>
                     </div>
 
                     <div class="form-group">
@@ -144,7 +146,7 @@
                         @*@Html.LabelFor(model => model.fabrication_number, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.fabrication_number, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.fabrication_number, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.fabrication_number, "Số chế tạo phải là số và không được để trống", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group">
@@ -152,7 +154,7 @@
                         @*@Html.LabelFor(model => model.mark_code, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.mark_code, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.fabrication_number, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.mark_code, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
@@ -193,28 +195,33 @@
             </div>
 
         </div>
-        <div class="modal fade" id="myadd2">
+
+        <div class="col-12" id="myadd2" style="margin-top:15px">
             <div class="modal-header center-align">
                 <h3>Thêm thuộc tính thiết bị</h3>
             </div>
             <div class="modal-body">
-                <table id="myTable" class="table-bordered">
+                <table id="myTable" class="table-bordered center-align" style="margin-left:5px;margin-right:5px">
                     <tr>
+                        <th>STT</th>
                         <th>Mã đặc tính</th>
                         <th>Tên đặc tính</th>
                         <th>Thông số</th>
                         <th>ĐVT</th>
+                        <th></th>
                     </tr>
                     <tr>
+                        <td>1</td>
                         <td><input type='text' name="id" class='form-control' placeholder='Mã đặc tính' /></td>
                         <td><input type='text' name="name" class='form-control' placeholder='Tên đặc tính' /></td>
                         <td><input type='number' name="value" class='form-control' placeholder='Thông số' /></td>
                         <td><input type='text' name="unit" class='form-control' placeholder='ĐVT' /></td>
+                        <td><button type="button" class="btnSelect btn blue btn-small left"><i class="large material-icons">remove</i></button></td>
                     </tr>
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" onclick="myFunction()" class="btn blue btn-small"><i class="large material-icons">add</i></button>
+                <button type="button" onclick="myFunction()" class="btn blue btn-small left"><i class="large material-icons">add</i></button>
 
             </div>
         </div>
@@ -224,7 +231,7 @@
     <div class="modal-footer">
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <a href="#myadd2" class="modal-trigger btn">Thêm thuộc tính</a>
+                @*<a href="#myadd2" class="modal-trigger btn">Thêm thuộc tính</a>*@
                 <button type="submit" id="save" class="btn blue btn-default modal-close" style="color:white">Thêm</button>
                 @*<button type="submit" class="btn blue btn-default modal-trgger" data-target="myadd2" style="color:white">Thêm</button>*@
                 @*<input type="submit" value="Thêm" class="btn blue btn-default" id="btn-submit" onclick="ABC()" />*@
@@ -236,6 +243,26 @@
 <script src="~/js/Custom JS/CDVT/Home/huydong.js"></script>
 <script>
 
+    $(document).ready(function () {
+
+        // code to read selected table row cell data (values).
+        $("#myTable").on('click', '.btnSelect', function () {
+            // get the current row
+            var currentRow = $(this).closest("tr");
+            var data = currentRow.find("td:eq(0)").text();
+            document.getElementById("myTable").deleteRow(data);
+            var table = document.getElementById("myTable");
+            var x = document.getElementById("myTable").rows.length;
+            var i = 1;
+            for (i = 1; i < x; i++) {
+                table.rows[i].cells[0].innerHTML = i;
+            }
+            count = document.getElementById("myTable").rows.length;
+        });
+    });
+
+    var count = 2;
+
     function myFunction() {
         var x = document.getElementById("myTable").rows.length;
         var table = document.getElementById("myTable");
@@ -244,10 +271,15 @@
         var cell2 = row.insertCell(1);
         var cell3 = row.insertCell(2);
         var cell4 = row.insertCell(3);
-        cell1.innerHTML = "<input type='text' name='id' class='form-control' placeholder='Mã đặc tính' />";
-        cell2.innerHTML = "<input type='text' name='name' class='form-control' placeholder='Tên đặc tính' />";
-        cell3.innerHTML = "<input type='number' name='value' class='form-control' placeholder='Thông số' />";
-        cell4.innerHTML = "<input type='text' name='unit' class='form-control' placeholder='ĐVT' />";
+        var cell5 = row.insertCell(4);
+        var cell6 = row.insertCell(5);
+        cell1.innerHTML = ""+count+"";
+        cell2.innerHTML = "<input type='text' name='id' class='form-control' placeholder='Mã đặc tính' />";
+        cell3.innerHTML = "<input type='text' name='name' class='form-control' placeholder='Tên đặc tính' />"
+        cell4.innerHTML = "<input type='number' name='value' class='form-control' placeholder='Thông số' />";
+        cell5.innerHTML = "<input type='text' name='unit' class='form-control' placeholder='ĐVT' />";
+        cell6.innerHTML = "<button type='button' class='btnSelect btn blue btn-small left'><i class='large material-icons'>remove</i></button>";
+        count++;
     }
 
     $(document).ready(function () {

@@ -53,6 +53,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<Equipment_attribute> Equipment_attribute { get; set; }
         public virtual DbSet<Equipment_category> Equipment_category { get; set; }
         public virtual DbSet<Equipment_category_attribute> Equipment_category_attribute { get; set; }
+        public virtual DbSet<Equipment_Category_Supply> Equipment_Category_Supply { get; set; }
         public virtual DbSet<Equipment_Inspection> Equipment_Inspection { get; set; }
         public virtual DbSet<FakeAPI> FakeAPIs { get; set; }
         public virtual DbSet<Fuel_activities_consumption> Fuel_activities_consumption { get; set; }
@@ -79,6 +80,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<Supply_Documentary_Equipment> Supply_Documentary_Equipment { get; set; }
         public virtual DbSet<Supply_tieuhao> Supply_tieuhao { get; set; }
         public virtual DbSet<SupplyPlan> SupplyPlans { get; set; }
+        public virtual DbSet<TaiNan> TaiNans { get; set; }
         public virtual DbSet<ThucHien_TieuChi> ThucHien_TieuChi { get; set; }
         public virtual DbSet<TieuChi> TieuChis { get; set; }
         public virtual DbSet<TieuChi_VatLieuSanXuat> TieuChi_VatLieuSanXuat { get; set; }

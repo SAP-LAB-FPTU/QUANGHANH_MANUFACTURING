@@ -223,6 +223,7 @@
     <Compile Include="Controllers\CDVT\Quyetdinh\VatTuQuyetDinhController.cs" />
     <Compile Include="Controllers\CDVT\Report\TangGiamController.cs" />
     <Compile Include="Controllers\CDVT\Report\TrungdaituReportController.cs" />
+    <Compile Include="Controllers\CDVT\Thietbi\KiemdinhController.cs" />
     <Compile Include="Controllers\CDVT\Useless\ThongtinsucoController.cs" />
     <Compile Include="Controllers\CDVT\Report\KiemdinhController.cs" />
     <Compile Include="Controllers\CDVT\Report\LiquidationReportController.cs" />
@@ -259,6 +260,7 @@
     <Compile Include="Controllers\CDVT\Work\ThuhoiController.cs" />
     <Compile Include="Controllers\CDVT\Work\TrungdaituchonController.cs" />
     <Compile Include="Controllers\CDVT\Work\TrungdaituController.cs" />
+    <Compile Include="Controllers\DK\AccidentController.cs" />
     <Compile Include="Controllers\DK\DKController.cs" />
     <Compile Include="Controllers\DK\ReportHuman\ReportHumanController.cs" />
     <Compile Include="Controllers\DK\ReportIncidentController.cs" />
@@ -274,6 +276,7 @@
     <Compile Include="Controllers\PX\PXKT\PXKTController.cs" />
     <Compile Include="Controllers\TCLD\BonusAnDesciplineController.cs" />
     <Compile Include="Controllers\TCLD\BriefController.cs" />
+    <Compile Include="Controllers\TCLD\BriefRegulationController.cs" />
     <Compile Include="Controllers\TCLD\CertificateController.cs" />
     <Compile Include="Controllers\TCLD\DiplomaController.cs" />
     <Compile Include="Controllers\TCLD\EatingController.cs" />
@@ -281,11 +284,13 @@
     <Compile Include="Controllers\TCLD\ManagerController.cs" />
     <Compile Include="Controllers\TCLD\MaterialProtectionController.cs" />
     <Compile Include="Controllers\TCLD\RecruitmentAndEndController.cs" />
+    <Compile Include="Controllers\TCLD\RecruitmentController.cs" />
     <Compile Include="Controllers\TCLD\ReportController.cs" />
     <Compile Include="Controllers\TCLD\ShutDownController.cs" />
     <Compile Include="Controllers\TCLD\TaskController.cs" />
     <Compile Include="Controllers\TCLD\TCLDController.cs" />
     <Compile Include="Controllers\TCLD\TransferController.cs" />
+    <Compile Include="Controllers\TCLD\WorkHistoryController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -335,6 +340,7 @@
     <Compile Include="Models\CongViec.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DayHistoryWork.cs" />
     <Compile Include="Models\Department.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -347,36 +353,27 @@
     <Compile Include="Models\Documentary.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DocumentaryDB.cs" />
     <Compile Include="Models\Documentary_big_maintain_details.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Documentary_big_maintain_detailsDB.cs" />
-    <Compile Include="Models\Documentary_Extend.cs" />
     <Compile Include="Models\Documentary_liquidation_details.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Documentary_liquidation_detailsDB.cs" />
     <Compile Include="Models\Documentary_maintain_details.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Documentary_maintain_detailsDB.cs" />
     <Compile Include="Models\Documentary_moveline_details.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Documentary_moveline_detailsDB.cs" />
     <Compile Include="Models\Documentary_repair_details.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Documentary_repair_detailsDB.cs" />
     <Compile Include="Models\Documentary_revoke_details.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Documentary_revoke_detailsDB.cs" />
     <Compile Include="Models\Equipment.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\equipmentExtend.cs" />
     <Compile Include="Models\Equipment_attribute.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -386,9 +383,22 @@
     <Compile Include="Models\Equipment_category_attribute.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Equipment_Category_Supply.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Equipment_Inspection.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Equipment_InspectionDB.cs" />
+    <Compile Include="Models\DocumentaryDB.cs" />
+    <Compile Include="Models\Documentary_big_maintain_detailsDB.cs" />
+    <Compile Include="Models\Documentary_Extend.cs" />
+    <Compile Include="Models\Documentary_liquidation_detailsDB.cs" />
+    <Compile Include="Models\Documentary_maintain_detailsDB.cs" />
+    <Compile Include="Models\Documentary_moveline_detailsDB.cs" />
+    <Compile Include="Models\Documentary_repair_detailsDB.cs" />
+    <Compile Include="Models\Documentary_revoke_detailsDB.cs" />
+    <Compile Include="Models\equipmentExtend.cs" />
     <Compile Include="Models\FakeAPI.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -401,6 +411,7 @@
     <Compile Include="Models\GiayTo.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\HistoryWork.cs" />
     <Compile Include="Models\HoSo.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -408,6 +419,7 @@
     <Compile Include="Models\Incident.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\InsideExcel.cs" />
     <Compile Include="Models\KeHoach_TieuChi.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -483,6 +495,9 @@
     <Compile Include="Models\Supply_tieuhao.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TaiNan.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ThucHien_TieuChi.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -513,6 +528,12 @@
     <Compile Include="ModelViews\XincapvattuDeparmentModelView.cs" />
     <Compile Include="ModelViews\XincapvattuModelView.cs" />
     <Compile Include="ModelViews\XincapvattuSummaryModelView.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
+    <Compile Include="obj\Release\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Include="obj\Release\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Include="obj\Release\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Intefaces\IPxdsRepository.cs" />
     <Compile Include="Repositories\Intefaces\ITieuhaoRepository.cs" />
@@ -540,6 +561,83 @@
     <Content Include="assets\sweetalert\sweetalert2.all.min.js" />
     <Content Include="assets\sweetalert\sweetalert2.min.css" />
     <Content Include="assets\sweetalert\sweetalert2.min.js" />
+    <Content Include="bin\Antlr3.Runtime.dll" />
+    <Content Include="bin\DocumentFormat.OpenXml.dll" />
+    <Content Include="bin\DocumentFormat.OpenXml.xml" />
+    <Content Include="bin\EntityFramework.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.xml" />
+    <Content Include="bin\EntityFramework.xml" />
+    <Content Include="bin\EPPlus.dll" />
+    <Content Include="bin\EPPlus.xml" />
+    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
+    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml" />
+    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\Newtonsoft.Json.xml" />
+    <Content Include="bin\QUANGHANH2.dll" />
+    <Content Include="bin\QUANGHANH2.pdb" />
+    <Content Include="bin\roslyn\csc.exe" />
+    <Content Include="bin\roslyn\csi.exe" />
+    <Content Include="bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll" />
+    <Content Include="bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll" />
+    <Content Include="bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll" />
+    <Content Include="bin\roslyn\System.AppContext.dll" />
+    <Content Include="bin\roslyn\System.Collections.Immutable.dll" />
+    <Content Include="bin\roslyn\System.Console.dll" />
+    <Content Include="bin\roslyn\System.Diagnostics.FileVersionInfo.dll" />
+    <Content Include="bin\roslyn\System.Diagnostics.StackTrace.dll" />
+    <Content Include="bin\roslyn\System.IO.Compression.dll" />
+    <Content Include="bin\roslyn\System.IO.FileSystem.dll" />
+    <Content Include="bin\roslyn\System.IO.FileSystem.Primitives.dll" />
+    <Content Include="bin\roslyn\System.IO.Pipes.AccessControl.dll" />
+    <Content Include="bin\roslyn\System.IO.Pipes.dll" />
+    <Content Include="bin\roslyn\System.Reflection.Metadata.dll" />
+    <Content Include="bin\roslyn\System.Security.AccessControl.dll" />
+    <Content Include="bin\roslyn\System.Security.Claims.dll" />
+    <Content Include="bin\roslyn\System.Security.Cryptography.Algorithms.dll" />
+    <Content Include="bin\roslyn\System.Security.Cryptography.Encoding.dll" />
+    <Content Include="bin\roslyn\System.Security.Cryptography.Primitives.dll" />
+    <Content Include="bin\roslyn\System.Security.Cryptography.X509Certificates.dll" />
+    <Content Include="bin\roslyn\System.Security.Principal.Windows.dll" />
+    <Content Include="bin\roslyn\System.Text.Encoding.CodePages.dll" />
+    <Content Include="bin\roslyn\System.ValueTuple.dll" />
+    <Content Include="bin\roslyn\System.Xml.ReaderWriter.dll" />
+    <Content Include="bin\roslyn\System.Xml.XmlDocument.dll" />
+    <Content Include="bin\roslyn\System.Xml.XPath.dll" />
+    <Content Include="bin\roslyn\System.Xml.XPath.XDocument.dll" />
+    <Content Include="bin\roslyn\vbc.exe" />
+    <Content Include="bin\roslyn\VBCSCompiler.exe" />
+    <Content Include="bin\System.IO.FileSystem.Primitives.dll" />
+    <Content Include="bin\System.IO.Packaging.dll" />
+    <Content Include="bin\System.Linq.Dynamic.dll" />
+    <Content Include="bin\System.Runtime.CompilerServices.Unsafe.dll" />
+    <Content Include="bin\System.Runtime.CompilerServices.Unsafe.xml" />
+    <Content Include="bin\System.Web.Helpers.dll" />
+    <Content Include="bin\System.Web.Helpers.xml" />
+    <Content Include="bin\System.Web.Mvc.dll" />
+    <Content Include="bin\System.Web.Mvc.xml" />
+    <Content Include="bin\System.Web.Optimization.dll" />
+    <Content Include="bin\System.Web.Optimization.xml" />
+    <Content Include="bin\System.Web.Razor.dll" />
+    <Content Include="bin\System.Web.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.Deployment.dll" />
+    <Content Include="bin\System.Web.WebPages.Deployment.xml" />
+    <Content Include="bin\System.Web.WebPages.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.xml" />
+    <Content Include="bin\Unity.Abstractions.dll" />
+    <Content Include="bin\Unity.Abstractions.pdb" />
+    <Content Include="bin\Unity.Container.dll" />
+    <Content Include="bin\Unity.Mvc5.dll" />
+    <Content Include="bin\WebGrease.dll" />
+    <Content Include="bin\XCrypt.dll" />
     <Content Include="Content\DataTables\Buttons-1.5.6\css\buttons.bootstrap.css" />
     <Content Include="Content\DataTables\Buttons-1.5.6\css\buttons.bootstrap.min.css" />
     <Content Include="Content\DataTables\Buttons-1.5.6\css\buttons.bootstrap4.css" />
@@ -590,6 +688,7 @@
     <Content Include="css\Custom css\TCLD\table_job_register.css" />
     <Content Include="css\jquery.dataTables.min.css" />
     <Content Include="css\pre-loader\css.css" />
+    <Content Include="css\pre-loader\logo.png" />
     <Content Include="css\preloader\css.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -6343,8 +6442,8 @@
     <Content Include="js\Custom JS\Flexible_user_icon.js" />
     <Content Include="js\Custom JS\form-input-border.js" />
     <Content Include="js\Custom JS\PX\PXKT\add_product_report.js" />
-    <Content Include="js\Custom JS\TCLD\beo_bar_chart.js" />
-    <Content Include="js\Custom JS\TCLD\beo_line_chart.js" />
+    <Content Include="js\tcld_dashboard\bar_chart.js" />
+    <Content Include="js\tcld_dashboard\line_chart.js" />
     <Content Include="js\Custom JS\TCLD\Brief\Briefs_Add.js" />
     <Content Include="js\Custom JS\TCLD\Brief\Briefs_Edit.js" />
     <Content Include="js\Custom JS\TCLD\Brief\Briefs_List.js" />
@@ -6356,12 +6455,12 @@
     <Content Include="js\Custom JS\TCLD\Certificate\certificate.js" />
     <Content Include="js\Custom JS\TCLD\Certificate\formValidation.js" />
     <Content Include="js\Custom JS\TCLD\dateAnddepartment.js" />
-    <Content Include="js\Custom JS\TCLD\db_issue.js" />
+    <Content Include="js\tcld_dashboard\db_issue.js" />
     <Content Include="js\Custom JS\TCLD\ModifiedHistory\dbHistory.js" />
     <Content Include="js\Custom JS\TCLD\ModifiedHistory\jsGridTCLD.js" />
     <Content Include="js\Custom JS\TCLD\QuickReport.js" />
     <Content Include="js\Custom JS\TCLD\RecruitmentAndEnd\RecruitAndEnd.js" />
-    <Content Include="js\Custom JS\TCLD\table_init.js" />
+    <Content Include="js\tcld_dashboard\table_init.js" />
     <Content Include="js\Custom JS\TCLD\Transfer\Transfer_PlaceAndTime.js" />
     <Content Include="js\Custom JS\TCLD\Transfer\Transfer_Select.js" />
     <Content Include="js\fixingSelectFault.js" />
@@ -6861,22 +6960,55 @@
     <Content Include="excel\CDVT\download\tong-hop-vat-tu-download.xlsx" />
     <Content Include="doc\CDVT\QD\quyetdinh-template.docx" />
     <Content Include="excel\CDVT\download\huy-dong-oto.xlsx" />
-    <Content Include="excel\TCLD\download\Danh_sách_nhân_viên.xlsx" />
     <Content Include="excel\TCLD\download\Báo cáo năng suất lao động và tiền lương theo các phân xưởng theo ngày.xlsx" />
     <Content Include="excel\TCLD\Report\Báo cáo năng suất lao động và tiền lương theo các phân xưởng theo ngày.xlsx" />
-    <EntityDeploy Include="Models\Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Content>
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
-    <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
-    <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\quanghanhtest - Web Deploy.pubxml" />
-    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="excel\TCLD\Hoso\ho-so-ngoai.xlsx" />
+    <Content Include="excel\TCLD\suat-an\Báo cáo lao động Ngày 19-08-2019.xls" />
+    <Content Include="excel\TCLD\suat-an\suat-an.xlsx" />
+    <Content Include="excel\TCLD\download\Certificate.xlsx" />
+    <Content Include="excel\TCLD\download\CertificateOfEmployee.xlsx" />
+    <Content Include="doc\TCLD\dieudong\motnguoi\dieudong-template.docx" />
+    <Content Include="doc\TCLD\dieudong\nhieunguoi\dieudong-template.docx" />
+    <Content Include="doc\TCLD\dieudong\quyetdinh-dieudong.docx" />
+    <Content Include="doc\TCLD\dieudong\temp.docx" />
+    <Content Include="excel\CDVT\BaoCaoThuHoi_Template.xlsx" />
+    <Content Include="excel\CDVT\BaoCaoTrungTu_Template.xlsx" />
+    <Content Include="excel\CDVT\diennang.xlsx" />
+    <Content Include="excel\CDVT\nhienlieu.xlsx" />
+    <Content Include="excel\CDVT\Tang-Giam.xlsx" />
+    <Content Include="excel\CDVT\suachua.xlsx" />
+    <Content Include="excel\CDVT\thoatnuoc.xlsx" />
+    <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên-hồ-sơ-trong.xlsx" />
+    <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên.xlsx" />
+    <Content Include="excel\CDVT\download\DanhsachSuaChua.xlsx" />
+    <Content Include="excel\CDVT\download\diennang.xlsx" />
+    <Content Include="excel\CDVT\download\suachua.xlsx" />
+    <Content Include="excel\CDVT\download\ThanhLyThietBi.xlsx" />
+    <Content Include="excel\CDVT\download\ThuHoiThietBi.xlsx" />
+    <Content Include="excel\CDVT\download\thoatnuoc.xlsx" />
+    <Content Include="excel\TCLD\Certificate\Chứng chỉ của nhân viên.xlsx" />
+    <Content Include="excel\TCLD\Certificate\List\download\ListCertificate.xlsx" />
+    <Content Include="excel\TCLD\CD_TD_Report.xlsx" />
+    <Content Include="excel\TCLD\Certificate\Chứng chỉ của nhân viên.xlsx" />
+    <Content Include="excel\TCLD\Certificate\List\download\ListCertificate.xlsx" />
+    <Content Include="excel\TCLD\Brief\Inside.xlsx" />
+    <Content Include="doc\CDVT\QD\quyetdinhsuachua.docx" />
+    <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên.xlsx" />
+    <Content Include="excel\TCLD\download\Danh-sách-nhân-viên.xlsx" />
+    <Content Include="doc\CDVT\QD\quyetdinhsuachua.docx" />
+    <Content Include="excel\TCLD\Brief\Inside.xlsx" />
+    <Content Include="doc\CDVT\QD\quyetdinhsuachua.docx" />
+    <Content Include="bin\QUANGHANH2.dll.config" />
+    <Content Include="bin\roslyn\csc.exe.config" />
+    <Content Include="bin\roslyn\csc.rsp" />
+    <Content Include="bin\roslyn\csi.exe.config" />
+    <Content Include="bin\roslyn\csi.rsp" />
+    <Content Include="bin\roslyn\Microsoft.CSharp.Core.targets" />
+    <Content Include="bin\roslyn\Microsoft.Managed.Core.targets" />
+    <Content Include="bin\roslyn\Microsoft.VisualBasic.Core.targets" />
+    <Content Include="bin\roslyn\vbc.exe.config" />
+    <Content Include="bin\roslyn\vbc.rsp" />
+    <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -6887,6 +7019,65 @@
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
+    <Content Include="obj\Debug\build.force" />
+    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferences.cache" />
+    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <Content Include="obj\Debug\edmxResourcesToEmbed\Models\DBModel.csdl" />
+    <Content Include="obj\Debug\edmxResourcesToEmbed\Models\DBModel.msl" />
+    <Content Include="obj\Debug\edmxResourcesToEmbed\Models\DBModel.ssdl" />
+    <Content Include="obj\Debug\edmxResourcesToEmbed\Models\HieuNgu.csdl" />
+    <Content Include="obj\Debug\edmxResourcesToEmbed\Models\HieuNgu.msl" />
+    <Content Include="obj\Debug\edmxResourcesToEmbed\Models\HieuNgu.ssdl" />
+    <Content Include="obj\Debug\edmxResourcesToEmbed\Models\Model1.csdl" />
+    <Content Include="obj\Debug\edmxResourcesToEmbed\Models\Model1.msl" />
+    <Content Include="obj\Debug\edmxResourcesToEmbed\Models\Model1.ssdl" />
+    <Content Include="obj\Debug\edmxResourcesToEmbed\Models\QuangHanh.csdl" />
+    <Content Include="obj\Debug\edmxResourcesToEmbed\Models\QuangHanh.msl" />
+    <Content Include="obj\Debug\edmxResourcesToEmbed\Models\QuangHanh.ssdl" />
+    <Content Include="obj\Debug\QUANGHANH2.csproj.CopyComplete" />
+    <Content Include="obj\Debug\QUANGHANH2.csproj.CoreCompileInputs.cache" />
+    <Content Include="obj\Debug\QUANGHANH2.csprojAssemblyReference.cache" />
+    <Content Include="obj\Debug\Tsc.out" />
+    <Content Include="obj\Release\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <Content Include="obj\Release\edmxResourcesToEmbed\Models\Model1.csdl" />
+    <Content Include="obj\Release\edmxResourcesToEmbed\Models\Model1.msl" />
+    <Content Include="obj\Release\edmxResourcesToEmbed\Models\Model1.ssdl" />
+    <Content Include="obj\Release\QUANGHANH2.csproj.CopyComplete" />
+    <Content Include="obj\Release\QUANGHANH2.csproj.CoreCompileInputs.cache" />
+    <Content Include="obj\Release\QUANGHANH2.csprojAssemblyReference.cache" />
+    <EntityDeploy Include="Models\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
+    <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
+    <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\quanghanhtest - Web Deploy.pubxml" />
+    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="obj\Debug\QUANGHANH2.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\QUANGHANH2.dll" />
+    <Content Include="obj\Debug\QUANGHANH2.pdb" />
+    <Content Include="obj\Debug\TempPE\Models.DBModel.Context.cs.dll" />
+    <Content Include="obj\Debug\TempPE\Models.DBModel.cs.dll" />
+    <Content Include="obj\Debug\TempPE\Models.DBModel.Designer.cs.dll" />
+    <Content Include="obj\Debug\TempPE\Models.HieuNgu.Context.cs.dll" />
+    <Content Include="obj\Debug\TempPE\Models.HieuNgu.cs.dll" />
+    <Content Include="obj\Debug\TempPE\Models.HieuNgu.Designer.cs.dll" />
+    <Content Include="obj\Debug\TempPE\Models.Model1.Context.cs.dll" />
+    <Content Include="obj\Debug\TempPE\Models.Model1.cs.dll" />
+    <Content Include="obj\Debug\TempPE\Models.Model1.Designer.cs.dll" />
+    <Content Include="obj\Debug\TempPE\Models.QuangHanh.Context.cs.dll" />
+    <Content Include="obj\Debug\TempPE\Models.QuangHanh.cs.dll" />
+    <Content Include="obj\Debug\TempPE\Models.QuangHanh.Designer.cs.dll" />
+    <Content Include="obj\Release\QUANGHANH2.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Release\QUANGHANH2.dll" />
+    <Content Include="obj\Release\QUANGHANH2.pdb" />
+    <Content Include="obj\Release\TempPE\Models.Model1.Context.cs.dll" />
+    <Content Include="obj\Release\TempPE\Models.Model1.cs.dll" />
+    <Content Include="obj\Release\TempPE\Models.Model1.Designer.cs.dll" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -7117,12 +7308,28 @@
     <Content Include="Views\Diploma\EditDiplomaEmployee.cshtml" />
     <Content Include="Views\CDVT\Report\bao_cao_trung_tu.cshtml" />
     <Content Include="Views\CDVT\Report\TangGiam.cshtml" />
+    <Content Include="Views\CDVT\Thietbi\Kiemdinh.cshtml" />
+    <Content Include="Views\DK\Acident.cshtml" />
+    <Content Include="Views\Brief\AddLichSuBoSung.cshtml" />
+    <Content Include="Views\Brief\suaGiayTo.cshtml" />
+    <Content Include="Views\Brief\themGiayTo.cshtml" />
+    <Content Include="Views\BriefRegulation\SuaChuyenNganh.cshtml" />
+    <Content Include="Views\BriefRegulation\SuaNganh.cshtml" />
+    <Content Include="Views\BriefRegulation\SuaTrinhDo.cshtml" />
+    <Content Include="Views\BriefRegulation\SuaTruong.cshtml" />
+    <Content Include="Views\BriefRegulation\ThemChuyenNganh.cshtml" />
+    <Content Include="Views\BriefRegulation\ThemNganh.cshtml" />
+    <Content Include="Views\BriefRegulation\ThemTrinhDo.cshtml" />
+    <Content Include="Views\BriefRegulation\ThemTruong.cshtml" />
+    <Content Include="Views\TCLD\Brief\ManageBrief\OutSideDetail.cshtml" />
+    <Content Include="Views\TCLD\Recruitment\Input.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Library\" />
     <Folder Include="Views\HuyDong\" />
     <Folder Include="Views\Laydanhsachvattu\" />
+    <Folder Include="Views\WorkHistory\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

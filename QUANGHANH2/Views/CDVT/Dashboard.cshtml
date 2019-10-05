@@ -1,16 +1,69 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Dashboard";
     Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
 }
-
-<link href="/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
-<link href="/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css" rel="stylesheet">
-<link href="/assets/extra-libs/c3/c3.min.css" rel="stylesheet">
-<link href="/assets/extra-libs/css-chart/css-chart.css" rel="stylesheet">
+@*a*@
 <link href="/dist/css/style.css" rel="stylesheet">
-<link href="/dist/css/pages/dashboard3.css" rel="stylesheet">
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
+<script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
+<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
+<script src="~/js/Custom JS/CDVT/Report/ChangeDateType.js"></script>
+<script>
+    $(function () {
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        $("#txtmonth").datepicker({
+            onSelect: function () {
+                $('#pre-load').show();
+                var val = document.getElementById("txtmonth").value;
+                var val2 = val.split(" ");
+                window.location = "/phong-cdvt?type=month&month=" + val2[1] + "&year=" + val2[2];
+            }
+        })
+        $("#txtyear").datepicker({
+            onSelect: function () {
+                $('#pre-load').show();
+                window.location = "/phong-cdvt?type=year&year=" + document.getElementById("txtyear").value;
+            }
+        })
+    });
+    $(document).ready(function () {
 
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        var c = url.searchParams.get("type");
+        var month = url.searchParams.get("month");
+        var year = url.searchParams.get("year");
+        $("#txtmonth").val("Tháng @DateTime.Now.Month @DateTime.Now.Year");
+        $("#txtyear").val("@DateTime.Now.Year");
+        $("#type").html("Xem Theo Tháng");
+        if (c == null) {
+            document.getElementById("typeview").innerText = "Xem Theo Tháng";
+            document.getElementById("visibleyear").style.display = "none";
+            document.getElementById("visiblemonth").style.display = "inline";
+            $("#txtmonth").val("Tháng " + @DateTime.Now.Month +" "+ @DateTime.Now.Year);
+        }
+        if (c == "month") {
+            document.getElementById("typeview").innerText = "Xem Theo Tháng";
+            document.getElementById("visibleyear").style.display = "none";
+            document.getElementById("visiblemonth").style.display = "inline";
+            $("#txtmonth").val("Tháng " + month +" "+ year);
+        }
+        if (c == "year") {
+            document.getElementById("typeview").innerText = "Xem Theo Năm";
+            document.getElementById("visiblemonth").style.display = "none";
+            document.getElementById("visibleyear").style.display = "inline";
+            $("#txtyear").val(year);
+        }
+        if (c == "yearss") {
+            document.getElementById("typeview").innerText = "Xem Theo Các Năm";
+        }
+    });
+
+</script>
 <div class="row">
     <div class="col s12 l12">
         <div class="card">
@@ -24,7 +77,7 @@
 
 <div class="row">
     <div class="col s12">
-        <ul class="tabs">
+        <ul class="tabs" style="overflow-x:hidden;overflow-y:hidden">
             <li class="tab col s6"><a class="active" href="#chung">Thông tin chung</a></li>
             <li class="tab col s6"><a href="#cogioi">Thông tin thiết bị cơ giới</a></li>
         </ul>
@@ -62,33 +115,37 @@
         </div>
 
         <div id="suachua" class="modal fade">
-            <div class="modal-header">
-                <h3>Thiết bị đang sửa chữa</h3>
-            </div>
-            <div>
-                <table class="table-bordered">
-                    <thead>
-                        <tr>
-                            <th>STT</th>
-                            <th>Mã thiết bị</th>
-                            <th>Tên thiết bị</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @{
-                            int i = 1;
-                            foreach (var item in ViewBag.listRepair)
-                            {
+            <div class="card">
+                <div class="card-content">
+                    <div class="modal-header">
+                        <h3>Thiết bị đang sửa chữa</h3>
+                    </div>
+                    <div>
+                        <table class="table-bordered">
+                            <thead>
                                 <tr>
-                                    <td>@i</td>
-                                    <td>@item.equipmentId</td>
-                                    <td>@item.equipment_name</td>
+                                    <th>STT</th>
+                                    <th>Tên thiết bị</th>
+                                    <th>Mã thiết bị</th>
                                 </tr>
-                                i++;
-                            }
-                        }
-                    </tbody>
-                </table>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int i = 1;
+                                    foreach (var item in ViewBag.listRepair)
+                                    {
+                                        <tr>
+                                            <td>@i</td>
+                                            <td>@item.equipment_name</td>
+                                            <td>@item.equipmentId</td>
+                                        </tr>
+                                        i++;
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -101,20 +158,6 @@
                                 <h6 class="card-subtitle">Sửa chữa</h6>
                                 <h4> @ViewBag.Thongke.total_repair </h4>
                             </div>
-
-                            @*<div class="col s12">
-                                    <div class="progress">
-                                        <div class="determinate amber darken+5" style="width: 100%"></div>
-                                    </div>
-                                </div>
-                                <div class="col s6 center-align">
-                                    <h5 class="card-subtitle">Đã sửa</h5>
-                                    <h5>300</h5>
-                                </div>
-                                <div class="col s6 center-align">
-                                    <h6 class="card-subtitle">Đang sửa</h6>
-                                    <h5>200</h5>
-                                </div>*@
                         </div>
                     </div>
                 </a>
@@ -122,34 +165,39 @@
         </div>
 
         <div class="modal fade" id="baoduong2">
-            <div class="modal-header">
-                <h3>Thiết bị đang bảo dưỡng</h3>
-            </div>
-            <div class="modal-body">
-                <table class="table-bordered">
-                    <thead>
-                        <tr>
-                            <th>STT</th>
-                            <th>Mã thiết bị</th>
-                            <th>Tên thiết bị</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @{
-                            i = 1;
-                            foreach (var item in ViewBag.listMain)
-                            {
+            <div class="card">
+                <div class="card-content">
+                    <div class="modal-header">
+                        <h3>Thiết bị đang bảo dưỡng</h3>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table-bordered">
+                            <thead>
                                 <tr>
-                                    <td>@i</td>
-                                    <td>@item.equipmentId</td>
-                                    <td>@item.equipment_name</td>
+                                    <th>STT</th>
+                                    <th>Tên thiết bị</th>
+                                    <th>Mã thiết bị</th>
                                 </tr>
-                                i++;
-                            }
-                        }
-                    </tbody>
-                </table>
+                            </thead>
+                            <tbody>
+                                @{
+                                    i = 1;
+                                    foreach (var item in ViewBag.listMain)
+                                    {
+                                        <tr>
+                                            <td>@i</td>
+                                            <td>@item.equipment_name</td>
+                                            <td>@item.equipmentId</td>
+                                        </tr>
+                                        i++;
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
+
         </div>
 
         <div class="col s12 l2">
@@ -161,21 +209,6 @@
                                 <h6 class="card-subtitle">Bảo dưỡng </h6>
                                 <h4> @ViewBag.Thongke.total_maintain</h4>
                             </div>
-
-                            @*<div class="col s12">
-                                    <div class="progress">
-                                        <div class="determinate amber darken+5" style="width: 100%"></div>
-                                    </div>
-                                </div>
-
-                                <div class="col s6 center-align">
-                                    <h5 class="card-subtitle">Đã bảo dưỡng</h5>
-                                    <h5>700</h5>
-                                </div>
-                                <div class="col s6 center-align">
-                                    <h6 class="card-subtitle">Đang bảo dưỡng</h6>
-                                    <h5>200</h5>
-                                </div>*@
                         </div>
                     </div>
                 </a>
@@ -183,34 +216,39 @@
         </div>
 
         <div class="modal fade" id="kiemdinh2">
-            <div class="modal-header">
-                <h3>Thiết bị đang kiểm định</h3>
-            </div>
-            <div class="modal-body">
-                <table class="table-bordered">
-                    <thead>
-                        <tr>
-                            <th>STT</th>
-                            <th>Mã thiết bị</th>
-                            <th>Tên thiết bị</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @*@{
-                            i = 1;
-                            foreach (var item in ViewBag.listKD)
-                            {
+            <div class="card">
+                <div class="card-content">
+                    <div class="modal-header">
+                        <h3>Thiết bị đang kiểm định</h3>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table-bordered">
+                            <thead>
                                 <tr>
-                                    <td>@i</td>
-                                    <td>@item.equipmentId</td>
-                                    <td>@item.equipment_name</td>
+                                    <th>STT</th>
+                                    <th>Tên thiết bị</th>
+                                    <th>Mã thiết bị</th>
                                 </tr>
-                                i++;
-                            }
-                        }*@
-                    </tbody>
-                </table>
+                            </thead>
+                            <tbody>
+                                @{
+                                        i = 1;
+                                        foreach (var item in ViewBag.listKD)
+                                        {
+                                            <tr>
+                                                <td>@i</td>
+                                                <td>@item.equipment_name</td>
+                                                <td>@item.equipmentId</td>
+                                            </tr>
+                                            i++;
+                                        }
+                                    }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
+
         </div>
 
         <div class="col s12 l2">
@@ -220,22 +258,8 @@
                         <div class="row">
                             <div class="col s12" style="padding-top: 45px">
                                 <h6 class="card-subtitle">Kiểm định</h6>
-                                @*<h4> @ViewBag.Thongke.total_KD</h4>*@
+                                <h4> @ViewBag.totalKD</h4>
                             </div>
-
-                            @*<div class="col s12">
-                                    <div class="progress">
-                                        <div class="determinate amber darken+5" style="width: 100%"></div>
-                                    </div>
-                                </div>
-                                <div class="col s6 center-align">
-                                    <h5 class="card-subtitle">Hoàn thành</h5>
-                                    <h5>700</h5>
-                                </div>
-                                <div class="col s6 center-align">
-                                    <h6 class="card-subtitle">Sắp đến hạn</h6>
-                                    <h5>300</h5>
-                                </div>*@
                         </div>
                     </div>
                 </a>
@@ -243,34 +267,39 @@
         </div>
 
         <div class="modal fade" id="thanhly2">
-            <div class="modal-header">
-                <h3>Thiết bị đang thanh lý</h3>
-            </div>
-            <div class="modal-body">
-                <table class="table-bordered">
-                    <thead>
-                        <tr>
-                            <th>STT</th>
-                            <th>Mã thiết bị</th>
-                            <th>Tên thiết bị</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @{
-                            i = 1;
-                            foreach (var item in ViewBag.listTL)
-                            {
+            <div class="card">
+                <div class="card-content">
+                    <div class="modal-header">
+                        <h3>Thiết bị đang thanh lý</h3>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table-bordered">
+                            <thead>
                                 <tr>
-                                    <td>@i</td>
-                                    <td>@item.equipmentId</td>
-                                    <td>@item.equipment_name</td>
+                                    <th>STT</th>
+                                    <th>Tên thiết bị</th>
+                                    <th>Mã thiết bị</th>
                                 </tr>
-                                i++;
-                            }
-                        }
-                    </tbody>
-                </table>
+                            </thead>
+                            <tbody>
+                                @{
+                                    i = 1;
+                                    foreach (var item in ViewBag.listTL)
+                                    {
+                                        <tr>
+                                            <td>@i</td>
+                                            <td>@item.equipment_name</td>
+                                            <td>@item.equipmentId</td>
+                                        </tr>
+                                        i++;
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
+
         </div>
 
         <div class="col s12 l2">
@@ -282,55 +311,44 @@
                                 <h6 class="card-subtitle">Thanh lý</h6>
                                 <h4> @ViewBag.Thongke.total_TL </h4>
                             </div>
-
-                            @*<div class="col s12">
-                                    <div class="progress">
-                                        <div class="determinate amber darken+5" style="width: 100%"></div>
-                                    </div>
-                                </div>
-
-                                <div class="col s5 center-align">
-                                    <h5 class="card-subtitle">Đã thanh lý</h5>
-                                    <h5>100</h5>
-                                </div>
-                                <div class="col s6 offset-s1 center-align">
-                                    <h6 class="card-subtitle">Đang thanh lý</h6>
-                                    <h5>200</h5>
-                                </div>*@
                         </div>
                     </div>
                 </a>
             </div>
         </div>
 
-        <div class="modal fade"  id="thuhoi">
-            <div class="modal-header">
-                <h3>Thiêt bị thu hồi</h3>
-            </div>
-            <div class="modal-body">
-                <table class="table-bordered">
-                    <thead>
-                        <tr>
-                            <th>STT</th>
-                            <th>Mã thiết bị</th>
-                            <th>Tên thiết bị</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @{
-                            i = 1;
-                            foreach (var item in ViewBag.listTH)
-                            {
+        <div class="modal fade" id="thuhoi">
+            <div class="card">
+                <div class="card-content">
+                    <div class="modal-header">
+                        <h3>Thiêt bị thu hồi</h3>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table-bordered">
+                            <thead>
                                 <tr>
-                                    <td>@i</td>
-                                    <td>@item.equipmentId</td>
-                                    <td>@item.equipment_name</td>
+                                    <th>STT</th>
+                                    <th>Tên thiết bị</th>
+                                    <th>Mã thiết bị</th>
                                 </tr>
-                                i++;
-                            }
-                        }
-                    </tbody>
-                </table>
+                            </thead>
+                            <tbody>
+                                @{
+                                    i = 1;
+                                    foreach (var item in ViewBag.listTH)
+                                    {
+                                        <tr>
+                                            <td>@i</td>
+                                            <td>@item.equipment_name</td>
+                                            <td>@item.equipmentId</td>
+                                        </tr>
+                                        i++;
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -341,7 +359,7 @@
                         <div class="row">
                             <div class="col s12 center-align" style="padding-top: 45px">
                                 <h6 class="card-subtitle">Thu hồi</h6>
-                                <h4 class="font-medium m-b-0"> @ViewBag.Thongke.total_TH </h>
+                                <h4> @ViewBag.Thongke.total_TH </h4>
                             </div>
                         </div>
                     </div>
@@ -354,14 +372,14 @@
 
     <div class="row center-align">
 
-        <div class="col s12 l4">
+        <div class="col l4 offset-l2">
             <div class="card warning-gradient card-hover">
                 <a href="#kiemdinh" class="modal-trigger">
                     <div class="card-content">
                         <div class="d-flex no-block align-items-center">
                             <div>
                                 <h6 class="white-text op-1">Sắp hết hạn đăng kiểm (chiếc)</h6>
-                                <h3 class="white-text m-b-5">100</h3>
+                                <h3 class="white-text m-b-5">@ViewBag.kiemdinhtag</h3>
                                 <h6 class="white-text op-1"></h6>
                                 <br />
                             </div>
@@ -386,30 +404,7 @@
                         <div class="d-flex no-block align-items-center">
                             <div>
                                 <h6 class="white-text op-1">Sắp đến hạn bảo dưỡng (chiếc)</h6>
-                                <h3 class="white-text m-b-5">100</h3>
-                                <h6 class="white-text op-1"></h6>
-                                <br />
-                            </div>
-                            <div class="ml-auto">
-                                <span class="white-text display-6">
-                                    <i class="material-icons dp48">report_problem</i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-            </div>
-        </div>
-
-        <div class="col s12 l4">
-            <div class="card warning-gradient card-hover">
-                <a href="#thanhly" class="modal-trigger">
-                    <div class="card-content">
-                        <div class="d-flex no-block align-items-center">
-                            <div>
-                                <h6 class="white-text op-1">TB Đang chờ thanh lý (chiếc)</h6>
-                                <h3 class="white-text m-b-5">100</h3>
+                                <h3 class="white-text m-b-5">@ViewBag.baoduongtag</h3>
                                 <h6 class="white-text op-1"></h6>
                                 <br />
                             </div>
@@ -435,33 +430,23 @@
             <div class="col s12 l2">
                 <div class="card mymanu card-hover" style="height: 200px">
                     <div class="card-content center-align table_container" style="overflow-x: auto !important">
-                        <h6 class="card-subtitle center-align m-b-0 white-text">Tổng</h6>
-                        <h1 class="font-light font-medium m-b-0 white-text" style="padding-top: 40px"> 100 </h1>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col s12 l2">
-                <div class="card card-hover" style="height: 200px">
-                    <div class="card-content align-items-center table_container">
                         <div class="row">
                             <div class="col s12">
-                                <h6 class="card-subtitle">Sửa chữa</h6>
-                                <h4> 20 </h4>
+                                <h6 class="card-subtitle center-align m-b-0 white-text">Tổng</h6>
+                                <h2 class="font-light font-medium m-b-0 white-text" style="padding-top: 10px"> @ViewBag.tongcogioi </h2>
                             </div>
-
                             <div class="col s12">
                                 <div class="progress">
                                     <div class="determinate amber darken+5" style="width: 100%"></div>
                                 </div>
                             </div>
                             <div class="col s6 center-align">
-                                <h5 class="card-subtitle">Đã sửa</h5>
-                                <h5>15</h5>
+                                <h5 class="card-subtitle white-text">Đang hoạt động</h5>
+                                <h5 class="white-text">@ViewBag.cogioihd</h5>
                             </div>
                             <div class="col s6 center-align">
-                                <h6 class="card-subtitle">Đang sửa</h6>
-                                <h5>5</h5>
+                                <h6 class="card-subtitle white-text">Không hoạt động</h6>
+                                <h5 class="white-text">@ViewBag.cogioikhd</h5>
                             </div>
                         </div>
                     </div>
@@ -470,27 +455,49 @@
 
             <div class="col s12 l2">
                 <div class="card card-hover" style="height: 200px">
-                    <div class="card-content align-items-center table_container">
-                        <div class="row">
-                            <div class="col s12">
-                                <h6 class="card-subtitle">Bảo dưỡng </h6>
-                                <h4> 30</h4>
-                            </div>
-
-                            <div class="col s12">
-                                <div class="progress">
-                                    <div class="determinate amber darken+5" style="width: 100%"></div>
+                    <a href="#suachuasc" class="modal-trigger">
+                        <div class="card-content align-items-center table_container">
+                            <div class="row">
+                                <div class="col s12" style="padding-top: 45px">
+                                    <h6 class="card-subtitle">Sửa chữa</h6>
+                                    <h4> @ViewBag.slSC </h4>
                                 </div>
                             </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
 
-                            <div class="col s6 center-align">
-                                <h5 class="card-subtitle">Đã bảo dưỡng</h5>
-                                <h5>15</h5>
-                            </div>
-                            <div class="col s6 center-align">
-                                <h6 class="card-subtitle">Đang bảo dưỡng</h6>
-                                <h5>15</h5>
-                            </div>
+            <div id="suachuasc" class="modal fade">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="modal-header">
+                            <h3>Thiết bị đang sửa chữa</h3>
+                        </div>
+                        <div>
+                            <table class="table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Tên thiết bị</th>
+                                        <th>Mã thiết bị</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int cgSC = 1;
+                                        foreach (var item in ViewBag.cogioiSC)
+                                        {
+                                            <tr>
+                                                <td>@cgSC</td>
+                                                <td>@item.equipment_name</td>
+                                                <td>@item.equipmentId</td>
+                                            </tr>
+                                            cgSC++;
+                                        }
+                                    }
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -498,26 +505,49 @@
 
             <div class="col s12 l2">
                 <div class="card card-hover" style="height: 200px">
-                    <div class="card-content align-items-center table_container">
-                        <div class="row">
-                            <div class="col s12">
-                                <h6 class="card-subtitle">Kiểm định</h6>
-                                <h4> 1000</h4>
-                            </div>
-
-                            <div class="col s12">
-                                <div class="progress">
-                                    <div class="determinate amber darken+5" style="width: 100%"></div>
+                    <a href="#baoduongsc" class="modal-trigger">
+                        <div class="card-content align-items-center table_container">
+                            <div class="row">
+                                <div class="col s12" style="padding-top: 45px">
+                                    <h6 class="card-subtitle">Bảo dưỡng</h6>
+                                    <h4> @ViewBag.slBD </h4>
                                 </div>
                             </div>
-                            <div class="col s6 center-align">
-                                <h5 class="card-subtitle">Hoàn thành</h5>
-                                <h5>700</h5>
-                            </div>
-                            <div class="col s6 center-align">
-                                <h6 class="card-subtitle">Sắp đến hạn</h6>
-                                <h5>300</h5>
-                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div id="baoduongsc" class="modal fade">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="modal-header">
+                            <h3>Thiết bị đang bảo dưỡng</h3>
+                        </div>
+                        <div>
+                            <table class="table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Tên thiết bị</th>
+                                        <th>Mã thiết bị</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int cgBD = 1;
+                                        foreach (var item in ViewBag.cogioiBD)
+                                        {
+                                            <tr>
+                                                <td>@cgBD</td>
+                                                <td>@item.equipment_name</td>
+                                                <td>@item.equipmentId</td>
+                                            </tr>
+                                            cgBD++;
+                                        }
+                                    }
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -525,27 +555,49 @@
 
             <div class="col s12 l2">
                 <div class="card card-hover" style="height: 200px">
-                    <div class="card-content align-items-center table_container">
-                        <div class="row">
-                            <div class="col s12">
-                                <h6 class="card-subtitle">Thanh lý</h6>
-                                <h4> 300 </h4>
-                            </div>
-
-                            <div class="col s12">
-                                <div class="progress">
-                                    <div class="determinate amber darken+5" style="width: 100%"></div>
+                    <a href="#kiemdinhsc" class="modal-trigger">
+                        <div class="card-content align-items-center table_container">
+                            <div class="row">
+                                <div class="col s12" style="padding-top: 45px">
+                                    <h6 class="card-subtitle">Kiểm định</h6>
+                                    <h4> @ViewBag.slKD </h4>
                                 </div>
                             </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
 
-                            <div class="col s5 center-align">
-                                <h5 class="card-subtitle">Đã thanh lý</h5>
-                                <h5>100</h5>
-                            </div>
-                            <div class="col s6 offset-s1 center-align">
-                                <h6 class="card-subtitle">Đang thanh lý</h6>
-                                <h5>200</h5>
-                            </div>
+            <div id="kiemdinhsc" class="modal fade">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="modal-header">
+                            <h3>Thiết bị đang kiểm định</h3>
+                        </div>
+                        <div>
+                            <table class="table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Tên thiết bị</th>
+                                        <th>Mã thiết bị</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                            int cgKD = 1;
+                                            foreach (var item in ViewBag.cogioiKD)
+                                            {
+                                                <tr>
+                                                    <td>@cgKD</td>
+                                                    <td>@item.equipment_name</td>
+                                                    <td>@item.equipmentId</td>
+                                                </tr>
+                                                cgKD++;
+                                            }
+                                        }
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -553,12 +605,99 @@
 
             <div class="col s12 l2">
                 <div class="card card-hover" style="height: 200px">
-                    <div class="card-content align-items-center table_container">
-                        <div class="row">
-                            <div class="col s12 center-align" style="padding-top: 45px">
-                                <h6 class="card-subtitle">Thu hồi</h6>
-                                <h4 class="font-medium m-b-0"> 1000 </h>
+                    <a href="#thanhlisc" class="modal-trigger">
+                        <div class="card-content align-items-center table_container">
+                            <div class="row">
+                                <div class="col s12" style="padding-top: 45px">
+                                    <h6 class="card-subtitle">Thanh lý</h6>
+                                    <h4> @ViewBag.slTL </h4>
+                                </div>
                             </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div id="thanhlisc" class="modal fade">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="modal-header">
+                            <h3>Thiết bị đang thanh lí</h3>
+                        </div>
+                        <div>
+                            <table class="table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Tên thiết bị</th>
+                                        <th>Mã thiết bị</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int cgTL = 1;
+                                        foreach (var item in ViewBag.cogioiTL)
+                                        {
+                                            <tr>
+                                                <td>@cgTL</td>
+                                                <td>@item.equipment_name</td>
+                                                <td>@item.equipmentId</td>
+                                            </tr>
+                                            cgTL++;
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col s12 l2">
+                <div class="card card-hover" style="height: 200px">
+                    <a href="#thuhoisc" class="modal-trigger">
+                        <div class="card-content align-items-center table_container">
+                            <div class="row">
+                                <div class="col s12" style="padding-top: 45px">
+                                    <h6 class="card-subtitle">Thu hồi</h6>
+                                    <h4> @ViewBag.slTH </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div id="thuhoisc" class="modal fade">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="modal-header">
+                            <h3>Thiết bị đang thu hồi</h3>
+                        </div>
+                        <div>
+                            <table class="table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Tên thiết bị</th>
+                                        <th>Mã thiết bị</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int cgTH = 1;
+                                        foreach (var item in ViewBag.cogioiTH)
+                                        {
+                                            <tr>
+                                                <td>@cgTH</td>
+                                                <td>@item.equipment_name</td>
+                                                <td>@item.equipmentId</td>
+                                            </tr>
+                                            cgTH++;
+                                        }
+                                    }
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -567,395 +706,742 @@
         </div>
 
 
-        <div class="row center-align">
+        <div class="row center">
 
-            <div class="col s12 l4">
+            <div class="col l4 offset-l2">
                 <div class="card warning-gradient card-hover">
-                    <div class="card-content">
-                        <div class="d-flex no-block align-items-center">
-                            <div>
-                                <h6 class="white-text op-1">Sắp đến hạn đăng kiểm (chiếc)</h6>
-                                <h3 class="white-text m-b-5">100</h3>
-                                <h6 class="white-text op-1"></h6>
-                                <br />
+                    <a href="#kiemdinhcogioi" class="modal-trigger">
+                        <div class="card-content">
+                            <div class="d-flex no-block align-items-center">
+                                <div>
+                                    <h6 class="white-text op-1">Sắp hết hạn đăng kiểm (chiếc)</h6>
+                                    <h3 class="white-text m-b-5">@ViewBag.kiemdinhcogioitag</h3>
+                                    <h6 class="white-text op-1"></h6>
+                                    <br />
+                                </div>
+                                <div class="ml-auto">
+                                    <span class="white-text display-6">
+                                        <i class="material-icons dp48">report_problem</i>
+                                    </span>
+                                </div>
                             </div>
-                            <div class="ml-auto">
-                                <span class="white-text display-6">
-                                    <i class="material-icons dp48">report_problem</i>
-                                </span>
-                            </div>
+
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
 
             <div class="col s12 l4">
                 <div class="card warning-gradient card-hover">
-                    <div class="card-content">
-                        <div class="d-flex no-block align-items-center">
-                            <div>
-                                <h6 class="white-text op-1">Sắp hết hạn bảo dưỡng (chiếc)</h6>
-                                <h3 class="white-text m-b-5">100</h3>
-                                <h6 class="white-text op-1"></h6>
-                                <br />
-                            </div>
-                            <div class="ml-auto">
-                                <span class="white-text display-6">
-                                    <i class="material-icons dp48">report_problem</i>
-                                </span>
+                    <a href="#baoduongcogioi" class="modal-trigger">
+                        <div class="card-content">
+                            <div class="d-flex no-block align-items-center">
+                                <div>
+                                    <h6 class="white-text op-1">Sắp đến hạn bảo dưỡng (chiếc)</h6>
+                                    <h3 class="white-text m-b-5">@ViewBag.baoduongcogioitag</h3>
+                                    <h6 class="white-text op-1"></h6>
+                                    <br />
+                                </div>
+                                <div class="ml-auto">
+                                    <span class="white-text display-6">
+                                        <i class="material-icons dp48">report_problem</i>
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
+
                 </div>
             </div>
 
-            <div class="col s12 l4">
-                <div class="card warning-gradient card-hover">
-                    <div class="card-content">
-                        <div class="d-flex no-block align-items-center">
-                            <div>
-                                <h6 class="white-text op-1">TB Đang chờ sửa chữa (chiếc)</h6>
-                                <h3 class="white-text m-b-5">100</h3>
-                                <h6 class="white-text op-1"></h6>
-                                <br />
+            @*<div class="col s12 l4">
+                    <div class="card warning-gradient card-hover">
+                        <a href="#suachuacogioi" class="modal-trigger">
+                            <div class="card-content">
+                                <div class="d-flex no-block align-items-center">
+                                    <div>
+                                        <h6 class="white-text op-1">Thiết bị đang sửa chữa (chiếc)</h6>
+                                        <h3 class="white-text m-b-5">@ViewBag.suachuacogioitag</h3>
+                                        <h6 class="white-text op-1"></h6>
+                                        <br />
+                                    </div>
+                                    <div class="ml-auto">
+                                        <span class="white-text display-6">
+                                            <i class="material-icons dp48">report_problem</i>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="ml-auto">
-                                <span class="white-text display-6">
-                                    <i class="material-icons dp48">report_problem</i>
-                                </span>
-                            </div>
-                        </div>
+                        </a>
+
                     </div>
-                </div>
-            </div>
+                </div>*@
 
         </div>
     </div>
 </div>
+<div class="card">
+    <div class="card-content">
+        <div class="col s12">
+            <div class="center">
+                <div class="month" id="visiblemonth" style="display: none">
+                    <h3>
+                        <i class="fas fa-calendar-alt icon"></i>
+                        <input type="text"
+                               id="txtmonth"
+                               class="datepicker-here center"
+                               data-language='vi'
+                               data-min-view="months"
+                               data-view="months"
+                               data-date-format="MM yyyy" />
+                    </h3>
+                </div>
+                <div class="year" id="visibleyear" style="display: none">
+                    <h3>
+                        <i class="fas fa-calendar-alt icon"></i>
+                        <input type="text"
+                               id="txtyear"
+                               class="datepicker-here center"
+                               data-language='vi'
+                               data-min-view="years"
+                               data-view="years"
+                               data-date-format="yyyy" />
+                    </h3>
+                </div>
+            </div>
 
+        </div>
+
+        <div class="row">
+            <div class="col s12">
+                <a id="typeview" class='dropdown-trigger btn' href='#' data-target='dropdown1' style="width:250px;background-color:#273146;margin-bottom:20px">Xem Theo Ngày</a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<ul id='dropdown1' class='dropdown-content'>
+    <li onclick="ViewbyMonth();"><a id="month" href="#" ;>Xem Theo Tháng</a></li>
+    <li onclick="ViewbyYear();"><a id="year" href="#" ;>Xem Theo Năm</a></li>
+    <li onclick="ViewbyYearss();"><a id="yearss" href="#" ;>Xem Theo Các Năm</a></li>
+</ul>
 <!-- Start Pie Chart -->
 <div class="row">
-
-    <div class="col s12 m12 l12">
-        <div class="card">
-            <div class="card-content">
-                <h6>Tổng số thiết bị trong tháng (chiếc)</h6>
-                <div id="basic-pie4" style="height:400px;"></div>
-                <div class="d-flex align-items-center justify-content-center">
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col s12 m12 l12">
-        <div class="card">
-            <div class="col s12 l6">
+    @{
+        if (ViewBag.suachua.Count != 0)
+        {
+            <div class="col l12">
                 <div class="card">
-                    <div class="card-content">
-                        <h5 class="card-title">Tổng chi phí bảo dưỡng</h5>
-                        <div id="maintain-value" style="height:250px; width:100%;" class="m-t-20"></div>
-                        <div class="d-flex align-items-center justify-content-center">
-                            <div style="margin-top:10px">
-                                <h4 class="font-medium"><span style="color:#1e88e5">Tổng :</span>25,200 (triệu đồng)</h4>
-                            </div>
-                        </div>
+                    <div class="card-content ">
+                        <h5 class="card-title">Thiết bị đang sửa chữa</h5>
+                        <div id="basic-barsc" style="height:400px;"></div>
                     </div>
                 </div>
             </div>
+        }
 
-            <div class="col s12 l6">
+        if (ViewBag.baoduong.Count != 0)
+        {
+            <div class="col l12">
                 <div class="card">
-                    <div class="card-content">
-                        <h5 class="card-title">Tổng thiết bị bảo dưỡng</h5>
-                        <div id="maintain-type" style="height:250px; width:100%;" class="m-t-20"></div>
-                        <div class="d-flex align-items-center justify-content-center">
-                            <div style="margin-top:10px">
-                                <h4 class="font-medium"><span style="color:#1e88e5">Tổng :</span>900 (chiếc)</h4>
-                            </div>
-                        </div>
+                    <div class="card-content ">
+                        <h5 class="card-title">Thiết bị đang bảo dưỡng</h5>
+                        <div id="basic-barbd" style="height:400px;"></div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div class="col s12 m12 l12">
-        <div class="col s12 l6">
-            <div class="card">
-                <div class="card-content">
-                    <h5 class="card-title">Tổng số tiền nhận được qua thanh lý</h5>
-                    <div id="liquidation-value" style="height:250px; width:100%;" class="m-t-20"></div>
-                    <div class="d-flex align-items-center justify-content-center">
-                        <div style="margin-top:10px">
-                            <h4 class="font-medium"><span style="color:#1e88e5">Tổng :</span> 2,300 (triệu đồng)</h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col s12 l6">
-            <div class="card">
-                <div class="card-content">
-                    <h5 class="card-title">Tổng thiết bị thanh lý</h5>
-                    <div id="liquidation-type" style="height:250px; width:100%;" class="m-t-20"></div>
-                    <div class="d-flex align-items-center justify-content-center">
-                        <div style="margin-top:10px">
-                            <h4 class="font-medium"><span style="color:#1e88e5">Tổng :</span> 300 (chiếc)</h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col s12 m12 l12">
-        <div class="card">
-            <div class="col s12 l6">
+        }
+        if (ViewBag.thanhli.Count != 0)
+        {
+            <div class="col l12">
                 <div class="card">
-                    <div class="card-content">
-                        <h5 class="card-title">Tổng chi phí sửa chữa</h5>
-                        <div id="expense-piechart" style="height:250px; width:100%;" class="m-t-20"></div>
-                        <div class="d-flex align-items-center justify-content-center">
-                            <div style="margin-top:10px">
-                                <h4 class="font-medium"><span style="color:#1e88e5">Tổng :</span> 7,777 (triệu đồng)</h4>
-                            </div>
-                        </div>
+                    <div class="card-content ">
+                        <h5 class="card-title">Thiết bị thanh lí</h5>
+                        <div id="basic-bartl" style="height:400px;"></div>
                     </div>
                 </div>
             </div>
-
-            <div class="col s12 l6">
+        }
+        if (ViewBag.trungdaitu.Count != 0)
+        {
+            <div class="col l12">
                 <div class="card">
-                    <div class="card-content">
-                        <h5 class="card-title">Tổng thiết bị sửa chữa</h5>
-                        <div id="repair-num-pie" style="height:250px; width:100%;" class="m-t-20"></div>
-                        <div class="d-flex align-items-center justify-content-center">
-                            <div style="margin-top:10px">
-                                <h4 class="font-medium"><span style="color:#1e88e5">Tổng :</span>500 (chiếc)</h4>
-                            </div>
-                        </div>
+                    <div class="card-content ">
+                        <h5 class="card-title">Trung đại tu thiết bị</h5>
+                        <div id="basic-bartdt" style="height:400px;"></div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        }
+        if (ViewBag.kiemdinh.Count != 0)
+        {
+            <div class="col l12">
+                <div class="card">
+                    <div class="card-content ">
+                        <h5 class="card-title">Thiết bị kiểm định</h5>
+                        <div id="basic-barkd" style="height:400px;"></div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
 </div>
 
 
 <div id="kiemdinh" class="modal">
-    <div class="modal-header center-align">
-        <h3>Thiết bị sắp hết hạn đăng kiểm</h3>
-    </div>
-    <div class="row">
-        <table class="table-bordered striped">
-            <thead>
-                <tr>
-                    <th>STT</th>
-                    <th>Tên thiết bị</th>
-                    <th>Mã TSCĐ</th>
-                    <th>Ngày hết hạn kiểm định</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Máy khoan</td>
-                    <td>001</td>
-                    <td>10/1/2020</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Máng cào</td>
-                    <td>002</td>
-                    <td>10/1/2020</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Băng chuyền</td>
-                    <td>003</td>
-                    <td>10/1/2020</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Quạt gió</td>
-                    <td>004</td>
-                    <td>10/1/2020</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Máy khoan</td>
-                    <td>005</td>
-                    <td>10/1/2020</td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="center">
-            <ul class="pagination">
-                <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-                <li class="active"><a href="#!">1</a></li>
-                <li class="waves-effect"><a href="#!">2</a></li>
-                <li class="waves-effect"><a href="#!">3</a></li>
-                <li class="waves-effect"><a href="#!">4</a></li>
-                <li class="waves-effect"><a href="#!">5</a></li>
-                <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-            </ul>
+    <div class="card">
+        <div class="card-content">
+            <div class="modal-header center-align">
+                <h3>Thiết bị sắp hết hạn đăng kiểm</h3>
+            </div>
+            <div class="row">
+                <table class="table-bordered striped table-responsive">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên thiết bị</th>
+                            <th>Mã TSCĐ</th>
+                            <th>Ngày hết hạn kiểm định</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int stt = 1;
+                            foreach (var item in ViewBag.handangkiem)
+                            {
+                                <tr>
+                                    <td>@stt</td>
+                                    <td>@item.equipment_name</td>
+                                    <td>@item.equipmentId</td>
+                                    <td>@item.ngay-@item.thang-@item.nam</td>
+                                </tr>
+                                stt++;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
-<div id="baoduong" class="modal">
-    <div class="modal-header center-align">
-        <h3>Thiết bị sắp đến hạn bảo dưỡng</h3>
+
+<div id="kiemdinhcogioi" class="modal">
+    <div class="card">
+        <div class="card-content">
+            <div class="modal-header center-align">
+                <h3>Thiết bị sắp hết hạn đăng kiểm</h3>
+            </div>
+            <div class="row">
+                <table class="table-bordered striped table-responsive">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên thiết bị</th>
+                            <th>Mã TSCĐ</th>
+                            <th>Ngày hết hạn kiểm định</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int cgdk = 1;
+                            foreach (var item in ViewBag.hanDangKiemcogioi)
+                            {
+                                <tr>
+                                    <td>@cgdk</td>
+                                    <td>@item.equipment_name</td>
+                                    <td>@item.equipmentId</td>
+                                    <td>@item.ngay-@item.thang-@item.nam</td>
+                                </tr>
+                                cgdk++;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-    <div class="row">
-        <table class="table-bordered striped">
-            <thead>
-                <tr>
-                    <th>STT</th>
-                    <th>Tên thiết bị</th>
-                    <th>Mã TSCĐ</th>
-                    <th>Ngày đến hạn bảo dưỡng</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Máy khoan</td>
-                    <td>001</td>
-                    <td>10/1/2020</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Máng cào</td>
-                    <td>002</td>
-                    <td>10/1/2020</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Băng chuyền</td>
-                    <td>003</td>
-                    <td>10/1/2020</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Quạt gió</td>
-                    <td>004</td>
-                    <td>10/1/2020</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Máy khoan</td>
-                    <td>005</td>
-                    <td>10/1/2020</td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="center">
-            <ul class="pagination">
-                <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-                <li class="active"><a href="#!">1</a></li>
-                <li class="waves-effect"><a href="#!">2</a></li>
-                <li class="waves-effect"><a href="#!">3</a></li>
-                <li class="waves-effect"><a href="#!">4</a></li>
-                <li class="waves-effect"><a href="#!">5</a></li>
-                <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-            </ul>
+</div>
+<div id="baoduongcogioi" class="modal">
+    <div class="card">
+        <div class="card-content">
+            <div class="modal-header center-align">
+                <h3>Thiết bị sắp đến hạn bảo dưỡng</h3>
+            </div>
+            <div class="row">
+                <table class="table-bordered striped">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên thiết bị</th>
+                            <th>Mã TSCĐ</th>
+                            <th>Ngày đến hạn bảo dưỡng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int cgbd = 1;
+                            foreach (var item in ViewBag.hanBaoduongcogioi)
+                            {
+                                <tr>
+                                    <td>@cgbd</td>
+                                    <td>@item.equipment_name</td>
+                                    <td>@item.equipmentId</td>
+                                    <td>@item.ngay-@item.thang-@item.nam</td>
+                                </tr>
+                                cgbd++;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@*<div id="suachuacogioi" class="modal">
+        <div class="card">
+            <div class="card-content">
+                <div class="modal-header center-align">
+                    <h3>Thiết bị đang sữa chữa</h3>
+                </div>
+                <div class="row">
+                    <table class="table-bordered striped">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Tên thiết bị</th>
+                                <th>Mã TSCĐ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int sccg = 1;
+                                foreach (var item in ViewBag.suachuacogioi)
+                                {
+                                    <tr>
+                                        <td>@sccg</td>
+                                        <td>@item.equipment_name</td>
+                                        <td>@item.equipmentId</td>
+                                    </tr>
+                                    sccg++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+<div id="baoduong" class="modal">
+    <div class="card">
+        <div class="card-content">
+            <div class="modal-header center-align">
+                <h3>Thiết bị sắp đến hạn bảo dưỡng</h3>
+            </div>
+            <div class="row">
+                <table class="table-bordered striped">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên thiết bị</th>
+                            <th>Mã TSCĐ</th>
+                            <th>Ngày đến hạn bảo dưỡng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int sttbd = 1;
+                            foreach (var item in ViewBag.hanbaoduong)
+                            {
+                                <tr>
+                                    <td>@sttbd</td>
+                                    <td>@item.equipment_name</td>
+                                    <td>@item.equipmentId</td>
+                                    <td>@item.ngay-@item.thang-@item.nam</td>
+                                </tr>
+                                sttbd++;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
 <div id="thanhly" class="modal">
-    <div class="modal-header center-align">
-        <h3>Thiết bị chờ thanh lý</h3>
-    </div>
-    <div class="row">
-        <table class="table-bordered striped">
-            <thead>
-                <tr>
-                    <th>STT</th>
-                    <th>Tên thiết bị</th>
-                    <th>Mã TSCĐ</th>
-                    <th>Ngày thanh lý (dự tính)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Máy khoan</td>
-                    <td>001</td>
-                    <td>10/1/2020</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Máng cào</td>
-                    <td>002</td>
-                    <td>10/1/2020</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Băng chuyền</td>
-                    <td>003</td>
-                    <td>10/1/2020</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Quạt gió</td>
-                    <td>004</td>
-                    <td>10/1/2020</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Máy khoan</td>
-                    <td>005</td>
-                    <td>10/1/2020</td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="center">
-            <ul class="pagination">
-                <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-                <li class="active"><a href="#!">1</a></li>
-                <li class="waves-effect"><a href="#!">2</a></li>
-                <li class="waves-effect"><a href="#!">3</a></li>
-                <li class="waves-effect"><a href="#!">4</a></li>
-                <li class="waves-effect"><a href="#!">5</a></li>
-                <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-            </ul>
+    <div class="card">
+        <div class="card-content">
+            <div class="modal-header center-align">
+                <h3>Thiết bị đang thanh lý</h3>
+            </div>
+            <div class="row">
+                <table class="table-bordered striped">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên thiết bị</th>
+                            <th>Mã TSCĐ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int stttl = 1;
+                            foreach (var item in ViewBag.ListTL)
+                            {
+                                <tr>
+                                    <td>@stttl</td>
+                                    <td>@item.equipment_name</td>
+                                    <td>@item.equipmentId</td>
+                                </tr>
+                                stttl++;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
-<script>
-    @{ 
-        var total_temp = ViewBag.Thongke.total;
-        var repair_temp = ViewBag.Thongke.total_repair;
-        var main_temp = ViewBag.Thongke.total_maintain;
-        var KD_temp = ViewBag.Thongke.total_KD;
-        var TL_temp = ViewBag.Thongke.total_TL;
-        var TH_temp = ViewBag.Thongke.total_TH;
+@{
+    var total_temp = ViewBag.Thongke.total;
+    var repair_temp = ViewBag.Thongke.total_repair;
+    var main_temp = ViewBag.Thongke.total_maintain;
+    var KD_temp = ViewBag.Thongke.total_KD;
+    var TL_temp = ViewBag.Thongke.total_TL;
+    var TH_temp = ViewBag.Thongke.total_TH;
+    var suachua = ViewBag.suachua;
+}
+<script type="text/javascript">
+    function ViewbyMonth() {
+        $('#pre-load').show();
+        var val = document.getElementById("txtmonth").value;
+        var val2 = val.split(" ");
+        window.location = "/phong-cdvt?type=month&month=" + val2[1] + "&year=" + val2[2];
+    }
+    function ViewbyYear() {
+        $('#pre-load').show();
+        window.location = "/phong-cdvt?type=year&year=" + document.getElementById("txtyear").value;
+    }
+    function ViewbyYearss() {
+        $('#pre-load').show();
+        window.location = "/phong-cdvt?type=yearss";
     }
     var total = @total_temp;
     var total_repair = @repair_temp;
     var total_main = @main_temp;
-    var total_KD = @KD_temp;
     var total_TL = @TL_temp;
     var total_TH = @TH_temp;
+    $('#minMaxDate').datepicker({
+        language: 'vi',
+        maxDate: new Date() // Now can select only dates, which goes after today
+    });
+    $(document).ready(function () {
+        var array = @Html.Raw(Json.Encode(ViewBag.suachua));
+        var a = JSON.stringify(array);
+        var jsonData = JSON.parse(a);
+        var soluong = [];
+        var thang = [];
+        if(@ViewBag.type == month) {
+            for (var i = 0; i < jsonData.length; i++) {
+                soluong[i] = jsonData[i].soluong;
+                thang[i] = "Ngày "+jsonData[i].date;
+                }
+        }
+        if(@ViewBag.type == year) {
+            for (var i = 0; i < jsonData.length; i++) {
+                soluong[i] = jsonData[i].soluong;
+                thang[i] = "Tháng "+jsonData[i].date;
+                }
+        }
+        if(@ViewBag.type == yearss) {
+            for (var i = 0; i < jsonData.length; i++) {
+                soluong[i] = jsonData[i].soluong;
+                thang[i] = jsonData[i].date;
+                }
+        }
+                var a = {
+                    type: 'bar',
+                    data: soluong,
+                }
+                var b = {
+                    type: 'category',
+                    data : thang,
+                }
+        $('.datepicker-inline').remove();
+             var myChartsc = echarts.init(document.getElementById('basic-barsc'));
+             var option = {
+                grid: {
+                    left: '1%',
+                    right: '2%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                color: ["#2962FF", "#4fc3f7"],
+                calculable: true,
+                xAxis: [
+                        b
+                ],
+                yAxis: [
+                    {
+                        type: 'value'
+                    }
+                ],
+                series: [
+                    a
+                ]
+    };
+        myChartsc.setOption(option);
+
+        var array = @Html.Raw(Json.Encode(ViewBag.baoduong));
+        var a = JSON.stringify(array);
+        var jsonData = JSON.parse(a);
+        var soluong = [];
+        var thang = [];
+        if(@ViewBag.type == month) {
+            for (var i = 0; i < jsonData.length; i++) {
+                soluong[i] = jsonData[i].soluong;
+                thang[i] = "Ngày "+jsonData[i].date;
+                }
+        }
+        if(@ViewBag.type == year) {
+            for (var i = 0; i < jsonData.length; i++) {
+                soluong[i] = jsonData[i].soluong;
+                thang[i] = "Tháng "+jsonData[i].date;
+                }
+        }
+        if(@ViewBag.type == yearss) {
+            for (var i = 0; i < jsonData.length; i++) {
+                soluong[i] = jsonData[i].soluong;
+                thang[i] = jsonData[i].date;
+                }
+        }
+                var a = {
+                    type: 'bar',
+                    data: soluong,
+                }
+                var b = {
+                    type: 'category',
+                    data : thang,
+                }
+             var myChartbd = echarts.init(document.getElementById('basic-barbd'));
+             var option = {
+                grid: {
+                    left: '1%',
+                    right: '2%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                color: ["#2962FF", "#4fc3f7"],
+                calculable: true,
+                xAxis: [
+                        b
+                ],
+                yAxis: [
+                    {
+                        type: 'value'
+                    }
+                ],
+                series: [
+                    a
+                ]
+    };
+        myChartbd.setOption(option);
+
+        var array = @Html.Raw(Json.Encode(ViewBag.thanhli));
+        var a = JSON.stringify(array);
+        var jsonData = JSON.parse(a);
+        var soluong = [];
+        var thang = [];
+        if(@ViewBag.type == month) {
+            for (var i = 0; i < jsonData.length; i++) {
+                soluong[i] = jsonData[i].soluong;
+                thang[i] = "Ngày "+jsonData[i].date;
+                }
+        }
+        if(@ViewBag.type == year) {
+            for (var i = 0; i < jsonData.length; i++) {
+                soluong[i] = jsonData[i].soluong;
+                thang[i] = "Tháng "+jsonData[i].date;
+                }
+        }
+        if(@ViewBag.type == yearss) {
+            for (var i = 0; i < jsonData.length; i++) {
+                soluong[i] = jsonData[i].soluong;
+                thang[i] = jsonData[i].date;
+                }
+        }
+                var a = {
+                    type: 'bar',
+                    data: soluong,
+                }
+                var b = {
+                    type: 'category',
+                    data : thang,
+                }
+             var myCharttl = echarts.init(document.getElementById('basic-bartl'));
+             var option = {
+                grid: {
+                    left: '1%',
+                    right: '2%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                color: ["#2962FF", "#4fc3f7"],
+                calculable: true,
+                xAxis: [
+                        b
+                ],
+                yAxis: [
+                    {
+                        type: 'value'
+                    }
+                ],
+                series: [
+                    a
+                ]
+    };
+        myCharttl.setOption(option);
+
+    var array = @Html.Raw(Json.Encode(ViewBag.trungdaitu));
+        var a = JSON.stringify(array);
+        var jsonData = JSON.parse(a);
+        var soluong = [];
+        var thang = [];
+        if(@ViewBag.type == month) {
+            for (var i = 0; i < jsonData.length; i++) {
+                soluong[i] = jsonData[i].soluong;
+                thang[i] = "Ngày "+jsonData[i].date;
+                }
+        }
+        if(@ViewBag.type == year) {
+            for (var i = 0; i < jsonData.length; i++) {
+                soluong[i] = jsonData[i].soluong;
+                thang[i] = "Tháng "+jsonData[i].date;
+                }
+        }
+        if(@ViewBag.type == yearss) {
+            for (var i = 0; i < jsonData.length; i++) {
+                soluong[i] = jsonData[i].soluong;
+                thang[i] = jsonData[i].date;
+                }
+        }
+                var a = {
+                    type: 'bar',
+                    data: soluong,
+                }
+                var b = {
+                    type: 'category',
+                    data : thang,
+                }
+             var myCharttdt = echarts.init(document.getElementById('basic-bartdt'));
+             var option = {
+                grid: {
+                    left: '1%',
+                    right: '2%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                color: ["#2962FF", "#4fc3f7"],
+                calculable: true,
+                xAxis: [
+                        b
+                ],
+                yAxis: [
+                    {
+                        type: 'value'
+                    }
+                ],
+                series: [
+                    a
+                ]
+    };
+        myCharttdt.setOption(option);
+
+ var array = @Html.Raw(Json.Encode(ViewBag.kiemdinh));
+        var a = JSON.stringify(array);
+        var jsonData = JSON.parse(a);
+        var soluong = [];
+        var thang = [];
+        if(@ViewBag.type == month) {
+            for (var i = 0; i < jsonData.length; i++) {
+                soluong[i] = jsonData[i].soluong;
+                thang[i] = "Ngày "+jsonData[i].date;
+                }
+        }
+        if(@ViewBag.type == year) {
+            for (var i = 0; i < jsonData.length; i++) {
+                soluong[i] = jsonData[i].soluong;
+                thang[i] = "Tháng "+jsonData[i].date;
+                }
+        }
+        if(@ViewBag.type == yearss) {
+            for (var i = 0; i < jsonData.length; i++) {
+                soluong[i] = jsonData[i].soluong;
+                thang[i] = jsonData[i].date;
+                }
+        }
+                var a = {
+                    type: 'bar',
+                    data: soluong,
+                }
+                var b = {
+                    type: 'category',
+                    data : thang,
+                }
+             var myChartkd = echarts.init(document.getElementById('basic-barkd'));
+             var option = {
+                grid: {
+                    left: '1%',
+                    right: '2%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                color: ["#2962FF", "#4fc3f7"],
+                calculable: true,
+                xAxis: [
+                        b
+                ],
+                yAxis: [
+                    {
+                        type: 'value'
+                    }
+                ],
+                series: [
+                    a
+                ]
+    };
+        myChartkd.setOption(option);
+
+        $(function () {
+            $(window).on('resize', resize);
+            $(".sidebar-toggle").click(resize);
+                function resize() {
+                    setTimeout(function() {
+                        myChartsc.resize();
+                        myChartbd.resize();
+                        myCharttl.resize();
+                        myCharttdt.resize();
+                    }, 200);
+                }
+            });
+    });
+
 </script>
-<script src="/assets/libs/chartist/dist/chartist.min.js"></script>
-<script src="/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
-<script src="/assets/libs/gaugeJS/dist/gauge.min.js"></script>
-<script src="/assets/extra-libs/c3/d3.min.js"></script>
-<script src="/assets/extra-libs/c3/c3.min.js"></script>
-<script src="/assets/extra-libs/sparkline/sparkline.js"></script>
-
-<script src="~/js/Custom JS/CDVT/Dashboard/custom-pie4.js"></script>
-<script src="~/js/Custom JS/CDVT/Report/PUDashboard.js"></script>
-<script src="~/js/Custom JS/CDVT/Dashboard/PUDashboard.js"></script>
-
-<script src="~/js/Custom JS/CDVT/Report/liquidation-type.js"></script>
-<script src="~/js/Custom JS/CDVT/Report/liquidation-value.js"></script>
-
-<script src="~/js/Custom JS/CDVT/Report/maintain-type.js"></script>
-<script src="~/js/Custom JS/CDVT/Report/maintain-value.js"></script>
-
-<script src="~/js/Custom JS/CDVT/Report/custom-pie2.js"></script>
-<script src="~/js/Custom JS/CDVT/Report/repair-num-pie.js"></script>
+<script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>

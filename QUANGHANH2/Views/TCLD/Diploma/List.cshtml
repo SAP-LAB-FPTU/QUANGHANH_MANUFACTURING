@@ -30,19 +30,19 @@
                     </div>
                     <div id="searchDiploma" style="display:none">
                         <div class="input-group mb-3">
-                            <div class="col s13 m13 l3 input-field">
+                            <div class="col s12 m15 l5 input-field">
                                 <input class="form-control" placeholder="Tên trường" id="truongTxt" />
                             </div>
-                            <div class="col s13 m13 l3 input-field">
+                            <div class="col s12 m5 l5 input-field">
                                 <input class="form-control" placeholder="Tên chuyên ngành" id="nganhTxt" />
                             </div>
-                            <div class="col s13 m13 l3 input-field">
+                            <div class="col s12 m5 l5 input-field">
                                 <input class="form-control" placeholder="Tên trình độ" id="trinhdoTxt" />
                             </div>
-                            <div class="col s13 m13 l3 input-field">
+                            <div class="col s12 m5 l5 input-field">
                                 <input class="form-control" placeholder="Tên bằng cấp" id="bangcapTxt" />
                             </div>
-                            <div class="col l4 m14 s14 input-field">
+                            <div class="col l2 m2 s12 input-field">
                                 <button class="waves-effect waves-light btn-small blue darken-2 modal-trigger" id="searchDenlomaBtn">Tìm kiếm</button>
                             </div>
                         </div>
@@ -66,7 +66,7 @@
                     <div class="card-content">
                         <div class="row">
                             <a class="btn btn-small blue darken-2 modal-trigger btn-mg input-field" data-target="addDiploma">Thêm Bằng cấp </a>
-                            <a class="btn btn-small blue darken-2 btn-mg input-field" href="~/excel/TCLD/Certificate/Chứng chỉ của cả công ty.xlsx">Xuất ra file excel</a>
+                            <a class="btn btn-small blue darken-2 btn-mg input-field" id="diploma_excel">Xuất ra file excel</a>
                         </div>
                         <div class="table-responsive">
                             <table id="table_diploma" class="table table-bordered  centered highlight">
@@ -97,7 +97,7 @@
                     <div class="card-content">
                         <div class="row">
                             <a class="btn btn-small blue darken-2 modal-trigger btn-mg input-field" data-target="addDiplomaEmp">Thêm bằng cấp cho nhân viên</a>
-                            <a class="btn btn-small blue darken-2 btn-mg input-field" href="~/excel/TCLD/Certificate/Chứng chỉ của cả công ty.xlsx">Xuất ra file excel</a>
+                            <a class="btn btn-small blue darken-2 btn-mg input-field" id="diploma_employee_excel">Xuất ra file excel</a>
                         </div>
                         <div class="table-responsive">
                             <table id="table_diploma_emp" class="table table-bordered  centered highlight">
@@ -196,6 +196,8 @@
 <script src="~/Scripts/notify.min.js"></script>
 <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <link href="~/css/preloader/css.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 @section scripts {
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script>
@@ -379,26 +381,26 @@
 
         function SubmitFormDiploma(form) {
             $.validator.unobtrusive.parse(form);
-
-            if ($(this).valid()) {
+            if ($(form).valid()) {
                 $("#pre-load").show("slow", function () {
                 });
                 $("#pre-load").css("z-index", "99999");
                 $.ajax({
-                    url: form.action,
                     type: "POST",
-                    data: function () {
-                        return $(form).serialize()
-                    },
-                    success: () => {
-                        dataTable.ajax.reload();
-                        $.notify(data.message, {
-                            globalPosition: "top center",
-                            className: "success"
-                        });
+                    url: form.action,
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        dataTableDiploma.ajax.reload();
+                        dataDiplomaEmp.ajax.reload();
                         $("#pre-load").hide("slow", function () {
                         });
+                        successAlert('Thành công', '');
+                        $(".modal").modal();
+                        $("#addDiplomaEmp").load('@Url.Action("AddDiplomaEmployee")');
                     },
+                    error: function () {
+                        errorAlert('Lỗi', 'Thử lại');
+                    }
                 })
             }
             return false;
@@ -490,7 +492,7 @@
 
         }
         $("#searchEmpBtn").click(function () {
-            
+
             var sohieuTxt = $("#sohieuTxt").val();
             var bangcap_nvTxt = $("#bangcap_nvTxt").val();
             var tennvTxt = $("#tennvTxt").val();
@@ -515,7 +517,46 @@
             //alert(stringArray[0]);
             dataTableDiploma.ajax.url('@Url.Action("SearchDiploma", "Diploma")?ListSearch=' + stringArray).load(() => { $("#pre-load").hide("slow", function () { }) }, true)
         });
+
+        $('#diploma_excel').click(function () {
+            $('pre-load').show();
+            $.ajax({
+                type: 'POST',
+                url: '/phong-tcld/bang-cap/danh-sach-bang-cap/xuat-file-excel',
+                dataType: 'json',
+                success: function (response) {
+                    if (response.success) {
+                        window.location.href = response.location;
+                        $("#pre-load").hide("slow", function () { });
+
+                    } else {
+                        alert("Lỗi khi tải file");
+                    }
+                }
+            });
+            $('pre-load').hide();
+        });
+
+        $('#diploma_employee_excel').click(function () {
+            $('pre-load').show();
+            $.ajax({
+                type: 'POST',
+                url: '/phong-tcld/bang-cap/danh-sach-bang-cap-cua-nhan-vien/xuat-file-excel',
+                dataType: 'json',
+                success: function (response) {
+                    if (response.success) {
+                        window.location.href = response.location;
+                        $("#pre-load").hide("slow", function () { });
+
+                    } else {
+                        alert("Lỗi khi tải file");
+                    }
+                }
+            });
+            $('pre-load').hide();
+        });
     </script>
+
 }
 
 

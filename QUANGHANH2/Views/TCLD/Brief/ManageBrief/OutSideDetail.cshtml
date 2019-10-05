@@ -1,12 +1,15 @@
 ﻿@{ ViewBag.Title = "OutSideDetail";
     Layout = Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
 }
+@{List<string> right = (List<string>)Session["RightIDs"]; }
+
+
 
 @*<link href="~/dist/css/style.css" rel="stylesheet">
-<link href="~/assets/extra-libs/css-chart/css-chart.css" rel="stylesheet" />
-<link href="~/dist/css/pages/easy-pie-chart.css" rel="stylesheet" />
-<link href="/assets/extra-libs/css-chart/css-chart.css" rel="stylesheet">
-<link href="/dist/css/pages/easy-pie-chart.css" rel="stylesheet">*@
+    <link href="~/assets/extra-libs/css-chart/css-chart.css" rel="stylesheet" />
+    <link href="~/dist/css/pages/easy-pie-chart.css" rel="stylesheet" />
+    <link href="/assets/extra-libs/css-chart/css-chart.css" rel="stylesheet">
+    <link href="/dist/css/pages/easy-pie-chart.css" rel="stylesheet">*@
 
 
 
@@ -21,9 +24,33 @@
                 <div class="col m12">
                     <div id="form1" class="row">
                         <div class="input-field col m12" id="btn-fix-save">
-                            <div class="col m4">
-                                <a class="btn btn-small blue darken-2 input-field chinhsua" id="btnChinhSua1">Chỉnh Sửa</a>
-                            </div>
+
+                            @{
+                                //134
+                                Boolean isAcess = false;
+                                for (int i = 0; i < right.Count; i++)
+                                {
+                                    if (right[i].Equals("134"))
+                                    {
+                                        isAcess = true;
+                                        break;
+                                    }
+
+                                }
+                                if (isAcess)
+                                {
+                                    <div  class="col m4">
+                                        <a  class="btn btn-small blue darken-2 input-field chinhsua" id="btnChinhSua1">Chỉnh Sửa</a>
+                                    </div>
+                                    
+                                }
+                                else
+                                {
+                                    <div  class="col m4">
+                                        <a disabled class="btn btn-small blue darken-2 input-field chinhsua" id="btnChinhSua1">Chỉnh Sửa</a>
+                                    </div>
+                                }
+                            }
                             <div class="col m4" hidden>
                                 <a class="btn btn-small blue darken-2 input-field luu" id="btnLuu1">Lưu</a>
                                 <a class="btn btn-small red darken-2 input-field huybo" id="btnHuyBo1">Hủy bỏ</a>
@@ -80,9 +107,22 @@
                 <div class="col m12">
                     <div id="form2" class="row">
                         <div class="input-field col m12" id="btn-fix-save">
-                            <div class="col m4">
-                                <a class="btn btn-small blue darken-2 input-field chinhsua" id="btnChinhSua2">Chỉnh Sửa</a>
-                            </div>
+                            @{
+                               
+                                if (isAcess)
+                                {
+                                    <div class="col m4">
+                                        <a class="btn btn-small blue darken-2 input-field chinhsua" id="btnChinhSua2">Chỉnh Sửa</a>
+                                    </div>
+                                   
+                                }
+                                else
+                                {
+                                    <div class="col m4">
+                                        <a disabled class="btn btn-small blue darken-2 input-field chinhsua" id="btnChinhSua2">Chỉnh Sửa</a>
+                                    </div>
+                                }
+                            }
                             <div class="col m4" hidden>
                                 <a class="btn btn-small blue darken-2 input-field luu" id="btnLuu2">Lưu</a>
                                 <a class="btn btn-small red darken-2 input-field huybo" id="btnHuyBo2">Hủy bỏ</a>
@@ -133,9 +173,22 @@
                 <div class="col m12">
                     <div id="form3" class="row">
                         <div class="input-field col m12" id="btn-fix-save">
-                            <div class="col m4">
-                                <a class="btn btn-small blue darken-2 input-field chinhsua" id="btnChinhSua3">Chỉnh Sửa</a>
-                            </div>
+                            @{
+                                
+                                if (isAcess)
+                                {
+                                    <div class="col m4">
+                                        <a class="btn btn-small blue darken-2 input-field chinhsua" id="btnChinhSua3">Chỉnh Sửa</a>
+                                    </div>
+                                  
+                                }
+                                else
+                                {
+                                    <div class="col m4">
+                                        <a disabled class="btn btn-small blue darken-2 input-field chinhsua" id="btnChinhSua3">Chỉnh Sửa</a>
+                                    </div>
+                                }
+                            }
                             <div class="col m4" hidden>
                                 <a class="btn btn-small blue darken-2 input-field luu" id="btnLuu3">Lưu</a>
                                 <a class="btn btn-small red darken-2 input-field huybo" id="btnHuyBo3">Hủy bỏ</a>
@@ -168,7 +221,7 @@
     </div>
 </div>
 
-<div class="col m12">
+<div class="col m12 table-responsive">
     <div class="card">
         <div class="card-content">
             <div class="row">
@@ -182,6 +235,7 @@
                                 <thead>
                                     <tr>
                                         <th>Số Hiệu</th>
+                                        <th>Mã giấy tờ</th>
                                         <th>Tên</th>
                                         <th>Kiểu </th>
                                         <th>Ngày cấp</th>
@@ -219,6 +273,10 @@
             <div class="col m4">
                 <label class='custom-label'>Số Hiệu giấy tờ</label>
                 <input disabled type="text" id="suasohieu" class="inputEdit form-control" />
+            </div>
+            <div class="col m4">
+                <label class='custom-label'>Mã giấy tờ</label>
+                <input disabled type="text" id="suama" class="inputEdit form-control" />
             </div>
             <div class="col m4">
                 <label class='custom-label'>Kiểu giấy tờ</label>
@@ -278,10 +336,14 @@
 @section scripts{
 
 
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-<script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script>
     var table;
-    $(document).ready(function () {
+        $(document).ready(function () {
+           
+
+
+
         customeClick();
 
         $('input').prop('disabled', true);
@@ -308,7 +370,7 @@
                             next: "Trang sau",
                             first: "|<",
                             last: ">|",
-                                                  
+
                         },
                         info: "Đang hiện START đến END của TOTAL bản ghi",
                         infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
@@ -326,10 +388,11 @@
     "drawCallback": function(settings) {
         $("#pre-load").hide("slow", function () {
         });
-        
+
     },
     "columns": [
         { data: 'sohieu' },
+        {data:'ma'},
         { data: 'ten'},
         { data: 'kieu' },
         { data: 'ngaycap',"render": function (data) {
@@ -342,14 +405,20 @@
         },
         {
             data: 'manv', "render": function (data, type, row) {
-                return "<a onclick=\"getChinhSuaGiayTo('" + row['sohieu'] + "','" + row['kieu'] + "','"+ row['ten'] + "','"+ row['ngaycap'] + "','" + row['ngaytra'] + "')\" class='btn btn-small blue darken-2 modal-trigger input-field waves-effect' id='btn-fix'  href='#modal1'>Chỉnh sửa</a>";
+
+                return "@{if (isAcess){<a onclick=\"getChinhSuaGiayTo('" + row['sohieu'] + "','" + row['kieu'] + "','" + row['ma'] + "','"+ row['ten'] + "','"+ row['ngaycap'] + "','" + row['ngaytra'] + "')\" class='btn btn-small blue darken-2 modal-trigger input-field waves-effect' id='btn-fix'  href='#modal1'>Chỉnh sửa</a>}
+                    else {<a disabled onclick=\"getChinhSuaGiayTo('" + row['sohieu'] + "','" + row['kieu']+ "','" + row['ma'] + "','" + "','"+ row['ten'] + "','"+ row['ngaycap'] + "','" + row['ngaytra'] + "')\" class='btn btn-small blue darken-2 modal-trigger input-field waves-effect' id='btn-fix'  href='#modal1'>Chỉnh sửa</a>}
+                }";
             }
         }
-    ],
-        "processing": false,
+            ],
+
+            "processing": false,
             "searching": false,
                 "info": false,
-                    "paging": false,
+                    "bAutoWidth": false,
+                        "serverSide": "true",
+                        "bFilter": false,
                         "bLengthChange": false,
                             "initComplete": function(settings, json) {
                                 $("#pre-load").hide("slow", function () {
@@ -415,10 +484,10 @@
             for(var i=0;i<data.data[0].listChamDut.length;i++)
             {
                 if (data.data[0].listChamDut[i] != null) {
-                    $("#list").append("<option value='" + 
+                    $("#list").append("<option value='" +
                 data.data[0].listChamDut[i] + "'>"+data.data[0].listChamDut[i]+"</option>");
                 }
-                
+
             }
             console.log(data.data[0].listChamDut);
         }
@@ -456,6 +525,8 @@
         // event controller button
         $('#btnChinhSua1').click(function (e) {
             e.preventDefault();
+
+
             $('#btnChinhSua1').hide();
             $('#btnChinhSua1').parent().hide();
             $('#btnLuu1').show();
@@ -464,15 +535,15 @@
             //console.log($('#form1').find('input')[0]);
 
             $.each($('#form1').find('input'), function (index, value) {
-                if (value.id != 'sothe' && value.id != 'hoVaTen' && value.id != 'donvicd')
-                    value.disabled = false;
+                    if (value.id != 'sothe' && value.id != 'hoVaTen' && value.id != 'donvicd')
+                        value.disabled = false;
+                });
+
+
+                //$('#form1').find().prop('disabled', false);
+                //$('#sothe').prop('disabled', true);
+                // your statements;
             });
-
-
-            //$('#form1').find().prop('disabled', false);
-            //$('#sothe').prop('disabled', true);
-            // your statements;
-        });
         $('#btnLuu1').click(function (e) {
             e.preventDefault();
 
@@ -608,7 +679,7 @@
 
         var x1 = $('#sothe').val();
         var x2 = $('#hoVaTen').val();
-        
+
         var dateParts = $('#ngaythangnamsinh').val().split("/");
         var x3 = dateParts[1]+'/'+ dateParts[0]+'/' +dateParts[2];
 
@@ -772,7 +843,7 @@
 
     function dateFormat(d) {
         if (d == null) return "";
-        
+
         var dateString = d.substr(6);
         var currentTime = new Date(parseInt(dateString));
         var month = currentTime.getMonth() + 1;
@@ -784,12 +855,13 @@
         return (date);
     }
 
-    function getChinhSuaGiayTo(sohieu, kieu,ten,ngaycap, ngaytra) {
+    function getChinhSuaGiayTo(sohieu, kieu,ma,ten,ngaycap, ngaytra) {
         console.log('getChinhSuaGiayTo');
         //xet gia tri cho div ve thong tin chinh sua
         console.log(sohieu + ',' + kieu + ',' + ngaytra);
         $('#suasohieu').val(sohieu);
         $('#suakieu').val(kieu);
+        $('#suama').val(ma);
         if(ten!='null')
         $('#suaten').val(ten);
         if (ngaytra != 'null') {
@@ -808,6 +880,7 @@
         var dateParts = $('#suangaytra').val().split("/");
         var x4 = dateParts[1] + '/' + dateParts[0] + '/' + dateParts[2];
         var object = {
+           "ma":$('#suama').val(),
             "manv": '@ViewBag.manv',
         "sohieu": $('#suasohieu').val(),
             "kieu": $('#suakieu').val(),
@@ -860,11 +933,11 @@
 
 
 
-</script>
+    </script>
 
-<script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
-<script src="~/assets/extra-libs/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js"></script>
-<script src="~/assets/extra-libs/jquery.easy-pie-chart/easy-pie-chart.init.js"></script>
+    <script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
+    <script src="~/assets/extra-libs/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js"></script>
+    <script src="~/assets/extra-libs/jquery.easy-pie-chart/easy-pie-chart.init.js"></script>
 
 }
 

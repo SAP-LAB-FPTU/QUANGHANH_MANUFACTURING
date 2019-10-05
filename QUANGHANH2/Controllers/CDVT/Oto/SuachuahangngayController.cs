@@ -1,4 +1,5 @@
 ﻿using QUANGHANH2.Models;
+using QUANGHANH2.SupportClass;
 using QUANGHANHCORE.Controllers.CDVT.History;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
 {
     public class SuachuahangngayController : Controller
     {
+        [Auther(RightID = "16")]
         [Route("phong-cdvt/oto/bao-duong-hang-ngay")]
         [HttpGet]
         public ActionResult Index()
@@ -87,12 +89,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                     Department d = db.Database.SqlQuery<Department>(" select * from Department" +
                     " where department_name like @department_name",
                     new SqlParameter("department_name", department_name)).First();
-                    DateTime dateTime = DateTime.ParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    DateTime dateTime = DateTime.ParseExact(date, "dd/MM/yyyy", null);
 
 
                     db.Database.ExecuteSqlCommand("insert into Maintain_Car values(@equipmentId, @date, (select department_id from Department where department_name =@department_name),@maintain_content)",
                      new SqlParameter("equipmentId", equipmentId),
-                     new SqlParameter("date", DateTime.ParseExact(date, "yyyy-MM-dd", null)),
+                     new SqlParameter("date", DateTime.ParseExact(date, "dd/MM/yyyy", null)),
                      new SqlParameter("department_name", department_name),
                      new SqlParameter("maintain_content", maintain_content));
 
@@ -109,9 +111,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                            new SqlParameter("quantity", item.quantity),
                            new SqlParameter("supplyType", item.supplyType),
                            new SqlParameter("supplyStatus", item.supplyStatus));
+                        db.SaveChanges();
                     }
 
-                    db.SaveChanges();
+
                     transaction.Commit();
                     return Json("", JsonRequestBehavior.AllowGet);
                 }
@@ -132,7 +135,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             }
 
         }
-
+        [Auther(RightID = "18")]
         [Route("phong-cdvt/oto/bao-duong-hang-ngay/getMaintainCarDetail")]
         [HttpPost]
         public JsonResult getMaintainCarDetail(int maintainId)
@@ -156,7 +159,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                 return Json(m);
             }
         }
-
+        [Auther(RightID = "18")]
         [Route("phong-cdvt/oto/bao-duong-hang-ngay/getMaintainCar")]
         [HttpPost]
         public JsonResult getMaintainCar(int maintainId)
@@ -254,7 +257,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
         }
 
 
-
+        [Auther(RightID = "18")]
         [Route("phong-cdvt/oto/bao-duong-hang-ngay/edit")]
         [HttpPost]
         public ActionResult EditMaintain(string date, String equipmentId, String department_name, String maintain_content, int maintainid)
@@ -298,7 +301,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                 }
             }
         }
-
+        [Auther(RightID = "18")]
         [Route("phong-cdvt/oto/bao-duong-hang-ngay/editMaintainDetail")]
         [HttpPost]
         public ActionResult EditMaintainDetail(List<Maintain_Car_Detail> supplyDetail)
@@ -334,7 +337,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                             m.supplyStatus = item.supplyStatus;
                             m.supplyType = item.supplyType;
                             db.Maintain_Car_Detail.Add(m);
-
+                            db.SaveChanges();
                         }
                         else
                         {
@@ -358,7 +361,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                             }
                             else
                             {
-                                if (item.quantity < ma.quantity)
+                                if (item.quantity < ma.quantity&&item.supplyStatus==ma.supplyStatus)
                                 {
                                     if (item.supplyStatus == 1)
                                     {
@@ -366,7 +369,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                                     }
                                     else { su.thuhoi = su.thuhoi + (item.quantity - ma.quantity); }
                                 }
-                                else if (item.quantity > ma.quantity)
+                                else if (item.quantity > ma.quantity&& item.supplyStatus == ma.supplyStatus)
                                 {
                                     if (item.supplyStatus == 1)
                                     {
@@ -374,22 +377,18 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                                     }
                                     else { su.thuhoi = su.thuhoi + (item.quantity - ma.quantity); }
                                 }
-                                else
+                                else if ( item.supplyStatus != ma.supplyStatus)
                                 {
-                                    if (item.supplyStatus != ma.supplyStatus)
+                                    if (item.supplyStatus == 1)
                                     {
-                                        if (item.supplyStatus == 1)
-                                        {
-                                            su.used = su.used + ma.quantity;
-                                            su.thuhoi = su.thuhoi - ma.quantity;
-                                        }
-                                        else
-                                        {
-                                            su.used = su.used - ma.quantity;
-                                            su.thuhoi = su.thuhoi + ma.quantity;
-                                        }
+                                        su.used = su.used + item.quantity ;
+                                        su.thuhoi = su.thuhoi - ma.quantity;
+                                    }
+                                    else { su.thuhoi = su.thuhoi + item.quantity ;
+                                        su.used = su.used - ma.quantity;
                                     }
                                 }
+                               
                             }
 
                             db.Entry(su).State = EntityState.Modified;
@@ -410,14 +409,14 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                             //m.maintaindetailid = item.maintaindetailid;
 
                             //db.Entry(item).State = EntityState.Modified;
-
+                            db.SaveChanges();
                         }
 
                     }
 
 
 
-                    db.SaveChanges();
+
                     transaction.Commit();
 
                     return Json("", JsonRequestBehavior.AllowGet);
