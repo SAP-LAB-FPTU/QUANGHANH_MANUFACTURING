@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
@@ -6985,7 +6985,6 @@
     <Content Include="excel\CDVT\download\thoatnuoc.xlsx" />
     <Content Include="excel\TCLD\Certificate\Chứng chỉ của nhân viên.xlsx" />
     <Content Include="excel\TCLD\Certificate\List\download\ListCertificate.xlsx" />
-    <Content Include="excel\TCLD\CD_TD_Report.xlsx" />
     <Content Include="excel\TCLD\Certificate\Chứng chỉ của nhân viên.xlsx" />
     <Content Include="excel\TCLD\Certificate\List\download\ListCertificate.xlsx" />
     <Content Include="excel\TCLD\Brief\Inside.xlsx" />
@@ -7045,6 +7044,8 @@
     <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên.xlsx" />
     <Content Include="excel\TCLD\download\Danh-sách-nhân-viên.xlsx" />
     <Content Include="doc\CDVT\QD\quyetdinhsuachua.docx" />
+    <Content Include="excel\TCLD\CD_TD_Report.xlsx" />
+    <Content Include="excel\TCLD\Reportjob.xlsx" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
