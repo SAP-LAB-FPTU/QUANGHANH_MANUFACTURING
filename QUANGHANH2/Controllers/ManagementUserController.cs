@@ -221,23 +221,30 @@ namespace QUANGHANH2.Controllers
                     Data = "Người dùng với tên đăng nhập <strong style='color:black; '>" + Username + "</strong> đã tồn tại!"
                 }, JsonRequestBehavior.AllowGet);
             }
-            bool isMaNV = false;
-            var MaNV = db.NhanViens.ToList();
-            foreach(var item in MaNV)
+            if (!String.IsNullOrEmpty(NVID))
             {
-                if(NVID.Equals(item.MaNV))
+                bool isMaNV = false;
+                var MaNV = db.NhanViens.ToList();
+                foreach (var item in MaNV)
                 {
-                    isMaNV = true;
-                    break;
+                    if (NVID.Equals(item.MaNV))
+                    {
+                        isMaNV = true;
+                        break;
+                    }
+                }
+                if (!isMaNV)
+                {
+                    return Json(new Result()
+                    {
+                        CodeError = 2,
+                        Data = "Mã nhân viên <strong style='color:black; '>" + NVID + "</strong> không tồn tại!"
+                    }, JsonRequestBehavior.AllowGet);
                 }
             }
-            if (!isMaNV)
+            else
             {
-                return Json(new Result()
-                {
-                    CodeError = 2,
-                    Data = "Mã nhân viên <strong style='color:black; '>" + NVID + "</strong> không tồn tại!"
-                }, JsonRequestBehavior.AllowGet);
+                NVID = null;
             }
             string InvalidFields = "";
             if (String.IsNullOrEmpty(Name))
@@ -455,23 +462,30 @@ namespace QUANGHANH2.Controllers
                     Data = "Người dùng với tên đăng nhập <strong style='color:black; '>" + Username + "</strong> đã tồn tại!"
                 }, JsonRequestBehavior.AllowGet);
             }
-            bool isMaNV = false;
-            var MaNV = db.NhanViens.ToList();
-            foreach (var item in MaNV)
+            if (!String.IsNullOrEmpty(NVID))
             {
-                if (NVID.Equals(item.MaNV))
+                bool isMaNV = false;
+                var MaNV = db.NhanViens.ToList();
+                foreach (var item in MaNV)
                 {
-                    isMaNV = true;
-                    break;
+                    if (NVID.Equals(item.MaNV))
+                    {
+                        isMaNV = true;
+                        break;
+                    }
+                }
+                if (!isMaNV)
+                {
+                    return Json(new Result()
+                    {
+                        CodeError = 2,
+                        Data = "Mã nhân viên <strong style='color:black; '>" + NVID + "</strong> không tồn tại!"
+                    }, JsonRequestBehavior.AllowGet);
                 }
             }
-            if (!isMaNV)
+            else
             {
-                return Json(new Result()
-                {
-                    CodeError = 2,
-                    Data = "Mã nhân viên <strong style='color:black; '>" + NVID + "</strong> không tồn tại!"
-                }, JsonRequestBehavior.AllowGet);
+                NVID = null;
             }
             string InvalidFields = "";
             if (String.IsNullOrEmpty(Name))

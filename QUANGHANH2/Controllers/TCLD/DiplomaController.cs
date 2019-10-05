@@ -695,8 +695,9 @@ namespace QUANGHANH2.Controllers.TCLD
                     ws_cert_emp.Cells["A1"].Value = "Bảng danh sách bằng cấp - giấy chứng nhận của nhân viên";
                     ws_cert_emp.Cells["B1"].Value = "Số hiệu";
                     ws_cert_emp.Cells["C1"].Value = "Tên bằng cấp";
-                    ws_cert_emp.Cells["D1"].Value = "Tên nhân viên";
-                    ws_cert_emp.Cells["E1"].Value = "Ngày cấp";
+                    ws_cert_emp.Cells["D1"].Value = "Mã nhân viên";
+                    ws_cert_emp.Cells["E1"].Value = "Tên nhân viên";
+                    ws_cert_emp.Cells["F1"].Value = "Ngày cấp";
                     int rowStart = 3;
 
                     foreach (var item in listdataDipEmpDetail)
@@ -705,15 +706,16 @@ namespace QUANGHANH2.Controllers.TCLD
                         ws_cert_emp.Cells[string.Format("A{0}", rowStart)].Value = count;
                         ws_cert_emp.Cells[string.Format("B{0}", rowStart)].Value = item.SoHieu;
                         ws_cert_emp.Cells[string.Format("C{0}", rowStart)].Value = item.TenBangCap;
-                        ws_cert_emp.Cells[string.Format("D{0}", rowStart)].Value = item.Ten;
+                        ws_cert_emp.Cells[string.Format("D{0}", rowStart)].Value = item.MaNV;
+                        ws_cert_emp.Cells[string.Format("E{0}", rowStart)].Value = item.Ten;
 
                         if (item.NgayCap != null)
                         {
-                            ws_cert_emp.Cells[string.Format("E{0}", rowStart)].Value = ((DateTime)item.NgayCap).ToString("dd/MM/yyyy");
+                            ws_cert_emp.Cells[string.Format("F{0}", rowStart)].Value = ((DateTime)item.NgayCap).ToString("dd/MM/yyyy");
                         }
                         else
                         {
-                            ws_cert_emp.Cells[string.Format("E{0}", rowStart)].Value = item.NgayCap;
+                            ws_cert_emp.Cells[string.Format("F{0}", rowStart)].Value = item.NgayCap;
                         }
 
 
