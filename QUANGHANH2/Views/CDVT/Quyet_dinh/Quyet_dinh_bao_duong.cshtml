@@ -395,7 +395,7 @@
                     success: function (data) {
                         if (data.success == true) {
                             dataTable.ajax.reload();
-                            redirectAlert('Sửa thông tin thành công', '/phong-cdvt/cap-nhat/quyet-dinh');
+                            redirectAlert('Cập nhật thông tin thành công', '/phong-cdvt/cap-nhat/quyet-dinh');
                         }
                         else {
                             errorAlert('Lỗi',data.message);

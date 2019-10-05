@@ -69,29 +69,29 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
             {
                 var ngay = DateTime.Now.Date;
                 query = " select MONTH(acceptance_date) as Thang, YEAR(acceptance_date) as Nam,a.Equipment_category_id as Ma, " +
-                         "a.equipment_name as Tenthietbi, a.mark_code as Sohieu, a.equipmentId as Matscd, b.acceptance_date as Ngaythuhoi,e.department_name as Vitrithuhoi, b.equipmentStatus as Tinhtrang " +
-                         "from Equipment a, Acceptance b, Documentary c, Documentary_revoke_details d, Department e " +
+                         "a.equipment_name as Tenthietbi, a.mark_code as Sohieu, a.equipmentId as Matscd, b.acceptance_date as Ngaythuhoi,e.department_name as Vitrithuhoi, f.statusname as Tinhtrang " +
+                         "from Equipment a, Acceptance b, Documentary c, Documentary_revoke_details d, Department e, Status f " +
                          "where a.equipmentId = d.equipmentId and d.documentary_id = c.documentary_id " +
-                         "and b.equipmentId = a.equipmentId and a.department_id = e.department_id  and b.acceptance_date = '" + ngay + "'";
+                         "and b.equipmentId = a.equipmentId and a.department_id = e.department_id and f.statusid = a.current_Status and b.acceptance_date = '" + ngay + "'";
             }
             if (type == "day")
             {
                 var ngay = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                 query = " select MONTH(acceptance_date) as Thang, YEAR(acceptance_date) as Nam,a.Equipment_category_id as Ma, " +
-                         "a.equipment_name as Tenthietbi, a.mark_code as Sohieu, a.equipmentId as Matscd, b.acceptance_date as Ngaythuhoi,e.department_name as Vitrithuhoi, b.equipmentStatus as Tinhtrang " +
-                         "from Equipment a, Acceptance b, Documentary c, Documentary_revoke_details d, Department e " +
+                         "a.equipment_name as Tenthietbi, a.mark_code as Sohieu, a.equipmentId as Matscd, b.acceptance_date as Ngaythuhoi,e.department_name as Vitrithuhoi, f.statusname as Tinhtrang " +
+                         "from Equipment a, Acceptance b, Documentary c, Documentary_revoke_details d, Department e, Status f " +
                          "where a.equipmentId = d.equipmentId and d.documentary_id = c.documentary_id " +
-                         "and b.equipmentId = a.equipmentId and a.department_id = e.department_id  and b.acceptance_date = '" + ngay + "'";
+                         "and b.equipmentId = a.equipmentId and a.department_id = e.department_id and f.statusid = a.current_Status and b.acceptance_date = '" + ngay + "'";
             }
             if (type == "month")
             {
                 int thang = Convert.ToInt32(month);
                 int nam = Convert.ToInt32(year);
                 query = " select MONTH(acceptance_date) as Thang, YEAR(acceptance_date) as Nam,a.Equipment_category_id as Ma, " +
-                          "a.equipment_name as Tenthietbi, a.mark_code as Sohieu, a.equipmentId as Matscd, b.acceptance_date as Ngaythuhoi,e.department_name as Vitrithuhoi, b.equipmentStatus as Tinhtrang " +
-                          "from Equipment a, Acceptance b, Documentary c, Documentary_revoke_details d, Department e " +
+                          "a.equipment_name as Tenthietbi, a.mark_code as Sohieu, a.equipmentId as Matscd, b.acceptance_date as Ngaythuhoi,e.department_name as Vitrithuhoi, f.statusname as Tinhtrang " +
+                          "from Equipment a, Acceptance b, Documentary c, Documentary_revoke_details d, Department e, Status f " +
                           "where a.equipmentId = d.equipmentId and d.documentary_id = c.documentary_id " +
-                          "and b.equipmentId = a.equipmentId and a.department_id = e.department_id  and YEAR( b.acceptance_date) = " + nam + " and MONTH( b.acceptance_date) = " + thang;
+                          "and b.equipmentId = a.equipmentId and a.department_id = e.department_id and f.statusid = a.current_Status and YEAR( b.acceptance_date) = " + nam + " and MONTH( b.acceptance_date) = " + thang;
             }
             if (type == "quarter")
             {
@@ -114,20 +114,20 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                     quy = " (10,11,12) ";
                 }
                 query = " select MONTH(acceptance_date) as Thang, YEAR(acceptance_date) as Nam,a.Equipment_category_id as Ma, " +
-                         "a.equipment_name as Tenthietbi, a.mark_code as Sohieu, a.equipmentId as Matscd, b.acceptance_date as Ngaythuhoi,e.department_name as Vitrithuhoi, b.equipmentStatus as Tinhtrang " +
-                          "from Equipment a, Acceptance b, Documentary c, Documentary_revoke_details d, Department e " +
+                         "a.equipment_name as Tenthietbi, a.mark_code as Sohieu, a.equipmentId as Matscd, b.acceptance_date as Ngaythuhoi,e.department_name as Vitrithuhoi, f.statusname as Tinhtrang " +
+                          "from Equipment a, Acceptance b, Documentary c, Documentary_revoke_details d, Department e, Status f " +
                           "where a.equipmentId = d.equipmentId and d.documentary_id = c.documentary_id " +
-                          "and b.equipmentId = a.equipmentId and a.department_id = e.department_id and YEAR(b.acceptance_date) = " + nam + " and Month(b.acceptance_date) in " + quy;
+                          "and b.equipmentId = a.equipmentId and a.department_id = e.department_id and f.statusid = a.current_Status and YEAR(b.acceptance_date) = " + nam + " and Month(b.acceptance_date) in " + quy;
             }
             if (type == "year")
             {
                 int nam = Convert.ToInt32(year);
 
                 query = " select MONTH(acceptance_date) as Thang, YEAR(acceptance_date) as Nam,a.Equipment_category_id as Ma, " +
-                          "a.equipment_name as Tenthietbi, a.mark_code as Sohieu, a.equipmentId as Matscd, b.acceptance_date as Ngaythuhoi,e.department_name as Vitrithuhoi, b.equipmentStatus as Tinhtrang " +
-                           "from Equipment a, Acceptance b, Documentary c, Documentary_revoke_details d, Department e " +
+                          "a.equipment_name as Tenthietbi, a.mark_code as Sohieu, a.equipmentId as Matscd, b.acceptance_date as Ngaythuhoi,e.department_name as Vitrithuhoi, f.statusname as Tinhtrang " +
+                           "from Equipment a, Acceptance b, Documentary c, Documentary_revoke_details d, Department e, Status f " +
                           "where a.equipmentId = d.equipmentId and d.documentary_id = c.documentary_id " +
-                          "and b.equipmentId = a.equipmentId and a.department_id = e.department_id and YEAR(b.acceptance_date) = " + nam;
+                          "and b.equipmentId = a.equipmentId and a.department_id = e.department_id  and f.statusid = a.current_Status and YEAR(b.acceptance_date) = " + nam;
             }
 
             return query;
@@ -148,10 +148,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
                     string query = " select MONTH(acceptance_date) as Thang, YEAR(acceptance_date) as Nam,a.Equipment_category_id as Ma, " +
-                         "a.equipment_name as Tenthietbi, a.mark_code as Sohieu, a.equipmentId as Matscd, b.acceptance_date as Ngaythuhoi,e.department_name as Vitrithuhoi, b.equipmentStatus as Tinhtrang " +
-                         "from Equipment a, Acceptance b, Documentary c, Documentary_revoke_details d, Department e " +
+                         "a.equipment_name as Tenthietbi, a.mark_code as Sohieu, a.equipmentId as Matscd, b.acceptance_date as Ngaythuhoi,e.department_name as Vitrithuhoi, f.statusname as Tinhtrang " +
+                         "from Equipment a, Acceptance b, Documentary c, Documentary_revoke_details d, Department e, Status f " +
                          "where a.equipmentId = d.equipmentId and d.documentary_id = c.documentary_id " +
-                         "and b.equipmentId = a.equipmentId and a.department_id = e.department_id";
+                         "and b.equipmentId = a.equipmentId and a.department_id = e.department_id and f.statusid = a.current_Status";
                     List<ThuhoiReport> listdata = db.Database.SqlQuery<ThuhoiReport>(query).ToList();
                     int k = 0;
                     for (int i = 2; i < listdata.Count + 2; i++)
@@ -163,29 +163,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                         excelWorksheet.Cells[i, 5].Value = listdata.ElementAt(k).Matscd;
                         excelWorksheet.Cells[i, 6].Value = listdata.ElementAt(k).Ngaythuhoi.ToString("hh:mm tt dd/MM/yyyy");
                         excelWorksheet.Cells[i, 7].Value = listdata.ElementAt(k).Vitrithuhoi;
-                        if (listdata.ElementAt(k).Tinhtrang == 1) excelWorksheet.Cells[i, 8].Value = "Chờ điều động";
-                        else
-                        if (listdata.ElementAt(k).Tinhtrang == 2) excelWorksheet.Cells[i, 8].Value = "Đang hoạt động";
-                        else
-                        if (listdata.ElementAt(k).Tinhtrang == 3) excelWorksheet.Cells[i, 8].Value = "Đang sửa chữa";
-                        else
-                        if (listdata.ElementAt(k).Tinhtrang == 4) excelWorksheet.Cells[i, 8].Value = "Hỏng";
-                        else
-                        if (listdata.ElementAt(k).Tinhtrang == 5) excelWorksheet.Cells[i, 8].Value = "Đang bảo dưỡng";
-                        else
-                        if (listdata.ElementAt(k).Tinhtrang == 6) excelWorksheet.Cells[i, 8].Value = "Đang điều động";
-                        else
-                        if (listdata.ElementAt(k).Tinhtrang == 7) excelWorksheet.Cells[i, 8].Value = "Đang thu hồi";
-                        else
-                        if (listdata.ElementAt(k).Tinhtrang == 8) excelWorksheet.Cells[i, 8].Value = "Đang thanh lý";
-                        else
-                        if (listdata.ElementAt(k).Tinhtrang == 9) excelWorksheet.Cells[i, 8].Value = "Đang trung tu";
-                        else
-                        if (listdata.ElementAt(k).Tinhtrang == 10) excelWorksheet.Cells[i, 8].Value = "Đang đại tu";
-                        else
-                        if (listdata.ElementAt(k).Tinhtrang == 11) excelWorksheet.Cells[i, 8].Value = "Đang chờ nghiệm thu";
-                        else
-                        if (listdata.ElementAt(k).Tinhtrang == 12) excelWorksheet.Cells[i, 8].Value = "Đến hạn bảo dưỡng";
+                        excelWorksheet.Cells[i, 8].Value = listdata.ElementAt(k).Tinhtrang;
                         k++;
                     }
                     string location = HostingEnvironment.MapPath("/excel/CDVT/download");
@@ -207,7 +185,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
         public string Matscd { get; set; }
         public DateTime Ngaythuhoi { get; set; }
         public string Vitrithuhoi { get; set; }
-        public int Tinhtrang { get; set; }
+        public string Tinhtrang { get; set; }
 
     }
 
