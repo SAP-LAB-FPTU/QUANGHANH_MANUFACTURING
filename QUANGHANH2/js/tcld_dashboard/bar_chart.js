@@ -4,7 +4,15 @@
     // Basic bar chart
     // ------------------------------
     // based on prepared DOM, initialize echarts instance
-    var donvi = ["ĐL3", "ĐL5", "ĐL7", "ĐL8", "KT1", "KT2", "KT3", "KT4", "KT5", "KT6", "KT7", "KT8", "KT9", "KT10", "KT11", "VTL1", "VTL2"];
+
+    var donvi = [];
+    for (var i = 0; i < listNhanLuc.length; i++) {
+        donvi.push(listNhanLuc[i].MaDonVi);
+    }
+    var soluong = [];
+    for (var i = 0; i < listNhanLuc.length; i++) {
+        soluong.push(listNhanLuc[i].SoLuong);
+    }
     var myChart = echarts.init(document.getElementById('basic-bar'));
 
     // specify chart configuration item and data
@@ -40,7 +48,7 @@
             {
                 name: 'Tổng',
                 type: 'bar',
-                data: [86,77,92,78,74,103,96,86,83,78,84,71,80,90,67,154,119],
+                data: soluong,
                 markPoint: {
                     data: [
                         { type: 'max', name: 'Max' },

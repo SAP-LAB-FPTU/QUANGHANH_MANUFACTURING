@@ -265,7 +265,8 @@ namespace QUANGHANH2.Controllers.TCLD
                             if (SoQD.Equals(item.SoQuyetDinh))
                             {
                                 return Json(new { success = false, message = "Số quyết định trùng" }, JsonRequestBehavior.AllowGet);
-                            } else
+                            }
+                            else
                             {
                                 if (item.MaQuyetDinh == Int32.Parse(id))
                                 {
@@ -285,12 +286,16 @@ namespace QUANGHANH2.Controllers.TCLD
                             }
                         }
                     }
+                    else
+                    {
+                        return Json(new { success = false, message = "Chưa nhập số quyết định" }, JsonRequestBehavior.AllowGet);
+                    }
 
                     return Json(new { success = true, message = "Thêm thành công" }, JsonRequestBehavior.AllowGet);
 
 
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     dbct.Rollback();
                     return Json(new { success = false, message = "Có lỗi khi thêm" }, JsonRequestBehavior.AllowGet);
