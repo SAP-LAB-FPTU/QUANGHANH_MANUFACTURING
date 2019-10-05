@@ -25,9 +25,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
     public class BriefController : Controller
     {
         // GET: /<controller>/
-
+        
         public static string id_ = "";
-       
+        [Auther(RightID = "129")]
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty")]
         [HttpGet]
         public ActionResult Inside()
@@ -35,10 +35,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
             ViewBag.nameDepartment = "quanlyhoso";
             return View("/Views/TCLD/Brief/ManageBrief/Inside.cshtml");
         }
-
-
-
-
         /// /////////////////////////Long/////////////////////////////////////////////
 
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to")]

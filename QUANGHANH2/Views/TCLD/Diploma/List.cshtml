@@ -396,6 +396,7 @@
                         });
                         successAlert('Thành công', '');
                         $(".modal").modal();
+                        $("body").css("overflow", "");  
                         $("#addDiplomaEmp").load('@Url.Action("AddDiplomaEmployee")');
                     },
                     error: function () {
@@ -501,7 +502,13 @@
             stringArrayEmpSearch[1] = bangcap_nvTxt.replace(/\s+/g, " ").trim();
             stringArrayEmpSearch[2] = tennvTxt.replace(/\s+/g, " ").trim();
             //alert(stringArray[0]);
-            dataDiplomaEmp.ajax.url('@Url.Action("SearchDiplomaEmployee", "Diploma")?ListSearchDipEmp=' + stringArrayEmpSearch).load(() => { $("#pre-load").hide("slow", function () { }) }, true)
+            dataDiplomaEmp.ajax.url('@Url.Action("SearchDiplomaEmployee", "Diploma")?ListSearchDipEmp=' + stringArrayEmpSearch).load(() => {
+                $("#pre-load").hide("slow", function () { })
+                $.notify("Tìm kiếm thành công", {
+                    globalPosition: "top center",
+                    className: "success"
+                })
+            }, true)
         });
         $("#searchDenlomaBtn").click(function () {
 
@@ -515,7 +522,13 @@
             stringArray[2] = trinhdoTxt.replace(/\s+/g, " ").trim();
             stringArray[3] = bangcapTxt.replace(/\s+/g, " ").trim();
             //alert(stringArray[0]);
-            dataTableDiploma.ajax.url('@Url.Action("SearchDiploma", "Diploma")?ListSearch=' + stringArray).load(() => { $("#pre-load").hide("slow", function () { }) }, true)
+            dataTableDiploma.ajax.url('@Url.Action("SearchDiploma", "Diploma")?ListSearch=' + stringArray).load(() => {
+                $("#pre-load").hide("slow", function () { })
+                $.notify("Tìm kiếm thành công", {
+                    globalPosition: "top center",
+                    className: "success"
+                })
+            }, true)
         });
 
         $('#diploma_excel').click(function () {
