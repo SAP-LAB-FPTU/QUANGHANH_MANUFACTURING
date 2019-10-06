@@ -237,6 +237,7 @@
             var dataTable = $('#did-table').DataTable();
             $("#searchButton").click(function () {
                 dataTable.ajax.reload(function () {
+                    $(".datepicker-here").val("")
                 });
             });
         });
@@ -288,7 +289,7 @@
 
                     success: function (data) {
                         dataTable.ajax.reload();
-                            successAlert('Thành công','Xóa thành công');
+                        successAlert('Thành công', 'Xóa thành công');
                     }
                 });
 
@@ -298,16 +299,21 @@
     </script>
     <script>
         $(".datepicker-here").keydown(function (e) {
-            e.preventDefault();
+            if (e.KeyCode != 8) {
+                e.preventDefault()
+            } else {
+                $(this).val("");
+            }
         });
 
 
-         $(".input-field").keydown(function (e) {
-                if (e.keyCode === 13) {
-                    dataTable.ajax.reload();
-                }
-            });
+        $(".input-field").keydown(function (e) {
+            if (e.keyCode === 13) {
+                dataTable.ajax.reload();
+            }
+
+        });
     </script>
-   
+
 
 }
