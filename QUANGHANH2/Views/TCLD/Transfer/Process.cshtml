@@ -55,7 +55,7 @@
                                     </select>
                                 </div>
                                 <div class="col l2 m12 s12 input-field">
-                                    <button class="btn blue darken-2 btn-small" id="searchButton">Tìm kiếm</button>
+                                    <button class="btn blue darken-2 btn-small waves-effect waves-light" id="searchButton">Tìm kiếm</button>
                                 </div>
                             </div>
                             <br />
@@ -85,7 +85,7 @@
                                 <input class="form-control" id="so-quyet-dinh" type="text" placeholder="Số quyết định" required />
                             </div>
                             <div class="col s12 m5 l5">
-                                <input id="ngay-quyet-dinh" class="thoigian center form-control"/>
+                                <input id="ngay-quyet-dinh" class="thoigian center form-control" />
                             </div>
                             <div class="input-field col x12 s12 m12 l12">
                                 <div class="table_container">
@@ -230,12 +230,19 @@
                         {
                             "data": "GioiTinh", "name": "GioiTinh",
                             "render": function (data) {
-                                return data ? "Nam" : "Nữ";
+                                if (data === null) {
+                                    return "";
+                                } else {
+                                     return data ? "Nam" : "Nữ";
+                                }
                             }
                         },
                         {
                             "data": "NgaySinh", "name": "NgaySinh",
                             "render": function (data) {
+                                 if(data===null){
+                                        return "";
+                                 }else{
                                 var dateString = data.substr(6);
                                 var currentTime = new Date(parseInt(dateString ));
                                 var month = currentTime.getMonth() + 1;
@@ -243,13 +250,17 @@
                                 var year = currentTime.getFullYear();
                                 var date = day + "/" + month + "/" + year;
                                 return date;
+                                 }
                             }
                         },
                         { "data": "department_name", "name": "department_name" },
                         { "data": "TenCongViec", "name": "TenCongViec" },
                         {
                             "data": "MaNV", "render": function (data, type, full) {
-                                if (full.MaTrangThai != 1) {
+                                if (full.MaTrangThai === null) {
+                                    return "";
+                                } else {
+                                    if (full.MaTrangThai != 1) {
                                     return "<i>"+ full.TenTrangThai +"</i>";
                                 }
                                 if (arrCarSelected != null) {
@@ -259,6 +270,7 @@
                                         }
                                 }
                                 return "<label><input class='my_checkbox'  name='abc' id ='" + data + "' value='" + data + "' type ='checkbox' onclick=updateList('" + data + "')><span></span></label>";
+                                }
                             },
                             "orderable": false,
                             "searchable": false,

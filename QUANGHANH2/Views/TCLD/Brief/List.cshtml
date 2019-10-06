@@ -18,10 +18,10 @@
                 <div class="col s12 m12 l12">
                     <div class="row center">
                         <div class="col l3 m12 s12 input-field">
-                            <input type="text" placeholder="Mã nhân viên" class='form-control autocomplete_MNV' id="searchMaNV" multiple />
+                            <input type="text" placeholder="Mã nhân viên" class='form-control autocomplete_MNV input-field' id="searchMaNV" multiple />
                         </div>
                         <div class="col l3 m12 s12 input-field">
-                            <input type="text" placeholder="Tên nhân viên" class='form-control autocomplete_Name' id="searchTenNV" multiple />
+                            <input type="text" placeholder="Tên nhân viên" class='form-control autocomplete_Name input-field' id="searchTenNV" multiple />
                         </div>
                         <div class="col l3 m12 s12 input-field">
                             <select class="form-control" id="searchGioiTinh">
@@ -35,17 +35,26 @@
                         </div>
                     </div>
                 </div>
-
+                @{
+                    List<string> right1 = (List<string>)Session["RightIDs"];
+                }
                 <div class="left col s12 m6 l6">
                     <div class="row">
                         <div class="left col s12 m6 l12">
                             <div class="row">
                                 <div class="col s3 m3 l3">
-                                    <a class="waves-effect waves-light btn btn-small blue darken-2 modal-trigger input-field" href="/phong-tcld/quan-ly-nhan-vien/tuyen-dung-nhan-vien" style="width:120px" data-target="tuyendung">Tuyển Dụng</a>
+                                    @foreach (var item in right)
+                                    {
+                                        if (item.Equals("52"))
+                                        {
+                                            <a class="waves-effect waves-light btn btn-small blue darken-2 modal-trigger input-field" href="/phong-tcld/quan-ly-nhan-vien/tuyen-dung-nhan-vien" style="width:120px" data-target="tuyendung">Tuyển Dụng</a>
+                                        }
+                                        
+                                    }
                                 </div>
                                 @*<div class="col s2 m3 l3">
-                                    <a class="waves-effect waves-light btn btn-small blue darken-2 modal-trigger input-field" style="width:120px" href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/them-nhan-vien")">Thêm</a>
-                                </div>*@
+                            <a class="waves-effect waves-light btn btn-small blue darken-2 modal-trigger input-field" style="width:120px" href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/them-nhan-vien")">Thêm</a>
+                        </div>*@
                                 <div class="col s3 m3 l3">
                                     <a class="waves-effect waves-light btn btn-small blue darken-2 input-field" id="danhsachhosonhanvien"><i class="fas fa-file-excel"></i>&nbsp;Excel</a>
                                 </div>
@@ -96,7 +105,7 @@
 <ul id='dropdown' class='dropdown-content'>
     <li><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/lich-su-lam-viec")" class="black-text">Làm việc</a></li>
     <li class="divider" tabindex="-1"></li>
-    <li><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chi-tiet-dieu-chuyen")" class="black-text">Điều chuyển</a></li>
+    <li><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chi-tiet-dieu-dong")" class="black-text">Điều chuyển</a></li>
 </ul>
 
 <div id="deleteBriefs" class="modal open">
@@ -117,7 +126,7 @@
                 <div class="row">
                     <div class="col s6 m6 l12">
                         <label>Số quyết định</label>
-                        <input name="soQD" class=' form-control' placeholder="Số quyết định" />
+                        <input name="soQD" class=' form-control' placeholder="Số quyết định" autocomplete = "off"/>
                     </div>
                     <div class="col s6 m6 l6">
                         <label>Lí do chấm dứt</label>
@@ -136,7 +145,7 @@
                     </div>
                     <div class="col s6 m6 l6">
                         <label>Ngày chấm dứt</label>
-                        <input name="dateTLHD" id="datepicker" type='text' class='datepicker-here form-control' data-language='vi' placeholder="Ngày chấm dứt" />
+                        <input name="dateTLHD" id="datepicker" type='text' class='datepicker-here form-control' autocomplete = "off" data-language='vi' placeholder="Ngày chấm dứt" />
                     </div>
 
                 </div>
@@ -159,7 +168,7 @@
                         <br />
                         <label>
                             <input id="else2" name="group2" type="radio" />
-                            <span><input id="else" name="elseCase" class="form-control" placeholder="Trường hợp khác" required disabled /></span>
+                            <span><input id="else" name="elseCase" class="form-control" placeholder="Trường hợp khác" required disabled autocomplete = "off"/></span>
                         </label>
                     </div>
                 </div>
@@ -184,9 +193,12 @@
             <div class="col l6 m6 s6 center">
                 <a class="waves-light btn blue darken-2 btn-small" onclick=getHistoryEployee();>Lịch sử làm việc</a>
             </div>
-            <div class="col l6 m6 s6 center">
-                <a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chi-tiet-dieu-chuyen")" class="waves-effect waves-light btn blue darken-2 btn-small">Điều chuyển</a>
-            </div>
+            <form action="/phong-tcld/quan-ly-nhan-vien/chi-tiet-dieu-dong" method="get">
+                <div class="col l6 m6 s6 center">
+                    <button type="submit" class="waves-effect waves-light btn blue darken-2 btn-small" id="btnDieuChuyen">Điều động</button>
+                </div>
+                <input name="ddid" type="hidden" id="ctdd" />
+            </form>
         </div>
     </div>
 </div>
@@ -314,7 +326,7 @@
                         {
                             "data": "MaNV", "render": function (data) {
                                 return "<a class='waves-effect waves-light btn blue darken-2 btn-small' href='/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien?id=" + data + "'  data-target='dropdown1'><span class='ti-pencil-alt'>&nbsp;Sửa</span></a> &nbsp;&nbsp;&nbsp;" +
-                                    "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='getHistoryID(" + data + ")' data-target='history'> <span class='fas fa-history'>&nbsp;Xem</span></a>&nbsp;&nbsp;&nbsp;" +
+                                     "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='getHistoryID(" + data + "); getTransferHistory(" + data + "); ' data-target='history'><span class='fas fa-history'>&nbsp;Xem</span></a> &nbsp;&nbsp;&nbsp;" +
                                     "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='getTlhd(" + data + ")' data-target='deleteBriefs'><span class='fas fa-times-circle'>&nbsp;TLHĐ</span></a>";
 
                             },
@@ -382,7 +394,17 @@
                     //successAlert('Thành công', 'Tìm kiếm thành công');
                 });
             });
+             $(".input-field").keydown(function (e) {
+                if (e.keyCode === 13) {
+                    dataTable.ajax.reload();
+                }
+            });
         });
+
+        function getTransferHistory(a) {
+            document.getElementById("ctdd").value = a;
+        }
+
         //thuong
         function getHistoryID(a) {
             document.getElementById("historyElementID").value = a;

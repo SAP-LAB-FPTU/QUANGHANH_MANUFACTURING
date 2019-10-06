@@ -129,58 +129,7 @@
                         { "data": "equipmentId", "name": "equipmentId", "searchable": true },
                         { "data": "equipment_name", "name": "equipment_name" },
                         { "data": "department_name", "name": "department_name" },
-                        {
-                            "data": "current_Status", "name": "current_Status", "render": (data) => {
-                                if (data == 1) {
-                                    return "Chờ điều động"
-                                }
-                                if (data == 2) {
-                                    return "Đang hoạt động"
-                                }
-                                if (data == 3) {
-                                    return "Đang sửa chữa"
-                                }
-                                if (data == 4) {
-                                    return "Hỏng"
-                                }
-                                if (data == 5) {
-                                    return "Đang bảo dưỡng"
-                                }
-                                if (data == 6) {
-                                    return "Đang điều động"
-                                }
-                                if (data == 7) {
-                                    return "Đang thu hồi"
-                                }
-                                if (data == 8) {
-                                    return "Đang thanh lý "
-                                }
-                                if (data == 9) {
-                                    return "Đang trung đại tu"
-                                }
-                                if (data == 10) {
-                                    return "Đang kiểm định"
-                                }
-                                if (data == 11) {
-                                    return "Đang chờ nghiệm thu"
-                                }
-                                if (data == 12) {
-                                    return "Đến hạn bảo dưỡng"
-                                }
-                                if (data == 13) {
-                                    return "Mới mua"
-                                }
-                                if (data == 14) {
-                                    return "Cấp mới"
-                                }
-                                if (data == 15) {
-                                    return "Đang tiểu tu"
-                                }
-                                else {
-                                    return data;
-                                }
-                            }
-                        },
+                        { "data": "statusname", "name": "statusname" },
                         {
                             "data": "equipmentId", "render": function (data) {
                                 if (arrCarSelected != null) {

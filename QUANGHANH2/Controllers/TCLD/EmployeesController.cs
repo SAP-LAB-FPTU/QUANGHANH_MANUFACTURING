@@ -66,7 +66,7 @@ namespace QUANGHANH2.Controllers.TCLD
                         excelWorksheet.Cells[index, 1].Style.Font.Bold = true;
 
                     }
-                    
+
                     excelWorksheet.Cells[index, 1].Value = item.dv;
                     excelWorksheet.Cells[index, 2].Value = item.ldts;
                     excelWorksheet.Cells[index, 3].Value = item.nu;
@@ -101,7 +101,7 @@ namespace QUANGHANH2.Controllers.TCLD
             int totalrows = list.Count;
             int totalrowsafterfiltering = list.Count;
             list = list.Skip(start).Take(length).ToList();
-            return Json(new { success = true, data =list , draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true, data = list, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
 
 
         }
@@ -183,104 +183,105 @@ namespace QUANGHANH2.Controllers.TCLD
                     int ptVDonVi = 0;
                     //   z = z.Union(donvi).ToList();
 
-                    // lay chi tiet tung phong ban
-                    foreach (var phongban in cacphongban)
-                    {
+                    if (!tenDonVi.Equals("Đơn vị sản xuất thuê ngoài"))
+                        // lay chi tiet tung phong ban
+                        foreach (var phongban in cacphongban)
+                        {
 
 
-                        var phongbanId = phongban.id;
+                            var phongbanId = phongban.id;
 
-                        var tonglaodongphongban = (from p in db.NhanViens where p.MaPhongBan == phongbanId select p).Count();
-                        tonglaodongDonVi += tonglaodongphongban;
-                        var tonglaodongphongbanNu = (from p in db.NhanViens where p.MaPhongBan == phongbanId & p.GioiTinh == false select p).Count();
-                        tonglaodongDonViNu += tonglaodongphongbanNu;
-                        var quandocNumber = (from p in db.NhanViens
-                                             join p1 in db.CongViecs on p.MaCongViec equals p1.MaCongViec
-                                             where p.MaPhongBan == phongbanId & p1.MaCongViec == 18
-                                             select p).Count();
-                        tongquandocDonVi += quandocNumber;
-                        var ppOrPgd = (from p in db.NhanViens
+                            var tonglaodongphongban = (from p in db.NhanViens where p.MaPhongBan == phongbanId & p.MaTrangThai == 1 select p).Count();
+                            tonglaodongDonVi += tonglaodongphongban;
+                            var tonglaodongphongbanNu = (from p in db.NhanViens where p.MaPhongBan == phongbanId & p.MaTrangThai == 1 & p.GioiTinh == false select p).Count();
+                            tonglaodongDonViNu += tonglaodongphongbanNu;
+                            var quandocNumber = (from p in db.NhanViens
+                                                 join p1 in db.CongViecs on p.MaCongViec equals p1.MaCongViec
+                                                 where p.MaPhongBan == phongbanId & p.MaTrangThai == 1 & p1.MaCongViec == 18
+                                                 select p).Count();
+                            tongquandocDonVi += quandocNumber;
+                            var ppOrPgd = (from p in db.NhanViens
+                                           join p1 in db.CongViecs on p.MaCongViec equals p1.MaCongViec
+                                           where p.MaPhongBan == phongbanId & p.MaTrangThai == 1 & (p1.MaCongViec == 21 | p1.MaCongViec == 13)
+                                           select p).Count();
+                            ppOrPgdDonVi += ppOrPgd;
+                            var pqdcdV = (from p in db.NhanViens
+                                          join p1 in db.CongViecs on p.MaCongViec equals p1.MaCongViec
+                                          where p.MaPhongBan == phongbanId & p.MaTrangThai == 1 & (p1.MaCongViec == 22 | p1.MaCongViec == 23)
+                                          select p).Count();
+                            pqdcdVDonVi += pqdcdV;
+                            // nhan vien kinh te , can su
+                            var nvktV = (from p in db.NhanViens
+                                         join p1 in db.CongViecs on p.MaCongViec equals p1.MaCongViec
+                                         where p.MaPhongBan == phongbanId & p.MaTrangThai == 1 & (p1.MaCongViec == 27)
+                                         select p).Count();
+                            nvktVDonVi += nvktV;
+                            //chuyen vien
+                            var cvV = (from p in db.NhanViens
                                        join p1 in db.CongViecs on p.MaCongViec equals p1.MaCongViec
-                                       where p.MaPhongBan == phongbanId & (p1.MaCongViec == 21 | p1.MaCongViec == 13)
+                                       where p.MaPhongBan == phongbanId & p.MaTrangThai == 1 & p1.MaCongViec == 32
                                        select p).Count();
-                        ppOrPgdDonVi += ppOrPgd;
-                        var pqdcdV = (from p in db.NhanViens
-                                      join p1 in db.CongViecs on p.MaCongViec equals p1.MaCongViec
-                                      where p.MaPhongBan == phongbanId & (p1.MaCongViec == 22 | p1.MaCongViec == 23)
-                                      select p).Count();
-                        pqdcdVDonVi += pqdcdV;
-                        // nhan vien kinh te , can su
-                        var nvktV = (from p in db.NhanViens
-                                     join p1 in db.CongViecs on p.MaCongViec equals p1.MaCongViec
-                                     where p.MaPhongBan == phongbanId & (p1.MaCongViec == 27)
-                                     select p).Count();
-                        nvktVDonVi += nvktV;
-                        //chuyen vien
-                        var cvV = (from p in db.NhanViens
-                                   join p1 in db.CongViecs on p.MaCongViec equals p1.MaCongViec
-                                   where p.MaPhongBan == phongbanId & p1.MaCongViec == 32
-                                   select p).Count();
-                        cvVDonVi += cvV;
-                        //khai thac ham lo
-                        var ktV = (from p in db.NhanViens
-                                   join p1 in db.CongViecs on p.MaCongViec equals p1.MaCongViec
-                                   where p.MaPhongBan == phongbanId & p1.MaCongViec == 24
-                                   select p).Count();
-                        ktVDonVi += ktV;
-                        // co dien lo => k co trong db
-                        var cdlV = 0;
-                        cdlVDonVi += cdlV;
+                            cvVDonVi += cvV;
+                            //khai thac ham lo
+                            var ktV = (from p in db.NhanViens
+                                       join p1 in db.CongViecs on p.MaCongViec equals p1.MaCongViec
+                                       where p.MaPhongBan == phongbanId & p.MaTrangThai == 1 & p1.MaCongViec == 24
+                                       select p).Count();
+                            ktVDonVi += ktV;
+                            // co dien lo => k co trong db
+                            var cdlV = 0;
+                            cdlVDonVi += cdlV;
 
 
-                        // chua define khac co nhung gi
-                        var khacV = 0;
-                        khacVDonVi += khacV;
+                            // chua define khac co nhung gi
+                            var khacV = 0;
+                            khacVDonVi += khacV;
 
-                        // Phuc vu k co
+                            // Phuc vu k co
 
 
-                        var pvV = 0;
-                        pvVDonVi += pvV;
-                        //ky thuat vien phan xuong
-                        var ktvV = (from p in db.NhanViens
-                                    join p1 in db.CongViecs on p.MaCongViec equals p1.MaCongViec
-                                    where p.MaPhongBan == phongbanId & p1.MaCongViec == 15
-                                    select p).Count();
-                        ktVDonVi += ktvV;
-                        // phu tro k co
-                        var ptV = 0;
-                        ptVDonVi += ptV;
-                        var rocordPhongBan = (from p in db.Departments
-                                              
-                                              where p.department_id == phongbanId & p.department_type == tenDonVi
-                                              select new RecordTotalEmployee
-                                              {
-                                                  dv = p.department_name,
-                                                  ldts = tonglaodongphongban,
-                                                  nu = tonglaodongphongbanNu,
-                                                  tsgt = quandocNumber + ppOrPgd + nvktV + cvV,
-                                                  qd = quandocNumber,
-                                                  pppgd = ppOrPgd,
-                                                  pqdcd = pqdcdV,
-                                                  nvkt = nvktV,
-                                                  cv = cvV,
-                                                  ts1 = ktV + cdlV + khacV,
-                                                  kt = ktV,
-                                                  cdl = cdlV,
-                                                  khac = khacV,
-                                                  ts2 = pvV + ktvV + ptV,
-                                                  pv = pvV,
-                                                  ktv = ktvV,
-                                                  pt = ptV,
-                                                  ghichu = "donvi"
+                            var pvV = 0;
+                            pvVDonVi += pvV;
+                            //ky thuat vien phan xuong
+                            var ktvV = (from p in db.NhanViens
+                                        join p1 in db.CongViecs on p.MaCongViec equals p1.MaCongViec
+                                        where p.MaPhongBan == phongbanId & p.MaTrangThai == 1 & p1.MaCongViec == 15
+                                        select p).Count();
+                            ktVDonVi += ktvV;
+                            // phu tro k co
+                            var ptV = 0;
+                            ptVDonVi += ptV;
+                            var rocordPhongBan = (from p in db.Departments
 
-                                              }).ToList();
-                        listPhongBanTemp.AddRange(rocordPhongBan);
+                                                  where p.department_id == phongbanId & p.department_type == tenDonVi
+                                                  select new RecordTotalEmployee
+                                                  {
+                                                      dv = p.department_name,
+                                                      ldts = tonglaodongphongban,
+                                                      nu = tonglaodongphongbanNu,
+                                                      tsgt = quandocNumber + ppOrPgd + nvktV + cvV,
+                                                      qd = quandocNumber,
+                                                      pppgd = ppOrPgd,
+                                                      pqdcd = pqdcdV,
+                                                      nvkt = nvktV,
+                                                      cv = cvV,
+                                                      ts1 = ktV + cdlV + khacV,
+                                                      kt = ktV,
+                                                      cdl = cdlV,
+                                                      khac = khacV,
+                                                      ts2 = pvV + ktvV + ptV,
+                                                      pv = pvV,
+                                                      ktv = ktvV,
+                                                      pt = ptV,
+                                                      ghichu = "donvi"
+
+                                                  }).ToList();
+                            listPhongBanTemp.AddRange(rocordPhongBan);
 
 
 
-                    }
-                    if(tenDonVi.Equals("SX chính") || tenDonVi.Equals("Phục vụ, phụ trợ"))
+                        }
+                    if (tenDonVi.Equals("Phân xưởng sản xuất chính") || tenDonVi.Equals("Phân xưởng thuộc về phục vụ"))
                     {
                         tonglaodongPhanxuong += tonglaodongDonVi;
                         tonglaodongNuPhanxuong += tonglaodongDonViNu;
@@ -311,7 +312,9 @@ namespace QUANGHANH2.Controllers.TCLD
                     pvVDonViAll += pvVDonVi;
                     ktVDonViAll += ktVDonVi;
                     ptVDonViAll += ptVDonVi;
-                    RecordTotalEmployee donvi1 =
+                    if (!tenDonVi.Equals("Đơn vị sản xuất thuê ngoài"))
+                    {
+                        RecordTotalEmployee donvi1 =
                                   new RecordTotalEmployee
                                   {
                                       dv = tenDonVi,
@@ -334,9 +337,12 @@ namespace QUANGHANH2.Controllers.TCLD
                                       ghichu = "phongban"
 
                                   };
-                    listPhongBan.Add(donvi1);
-                    listPhongBan.AddRange(listPhongBanTemp);
-                    listAllTemp.AddRange(listPhongBan);
+                        listPhongBan.Add(donvi1);
+                        listPhongBan.AddRange(listPhongBanTemp);
+                        listAllTemp.AddRange(listPhongBan);
+                    }
+
+
 
 
 
@@ -388,7 +394,7 @@ namespace QUANGHANH2.Controllers.TCLD
                                      ghichu = "phongban"
 
                                  };
-                
+
                 listAll.Add(donvi);
                 listAll.Add(phanxuong);
                 listAll.AddRange(listAllTemp);
@@ -472,7 +478,12 @@ namespace QUANGHANH2.Controllers.TCLD
                 new SelectListItem { Text = "4/4(Thương tật từ 21% trở lên)", Value = "4" }
             };
                 ViewBag.thuongbinh = ThuongBinh;
-
+                QuanHeGiaDinh qh = new QuanHeGiaDinh();
+                List<QuanHeGiaDinh> qhList = db.QuanHeGiaDinhs.Where(x => x.MaNV == id).ToList();
+                ViewBag.qhList = qhList;
+                QuaTrinhCongTac qt = new QuaTrinhCongTac();
+                List<QuaTrinhCongTac> qtList = db.QuaTrinhCongTacs.Where(x => x.MaNV == id).ToList();
+                ViewBag.qtList = qtList;
                 return View("/Views/TCLD/Brief/View.cshtml", db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault<NhanVien>());
             }
         }
@@ -540,70 +551,138 @@ namespace QUANGHANH2.Controllers.TCLD
                 QuanHeGiaDinh qh = new QuanHeGiaDinh();
                 List<QuanHeGiaDinh> qhList = db.QuanHeGiaDinhs.Where(x => x.MaNV == id).ToList();
                 ViewBag.qhList = qhList;
+                QuaTrinhCongTac qt = new QuaTrinhCongTac();
+                List<QuaTrinhCongTac> qtList = db.QuaTrinhCongTacs.Where(x => x.MaNV == id).ToList();
+                ViewBag.qtList = qtList;
                 return View("/Views/TCLD/Brief/Edit.cshtml", db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault<NhanVien>());
             }
         }
         [Auther(RightID = "53")]
         [HttpPost]
-        public ActionResult SaveEdit(NhanVien emp, string test, string[] giaDinh, string[] ngaySinhGiaDinh, string[] hoTen, string[] moiQuanHe, string[] lyLich)
+        public ActionResult SaveEdit(NhanVien emp, string test, string[] giaDinh, string[] ngaySinhGiaDinh, string[] hoTen, string[] moiQuanHe, string[] lyLich, string[] donVi, string[] chucDanh, string[] chucVu, string[] tuNgayDenNgay)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             using (DbContextTransaction dbct = db.Database.BeginTransaction())
             {
-                List<CongViec> Jobdb = db.CongViecs.ToList<CongViec>();
-                foreach (CongViec cv in Jobdb)
+                try
                 {
-                    if (test.Trim().Equals(cv.TenCongViec.Trim()))
+                    List<CongViec> Jobdb = db.CongViecs.ToList<CongViec>();
+                    foreach (CongViec cv in Jobdb)
                     {
-                        emp.MaCongViec = cv.MaCongViec;
-                        break;
+                        if (test.Trim().Equals(cv.TenCongViec.Trim()))
+                        {
+                            emp.MaCongViec = cv.MaCongViec;
+                            break;
+                        }
+                    }
+
+                    if (giaDinh != null)
+                    {
+                        List<QuanHeGiaDinh> qhList = db.QuanHeGiaDinhs.ToList();
+                        for (int i = 0; i < giaDinh.Length; i++)
+                        {
+                            if (!giaDinh[i].Equals(""))
+                            {
+                                string moiQuanHeX = moiQuanHe[i];
+                                string giaDinhX = giaDinh[i];
+                                List<QuanHeGiaDinh> Gd = db.QuanHeGiaDinhs.Where(nv => (nv.MaNV.Equals(emp.MaNV)) && (nv.MoiQuanHe.Equals(moiQuanHeX)) && (nv.LoaiGiaDinh.Equals(giaDinhX))).ToList();
+                                if (Gd.Count == 0)
+                                {
+                                    QuanHeGiaDinh gd = new QuanHeGiaDinh();
+                                    gd.MaNV = emp.MaNV;
+                                    gd.LoaiGiaDinh = giaDinh[i];
+                                    if (ngaySinhGiaDinh[i] != "")
+                                    {
+                                        string[] date = ngaySinhGiaDinh[i].Split('/');
+                                        gd.NgaySinh = Convert.ToDateTime(date[1] + "/" + date[0] + "/" + date[2]);
+                                    }
+                                    gd.HoTen = hoTen[i];
+                                    gd.MoiQuanHe = moiQuanHe[i];
+                                    gd.LyLich = lyLich[i];
+                                    db.QuanHeGiaDinhs.Add(gd);
+                                    db.SaveChanges();
+
+                                }
+                                else
+                                {
+                                    QuanHeGiaDinh gd = new QuanHeGiaDinh();
+                                    gd.MaNV = emp.MaNV;
+                                    gd.LoaiGiaDinh = giaDinh[i];
+
+                                    var GD = db.QuanHeGiaDinhs.Where(nv => (nv.MaNV.Equals(emp.MaNV)) && (nv.MoiQuanHe.Equals(moiQuanHeX)) && (nv.LoaiGiaDinh.Equals(giaDinhX))).FirstOrDefault();
+                                    GD.HoTen = hoTen[i];
+                                    if (ngaySinhGiaDinh[i] != "")
+                                    {
+                                        string[] date = ngaySinhGiaDinh[i].Split('/');
+                                        GD.NgaySinh = Convert.ToDateTime(date[1] + "/" + date[0] + "/" + date[2]);
+                                    }
+                                    GD.MoiQuanHe = moiQuanHe[i];
+                                    GD.LyLich = lyLich[i];
+                                    db.Entry(GD).State = EntityState.Modified;
+                                    db.SaveChanges();
+
+                                }
+                            }
+                        }
+                    }
+
+                    if (donVi != null)
+                    {
+                        List<QuaTrinhCongTac> list = db.QuaTrinhCongTacs.ToList();
+                        for (int i = 0; i < donVi.Length; i++)
+                        {
+                            if (!donVi[i].Equals(""))
+                            {
+                                string[] ngay = tuNgayDenNgay[i].Split('-');
+                                string DonViCongTacX = donVi[i];
+                                string[] ngayFix = ngay[0].Trim().Split('/');
+                                DateTime NgayBatDauX = Convert.ToDateTime(ngayFix[1] + "/" + ngayFix[0] + "/" + ngayFix[2]);
+                                List<QuaTrinhCongTac> ct = db.QuaTrinhCongTacs.Where(qtct => (qtct.MaNV.Equals(emp.MaNV)) && (qtct.DonViCongTac.Equals(DonViCongTacX)) && (qtct.NgayBatDau == NgayBatDauX)).ToList();
+                                if (ct.Count == 0)
+                                {
+                                    QuaTrinhCongTac qtct = new QuaTrinhCongTac();
+                                    qtct.MaNV = emp.MaNV;
+                                    qtct.DonViCongTac = donVi[i];
+                                    if (ngay[0] != "" && ngay[1] != "")
+                                    {
+                                        string[] dateStart = ngay[0].Split('/');
+                                        qtct.NgayBatDau = Convert.ToDateTime(dateStart[1] + "/" + dateStart[0] + "/" + dateStart[2]);
+                                        string[] dateEnd = ngay[1].Split('/');
+                                        qtct.NgayKetThuc = Convert.ToDateTime(dateEnd[1] + "/" + dateEnd[0] + "/" + dateEnd[2]);
+                                    }
+                                    qtct.ChucVu = chucVu[i];
+                                    qtct.ChucDanh = chucDanh[i];
+                                    db.QuaTrinhCongTacs.Add(qtct);
+                                    db.SaveChanges();
+                                }
+                                else
+                                {
+                                    QuaTrinhCongTac qtct = new QuaTrinhCongTac();
+                                    qtct.MaNV = emp.MaNV;
+                                    qtct.DonViCongTac = donVi[i];
+
+                                    var quaTrinh = db.QuaTrinhCongTacs.Where(congTac => (congTac.MaNV.Equals(emp.MaNV)) && (congTac.DonViCongTac.Equals(DonViCongTacX)) && (congTac.NgayBatDau == NgayBatDauX)).FirstOrDefault();
+                                    if (ngay[0] != "" && ngay[1] != "")
+                                    {
+                                        string[] dateStart = ngay[0].Split('/');
+                                        quaTrinh.NgayBatDau = Convert.ToDateTime(dateStart[1] + "/" + dateStart[0] + "/" + dateStart[2]);
+                                        string[] dateEnd = ngay[1].Split('/');
+                                        quaTrinh.NgayKetThuc = Convert.ToDateTime(dateEnd[1] + "/" + dateEnd[0] + "/" + dateEnd[2]);
+                                    }
+                                    quaTrinh.ChucVu = chucVu[i];
+                                    quaTrinh.ChucDanh = chucDanh[i];
+                                    db.Entry(quaTrinh).State = EntityState.Modified;
+                                    db.SaveChanges();
+                                }
+                            }
+                        }
                     }
                 }
-               
-
-                List<QuanHeGiaDinh> qhList = db.QuanHeGiaDinhs.ToList();
-                for (int i = 0; i < giaDinh.Length; i++)
+                catch (Exception)
                 {
-                    string moiQuanHeX = moiQuanHe[i];
-                    string giaDinhX = giaDinh[i];
-                    List<QuanHeGiaDinh> Gd = db.QuanHeGiaDinhs.Where(nv => (nv.MaNV.Equals(emp.MaNV)) && (nv.MoiQuanHe.Equals(moiQuanHeX)) && (nv.LoaiGiaDinh.Equals(giaDinhX))).ToList();
-                    if (Gd.Count == 0)
-                    {
-                        QuanHeGiaDinh gd = new QuanHeGiaDinh();
-                        gd.MaNV = emp.MaNV;
-                        gd.LoaiGiaDinh = giaDinh[i];
-                        if (ngaySinhGiaDinh[i] != "")
-                        {
-                            string[] date = ngaySinhGiaDinh[i].Split('/');
-                            gd.NgaySinh = Convert.ToDateTime(date[1] + "/" + date[0] + "/" + date[2]);
-                        }
-                        gd.HoTen = hoTen[i];
-                        gd.MoiQuanHe = moiQuanHe[i];
-                        gd.LyLich = lyLich[i];
-                        db.QuanHeGiaDinhs.Add(gd);
-                        db.SaveChanges();
-
-                    }
-                    else
-                    {
-                        QuanHeGiaDinh gd = new QuanHeGiaDinh();
-                        gd.MaNV = emp.MaNV;
-                        gd.LoaiGiaDinh = giaDinh[i];
-                        
-                        var GD = db.QuanHeGiaDinhs.Where(nv => (nv.MaNV.Equals(emp.MaNV)) && (nv.MoiQuanHe.Equals(moiQuanHeX)) && (nv.LoaiGiaDinh.Equals(giaDinhX))).FirstOrDefault();
-                        GD.HoTen = hoTen[i];
-                        if (ngaySinhGiaDinh[i] != "")
-                        {
-                            string[] date = ngaySinhGiaDinh[i].Split('/');
-                            GD.NgaySinh = Convert.ToDateTime(date[1] + "/" + date[0] + "/" + date[2]);
-                        }
-                        GD.MoiQuanHe = moiQuanHe[i];
-                        GD.LyLich = lyLich[i];
-                        db.Entry(GD).State = EntityState.Modified;
-                        db.SaveChanges();
-
-                    }
+                    dbct.Rollback();
                 }
+
                 db.Entry(emp).State = EntityState.Modified;
                 db.SaveChanges();
                 dbct.Commit();
@@ -736,12 +815,93 @@ namespace QUANGHANH2.Controllers.TCLD
             ViewBag.nameDepartment = "baohiem";
             return View("/Views/TCLD/Brief/WorkHistory.cshtml");
         }
-        [Route("phong-tcld/quan-ly-nhan-vien/chi-tiet-dieu-chuyen")]
-        public ActionResult TransferHistory()
+
+        public class lichSuDieuDong : NhanVien
         {
-            ViewBag.nameDepartment = "baohiem";
+            public string Ten { get; set; }
+            public string SoQuyetDinh { get; set; }
+            public Nullable<System.DateTime> NgayQuyetDinh { get; set; }
+            public string DonViMoi { get; set; }
+            public string DonViCu { get; set; }
+            public string ChucVuMoi { get; set; }
+            public string ChucVuCu { get; set; }
+            public string BacLuongMoi { get; set; }
+            public string BacLuongCu { get; set; }
+            public double? MucLuongMoi { get; set; }
+            public double? MucLuongCu { get; set; }
+        }
+
+        [Route("phong-tcld/quan-ly-nhan-vien/chi-tiet-dieu-dong")]
+        [HttpGet]
+        public ActionResult TransferHistoryget(string ddid)
+        {
+            ViewBag.ddid = ddid;
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            var temp = from n in db.NhanViens
+                       where n.MaNV == ddid
+                       select n.Ten;
+            string name = temp.FirstOrDefault().ToString();
+            ViewBag.name = name;
             return View("/Views/TCLD/Brief/TransferHistory.cshtml");
         }
+
+        [Route("phong-tcld/quan-ly-nhan-vien/chi-tiet-dieu-dong")]
+        [HttpPost]
+        public ActionResult TransferHistory()
+        {
+            var ddid = Request["ddid"];
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+
+            int start = Convert.ToInt32(Request["start"]);
+            int length = Convert.ToInt32(Request["length"]);
+            string searchValue = Request["search[value]"];
+            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+            string sortDirection = Request["order[0][dir]"];
+            var temp = from n in db.NhanViens
+                       join d in db.DieuDong_NhanVien on n.MaNV equals d.MaNV
+                       join q in db.QuyetDinhs on d.MaQuyetDinh equals q.MaQuyetDinh
+                       where (d.MaNV == ddid
+                       && q.SoQuyetDinh != null
+                       || q.SoQuyetDinh.Equals(""))
+                       select new
+                       {
+                           n.Ten,
+                           q.NgayQuyetDinh,
+                           q.SoQuyetDinh,
+                           d.DonViMoi,
+                           d.DonViCu,
+                           d.ChucVuMoi,
+                           d.ChucVuCu,
+                           d.BacLuongCu,
+                           d.BacLuongMoi,
+                           d.MucLuongMoi,
+                           d.MucLuongCu
+                       };
+            List<lichSuDieuDong> newlist = temp.ToList().Select(p => new lichSuDieuDong()
+            {
+                Ten = p.Ten,
+                SoQuyetDinh = p.SoQuyetDinh,
+                NgayQuyetDinh = p.NgayQuyetDinh,
+                DonViMoi = p.DonViMoi,
+                DonViCu = p.DonViCu,
+                ChucVuMoi = p.ChucVuMoi,
+                ChucVuCu = p.ChucVuCu,
+                BacLuongMoi = p.BacLuongMoi,
+                BacLuongCu = p.BacLuongCu,
+                MucLuongMoi = p.MucLuongMoi,
+                MucLuongCu = p.MucLuongCu
+            }).ToList();
+            int totalrows = newlist.Count;
+            int totalrowsafterfiltering = newlist.Count;
+            //sorting
+            newlist = newlist.OrderBy(sortColumnName + " " + sortDirection).ToList();
+            //paging
+            //newlist = newlist.Skip(start).Take(length).ToList<lichSuDieuDong>();
+            //ViewBag.listnv = newlist;
+            return Json(new { data = newlist, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+
+        }
+
         [Auther(RightID = "55")]
         [Route("delete")]
         [HttpPost]
@@ -835,6 +995,65 @@ namespace QUANGHANH2.Controllers.TCLD
 
 
         }
+
+        [Route("deleteFamily")]
+        [HttpPost]
+        public JsonResult DeleteFamily(string maQH, string id)
+        {
+            List<QuanHeGiaDinh> list = new List<QuanHeGiaDinh>();
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                using (DbContextTransaction transaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        string query = "delete from QuanHeGiaDinh where MaQuanHeGiaDinh = " + maQH;
+                        db.Database.ExecuteSqlCommand(query);
+                        string query2 = "select * from QuanHeGiaDinh where MaNV =" + id;
+
+                        list = db.Database.SqlQuery<QuanHeGiaDinh>(query2).ToList();
+                        transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        transaction.Rollback();
+                        return Json(new { success = false, message = "Lỗi!" + e.Message }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+
+                return Json(new { success = true, listQH = list }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [Route("deleteWork")]
+        [HttpPost]
+        public JsonResult DeleteWork(string maCT, string id)
+        {
+            List<QuaTrinhCongTac> list = new List<QuaTrinhCongTac>();
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                using (DbContextTransaction transaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        string query = "delete from QuaTrinhCongTac where MaCongTac = " + maCT;
+                        db.Database.ExecuteSqlCommand(query);
+                        string query2 = "select * from QuaTrinhCongTac where MaNV =" + id;
+
+                        list = db.Database.SqlQuery<QuaTrinhCongTac>(query2).ToList();
+                        transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        transaction.Rollback();
+                        return Json(new { success = false, message = "Lỗi!" + e.Message }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+
+                return Json(new { success = true, listCT = list }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
 
         [Route("phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien/excel")]
         [HttpPost]

@@ -297,7 +297,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     Equipment e = DBContext.Equipments.Find(equipmentId);
 
                     a.equipmentid = e.equipmentId;
-                    string date = DateTime.ParseExact(date1, "yyyy-MM-dd", null).ToString("yyyy-MM-dd");
+                    string date = DateTime.ParseExact(date1, "dd/MM/yyyy", null).ToString("yyyy-MM-dd");
                     a.date = DateTime.Parse(date);
                     a.quantity = quantity;
                     a.hours_per_day = hours_per_day;
@@ -547,7 +547,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 {
                     //Add :
                     Equipment e = DBContext.Equipments.Find(equipmentId);
-                    DateTime dateTime = DateTime.ParseExact(date1, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    DateTime dateTime = DateTime.ParseExact(date1, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                     Supply s = DBContext.Supplies.Where(x => x.supply_id == fuel_type).First();
 
                     Supply_tieuhao su = DBContext.Supply_tieuhao.Where(x => x.supplyid == fuel_type && x.departmentid == e.department_id).First();
@@ -592,7 +592,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                             consumption_value = consumption_value,
                             equipmentId = equipmentId,
                             fuel_type = fuel_type,
-                            date = DateTime.ParseExact(date1, "yyyy-MM-dd", null)
+                            date = DateTime.ParseExact(date1, "dd/MM/yyyy", null)
                         };
                         DBContext.Fuel_activities_consumption.Add(fuel_Activities_Consumption);
                     }
@@ -601,7 +601,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     //get new
                     string newFuelType = fuel_type;
                     string new_departmentId = e.department_id;
-                    string new_day = DateTime.ParseExact(date1, "dd/MM/yyyy", null).ToString("MM-dd-yyyy");
+                    string new_day = DateTime.ParseExact(date1, "dd/MM/yyyy", null).ToString("yyyy-MM-dd");
 
                     //get update amount of new.
                     int update_amount_new = DBContext.Database.SqlQuery<int>("" +

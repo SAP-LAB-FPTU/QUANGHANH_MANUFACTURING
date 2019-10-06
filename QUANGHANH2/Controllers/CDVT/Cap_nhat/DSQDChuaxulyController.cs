@@ -47,7 +47,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Cap_nhat
                     dtEnd = dtEnd.AddMinutes(59);
                     query += "docu.date_created BETWEEN '" + dtStart + "' AND '" + dtEnd + "' AND ";
                 }
-                if (!documentary_id.Equals("")) query += "docu.documentary_id LIKE @documentary_id AND ";
+                if (!documentary_id.Equals("")) query += "docu.documentary_code LIKE @documentary_id AND ";
                 if (!type.Equals("0")) query += "docu.documentary_type LIKE @documentary_type AND ";
                 if (!department.Equals("")) query += "depa.department_name LIKE @department_name AND ";
                 if (!reason.Equals("")) query += "docu.reason LIKE @reason AND ";

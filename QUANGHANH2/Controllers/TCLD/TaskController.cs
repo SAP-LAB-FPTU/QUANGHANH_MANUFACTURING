@@ -33,9 +33,32 @@ namespace QUANGHANH2.Controllers.TCLD
 
                 string name = dataJson.name;
                 string px = dataJson.px;
+                string mnv = dataJson.mnv;
 
                 List<NhanVien_Extend> emp = null;
-                if (name == null || name.Equals(""))
+                if (mnv != null) { // search bang mnv
+                    var temp = (from pxx in db.Departments
+                                join
+                                nv in db.NhanViens
+                                on pxx.department_id equals nv.MaPhongBan
+                                where (nv.MaNV.Contains(mnv))
+                                && nv.MaTrangThai == 1
+                                select new
+                                {
+                                    pxx.department_name,
+                                    nv.Ten,
+                                    nv.MaNV
+                                }).FirstOrDefault();
+                    emp = new List<NhanVien_Extend>();
+
+                    if (temp != null)
+                    {
+                        var nv = new NhanVien_Extend { Ten = temp.Ten, MaNV = temp.MaNV };
+                        emp.Add(nv);
+
+                    }
+                }
+                else if (name == null && mnv == null && px != null ) //  chi search bang px
                 {
                     var temp = (from pxx in db.Departments
                                 join
@@ -51,7 +74,7 @@ namespace QUANGHANH2.Controllers.TCLD
                                 });
                     emp = temp.ToList().Select(p => new NhanVien_Extend { MaNV = p.MaNV, Ten = p.Ten }).ToList();
                 }
-                else if (px == null || px.Equals(""))
+                else if (px == null && name != null && mnv == null) // chi search bang name
                 {
                     var temp = (from pxx in db.Departments
                                 join
@@ -66,13 +89,26 @@ namespace QUANGHANH2.Controllers.TCLD
                                 });
                     emp = temp.ToList().Select(p => new NhanVien_Extend { MaNV = p.MaNV, Ten = p.Ten }).ToList();
                 }
-                else
+                else if(name != null && px != null && mnv == null) // search bang ten va px
                 {
                     var temp = (from pxx in db.Departments
                                 join
                                 nv in db.NhanViens
                                 on pxx.department_id equals nv.MaPhongBan
                                 where (pxx.department_name.Contains(px) && nv.Ten.Contains(name) && nv.MaTrangThai == 1)
+                                select new
+                                {
+                                    nv.Ten,
+                                    nv.MaNV
+                                });
+                    emp = temp.ToList().Select(p => new NhanVien_Extend { MaNV = p.MaNV, Ten = p.Ten }).ToList();
+                }
+                else // lay ra all
+                {
+                    var temp = (from pxx in db.Departments
+                                join
+                                nv in db.NhanViens
+                                on pxx.department_id equals nv.MaPhongBan
                                 select new
                                 {
                                     nv.Ten,
@@ -122,12 +158,11 @@ namespace QUANGHANH2.Controllers.TCLD
 
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                var temp = (from a in db.Departments select new { TenPhanXuong = a.department_name }).ToList();
+                var temp = (from a in db.Departments where a.department_type.Contains("chính") select new { TenPhanXuong = a.department_name }).ToList();
 
-                IEnumerable<Department> arrPhanXuong = temp.Distinct().ToList().Select(p => new Department { department_name = p.TenPhanXuong });
+                IEnumerable<Department> arrPhanXuong = temp.Select(p => new Department { department_name = p.TenPhanXuong });
                 ViewBag.nameDepartment = "vld-antoan";
                 ViewBag.PhanXuongs = arrPhanXuong;
-                // myArrPhanXuong = new 
                 IOrderedEnumerable<NhiemVu> arrNhiemVu = db.NhiemVus.ToList().OrderBy(n => n.Loai);
 
                 List<MyModal> model = new List<MyModal>();
@@ -169,6 +204,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 ChiTiet_NhiemVu_NhanVien cnn;
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
+                    DateTime now = DateTime.Now;
                     if (removedTask != null)
                     {
                         foreach (string rt in removedTask) // truong hop bo nhiem vu cua nhan vien di va khong dang ki cai moi
@@ -186,7 +222,6 @@ namespace QUANGHANH2.Controllers.TCLD
 
                     if (tasks != null)
                     {
-                        DateTime now = DateTime.Now;
                         foreach (string t in tasks)
                         {
                             tSplit = t.Split('_');
@@ -199,15 +234,27 @@ namespace QUANGHANH2.Controllers.TCLD
                                 NgayNhanNhiemVu = now,
                                 IsInProcess = true
                             };
-                            List<ChiTiet_NhiemVu_NhanVien> temp = db.ChiTiet_NhiemVu_NhanVien.Where(p => p.MaNV.Equals(mnv)).ToList();
+                            var at = db.ChiTiet_NhiemVu_NhanVien.Where(p => p.MaNV.Equals(mnv) && p.MaNhiemVu.Equals(mnvu)).FirstOrDefault();
 
-                            if (temp != null) //set het trang thai nhiem vu cu cua nhan vien -> false(da lam)
+                            if(at != null)
                             {
-                                temp.ForEach(p => p.IsInProcess = false);
-
+                                if (at.NgayNhanNhiemVu.Date.Equals(now.Date))
+                                {
+                                    if(at.IsInProcess == false)
+                                    {
+                                        at.IsInProcess = true;
+                                    }
+                                }
+                                else
+                                {
+                                    at.IsInProcess = false;
+                                    db.ChiTiet_NhiemVu_NhanVien.Add(cnn);
+                                }
                             }
-
-                            db.ChiTiet_NhiemVu_NhanVien.Add(cnn); //them nhiem vu moi voi trang thai  = true (dang lam)
+                            else
+                            {
+                                db.ChiTiet_NhiemVu_NhanVien.Add(cnn);
+                            }
 
                         }
                     }
@@ -349,8 +396,8 @@ namespace QUANGHANH2.Controllers.TCLD
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                var temp = (from a in db.Departments select new { maPhongBan = a.department_id, TenPhanXuong = a.department_name }).ToList();
-                IEnumerable<Department> arrPhanXuong = temp.Distinct().ToList().Select(p => new Department { department_id = p.maPhongBan, department_name = p.TenPhanXuong });
+                var temp = (from a in db.Departments where a.department_type.Contains("chính") select new { maPhongBan = a.department_id, TenPhanXuong = a.department_name }).ToList();
+                IEnumerable<Department> arrPhanXuong = temp.Select(p => new Department { department_id = p.maPhongBan, department_name = p.TenPhanXuong });
                 ViewBag.PhanXuongs = arrPhanXuong;
             }
             ViewBag.nameDepartment = "vld-antoan";
