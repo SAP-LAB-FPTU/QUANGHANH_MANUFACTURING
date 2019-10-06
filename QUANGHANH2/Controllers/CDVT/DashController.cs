@@ -64,8 +64,9 @@ namespace QUANGHANHCORE.Controllers.CDVT
             }
             ViewBag.listKD = listKD;
             ViewBag.totalKD = totalKD;
-            etk.total_KHD = Convert.ToInt32(etk.total_repair) + Convert.ToInt32(etk.total_maintain) + Convert.ToInt32(etk.total_KD) + Convert.ToInt32(etk.total_TH) + Convert.ToInt32(etk.total_TL);
+            
             etk.total_HD = db.Equipments.Where(x => x.current_Status == 2).Count();
+            etk.total_KHD = int.Parse(etk.total) - etk.total_HD;
 
             var listRepair = db.Equipments.Where(x => x.current_Status == 3).Select(x => new DashEquip { equipmentId = x.equipmentId, equipment_name = x.equipment_name }).ToList().Distinct();
             ViewBag.listRepair = listRepair;
