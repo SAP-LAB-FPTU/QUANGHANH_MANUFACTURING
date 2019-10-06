@@ -35,8 +35,8 @@
                                 <i class="fas fa-calendar-alt icon"></i>
                                 <input type='text' class='datepicker-here center minDate' id="max_Date" data-language='vi' value="Nhập ngày kết thúc (đến)" style="height: 24px" />
                             </div>
-                            <div class="col l1 m12 s12 input-field">
-
+                            <div class="col l2 m12 s12 input-field">
+                                <input type="text" placeholder="Tìm kiếm theo mã quyết định" id="doccumentid" class='form-control' />
                             </div>
                             <div class="col l2 m12 s12 input-field">
                                 <input type="text" placeholder="Tìm kiếm theo mã tài sản cố định" id="equimentid" class='form-control' />
@@ -57,9 +57,10 @@
                     <table id="docTable" class="striped table-bordered centered responsive-table mytable">
                         <thead>
                             <tr>
-                                <th colspan="3">Thông tin thiết bị</th>
+                                <th colspan="4">Thông tin thiết bị</th>
                             </tr>
                             <tr>
+                                <th>Quyết định số</th>
                                 <th>Mã TSCĐ</th>
                                 <th>Tên thiết bị</th>
                                 <th>Ngày nghiệm thu</th>
@@ -69,37 +70,6 @@
                     </table>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-<div id="thongtin" class="modal">
-    <div class="modal-header center-align">
-        <h3><b>Thông tin quyết định</b></h3>
-    </div>
-    <div class="modal-body">
-        <div class="row">
-            <table class="striped mytb">
-                <tr>
-                    <td>Số quyết định</td>
-                    <td>019</td>
-                </tr>
-                <tr>
-                    <td>Ngày lập quyết định</td>
-                    <td>10/10/2020</td>
-                </tr>
-                <tr>
-                    <td>Người lập quyết định</td>
-                    <td>Nguyễn Văn Thái</td>
-                </tr>
-                <tr>
-                    <td>Người phê duyệt quyết định</td>
-                    <td>Trần Thị Thương</td>
-                </tr>
-                <tr>
-                    <td>Loại quyết định</td>
-                    <td>Quyết định sửa chữa</td>
-                </tr>
-            </table>
         </div>
     </div>
 </div>
@@ -122,6 +92,14 @@
     <div class="modal-footer">
         <a class="btn modal-close blue">Lưu</a>
         <a class="btn modal-close blue darken-2">Đóng</a>
+    </div>
+</div>
+<div id="thongtin" class="modal">
+    <div class="modal-header center-align">
+        <h3><b>Thông tin quyết định</b></h3>
+    </div>
+    <div class="modal-body" id="detailTable">
+
     </div>
 </div>
 <div class="modal fade" id="myedit">
@@ -204,7 +182,8 @@
                     "url": "/phong-cdvt/da-nghiem-thu/search",
                     "type": "POST",
                         "datatype": "json",
-                    "data": {
+                        "data": {
+                        "document_code": function () { return $('#doccumentid').val() },
                         "equimentid": function () {return $('#equimentid').val() },
                         "equimentname": function () {return $('#equimentname').val() },
                         "date_start": function () {return $('#min_Date').val() },
@@ -215,10 +194,20 @@
                     $("#pre-load").hide("slow", function () {
                 });
                 },
-                "columns": [
-                    { "data": "equipmentId", "name": "equipmentId", "render": function (data) {
+                    "columns": [
+                        {
+                            "data": "temp", "name" : "documentary_id", "render": function (data) {
+                            return "<a id='click' class='modal-trigger' data-target='thongtin' onclick=Detail('@Url.Action("Detail","nghiemthu")?id=" + data.split("^")[0] + "')> "+data.split("^")[1]+"</a>";
+
+                        },
+                        },
+                    { @*"data": "equipmentId", "name": "equipmentId", "render": function (data) {
                             //return "<td><a href='#capnhat' class='modal-trigger'>"+data+"</a></td>";
                         return "<a class='modal-trigger' onclick=GetData('@Url.Action("Index","VatTuQuyetDinh")?id=" + data + "')>" + data + "</a>";
+                        },*@
+                        "data": "linkIdCode", "name": "equipmentId",
+                        "render": function (data) {
+                            return "<a href=\"" + data.link + "?id=" + data.id + "\"> " + data.code + "</a>";
                         },
                     },
                     { "data": "equipment_name", "name": "equipment_name" },
@@ -269,12 +258,16 @@
             return (date);
         }
 
-        function Detail(url) {
-            $.get(url)
-                .done(function (response) {
-                    $("#detailTable").html(response)
-                });
-            return false;
+
+            function Detail(url) {
+             $.get(url)
+                 .done(function (response) {
+                     $("#detailTable").html(response)
+            });
+                return false;
+        }
+         function GetData(url) {
+             window.location.href = url;
         }
         function Update(url) {
             $.get(url)
@@ -321,6 +314,12 @@
         if (event.keyCode === 13) {
             $("#searchButton1").click();
             $("#equimentname").blur();
+        }
+        });
+        $("#doccumentid").keyup(function (event) {
+        if (event.keyCode === 13) {
+            $("#searchButton1").click();
+            $("#doccumentid").blur();
         }
         });
 

@@ -1,0 +1,64 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+}
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <div class="col s12">
+                <div class="center">
+                    <h3>
+                        <b>VẬT TƯ THIẾT BỊ</b>
+                    </h3>
+                </div>
+
+                <div class="col s12">
+                        <li class="tab col s6"><a class="active" href="#thaythe">VẬT TƯ CẤP KÈM THEO</a></li>
+                </div>
+                <div id="thaythe" class="col s12">
+                    <table class="striped centered table-bordered" id="kemtheotable">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">Mã nhóm vật tư</th>
+                                <th rowspan="2">Tên vật tư</th>
+                                <th rowspan="2">ĐVT</th>
+                                <th>Số lượng</th>
+                                <th>Tình trạng kỹ thuật</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @for (int i = 0; i < ViewBag.ListSup3.Count; i++)
+                            {
+                                if (i % 2 == 0)
+                                {
+                                    <tr>
+                                        <td rowspan="2">@ViewBag.ListSup3[i].equipmentId</td>
+                                        <td rowspan="2">@ViewBag.ListSup3[i].supply_name</td>
+                                        <td rowspan="2">@ViewBag.ListSup3[i].unit</td>
+                                        <td>@ViewBag.ListSup3[i].quantity</td>
+                                        <td>@ViewBag.ListSup3[i].supplyStatus</td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td>@ViewBag.ListSup3[i].quantity</td>
+                                        <td>@ViewBag.ListSup3[i].supplyStatus</td>
+                                    </tr>
+                                }
+                            }
+                            @if (ViewBag.ListSup3.Count == 0)
+                            {
+                            <td colspan="5">Không có dữ liệu</td>
+                        }
+
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+

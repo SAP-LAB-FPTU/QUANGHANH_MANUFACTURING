@@ -6973,7 +6973,6 @@
     <Content Include="excel\TCLD\download\Danh-sách-nhân-viên.xlsx" />
     <Content Include="doc\CDVT\QD\quyetdinhsuachua.docx" />
     <Content Include="excel\TCLD\CD_TD_Report.xlsx" />
-    <Content Include="excel\TCLD\Report_job.xlsx" />
     <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên.xlsx" />
     <Content Include="excel\TCLD\download\Danh-sách-nhân-viên.xlsx" />
     <Content Include="doc\CDVT\QD\quyetdinhsuachua.docx" />
@@ -6988,6 +6987,7 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="excel\TCLD\Report_job.xlsx" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
