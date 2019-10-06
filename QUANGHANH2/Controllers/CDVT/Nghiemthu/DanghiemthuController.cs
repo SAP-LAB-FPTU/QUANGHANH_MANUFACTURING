@@ -24,7 +24,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
         [Auther(RightID = "26")]
         [Route("phong-cdvt/da-nghiem-thu/search")]
         [HttpPost]
-        public ActionResult Search(string equimentid,string equimentname, string date_start, string date_end)
+        public ActionResult Search(string document_code,string equimentid,string equimentname, string date_start, string date_end)
         {
             //Server Side Parameter
             string requestID = Request["sessionId"];
@@ -67,24 +67,30 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                 docList = (from a in db.Acceptances
                           
                            join b in db.Equipments on a.equipmentId equals b.equipmentId
-                           where (a.equipmentStatus == 3) && (a.equipmentId.Contains(equimentid) && b.equipment_name.Contains(equimentname) && (a.acceptance_date >= dstart && a.acceptance_date <= dend))
+                           join c in db.Documentaries on a.documentary_id equals c.documentary_id
+                           where (a.equipmentStatus == 3) && (c.documentary_code.Contains(document_code)) && (a.equipmentId.Contains(equimentid) && b.equipment_name.Contains(equimentname) && (a.acceptance_date >= dstart && a.acceptance_date <= dend))
                            select new
                            {
-                               //documentary_id = a.documentary_id,
+                               documentary_id = a.documentary_id,
                                equipmentId = b.equipmentId,
                                equipment_name = b.equipment_name,
-                               acceptance_date = a.acceptance_date
+                               acceptance_date = a.acceptance_date,
+                               documentary_code = c.documentary_code
 
 
                            }).ToList().Select(p => new Documentary_Extend
                            {
-                               //documentary_id = p.documentary_id,
+                               documentary_id = p.documentary_id,
                                equipmentId = p.equipmentId,
                                equipment_name = p.equipment_name,
-                               acceptance_date = p.acceptance_date
+                               acceptance_date = p.acceptance_date,
+                               documentary_code = p.documentary_code
 
                            }).ToList();
-
+                foreach (Documentary_Extend item in docList)
+                {
+                    item.temp = item.documentary_id + "^" + item.documentary_code;
+                }
                 //docList = db.Documentaries.ToList<Documentary>();
                 int totalrows = docList.Count;
                 int totalrowsafterfiltering = docList.Count;
