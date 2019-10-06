@@ -75,7 +75,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                equipmentId = b.equipmentId,
                                equipment_name = b.equipment_name,
                                acceptance_date = a.acceptance_date,
-                               documentary_code = c.documentary_code
+                               documentary_code = c.documentary_code,
+                               documentary_type = c.documentary_type
 
 
                            }).ToList().Select(p => new Documentary_Extend
@@ -84,12 +85,40 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                equipmentId = p.equipmentId,
                                equipment_name = p.equipment_name,
                                acceptance_date = p.acceptance_date,
-                               documentary_code = p.documentary_code
+                               documentary_code = p.documentary_code,
+                               documentary_type = p.documentary_type
 
                            }).ToList();
                 foreach (Documentary_Extend item in docList)
                 {
                     item.temp = item.documentary_id + "^" + item.documentary_code;
+                }
+                foreach (Documentary_Extend items in docList)
+                {
+                    items.linkIdCode = new LinkIdCode2();
+                    switch (items.documentary_type)
+                    {
+                        case "1":
+                            items.linkIdCode.link = "vat-tu";
+                            break;
+                        case "2":
+                            items.linkIdCode.link = "vat-tu";
+                            break;
+                        case "3":
+                            items.linkIdCode.link = "vat-tu-kem-theo";
+                            break;
+                        case "4":
+                            items.linkIdCode.link = "vat-tu";
+                            break;
+                        case "5":
+                            items.linkIdCode.link = "vat-tu";
+                            break;
+                        case "6":
+                            items.linkIdCode.link = "vat-tu";
+                            break;
+                    }
+                    items.linkIdCode.code = items.equipmentId;
+                    items.linkIdCode.id = items.equipmentId;
                 }
                 //docList = db.Documentaries.ToList<Documentary>();
                 int totalrows = docList.Count;

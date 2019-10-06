@@ -51,22 +51,50 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                documentary_id = a.documentary_id,
                                equipmentId = b.equipmentId,
                                equipment_name = b.equipment_name,
-                               documentary_code = c.documentary_code
+                               documentary_code = c.documentary_code,
+                               documentary_type = c.documentary_type
 
                            }).ToList().Select(p => new Documentary_Extend
                            {
                                documentary_id = p.documentary_id,
                                equipmentId = p.equipmentId,
                                equipment_name = p.equipment_name,
-                               documentary_code = p.documentary_code
+                               documentary_code = p.documentary_code,
+                               documentary_type = p.documentary_type
                            }).ToList();
                 foreach (Documentary_Extend item in docList)
                 {
                     item.temp = item.documentary_id + "^" + item.documentary_code;
                 }
-                
+ 
 
-
+                foreach (Documentary_Extend items in docList)
+                {
+                    items.linkIdCode = new LinkIdCode2();
+                    switch (items.documentary_type)
+                    {
+                        case "1":
+                            items.linkIdCode.link = "vat-tu";
+                            break;
+                        case "2":
+                            items.linkIdCode.link = "vat-tu";
+                            break;
+                        case "3":
+                            items.linkIdCode.link = "vat-tu-kem-theo";
+                            break;
+                        case "4":
+                            items.linkIdCode.link = "vat-tu";
+                            break;
+                        case "5":
+                            items.linkIdCode.link = "vat-tu";
+                            break;
+                        case "6":
+                            items.linkIdCode.link = "vat-tu";
+                            break;
+                    }
+                    items.linkIdCode.code = items.equipmentId;
+                    items.linkIdCode.id = items.equipmentId;
+                }
 
 
 
@@ -144,11 +172,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                         departmentid = p.departmentid
                                     }).ToList();
 
-                    foreach(Suply items in supplyList)
-                    {
-                        UpdateSupply(items.supplyid,items.equipmentId,items.departmentid);
-                        break;
-                    }
 
                     foreach (Document items in documentList)
                     {
@@ -185,6 +208,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                 count2 = query1.countID;
                                 queryX = "Update Equipment SET current_Status = 2 WHERE equipmentId = @equipmentId";
                                 queryY = "Update Equipment SET department_id = T2.department_id FROM Equipment T1,Documentary_repair_details T2 Where T1.equipmentId = T2.equipmentId and T1.equipmentId = @equipmentId and T2.documentary_id = @documentary_id";
+
+                                foreach (Suply item in supplyList)
+                                {
+                                    UpdateSupply(item.supplyid, item.equipmentId, item.departmentid);
+                                    break;
+                                }
                                 break;
                             case "2":
                                 Document query2 = db.Database.SqlQuery<Document>("select count(documentary_id) as countID from Documentary_maintain_details where documentary_id = @documentary_id",
@@ -192,6 +221,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                 count2 = query2.countID;
                                 queryX = "Update Equipment SET current_Status = 2 WHERE equipmentId = @equipmentId";
                                 queryY = "Update Equipment SET department_id = T2.department_id FROM Equipment T1,Documentary_maintain_details T2 Where T1.equipmentId = T2.equipmentId and T1.equipmentId = @equipmentId and T2.documentary_id = @documentary_id ";
+                                foreach (Suply item in supplyList)
+                                {
+                                    UpdateSupply(item.supplyid, item.equipmentId, item.departmentid);
+                                    break;
+                                }
                                 break;
                             case "3":
                                 Document query3 = db.Database.SqlQuery<Document>("select count(documentary_id) as countID from Documentary_moveline_details where documentary_id = @documentary_id",
@@ -220,6 +254,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                 count2 = query6.countID;
                                 queryX = "Update Equipment SET current_Status = 1 WHERE equipmentId = @equipmentId";
                                 queryY = "Update Equipment SET department_id = T2.department_id FROM Equipment T1,Documentary_big_maintain_details T2 Where T1.equipmentId = T2.equipmentId and T1.equipmentId = @equipmentId   and T2.documentary_id = @documentary_id";
+                                foreach (Suply item in supplyList)
+                                {
+                                    UpdateSupply(item.supplyid, item.equipmentId, item.departmentid);
+                                    break;
+                                }
                                 break;
                         }
                         if (queryX != "" && queryY != "")
@@ -313,15 +352,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
 
             public string equipmentId { get; set; }
             public int countID { get; set; }
-            public LinkIdCode linkIdCode { get; set; }
     }
 
-    public class LinkIdCode
-    {
-        public string link { get; set; }
-        public int id { get; set; }
-        public string code { get; set; }
-    }
     public class Suply
     {
         public string supplyid { get; set; }
