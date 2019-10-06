@@ -37,13 +37,18 @@ namespace QUANGHANH2.Controllers.TCLD
             List<BangCap_detailsDB> listdataDip = new List<BangCap_detailsDB>();
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
+                db.Configuration.ProxyCreationEnabled = false;
+                //List<BangCap_GiayChungNhan> listdataDip =db.BangCap_GiayChungNhan.ToList<BangCap_GiayChungNhan>();
                 listdataDip = (from bc in db.BangCap_GiayChungNhan
-                               join cn in db.ChuyenNganhs on bc.MaChuyenNganh equals cn.MaChuyenNganh
-                               join td in db.TrinhDoes on bc.MaTrinhDo equals td.MaTrinhDo
-                               join truong in db.Truongs on bc.MaTruong equals truong.MaTruong
-                               select new
+                               join cn in db.ChuyenNganhs on bc.MaChuyenNganh equals cn.MaChuyenNganh into cnganh
+                               from cn in cnganh.DefaultIfEmpty()
+                               join td in db.TrinhDoes on bc.MaTrinhDo equals td.MaTrinhDo into tdo
+                               from td in tdo.DefaultIfEmpty()
+                               join truong in db.Truongs on bc.MaTruong equals truong.MaTruong into tt
+                               from truong in tt.DefaultIfEmpty()
+                                select new
                                {
-                                   MaTruong = bc.MaTruong,
+                                   MaTruong = bc.MaTruong ,
                                    MaChuyenNganh = bc.MaChuyenNganh,
                                    MaBangCap_GiayChungNhan = bc.MaBangCap_GiayChungNhan,
                                    MaTrinhDo = bc.MaTrinhDo,
@@ -68,6 +73,7 @@ namespace QUANGHANH2.Controllers.TCLD
                                    TenChuyenNganh = bangcap.TenChuyenNganh,
                                    TenTrinhDo = bangcap.TenTrinhDo
                                }).ToList();
+
 
                 int totalrows = listdataDip.Count;
                 int totalrowsafterfiltering = listdataDip.Count;
@@ -224,6 +230,7 @@ namespace QUANGHANH2.Controllers.TCLD
             listTypesDiploma.Add(1, "Photo");
             listTypesDiploma.Add(2, "Sao, Công chứng");
             listTypesDiploma.Add(3, "Bản gốc");
+            listTypesDiploma.Add(4, "Dấu đỏ");
             SelectList listTypesDip = new SelectList(listTypesDiploma, "Value", "Value");
             ViewBag.listTypesDip = listTypesDip;
 
@@ -380,13 +387,15 @@ namespace QUANGHANH2.Controllers.TCLD
                 if (truong_text != null || nganh_text != null || trinhdo_text != null || bangcap_text != null)
                 {
                     listdataDip = (from bc in db.BangCap_GiayChungNhan
-                                   where (bc.TenBangCap.Contains(bangcap_text))
-                                   join cn in db.ChuyenNganhs on bc.MaChuyenNganh equals cn.MaChuyenNganh
-                                   where (cn.TenChuyenNganh.Contains(nganh_text))
-                                   join td in db.TrinhDoes on bc.MaTrinhDo equals td.MaTrinhDo
-                                   where (td.TenTrinhDo.Contains(trinhdo_text))
-                                   join truong in db.Truongs on bc.MaTruong equals truong.MaTruong
-                                   where (truong.TenTruong.Contains(truong_text))
+                                   join cn in db.ChuyenNganhs on bc.MaChuyenNganh equals cn.MaChuyenNganh into cnganh
+                                   from cn in cnganh.DefaultIfEmpty()
+                                   join td in db.TrinhDoes on bc.MaTrinhDo equals td.MaTrinhDo into tdo
+                                   from td in tdo.DefaultIfEmpty()
+                                   join truong in db.Truongs on bc.MaTruong equals truong.MaTruong into tt
+                                    from truong in tt.DefaultIfEmpty()
+                                   where ((truong.TenTruong == null ? "".Contains(truong_text) : truong.TenTruong.Contains(truong_text)) && (bc.TenBangCap.Contains(bangcap_text))
+                                   && (cn.TenChuyenNganh == null ? "".Contains(nganh_text) : cn.TenChuyenNganh.Contains(nganh_text)) && (td.TenTrinhDo== null ? "".Contains(trinhdo_text) : td.TenTrinhDo.Contains(trinhdo_text))
+                                   )
                                    select new
                                    {
                                        MaTruong = bc.MaTruong,
@@ -576,6 +585,7 @@ namespace QUANGHANH2.Controllers.TCLD
                     List<BangCap_detailsDB> listdataDiploma = new List<BangCap_detailsDB>();
                     using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                     {
+
                         int count = 0;
                         listdataDiploma = (from bc in db.BangCap_GiayChungNhan
                                            join cn in db.ChuyenNganhs on bc.MaChuyenNganh equals cn.MaChuyenNganh
