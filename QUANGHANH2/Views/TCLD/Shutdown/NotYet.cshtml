@@ -273,7 +273,7 @@
             var dataTable = $('#notyet-table').DataTable();
             $("#searchButton").click(function () {
                 dataTable.ajax.reload(function () {
-
+                    $(".datepicker-here").val("")
                 });
             });
         });
@@ -443,11 +443,6 @@
         if (e.keyCode === 13) {
             dataTable.ajax.reload();
         }
-    });
-
-    $("#clear").click(function(e) {
-        $("#searchNgayQD").val("");
-        $("#searchMaQD").val("");
     });
 
 </script>

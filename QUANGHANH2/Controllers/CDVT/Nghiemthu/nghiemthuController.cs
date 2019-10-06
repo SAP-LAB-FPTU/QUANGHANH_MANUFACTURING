@@ -51,22 +51,50 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                documentary_id = a.documentary_id,
                                equipmentId = b.equipmentId,
                                equipment_name = b.equipment_name,
-                               documentary_code = c.documentary_code
+                               documentary_code = c.documentary_code,
+                               documentary_type = c.documentary_type
 
                            }).ToList().Select(p => new Documentary_Extend
                            {
                                documentary_id = p.documentary_id,
                                equipmentId = p.equipmentId,
                                equipment_name = p.equipment_name,
-                               documentary_code = p.documentary_code
+                               documentary_code = p.documentary_code,
+                               documentary_type = p.documentary_type
                            }).ToList();
                 foreach (Documentary_Extend item in docList)
                 {
                     item.temp = item.documentary_id + "^" + item.documentary_code;
                 }
-                
+ 
 
-
+                foreach (Documentary_Extend items in docList)
+                {
+                    items.linkIdCode = new LinkIdCode2();
+                    switch (items.documentary_type)
+                    {
+                        case "1":
+                            items.linkIdCode.link = "vat-tu";
+                            break;
+                        case "2":
+                            items.linkIdCode.link = "vat-tu";
+                            break;
+                        case "3":
+                            items.linkIdCode.link = "vat-tu-kem-theo";
+                            break;
+                        case "4":
+                            items.linkIdCode.link = "vat-tu";
+                            break;
+                        case "5":
+                            items.linkIdCode.link = "vat-tu";
+                            break;
+                        case "6":
+                            items.linkIdCode.link = "vat-tu";
+                            break;
+                    }
+                    items.linkIdCode.code = items.equipmentId;
+                    items.linkIdCode.id = items.equipmentId;
+                }
 
 
 
@@ -126,29 +154,42 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                     }).ToList();
 
                     supplyList = (from a in db.Supply_Documentary_Equipment
-                                    join b in db.Documentaries on a.documentary_id equals b.documentary_id
-                                    join c in db.Supplies on a.supply_id equals c.supply_id
-                                    join d in db.Supply_tieuhao on c.supply_id equals d.supplyid
-                                    where a.equipmentId == id
-                                    select new
-                                    {
-                                        supplyid = a.supply_id,
-                                        equipmentId = a.equipmentId,
-                                        departmentid = b.department_id
+                                  join b in db.Documentaries on a.documentary_id equals b.documentary_id
+                                  join c in db.Supplies on a.supply_id equals c.supply_id
+                                  join d in db.Supply_tieuhao on c.supply_id equals d.supplyid
+                                  where a.equipmentId == id
+                                  select new
+                                  {
+                                      supplyid = a.supply_id,
+                                      equipmentId = a.equipmentId,
+                                      departmentid = d.departmentid
 
 
-                                    }).ToList().Select(p => new Suply
-                                    {
-                                        supplyid = p.supplyid,
-                                        equipmentId = p.equipmentId,
-                                        departmentid = p.departmentid
-                                    }).ToList();
+                                  }).ToList().Select(p => new Suply
+                                  {
+                                      supplyid = p.supplyid,
+                                      equipmentId = p.equipmentId,
+                                      departmentid = p.departmentid
+                                  }).ToList();
+                    //supplyList = (from a in db.Supplies
+                    //              join b in db.Supply_tieuhao on a.supply_id equals b.supplyid
+                    //              join c in db.Supply_Documentary_Equipment on a.supply_id equals c.supply_id
+                    //              join d in db.Documentaries on c.documentary_id equals d.documentary_id
+                    //              where c.equipmentId == id
+                    //              select new
+                    //              {
+                    //                  supplyid = a.supply_id,
+                    //                  equipmentId = c.equipmentId,
+                    //                  departmentid = d.department_id
 
-                    foreach(Suply items in supplyList)
-                    {
-                        UpdateSupply(items.supplyid,items.equipmentId,items.departmentid);
-                        break;
-                    }
+
+                    //              }).ToList().Select(p => new Suply
+                    //              {
+                    //                  supplyid = p.supplyid,
+                    //                  equipmentId = p.equipmentId,
+                    //                  departmentid = p.departmentid
+                    //              }).ToList();
+
 
                     foreach (Document items in documentList)
                     {
@@ -185,6 +226,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                 count2 = query1.countID;
                                 queryX = "Update Equipment SET current_Status = 2 WHERE equipmentId = @equipmentId";
                                 queryY = "Update Equipment SET department_id = T2.department_id FROM Equipment T1,Documentary_repair_details T2 Where T1.equipmentId = T2.equipmentId and T1.equipmentId = @equipmentId and T2.documentary_id = @documentary_id";
+
+                                foreach (Suply item in supplyList)
+                                {
+                                    UpdateSupply(item.supplyid, item.equipmentId, item.departmentid);
+                                    break;
+                                }
                                 break;
                             case "2":
                                 Document query2 = db.Database.SqlQuery<Document>("select count(documentary_id) as countID from Documentary_maintain_details where documentary_id = @documentary_id",
@@ -192,6 +239,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                 count2 = query2.countID;
                                 queryX = "Update Equipment SET current_Status = 2 WHERE equipmentId = @equipmentId";
                                 queryY = "Update Equipment SET department_id = T2.department_id FROM Equipment T1,Documentary_maintain_details T2 Where T1.equipmentId = T2.equipmentId and T1.equipmentId = @equipmentId and T2.documentary_id = @documentary_id ";
+                                foreach (Suply item in supplyList)
+                                {
+                                    UpdateSupply(item.supplyid, item.equipmentId, item.departmentid);
+                                    break;
+                                }
                                 break;
                             case "3":
                                 Document query3 = db.Database.SqlQuery<Document>("select count(documentary_id) as countID from Documentary_moveline_details where documentary_id = @documentary_id",
@@ -220,6 +272,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                 count2 = query6.countID;
                                 queryX = "Update Equipment SET current_Status = 1 WHERE equipmentId = @equipmentId";
                                 queryY = "Update Equipment SET department_id = T2.department_id FROM Equipment T1,Documentary_big_maintain_details T2 Where T1.equipmentId = T2.equipmentId and T1.equipmentId = @equipmentId   and T2.documentary_id = @documentary_id";
+                                foreach (Suply item in supplyList)
+                                {
+                                    UpdateSupply(item.supplyid, item.equipmentId, item.departmentid);
+                                    break;
+                                }
                                 break;
                         }
                         if (queryX != "" && queryY != "")
@@ -278,14 +335,14 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
         {
             try
             {
-               Suply query = db.Database.SqlQuery<Suply>(" select sum(quantity) as sum_type_1 from Supply_Documentary_Equipment where supplyType = 1 and equipmentId = @equipmentId group by supply_id, equipmentId, documentary_id",
+               Suply query = db.Database.SqlQuery<Suply>(" select sum(quantity) as sum_type_1 from Supply_Documentary_Equipment where supplyType = 1 and equipmentId = @equipmentId",
                    new SqlParameter("equipmentId", equipmentId)).First();
-               Suply query2 = db.Database.SqlQuery<Suply>(" select sum(quantity) as sum_type_2 from Supply_Documentary_Equipment where supplyType = 2 and equipmentId =  @equipmentId group by supply_id, equipmentId, documentary_id",
+               Suply query2 = db.Database.SqlQuery<Suply>(" select sum(quantity) as sum_type_2 from Supply_Documentary_Equipment where supplyType = 2 and equipmentId =  @equipmentId",
                    new SqlParameter("equipmentId", equipmentId)).First();
                     var query3 = "Update Supply_tieuhao Set used = used + @sum1,thuhoi = thuhoi + @sum2 From Supply_Documentary_Equipment T1, Documentary T2, Supply T3, Supply_tieuhao T4 Where T1.documentary_id = T2.documentary_id and T1.supply_id = T3.supply_id and T3.supply_id = T4.supplyid and T3.supply_id = @supply_id and departmentid = @departmentid and month(GETDATE()) = month([date]) and year(GETDATE()) = year([date])";
                 db.Database.ExecuteSqlCommand(query3,
                     new SqlParameter("sum1", query.sum_type_1),
-                    new SqlParameter("sum2", query.sum_type_2),
+                    new SqlParameter("sum2", query2.sum_type_2),
                     new SqlParameter("supply_id", supply_id),
                     new SqlParameter("departmentid", departmentid));
                     db.SaveChanges();
@@ -313,15 +370,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
 
             public string equipmentId { get; set; }
             public int countID { get; set; }
-            public LinkIdCode linkIdCode { get; set; }
     }
 
-    public class LinkIdCode
-    {
-        public string link { get; set; }
-        public int id { get; set; }
-        public string code { get; set; }
-    }
     public class Suply
     {
         public string supplyid { get; set; }

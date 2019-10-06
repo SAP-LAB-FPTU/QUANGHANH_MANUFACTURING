@@ -279,6 +279,7 @@
     <Compile Include="Controllers\TCLD\BriefController.cs" />
     <Compile Include="Controllers\TCLD\BriefRegulationController.cs" />
     <Compile Include="Controllers\TCLD\CertificateController.cs" />
+    <Compile Include="Controllers\TCLD\DepartmentController.cs" />
     <Compile Include="Controllers\TCLD\DiplomaController.cs" />
     <Compile Include="Controllers\TCLD\EatingController.cs" />
     <Compile Include="Controllers\TCLD\EmployeesController.cs" />
@@ -6973,7 +6974,6 @@
     <Content Include="excel\TCLD\download\Danh-sách-nhân-viên.xlsx" />
     <Content Include="doc\CDVT\QD\quyetdinhsuachua.docx" />
     <Content Include="excel\TCLD\CD_TD_Report.xlsx" />
-    <Content Include="excel\TCLD\Report_job.xlsx" />
     <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên.xlsx" />
     <Content Include="excel\TCLD\download\Danh-sách-nhân-viên.xlsx" />
     <Content Include="doc\CDVT\QD\quyetdinhsuachua.docx" />
@@ -6988,6 +6988,7 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="excel\TCLD\Report_job.xlsx" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
@@ -7260,6 +7261,8 @@
     <Content Include="Views\TCLD\Brief\ManageBrief\OutSideDetail.cshtml" />
     <Content Include="Views\TCLD\Recruitment\Input.cshtml" />
     <Content Include="Views\CDVT\Vattu\Danhsachvattu.cshtml" />
+    <Content Include="Views\TCLD\Department\List.cshtml" />
+    <Content Include="Views\Department\AddDepartment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

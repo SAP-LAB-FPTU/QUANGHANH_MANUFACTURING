@@ -17,10 +17,13 @@
             <br />
 
             <div class="row">
-                <div class="col s5 m5 l5 input-field">
+                <div class="col s3 m3 l3 input-field">
+                    <input type="text" class="form-control" id="mnv_search" placeholder="Mã nhân viên" />
+                </div>
+                <div class="col s3 m3 l3 input-field">
                     <input type="text" class="form-control" id="name_search" placeholder="Tên nhân viên" />
                 </div>
-                <div class="col s5 m5 l5 input-field">
+                <div class="col s3 m3 l3 input-field">
                     <select id="sl_phan_xuong" class="form-control">
                         <option disabled selected>Phân Xưởng</option>
                         @{
@@ -31,7 +34,7 @@
                         }
                     </select>
                 </div>
-                <div class="col s2 m2 l2 input-field">
+                <div class="col s3 m3 l3 input-field">
                     <button type="button" onclick="search()" id="btn_timkiem" class="btn blue darken-2">Tìm kiếm</button>
                 </div>
             </div>
@@ -158,6 +161,36 @@
 
             //set dropdown ve gia tri default khi nhan va input search ten
             $('#name_search').focus(() => { $('#sl_phan_xuong').val("Phân Xưởng").trigger('change') })
+
+            //them su kien an enter de tim kiem cho truong ten
+            document.querySelector('#name_search').addEventListener('keypress', function (e) { // them su kien nhan nut enter cho phan search
+                var key = e.which || e.keyCode;
+                if (key === 13) { 
+                    search();
+                }
+            });
+            //them su kien an enter de tim kiem cho truong ma nhan vien
+            document.querySelector('#mnv_search').addEventListener('keypress', function (e) { // them su kien nhan nut enter cho phan search
+                var key = e.which || e.keyCode;
+                if (key === 13) {
+                    search();
+                }
+            });
+            //khi nhan vao o tim kiem bang mnv se khong search bang ten va px dc nua
+            $("#mnv_search").focus(() => {
+                $('#sl_phan_xuong').val("Phân Xưởng").trigger('change')
+                $('#name_search').val("")
+                $("#name_search").prop('disabled', true);
+                $("#sl_phan_xuong").prop('disabled', true);
+            })
+            //khi nhan ra ngoai ma o gia tri cua mnv khac "" se khong cho search bangten va px
+            $("#mnv_search").blur(() => {
+                if ($("#mnv_search").val() == "") {
+                    $("#name_search").prop('disabled', false);
+                    $("#sl_phan_xuong").prop('disabled', false);
+                }
+            })
+
         })
 
 
@@ -244,13 +277,30 @@
             }
         }
 
+        function normailize(input) {
+            input = input.trim();
+            input = input.replace(/\s\s+/g, ' ');
+            input = input.replace(/  +/g, ' ');
+            return input;
+        }
+
         function search() {
 
             var name = $("#name_search").val()
+            var mnv = $("#mnv_search").val()
             var px = $("#sl_phan_xuong").val()
+            nameNormalized = normailize(name);
+            mnvNormalized = normailize(mnv)
+            if (nameNormalized == "") {
+                nameNormalized = null;
+            }
+            if (mnvNormalized == "") {
+                mnvNormalized = null;
+            }
             $("#pre-load").show()
             var searchObj = {
-                name: name,
+                name: nameNormalized,
+                mnv: mnvNormalized,
                 px : px
             }
             var searchObjJson = JSON.stringify(searchObj)

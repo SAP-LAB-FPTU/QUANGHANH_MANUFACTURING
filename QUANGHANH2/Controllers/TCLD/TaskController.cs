@@ -33,9 +33,32 @@ namespace QUANGHANH2.Controllers.TCLD
 
                 string name = dataJson.name;
                 string px = dataJson.px;
+                string mnv = dataJson.mnv;
 
                 List<NhanVien_Extend> emp = null;
-                if (name == null && px != null)
+                if (mnv != null) { // search bang mnv
+                    var temp = (from pxx in db.Departments
+                                join
+                                nv in db.NhanViens
+                                on pxx.department_id equals nv.MaPhongBan
+                                where (nv.MaNV.Contains(mnv))
+                                && nv.MaTrangThai == 1
+                                select new
+                                {
+                                    pxx.department_name,
+                                    nv.Ten,
+                                    nv.MaNV
+                                }).FirstOrDefault();
+                    emp = new List<NhanVien_Extend>();
+
+                    if (temp != null)
+                    {
+                        var nv = new NhanVien_Extend { Ten = temp.Ten, MaNV = temp.MaNV };
+                        emp.Add(nv);
+
+                    }
+                }
+                else if (name == null && mnv == null && px != null ) //  chi search bang px
                 {
                     var temp = (from pxx in db.Departments
                                 join
@@ -51,7 +74,7 @@ namespace QUANGHANH2.Controllers.TCLD
                                 });
                     emp = temp.ToList().Select(p => new NhanVien_Extend { MaNV = p.MaNV, Ten = p.Ten }).ToList();
                 }
-                else if (px == null && name != null)
+                else if (px == null && name != null && mnv == null) // chi search bang name
                 {
                     var temp = (from pxx in db.Departments
                                 join
@@ -66,7 +89,7 @@ namespace QUANGHANH2.Controllers.TCLD
                                 });
                     emp = temp.ToList().Select(p => new NhanVien_Extend { MaNV = p.MaNV, Ten = p.Ten }).ToList();
                 }
-                else if(name != null && px != null)
+                else if(name != null && px != null && mnv == null) // search bang ten va px
                 {
                     var temp = (from pxx in db.Departments
                                 join
@@ -80,7 +103,7 @@ namespace QUANGHANH2.Controllers.TCLD
                                 });
                     emp = temp.ToList().Select(p => new NhanVien_Extend { MaNV = p.MaNV, Ten = p.Ten }).ToList();
                 }
-                else
+                else // lay ra all
                 {
                     var temp = (from pxx in db.Departments
                                 join
