@@ -551,13 +551,12 @@ namespace QUANGHANH2.Controllers.TCLD
                         List<QuaTrinhCongTac> list = db.QuaTrinhCongTacs.ToList();
                         for (int i = 0; i < donVi.Length; i++)
                         {
-                            if (!donVi[i].Equals(""))
+                            if (!donVi[i].Equals("") && !tuNgayDenNgay[i].Equals(""))
                             {
                                 string[] ngay = tuNgayDenNgay[i].Split('-');
                                 string DonViCongTacX = donVi[i];
                                 string[] ngayFix = ngay[0].Trim().Split('/');
-                                DateTime NgayBatDauX = Convert.ToDateTime(ngayFix[1] + "/" + ngayFix[0] + "/" + ngayFix[2]);
-                                List<QuaTrinhCongTac> ct = db.QuaTrinhCongTacs.Where(qtct => (qtct.MaNV.Equals(emp.MaNV)) && (qtct.DonViCongTac.Equals(DonViCongTacX)) && (qtct.NgayBatDau == NgayBatDauX)).ToList();
+                                List<QuaTrinhCongTac> ct = db.QuaTrinhCongTacs.Where(qtct => (qtct.MaNV.Equals(emp.MaNV)) && (qtct.DonViCongTac.Equals(DonViCongTacX))).ToList();
                                 if (ct.Count == 0)
                                 {
                                     QuaTrinhCongTac qtct = new QuaTrinhCongTac();
@@ -581,7 +580,7 @@ namespace QUANGHANH2.Controllers.TCLD
                                     qtct.MaNV = emp.MaNV;
                                     qtct.DonViCongTac = donVi[i];
 
-                                    var quaTrinh = db.QuaTrinhCongTacs.Where(congTac => (congTac.MaNV.Equals(emp.MaNV)) && (congTac.DonViCongTac.Equals(DonViCongTacX)) && (congTac.NgayBatDau == NgayBatDauX)).FirstOrDefault();
+                                    var quaTrinh = db.QuaTrinhCongTacs.Where(congTac => (congTac.MaNV.Equals(emp.MaNV)) && (congTac.DonViCongTac.Equals(DonViCongTacX))).FirstOrDefault();
                                     if (ngay[0] != "" && ngay[1] != "")
                                     {
                                         string[] dateStart = ngay[0].Split('/');
