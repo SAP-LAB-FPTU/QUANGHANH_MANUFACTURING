@@ -232,9 +232,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     "group by MaDonVi) tb2\n" +
                     "on tb1.department_id=tb2.MaDonVi\n" +
                     "group by tb1.department_id,tb2.soluong";
-                    listNhanLuc = db.Database.SqlQuery<NhanLuc>(sql, new SqlParameter("NgayDiemDanh",date)).ToList<NhanLuc>();
+                    listNhanLuc = db.Database.SqlQuery<NhanLuc>(sql, new SqlParameter("NgayDiemDanh", date)).ToList<NhanLuc>();
                 }
-                return Json(new { success = true, tren82 = tren82, duoi82 = duoi82, soLuongHuyDong = soLuotHuyDong, vuTaiNan = vuTaiNan, nghiVLD = nghiVLD, hetHanChungChi = hetHanChungChi, listNghiVLD = listNghiVLD, listNhanLuc= listNhanLuc }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = true, tren82 = tren82, duoi82 = duoi82, soLuongHuyDong = soLuotHuyDong, vuTaiNan = vuTaiNan, nghiVLD = nghiVLD, hetHanChungChi = hetHanChungChi, listNghiVLD = listNghiVLD, listNhanLuc = listNhanLuc }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -390,6 +390,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
             HoTen = hoTen;
             TenDonVi = tenDonVi;
         }
-        
+
     }
 }
