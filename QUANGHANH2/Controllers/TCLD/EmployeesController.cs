@@ -208,7 +208,7 @@ namespace QUANGHANH2.Controllers.TCLD
 
                     listPhongBanAll.Add(new RecordTotalEmployee
                     {
-                        dv = i.tenDonVi,
+                        dv = i.tenDonVi.ToUpper(),
                         ldts = tonglaodongdonvi,
                         nu = tonglaodongdonviNu,
                         tsgt = quandocNumberdonvi + ppOrPgddonvi + nvktVdonvi + cvVdonvi+ pqdcdVdonvi,
