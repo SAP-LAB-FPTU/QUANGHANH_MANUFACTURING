@@ -86,11 +86,15 @@ namespace QUANGHANH2.Controllers.TCLD
                         tdnv.NgayTuyenDung = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd"));
                         DBcontext.TuyenDung_NhanVien.Add(tdnv);
                         //add tabel nhanvien
-                        if(checkSalry(salary) == false)
+                        if(salary.Trim() != "")
                         {
-                            transaction.Rollback();
-                            return Json(new { message = "SalaryFaile" , responseText = id}, JsonRequestBehavior.AllowGet);
+                            if (checkSalry(salary) == false)
+                            {
+                                transaction.Rollback();
+                                return Json(new { message = "SalaryFaile", responseText = id }, JsonRequestBehavior.AllowGet);
+                            }
                         }
+                      
                         NhanVien emp = new NhanVien();
                         emp.MaNV = id;
                         emp.Ten = names;
@@ -113,27 +117,42 @@ namespace QUANGHANH2.Controllers.TCLD
                         {
                             emp.GioiTinh = false;
                         }
-                        if (checkPhongBan(unit) == true) {
-                            transaction.Rollback();
-                            return Json(new { message = "DonVi", responseText = id }, JsonRequestBehavior.AllowGet);
+                        if(unit.Trim() != "")
+                        {
+                            emp.MaPhongBan = unit;
+                            if (checkPhongBan(unit) == true)
+                            {
+                                transaction.Rollback();
+                                return Json(new { message = "DonVi", responseText = id }, JsonRequestBehavior.AllowGet);
+                            }
                         }
-                        emp.MaPhongBan = unit;
+                        
+                        
                         emp.NoiOHienTai = place;
-                        if (working != null) {
+                        if (working.Trim() != "") {
                             emp.MaCongViec = getMaCongViec(salary, working);
                             if (emp.MaCongViec == -1) {
                                 transaction.Rollback();
                                 return Json(new { message = "CongViec", responseText = id }, JsonRequestBehavior.AllowGet);
                             }
                         }
-                        if (specialized != null) {
+                        if (specialized.Trim() != "") {
                             emp.MaChuyenNganh = getMaChuyenNganh(specialized);
                             if (emp.MaChuyenNganh.Equals("-1")) {
                                 transaction.Rollback();
                                 return Json(new { message = "ChuyenNganh", responseText = id }, JsonRequestBehavior.AllowGet);
                             }
                         }
-                        emp.MucLuong = convertSalary(salaryMonth);
+                        if (salaryMonth.Trim() != "")
+                        {
+                            emp.MucLuong = convertSalary(salaryMonth);
+                            if (emp.MucLuong == -1)
+                            {
+                                transaction.Rollback();
+                                return Json(new { message = "MucLuong", responseText = id }, JsonRequestBehavior.AllowGet);
+                            }
+                        }
+                        
                         emp.MaTrangThai = 1;
                         DBcontext.NhanViens.Add(emp);
                         HoSo document = new HoSo();
@@ -205,16 +224,21 @@ namespace QUANGHANH2.Controllers.TCLD
         {
             if(salary != null)
             {
-                salary = salary.Replace(".", string.Empty);
-                return Double.Parse(salary);
+                try
+                {
+                    salary = salary.Replace(".", string.Empty);
+                    return Double.Parse(salary);
+                }
+                catch (FormatException)
+                {
+                    return -1;
+                }
             }
             else
             {
                 checkNull = false;
                 return 0;
             }
-            
-            
         }
         public string getMaDonVi(string nameDonvi)
         {
