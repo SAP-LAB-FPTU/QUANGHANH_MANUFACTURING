@@ -21,7 +21,6 @@
           <ScalarProperty Name="Username" ColumnName="Username" />
           <ScalarProperty Name="Password" ColumnName="Password" />
           <ScalarProperty Name="Position" ColumnName="Position" />
-          <ScalarProperty Name="NVID" ColumnName="NVID" />
           <ScalarProperty Name="CDVT" ColumnName="CDVT" />
           <ScalarProperty Name="TCLD" ColumnName="TCLD" />
           <ScalarProperty Name="BGD" ColumnName="BGD" />
@@ -601,6 +600,7 @@
           <ScalarProperty Name="NgayCapCMND" ColumnName="NgayCapCMND" />
           <ScalarProperty Name="NoiCapCMND" ColumnName="NoiCapCMND" />
           <ScalarProperty Name="NgayDiLam" ColumnName="NgayDiLam" />
+          <ScalarProperty Name="MaPhongBan" ColumnName="MaPhongBan" />
           <ScalarProperty Name="MaUyQuyen" ColumnName="MaUyQuyen" />
           <ScalarProperty Name="SoBHXH" ColumnName="SoBHXH" />
           <ScalarProperty Name="NgayTraBHXH" ColumnName="NgayTraBHXH" />
@@ -617,7 +617,6 @@
           <ScalarProperty Name="TuThang" ColumnName="TuThang" />
           <ScalarProperty Name="MaTrangThai" ColumnName="MaTrangThai" />
           <ScalarProperty Name="MaChuyenNganh" ColumnName="MaChuyenNganh" />
-          <ScalarProperty Name="MaPhongBan" ColumnName="MaPhongBan" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -634,7 +633,6 @@
     <EntitySetMapping Name="QuanHeGiaDinhs">
       <EntityTypeMapping TypeName="QUANGHANHABCModel.QuanHeGiaDinh">
         <MappingFragment StoreEntitySet="QuanHeGiaDinh">
-          <ScalarProperty Name="MaQuanHeGiaDinh" ColumnName="MaQuanHeGiaDinh" />
           <ScalarProperty Name="LoaiGiaDinh" ColumnName="LoaiGiaDinh" />
           <ScalarProperty Name="MoiQuanHe" ColumnName="MoiQuanHe" />
           <ScalarProperty Name="NgaySinh" ColumnName="NgaySinh" />
