@@ -35,15 +35,19 @@ namespace QUANGHANHCORE.Controllers.CDVT.Cap_nhat
             string sortDirection = Request["order[0][dir]"];
 
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            DateTime dtStart = DateTime.ParseExact(dateStart, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            DateTime dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            dtEnd = dtEnd.AddHours(23);
-            dtEnd = dtEnd.AddMinutes(59);
             string query = "SELECT docu.*, docu.[out/in_come] as out_in_come, depa.department_name FROM Documentary docu inner join Department depa on docu.department_id = depa.department_id" +
-                " where docu.documentary_code IS NOT NULL and docu.date_created BETWEEN @start_time1 AND @start_time2 AND ";
-            if (!documentary_id.Equals("") || !type.Equals("0") || !department.Equals("") || !reason.Equals("") || !status.Equals("0"))
+                " where docu.documentary_code IS NOT NULL AND docu.documentary_status != 3 AND ";
+            if (!documentary_id.Equals("") || !type.Equals("0") || !department.Equals("") || !reason.Equals("") || !status.Equals("0") || !(dateStart.Equals("") || dateEnd.Equals("")))
             {
-                if (!documentary_id.Equals("")) query += "docu.documentary_id LIKE @documentary_id AND ";
+                if (!dateStart.Equals("") && !dateEnd.Equals(""))
+                {
+                    DateTime dtStart = DateTime.ParseExact(dateStart, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    DateTime dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    dtEnd = dtEnd.AddHours(23);
+                    dtEnd = dtEnd.AddMinutes(59);
+                    query += "docu.date_created BETWEEN '" + dtStart + "' AND '" + dtEnd + "' AND ";
+                }
+                if (!documentary_id.Equals("")) query += "docu.documentary_code LIKE @documentary_id AND ";
                 if (!type.Equals("0")) query += "docu.documentary_type LIKE @documentary_type AND ";
                 if (!department.Equals("")) query += "depa.department_name LIKE @department_name AND ";
                 if (!reason.Equals("")) query += "docu.reason LIKE @reason AND ";
@@ -55,8 +59,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Cap_nhat
                 new SqlParameter("documentary_type", '%' + type + '%'),
                 new SqlParameter("department_name", '%' + department + '%'),
                 new SqlParameter("reason", '%' + reason + '%'),
-                new SqlParameter("start_time1", dtStart),
-                new SqlParameter("start_time2", dtEnd),
                 new SqlParameter("documentary_status", status)
                 ).ToList();
             int totalrows = incidents.Count;

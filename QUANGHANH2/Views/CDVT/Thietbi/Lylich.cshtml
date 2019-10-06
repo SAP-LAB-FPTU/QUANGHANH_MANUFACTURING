@@ -26,6 +26,7 @@
                                 <li class="tab col s2"><a href="#dieuchuyen">NK ĐIỀU CHUYỂN</a></li>
                                 <li class="tab col s2"><a href="#suachua">NK SỬA CHỮA</a></li>
                                 <li class="tab col s2"><a href="#suco">NK SỰ CỐ</a></li>
+                                <li class="tab col s2"><a href="#kiemdinh">NK KIỂM ĐỊNH</a></li>
                                 <li class="tab col s2"><a href="#lichsu">NK HOẠT ĐỘNG</a></li>
                                 <li class="tab col s2"><a href="#tieuthu">NK TIÊU THỤ NHIÊN LIỆU</a></li>
                             </ul>
@@ -87,6 +88,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div id="dacdiem" class="col s12">
                             <div class="row table_container">
                                 <h5 class="card-title"></h5>
@@ -353,7 +355,59 @@
                                     }
                                 </div>
                             </div>
+                        </div>
 
+                        <div id="kiemdinh" class="col s12">
+                            <div class="wrapper-timeline">
+                                <div class="container">
+                                    @foreach (var x in ViewBag.listKD)
+                                    {
+                                        <div class="timeline">
+                                            <div class="timeline-month" id="title-@x.year">
+                                                Năm @x.year
+                                                <span>@x.count lần gặp kiểm định</span>
+                                            </div>
+
+                                            @foreach (var y in x.equipment_Inspections)
+                                            {
+                                                if (count == 0)
+                                                {
+                                                    @Html.Raw("<div class=\"timeline-section " + x.year + " lastest-year\">")
+                                                }
+                                                else
+                                                {
+                                                    @Html.Raw("<div class=\"timeline-section " + x.year + "\">")
+                                                }
+                                                <div class="timeline-date">
+                                                    @y.getDateString(y.inspect_start_date)
+                                                    @*Thứ @((int)y.date.DayOfWeek + 1), ngày @y.date.Day tháng @y.date.Month*@
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="timeline-box">
+                                                            <div class="box-content table_container">
+                                                                <table id="myborder" class="table-bordered striped table-responsive center">
+                                                                    <tr class="highlight">
+                                                                        <th>Thời gian bắt đầu dự tính</th>
+                                                                        <th>Thời gian bắt đầu kiểm định</th>
+                                                                        <th>Thời gian kết thúc kiểm định</th>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>@y.getStringtime(y.inspect_expected_date)</td>
+                                                                        <td>@y.getStringtime(y.inspect_start_date)</td>
+                                                                        <td>@y.getStringtime(y.inspect_end_date)</td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @Html.Raw("</div>")
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

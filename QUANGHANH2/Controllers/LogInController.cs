@@ -138,7 +138,11 @@ namespace QUANGHANHCORE.Controllers
                     RightIDs.Add("012");
                 }
             }
-            if (Boolean.Parse(Session["isAdmin"].ToString()) == true) RightIDs.Add("0");
+            if (Boolean.Parse(Session["isAdmin"].ToString()) == true)
+            {
+                RightIDs.Add("0");
+                Session["url"] = "ManagementUser/Index";
+            }
             Session["RightIDs"] = RightIDs;
         }
     }

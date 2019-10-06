@@ -45,11 +45,20 @@ namespace QUANGHANH2.Repositories
 
         public IList<XincapvattuSummaryModelView> GetVattus(string departmentId)
         {
-            string query = $"SELECT CONCAT(tmp.DepartmentId, '_', tmp.SupplyId) Id, tmp.DepartmentId, tmp.SupplyId, tmp.SupplyAverage, tmp.SupplyPlan, s.supply_name SupplyName, s.unit SupplyUnit, 0 AS SupplyQuantity " +
+            var vattus = new List<XincapvattuSummaryModelView>();
+            if (!HasProvided(departmentId))
+            {
+                string query = $"SELECT CONCAT(tmp.DepartmentId, '_', tmp.SupplyId) Id, tmp.DepartmentId, tmp.SupplyId, tmp.SupplyAverage, tmp.SupplyPlan, s.supply_name SupplyName, s.unit SupplyUnit, 0 AS SupplyQuantity " +
                 $"FROM (SELECT DISTINCT '{departmentId}' DepartmentId, supplyid SupplyId, sum(dinh_muc) SupplyAverage, sum(quantity_plan) SupplyPlan FROM SupplyPlan WHERE departmentid='{departmentId}' AND [date] >= (SELECT MAX([date]) FROM SupplyPlan WHERE departmentid='{departmentId}' AND [status] = 1) AND [status] = 1 GROUP BY supplyid) tmp, Supply s " +
                 $"WHERE s.supply_id = tmp.SupplyId";
-            var vattus = context.Database.SqlQuery<XincapvattuSummaryModelView>(query).ToList();
+                vattus = context.Database.SqlQuery<XincapvattuSummaryModelView>(query).ToList();
+            }
             return vattus;
+        }
+
+        public bool HasProvided(string departmentId)
+        {
+            return context.Database.SqlQuery<int>($"DECLARE @max_date_from_sp DATE SET @max_date_from_sp = (SELECT MAX(date) FROM SupplyPlan WHERE departmentid = '{departmentId}') SELECT COUNT(1) from Supply_tieuhao WHERE departmentid = '{departmentId}' AND YEAR([date]) = YEAR(@max_date_from_sp) AND MONTH([date]) = MONTH(@max_date_from_sp)").First() > 0;
         }
     }
 }

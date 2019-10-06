@@ -123,7 +123,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 return RedirectToAction("List", "Certificate");
             }
 
-
         }
         [Auther(RightID = "154")]
         [HttpGet]
@@ -140,9 +139,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
                 List<ChungChi> listdata_chungchi = db.ChungChis.ToList<ChungChi>();
                 List<NhanVien> listdata_nv = db.NhanViens.ToList<NhanVien>();
+                var result = listdata_nv.Where(s => s.MaTrangThai!=2);
 
                 SelectList listCirtificate = new SelectList(listdata_chungchi, "MaChungChi", "TenChungChi");
-                SelectList listEmployee = new SelectList(listdata_nv, "MaNV", "MaNV");
+                SelectList listEmployee = new SelectList(result, "MaNV", "MaNV");
 
                 ViewBag.List_chungchi = listCirtificate;
                 ViewBag.List_nhanvien = listEmployee;
@@ -215,7 +215,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                var chungchi_nvs = db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault<NhanVien>();
+                var chungchi_nvs = db.NhanViens.Where(x =>( x.MaNV == id)&&(x.MaTrangThai!=2)).FirstOrDefault<NhanVien>();
                 if (chungchi_nvs != null)
                 {
                     return Json(new { data = chungchi_nvs.Ten, success = true, message = "success" }, JsonRequestBehavior.AllowGet);

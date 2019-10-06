@@ -129,7 +129,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                group tb2 by tb2.department_name into groupted
                                                select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
                                               ).ToList();
-                    var arrPhongBan = db.Departments.Select(p => new TDCDModel
+                    var arrPhongBan = db.Departments.Where(p => !p.department_type.Contains("Điều hành")
+                                                                 && !p.department_type.Contains("Đoàn thể") &&
+                                                                 !p.department_type.Contains("ngoài")).Select(p => new TDCDModel
                     {
                         TenPhongBan = p.department_name,
                         Stt = 1,
@@ -190,13 +192,13 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         tongCDCD += phongBan.TongChamDutCoDien;
                         tongCDKT += phongBan.TongChamDutKhaiThac;
                         tongTDCD += phongBan.TongTuyenDungCoDien;
-                        tongTDKT = phongBan.TongTuyenDungKhaiThac;
+                        tongTDKT += phongBan.TongTuyenDungKhaiThac;
                     }
 
                     // row cuối cùng trong dtable để tính tổng
                     TDCDModel totalModel = new TDCDModel
                     {
-                        Stt = stt,
+                        Stt = 0,
                         TenPhongBan = "Tổng cộng",
                         TongTuyenDung = tongTD,
                         TongTuyenDungCoDien = tongTDCD,
@@ -286,8 +288,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
                                               ).ToList();
 
-                    var arrPhongBan = db.Departments.Select(p => new TDCDModel
-                    {
+                    var arrPhongBan = db.Departments.Where(p => !p.department_type.Contains("Điều hành")
+                                                                 && !p.department_type.Contains("Đoàn thể") &&
+                                                                 !p.department_type.Contains("ngoài")).Select(p => new TDCDModel
+                         {
                         TenPhongBan = p.department_name,
                         Stt = 1,
                         TongTuyenDungCoDien = 0,
@@ -347,12 +351,12 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         tongCDCD += phongBan.TongChamDutCoDien;
                         tongCDKT += phongBan.TongChamDutKhaiThac;
                         tongTDCD += phongBan.TongTuyenDungCoDien;
-                        tongTDKT = phongBan.TongTuyenDungKhaiThac;
+                        tongTDKT += phongBan.TongTuyenDungKhaiThac;
                     }
                     // row cuối cùng trong dtable để tính tổng
                     TDCDModel totalModel = new TDCDModel
                     {
-                        Stt = stt,
+                        Stt = 0,
                         TenPhongBan = "Tổng cộng",
                         TongTuyenDung = tongTD,
                         TongTuyenDungCoDien = tongTDCD,
@@ -448,8 +452,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                    group tb2 by tb2.department_name into groupted
                                                    select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
                                                   ).ToList();
-                        var arrPhongBan = db.Departments.Select(p => new TDCDModel
-                        {
+                        var arrPhongBan = db.Departments.Where(p => !p.department_type.Contains("Điều hành")
+                                                                 && !p.department_type.Contains("Đoàn thể") &&
+                                                                 !p.department_type.Contains("ngoài")).Select(p => new TDCDModel
+                            {
                             TenPhongBan = p.department_name,
                             Stt = 1,
                             TongTuyenDungCoDien = 0,
@@ -508,12 +514,12 @@ namespace QUANGHANHCORE.Controllers.TCLD
                             tongCDCD += phongBan.TongChamDutCoDien;
                             tongCDKT += phongBan.TongChamDutKhaiThac;
                             tongTDCD += phongBan.TongTuyenDungCoDien;
-                            tongTDKT = phongBan.TongTuyenDungKhaiThac;
+                            tongTDKT += phongBan.TongTuyenDungKhaiThac;
                         }
 
                         TDCDModel totalModel = new TDCDModel
                         {
-                            Stt = stt,
+                            Stt = 0,
                             TenPhongBan = "Tổng cộng",
                             TongTuyenDung = tongTD,
                             TongTuyenDungCoDien = tongTDCD,
@@ -612,8 +618,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                    group tb2 by tb2.department_name into groupted
                                                    select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
                                                   ).ToList();
-                        var arrPhongBan = db.Departments.Select(p => new TDCDModel
-                        {
+                        var arrPhongBan = db.Departments.Where(p => !p.department_type.Contains("Điều hành")
+                                                                 && !p.department_type.Contains("Đoàn thể") &&
+                                                                 !p.department_type.Contains("ngoài")).Select(p => new TDCDModel
+                            {
                             TenPhongBan = p.department_name,
                             Stt = 1,
                             TongTuyenDungCoDien = 0,
@@ -672,12 +680,12 @@ namespace QUANGHANHCORE.Controllers.TCLD
                             tongCDCD += phongBan.TongChamDutCoDien;
                             tongCDKT += phongBan.TongChamDutKhaiThac;
                             tongTDCD += phongBan.TongTuyenDungCoDien;
-                            tongTDKT = phongBan.TongTuyenDungKhaiThac;
+                            tongTDKT += phongBan.TongTuyenDungKhaiThac;
                         }
 
                         TDCDModel totalModel = new TDCDModel
                         {
-                            Stt = stt,
+                            Stt = 0,
                             TenPhongBan = "Tổng cộng",
                             TongTuyenDung = tongTD,
                             TongTuyenDungCoDien = tongTDCD,

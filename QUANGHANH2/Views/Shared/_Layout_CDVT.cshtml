@@ -22,6 +22,7 @@
     <script src="~/Scripts/jquery-3.3.1.js"></script>
     <link href="~/css/preloader/css.css" rel="stylesheet" />
     <link href="~/assets/Custom css/font-family.css" rel="stylesheet" />
+    <link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
 
 
     <link href="~/dist/css/pages/dashboard1.css" rel="stylesheet">
@@ -43,6 +44,11 @@
     <script src="~/dist/js/app.init.js"></script>
     <script src="~/dist/js/app-style-switcher.js"></script>
     <!-- ============================================================== -->
+
+    <link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
+    <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
+    <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
+    <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
     <!-- Custom js -->
     <!-- ============================================================== -->
     <script src="~/dist/js/custom.min.js"></script>
@@ -328,6 +334,9 @@
                             </div>
                         </li>
                         <li>
+                            <a href="/phong-cdvt/danh-sach-vat-tu" class="collapsible-header"><i class="small material-icons">business_center</i><span class="hide-menu">Danh sách vật tư</span></a>
+                        </li>
+                        <li>
                             <a href="/phong-cdvt/su-co" class="collapsible-header"><i class="small material-icons">build</i><span class="hide-menu">Sự cố</span></a>
                         </li>
                         <li>
@@ -423,26 +432,10 @@
         <!-- ============================================================== -->
     </div>
 
-    <script>
-        //var pathname = window.location.pathname;
-        //var name;
-        //if (pathname === "/phong-cdvt/huy-dong" || pathname === "/phong-cdvt/thiet-bi/nhom" || pathname === "/phong-cdvt/thiet-bi") {
-        //    fname = "Lại Bình Minh";
-        //    sname = "minh"
-        //} else if (pathname === "/phong-cdvt/oto/huy-dong" || pathname === "/phong-cdvt/oto/cap-nhat-hoat-dong" || pathname === "/phong-cdvt/oto/ly-lich" || pathname === "/phong-cdvt/oto/nhom" || pathname === "/phong-cdvt/oto/chi-tiet") {
-        //    fname = "Hoàng Bá Long";
-        //    sname = "long"
-        //} else if (pathname === "/phong-cdvt/quyet-dinh/sua-chua" || pathname === "/phong-cdvt/sua-chua-chon") {
-        //    fname = "Nguyễn Văn Trữ";
-        //    sname = "tru";
-        //} else if (pathname === "/phong-cdvt/quyet-dinh/kiem-dinh" || pathname === "/phong-cdvt/kiem-dinh" || pathname === "/phong-cdvt/kiem-dinh-chon") {
-        //    fname = "Hoàng Văn Khánh";
-        //    sname = "khanh";
-        //}
-        //$(".u-text > h4").html(fname)
-        //$(".u-text > p").html(sname + ".cdvt@thanquanghanh.com.vn")
-        //$("#user-icon").html("<a href='javascript: void (0);'>" + fname + " <span class='new badge red' data-badge-caption='Chuyên Viên CDVT'></span></a>")
-    </script>
+    <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
+    <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
+    <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
+    <script src="~/js/Custom JS/Custom_input_required.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/Scripts/notify.min.js"></script>

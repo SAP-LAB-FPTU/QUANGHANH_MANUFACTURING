@@ -9,5 +9,6 @@ namespace QUANGHANH2.Models
     {
         public string department_name { get; set; }
         public int order_number { get; set; }
+        public string statusname { get; set; }
     }
 }

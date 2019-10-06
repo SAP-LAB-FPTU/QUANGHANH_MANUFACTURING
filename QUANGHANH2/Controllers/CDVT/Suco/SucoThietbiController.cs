@@ -12,11 +12,13 @@ using System.Linq.Dynamic;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Globalization;
+using QUANGHANH2.SupportClass;
 
 namespace QUANGHANHCORE.Controllers.CDVT.Suco
 {
     public class SucoThietbiController : Controller
     {
+        [Auther(RightID = "19")]
         [Route("phong-cdvt/su-co")]
         [HttpGet]
         public ActionResult Index()
@@ -29,6 +31,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             return View("/Views/CDVT/Suco/SucoThietbi.cshtml");
         }
 
+        [Auther(RightID = "20")]
         [Route("phong-cdvt/su-co/add")]
         [HttpPost]
         public ActionResult Add(string equipment, string reason, string detail, int yearStart, int monthStart, int dayStart, int hourStart, int minuteStart, int yearEnd, int monthEnd, int dayEnd, int hourEnd, int minuteEnd, string checkBox)
@@ -47,7 +50,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                     }
                     DateTime start = new DateTime(yearStart, monthStart, dayStart, hourStart, minuteStart, 0);
                     DateTime end = new DateTime(yearEnd, monthEnd, dayEnd, hourEnd, minuteEnd, 0);
-                    if (DateTime.Compare(start,end) >= 0)
+                    if (checkBox.Equals("no") && DateTime.Compare(start,end) >= 0)
                         return Json(new { success = false, message = "Bạn đã nhập ngày bắt đầu lớn hơn ngày kết thúc" }, JsonRequestBehavior.AllowGet);
                     e.current_Status = 4;
                     i.department_id = e.department_id;
@@ -78,6 +81,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             }
         }
 
+        [Auther(RightID = "21")]
         [Route("phong-cdvt/su-co/edit")]
         [HttpPost]
         public ActionResult Edit(int incident_id, string equipment, string department, string reason, string detail, int yearStart, int monthStart, int dayStart, int hourStart, int minuteStart, int yearEnd, int monthEnd, int dayEnd, int hourEnd, int minuteEnd)
@@ -115,6 +119,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             }
         }
 
+        [Auther(RightID = "21")]
         [Route("phong-cdvt/su-co/update")]
         [HttpPost]
         public ActionResult Update(int incident_id, string reason, int year, int month, int day, int hour, int minute)
@@ -137,6 +142,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             }
         }
 
+        [Auther(RightID = "19")]
         [Route("phong-cdvt/su-co")]
         [HttpPost]
         public ActionResult Search(string equipmentId, string equipmentName, string department, string detail, string reason, string dateStart, string dateEnd)
@@ -149,29 +155,32 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             string sortDirection = Request["order[0][dir]"];
 
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            DateTime dtStart = DateTime.ParseExact(dateStart, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            DateTime dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            dtEnd = dtEnd.AddHours(23);
-            dtEnd = dtEnd.AddMinutes(59);
             string query = "SELECT e.equipment_name, d.department_name, i.*, DATEDIFF(HOUR, i.start_time, i.end_time) as time_different FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId inner join Department d " +
-                "on d.department_id = i.department_id where i.start_time BETWEEN @start_time1 AND @start_time2 AND ";
-            if (!equipmentId.Equals("") || !equipmentName.Equals("") || !department.Equals("") || !detail.Equals("") || !reason.Equals(""))
+                "on d.department_id = i.department_id";
+            if (!equipmentId.Equals("") || !equipmentName.Equals("") || !department.Equals("") || !detail.Equals("") || !reason.Equals("") || !(dateStart.Equals("") || dateEnd.Equals("")))
             {
+                query += " where ";
+                if (!dateStart.Equals("") && !dateEnd.Equals(""))
+                {
+                    DateTime dtStart = DateTime.ParseExact(dateStart, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    DateTime dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    dtEnd = dtEnd.AddHours(23);
+                    dtEnd = dtEnd.AddMinutes(59);
+                    query += "i.start_time BETWEEN '" + dtStart + "' AND '" + dtEnd + "' AND ";
+                }
                 if (!equipmentId.Equals("")) query += "i.equipmentId LIKE @equipmentId AND ";
                 if (!equipmentName.Equals("")) query += "e.equipment_name LIKE @equipment_name AND ";
                 if (!department.Equals("")) query += "d.department_name LIKE @department_name AND ";
                 if (!detail.Equals("")) query += "i.detail_location LIKE @detail_location AND ";
                 if (!reason.Equals("")) query += "i.reason LIKE @reason AND ";
+                query = query.Substring(0, query.Length - 5);
             }
-            query = query.Substring(0, query.Length - 5);
             List<IncidentDB> incidents = DBContext.Database.SqlQuery<IncidentDB>(query, 
                 new SqlParameter("equipmentId", '%' + equipmentId + '%'),
                 new SqlParameter("equipment_name", '%' + equipmentName + '%'),
                 new SqlParameter("department_name", '%' + department + '%'),
                 new SqlParameter("detail_location", '%' + detail + '%'),
-                new SqlParameter("reason", '%' + reason + '%'),
-                new SqlParameter("start_time1", dtStart),
-                new SqlParameter("start_time2", dtEnd)).ToList();
+                new SqlParameter("reason", '%' + reason + '%')).ToList();
             int totalrows = incidents.Count;
             int totalrowsafterfiltering = incidents.Count;
             //sorting
@@ -189,6 +198,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             return Json(new { success = true, data = incidents, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
+        [Auther(RightID = "170")]
         [Route("phong-cdvt/su-co/export")]
         public void Export()
         {
@@ -225,6 +235,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             }
         }
 
+        [Auther(RightID = "21")]
         [Route("phong-cdvt/su-co/get")]
         [HttpPost]
         public ActionResult GetIncidentById(int incident_id)
@@ -246,6 +257,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             }
         }
 
+        [Auther(RightID = "20")]
         [Route("phong-cdvt/su-co/getDepartment")]
         [HttpPost]
         public ActionResult getDepartment(string equipmentId)

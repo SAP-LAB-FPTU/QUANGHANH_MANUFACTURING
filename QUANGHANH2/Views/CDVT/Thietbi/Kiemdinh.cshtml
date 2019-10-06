@@ -23,29 +23,29 @@
             <hr>
             <form action="" method="POST" id="mysearchform" role="form">
                 <div class="row center">
-                    <div class="col l4 m4 s12">
+                    <div class="col l6 m6 s12">
                         <div class="row">
-                            <div class="col l10 m10 s12 input-field">
+                            <div class="col l7 m7 s12 offset-l2 offset-m2 input-field">
                                 <input type="text" placeholder="Tìm kiếm theo mã thiết bị" class='form-control' id="equipmentId-search" />
                             </div>
-                            <div class="col l10 m10 s12 input-field">
+                            <div class="col l7 m7 s12 offset-l2 offset-m2 input-field">
                                 <input type="text" placeholder="Tìm kiếm theo tên thiết bị" class='form-control' id="equipmentName-search" />
                             </div>
                         </div>
                     </div>
-                    <div class="col l4 m4 s12">
+                    <div class="col l6 m6 s12">
                         <div class="row">
-                            <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
-                                <label class="label">Ngày kiểm định dự tính từ</label>
-                                <input required placeholder="thời gian bắt đầu kiểm định từ" type='text' class='datepicker-here form-control maxDate' data-language='vi' id="date-start-search" />
+                            <div class="col l10 m10 s12 input-field">
+                                <i class="fas fa-calendar-alt icon"></i>
+                                <input type='text' class='datepicker-here center' id="date-start-search" data-language='vi' placeholder="thời gian dự tính (từ)" style="height: 34px" />
                             </div>
-                            <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
-                                <label class="label">Ngày kiểm định dự tính đến</label>
-                                <input required placeholder="thời gian bắt đầu kiểm định đến" type='text' class='datepicker-here form-control minDate' data-language='vi' id="date-end-search" />
+                            <div class="col l10 m10 s12 input-field">
+                                <i class="fas fa-calendar-alt icon"></i>
+                                <input type='text' class='datepicker-here center' id="date-end-search" data-language='vi' placeholder="thời gian dự tính (đến)" style="height: 34px" />
                             </div>
                         </div>
                     </div>
-                    <div class="col l4 m4 s12">
+                    <div class="col l12 m12 s12">
                         <div class="row">
                             <div class="col l12 m12 s12 input-field center">
                                 <a class="waves-effect waves-light btn blue darken-2 modal-close modal-trigger" id="searchButton1">Tìm kiếm</a>
@@ -270,22 +270,17 @@
                 $.ajax({
                     type: "POST",
                     url: "/phong-cdvt/kiem-dinh/update",
-                    dataType: "text",
+                    dataType: "json",
                     success: function (data) {
                         dataTable.ajax.reload();
-
-                        $.notify("Cập nhật thành công", {
-                            globalPosition: "top center",
-                            className: "success"
-                        })
-
+                        if(data.success == true)
+                            successAlert('Thành công', data.message);
+                        else
+                            errorAlert('Lỗi', data.message);
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
                         $('#pre-load').hide();
-                        $.notify(XMLHttpRequest.responseText, {
-                            globalPosition: "top center",
-                            className: "error"
-                        });
+                        errorAlert('Lỗi', 'Có lỗi xảy ra');
                     },
                     data: {
                         inspect_id: $('#id-update').val(),
@@ -304,27 +299,18 @@
                 $.ajax({
                     type: "POST",
                     url: "/phong-cdvt/kiem-dinh/edit",
-                    dataType: "text",
+                    dataType: "json",
                     success: function (data) {
                         dataTable.ajax.reload();
-                        if (JSON.parse(data).success == true)
-                            $.notify(JSON.parse(data).message, {
-                                globalPosition: "top center",
-                                className: "success"
-                            })
+                        if (data.success == true)
+                            successAlert('Thành công', data.message);
                         else
-                            $.notify(JSON.parse(data).message, {
-                                globalPosition: "top center",
-                                className: "error"
-                            });
+                            errorAlert('Lỗi', data.message);
                         $('#exit-edit-button').click();
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
                         $('#pre-load').hide();
-                        $.notify(XMLHttpRequest.responseText, {
-                            globalPosition: "top center",
-                            className: "error"
-                        });
+                        errorAlert('Lỗi', 'Có lỗi xảy ra');
                     },
                     data: {
                         inspect_id: $('#id-edit').val(),
@@ -342,10 +328,6 @@
             $("#searchButton1").click(function () {
                 $("#pre-load").show();
                 dataTable.ajax.reload(function () {
-                    $.notify("Tìm kiếm thành công", {
-                        globalPosition: "top center",
-                        className: "success"
-                    })
                     $("#pre-load").hide();
                 })
             });

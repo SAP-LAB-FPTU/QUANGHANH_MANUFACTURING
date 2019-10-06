@@ -158,6 +158,14 @@
 
             //set dropdown ve gia tri default khi nhan va input search ten
             $('#name_search').focus(() => { $('#sl_phan_xuong').val("Phân Xưởng").trigger('change') })
+
+
+            document.querySelector('#name_search').addEventListener('keypress', function (e) { // them su kien nhan nut enter cho phan search
+                var key = e.which || e.keyCode;
+                if (key === 13) { 
+                    search();
+                }
+            });
         })
 
 
@@ -174,8 +182,8 @@
                     if (!selectedJob.includes(cbxChecked.value.toString())) {
                         selectedJob.push(cbxChecked.value.toString())
                     }
-                }
-                if (selectedJob.length == 0) {
+                    }
+                    if (selectedJob.length == 0 && removeJob.length ==0) {
                     $.notify("Chưa chọn công việc", {
                         globalPosition: "top center",
                         className: "fail"
@@ -244,16 +252,22 @@
             }
         }
 
+        function normailize(input) {
+            input = input.trim();
+            input = input.replace(/\s\s+/g, ' ');
+            input = input.replace(/  +/g, ' ');
+            return input;
+        }
+
         function search() {
 
             var name = $("#name_search").val()
             var px = $("#sl_phan_xuong").val()
-            if (name == null || name == "" && px == null) {
-                return false;
-            }
+            nameNormalized = normailize(name);
+            alert(nameNormalized)
             $("#pre-load").show()
             var searchObj = {
-                name: name,
+                name: nameNormalized,
                 px : px
             }
             var searchObjJson = JSON.stringify(searchObj)

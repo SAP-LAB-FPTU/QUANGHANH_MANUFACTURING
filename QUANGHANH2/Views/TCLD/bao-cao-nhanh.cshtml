@@ -209,7 +209,36 @@
             <div class="card">
                 <div class="card-content">
                     <h5 class="card-title">Báo cáo sản lượng</h5>
-                    <div id="table_sanluong"></div>
+                    <table id="table_sanluong" class="table-bordered">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">Tiêu chí</th>
+                                <th rowspan="2">Đơn vị đo</th>
+                                <th colspan="3">Sản lượng trong tháng</th>
+                            </tr>
+                            <tr>
+                                <th>Kế hoạch</th>
+                                <th>Lũy kế thực hiện</th>
+                                <th>Kế hoạch còn lại</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sanluong-content">
+                            <tr>
+                                <td>Than sản xuất</td>
+                                <td>Tấn</td>
+                                <td id="slkh"></td>
+                                <td id="lksl"></td>
+                                <td id="slcl"></td>
+                            </tr>
+                            <tr>
+                                <td>Mét Lò</td>
+                                <td>Mét</td>
+                                <td id="mlkh"></td>
+                                <td id="lkml"></td>
+                                <td id="mlcl"></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -295,10 +324,31 @@
         </div>
     </div>*@
 <script>
+    function AddComma(Num) { //function to add commas to textboxes
+        Num += '';
+        Num = Num.replace(',', ''); Num = Num.replace(',', ''); Num = Num.replace(',', '');
+        Num = Num.replace(',', ''); Num = Num.replace(',', ''); Num = Num.replace(',', '');
+        x = Num.split('.');
+        x1 = x[0];
+        x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1))
+            x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        return x1 + x2;
+    }
+</script>
+<script>
     var tren82 =@ViewBag.tren82;
     var duoi82 = @ViewBag.duoi82;
     var listNghiVLD = @Html.Raw(Json.Encode(ViewBag.listNghiVLD));
-    var listNhanLuc=@Html.Raw(Json.Encode(ViewBag.listNhanLuc));
+    var listNhanLuc =@Html.Raw(Json.Encode(ViewBag.listNhanLuc));
+    var sanluong = @Html.Raw(Json.Encode(ViewBag.sanluong));
+    $("#slkh").text(AddComma(sanluong.SLKH));
+    $("#lksl").text(AddComma(sanluong.LKSL));
+    $("#slcl").text(AddComma(sanluong.SLKH-sanluong.LKSL));
+    $("#mlkh").text(AddComma(sanluong.MLKH));
+    $("#lkml").text(AddComma(sanluong.LKML));
+    $("#mlcl").text(AddComma(sanluong.MLKH-sanluong.LKML));
 </script>
 <!-- Editable -->
 <script type="text/javascript" src="~/assets/libs/jsgrid/dist/jsgrid.min.js"></script>
@@ -322,6 +372,7 @@
 @*<script src="~/js/Custom JS/TCLD/db_issue.js"></script>*@
 @*<script src="~/js/Custom JS/TCLD/table_init.js"></script>*@
 <!--Auto -->
+
 <script>
     (function () {
         var db = {
@@ -353,44 +404,7 @@
         }
         db.sanluong = [
             {
-                "STT": 'A',
-                "Danh mục": "Kế hoạch năm 2019",
-            },
-            {
-                "STT": 1,
-                "Danh mục": "Tấn than",
-                "DVT": "Tấn",
-                "Kế hoạch": "28.000",
-                "Thực hiện": "9.057",
-                "Chênh lệch": "32"
-            },
-            {
-                "STT": 2,
-                "Danh mục": "Mét lò",
-                "DVT": "m",
-                "Kế hoạch": "3.100",
-                "Thực hiện": "853",
-                "Chênh lệch": "28"
-            },
-            {
-                "STT": 'B',
-                "Danh mục": "Kế hoạch quý 3/2019",
-            },
-            {
-                "STT": 1,
-                "Danh mục": "Tấn than",
-                "DVT": "Tấn",
-                "Kế hoạch": "2.375",
-                "Thực hiện": "630",
-                "Chênh lệch": "12"
-            },
-            {
-                "STT": 2,
-                "Danh mục": "Mét lò",
-                "DVT": "m",
-                "Kế hoạch": "275",
-                "Thực hiện": "71",
-                "Chênh lệch": "6"
+
             }
         ];
     }());
@@ -463,37 +477,6 @@
                         type: "text",
                         width: 70
                     },]
-                })
-            }(),
-            function () {
-                $("#table_sanluong").jsGrid({
-                    height: "300px",
-                    width: "100%",
-                    sorting: !0,
-                    paging: !0,
-                    data: db.sanluong,
-                    noDataContent: "Không có dữ liệu",
-                    fields: [{
-                        name: "STT",
-                        type: "text",
-                        width: 40
-                    }, {
-                        name: "Danh mục",
-                        type: "text",
-                        width: 150
-                    }, {
-                        name: "DVT",
-                        type: "text",
-                        width: 70
-                    }, {
-                        name: "Thực hiện",
-                        type: "number",
-                        width: 70
-                    }, {
-                        name: "Chênh lệch",
-                        type: "number",
-                        width: 70
-                    }]
                 })
             }(),
 
@@ -735,6 +718,13 @@
                                 width: 70
                             },]
                         });
+                        /////////////////////////////BAO CAO SAN LUONG//////////////////////////
+                        $("#slkh").text(AddComma(response.sanluong.SLKH));
+                        $("#lksl").text(AddComma(response.sanluong.LKSL));
+                        $("#slcl").text(AddComma(response.sanluong.SLKH - response.sanluong.LKSL));
+                        $("#mlkh").text(AddComma(response.sanluong.MLKH));
+                        $("#lkml").text(AddComma(response.sanluong.LKML));
+                        $("#mlcl").text(AddComma(response.sanluong.MLKH - response.sanluong.LKML));
                         ///////////////////////////BIEU DO BARCHARRT NHAN LUC/////////////////
                         var donvi = [];
                         for (var i = 0; i < response.listNhanLuc.length; i++) {
@@ -766,7 +756,7 @@
                             calculable: true,
                             xAxis: [
                                 {
-                                    type: 'category',
+                                    boundaryGap: false,
                                     data: donvi
                                 }
                             ],
@@ -796,8 +786,6 @@
                         };
                         // use configuration item and data specified to show chart
                         myChart.setOption(option);
-
-
                         $(function () {
 
                             // Resize chart on menu width change and window resize
@@ -823,6 +811,7 @@
         }
     })
 </script>
+
 
 
 <script>
@@ -906,5 +895,14 @@
         bareaChart.resize();
     });
 </script>
-
-
+<script>
+    $("#minMaxDate").datepicker({
+        toggleSelected: false,
+        language: 'vi'
+    });
+</script>
+<script>
+    $(function () {
+        $(".datepicker-inline").remove();
+    })
+</script>

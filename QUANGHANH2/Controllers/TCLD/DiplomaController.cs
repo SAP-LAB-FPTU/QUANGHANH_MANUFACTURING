@@ -10,17 +10,20 @@ using System.Data.Entity;
 using System.Web.Hosting;
 using System.IO;
 using OfficeOpenXml;
+using QUANGHANH2.SupportClass;
 
 namespace QUANGHANH2.Controllers.TCLD
 {
     public class DiplomaController : Controller
     {
         // GET: Diploma
+        [Auther(RightID = "159")]
         [Route("phong-tcld/bang-cap-va-giay-chung-nhan/danh-sach-bang-cap-va-giay-chung-nhan")]
         public ActionResult Index()
         {
             return View("/Views/TCLD/Diploma/List.cshtml");
         }
+        [Auther(RightID = "159")]
         //Get list Diploma
         [Route("phong-tcld/bang-cap-va-giay-chung-nhan/danh-sach-bang-cap-va-giay-chung-nhan")]
         [HttpPost]
@@ -34,13 +37,18 @@ namespace QUANGHANH2.Controllers.TCLD
             List<BangCap_detailsDB> listdataDip = new List<BangCap_detailsDB>();
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
+                db.Configuration.ProxyCreationEnabled = false;
+                //List<BangCap_GiayChungNhan> listdataDip =db.BangCap_GiayChungNhan.ToList<BangCap_GiayChungNhan>();
                 listdataDip = (from bc in db.BangCap_GiayChungNhan
-                               join cn in db.ChuyenNganhs on bc.MaChuyenNganh equals cn.MaChuyenNganh
-                               join td in db.TrinhDoes on bc.MaTrinhDo equals td.MaTrinhDo
-                               join truong in db.Truongs on bc.MaTruong equals truong.MaTruong
-                               select new
+                               join cn in db.ChuyenNganhs on bc.MaChuyenNganh equals cn.MaChuyenNganh into cnganh
+                               from cn in cnganh.DefaultIfEmpty()
+                               join td in db.TrinhDoes on bc.MaTrinhDo equals td.MaTrinhDo into tdo
+                               from td in tdo.DefaultIfEmpty()
+                               join truong in db.Truongs on bc.MaTruong equals truong.MaTruong into tt
+                               from truong in tt.DefaultIfEmpty()
+                                select new
                                {
-                                   MaTruong = bc.MaTruong,
+                                   MaTruong = bc.MaTruong ,
                                    MaChuyenNganh = bc.MaChuyenNganh,
                                    MaBangCap_GiayChungNhan = bc.MaBangCap_GiayChungNhan,
                                    MaTrinhDo = bc.MaTrinhDo,
@@ -66,6 +74,7 @@ namespace QUANGHANH2.Controllers.TCLD
                                    TenTrinhDo = bangcap.TenTrinhDo
                                }).ToList();
 
+
                 int totalrows = listdataDip.Count;
                 int totalrowsafterfiltering = listdataDip.Count;
                 listdataDip = listdataDip.OrderBy(sortColumnName + " " + sortDirection).ToList<BangCap_detailsDB>();
@@ -78,6 +87,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 return dataJson;
             }
         }
+        [Auther(RightID = "163")]
         //Get list Diploma's Employee
         [Route("phong-tcld/bang-cap-va-giay-chung-nhan/danh-sach-bang-cap-va-giay-chung-nhan-cua-nhan-vien")]
         [HttpPost]
@@ -127,6 +137,7 @@ namespace QUANGHANH2.Controllers.TCLD
             }
         }
         //Add Diploma
+        [Auther(RightID = "160")]
         [HttpGet]
         public ActionResult AddDiploma()
         {
@@ -134,6 +145,7 @@ namespace QUANGHANH2.Controllers.TCLD
             return View();
 
         }
+        [Auther(RightID = "160")]
         [HttpPost]
         public ActionResult AddDiploma(BangCap_GiayChungNhan bangcap)
         {
@@ -150,6 +162,7 @@ namespace QUANGHANH2.Controllers.TCLD
 
 
         }
+        [Auther(RightID = "164")]
         //Add Diploma's Employee
         [HttpGet]
         public ActionResult AddDiplomaEmployee()
@@ -159,6 +172,7 @@ namespace QUANGHANH2.Controllers.TCLD
             return View();
 
         }
+        [Auther(RightID = "164")]
         [HttpPost]
         public ActionResult AddDiplomaEmployee(ChiTiet_BangCap_GiayChungNhan chitietbangcap)
         {
@@ -176,6 +190,7 @@ namespace QUANGHANH2.Controllers.TCLD
 
         }
         //Edit Diploma
+        [Auther(RightID = "161")]
         [HttpGet]
         public ActionResult EditDiploma(int id = 0)
         {
@@ -187,6 +202,7 @@ namespace QUANGHANH2.Controllers.TCLD
             }
 
         }
+        [Auther(RightID = "161")]
         [HttpPost]
         public ActionResult EditDiploma(BangCap_GiayChungNhan bangcap)
         {
@@ -214,6 +230,7 @@ namespace QUANGHANH2.Controllers.TCLD
             listTypesDiploma.Add(1, "Photo");
             listTypesDiploma.Add(2, "Sao, Công chứng");
             listTypesDiploma.Add(3, "Bản gốc");
+            listTypesDiploma.Add(4, "Dấu đỏ");
             SelectList listTypesDip = new SelectList(listTypesDiploma, "Value", "Value");
             ViewBag.listTypesDip = listTypesDip;
 
@@ -236,6 +253,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 ViewBag.listSelect_chuyennganh = listSelect_chuyennganh;
             }
         }
+        [Auther(RightID = "162")]
         //Delete Diploma
         [HttpPost]
         public ActionResult DeleteDiploma(int id = 0)
@@ -279,6 +297,7 @@ namespace QUANGHANH2.Controllers.TCLD
             }
         }
         //Delete Diploma's Employee
+        [Auther(RightID = "166")]
         [HttpPost]
         public ActionResult DeleteDiplomaEmployee(string id)
         {
@@ -303,14 +322,16 @@ namespace QUANGHANH2.Controllers.TCLD
             {
                 List<BangCap_GiayChungNhan> listdata_bangcap = db.BangCap_GiayChungNhan.ToList<BangCap_GiayChungNhan>();
                 List<NhanVien> listdata_nv = db.NhanViens.ToList<NhanVien>();
+                var result = listdata_nv.Where(s => s.MaTrangThai != 2);
                 SelectList listSelect_bangcap = new SelectList(listdata_bangcap, "MaBangCap_GiayChungNhan", "TenBangCap");
-                SelectList listSelect_nhanvien = new SelectList(listdata_nv, "MaNV", "MaNV");
+                SelectList listSelect_nhanvien = new SelectList(result, "MaNV", "MaNV");
                 ViewBag.listSelect_nhanvien = listSelect_nhanvien;
                 ViewBag.listSelect_bangcap = listSelect_bangcap;
 
             }
         }
         //Edit Diploma's Emp
+        [Auther(RightID = "165")]
         [HttpGet]
         public ActionResult EditDiplomaEmployee(string id)
         {
@@ -333,6 +354,7 @@ namespace QUANGHANH2.Controllers.TCLD
             }
 
         }
+        [Auther(RightID = "165")]
         [HttpPost]
         public ActionResult EditDiplomaEmployee(ChiTiet_BangCap_GiayChungNhan chitiet_bc)
         {
@@ -366,13 +388,15 @@ namespace QUANGHANH2.Controllers.TCLD
                 if (truong_text != null || nganh_text != null || trinhdo_text != null || bangcap_text != null)
                 {
                     listdataDip = (from bc in db.BangCap_GiayChungNhan
-                                   where (bc.TenBangCap.Contains(bangcap_text))
-                                   join cn in db.ChuyenNganhs on bc.MaChuyenNganh equals cn.MaChuyenNganh
-                                   where (cn.TenChuyenNganh.Contains(nganh_text))
-                                   join td in db.TrinhDoes on bc.MaTrinhDo equals td.MaTrinhDo
-                                   where (td.TenTrinhDo.Contains(trinhdo_text))
-                                   join truong in db.Truongs on bc.MaTruong equals truong.MaTruong
-                                   where (truong.TenTruong.Contains(truong_text))
+                                   join cn in db.ChuyenNganhs on bc.MaChuyenNganh equals cn.MaChuyenNganh into cnganh
+                                   from cn in cnganh.DefaultIfEmpty()
+                                   join td in db.TrinhDoes on bc.MaTrinhDo equals td.MaTrinhDo into tdo
+                                   from td in tdo.DefaultIfEmpty()
+                                   join truong in db.Truongs on bc.MaTruong equals truong.MaTruong into tt
+                                    from truong in tt.DefaultIfEmpty()
+                                   where ((truong.TenTruong == null ? "".Contains(truong_text) : truong.TenTruong.Contains(truong_text)) && (bc.TenBangCap.Contains(bangcap_text))
+                                   && (cn.TenChuyenNganh == null ? "".Contains(nganh_text) : cn.TenChuyenNganh.Contains(nganh_text)) && (td.TenTrinhDo== null ? "".Contains(trinhdo_text) : td.TenTrinhDo.Contains(trinhdo_text))
+                                   )
                                    select new
                                    {
                                        MaTruong = bc.MaTruong,
@@ -491,7 +515,7 @@ namespace QUANGHANH2.Controllers.TCLD
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                var chungchi_nvs = db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault<NhanVien>();
+                var chungchi_nvs = db.NhanViens.Where(x => (x.MaNV == id) && (x.MaTrangThai != 2)).FirstOrDefault<NhanVien>();
                 if (chungchi_nvs != null)
                 {
                     return Json(new { data = chungchi_nvs.Ten, success = true, message = "ok" }, JsonRequestBehavior.AllowGet);
@@ -562,6 +586,7 @@ namespace QUANGHANH2.Controllers.TCLD
                     List<BangCap_detailsDB> listdataDiploma = new List<BangCap_detailsDB>();
                     using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                     {
+
                         int count = 0;
                         listdataDiploma = (from bc in db.BangCap_GiayChungNhan
                                            join cn in db.ChuyenNganhs on bc.MaChuyenNganh equals cn.MaChuyenNganh
@@ -681,8 +706,9 @@ namespace QUANGHANH2.Controllers.TCLD
                     ws_cert_emp.Cells["A1"].Value = "Bảng danh sách bằng cấp - giấy chứng nhận của nhân viên";
                     ws_cert_emp.Cells["B1"].Value = "Số hiệu";
                     ws_cert_emp.Cells["C1"].Value = "Tên bằng cấp";
-                    ws_cert_emp.Cells["D1"].Value = "Tên nhân viên";
-                    ws_cert_emp.Cells["E1"].Value = "Ngày cấp";
+                    ws_cert_emp.Cells["D1"].Value = "Mã nhân viên";
+                    ws_cert_emp.Cells["E1"].Value = "Tên nhân viên";
+                    ws_cert_emp.Cells["F1"].Value = "Ngày cấp";
                     int rowStart = 3;
 
                     foreach (var item in listdataDipEmpDetail)
@@ -691,15 +717,16 @@ namespace QUANGHANH2.Controllers.TCLD
                         ws_cert_emp.Cells[string.Format("A{0}", rowStart)].Value = count;
                         ws_cert_emp.Cells[string.Format("B{0}", rowStart)].Value = item.SoHieu;
                         ws_cert_emp.Cells[string.Format("C{0}", rowStart)].Value = item.TenBangCap;
-                        ws_cert_emp.Cells[string.Format("D{0}", rowStart)].Value = item.Ten;
+                        ws_cert_emp.Cells[string.Format("D{0}", rowStart)].Value = item.MaNV;
+                        ws_cert_emp.Cells[string.Format("E{0}", rowStart)].Value = item.Ten;
 
                         if (item.NgayCap != null)
                         {
-                            ws_cert_emp.Cells[string.Format("E{0}", rowStart)].Value = ((DateTime)item.NgayCap).ToString("dd/MM/yyyy");
+                            ws_cert_emp.Cells[string.Format("F{0}", rowStart)].Value = ((DateTime)item.NgayCap).ToString("dd/MM/yyyy");
                         }
                         else
                         {
-                            ws_cert_emp.Cells[string.Format("E{0}", rowStart)].Value = item.NgayCap;
+                            ws_cert_emp.Cells[string.Format("F{0}", rowStart)].Value = item.NgayCap;
                         }
 
 

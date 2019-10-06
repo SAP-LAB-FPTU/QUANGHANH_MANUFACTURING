@@ -34,7 +34,6 @@ namespace QUANGHANH2.Controllers
             {
                 return View(new Account());
             }
-
         }
         [HttpPost]
         public JsonResult Index(DataTableAjaxPostModel model)
@@ -209,7 +208,7 @@ namespace QUANGHANH2.Controllers
             }
         }
         [HttpPost]
-        public JsonResult AddNewUser(string Name, string Username, string Position, string Password, string RepeatPassword,
+        public JsonResult AddNewUser(string Name, string Username, string Position, string Password, string RepeatPassword,string NVID,
                 int module1, int module2, int module3, int module4, int module5, int module6, int module7,
                 int module8, int module9, int module10, int module11, int module12, int module13, int module14,
                 int module15, int module16, int module17, int module18, string rights)
@@ -221,6 +220,31 @@ namespace QUANGHANH2.Controllers
                     CodeError = 2,
                     Data = "Người dùng với tên đăng nhập <strong style='color:black; '>" + Username + "</strong> đã tồn tại!"
                 }, JsonRequestBehavior.AllowGet);
+            }
+            if (!String.IsNullOrEmpty(NVID))
+            {
+                bool isMaNV = false;
+                var MaNV = db.NhanViens.ToList();
+                foreach (var item in MaNV)
+                {
+                    if (NVID.Equals(item.MaNV))
+                    {
+                        isMaNV = true;
+                        break;
+                    }
+                }
+                if (!isMaNV)
+                {
+                    return Json(new Result()
+                    {
+                        CodeError = 2,
+                        Data = "Mã nhân viên <strong style='color:black; '>" + NVID + "</strong> không tồn tại!"
+                    }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            else
+            {
+                NVID = null;
             }
             string InvalidFields = "";
             if (String.IsNullOrEmpty(Name))
@@ -275,6 +299,7 @@ namespace QUANGHANH2.Controllers
                             Username = Username,
                             Password = passXc,
                             Position = Position,
+                            NVID = NVID,
                             CDVT = Convert.ToBoolean(module1),
                             TCLD = Convert.ToBoolean(module2),
                             KCS = Convert.ToBoolean(module3),
@@ -327,75 +352,6 @@ namespace QUANGHANH2.Controllers
                         addModule(module16, acc.ID, 16);
                         addModule(module17, acc.ID, 17);
                         addModule(module18, acc.ID, 18);
-                        //if (module4 == 1)
-                        //{
-                        //    var listRight = db.Account_Right.Where(x => x.ModuleID == 4 + "").ToList();
-                        //    var rightRemove = db.Database.SqlQuery<Account_Right_Detail>("select ar.* from Account_Right a , Account_Right_Detail ar where a.ID = ar.RightID and ar.AccountID='" + acc.ID + "' and a.ModuleID='4'").ToList<Account_Right_Detail>();
-                        //    foreach (var r in rightRemove)
-                        //    {
-                        //        var del = db.Account_Right_Detail.Where(x => x.ID == r.ID).SingleOrDefault();
-                        //        db.Account_Right_Detail.Remove(del);
-                        //    }
-                        //    foreach (var r in listRight)
-                        //    {
-                        //        if (!String.IsNullOrEmpty(r.ID+""))
-                        //        {
-                        //            Account_Right_Detail rd = new Account_Right_Detail()
-                        //            {
-                        //                AccountID = acc.ID,
-                        //                RightID = r.ID
-                        //            };
-                        //            db.Account_Right_Detail.Add(rd);
-                        //        }
-                        //    }
-                        //    db.SaveChanges();
-                        //}
-                        //if (module5 == 1)
-                        //{
-                        //    var listRight = db.Account_Right.Where(x => x.ModuleID == 5 + "").ToList();
-                        //    var rightRemove = db.Database.SqlQuery<Account_Right_Detail>("select ar.* from Account_Right a , Account_Right_Detail ar where a.ID = ar.RightID and ar.AccountID='" + acc.ID + "' and a.ModuleID='5'").ToList<Account_Right_Detail>();
-                        //    foreach (var r in rightRemove)
-                        //    {
-                        //        var del = db.Account_Right_Detail.Where(x => x.ID == r.ID).SingleOrDefault();
-                        //        db.Account_Right_Detail.Remove(del);
-                        //    }
-                        //    foreach (var r in listRight)
-                        //    {
-                        //        if (!String.IsNullOrEmpty(r.ID+""))
-                        //        {
-                        //            Account_Right_Detail rd = new Account_Right_Detail()
-                        //            {
-                        //                AccountID = acc.ID ,
-                        //                RightID = r.ID
-                        //            };
-                        //            db.Account_Right_Detail.Add(rd);
-                        //        }
-                        //    }
-                        //    db.SaveChanges();
-                        //}
-                        //if (module6 == 1)
-                        //{
-                        //    var listRight = db.Account_Right.Where(x => x.ModuleID == 6 + "").ToList();
-                        //    var rightRemove = db.Database.SqlQuery<Account_Right_Detail>("select ar.* from Account_Right a , Account_Right_Detail ar where a.ID = ar.RightID and ar.AccountID='" + acc.ID + "' and a.ModuleID='6'").ToList<Account_Right_Detail>();
-                        //    foreach (var r in rightRemove)
-                        //    {
-                        //        var del = db.Account_Right_Detail.Where(x => x.ID == r.ID).SingleOrDefault();
-                        //        db.Account_Right_Detail.Remove(del);
-                        //    }
-                        //    foreach (var r in listRight)
-                        //    {
-                        //        if (!String.IsNullOrEmpty(r.ID+""))
-                        //        {
-                        //            Account_Right_Detail rd = new Account_Right_Detail()
-                        //            {
-                        //                AccountID = acc.ID,
-                        //                RightID = r.ID
-                        //            };
-                        //            db.Account_Right_Detail.Add(rd);
-                        //        }
-                        //    }
-                        //    db.SaveChanges();
-                        //}
                         if (module7 == 1)
                         {
                             var listRight = db.Account_Right.ToList();
@@ -416,6 +372,7 @@ namespace QUANGHANH2.Controllers
                             user.Username = Username;
                             user.Password = passXc;
                             user.Position = Position;
+                            user.NVID = NVID;
                             user.CDVT = true;
                             user.TCLD = true;
                             user.KCS = true;
@@ -492,7 +449,7 @@ namespace QUANGHANH2.Controllers
             }
         }
         [HttpPost]
-        public JsonResult UpdateUser(int ID, string Name, string Username, string Position, string Password, string RepeatPassword,
+        public JsonResult UpdateUser(int ID, string Name, string Username, string Position, string Password, string RepeatPassword,string NVID,
                 int module1, int module2, int module3, int module4, int module5, int module6, int module7,
                 int module8, int module9, int module10, int module11, int module12, int module13, int module14,
                 int module15, int module16, int module17, int module18, string rights)
@@ -504,6 +461,31 @@ namespace QUANGHANH2.Controllers
                     CodeError = 2,
                     Data = "Người dùng với tên đăng nhập <strong style='color:black; '>" + Username + "</strong> đã tồn tại!"
                 }, JsonRequestBehavior.AllowGet);
+            }
+            if (!String.IsNullOrEmpty(NVID))
+            {
+                bool isMaNV = false;
+                var MaNV = db.NhanViens.ToList();
+                foreach (var item in MaNV)
+                {
+                    if (NVID.Equals(item.MaNV))
+                    {
+                        isMaNV = true;
+                        break;
+                    }
+                }
+                if (!isMaNV)
+                {
+                    return Json(new Result()
+                    {
+                        CodeError = 2,
+                        Data = "Mã nhân viên <strong style='color:black; '>" + NVID + "</strong> không tồn tại!"
+                    }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            else
+            {
+                NVID = null;
             }
             string InvalidFields = "";
             if (String.IsNullOrEmpty(Name))
@@ -572,192 +554,6 @@ namespace QUANGHANH2.Controllers
                     updateModule(module16, ID, user.PXLT, 16);
                     updateModule(module17, ID, user.AT, 17);
                     updateModule(module18, ID, user.KCM, 18);
-                    //if (Convert.ToBoolean(module1).Equals(user.CDVT))
-                    //{ }
-                    //else
-                    //{
-                    //    var listRight = db.Account_Right.Where(x => x.ModuleID == 1 + "").ToList();
-                    //    var rightRemoveup = db.Database.SqlQuery<Account_Right_Detail>("select ar.* from Account_Right a , Account_Right_Detail ar where a.ID = ar.RightID and ar.AccountID='" + ID + "' and a.ModuleID='1'").ToList<Account_Right_Detail>();
-                    //    foreach (var r in rightRemoveup)
-                    //    {
-                    //        var del = db.Account_Right_Detail.Where(a => a.ID == r.ID).SingleOrDefault();
-                    //        db.Account_Right_Detail.Remove(del);
-                    //    }
-                    //    if (module1 == 0)
-                    //    { }
-                    //    else
-                    //    {
-                    //        db.SaveChanges();
-                    //        foreach (var r in listRight)
-                    //        {
-                    //            if (!String.IsNullOrEmpty(r.ID+""))
-                    //            {
-                    //                Account_Right_Detail rd = new Account_Right_Detail()
-                    //                {
-                    //                    AccountID = ID,
-                    //                    RightID = r.ID
-                    //                };
-                    //                db.Account_Right_Detail.Add(rd);
-                    //            }
-                    //        }
-                    //        db.SaveChanges();
-                    //    }
-                    //}
-                    //if (Convert.ToBoolean(module2).Equals(user.TCLD))
-                    //{ }
-                    //else
-                    //{
-                    //    var listRight = db.Account_Right.Where(x => x.ModuleID == 2 + "").ToList();
-                    //    var rightRemoveup = db.Database.SqlQuery<Account_Right_Detail>("select ar.* from Account_Right a , Account_Right_Detail ar where a.ID = ar.RightID and ar.AccountID='" + ID + "' and a.ModuleID='2'").ToList<Account_Right_Detail>();
-                    //    foreach (var r in rightRemoveup)
-                    //    {
-                    //        var del = db.Account_Right_Detail.Where(a => a.ID == r.ID).SingleOrDefault();
-                    //        db.Account_Right_Detail.Remove(del);
-                    //    }
-                    //    if (module2 == 0)
-                    //    { }
-                    //    else
-                    //    {
-                    //        db.SaveChanges();
-                    //        foreach (var r in listRight)
-                    //        {
-                    //            if (!String.IsNullOrEmpty(r.ID+""))
-                    //            {
-                    //                Account_Right_Detail rd = new Account_Right_Detail()
-                    //                {
-                    //                    AccountID = ID,
-                    //                    RightID = r.ID
-                    //                };
-                    //                db.Account_Right_Detail.Add(rd);
-                    //            }
-                    //        }
-                    //        db.SaveChanges();
-                    //    }
-                    //}
-                    //if (Convert.ToBoolean(module3).Equals(user.KCS))
-                    //{ }
-                    //else
-                    //{
-                    //    var listRight = db.Account_Right.Where(x => x.ModuleID == 3 + "").ToList();
-                    //    var rightRemoveup = db.Database.SqlQuery<Account_Right_Detail>("select ar.* from Account_Right a , Account_Right_Detail ar where a.ID = ar.RightID and ar.AccountID='" + ID + "' and a.ModuleID='3'").ToList<Account_Right_Detail>();
-                    //    foreach (var r in rightRemoveup)
-                    //    {
-                    //        var del = db.Account_Right_Detail.Where(a => a.ID == r.ID).SingleOrDefault();
-                    //        db.Account_Right_Detail.Remove(del);
-                    //    }
-                    //    if (module3 == 0)
-                    //    { }
-                    //    else
-                    //    {
-                    //        db.SaveChanges();
-                    //        foreach (var r in listRight)
-                    //        {
-                    //            if (!String.IsNullOrEmpty(r.ID+""))
-                    //            {
-                    //                Account_Right_Detail rd = new Account_Right_Detail()
-                    //                {
-                    //                    AccountID = ID,
-                    //                    RightID = r.ID
-                    //                };
-                    //                db.Account_Right_Detail.Add(rd);
-                    //            }
-                    //        }
-                    //        db.SaveChanges();
-                    //    }
-                    //}
-                    //if (Convert.ToBoolean(module4).Equals(user.DK))
-                    //{ }
-                    //else
-                    //{
-                    //    var listRight = db.Account_Right.Where(x => x.ModuleID == 4 + "").ToList();
-                    //    var rightRemoveup = db.Database.SqlQuery<Account_Right_Detail>("select ar.* from Account_Right a , Account_Right_Detail ar where a.ID = ar.RightID and ar.AccountID='" + ID + "' and a.ModuleID='4'").ToList<Account_Right_Detail>();
-                    //    foreach (var r in rightRemoveup)
-                    //    {
-                    //        var del = db.Account_Right_Detail.Where(a => a.ID == r.ID).SingleOrDefault();
-                    //        db.Account_Right_Detail.Remove(del);
-                    //    }
-                    //    if (module4 == 0)
-                    //    { }
-                    //    else
-                    //    {
-                    //        db.SaveChanges();
-                    //        foreach (var r in listRight)
-                    //        {
-                    //            if (!String.IsNullOrEmpty(r.ID+""))
-                    //            {
-                    //                Account_Right_Detail rd = new Account_Right_Detail()
-                    //                {
-                    //                    AccountID = ID,
-                    //                    RightID = r.ID
-                    //                };
-                    //                db.Account_Right_Detail.Add(rd);
-                    //            }
-                    //        }
-                    //        db.SaveChanges();
-                    //    }
-                    //}
-                    //if (Convert.ToBoolean(module5).Equals(user.BGD))
-                    //{ }
-                    //else
-                    //{
-                    //    var listRight = db.Account_Right.Where(x => x.ModuleID == 5 + "").ToList();
-                    //    var rightRemoveup = db.Database.SqlQuery<Account_Right_Detail>("select ar.* from Account_Right a , Account_Right_Detail ar where a.ID = ar.RightID and ar.AccountID='" + ID + "' and a.ModuleID='5'").ToList<Account_Right_Detail>();
-                    //    foreach (var r in rightRemoveup)
-                    //    {
-                    //        var del = db.Account_Right_Detail.Where(a => a.ID == r.ID).SingleOrDefault();
-                    //        db.Account_Right_Detail.Remove(del);
-                    //    }
-                    //    if (module5 == 0)
-                    //    { }
-                    //    else
-                    //    {
-                    //        db.SaveChanges();
-                    //        foreach (var r in listRight)
-                    //        {
-                    //            if (!String.IsNullOrEmpty(r.ID+""))
-                    //            {
-                    //                Account_Right_Detail rd = new Account_Right_Detail()
-                    //                {
-                    //                    AccountID = ID,
-                    //                    RightID = r.ID
-                    //                };
-                    //                db.Account_Right_Detail.Add(rd);
-                    //            }
-                    //        }
-                    //        db.SaveChanges();
-                    //    }
-                    //}
-                    //if (Convert.ToBoolean(module6).Equals(user.PXKT))
-                    //{ }
-                    //else
-                    //{
-                    //    var listRight = db.Account_Right.Where(x => x.ModuleID == 6 + "").ToList();
-                    //    var rightRemoveup = db.Database.SqlQuery<Account_Right_Detail>("select ar.* from Account_Right a , Account_Right_Detail ar where a.ID = ar.RightID and ar.AccountID='" + ID + "' and a.ModuleID='6'").ToList<Account_Right_Detail>();
-                    //    foreach (var r in rightRemoveup)
-                    //    {
-                    //        var del = db.Account_Right_Detail.Where(a => a.ID == r.ID).SingleOrDefault();
-                    //        db.Account_Right_Detail.Remove(del);
-                    //    }
-                    //    if (module6 == 0)
-                    //    { }
-                    //    else
-                    //    {
-                    //        db.SaveChanges();
-                    //        foreach (var r in listRight)
-                    //        {
-                    //            if (!String.IsNullOrEmpty(r.ID+""))
-                    //            {
-                    //                Account_Right_Detail rd = new Account_Right_Detail()
-                    //                {
-                    //                    AccountID = ID,
-                    //                    RightID = r.ID
-                    //                };
-                    //                db.Account_Right_Detail.Add(rd);
-                    //            }
-                    //        }
-                    //        db.SaveChanges();
-                    //    }
-                    //}
                     if (Convert.ToBoolean(module7).Equals(user.ADMIN))
                     { }
                     else
@@ -819,6 +615,7 @@ namespace QUANGHANH2.Controllers
                         user.Password = passXc;
                     }
                     user.Position = Position;
+                    user.NVID = NVID;
                     user.CDVT = Convert.ToBoolean(module1);
                     user.TCLD = Convert.ToBoolean(module2);
                     user.KCS = Convert.ToBoolean(module3);
@@ -878,12 +675,12 @@ namespace QUANGHANH2.Controllers
         [HttpPost]
         public JsonResult ResetPassword(string UserID)
         {
-            int id = int.Parse(UserID);
-            var Acc = db.Accounts.Where(x => x.ID == id).SingleOrDefault();
+
             try
             {
                 string passXc = new XCryptEngine(XCryptEngine.AlgorithmType.MD5).Encrypt("123456", "pl");
-
+                int id = int.Parse(UserID);
+                var Acc = db.Accounts.Where(x => x.ID == id).SingleOrDefault();
                 Acc.Password = passXc;
                 db.Entry(Acc).State = EntityState.Modified;
                 db.SaveChanges();
