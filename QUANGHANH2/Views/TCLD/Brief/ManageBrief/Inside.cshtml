@@ -92,7 +92,7 @@
                 </div>
                 <div class="row">
                     <div class="col l3 offset-l5 m12 s12 input-field">
-                        <button class="waves-effect waves-light btn-small blue modal-trigger" id="searchButton"><i class="fas fas fa-search"></i>Tìm kiếm</button>
+                        <button class="waves-effect waves-light btn-small blue modal-trigger" id="searchButton_Doc"><i class="fas fas fa-search"></i>Tìm kiếm</button>
                     </div>
                 </div>
             </div>
@@ -309,7 +309,7 @@
 
          $(document).ready(function () {
             var dataTable = $('#equipmentTable').DataTable();
-             $("#searchButton").click(function () {
+             $("#searchButton_Doc").click(function () {
                  dataTable.ajax.reload();
             });
         });
@@ -342,18 +342,12 @@
                     data : $(form).serialize(),
                     success : function (data) {
                             dataTable.ajax.reload();
-                            $.notify("Sửa thành công",{
-                                globalPosition :"top center",
-                                className : "success"
-                            })
+                            successAlert('Thành công','Sửa thành công');
 
                     },
                     error: function (data) {
                             dataTable.ajax.reload();
-                            $.notify("Sửa thành công",{
-                                globalPosition :"top center",
-                                className : "success"
-                            })
+                            successAlert('Thành công','Sửa thành công');
 
                         },
                 });
@@ -377,10 +371,7 @@
                             })
                         } else {
                             dataTable.ajax.reload();
-                             $.notify("Thêm thành công", {
-                                globalPosition: "top center",
-                                className: "success"
-                            })
+                            successAlert('Thành công','Thêm thành công');
                         }
 
                     },
