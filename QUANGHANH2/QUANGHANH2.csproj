@@ -279,6 +279,7 @@
     <Compile Include="Controllers\TCLD\BriefController.cs" />
     <Compile Include="Controllers\TCLD\BriefRegulationController.cs" />
     <Compile Include="Controllers\TCLD\CertificateController.cs" />
+    <Compile Include="Controllers\TCLD\DepartmentController.cs" />
     <Compile Include="Controllers\TCLD\DiplomaController.cs" />
     <Compile Include="Controllers\TCLD\EatingController.cs" />
     <Compile Include="Controllers\TCLD\EmployeesController.cs" />
@@ -7260,6 +7261,8 @@
     <Content Include="Views\TCLD\Brief\ManageBrief\OutSideDetail.cshtml" />
     <Content Include="Views\TCLD\Recruitment\Input.cshtml" />
     <Content Include="Views\CDVT\Vattu\Danhsachvattu.cshtml" />
+    <Content Include="Views\TCLD\Department\List.cshtml" />
+    <Content Include="Views\Department\AddDepartment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
