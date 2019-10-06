@@ -9,16 +9,20 @@
 <link href="~/assets/extra-libs/DataTables/datatables.min.css" rel="stylesheet" />
 <script src="~/assets/extra-libs/DataTables/datatables.min.js"></script>
 <link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
-<style>
-       #phongbanSearch {
-       }
 
-       .page-title {
-           display: inline !important;
-       }
-       /*.select-wrapper{
-         width: 15% !important;
-    }*/
+<link href="~/assets/libs/toastr/build/toastr.min.css" rel="stylesheet">
+<style>
+    #toast-container {
+        min-width: 10%;
+        top: 0;
+        right: 50%;
+        transform: translateX(50%) translateY(50%);
+    }
+
+    .page-title {
+        display: inline !important;
+    }
+
 </style>
 
 <script>
@@ -189,6 +193,51 @@
         //data.push(phongbanSearch);
         //data.push(caSearch);
         //data.push(ngaySearch);
+
+        if (phongbanSearch == -1 || caSearch == -1 || ngaySearch == "") {
+            toastr.error('Hãy nhập đầy đủ thông tin', '');
+        } else {
+            $('#pre-load').show("slow", function () {
+            });
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                url: "/phan-xuong-khai-thac/nang-suat-lao-dong-getData",
+                data: {
+                    phongbanSearch: JSON.stringify(phongbanSearch),
+                    caSearch: JSON.stringify(caSearch),
+                    ngaySearch: JSON.stringify(ngaySearch)
+                },
+                success: function (response) {
+                    if (response.success) {
+                        $("#contentNSLD").empty();
+                        for (var i = 0; i < response.customNSLDs.length; i++) {
+                            $("#contentNSLD").append("<tr>\n");
+                            $("#contentNSLD").append("<td style=\"display:none;\"><input class=\"madiemdanh\" value=\"" + response.customNSLDs[i].ID + "\" /></td>\n");
+                            $("#contentNSLD").append("<td>" + response.customNSLDs[i].STT + "</td>\n");
+                            $("#contentNSLD").append("<td>" + response.customNSLDs[i].Name + "</td>\n");
+                            $("#contentNSLD").append("<td>" + response.customNSLDs[i].SoThe + " </td>\n");
+                            $("#contentNSLD").append("<td>" + response.customNSLDs[i].BacTho + " </td>\n");
+                            $("#contentNSLD").append("<td>" + response.customNSLDs[i].ChucDanh + " </td>\n");
+                            $("#contentNSLD").append("<td>" + response.customNSLDs[i].NoiDungCongViec + "</td>\n");
+                            $("#contentNSLD").append("<td><input type=\"number\" value=\"" + response.customNSLDs[i].NSLD + "\" class=\"form-control updateNSLD\" style=\"border:none; text-align: center;\" id=\"nsld\"></td>\n");
+                            $("#contentNSLD").append("<td><input type=\"number\" value=\"" + response.customNSLDs[i].HeSoChiaLuong + "\" class=\"form-control HeSoChiaLuong\" style=\"border:none; text-align: center;\" ></td>\n");
+                            $("#contentNSLD").append("<td><input type=\"number\" value=\"" + response.customNSLDs[i].LuongTruocDuyet + "\" class=\"form-control Luong\" style=\"border:none; text-align: center;\"></td>\n");
+                            $("#contentNSLD").append("<td><textarea class=\"DuBaoNguyCo\">" + response.customNSLDs[i].DuBaoNguyCo + "</textarea></td>\n");
+                            $("#contentNSLD").append("<td><textarea class=\"GiaiPhapNguyCo\">" + response.customNSLDs[i].YeuCauBPKTAT + "</textarea></td>");
+                            $("#contentNSLD").append("</tr>\n");
+                        }
+                        $('#pre-load').hide("slow", function () {
+                        });
+                    } else {
+                        $('#pre-load').hide("slow", function () {
+                        });
+                        errorAlert("Lỗi", "");
+                    }
+                }
+            })
+        }
+
         $.ajax({
             type: "post",
             dataType: "json",   
@@ -233,6 +282,10 @@
 </script>
 <script>
     function getcontent() {
+
+        $('#pre-load').show("slow", function () {
+        });
+
         var phongbanSearch = $("#phongbanSearch").val();
         var caSearch = $("#caSearch").val();
         var ngaySearch = $("#chon-ngay").val();
@@ -242,17 +295,26 @@
         //data.push(ngaySearch);
         $.ajax({
             type: "post",
+
+            dataType: "json",
+            url: "/phan-xuong-khai-thac/nang-suat-lao-dong-getData",
+            data: {
+                phongbanSearch: JSON.stringify(phongbanSearch),
+                caSearch: JSON.stringify(caSearch),
+                ngaySearch: JSON.stringify(ngaySearch)
             dataType: "json",   
             url: "/phan-xuong-khai-thac/nang-suat-lao-dong-getData",
             data: {
                 phongbanSearch : JSON.stringify(phongbanSearch),
                 caSearch : JSON.stringify(caSearch),
                 ngaySearch : JSON.stringify(ngaySearch)
+
             },
             success: function (response) {
                 if (response.success) {
                     $("#contentNSLD").empty();
                     for (var i = 0; i < response.customNSLDs.length; i++) {
+                        $("#contentNSLD").append("<tr><td style=\"display:none;\"><input class=\"madiemdanh\" value=\"" + response.customNSLDs[i].ID + "\"/></td>\n");
                         $("#contentNSLD").append("<tr><td style=\"display:none;\"><input class=\"madiemdanh\" value=\"" + response.customNSLDs[i].ID +"\"/></td>\n");
                         $("#contentNSLD").append("<td>" + response.customNSLDs[i].STT + "</td>\n");
                         $("#contentNSLD").append("<td>" + response.customNSLDs[i].Name + "</td>\n");
@@ -260,6 +322,19 @@
                         $("#contentNSLD").append("<td>" + response.customNSLDs[i].BacTho + " </td>\n");
                         $("#contentNSLD").append("<td>" + response.customNSLDs[i].ChucDanh + " </td>\n");
                         $("#contentNSLD").append("<td>" + response.customNSLDs[i].NoiDungCongViec + "</td>\n");
+                        $("#contentNSLD").append("<td><input type=\"number\" value=\"" + response.customNSLDs[i].NSLD + "\" class=\"form-control updateNSLD\" style=\"border:none; text-align: center;\" id=\"nsld\"></td>\n");
+                        $("#contentNSLD").append("<td><input type=\"number\" value=\"" + response.customNSLDs[i].HeSoChiaLuong + "\" class=\"form-control HeSoChiaLuong\" style=\"border:none; text-align: center;\" ></td>\n");
+                        $("#contentNSLD").append("<td><input type=\"number\" value=\"" + response.customNSLDs[i].LuongTruocDuyet + "\" class=\"form-control Luong\" style=\"border:none; text-align: center;\"></td>\n");
+                        $("#contentNSLD").append("<td><textarea class=\"DuBaoNguyCo\">" + response.customNSLDs[i].DuBaoNguyCo + "</textarea></td>\n");
+                        $("#contentNSLD").append("<td><textarea class=\"GiaiPhapNguyCo\">" + response.customNSLDs[i].YeuCauBPKTAT + "</textarea></td></tr>\n");
+
+                    }
+                    $('#pre-load').hide("slow", function () {
+                    });
+                } else {
+                    errorAlert("Lỗi", "");
+                    $('#pre-load').hide("slow", function () {
+                    });
                         $("#contentNSLD").append("<td><input type=\"number\" value=\""+ response.customNSLDs[i].NSLD+"\" class=\"form-control updateNSLD\" style=\"border:none; text-align: center;\" id=\"nsld\"></td>\n");
                         $("#contentNSLD").append("<td><input type=\"number\" value=\""+ response.customNSLDs[i].HeSoChiaLuong+"\" class=\"form-control HeSoChiaLuong\" style=\"border:none; text-align: center;\" ></td>\n");
                         $("#contentNSLD").append("<td><input type=\"number\" value=\""+ response.customNSLDs[i].LuongTruocDuyet+"\" class=\"form-control Luong\" style=\"border:none; text-align: center;\"></td>\n");
@@ -268,7 +343,6 @@
 
                     }
                 } else {
-
                 }
             }
         })
@@ -287,7 +361,8 @@
 </script>
 <script>
     function Update() {
-        $('#pre-load').show();
+        $('#pre-load').show("slow", function () {
+           });
         getInner();
         var MaDiemDanh = document.getElementsByClassName("madiemdanh");
         var NangSuatLaoDong = document.getElementsByClassName("updateNSLD");
@@ -365,5 +440,7 @@
 <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
 <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
 <script src="~/js/Custom JS/Disable_input_material.js"></script>
+<script src="~/assets/libs/toastr/build/toastr.min.js"></script>
+<script src="~/assets/extra-libs/toastr/toastr-init.js"></script>
 
 
