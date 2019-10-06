@@ -147,6 +147,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 var listAttendance = (from emp in db.NhanViens
+                                        .Where(emp => emp.MaPhongBan == departmentID)
                                       join per in db.DiemDanh_NangSuatLaoDong
                                         .Where(per => per.MaDonVi == departmentID && per.NgayDiemDanh == date && per.CaDiemDanh == session)
                                       on emp.MaNV equals per.MaNV into attendance
@@ -173,9 +174,10 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
         public ActionResult takeAttendance()
         {
             // fixxing
-            var departmentID = "DL1";
-            var dateAtt = Convert.ToDateTime("2019-09-10");
-            int session = 1;
+            // var departmentID = Request["department"];
+            var departmentID = "PXKT1";
+            var dateAtt = Convert.ToDateTime(Request["date"]);
+            int session = Int32.Parse(Request["session"]);
             //
             var listAttendance = getAll(session, departmentID, dateAtt);
             JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
@@ -189,7 +191,8 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
         public ActionResult updateAttendance()
         {
             var listUpdateJSON = Request["sessionId"];
-            var departmentID = Request["department"];
+            // var departmentID = Request["department"];
+            var departmentID = "PXKT1";
             var dateAtt = Convert.ToDateTime(Request["date"]);
             int session = Int32.Parse(Request["session"]);
             var listUpdate = JsonConvert.DeserializeObject<List<updateStatus>>(listUpdateJSON);
@@ -207,7 +210,10 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                         //    dn.ThoiGianThucTeDiemDanh = DateTime.ParseExact(item.timeAttendance, "M/d/yyyy hh:mm:ss", null);
                         //}
                         dn.MaDonVi = item.maDV;
-                        dn.LyDoVangMat = item.reason;
+                        if (item.reason != "")
+                        {
+                            dn.LyDoVangMat = item.reason;
+                        }
                         dn.GhiChu = item.description;
                         dn.CaDiemDanh = session;
                         dn.NgayDiemDanh = dateAtt;
@@ -281,7 +287,8 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
             var workAll = bool.Parse(Request["workChecked"]);
             var notWorkAll = bool.Parse(Request["notWorkChecked"]);
             // fixxing
-            var departmentID = Request["department"];
+            // var departmentID = Request["department"];
+            var departmentID = "PXKT1";
             var dateAtt = Convert.ToDateTime(Request["date"]);
             int ca = Int32.Parse(Request["session"]);
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
@@ -315,7 +322,8 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
         [Route("phan-xuong-khai-thac/diem-danh/lay-thong-tin")]
         public ActionResult fetchAPI()
         {
-            var departmentID = Request["department"];
+            // var departmentID = Request["department"];
+            var departmentID = "PXKT1";
             var dateAtt = Convert.ToDateTime(Request["date"]);
             int session = Int32.Parse(Request["session"]);
             //
