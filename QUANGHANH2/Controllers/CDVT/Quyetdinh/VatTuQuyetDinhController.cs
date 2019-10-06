@@ -34,8 +34,6 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
                 supList = (from a in db.Supply_Documentary_Equipment
                            where (a.equipmentId == requestID) && (a.supplyType == 1)
                            join b in db.Supplies on a.supply_id equals b.supply_id
-                           join c in db.Equipments on a.equipmentId equals c.equipmentId
-                           join d in db.Acceptances on c.equipmentId equals d.equipmentId
                            select new
                            {
                                equipmentId = a.equipmentId,
@@ -43,8 +41,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
                                quantity = a.quantity,
                                supplyStatus = a.supplyStatus,
                                supply_name = b.supply_name,
-                               unit = b.unit,
-                               documentary_process_result = d.documentary_process_result
+                               unit = b.unit
 
 
                            }).ToList().Select(p => new Supply_Extend
@@ -54,8 +51,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
                                quantity = p.quantity,
                                supplyStatus = p.supplyStatus,
                                supply_name = p.supply_name,
-                               unit = p.unit,
-                               documentary_process_result = p.documentary_process_result
+                               unit = p.unit
 
                            }).ToList();
 
@@ -63,8 +59,6 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
                 supList2 = (from a in db.Supply_Documentary_Equipment
                            where (a.equipmentId == requestID) && (a.supplyType == 2)
                             join b in db.Supplies on a.supply_id equals b.supply_id
-                            join c in db.Equipments on a.equipmentId equals c.equipmentId
-                            join d in db.Acceptances on c.equipmentId equals d.equipmentId
                             select new
                            {
                                equipmentId = a.equipmentId,
@@ -72,8 +66,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
                                quantity = a.quantity,
                                supplyStatus = a.supplyStatus,
                                supply_name = b.supply_name,
-                               unit = b.unit,
-                               documentary_process_result = d.documentary_process_result
+                               unit = b.unit
 
                             }).ToList().Select(p => new Supply_Extend
                            {
@@ -82,8 +75,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
                                quantity = p.quantity,
                                supplyStatus = p.supplyStatus,
                                supply_name = p.supply_name,
-                               unit = p.unit,
-                               documentary_process_result = p.documentary_process_result
+                               unit = p.unit
                             }).ToList();
                 ViewBag.ListSup2 = supList2;
 

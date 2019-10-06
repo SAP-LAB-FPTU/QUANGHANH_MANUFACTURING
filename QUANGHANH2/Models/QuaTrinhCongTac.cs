@@ -14,10 +14,11 @@ namespace QUANGHANH2.Models
     
     public partial class QuaTrinhCongTac
     {
+        public int MaCongTac { get; set; }
         public string ChucDanh { get; set; }
         public string ChucVu { get; set; }
         public string DonViCongTac { get; set; }
-        public System.DateTime NgayBatDau { get; set; }
+        public Nullable<System.DateTime> NgayBatDau { get; set; }
         public Nullable<System.DateTime> NgayKetThuc { get; set; }
         public string MaNV { get; set; }
     

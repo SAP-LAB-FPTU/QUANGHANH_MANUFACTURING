@@ -297,7 +297,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     Equipment e = DBContext.Equipments.Find(equipmentId);
 
                     a.equipmentid = e.equipmentId;
-                    string date = DateTime.ParseExact(date1, "yyyy-MM-dd", null).ToString("yyyy-MM-dd");
+                    string date = DateTime.ParseExact(date1, "dd/MM/yyyy", null).ToString("yyyy-MM-dd");
                     a.date = DateTime.Parse(date);
                     a.quantity = quantity;
                     a.hours_per_day = hours_per_day;
@@ -470,6 +470,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                         " from Fuel_activities_consumption f, Equipment e , Supply s " +
                         " where e.equipmentId = f.equipmentId and s.supply_id = f.fuel_type " +
                         " and MONTH(date) = MONTH(@oldday) " +
+                         " and Year(date) = Year(@oldday) " +
                         " and supply_id = @oldFuelType " +
                         " and department_id = @oldDepartmentId "
                         , new SqlParameter("oldday", old_day)
@@ -480,6 +481,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     DBContext.Database.ExecuteSqlCommand("" +
                         " update Supply_tieuhao set used=@old" +
                         " where MONTH(date) = MONTH(@oldday) " +
+                         " and Year(date) = Year(@oldday) " +
                         " and supplyid = @oldFuelType " +
                         " and departmentid = @oldDepartmentId "
                         , new SqlParameter("old", update_amount_old)
@@ -493,6 +495,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                         " from Fuel_activities_consumption f, Equipment e , Supply s " +
                         " where e.equipmentId = f.equipmentId and s.supply_id = f.fuel_type " +
                         " and MONTH(date) = MONTH(@newday) " +
+                        " and Year(date) = Year(@newday) " +
                         " and supply_id = @newFuelType " +
                         " and department_id = @newDepartmentId "
                         , new SqlParameter("newday", new_day)
@@ -502,6 +505,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     DBContext.Database.ExecuteSqlCommand("" +
                         " update Supply_tieuhao set used=@new" +
                         " where MONTH(date) = MONTH(@newday) " +
+                        " and Year(date) = Year(@newday) " +
                         " and supplyid = @newFuelType " +
                         " and departmentid = @newDepartmentId "
                         , new SqlParameter("new", update_amount_new)
@@ -547,10 +551,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 {
                     //Add :
                     Equipment e = DBContext.Equipments.Find(equipmentId);
-                    DateTime dateTime = DateTime.ParseExact(date1, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    DateTime dateTime = DateTime.ParseExact(date1, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                     Supply s = DBContext.Supplies.Where(x => x.supply_id == fuel_type).First();
 
-                    Supply_tieuhao su = DBContext.Supply_tieuhao.Where(x => x.supplyid == fuel_type && x.departmentid == e.department_id).First();
+                    Supply_tieuhao supp = DBContext.Supply_tieuhao.Where(x => x.supplyid == fuel_type && x.departmentid == e.department_id && x.date.Month == dateTime.Month&& x.date.Year == dateTime.Year).First();
 
 
                     int count = DBContext.Database.SqlQuery<ActivityDB>("select f.[date],f.equipmentId, " +
@@ -592,23 +596,28 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                             consumption_value = consumption_value,
                             equipmentId = equipmentId,
                             fuel_type = fuel_type,
-                            date = DateTime.ParseExact(date1, "yyyy-MM-dd", null)
+                            date = DateTime.ParseExact(date1, "dd/MM/yyyy", null)
                         };
                         DBContext.Fuel_activities_consumption.Add(fuel_Activities_Consumption);
+                        DBContext.SaveChanges();
                     }
 
                     //Update : 
                     //get new
                     string newFuelType = fuel_type;
                     string new_departmentId = e.department_id;
-                    string new_day = DateTime.ParseExact(date1, "dd/MM/yyyy", null).ToString("MM-dd-yyyy");
-
+                    string new_day = DateTime.ParseExact(date1, "dd/MM/yyyy", null).ToString("yyyy-MM-dd");
+                    //if (supp != null&& DBContext.Fuel_activities_consumption.Where(x => x.fuel_type == fuel_type && x.date.Month == DateTime.Parse(date1).Month && x.date.Year == DateTime.Parse(date1).Year).Count()==0)
+                    //{
+                    //    Supply
+                    //}
                     //get update amount of new.
                     int update_amount_new = DBContext.Database.SqlQuery<int>("" +
                         " select sum(f.consumption_value) " +
                         " from Fuel_activities_consumption f, Equipment e , Supply s " +
                         " where e.equipmentId = f.equipmentId and s.supply_id = f.fuel_type " +
                         " and MONTH(date) = MONTH(@newday) " +
+                        " and YEAR(date) = YEAR(@newday)" +
                         " and supply_id = @newFuelType " +
                         " and department_id = @newDepartmentId "
                         , new SqlParameter("newday", new_day)
@@ -618,6 +627,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     DBContext.Database.ExecuteSqlCommand("" +
                         " update Supply_tieuhao set used=@new" +
                         " where MONTH(date) = MONTH(@newday) " +
+                        " and YEAR(date) = YEAR(@newday) " +
                         " and supplyid = @newFuelType " +
                         " and departmentid = @newDepartmentId "
                         , new SqlParameter("new", update_amount_new)

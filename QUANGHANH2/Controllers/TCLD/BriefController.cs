@@ -203,7 +203,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 return Json(new { success = false, responseText = "The attached file is not supported." }, JsonRequestBehavior.AllowGet);
             }
         }
-        [Auther(RightID = "146")]
+        
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to")]
         [HttpPost]
         public ActionResult Search(string MaNV, string TenNV, string TenGT, string KieuGT)
