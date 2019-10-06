@@ -417,7 +417,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             + "                       ( b.ldsx ) * 1.0 / ( b.ldtheods ) * 100 \n"
             + "                       ELSE 100 \n"
             + "                     END AS NUMERIC(36, 2))               AS TyLe, \n"
-            + "                Isnull(b.nsldthuchien, 0)                 AS NSLDThucHien \n"
+            + "                Isnull(b.NSLDThucHien, 0)                 AS NSLDThucHien \n"
             + "FROM   department \n"
             + "       LEFT JOIN (SELECT *, \n"
             + "                         ( phep + om + bu + tt + vld + h )AS TongNghi \n"

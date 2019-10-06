@@ -105,7 +105,7 @@
 <ul id='dropdown' class='dropdown-content'>
     <li><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/lich-su-lam-viec")" class="black-text">Làm việc</a></li>
     <li class="divider" tabindex="-1"></li>
-    <li><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chi-tiet-dieu-chuyen")" class="black-text">Điều chuyển</a></li>
+    <li><a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chi-tiet-dieu-dong")" class="black-text">Điều chuyển</a></li>
 </ul>
 
 <div id="deleteBriefs" class="modal open">
@@ -193,9 +193,12 @@
             <div class="col l6 m6 s6 center">
                 <a class="waves-light btn blue darken-2 btn-small" onclick=getHistoryEployee();>Lịch sử làm việc</a>
             </div>
-            <div class="col l6 m6 s6 center">
-                <a href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/chi-tiet-dieu-chuyen")" class="waves-effect waves-light btn blue darken-2 btn-small">Điều chuyển</a>
-            </div>
+            <form action="/phong-tcld/quan-ly-nhan-vien/chi-tiet-dieu-dong" method="get">
+                <div class="col l6 m6 s6 center">
+                    <button type="submit" class="waves-effect waves-light btn blue darken-2 btn-small" id="btnDieuChuyen">Điều động</button>
+                </div>
+                <input name="ddid" type="hidden" id="ctdd" />
+            </form>
         </div>
     </div>
 </div>
@@ -323,7 +326,7 @@
                         {
                             "data": "MaNV", "render": function (data) {
                                 return "<a class='waves-effect waves-light btn blue darken-2 btn-small' href='/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien?id=" + data + "'  data-target='dropdown1'><span class='ti-pencil-alt'>&nbsp;Sửa</span></a> &nbsp;&nbsp;&nbsp;" +
-                                    "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='getHistoryID(" + data + ")' data-target='history'> <span class='fas fa-history'>&nbsp;Xem</span></a>&nbsp;&nbsp;&nbsp;" +
+                                     "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='getHistoryID(" + data + "); getTransferHistory(" + data + "); ' data-target='history'><span class='fas fa-history'>&nbsp;Xem</span></a> &nbsp;&nbsp;&nbsp;" +
                                     "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='getTlhd(" + data + ")' data-target='deleteBriefs'><span class='fas fa-times-circle'>&nbsp;TLHĐ</span></a>";
 
                             },
@@ -397,6 +400,11 @@
                 }
             });
         });
+
+        function getTransferHistory(a) {
+            document.getElementById("ctdd").value = a;
+        }
+
         //thuong
         function getHistoryID(a) {
             document.getElementById("historyElementID").value = a;

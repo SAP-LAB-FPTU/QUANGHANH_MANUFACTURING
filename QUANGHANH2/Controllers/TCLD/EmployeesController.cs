@@ -815,12 +815,93 @@ namespace QUANGHANH2.Controllers.TCLD
             ViewBag.nameDepartment = "baohiem";
             return View("/Views/TCLD/Brief/WorkHistory.cshtml");
         }
-        [Route("phong-tcld/quan-ly-nhan-vien/chi-tiet-dieu-chuyen")]
-        public ActionResult TransferHistory()
+
+        public class lichSuDieuDong : NhanVien
         {
-            ViewBag.nameDepartment = "baohiem";
+            public string Ten { get; set; }
+            public string SoQuyetDinh { get; set; }
+            public Nullable<System.DateTime> NgayQuyetDinh { get; set; }
+            public string DonViMoi { get; set; }
+            public string DonViCu { get; set; }
+            public string ChucVuMoi { get; set; }
+            public string ChucVuCu { get; set; }
+            public string BacLuongMoi { get; set; }
+            public string BacLuongCu { get; set; }
+            public double? MucLuongMoi { get; set; }
+            public double? MucLuongCu { get; set; }
+        }
+
+        [Route("phong-tcld/quan-ly-nhan-vien/chi-tiet-dieu-dong")]
+        [HttpGet]
+        public ActionResult TransferHistoryget(string ddid)
+        {
+            ViewBag.ddid = ddid;
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            var temp = from n in db.NhanViens
+                       where n.MaNV == ddid
+                       select n.Ten;
+            string name = temp.FirstOrDefault().ToString();
+            ViewBag.name = name;
             return View("/Views/TCLD/Brief/TransferHistory.cshtml");
         }
+
+        [Route("phong-tcld/quan-ly-nhan-vien/chi-tiet-dieu-dong")]
+        [HttpPost]
+        public ActionResult TransferHistory()
+        {
+            var ddid = Request["ddid"];
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+
+            int start = Convert.ToInt32(Request["start"]);
+            int length = Convert.ToInt32(Request["length"]);
+            string searchValue = Request["search[value]"];
+            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+            string sortDirection = Request["order[0][dir]"];
+            var temp = from n in db.NhanViens
+                       join d in db.DieuDong_NhanVien on n.MaNV equals d.MaNV
+                       join q in db.QuyetDinhs on d.MaQuyetDinh equals q.MaQuyetDinh
+                       where (d.MaNV == ddid
+                       && q.SoQuyetDinh != null
+                       || q.SoQuyetDinh.Equals(""))
+                       select new
+                       {
+                           n.Ten,
+                           q.NgayQuyetDinh,
+                           q.SoQuyetDinh,
+                           d.DonViMoi,
+                           d.DonViCu,
+                           d.ChucVuMoi,
+                           d.ChucVuCu,
+                           d.BacLuongCu,
+                           d.BacLuongMoi,
+                           d.MucLuongMoi,
+                           d.MucLuongCu
+                       };
+            List<lichSuDieuDong> newlist = temp.ToList().Select(p => new lichSuDieuDong()
+            {
+                Ten = p.Ten,
+                SoQuyetDinh = p.SoQuyetDinh,
+                NgayQuyetDinh = p.NgayQuyetDinh,
+                DonViMoi = p.DonViMoi,
+                DonViCu = p.DonViCu,
+                ChucVuMoi = p.ChucVuMoi,
+                ChucVuCu = p.ChucVuCu,
+                BacLuongMoi = p.BacLuongMoi,
+                BacLuongCu = p.BacLuongCu,
+                MucLuongMoi = p.MucLuongMoi,
+                MucLuongCu = p.MucLuongCu
+            }).ToList();
+            int totalrows = newlist.Count;
+            int totalrowsafterfiltering = newlist.Count;
+            //sorting
+            newlist = newlist.OrderBy(sortColumnName + " " + sortDirection).ToList();
+            //paging
+            //newlist = newlist.Skip(start).Take(length).ToList<lichSuDieuDong>();
+            //ViewBag.listnv = newlist;
+            return Json(new { data = newlist, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+
+        }
+
         [Auther(RightID = "55")]
         [Route("delete")]
         [HttpPost]
