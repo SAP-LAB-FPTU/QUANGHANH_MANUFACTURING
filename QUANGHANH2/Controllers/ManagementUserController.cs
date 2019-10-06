@@ -223,17 +223,7 @@ namespace QUANGHANH2.Controllers
             }
             if (!String.IsNullOrEmpty(NVID))
             {
-                bool isMaNV = false;
-                var MaNV = db.NhanViens.ToList();
-                foreach (var item in MaNV)
-                {
-                    if (NVID.Equals(item.MaNV))
-                    {
-                        isMaNV = true;
-                        break;
-                    }
-                }
-                if (!isMaNV)
+                if (db.NhanViens.Where(x=>x.MaNV == NVID).Count() == 0)
                 {
                     return Json(new Result()
                     {
