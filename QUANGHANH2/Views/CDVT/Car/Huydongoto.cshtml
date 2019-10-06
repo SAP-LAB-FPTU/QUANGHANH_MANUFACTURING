@@ -184,24 +184,26 @@
                         <table id="equipmentTable" class="table-bordered striped mytb">
                             <thead>
                                 <tr>
-                                    <th>Mã thiết bị</th>
+                                    <th>Nhóm thiết bị</th>
+                                    <th>Biểm kiểm soát</th>
                                     <th>Tên thiết bị</th>
+                                    <th>Số khung</th>
+                                    <th>Số máy</th>
+                                    <th>Số hiệu</th>
+                                    <th>Số chế tạo</th>
                                     <th>Nhà cung cấp</th>
                                     <th>Ngày nhập</th>
-                                    <th>Khấu hao ước tính</th>
-                                    <th>Khấu hao hiện tại</th>
-                                    <th>Thời điểm kiểm định</th>
-                                    <th>Thời hạn bảo hiểm</th>
                                     <th>Ngày đưa vào sử dụng</th>
-                                    <th>Thời hạn bảo dưỡng</th>
                                     <th>Tổng thời gian hoạt động</th>
-                                    <th>Tình trạng hiện tại</th>
-                                    <th>Số chế tạo</th>
-                                    <th>Số hiệu</th>
                                     <th>Loại chất lượng</th>
                                     <th>Đường nhập</th>
-                                    <th>Nhóm thiết bị</th>
+                                    <th>Thời hạn bảo hiểm</th>
+                                    <th>Thời điểm kiểm định</th>
+                                    <th>Thời hạn bảo dưỡng</th>
                                     <th>Phân xưởng sử dụng</th>
+                                    <th>Tình trạng hiện tại</th>
+                                    <th>Khấu hao ước tính</th>
+                                    <th>Khấu hao hiện tại</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -657,10 +659,12 @@
                     { "data": "Equipment_category_name", "name" : "Equipment_category_name"},
                     {
                         "data": "equipmentId", "name": "equipmentId", "render": function (data) {
-                            return ("<form action=\"thiet-bi\" method=\"post\"><input type=\"hidden\" name=\"id\" value=\"" + data + "\" class=\"form-control\"/><button class='btn' onclick='submit'>" + data + "</button></form>");
+                            return ("<form action=\"/phong-cdvt/thiet-bi\" method=\"post\"><input type=\"hidden\" name=\"id\" value=\"" + data + "\" class=\"form-control\"/><button class='btn' onclick='submit'>" + data + "</button></form>");
                         }
                     },
                     { "data": "equipment_name", "name": "equipment_name" },
+                    { "data": "sokhung", "name": "sokhung" },
+                    { "data": "somay", "name": "somay" },
                     { "data": "fabrication_number", "name": "fabrication_number" },
                     { "data": "mark_code", "name" : "mark_code"},
                     { "data": "supplier", "name": "supplier" },

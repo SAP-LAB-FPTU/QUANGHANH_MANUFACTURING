@@ -34,8 +34,11 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
         }
 
         [Route("phan-xuong-khai-thac/nang-suat-lao-dong")]
-        public ActionResult NSLD(string Ca, string Date, string Donvi)
-        {
+        public ActionResult NSLD()
+         {
+            string Ca= Request["caSearch"];
+            string Date = Request["ngaySearch"];
+            string Donvi = Request["phongbanSearch"];
             if (Ca == null)
             {
                 Ca = "1";
@@ -60,6 +63,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                 List<DiemDanh_NangSuatLaoDong> list = db.DiemDanh_NangSuatLaoDong
                     .Where(a => a.NgayDiemDanh == date)
                     .Where(a => a.CaDiemDanh == calamviec)
+                    .Where(a => a.DiLam == true)
                     .Where(a => a.MaDonVi == Donvi).ToList();
                 List<BaoCaoTheoCa> customNSLDs = new List<BaoCaoTheoCa>();
                 BaoCaoTheoCa cus;
@@ -88,6 +92,60 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                 ViewBag.nsld = customNSLDs;
             }
             return View("/Views/PX/PXKT/NSLD.cshtml");
+        }
+
+        [Route("phan-xuong-khai-thac/nang-suat-lao-dong-getData")]
+        [HttpPost]
+        public ActionResult getDataNSLD()
+        {
+            string caSearch = Request["caSearch"];
+            string ngaySearch = Request["ngaySearch"];
+            string Donvi = Request["phongbanSearch"];
+            ngaySearch = ngaySearch.Split('"')[1];
+            int calamviec = Int32.Parse(caSearch.Split('"')[1]);
+            ngaySearch = ngaySearch.Split('/')[1] + "/" + ngaySearch.Split('/')[0] + "/" + ngaySearch.Split('/')[2];
+            DateTime date = DateTime.Parse(ngaySearch);
+            List<BaoCaoTheoCa> customNSLDs = new List<BaoCaoTheoCa>();
+
+            Donvi = Donvi.Split('"')[1];
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+
+                List<Department> listDepartment = db.Departments
+                    .Where(a => a.department_id.Contains("KT")).ToList();
+                ViewBag.TenToChuc = listDepartment;
+                List<DiemDanh_NangSuatLaoDong> list = db.DiemDanh_NangSuatLaoDong
+                    .Where(a => a.NgayDiemDanh == date)
+                    .Where(a => a.CaDiemDanh == calamviec)
+                    .Where(a => a.DiLam == true)
+                    .Where(a => a.MaDonVi == Donvi).ToList();
+                customNSLDs = new List<BaoCaoTheoCa>();
+                BaoCaoTheoCa cus;
+                int num = 1;
+                foreach (var i in list)
+                {
+                    cus = new BaoCaoTheoCa
+                    {
+                        ID = i.MaDiemDanh,
+                        STT = num,
+                        Name = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().Ten,
+                        BacTho = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().BacLuong,
+                        ChucDanh = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec == null ? "" : db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec.TenCongViec,
+                        DuBaoNguyCo = i.DuBaoNguyCo,
+                        HeSoChiaLuong = i.HeSoChiaLuong.ToString(),
+                        LuongSauDuyet = i.Luong.ToString(),
+                        LuongTruocDuyet = i.Luong.ToString(),
+                        NoiDungCongViec = db.Departments.Where(a => a.department_id == i.MaDonVi).First().department_name,
+                        NSLD = i.NangSuatLaoDong.ToString(),
+                        SoThe = i.MaNV,
+                        YeuCauBPKTAT = i.GiaiPhapNguyCo
+                    };
+                    customNSLDs.Add(cus);
+                    num++;
+                }
+                
+            }
+            return Json(new {success=true, customNSLDs = customNSLDs }, JsonRequestBehavior.AllowGet);
         }
 
         [Route("phan-xuong-khai-thac/nang-suat-lao-dong-update")]

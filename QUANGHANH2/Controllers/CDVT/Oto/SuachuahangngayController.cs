@@ -98,7 +98,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                     //Loop and insert records.
                     foreach (Maintain_Car_DetailDB item in maintain)
                     {
-                        Supply_tieuhao s = db.Supply_tieuhao.Where(x => x.supplyid == item.supplyid && x.departmentid == d.department_id && x.date.Month == dateTime.Month).First();
+                        Supply_tieuhao s = db.Supply_tieuhao.Where(x => x.supplyid == item.supplyid && x.departmentid == d.department_id && x.date.Month == dateTime.Month && x.date.Year == dateTime.Year).First();
                         if (item.supplyStatus == 1) { s.used = s.used + item.quantity; /*db.Entry(s).State = EntityState.Modified;*/ }
                         else { s.thuhoi = s.thuhoi + item.quantity; /*db.Entry(s).State = EntityState.Modified;*/ }
                         db.Entry(s).State = EntityState.Modified;
@@ -332,7 +332,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                         {
                             Maintain_Car e = db.Maintain_Car.Where(x => x.maintainid == item.maintainid).FirstOrDefault();
 
-                            Supply_tieuhao su = db.Supply_tieuhao.Where(x => x.supplyid == item.supplyid && x.departmentid == e.departmentid && x.date.Month == e.date.Month).First();
+                            Supply_tieuhao su = db.Supply_tieuhao.Where(x => x.supplyid == item.supplyid && x.departmentid == e.departmentid && x.date.Month == e.date.Month&& x.date.Year == e.date.Year).First();
 
                             if (item.supplyStatus == 1) { su.used = su.used + item.quantity; /*db.Entry(s).State = EntityState.Modified;*/ }
                             else { su.thuhoi = su.thuhoi + item.quantity; /*db.Entry(s).State = EntityState.Modified;*/ }
@@ -357,10 +357,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                             Maintain_Car e = db.Maintain_Car.Where(x => x.maintainid == item.maintainid).First();
                             Maintain_Car_Detail ma = db.Maintain_Car_Detail.Where(x => x.maintaindetailid == item.maintaindetailid).First();
 
-                            Supply_tieuhao su = db.Supply_tieuhao.Where(x => x.supplyid == item.supplyid && x.departmentid == e.departmentid && x.date.Month == e.date.Month).First();
+                            Supply_tieuhao su = db.Supply_tieuhao.Where(x => x.supplyid == item.supplyid && x.departmentid == e.departmentid && x.date.Month == e.date.Month && x.date.Year == e.date.Year).First();
                             if (ma.supplyid != item.supplyid)
                             {
-                                Supply_tieuhao sup = db.Supply_tieuhao.Where(x => x.supplyid == ma.supplyid && x.departmentid == e.departmentid && x.date.Month == e.date.Month).First();
+                                Supply_tieuhao sup = db.Supply_tieuhao.Where(x => x.supplyid == ma.supplyid && x.departmentid == e.departmentid && x.date.Month == e.date.Month && x.date.Year == e.date.Year).First();
                                 if (ma.supplyStatus == 1) { sup.used = sup.used - ma.quantity; /*db.Entry(s).State = EntityState.Modified;*/ }
                                 else { sup.thuhoi = sup.thuhoi - ma.quantity; /*db.Entry(s).State = EntityState.Modified;*/ }
 

@@ -339,7 +339,7 @@
                                         <div class="col m4">
                                             @Html.LabelFor(model => model.BacLuong, "Bậc lương", htmlAttributes: new { @class = "custom-label" })
                                             <div class="col-md-10">
-                                                @Html.EditorFor(model => model.BacLuong, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Bậc lương", @type = "number", @min = "0", @autocomplete = "off" } })
+                                                @Html.EditorFor(model => model.BacLuong, new { htmlAttributes = new { @class = "inputEdit form-control bac", @placeholder = "Bậc lương", @type = "text", @autocomplete = "off" } })
                                                 @Html.ValidationMessageFor(model => model.BacLuong, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -489,68 +489,69 @@
                         </div>
                         @Html.HiddenFor(model => model.MaPhongBan)
                         @Html.HiddenFor(model => model.MaTrangThai)
-                    <div id="hoctaplamviec" class="col l12">
-                        <div class="row" style="margin-top:10px">
-                            <label class="custom-label">A.Đào tạo, bồi dưỡng về chuyên môn, nghiệp vụ, lý luận chính trị, ngoại ngữ, tin học</label>
-                        </div>
-                        <div class="row" style="margin-top:15px">
-                            <table class="table table-bordered centered table-responsive">
-                                <thead>
-                                    <tr>
-                                        <th width="25%">Đơn vị công tác</th>
-                                        <th width="25%">Chức danh</th>
-                                        <th width="25%">Chức vụ</th>
-                                        <th width="25%">Từ ngày - Đến ngày</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="table-htlv2">
-                                    <tr>
-                                        <td id="col11"><input id="input11" autocomplete="off" class="inputEdit" name="donVi" style="border:none" /></td>
-                                        <td id="col12"><input id="input12" autocomplete="off" class="inputEdit" name="chucDanh" style="border:none" /></td>
-                                        <td id="col13"><input id="input13" autocomplete="off" class="inputEdit" name="chucVu" style="border:none" /></td>
-                                        <td id="col14" class="editable">
-                                            <input autocomplete="off"
-                                                   name="tuNgayDenNgay" id="input14" type="text" data-auto-close="true" data-range="true"
-                                                   placeholder="dd/mm/yyyy - dd/mm/yyyy" data-multiple-dates-separator=" - "
-                                                   data-language="vi" class="datepicker-here form-control inputEdit" style="border:none" />
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col m12 center div_them2">
-                            <a id="buttonThem2" class="btn blue darken-2" style="margin-top:15px;margin-bottom:15px">Thêm</a>
-                        </div>
-                        @if (Enumerable.Count(ViewBag.qtList) > 0)
-                        {
-                            <table class="table table-bordered centered table-responsive">
-                                <thead>
-                                    <tr>
-                                        <th width="20%">Đơn vị</th>
-                                        <th width="20%">Chức danh</th>
-                                        <th width="20%">Chức vụ</th>
-                                        <th width="20%">Ngày bắt đàu</th>
-                                        <th width="20%">Ngày kết thúc</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody id="work-table">
-                                    @foreach (var item in ViewBag.qtList)
-                                    {
+                        <div id="hoctaplamviec" class="col l12">
+                            <div class="row" style="margin-top:10px">
+                                <label class="custom-label">A.Đào tạo, bồi dưỡng về chuyên môn, nghiệp vụ, lý luận chính trị, ngoại ngữ, tin học</label>
+                            </div>
+                            <div class="row" style="margin-top:15px">
+                                <table class="table table-bordered centered table-responsive">
+                                    <thead>
                                         <tr>
-                                            <td class="center">@item.DonViCongTac</td>
-                                            <td class="center">@item.ChucDanh</td>
-                                            <td class="center">@item.ChucVu</td>
-                                            <td class="center">@item.NgayBatDau</td>
-                                            <td class="center">@item.NgayKetThuc</td>
-                                            <td class="center"><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger delete-view' onclick="xoaCongTac(@item.MaCongTac , @item.MaNV)">Xóa</a></td>
+                                            <th width="25%">Đơn vị công tác</th>
+                                            <th width="25%">Chức danh</th>
+                                            <th width="25%">Chức vụ</th>
+                                            <th width="25%">Từ ngày - Đến ngày</th>
                                         </tr>
-                                    }
+                                    </thead>
+                                    <tbody id="table-htlv2">
+                                        <tr>
+                                            <td id="col11"><input id="input11" autocomplete="off" class="inputEdit" name="donVi" style="border:none" /></td>
+                                            <td id="col12"><input id="input12" autocomplete="off" class="inputEdit" name="chucDanh" style="border:none" /></td>
+                                            <td id="col13"><input id="input13" autocomplete="off" class="inputEdit" name="chucVu" style="border:none" /></td>
+                                            <td id="col14" class="editable">
+                                                <input autocomplete="off"
+                                                       name="tuNgayDenNgay" id="input14" type="text" data-auto-close="true" data-range="true"
+                                                       placeholder="dd/mm/yyyy - dd/mm/yyyy" data-multiple-dates-separator=" - "
+                                                       data-language="vi" class="datepicker-here form-control inputEdit" style="border:none" />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col m12 center div_them2">
+                                <a id="buttonThem2" class="btn blue darken-2" style="margin-top:15px;margin-bottom:15px">Thêm</a>
+                                <a class="btnSelect waves-effect waves-light btn blue darken-2">Xóa</a>
+                            </div>
+                            @if (Enumerable.Count(ViewBag.qtList) > 0)
+                            {
+                                <table class="table table-bordered centered table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <th width="20%">Đơn vị</th>
+                                            <th width="20%">Chức danh</th>
+                                            <th width="20%">Chức vụ</th>
+                                            <th width="20%">Ngày bắt đàu</th>
+                                            <th width="20%">Ngày kết thúc</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="work-table">
+                                        @foreach (var item in ViewBag.qtList)
+                                        {
+                                            <tr>
+                                                <td class="center">@item.DonViCongTac</td>
+                                                <td class="center">@item.ChucDanh</td>
+                                                <td class="center">@item.ChucVu</td>
+                                                <td class="center">@item.NgayBatDau</td>
+                                                <td class="center">@item.NgayKetThuc</td>
+                                                <td class="center"><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger delete-view' onclick="xoaCongTac(@item.MaCongTac , @item.MaNV)">Xóa</a></td>
+                                            </tr>
+                                        }
 
-                                </tbody>
-                            </table>
-                        }
-                    </div>
+                                    </tbody>
+                                </table>
+                            }
+                        </div>
                         <div id="giadinh" class="col m12">
                             <div class="row" style="margin-top:10px;margin-bottom:10px"><label class="custom-label">A.Quan hệ gia đình</label></div>
                             <div class="row">
@@ -588,6 +589,7 @@
                             </div>
                             <div class="col m12 center div_them3" style="margin-top:10px;margin-bottom:10px">
                                 <a id="buttonThem3" class="waves-effect waves-light  btn blue darken-2">Thêm</a>
+                                <a class="btnSelect1 waves-effect waves-light btn blue darken-2">Xóa</a>
                             </div>
                             @if (Enumerable.Count(ViewBag.qhList) > 0)
                             {
@@ -650,6 +652,29 @@
 <script src="~/js/Custom JS/TCLD/Brief/Brief_View.js"></script>
 <script src="~/js/Custom JS/TCLD/Brief/DateError.js"></script>
 <script>
+    $(".bac").keydown(function (e) {
+        var acceptList = [45, 35, 40, 34, 37, 9, 12, 39, 36, 38, 33, 8];
+        for (var i = 48; i <= 57; i++) {
+            acceptList.push(i);
+        }
+        for (var i = 96; i <= 105; i++) {
+            acceptList.push(i);
+        }
+        if (acceptList.indexOf(e.keyCode) === -1) {
+            e.preventDefault();
+        }
+        if ($(this).val().length === 3) {
+            $(this).val("");
+        }
+    });
+    $(".bac").keyup(function (e) {
+        var text = $(this).val();
+        if (text.length === 1) {
+            $(this).val(text + "/");
+        }
+    });
+
+
     $(document).ready(function () {
         var MaNV = $("#MaNV").val();
         $("#Grapper_MaNV").html("<b>Mã Nhân Viên: " + MaNV + "</b>")
@@ -682,7 +707,7 @@
                                 $("#family-table").append("<td class='center'>" + response.listQH[i].HoTen + "</td>");
                                 $("#family-table").append("<td class='center'>" + response.listQH[i].MoiQuanHe + "</td>");
                                 $("#family-table").append("<td class='center'>" + response.listQH[i].LyLich + "</td>");
-                                $("#family-table").append("<td class='center'><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger delete-view' onclick='xoaQuanHe(" + response.listQH[i].MaQuanHeGiaDinh + "," +response.listQH[i].MaNv  +")'>Xóa</a></td>");
+                                $("#family-table").append("<td class='center'><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger delete-view' onclick='xoaQuanHe(" + response.listQH[i].MaQuanHeGiaDinh + "," + response.listQH[i].MaNv + ")'>Xóa</a></td>");
                                 $("#family-table").append("</tr>");
                             }
                             successAlert("Thành công", "Xóa thành công");

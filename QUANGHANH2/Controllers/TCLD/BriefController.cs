@@ -203,7 +203,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 return Json(new { success = false, responseText = "The attached file is not supported." }, JsonRequestBehavior.AllowGet);
             }
         }
-        [Auther(RightID = "146")]
+        
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to")]
         [HttpPost]
         public ActionResult Search(string MaNV, string TenNV, string TenGT, string KieuGT)
@@ -781,7 +781,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     hs_nv = (from nv in db.NhanViens
                              join hs in db.HoSoes
                              on nv.MaNV equals hs.MaNV
-                             where (hs.TrangThaiHoSo != "hồ sơ ngoài")
+                             where (nv.MaTrangThai != 2)
                              && ((nv.MaNV + " ").Contains(manv))
                              && ((nv.Ten + " ").Contains(tennv))
                              && ((hs.NguoiGiaoHoSo + " ").Contains(nguoigiaohoso))
