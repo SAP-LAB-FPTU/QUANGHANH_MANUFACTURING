@@ -178,6 +178,8 @@
             });
             //khi nhan vao o tim kiem bang mnv se khong search bang ten va px dc nua
             $("#mnv_search").focus(() => {
+                $('#sl_phan_xuong').val("Phân Xưởng").trigger('change')
+                $('#name_search').val("")
                 $("#name_search").prop('disabled', true);
                 $("#sl_phan_xuong").prop('disabled', true);
             })
@@ -289,6 +291,12 @@
             var px = $("#sl_phan_xuong").val()
             nameNormalized = normailize(name);
             mnvNormalized = normailize(mnv)
+            if (nameNormalized == "") {
+                nameNormalized = null;
+            }
+            if (mnvNormalized == "") {
+                mnvNormalized = null;
+            }
             $("#pre-load").show()
             var searchObj = {
                 name: nameNormalized,
