@@ -170,7 +170,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 NhanVien nv = db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault<NhanVien>();
-                if (nv == null)
+                if (nv == null || nv.MaTrangThai == 2)
                 {
                     return Json(new { success = true, responseText = "id has been exist" }, JsonRequestBehavior.AllowGet);
                 }
@@ -203,11 +203,12 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 return Json(new { success = false, responseText = "The attached file is not supported." }, JsonRequestBehavior.AllowGet);
             }
         }
-        
+
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to")]
         [HttpPost]
         public ActionResult Search(string MaNV, string TenNV, string TenGT, string KieuGT)
         {
+
             int start = Convert.ToInt32(Request["start"]);
             int length = Convert.ToInt32(Request["length"]);
             string searchValue = Request["search[value]"];
@@ -222,6 +223,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 if (!KieuGT.Equals("")) query += "g.KieuGiayTo LIKE @KieuGiayTo AND ";
             }
             query = query.Substring(0, query.Length - 5);
+            query += " AND n.MaTrangThai != 2";
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             db.Configuration.LazyLoadingEnabled = false;
             string kieuGT = "";
@@ -253,12 +255,35 @@ namespace QUANGHANHCORE.Controllers.TCLD
             searchList = searchList.OrderBy(sortColumnName + " " + sortDirection).ToList<TenNV>();
             //paging
             searchList = searchList.Skip(start).Take(length).ToList<TenNV>();
-
+            if (MaNV.Trim() != "")
+            {
+                if (checkEm(MaNV) == false) {
+                    return Json(new { data = searchList, message = "Failed_Search", draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                }
+                                
+            }
             return Json(new { data = searchList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+            
+            
 
         }
         /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+        public Boolean checkEm(string manv) {
+            NhanVien em = null;
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                em = db.NhanViens.Where(x => x.MaNV.Trim().Equals(manv.Trim())).FirstOrDefault<NhanVien>();
+            }
+            if(em != null)
+            {
+                if (em.MaTrangThai != 2)
+                {
+                    return true;
+                }
+                else return false;
+            }
+            return false;
+        }
         //listByThuong
         [Auther(RightID = "129")]
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty")]
