@@ -59,10 +59,17 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
 
         public class EquipWithName : Equipment
         {
+            public string sokhung { get; set; }
+            public string somay { get; set; }
             public Nullable<System.DateTime> durationOfInspection_fix { get; set; }
             public string statusname { get; set; }
             public string Equipment_category_name { get; set; }
             public string department_name { get; set; }
+        }
+
+        public class EquipAtrr : Category_attribute_value
+        {
+            public string Equipment_category_attribute_name { get; set; }
         }
 
         [Route("phong-cdvt/oto/huy-dong")]
@@ -85,7 +92,26 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                 "(select distinct e.equipmentId, e.equipment_name from Equipment e inner join Equipment_category_attribute ea on ea.Equipment_category_id = e.Equipment_category_id where ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') a" +
                 " where a.equipmentId = e.equipmentId and e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id AND e.current_Status = s.statusid").ToList();
 
+                var value = db.Database.SqlQuery<EquipAtrr>("select distinct c.*, a.Equipment_category_attribute_name " +
+                "from Category_attribute_value c, (select distinct e.equipmentId, ea.Equipment_category_attribute_name, ea.Equipment_category_attribute_id " +
+                "from Equipment e join Equipment_category_attribute ea on e.Equipment_category_id = ea.Equipment_category_id " +
+                "where ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') a " +
+                "where c.Equipment_category_attribute_id = a.Equipment_category_attribute_id").ToList();
 
+                foreach(var item in equipList)
+                {
+                    foreach(var i in value)
+                    {
+                        if(item.equipmentId.Equals(i.equipmentId) && i.Equipment_category_attribute_name.Equals("Số khung"))
+                        {
+                            item.sokhung = i.Value.ToString();
+                        }
+                        if (item.equipmentId.Equals(i.equipmentId) && i.Equipment_category_attribute_name.Equals("Số máy"))
+                        {
+                            item.somay = i.Value.ToString();
+                        }
+                    }
+                }
 
                 int totalrows = equipList.Count;
                 int totalrowsafterfiltering = equipList.Count;
