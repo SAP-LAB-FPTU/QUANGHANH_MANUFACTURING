@@ -1113,7 +1113,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                             tr.Append(tc7);
 
                             TableCell tc8 = new TableCell();
-                            tc8.Append(new Paragraph(new Run(new Text(String.Format("{0:n0}", d.MucLuongMoi.ToString())))));
+                            tc8.Append(new Paragraph(new Run(new Text(String.Format("{0:N2}", Convert.ToDouble(d.MucLuongMoi.ToString()))))));
                             tr.Append(tc8);
 
                             TableCell tc9 = new TableCell();

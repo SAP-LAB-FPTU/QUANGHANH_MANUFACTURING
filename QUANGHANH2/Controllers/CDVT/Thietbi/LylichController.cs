@@ -1,6 +1,7 @@
 ﻿using QUANGHANH2.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -57,6 +58,38 @@ namespace QUANGHANHCORE.Controllers.CDVT
             ViewBag.incidents = listbyyear;
             var equipment = DBContext.Database.SqlQuery<EquipWithName>("SELECT e.*,d.department_name,s.statusname FROM Equipment e,Status s,Department d WHERE d.department_id = e.department_id and e.current_Status = s.statusid and e.equipmentId = '" + id + "'").First();
             ViewBag.equipment = equipment;
+            //NK kiem dinh
+            years = DBContext.Database.SqlQuery<int>("SELECT distinct year(ei.inspect_start_date) as years FROM Equipment_Inspection ei inner join Equipment e on e.equipmentId = ei.equipmentId where ei.inspect_start_date is not null and e.equipmentId = @equipmentId order by years desc",
+                new SqlParameter("equipmentId", id)).ToList();
+            List<Equipment_InspectionDB> EI = DBContext.Database.SqlQuery<Equipment_InspectionDB>("SELECT * FROM Equipment_Inspection WHERE inspect_start_date IS NOT NULL AND equipmentId = @equipmentId",
+                new SqlParameter("equipmentId", id)).ToList();
+            List<Equipment_InspectionByYear> listKD = new List<Equipment_InspectionByYear>();
+            for (int i = 0; i < years.Count; i++)
+            {
+                Equipment_InspectionByYear item = new Equipment_InspectionByYear();
+                item.year = years[i];
+                item.count = 0;
+                item.equipment_Inspections = new List<Equipment_InspectionDB>();
+                listKD.Add(item);
+            }
+            for (int i = 0; i < EI.Count; i++)
+            {
+                Equipment_InspectionDB temp = EI[i];
+                DateTime dateTime;
+                DateTime.TryParse(temp.inspect_start_date.ToString(), out dateTime);
+                foreach (Equipment_InspectionByYear item in listKD)
+                {
+                    var stringdate = dateTime.ToString("yyyy");
+                    if (stringdate.Equals(item.year + ""))
+                    {
+                        item.equipment_Inspections.Add(temp);
+                        item.count++;
+                        break;
+                    }
+
+                }
+            }
+            ViewBag.listKD = listKD;
             //NK dieu dong
             var yearDD = DBContext.Database.SqlQuery<int>("SELECT distinct year(d.date_created) as years FROM Documentary d, Documentary_moveline_details dm, Equipment e where e.equipmentId = '" + id + "' and e.equipmentId = dm.equipmentId and dm.documentary_id = d.documentary_id order by years desc").ToList<int>();
             List<moveLineByYear> listDD = new List<moveLineByYear>();
@@ -266,5 +299,12 @@ namespace QUANGHANHCORE.Controllers.CDVT
         public string reason { get; set; }
         public string incident_type { get; set; }
         public int incident_id { get; set; }
+    }
+
+    public class Equipment_InspectionByYear
+    {
+        public int year { get; set; }
+        public List<Equipment_InspectionDB> equipment_Inspections { get; set; }
+        public int count { get; set; }
     }
 }

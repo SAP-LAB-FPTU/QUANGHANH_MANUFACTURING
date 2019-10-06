@@ -197,9 +197,13 @@
                         },
                     },
                     {
-                        "data": "equipmentId", "name" : "equipmentId", "render": function (data) {
+                        @*"data": "equipmentId", "name" : "equipmentId", "render": function (data) {
                             //return "<td><a href='#capnhat' class='modal-trigger'>"+data+"</a></td>";
                             return "<a class='modal-trigger' onclick=GetData('@Url.Action("Index","VatTuQuyetDinh")?id=" + data + "')>" + data + "</a>";
+                        },*@
+                        "data": "linkIdCode", "name": "equipmentId",
+                        "render": function (data) {
+                            return "<a href=\"" + data.link + "?id=" + data.id + "\"> " + data.code + "</a>";
                         },
                     },
 
