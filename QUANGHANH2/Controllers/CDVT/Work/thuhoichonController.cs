@@ -34,6 +34,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                 var result = (from e in db.Equipments
                               where listConvert.Contains(e.equipmentId)
                               join d in db.Departments on e.department_id equals d.department_id
+                              join c in db.Status on e.current_Status equals c.statusid
                               select new
                               {
                                   equipmentId = e.equipmentId,
@@ -41,6 +42,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                                   department_name = d.department_name,
                                   department_id = e.department_id,
                                   current_Status = e.current_Status,
+                                  statusname = c.statusname,
                               }).ToList().Select(s => new equipmentExtend
                               {
                                   equipmentId = s.equipmentId,
@@ -48,6 +50,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                                   department_name = s.department_name,
                                   department_id = s.department_id,
                                   current_Status = s.current_Status,
+                                  statusname = s.statusname,
 
                               }).ToList();
                 ViewBag.DataThietBi = result;
