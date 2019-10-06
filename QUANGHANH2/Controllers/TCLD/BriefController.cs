@@ -25,7 +25,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
     public class BriefController : Controller
     {
         // GET: /<controller>/
-        
+
         public static string id_ = "";
         [Auther(RightID = "129")]
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty")]
@@ -153,7 +153,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     db.GiayToes.Add(g);
                     db.SaveChanges();
                 }
-                catch (Exception )
+                catch (Exception)
                 {
 
                     return Json(new { message = "Failed" }, JsonRequestBehavior.AllowGet);
@@ -260,6 +260,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //listByThuong
+        [Auther(RightID = "129")]
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty")]
         [HttpPost]
         public ActionResult listAllHoSo()
@@ -278,7 +279,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 hs_nv = (from nv in db.NhanViens
                          join hs in db.HoSoes
                          on nv.MaNV equals hs.MaNV
-                         where hs.TrangThaiHoSo != "hồ sơ ngoài"
+                         where nv.MaTrangThai !=2
                          select new
                          {
                              maNV = hs.MaNV,
@@ -313,6 +314,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         }
 
         //detailByThuong
+        [Auther(RightID = "129")]
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-chi-tiet")]
         [HttpGet]
         public ActionResult InsideDetail(string id = "")
@@ -322,6 +324,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             return View("/Views/TCLD/Brief/ManageBrief/InsideDetail.cshtml");
         }
 
+        [Auther(RightID = "129")]
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/chi-tiet-ho-so")]
         [HttpPost]
         public ActionResult listHoSo(string id)
@@ -363,13 +366,13 @@ namespace QUANGHANHCORE.Controllers.TCLD
             return dataJson;
         }
 
-        //[Auther(RightID = "130")]
+        [Auther(RightID = "130")]
         [HttpPost]
         public ActionResult listNhanVien()
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             List<NhanVien> listNhanVien = db.NhanViens.ToList();
-            foreach(var nvt in listNhanVien)
+            foreach (var nvt in listNhanVien)
             {
                 if (nvt.MaNV.Equals(id_))
                 {
@@ -423,7 +426,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         }
 
 
-
+        [Auther(RightID = "130")]
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/syll-bo-sung")]
         [HttpPost]
         public ActionResult listLichSuBoSung(string id)
@@ -447,7 +450,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
             return dataJson;
         }
-
+        [Auther(RightID = "130")]
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/chi-tiet-giay-to")]
         [HttpPost]
         public ActionResult listGiayTo()
@@ -474,7 +477,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             return dataJson;
 
         }
-
+        [Auther(RightID = "130")]
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/chi-tiet-bang-cap")]
         [HttpPost]
         public ActionResult chiTietbangCap()
@@ -504,9 +507,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                            chuyenNganh = cn.TenChuyenNganh,
                                            nganh = nganh.TenNganh,
                                            thoiHan = bc.ThoiHan
-                                           
+
                                        };
-          
+
 
 
             var dataJson = Json(new { success = true, data = chiTietBangCapByMaNV });
@@ -516,7 +519,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             return dataJson;
 
         }
-
+        [Auther(RightID = "130")]
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/quan-he-gia-dinh")]
         [HttpPost]
         public ActionResult quanHeGiadinh()
@@ -551,6 +554,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
 
         //editByThuong
+        [Auther(RightID = "131")]
         [HttpGet]
         public ActionResult EditHoSo()
         {
@@ -578,6 +582,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 return View(hoSo);
             }
         }
+        [Auther(RightID = "131")]
         [HttpPost]
         public ActionResult EditHoSo(HoSo hoSo)
         {
@@ -638,6 +643,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 return RedirectToAction("listAllHoSo");
             }
         }
+        [Auther(RightID = "169")]
         [HttpGet]
         public ActionResult EditLichSuBoSung()
         {
@@ -648,24 +654,25 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 return View(qh);
             }
         }
-
+        [Auther(RightID = "169")]
         [HttpPost]
         public ActionResult EditLichSuBoSung(LichSuBoSungSYLL lichSuBoSungSYLL)
         {
             lichSuBoSungSYLL.MaNV = id_;
-            
+
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
 
                 List<LichSuBoSungSYLL> list = new List<LichSuBoSungSYLL>();
 
-                list = (from lsbs in db.LichSuBoSungSYLLs where lsbs.MaNV == id_
+                list = (from lsbs in db.LichSuBoSungSYLLs
+                        where lsbs.MaNV == id_
                         select new
                         {
                             id = lsbs.ID,
                             maNV = lsbs.MaNV,
                             namBoSung = lsbs.NamBoSung
-                         
+
                         }).ToList().Select(p => new LichSuBoSungSYLL
                         {
                             ID = p.id,
@@ -673,14 +680,14 @@ namespace QUANGHANHCORE.Controllers.TCLD
                             NamBoSung = p.namBoSung
                         }).ToList();
                 bool check = false;
-                foreach(var i in list)
+                foreach (var i in list)
                 {
                     if (i.NamBoSung.Equals(lichSuBoSungSYLL.NamBoSung))
                     {
                         check = true;
                     }
                 }
-                if (lichSuBoSungSYLL != null && check ==false)
+                if (lichSuBoSungSYLL != null && check == false)
                 {
                     db.Entry(lichSuBoSungSYLL).State = EntityState.Modified;
                     db.SaveChanges();
@@ -688,21 +695,23 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 return RedirectToAction("listAllHoSo");
             }
         }
+        [Auther(RightID = "168")]
         [HttpGet]
         public ActionResult AddLichSuBoSung()
         {
             Dictionary<int, string> listYear = new Dictionary<int, string>();
             for (int i = 1990; i < 2100; i++)
             {
-                listYear.Add(i, i+"");
+                listYear.Add(i, i + "");
             }
             SelectList listOptionYear = new SelectList(listYear, "Value", "Value");
             ViewBag.listOptionYear = listOptionYear;
             return View();
         }
-
+        [Auther(RightID = "168")]
         [HttpPost]
-        public ActionResult AddLichSuBoSung(LichSuBoSungSYLL lichSuBoSungSYLL) {
+        public ActionResult AddLichSuBoSung(LichSuBoSungSYLL lichSuBoSungSYLL)
+        {
 
             lichSuBoSungSYLL.MaNV = id_;
 
@@ -737,7 +746,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 }
 
 
-                if (lichSuBoSungSYLL != null && check ==false)
+                if (lichSuBoSungSYLL != null && check == false)
                 {
                     //db.Entry(lichSuBoSungSYLL).State = EntityState.Modified;
                     db.LichSuBoSungSYLLs.Add(lichSuBoSungSYLL);
@@ -746,7 +755,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 return RedirectToAction("listAllHoSo");
             }
         }
-
+        [Auther(RightID = "129")]
         [HttpPost]
         public ActionResult searchlistAllBrief(string searchList)
         {
@@ -834,7 +843,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             return RedirectToAction("listAllHoSo");
         }
         //***start hoang
-        
+
 
         [Auther(RightID = "132")]
         [Route("phong-tcld/quan-ly-ho-so/ho-so-ngoai-cong-ty")]
@@ -855,7 +864,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                               join p1 in db.HoSoes on p.MaNV equals p1.MaNV
                               join p2 in db.ChamDut_NhanVien on p1.MaNV equals p2.MaNV
                               join p3 in db.Departments on p.MaPhongBan equals p3.department_id
-                              where p.MaTrangThai ==2
+                              where p.MaTrangThai == 2
                               select new
                               {
                                   stt = "1",
@@ -877,7 +886,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
         }
 
-        [Auther(RightID="133")]
+        [Auther(RightID = "133")]
         [HttpGet]
         [Route("phong-tcld/quan-ly-ho-so/ho-so-ngoai-cong-ty/chi-tiet-ho-so")]
         public ActionResult OutSideDetail()
@@ -889,7 +898,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 var count = (from p in db.NhanViens
                              join p1 in db.HoSoes on p.MaNV equals p1.MaNV
                              join p2 in db.ChamDut_NhanVien on p1.MaNV equals p2.MaNV
-                             where p.MaTrangThai == 2 &p.MaNV == mnv
+                             where p.MaTrangThai == 2 & p.MaNV == mnv
                              select p).Count();
                 if (count != 1)
                 {
@@ -971,7 +980,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                   soQD = p.MaQuyetDinh,
                                   ngayQD = p1.NgayQuyetDinh,
                                   ngayCD = p.NgayChamDut,
-                                  listChamDut=listTenChamdut
+                                  listChamDut = listTenChamdut
                               }).ToList();
                 Debug.WriteLine(mydata.Count(), "TAG");
                 return Json(new { success = true, data = mydata, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
@@ -1032,7 +1041,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 nv.LoaiChamDut = tenLoaiChamDut;
                 if (isValidateDateTime(ngayCD))
                 {
-                      nv.NgayChamDut = Convert.ToDateTime(ngayCD);
+                    nv.NgayChamDut = Convert.ToDateTime(ngayCD);
                 }
 
                 QuyetDinh cd = (from p in db.QuyetDinhs where p.MaQuyetDinh == soQD1 select p).SingleOrDefault();
@@ -1057,7 +1066,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             {
                 DateTime dt = Convert.ToDateTime(dateTime);
             }
-            catch (Exception )
+            catch (Exception)
             {
                 return false;
             }
@@ -1130,16 +1139,16 @@ namespace QUANGHANHCORE.Controllers.TCLD
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 var x = (from a in db.GiayToes
-                         
+
                          where a.MaNV == mnv
                          select
                 new
                 {
-                    ma=a.MaGiayTo,
+                    ma = a.MaGiayTo,
                     kieu = a.KieuGiayTo,
                     ngaytra = a.NgayTra,
                     sohieu = "",
-                    ngaycap = (DateTime?) null ,
+                    ngaycap = (DateTime?)null,
                     ten = a.TenGiayTo,
                     manv = a.MaNV
 
@@ -1150,12 +1159,12 @@ namespace QUANGHANHCORE.Controllers.TCLD
                          select
                          new
                          {
-                             ma=a.MaChungChi,
+                             ma = a.MaChungChi,
                              kieu = b.KieuChungChi,
                              ngaytra = a.NgayTra,
                              sohieu = a.SoHieu,
-                             ngaycap=a.NgayCap,
-                             ten=b.TenChungChi,
+                             ngaycap = a.NgayCap,
+                             ten = b.TenChungChi,
                              manv = a.MaNV
                          }
                         ).ToList();
@@ -1165,7 +1174,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                          select
                          new
                          {
-                             ma=a.MaBangCap_GiayChungNhan,
+                             ma = a.MaBangCap_GiayChungNhan,
                              kieu = b.KieuBangCap,
                              ngaytra = a.NgayTra,
                              sohieu = a.SoHieu,
@@ -1183,7 +1192,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
 
         }
-        
+
         public ActionResult updateGiayTo(String json)
         {
             dynamic js = JObject.Parse(json);
@@ -1196,8 +1205,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
             {
                 //  GiayChungNhan_NhanVien x = (from a in db.GiayChungNhan_NhanVien where a.MaNV == manv & a.SoHieu==sohieu  select a).SingleOrDefault() ;
                 ChungChi_NhanVien x = (from a in db.ChungChi_NhanVien where a.MaNV == manv & a.SoHieu == sohieu & a.MaChungChi == ma select a).SingleOrDefault();
-                ChiTiet_BangCap_GiayChungNhan y = (from a in db.ChiTiet_BangCap_GiayChungNhan where a.MaNV == manv & a.SoHieu == sohieu & a.MaBangCap_GiayChungNhan==ma select a).SingleOrDefault();
-                GiayTo z = (from a in db.GiayToes where a.MaNV == manv &a.MaGiayTo ==ma  select a).SingleOrDefault();
+                ChiTiet_BangCap_GiayChungNhan y = (from a in db.ChiTiet_BangCap_GiayChungNhan where a.MaNV == manv & a.SoHieu == sohieu & a.MaBangCap_GiayChungNhan == ma select a).SingleOrDefault();
+                GiayTo z = (from a in db.GiayToes where a.MaNV == manv & a.MaGiayTo == ma select a).SingleOrDefault();
                 if (x != null)
                 {
                     if (isValidateDateTime(ngaytra))
@@ -1246,10 +1255,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                               join p1 in db.HoSoes on p.MaNV equals p1.MaNV
                               join p2 in db.ChamDut_NhanVien on p1.MaNV equals p2.MaNV
                               join p3 in db.Departments on p.MaPhongBan equals p3.department_id
-                              where p.MaTrangThai == 2&
+                              where p.MaTrangThai == 2 &
                               p.MaNV.Contains(manv)
                               & (p.Ten.Contains(ten) | p.Ten == null)
-                              & (p2.LoaiChamDut.Contains(loaichamdut) | loaichamdut =="")
+                              & (p2.LoaiChamDut.Contains(loaichamdut) | loaichamdut == "")
                               select new
                               {
                                   stt = "1",
@@ -1267,7 +1276,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 mydata = mydata.Skip(start).Take(length).ToList();
                 return Json(new { success = true, data = mydata, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
 
-              
+
             }
 
 
@@ -1279,7 +1288,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         public ActionResult ExportExcel()
         {
 
-            
+
             string path = HostingEnvironment.MapPath("/excel/TCLD/Hoso/ho-so-ngoai.xlsx");
 
             string saveAsPath = ("/excel/TCLD/download/ho-so-ngoai.xlsx");
@@ -1312,7 +1321,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     int stt = 1;
                     foreach (var item in mydata)
                     {
-                        tempIndex=index;
+                        tempIndex = index;
                         excelWorksheet.Cells[index, 1].Value = stt;
                         excelWorksheet.Cells[index, 2].Value = item.manv;
                         excelWorksheet.Cells[index, 3].Value = item.ten;
@@ -1323,24 +1332,26 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         excelWorksheet.Cells[index, 8].Value = item.loaichamdut;
                         var giayto = (from p in db.GiayToes
                                       where p.MaNV == item.manv
-                                     select
-                                     new { ten = p.TenGiayTo,
-                                           kieu =p.KieuGiayTo,
-                                           ngaycap="",
-                                           ngaytra=p.NgayTra
+                                      select
+                                      new
+                                      {
+                                          ten = p.TenGiayTo,
+                                          kieu = p.KieuGiayTo,
+                                          ngaycap = "",
+                                          ngaytra = p.NgayTra
 
-                                     }).ToList();
+                                      }).ToList();
 
 
                         // not empty
                         if (giayto.Count != 0)
                         {
-                           int  indexGiayTo = index;
-                            foreach(var i in giayto)
+                            int indexGiayTo = index;
+                            foreach (var i in giayto)
                             {
                                 excelWorksheet.Cells[indexGiayTo, 9].Value = i.ten;
                                 excelWorksheet.Cells[indexGiayTo, 10].Value = i.kieu;
-                                
+
                                 excelWorksheet.Cells[indexGiayTo, 11].Value = i.ngaycap;
                                 excelWorksheet.Cells[indexGiayTo, 12].Value = i.ngaytra.HasValue ? i.ngaytra.Value.ToString("dd/MM/yyyy") : string.Empty;
                                 indexGiayTo++;
@@ -1353,9 +1364,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                         select new
                                         {
                                             ten = p.TenChungChi,
-                                            kieu =p.KieuChungChi,
-                                            ngaycap=p1.NgayCap,
-                                            ngaytra=p1.NgayTra
+                                            kieu = p.KieuChungChi,
+                                            ngaycap = p1.NgayCap,
+                                            ngaytra = p1.NgayTra
                                         }
                                        ).ToList();
                         if (chungchi.Count != 0)
@@ -1413,7 +1424,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                }).ToList();
                         if (thongtinUyQuyen.Count != 0)
                         {
-                            foreach(var i in thongtinUyQuyen)
+                            foreach (var i in thongtinUyQuyen)
                             {
                                 excelWorksheet.Cells[index, 21].Value = i.ten;
                                 excelWorksheet.Cells[index, 22].Value = i.quanhe;
@@ -1442,7 +1453,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         {
                             index++;
                         }
-                     //   index++;
+                        //   index++;
                         stt++;
 
                     }
@@ -1452,14 +1463,14 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 }
             }
 
-            
+
 
         }
 
 
 
         //***end hoang
-
+        [Auther(RightID = "130")]
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/chi-tiet-chung-chi")]
         [HttpPost]
         public ActionResult listChungChi()
@@ -1468,21 +1479,21 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
 
             var chungchi = from cc_nv in db.ChungChi_NhanVien
-                             join nv in db.NhanViens on cc_nv.MaNV equals nv.MaNV
-                             join cc in db.ChungChis on cc_nv.MaChungChi equals cc.MaChungChi
-                             where cc_nv.MaNV == id_
-                             select new
-                             {
-                                 maNV = nv.MaNV,
-                                 ten = nv.Ten,
-                                 soHieu = cc_nv.SoHieu,
-                                 ngayCap = cc_nv.NgayCap,
-                                 maChungChi = cc_nv.MaChungChi,
-                                 ngayTra = cc_nv.NgayTra,
-                                 tenChungChi = cc.TenChungChi,
-                                 loai = cc.KieuChungChi
-  
-                             };
+                           join nv in db.NhanViens on cc_nv.MaNV equals nv.MaNV
+                           join cc in db.ChungChis on cc_nv.MaChungChi equals cc.MaChungChi
+                           where cc_nv.MaNV == id_
+                           select new
+                           {
+                               maNV = nv.MaNV,
+                               ten = nv.Ten,
+                               soHieu = cc_nv.SoHieu,
+                               ngayCap = cc_nv.NgayCap,
+                               maChungChi = cc_nv.MaChungChi,
+                               ngayTra = cc_nv.NgayTra,
+                               tenChungChi = cc.TenChungChi,
+                               loai = cc.KieuChungChi
+
+                           };
             var dataJson = Json(new { success = true, data = chungchi }, JsonRequestBehavior.AllowGet);
 
             string dataSerialize = new JavaScriptSerializer().Serialize(dataJson.Data);
@@ -1490,7 +1501,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             return dataJson;
 
         }
-
+        [Auther(RightID = "130")]
         [Route("phong-tcld/chung-chi/danh-sach-ho-so-trong/xuat-file-excel")]
         [HttpPost]
         public ActionResult ExporTotExcel()
@@ -1522,92 +1533,96 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     List<ChuyenNganh> listchuyenNganh = db.ChuyenNganhs.ToList();
                     for (int i = 0; i < listNhanVien.Count(); i++)
                     {
-                        InsideExcel ie = new InsideExcel();
-                        ie.MaNV = listNhanVien[i].MaNV;
-                        ie.Ten = listNhanVien[i].Ten;
-                        ie.NgaySinh = listNhanVien[i].NgaySinh;
-                        ie.SoBHXH = listNhanVien[i].SoBHXH;
-                        ie.SoCMND = listNhanVien[i].SoCMND;
-                        ie.SoDienThoai = listNhanVien[i].SoDienThoai;
-                        ie.QueQuan = listNhanVien[i].QueQuan;
-                        ie.NoiOHienTai = listNhanVien[i].NoiOHienTai;
-
-                        foreach (var hs in listHoSo)
+                        if (listNhanVien[i].MaTrangThai != 2)
                         {
-                            if (hs.MaNV.Equals(listNhanVien[i].MaNV))
+                            InsideExcel ie = new InsideExcel();
+                            ie.MaNV = listNhanVien[i].MaNV;
+                            ie.Ten = listNhanVien[i].Ten;
+                            ie.NgaySinh = listNhanVien[i].NgaySinh;
+                            ie.SoBHXH = listNhanVien[i].SoBHXH;
+                            ie.SoCMND = listNhanVien[i].SoCMND;
+                            ie.SoDienThoai = listNhanVien[i].SoDienThoai;
+                            ie.QueQuan = listNhanVien[i].QueQuan;
+                            ie.NoiOHienTai = listNhanVien[i].NoiOHienTai;
+
+                            foreach (var hs in listHoSo)
                             {
-                                ie.NgayNhanHoSo = hs.NgayNhanHoSo;
-                                ie.NguoiGiaoHoSo = hs.NguoiGiaoHoSo;
-                                ie.NgayNhanHoSo = hs.NgayNhanHoSo;
-                                ie.NguoiGiaoHoSo = hs.NguoiGiaoHoSo;
-                                ie.NguoiGiuHoSo = hs.NguoiGiuHoSo;
-                                ie.CamKetTuyenDung = hs.CamKetTuyenDung;
-                                ie.QuyetDinhTiepNhanDVC = hs.QuyetDinhTiepNhanDVC;
-                                ie.QDChamDutHopDongDVC = hs.QDChamDutHopDongDVC;
-                                ie.NLDHocTheoChiTieuCTDT = hs.NLDHocTheoChiTieuCTDT;
-                                ie.NguoiBanGiaoBangNhapKho = hs.NguoiBanGiaoBangNhapKho;
-                                ie.KieuQuyetDinhTiepNhanDVC = hs.QuyetDinhTiepNhanDVC;
-                                ie.NgayQuyetDinhTiepNhanDVC = hs.NgayQuyetDinhTuyenDung;
-                                ie.NgayDiLam = hs.NgayDiLam;
-                                ie.DonViKyQuyetDinhTiepNhanDVC = hs.DonViKyQuyetDinhTiepNhan;
-                                ie.KieuQuyetDinhChamDutDVC = hs.QDChamDutHopDongDVC;
-                                ie.NgayQuyetDinhChamDutDVC = hs.NgayQuyetDinhChamDut;
-                                ie.NgayChamDutDVC = hs.NgayChamDut;
-                                ie.DonViKyQuyetDinhChamDutDVC = hs.DonViKyQuyetDinhChamDut;
+                                if (hs.MaNV.Equals(listNhanVien[i].MaNV))
+                                {
+                                    ie.NgayNhanHoSo = hs.NgayNhanHoSo;
+                                    ie.NguoiGiaoHoSo = hs.NguoiGiaoHoSo;
+                                    ie.NgayNhanHoSo = hs.NgayNhanHoSo;
+                                    ie.NguoiGiaoHoSo = hs.NguoiGiaoHoSo;
+                                    ie.NguoiGiuHoSo = hs.NguoiGiuHoSo;
+                                    ie.CamKetTuyenDung = hs.CamKetTuyenDung;
+                                    ie.QuyetDinhTiepNhanDVC = hs.QuyetDinhTiepNhanDVC;
+                                    ie.QDChamDutHopDongDVC = hs.QDChamDutHopDongDVC;
+                                    ie.NLDHocTheoChiTieuCTDT = hs.NLDHocTheoChiTieuCTDT;
+                                    ie.NguoiBanGiaoBangNhapKho = hs.NguoiBanGiaoBangNhapKho;
+                                    ie.KieuQuyetDinhTiepNhanDVC = hs.QuyetDinhTiepNhanDVC;
+                                    ie.NgayQuyetDinhTiepNhanDVC = hs.NgayQuyetDinhTuyenDung;
+                                    ie.NgayDiLam = hs.NgayDiLam;
+                                    ie.DonViKyQuyetDinhTiepNhanDVC = hs.DonViKyQuyetDinhTiepNhan;
+                                    ie.KieuQuyetDinhChamDutDVC = hs.QDChamDutHopDongDVC;
+                                    ie.NgayQuyetDinhChamDutDVC = hs.NgayQuyetDinhChamDut;
+                                    ie.NgayChamDutDVC = hs.NgayChamDut;
+                                    ie.DonViKyQuyetDinhChamDutDVC = hs.DonViKyQuyetDinhChamDut;
 
 
-                            }
-                        }
-
-                        foreach (var gt in listGiayTo)
-                        {
-                            if (gt.MaNV.Equals(listNhanVien[i].MaNV))
-                            {
-                                ie.giayTo.Add(gt);
+                                }
                             }
 
-                        }
-                        foreach (var ctbcgcn in chiTiet_BangCap_GiayChungNhans)
-                        {
-                            if (ctbcgcn.MaNV.Equals(listNhanVien[i].MaNV))
+                            foreach (var gt in listGiayTo)
                             {
-                                ie.ChiTietBangCapGiayChungNhan.Add(ctbcgcn);
+                                if (gt.MaNV.Equals(listNhanVien[i].MaNV))
+                                {
+                                    ie.giayTo.Add(gt);
+                                }
 
                             }
-                        }
-                        foreach (var ccnv in listChungChiNhanVien)
-                        {
-                            if (ccnv.MaNV.Equals(listNhanVien[i]))
+                            foreach (var ctbcgcn in chiTiet_BangCap_GiayChungNhans)
                             {
-                                ie.ChungChiNhanVien.Add(ccnv);
+                                if (ctbcgcn.MaNV.Equals(listNhanVien[i].MaNV))
+                                {
+                                    ie.ChiTietBangCapGiayChungNhan.Add(ctbcgcn);
+
+                                }
                             }
-                        }
-                        foreach (var qhgd in listQuanHeGiaDinh)
-                        {
-                            if (qhgd.MaNV.Equals(listNhanVien[i]))
+                            foreach (var ccnv in listChungChiNhanVien)
                             {
-                                ie.quanHeGiaDinh.Add(qhgd);
+                                if (ccnv.MaNV.Equals(listNhanVien[i]))
+                                {
+                                    ie.ChungChiNhanVien.Add(ccnv);
+                                }
                             }
-                        }
-                        foreach (var syll in listSYLL)
-                        {
-                            if (syll.MaNV.Equals(listNhanVien[i]))
+                            foreach (var qhgd in listQuanHeGiaDinh)
                             {
-                                ie.syll.Add(syll);
+                                if (qhgd.MaNV.Equals(listNhanVien[i]))
+                                {
+                                    ie.quanHeGiaDinh.Add(qhgd);
+                                }
                             }
-                        }
-                        foreach (var td in listTrinhDo)
-                        {
-                            if (td.MaTrinhDo == listNhanVien[i].MaTrinhDo)
+                            foreach (var syll in listSYLL)
                             {
-                                ie.TrinhDoHocVan = td.TenTrinhDo;
+                                if (syll.MaNV.Equals(listNhanVien[i]))
+                                {
+                                    ie.syll.Add(syll);
+                                }
                             }
-                            else
+                            foreach (var td in listTrinhDo)
                             {
-                                ie.TrinhDoHocVan = "";
+                                if (td.MaTrinhDo == listNhanVien[i].MaTrinhDo)
+                                {
+                                    ie.TrinhDoHocVan = td.TenTrinhDo;
+                                }
+                                else
+                                {
+                                    ie.TrinhDoHocVan = "";
+                                }
                             }
+                            dic.Add(ie);
                         }
-                        dic.Add(ie);
+
 
                     }
 
@@ -1618,25 +1633,28 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     {
                         ws.Cells[string.Format("A{0}", rowStart)].Value = l.MaNV;
                         ws.Cells[string.Format("B{0}", rowStart)].Value = l.Ten;
-                        ws.Cells[string.Format("C{0}", rowStart)].Value = l.NgaySinh;
+
+                        ws.Cells[string.Format("C{0}", rowStart)].Value = convertDate(l.NgaySinh.ToString());
+
+
                         ws.Cells[string.Format("D{0}", rowStart)].Value = l.SoBHXH;
                         ws.Cells[string.Format("E{0}", rowStart)].Value = l.SoDienThoai;
                         ws.Cells[string.Format("F{0}", rowStart)].Value = l.QueQuan;
                         ws.Cells[string.Format("G{0}", rowStart)].Value = l.NoiOHienTai;
                         ws.Cells[string.Format("H{0}", rowStart)].Value = l.TrinhDoHocVan;
                         ws.Cells[string.Format("I{0}", rowStart)].Value = l.NguoiGiaoHoSo;
-                        ws.Cells[string.Format("J{0}", rowStart)].Value = l.NgayNhanHoSo;
+                        ws.Cells[string.Format("J{0}", rowStart)].Value = convertDate(l.NgayNhanHoSo.ToString());
                         ws.Cells[string.Format("K{0}", rowStart)].Value = l.NguoiGiuHoSo;
                         ws.Cells[string.Format("L{0}", rowStart)].Value = l.SoCMND;
                         ws.Cells[string.Format("M{0}", rowStart)].Value = l.CamKetTuyenDung;
                         ws.Cells[string.Format("N{0}", rowStart)].Value = l.NguoiBanGiaoBangNhapKho;
                         ws.Cells[string.Format("O{0}", rowStart)].Value = l.QuyetDinhTiepNhanDVC;
-                        ws.Cells[string.Format("P{0}", rowStart)].Value = l.NgayQuyetDinhTiepNhanDVC;
-                        ws.Cells[string.Format("Q{0}", rowStart)].Value = l.NgayDiLam;
+                        ws.Cells[string.Format("P{0}", rowStart)].Value = convertDate(l.NgayQuyetDinhTiepNhanDVC.ToString());
+                        ws.Cells[string.Format("Q{0}", rowStart)].Value = convertDate(l.NgayDiLam.ToString());
                         ws.Cells[string.Format("R{0}", rowStart)].Value = l.DonViKyQuyetDinhTiepNhanDVC;
                         ws.Cells[string.Format("S{0}", rowStart)].Value = l.KieuQuyetDinhChamDutDVC;
-                        ws.Cells[string.Format("T{0}", rowStart)].Value = l.NgayQuyetDinhChamDutDVC;
-                        ws.Cells[string.Format("U{0}", rowStart)].Value = l.NgayChamDutDVC;
+                        ws.Cells[string.Format("T{0}", rowStart)].Value = convertDate(l.NgayQuyetDinhChamDutDVC.ToString());
+                        ws.Cells[string.Format("U{0}", rowStart)].Value = convertDate(l.NgayChamDutDVC.ToString());
                         ws.Cells[string.Format("V{0}", rowStart)].Value = l.DonViKyQuyetDinhChamDutDVC;
                         int rowGT = rowStart;
                         foreach (var gt in listGiayTo)
@@ -1721,7 +1739,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                 ws.Cells[string.Format("AL{0}", rowqhgd)].Value = qhgd.LoaiGiaDinh;
                                 ws.Cells[string.Format("AM{0}", rowqhgd)].Value = qhgd.MoiQuanHe;
                                 ws.Cells[string.Format("AN{0}", rowqhgd)].Value = qhgd.HoTen;
-                                ws.Cells[string.Format("AO{0}", rowqhgd)].Value = qhgd.NgaySinh;
+                                ws.Cells[string.Format("AO{0}", rowqhgd)].Value = convertDate(qhgd.NgaySinh.ToString());
                                 ws.Cells[string.Format("AP{0}", rowqhgd)].Value = qhgd.LyLich;
                                 rowqhgd++;
                             }
@@ -1754,7 +1772,24 @@ namespace QUANGHANHCORE.Controllers.TCLD
             return Json(new { success = true, location = saveAsPath }, JsonRequestBehavior.AllowGet);
         }
 
+        public string convertDate(string d)
+        {
+            try
+            {
+                if (d != null)
+                {
+                    DateTime oDate = DateTime.Parse(d);
+                    //DateTime oDate = DateTime.ParseExact(d, "MM/dd/yyyy HH:mm:ss tt", null);
+                    return oDate.ToString("dd/MM/yyyy");
+                }
+                return "";
+            }
+            catch (Exception e)
+            {
+                return "";
+            }
 
+        }
 
     }
 
