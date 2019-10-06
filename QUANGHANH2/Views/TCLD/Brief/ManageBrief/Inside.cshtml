@@ -499,13 +499,17 @@
             var manv = $("#manv").val();
             var tennv = $("#tennv").val();
             var nguoigiaohoso = $("#nguoigiaohoso").val();
-        var nguoigiuhoso = $("#nguoigiuhoso").val();
+             var nguoigiuhoso = $("#nguoigiuhoso").val();
 
             var arr = new Array();
             arr[0] = manv;
             arr[1] = tennv;
             arr[2] = nguoigiaohoso;
             arr[3] = nguoigiuhoso;
+        $.notify("Tìm kiếm thành công", {
+            globalPosition: "top center",
+            className: "success"
+        })
             datatable_inside.ajax.url('@Url.Action("searchlistAllBrief", "Brief")?searchList=' + arr).load(() => { $("#pre-load").hide("slow", function () { }) }, true)
     })
 

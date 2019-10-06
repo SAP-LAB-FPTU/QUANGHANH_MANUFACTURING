@@ -523,7 +523,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                             consumption_value = consumption_value,
                             equipmentId = equipmentId,
                             fuel_type = fuel_type,
-                            date = DateTime.ParseExact(date1, "yyyy-MM-dd", null)
+                            date = DateTime.ParseExact(date1, "dd/MM/yyyy", null)
                         };
                         DBContext.Fuel_activities_consumption.Add(fuel_Activities_Consumption);
                     }
