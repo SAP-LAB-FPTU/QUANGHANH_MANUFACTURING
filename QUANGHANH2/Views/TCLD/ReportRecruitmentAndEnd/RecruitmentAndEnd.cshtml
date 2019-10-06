@@ -98,7 +98,7 @@
                     });
                 },
                 "columns": [
-                    { "data": "Stt", "name": "Stt", "render": (data) => { return data }, "orderable": false},
+                    { "data": "Stt", "name": "Stt", "render": (data) => { if (data != 0) { return data } else { return "#"} }, "orderable": false},
                     { "data": "TenPhongBan", "name": "TenPhongBan", "render": (data) => { if (data == "Tổng cộng") { return "<b>"+data+"</b>" } else { return "<a class='font-weight-bold text-success'>" + data + "</a>" } }, "orderable": false },
                     { "data": "TongChamDut", "name": "TongChamDut", "render": (data) => { if (data != 0) { return "<b>" + data + "</b>" } else { return data } }, "orderable" : false },
                     { "data": "TongChamDutKhaiThac", "name": "TongChamDutKhaiThac", "render": (data) => { if (data != 0) { return "<b>" + data + "</b>" } else { return data } }, "orderable": false },
