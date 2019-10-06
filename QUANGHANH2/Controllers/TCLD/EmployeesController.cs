@@ -552,50 +552,50 @@ namespace QUANGHANH2.Controllers.TCLD
                         List<QuaTrinhCongTac> list = db.QuaTrinhCongTacs.ToList();
                         for (int i = 0; i < donVi.Length; i++)
                         {
-                            //if (!donVi[i].Equals("") )
-                            //{
-                            string[] ngay = tuNgayDenNgay[i].Split('-');
-                            string DonViCongTacX = donVi[i];
-                            string[] ngayFix = ngay[0].Trim().Split('/');
-                            List<QuaTrinhCongTac> ct = db.QuaTrinhCongTacs.Where(qtct => (qtct.MaNV.Equals(emp.MaNV)) && (qtct.DonViCongTac.Equals(DonViCongTacX))).ToList();
-                            if (ct.Count == 0)
+                            if (!donVi[i].Equals(""))
                             {
-                                QuaTrinhCongTac qtct = new QuaTrinhCongTac();
-                                qtct.MaNV = emp.MaNV;
-                                qtct.DonViCongTac = donVi[i];
-                                if (ngay[0] != "" && ngay[1] != "")
+                                string[] ngay = tuNgayDenNgay[i].Split('-');
+                                string DonViCongTacX = donVi[i];
+                                string[] ngayFix = ngay[0].Trim().Split('/');
+                                List<QuaTrinhCongTac> ct = db.QuaTrinhCongTacs.Where(qtct => (qtct.MaNV.Equals(emp.MaNV)) && (qtct.DonViCongTac.Equals(DonViCongTacX))).ToList();
+                                if (ct.Count == 0)
                                 {
-                                    string[] dateStart = ngay[0].Split('/');
-                                    qtct.NgayBatDau = Convert.ToDateTime(dateStart[1] + "/" + dateStart[0] + "/" + dateStart[2]);
-                                    string[] dateEnd = ngay[1].Split('/');
-                                    qtct.NgayKetThuc = Convert.ToDateTime(dateEnd[1] + "/" + dateEnd[0] + "/" + dateEnd[2]);
+                                    QuaTrinhCongTac qtct = new QuaTrinhCongTac();
+                                    qtct.MaNV = emp.MaNV;
+                                    qtct.DonViCongTac = donVi[i];
+                                    if (ngay[0] != "" && ngay[1] != "")
+                                    {
+                                        string[] dateStart = ngay[0].Split('/');
+                                        qtct.NgayBatDau = Convert.ToDateTime(dateStart[1] + "/" + dateStart[0] + "/" + dateStart[2]);
+                                        string[] dateEnd = ngay[1].Split('/');
+                                        qtct.NgayKetThuc = Convert.ToDateTime(dateEnd[1] + "/" + dateEnd[0] + "/" + dateEnd[2]);
+                                    }
+                                    qtct.ChucVu = chucVu[i];
+                                    qtct.ChucDanh = chucDanh[i];
+                                    db.QuaTrinhCongTacs.Add(qtct);
+                                    db.SaveChanges();
                                 }
-                                qtct.ChucVu = chucVu[i];
-                                qtct.ChucDanh = chucDanh[i];
-                                db.QuaTrinhCongTacs.Add(qtct);
-                                db.SaveChanges();
-                            }
-                            else
-                            {
-                                QuaTrinhCongTac qtct = new QuaTrinhCongTac();
-                                qtct.MaNV = emp.MaNV;
-                                qtct.DonViCongTac = donVi[i];
+                                else
+                                {
+                                    QuaTrinhCongTac qtct = new QuaTrinhCongTac();
+                                    qtct.MaNV = emp.MaNV;
+                                    qtct.DonViCongTac = donVi[i];
 
-                                var quaTrinh = db.QuaTrinhCongTacs.Where(congTac => (congTac.MaNV.Equals(emp.MaNV)) && (congTac.DonViCongTac.Equals(DonViCongTacX))).FirstOrDefault();
-                                if (ngay[0] != "" && ngay[1] != "")
-                                {
-                                    string[] dateStart = ngay[0].Split('/');
-                                    quaTrinh.NgayBatDau = Convert.ToDateTime(dateStart[1] + "/" + dateStart[0] + "/" + dateStart[2]);
-                                    string[] dateEnd = ngay[1].Split('/');
-                                    quaTrinh.NgayKetThuc = Convert.ToDateTime(dateEnd[1] + "/" + dateEnd[0] + "/" + dateEnd[2]);
+                                    var quaTrinh = db.QuaTrinhCongTacs.Where(congTac => (congTac.MaNV.Equals(emp.MaNV)) && (congTac.DonViCongTac.Equals(DonViCongTacX))).FirstOrDefault();
+                                    if (ngay[0] != "" && ngay[1] != "")
+                                    {
+                                        string[] dateStart = ngay[0].Split('/');
+                                        quaTrinh.NgayBatDau = Convert.ToDateTime(dateStart[1] + "/" + dateStart[0] + "/" + dateStart[2]);
+                                        string[] dateEnd = ngay[1].Split('/');
+                                        quaTrinh.NgayKetThuc = Convert.ToDateTime(dateEnd[1] + "/" + dateEnd[0] + "/" + dateEnd[2]);
+                                    }
+                                    quaTrinh.ChucVu = chucVu[i];
+                                    quaTrinh.ChucDanh = chucDanh[i];
+                                    db.Entry(quaTrinh).State = EntityState.Modified;
+                                    db.SaveChanges();
                                 }
-                                quaTrinh.ChucVu = chucVu[i];
-                                quaTrinh.ChucDanh = chucDanh[i];
-                                db.Entry(quaTrinh).State = EntityState.Modified;
-                                db.SaveChanges();
                             }
                         }
-                        //}
                     }
                 }
                 catch (Exception)

@@ -339,7 +339,7 @@
                                         <div class="col m4">
                                             @Html.LabelFor(model => model.BacLuong, "Bậc lương", htmlAttributes: new { @class = "custom-label" })
                                             <div class="col-md-10">
-                                                @Html.EditorFor(model => model.BacLuong, new { htmlAttributes = new { @class = " form-control", @placeholder = "Bậc lương", @type = "number", @min = "0", @autocomplete = "off" } })
+                                                @Html.EditorFor(model => model.BacLuong, new { htmlAttributes = new { @class = " form-control bac", @placeholder = "Bậc lương", @type = "text", @autocomplete = "off" } })
                                                 @Html.ValidationMessageFor(model => model.BacLuong, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -543,8 +543,8 @@
                                                 <td class="center">@item.DonViCongTac</td>
                                                 <td class="center">@item.ChucDanh</td>
                                                 <td class="center">@item.ChucVu</td>
-                                                <td class="center">@item.NgayBatDau</td>
-                                                <td class="center">@item.NgayKetThuc</td>
+                                                <td class="center">@Convert.ToDateTime(item.NgayBatDau).ToString("dd/MM/yyyy")</td>
+                                                <td class="center">@Convert.ToDateTime(item.NgayKetThuc).ToString("dd/MM/yyyy")</td>
                                                 <td class="center"><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick="xoaCongTac(@item.MaCongTac , @item.MaNV)">Xóa</a></td>
                                             </tr>
                                         }
@@ -612,7 +612,7 @@
                                             <tr>
                                                 <td class="center">@item.LoaiGiaDinh</td>
                                                 <td class="center">
-                                                    @item.NgaySinh
+                                                    @Convert.ToDateTime(item.NgaySinh).ToString("dd/MM/yyyy")
                                                 </td>
                                                 <td class="center">@item.HoTen</td>
                                                 <td class="center">@item.MoiQuanHe</td>
@@ -673,6 +673,27 @@
 <link href="~/assets/libs/toastr/build/toastr.min.css" rel="stylesheet" />
 <script src="~/assets/extra-libs/toastr/toastr-init.js"></script>
 <script>
+    $(".bac").keydown(function (e) {
+        var acceptList = [45, 35, 40, 34, 37, 9, 12, 39, 36, 38, 33, 8];
+        for (var i = 48; i <= 57; i++) {
+            acceptList.push(i);
+        }
+        for (var i = 96; i <= 105; i++) {
+            acceptList.push(i);
+        }
+        if (acceptList.indexOf(e.keyCode) === -1) {
+            e.preventDefault();
+        }
+        if ($(this).val().length === 3) {
+            $(this).val("");
+        }
+    });
+    $(".bac").keyup(function (e) {
+        var text = $(this).val();
+        if (text.length === 1) {
+            $(this).val(text + "/");
+        }
+    });
 
     function xoaQuanHe(maQH, id) {
         confirmAlert("Xác nhận xóa?", "",
@@ -729,7 +750,7 @@
                             $("#work-table").empty();
                             for (i = 0; i < response.listCT.length; i++) {
                                 $("#work-table").append("<tr>");
-                                $("#work-table").append("<td class='center'>" + response.listCT[i].DonVi + "</td>");
+                                $("#work-table").append("<td class='center'>" + response.listCT[i].DonViCongTac + "</td>");
                                 $("#work-table").append("<td class='center'>" + response.listCT[i].ChucDanh + "</td>");
                                 $("#work-table").append("<td class='center'>" + response.listCT[i].ChucVu + "</td>");
                                 $("#work-table").append("<td class='center'>" + dateFormat(response.listCT[i].NgayBatDau) + "</td>");
