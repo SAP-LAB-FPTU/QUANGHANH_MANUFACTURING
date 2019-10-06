@@ -16,10 +16,13 @@ $(document).ready(function () {
 
         $("select.custom-select").attr("disabled", "disabled");
         $("#buttonThem3").attr("disabled","disabled")
+        $(".btnSelect").attr("disabled","disabled")
+        $(".btnSelect1").attr("disabled","disabled")
         $("#buttonThem2").attr("disabled","disabled")
         $(".delete-view").attr("disabled","disabled")
         $("#wrapper-advancedSearch").hide();
     }
+    
 });
 function abc() {
     if (!flag) {
@@ -28,6 +31,8 @@ function abc() {
         $("select.sl-edit").removeAttr("disabled");             
         $("select.custom-select").removeAttr("disabled");
         $("#buttonThem3").removeAttr("disabled");
+        $(".btnSelect").removeAttr("disabled");
+        $(".btnSelect1").removeAttr("disabled");
         $("#buttonThem2").removeAttr("disabled");
         $(".delete-view").removeAttr("disabled");
         $("#pencil").remove();
@@ -107,6 +112,16 @@ $(document).ready(function () {
         $(this).datepicker({
             language: 'vi'
         }).focus();
+    });
+    $('.btnSelect1').click(function () {
+        var data = document.getElementById("table-gd").rows.length;
+        document.getElementById("table-gd").deleteRow(data - 1);
+        rowcount--;
+    });
+    $('.btnSelect').click(function () {
+        var data = document.getElementById("table-htlv2").rows.length;
+        document.getElementById("table-htlv2").deleteRow(data - 1);
+        rowcount--;
     });
 });
 
