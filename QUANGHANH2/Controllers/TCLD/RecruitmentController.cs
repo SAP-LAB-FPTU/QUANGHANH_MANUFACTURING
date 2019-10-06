@@ -86,11 +86,15 @@ namespace QUANGHANH2.Controllers.TCLD
                         tdnv.NgayTuyenDung = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd"));
                         DBcontext.TuyenDung_NhanVien.Add(tdnv);
                         //add tabel nhanvien
-                        if(checkSalry(salary) == false)
+                        if(salary.Trim() != "")
                         {
-                            transaction.Rollback();
-                            return Json(new { message = "SalaryFaile" , responseText = id}, JsonRequestBehavior.AllowGet);
+                            if (checkSalry(salary) == false)
+                            {
+                                transaction.Rollback();
+                                return Json(new { message = "SalaryFaile", responseText = id }, JsonRequestBehavior.AllowGet);
+                            }
                         }
+                      
                         NhanVien emp = new NhanVien();
                         emp.MaNV = id;
                         emp.Ten = names;
@@ -113,20 +117,26 @@ namespace QUANGHANH2.Controllers.TCLD
                         {
                             emp.GioiTinh = false;
                         }
-                        if (checkPhongBan(unit) == true) {
-                            transaction.Rollback();
-                            return Json(new { message = "DonVi", responseText = id }, JsonRequestBehavior.AllowGet);
+                        if(unit.Trim() != "")
+                        {
+                            emp.MaPhongBan = unit;
+                            if (checkPhongBan(unit) == true)
+                            {
+                                transaction.Rollback();
+                                return Json(new { message = "DonVi", responseText = id }, JsonRequestBehavior.AllowGet);
+                            }
                         }
-                        emp.MaPhongBan = unit;
+                        
+                        
                         emp.NoiOHienTai = place;
-                        if (working != null) {
+                        if (working.Trim() != "") {
                             emp.MaCongViec = getMaCongViec(salary, working);
                             if (emp.MaCongViec == -1) {
                                 transaction.Rollback();
                                 return Json(new { message = "CongViec", responseText = id }, JsonRequestBehavior.AllowGet);
                             }
                         }
-                        if (specialized != null) {
+                        if (specialized.Trim() != "") {
                             emp.MaChuyenNganh = getMaChuyenNganh(specialized);
                             if (emp.MaChuyenNganh.Equals("-1")) {
                                 transaction.Rollback();
