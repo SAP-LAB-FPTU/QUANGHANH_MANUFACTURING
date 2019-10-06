@@ -9,13 +9,12 @@
                     <h3>
                         <b>VẬT TƯ THIẾT BỊ</b>
                     </h3>
-                </div>
-
-                <div class="col s12">
-                        <li class="tab col s6"><a class="active" href="#thaythe">VẬT TƯ CẤP KÈM THEO</a></li>
+                    <h5>
+                        <b style="color:green">VẬT TƯ THIẾT BỊ</b>
+                    </h5>
                 </div>
                 <div id="thaythe" class="col s12">
-                    <table class="striped centered table-bordered" id="kemtheotable">
+                    <table class="striped centered table-bordered" id="thaythetable">
                         <thead>
                             <tr>
                                 <th rowspan="2">Mã nhóm vật tư</th>
@@ -47,18 +46,19 @@
                                     </tr>
                                 }
                             }
-                            @if (ViewBag.ListSup3.Count == 0)
+                            @if(ViewBag.ListSup3.Count == 0)
                             {
-                            <td colspan="5">Không có dữ liệu</td>
-                        }
+                                <td colspan="5">Không có dữ liệu</td>
+                            }
 
                             </tbody>
                         </table>
-                    </div>
-                    </div>
                 </div>
+
             </div>
         </div>
+    </div>
+</div>
 
 
 
