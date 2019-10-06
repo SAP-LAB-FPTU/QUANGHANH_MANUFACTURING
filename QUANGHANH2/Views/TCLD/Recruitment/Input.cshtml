@@ -145,8 +145,10 @@
         for (var i = 1; i < $('#tuyendung tr').length; i++) {
             var temp = {};
             for (var j = 0; j < $('#tuyendung thead tr:nth-child(1) th').length; j++) {
-                if (j == 3 || j == 5) {
-                    temp[j] = $('#tablecontent tr:nth-child(' + i + ') td select').val();
+                if (j == 3) {
+                    temp[j] = $('#tablecontent tr:nth-child(' + i + ') td #gender').val();
+                } else if (j == 5) {
+                    temp[j] = $('#tablecontent tr:nth-child(' + i + ') td #kind').val();
                 } else {
                     temp[j] = $('#tablecontent tr:nth-child(' + i + ') td').eq(j).text();
                 }
@@ -191,6 +193,8 @@
                          errorAlert('Lỗi', 'Hãy kiểm tra lại chuyên ngành của nhân viên mã ' + result.responseText);
                     }else if (result.message === "DonVi") {
                          errorAlert('Lỗi', 'Hãy kiểm tra lại đơn vị của nhân viên mã ' + result.responseText);
+                    }else if (result.message === "MucLuong") {
+                         errorAlert('Lỗi', 'Hãy kiểm tra lại mức lương của nhân viên mã ' + result.responseText);
                     }
                     else {
                         reloadAlert('Thêm thành công', 3000);
@@ -277,8 +281,8 @@
                     {
                         errorAlert('Lỗi','Hãy dùng bản mẫu excel của hệ thống');
                     } else {
-                        var gender = '<select class="form-control"><option value="nam" selected>Nam</option><option value="nu">Nữ</option></select>';
-                        var select = '<select class="form-control"><option value="CBQL" selected>Cán bộ quản lý</option><option value="CNKT">Công nhân khai thác</option><option value="CD">Công nhân cơ điện</option><option value="HSTT">Học sinh thực tập</option></select>';
+                        var gender = '<select class="form-control" id="gender"><option value="nam" selected>Nam</option><option value="nu">Nữ</option></select>';
+                        var select = '<select class="form-control" id="kind"><option value="CBQL" selected>Cán bộ quản lý</option><option value="CNKT">Công nhân khai thác</option><option value="CD">Công nhân cơ điện</option><option value="HSTT">Học sinh thực tập</option></select>';
                         if (checkInput == false) {
                             $('#tablecontent tr').remove();
                         }
