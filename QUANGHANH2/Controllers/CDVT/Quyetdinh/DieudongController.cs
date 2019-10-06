@@ -74,35 +74,50 @@ namespace QUANGHANHCORE.Controllers.CDVT
 
             if (String.IsNullOrEmpty(documentary_code))
             {
-                Response.Write("Vui lòng nhập mã quyết định!");
-                return new HttpStatusCodeResult(400);
+                return Json(new
+                {
+                    success = false,
+                    message = "Trường mã quyết định là trường bắt buộc có"
+                }, JsonRequestBehavior.AllowGet);
             }
             else
 
                 if (String.IsNullOrEmpty(date_created))
             {
-                Response.Write("Vui lòng nhập ngày quyết định!");
-                return new HttpStatusCodeResult(400);
+                return Json(new
+                {
+                    success = false,
+                    message = "Trường mã quyết định là trường bắt buộc có"
+                }, JsonRequestBehavior.AllowGet);
             }
             else
 
                 if (String.IsNullOrEmpty(person_created))
             {
-                Response.Write("Vui lòng nhập người lập quyết định!");
-                return new HttpStatusCodeResult(400);
+                return Json(new
+                {
+                    success = false,
+                    message = "Trường người lập quyết định là trường bắt buộc có"
+                }, JsonRequestBehavior.AllowGet);
             }
             else
 
                 if (String.IsNullOrEmpty(reason))
             {
-                Response.Write("Vui lòng nhập lý do quyết định!");
-                return new HttpStatusCodeResult(400);
+                return Json(new
+                {
+                    success = false,
+                    message = "Trường lý do quyết định là trường bắt buộc có"
+                }, JsonRequestBehavior.AllowGet);
             }
 
             if (String.IsNullOrEmpty(out_in_come))
             {
-                Response.Write("Vui lòng nhập nguồn vốn!");
-                return new HttpStatusCodeResult(400);
+                return Json(new
+                {
+                    success = false,
+                    message = "Trường nguồn vốn là trường bắt buộc có"
+                }, JsonRequestBehavior.AllowGet);
             }
 
             else
@@ -112,8 +127,11 @@ namespace QUANGHANHCORE.Controllers.CDVT
                     var query = (from x in DBContext.Documentaries
                                  where x.documentary_code == documentary_code
                                  select x).First();
-                    Response.Write("Mã số quyết định đã tồn tại!");
-                    return new HttpStatusCodeResult(400);
+                    return Json(new
+                    {
+                        success = false,
+                        message = "Mã số quyết định đã tồn tại"
+                    }, JsonRequestBehavior.AllowGet);
                 }
                 catch
                 {
@@ -125,10 +143,12 @@ namespace QUANGHANHCORE.Controllers.CDVT
                     i.reason = reason;
                     i.out_in_come = out_in_come;
                     DBContext.SaveChanges();
-                    return new HttpStatusCodeResult(201);
+                    return Json(new
+                    {
+                        success = true,
+                    }, JsonRequestBehavior.AllowGet);
                 }
             }
-
         }
 
 

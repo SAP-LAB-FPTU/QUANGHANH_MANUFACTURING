@@ -11,5 +11,7 @@ namespace QUANGHANH2.Repositories.Intefaces
         bool CreateSupplyConsumable(IList<XincapvattuSummaryModelView> vattus);
 
         IList<XincapvattuDepartmentSummaryModelView> GetDepartments();
+
+        bool HasProvided(string departmentId);
     }
 }
