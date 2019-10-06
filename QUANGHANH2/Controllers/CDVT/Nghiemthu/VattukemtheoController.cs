@@ -15,7 +15,7 @@ namespace QUANGHANH2.Controllers.CDVT.Nghiemthu
     {
         // GET: Vattukemtheo
         [Route("phong-cdvt/vat-tu-kem-theo")]
-        public ActionResult Index(string id)
+        public ActionResult Index(string id, int doc)
         {
             //ViewBag.Vattukemtheo = id.ToString();
             string requestID = id;
@@ -27,8 +27,8 @@ namespace QUANGHANH2.Controllers.CDVT.Nghiemthu
 
                 db.Configuration.LazyLoadingEnabled = false;
                 supList3 = (from a in db.Supply_Documentary_Equipment
-                           where (a.equipmentId == requestID) && (a.supplyType == 3)
-                           join b in db.Supplies on a.supply_id equals b.supply_id
+                           where (a.equipmentId == requestID) && (a.supplyType == 3) && (a.documentary_id == doc)
+                            join b in db.Supplies on a.supply_id equals b.supply_id
                            select new
                            {
                                equipmentId = a.equipmentId,
