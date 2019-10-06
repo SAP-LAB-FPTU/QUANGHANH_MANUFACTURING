@@ -1,5 +1,16 @@
 ﻿var rowcount = 1;
+
 $(document).ready(function () {
+    $('.btnSelect').click(function () {
+        var data = document.getElementById("table-gd").rows.length;
+        document.getElementById("table-gd").deleteRow(data - 1);
+        rowcount--;
+    });
+    $('.btnSelect1').click(function () {
+        var data = document.getElementById("table-htlv2").rows.length;
+        document.getElementById("table-htlv2").deleteRow(data - 1);
+        rowcount--;
+    });
     $(".div_them3").on('click', '#buttonThem3', function () {
         rowcount++;
         //If there is no data then no row is added
@@ -26,6 +37,7 @@ $(document).ready(function () {
         }).focus();
     });
 });
+
 
 //btn htvl1
 var rowcount1 = 1;
