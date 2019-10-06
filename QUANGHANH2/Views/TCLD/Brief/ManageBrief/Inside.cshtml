@@ -247,8 +247,10 @@
                         "TenNV": function () { return $('#searchTenNV').val() },
                         "TenGT": function () { return $('#searchTenGT').val() },
                         "KieuGT": function () { return $('#searchKieuGT').val() },
-                    }
-                },
+                        },
+
+                    },
+              
                      "drawCallback": function (settings) {
                  ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
                                   $("#pre-load").hide("slow", function () {
@@ -297,13 +299,14 @@
                         infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
                     },
                 "bAutoWidth": false,
-                    "order": [0, "asc"],
+                "order": [0, "asc"],
                 "initComplete": function(settings, json) {
  ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
     		$("#pre-load").hide("slow", function () {
       		  });
  //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
-  }
+                    },
+            
             });
         });
 
@@ -311,6 +314,7 @@
             var dataTable = $('#equipmentTable').DataTable();
              $("#searchButton_Doc").click(function () {
                  dataTable.ajax.reload();
+               
             });
         });
         //gọi popup khi ấn sửa

@@ -119,6 +119,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                     }
                     items.linkIdCode.code = items.equipmentId;
                     items.linkIdCode.id = items.equipmentId;
+                    items.linkIdCode.doc = items.documentary_id;
                 }
                 //docList = db.Documentaries.ToList<Documentary>();
                 int totalrows = docList.Count;
