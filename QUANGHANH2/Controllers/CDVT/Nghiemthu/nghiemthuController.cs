@@ -94,6 +94,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                     }
                     items.linkIdCode.code = items.equipmentId;
                     items.linkIdCode.id = items.equipmentId;
+                    items.linkIdCode.doc = items.documentary_id;
                 }
 
 
@@ -154,23 +155,41 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                     }).ToList();
 
                     supplyList = (from a in db.Supply_Documentary_Equipment
-                                    join b in db.Documentaries on a.documentary_id equals b.documentary_id
-                                    join c in db.Supplies on a.supply_id equals c.supply_id
-                                    join d in db.Supply_tieuhao on c.supply_id equals d.supplyid
-                                    where a.equipmentId == id
-                                    select new
-                                    {
-                                        supplyid = a.supply_id,
-                                        equipmentId = a.equipmentId,
-                                        departmentid = b.department_id
+                                  join b in db.Documentaries on a.documentary_id equals b.documentary_id
+                                  join c in db.Supplies on a.supply_id equals c.supply_id
+                                  join d in db.Supply_tieuhao on c.supply_id equals d.supplyid
+                                  where a.equipmentId == id
+                                  select new
+                                  {
+                                      supplyid = a.supply_id,
+                                      equipmentId = a.equipmentId,
+                                      departmentid = d.departmentid
 
 
-                                    }).ToList().Select(p => new Suply
-                                    {
-                                        supplyid = p.supplyid,
-                                        equipmentId = p.equipmentId,
-                                        departmentid = p.departmentid
-                                    }).ToList();
+                                  }).ToList().Select(p => new Suply
+                                  {
+                                      supplyid = p.supplyid,
+                                      equipmentId = p.equipmentId,
+                                      departmentid = p.departmentid
+                                  }).ToList();
+                    //supplyList = (from a in db.Supplies
+                    //              join b in db.Supply_tieuhao on a.supply_id equals b.supplyid
+                    //              join c in db.Supply_Documentary_Equipment on a.supply_id equals c.supply_id
+                    //              join d in db.Documentaries on c.documentary_id equals d.documentary_id
+                    //              where c.equipmentId == id
+                    //              select new
+                    //              {
+                    //                  supplyid = a.supply_id,
+                    //                  equipmentId = c.equipmentId,
+                    //                  departmentid = d.department_id
+
+
+                    //              }).ToList().Select(p => new Suply
+                    //              {
+                    //                  supplyid = p.supplyid,
+                    //                  equipmentId = p.equipmentId,
+                    //                  departmentid = p.departmentid
+                    //              }).ToList();
 
 
                     foreach (Document items in documentList)
@@ -317,14 +336,14 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
         {
             try
             {
-               Suply query = db.Database.SqlQuery<Suply>(" select sum(quantity) as sum_type_1 from Supply_Documentary_Equipment where supplyType = 1 and equipmentId = @equipmentId group by supply_id, equipmentId, documentary_id",
+               Suply query = db.Database.SqlQuery<Suply>(" select sum(quantity) as sum_type_1 from Supply_Documentary_Equipment where supplyType = 1 and equipmentId = @equipmentId",
                    new SqlParameter("equipmentId", equipmentId)).First();
-               Suply query2 = db.Database.SqlQuery<Suply>(" select sum(quantity) as sum_type_2 from Supply_Documentary_Equipment where supplyType = 2 and equipmentId =  @equipmentId group by supply_id, equipmentId, documentary_id",
+               Suply query2 = db.Database.SqlQuery<Suply>(" select sum(quantity) as sum_type_2 from Supply_Documentary_Equipment where supplyType = 2 and equipmentId =  @equipmentId",
                    new SqlParameter("equipmentId", equipmentId)).First();
                     var query3 = "Update Supply_tieuhao Set used = used + @sum1,thuhoi = thuhoi + @sum2 From Supply_Documentary_Equipment T1, Documentary T2, Supply T3, Supply_tieuhao T4 Where T1.documentary_id = T2.documentary_id and T1.supply_id = T3.supply_id and T3.supply_id = T4.supplyid and T3.supply_id = @supply_id and departmentid = @departmentid and month(GETDATE()) = month([date]) and year(GETDATE()) = year([date])";
                 db.Database.ExecuteSqlCommand(query3,
                     new SqlParameter("sum1", query.sum_type_1),
-                    new SqlParameter("sum2", query.sum_type_2),
+                    new SqlParameter("sum2", query2.sum_type_2),
                     new SqlParameter("supply_id", supply_id),
                     new SqlParameter("departmentid", departmentid));
                     db.SaveChanges();

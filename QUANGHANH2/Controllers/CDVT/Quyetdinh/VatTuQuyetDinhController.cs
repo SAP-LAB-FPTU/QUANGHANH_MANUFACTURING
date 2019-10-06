@@ -15,7 +15,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
     {
         // GET: VatTuQuyetDinh
         [Route("phong-cdvt/vat-tu")]
-        public ActionResult Index(string id)
+        public ActionResult Index(string id, int doc)
         {
             ViewBag.Vattu = id.ToString();
             string requestID = id;
@@ -32,10 +32,8 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
 
                 db.Configuration.LazyLoadingEnabled = false;
                 supList = (from a in db.Supply_Documentary_Equipment
-                           where (a.equipmentId == requestID) && (a.supplyType == 1)
+                           where (a.equipmentId == requestID) && (a.supplyType == 1) && (a.documentary_id == doc)
                            join b in db.Supplies on a.supply_id equals b.supply_id
-                           join c in db.Equipments on a.equipmentId equals c.equipmentId
-                           join d in db.Acceptances on c.equipmentId equals d.equipmentId
                            select new
                            {
                                equipmentId = a.equipmentId,
@@ -43,8 +41,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
                                quantity = a.quantity,
                                supplyStatus = a.supplyStatus,
                                supply_name = b.supply_name,
-                               unit = b.unit,
-                               documentary_process_result = d.documentary_process_result
+                               unit = b.unit
 
 
                            }).ToList().Select(p => new Supply_Extend
@@ -54,17 +51,14 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
                                quantity = p.quantity,
                                supplyStatus = p.supplyStatus,
                                supply_name = p.supply_name,
-                               unit = p.unit,
-                               documentary_process_result = p.documentary_process_result
+                               unit = p.unit
 
                            }).ToList();
 
                 ViewBag.ListSup = supList;
                 supList2 = (from a in db.Supply_Documentary_Equipment
-                           where (a.equipmentId == requestID) && (a.supplyType == 2)
+                           where (a.equipmentId == requestID) && (a.supplyType == 2) && (a.documentary_id == doc)
                             join b in db.Supplies on a.supply_id equals b.supply_id
-                            join c in db.Equipments on a.equipmentId equals c.equipmentId
-                            join d in db.Acceptances on c.equipmentId equals d.equipmentId
                             select new
                            {
                                equipmentId = a.equipmentId,
@@ -72,8 +66,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
                                quantity = a.quantity,
                                supplyStatus = a.supplyStatus,
                                supply_name = b.supply_name,
-                               unit = b.unit,
-                               documentary_process_result = d.documentary_process_result
+                               unit = b.unit
 
                             }).ToList().Select(p => new Supply_Extend
                            {
@@ -82,8 +75,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
                                quantity = p.quantity,
                                supplyStatus = p.supplyStatus,
                                supply_name = p.supply_name,
-                               unit = p.unit,
-                               documentary_process_result = p.documentary_process_result
+                               unit = p.unit
                             }).ToList();
                 ViewBag.ListSup2 = supList2;
 

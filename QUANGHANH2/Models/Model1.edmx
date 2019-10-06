@@ -620,14 +620,13 @@
         </EntityType>
         <EntityType Name="QuaTrinhCongTac">
           <Key>
-            <PropertyRef Name="DonViCongTac" />
-            <PropertyRef Name="NgayBatDau" />
-            <PropertyRef Name="MaNV" />
+            <PropertyRef Name="MaCongTac" />
           </Key>
+          <Property Name="MaCongTac" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ChucDanh" Type="nvarchar" MaxLength="100" />
           <Property Name="ChucVu" Type="nvarchar" MaxLength="100" />
-          <Property Name="DonViCongTac" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="NgayBatDau" Type="date" Nullable="false" />
+          <Property Name="DonViCongTac" Type="nvarchar" MaxLength="100" />
+          <Property Name="NgayBatDau" Type="date" />
           <Property Name="NgayKetThuc" Type="date" />
           <Property Name="MaNV" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
@@ -1658,7 +1657,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__QuaTrinhCo__MaNV__5BAD9CC8">
+        <Association Name="FK__QuaTrinhCo__MaNV__5CA1C101">
           <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="1" />
           <End Role="QuaTrinhCongTac" Type="Self.QuaTrinhCongTac" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2350,7 +2349,7 @@
             <End Role="NhanVien" EntitySet="NhanVien" />
             <End Role="QuanHeGiaDinh" EntitySet="QuanHeGiaDinh" />
           </AssociationSet>
-          <AssociationSet Name="FK__QuaTrinhCo__MaNV__5BAD9CC8" Association="Self.FK__QuaTrinhCo__MaNV__5BAD9CC8">
+          <AssociationSet Name="FK__QuaTrinhCo__MaNV__5CA1C101" Association="Self.FK__QuaTrinhCo__MaNV__5CA1C101">
             <End Role="NhanVien" EntitySet="NhanVien" />
             <End Role="QuaTrinhCongTac" EntitySet="QuaTrinhCongTac" />
           </AssociationSet>
@@ -3207,7 +3206,7 @@
           <NavigationProperty Name="TrinhDo" Relationship="Self.FK__NhanVien__MaTrin__55009F39" FromRole="NhanVien" ToRole="TrinhDo" />
           <NavigationProperty Name="Truong" Relationship="Self.FK__NhanVien__MaTruo__55F4C372" FromRole="NhanVien" ToRole="Truong" />
           <NavigationProperty Name="QuanHeGiaDinhs" Relationship="Self.FK__QuanHeGiaD__MaNV__5AB9788F" FromRole="NhanVien" ToRole="QuanHeGiaDinh" />
-          <NavigationProperty Name="QuaTrinhCongTacs" Relationship="Self.FK__QuaTrinhCo__MaNV__5BAD9CC8" FromRole="NhanVien" ToRole="QuaTrinhCongTac" />
+          <NavigationProperty Name="QuaTrinhCongTacs" Relationship="Self.FK__QuaTrinhCo__MaNV__5CA1C101" FromRole="NhanVien" ToRole="QuaTrinhCongTac" />
           <NavigationProperty Name="TaiNans" Relationship="Self.FK__TaiNan__MaNV__662B2B3B" FromRole="NhanVien" ToRole="TaiNan" />
           <NavigationProperty Name="TuyenDung_NhanVien" Relationship="Self.FK_TuyenDung_NhanVien_NhanVien" FromRole="NhanVien" ToRole="TuyenDung_NhanVien" />
         </EntityType>
@@ -3239,17 +3238,16 @@
         </EntityType>
         <EntityType Name="QuaTrinhCongTac">
           <Key>
-            <PropertyRef Name="DonViCongTac" />
-            <PropertyRef Name="NgayBatDau" />
-            <PropertyRef Name="MaNV" />
+            <PropertyRef Name="MaCongTac" />
           </Key>
+          <Property Name="MaCongTac" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ChucDanh" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="ChucVu" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="DonViCongTac" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="NgayBatDau" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DonViCongTac" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="NgayBatDau" Type="DateTime" Precision="0" />
           <Property Name="NgayKetThuc" Type="DateTime" Precision="0" />
           <Property Name="MaNV" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="NhanVien" Relationship="Self.FK__QuaTrinhCo__MaNV__5BAD9CC8" FromRole="QuaTrinhCongTac" ToRole="NhanVien" />
+          <NavigationProperty Name="NhanVien" Relationship="Self.FK__QuaTrinhCo__MaNV__5CA1C101" FromRole="QuaTrinhCongTac" ToRole="NhanVien" />
         </EntityType>
         <EntityType Name="QuyetDinh">
           <Key>
@@ -4493,7 +4491,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__QuaTrinhCo__MaNV__5BAD9CC8">
+        <Association Name="FK__QuaTrinhCo__MaNV__5CA1C101">
           <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="1" />
           <End Role="QuaTrinhCongTac" Type="Self.QuaTrinhCongTac" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5042,7 +5040,7 @@
             <End Role="NhanVien" EntitySet="NhanViens" />
             <End Role="QuanHeGiaDinh" EntitySet="QuanHeGiaDinhs" />
           </AssociationSet>
-          <AssociationSet Name="FK__QuaTrinhCo__MaNV__5BAD9CC8" Association="Self.FK__QuaTrinhCo__MaNV__5BAD9CC8">
+          <AssociationSet Name="FK__QuaTrinhCo__MaNV__5CA1C101" Association="Self.FK__QuaTrinhCo__MaNV__5CA1C101">
             <End Role="NhanVien" EntitySet="NhanViens" />
             <End Role="QuaTrinhCongTac" EntitySet="QuaTrinhCongTacs" />
           </AssociationSet>
@@ -5745,6 +5743,7 @@
           <EntitySetMapping Name="QuaTrinhCongTacs">
             <EntityTypeMapping TypeName="QUANGHANHABCModel.QuaTrinhCongTac">
               <MappingFragment StoreEntitySet="QuaTrinhCongTac">
+                <ScalarProperty Name="MaCongTac" ColumnName="MaCongTac" />
                 <ScalarProperty Name="ChucDanh" ColumnName="ChucDanh" />
                 <ScalarProperty Name="ChucVu" ColumnName="ChucVu" />
                 <ScalarProperty Name="DonViCongTac" ColumnName="DonViCongTac" />
