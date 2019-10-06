@@ -495,6 +495,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                         " from Fuel_activities_consumption f, Equipment e , Supply s " +
                         " where e.equipmentId = f.equipmentId and s.supply_id = f.fuel_type " +
                         " and MONTH(date) = MONTH(@newday) " +
+                        " and Year(date) = Year(@newday) " +
                         " and supply_id = @newFuelType " +
                         " and department_id = @newDepartmentId "
                         , new SqlParameter("newday", new_day)
@@ -504,6 +505,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     DBContext.Database.ExecuteSqlCommand("" +
                         " update Supply_tieuhao set used=@new" +
                         " where MONTH(date) = MONTH(@newday) " +
+                        " and Year(date) = Year(@newday) " +
                         " and supplyid = @newFuelType " +
                         " and departmentid = @newDepartmentId "
                         , new SqlParameter("new", update_amount_new)
