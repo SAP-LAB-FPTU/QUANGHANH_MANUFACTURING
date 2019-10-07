@@ -10,9 +10,22 @@
 <script src="~/assets/extra-libs/DataTables/datatables.min.js"></script>
 <link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
 
+<link href="~/assets/libs/toastr/build/toastr.min.css" rel="stylesheet">
+<style>
+    #toast-container {
+        min-width: 10%;
+        top: 0;
+        right: 50%;
+        transform: translateX(50%) translateY(50%);
+    }
+
+    .page-title {
+        display: inline !important;
+    }
+</style>
 
 <script>
-    $(document).ready(function () {
+    @*$(document).ready(function () {
         var url_string = window.location.href;
         var url = new URL(url_string);
         var c = url.searchParams.get("Ca");
@@ -71,89 +84,94 @@
                 $('#pre-load').hide();
             }
         });
-    });
+    });*@
 
 </script>
 
 <div class="card">
     <div class="card-content">
-        <form>
-            <div class="row center">
-                <h3>
-                    KHỐI LƯỢNG CÔNG VIỆC CỦA  <a class='dropdown-trigger btn' id="px" href='#' data-target='dropdown_px'
-                                                 style="width:250px;background-color:#273146" name="VTL1">
-                        VTL1
-                    </a> <a class="dropdown-trigger btn" id="ca" href="#" data-target="dropdown_ca" style="background-color:#273146">CA 1</a> NGÀY <input type="text" id="inputdate" class="datepicker-here center" data-language="vi">
-                    <a class="btn waves-effect waves-light blue modal-trigger" id="btn-view" href="#" onclick="getcontent();">Xem</a>
-                    <br><br>
-                </h3>
-                <hr>
+        @*<form>*@
+        <div class="page-title row center">
+            <h3>
+                <b>KHỐI LƯỢNG CÔNG VIỆC</b>
+            </h3>
+            <div class="row">
+                <div class="col s12 m2 l2">
+                </div>
+                <div class="col s12 m2 l2">
+                    <select class="form-control center" id="phongbanSearch">
+                        <option value="-1" selected>Chọn phòng ban</option>
+                        @foreach (var item in @ViewBag.TenToChuc)
+                        {
+                            <option value="@item.department_id">@item.department_name</option>
+                        }
+                    </select>
+                </div>
+                <div class="col s12 m2 l2">
+                    <select class="form-control center" id="caSearch">
+                        <option value="-1" selected>Chọn ca</option>
+                        <option value="1">Ca 1</option>
+                        <option value="2">Ca 2</option>
+                        <option value="3">Ca 3</option>
+                    </select>
+                </div>
+                <div class="col l3 l3">
+                    <input id="chon-ngay" class="thoigian center form-control" />
+                </div>
+                <div class="col l2 l2">
+                    <button class="btn waves-effect waves-light blue" id="viewBtn">Xem</button>
+                </div>
+                <div class="col l2 l2">
+                </div>
             </div>
-            <div class="row table1" style="overflow-x:auto!important">
-                @if (ViewBag.nsld.Count > 0)
-                {
-                    <table id="content-table" class="table table-bordered table-responsive centered highlight">
-                        <thead>
-                            <tr>
-                                <th style="display:none;"></th>
-                                <th width="3%">STT</th>
-                                <th width="10%">Tên</th>
-                                <th width="5%">Số thẻ</th>
-                                <th width="5%">Bậc thợ</th>
-                                <th width="10%">Chức danh công việc,thợ chính,thợ phụ</th>
-                                <th width="10%">Nội dung công việc,vị trí làm việc</th>
-                                <th width="10%">Khối lượng công việc thực hiện được</th>
-                                <th width="10%">Hệ số chia lương</th>
-                                <th width="10%">Lương</th>
-                                <th>Dự báo nguy cơ</th>
-                                <th>-Yêu cầu BPKTAT<br>-Giải pháp loại trừ nguy cơ</th>
-                            </tr>
 
-                        </thead>
-                        <tbody id="contentNSLD">
-                            @foreach (var item in ViewBag.nsld)
-                            {
-                                <tr>
-                                    <td style="display:none;"><input class="madiemdanh" value="@item.ID" /></td>
-                                    <td>@item.STT</td>
-                                    <td>@item.Name</td>
-                                    <td>@item.SoThe</td>
-                                    <td>@item.BacTho</td>
-                                    <td>@item.ChucDanh</td>
-                                    <td>@item.NoiDungCongViec</td>
-                                    <td><input type="number" value="@item.NSLD" class="form-control updateNSLD" style="border:none; text-align: center;" id="nsld"></td>
-                                    <td><input type="number" value="@item.HeSoChiaLuong" class="form-control HeSoChiaLuong" style="border:none; text-align: center;"></td>
-                                    <td><input type="number" value="@item.LuongTruocDuyet" class="form-control Luong" style="border:none; text-align: center;"></td>
+            <br><br>
 
-                                    <td><textarea class="DuBaoNguyCo">@item.DuBaoNguyCo</textarea></td>
-                                    <td><textarea class="GiaiPhapNguyCo">@item.YeuCauBPKTAT</textarea></td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                    <div style="margin-top:10px;">
-                        <a class="btn waves-effect waves-light blue modal-trigger" id="btn-save" href="#modal1">Lưu</a>
-                    </div>
-                }
-                else
-                {
-                    <div class="row">
-                        <h3 style="text-align:center;">
-                            <p>Chưa có dữ liệu điểm danh</p>
-                        </h3>
-                        <hr>
-                    </div>
-                }
+            <hr>
+        </div>
+        <div class="row table1" style="overflow-x:auto!important">
+            <table id="content-table" class="table table-bordered table-responsive centered highlight">
+                <thead>
+                    <tr>
+                        <th style="display:none;"></th>
+                        <th width="3%">STT</th>
+                        <th width="10%">Tên</th>
+                        <th width="5%">Số thẻ</th>
+                        <th width="5%">Bậc thợ</th>
+                        <th width="10%">Chức danh công việc,thợ chính,thợ phụ</th>
+                        <th width="10%">Nội dung công việc,vị trí làm việc</th>
+                        <th width="10%">Khối lượng công việc thực hiện được</th>
+                        <th width="10%">Hệ số chia lương</th>
+                        <th width="10%">Lương</th>
+                        <th>Dự báo nguy cơ</th>
+                        <th>-Yêu cầu BPKTAT<br>-Giải pháp loại trừ nguy cơ</th>
+                    </tr>
+                </thead>
+                <tbody id="contentNSLD">
+                    @*<tr>
+                            <td style="display:none;"><input class="madiemdanh" value="@item.ID" /></td>
+                            <td>@item.STT</td>
+                            <td>@item.Name</td>
+                            <td>@item.SoThe</td>
+                            <td>@item.BacTho</td>
+                            <td>@item.ChucDanh</td>
+                            <td>@item.NoiDungCongViec</td>
+                            <td><input type="number" value="@item.NSLD" class="form-control updateNSLD" style="border:none; text-align: center;" id="nsld"></td>
+                            <td><input type="number" value="@item.HeSoChiaLuong" class="form-control HeSoChiaLuong" style="border:none; text-align: center;"></td>
+                            <td><input type="number" value="@item.LuongTruocDuyet" class="form-control Luong" style="border:none; text-align: center;"></td>
+                            <td><textarea class="DuBaoNguyCo">@item.DuBaoNguyCo</textarea></td>
+                            <td><textarea class="GiaiPhapNguyCo">@item.YeuCauBPKTAT</textarea></td>
+                        </tr>*@
+                </tbody>
+            </table>
+            <div style="margin-top:10px;">
+                <a class="btn waves-effect waves-light blue modal-trigger" id="btn-save" href="#modal1">Lưu</a>
             </div>
-        </form>
+
+        </div>
+        @*</form>*@
     </div>
 </div>
-<ul id='dropdown_ca' class='dropdown-content'>
-    <li><a class="dropdown-child-ca" href="#" name="CA 1">CA 1</a></li>
-    <li><a class="dropdown-child-ca" href="#" name="CA 2">CA 2</a></li>
-    <li><a class="dropdown-child-ca" href="#" name="CA 3">CA 3</a></li>
-</ul>
-
 
 <div id="modal1" class="modal">
     <div class="modal-content">
@@ -165,42 +183,177 @@
     </div>
 </div>
 
-<ul id='dropdown_px' class='dropdown-content'>
-    @foreach (var item in @ViewBag.TenToChuc)
-    {
-        <li><a class="dropdown-child-px" href="#!" name="@item.department_id">@item.department_name</a></li>
-    }
-</ul>
+<script>
+    $("#viewBtn").click(function () {
+        var phongbanSearch = $("#phongbanSearch").val();
+        var caSearch = $("#caSearch").val();
+        var ngaySearch = $("#chon-ngay").val();
+        //var data = [];
+        //data.push(phongbanSearch);
+        //data.push(caSearch);
+        //data.push(ngaySearch);
 
-<script type="text/javascript">
+        if (phongbanSearch == -1 || caSearch == -1 || ngaySearch == "") {
+            toastr.error('Hãy nhập đầy đủ thông tin', '');
+        } else {
+            $('#pre-load').show("slow", function () {
+            });
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                url: "/phan-xuong-khai-thac/nang-suat-lao-dong-getData",
+                data: {
+                    phongbanSearch: JSON.stringify(phongbanSearch),
+                    caSearch: JSON.stringify(caSearch),
+                    ngaySearch: JSON.stringify(ngaySearch)
+                },
+                success: function (response) {
+                    if (response.success) {
+                        $("#contentNSLD").empty();
+                        for (var i = 0; i < response.customNSLDs.length; i++) {
+                            $("#contentNSLD").append("<tr>\n");
+                            $("#contentNSLD").append("<td style=\"display:none;\"><input class=\"madiemdanh\" value=\"" + response.customNSLDs[i].ID + "\" /></td>\n");
+                            $("#contentNSLD").append("<td>" + response.customNSLDs[i].STT + "</td>\n");
+                            $("#contentNSLD").append("<td>" + response.customNSLDs[i].Name + "</td>\n");
+                            $("#contentNSLD").append("<td>" + response.customNSLDs[i].SoThe + " </td>\n");
+                            $("#contentNSLD").append("<td>" + response.customNSLDs[i].BacTho + " </td>\n");
+                            $("#contentNSLD").append("<td>" + response.customNSLDs[i].ChucDanh + " </td>\n");
+                            $("#contentNSLD").append("<td>" + response.customNSLDs[i].NoiDungCongViec + "</td>\n");
+                            $("#contentNSLD").append("<td><input type=\"number\" value=\"" + response.customNSLDs[i].NSLD + "\" class=\"form-control updateNSLD\" style=\"border:none; text-align: center;\" id=\"nsld\"></td>\n");
+                            $("#contentNSLD").append("<td><input type=\"number\" value=\"" + response.customNSLDs[i].HeSoChiaLuong + "\" class=\"form-control HeSoChiaLuong\" style=\"border:none; text-align: center;\" ></td>\n");
+                            $("#contentNSLD").append("<td><input type=\"number\" value=\"" + response.customNSLDs[i].LuongTruocDuyet + "\" class=\"form-control Luong\" style=\"border:none; text-align: center;\"></td>\n");
+                            $("#contentNSLD").append("<td><textarea class=\"DuBaoNguyCo\">" + response.customNSLDs[i].DuBaoNguyCo + "</textarea></td>\n");
+                            $("#contentNSLD").append("<td><textarea class=\"GiaiPhapNguyCo\">" + response.customNSLDs[i].YeuCauBPKTAT + "</textarea></td>");
+                            $("#contentNSLD").append("</tr>\n");
+                        }
+                        $('#pre-load').hide("slow", function () {
+                        });
+                    } else {
+                        $('#pre-load').hide("slow", function () {
+                        });
+                        errorAlert("Lỗi", "");
+                    }
+                }
+            })
+        }
+
+        //$.ajax({
+        //    type: "post",
+        //    dataType: "json",
+        //    url: "/phan-xuong-khai-thac/nang-suat-lao-dong-getData",
+        //    data: {
+        //        phongbanSearch : JSON.stringify(phongbanSearch),
+        //        caSearch : JSON.stringify(caSearch),
+        //        ngaySearch : JSON.stringify(ngaySearch)
+        //    },
+        //    success: function (response) {
+        //        if (response.success) {
+        //            $("#contentNSLD").empty();
+        //            for (var i = 0; i < response.customNSLDs.length; i++) {
+        //                $("#contentNSLD").append("<tr>\n");
+        //                $("#contentNSLD").append("<td style=\"display:none;\"><input class=\"madiemdanh\" value=\"" + response.customNSLDs[i].ID + "\" /></td>\n");
+        //                $("#contentNSLD").append("<td>" + response.customNSLDs[i].STT + "</td>\n");
+        //                $("#contentNSLD").append("<td>" + response.customNSLDs[i].Name + "</td>\n");
+        //                $("#contentNSLD").append("<td>" + response.customNSLDs[i].SoThe + " </td>\n");
+        //                $("#contentNSLD").append("<td>" + response.customNSLDs[i].BacTho + " </td>\n");
+        //                $("#contentNSLD").append("<td>" + response.customNSLDs[i].ChucDanh + " </td>\n");
+        //                $("#contentNSLD").append("<td>" + response.customNSLDs[i].NoiDungCongViec + "</td>\n");
+        //                $("#contentNSLD").append("<td><input type=\"number\" value=\""+ response.customNSLDs[i].NSLD+"\" class=\"form-control updateNSLD\" style=\"border:none; text-align: center;\" id=\"nsld\"></td>\n");
+        //                $("#contentNSLD").append("<td><input type=\"number\" value=\""+ response.customNSLDs[i].HeSoChiaLuong+"\" class=\"form-control HeSoChiaLuong\" style=\"border:none; text-align: center;\" ></td>\n");
+        //                $("#contentNSLD").append("<td><input type=\"number\" value=\""+ response.customNSLDs[i].LuongTruocDuyet+"\" class=\"form-control Luong\" style=\"border:none; text-align: center;\"></td>\n");
+        //                $("#contentNSLD").append("<td><textarea class=\"DuBaoNguyCo\">"+ response.customNSLDs[i].DuBaoNguyCo+"</textarea></td>\n");
+        //                $("#contentNSLD").append("<td><textarea class=\"GiaiPhapNguyCo\">" + response.customNSLDs[i].YeuCauBPKTAT + "</textarea></td>");
+        //                $("#contentNSLD").append("</tr>\n");
+        //            }
+        //        } else {
+
+        //        }
+        //    }
+        //})
+    })
+</script>
+<script>
     var ca;
     var intCa;
     function getInner() {
-        ca = document.getElementById("ca").innerText;
-        if (ca == "CA 2") {
-            intCa = "2";
-        }
-        else if (ca == "CA 3") {
-            intCa = "3";
-        }
-        else {
-            intCa = "1";
-        }
+        intCa = $("#caSearch").val();
     }
-
+</script>
+<script>
     function getcontent() {
-        getInner();
-        var tendonvi = $("#px").attr("name");
-        var date = $('#inputdate').val();
-        if (date == '') {
-            errorAlert('Lỗi', 'Bạn chưa nhập ngày');
-        } else {
-            window.location = "/phan-xuong-khai-thac/nang-suat-lao-dong?Ca=" + intCa + "&Date=" + document.getElementById("inputdate").value + "&Donvi=" + tendonvi;
-        }
 
+        $('#pre-load').show("slow", function () {
+        });
+
+        var phongbanSearch = $("#phongbanSearch").val();
+        var caSearch = $("#caSearch").val();
+        var ngaySearch = $("#chon-ngay").val();
+        //var data = [];
+        //data.push(phongbanSearch);
+        //data.push(caSearch);
+        //data.push(ngaySearch);
+        $.ajax({
+            type: "post",
+            dataType: "json",
+            url: "/phan-xuong-khai-thac/nang-suat-lao-dong-getData",
+            data: {
+                phongbanSearch: JSON.stringify(phongbanSearch),
+                caSearch: JSON.stringify(caSearch),
+                ngaySearch: JSON.stringify(ngaySearch)
+            },
+            dataType: "json",
+            url: "/phan-xuong-khai-thac/nang-suat-lao-dong-getData",
+            data: {
+                phongbanSearch: JSON.stringify(phongbanSearch),
+                caSearch: JSON.stringify(caSearch),
+                ngaySearch: JSON.stringify(ngaySearch)
+
+            },
+            success: function (response) {
+                if (response.success) {
+                    $("#contentNSLD").empty();
+                    for (var i = 0; i < response.customNSLDs.length; i++) {
+                        $("#contentNSLD").append("<tr><td style=\"display:none;\"><input class=\"madiemdanh\" value=\"" + response.customNSLDs[i].ID + "\"/></td>\n");
+                        $("#contentNSLD").append("<tr><td style=\"display:none;\"><input class=\"madiemdanh\" value=\"" + response.customNSLDs[i].ID + "\"/></td>\n");
+                        $("#contentNSLD").append("<td>" + response.customNSLDs[i].STT + "</td>\n");
+                        $("#contentNSLD").append("<td>" + response.customNSLDs[i].Name + "</td>\n");
+                        $("#contentNSLD").append("<td>" + response.customNSLDs[i].SoThe + " </td>\n");
+                        $("#contentNSLD").append("<td>" + response.customNSLDs[i].BacTho + " </td>\n");
+                        $("#contentNSLD").append("<td>" + response.customNSLDs[i].ChucDanh + " </td>\n");
+                        $("#contentNSLD").append("<td>" + response.customNSLDs[i].NoiDungCongViec + "</td>\n");
+                        $("#contentNSLD").append("<td><input type=\"number\" value=\"" + response.customNSLDs[i].NSLD + "\" class=\"form-control updateNSLD\" style=\"border:none; text-align: center;\" id=\"nsld\"></td>\n");
+                        $("#contentNSLD").append("<td><input type=\"number\" value=\"" + response.customNSLDs[i].HeSoChiaLuong + "\" class=\"form-control HeSoChiaLuong\" style=\"border:none; text-align: center;\" ></td>\n");
+                        $("#contentNSLD").append("<td><input type=\"number\" value=\"" + response.customNSLDs[i].LuongTruocDuyet + "\" class=\"form-control Luong\" style=\"border:none; text-align: center;\"></td>\n");
+                        $("#contentNSLD").append("<td><textarea class=\"DuBaoNguyCo\">" + response.customNSLDs[i].DuBaoNguyCo + "</textarea></td>\n");
+                        $("#contentNSLD").append("<td><textarea class=\"GiaiPhapNguyCo\">" + response.customNSLDs[i].YeuCauBPKTAT + "</textarea></td></tr>\n");
+
+                    }
+                    $('#pre-load').hide("slow", function () {
+                    });
+                } else {
+                    errorAlert("Lỗi", "");
+                    $('#pre-load').hide("slow", function () {
+                    });
+                }
+            }
+        });
     }
+</script>
+<script>
+    $("#chon-ngay").datepicker({
+        toggleSelected: false,
+        language: 'vi'
+    });
+    var date = new Date();
+    $("#chon-ngay").val(date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear());
+    $(function () {
+        $(".datepicker-inline").remove();
+    })
+</script>
+<script>
     function Update() {
-        $('#pre-load').show();
+        $('#pre-load').show("slow", function () {
+        });
         getInner();
         var MaDiemDanh = document.getElementsByClassName("madiemdanh");
         var NangSuatLaoDong = document.getElementsByClassName("updateNSLD");
@@ -236,7 +389,7 @@
             Luongs: Luongs,
             DuBaoNguyCos: DuBaoNguyCos,
             GiaiPhapNguyCos: GiaiPhapNguyCos,
-            date: document.getElementById("inputdate").value
+            date: $("#chon-ngay").val()
         };
         $.ajax({
             url: "/phan-xuong-khai-thac/nang-suat-lao-dong-update",
@@ -245,36 +398,40 @@
             type: "POST",
             success: function () {
                 getcontent();
+                $('#pre-load').hide();
+                reloadAlert("Thành công!", 2000);
             },
             error: function () {
             }
         });
     }
 </script>
-<script>
-    $('#inputdate').datepicker({
-        language: 'vi',
-        maxDate: new Date() // Now can select only dates, which goes after today
-    })
-    $(document).ready(function () {
-        $('.datepicker-inline').remove();
-    });
-    $(document).ready(function () {
-        $("#type").html("Xem Theo Ngày");
-    });
-    $("#dropdown_px").on("click", ".dropdown-child-px", function () {
-        select = $(this).attr("name");
-        text = $(this).text();
-        $("#px").html(text);
-        $("#px").attr("name", select);
-        $(".dropdown-child-px").attr("name", select);
-        $('.dropdown-trigger').dropdown('close');
-    });
+@*<script>
+        $('#inputdate').datepicker({
+            language: 'vi',
+            maxDate: new Date() // Now can select only dates, which goes after today
+        })
+        $(document).ready(function () {
+            $('.datepicker-inline').remove();
+        });
+        $(document).ready(function () {
+            $("#type").html("Xem Theo Ngày");
+        });
+        $("#dropdown_px").on("click", ".dropdown-child-px", function () {
+            select = $(this).attr("name");
+            text = $(this).text();
+            $("#px").html(text);
+            $("#px").attr("name", select);
+            $(".dropdown-child-px").attr("name", select);
+            $('.dropdown-trigger').dropdown('close');
+        });
 
-</script>
+    </script>*@
 <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
 <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
 <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
 <script src="~/js/Custom JS/Disable_input_material.js"></script>
+<script src="~/assets/libs/toastr/build/toastr.min.js"></script>
+<script src="~/assets/extra-libs/toastr/toastr-init.js"></script>
 
 

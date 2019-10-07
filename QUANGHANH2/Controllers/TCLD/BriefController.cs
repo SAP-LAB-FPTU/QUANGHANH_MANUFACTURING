@@ -781,7 +781,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     hs_nv = (from nv in db.NhanViens
                              join hs in db.HoSoes
                              on nv.MaNV equals hs.MaNV
-                             where (hs.TrangThaiHoSo != "hồ sơ ngoài")
+                             where (nv.MaTrangThai != 2)
                              && ((nv.MaNV + " ").Contains(manv))
                              && ((nv.Ten + " ").Contains(tennv))
                              && ((hs.NguoiGiaoHoSo + " ").Contains(nguoigiaohoso))

@@ -117,7 +117,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 var recordAll = (from p in db.Departments
                                  join p1 in db.NhanViens on p.department_id equals p1.MaPhongBan
                                  join p2 in db.CongViecs on p1.MaCongViec equals p2.MaCongViec
-                               where p1.MaTrangThai == 1 & p.department_type != "Đơn vị sản xuất thuê ngoài"
+                                 where p1.MaTrangThai == 1 & p.department_type != "Đơn vị sản xuất thuê ngoài"
                                  select
                                  new
                                  {
@@ -125,53 +125,54 @@ namespace QUANGHANH2.Controllers.TCLD
                                      tenPhongBan = p.department_name,
                                      maPhongBan = p.department_id,
                                      tenDonVi = p.department_type,
-                                     gioiTinh= p1.GioiTinh,
-                                     maNv=p1.MaNV
+                                     gioiTinh = p1.GioiTinh,
+                                     maNv = p1.MaNV
                                  }
 
                                 ).ToList();
                 var listDonVi = (from p in db.Departments
                                  where p.department_type != "Đơn vị sản xuất thuê ngoài"
-                                 select new {   
-                    tenPhongBan = p.department_name,
-                    maPhongBan = p.department_id,
-                    tenDonVi = p.department_type,
-                   
-                }).ToList();
-                
-                foreach(var i in listDonVi.DistinctBy(x=>x.tenDonVi).ToList())
+                                 select new
+                                 {
+                                     tenPhongBan = p.department_name,
+                                     maPhongBan = p.department_id,
+                                     tenDonVi = p.department_type,
+
+                                 }).ToList();
+
+                foreach (var i in listDonVi.DistinctBy(x => x.tenDonVi).ToList())
                 {
                     var listPhongBan = listDonVi.Where(x => x.tenDonVi == i.tenDonVi);
                     var count = listPhongBan.Count();
                     List<RecordTotalEmployee> listPhongBanAll = new List<RecordTotalEmployee>();
                     List<RecordTotalEmployee> listPhongBanTemp = new List<RecordTotalEmployee>();
-                  
+
                     foreach (var item in listPhongBan)
                     {
-                        
+
                         var tonglaodongphongban = recordAll.Where(x => x.maPhongBan == item.maPhongBan).Count();
                         var tonglaodongphongbanNu = recordAll.Where(x => x.gioiTinh == false).Count();
-                        var quandocNumber= recordAll.Where(x => x.maPhongBan == item.maPhongBan & x.idCongViec ==18).Count();
-                        var ppOrPgd = recordAll.Where(x => x.maPhongBan == item.maPhongBan &( x.idCongViec ==21 | x.idCongViec ==13)).Count();
+                        var quandocNumber = recordAll.Where(x => x.maPhongBan == item.maPhongBan & x.idCongViec == 18).Count();
+                        var ppOrPgd = recordAll.Where(x => x.maPhongBan == item.maPhongBan & (x.idCongViec == 21 | x.idCongViec == 13)).Count();
                         var pqdcdV = recordAll.Where(x => x.maPhongBan == item.maPhongBan & (x.idCongViec == 22 | x.idCongViec == 23)).Count();
-                        var nvktV = recordAll.Where(x => x.maPhongBan == item.maPhongBan &x.idCongViec==27).Count();
-                        var cvV = recordAll.Where(x => x.maPhongBan == item.maPhongBan &x.idCongViec==32).Count();
-                        var ktvV = recordAll.Where(x => x.maPhongBan == item.maPhongBan & x.idCongViec==24).Count();
+                        var nvktV = recordAll.Where(x => x.maPhongBan == item.maPhongBan & x.idCongViec == 27).Count();
+                        var cvV = recordAll.Where(x => x.maPhongBan == item.maPhongBan & x.idCongViec == 32).Count();
+                        var ktvV = recordAll.Where(x => x.maPhongBan == item.maPhongBan & x.idCongViec == 24).Count();
                         var cdlV = 0;
                         //recordAll.Where(x => x.maPhongBan == i.maPhongBan ).Count();
                         var khacV = 0;
                         //recordAll.Where(x => x.maPhongBan == i.maPhongBan).Count();                      
                         var pvV = 0;
-                            //recordAll.Where(x => x.maPhongBan == i.maPhongBan).Count();
-                        var ktV = recordAll.Where(x => x.maPhongBan == item.maPhongBan &x.idCongViec==15).Count();
+                        //recordAll.Where(x => x.maPhongBan == i.maPhongBan).Count();
+                        var ktV = recordAll.Where(x => x.maPhongBan == item.maPhongBan & x.idCongViec == 15).Count();
                         var ptV = 0;
-                            //recordAll.Where(x => x.maPhongBan == i.maPhongBan).Count();
+                        //recordAll.Where(x => x.maPhongBan == i.maPhongBan).Count();
                         RecordTotalEmployee phongban = new RecordTotalEmployee
                         {
                             dv = item.tenPhongBan,
                             ldts = tonglaodongphongban,
                             nu = tonglaodongphongbanNu,
-                            tsgt = quandocNumber + ppOrPgd + nvktV + cvV+ pqdcdV,
+                            tsgt = quandocNumber + ppOrPgd + nvktV + cvV + pqdcdV,
                             qd = quandocNumber,
                             pppgd = ppOrPgd,
                             pqdcd = pqdcdV,
@@ -192,12 +193,12 @@ namespace QUANGHANH2.Controllers.TCLD
 
                     //first row donvi=>phong ban
 
-                    var tonglaodongdonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi  ).Count(); ;
-                    var tonglaodongdonviNu = recordAll.Where(x => x.gioiTinh == false& x.tenDonVi == i.tenDonVi).Count();
-                    var quandocNumberdonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi & x.idCongViec == 18).Count(); 
+                    var tonglaodongdonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi).Count(); ;
+                    var tonglaodongdonviNu = recordAll.Where(x => x.gioiTinh == false & x.tenDonVi == i.tenDonVi).Count();
+                    var quandocNumberdonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi & x.idCongViec == 18).Count();
                     var ppOrPgddonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi & (x.idCongViec == 21 | x.idCongViec == 13)).Count();
                     var pqdcdVdonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi & (x.idCongViec == 22 | x.idCongViec == 23)).Count(); ;
-                    var nvktVdonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi & x.idCongViec == 27).Count(); 
+                    var nvktVdonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi & x.idCongViec == 27).Count();
                     var cvVdonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi & x.idCongViec == 32).Count();
                     var ktvVdonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi & x.idCongViec == 24).Count();
                     var cdlVdonvi = 0;
@@ -211,7 +212,7 @@ namespace QUANGHANH2.Controllers.TCLD
                         dv = i.tenDonVi.ToUpper(),
                         ldts = tonglaodongdonvi,
                         nu = tonglaodongdonviNu,
-                        tsgt = quandocNumberdonvi + ppOrPgddonvi + nvktVdonvi + cvVdonvi+ pqdcdVdonvi,
+                        tsgt = quandocNumberdonvi + ppOrPgddonvi + nvktVdonvi + cvVdonvi + pqdcdVdonvi,
                         qd = quandocNumberdonvi,
                         pppgd = ppOrPgddonvi,
                         pqdcd = pqdcdVdonvi,
@@ -237,13 +238,13 @@ namespace QUANGHANH2.Controllers.TCLD
                 //total Tong
 
                 var tonglaodongAll = recordAll.Count();
-                var tonglaodongAllNu = recordAll.Where(x => x.gioiTinh == false ).Count();
-                var quandocNumberAll = recordAll.Where(x =>  x.idCongViec == 18).Count();
-                var ppOrPgdAll = recordAll.Where(x =>  (x.idCongViec == 21 | x.idCongViec == 13)).Count();
-                var pqdcdVAll = recordAll.Where(x =>  (x.idCongViec == 22 | x.idCongViec == 23)).Count(); ;
-                var nvktVAll = recordAll.Where(x =>  x.idCongViec == 27).Count();
+                var tonglaodongAllNu = recordAll.Where(x => x.gioiTinh == false).Count();
+                var quandocNumberAll = recordAll.Where(x => x.idCongViec == 18).Count();
+                var ppOrPgdAll = recordAll.Where(x => (x.idCongViec == 21 | x.idCongViec == 13)).Count();
+                var pqdcdVAll = recordAll.Where(x => (x.idCongViec == 22 | x.idCongViec == 23)).Count(); ;
+                var nvktVAll = recordAll.Where(x => x.idCongViec == 27).Count();
                 var cvVAll = recordAll.Where(x => x.idCongViec == 32).Count();
-                var ktvVAll = recordAll.Where(x =>  x.idCongViec == 24).Count();
+                var ktvVAll = recordAll.Where(x => x.idCongViec == 24).Count();
                 var cdlVAll = 0;
                 var khacVAll = 0;
                 var pvVAll = 0;
@@ -551,51 +552,50 @@ namespace QUANGHANH2.Controllers.TCLD
                         List<QuaTrinhCongTac> list = db.QuaTrinhCongTacs.ToList();
                         for (int i = 0; i < donVi.Length; i++)
                         {
-                            if (!donVi[i].Equals(""))
+                            //if (!donVi[i].Equals("") )
+                            //{
+                            string[] ngay = tuNgayDenNgay[i].Split('-');
+                            string DonViCongTacX = donVi[i];
+                            string[] ngayFix = ngay[0].Trim().Split('/');
+                            List<QuaTrinhCongTac> ct = db.QuaTrinhCongTacs.Where(qtct => (qtct.MaNV.Equals(emp.MaNV)) && (qtct.DonViCongTac.Equals(DonViCongTacX))).ToList();
+                            if (ct.Count == 0)
                             {
-                                string[] ngay = tuNgayDenNgay[i].Split('-');
-                                string DonViCongTacX = donVi[i];
-                                string[] ngayFix = ngay[0].Trim().Split('/');
-                                DateTime NgayBatDauX = Convert.ToDateTime(ngayFix[1] + "/" + ngayFix[0] + "/" + ngayFix[2]);
-                                List<QuaTrinhCongTac> ct = db.QuaTrinhCongTacs.Where(qtct => (qtct.MaNV.Equals(emp.MaNV)) && (qtct.DonViCongTac.Equals(DonViCongTacX)) && (qtct.NgayBatDau == NgayBatDauX)).ToList();
-                                if (ct.Count == 0)
+                                QuaTrinhCongTac qtct = new QuaTrinhCongTac();
+                                qtct.MaNV = emp.MaNV;
+                                qtct.DonViCongTac = donVi[i];
+                                if (ngay[0] != "" && ngay[1] != "")
                                 {
-                                    QuaTrinhCongTac qtct = new QuaTrinhCongTac();
-                                    qtct.MaNV = emp.MaNV;
-                                    qtct.DonViCongTac = donVi[i];
-                                    if (ngay[0] != "" && ngay[1] != "")
-                                    {
-                                        string[] dateStart = ngay[0].Split('/');
-                                        qtct.NgayBatDau = Convert.ToDateTime(dateStart[1] + "/" + dateStart[0] + "/" + dateStart[2]);
-                                        string[] dateEnd = ngay[1].Split('/');
-                                        qtct.NgayKetThuc = Convert.ToDateTime(dateEnd[1] + "/" + dateEnd[0] + "/" + dateEnd[2]);
-                                    }
-                                    qtct.ChucVu = chucVu[i];
-                                    qtct.ChucDanh = chucDanh[i];
-                                    db.QuaTrinhCongTacs.Add(qtct);
-                                    db.SaveChanges();
+                                    string[] dateStart = ngay[0].Split('/');
+                                    qtct.NgayBatDau = Convert.ToDateTime(dateStart[1] + "/" + dateStart[0] + "/" + dateStart[2]);
+                                    string[] dateEnd = ngay[1].Split('/');
+                                    qtct.NgayKetThuc = Convert.ToDateTime(dateEnd[1] + "/" + dateEnd[0] + "/" + dateEnd[2]);
                                 }
-                                else
-                                {
-                                    QuaTrinhCongTac qtct = new QuaTrinhCongTac();
-                                    qtct.MaNV = emp.MaNV;
-                                    qtct.DonViCongTac = donVi[i];
+                                qtct.ChucVu = chucVu[i];
+                                qtct.ChucDanh = chucDanh[i];
+                                db.QuaTrinhCongTacs.Add(qtct);
+                                db.SaveChanges();
+                            }
+                            else
+                            {
+                                QuaTrinhCongTac qtct = new QuaTrinhCongTac();
+                                qtct.MaNV = emp.MaNV;
+                                qtct.DonViCongTac = donVi[i];
 
-                                    var quaTrinh = db.QuaTrinhCongTacs.Where(congTac => (congTac.MaNV.Equals(emp.MaNV)) && (congTac.DonViCongTac.Equals(DonViCongTacX)) && (congTac.NgayBatDau == NgayBatDauX)).FirstOrDefault();
-                                    if (ngay[0] != "" && ngay[1] != "")
-                                    {
-                                        string[] dateStart = ngay[0].Split('/');
-                                        quaTrinh.NgayBatDau = Convert.ToDateTime(dateStart[1] + "/" + dateStart[0] + "/" + dateStart[2]);
-                                        string[] dateEnd = ngay[1].Split('/');
-                                        quaTrinh.NgayKetThuc = Convert.ToDateTime(dateEnd[1] + "/" + dateEnd[0] + "/" + dateEnd[2]);
-                                    }
-                                    quaTrinh.ChucVu = chucVu[i];
-                                    quaTrinh.ChucDanh = chucDanh[i];
-                                    db.Entry(quaTrinh).State = EntityState.Modified;
-                                    db.SaveChanges();
+                                var quaTrinh = db.QuaTrinhCongTacs.Where(congTac => (congTac.MaNV.Equals(emp.MaNV)) && (congTac.DonViCongTac.Equals(DonViCongTacX))).FirstOrDefault();
+                                if (ngay[0] != "" && ngay[1] != "")
+                                {
+                                    string[] dateStart = ngay[0].Split('/');
+                                    quaTrinh.NgayBatDau = Convert.ToDateTime(dateStart[1] + "/" + dateStart[0] + "/" + dateStart[2]);
+                                    string[] dateEnd = ngay[1].Split('/');
+                                    quaTrinh.NgayKetThuc = Convert.ToDateTime(dateEnd[1] + "/" + dateEnd[0] + "/" + dateEnd[2]);
                                 }
+                                quaTrinh.ChucVu = chucVu[i];
+                                quaTrinh.ChucDanh = chucDanh[i];
+                                db.Entry(quaTrinh).State = EntityState.Modified;
+                                db.SaveChanges();
                             }
                         }
+                        //}
                     }
                 }
                 catch (Exception)
@@ -904,17 +904,7 @@ namespace QUANGHANH2.Controllers.TCLD
             }
 
         }
-        public class NhanVienExcel : NhanVien
-        {
-            public string TenTrinhDo { get; set; }
 
-            public string TenChuyenNganh { get; set; }
-
-            public string TenCongViec { get; set; }
-            public string ThangLuong { get; set; }
-
-
-        }
 
         [Route("deleteFamily")]
         [HttpPost]
@@ -974,7 +964,15 @@ namespace QUANGHANH2.Controllers.TCLD
             }
         }
 
+        public class NhanVienExcel : NhanVien
+        {
+            public string TenTrinhDo { get; set; }
+            public string TenChuyenNganh { get; set; }
+            public string TenCongViec { get; set; }
+            public string ThangLuong { get; set; }
 
+
+        }
         [Route("phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien/excel")]
         [HttpPost]
         public void ReturnExcel()
@@ -987,8 +985,8 @@ namespace QUANGHANH2.Controllers.TCLD
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    string query = "select * from NhanVien";
-                    List<NhanVien> list = db.Database.SqlQuery<NhanVien>(query).ToList();
+                    string query = "select * from NhanVien nv, CongViec cv where nv.MaCongViec = cv.MaCongViec ";
+                    List<NhanVienExcel> list = db.Database.SqlQuery<NhanVienExcel>(query).ToList();
                     int k = 4;
                     for (int i = 0; i < list.Count; i++)
                     {
@@ -1004,32 +1002,36 @@ namespace QUANGHANH2.Controllers.TCLD
                         {
                             excelWorksheet.Cells[k, 4].Value = "Nữ";
                         }
-                        excelWorksheet.Cells[k, 4].Value = list.ElementAt(i).NgaySinh.HasValue ? list.ElementAt(i).NgaySinh.Value.ToString("dd/MM/yyyy") : "";
-                        excelWorksheet.Cells[k, 5].Value = list.ElementAt(i).SoBHXH;
+                        excelWorksheet.Cells[k, 5].Value = list.ElementAt(i).NgaySinh.HasValue ? list.ElementAt(i).NgaySinh.Value.ToString("dd/MM/yyyy") : "";
+                        excelWorksheet.Cells[k, 6].Value = list.ElementAt(i).SoCMND;
+                        excelWorksheet.Cells[k, 7].Value = list.ElementAt(i).SoBHXH;
+                        excelWorksheet.Cells[k, 14].Value = list.ElementAt(i).TenCongViec;
+                        excelWorksheet.Cells[k, 15].Value = list.ElementAt(i).MucLuong;
+                        excelWorksheet.Cells[k, 17].Value = list.ElementAt(i).BacLuong;
                         if (list.ElementAt(i).MaTrinhDo != null)
                         {
                             if (list.ElementAt(i).MaTrinhDo.Equals("1"))
                             {
-                                excelWorksheet.Cells[k, 18].Value = "Tiểu học";
+                                excelWorksheet.Cells[k, 20].Value = "Tiểu học";
                             }
                             else if (list.ElementAt(i).MaTrinhDo.Equals("2"))
                             {
-                                excelWorksheet.Cells[k, 18].Value = "THCS";
+                                excelWorksheet.Cells[k, 20].Value = "THCS";
                             }
                             else if (list.ElementAt(i).MaTrinhDo.Equals("3"))
                             {
-                                excelWorksheet.Cells[k, 18].Value = "THPT";
+                                excelWorksheet.Cells[k, 20].Value = "THPT";
                             }
                             else if (list.ElementAt(i).MaTrinhDo.Equals("4"))
                             {
-                                excelWorksheet.Cells[k, 18].Value = "Trung cấp";
+                                excelWorksheet.Cells[k, 20].Value = "Trung cấp";
                             }
                             else
                             {
-                                excelWorksheet.Cells[k, 18].Value = "Đại học";
+                                excelWorksheet.Cells[k, 20].Value = "Đại học";
                             }
                         }
-                        excelWorksheet.Cells[k, 20].Value = list.ElementAt(i).QueQuan;
+                        excelWorksheet.Cells[k, 22].Value = list.ElementAt(i).QueQuan;
                         k++;
                     }
                     excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath("/excel/TCLD/download/Danh-sách-nhân-viên.xlsx")));

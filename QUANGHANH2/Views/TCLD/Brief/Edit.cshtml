@@ -495,7 +495,7 @@
                                 <label class="custom-label">A.Đào tạo, bồi dưỡng về chuyên môn, nghiệp vụ, lý luận chính trị, ngoại ngữ, tin học</label>
                             </div>
                             <div class="row" style="margin-top:15px">
-                                <table class="table table-bordered centered table-responsive">
+                                <table id="myTable1" class="table table-bordered centered table-responsive">
                                     <thead>
                                         <tr>
                                             <th width="25%">Đơn vị công tác</th>
@@ -521,6 +521,7 @@
                             </div>
                             <div class="col m12 center div_them2">
                                 <a id="buttonThem2" class="btn blue darken-2" style="margin-top:15px;margin-bottom:15px">Thêm</a>
+                                <a class="btnSelect1 waves-effect waves-light btn blue darken-2">Xóa</a>
                             </div>
                             @if (Enumerable.Count(ViewBag.qtList) > 0)
                             {
@@ -555,7 +556,7 @@
                         <div id="giadinh" class="col m12">
                             <div class="row" style="margin-top:10px;margin-bottom:10px"><label class="custom-label">A.Quan hệ gia đình</label></div>
                             <div class="row">
-                                <table class="table table-bordered centered table-responsive">
+                                <table id="myTable" class="table table-bordered centered table-responsive">
                                     <thead>
                                         <tr>
                                             <th width="20%">Gia đình</th>
@@ -589,6 +590,7 @@
                             </div>
                             <div class="col m12 center div_them3" style="margin-top:10px;margin-bottom:10px">
                                 <a id="buttonThem3" class="waves-effect waves-light btn blue darken-2">Thêm</a>
+                                <a class="btnSelect waves-effect waves-light btn blue darken-2">Xóa</a>
                             </div>
 
                             @if (Enumerable.Count(ViewBag.qhList) > 0)
@@ -609,7 +611,9 @@
                                         {
                                             <tr>
                                                 <td class="center">@item.LoaiGiaDinh</td>
-                                                <td class="center" id="td-@item.MaQuanHeGiaDinh" onload="dateFormat1(@item.NgaySinh, @item.MaQuanHeGiaDinh)">@item.NgaySinh</td>
+                                                <td class="center">
+                                                    @item.NgaySinh
+                                                </td>
                                                 <td class="center">@item.HoTen</td>
                                                 <td class="center">@item.MoiQuanHe</td>
                                                 <td class="center">@item.LyLich</td>
@@ -669,6 +673,7 @@
 <link href="~/assets/libs/toastr/build/toastr.min.css" rel="stylesheet" />
 <script src="~/assets/extra-libs/toastr/toastr-init.js"></script>
 <script>
+
     function xoaQuanHe(maQH, id) {
         confirmAlert("Xác nhận xóa?", "",
             function () {
@@ -690,7 +695,7 @@
                                 $("#family-table").append("<td class='center'>" + response.listQH[i].HoTen + "</td>");
                                 $("#family-table").append("<td class='center'>" + response.listQH[i].MoiQuanHe + "</td>");
                                 $("#family-table").append("<td class='center'>" + response.listQH[i].LyLich + "</td>");
-                                $("#family-table").append("<td class='center'><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' data-target='delFamily' onclick='xoaQuanHe(" + response.listQH[i].MaQuanHeGiaDinh + "," + response.listQH[i].MaNV +")'>Xóa</a></td>");
+                                $("#family-table").append("<td class='center'><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' data-target='delFamily' onclick='xoaQuanHe(" + response.listQH[i].MaQuanHeGiaDinh + "," + response.listQH[i].MaNV + ")'>Xóa</a></td>");
                                 $("#family-table").append("</tr>");
                             }
                             successAlert("Thành công", "Xóa thành công");
