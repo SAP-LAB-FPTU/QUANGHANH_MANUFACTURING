@@ -23,30 +23,16 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
             Wherecondition(type, date, month, quarter, year);
             if (ViewBag.ContentReport != null)
             {
-                int total = 0;
+                int totaltieuhao = 0; int totalsanluong = 0; int totalgio = 0;
                 foreach (var item in ViewBag.ContentReport)
                 {
-                    total += item.LuongTieuThu;
+                    totaltieuhao += item.LuongTieuThu;
+                    totalsanluong += item.SanLuong;
+                    totalgio += item.GioHoatDong;
                 }
-                ViewBag.TieuHao = total;
-            }
-            if (ViewBag.ContentReport != null)
-            {
-                int total = 0;
-                foreach (var item in ViewBag.ContentReport)
-                {
-                    total += item.SanLuong;
-                }
-                ViewBag.SanLuong = total;
-            }
-            if (ViewBag.ContentReport != null)
-            {
-                int total = 0;
-                foreach (var item in ViewBag.ContentReport)
-                {
-                    total += item.GioHoatDong;
-                }
-                ViewBag.GioHoatDong = total;
+                ViewBag.TieuHao = totaltieuhao;
+                ViewBag.SanLuong = totalsanluong;
+                ViewBag.GioHoatDong = totalgio;
             }
             return View("/Views/CDVT/Report/WaterReport.cshtml");
         }

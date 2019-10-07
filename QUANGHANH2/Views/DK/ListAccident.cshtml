@@ -1,0 +1,179 @@
+﻿
+@{
+    ViewBag.Title = "ListAccident";
+    Layout = "~/Views/Shared/_Layout_DK.cshtml";
+}
+<link href="~/lib/mutiple select/slimselect.css" rel="stylesheet" />
+<link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="center">
+                    <h3><b>DANH SÁCH TAI NẠN</b></h3>
+                </div>
+                <div class="col s12" style="margin-bottom:10px">
+                    <div class="left">
+                        <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="themsuco"><i class="fa fa-plus"></i> Thêm</a>
+                    </div>
+                </div>
+                <div class="modal-content">
+                    <table class="centered striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>TT</th>
+                                <th>Mã Nhân Viên</th>
+                                <th>Tên Nhân Viên</th>
+                                <th>Đơn vị</th>
+                                <th>Lý do tai nạn</th>
+                                <th>Loại tai nạn</th>
+                                <th>Ca</th>
+                                <th>Ngày</th>
+                                <th colspan="2"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="accident_add">
+                            <tr>
+                                <td>1</td>
+                                <td>8070</td>
+                                <td>Chu Quốc Toàn</td>
+                                <td>Phân Xưởng Đào lò 1</td>
+                                <td>Trượt chân</td>
+                                <td>Nhẹ</td>
+                                <td>CA 1</td>
+                                <td>05/09/2019</td>
+                                <td><a class='waves-effect waves-light btn-small blue darken-2 modal-trigger' data-target='myedit' style='margin-left:5px' @*onclick=getEditId()*@><i class='far fa-edit'></i>Sửa</a></td>
+                                <td><a class='waves-effect waves-light btn-small red ' style='margin-left:5px' onclick="getDeleteIdEmp()"><i class='fa fa-trash'></i> Xóa</a></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>8069</td>
+                                <td>Nguyễn Đình Chiến</td>
+                                <td>Phân Xưởng Đào lò 2</td>
+                                <td>Trượt chân</td>
+                                <td>Nhẹ</td>
+                                <td>CA 3</td>
+                                <td>06/09/2019</td>
+                                <td><a class='waves-effect waves-light btn-small blue darken-2 modal-trigger' data-target='myedit' style='margin-left:5px' @*onclick=getEditId()*@><i class='far fa-edit'></i>Sửa</a></td>
+                                <td><a class='waves-effect waves-light btn-small red' style='margin-left:5px' onclick="getDeleteIdEmp()"><i class='fa fa-trash'></i> Xóa</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <datalist id="EmployeeID">
+        @foreach (var item in ViewBag.listNhanVien)
+        {
+            <option value="@item.MaNV">@item.Ten</option>
+        }
+    </datalist>
+    <div id="themsuco" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Thêm tai nạn</h3>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col s12 m6">
+                        <div class="col s12">
+                            <label for="number">Mã nhân viên: </label>
+                            <input list="EmployeeID" type="text" class="form-control" name="employeeid" placeholder="Mã nhân viên" id="employeeId1" onkeydown=" searchMaNV(this)" />
+                        </div>
+                        <div class="col s12">
+                            <label for="number">Đơn vị: </label>
+                            <input type="text" class="form-control" placeholder="Phân xưởng" name="department" id="department1" readonly />
+                        </div>
+                        <div class="col s12">
+                            <label for="number">Ca: </label>
+                            <select id="ca" class="custom-select">
+                                <option>CA 1</option>
+                                <option>CA 2</option>
+                                <option>CA 3</option>
+                            </select>
+                        </div>
+                        <div class="col s12">
+                            <label for="number">Ngày xảy ra: </label>
+                            <input type="text" class=" datepicker-here form-control" placeholder="Ngày" name="date" id="date" />
+                        </div>
+                    </div>
+                    <div class="col s12 m6">
+                        <div class="col s12">
+                            <label for="number">Tên nhân viên: </label>
+                            <input type="text" class="form-control" placeholder="Tên nhân viên" name="employeename" id="employeeName1" readonly />
+                        </div>
+                        <div class="col s12">
+                            <label for="number">Lí do tai nạn: </label>
+                            <input type="text" class="form-control" placeholder="Lý do tai nạn" name="reason" id="reason" />
+                        </div>
+                        <div class="col s12">
+                            <label for="number">Loại tai nạn: </label>
+                            <select id="loaitainan" class="custom-select">
+                                <option>Nặng</option>
+                                <option>Nhẹ</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-offset-2 col-md-10">
+                    <button type="submit" class="btn blue btn-default modal-close" style="color:white" onclick="insert()">Xác nhận</button>
+                    <button type="submit" class="btn blue btn-default modal-close" style="color:white">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
+<script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
+<!--Stacked Bar Chart JS-->
+<script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
+<script src="~/js/Custom JS/CustomChart.js"></script>
+<script src="~/js/Custom JS/Disable_input_material.js"></script>
+<script src="~/Scripts/notify.min.js"></script>
+
+<script>
+    function searchMaNV(txtMaNV) {
+        var tmp = {
+            MaNV: txtMaNV.value
+        };
+        if (event.key === 'Enter') {
+            $.ajax({
+                type: "POST",
+                url: "/phong-dieu-khien/bao-cao-tai-nan/returnEmployeeName",
+                data: JSON.stringify(tmp),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    document.getElementById("employeeName" + txtMaNV.id.slice(-1)).value = r.Ten;
+                    document.getElementById("department" + txtMaNV.id.slice(-1)).value = r.department_name;
+
+                }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#pre-load').hide();
+                }
+            });
+        }
+    }
+    function getDeleteIdEmp(idEmp) {
+        deleteIdEmp = idEmp;
+        confirmAlert(
+            'Bạn có chắc chắn muốn xóa chứng chỉ này?',
+            '',
+            function ahihi() {
+                DeleteEmp();
+            });
+    }
+    function insert() {
+        var employeeid = document.getElementById("employeeId1").value;
+        var employeename = document.getElementById("employeeName1").value;
+        var date = document.getElementById("date").value;
+        var reason = document.getElementById("reason").value;
+        var department = document.getElementById("department1").value;
+        var loaitainan = document.getElementById("loaitainan").value;
+        var ca = document.getElementById("ca").value;
+        $("#accident_add").append("<tr><td>3</td><td>" + employeeid + "</td><td>" + employeename + "</td><td>" + department + "</td><td>" + reason + "</td><td>" + loaitainan + "</td><td>" + ca + "</td><td>" + date + "</td><td><a class='waves-effect waves-light btn-small blue darken-2 modal-trigger' data-target='edit_employee'  style='margin-left:5px' onclick=getEditIdEmp() ><i class='far fa-edit'></i>Sửa</a></td><td><a class='waves-effect waves-light btn-small red modal-trigger' style='margin-left:5px' onclick=getDeleteIdEmp() ><i class='fa fa-trash'></i> Xóa</a></td></tr>")
+    }
+</script>
+
