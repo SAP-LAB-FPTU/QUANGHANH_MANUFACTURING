@@ -1,0 +1,87 @@
+﻿@{
+    ViewData["Title"] = "ReportIncident";
+    Layout = "~/Views/Shared/_Layout_DK.cshtml";
+}
+
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <div class="card">
+                <div class="card-content">
+                    <div class="row">
+                        <div class="col l12 m12 s12 center">
+                            <h3><b>BÁO CÁO CỦA CÁC PHÂN XƯỞNG, PHÒNG BAN</b></h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col l4 m4 s4 center"></div>
+                        <div style="width:40%" class="col l4 m4 s4 center">
+                            <select class="form-control" id="phongbanSearch">
+                                <option value="-1" selected>Phòng ban - Tất cả</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
+                        <div class="col l4 m4 s4 center"></div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col l4 m4 s4 center"></div>
+                        <div style="width:40%" class="col l4 m4 s4 center">
+                            <h3>
+                                <i class="fas fa-calendar-alt icon"></i>
+                                <input id="ngay-chon" type='text' class='datepicker-here center' data-language='vi' />
+                            </h3>
+                        </div>
+                        <div class="col l4 m4 s4 center"></div>
+                    </div>
+                    <div class="row" id="main-content">
+                        <div class="col s12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <h5 class="">Báo cáo từng ca</h5>
+                                    <br/>
+                                    <ul class="collapsible expandable">
+                                        <li class="active">
+                                            <div class="collapsible-header"><i class="fas fa-paperclip"></i>Ca 1<span id="ca1" class="badge">Đã nhập</span></div>
+                                            <div class="collapsible-body">
+                                                <p><img width="25" style="vertical-align:middle" src="~/assets/uploader/icon.png" /><a href="#">Báo cáo thực hiện sản xuất theo kế hoạch.xlsx</a></p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="collapsible-header"><i class="fas fa-paperclip"></i>Ca 2<span id="ca2" class="badge">Chưa nhập</span></div>
+                                            @*<div class="collapsible-body">
+                                                <p>Lorem ipsum dolor sit amet.</p>
+                                            </div>*@
+                                        </li>
+                                        <li>
+                                            <div class="collapsible-header"><i class="fas fa-paperclip"></i>Ca 3<span id="ca3" class="badge">Chưa nhập</span></div>
+                                            @*<div class="collapsible-body">
+                                                <p>Lorem ipsum dolor sit amet.</p>
+                                            </div>*@
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $(".select-dropdown").remove();
+        $(".caret").remove();
+        //////////////////////////////////////
+        var date = new Date();
+        $("#ngay-chon").val(date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear());
+    })
+</script>
+<!--Stacked Bar Chart JS-->
+<script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
+<script src="~/js/Custom JS/CustomChart.js"></script>
