@@ -30,5 +30,6 @@ namespace QUANGHANHCORE.Controllers.DK
         {
             return View("/Views/DK/ReportManuCharcoal/DetailManuReport/MonthlyOrQuarter.cshtml");
         }
+       
     }
 }
