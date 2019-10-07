@@ -249,8 +249,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 {
                     Equipment i = DBContext.Equipments.Find(equipmentId);
 
-                    //Activity q = DBContext.Activities.Where(x => x.activity_id == activityid).SingleOrDefault();
+                    //Activity q = DBContext.Activities.Where(x => x.activityid == activityid).SingleOrDefault();
                     Activity q = DBContext.Activities.Find(activityid);
+                    Activity fixBug = DBContext.Activities.Find(activityid);
+                    string oldEq = fixBug.equipmentid;
                     q.equipmentid = i.equipmentId;
                     string date = DateTime.ParseExact(date1, "dd/MM/yyyy", null).ToString("MM-dd-yyyy");
                     q.date = DateTime.Parse(date);
@@ -259,22 +261,48 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     q.activityname = activity_name;
                     q.activityid = activityid;
                     DBContext.SaveChanges();
+
+                    //after update activity.
+                    //get old and new.
+                    //string oldEq = q.equipmentid;
+                    string newEq = equipmentId;
+
+                    //update old:
+                    double hoursOld = DBContext.Database.SqlQuery<double>("" +
+                        " select sum(hours_per_day) aequipmentIds total  from Activity " +
+                        " where equipmentid = @equipmentId"
+                        , new SqlParameter("", oldEq)).First();
+                    int totalHourOld = (int)hoursOld;
+                    DBContext.Database.ExecuteSqlCommand("update Equipment set total_operating_hours = @hour where equipmentId = @equipmentId",
+                        new SqlParameter("hour", totalHourOld),
+                        new SqlParameter("equipmentId", oldEq));
+
+                    //update new:
+                    double hoursNew = DBContext.Database.SqlQuery<double>("" +
+                        " select sum(hours_per_day) as total  from Activity " +
+                        " where equipmentid = @equipmentId"
+                        , new SqlParameter("equipmentId", newEq)).First();
+                    int totalHourNew = (int)hoursNew;
+                    DBContext.Database.ExecuteSqlCommand("update Equipment set total_operating_hours = @hour where equipmentId = @equipmentId",
+                        new SqlParameter("hour", totalHourNew),
+                        new SqlParameter("equipmentId", newEq));
+
                     transaction.Commit();
                     return new HttpStatusCodeResult(201);
-                }
-                catch (Exception ex)
-                {
-                    transaction.Rollback();
-                    string output = "";
-                    if (DBContext.Database.SqlQuery<Equipment>("SELECT * FROM Equipment WHERE equipmentId = N'" + equipmentId + "'").Count() == 0)
-                        output += "Mã thiết bị không tồn tại\n";
-
-                    if (output == "")
-                        output += "Có lỗi xảy ra, xin vui lòng nhập lại";
-                    Response.Write(output);
-                    return new HttpStatusCodeResult(400);
-                }
             }
+                catch (Exception ex)
+            {
+                transaction.Rollback();
+                string output = "";
+                if (DBContext.Database.SqlQuery<Equipment>("SELECT * FROM Equipment WHERE equipmentId = N'" + equipmentId + "'").Count() == 0)
+                    output += "Mã thiết bị không tồn tại\n";
+
+                if (output == "")
+                    output += "Có lỗi xảy ra, xin vui lòng nhập lại";
+                Response.Write(output);
+                return new HttpStatusCodeResult(400);
+            }
+        }
         }
 
         [Auther(RightID = "14")]
@@ -294,6 +322,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 }
                 try
                 {
+                    //note : need to be fixed
                     Equipment e = DBContext.Equipments.Find(equipmentId);
 
                     a.equipmentid = e.equipmentId;
@@ -305,8 +334,31 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
 
                     DBContext.Activities.Add(a);
                     DBContext.SaveChanges();
-                    transaction.Commit();
-                    DBContext.SaveChanges();
+
+                    //update total_hour
+                    int count = DBContext.Database.SqlQuery<int>("select total_operating_hours from Equipment where equipmentid = @equipmentId", new SqlParameter("equipmentId", equipmentId)).First();
+                    if (count == 0)
+                    {
+                        //add first
+                        DBContext.Database.ExecuteSqlCommand("update Equipment set total_operating_hours = @hour where equipmentId = @equipmentId",
+                            new SqlParameter("hour", hours_per_day),
+                            new SqlParameter("equipmentId", equipmentId));
+                    }
+                    else
+                    {
+                        //count total hours.
+                        double hours = DBContext.Database.SqlQuery<double>("" +
+                        " select sum(hours_per_day) as total  from Activity " +
+                        " where equipmentid = @equipmentId"
+                        , new SqlParameter("equipmentId", equipmentId)).First();
+                        //fix bug
+                        int totalHour = (int) hours;
+
+                        DBContext.Database.ExecuteSqlCommand("update Equipment set total_operating_hours = @hour where equipmentId = @equipmentId",
+                            new SqlParameter("hour", totalHour),
+                            new SqlParameter("equipmentId", equipmentId));
+                    }
+                        transaction.Commit();
                     return Json("", JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception)
@@ -450,6 +502,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     Supply s = DBContext.Database.SqlQuery<Supply>("select * from Supply where supply_id=@supply_id and (unit = 'L' or unit = 'kWh')", new SqlParameter("supply_id", fuel_type)).First();
                     FuelDB f = DBContext.Database.SqlQuery<FuelDB>("select * from Fuel_activities_consumption where fuelid=" + fuelid + "").First();
                     string date = DateTime.ParseExact(date1, "dd/MM/yyyy", null).ToString("MM-dd-yyyy");
+                    Supply_tieuhao supply = DBContext.Supply_tieuhao.Where(x => x.supplyid == fuel_type && x.departmentid == i.department_id && x.date.Month == DateTime.Parse(date).Month && x.date.Year == DateTime.Parse(date).Year).First();
                     DBContext.Database.ExecuteSqlCommand("UPDATE Fuel_activities_consumption  set fuel_type =@fuel_type, [date] =@date1, consumption_value = @consumption_value, equipmentId = @equipmentId where fuelId= @fuelid",
                         new SqlParameter("fuel_type", fuel_type), new SqlParameter("date1", date), new SqlParameter("consumption_value", consumption_value), new SqlParameter("equipmentId", equipmentId), new SqlParameter("fuelId", fuelid));
 

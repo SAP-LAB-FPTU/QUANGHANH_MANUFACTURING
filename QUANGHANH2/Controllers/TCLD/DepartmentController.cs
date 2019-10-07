@@ -13,14 +13,14 @@ namespace QUANGHANH2.Controllers.TCLD
     public class DepartmentController : Controller
     {
         // GET: Department
-        [Auther(RightID = "159")]
+        [Auther(RightID = "175")]
         [Route("phong-tcld/quan-ly-phong-ban")]
         public ActionResult Index()
         {
             return View("/Views/TCLD/Department/List.cshtml");
         }
 
-        [Auther(RightID = "129")]
+        [Auther(RightID = "175")]
         [Route("phong-tcld/quan-ly-phong-ban")]
         [HttpPost]
         public ActionResult listDepartment()
@@ -64,7 +64,7 @@ namespace QUANGHANH2.Controllers.TCLD
 
         }
 
-        [Auther(RightID = "129")]
+        [Auther(RightID = "175")]
         [HttpPost]
         public ActionResult searchDepartment(string DepartmentSearchList)
         {
@@ -120,7 +120,7 @@ namespace QUANGHANH2.Controllers.TCLD
         }
 
         //Add Diploma
-        [Auther(RightID = "160")]
+        [Auther(RightID = "176")]
         [HttpGet]
         public ActionResult AddDepartment()
         {
@@ -133,7 +133,7 @@ namespace QUANGHANH2.Controllers.TCLD
             return View();
 
         }
-        [Auther(RightID = "160")]
+        [Auther(RightID = "176")]
         [HttpPost]
         public ActionResult AddDepartment(Department department)
         {
