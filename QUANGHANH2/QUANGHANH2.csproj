@@ -7265,6 +7265,7 @@
     <Content Include="Views\TCLD\Department\List.cshtml" />
     <Content Include="Views\Department\AddDepartment.cshtml" />
     <Content Include="Views\CDVT\Nghiemthu\Vattuditheo.cshtml" />
+    <Content Include="Views\DK\ListAccident.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

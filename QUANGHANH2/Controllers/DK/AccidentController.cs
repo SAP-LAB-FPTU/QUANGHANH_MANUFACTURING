@@ -24,7 +24,17 @@ namespace QUANGHANH2.Controllers.DK
            
             return View("/Views/DK/Acident.cshtml");
         }
+        [Route("phong-dieu-khien/danh-sach-tai-nan")]
+        public ActionResult DanhSachBaoCao()
+        {
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
 
+            List<NhanVien> listNhanVien = db.NhanViens.ToList<NhanVien>();
+
+
+            ViewBag.listNhanVien = listNhanVien;
+            return View("/Views/DK/ListAccident.cshtml");
+        }
         [Route("phong-dieu-khien/bao-cao-tai-nan/insertaccident")]
         [HttpPost]
         public ActionResult InsertMaintainCar(List<TaiNanDB> maintain)
