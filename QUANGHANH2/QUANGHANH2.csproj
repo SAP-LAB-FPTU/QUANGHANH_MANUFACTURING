@@ -7271,8 +7271,7 @@
     <Content Include="Views\TCLD\Department\List.cshtml" />
     <Content Include="Views\Department\AddDepartment.cshtml" />
     <Content Include="Views\CDVT\Nghiemthu\Vattuditheo.cshtml" />
-    <Content Include="Views\DK\PhanXuongReport.cshtml" />
-    <Content Include="Views\PX\PXKT\BaoCaoLenPhongDK.cshtml" />
+    <Content Include="Views\DK\ListAccident.cshtml" />
     <Content Include="Views\DK\InputCharcoal\InputCharcoal.cshtml" />
   </ItemGroup>
   <ItemGroup>
