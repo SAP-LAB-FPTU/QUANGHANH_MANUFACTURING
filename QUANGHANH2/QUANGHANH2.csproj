@@ -264,7 +264,11 @@
     <Compile Include="Controllers\CDVT\Work\TrungdaituController.cs" />
     <Compile Include="Controllers\DK\AccidentController.cs" />
     <Compile Include="Controllers\DK\DKController.cs" />
+
     <Compile Include="Controllers\DK\PhanXuongReportController.cs" />
+
+    <Compile Include="Controllers\DK\InputCharcoal\InputController.cs" />
+
     <Compile Include="Controllers\DK\ReportHuman\ReportHumanController.cs" />
     <Compile Include="Controllers\DK\ReportIncidentController.cs" />
     <Compile Include="Controllers\DK\ReportManuCharcoal\DetailManuReportController.cs" />
@@ -7269,12 +7273,14 @@
     <Content Include="Views\CDVT\Nghiemthu\Vattuditheo.cshtml" />
     <Content Include="Views\DK\PhanXuongReport.cshtml" />
     <Content Include="Views\PX\PXKT\BaoCaoLenPhongDK.cshtml" />
+    <Content Include="Views\DK\InputCharcoal\InputCharcoal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Library\" />
     <Folder Include="Views\BaoCaoLenPhongDK\" />
     <Folder Include="Views\HuyDong\" />
+    <Folder Include="Views\Input\" />
     <Folder Include="Views\Laydanhsachvattu\" />
     <Folder Include="Views\PhanXuongReport\" />
     <Folder Include="Views\Quanlyvattu\" />
