@@ -18,46 +18,19 @@
                     </div>
                 </div>
                 <div class="modal-content">
-                    <table class="centered striped table-bordered">
+                    <table class="centered striped table-bordered" id="table_tainan">
                         <thead>
                             <tr>
-                                <th>TT</th>
                                 <th>Mã Nhân Viên</th>
                                 <th>Tên Nhân Viên</th>
                                 <th>Đơn vị</th>
                                 <th>Lý do tai nạn</th>
-                                <th>Loại tai nạn</th>
+                                @*<th>Loại tai nạn</th>*@
                                 <th>Ca</th>
                                 <th>Ngày</th>
                                 <th colspan="2"></th>
                             </tr>
                         </thead>
-                        <tbody id="accident_add">
-                            <tr>
-                                <td>1</td>
-                                <td>8070</td>
-                                <td>Chu Quốc Toàn</td>
-                                <td>Phân Xưởng Đào lò 1</td>
-                                <td>Trượt chân</td>
-                                <td>Nhẹ</td>
-                                <td>CA 1</td>
-                                <td>05/09/2019</td>
-                                <td><a class='waves-effect waves-light btn-small blue darken-2 modal-trigger' data-target='myedit' style='margin-left:5px' @*onclick=getEditId()*@><i class='far fa-edit'></i>Sửa</a></td>
-                                <td><a class='waves-effect waves-light btn-small red ' style='margin-left:5px' onclick="getDeleteIdEmp()"><i class='fa fa-trash'></i> Xóa</a></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>8069</td>
-                                <td>Nguyễn Đình Chiến</td>
-                                <td>Phân Xưởng Đào lò 2</td>
-                                <td>Trượt chân</td>
-                                <td>Nhẹ</td>
-                                <td>CA 3</td>
-                                <td>06/09/2019</td>
-                                <td><a class='waves-effect waves-light btn-small blue darken-2 modal-trigger' data-target='myedit' style='margin-left:5px' @*onclick=getEditId()*@><i class='far fa-edit'></i>Sửa</a></td>
-                                <td><a class='waves-effect waves-light btn-small red' style='margin-left:5px' onclick="getDeleteIdEmp()"><i class='fa fa-trash'></i> Xóa</a></td>
-                            </tr>
-                        </tbody>
                     </table>
                 </div>
             </div>
@@ -119,7 +92,7 @@
             </div>
             <div class="modal-footer">
                 <div class="col-md-offset-2 col-md-10">
-                    <button type="submit" class="btn blue btn-default modal-close" style="color:white" onclick="insert()">Xác nhận</button>
+                    <button type="submit" class="btn blue btn-default modal-close" style="color:white">Xác nhận</button>
                     <button type="submit" class="btn blue btn-default modal-close" style="color:white">Đóng</button>
                 </div>
             </div>
@@ -135,6 +108,70 @@
 <script src="~/Scripts/notify.min.js"></script>
 
 <script>
+    $(document).ready(function () {
+
+        dataTable = $("#table_tainan")
+            .on('preXhr.dt', function (e, settings, data) {
+                $("#pre-load").show();
+            })
+            .DataTable({
+                "ajax": {
+                    "url": "/phong-dieu-khien/danh-sach-tai-nan",
+                    "type": "POST",
+                    "datatype": "json",
+                },
+                "drawCallback": function (settings) {
+                    $("#pre-load").hide("slow", function () {
+                    });
+                },
+                "columns": [
+                    { "data": "MaNV", "name": "MaNV" },
+                    { "data": "Ten", "name": "Ten" },
+                    { "data": "department_name", "name": "department_name" },
+                    { "data": "LyDo", "name": "LyDo" },
+                    { "data": "Ca", "name": "Ca" },
+                    {
+                        "data": "Ngay", "name": "Ngay", "render": function (data) {
+                            return dateFormat2(data);
+                        },
+                    },
+                    {
+                        "data": "MaTaiNan", "render": function (data) {
+                            return "<a class='waves-effect waves-light btn-small blue darken-2 modal-trigger' data-target='myedit' style='margin-left:5px' onclick='getEditId(" + data + ")'><i class='far fa-edit'></i>Sửa</a>";
+                        },
+                        "orderable": false,
+                        "searchable": false,
+                    },
+                    {
+                        "data": "MaTaiNan", "render": function (data) {
+                            return "<a class='waves-effect waves-light btn-small red ' style='margin-left:5px' onclick='getDeleteIdEmp(" + data + ")'><i class='fa fa-trash'></i>Xóa</a>";
+                        },
+                        "orderable": false,
+                        "searchable": false,
+                    },
+                ],
+                "language": {
+                    emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                    paginate:
+                    {
+                        previous: "Trang trước",
+                        next: "Trang sau",
+                        first: "|<",
+                        last: ">|"
+                    }
+                },
+                "autoWidth": false,
+                "serverSide": "true",
+                "order": [0, "asc"],
+                "bLengthChange": false,
+                "bFilter": false,
+                "bInfo": false,
+                "initComplete": function (settings, json) {
+                    $("#pre-load").hide("slow", function () {
+                    });
+                }
+            });
+    });
     function searchMaNV(txtMaNV) {
         var tmp = {
             MaNV: txtMaNV.value
@@ -165,15 +202,14 @@
                 DeleteEmp();
             });
     }
-    function insert() {
-        var employeeid = document.getElementById("employeeId1").value;
-        var employeename = document.getElementById("employeeName1").value;
-        var date = document.getElementById("date").value;
-        var reason = document.getElementById("reason").value;
-        var department = document.getElementById("department1").value;
-        var loaitainan = document.getElementById("loaitainan").value;
-        var ca = document.getElementById("ca").value;
-        $("#accident_add").append("<tr><td>3</td><td>" + employeeid + "</td><td>" + employeename + "</td><td>" + department + "</td><td>" + reason + "</td><td>" + loaitainan + "</td><td>" + ca + "</td><td>" + date + "</td><td><a class='waves-effect waves-light btn-small blue darken-2 modal-trigger' data-target='edit_employee'  style='margin-left:5px' onclick=getEditIdEmp() ><i class='far fa-edit'></i>Sửa</a></td><td><a class='waves-effect waves-light btn-small red modal-trigger' style='margin-left:5px' onclick=getDeleteIdEmp() ><i class='fa fa-trash'></i> Xóa</a></td></tr>")
+    function dateFormat2(d) {
+        var dateString = d.substr(6);
+        var currentTime = new Date(parseInt(dateString));
+        var month = currentTime.getMonth() + 1;
+        var day = currentTime.getDate();
+        var year = currentTime.getFullYear();
+        var date = day + "/" + month + "/" + year;
+        return (date);
     }
 </script>
 
