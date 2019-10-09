@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Transactions;
 using System.Web.Mvc;
@@ -215,7 +217,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                                           tenNV = emp.Ten,
                                           status = att.DiLam,
                                           timeAttendance = att.ThoiGianThucTeDiemDanh,
-                                          dateAttendance = att.NgayDiemDanh,
+                                          dateAttendance = (DateTime?)att.NgayDiemDanh,
                                           reason = att.LyDoVangMat,
                                           description = att.GhiChu
                                       }).OrderBy(att => att.status).ToList();
@@ -375,9 +377,29 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
             var dateAtt = Convert.ToDateTime(Request["date"]);
             int session = Int32.Parse(Request["session"]);
             //
+            var listAttendanceFromAPI = new List<FakeAPI>();
+            //
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                var listAttendanceFromAPI = db.FakeAPIs.ToList();
+                Task t = Task.Run(async () =>
+                {
+                    using (var client = new HttpClient())
+                    {
+                        client.BaseAddress = new Uri("https://foodserver.azurewebsites.net/");
+                        client.DefaultRequestHeaders.Accept.Clear();
+                        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                        //GET Method
+                        HttpResponseMessage response = await client.GetAsync("api/Attendance");
+                        using (HttpContent content = response.Content)
+                        {
+                            //Now assign your content to your data variable, by converting into a string using the await keyword.
+                            var data = await content.ReadAsStringAsync();
+                            //If the data isn't null return log convert the data using newtonsoft JObject Parse class method on the data.
+                            listAttendanceFromAPI = JsonConvert.DeserializeObject<List<FakeAPI>>(data);
+                        }
+                    }
+                });
+                t.Wait();
                 //
                 List<String> listAttendanceFromAPI_ID = new List<string>();
                 foreach (var item in listAttendanceFromAPI)
@@ -386,31 +408,31 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                 }
                 try
                 {
-                    //using (var transaction = new TransactionScope())
-                    //{
-                    //    // get all "ma nhan vien" already have been taken attendance.
-                    //    List<String> listAttendanceID = db.DiemDanh_NangSuatLaoDong.Where(dd => dd.CaDiemDanh == session && dd.MaDonVi == departmentID && dd.NgayDiemDanh == dateAtt).Select(col => col.MaNV).ToList();
-                    //    foreach (var id in listAttendanceFromAPI_ID)
-                    //    {
-                    //        if (!listAttendanceID.Contains(id))
-                    //        {
-                    //            DiemDanh_NangSuatLaoDong dn = new DiemDanh_NangSuatLaoDong();
-                    //            dn.MaDonVi = departmentID;
-                    //            dn.CaDiemDanh = session;
-                    //            dn.NgayDiemDanh = dateAtt;
-                    //            dn.MaNV = id;
-                    //            // from API
-                    //            dn.XacNhan = false;
-                    //            db.DiemDanh_NangSuatLaoDong.Add(dn);
-                    //            db.SaveChanges();
-                    //        }
-                    //    }
-                    //    transaction.Complete();
-                    //}
+                    using (var transaction = new TransactionScope())
+                    {
+                        // get all "ma nhan vien" already have been taken attendance.
+                        List<String> listAttendanceID = db.DiemDanh_NangSuatLaoDong.Where(dd => dd.CaDiemDanh == session && dd.MaDonVi == departmentID && dd.NgayDiemDanh == dateAtt).Select(col => col.MaNV).ToList();
+                        foreach (var id in listAttendanceFromAPI_ID)
+                        {
+                            if (!listAttendanceID.Contains(id))
+                            {
+                                DiemDanh_NangSuatLaoDong dn = new DiemDanh_NangSuatLaoDong();
+                                dn.MaDonVi = departmentID;
+                                dn.CaDiemDanh = session;
+                                dn.NgayDiemDanh = dateAtt;
+                                dn.MaNV = id;
+                                // from API
+                                dn.XacNhan = false;
+                                db.DiemDanh_NangSuatLaoDong.Add(dn);
+                                db.SaveChanges();
+                            }
+                        }
+                        transaction.Complete();
+                    }
                     var listAttendance = getAll(session, departmentID, dateAtt);
                     JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
                     var result = JsonConvert.SerializeObject(listAttendance, Formatting.Indented, jss);
-                    return Json(new { success = true, data = result, time ="hihi" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = true, data = result, time = "hihi" }, JsonRequestBehavior.AllowGet);
                 }
                 catch
                 {
