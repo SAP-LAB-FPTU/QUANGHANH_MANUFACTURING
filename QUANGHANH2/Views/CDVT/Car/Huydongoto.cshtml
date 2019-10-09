@@ -651,9 +651,20 @@
                 })
                 .DataTable({
                     "ajax": {
-                        "url": "/phong-cdvt/oto/huy-dong",
+                        "url": "/phong-cdvt/oto/huy-dong/search",
                     "type": "POST",
-                    "datatype": "json",
+                        "datatype": "json",
+                           "data": {
+                               "equipmentId": function () { return $('#equipmentId-search').val() },
+                               "equipmentName": function () { return $('#equipmentName-search').val() },
+                               "department": function () { return $('#department-search').val() },
+                               "quality": function () { return $('#equipmentQuality-search').val() },
+                               "dateStart": function () { return $('#date-start-search').val() },
+                               "dateEnd": function () { return $('#date-end-search').val() },
+                               "category": function () { return $('#category-search').val() },
+                               "sup": function () { return $('#supplier-search').val() }
+                        },
+                        "cache": false
                 },
                "columns": [
                     { "data": "Equipment_category_name", "name" : "Equipment_category_name"},
@@ -754,11 +765,16 @@
                 });
         });
 
-         $("#searchButton1").click(function () {
-             dataTable.destroy();
-            $("#pre-load").show();
-
-
+        $("#searchButton1").click(function () {
+              $("#pre-load").show();
+            dataTable.ajax.reload(function () {
+               $.notify("Tìm kiếm thành công", {
+                      globalPosition: "top center",
+                     className: "success"
+                    })
+            });
+            // dataTable.destroy();
+            @*$("#pre-load").show();
              dataTable = $('#equipmentTable')
                   .on('preXhr.dt', function (e, settings, data) {
                     ////////////////////////////////////HIỆN LÊN MỖI KHI CHẠY AJAX//////////////////////////////////
@@ -883,7 +899,7 @@
                         //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
                     },
 
-                });
+                });*@
             });
         function dateFormat2(d) {
                 var dateString = d.substr(6);
