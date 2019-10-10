@@ -143,7 +143,10 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
         [Route("phan-xuong-khai-thac/diem-danh")]
         public ActionResult takeAttendanceView()
         {
-
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            List<Department> d = db.Departments
+                .Where(i => i.department_type == "Phân xưởng sản xuất chính" && i.department_id != "PXLT" && i.department_id != "PXST").ToList();
+            ViewBag.departments = d;
             return View("/Views/PX/PXKT/takeAttendance.cshtml");
         }
 

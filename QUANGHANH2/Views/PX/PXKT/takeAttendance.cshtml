@@ -72,9 +72,13 @@
 </ul>
 
 <ul id='dropdown_px' class='dropdown-content'>
-    <li><a class="dropdown-child-ca" href="#" name="dl1">DL1</a></li>
+    @foreach (QUANGHANH2.Models.Department item in ViewBag.departments)
+    {
+        <li><a class="dropdown-child-ca deparment" href="#" name="@item.department_id.ToLower()">@item.department_id</a></li>
+    }
+    @*<li><a class="dropdown-child-ca" href="#" name="dl1">DL1</a></li>
     <li><a class="dropdown-child-ca" href="#" name="dl2">DL2</a></li>
-    <li><a class="dropdown-child-ca" href="#" name="dl3">DL3</a></li>
+    <li><a class="dropdown-child-ca" href="#" name="dl3">DL3</a></li>*@
 </ul>
 
 
@@ -343,6 +347,11 @@
             //
             $("#inputdate").val(date);
             //
+        })
+    </script>
+    <script>
+        $('.deparment').click(function () {
+            $('#phanxuong').text($(this).text())
         })
     </script>
 }
