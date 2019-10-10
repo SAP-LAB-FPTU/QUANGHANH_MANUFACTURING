@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
@@ -264,10 +264,8 @@
     <Compile Include="Controllers\CDVT\Work\TrungdaituController.cs" />
     <Compile Include="Controllers\DK\AccidentController.cs" />
     <Compile Include="Controllers\DK\DKController.cs" />
-
     <Compile Include="Controllers\DK\PhanXuongReportController.cs" />
     <Compile Include="Controllers\DK\InputCharcoal\InputController.cs" />
-
     <Compile Include="Controllers\DK\ReportHuman\ReportHumanController.cs" />
     <Compile Include="Controllers\DK\ReportIncidentController.cs" />
     <Compile Include="Controllers\DK\ReportManuCharcoal\DetailManuReportController.cs" />
@@ -279,7 +277,7 @@
     <Compile Include="Controllers\ManagementUserController.cs" />
     <Compile Include="Controllers\PhanXuong\PhanXuongController.cs" />
     <Compile Include="Controllers\PX\PXDS\PxdsController.cs" />
-    <Compile Include="Controllers\PX\PXKT\BaoCaoLenPhongDKController.cs" />
+    <Compile Include="Controllers\PX\BaoCaoLenPhongDKController.cs" />
     <Compile Include="Controllers\PX\PXKT\PXKTController.cs" />
     <Compile Include="Controllers\TCLD\BonusAnDesciplineController.cs" />
     <Compile Include="Controllers\TCLD\BriefController.cs" />
@@ -569,6 +567,14 @@
     <Content Include="assets\sweetalert\sweetalert2.all.min.js" />
     <Content Include="assets\sweetalert\sweetalert2.min.css" />
     <Content Include="assets\sweetalert\sweetalert2.min.js" />
+    <Content Include="assets\uploader\custom.js" />
+    <Content Include="assets\uploader\dropzoneMultiple.js" />
+    <Content Include="assets\uploader\dropzone.js" />
+    <Content Include="assets\uploader\dropzone.min.css" />
+    <Content Include="assets\uploader\dropzone.min.js" />
+    <Content Include="assets\uploader\icon.png" />
+    <Content Include="assets\uploader\icons.min.css" />
+    <Content Include="assets\uploader\style_uploader.css" />
     <Content Include="Content\DataTables\Buttons-1.5.6\css\buttons.bootstrap.css" />
     <Content Include="Content\DataTables\Buttons-1.5.6\css\buttons.bootstrap.min.css" />
     <Content Include="Content\DataTables\Buttons-1.5.6\css\buttons.bootstrap4.css" />
@@ -6995,6 +7001,7 @@
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
     <Content Include="excel\TCLD\Report_job.xlsx" />
+    <Content Include="assets\uploader\icons.min.css.map" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
@@ -7274,7 +7281,9 @@
     <Content Include="Views\PX\PXKT\BaoCaoLenPhongDK.cshtml" />
     <Content Include="Views\DK\ListAccident.cshtml" />
     <Content Include="Views\DK\InputCharcoal\InputCharcoal.cshtml" />
-
+    <Content Include="Views\Phanxuong\ChonBaoCao\ChonBaoCao.cshtml" />
+    <Content Include="Views\Shared\_Layout_NhapBaoCaoLenDK.cshtml" />
+    <Content Include="Views\Phanxuong\NhapBaoCao\BaoCaoLenDK.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7283,7 +7292,6 @@
     <Folder Include="Views\HuyDong\" />
     <Folder Include="Views\Input\" />
     <Folder Include="Views\Laydanhsachvattu\" />
-    <Folder Include="Views\PhanXuongReport\" />
     <Folder Include="Views\Quanlyvattu\" />
     <Folder Include="Views\WorkHistory\" />
   </ItemGroup>
