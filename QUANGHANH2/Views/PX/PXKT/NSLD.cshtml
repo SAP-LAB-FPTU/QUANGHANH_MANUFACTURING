@@ -44,7 +44,7 @@
                 <div class="col s12 m2 l2">
                     <select class="form-control center" id="caSearch">
                         <option value="-1" selected>Chọn ca</option>
-                        <option selected value="1">Ca 1</option>
+                        <option value="1">Ca 1</option>
                         <option value="2">Ca 2</option>
                         <option value="3">Ca 3</option>
                     </select>
@@ -148,6 +148,7 @@
         } else {
             $('#pre-load').show("slow", function () {
             });
+            $('#pre-load').css("z-index", 9999);
             $.ajax({
                 type: "post",
                 dataType: "json",
@@ -158,8 +159,8 @@
                     ngaySearch: JSON.stringify(ngaySearch)
                 },
                 success: function (response) {
+                    $("#contentNSLD").empty();
                     if (response.success) {
-                        $("#contentNSLD").empty();
                         for (var i = 0; i < response.customNSLDs.length; i++) {
                             $tr = $("<tr>");
                             $tr.append("<td>" + response.customNSLDs[i].STT + "</td>");
@@ -169,7 +170,7 @@
                             $tr.append("<td>" + response.customNSLDs[i].ChucDanh + " </td>");
                             $tr.append("<td>" + response.customNSLDs[i].NoiDungCongViec + "</td >");
                             var temp = response.customNSLDs[i].HeSoChiaLuong == "" ? 1 : response.customNSLDs[i].HeSoChiaLuong;
-                            $tr.append("<td><input type=\"number\" value=\"" + temp + "\" class=\"form-control HeSoChiaLuong\" style=\"border:none; text-align: center;\"></td>");
+                            $tr.append("<td><input type=\"number\" min='0.01' value=\"" + temp + "\" class=\"form-control HeSoChiaLuong\" style=\"border:none; text-align: center;\"></td>");
                             temp = response.customNSLDs[i].LuongTruocDuyet == "" ? 0 : response.customNSLDs[i].LuongTruocDuyet;
                             $tr.append("<td><input type=\"number\" readonly value=\"" + temp + "\" class=\"form-control Luong\" style=\"border:none; text-align: center;\"></td>");
                             temp = response.customNSLDs[i].DuBaoNguyCo == null ? "" : response.customNSLDs[i].DuBaoNguyCo;
@@ -178,12 +179,16 @@
                             $tr.append("<td><textarea class=\"GiaiPhapNguyCo\">" + temp + "</textarea></td>");
                             $("#contentNSLD").append($tr);
                         }
+                        $('#total_point').val(response.total_point)
                         $('#pre-load').hide("slow", function () {
                         });
                     } else {
+                        $tr = $("<tr>");
+                        $tr.append("<td colspan='10'>Không có dữ liệu</td>")
+                        $("#contentNSLD").append($tr);
+                        $('#total_point').val(0)
                         $('#pre-load').hide("slow", function () {
                         });
-                        errorAlert("Lỗi", "");
                     }
                 }
             })
@@ -235,7 +240,7 @@
                         $tr.append("<td>" + response.customNSLDs[i].ChucDanh + " </td>");
                         $tr.append("<td>" + response.customNSLDs[i].NoiDungCongViec + "</td>");
                         var temp = response.customNSLDs[i].HeSoChiaLuong == "" ? 1 : response.customNSLDs[i].HeSoChiaLuong;
-                        $tr.append("<td><input type=\"number\" value=\"" + temp + "\" class=\"form-control HeSoChiaLuong\" style=\"border:none; text-align: center;\" ></td>");
+                        $tr.append("<td><input type=\"number\" min='0.01' value=\"" + temp + "\" class=\"form-control HeSoChiaLuong\" style=\"border:none; text-align: center;\" ></td>");
                         temp = response.customNSLDs[i].LuongTruocDuyet == "" ? 0 : response.customNSLDs[i].LuongTruocDuyet;
                         $tr.append("<td><input type=\"number\" readonly value=\"" + temp + "\" class=\"form-control Luong\" style=\"border:none; text-align: center;\"></td>");
                         temp = response.customNSLDs[i].DuBaoNguyCo == null ? "" : response.customNSLDs[i].DuBaoNguyCo;
@@ -292,30 +297,46 @@
     }
 
     function Update() {
-        $('#pre-load').show("slow");
-
-        $.ajax({
-            url: "/phan-xuong-khai-thac/nang-suat-lao-dong-update",
-            data: {
-                stringjson: function () { return JSON.stringify(getJson()); }
-            },
-            type: "POST",
-            dataType: "JSON",
-            cache: false,
-            success: function (data) {
-                $('#pre-load').hide();
-                if (data.success == true) {
-                    successAlert(data.message, "")
-                    getcontent();
-                }
-                else
-                    errorAlert(data.message, "")
-            },
-            error: function () {
-                $('#pre-load').hide();
-                errorAlert("Lỗi", "Cập nhật thất bại")
+        var updateAble = false;
+        for (var i = 0; i < $('.HeSoChiaLuong').length; i++) {
+            if ($('.HeSoChiaLuong').eq(i).val() != 0) {
+                updateAble = true;
             }
-        });
+            if ($('.HeSoChiaLuong').eq(i).val() < 0) {
+                updateAble = "negative";
+                break;
+            }
+        }
+        if (updateAble == true) {
+            $('#pre-load').show("slow");
+
+            $.ajax({
+                url: "/phan-xuong-khai-thac/nang-suat-lao-dong-update",
+                data: {
+                    stringjson: function () { return JSON.stringify(getJson()); }
+                },
+                type: "POST",
+                dataType: "JSON",
+                cache: false,
+                success: function (data) {
+                    $('#pre-load').hide();
+                    if (data.success == true) {
+                        successAlert(data.message, "")
+                        getcontent();
+                    }
+                    else
+                        errorAlert(data.message, "")
+                },
+                error: function () {
+                    $('#pre-load').hide();
+                    errorAlert("Lỗi", "Cập nhật thất bại")
+                }
+            });
+        } else if (updateAble == false) {
+            toastr.error('Không được nhập tất cả hệ số lương là 0', '');
+        } else {
+            toastr.error('Hệ số lương không được là số âm', '');
+        }
     }
 </script>
 <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>

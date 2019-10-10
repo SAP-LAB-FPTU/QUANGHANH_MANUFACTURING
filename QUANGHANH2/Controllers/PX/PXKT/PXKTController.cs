@@ -36,25 +36,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
 
         [Route("phan-xuong-khai-thac/nang-suat-lao-dong")]
         public ActionResult NSLD()
-         {
-            string Ca= Request["caSearch"];
-            string Date = Request["ngaySearch"];
-            string Donvi = Request["phongbanSearch"];
-            if (Ca == null)
-            {
-                Ca = "1";
-            }
-            if (Date == null)
-            {
-                Date = string.Format("{0:dd/MM/yyyy}", DateTime.Now);
-            }
-            if (Donvi == null)
-            {
-                Donvi = "PXKT1";
-            }
-            var calamviec = Convert.ToInt32(Ca);
-           
-            var date = DateTime.ParseExact(Date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+        {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 List<Department> listDepartment = db.Departments
@@ -62,37 +44,6 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                     !a.department_id.Contains("PXLT") &&
                     !a.department_id.Contains("PXST")).ToList();
                 ViewBag.TenToChuc = listDepartment;
-                Header_DiemDanh_NangSuat_LaoDong header = db.Header_DiemDanh_NangSuat_LaoDong.Find(calamviec, Donvi, date);
-                ViewBag.total = header.TotalEffort;
-                if (header == null) return View("/Views/PX/PXKT/NSLD.cshtml");
-                List<DiemDanh_NangSuatLaoDong> list = db.DiemDanh_NangSuatLaoDong
-                    .Where(a => a.DiLam == true)
-                    .Where(a => a.HeaderID == header.HeaderID)
-                    .ToList();
-                List<BaoCaoTheoCa> customNSLDs = new List<BaoCaoTheoCa>();
-                BaoCaoTheoCa cus;
-                int num = 1;
-                foreach (var i in list)
-                {
-                    string MaPhongBan = db.Header_DiemDanh_NangSuat_LaoDong.Where(a => a.HeaderID == i.HeaderID).First().MaPhongBan;
-                    cus = new BaoCaoTheoCa
-                    {
-                        STT = num,
-                        Name = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().Ten,
-                        BacTho = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().BacLuong,
-                        ChucDanh = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec == null ? "" : db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec.TenCongViec,
-                        DuBaoNguyCo = i.DuBaoNguyCo,
-                        HeSoChiaLuong = i.HeSoChiaLuong.ToString(),
-                        LuongSauDuyet = i.DiemLuong.ToString(),
-                        LuongTruocDuyet = i.DiemLuong.ToString(),
-                        NoiDungCongViec = db.Departments.Where(a => a.department_id == MaPhongBan).First().department_name,
-                        SoThe = i.MaNV,
-                        YeuCauBPKTAT = i.GiaiPhapNguyCo
-                    };
-                    customNSLDs.Add(cus);
-                    num++;
-                }
-                ViewBag.nsld = customNSLDs;
             }
             return View("/Views/PX/PXKT/NSLD.cshtml");
         }
@@ -101,26 +52,20 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
         [HttpPost]
         public ActionResult getDataNSLD()
         {
-            string caSearch = Request["caSearch"];
-            string ngaySearch = Request["ngaySearch"];
-            string Donvi = Request["phongbanSearch"];
-            ngaySearch = ngaySearch.Split('"')[1];
-            int calamviec = Int32.Parse(caSearch.Split('"')[1]);
-            ngaySearch = ngaySearch.Split('/')[1] + "/" + ngaySearch.Split('/')[0] + "/" + ngaySearch.Split('/')[2];
-            DateTime date = DateTime.Parse(ngaySearch);
-            List<BaoCaoTheoCa> customNSLDs = new List<BaoCaoTheoCa>();
-
-            Donvi = Donvi.Split('"')[1];
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            try
             {
-                List<Department> listDepartment = db.Departments
-                    .Where(a => a.department_type.Contains("Chính") &&
-                    !a.department_id.Contains("PXLT") &&
-                    !a.department_id.Contains("PXST")).ToList();
-                ViewBag.TenToChuc = listDepartment;
+                string caSearch = Request["caSearch"];
+                string ngaySearch = Request["ngaySearch"];
+                string Donvi = Request["phongbanSearch"];
+                ngaySearch = ngaySearch.Split('"')[1];
+                int calamviec = Int32.Parse(caSearch.Split('"')[1]);
+                ngaySearch = ngaySearch.Split('/')[1] + "/" + ngaySearch.Split('/')[0] + "/" + ngaySearch.Split('/')[2];
+                DateTime date = DateTime.Parse(ngaySearch);
+                List<BaoCaoTheoCa> customNSLDs = new List<BaoCaoTheoCa>();
+
+                Donvi = Donvi.Split('"')[1];
+                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
                 Header_DiemDanh_NangSuat_LaoDong header = db.Header_DiemDanh_NangSuat_LaoDong.Find(calamviec, Donvi, date);
-                ViewBag.total = header.TotalEffort;
-                if (header == null) return View("/Views/PX/PXKT/NSLD.cshtml");
                 List<DiemDanh_NangSuatLaoDong> list = db.DiemDanh_NangSuatLaoDong
                     .Where(a => a.DiLam == true)
                     .Where(a => a.HeaderID == header.HeaderID)
@@ -148,9 +93,12 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                     customNSLDs.Add(cus);
                     num++;
                 }
-
+                return Json(new { success = true, customNSLDs = customNSLDs, total_point = header.TotalEffort }, JsonRequestBehavior.AllowGet);
             }
-            return Json(new {success=true, customNSLDs = customNSLDs }, JsonRequestBehavior.AllowGet);
+            catch (Exception)
+            {
+                return Json(new { success = false });
+            }
         }
 
         [Route("phan-xuong-khai-thac/nang-suat-lao-dong-update")]
@@ -181,10 +129,9 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                         transaction.Commit();
                         return Json(new { success = true, message = "Cập nhật thành công" });
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         transaction.Rollback();
-                        throw e;
                         return Json(new { success = false, message = "Cập nhật thất bại" });
                     }
                 }
