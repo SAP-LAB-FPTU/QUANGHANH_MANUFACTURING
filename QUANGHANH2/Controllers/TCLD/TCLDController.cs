@@ -67,8 +67,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
                 ////////////////////////////GET SO LUONG NGHI VLD///////////////////////////////////////////
                 sql = "select (case when Count(vld.MaNV)  is null then 0 else Count(vld.MaNV) end ) from \n" +
-                        "(select MaNV, NgayDiemDanh from DiemDanh_NangSuatLaoDong\n" +
-                        "where NgayDiemDanh = (SELECT CONVERT(VARCHAR(10), getdate() - 1, 101))\n" +
+                        "(select MaNV, ThoiGianThucTeDiemDanh from DiemDanh_NangSuatLaoDong\n" +
+                        "where ThoiGianThucTeDiemDanh = (SELECT CONVERT(VARCHAR(10), getdate() - 1, 101))\n" +
                         "and DiLam=0 and LyDoVangMat=N'VLD') as vld";
                 temp = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
                 nghiVLD = temp != null ? temp : 0;
