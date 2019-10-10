@@ -92,7 +92,7 @@
                 </div>
                 <div class="row">
                     <div class="col l3 offset-l5 m12 s12 input-field">
-                        <button class="waves-effect waves-light btn-small blue modal-trigger" id="searchButton"><i class="fas fas fa-search"></i>Tìm kiếm</button>
+                        <button class="waves-effect waves-light btn-small blue modal-trigger" id="searchButton_Doc"><i class="fas fas fa-search"></i>Tìm kiếm</button>
                     </div>
                 </div>
             </div>
@@ -247,8 +247,10 @@
                         "TenNV": function () { return $('#searchTenNV').val() },
                         "TenGT": function () { return $('#searchTenGT').val() },
                         "KieuGT": function () { return $('#searchKieuGT').val() },
-                    }
-                },
+                        },
+
+                    },
+              
                      "drawCallback": function (settings) {
                  ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
                                   $("#pre-load").hide("slow", function () {
@@ -297,20 +299,22 @@
                         infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
                     },
                 "bAutoWidth": false,
-                    "order": [0, "asc"],
+                "order": [0, "asc"],
                 "initComplete": function(settings, json) {
  ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
     		$("#pre-load").hide("slow", function () {
       		  });
  //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
-  }
+                    },
+            
             });
         });
 
          $(document).ready(function () {
             var dataTable = $('#equipmentTable').DataTable();
-             $("#searchButton").click(function () {
+             $("#searchButton_Doc").click(function () {
                  dataTable.ajax.reload();
+               
             });
         });
         //gọi popup khi ấn sửa
@@ -342,18 +346,12 @@
                     data : $(form).serialize(),
                     success : function (data) {
                             dataTable.ajax.reload();
-                            $.notify("Sửa thành công",{
-                                globalPosition :"top center",
-                                className : "success"
-                            })
+                            successAlert('Thành công','Sửa thành công');
 
                     },
                     error: function (data) {
                             dataTable.ajax.reload();
-                            $.notify("Sửa thành công",{
-                                globalPosition :"top center",
-                                className : "success"
-                            })
+                            successAlert('Thành công','Sửa thành công');
 
                         },
                 });
@@ -377,10 +375,7 @@
                             })
                         } else {
                             dataTable.ajax.reload();
-                             $.notify("Thêm thành công", {
-                                globalPosition: "top center",
-                                className: "success"
-                            })
+                            successAlert('Thành công','Thêm thành công');
                         }
 
                     },
@@ -499,13 +494,17 @@
             var manv = $("#manv").val();
             var tennv = $("#tennv").val();
             var nguoigiaohoso = $("#nguoigiaohoso").val();
-        var nguoigiuhoso = $("#nguoigiuhoso").val();
+             var nguoigiuhoso = $("#nguoigiuhoso").val();
 
             var arr = new Array();
             arr[0] = manv;
             arr[1] = tennv;
             arr[2] = nguoigiaohoso;
             arr[3] = nguoigiuhoso;
+        $.notify("Tìm kiếm thành công", {
+            globalPosition: "top center",
+            className: "success"
+        })
             datatable_inside.ajax.url('@Url.Action("searchlistAllBrief", "Brief")?searchList=' + arr).load(() => { $("#pre-load").hide("slow", function () { }) }, true)
     })
 

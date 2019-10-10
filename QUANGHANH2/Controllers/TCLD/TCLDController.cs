@@ -345,9 +345,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
             var datesql = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                List<DiemDanh_NangSuatLaoDong> list = db.Departments.Where(a => a.department_id == donvi).First().DiemDanh_NangSuatLaoDong
-                    .Where(a => a.NgayDiemDanh == datesql)
-                    .Where(a => a.CaDiemDanh == calamviec).ToList();
+                //List<DiemDanh_NangSuatLaoDong> list = db.Departments.Where(a => a.department_id == donvi).First().DiemDanh_NangSuatLaoDong
+                //    .Where(a => a.NgayDiemDanh == datesql)
+                //    .Where(a => a.CaDiemDanh == calamviec).ToList();
+                List<DiemDanh_NangSuatLaoDong> list = new List<DiemDanh_NangSuatLaoDong>();
                 List<BaoCaoTheoCa> customNSLDs = new List<BaoCaoTheoCa>();
                 BaoCaoTheoCa cus;
                 int stt = 1;
@@ -355,16 +356,15 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 {
                     cus = new BaoCaoTheoCa
                     {
-                        ID = stt,
+                        //ID = stt,
                         Name = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().Ten,
                         BacTho = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().BacLuong,
                         ChucDanh = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec == null ? "" : db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec.TenCongViec,
                         DuBaoNguyCo = i.DuBaoNguyCo,
                         HeSoChiaLuong = i.HeSoChiaLuong.ToString(),
-                        LuongSauDuyet = i.Luong.ToString(),
-                        LuongTruocDuyet = i.Luong.ToString(),
-                        NoiDungCongViec = db.Departments.Where(a => a.department_id == i.MaDonVi).First().department_name,
-                        NSLD = i.NangSuatLaoDong.ToString(),
+                        LuongSauDuyet = i.DiemLuong.ToString(),
+                        LuongTruocDuyet = i.DiemLuong.ToString(),
+                        NoiDungCongViec = db.Departments.First().department_name,
                         SoThe = i.MaNV,
                         YeuCauBPKTAT = i.GiaiPhapNguyCo
                     };

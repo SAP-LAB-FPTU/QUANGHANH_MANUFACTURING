@@ -10,8 +10,8 @@ namespace QUANGHANH2.Models
         public string tempId { get; set; }
         public string equipmentId { get; set; }
         public string equipment_name { get; set; }
+        public string idAndid { get; set; }
 
-        public string documentary_code { get; set; }
         public string temp { get; set; }
         public Nullable<System.DateTime> acceptance_date { get; set; }
         public int count { get; set; }
@@ -22,5 +22,6 @@ namespace QUANGHANH2.Models
         public string link { get; set; }
         public string id { get; set; }
         public string code { get; set; }
+        public int doc { get; set; }
     }
 }

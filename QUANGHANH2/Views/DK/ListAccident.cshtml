@@ -1,0 +1,215 @@
+﻿
+@{
+    ViewBag.Title = "ListAccident";
+    Layout = "~/Views/Shared/_Layout_DK.cshtml";
+}
+<link href="~/lib/mutiple select/slimselect.css" rel="stylesheet" />
+<link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="center">
+                    <h3><b>DANH SÁCH TAI NẠN</b></h3>
+                </div>
+                <div class="col s12" style="margin-bottom:10px">
+                    <div class="left">
+                        <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="themsuco"><i class="fa fa-plus"></i> Thêm</a>
+                    </div>
+                </div>
+                <div class="modal-content">
+                    <table class="centered striped table-bordered" id="table_tainan">
+                        <thead>
+                            <tr>
+                                <th>Mã Nhân Viên</th>
+                                <th>Tên Nhân Viên</th>
+                                <th>Đơn vị</th>
+                                <th>Lý do tai nạn</th>
+                                @*<th>Loại tai nạn</th>*@
+                                <th>Ca</th>
+                                <th>Ngày</th>
+                                <th colspan="2"></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <datalist id="EmployeeID">
+        @foreach (var item in ViewBag.listNhanVien)
+        {
+            <option value="@item.MaNV">@item.Ten</option>
+        }
+    </datalist>
+    <div id="themsuco" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Thêm tai nạn</h3>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col s12 m6">
+                        <div class="col s12">
+                            <label for="number">Mã nhân viên: </label>
+                            <input list="EmployeeID" type="text" class="form-control" name="employeeid" placeholder="Mã nhân viên" id="employeeId1" onkeydown=" searchMaNV(this)" />
+                        </div>
+                        <div class="col s12">
+                            <label for="number">Đơn vị: </label>
+                            <input type="text" class="form-control" placeholder="Phân xưởng" name="department" id="department1" readonly />
+                        </div>
+                        <div class="col s12">
+                            <label for="number">Ca: </label>
+                            <select id="ca" class="custom-select">
+                                <option>CA 1</option>
+                                <option>CA 2</option>
+                                <option>CA 3</option>
+                            </select>
+                        </div>
+                        <div class="col s12">
+                            <label for="number">Ngày xảy ra: </label>
+                            <input type="text" class=" datepicker-here form-control" placeholder="Ngày" name="date" id="date" />
+                        </div>
+                    </div>
+                    <div class="col s12 m6">
+                        <div class="col s12">
+                            <label for="number">Tên nhân viên: </label>
+                            <input type="text" class="form-control" placeholder="Tên nhân viên" name="employeename" id="employeeName1" readonly />
+                        </div>
+                        <div class="col s12">
+                            <label for="number">Lí do tai nạn: </label>
+                            <input type="text" class="form-control" placeholder="Lý do tai nạn" name="reason" id="reason" />
+                        </div>
+                        <div class="col s12">
+                            <label for="number">Loại tai nạn: </label>
+                            <select id="loaitainan" class="custom-select">
+                                <option>Nặng</option>
+                                <option>Nhẹ</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-offset-2 col-md-10">
+                    <button type="submit" class="btn blue btn-default modal-close" style="color:white">Xác nhận</button>
+                    <button type="submit" class="btn blue btn-default modal-close" style="color:white">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
+<script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
+<!--Stacked Bar Chart JS-->
+<script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
+<script src="~/js/Custom JS/CustomChart.js"></script>
+<script src="~/js/Custom JS/Disable_input_material.js"></script>
+<script src="~/Scripts/notify.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        dataTable = $("#table_tainan")
+            .on('preXhr.dt', function (e, settings, data) {
+                $("#pre-load").show();
+            })
+            .DataTable({
+                "ajax": {
+                    "url": "/phong-dieu-khien/danh-sach-tai-nan",
+                    "type": "POST",
+                    "datatype": "json",
+                },
+                "drawCallback": function (settings) {
+                    $("#pre-load").hide("slow", function () {
+                    });
+                },
+                "columns": [
+                    { "data": "MaNV", "name": "MaNV" },
+                    { "data": "Ten", "name": "Ten" },
+                    { "data": "department_name", "name": "department_name" },
+                    { "data": "LyDo", "name": "LyDo" },
+                    { "data": "Ca", "name": "Ca" },
+                    {
+                        "data": "Ngay", "name": "Ngay", "render": function (data) {
+                            return dateFormat2(data);
+                        },
+                    },
+                    {
+                        "data": "MaTaiNan", "render": function (data) {
+                            return "<a class='waves-effect waves-light btn-small blue darken-2 modal-trigger' data-target='myedit' style='margin-left:5px' onclick='getEditId(" + data + ")'><i class='far fa-edit'></i>Sửa</a>";
+                        },
+                        "orderable": false,
+                        "searchable": false,
+                    },
+                    {
+                        "data": "MaTaiNan", "render": function (data) {
+                            return "<a class='waves-effect waves-light btn-small red ' style='margin-left:5px' onclick='getDeleteIdEmp(" + data + ")'><i class='fa fa-trash'></i>Xóa</a>";
+                        },
+                        "orderable": false,
+                        "searchable": false,
+                    },
+                ],
+                "language": {
+                    emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                    paginate:
+                    {
+                        previous: "Trang trước",
+                        next: "Trang sau",
+                        first: "|<",
+                        last: ">|"
+                    }
+                },
+                "autoWidth": false,
+                "serverSide": "true",
+                "order": [0, "asc"],
+                "bLengthChange": false,
+                "bFilter": false,
+                "bInfo": false,
+                "initComplete": function (settings, json) {
+                    $("#pre-load").hide("slow", function () {
+                    });
+                }
+            });
+    });
+    function searchMaNV(txtMaNV) {
+        var tmp = {
+            MaNV: txtMaNV.value
+        };
+        if (event.key === 'Enter') {
+            $.ajax({
+                type: "POST",
+                url: "/phong-dieu-khien/bao-cao-tai-nan/returnEmployeeName",
+                data: JSON.stringify(tmp),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    document.getElementById("employeeName" + txtMaNV.id.slice(-1)).value = r.Ten;
+                    document.getElementById("department" + txtMaNV.id.slice(-1)).value = r.department_name;
+
+                }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#pre-load').hide();
+                }
+            });
+        }
+    }
+    function getDeleteIdEmp(idEmp) {
+        deleteIdEmp = idEmp;
+        confirmAlert(
+            'Bạn có chắc chắn muốn xóa chứng chỉ này?',
+            '',
+            function ahihi() {
+                DeleteEmp();
+            });
+    }
+    function dateFormat2(d) {
+        var dateString = d.substr(6);
+        var currentTime = new Date(parseInt(dateString));
+        var month = currentTime.getMonth() + 1;
+        var day = currentTime.getDate();
+        var year = currentTime.getFullYear();
+        var date = day + "/" + month + "/" + year;
+        return (date);
+    }
+</script>
+

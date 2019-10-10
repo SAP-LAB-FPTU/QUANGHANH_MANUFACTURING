@@ -203,14 +203,14 @@
                         },*@
                         "data": "linkIdCode", "name": "equipmentId",
                         "render": function (data) {
-                            return "<a href=\"" + data.link + "?id=" + data.id + "\"> " + data.code + "</a>";
+                            return "<a href=\"" + data.link + "?id=" + data.id + "&doc="+ data.doc +"\"> " + data.code + "</a>";
                         },
                     },
 
                     { "data": "equipment_name" , "name" : "equipment_name"},
                     {
-                        "data": "equipmentId", "render": function (data) {
-                            return "<td><a class='btn blue darken-2 modal-trigger' onclick=Update('@Url.Action("Edit","nghiemthu")/" + data + "') >Nghiệm&nbsp;thu</a></td>";
+                        "data": "idAndid", "render": function (data) {
+                            return "<td><a class='btn blue darken-2 modal-trigger open-UpdateModal' data-equip='" + data.split("^")[0] + "' data-code='" + data.split("^")[1] + "' >Nghiệm&nbsp;thu</a></td>";
                     },
                         "orderable": false,
                         "searchable":false,
@@ -244,69 +244,71 @@
         });
 
 
-            function Detail(url) {
-             $.get(url)
-                 .done(function (response) {
-                     $("#detailTable").html(response)
-            });
+        function Detail(url) {
+                $.get(url)
+                .done(function (response) {
+                    $("#detailTable").html(response)
+                });
                 return false;
         }
-         function GetData(url) {
-             window.location.href = url;
+        function GetData(url) {
+            window.location.href = url;
         }
 
-        function Update(url) {
-            //if (confirm("Bạn có muốn nghiệm thu quyết định này không!")) {
-            //     $.get(url)
-            //     .done(function (response) {
-            //         $("#update").html(response)
-            //          dataTable.ajax.reload();
-            //         //window.location.reload();
-            //});
-            //    return false;
-            //}
-            confirmAlert('Nghiệm thu',
-                'Bạn có muốn tiếp tục nghiệm thu không?',
-                function () {
-                  $.get(url)
-                 .done(function (response) {
-                     $("#update").html(response)  
-                     successAlert('Nghiệm thu thành công','');
-                      dataTable.ajax.reload();
-                     //window.location.reload();
-            });
-                });
-
-        }
+        $(document).on("click", ".open-UpdateModal", function () {
+            var equipmentId = $(this).data('equip');
+            var documentary_id = $(this).data('code');
+            var documentary_code = $(this).parent().parent().children().eq(0).text();
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/nghiem-thu/Edit",
+                dataType: "json",
+                success: function (data) {
+                    if (data.success == true)
+                        successAlert('Thành công', data.message);
+                    else
+                        errorAlert('Lỗi', data.message);
+                    dataTable.ajax.reload()
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    errorAlert('Lỗi', 'Có lỗi xảy ra');
+                },
+                data: {
+                    id: equipmentId,
+                    documentary_code: documentary_code,
+                    documentary_id: documentary_id
+                },
+                cache: false
+            })
+        });
 
         $("#searchButton").click(function () {
             $("#pre-load").show();
-           dataTable.ajax.reload(function () {
-                    $.notify("Tìm kiếm thành công", {
-                        globalPosition: "top center",
-                        className: "success"
-                    })
-                });
-                });
+            dataTable.ajax.reload(function () {
+                $.notify("Tìm kiếm thành công", {
+                    globalPosition: "top center",
+                    className: "success"
+                })
+            });
+        });
         $("#doccumentid").keyup(function (event) {
-                if (event.keyCode === 13) {
-                    $("#searchButton").click();
-                    $("#doccumentid").blur();
-                }
+            if (event.keyCode === 13) {
+                $("#searchButton").click();
+                $("#doccumentid").blur();
+            }
         });
         $("#equimentid").keyup(function (event) {
-        if (event.keyCode === 13) {
-            $("#searchButton").click();
-            $("#equimentid").blur();
-        }
+            if (event.keyCode === 13) {
+                $("#searchButton").click();
+                $("#equimentid").blur();
+            }
         });
         $("#equimentname").keyup(function (event) {
-        if (event.keyCode === 13) {
-            $("#searchButton").click();
-            $("#equimentname").blur();
-        }
+            if (event.keyCode === 13) {
+                $("#searchButton").click();
+                $("#equimentname").blur();
+            }
         });
-          
     </script>
 }
 

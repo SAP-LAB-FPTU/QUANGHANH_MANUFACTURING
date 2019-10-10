@@ -322,8 +322,9 @@ namespace QUANGHANH2.Controllers.TCLD
             {
                 List<BangCap_GiayChungNhan> listdata_bangcap = db.BangCap_GiayChungNhan.ToList<BangCap_GiayChungNhan>();
                 List<NhanVien> listdata_nv = db.NhanViens.ToList<NhanVien>();
+                var result = listdata_nv.Where(s => s.MaTrangThai != 2);
                 SelectList listSelect_bangcap = new SelectList(listdata_bangcap, "MaBangCap_GiayChungNhan", "TenBangCap");
-                SelectList listSelect_nhanvien = new SelectList(listdata_nv, "MaNV", "MaNV");
+                SelectList listSelect_nhanvien = new SelectList(result, "MaNV", "MaNV");
                 ViewBag.listSelect_nhanvien = listSelect_nhanvien;
                 ViewBag.listSelect_bangcap = listSelect_bangcap;
 
@@ -514,7 +515,7 @@ namespace QUANGHANH2.Controllers.TCLD
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                var chungchi_nvs = db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault<NhanVien>();
+                var chungchi_nvs = db.NhanViens.Where(x => (x.MaNV == id) && (x.MaTrangThai != 2)).FirstOrDefault<NhanVien>();
                 if (chungchi_nvs != null)
                 {
                     return Json(new { data = chungchi_nvs.Ten, success = true, message = "ok" }, JsonRequestBehavior.AllowGet);

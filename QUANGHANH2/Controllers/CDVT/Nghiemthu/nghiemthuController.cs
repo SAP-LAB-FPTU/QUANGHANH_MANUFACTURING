@@ -70,6 +70,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
 
                 foreach (Documentary_Extend items in docList)
                 {
+                    items.idAndid = items.equipmentId + "^" + items.documentary_id;
                     items.linkIdCode = new LinkIdCode2();
                     switch (items.documentary_type)
                     {
@@ -94,6 +95,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                     }
                     items.linkIdCode.code = items.equipmentId;
                     items.linkIdCode.id = items.equipmentId;
+                    items.linkIdCode.doc = items.documentary_id;
                 }
 
 
@@ -124,164 +126,89 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
 
 
 
-        [HttpGet]
-        public ActionResult Edit(string id)
+        [HttpPost]
+        [Route("phong-cdvt/nghiem-thu/Edit")]
+        public ActionResult Edit(string id, string documentary_code, string documentary_id)
         {
-            List<Acceptance> AcceptanceList = new List<Acceptance>();
-            List<Document> documentList = new List<Document>();
-            List<Suply> supplyList = new List<Suply>();
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             using (DbContextTransaction transaction = db.Database.BeginTransaction())
             {
                 try
                 {
-                    //Boolean status = true;
-                    db.Configuration.LazyLoadingEnabled = false;
-                    documentList = (from a in db.Acceptances
-                                    join b in db.Documentaries on a.documentary_id equals b.documentary_id
-                                    where a.equipmentId == id
-                                    select new
-                                    {
-                                        documentary_id = a.documentary_id,
-                                        equipmentId = a.equipmentId,
-                                        documentary_type = b.documentary_type
+                    Acceptance acceptance = db.Acceptances.Find(int.Parse(documentary_id), id);
+                    acceptance.equipmentStatus = 3;
+                    db.SaveChanges();
 
-                                    }).ToList().Select(p => new Document
-                                    {
-                                        documentary_id = p.documentary_id,
-                                        equipmentId = p.equipmentId,
-                                        documentary_type = p.documentary_type
-                                    }).ToList();
+                    int acceptanced = db.Database.SqlQuery<Acceptance>("SELECT * FROM Acceptance WHERE documentary_id = @documentary_id AND equipmentStatus = 3",
+                        new SqlParameter("documentary_id", int.Parse(documentary_id))).ToList().Count;
 
-                    supplyList = (from a in db.Supply_Documentary_Equipment
-                                    join b in db.Documentaries on a.documentary_id equals b.documentary_id
-                                    join c in db.Supplies on a.supply_id equals c.supply_id
-                                    join d in db.Supply_tieuhao on c.supply_id equals d.supplyid
-                                    where a.equipmentId == id
-                                    select new
-                                    {
-                                        supplyid = a.supply_id,
-                                        equipmentId = a.equipmentId,
-                                        departmentid = b.department_id
-
-
-                                    }).ToList().Select(p => new Suply
-                                    {
-                                        supplyid = p.supplyid,
-                                        equipmentId = p.equipmentId,
-                                        departmentid = p.departmentid
-                                    }).ToList();
-
-
-                    foreach (Document items in documentList)
+                    int total = db.Database.SqlQuery<Acceptance>("SELECT * FROM Acceptance WHERE documentary_id = @documentary_id",
+                        new SqlParameter("documentary_id", int.Parse(documentary_id))).ToList().Count;
+                    Documentary documentary = db.Documentaries.Find(int.Parse(documentary_id));
+                    if (total == acceptanced)
                     {
-                        try
-                        {
-                            var query = "  UPDATE Acceptance SET acceptance_date = getdate(), equipmentStatus = 3 where equipmentId =  @id";
-                            var query2 = "  UPDATE Supply_Documentary_Equipment SET supply_documentary_status = 1 WHERE documentary_id = @documentary_id and equipmentId = @equipmentId";
-                            db.Database.ExecuteSqlCommand(query,
-                               new SqlParameter("id", id));
-                            db.Database.ExecuteSqlCommand(query2,
-                                new SqlParameter("documentary_id", items.documentary_id),
-                                 new SqlParameter("equipmentId", items.equipmentId));
-                        }
-                        catch (Exception e)
-                        {
-                            Response.Write("Có lỗi xảy ra");
-                            return new HttpStatusCodeResult(400);
-                        }
-                        db.SaveChanges();
+                        documentary.documentary_status = 3;
                     }
-                    int count1 = 0, count2 = 0;
-                    foreach (Document items in documentList)
-                    {
-                        Document query = db.Database.SqlQuery<Document>("select count(documentary_id) as countID from Acceptance where equipmentStatus = 3 and documentary_id = @documentary_id",
-                                    new SqlParameter("documentary_id", items.documentary_id)).First();
-                        count1 = query.countID;
-                        var queryX = "";
-                        var queryY = "";
-                        switch (items.documentary_type)
-                        {
-                            case "1":
-                                Document query1 = db.Database.SqlQuery<Document>("select count(documentary_id) as countID from Documentary_repair_details where documentary_id = @documentary_id",
-                                    new SqlParameter("documentary_id", items.documentary_id)).First();
-                                count2 = query1.countID;
-                                queryX = "Update Equipment SET current_Status = 2 WHERE equipmentId = @equipmentId";
-                                queryY = "Update Equipment SET department_id = T2.department_id FROM Equipment T1,Documentary_repair_details T2 Where T1.equipmentId = T2.equipmentId and T1.equipmentId = @equipmentId and T2.documentary_id = @documentary_id";
+                    Equipment equipment = db.Equipments.Find(id);
 
-                                foreach (Suply item in supplyList)
-                                {
-                                    UpdateSupply(item.supplyid, item.equipmentId, item.departmentid);
-                                    break;
-                                }
-                                break;
-                            case "2":
-                                Document query2 = db.Database.SqlQuery<Document>("select count(documentary_id) as countID from Documentary_maintain_details where documentary_id = @documentary_id",
-                                    new SqlParameter("documentary_id", items.documentary_id)).First();
-                                count2 = query2.countID;
-                                queryX = "Update Equipment SET current_Status = 2 WHERE equipmentId = @equipmentId";
-                                queryY = "Update Equipment SET department_id = T2.department_id FROM Equipment T1,Documentary_maintain_details T2 Where T1.equipmentId = T2.equipmentId and T1.equipmentId = @equipmentId and T2.documentary_id = @documentary_id ";
-                                foreach (Suply item in supplyList)
-                                {
-                                    UpdateSupply(item.supplyid, item.equipmentId, item.departmentid);
-                                    break;
-                                }
-                                break;
-                            case "3":
-                                Document query3 = db.Database.SqlQuery<Document>("select count(documentary_id) as countID from Documentary_moveline_details where documentary_id = @documentary_id",
-                                    new SqlParameter("documentary_id", items.documentary_id)).First();
-                                count2 = query3.countID;
-                                queryX = "Update Equipment SET current_Status = 2 WHERE equipmentId = @equipmentId";
-                                queryY = "Update Equipment SET department_id = T2.department_id FROM Equipment T1,Documentary_moveline_details T2 Where T1.equipmentId = T2.equipmentId and T1.equipmentId = @equipmentId  and T2.documentary_id = @documentary_id";
-                                break;
-                            case "4":
-                                Document query4 = db.Database.SqlQuery<Document>("select count(documentary_id) as countID from Documentary_revoke_details where documentary_id = @documentary_id",
-                                    new SqlParameter("documentary_id", items.documentary_id)).First();
-                                count2 = query4.countID;
-                                queryX = "Update Equipment SET current_Status = 1 WHERE equipmentId = @equipmentId";
-                                queryY = "Update Equipment SET department_id = 'CDVT' FROM Equipment T1,Documentary_revoke_details T2 Where T1.equipmentId = T2.equipmentId and T1.equipmentId = @equipmentId  and T2.documentary_id = @documentary_id";
-                                break;
-                            case "5":
-                                Document query5 = db.Database.SqlQuery<Document>("select count(documentary_id) as countID from Documentary_liquidation_details where documentary_id = @documentary_id",
-                                    new SqlParameter("documentary_id", items.documentary_id)).First();
-                                count2 = query5.countID;
-                                queryX = "Update Equipment SET current_Status = 15 WHERE equipmentId = @equipmentId";
-                                queryY = "Update Equipment SET department_id = 'CDVT' FROM Equipment T1,Documentary_liquidation_details T2 Where T1.equipmentId = T2.equipmentId and T1.equipmentId = @equipmentId  and T2.documentary_id = @documentary_id";
-                                break;
-                            case "6":
-                                Document query6 = db.Database.SqlQuery<Document>("select count(documentary_id) as countID from Documentary_big_maintain_details where documentary_id = @documentary_id",
-                                    new SqlParameter("documentary_id", items.documentary_id)).First();
-                                count2 = query6.countID;
-                                queryX = "Update Equipment SET current_Status = 1 WHERE equipmentId = @equipmentId";
-                                queryY = "Update Equipment SET department_id = T2.department_id FROM Equipment T1,Documentary_big_maintain_details T2 Where T1.equipmentId = T2.equipmentId and T1.equipmentId = @equipmentId   and T2.documentary_id = @documentary_id";
-                                foreach (Suply item in supplyList)
-                                {
-                                    UpdateSupply(item.supplyid, item.equipmentId, item.departmentid);
-                                    break;
-                                }
-                                break;
-                        }
-                        if (queryX != "" && queryY != "")
-                        {
-                            db.Database.ExecuteSqlCommand(queryX,
-                                new SqlParameter("equipmentId", items.equipmentId));
-                            db.Database.ExecuteSqlCommand(queryY,
-                                new SqlParameter("equipmentId", items.equipmentId),
-                                new SqlParameter("documentary_id", items.documentary_id));
-                            db.SaveChanges();
-                        }
-                        if (count1 == count2)
-                        {
-                            var queryZ = "UPDATE Documentary SET documentary_status = 3 FROM Acceptance T1, Documentary T2 WHERE T1.documentary_id = T2.documentary_id AND T1.equipmentId = @id";
-                            db.Database.ExecuteSqlCommand(queryZ,
-                               new SqlParameter("id", id));
-                            db.SaveChanges();
-                        }
+                    switch (documentary.documentary_type)
+                    {
+                        case "1":
+                            Documentary_repair_details documentary_Repair_Details = db.Database.SqlQuery<Documentary_repair_details>("SELECT * FROM Documentary_repair_details WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId",
+                                new SqlParameter("equipmentId", id),
+                                new SqlParameter("documentary_id", documentary.documentary_id)).First();
+                            equipment.department_id = documentary_Repair_Details.department_id;
+                            break;
+                        case "2":
+                            Documentary_maintain_details Documentary_maintain_details = db.Database.SqlQuery<Documentary_maintain_details>("SELECT * FROM Documentary_maintain_details WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId",
+                                new SqlParameter("equipmentId", id),
+                                new SqlParameter("documentary_id", documentary.documentary_id)).First();
+                            equipment.department_id = Documentary_maintain_details.department_id;
+                            break;
+                        case "3":
+                            Documentary_moveline_details documentary_Moveline_Details = db.Database.SqlQuery<Documentary_moveline_details>("SELECT * FROM Documentary_moveline_details WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId",
+                                new SqlParameter("equipmentId", id),
+                                new SqlParameter("documentary_id", documentary.documentary_id)).First();
+                            equipment.department_id = documentary_Moveline_Details.department_id;
+                            break;
+                        case "4":
+                            equipment.department_id = "CDVT";
+                            break;
+                        case "5":
+                            equipment.department_id = "CDVT";
+                            break;
+                        case "6":
+                            Documentary_big_maintain_details documentary_Big_Maintain_Details = db.Database.SqlQuery<Documentary_big_maintain_details>("SELECT * FROM Documentary_big_maintain_details WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId",
+                                new SqlParameter("equipmentId", id),
+                                new SqlParameter("documentary_id", documentary.documentary_id)).First();
+                            equipment.department_id = documentary_Big_Maintain_Details.department_id;
+                            break;
+                        default:
+                            break;
                     }
+                    List<Supply_Documentary_Equipment> ListSD = db.Database.SqlQuery<Supply_Documentary_Equipment>("SELECT * FROM Supply_Documentary_Equipment WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId AND supplyType = 1",
+                        new SqlParameter("equipmentId", id),
+                        new SqlParameter("documentary_id", documentary.documentary_id)).ToList();
+                    List<Supply_Documentary_Equipment> ListTH = db.Database.SqlQuery<Supply_Documentary_Equipment>("SELECT * FROM Supply_Documentary_Equipment WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId AND supplyType = 2",
+                        new SqlParameter("equipmentId", id),
+                        new SqlParameter("documentary_id", documentary.documentary_id)).ToList();
+                    foreach (Supply_Documentary_Equipment item in ListSD)
+                    {
+                        db.Database.ExecuteSqlCommand("UPDATE Supply_tieuhao SET used = (used + @param) WHERE supplyid = @supplyid",
+                            new SqlParameter("param", item.quantity),
+                            new SqlParameter("supplyid", item.supply_id));
+                    }
+                    foreach (Supply_Documentary_Equipment item in ListTH)
+                    {
+                        db.Database.ExecuteSqlCommand("UPDATE Supply_tieuhao SET thuhoi = (thuhoi + @param) WHERE supplyid = @supplyid",
+                            new SqlParameter("param", item.quantity),
+                            new SqlParameter("supplyid", item.supply_id));
+                    }
+                    db.SaveChanges();
                     transaction.Commit();
-                    return View();
+                    return Json(new { success = true, message = "Nghiệm thu thành công" }, JsonRequestBehavior.AllowGet);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     transaction.Rollback();
                     return Json(new { success = false, message = "Nghiệm thu thất bại" }, JsonRequestBehavior.AllowGet);
@@ -317,14 +244,14 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
         {
             try
             {
-               Suply query = db.Database.SqlQuery<Suply>(" select sum(quantity) as sum_type_1 from Supply_Documentary_Equipment where supplyType = 1 and equipmentId = @equipmentId group by supply_id, equipmentId, documentary_id",
+               Suply query = db.Database.SqlQuery<Suply>(" select sum(quantity) as sum_type_1 from Supply_Documentary_Equipment where supplyType = 1 and equipmentId = @equipmentId",
                    new SqlParameter("equipmentId", equipmentId)).First();
-               Suply query2 = db.Database.SqlQuery<Suply>(" select sum(quantity) as sum_type_2 from Supply_Documentary_Equipment where supplyType = 2 and equipmentId =  @equipmentId group by supply_id, equipmentId, documentary_id",
+               Suply query2 = db.Database.SqlQuery<Suply>(" select sum(quantity) as sum_type_2 from Supply_Documentary_Equipment where supplyType = 2 and equipmentId =  @equipmentId",
                    new SqlParameter("equipmentId", equipmentId)).First();
                     var query3 = "Update Supply_tieuhao Set used = used + @sum1,thuhoi = thuhoi + @sum2 From Supply_Documentary_Equipment T1, Documentary T2, Supply T3, Supply_tieuhao T4 Where T1.documentary_id = T2.documentary_id and T1.supply_id = T3.supply_id and T3.supply_id = T4.supplyid and T3.supply_id = @supply_id and departmentid = @departmentid and month(GETDATE()) = month([date]) and year(GETDATE()) = year([date])";
                 db.Database.ExecuteSqlCommand(query3,
                     new SqlParameter("sum1", query.sum_type_1),
-                    new SqlParameter("sum2", query.sum_type_2),
+                    new SqlParameter("sum2", query2.sum_type_2),
                     new SqlParameter("supply_id", supply_id),
                     new SqlParameter("departmentid", departmentid));
                     db.SaveChanges();
