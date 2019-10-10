@@ -62,7 +62,6 @@
         <EntityTypeShape EntityType="QUANGHANHABCModel.Supply_Documentary_Equipment" Width="1.5" PointX="5.25" PointY="55.625" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Supply_tieuhao" Width="1.5" PointX="3" PointY="64.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.SupplyPlan" Width="1.5" PointX="22.25" PointY="71.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.sysdiagram" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.TaiNan" Width="1.5" PointX="16.25" PointY="94.875" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.TieuChi" Width="1.5" PointX="3" PointY="83.125" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.TieuChi_VatLieuSanXuat" Width="1.5" PointX="3" PointY="86.5" IsExpanded="true" />

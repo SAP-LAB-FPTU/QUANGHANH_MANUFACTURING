@@ -517,9 +517,6 @@
     <Compile Include="Models\Supply_tieuhao.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\TaiNan.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -6390,6 +6387,7 @@
     <Content Include="js\Custom JS\Disable_input_material.js" />
     <Content Include="js\Custom JS\DK\DetailManu_Daily.js" />
     <Content Include="js\Custom JS\DK\DetailManu_List.js" />
+    <Content Include="js\Custom JS\DK\InputCharcoal\AddRow.js" />
     <Content Include="js\Custom JS\DK\ReportHuman\beo_echart.js" />
     <Content Include="js\Custom JS\DK\ReportHuman\editable.js" />
     <Content Include="js\Custom JS\DK\ReportHuman\ReportChart_Monthly.js" />
