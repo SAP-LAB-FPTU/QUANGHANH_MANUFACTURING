@@ -18,11 +18,5 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
         {
             return View("/Views/DK/InputCharcoal/InputCharcoal.cshtml");
         }
-
-        [Route("phong-dieu-khien/nhap-lieu-ke-hoach")]
-        public ActionResult InputPlan()
-        {
-            return View("/Views/DK/InputCharcoal/InputPlan.cshtml");
-        }
     }
 }

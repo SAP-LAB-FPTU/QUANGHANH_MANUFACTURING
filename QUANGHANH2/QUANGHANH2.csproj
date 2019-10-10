@@ -572,7 +572,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\Custom css\CDVT\StyleSheet1.css" />
-    <Content Include="assets\Custom css\DK\InputPlan\InputPlan.css" />
     <Content Include="assets\Custom css\TCLD\Brief\AddBrief.css" />
     <Content Include="assets\Custom css\TCLD\Brief\ManageBrief\beo_ho_so_ngoai.css" />
     <Content Include="assets\Custom css\TCLD\Brief\ManageBrief\beo_regulations.css" />
@@ -6390,7 +6389,6 @@
     <Content Include="js\Custom JS\Disable_input_material.js" />
     <Content Include="js\Custom JS\DK\DetailManu_Daily.js" />
     <Content Include="js\Custom JS\DK\DetailManu_List.js" />
-    <Content Include="js\Custom JS\DK\InputPlan\InputPlanDatepicker.js" />
     <Content Include="js\Custom JS\DK\ReportHuman\beo_echart.js" />
     <Content Include="js\Custom JS\DK\ReportHuman\editable.js" />
     <Content Include="js\Custom JS\DK\ReportHuman\ReportChart_Monthly.js" />
@@ -7018,8 +7016,10 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+
     <Content Include="excel\TCLD\Report_job.xlsx" />
     <Content Include="assets\uploader\icons.min.css.map" />
+
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
@@ -7303,7 +7303,6 @@
     <Content Include="Views\Shared\_Layout_NhapBaoCaoLenDK.cshtml" />
     <Content Include="Views\Phanxuong\NhapBaoCao\BaoCaoLenDK.cshtml" />
     <Content Include="Views\DK\PhanXuongReport.cshtml" />
-    <Content Include="Views\DK\InputCharcoal\InputPlan.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
