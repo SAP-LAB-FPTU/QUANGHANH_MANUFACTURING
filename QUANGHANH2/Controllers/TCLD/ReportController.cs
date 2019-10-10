@@ -4,6 +4,7 @@ using QUANGHANH2.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -156,69 +157,88 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [Route("phong-tcld/nang-suat-lao-dong-va-tien-luong/nang-suat-lao-dong-va-tien-luong-theo-cac-px-trong-ngay")]
         public ActionResult DailyAll(string date)
         {
-            if (date == null)
+            DateTime dateTime = DateTime.Now;
+            if (date != null)
             {
-                date = string.Format("{0:dd/MM/yyyy}", DateTime.Now);
+                dateTime = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             }
-            string tatcadonvi = QueryForReportAlll(date);
+            string varname1 = 
+               "SELECT Isnull(tongsodiem, 0)  AS TongSoDiem, " + "\n"
+             + "       Isnull(tongsothan, 0)  AS TongSoThan, " + "\n"
+             + "       Isnull(tongsometlo, 0) AS TongSoMetLo, " + "\n"
+             + "       Isnull(tongsoxen, 0)   AS TongSoXen, " + "\n"
+             + "       de.department_id       AS Name " + "\n"
+             + "FROM   (SELECT Sum(totaleffort)   AS TongSoDiem, " + "\n"
+             + "               Sum(thanthuchien)  AS TongSoThan, " + "\n"
+             + "               Sum(metlothuchien) AS TongSoMetLo, " + "\n"
+             + "               Sum(xenthuchien)   AS TongSoXen, " + "\n"
+             + "               maphongban " + "\n"
+             + "        FROM   header_diemdanh_nangsuat_laodong " + "\n"
+             + "        WHERE  ngaydiemdanh = @NgayDiemDanh " + "\n"
+             + "        GROUP  BY maphongban) h " + "\n"
+             + "       RIGHT JOIN department de " + "\n"
+             + "               ON de.department_id = h.maphongban " + "\n"
+             + "WHERE  de.department_type LIKE N'%Chính%' " + "\n"
+             + "       AND de.department_id != 'PXST' " + "\n"
+             + "       AND de.department_id != 'PXLT'";
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
 
-                ViewBag.TatCaDonVi = db.Database.SqlQuery<TatCaDonVI>(tatcadonvi).ToList();
-                string[] teststring = new string[ViewBag.TatCaDonVi.Count];
-                for (int i = 0; i < ViewBag.TatCaDonVi.Count; i++)
-                {
-                    teststring[i] = ViewBag.TatCaDonVi[i].Name;
-                }
-                ViewBag.TenDonVi = teststring;
+                ViewBag.TatCaDonVi = db.Database.SqlQuery<BaoCaoNgayDB>(varname1, new SqlParameter("NgayDiemDanh", dateTime)).ToList();
+                //string[] teststring = new string[ViewBag.TatCaDonVi.Count];
+                //for (int i = 0; i < ViewBag.TatCaDonVi.Count; i++)
+                //{
+                //    teststring[i] = ViewBag.TatCaDonVi[i].Name;
+                //}
+                //ViewBag.TenDonVi = teststring;
 
-                int CBQL = 0;
-                int KT = 0;
-                int CD = 0;
-                int HSTT = 0;
-                int TongLaoDong = 0;
-                int LDTheoDS = 0;
-                int LDSX = 0;
-                int Om = 0;
-                int VLD = 0;
-                int Khac = 0;
-                int TongNghi = 0;
-                decimal TyLe = 0;
-                foreach (var item in ViewBag.TatCaDonVi)
-                {
-                    CBQL += item.CBQL;
-                    KT += item.KT;
-                    CD += item.CD;
-                    HSTT += item.HSTT;
-                    TongLaoDong += item.TongLaoDong;
-                    LDTheoDS += item.LDTheoDS;
-                    LDSX += item.LDSX;
-                    Om += item.Om;
-                    VLD += item.VLD;
-                    Khac += item.Khac;
-                    TongNghi += item.TongNghi;
-                    TyLe += item.TyLe;
-                };
-                if (ViewBag.TatCaDonVi.Count > 0)
-                {
-                    TyLe = Math.Round(TyLe / ViewBag.TatCaDonVi.Count, 2);
-                };
-                ViewBag.TatCaDonViFooter = new TatCaDonVI
-                {
-                    Name = "Tổng",
-                    CBQL = CBQL,
-                    KT = KT,
-                    CD = CD,
-                    HSTT = HSTT,
-                    TongLaoDong = TongLaoDong,
-                    LDTheoDS = LDTheoDS,
-                    LDSX = LDSX,
-                    Om = Om,
-                    VLD = VLD,
-                    Khac = Khac,
-                    TongNghi = TongNghi,
-                    TyLe = TyLe
-                };
+                //int CBQL = 0;
+                //int KT = 0;
+                //int CD = 0;
+                //int HSTT = 0;
+                //int TongLaoDong = 0;
+                //int LDTheoDS = 0;
+                //int LDSX = 0;
+                //int Om = 0;
+                //int VLD = 0;
+                //int Khac = 0;
+                //int TongNghi = 0;
+                //decimal TyLe = 0;
+                //foreach (var item in ViewBag.TatCaDonVi)
+                //{
+                //    CBQL += item.CBQL;
+                //    KT += item.KT;
+                //    CD += item.CD;
+                //    HSTT += item.HSTT;
+                //    TongLaoDong += item.TongLaoDong;
+                //    LDTheoDS += item.LDTheoDS;
+                //    LDSX += item.LDSX;
+                //    Om += item.Om;
+                //    VLD += item.VLD;
+                //    Khac += item.Khac;
+                //    TongNghi += item.TongNghi;
+                //    TyLe += item.TyLe;
+                //};
+                //if (ViewBag.TatCaDonVi.Count > 0)
+                //{
+                //    TyLe = Math.Round(TyLe / ViewBag.TatCaDonVi.Count, 2);
+                //};
+                //ViewBag.TatCaDonViFooter = new TatCaDonVI
+                //{
+                //    Name = "Tổng",
+                //CBQL = CBQL,
+                //    KT = KT,
+                //    CD = CD,
+                //    HSTT = HSTT,
+                //    TongLaoDong = TongLaoDong,
+                //    LDTheoDS = LDTheoDS,
+                //    LDSX = LDSX,
+                //    Om = Om,
+                //    VLD = VLD,
+                //    Khac = Khac,
+                //    TongNghi = TongNghi,
+                //    TyLe = TyLe
+                //};
             }
             return View("/Views/TCLD/Report/DailyAll.cshtml");
         }
@@ -275,18 +295,18 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     ViewBag.TatCaDonViFooter = new TatCaDonVI
                     {
                         Name = "Tổng",
-                        CBQL = CBQL,
-                        KT = KT,
-                        CD = CD,
-                        HSTT = HSTT,
-                        TongLaoDong = TongLaoDong,
-                        LDTheoDS = LDTheoDS,
-                        LDSX = LDSX,
-                        Om = Om,
-                        VLD = VLD,
-                        Khac = Khac,
-                        TongNghi = TongNghi,
-                        TyLe = TyLe
+                        //CBQL = CBQL,
+                        //KT = KT,
+                        //CD = CD,
+                        //HSTT = HSTT,
+                        //TongLaoDong = TongLaoDong,
+                        //LDTheoDS = LDTheoDS,
+                        //LDSX = LDSX,
+                        //Om = Om,
+                        //VLD = VLD,
+                        //Khac = Khac,
+                        //TongNghi = TongNghi,
+                        //TyLe = TyLe
                     };
                     excelWorksheet.Cells[1, 1].Value = "BÁO CÁO THỰC HIỆN LAO ĐỘNG, TIỀN LƯƠNG CÔNG NHÂN TRỰC TIẾP NGÀY " + date;
                    
@@ -483,19 +503,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
     public class TatCaDonVI
     {
         public string Name { get; set; }
-        public Int64 STT { get; set; }
-        public int CBQL { get; set; }
-        public int KT { get; set; }
-        public int CD { get; set; }
-        public int HSTT { get; set; }
-        public int TongLaoDong { get; set; }
-        public int LDTheoDS { get; set; }
-        public int LDSX { get; set; }
-        public int Om { get; set; }
-        public int VLD { get; set; }
-        public int Khac { get; set; }
-        public int TongNghi { get; set; }
-        public decimal TyLe { get; set; }
+        public int TyLe { get; set; }
+        public double TongSoDiem { get; set; }
+        public double TongSoThan { get; set; }
+        public double TongSoMetLo { get; set; }
+        public double TongSoXen { get; set; }
     }
 
     public class Vang

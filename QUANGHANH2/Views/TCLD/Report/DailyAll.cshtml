@@ -74,7 +74,7 @@
                                 <div class="card-content analytics-info">
                                     <h5 class="card-title">Tổng số lao động</h5>
                                     <br> <br />
-                                    <div class="summary_number"><h3><b>@ViewBag.TatCaDonViFooter.TongLaoDong</b></h3></div>
+                                    @*<div class="summary_number"><h3><b>@ViewBag.TatCaDonViFooter.TongLaoDong</b></h3></div>*@
                                 </div>
                             </div>
                         </div>
@@ -82,7 +82,7 @@
                             <div class="card">
                                 <div class="card-content analytics-info">
                                     <h5 class="card-title">Tỉ lệ huy động trung bình</h5>
-                                    <div class="chart easy-pie-chart-1" data-percent="@ViewBag.TatCaDonViFooter.TyLe"> <span class="percent">8/100</span> </div>
+                                    @*<div class="chart easy-pie-chart-1" data-percent="@ViewBag.TatCaDonViFooter.TyLe"> <span class="percent">8/100</span> </div>*@
                                 </div>
                             </div>
                         </div>
@@ -182,60 +182,64 @@
                                     <th>Than</th>
                                     <th>Mét lò</th>
                                     <th>Xén</th>
-                                    <th>TLBQ</th>
-                                    <th class="total_col">Tổng</th>
+                                    <th>Tổng số</th>
+                                    <th class="total_col">TL BQ</th>
                                     <th>TH</th>
                                     <th>KH</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var item in ViewBag.TatCaDonVi)
+                                @{ var count = 1;}
+                                @foreach (QUANGHANH2.Models.BaoCaoNgayDB item in ViewBag.TatCaDonVi)
                                 {
-                                    <tr>
-                                        <td>@item.STT</td>
-                                        <td><a onclick="HienThiTheoDonVi('@item.Name');">@item.Name</a></td>
-                                        <td>@item.CBQL</td>
-                                        <td>@item.KT</td>
-                                        <td>@item.CD</td>
-                                        <td>@item.HSTT</td>
-                                        <td class="total_col total_ldtt">@item.TongLaoDong</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td class="total_col total_ldtt_nghi_dai"></td>
-                                        <td class="ld_sanxuat">@item.LDTheoDS</td>
-                                        <td class="ldbq_di_lam">@item.LDSX</td>
-                                        <td>@item.VLD</td>
-                                        <td>@item.Om</td>
-                                        <td>@item.Khac</td>
-                                        <td class="total_col">@item.TongNghi</td>
-                                        <td class="tilehuydong">@item.TyLe</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td class="total_col"></td>
-                                        <td></td>
-                                    </tr>
+                                <tr>
+                                    <td>@count</td>
+                                    <td>@item.Name</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>@item.TongSoThan</td>
+                                    <td>@item.TongSoMetLo</td>
+                                    <td>@item.TongSoXen</td>
+                                    <td>@item.TongSoDiem</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                { count++;}
                                 }
                                 <tr>
-                                    <td class="total_row" colspan="2">@ViewBag.TatCaDonViFooter.Name</td>
-                                    <td class="total_row">@ViewBag.TatCaDonViFooter.CBQL</td>
-                                    <td class="total_row">@ViewBag.TatCaDonViFooter.KT</td>
-                                    <td class="total_row">@ViewBag.TatCaDonViFooter.CD</td>
-                                    <td class="total_row">@ViewBag.TatCaDonViFooter.HSTT</td>
-                                    <td class="total_row">@ViewBag.TatCaDonViFooter.TongLaoDong</td>
+                                    <td class="total_row" colspan="2"></td>
                                     <td class="total_row"></td>
                                     <td class="total_row"></td>
                                     <td class="total_row"></td>
                                     <td class="total_row"></td>
-                                    <td class="total_row">@ViewBag.TatCaDonViFooter.LDTheoDS</td>
-                                    <td class="total_row">@ViewBag.TatCaDonViFooter.LDSX</td>
-                                    <td class="total_row">@ViewBag.TatCaDonViFooter.VLD</td>
-                                    <td class="total_row">@ViewBag.TatCaDonViFooter.Om</td>
-                                    <td class="total_row">@ViewBag.TatCaDonViFooter.Khac</td>
-                                    <td class="total_row">@ViewBag.TatCaDonViFooter.TongNghi</td>
-                                    <td class="total_row tilehuydong_trungbinh">@ViewBag.TatCaDonViFooter.TyLe</td>
+                                    <td class="total_row"></td>
+                                    <td class="total_row"></td>
+                                    <td class="total_row"></td>
+                                    <td class="total_row"></td>
+                                    <td class="total_row"></td>
+                                    <td class="total_row"></td>
+                                    <td class="total_row"></td>
+                                    <td class="total_row"></td>
+                                    <td class="total_row"></td>
+                                    <td class="total_row"></td>
+                                    <td class="total_row"></td>
+                                    <td class="total_row"></td>
+                                    <td class="total_row"></td>
                                     <td class="total_row"></td>
                                     <td class="total_row"></td>
                                     <td class="total_row"></td>
@@ -266,23 +270,23 @@
                                 <tbody>
                                     <tr>
                                         <th class="total_row">Tổng số lao động đến ngày <span id="ngayreport"></span>: </th>
-                                        <td class="total_row">@ViewBag.TatCaDonViFooter.TongLaoDong</td>
+                                        @*<td class="total_row">@ViewBag.TatCaDonViFooter.TongLaoDong</td>*@
                                     </tr>
                                     <tr>
                                         <th>CBQL</th>
-                                        <td>@ViewBag.TatCaDonViFooter.CBQL</td>
+                                        @*<td>@ViewBag.TatCaDonViFooter.CBQL</td>*@
                                     </tr>
                                     <tr>
                                         <th>KT</th>
-                                        <td>@ViewBag.TatCaDonViFooter.KT</td>
+                                        @*<td>@ViewBag.TatCaDonViFooter.KT</td>*@
                                     </tr>
                                     <tr>
                                         <th>CĐ</th>
-                                        <td>@ViewBag.TatCaDonViFooter.CD</td>
+                                        @*<td>@ViewBag.TatCaDonViFooter.CD</td>*@
                                     </tr>
                                     <tr>
                                         <th>HSTT</th>
-                                        <td>@ViewBag.TatCaDonViFooter.HSTT</td>
+                                        @*<td>@ViewBag.TatCaDonViFooter.HSTT</td>*@
                                     </tr>
                                 </tbody>
                             </table>
@@ -300,15 +304,15 @@
                                     </tr>
                                     <tr>
                                         <th>LĐ tham gia sx</th>
-                                        <td>@ViewBag.TatCaDonViFooter.LDTheoDS</td>
+                                        @*<td>@ViewBag.TatCaDonViFooter.LDTheoDS</td>*@
                                     </tr>
                                     <tr>
                                         <th>LĐ BQ thực tế đi làm BQ 1 ngày</th>
-                                        <td>@ViewBag.TatCaDonViFooter.LDSX</td>
+                                        @*<td>@ViewBag.TatCaDonViFooter.LDSX</td>*@
                                     </tr>
                                     <tr>
                                         <th>LĐ nghỉ các loại không tham gia SXBQ 1 ngày</th>
-                                        <td>@ViewBag.TatCaDonViFooter.TongNghi</td>
+                                        @*<td>@ViewBag.TatCaDonViFooter.TongNghi</td>*@
                                     </tr>
                                     <tr>
                                         <th>Tỷ lệ huy động</th>
@@ -462,11 +466,11 @@
 <input type="text" value="@ViewBag.TenDonVi" id="valueforchart" hidden/>
 <script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
 <script>
-    var myArray = [];
+    @*var myArray = [];
     @foreach (var d in ViewBag.TenDonVi)
     {
         @:myArray.push("@d");
-    }
+    }*@
 
 </script>
 <script src="~/js/tuan_js/myChart.js"></script>

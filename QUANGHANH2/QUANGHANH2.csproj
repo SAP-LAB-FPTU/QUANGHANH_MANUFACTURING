@@ -325,6 +325,7 @@
     </Compile>
     <Compile Include="Models\BangCap_GiayChungNhan_detailsDB.cs" />
     <Compile Include="Models\BangCap_detailsDB.cs" />
+    <Compile Include="Models\BaoCaoNgayDB.cs" />
     <Compile Include="Models\Category_attribute_value.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -335,9 +336,6 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ChiTiet_NhiemVu_NhanVien.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ChiTiet_ThucHien_TieuChi_TheoNgay.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ChungChi.cs">
@@ -428,6 +426,9 @@
     <Compile Include="Models\Header_DiemDanh_NangSuat_LaoDong.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\header_KeHoach_TieuChi_TheoNgay.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\header_ThucHienTheoNgay.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -441,6 +442,9 @@
     </Compile>
     <Compile Include="Models\InsideExcel.cs" />
     <Compile Include="Models\KeHoach_TieuChi.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KeHoach_TieuChi_TheoNgay.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\KeHoach_TieuChi_VatLieuSanXuat.cs">
@@ -7009,6 +7013,8 @@
     <Content Include="excel\CDVT\thanhly.xlsx" />
     <Content Include="excel\TCLD\TongHopNhanSu\Tổng-hợp-nhân-lực.xlsx" />
     <Content Include="excel\TCLD\Report_job.xlsx" />
+    <Content Include="excel\TCLD\Report_job.xlsx" />
+    <Content Include="assets\uploader\icons.min.css.map" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -7016,8 +7022,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="excel\TCLD\Report_job.xlsx" />
-    <Content Include="assets\uploader\icons.min.css.map" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
