@@ -274,6 +274,7 @@
     <Compile Include="Controllers\DK\ReportIncidentController.cs" />
     <Compile Include="Controllers\DK\ReportManuCharcoal\DetailManuReportController.cs" />
     <Compile Include="Controllers\DK\ReportManuCharcoal\ReportManuCharcoalController.cs" />
+    <Compile Include="Controllers\DK\SanLuongReportController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KCS\KCSController.cs" />
     <Compile Include="Controllers\KCS\ReportController.cs" />
@@ -7300,6 +7301,7 @@
     <Content Include="Views\Shared\_Layout_NhapBaoCaoLenDK.cshtml" />
     <Content Include="Views\Phanxuong\NhapBaoCao\BaoCaoLenDK.cshtml" />
     <Content Include="Views\DK\PhanXuongReport.cshtml" />
+    <Content Include="Views\DK\SanLuongReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7309,7 +7311,9 @@
     <Folder Include="Views\HuyDong\" />
     <Folder Include="Views\Input\" />
     <Folder Include="Views\Laydanhsachvattu\" />
+    <Folder Include="Views\PhanXuongReport\" />
     <Folder Include="Views\Quanlyvattu\" />
+    <Folder Include="Views\SanLuongReport\" />
     <Folder Include="Views\WorkHistory\" />
   </ItemGroup>
   <ItemGroup>
