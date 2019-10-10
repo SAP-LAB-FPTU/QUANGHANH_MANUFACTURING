@@ -309,7 +309,7 @@
          });
         $("#pre-load").css("z-index", "99999");
         var dataTable,Popup;
-        var deleteIdNganh, dataTableTruong, dataTableTrinhDo;
+        var deleteIdNganh, dataTableTruong, dataTableNganh, dataTableTrinhDo;
         var delete_id;
         var delete_id_nganh;
         $(document).ready(function () {
@@ -405,7 +405,7 @@
                     },
                     {
                         "data": "MaNganh", "name": "MaNganh", "render": function (data) {
-                            return "<a class='waves-effect waves-light btn-small blue '  style='margin-left:5px' onclick=deleteNganh(" + data + ") ><i class='fa fa-trash'></i> Xóa</a>";
+                            return "<a class='waves-effect waves-light btn-small blue '  style='margin-left:5px' onclick=deleteNganh('" + data + "') ><i class='fa fa-trash'></i> Xóa</a>";
                         }
                     },
                 ],
