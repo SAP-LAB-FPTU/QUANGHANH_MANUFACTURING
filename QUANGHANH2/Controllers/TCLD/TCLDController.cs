@@ -356,7 +356,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 {
                     cus = new BaoCaoTheoCa
                     {
-                        ID = stt,
+                        //ID = stt,
                         Name = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().Ten,
                         BacTho = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().BacLuong,
                         ChucDanh = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec == null ? "" : db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec.TenCongViec,
