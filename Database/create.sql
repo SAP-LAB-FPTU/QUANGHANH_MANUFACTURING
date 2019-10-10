@@ -316,6 +316,7 @@ CREATE TABLE [dbo].[DiemDanh_NangSuatLaoDong](
 	[GhiChu] [nvarchar](1000) NULL,
 	[LyDoVangMat] [nvarchar](1000) NULL,
 	[GiaiPhapNguyCo] [nvarchar](1000) NULL,
+	
 PRIMARY KEY CLUSTERED 
 (
 	[MaNV] ASC,
@@ -686,17 +687,16 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Header_DiemDanh_NangSuat_LaoDong](
-	[HeaderID] [int] IDENTITY(1,1) NOT NULL,
+	[HeaderID] [int] IDENTITY(1,1) unique NOT NULL,
 	[Ca] [int] NOT NULL,
 	[MaPhongBan] [nvarchar](150) NOT NULL,
 	[NgayDiemDanh] [date] NOT NULL,
 	[TotalEffort] [float] NOT NULL,
 	[isFilledFromAPI] [bit] NOT NULL,
+	unique([Ca],[MaPhongBan],[NgayDiemDanh]),
 PRIMARY KEY CLUSTERED 
 (
-	[Ca] ASC,
-	[MaPhongBan] ASC,
-	[NgayDiemDanh] ASC
+	[HeaderID] asc
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
@@ -1684,6 +1684,9 @@ REFERENCES [dbo].[Department] ([department_id])
 GO
 ALTER TABLE [dbo].[Supply_tieuhao] CHECK CONSTRAINT [FK__Supply_ti__depar__078C1F06]
 GO
+alter table [dbo].[DiemDanh_NangSuatLaoDong] with check add foreign key ([HeaderID])
+references [dbo].[Header_DiemDanh_NangSuat_LaoDong] 
+go
 ALTER TABLE [dbo].[Supply_tieuhao]  WITH CHECK ADD FOREIGN KEY([supplyid])
 REFERENCES [dbo].[Supply] ([supply_id])
 GO
