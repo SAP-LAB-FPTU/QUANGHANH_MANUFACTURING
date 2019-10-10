@@ -54,9 +54,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 ViewBag.TenToChuc = db.Departments.ToList();
                 ViewBag.HeaderCa1 = db.Database.SqlQuery<Ngay>(headerca1).ToList().First();
                 ViewBag.Ca1 = db.Database.SqlQuery<Ngay>(bodyca1).ToList();
-                ViewBag.Ca1Vang = db.DiemDanh_NangSuatLaoDong.Where(a => a.LyDoVangMat != null).
-                    Where(a => a.CaDiemDanh == 1).Where(a => a.MaDonVi == donvi).
-                    Where(a => a.NgayDiemDanh == ngay).ToList();
+                ViewBag.Ca1Vang = db.DiemDanh_NangSuatLaoDong.Where(a => a.LyDoVangMat != null)
+                    //Where(a => a.CaDiemDanh == 1).Where(a => a.MaDonVi == donvi).
+                    //Where(a => a.NgayDiemDanh == ngay)
+                    .ToList();
                 string mnv = "";
                 List<Vang> lists = new List<Vang>();
                  for(int i=0; i< ViewBag.HeaderCa1.TongNghi; i++)
@@ -74,9 +75,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 ViewBag.Ca1Vang = lists;
                 ViewBag.HeaderCa2 = db.Database.SqlQuery<Ngay>(headerca2).ToList().First();
                 ViewBag.Ca2 = db.Database.SqlQuery<Ngay>(bodyca2).ToList();
-                ViewBag.Ca2Vang = db.DiemDanh_NangSuatLaoDong.Where(a => a.LyDoVangMat != null).
-                   Where(a => a.CaDiemDanh == 2).Where(a => a.MaDonVi == donvi).
-                   Where(a => a.NgayDiemDanh == ngay).ToList();
+                ViewBag.Ca2Vang = db.DiemDanh_NangSuatLaoDong.Where(a => a.LyDoVangMat != null)
+                   //Where(a => a.CaDiemDanh == 2).Where(a => a.MaDonVi == donvi).
+                   //Where(a => a.NgayDiemDanh == ngay)
+                   .ToList();
                 List<Vang> lists2 = new List<Vang>();
                 for (int i = 0; i < ViewBag.HeaderCa2.TongNghi; i++)
                 {
@@ -93,9 +95,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 ViewBag.Ca2Vang = lists2;
                 ViewBag.HeaderCa3 = db.Database.SqlQuery<Ngay>(headerca3).ToList().First();
                 ViewBag.Ca3 = db.Database.SqlQuery<Ngay>(bodyca3).ToList();
-                ViewBag.Ca3Vang = db.DiemDanh_NangSuatLaoDong.Where(a => a.LyDoVangMat != null).
-                   Where(a => a.CaDiemDanh == 3).Where(a => a.MaDonVi == donvi).
-                   Where(a => a.NgayDiemDanh == ngay).ToList();
+                ViewBag.Ca3Vang = db.DiemDanh_NangSuatLaoDong.Where(a => a.LyDoVangMat != null)
+                   //.Where(a => a.CaDiemDanh == 3).Where(a => a.MaDonVi == donvi).
+                   //Where(a => a.NgayDiemDanh == ngay)
+                   .ToList();
                 List<Vang> lists3 = new List<Vang>();
                 for (int i = 0; i < ViewBag.HeaderCa3.TongNghi; i++)
                 {

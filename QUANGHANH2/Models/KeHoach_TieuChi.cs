@@ -34,6 +34,5 @@ namespace QUANGHANH2.Models
         public virtual ICollection<GhiChu> GhiChus { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<KeHoach_TieuChi_VatLieuSanXuat> KeHoach_TieuChi_VatLieuSanXuat { get; set; }
-        public virtual TieuChi TieuChi { get; set; }
     }
 }
