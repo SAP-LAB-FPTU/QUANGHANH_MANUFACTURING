@@ -186,6 +186,15 @@
 
         }
 
+        function loadDatatableWith(url) {
+            return new Promise((resolve, reject) => {
+                $("#attendanceTable").DataTable().ajax.url(url).load();
+                console.log("1");
+                resolve("successfully");
+            })
+
+        }
+
         function EditOrUpdate() {
             // mode == 0 => view mode , mode ==1 => edit mode
             if (mode == 0) {
@@ -194,6 +203,9 @@
                 $(".inputDescription").removeAttr("disabled")
                 $(".checkBox").removeAttr("disabled")
                 $(".checkBox1").removeAttr("disabled")
+                console.log(mode)
+                $("#workedAllCheckbox").hide();
+                $("#notWorkedAllCheckbox").hide();
                 $(".reasonBox").html("<select class=\"browser-default \"> <option value=\"\" disabled selected>Lựa chọn lý do</option> <option value=\"1\">Ốm</option> <option value=\"2\">Vô lý do</option><option value=\"3\">Nghỉ phép</option></option><option value=\"4\">Khác</option></select>");
                 //
                 mode = 1;
@@ -208,12 +220,20 @@
                         data.department = $("#phanxuong").text();
                         data.date = convertToSQLDate($("#inputdate").val());
                     })
-                    $("#attendanceTable").DataTable().ajax.url("/phan-xuong-khai-thac/diem-danh/cap-nhat").load();
+                    // $("#attendanceTable").DataTable().ajax.url("/phan-xuong-khai-thac/diem-danh/cap-nhat").load();
+                    loadDatatableWith("/phan-xuong-khai-thac/diem-danh/cap-nhat")
+                        .then((status) => {
+                            console.log(status);
+                            $("#workedAllCheckbox").show();
+                            $("#notWorkedAllCheckbox").show();
+                    })
                 } else {
                     $.notify("Cập nhật thành công", {
                         globalPosition: "Không được bỏ trống lý do khác",
                         className: "fail"
                     })
+                    $("#workedAllCheckbox").show();
+                    $("#notWorkedAllCheckbox").show();
                 }
             }
         }
@@ -289,16 +309,11 @@
             return rows;
         }
 
-        function updateTime(settings, data) {
-            alert(data["time"]);
-        }
-
         function fetchAPI() {
             $("#attendanceTable").on('preXhr.dt', function (e, settings, data) {
                 data.session = $("#ca").text().split(" ")[1];
                 data.department = $("#phanxuong").text();
                 data.date = convertToSQLDate($("#inputdate").val());
-                updateTime(settings, data)
             })
             $("#attendanceTable").DataTable().ajax.url("/phan-xuong-khai-thac/diem-danh/lay-thong-tin")
                 .load()
@@ -314,9 +329,6 @@
                 data.date = convertToSQLDate($("#inputdate").val());
             })
             $("#attendanceTable").DataTable().ajax.url("/phan-xuong-khai-thac/diem-danh/lua-chon-diem-danh").load();
-            $("#attendanceTable").DataTable().reload(function () {
-                alert("hihi")
-            })
         }
     </script>
     <script>

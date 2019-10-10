@@ -20,6 +20,5 @@ namespace QUANGHANH2.Models
         public string NoiDungGhiChu { get; set; }
     
         public virtual KeHoach_TieuChi KeHoach_TieuChi { get; set; }
-        public virtual ThucHien_TieuChi ThucHien_TieuChi { get; set; }
     }
 }

@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Transactions;
 using System.Web.Mvc;
@@ -59,10 +61,11 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                     .Where(a => a.department_id.Contains("KT")).ToList();
                 ViewBag.TenToChuc = listDepartment;
                 List<DiemDanh_NangSuatLaoDong> list = db.DiemDanh_NangSuatLaoDong
-                    .Where(a => a.NgayDiemDanh == date)
-                    .Where(a => a.CaDiemDanh == calamviec)
-                    .Where(a => a.DiLam == true)
-                    .Where(a => a.MaDonVi == Donvi).ToList();
+                    //.Where(a => a.NgayDiemDanh == date)
+                    //.Where(a => a.CaDiemDanh == calamviec)
+                    //.Where(a => a.DiLam == true)
+                    //.Where(a => a.MaDonVi == Donvi)
+                    .ToList();
                 List<BaoCaoTheoCa> customNSLDs = new List<BaoCaoTheoCa>();
                 BaoCaoTheoCa cus;
                 int num = 1;
@@ -70,17 +73,17 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                 {
                     cus = new BaoCaoTheoCa
                     {
-                        ID = i.MaDiemDanh,
+                        //ID = i.MaDiemDanh,
                         STT = num,
                         Name = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().Ten,
                         BacTho = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().BacLuong,
                         ChucDanh = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec == null ? "" : db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec.TenCongViec,
                         DuBaoNguyCo = i.DuBaoNguyCo,
                         HeSoChiaLuong = i.HeSoChiaLuong.ToString(),
-                        LuongSauDuyet = i.Luong.ToString(),
-                        LuongTruocDuyet = i.Luong.ToString(),
-                        NoiDungCongViec = db.Departments.Where(a => a.department_id == i.MaDonVi).First().department_name,
-                        NSLD = i.NangSuatLaoDong.ToString(),
+                        LuongSauDuyet = i.DiemLuong.ToString(),
+                        LuongTruocDuyet = i.DiemLuong.ToString(),
+                        //NoiDungCongViec = db.Departments.Where(a => a.department_id == i.MaDonVi).First().department_name,
+                        //NSLD = i.NangSuatLaoDong.ToString(),
                         SoThe = i.MaNV,
                         YeuCauBPKTAT = i.GiaiPhapNguyCo
                     };
@@ -113,10 +116,11 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                     .Where(a => a.department_id.Contains("KT")).ToList();
                 ViewBag.TenToChuc = listDepartment;
                 List<DiemDanh_NangSuatLaoDong> list = db.DiemDanh_NangSuatLaoDong
-                    .Where(a => a.NgayDiemDanh == date)
-                    .Where(a => a.CaDiemDanh == calamviec)
+                    //.Where(a => a.NgayDiemDanh == date)
+                    //.Where(a => a.CaDiemDanh == calamviec)
                     .Where(a => a.DiLam == true)
-                    .Where(a => a.MaDonVi == Donvi).ToList();
+                    /*.Where(a => a.MaDonVi == Donvi)*/
+                    .ToList();
                 customNSLDs = new List<BaoCaoTheoCa>();
                 BaoCaoTheoCa cus;
                 int num = 1;
@@ -124,17 +128,17 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                 {
                     cus = new BaoCaoTheoCa
                     {
-                        ID = i.MaDiemDanh,
+                        //ID = i.MaDiemDanh,
                         STT = num,
                         Name = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().Ten,
                         BacTho = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().BacLuong,
                         ChucDanh = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec == null ? "" : db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec.TenCongViec,
                         DuBaoNguyCo = i.DuBaoNguyCo,
                         HeSoChiaLuong = i.HeSoChiaLuong.ToString(),
-                        LuongSauDuyet = i.Luong.ToString(),
-                        LuongTruocDuyet = i.Luong.ToString(),
-                        NoiDungCongViec = db.Departments.Where(a => a.department_id == i.MaDonVi).First().department_name,
-                        NSLD = i.NangSuatLaoDong.ToString(),
+                        LuongSauDuyet = i.DiemLuong.ToString(),
+                        LuongTruocDuyet = i.DiemLuong.ToString(),
+                        //NoiDungCongViec = db.Departments.Where(a => a.department_id == i.MaDonVi).First().department_name,
+                        //NSLD = i.NangSuatLaoDong.ToString(),
                         SoThe = i.MaNV,
                         YeuCauBPKTAT = i.GiaiPhapNguyCo
                     };
@@ -167,10 +171,10 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                         for (int i = 0; i < length; i++)
                         {
                             int MaDiemDanh = Convert.ToInt32(MaDiemDanhs[i]);
-                            DiemDanh_NangSuatLaoDong f = db.DiemDanh_NangSuatLaoDong.FirstOrDefault(x => x.MaDiemDanh == MaDiemDanh);
-                            f.NangSuatLaoDong = Convert.ToDouble(String.IsNullOrEmpty(NangSuatLaoDongs[i]) ? "0" : NangSuatLaoDongs[i]);
-                            f.HeSoChiaLuong = Convert.ToDouble(String.IsNullOrEmpty(HeSoChiaLuongs[i]) ? "0" : HeSoChiaLuongs[i]);
-                            f.Luong = Convert.ToDouble(String.IsNullOrEmpty(Luongs[i]) ? "0" : Luongs[i]);
+                            DiemDanh_NangSuatLaoDong f = db.DiemDanh_NangSuatLaoDong/*.FirstOrDefault(x => x.MaDiemDanh == MaDiemDanh)*/.FirstOrDefault();
+                            //f.NangSuatLaoDong = Convert.ToDouble(String.IsNullOrEmpty(NangSuatLaoDongs[i]) ? "0" : NangSuatLaoDongs[i]);
+                            //f.HeSoChiaLuong = Convert.ToDouble(String.IsNullOrEmpty(HeSoChiaLuongs[i]) ? "0" : HeSoChiaLuongs[i]);
+                            //f.Luong = Convert.ToDouble(String.IsNullOrEmpty(Luongs[i]) ? "0" : Luongs[i]);
                             f.DuBaoNguyCo = DuBaoNguyCos[i];
                             f.GiaiPhapNguyCo = GiaiPhapNguyCos[i];
                             db.SaveChanges();
@@ -204,18 +208,17 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                 db.Configuration.LazyLoadingEnabled = false;
                 var listAttendance = (from emp in db.NhanViens
                                       join per in db.DiemDanh_NangSuatLaoDong
-                                        .Where(per => per.MaDonVi == departmentID && per.NgayDiemDanh == date && per.CaDiemDanh == session)
+                                        //.Where(per => per.MaDonVi == departmentID && per.NgayDiemDanh == date && per.CaDiemDanh == session)
                                       on emp.MaNV equals per.MaNV into attendance
                                       from att in attendance.DefaultIfEmpty()
                                       select new
                                       {
                                           maNV = emp.MaNV,
-                                          maDD = (int?)att.MaDiemDanh,
-                                          maDV = att.MaDonVi,
+                                          //maDD = (int?)att.MaDiemDanh,
+                                          //maDV = att.MaDonVi,
                                           tenNV = emp.Ten,
                                           status = att.DiLam,
                                           timeAttendance = att.ThoiGianThucTeDiemDanh,
-                                          dateAttendance = att.NgayDiemDanh,
                                           reason = att.LyDoVangMat,
                                           description = att.GhiChu
                                       }).OrderBy(att => att.status).ToList();
@@ -262,19 +265,19 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                         //{
                         //    dn.ThoiGianThucTeDiemDanh = DateTime.ParseExact(item.timeAttendance, "M/d/yyyy hh:mm:ss", null);
                         //}
-                        dn.MaDonVi = item.maDV;
+                        //dn.MaDonVi = item.maDV;
                         dn.LyDoVangMat = item.reason;
                         dn.GhiChu = item.description;
-                        dn.CaDiemDanh = session;
-                        dn.NgayDiemDanh = dateAtt;
-                        dn.MaDonVi = departmentID;
-                        dn.XacNhan = true;
+                        //dn.CaDiemDanh = session;
+                        //dn.NgayDiemDanh = dateAtt;
+                        //dn.MaDonVi = departmentID;
+                        //dn.XacNhan = true;
                         if (item.isEnvolved)
                         {
                             if (item.maDD != null)
                             {
                                 // db.Entry(dn).State = EntityState.Modified;
-                                dn.MaDiemDanh = Int32.Parse(item.maDD);
+                                //dn.MaDiemDanh = Int32.Parse(item.maDD);
                                 db.Entry(dn).State = EntityState.Modified; //do it here
                             }
                             else
@@ -288,7 +291,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                             if (item.maDD != null)
                             {
                                 // db.Entry(dn).State = EntityState.Modified;
-                                dn.MaDiemDanh = Int32.Parse(item.maDD);
+                                //dn.MaDiemDanh = Int32.Parse(item.maDD);
                                 db.Entry(dn).State = EntityState.Deleted; //do it here
                             }
                         }
@@ -345,19 +348,19 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                 db.Configuration.LazyLoadingEnabled = false;
                 var listAttendance = (from emp in db.NhanViens
                                       join per in db.DiemDanh_NangSuatLaoDong
-                                        .Where(per => per.MaDonVi == departmentID && per.NgayDiemDanh == dateAtt && per.CaDiemDanh == ca)
+                                        //.Where(per => per.MaDonVi == departmentID && per.NgayDiemDanh == dateAtt && per.CaDiemDanh == ca)
                                       on emp.MaNV equals per.MaNV into attendance
                                       from att in attendance.DefaultIfEmpty()
-                                        .Where(att => ((workAll ? (att.DiLam == true) : (att.DiLam == false)) || (notWorkAll ? (att.DiLam == false || att.MaDiemDanh == null) : (att.DiLam == true))) && (workAll || notWorkAll))
+                                        .Where(att => ((workAll ? (att.DiLam == true) : (att.DiLam == false)) || (notWorkAll ? (att.DiLam == false /*|| att.MaDiemDanh == null*/) : (att.DiLam == true))) && (workAll || notWorkAll))
                                       select new
                                       {
                                           maNV = emp.MaNV,
-                                          maDD = (int?)att.MaDiemDanh,
-                                          maDV = att.MaDonVi,
+                                          //maDD = (int?)att.MaDiemDanh,
+                                          //maDV = att.MaDonVi,
                                           tenNV = emp.Ten,
                                           status = att.DiLam,
                                           timeAttendance = att.ThoiGianThucTeDiemDanh,
-                                          dateAttendance = att.NgayDiemDanh,
+                                          //dateAttendance = att.NgayDiemDanh,
                                           reason = att.LyDoVangMat,
                                           description = att.GhiChu
                                       }).OrderBy(att => att.status).ToList();
@@ -375,9 +378,29 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
             var dateAtt = Convert.ToDateTime(Request["date"]);
             int session = Int32.Parse(Request["session"]);
             //
+            var listAttendanceFromAPI = new List<FakeAPI>();
+            //
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                var listAttendanceFromAPI = db.FakeAPIs.ToList();
+                Task t = Task.Run(async () =>
+                {
+                    using (var client = new HttpClient())
+                    {
+                        client.BaseAddress = new Uri("https://foodserver.azurewebsites.net/");
+                        client.DefaultRequestHeaders.Accept.Clear();
+                        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                        //GET Method
+                        HttpResponseMessage response = await client.GetAsync("api/Attendance");
+                        using (HttpContent content = response.Content)
+                        {
+                            //Now assign your content to your data variable, by converting into a string using the await keyword.
+                            var data = await content.ReadAsStringAsync();
+                            //If the data isn't null return log convert the data using newtonsoft JObject Parse class method on the data.
+                            listAttendanceFromAPI = JsonConvert.DeserializeObject<List<FakeAPI>>(data);
+                        }
+                    }
+                });
+                t.Wait();
                 //
                 List<String> listAttendanceFromAPI_ID = new List<string>();
                 foreach (var item in listAttendanceFromAPI)
@@ -386,31 +409,31 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                 }
                 try
                 {
-                    //using (var transaction = new TransactionScope())
-                    //{
-                    //    // get all "ma nhan vien" already have been taken attendance.
-                    //    List<String> listAttendanceID = db.DiemDanh_NangSuatLaoDong.Where(dd => dd.CaDiemDanh == session && dd.MaDonVi == departmentID && dd.NgayDiemDanh == dateAtt).Select(col => col.MaNV).ToList();
-                    //    foreach (var id in listAttendanceFromAPI_ID)
-                    //    {
-                    //        if (!listAttendanceID.Contains(id))
-                    //        {
-                    //            DiemDanh_NangSuatLaoDong dn = new DiemDanh_NangSuatLaoDong();
-                    //            dn.MaDonVi = departmentID;
-                    //            dn.CaDiemDanh = session;
-                    //            dn.NgayDiemDanh = dateAtt;
-                    //            dn.MaNV = id;
-                    //            // from API
-                    //            dn.XacNhan = false;
-                    //            db.DiemDanh_NangSuatLaoDong.Add(dn);
-                    //            db.SaveChanges();
-                    //        }
-                    //    }
-                    //    transaction.Complete();
-                    //}
+                    using (var transaction = new TransactionScope())
+                    {
+                        // get all "ma nhan vien" already have been taken attendance.
+                        List<String> listAttendanceID = db.DiemDanh_NangSuatLaoDong/*.Where(dd => dd.CaDiemDanh == session && dd.MaDonVi == departmentID && dd.NgayDiemDanh == dateAtt)*/.Select(col => col.MaNV).ToList();
+                        foreach (var id in listAttendanceFromAPI_ID)
+                        {
+                            if (!listAttendanceID.Contains(id))
+                            {
+                                DiemDanh_NangSuatLaoDong dn = new DiemDanh_NangSuatLaoDong();
+                                //dn.MaDonVi = departmentID;
+                                //dn.CaDiemDanh = session;
+                                //dn.NgayDiemDanh = dateAtt;
+                                dn.MaNV = id;
+                                // from API
+                                //dn.XacNhan = false;
+                                db.DiemDanh_NangSuatLaoDong.Add(dn);
+                                db.SaveChanges();
+                            }
+                        }
+                        transaction.Complete();
+                    }
                     var listAttendance = getAll(session, departmentID, dateAtt);
                     JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
                     var result = JsonConvert.SerializeObject(listAttendance, Formatting.Indented, jss);
-                    return Json(new { success = true, data = result, time ="hihi" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = true, data = result, time = "hihi" }, JsonRequestBehavior.AllowGet);
                 }
                 catch
                 {
