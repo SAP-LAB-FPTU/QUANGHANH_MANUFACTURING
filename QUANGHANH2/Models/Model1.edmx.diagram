@@ -169,6 +169,7 @@
         <AssociationConnector Association="QUANGHANHABCModel.FK__TieuChi_V__MaTie__12FDD1B2" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK_ChiTiet_ThucHien_TieuChi_TheoNgay_TieuChi" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__TieuChi_V__MaVat__13F1F5EB" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK_DiemDanh_NangSuatLaoDong_NhanVien" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

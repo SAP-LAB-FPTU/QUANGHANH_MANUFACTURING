@@ -24,5 +24,7 @@ namespace QUANGHANH2.Models
         public string GhiChu { get; set; }
         public string LyDoVangMat { get; set; }
         public string GiaiPhapNguyCo { get; set; }
+    
+        public virtual NhanVien NhanVien { get; set; }
     }
 }

@@ -189,8 +189,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.ChiTiet_ThucHien_TieuChi_TheoNgay
           <Property Name="department_type" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="isInside" Type="bit" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'QUANGHANHABC.dbo.DiemDanh_NangSuatLaoDong' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="DiemDanh_NangSuatLaoDong">
           <Key>
             <PropertyRef Name="MaNV" />
@@ -1919,6 +1917,18 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.DiemDanh_NangSuatLaoDong' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DiemDanh_NangSuatLaoDong_NhanVien">
+          <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="1" />
+          <End Role="DiemDanh_NangSuatLaoDong" Type="Self.DiemDanh_NangSuatLaoDong" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NhanVien">
+              <PropertyRef Name="MaNV" />
+            </Principal>
+            <Dependent Role="DiemDanh_NangSuatLaoDong">
+              <PropertyRef Name="MaNV" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_header_ThucHienTheoNgay_Department">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
           <End Role="header_ThucHienTheoNgay" Type="Self.header_ThucHienTheoNgay" Multiplicity="*" />
@@ -1995,6 +2005,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.DiemDanh_NangSuatLaoDong' does no
           <EntitySet Name="ChuyenNganh" EntityType="Self.ChuyenNganh" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CongViec" EntityType="Self.CongViec" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DiemDanh_NangSuatLaoDong" EntityType="Self.DiemDanh_NangSuatLaoDong" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DieuDong_NhanVien" EntityType="Self.DieuDong_NhanVien" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Documentary" EntityType="Self.Documentary" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Documentary_big_maintain_details" EntityType="Self.Documentary_big_maintain_details" Schema="dbo" store:Type="Tables" />
@@ -2053,20 +2064,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.DiemDanh_NangSuatLaoDong' does no
     [ChiTiet_ThucHien_TieuChi_TheoNgay].[SanLuong] AS [SanLuong], 
     [ChiTiet_ThucHien_TieuChi_TheoNgay].[KeHoach] AS [KeHoach]
     FROM [dbo].[ChiTiet_ThucHien_TieuChi_TheoNgay] AS [ChiTiet_ThucHien_TieuChi_TheoNgay]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="DiemDanh_NangSuatLaoDong" EntityType="Self.DiemDanh_NangSuatLaoDong" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [DiemDanh_NangSuatLaoDong].[MaNV] AS [MaNV], 
-    [DiemDanh_NangSuatLaoDong].[HeaderID] AS [HeaderID], 
-    [DiemDanh_NangSuatLaoDong].[ThoiGianThucTeDiemDanh] AS [ThoiGianThucTeDiemDanh], 
-    [DiemDanh_NangSuatLaoDong].[HeSoChiaLuong] AS [HeSoChiaLuong], 
-    [DiemDanh_NangSuatLaoDong].[DiemLuong] AS [DiemLuong], 
-    [DiemDanh_NangSuatLaoDong].[DuBaoNguyCo] AS [DuBaoNguyCo], 
-    [DiemDanh_NangSuatLaoDong].[DiLam] AS [DiLam], 
-    [DiemDanh_NangSuatLaoDong].[GhiChu] AS [GhiChu], 
-    [DiemDanh_NangSuatLaoDong].[LyDoVangMat] AS [LyDoVangMat], 
-    [DiemDanh_NangSuatLaoDong].[GiaiPhapNguyCo] AS [GiaiPhapNguyCo]
-    FROM [dbo].[DiemDanh_NangSuatLaoDong] AS [DiemDanh_NangSuatLaoDong]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK__Acceptanc__docum__2A164134" Association="Self.FK__Acceptanc__docum__2A164134">
             <End Role="Documentary" EntitySet="Documentary" />
@@ -2431,6 +2428,10 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.DiemDanh_NangSuatLaoDong' does no
           <AssociationSet Name="FK_ChiTiet_ThucHien_TieuChi_TheoNgay_TieuChi" Association="Self.FK_ChiTiet_ThucHien_TieuChi_TheoNgay_TieuChi">
             <End Role="TieuChi" EntitySet="TieuChi" />
             <End Role="ChiTiet_ThucHien_TieuChi_TheoNgay" EntitySet="ChiTiet_ThucHien_TieuChi_TheoNgay" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DiemDanh_NangSuatLaoDong_NhanVien" Association="Self.FK_DiemDanh_NangSuatLaoDong_NhanVien">
+            <End Role="NhanVien" EntitySet="NhanVien" />
+            <End Role="DiemDanh_NangSuatLaoDong" EntitySet="DiemDanh_NangSuatLaoDong" />
           </AssociationSet>
           <AssociationSet Name="FK_header_ThucHienTheoNgay_Department" Association="Self.FK_header_ThucHienTheoNgay_Department">
             <End Role="Department" EntitySet="Department" />
@@ -3198,6 +3199,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.DiemDanh_NangSuatLaoDong' does no
           <NavigationProperty Name="QuaTrinhCongTacs" Relationship="Self.FK__QuaTrinhCo__MaNV__03BB8E22" FromRole="NhanVien" ToRole="QuaTrinhCongTac" />
           <NavigationProperty Name="TaiNans" Relationship="Self.FK__TaiNan__MaNV__662B2B3B" FromRole="NhanVien" ToRole="TaiNan" />
           <NavigationProperty Name="TuyenDung_NhanVien" Relationship="Self.FK_TuyenDung_NhanVien_NhanVien" FromRole="NhanVien" ToRole="TuyenDung_NhanVien" />
+          <NavigationProperty Name="DiemDanh_NangSuatLaoDong" Relationship="QUANGHANHABCModel.FK_DiemDanh_NangSuatLaoDong_NhanVien" FromRole="NhanVien" ToRole="DiemDanh_NangSuatLaoDong" />
         </EntityType>
         <EntityType Name="NhiemVu">
           <Key>
@@ -3448,6 +3450,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.DiemDanh_NangSuatLaoDong' does no
           <Property Name="GhiChu" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="LyDoVangMat" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="GiaiPhapNguyCo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="NhanVien" Relationship="QUANGHANHABCModel.FK_DiemDanh_NangSuatLaoDong_NhanVien" FromRole="DiemDanh_NangSuatLaoDong" ToRole="NhanVien" />
         </EntityType>
         <Association Name="FK__Acceptanc__docum__2A164134">
           <End Role="Documentary" Type="Self.Documentary" Multiplicity="1">
@@ -5072,7 +5075,23 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.DiemDanh_NangSuatLaoDong' does no
             <End Role="VatLieuSanXuat" EntitySet="VatLieuSanXuats" />
             <End Role="TieuChi_VatLieuSanXuat" EntitySet="TieuChi_VatLieuSanXuat" />
           </AssociationSet>
+          <AssociationSet Name="FK_DiemDanh_NangSuatLaoDong_NhanVien" Association="QUANGHANHABCModel.FK_DiemDanh_NangSuatLaoDong_NhanVien">
+            <End Role="NhanVien" EntitySet="NhanViens" />
+            <End Role="DiemDanh_NangSuatLaoDong" EntitySet="DiemDanh_NangSuatLaoDong" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_DiemDanh_NangSuatLaoDong_NhanVien">
+          <End Type="QUANGHANHABCModel.NhanVien" Role="NhanVien" Multiplicity="1" />
+          <End Type="QUANGHANHABCModel.DiemDanh_NangSuatLaoDong" Role="DiemDanh_NangSuatLaoDong" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NhanVien">
+              <PropertyRef Name="MaNV" />
+            </Principal>
+            <Dependent Role="DiemDanh_NangSuatLaoDong">
+              <PropertyRef Name="MaNV" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
