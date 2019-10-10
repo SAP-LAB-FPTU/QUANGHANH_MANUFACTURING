@@ -344,7 +344,7 @@
                     },
                     {
                         "data": "MaChuyenNganh", "render": function (data) {
-                           return "<a  class='waves-effect waves-light btn-small blue'  style='margin-left:5px' onclick=\"deleteChuyenNganh(" + data + ")\"><i class='fa fa-trash'></i> Xóa</a>";
+                           return "<a  class='waves-effect waves-light btn-small blue'  style='margin-left:5px' onclick=\"deleteChuyenNganh('" + data + "')\"><i class='fa fa-trash'></i> Xóa</a>";
                         }
                     },
                 ],
@@ -580,6 +580,7 @@
                 'Xóa',
                 'Bạn có chắc muốn xóa?',
                 function ahihi() {
+                    $("#pre-load").show();
                 $.ajax({
                     type: "POST",
                     url: '@Url.Action("deleteChuyenNganh", "BriefRegulation")',
@@ -587,9 +588,8 @@
                     success: function (data) {
                         if (data.success)
                         {
-                            dataTable.ajax.reload();
-                            successAlert('Thành công','Xóa thành công');
-                            location.reload();
+                            $("#pre-load").hide();
+                            reloadAlert('Xóa thành công', 1000);
 
                         }
                     }
@@ -622,6 +622,7 @@
                 'Xóa',
                 'Bạn có chắc muốn xóa?',
                 function ahihi() {
+                    $("#pre-load").show();
                 $.ajax({
                     type: "POST",
                     url: '@Url.Action("deleteTruong", "BriefRegulation")',
@@ -629,9 +630,8 @@
                     success: function (data) {
                         if (data.success)
                         {
-                            dataTable.ajax.reload();
-                            successAlert('Thành công','Xóa thành công');
-                            location.reload();
+                            $("#pre-load").hide();
+                            reloadAlert('Xóa thành công', 1000);
 
                         }
                     }
@@ -645,6 +645,7 @@
                 'Xóa',
                 'Bạn có chắc muốn xóa?',
                 function ahihi() {
+                    $("#pre-load").show();
                 $.ajax({
                     type: "POST",
                     url: '@Url.Action("deleteNganh", "BriefRegulation")',
@@ -652,9 +653,8 @@
                     success: function (data) {
                         if (data.success)
                         {
-                            dataTable.ajax.reload();
-                            successAlert('Thành công','Xóa thành công');
-                            location.reload();
+                            $("#pre-load").hide();
+                            reloadAlert('Xóa thành công', 1000);
 
                         }
                     }
@@ -716,6 +716,7 @@
                 'Xóa',
                 'Bạn có chắc muốn xóa?',
                 function ahihi() {
+                    $("#pre-load").show();
                 $.ajax({
                     type: "POST",
                     url: '@Url.Action("deleteTrinhDo", "BriefRegulation")',
@@ -723,10 +724,8 @@
                     success: function (data) {
                         if (data.success)
                         {
-                            dataTable.ajax.reload();
-                            successAlert('Thành công','Xóa thành công');
-                            location.reload();
-
+                            $("#pre-load").hide();
+                            reloadAlert('Xóa thành công', 1000);
                         }
                     }
                 });
