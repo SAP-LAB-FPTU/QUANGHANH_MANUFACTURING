@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using QUANGHANH2.Models;
 using System;
 using System.Collections.Generic;
@@ -49,31 +50,33 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
             }
             if (Donvi == null)
             {
-                Donvi = "DL1";
+                Donvi = "PXKT1";
             }
             var calamviec = Convert.ToInt32(Ca);
            
             var date = DateTime.ParseExact(Date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                
                 List<Department> listDepartment = db.Departments
-                    .Where(a => a.department_id.Contains("KT")).ToList();
+                    .Where(a => a.department_type.Contains("Chính") &&
+                    !a.department_id.Contains("PXLT") &&
+                    !a.department_id.Contains("PXST")).ToList();
                 ViewBag.TenToChuc = listDepartment;
+                Header_DiemDanh_NangSuat_LaoDong header = db.Header_DiemDanh_NangSuat_LaoDong.Find(calamviec, Donvi, date);
+                ViewBag.total = header.TotalEffort;
+                if (header == null) return View("/Views/PX/PXKT/NSLD.cshtml");
                 List<DiemDanh_NangSuatLaoDong> list = db.DiemDanh_NangSuatLaoDong
-                    //.Where(a => a.NgayDiemDanh == date)
-                    //.Where(a => a.CaDiemDanh == calamviec)
-                    //.Where(a => a.DiLam == true)
-                    //.Where(a => a.MaDonVi == Donvi)
+                    .Where(a => a.DiLam == true)
+                    .Where(a => a.HeaderID == header.HeaderID)
                     .ToList();
                 List<BaoCaoTheoCa> customNSLDs = new List<BaoCaoTheoCa>();
                 BaoCaoTheoCa cus;
                 int num = 1;
                 foreach (var i in list)
                 {
+                    string MaPhongBan = db.Header_DiemDanh_NangSuat_LaoDong.Where(a => a.HeaderID == i.HeaderID).First().MaPhongBan;
                     cus = new BaoCaoTheoCa
                     {
-                        //ID = i.MaDiemDanh,
                         STT = num,
                         Name = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().Ten,
                         BacTho = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().BacLuong,
@@ -82,8 +85,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                         HeSoChiaLuong = i.HeSoChiaLuong.ToString(),
                         LuongSauDuyet = i.DiemLuong.ToString(),
                         LuongTruocDuyet = i.DiemLuong.ToString(),
-                        //NoiDungCongViec = db.Departments.Where(a => a.department_id == i.MaDonVi).First().department_name,
-                        //NSLD = i.NangSuatLaoDong.ToString(),
+                        NoiDungCongViec = db.Departments.Where(a => a.department_id == MaPhongBan).First().department_name,
                         SoThe = i.MaNV,
                         YeuCauBPKTAT = i.GiaiPhapNguyCo
                     };
@@ -111,24 +113,26 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
             Donvi = Donvi.Split('"')[1];
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-
                 List<Department> listDepartment = db.Departments
-                    .Where(a => a.department_id.Contains("KT")).ToList();
+                    .Where(a => a.department_type.Contains("Chính") &&
+                    !a.department_id.Contains("PXLT") &&
+                    !a.department_id.Contains("PXST")).ToList();
                 ViewBag.TenToChuc = listDepartment;
+                Header_DiemDanh_NangSuat_LaoDong header = db.Header_DiemDanh_NangSuat_LaoDong.Find(calamviec, Donvi, date);
+                ViewBag.total = header.TotalEffort;
+                if (header == null) return View("/Views/PX/PXKT/NSLD.cshtml");
                 List<DiemDanh_NangSuatLaoDong> list = db.DiemDanh_NangSuatLaoDong
-                    //.Where(a => a.NgayDiemDanh == date)
-                    //.Where(a => a.CaDiemDanh == calamviec)
                     .Where(a => a.DiLam == true)
-                    /*.Where(a => a.MaDonVi == Donvi)*/
+                    .Where(a => a.HeaderID == header.HeaderID)
                     .ToList();
                 customNSLDs = new List<BaoCaoTheoCa>();
                 BaoCaoTheoCa cus;
                 int num = 1;
                 foreach (var i in list)
                 {
+                    string MaPhongBan = db.Header_DiemDanh_NangSuat_LaoDong.Where(a => a.HeaderID == i.HeaderID).First().MaPhongBan;
                     cus = new BaoCaoTheoCa
                     {
-                        //ID = i.MaDiemDanh,
                         STT = num,
                         Name = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().Ten,
                         BacTho = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().BacLuong,
@@ -137,56 +141,51 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                         HeSoChiaLuong = i.HeSoChiaLuong.ToString(),
                         LuongSauDuyet = i.DiemLuong.ToString(),
                         LuongTruocDuyet = i.DiemLuong.ToString(),
-                        //NoiDungCongViec = db.Departments.Where(a => a.department_id == i.MaDonVi).First().department_name,
-                        //NSLD = i.NangSuatLaoDong.ToString(),
+                        NoiDungCongViec = db.Departments.Where(a => a.department_id == MaPhongBan).First().department_name,
                         SoThe = i.MaNV,
                         YeuCauBPKTAT = i.GiaiPhapNguyCo
                     };
                     customNSLDs.Add(cus);
                     num++;
                 }
-                
+
             }
             return Json(new {success=true, customNSLDs = customNSLDs }, JsonRequestBehavior.AllowGet);
         }
 
         [Route("phan-xuong-khai-thac/nang-suat-lao-dong-update")]
-        public void UpdateNSLD(
-            string intCa,
-            string[] MaDiemDanhs,
-            string[] NangSuatLaoDongs,
-            string[] HeSoChiaLuongs,
-            string[] Luongs,
-            string[] DuBaoNguyCos,
-            string[] GiaiPhapNguyCos,
-            string date)
+        public ActionResult UpdateNSLD(string stringjson)
         {
-            int length = MaDiemDanhs.Length;
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 using (DbContextTransaction transaction = db.Database.BeginTransaction())
                 {
                     try
                     {
-                        for (int i = 0; i < length; i++)
+                        JObject json = JObject.Parse(stringjson);
+                        int calamviec = (int)json["ca"];
+                        string Donvi = (string)json["phongban"];
+                        DateTime date = DateTime.ParseExact((string)json["ngay"], "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                        Header_DiemDanh_NangSuat_LaoDong header = db.Header_DiemDanh_NangSuat_LaoDong.Find(calamviec, Donvi, date);
+                        header.TotalEffort = (double)json["total_point"];
+                        JArray temp = (JArray)json.SelectToken("list");
+                        foreach (JObject item in temp)
                         {
-                            int MaDiemDanh = Convert.ToInt32(MaDiemDanhs[i]);
-                            DiemDanh_NangSuatLaoDong f = db.DiemDanh_NangSuatLaoDong/*.FirstOrDefault(x => x.MaDiemDanh == MaDiemDanh)*/.FirstOrDefault();
-                            //f.NangSuatLaoDong = Convert.ToDouble(String.IsNullOrEmpty(NangSuatLaoDongs[i]) ? "0" : NangSuatLaoDongs[i]);
-                            //f.HeSoChiaLuong = Convert.ToDouble(String.IsNullOrEmpty(HeSoChiaLuongs[i]) ? "0" : HeSoChiaLuongs[i]);
-                            //f.Luong = Convert.ToDouble(String.IsNullOrEmpty(Luongs[i]) ? "0" : Luongs[i]);
-                            f.DuBaoNguyCo = DuBaoNguyCos[i];
-                            f.GiaiPhapNguyCo = GiaiPhapNguyCos[i];
-                            db.SaveChanges();
+                            DiemDanh_NangSuatLaoDong NSLD = db.DiemDanh_NangSuatLaoDong.Find((string)item["MaNhanVien"], header.HeaderID);
+                            NSLD.HeSoChiaLuong = (double)item["HeSoChiaLuong"];
+                            NSLD.DiemLuong = (double)item["Luong"];
+                            NSLD.DuBaoNguyCo = (string)item["DuBaoNguyCo"];
+                            NSLD.GiaiPhapNguyCo = (string)item["YeuCauBPKTAT"];
                         }
-
-
-
+                        db.SaveChanges();
                         transaction.Commit();
+                        return Json(new { success = true, message = "Cập nhật thành công" });
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
                         transaction.Rollback();
+                        throw e;
+                        return Json(new { success = false, message = "Cập nhật thất bại" });
                     }
                 }
 
@@ -459,14 +458,12 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
 
     public class BaoCaoTheoCa
     {
-        public int ID { get; set; }
         public int STT { get; set; }
         public string Name { get; set; }
         public string SoThe { get; set; }
         public string BacTho { get; set; }
         public string ChucDanh { get; set; }
         public string NoiDungCongViec { get; set; }
-        public string NSLD { get; set; }
         public string HeSoChiaLuong { get; set; }
         public string LuongTruocDuyet { get; set; }
         public string LuongSauDuyet { get; set; }
