@@ -1,17 +1,18 @@
-﻿@{
-    ViewData["Title"] = "Detail";
-    Layout = "~/Views/Shared/PX/_Layout_PXKT.cshtml";
+﻿
+@{
+    ViewData["Title"] = "layout_phanxuong";
+    Layout = "~/Views/Shared/_Layout_NhapBaoCaoLenDK.cshtml";
 }
+
 <!--UPLOADER-->
-<link href="~/assets/uploader/style_uploader.css" rel="stylesheet" />
+@*<link href="~/assets/uploader/style_uploader.css" rel="stylesheet" />*@
+<link href="~/assets/uploader/dropzone.min.css" rel="stylesheet" />
 <link href="~/assets/uploader/icons.min.css" rel="stylesheet" />
 <link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
 <link href="~/assets/libs/toastr/build/toastr.min.css" rel="stylesheet">
 <style>
-    #chonngay-container{
-  margin-left: auto;
-    margin-right: auto;
-    width: 8em
+    .file-description{
+        width: 120px !important;
     }
 </style>
 <div class="card">
@@ -20,20 +21,15 @@
             <div class="card">
                 <div class="card-content">
                     <div class="row">
-                        <div class="col l12 m12 s12 center">
-                            <h3><b>NHẬP BÁO CÁO LÊN PHÒNG ĐK</b></h3>
-                        </div>
-                    </div>
-                    <br />
-                    <div class="row center">
-                        @*<div class="col l4 m4 s4 center"></div>*@
-                        <divstyle="width=40%" class="col l12 m12 s12 center">
-                            <h3  id="chonngay-container" >
+                        <div class="center black-text">
+                            <h3><b>NHẬP BÁO CÁO HOẠT ĐỘNG HÀNG NGÀY</b></h3>
+                            <h5>
                                 <i class="fas fa-calendar-alt icon"></i>
-                                <input id="ngay-chon" type='text' class='datepicker-here center' data-language='vi' />
-                            </h3>
+                                <input type='text' class='datepicker-here center' id="minMaxDate" data-language='vi' />
+                            </h5>
                         </div>
-                        @*<div class="col l4 m4 s4 center"></div>*@
+                        <hr />
+
                     </div>
                     <div class="row" id="main-content">
                         <div class="col s12">
@@ -45,38 +41,43 @@
                                         <li class="active">
                                             <div class="collapsible-header"><i class="fas fa-paperclip"></i>Ca 1<span id="ca1" class="badge">Đã nhập</span></div>
                                             <div class="collapsible-body">
-                                                <p><img width="25" style="vertical-align:middle" src="~/assets/uploader/icon.png" /><a href="#">Báo cáo thực hiện sản xuất theo kế hoạch.xlsx</a></p>
+                                                <p>
+                                                    <img width="25" style="vertical-align:middle" src="~/assets/uploader/icon.png" />
+                                                    <a href="#">File 1.xlsx</a>
+                                                    <i style="color:red; cursor:pointer" class="fas fa-times-circle"></i>
+                                                </p>
+
                                                 <div data-target="modal1" style="margin-right:10px" class="modal-trigger waves-effect blue waves-light btn">
-                                                    <i class="fas fa-file-excel"></i><span>Cập nhật</span>
+                                                    <i class="fas fa-plus-circle"></i><span> Thêm báo cáo</span>
                                                 </div>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="collapsible-header"><i class="fas fa-paperclip"></i>Ca 2<span id="ca2" class="badge">Chưa nhập</span></div>
                                             <div class="collapsible-body">
-                                                    <div class="row">
-                                                        <div class="col s12">
-                                                            <form action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzone">
-                                                                <div class="fallback">
-                                                                    <input type="file" id="fUpload" name="file" class="form-control" single />
-                                                                </div>
-                                                                <div class="dz-message needsclick">
-                                                                    <i class="medium material-icons dp48">cloud_upload</i>
-                                                                    <h3 id="title_uploader">Kéo thả file hoặc click vào đây để tải lên</h3>
-                                                                    <span class="text-muted font-13">(File hợp lệ: xls, xlsx)</span>
-                                                                </div>
-                                                            </form>
-                                                            <br />
-                                                            <div class="clearfix text-right mt-3">
-                                                                <button type="button"
-                                                                        class="btn-danger blue waves-effect waves-light btn"
-                                                                        id="btnUpload">
-                                                                    <i class="material-icons dp48">send</i>
-                                                                    Tải lên
-                                                                </button>
+                                                <div class="row">
+                                                    <div class="col s12">
+                                                        <form action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzoneCa2">
+                                                            <div class="fallback">
+                                                                <input type="file" id="fUpload" name="file" class="form-control" single />
                                                             </div>
+                                                            <div class="dz-message needsclick">
+                                                                <i class="medium material-icons dp48">cloud_upload</i>
+                                                                <h3 id="title_uploader">Kéo thả file hoặc click vào đây để tải lên</h3>
+                                                                <span class="text-muted font-13">(File hợp lệ: xls, xlsx)</span>
+                                                            </div>
+                                                        </form>
+                                                        <br />
+                                                        <div class="clearfix text-right mt-3">
+                                                            <button type="button"
+                                                                    class="btn-danger blue waves-effect waves-light btn"
+                                                                    id="btnUpload">
+                                                                <i class="material-icons dp48">send</i>
+                                                                Tải lên
+                                                            </button>
                                                         </div>
                                                     </div>
+                                                </div>
                                             </div>
                                         </li>
                                         <li>
@@ -126,7 +127,7 @@
                     <div class="col s12">
                         <form action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzone">
                             <div class="fallback">
-                                <input type="file" id="fUpload" name="file" class="form-control" single />
+                                <input type="file" id="fUpload" name="file" class="form-control" multiple />
                             </div>
                             <div class="dz-message needsclick">
                                 <i class="medium material-icons dp48">cloud_upload</i>
@@ -149,10 +150,10 @@
             </div>
         </div>
     </div>
-
 </div>
+
 <!--uPLOADER-->
-<script src="~/assets/uploader/dropzone.js"></script>
+<script src="~/assets/uploader/dropzoneMultiple.js"></script>
 <script src="~/assets/extra-libs/prism/prism.js"></script>
 <script src="~/assets/libs/toastr/build/toastr.min.js"></script>
 <script src="~/assets/extra-libs/toastr/toastr-init.js"></script>
@@ -168,3 +169,95 @@
 <!--Stacked Bar Chart JS-->
 <script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
 <script src="~/js/Custom JS/CustomChart.js"></script>
+<script>
+    //Create by TUANKQ
+Dropzone.options.myAwesomeDropzoneCa2 = {
+    paramName: "file", // The name that will be used to transfer the file
+    maxFilesize: 2, // MB
+    addRemoveLinks: true,
+    dictRemoveFile: 'Hủy',
+    clickable: true,
+    acceptedFiles: 'application/xls,.xlsx,image/*,application/pdf',
+    maxFiles: '10',
+    uploadMultiple: true,
+    parallelUploads: 10,
+    maxfilesreached: function() {
+            alert("ahihi");
+    },
+    init: function () {
+        this.on("addedfile", function () {
+            //alert("ahhihi");
+            $(".dz-preview").last().append("<input class=\"file-description form-control\" placeholder=\"Chú thích file\" type=\"text\"/> \n ");
+            //if (this.files.length > 10) {
+            //    for (int i = 0; i < this.files.length; i++){
+            //            this.removeFile(this.files[i]);
+            //    }
+            //}
+        });
+        var myDropzone = this;
+        // Update selector to match your button
+        $("#btnUpload").click(function (e) {
+            e.preventDefault();
+            myDropzone.processQueue();
+        });
+        //this.on("processing", function (file) {
+
+        //});
+        this.on('sending', function (file, xhr, formData) {
+                //append file to formdata
+                formData.append("file", file);
+                //show pre-loader
+                $("#pre-load").show("slow", function () {
+                });
+                //set timeout for processing
+            //close modal
+            $("#modal1").modal('close');
+            //clear in queue
+            myDropzone.removeFile(file);
+            //ajax process
+            $.ajax({
+                //type: "POST",
+                //url: "/phong-kcs/importKCS",
+                //statusCode: {
+                //    404: function (responseObject, textStatus, jqXHR) {
+                //        toastr.warning('Lỗi!', 'Hệ thống');
+                //    },
+                //    503: function (responseObject, textStatus, errorThrown) {
+                //        toastr.warning('Lỗi mạng!', 'Hệ thống');
+                //    }
+                //},
+                //beforeSend: function (xhr) {
+                //    xhr.setRequestHeader("XSRF-TOKEN",
+                //        $('input:hidden[name="__RequestVerificationToken"]').val());
+                //},
+                //data: formData,
+                //contentType: false,
+                //processData: false,
+                //success: function (data) {
+
+                //},
+                //error: function (data) {
+                //    //$('#dvData').html(e.responseText);
+                //    toastr.warning('Lỗi!', 'Hệ thống'+data);
+                //}
+            }).done(function () {
+                //hide pre-loader
+                $("#pre-load").hide("slow", function () {
+                });
+            });
+        });
+    },
+    dictResponseError: "Lỗi (Code: {{statusCode}})",
+    dictFileTooBig: "Kích cỡ file quá lớn ({{filesize}}MB). Kích cỡ file tối đa: {{maxFilesize}}MB ",
+    dictInvalidFileType: "File không hợp lệ. Hãy chọn một file Excel (xls, xlsx)",
+    autoProcessQueue: false,
+};
+
+</script>
+<script>
+    $("#test").click(function () {
+        $(".input").each(function () {
+            console.log($(this).val());
+        });
+    })
+</script>

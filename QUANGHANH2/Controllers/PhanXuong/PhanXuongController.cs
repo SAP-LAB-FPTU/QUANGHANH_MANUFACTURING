@@ -11,8 +11,27 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         [Route("phan-xuong")]
         public ActionResult Index()
         {
-            return View("/Views/Phanxuong/phanxuong.cshtml");
+            //return View("/Views/Phanxuong/phanxuong.cshtml");
+            return View("/Views/Phanxuong/ChonBaoCao/ChonBaoCao.cshtml");
         }
-        
+
+        /// <summary>
+        /// ///////////////////////////////////////////////PHAN XUONG KHAI THAC/////////////////////////////////////////////////////
+        /// </summary>
+        /// <returns></returns>
+        [Route("phan-xuong/chon-bao-cao")]
+        public ActionResult ChonBaoCao(String phanxuong)
+        {
+            ViewBag.phanxuong = phanxuong;
+            return View("/Views/Phanxuong/ChonBaoCao/ChonBaoCao.cshtml");
+        }
+
+        [Route("phan-xuong/nhap-bao-cao-len-phong-dk")]
+        public ActionResult HangNgayKT()
+        {
+            return View("/Views/Phanxuong/NhapBaoCao/BaoCaoLenDK.cshtml");
+        }
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     }
 }
