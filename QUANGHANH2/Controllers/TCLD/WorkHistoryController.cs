@@ -49,14 +49,14 @@ namespace QUANGHANH2.Controllers.TCLD
                         }
                     }
                     List<DateTime> listDateTimes = new List<DateTime>();
-                    foreach(var diemDanh in listDiemDanh)
-                    {
-                        if (diemDanh.MaNV.Equals(id_))
-                        {
+                    //foreach(var diemDanh in listDiemDanh)
+                    //{
+                    //    if (diemDanh.MaNV.Equals(id_))
+                    //    {
 
-                            listDateTimes.Add(diemDanh.NgayDiemDanh);
-                        }
-                    }
+                    //        listDateTimes.Add(diemDanh.NgayDiemDanh);
+                    //    }
+                    //}
                     DateTime dateMax = listDateTimes[0];
                     for(int i = 0; i < listDateTimes.Count(); i++)
                     {
@@ -100,21 +100,21 @@ namespace QUANGHANH2.Controllers.TCLD
                 string sortDirection = Request["order[0][dir]"];
                 List<DiemDanh_NangSuatLaoDong> listDiemDanh = db.DiemDanh_NangSuatLaoDong.ToList();
                 List<DayHistoryWork> listDiemDanhById = new List<DayHistoryWork>();
-                foreach (var dd in listDiemDanh)
-                {
-                    if (dd.MaNV.Equals(id_))
-                    {
-                        if (dd.XacNhan == true)
-                        {
-                            DayHistoryWork d = new DayHistoryWork();
-                            d.ngayDiemDanh = dd.NgayDiemDanh;
-                            d.calamViec = dd.CaDiemDanh.ToString();
-                            d.ghiChu = dd.GhiChu;
-                            listDiemDanhById.Add(d);
-                        }
+                //foreach (var dd in listDiemDanh)
+                //{
+                //    if (dd.MaNV.Equals(id_))
+                //    {
+                //        if (dd.XacNhan == true)
+                //        {
+                //            DayHistoryWork d = new DayHistoryWork();
+                //            //d.ngayDiemDanh = dd.NgayDiemDanh;
+                //            //d.calamViec = dd.CaDiemDanh.ToString();
+                //            d.ghiChu = dd.GhiChu;
+                //            listDiemDanhById.Add(d);
+                //        }
 
-                    }
-                }
+                //    }
+                //}
                 for (int i = 0; i < listDiemDanhById.Count(); i++)
                 {
                     for (int j = i+ 1; j < listDiemDanhById.Count()-1; j++)
