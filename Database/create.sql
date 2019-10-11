@@ -696,6 +696,10 @@ CREATE TABLE [dbo].[Header_DiemDanh_NangSuat_LaoDong](
 	[MaPhongBan] [nvarchar](150) NOT NULL,
 	[NgayDiemDanh] [date] NOT NULL,
 	[TotalEffort] [float] NOT NULL,
+	[ThanThucHien] [float] NOT NULL,
+	[MetLoThucHien] [float] NOT NULL,
+	[XenThucHien] [float] NOT NULL,
+	[GhiChu] [nvarchar](max) NULL,
 	[isFilledFromAPI] [bit] NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
@@ -1360,6 +1364,12 @@ ALTER TABLE [dbo].[Department] ADD  CONSTRAINT [DF_Department_isInside]  DEFAULT
 GO
 ALTER TABLE [dbo].[Header_DiemDanh_NangSuat_LaoDong] ADD  CONSTRAINT [DF_Table_1_Tổng Điểm]  DEFAULT ((0)) FOR [TotalEffort]
 GO
+ALTER TABLE [dbo].[Header_DiemDanh_NangSuat_LaoDong] ADD  CONSTRAINT [DF_Table_1_Sản Lượng Than Thực Hiện]  DEFAULT ((0)) FOR [ThanThucHien]
+GO
+ALTER TABLE [dbo].[Header_DiemDanh_NangSuat_LaoDong] ADD  CONSTRAINT [DF_Table_1_Sản Lượng Mét Lò Thực Hiện]  DEFAULT ((0)) FOR [MetLoThucHien]
+GO
+ALTER TABLE [dbo].[Header_DiemDanh_NangSuat_LaoDong] ADD  CONSTRAINT [DF_Table_1_Sản Lượng Xén Thực Hiện]  DEFAULT ((0)) FOR [XenThucHien]
+GO
 ALTER TABLE [dbo].[Header_DiemDanh_NangSuat_LaoDong] ADD  CONSTRAINT [DF_Header_DiemDanh_NangSuat_LaoDong_isFilledFromAPI]  DEFAULT ((0)) FOR [isFilledFromAPI]
 GO
 ALTER TABLE [dbo].[header_ThucHienTheoNgay] ADD  CONSTRAINT [DF_header_ThucHienTheoNgay_Ca]  DEFAULT ((0)) FOR [Ca]
@@ -1447,6 +1457,9 @@ REFERENCES [dbo].[Nganh] ([MaNganh])
 GO
 ALTER TABLE [dbo].[DiemDanh_NangSuatLaoDong]  WITH CHECK ADD FOREIGN KEY([HeaderID])
 REFERENCES [dbo].[Header_DiemDanh_NangSuat_LaoDong] ([HeaderID])
+GO
+ALTER TABLE [dbo].[Header_DiemDanh_NangSuat_LaoDong]  WITH CHECK ADD FOREIGN KEY([MaPhongBan])
+REFERENCES [dbo].[Department] ([department_id])
 GO
 ALTER TABLE [dbo].[DiemDanh_NangSuatLaoDong]  WITH CHECK ADD  CONSTRAINT [FK_DiemDanh_NangSuatLaoDong_NhanVien] FOREIGN KEY([MaNV])
 REFERENCES [dbo].[NhanVien] ([MaNV])

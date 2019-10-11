@@ -32,7 +32,7 @@
                 </div>
                 <div class="col l6 center">
                     <h3>
-                        ĐIỂM DANH CỦA <span id="departmentID">PXKT1</span> <a class="dropdown-trigger btn" id="ca" href="#" data-target="dropdown_ca" style="background-color:#273146">CA 1</a> NGÀY <input type="text" id="inputdate" class="datepicker-here center" data-language="vi" value="" />
+                        ĐIỂM DANH CỦA <a class="dropdown-trigger btn" id="phanxuong" href="#" data-target="dropdown_px" style="background-color:#273146"></a> <a class="dropdown-trigger btn" id="ca" href="#" data-target="dropdown_ca" style="background-color:#273146">CA 1</a> NGÀY <input type="text" id="inputdate" class="datepicker-here center" data-language="vi" value="" />
                         <a class="btn waves-effect waves-light blue modal-trigger" id="btn-view" href="#" onclick="getcontent();">Xem</a>
                         <br><br>
                     </h3>
@@ -56,8 +56,7 @@
                             <th>Ghi chú</th>
                         </tr>
                     </thead>
-                    <tbody>
-                    </tbody>
+                    <tbody></tbody>
                 </table>
                 <a class="waves-effect waves-light btn" id="EditSaveBtn" onclick="EditOrUpdate()"><i class="material-icons right">border_color</i>Cập Nhật</a>
             </div>
@@ -65,9 +64,16 @@
     </div>
 </div>
 <ul id='dropdown_ca' class='dropdown-content'>
-    <li><a class="dropdown-child-ca" href="#" name="ca1">CA 1</a></li>
-    <li><a class="dropdown-child-ca" href="#" name="ca2">CA 2</a></li>
-    <li><a class="dropdown-child-ca" href="#" name="ca3">CA 3</a></li>
+    <li><a class="dropdown-child-ca session" href="#" name="ca1">CA 1</a></li>
+    <li><a class="dropdown-child-ca session" href="#" name="ca2">CA 2</a></li>
+    <li><a class="dropdown-child-ca session" href="#" name="ca3">CA 3</a></li>
+</ul>
+
+<ul id='dropdown_px' class='dropdown-content'>
+    @foreach (QUANGHANH2.Models.Department item in ViewBag.departments)
+    {
+        <li><a class="dropdown-child-ca deparment" href="#" name="@item.department_id.ToLower()">@item.department_id</a></li>
+    }
 </ul>
 
 
@@ -95,23 +101,44 @@
             var year = currentTime.getFullYear();
             var date = day + "/" + month + "/" + year;
             // default date
-            date = "10/09/2019"
+            //date = "10/09/2019"
             //
             $("#inputdate").val(date);
             //
+            $('#phanxuong').text($('.deparment').eq(4).text()) //chua co data nhan vien cua PXDL3, chi co cua PXKT1
+        })
+        $('.deparment').click(function () {
+            $('#phanxuong').text($(this).text())
+            $('h3').click();
+        })
+        $('.session').click(function () {
+            $('#ca').text($(this).text())
+            $('h3').click();
         })
     </script>
     <script>
         var mode = 0;
         $(document).ready(() => {
+            $("#pre-load").show();
             $('input.timepicker').timepicker({});
             attendanceTable = $("#attendanceTable")
                 .on('preXhr.dt', function (e, settings, data) {
                         data.session = $("#ca").text().split(" ")[1];
-                        data.department = $("#departmentID").text();
+                        data.department = $("#phanxuong").text();
                         data.date = convertToSQLDate($("#inputdate").val());
                 })
                 .DataTable({
+                "language": {
+                    "emptyTable": "Không tìm thấy dữ liệu",
+                    "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                    "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                    "paginate": {
+                        "first": "Trang đầu",
+                        "last": "Trang cuối",
+                        "next": "Trang sau",
+                        "previous": "Trang trước"
+                    }
+                },
                 "columnDefs": [
                     { "className": "dt-center", "targets": "_all" }
                 ],
@@ -126,10 +153,12 @@
                     "datatype": "json",
                     "dataSrc": function (result) {
                         return JSON.parse(result.data);
-                    }
+                    },
+                    "cache": false
                 },
                 "initComplete": function (settings) {
                     $("#8056").html("hihi");
+                    $("#pre-load").hide();
                 },
 
                 "columns": [
@@ -195,6 +224,14 @@
             })
         })
 
+        function getcontent() {
+            var dataTable = $('#attendanceTable').DataTable();
+            $('#pre-load').show()
+            dataTable.ajax.reload(function () {
+                $('#pre-load').hide();
+            });
+        }
+
         function convertToSQLDate(dateInput) {
             var date = dateInput.split("/")[0]
             var month = dateInput.split("/")[1]
@@ -239,7 +276,7 @@
                     $("#attendanceTable").on('preXhr.dt', function (e, settings, data) {
                         data.sessionId = JSON.stringify(dataUpdate)
                         data.session = $("#ca").text().split(" ")[1];
-                        data.department = $("#departmentID").text();
+                        data.department = $("#phanxuong").text();
                         data.date = convertToSQLDate($("#inputdate").val());
                     })
                     // $("#attendanceTable").DataTable().ajax.url("/phan-xuong-khai-thac/diem-danh/cap-nhat").load();
@@ -347,7 +384,7 @@
                 data.workChecked = $("#workedAllCheckbox").is(":checked");
                 data.notWorkChecked = $("#notWorkedAllCheckbox").is(":checked");
                 data.session = $("#ca").text().split(" ")[1];
-                data.department = $("#departmentID").text();
+                data.department = $("#phanxuong").text();
                 data.date = convertToSQLDate($("#inputdate").val());
             })
             $("#attendanceTable").DataTable().ajax.url("/phan-xuong-khai-thac/diem-danh/lua-chon-diem-danh").load();
