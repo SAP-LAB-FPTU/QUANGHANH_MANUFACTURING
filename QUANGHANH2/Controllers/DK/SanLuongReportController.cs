@@ -14,5 +14,12 @@ namespace QUANGHANH2.Controllers.DK
         {
             return View("/Views/DK/SanLuongReport.cshtml");
         }
+
+        [Route("phong-dieu-khien/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty")]
+        [HttpPost]
+        public ActionResult get()
+        {
+            return View("/Views/DK/SanLuongReport.cshtml");
+        }
     }
 }
