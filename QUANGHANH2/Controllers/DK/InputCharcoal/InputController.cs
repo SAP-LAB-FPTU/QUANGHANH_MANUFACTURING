@@ -29,12 +29,28 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             {
                 if (px_value.Contains("KT"))
                 {
-                    string query = "select * from TieuChi where MaTieuChi in (2,6,9)";
+                    string query = "select * from TieuChi where MaTieuChi in (2,24,9)";
                     tcList = db.Database.SqlQuery<TieuChi>(query).ToList();
                 }
                 else if (px_value.Contains("DL"))
                 {
-                    tcList = db.TieuChis.SqlQuery("select * from TieuChi where MaTieuChi in (1,6,9)").ToList();
+                    if (px_value.Contains("TL") || px_value.Contains("AS") || px_value.Contains("XLM"))
+                    {
+                        string query = "select * from TieuChi where MaTieuChi in (1,23,9)";
+                        tcList = db.Database.SqlQuery<TieuChi>(query).ToList();
+                    }else
+                    {
+                        string query = "select * from TieuChi where MaTieuChi in (1,24,9)";
+                        tcList = db.Database.SqlQuery<TieuChi>(query).ToList();
+                    }
+                }
+                else if(px_value.Equals("KCS"))
+                {
+                    string query = "select * from TieuChi where MaTieuChi in (18,19,22)";
+                    tcList = db.Database.SqlQuery<TieuChi>(query).ToList();
+                }else if(px_value.Equals("ST"))
+                {
+
                 }
             }
             return Json(new { success = true, list = tcList }, JsonRequestBehavior.AllowGet);
