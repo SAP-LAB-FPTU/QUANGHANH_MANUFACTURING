@@ -12,13 +12,12 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class KeHoach_TieuChi_VatLieuSanXuat
+    public partial class sysdiagram
     {
-        public int MaKeHoach { get; set; }
-        public int MaTieuChi_VatLieuSanXuat { get; set; }
-        public Nullable<double> TietDienDao { get; set; }
-    
-        public virtual KeHoach_TieuChi KeHoach_TieuChi { get; set; }
-        public virtual TieuChi_VatLieuSanXuat TieuChi_VatLieuSanXuat { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

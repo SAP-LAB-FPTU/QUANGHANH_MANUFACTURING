@@ -12,15 +12,14 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class TaiNan
+    public partial class ThucHien_TieuChi_TheoNgay
     {
-        public int MaTaiNan { get; set; }
-        public string MaNV { get; set; }
-        public string LyDo { get; set; }
-        public Nullable<System.DateTime> Ngay { get; set; }
-        public Nullable<int> Ca { get; set; }
-        public string Loai { get; set; }
+        public int HeaderID { get; set; }
+        public int MaTieuChi { get; set; }
+        public Nullable<double> SanLuong { get; set; }
+        public Nullable<double> KeHoach { get; set; }
     
-        public virtual NhanVien NhanVien { get; set; }
+        public virtual header_ThucHienTheoNgay header_ThucHienTheoNgay { get; set; }
+        public virtual TieuChi TieuChi { get; set; }
     }
 }

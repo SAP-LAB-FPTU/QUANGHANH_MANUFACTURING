@@ -12,27 +12,22 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class KeHoach_TieuChi
+    public partial class header_KeHoachTungThang
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public KeHoach_TieuChi()
+        public header_KeHoachTungThang()
         {
-            this.GhiChus = new HashSet<GhiChu>();
-            this.KeHoach_TieuChi_VatLieuSanXuat = new HashSet<KeHoach_TieuChi_VatLieuSanXuat>();
+            this.KeHoach_TieuChi_TheoThang = new HashSet<KeHoach_TieuChi_TheoThang>();
         }
     
-        public int MaKeHoach { get; set; }
+        public int HeaderID { get; set; }
         public string MaPhongBan { get; set; }
-        public int MaTieuChi { get; set; }
         public Nullable<int> ThangKeHoach { get; set; }
         public Nullable<int> NamKeHoach { get; set; }
         public Nullable<int> SoNgayLamViec { get; set; }
-        public Nullable<double> SanLuongKeHoach { get; set; }
     
         public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GhiChu> GhiChus { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<KeHoach_TieuChi_VatLieuSanXuat> KeHoach_TieuChi_VatLieuSanXuat { get; set; }
+        public virtual ICollection<KeHoach_TieuChi_TheoThang> KeHoach_TieuChi_TheoThang { get; set; }
     }
 }

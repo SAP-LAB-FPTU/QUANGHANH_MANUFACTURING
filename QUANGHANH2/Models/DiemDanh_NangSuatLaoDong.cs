@@ -20,11 +20,12 @@ namespace QUANGHANH2.Models
         public Nullable<double> HeSoChiaLuong { get; set; }
         public Nullable<double> DiemLuong { get; set; }
         public string DuBaoNguyCo { get; set; }
-        public bool DiLam { get; set; }
+        public Nullable<bool> DiLam { get; set; }
         public string GhiChu { get; set; }
         public string LyDoVangMat { get; set; }
         public string GiaiPhapNguyCo { get; set; }
     
+        public virtual Header_DiemDanh_NangSuat_LaoDong Header_DiemDanh_NangSuat_LaoDong { get; set; }
         public virtual NhanVien NhanVien { get; set; }
     }
 }
