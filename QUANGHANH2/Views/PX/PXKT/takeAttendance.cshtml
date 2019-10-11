@@ -32,7 +32,7 @@
                 </div>
                 <div class="col l6 center">
                     <h3>
-                        ĐIỂM DANH CỦA <a class="dropdown-trigger btn" id="phanxuong" href="#" data-target="dropdown_px" style="background-color:#273146">DL1</a> <a class="dropdown-trigger btn" id="ca" href="#" data-target="dropdown_ca" style="background-color:#273146">CA 1</a> NGÀY <input type="text" id="inputdate" class="datepicker-here center" data-language="vi" value="" />
+                        ĐIỂM DANH CỦA <span id="departmentID">PXKT1</span> <a class="dropdown-trigger btn" id="ca" href="#" data-target="dropdown_ca" style="background-color:#273146">CA 1</a> NGÀY <input type="text" id="inputdate" class="datepicker-here center" data-language="vi" value="" />
                         <a class="btn waves-effect waves-light blue modal-trigger" id="btn-view" href="#" onclick="getcontent();">Xem</a>
                         <br><br>
                     </h3>
@@ -47,11 +47,10 @@
                     <thead>
                         <tr>
                             <th>Thuộc danh sách đi làm</th>
-                            <th>Mã Điểm Danh</th>
                             <th>Mã Nhân Viên</th>
-                            <th>Mã Đơn Vị</th>
                             <th>Tên Nhân Viên</th>
                             <th>Đi làm</th>
+                            <th>Mã Điểm Danh</th>
                             <th>Thời gian có mặt</th>
                             <th>Lý do vắng mặt</th>
                             <th>Ghi chú</th>
@@ -71,12 +70,6 @@
     <li><a class="dropdown-child-ca" href="#" name="ca3">CA 3</a></li>
 </ul>
 
-<ul id='dropdown_px' class='dropdown-content'>
-    <li><a class="dropdown-child-ca" href="#" name="dl1">DL1</a></li>
-    <li><a class="dropdown-child-ca" href="#" name="dl2">DL2</a></li>
-    <li><a class="dropdown-child-ca" href="#" name="dl3">DL3</a></li>
-</ul>
-
 
 <div id="modal1" class="modal">
     <div class="modal-content">
@@ -88,15 +81,37 @@
     </div>
 </div>
 
+<span hidden value="hihi" id="createdHeader"></span>
+
 <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
 @section scripts{
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
     <script>
+        $(document).ready(() => {
+            var currentTime = new Date();
+            var month = currentTime.getMonth() + 1;
+            var day = currentTime.getDate();
+            var year = currentTime.getFullYear();
+            var date = day + "/" + month + "/" + year;
+            // default date
+            date = "10/09/2019"
+            //
+            $("#inputdate").val(date);
+            //
+        })
+    </script>
+    <script>
         var mode = 0;
         $(document).ready(() => {
             $('input.timepicker').timepicker({});
-            attendanceTable = $("#attendanceTable").DataTable({
+            attendanceTable = $("#attendanceTable")
+                .on('preXhr.dt', function (e, settings, data) {
+                        data.session = $("#ca").text().split(" ")[1];
+                        data.department = $("#departmentID").text();
+                        data.date = convertToSQLDate($("#inputdate").val());
+                })
+                .DataTable({
                 "columnDefs": [
                     { "className": "dt-center", "targets": "_all" }
                 ],
@@ -119,17 +134,15 @@
 
                 "columns": [
                     {
-                        data: "maDD", render: function (data, type, row) {
-                            if (data != null) {
+                        data: "headerID", render: function (data, type, row) {
+                            if (data == true) {
                                 return "<label><input onclick=\"clickConfirm(this)\" type=\"checkbox\" checked=\"checked\" disabled=\"disabled\" class=\"checkBox1\" id='" + row["maNV"] + "-confirmed'/><span></span></label>";
                             } else {
                                 return "<label><input onclick=\"clickConfirm(this)\" type=\"checkbox\"disabled=\"disabled\"class=\"checkBox1\" id=\"" + row["maNV"].trim() + "-confirmed\"/><span></span></label>";
                             }
                         }
                     },
-                    { data: "maDD" },
                     { data: "maNV" },
-                    { data: "maDV" },
                     { data: "tenNV" },
                     {
                         data: "status", render: function (data, type, row) {
@@ -137,6 +150,15 @@
                                 return "<label><input onclick=\"clickConfirm(this)\" type=\"checkbox\" checked=\"checked\" disabled=\"disabled\" class=\"checkBox1\" id='" + row["maNV"] + "-   status'/><span></span></label>";
                             } else {
                                 return "<label><input onclick=\"clickConfirm(this)\" type=\"checkbox\"disabled=\"disabled\"class=\"checkBox1\" id=\"" + row["maNV"].trim() + "-status\"/><span></span></label>";
+                            }
+                        }
+                    },
+                    {
+                        data: "headerID", render: function (data) {
+                            if (data != null) {
+                                return data
+                            } else {
+                                return "";
                             }
                         }
                     },
@@ -217,7 +239,7 @@
                     $("#attendanceTable").on('preXhr.dt', function (e, settings, data) {
                         data.sessionId = JSON.stringify(dataUpdate)
                         data.session = $("#ca").text().split(" ")[1];
-                        data.department = $("#phanxuong").text();
+                        data.department = $("#departmentID").text();
                         data.date = convertToSQLDate($("#inputdate").val());
                     })
                     // $("#attendanceTable").DataTable().ajax.url("/phan-xuong-khai-thac/diem-danh/cap-nhat").load();
@@ -260,17 +282,15 @@
         }
 
         function updateReason() {
-            var heads = ["isEnvolved", "maDD", "maNV", "maDV", "tenNV", "status", "timeAttendance", "reason", "description"];
+            var heads = ["isEnvolved","maNV","tenNV", "status","headerID", "timeAttendance", "reason", "description"];
             //
             var rows = [];
             count = 0;
             $("tbody tr").each(function () {
                 cur = {};
-                cur["maDD"] = $("#attendanceTable").DataTable().row(count).data()["maDD"];
-                count++;
                 $(this).find("td").each(function (i, v) {
-                    if (heads[i] != "maDD") {
-                        if (heads[i] != "status" && heads[i] != "reason") {
+                    if (i != 4) {
+                        if (heads[i] != "status" && heads[i] != "isEnvolved") {
                             cur[heads[i]] = $(this).text().trim();
                         }
                         if (heads[i] == "status" || heads[i] == "isEnvolved") {
@@ -303,6 +323,8 @@
                         }
                     }
                 });
+                cur["headerID"] = $("#attendanceTable").DataTable().row(count).data()["headerID"];
+                count++;
                 rows.push(cur);
                 cur = {};
             });
@@ -325,24 +347,10 @@
                 data.workChecked = $("#workedAllCheckbox").is(":checked");
                 data.notWorkChecked = $("#notWorkedAllCheckbox").is(":checked");
                 data.session = $("#ca").text().split(" ")[1];
-                data.department = $("#phanxuong").text();
+                data.department = $("#departmentID").text();
                 data.date = convertToSQLDate($("#inputdate").val());
             })
             $("#attendanceTable").DataTable().ajax.url("/phan-xuong-khai-thac/diem-danh/lua-chon-diem-danh").load();
         }
-    </script>
-    <script>
-        $(document).ready(() => {
-            var currentTime = new Date();
-            var month = currentTime.getMonth() + 1;
-            var day = currentTime.getDate();
-            var year = currentTime.getFullYear();
-            var date = day + "/" + month + "/" + year;
-            // default date
-            date = "10/09/2019"
-            //
-            $("#inputdate").val(date);
-            //
-        })
     </script>
 }
