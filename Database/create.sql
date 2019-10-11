@@ -1,11 +1,11 @@
 ﻿USE [master]
 GO
-/****** Object:  Database [QUANGHANHABC]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Database [QUANGHANHABC]    Script Date: 10/11/2019 5:54:57 PM ******/
 CREATE DATABASE [QUANGHANHABC]
 GO
 USE [QUANGHANHABC]
 GO
-/****** Object:  Table [dbo].[Acceptance]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[Acceptance]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -25,7 +25,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Account]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[Account]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -62,7 +62,7 @@ CREATE TABLE [dbo].[Account](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Account_Right]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[Account_Right]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -80,7 +80,7 @@ CREATE TABLE [dbo].[Account_Right](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Account_Right_Detail]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[Account_Right_Detail]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -97,7 +97,7 @@ CREATE TABLE [dbo].[Account_Right_Detail](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Activity]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[Activity]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -122,7 +122,7 @@ UNIQUE NONCLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[BangCap_GiayChungNhan]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[BangCap_GiayChungNhan]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -143,7 +143,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Category_attribute_value]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[Category_attribute_value]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -162,7 +162,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[ChamDut_NhanVien]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[ChamDut_NhanVien]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -180,7 +180,7 @@ CREATE TABLE [dbo].[ChamDut_NhanVien](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[ChiTiet_BangCap_GiayChungNhan]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[ChiTiet_BangCap_GiayChungNhan]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -198,7 +198,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[ChiTiet_NhiemVu_NhanVien]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[ChiTiet_NhiemVu_NhanVien]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -216,7 +216,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[ChungChi]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[ChungChi]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -233,7 +233,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[ChungChi_NhanVien]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[ChungChi_NhanVien]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -251,7 +251,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[ChuyenNganh]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[ChuyenNganh]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -269,7 +269,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[CongViec]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[CongViec]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -286,7 +286,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Department]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[Department]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -303,7 +303,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[DiemDanh_NangSuatLaoDong]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[DiemDanh_NangSuatLaoDong]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -327,7 +327,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[DieuDong_NhanVien]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[DieuDong_NhanVien]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -352,7 +352,7 @@ CREATE TABLE [dbo].[DieuDong_NhanVien](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Documentary]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[Documentary]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -374,7 +374,7 @@ CREATE TABLE [dbo].[Documentary](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Documentary_big_maintain_details]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[Documentary_big_maintain_details]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -397,7 +397,7 @@ CREATE TABLE [dbo].[Documentary_big_maintain_details](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Documentary_liquidation_details]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[Documentary_liquidation_details]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -416,7 +416,7 @@ CREATE TABLE [dbo].[Documentary_liquidation_details](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Documentary_maintain_details]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[Documentary_maintain_details]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -437,7 +437,7 @@ CREATE TABLE [dbo].[Documentary_maintain_details](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Documentary_moveline_details]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[Documentary_moveline_details]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -458,7 +458,7 @@ CREATE TABLE [dbo].[Documentary_moveline_details](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Documentary_repair_details]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[Documentary_repair_details]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -479,7 +479,7 @@ CREATE TABLE [dbo].[Documentary_repair_details](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Documentary_revoke_details]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[Documentary_revoke_details]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -497,7 +497,7 @@ CREATE TABLE [dbo].[Documentary_revoke_details](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Equipment]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[Equipment]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -528,7 +528,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Equipment_attribute]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[Equipment_attribute]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -547,7 +547,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Equipment_category]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[Equipment_category]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -563,7 +563,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Equipment_category_attribute]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[Equipment_category_attribute]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -580,7 +580,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Equipment_Category_Supply]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[Equipment_Category_Supply]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -601,7 +601,7 @@ UNIQUE NONCLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Equipment_Inspection]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[Equipment_Inspection]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -624,7 +624,7 @@ UNIQUE NONCLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[FakeAPI]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[FakeAPI]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -643,7 +643,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Fuel_activities_consumption]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[Fuel_activities_consumption]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -667,7 +667,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[GiayTo]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[GiayTo]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -685,7 +685,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Header_DiemDanh_NangSuat_LaoDong]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[Header_DiemDanh_NangSuat_LaoDong]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -715,10 +715,10 @@ UNIQUE NONCLUSTERED
 (
 	[HeaderID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[header_KeHoach_TieuChi_TheoNgay]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[header_KeHoach_TieuChi_TheoNgay]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -735,7 +735,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[header_KeHoachTungThang]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[header_KeHoachTungThang]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -753,7 +753,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[header_ThucHienTheoNgay]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[header_ThucHienTheoNgay]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -771,7 +771,7 @@ CREATE TABLE [dbo].[header_ThucHienTheoNgay](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[HoSo]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[HoSo]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -800,7 +800,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Incident]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[Incident]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -820,7 +820,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[KeHoach_TieuChi_TheoNgay]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[KeHoach_TieuChi_TheoNgay]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -830,16 +830,17 @@ CREATE TABLE [dbo].[KeHoach_TieuChi_TheoNgay](
 	[MaTieuChi] [int] NOT NULL,
 	[KeHoach] [float] NULL,
 	[ThoiGianNhapCuoiCung] [datetime] NOT NULL,
+	[GhiChu] [nvarchar](max) NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[HeaderID] ASC,
 	[MaTieuChi] ASC,
 	[ThoiGianNhapCuoiCung] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[KeHoach_TieuChi_TheoThang]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[KeHoach_TieuChi_TheoThang]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -848,15 +849,18 @@ CREATE TABLE [dbo].[KeHoach_TieuChi_TheoThang](
 	[HeaderID] [int] NOT NULL,
 	[MaTieuChi] [int] NOT NULL,
 	[SanLuong] [float] NULL,
-PRIMARY KEY CLUSTERED 
+	[ThoiGianNhapCuoiCung] [datetime] NOT NULL,
+	[GhiChu] [nvarchar](max) NULL,
+ CONSTRAINT [PK__KeHoach___9821EC604DC982AE] PRIMARY KEY CLUSTERED 
 (
 	[HeaderID] ASC,
-	[MaTieuChi] ASC
+	[MaTieuChi] ASC,
+	[ThoiGianNhapCuoiCung] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[LichSuBoSungSYLL]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[LichSuBoSungSYLL]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -872,7 +876,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Maintain_Car]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[Maintain_Car]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -890,7 +894,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Maintain_Car_Detail]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[Maintain_Car_Detail]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -909,7 +913,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[MealRegistration]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[MealRegistration]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -927,7 +931,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Module]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[Module]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -942,7 +946,7 @@ CREATE TABLE [dbo].[Module](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Nganh]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[Nganh]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -957,7 +961,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[NguoiUyQuyenLayHoSo_BaoHiem]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[NguoiUyQuyenLayHoSo_BaoHiem]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -975,7 +979,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[NhanVien]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[NhanVien]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1050,7 +1054,7 @@ CREATE TABLE [dbo].[NhanVien](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[NhiemVu]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[NhiemVu]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1067,7 +1071,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[NhomTieuChi]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[NhomTieuChi]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1082,7 +1086,7 @@ CREATE TABLE [dbo].[NhomTieuChi](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[QuanHeGiaDinh]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[QuanHeGiaDinh]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1104,7 +1108,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[QuaTrinhCongTac]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[QuaTrinhCongTac]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1124,7 +1128,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[QuyetDinh]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[QuyetDinh]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1140,7 +1144,7 @@ CREATE TABLE [dbo].[QuyetDinh](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Status]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[Status]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1155,7 +1159,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Supply]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[Supply]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1172,7 +1176,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Supply_Documentary_Equipment]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[Supply_Documentary_Equipment]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1201,7 +1205,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Supply_tieuhao]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[Supply_tieuhao]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1222,7 +1226,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[SupplyPlan]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[SupplyPlan]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1244,7 +1248,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[TaiNan]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[TaiNan]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1263,7 +1267,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[ThucHien_TieuChi_TheoNgay]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[ThucHien_TieuChi_TheoNgay]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1272,16 +1276,16 @@ CREATE TABLE [dbo].[ThucHien_TieuChi_TheoNgay](
 	[HeaderID] [int] NOT NULL,
 	[MaTieuChi] [int] NOT NULL,
 	[SanLuong] [float] NULL,
-	[KeHoach] [float] NULL,
+	[GhiChu] [nvarchar](max) NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[HeaderID] ASC,
 	[MaTieuChi] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[TieuChi]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[TieuChi]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1298,7 +1302,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[TrangThai]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[TrangThai]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1313,7 +1317,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[TrinhDo]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[TrinhDo]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1328,7 +1332,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Truong]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[Truong]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1343,7 +1347,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[TuyenDung_NhanVien]    Script Date: 10/11/2019 1:24:25 AM ******/
+/****** Object:  Table [dbo].[TuyenDung_NhanVien]    Script Date: 10/11/2019 5:54:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1457,9 +1461,6 @@ REFERENCES [dbo].[Nganh] ([MaNganh])
 GO
 ALTER TABLE [dbo].[DiemDanh_NangSuatLaoDong]  WITH CHECK ADD FOREIGN KEY([HeaderID])
 REFERENCES [dbo].[Header_DiemDanh_NangSuat_LaoDong] ([HeaderID])
-GO
-ALTER TABLE [dbo].[Header_DiemDanh_NangSuat_LaoDong]  WITH CHECK ADD FOREIGN KEY([MaPhongBan])
-REFERENCES [dbo].[Department] ([department_id])
 GO
 ALTER TABLE [dbo].[DiemDanh_NangSuatLaoDong]  WITH CHECK ADD  CONSTRAINT [FK_DiemDanh_NangSuatLaoDong_NhanVien] FOREIGN KEY([MaNV])
 REFERENCES [dbo].[NhanVien] ([MaNV])
@@ -1635,6 +1636,9 @@ REFERENCES [dbo].[NhanVien] ([MaNV])
 GO
 ALTER TABLE [dbo].[GiayTo] CHECK CONSTRAINT [FK__GiayTo__MaNV__45BE5BA9]
 GO
+ALTER TABLE [dbo].[Header_DiemDanh_NangSuat_LaoDong]  WITH CHECK ADD FOREIGN KEY([MaPhongBan])
+REFERENCES [dbo].[Department] ([department_id])
+GO
 ALTER TABLE [dbo].[header_KeHoach_TieuChi_TheoNgay]  WITH CHECK ADD FOREIGN KEY([MaPhongBan])
 REFERENCES [dbo].[Department] ([department_id])
 GO
@@ -1665,11 +1669,15 @@ GO
 ALTER TABLE [dbo].[KeHoach_TieuChi_TheoNgay]  WITH CHECK ADD FOREIGN KEY([MaTieuChi])
 REFERENCES [dbo].[TieuChi] ([MaTieuChi])
 GO
-ALTER TABLE [dbo].[KeHoach_TieuChi_TheoThang]  WITH CHECK ADD FOREIGN KEY([HeaderID])
+ALTER TABLE [dbo].[KeHoach_TieuChi_TheoThang]  WITH CHECK ADD  CONSTRAINT [FK__KeHoach_T__Heade__58D1301D] FOREIGN KEY([HeaderID])
 REFERENCES [dbo].[header_KeHoachTungThang] ([HeaderID])
 GO
-ALTER TABLE [dbo].[KeHoach_TieuChi_TheoThang]  WITH CHECK ADD FOREIGN KEY([MaTieuChi])
+ALTER TABLE [dbo].[KeHoach_TieuChi_TheoThang] CHECK CONSTRAINT [FK__KeHoach_T__Heade__58D1301D]
+GO
+ALTER TABLE [dbo].[KeHoach_TieuChi_TheoThang]  WITH CHECK ADD  CONSTRAINT [FK__KeHoach_T__MaTie__59C55456] FOREIGN KEY([MaTieuChi])
 REFERENCES [dbo].[TieuChi] ([MaTieuChi])
+GO
+ALTER TABLE [dbo].[KeHoach_TieuChi_TheoThang] CHECK CONSTRAINT [FK__KeHoach_T__MaTie__59C55456]
 GO
 ALTER TABLE [dbo].[LichSuBoSungSYLL]  WITH CHECK ADD  CONSTRAINT [FK__LichSuBoSu__MaNV__4D5F7D71] FOREIGN KEY([MaNV])
 REFERENCES [dbo].[NhanVien] ([MaNV])
