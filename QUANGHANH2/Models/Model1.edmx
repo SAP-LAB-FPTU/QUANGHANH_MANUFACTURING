@@ -1828,24 +1828,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ThucHien___Heade__1B9317B3">
-          <End Role="header_ThucHienTheoNgay" Type="Self.header_ThucHienTheoNgay" Multiplicity="1" />
-          <End Role="ThucHien_TieuChi_TheoNgay" Type="Self.ThucHien_TieuChi_TheoNgay" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="header_ThucHienTheoNgay">
-              <PropertyRef Name="HeaderID" />
-            </Principal>
-            <Dependent Role="ThucHien_TieuChi_TheoNgay">
-              <PropertyRef Name="HeaderID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__ThucHien___MaTie__1C873BEC">
           <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="1" />
           <End Role="ThucHien_TieuChi_TheoNgay" Type="Self.ThucHien_TieuChi_TheoNgay" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TieuChi">
-              <PropertyRef Name="MaTieuChi" />
+            <Principal Role="header_ThucHienTheoNgay">
+              <PropertyRef Name="HeaderID" />
             </Principal>
             <Dependent Role="ThucHien_TieuChi_TheoNgay">
               <PropertyRef Name="MaTieuChi" />
@@ -1981,6 +1969,18 @@
             </Principal>
             <Dependent Role="NhiemVu">
               <PropertyRef Name="MaChungChi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ThucHien_TieuChi_TheoNgay_header_ThucHienTheoNgay">
+          <End Role="header_ThucHienTheoNgay" Type="Self.header_ThucHienTheoNgay" Multiplicity="1" />
+          <End Role="ThucHien_TieuChi_TheoNgay" Type="Self.ThucHien_TieuChi_TheoNgay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="header_ThucHienTheoNgay">
+              <PropertyRef Name="HeaderID" />
+            </Principal>
+            <Dependent Role="ThucHien_TieuChi_TheoNgay">
+              <PropertyRef Name="HeaderID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2412,10 +2412,6 @@
             <End Role="NhanVien" EntitySet="NhanVien" />
             <End Role="TaiNan" EntitySet="TaiNan" />
           </AssociationSet>
-          <AssociationSet Name="FK__ThucHien___Heade__1B9317B3" Association="Self.FK__ThucHien___Heade__1B9317B3">
-            <End Role="header_ThucHienTheoNgay" EntitySet="header_ThucHienTheoNgay" />
-            <End Role="ThucHien_TieuChi_TheoNgay" EntitySet="ThucHien_TieuChi_TheoNgay" />
-          </AssociationSet>
           <AssociationSet Name="FK__ThucHien___MaTie__1C873BEC" Association="Self.FK__ThucHien___MaTie__1C873BEC">
             <End Role="TieuChi" EntitySet="TieuChi" />
             <End Role="ThucHien_TieuChi_TheoNgay" EntitySet="ThucHien_TieuChi_TheoNgay" />
@@ -2463,6 +2459,10 @@
           <AssociationSet Name="FK_NhiemVu_ChungChi" Association="Self.FK_NhiemVu_ChungChi">
             <End Role="ChungChi" EntitySet="ChungChi" />
             <End Role="NhiemVu" EntitySet="NhiemVu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ThucHien_TieuChi_TheoNgay_header_ThucHienTheoNgay" Association="Self.FK_ThucHien_TieuChi_TheoNgay_header_ThucHienTheoNgay">
+            <End Role="header_ThucHienTheoNgay" EntitySet="header_ThucHienTheoNgay" />
+            <End Role="ThucHien_TieuChi_TheoNgay" EntitySet="ThucHien_TieuChi_TheoNgay" />
           </AssociationSet>
           <AssociationSet Name="FK_TieuChi_NhomTieuChi" Association="Self.FK_TieuChi_NhomTieuChi">
             <End Role="NhomTieuChi" EntitySet="NhomTieuChi" />
@@ -3034,7 +3034,7 @@
           <Property Name="Ca" Type="Int32" Nullable="false" />
           <Property Name="NgaySanXuat" Type="Int32" />
           <NavigationProperty Name="Department" Relationship="Self.FK_header_ThucHienTheoNgay_Department" FromRole="header_ThucHienTheoNgay" ToRole="Department" />
-          <NavigationProperty Name="ThucHien_TieuChi_TheoNgay" Relationship="Self.FK__ThucHien___Heade__1B9317B3" FromRole="header_ThucHienTheoNgay" ToRole="ThucHien_TieuChi_TheoNgay" />
+          <NavigationProperty Name="ThucHien_TieuChi_TheoNgay" Relationship="Self.FK_ThucHien_TieuChi_TheoNgay_header_ThucHienTheoNgay" FromRole="header_ThucHienTheoNgay" ToRole="ThucHien_TieuChi_TheoNgay" />
         </EntityType>
         <EntityType Name="HoSo">
           <Key>
@@ -3420,7 +3420,7 @@
           <Property Name="MaTieuChi" Type="Int32" Nullable="false" />
           <Property Name="SanLuong" Type="Double" />
           <Property Name="KeHoach" Type="Double" />
-          <NavigationProperty Name="header_ThucHienTheoNgay" Relationship="Self.FK__ThucHien___Heade__1B9317B3" FromRole="ThucHien_TieuChi_TheoNgay" ToRole="header_ThucHienTheoNgay" />
+          <NavigationProperty Name="header_ThucHienTheoNgay" Relationship="Self.FK_ThucHien_TieuChi_TheoNgay_header_ThucHienTheoNgay" FromRole="ThucHien_TieuChi_TheoNgay" ToRole="header_ThucHienTheoNgay" />
           <NavigationProperty Name="TieuChi" Relationship="Self.FK__ThucHien___MaTie__1C873BEC" FromRole="ThucHien_TieuChi_TheoNgay" ToRole="TieuChi" />
         </EntityType>
         <EntityType Name="TieuChi">
@@ -4415,7 +4415,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ThucHien___Heade__1B9317B3">
+        <Association Name="FK_ThucHien_TieuChi_TheoNgay_header_ThucHienTheoNgay">
           <End Role="header_ThucHienTheoNgay" Type="Self.header_ThucHienTheoNgay" Multiplicity="1" />
           <End Role="ThucHien_TieuChi_TheoNgay" Type="Self.ThucHien_TieuChi_TheoNgay" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5055,7 +5055,7 @@
             <End Role="header_KeHoachTungThang" EntitySet="header_KeHoachTungThang" />
             <End Role="KeHoach_TieuChi_TheoThang" EntitySet="KeHoach_TieuChi_TheoThang" />
           </AssociationSet>
-          <AssociationSet Name="FK__ThucHien___Heade__1B9317B3" Association="Self.FK__ThucHien___Heade__1B9317B3">
+          <AssociationSet Name="FK_ThucHien_TieuChi_TheoNgay_header_ThucHienTheoNgay" Association="Self.FK_ThucHien_TieuChi_TheoNgay_header_ThucHienTheoNgay">
             <End Role="header_ThucHienTheoNgay" EntitySet="header_ThucHienTheoNgay" />
             <End Role="ThucHien_TieuChi_TheoNgay" EntitySet="ThucHien_TieuChi_TheoNgay" />
           </AssociationSet>

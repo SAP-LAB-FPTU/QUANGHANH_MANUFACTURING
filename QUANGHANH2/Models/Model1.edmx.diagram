@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="404bab12da6d4da3b617fa74b128fe22" Name="Diagram1">
+      <Diagram DiagramId="7c77bcfceb054644a5d61c7b95a4fd32" Name="Diagram1">
         <EntityTypeShape EntityType="QUANGHANHABCModel.Acceptance" Width="1.5" PointX="5.25" PointY="59.375" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Account" Width="1.5" PointX="13.25" PointY="54.125" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Account_Right" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
@@ -149,7 +149,7 @@
         <AssociationConnector Association="QUANGHANHABCModel.FK__GiayTo__MaNV__45BE5BA9" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__KeHoach_T__Heade__7E02B4CC" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__KeHoach_T__Heade__7FEAFD3E" ManuallyRouted="false" />
-        <AssociationConnector Association="QUANGHANHABCModel.FK__ThucHien___Heade__1B9317B3" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK_ThucHien_TieuChi_TheoNgay_header_ThucHienTheoNgay" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__HoSo__MaNV__46B27FE2" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__KeHoach_T__MaTie__7EF6D905" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__KeHoach_T__MaTie__00DF2177" ManuallyRouted="false" />

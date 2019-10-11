@@ -338,6 +338,7 @@
     <Compile Include="Models\ChiTiet_NhiemVu_NhanVien.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ChiTiet_ThucHien_TieuChi_TheoNgay.cs" />
     <Compile Include="Models\ChungChi.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
