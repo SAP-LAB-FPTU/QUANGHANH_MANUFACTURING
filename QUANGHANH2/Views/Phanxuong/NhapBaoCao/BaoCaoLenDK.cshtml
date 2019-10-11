@@ -10,9 +10,24 @@
 <link href="~/assets/uploader/icons.min.css" rel="stylesheet" />
 <link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
 <link href="~/assets/libs/toastr/build/toastr.min.css" rel="stylesheet">
+
 <style>
-    .file-description{
+    .file-description {
         width: 120px !important;
+    }
+
+    .dropzone .dz-preview .dz-progress .dz-upload {
+        background: #29bb22 !important;
+        background: linear-gradient(to bottom, #7ceb69, #29bb22) !important;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 0;
+        -webkit-transition: width 300ms ease-in-out;
+        -moz-transition: width 300ms ease-in-out;
+        -ms-transition: width 300ms ease-in-out;
+        -o-transition: width 300ms ease-in-out;
+        transition: width 300ms ease-in-out;
     }
 </style>
 <div class="card">
@@ -25,7 +40,7 @@
                             <h3><b>NHẬP BÁO CÁO HOẠT ĐỘNG HÀNG NGÀY</b></h3>
                             <h5>
                                 <i class="fas fa-calendar-alt icon"></i>
-                                <input type='text' class='datepicker-here center' id="minMaxDate" data-language='vi' />
+                                <input type='text' class='datepicker-here center' id="ngay-chon" data-language='vi' />
                             </h5>
                         </div>
                         <hr />
@@ -38,17 +53,40 @@
                                     <h5 class="">Báo cáo từng ca</h5>
                                     <br />
                                     <ul class="collapsible collapsible-dark">
-                                        <li class="active">
+                                        <li>
                                             <div class="collapsible-header"><i class="fas fa-paperclip"></i>Ca 1<span id="ca1" class="badge">Đã nhập</span></div>
                                             <div class="collapsible-body">
-                                                <p>
-                                                    <img width="25" style="vertical-align:middle" src="~/assets/uploader/icon.png" />
-                                                    <a href="#">File 1.xlsx</a>
-                                                    <i style="color:red; cursor:pointer" class="fas fa-times-circle"></i>
-                                                </p>
+                                                @*<p>
+            <img width="25" style="vertical-align:middle" src="~/assets/uploader/icon.png" />
+            <a href="#">File 1.xlsx</a>
+            <i style="color:red; cursor:pointer" class="fas fa-times-circle"></i>
+        </p>
 
-                                                <div data-target="modal1" style="margin-right:10px" class="modal-trigger waves-effect blue waves-light btn">
-                                                    <i class="fas fa-plus-circle"></i><span> Thêm báo cáo</span>
+        <div data-target="modal1" style="margin-right:10px" class="modal-trigger waves-effect blue waves-light btn">
+            <i class="fas fa-plus-circle"></i><span> Thêm báo cáo</span>
+        </div>*@
+                                                <div class="row">
+                                                    <div class="col s12">
+                                                        <form action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzoneCa1">
+                                                            <div class="fallback">
+                                                                <input type="file" id="fUpload" name="file" class="form-control" single />
+                                                            </div>
+                                                            <div class="dz-message needsclick">
+                                                                <i class="medium material-icons dp48">cloud_upload</i>
+                                                                <h3 id="title_uploader">Kéo thả file hoặc click vào đây để tải lên</h3>
+                                                                <span class="text-muted font-13">(File hợp lệ: xls, xlsx)</span>
+                                                            </div>
+                                                        </form>
+                                                        <br />
+                                                        <div class="clearfix text-right mt-3">
+                                                            <button type="button"
+                                                                    class="btn-danger blue waves-effect waves-light btn"
+                                                                    id="btnUpload1">
+                                                                <i class="material-icons dp48">send</i>
+                                                                Tải lên
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </li>
@@ -71,7 +109,7 @@
                                                         <div class="clearfix text-right mt-3">
                                                             <button type="button"
                                                                     class="btn-danger blue waves-effect waves-light btn"
-                                                                    id="btnUpload">
+                                                                    id="btnUpload2">
                                                                 <i class="material-icons dp48">send</i>
                                                                 Tải lên
                                                             </button>
@@ -85,7 +123,7 @@
                                             <div class="collapsible-body">
                                                 <div class="row">
                                                     <div class="col s12">
-                                                        <form action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzone">
+                                                        <form action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzoneCa3">
                                                             <div class="fallback">
                                                                 <input type="file" id="fUpload" name="file" class="form-control" single />
                                                             </div>
@@ -99,7 +137,7 @@
                                                         <div class="clearfix text-right mt-3">
                                                             <button type="button"
                                                                     class="btn-danger blue waves-effect waves-light btn"
-                                                                    id="btnUpload">
+                                                                    id="btnUpload3">
                                                                 <i class="material-icons dp48">send</i>
                                                                 Tải lên
                                                             </button>
@@ -125,7 +163,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col s12">
-                        <form action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzone">
+                        <form action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzoneModal">
                             <div class="fallback">
                                 <input type="file" id="fUpload" name="file" class="form-control" multiple />
                             </div>
@@ -157,6 +195,9 @@
 <script src="~/assets/extra-libs/prism/prism.js"></script>
 <script src="~/assets/libs/toastr/build/toastr.min.js"></script>
 <script src="~/assets/extra-libs/toastr/toastr-init.js"></script>
+<script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
+<script src="~/assets/sweetalert/sweetalert2.min.js"></script>
+<script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
 <script>
     $(function () {
         $(".select-dropdown").remove();
@@ -169,20 +210,31 @@
 <!--Stacked Bar Chart JS-->
 <script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
 <script src="~/js/Custom JS/CustomChart.js"></script>
+<!--Ca 1-->
 <script>
+    var count1 = 0;
+    var data1 = new FormData();
+    var ca1 = 1;
+
     //Create by TUANKQ
-Dropzone.options.myAwesomeDropzoneCa2 = {
+Dropzone.options.myAwesomeDropzoneCa1 = {
     paramName: "file", // The name that will be used to transfer the file
     maxFilesize: 2, // MB
     addRemoveLinks: true,
+    autoProcessQueue: false,
     dictRemoveFile: 'Hủy',
     clickable: true,
-    acceptedFiles: 'application/xls,.xlsx,image/*,application/pdf',
-    maxFiles: '10',
+    //acceptedFiles: 'application/xls,.xlsx,image/*,application/pdf',
+    maxFiles: 10,
     uploadMultiple: true,
     parallelUploads: 10,
-    maxfilesreached: function() {
-            alert("ahihi");
+    maxfilesexceeded: function() {
+        //for (var i = 0; i < this.files.length; i++){
+        //   this.removeFile(this.files[i]);
+        //}
+        var myDropzone = this;
+        errorAlert("Chọn tối đa 10 file", "");
+        myDropzone.removeAllFiles();
     },
     init: function () {
         this.on("addedfile", function () {
@@ -196,7 +248,7 @@ Dropzone.options.myAwesomeDropzoneCa2 = {
         });
         var myDropzone = this;
         // Update selector to match your button
-        $("#btnUpload").click(function (e) {
+        $("#btnUpload1").click(function (e) {
             e.preventDefault();
             myDropzone.processQueue();
         });
@@ -204,20 +256,123 @@ Dropzone.options.myAwesomeDropzoneCa2 = {
 
         //});
         this.on('sending', function (file, xhr, formData) {
-                //append file to formdata
-                formData.append("file", file);
-                //show pre-loader
+
+                count1++;
+
+                data1.append("file", file);
+
                 $("#pre-load").show("slow", function () {
                 });
-                //set timeout for processing
-            //close modal
-            $("#modal1").modal('close');
-            //clear in queue
-            myDropzone.removeFile(file);
-            //ajax process
-            $.ajax({
-                //type: "POST",
-                //url: "/phong-kcs/importKCS",
+
+            var n = myDropzone.getAcceptedFiles().length;
+            if (count1 === n) {
+                var ngaynhap = $("#ngay-chon").val();
+                data1.append("ngayNhap", ngaynhap);
+                data1.append("ca", ca1);
+
+                var link = window.location.href;
+                var phanxuong = link.split('=')[1];
+
+                data1.append("phanxuong",phanxuong);
+                $.ajax({
+                type: "POST",
+                url: "/phan-xuong/upload-len-dk",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("XSRF-TOKEN",
+                        $('input:hidden[name="__RequestVerificationToken"]').val());
+                },
+                data: data1,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    reloadAlert("Tải lên thành công!", 1000);
+                },
+                error: function (data) {
+                    //$('#dvData').html(e.responseText);
+                    toastr.warning('Lỗi!', 'Hệ thống'+data);
+                }
+            }).done(function () {
+                //hide pre-loader
+                reloadAlert("Tải lên thành công!", 1000);
+                $("#pre-load").hide("slow", function () {
+                });
+            });
+            }
+        });
+    },
+    dictResponseError: "Lỗi (Code: {{statusCode}})",
+    dictFileTooBig: "Kích cỡ file quá lớn ({{filesize}}MB). Kích cỡ file tối đa: {{maxFilesize}}MB ",
+    dictInvalidFileType: "File không hợp lệ. Hãy chọn một file Excel (xls, xlsx)",
+};
+
+</script>
+<!--Ca 2-->
+<script>
+    var count2 = 0;
+    var data2 = new FormData();
+    var ca2 = 2;
+
+    //Create by TUANKQ
+Dropzone.options.myAwesomeDropzoneCa2 = {
+    paramName: "file", // The name that will be used to transfer the file
+    maxFilesize: 2, // MB
+    addRemoveLinks: true,
+    autoProcessQueue: false,
+    dictRemoveFile: 'Hủy',
+    clickable: true,
+    //acceptedFiles: 'application/xls,.xlsx,image/*,application/pdf',
+    maxFiles: 10,
+    uploadMultiple: true,
+    parallelUploads: 10,
+    maxfilesexceeded: function() {
+        //for (var i = 0; i < this.files.length; i++){
+        //   this.removeFile(this.files[i]);
+        //}
+        var myDropzone = this;
+        errorAlert("Chọn tối đa 10 file", "");
+        myDropzone.removeAllFiles();
+    },
+    init: function () {
+        this.on("addedfile", function () {
+            //alert("ahhihi");
+            $(".dz-preview").last().append("<input class=\"file-description form-control\" placeholder=\"Chú thích file\" type=\"text\"/> \n ");
+            //if (this.files.length > 10) {
+            //    for (int i = 0; i < this.files.length; i++){
+            //            this.removeFile(this.files[i]);
+            //    }
+            //}
+        });
+        var myDropzone = this;
+        // Update selector to match your button
+        $("#btnUpload2").click(function (e) {
+            e.preventDefault();
+            myDropzone.processQueue();
+        });
+        //this.on("processing", function (file) {
+
+        //});
+        this.on('sending', function (file, xhr, formData) {
+
+                count2++;
+
+                data2.append("file", file);
+
+                $("#pre-load").show("slow", function () {
+                });
+
+            var n = myDropzone.getAcceptedFiles().length;
+            if (count2 === n) {
+                var ngaynhap = $("#ngay-chon").val();
+                data2.append("ngayNhap", ngaynhap);
+                data2.append("ca", ca2);
+
+                var link = window.location.href;
+                var phanxuong = link.split('=')[1];
+
+                data2.append("phanxuong",phanxuong);
+                $.ajax({
+                type: "POST",
+                url: "/phan-xuong/upload-len-dk",
                 //statusCode: {
                 //    404: function (responseObject, textStatus, jqXHR) {
                 //        toastr.warning('Lỗi!', 'Hệ thống');
@@ -226,38 +381,131 @@ Dropzone.options.myAwesomeDropzoneCa2 = {
                 //        toastr.warning('Lỗi mạng!', 'Hệ thống');
                 //    }
                 //},
-                //beforeSend: function (xhr) {
-                //    xhr.setRequestHeader("XSRF-TOKEN",
-                //        $('input:hidden[name="__RequestVerificationToken"]').val());
-                //},
-                //data: formData,
-                //contentType: false,
-                //processData: false,
-                //success: function (data) {
-
-                //},
-                //error: function (data) {
-                //    //$('#dvData').html(e.responseText);
-                //    toastr.warning('Lỗi!', 'Hệ thống'+data);
-                //}
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("XSRF-TOKEN",
+                        $('input:hidden[name="__RequestVerificationToken"]').val());
+                },
+                data: data2,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    reloadAlert("Tải lên thành công!", 1000);
+                },
+                error: function (data) {
+                    //$('#dvData').html(e.responseText);
+                    toastr.warning('Lỗi!', 'Hệ thống'+data);
+                }
             }).done(function () {
                 //hide pre-loader
+                reloadAlert("Tải lên thành công!", 1000);
                 $("#pre-load").hide("slow", function () {
                 });
             });
+            }
         });
     },
     dictResponseError: "Lỗi (Code: {{statusCode}})",
     dictFileTooBig: "Kích cỡ file quá lớn ({{filesize}}MB). Kích cỡ file tối đa: {{maxFilesize}}MB ",
     dictInvalidFileType: "File không hợp lệ. Hãy chọn một file Excel (xls, xlsx)",
-    autoProcessQueue: false,
+
 };
 
 </script>
+<!--Ca 3-->
 <script>
-    $("#test").click(function () {
-        $(".input").each(function () {
-            console.log($(this).val());
+    var count3 = 0;
+    var data3 = new FormData();
+    var ca3 = 3;
+
+    //Create by TUANKQ
+Dropzone.options.myAwesomeDropzoneCa3 = {
+    paramName: "file", // The name that will be used to transfer the file
+    maxFilesize: 2, // MB
+    addRemoveLinks: true,
+    autoProcessQueue: false,
+    dictRemoveFile: 'Hủy',
+    clickable: true,
+    //acceptedFiles: 'application/xls,.xlsx,image/*,application/pdf',
+    maxFiles: 10,
+    uploadMultiple: true,
+    parallelUploads: 10,
+    maxfilesexceeded: function() {
+        //for (var i = 0; i < this.files.length; i++){
+        //   this.removeFile(this.files[i]);
+        //}
+        var myDropzone = this;
+        errorAlert("Chọn tối đa 10 file", "");
+        myDropzone.removeAllFiles();
+    },
+    init: function () {
+        this.on("addedfile", function () {
+            //alert("ahhihi");
+            $(".dz-preview").last().append("<input class=\"file-description form-control\" placeholder=\"Chú thích file\" type=\"text\"/> \n ");
+            //if (this.files.length > 10) {
+            //    for (int i = 0; i < this.files.length; i++){
+            //            this.removeFile(this.files[i]);
+            //    }
+            //}
         });
-    })
+        var myDropzone = this;
+        // Update selector to match your button
+        $("#btnUpload3").click(function (e) {
+            e.preventDefault();
+            myDropzone.processQueue();
+        });
+        //this.on("processing", function (file) {
+
+        //});
+        this.on('sending', function (file, xhr, formData) {
+
+                count3++;
+
+                data3.append("file", file);
+
+                $("#pre-load").show("slow", function () {
+                });
+
+            var n = myDropzone.getAcceptedFiles().length;
+            if (count3 === n) {
+                var ngaynhap = $("#ngay-chon").val();
+                data3.append("ngayNhap", ngaynhap);
+                data3.append("ca", ca3);
+
+                var link = window.location.href;
+                var phanxuong = link.split('=')[1];
+
+                data3.append("phanxuong",phanxuong);
+                $.ajax({
+                type: "POST",
+                url: "/phan-xuong/upload-len-dk",
+                //beforeSend: function (xhr) {
+                //    xhr.setRequestHeader("XSRF-TOKEN",
+                //        $('input:hidden[name="__RequestVerificationToken"]').val());
+                //},
+                data: data3,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                        reloadAlert("Tải lên thành công!", 1000);
+                },
+                error: function (data) {
+                    //$('#dvData').html(e.responseText);
+                    toastr.warning('Lỗi!', 'Hệ thống'+data);
+                }
+            }).done(function () {
+                //hide pre-loader
+                reloadAlert("Tải lên thành công!", 1000);
+                $("#pre-load").hide("slow", function () {
+                });
+            });
+            }
+        });
+    },
+    dictResponseError: "Lỗi (Code: {{statusCode}})",
+    dictFileTooBig: "Kích cỡ file quá lớn ({{filesize}}MB). Kích cỡ file tối đa: {{maxFilesize}}MB ",
+    dictInvalidFileType: "File không hợp lệ. Hãy chọn một file Excel (xls, xlsx)",
+
+};
+
 </script>
+
