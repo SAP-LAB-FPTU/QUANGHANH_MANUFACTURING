@@ -14,11 +14,25 @@ namespace QUANGHANH2.Models
     
     public partial class Header_DiemDanh_NangSuat_LaoDong
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Header_DiemDanh_NangSuat_LaoDong()
+        {
+            this.DiemDanh_NangSuatLaoDong = new HashSet<DiemDanh_NangSuatLaoDong>();
+        }
+    
         public int HeaderID { get; set; }
         public int Ca { get; set; }
         public string MaPhongBan { get; set; }
         public System.DateTime NgayDiemDanh { get; set; }
         public double TotalEffort { get; set; }
+        public double ThanThucHien { get; set; }
+        public double MetLoThucHien { get; set; }
+        public double XenThucHien { get; set; }
+        public string GhiChu { get; set; }
         public bool isFilledFromAPI { get; set; }
+    
+        public virtual Department Department { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DiemDanh_NangSuatLaoDong> DiemDanh_NangSuatLaoDong { get; set; }
     }
 }
