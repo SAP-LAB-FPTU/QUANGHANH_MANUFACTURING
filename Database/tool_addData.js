@@ -17,7 +17,7 @@ function add_Header_ThucHienHangNgay(session,date){
 
 insertDB = ""
 
-for (let i = 1 ; i < 10; i++){
+for (let i = 1 ; i <= 10; i++){
     if (i !=6 && i!=7){
         date = "2019-09-" +i
         for (let j = 1; j <=3 ;j++){
@@ -26,9 +26,9 @@ for (let i = 1 ; i < 10; i++){
     }
 }
 
-startPoint = 400;
+startPoint = 480;
 inserthihi = "insert into ChiTiet_ThucHien_TieuChi_TheoNgay(HeaderID,MaTieuChi,SanLuong) VALUES";
-while (startPoint <=800){
+while (startPoint <=940){
     for (let i = 1 ; i <= 22; i++){
         switch(i){
             // px khai thac
@@ -45,14 +45,14 @@ while (startPoint <=800){
             case 6:
             case 7:
             case 9:
-            case 20:
+            case 19:
                 for(let j=11; j<=16;j++){
                     inserthihi += "("+(startPoint+j)+","+i+","+Math.ceil(100+Math.random()*900)+"),\n"
                 }
                 break;
             // phong kcs
             case 10:
-            case 111:
+            case 11:
             case 12:
             case 13:
             case 14:
@@ -60,11 +60,11 @@ while (startPoint <=800){
             case 16:
             case 17:
             case 18:
-            case 21:
+            case 22:
                     inserthihi += "("+(startPoint+17)+","+i+","+Math.ceil(100+Math.random()*900)+"),\n"
                 break;
             // PXST
-            case 22:
+            case 21:
                     inserthihi += "("+(startPoint+18)+","+i+","+Math.ceil(100+Math.random()*900)+"),\n"
                 break;
             // nhap Duong Huy
