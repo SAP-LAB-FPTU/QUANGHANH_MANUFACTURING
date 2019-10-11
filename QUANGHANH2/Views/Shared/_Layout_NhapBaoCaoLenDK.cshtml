@@ -16,7 +16,10 @@
     <link href="~/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css" rel="stylesheet">
     <link href="~/dist/css/style.css" rel="stylesheet">
     <link href="~/css/TABLE_BORDERED.css" rel="stylesheet">
-
+    <link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" />
+    <link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" />
+    <link href="~/lib/datepicker_src/dist/css/datepicker.css" rel="stylesheet" />
+    <link href="~/lib/datepicker_src/dist/css/custom.css" rel="stylesheet" />
 
     @*<link href="~/dist/css/custom.css" rel="stylesheet">*@
     <!-- This page CSS -->
@@ -59,9 +62,16 @@
     <script src="~/dist/js/pages/dashboards/dashboard1.js"></script>
     <script src="~/js/Flexible_user_icon.js"></script>
     <script src="~/js/Custom JS/form-input-border.js"></script>
+
+    <script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
+    @*<script src="~/lib/datepicker_src/dist/js/datepicker.min.js"></script>*@
     <style>
-        .btn-nhap{
-            cursor:pointer;
+        .btn-nhap {
+            cursor: pointer;
+        }
+
+        li#back-button * {
+            color: white;
         }
     </style>
 </head>
@@ -323,92 +333,25 @@
         <!-- ============================================================== -->
         <aside class="left-sidebar">
             <ul id="slide-out" class="sidenav">
-                <li>
-                    <ul class="collapsible slidebar">
-
-
-                        <li>
-                           <a href="/phan-xuong/chon-bao-cao?phanxuong=pxkt" class="collapsible-header">
-                                <i class="material-icons">home</i><span class="hide-menu">
-                                    Phân Xưởng Khai Thác
-                                </span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="/phan-xuong/chon-bao-cao?phanxuong=pxdl" class="collapsible-header">
-                                <i class="material-icons">home</i><span class="hide-menu">
-                                    Phân Xưởng Đào Lò
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/phan-xuong/chon-bao-cao?phanxuong=pxvt" class="collapsible-header">
-                                <i class="material-icons">home</i><span class="hide-menu">
-                                    Phân Xưởng Vận Tải
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/phan-xuong/chon-bao-cao?phanxuong=pxst" class="collapsible-header">
-                                <i class="material-icons">home</i><span class="hide-menu">
-                                    Phân Xưởng Sàng Tuyển
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/phan-xuong/chon-bao-cao?phanxuong=pxpv" class="collapsible-header">
-                                <i class="material-icons">home</i><span class="hide-menu">
-                                    Phân Xưởng Phục Vụ
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/phan-xuong/chon-bao-cao?phanxuong=pxds" class="collapsible-header">
-                                <i class="material-icons">home</i><span class="hide-menu">
-                                    Phân Xưởng Đời Sống
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/phan-xuong/chon-bao-cao?phanxuong=pxcdm" class="collapsible-header">
-                                <i class="material-icons">home</i><span class="hide-menu">
-                                    Phân Xưởng Cơ Điện Mỏ
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/phan-xuong/chon-bao-cao?phanxuong=pxtg" class="collapsible-header">
-                                <i class="material-icons">home</i><span class="hide-menu">
-                                    Phân Xưởng Thông Gió-Quản Lí Mỏ
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/phan-xuong/chon-bao-cao?phanxuong=pxxd" class="collapsible-header">
-                                <i class="material-icons">home</i><span class="hide-menu">
-                                    Phân Xưởng Xây Dựng
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/phan-xuong/chon-bao-cao?phanxuong=pxlt" class="collapsible-header">
-                                <i class="material-icons">home</i><span class="hide-menu">
-                                    Phân Xưởng Lộ Thiên
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/phan-xuong/chon-bao-cao?phanxuong=pxck" class="collapsible-header">
-                                <i class="material-icons">home</i><span class="hide-menu">
-                                    Phân Xưởng Cơ Khí,Sửa Chữa
-                                </span>
-                            </a>
-                        </li>
-
-
-                    </ul>
+                <li id="back-button">
+                    <a onclick="goBack()" class="collapsible-header">
+                        <i class="fas fa-backward"></i><span class="hide-menu">
+                            Quay lại
+                        </span>
+                    </a>
                 </li>
+                @*<li>
+                        <ul class="collapsible slidebar">
+                            <li>
+                                <a onlick="" class="collapsible-header">
+                                    <i class="fas fa-backward"></i>
+                                    <span class="hide-menu">
+                                        Quay lại
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>*@
             </ul>
         </aside>
 
@@ -425,24 +368,24 @@
             <div class="container-fluid">
                 @RenderBody()
                 @*<div class="card">
-            <div class="card-content">
-                <div class="row">
-                    <div class="center col l6 m6 s12">
-                        <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
-                    </div>
-                    <div class="center col l6 m6 s12">
-                        <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
-                    </div>
-                    <div class="center col l6 m6 s12">
-                        <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
-                    </div>
-                    <div class="center col l6 m6 s12">
-                        <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
-                    </div>
-                </div>
-            </div>
-        </div>*@
-                
+                        <div class="card-content">
+                            <div class="row">
+                                <div class="center col l6 m6 s12">
+                                    <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
+                                </div>
+                                <div class="center col l6 m6 s12">
+                                    <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
+                                </div>
+                                <div class="center col l6 m6 s12">
+                                    <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
+                                </div>
+                                <div class="center col l6 m6 s12">
+                                    <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+
 
             </div>
             <!-- ============================================================== -->
@@ -465,7 +408,7 @@
         });
     </script>
     <script>
-$(window).resize(function () {
+        $(window).resize(function () {
             if ($(window).width() <= 600) {
                 $("#searchButton1").hide();
                 $("#searchButton2").show();
@@ -478,7 +421,11 @@ $(window).resize(function () {
         $(".loading").css("z-index", 99999);
         $('body').css('overflow', '');
     </script>
-
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
 </body>
 
 </html>

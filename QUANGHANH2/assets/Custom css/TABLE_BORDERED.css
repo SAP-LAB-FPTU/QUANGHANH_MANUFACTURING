@@ -124,3 +124,19 @@
     .panel > .table-responsive > .table-bordered > tfoot > tr:last-child > th {
         border-bottom: 0
     }
+
+.nhap-lieu {
+    min-width: 100px;
+}
+
+.table-input {
+    width: 200%;
+}
+
+.tieu-chi {
+    min-width: 300px;
+}
+
+.ghi-chu {
+    min-width: 300px;
+}
