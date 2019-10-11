@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewBag.Title = "InputPlan";
+    Layout = "~/Views/Shared/_Layout_DK.cshtml";
+}
+<link href="~/dist/css/pages/data-table.css" rel="stylesheet" />
+<link href="~/assets/Custom css/DK/InputPlan/InputPlan.css" rel="stylesheet" />
+<div class="card">
+    <div class="card-content">
+        <div class="row center">
+            <h3>NHẬP LIỆU KẾ HOẠCH</h3>
+            <h5>
+                Tháng
+                <input type="text"
+                       class="datepicker-here center date-resize"
+                       data-language='vi'
+                       data-min-view="months"
+                       data-view="months"
+                       data-date-format="MM" value="6" />
+                Năm
+                <input type="text"
+                       class="datepicker-here center date-resize"
+                       data-language='vi'
+                       data-min-view="years"
+                       data-view="years"
+                       data-date-format="yyyy" />
+            </h5>
+        </div>
+        <!-- Dropdown Trigger -->
+        <div class="row">
+            <div class="col s12">
+                <a class='dropdown-trigger btn' href='#' data-target='phanxuong'>Chọn phân xưởng</a>
+                <a class='dropdown-trigger btn' href='#' data-target='donvi'>Chọn đơn vị</a>
+                <a class='dropdown-trigger btn' href='#' data-target='phongban'>Chọn phòng ban</a>
+            </div>
+        </div>
+        <!-- Data table -->
+        <div class="row">
+            <div class="col s12">
+                <table id="table_data" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Tiêu chí</th>
+                            <th>Sản lượng</th>
+                            <th>Số ngày làm việc</th>
+                            <th>Ghi chú</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Dropdown phân xưởng -->
+<ul id='phanxuong' class='dropdown-content'>
+    <li><a href="#!">one</a></li>
+    <li><a href="#!">two</a></li>    
+    <li><a href="#!">three</a></li>
+</ul>
+<!-- Dropdown đơn vị -->
+<ul id='donvi' class='dropdown-content'>
+    <li><a href="#!">one</a></li>
+    <li><a href="#!">two</a></li>
+</ul>
+<!-- Dropdown phòng ban -->
+<ul id='phongban' class='dropdown-content'>
+    <li><a href="#!">one</a></li>
+    <li><a href="#!">two</a></li>
+</ul>
+<script src="~/js/Custom JS/DK/InputPlan/InputPlan.js"></script>
+<script src="~/assets/extra-libs/DataTables/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+    $('#table_data').DataTable({
+        paging: false,
+        searching: false
+    });
+});
+</script>

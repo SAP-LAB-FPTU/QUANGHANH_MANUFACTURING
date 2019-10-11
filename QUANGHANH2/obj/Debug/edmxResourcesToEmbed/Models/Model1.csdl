@@ -911,16 +911,6 @@
     <NavigationProperty Name="Supply" Relationship="Self.FK__SupplyPla__suppl__18B6AB08" FromRole="SupplyPlan" ToRole="Supply" />
     <NavigationProperty Name="Supply1" Relationship="Self.FK__SupplyPla__suppl__19AACF41" FromRole="SupplyPlan" ToRole="Supply" />
   </EntityType>
-  <EntityType Name="sysdiagram">
-    <Key>
-      <PropertyRef Name="diagram_id" />
-    </Key>
-    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="principal_id" Type="Int32" Nullable="false" />
-    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="version" Type="Int32" />
-    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-  </EntityType>
   <EntityType Name="TaiNan">
     <Key>
       <PropertyRef Name="MaTaiNan" />
@@ -2261,7 +2251,6 @@
     <EntitySet Name="Supply_Documentary_Equipment" EntityType="Self.Supply_Documentary_Equipment" />
     <EntitySet Name="Supply_tieuhao" EntityType="Self.Supply_tieuhao" />
     <EntitySet Name="SupplyPlans" EntityType="Self.SupplyPlan" />
-    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
     <EntitySet Name="TaiNans" EntityType="Self.TaiNan" />
     <EntitySet Name="ThucHien_TieuChi_TheoNgay" EntityType="Self.ThucHien_TieuChi_TheoNgay" />
     <EntitySet Name="TieuChis" EntityType="Self.TieuChi" />

@@ -727,16 +727,6 @@
     <Property Name="quantity" Type="int" Nullable="false" />
     <Property Name="status" Type="int" />
   </EntityType>
-  <EntityType Name="sysdiagrams">
-    <Key>
-      <PropertyRef Name="diagram_id" />
-    </Key>
-    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-    <Property Name="principal_id" Type="int" Nullable="false" />
-    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="version" Type="int" />
-    <Property Name="definition" Type="varbinary(max)" />
-  </EntityType>
   <EntityType Name="TaiNan">
     <Key>
       <PropertyRef Name="MaTaiNan" />
@@ -2063,7 +2053,6 @@
     <EntitySet Name="Supply_Documentary_Equipment" EntityType="Self.Supply_Documentary_Equipment" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Supply_tieuhao" EntityType="Self.Supply_tieuhao" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SupplyPlan" EntityType="Self.SupplyPlan" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TaiNan" EntityType="Self.TaiNan" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ThucHien_TieuChi_TheoNgay" EntityType="Self.ThucHien_TieuChi_TheoNgay" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TieuChi" EntityType="Self.TieuChi" Schema="dbo" store:Type="Tables" />

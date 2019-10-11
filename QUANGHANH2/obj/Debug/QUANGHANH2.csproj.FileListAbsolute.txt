@@ -925,7 +925,6 @@ C:\Users\Duc Anh\Desktop\Quang hanh prototype 1\QUANGHANH-PROTOTYPE\QUANGHANH2\b
 C:\Users\Duc Anh\Desktop\Quang hanh prototype 1\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Unity.Abstractions.pdb
 C:\Users\Duc Anh\Desktop\Quang hanh prototype 1\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Unity.Container.pdb
 C:\Users\Duc Anh\Desktop\Quang hanh prototype 1\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\Duc Anh\Desktop\Quang hanh prototype 1\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.csprojAssemblyReference.cache
 C:\Users\Duc Anh\Desktop\Quang hanh prototype 1\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.csproj.CopyComplete
 C:\Users\Duc Anh\Desktop\Quang hanh prototype 1\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.dll
 C:\Users\Duc Anh\Desktop\Quang hanh prototype 1\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.pdb

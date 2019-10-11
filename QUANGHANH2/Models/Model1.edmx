@@ -732,16 +732,6 @@
           <Property Name="quantity" Type="int" Nullable="false" />
           <Property Name="status" Type="int" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
-        </EntityType>
         <EntityType Name="TaiNan">
           <Key>
             <PropertyRef Name="MaTaiNan" />
@@ -1828,12 +1818,24 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ThucHien___MaTie__1C873BEC">
-          <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="1" />
+        <Association Name="FK__ThucHien___Heade__1B9317B3">
+          <End Role="header_ThucHienTheoNgay" Type="Self.header_ThucHienTheoNgay" Multiplicity="1" />
           <End Role="ThucHien_TieuChi_TheoNgay" Type="Self.ThucHien_TieuChi_TheoNgay" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="header_ThucHienTheoNgay">
               <PropertyRef Name="HeaderID" />
+            </Principal>
+            <Dependent Role="ThucHien_TieuChi_TheoNgay">
+              <PropertyRef Name="HeaderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ThucHien___MaTie__1C873BEC">
+          <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="1" />
+          <End Role="ThucHien_TieuChi_TheoNgay" Type="Self.ThucHien_TieuChi_TheoNgay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TieuChi">
+              <PropertyRef Name="MaTieuChi" />
             </Principal>
             <Dependent Role="ThucHien_TieuChi_TheoNgay">
               <PropertyRef Name="MaTieuChi" />
@@ -1972,18 +1974,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ThucHien_TieuChi_TheoNgay_header_ThucHienTheoNgay">
-          <End Role="header_ThucHienTheoNgay" Type="Self.header_ThucHienTheoNgay" Multiplicity="1" />
-          <End Role="ThucHien_TieuChi_TheoNgay" Type="Self.ThucHien_TieuChi_TheoNgay" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="header_ThucHienTheoNgay">
-              <PropertyRef Name="HeaderID" />
-            </Principal>
-            <Dependent Role="ThucHien_TieuChi_TheoNgay">
-              <PropertyRef Name="HeaderID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TieuChi_NhomTieuChi">
           <End Role="NhomTieuChi" Type="Self.NhomTieuChi" Multiplicity="0..1" />
           <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="*" />
@@ -2068,7 +2058,6 @@
           <EntitySet Name="Supply_Documentary_Equipment" EntityType="Self.Supply_Documentary_Equipment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Supply_tieuhao" EntityType="Self.Supply_tieuhao" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SupplyPlan" EntityType="Self.SupplyPlan" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaiNan" EntityType="Self.TaiNan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ThucHien_TieuChi_TheoNgay" EntityType="Self.ThucHien_TieuChi_TheoNgay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TieuChi" EntityType="Self.TieuChi" Schema="dbo" store:Type="Tables" />
@@ -2412,6 +2401,10 @@
             <End Role="NhanVien" EntitySet="NhanVien" />
             <End Role="TaiNan" EntitySet="TaiNan" />
           </AssociationSet>
+          <AssociationSet Name="FK__ThucHien___Heade__1B9317B3" Association="Self.FK__ThucHien___Heade__1B9317B3">
+            <End Role="header_ThucHienTheoNgay" EntitySet="header_ThucHienTheoNgay" />
+            <End Role="ThucHien_TieuChi_TheoNgay" EntitySet="ThucHien_TieuChi_TheoNgay" />
+          </AssociationSet>
           <AssociationSet Name="FK__ThucHien___MaTie__1C873BEC" Association="Self.FK__ThucHien___MaTie__1C873BEC">
             <End Role="TieuChi" EntitySet="TieuChi" />
             <End Role="ThucHien_TieuChi_TheoNgay" EntitySet="ThucHien_TieuChi_TheoNgay" />
@@ -2459,10 +2452,6 @@
           <AssociationSet Name="FK_NhiemVu_ChungChi" Association="Self.FK_NhiemVu_ChungChi">
             <End Role="ChungChi" EntitySet="ChungChi" />
             <End Role="NhiemVu" EntitySet="NhiemVu" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ThucHien_TieuChi_TheoNgay_header_ThucHienTheoNgay" Association="Self.FK_ThucHien_TieuChi_TheoNgay_header_ThucHienTheoNgay">
-            <End Role="header_ThucHienTheoNgay" EntitySet="header_ThucHienTheoNgay" />
-            <End Role="ThucHien_TieuChi_TheoNgay" EntitySet="ThucHien_TieuChi_TheoNgay" />
           </AssociationSet>
           <AssociationSet Name="FK_TieuChi_NhomTieuChi" Association="Self.FK_TieuChi_NhomTieuChi">
             <End Role="NhomTieuChi" EntitySet="NhomTieuChi" />
@@ -3034,7 +3023,7 @@
           <Property Name="Ca" Type="Int32" Nullable="false" />
           <Property Name="NgaySanXuat" Type="Int32" />
           <NavigationProperty Name="Department" Relationship="Self.FK_header_ThucHienTheoNgay_Department" FromRole="header_ThucHienTheoNgay" ToRole="Department" />
-          <NavigationProperty Name="ThucHien_TieuChi_TheoNgay" Relationship="Self.FK_ThucHien_TieuChi_TheoNgay_header_ThucHienTheoNgay" FromRole="header_ThucHienTheoNgay" ToRole="ThucHien_TieuChi_TheoNgay" />
+          <NavigationProperty Name="ThucHien_TieuChi_TheoNgay" Relationship="Self.FK__ThucHien___Heade__1B9317B3" FromRole="header_ThucHienTheoNgay" ToRole="ThucHien_TieuChi_TheoNgay" />
         </EntityType>
         <EntityType Name="HoSo">
           <Key>
@@ -3389,16 +3378,6 @@
           <NavigationProperty Name="Supply" Relationship="Self.FK__SupplyPla__suppl__18B6AB08" FromRole="SupplyPlan" ToRole="Supply" />
           <NavigationProperty Name="Supply1" Relationship="Self.FK__SupplyPla__suppl__19AACF41" FromRole="SupplyPlan" ToRole="Supply" />
         </EntityType>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
         <EntityType Name="TaiNan">
           <Key>
             <PropertyRef Name="MaTaiNan" />
@@ -3420,7 +3399,7 @@
           <Property Name="MaTieuChi" Type="Int32" Nullable="false" />
           <Property Name="SanLuong" Type="Double" />
           <Property Name="KeHoach" Type="Double" />
-          <NavigationProperty Name="header_ThucHienTheoNgay" Relationship="Self.FK_ThucHien_TieuChi_TheoNgay_header_ThucHienTheoNgay" FromRole="ThucHien_TieuChi_TheoNgay" ToRole="header_ThucHienTheoNgay" />
+          <NavigationProperty Name="header_ThucHienTheoNgay" Relationship="Self.FK__ThucHien___Heade__1B9317B3" FromRole="ThucHien_TieuChi_TheoNgay" ToRole="header_ThucHienTheoNgay" />
           <NavigationProperty Name="TieuChi" Relationship="Self.FK__ThucHien___MaTie__1C873BEC" FromRole="ThucHien_TieuChi_TheoNgay" ToRole="TieuChi" />
         </EntityType>
         <EntityType Name="TieuChi">
@@ -4415,7 +4394,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ThucHien_TieuChi_TheoNgay_header_ThucHienTheoNgay">
+        <Association Name="FK__ThucHien___Heade__1B9317B3">
           <End Role="header_ThucHienTheoNgay" Type="Self.header_ThucHienTheoNgay" Multiplicity="1" />
           <End Role="ThucHien_TieuChi_TheoNgay" Type="Self.ThucHien_TieuChi_TheoNgay" Multiplicity="*" />
           <ReferentialConstraint>
@@ -4739,7 +4718,6 @@
           <EntitySet Name="Supply_Documentary_Equipment" EntityType="Self.Supply_Documentary_Equipment" />
           <EntitySet Name="Supply_tieuhao" EntityType="Self.Supply_tieuhao" />
           <EntitySet Name="SupplyPlans" EntityType="Self.SupplyPlan" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="TaiNans" EntityType="Self.TaiNan" />
           <EntitySet Name="ThucHien_TieuChi_TheoNgay" EntityType="Self.ThucHien_TieuChi_TheoNgay" />
           <EntitySet Name="TieuChis" EntityType="Self.TieuChi" />
@@ -5055,7 +5033,7 @@
             <End Role="header_KeHoachTungThang" EntitySet="header_KeHoachTungThang" />
             <End Role="KeHoach_TieuChi_TheoThang" EntitySet="KeHoach_TieuChi_TheoThang" />
           </AssociationSet>
-          <AssociationSet Name="FK_ThucHien_TieuChi_TheoNgay_header_ThucHienTheoNgay" Association="Self.FK_ThucHien_TieuChi_TheoNgay_header_ThucHienTheoNgay">
+          <AssociationSet Name="FK__ThucHien___Heade__1B9317B3" Association="Self.FK__ThucHien___Heade__1B9317B3">
             <End Role="header_ThucHienTheoNgay" EntitySet="header_ThucHienTheoNgay" />
             <End Role="ThucHien_TieuChi_TheoNgay" EntitySet="ThucHien_TieuChi_TheoNgay" />
           </AssociationSet>
@@ -5912,17 +5890,6 @@
                 <ScalarProperty Name="quantity_plan" ColumnName="quantity_plan" />
                 <ScalarProperty Name="quantity" ColumnName="quantity" />
                 <ScalarProperty Name="status" ColumnName="status" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="QUANGHANHABCModel.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

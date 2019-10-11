@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="7c77bcfceb054644a5d61c7b95a4fd32" Name="Diagram1">
+      <Diagram DiagramId="bbb1dfd31c0e498e946d6d3340c6b0cf" Name="Diagram1">
         <EntityTypeShape EntityType="QUANGHANHABCModel.Acceptance" Width="1.5" PointX="5.25" PointY="59.375" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Account" Width="1.5" PointX="13.25" PointY="54.125" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Account_Right" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
@@ -64,7 +64,6 @@
         <EntityTypeShape EntityType="QUANGHANHABCModel.Supply_Documentary_Equipment" Width="1.5" PointX="5.25" PointY="55.125" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Supply_tieuhao" Width="1.5" PointX="8" PointY="71.5" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.SupplyPlan" Width="1.5" PointX="16.25" PointY="65.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.sysdiagram" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.TaiNan" Width="1.5" PointX="13.25" PointY="97.5" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.ThucHien_TieuChi_TheoNgay" Width="1.5" PointX="5.25" PointY="82.875" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.TieuChi" Width="1.5" PointX="3" PointY="89.5" IsExpanded="true" />
@@ -149,7 +148,7 @@
         <AssociationConnector Association="QUANGHANHABCModel.FK__GiayTo__MaNV__45BE5BA9" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__KeHoach_T__Heade__7E02B4CC" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__KeHoach_T__Heade__7FEAFD3E" ManuallyRouted="false" />
-        <AssociationConnector Association="QUANGHANHABCModel.FK_ThucHien_TieuChi_TheoNgay_header_ThucHienTheoNgay" ManuallyRouted="false" />
+        <AssociationConnector Association="QUANGHANHABCModel.FK__ThucHien___Heade__1B9317B3" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__HoSo__MaNV__46B27FE2" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__KeHoach_T__MaTie__7EF6D905" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__KeHoach_T__MaTie__00DF2177" ManuallyRouted="false" />
