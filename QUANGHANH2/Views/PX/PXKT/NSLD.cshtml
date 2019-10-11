@@ -64,7 +64,7 @@
             <div class="col l2 m3 s3">
                 <label class="custom-label">Tổng điểm lương</label>
 
-                <input type="number" class="form-control" value="@(ViewBag.total == null ? 0 : ViewBag.total)" min="0" id="total_point" />
+                <input type="number" class="form-control" value="0" min="0" id="total_point" />
             </div>
             <div class="col l2 m2 s2">
                 <label class="custom-label">Tổng than</label>
@@ -180,13 +180,21 @@
                             $("#contentNSLD").append($tr);
                         }
                         $('#total_point').val(response.total_point)
+                        $('#than').val(response.than);
+                        $('#lo').val(response.lo);
+                        $('#xen').val(response.xen);
+                        $('#note').val(response.note);
                         $('#pre-load').hide("slow", function () {
                         });
                     } else {
                         $tr = $("<tr>");
                         $tr.append("<td colspan='10'>Không có dữ liệu</td>")
                         $("#contentNSLD").append($tr);
-                        $('#total_point').val(0)
+                        $('#total_point').val(0);
+                        $('#than').val(0);
+                        $('#lo').val(0);
+                        $('#xen').val(0);
+                        $('#note').val("");
                         $('#pre-load').hide("slow", function () {
                         });
                     }
