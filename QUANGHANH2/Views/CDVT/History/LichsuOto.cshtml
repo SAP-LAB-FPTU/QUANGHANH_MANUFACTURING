@@ -940,7 +940,10 @@
             //ajax search
             $("#searchButtonActi").click(function () {
                 dataActiTable.ajax.reload(function () {
-                    
+                       $.notify("Tìm kiếm thành công", {
+                      globalPosition: "top center",
+                     className: "success"
+                    })
                 });
             });
         });
@@ -950,7 +953,10 @@
             //ajax search
             $("#searchButtonFuel").click(function () {
                 dataFuelTable.ajax.reload(function () {
-                    
+                       $.notify("Tìm kiếm thành công", {
+                      globalPosition: "top center",
+                     className: "success"
+                    })
                 });
             });
         });
@@ -1002,6 +1008,7 @@
                             return "<a href=\"#myacti\" data-toggle=\"modal\" class=\"open-EditModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-activity=\"" + data + "\">Chỉnh&nbsp;Sửa</a>";
                         },
                         "orderable": false,
+                         "lengthChange": false,
                         "searchable": false,
                         "width": "150px"
                     }
@@ -1073,9 +1080,7 @@
                 ],
                 "serverSide": true,
                 "rowId": "fuelid",
-                "bLengthChange": false,
-                "bFilter": false,
-                "bInfo": false,
+                "lengthChange": false,
                 "bAutoWidth": false,
                 "order": [0, "asc"],
                 "initComplete": function (settings, json) {
