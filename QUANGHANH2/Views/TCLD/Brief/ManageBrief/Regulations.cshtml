@@ -344,7 +344,7 @@
                     },
                     {
                         "data": "MaChuyenNganh", "render": function (data) {
-                           return "<a  class='waves-effect waves-light btn-small blue'  style='margin-left:5px' onclick=\"deleteChuyenNganh('" + data + "')\"><i class='fa fa-trash'></i> Xóa</a>";
+                           return "<a  class='waves-effect waves-light btn-small red'  style='margin-left:5px' onclick=\"deleteChuyenNganh('" + data + "')\"><i class='fa fa-trash'></i> Xóa</a>";
                         }
                     },
                 ],
@@ -405,7 +405,7 @@
                     },
                     {
                         "data": "MaNganh", "name": "MaNganh", "render": function (data) {
-                            return "<a class='waves-effect waves-light btn-small blue '  style='margin-left:5px' onclick=deleteNganh('" + data + "') ><i class='fa fa-trash'></i> Xóa</a>";
+                            return "<a class='waves-effect waves-light btn-small red '  style='margin-left:5px' onclick=deleteNganh('" + data + "') ><i class='fa fa-trash'></i> Xóa</a>";
                         }
                     },
                 ],
@@ -469,7 +469,7 @@
                     },
                     {
                         "data": "MaTruong", "name": "MaTruong", "render": function (data) {
-                            return "<a class='waves-effect waves-light btn-small blue '  style='margin-left:5px' onclick=deleteTruong(" + data + ") ><i class='fa fa-trash'></i> Xóa</a>";
+                            return "<a class='waves-effect waves-light btn-small red '  style='margin-left:5px' onclick=deleteTruong(" + data + ") ><i class='fa fa-trash'></i> Xóa</a>";
                         }
                     },
                 ],
@@ -532,7 +532,7 @@
                     },
                     {
                         "data": "MaTrinhDo", "name": "MaTrinhDo", "render": function (data) {
-                            return "<a class='waves-effect waves-light btn-small blue ' style='margin-left:5px' onclick=deleteTrinhDo(" + data + ") ><i class='fa fa-trash'></i> Xóa</a>";
+                            return "<a class='waves-effect waves-light btn-small red ' style='margin-left:5px' onclick=deleteTrinhDo(" + data + ") ><i class='fa fa-trash'></i> Xóa</a>";
                         }
                     },
                 ],
@@ -564,7 +564,8 @@
                     $("#pre-load").hide("slow", function () {
                     });
                     //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
-                }});
+                    }
+                });
         });
 
         $(document).ready(function () {
@@ -572,6 +573,8 @@
              $("#searchButton").click(function () {
                  dataTable.ajax.reload();
             });
+
+            
         });
 
 
@@ -749,6 +752,7 @@
             //else notify
         }
 
+
         function replace(string) {
             if (string.indexOf('\r\n') != -1) {
                 string.replace('\r\n', "");
@@ -767,6 +771,4 @@
 
     </script>
 }
-<!-- Scroll booster -->
-<!--<script src="~/js/Custom JS/TCLD/Brief/ManageBrief/scrollbooster.min.js"></script>
-<script src="~/js/Custom JS/TCLD/Brief/ManageBrief/xonly.test.js"></script> -->
+
