@@ -17,16 +17,17 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public header_ThucHienTheoNgay()
         {
-            this.ChiTiet_ThucHien_TieuChi_TheoNgay = new HashSet<ChiTiet_ThucHien_TieuChi_TheoNgay>();
+            this.ThucHien_TieuChi_TheoNgay = new HashSet<ThucHien_TieuChi_TheoNgay>();
         }
     
         public string MaPhongBan { get; set; }
         public System.DateTime Ngay { get; set; }
         public int HeaderID { get; set; }
         public int Ca { get; set; }
+        public Nullable<int> NgaySanXuat { get; set; }
     
         public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChiTiet_ThucHien_TieuChi_TheoNgay> ChiTiet_ThucHien_TieuChi_TheoNgay { get; set; }
+        public virtual ICollection<ThucHien_TieuChi_TheoNgay> ThucHien_TieuChi_TheoNgay { get; set; }
     }
 }

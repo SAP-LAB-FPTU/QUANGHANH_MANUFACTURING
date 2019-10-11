@@ -1,10 +1,11 @@
 ﻿@{
     ViewData["Title"] = "SucoThietbi";
-    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    Layout = "~/Views/Shared/_Layout_DK.cshtml";
 }
 <link href="~/dist/css/style.css" rel="stylesheet">
 <!-- This page CSS -->
 <link href="~/dist/css/pages/data-table.css" rel="stylesheet">
+<link href="~/css/preloader/css.css" rel="stylesheet" />
 
 <link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
@@ -68,7 +69,7 @@
             </div>
             <div class="col s12 table_container">
                 <table class="table-bordered striped table-responsive centered"
-                        style="margin-top:30px; text-align:center;" id="complex_header">
+                       style="margin-top:30px; text-align:center;" id="complex_header">
                     <thead>
                         <tr>
                             <th colspan="2">Thiết bị gặp sự cố</th>
@@ -245,7 +246,7 @@
                             <div class="form-group">
                                 <label for="date">Phút : </label>
                                 <input type="number" name="minute" class="form-control" min="0" max="59" value="0" id="minute-end-edit" />
-                                <input type="hidden" id="incident-edit" class="form-control"/>
+                                <input type="hidden" id="incident-edit" class="form-control" />
                             </div>
                         </div>
                         <div class="col s12 m12">
@@ -302,7 +303,7 @@
             </div>
             <div class="modal-footer">
                 <button class="waves-effect waves-light btn blue darken-2 modal-trigger">Lưu</button>
-                <button type="button" class="btn light-blue modal-close darken-2" id="exit-update-button" >Đóng</button>
+                <button type="button" class="btn light-blue modal-close darken-2" id="exit-update-button">Đóng</button>
             </div>
         </div>
     </div>
@@ -430,7 +431,7 @@
                     }
                 },
                 "ajax": {
-                    "url": "/phong-cdvt/su-co",
+                    "url": "/phong-dieu-khien/bao-cao-su-co-thiet-bi",
                     "type": "POST",
                     "datatype": "json",
                     "data": {
@@ -487,7 +488,7 @@
             $("#pre-load").show();
             $.ajax({
                 type: "POST",
-                url: "/phong-cdvt/su-co/export",
+                url: "/phong-dieu-khien/bao-cao-su-co-thiet-bi/export",
                 cache: false
             }).done(function () {
                 window.location.href = "/excel/CDVT/download/su-co_temp.xlsx";
@@ -504,11 +505,11 @@
                 $("#pre-load").show();
                 $.ajax({
                     type: "POST",
-                    url: "/phong-cdvt/su-co/add",
+                    url: "/phong-dieu-khien/bao-cao-su-co-thiet-bi/add",
                     dataType: "json",
                     success: function (data) {
                         dataTable.ajax.reload();
-                        if (data.success == true) {
+                        if (JSON.parse(data).success == true) {
                             successAlert('Thành công', data.message);
                             $('#exit-add-button').click();
                             $('#pre-load').hide();
@@ -556,7 +557,7 @@
                 $("#pre-load").show();
                 $.ajax({
                     type: "POST",
-                    url: "/phong-cdvt/su-co/edit",
+                    url: "/phong-dieu-khien/bao-cao-su-co-thiet-bi/edit",
                     dataType: "json",
                     success: function (data) {
                         dataTable.ajax.reload();
@@ -600,7 +601,7 @@
                 $("#pre-load").show();
                 $.ajax({
                     type: "POST",
-                    url: "/phong-cdvt/su-co/update",
+                    url: "/phong-dieu-khien/bao-cao-su-co-thiet-bi/update",
                     dataType: "json",
                     success: function (data) {
                         dataTable.ajax.reload();
@@ -630,7 +631,7 @@
                 })
                 return false;
             });
-            
+
             //search
             $("#searchButton1").click(function () {
                 $("#pre-load").show();
@@ -651,7 +652,7 @@
             var incidentId = $(this).data('incident-id');
             $.ajax({
                 type: "POST",
-                url: "/phong-cdvt/su-co/get",
+                url: "/phong-dieu-khien/bao-cao-su-co-thiet-bi/get",
                 dataType: "json",
                 success: function (data) {
                     $("#incident-edit").val(data.incident_id);
@@ -681,7 +682,7 @@
             if (keycode == '13') {
                 $.ajax({
                     type: "POST",
-                    url: "/phong-cdvt/su-co/getDepartment",
+                    url: "/phong-dieu-khien/bao-cao-su-co-thiet-bi/getDepartment",
                     dataType: "json",
                     success: function (data) {
                         if (data.success == false) {
