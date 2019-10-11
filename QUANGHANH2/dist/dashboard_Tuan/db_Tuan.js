@@ -49,83 +49,61 @@
             "Tình trạng": "Đã xử lý"
         }
     ];
-    db.hoanthanh= [
+    db.tainan= [
         {
             "STT":1,
-            "Phân xưởng":"KT1",
-            "Mét lò (m)":10,
-            "Sản lượng (Tấn)":20
-        },
-        {
-            "STT":1,
-            "Phân xưởng":"KT9",
-            "Mét lò (m)":10,
-            "Sản lượng (Tấn)":20
-        },
-        {
-            "STT":1,
-            "Phân xưởng":"KT5",
-            "Mét lò (m)":10,
-            "Sản lượng (Tấn)":20
-        },
-        {
-            "STT":1,
-            "Phân xưởng":"KT",
-            "Mét lò (m)":10,
-            "Sản lượng (Tấn)":20
-        },
-        {
-            "STT":2,
-            "Phân xưởng":"KT2",
-            "Mét lò (m)":7,
-            "Sản lượng (Tấn)":15
+            "Mã NV":"8056",
+            "Tên NV":"Nguyễn Văn Tiến",
+            "Loại NV": "Khai thác",
+            "Lý do": "Đá rơi"
         }
+       
     ];
-    db.khonghoanthanh= [
-        {
-            "STT":1,
-            "Phân xưởng":"KT4",
-            "Mét lò (m)":3,
-            "Sản lượng (Tấn)":5
-        },
-        {
-            "STT":2,
-            "Phân xưởng":"KT1",
-            "Mét lò (m)":3,
-            "Sản lượng (Tấn)":4
-        },
-        {
-            "STT":3,
-            "Phân xưởng":"ĐL3",
-            "Mét lò (m)":2,
-            "Sản lượng (Tấn)":5
-        },
-        {
-            "STT":4,
-            "Phân xưởng":"KT7",
-            "Mét lò (m)":2,
-            "Sản lượng (Tấn)":3
-        },
-        {
-            "STT":5,
-            "Phân xưởng":"KT11",
-            "Mét lò (m)":4,
-            "Sản lượng (Tấn)":6
-        }
-    ];
+    //db.khonghoanthanh= [
+    //    {
+    //        "STT":1,
+    //        "Phân xưởng":"KT4",
+    //        "Mét lò (m)":3,
+    //        "Sản lượng (Tấn)":5
+    //    },
+    //    {
+    //        "STT":2,
+    //        "Phân xưởng":"KT1",
+    //        "Mét lò (m)":3,
+    //        "Sản lượng (Tấn)":4
+    //    },
+    //    {
+    //        "STT":3,
+    //        "Phân xưởng":"ĐL3",
+    //        "Mét lò (m)":2,
+    //        "Sản lượng (Tấn)":5
+    //    },
+    //    {
+    //        "STT":4,
+    //        "Phân xưởng":"KT7",
+    //        "Mét lò (m)":2,
+    //        "Sản lượng (Tấn)":3
+    //    },
+    //    {
+    //        "STT":5,
+    //        "Phân xưởng":"KT11",
+    //        "Mét lò (m)":4,
+    //        "Sản lượng (Tấn)":6
+    //    }
+    //];
 
-    db.tiendothicong= [
-        {
-            "STT":1,
-            "Phân xưởng":"KT4",
-            "Chi tiết":"Lắp đặt giá",
-        },
-        {
-            "STT":2,
-            "Phân xưởng":"KT5",
-            "Chi tiết":"Đào cúp phá hỏa",
-        }
-    ];
+    //db.tiendothicong= [
+    //    {
+    //        "STT":1,
+    //        "Phân xưởng":"KT4",
+    //        "Chi tiết":"Lắp đặt giá",
+    //    },
+    //    {
+    //        "STT":2,
+    //        "Phân xưởng":"KT5",
+    //        "Chi tiết":"Đào cúp phá hỏa",
+    //    }
+    //];
 
     db.countries = [
         { Name: "", Id: 0 },

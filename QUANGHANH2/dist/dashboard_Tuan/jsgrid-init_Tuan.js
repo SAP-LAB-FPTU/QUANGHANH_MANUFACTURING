@@ -70,29 +70,33 @@
         }(),
         //REPORT PHÂN XƯỞNG HOÀN THÀNH CÔNG VIỆC
         function () {
-            $("#table_hoanthanh").jsGrid({
+        $("#table_tainan").jsGrid({
                 height: "250px",
                 width: "100%",
                 sorting: !0,
                 paging: !0,
-                data: db.hoanthanh,
+            data: db.tainan,
                 fields: [{
                     name: "STT",
                     type: "number",
                     width: 40
                 }, {
-                    name: "Phân xưởng",
+                    name: "Mã NV",
                     type: "text",
-                    width: 150
-                }, {
-                    name: "Mét lò (m)",
-                    type: "number",
                     width: 70
                 }, {
-                    name: "Sản lượng (Tấn)",
-                    type: "number",
+                    name: "Tên NV",
+                    type: "text",
                     width: 70
-                }]
+                }, {
+                    name: "Loại NV",
+                    type: "text",
+                    width: 70
+                    }, {
+                        name: "Lý do",
+                        type: "text",
+                        width: 70
+                    }]
             })
         }(),
         //REPORT PHÂN XƯỞNG KHÔNG HOÀN THÀNH CÔNG VIỆC

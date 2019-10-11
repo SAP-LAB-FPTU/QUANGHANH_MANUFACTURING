@@ -102,12 +102,21 @@
             },
         })
     })*@
-    $("#validate_name").on("input", function(){
-  var regexp = /[^a-zA-Z]+$/g;
-  if($(this).val().match(regexp)){
-    $(this).val( $(this).val().replace(regexp,'') );
-  }
-});
+//    $("#validate_name").on("input", function(){
+//  var regexp = /[^a-zA-Z]+$/g;
+//  if($(this).val().match(regexp)){
+//    $(this).val( $(this).val().replace(regexp,'') );
+//  }
+//});
 
+
+    $("#validate_name").keydown(function(e)
+{
+  var test = /[0-9]/; //regex
+  var value = String.fromCharCode(e.keyCode); //get the charcode and convert to char
+  if (value.match(test)) { 
+     return false; //dont display key if it is a number
+  }       
+});
 </script>
 
