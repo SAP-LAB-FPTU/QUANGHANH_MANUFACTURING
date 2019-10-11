@@ -47,13 +47,11 @@
                     </select>
                 </div>
                 <div class="input-field col l4 m12 s12">
-                    <select class="form-control" id="cbx-group" onchange="change()">
-                        <option value="" disabled selected>Tổ sản xuất</option>
-                        <option value="1">Tổ 1</option>
-                        <option value="2">Tổ 2</option>
-                        <option value="3">Tổ 3</option>
-                        <option value="4">Tổ 4</option>
-                        <option value="5">Tổ 5</option>
+                    <select class="form-control" id="cbx-group" name="ca_value">
+                        <option value="" disabled selected>Ca sản xuất</option>
+                        <option value="1">Ca 1</option>
+                        <option value="2">Ca 2</option>
+                        <option value="3">Ca 3</option>
                     </select>
                 </div>
                 <div class="row">
@@ -81,135 +79,41 @@
                                 </tr>
                             </thead>
                             <tbody id="table-input-body">
-                                <tr>
-                                    <th>Than khai thác</th>
-                                    <th>Tấn</th>
-                                    <td><input autocomplete="off" style="border:none" name="thucHien" /></td>
-                                    <td><input autocomplete="off" style="border:none" name="keHoach" /></td>
-                                    <td><input autocomplete="off" style="border:none" name="chenhLech" /></td>
-                                    <td><input autocomplete="off" style="border:none" name="phanTramHT" /></td>
-                                    <td><input autocomplete="off" style="border:none" name="luyKe" /></td>
-                                    <td><input autocomplete="off" style="border:none" name="KHDC" /></td>
-                                    <td><input autocomplete="off" style="border:none" name="phanTramTD" /></td>
-                                    <td><input autocomplete="off" style="border:none" name="tong" /></td>
-                                    <td><input autocomplete="off" style="border:none" name="motNgay" /></td>
-                                    <td><input autocomplete="off" class="input-field" style="border:none" name="ghiChu" /></td>
-                                </tr>
-                                <tr>
-                                    <th>Mét lò đào</th>
-                                    <th>Mét</th>
-                                    <td><input autocomplete="off" style="border:none" name="thucHien" /></td>
-                                    <td><input autocomplete="off" style="border:none" name="keHoach" /></td>
-                                    <td><input autocomplete="off" style="border:none" name="chenhLech" /></td>
-                                    <td><input autocomplete="off" style="border:none" name="phanTramHT" /></td>
-                                    <td><input autocomplete="off" style="border:none" name="luyKe" /></td>
-                                    <td><input autocomplete="off" style="border:none" name="KHDC" /></td>
-                                    <td><input autocomplete="off" style="border:none" name="phanTramTD" /></td>
-                                    <td><input autocomplete="off" style="border:none" name="tong" /></td>
-                                    <td><input autocomplete="off" style="border:none" name="motNgay" /></td>
-                                    <td><input autocomplete="off" class="input-field" style="border:none" name="ghiChu" /></td>
-                                </tr>
-                                <tr>
-                                    <th>Mét lò xén</th>
-                                    <th>Mét</th>
-                                    <td><input autocomplete="off" style="border:none" name="thucHien" /></td>
-                                    <td><input autocomplete="off" style="border:none" name="keHoach" /></td>
-                                    <td><input autocomplete="off" style="border:none" name="chenhLech" /></td>
-                                    <td><input autocomplete="off" style="border:none" name="phanTramHT" /></td>
-                                    <td><input autocomplete="off" style="border:none" name="luyKe" /></td>
-                                    <td><input autocomplete="off" style="border:none" name="KHDC" /></td>
-                                    <td><input autocomplete="off" style="border:none" name="phanTramTD" /></td>
-                                    <td><input autocomplete="off" style="border:none" name="tong" /></td>
-                                    <td><input autocomplete="off" style="border:none" name="motNgay" /></td>
-                                    <td><input autocomplete="off" class="input-field" style="border:none" name="ghiChu" /></td>
-                                </tr>
+                                @*@if (ViewBag.tc != null)
+                                    {
+                                        foreach (var item in ViewBag.tc)
+                                        {
+                                            <tr>
+                                                <th>@item.TenTieuChi</th>
+                                                <th>@item.DonViDo</th>
+                                                '
+                                                <td><input autocomplete="off" style="border:none" name="thucHien" /></td>'+
+                                                '
+                                                <td><input autocomplete="off" style="border:none" name="keHoach" /></td>'+
+                                                '
+                                                <td><input autocomplete="off" style="border:none" name="chenhLech" /></td>'+
+                                                '
+                                                <td><input autocomplete="off" style="border:none" name="phanTramHT" /></td>'+
+                                                '
+                                                <td><input autocomplete="off" style="border:none" name="luyKe" /></td>'+
+                                                '
+                                                <td><input autocomplete="off" style="border:none" name="KHDC" /></td>'+
+                                                '
+                                                <td><input autocomplete="off" style="border:none" name="phanTramTD" /></td>'+
+                                                '
+                                                <td><input autocomplete="off" style="border:none" name="tong" /></td>'+
+                                                '
+                                                <td><input autocomplete="off" style="border:none" name="motNgay" /></td>'+
+                                                '
+                                                <td><input autocomplete="off" class="input-field" style="border:none" name="ghiChu" /></td>'+
+                                            </tr>
+                                        }
+                                    }*@
                             </tbody>
                         </table>
                     </div>
 
-                    @*<div class="col s12 m12 l12 table_container">
-                            <table class="table-dl table-bordered table-input">
-                                <thead>
-                                    <tr>
-                                        <th class="tieu-chi" rowspan="2">Tiêu chí</th>
-                                        <th class="nhap-lieu" rowspan="2">Đơn vị đo</th>
-                                        <th class="nhap-lieu" colspan="4">Sản lượng</th>
-                                        <th class="nhap-lieu" colspan="3">Tình trạng tiến độ</th>
-                                        <th class="nhap-lieu" colspan="2">Còn lại</th>
-                                        <th class="ghi-chu" rowspan="2">Ghi chú</th>
-                                    </tr>
-                                    <tr>
-                                        <th>Thực hiện</th>
-                                        <th>Kế hoạch</th>
-                                        <th>Chênh lệch</th>
-                                        <th>Phần trăm hoàn thành</th>
-                                        <th>Lũy kế</th>
-                                        <th>Ké hoạch điều chỉnh</th>
-                                        <th>Phần trăm tiến độ</th>
-                                        <th>Tổng</th>
-                                        <th>1 ngày</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="table-input-body">
-                                    <tr>
-                                        <th>Than khai thác</th>
-                                        <th>Tấn</th>
-                                        <td><input autocomplete="off" style="border:none" name="thucHien" /></td>
-                                        <td><input autocomplete="off" style="border:none" name="keHoach" /></td>
-                                        <td><input autocomplete="off" style="border:none" name="chenhLech" /></td>
-                                        <td><input autocomplete="off" style="border:none" name="phanTramHT" /></td>
-                                        <td><input autocomplete="off" style="border:none" name="luyKe" /></td>
-                                        <td><input autocomplete="off" style="border:none" name="KHDC" /></td>
-                                        <td><input autocomplete="off" style="border:none" name="phanTramTD" /></td>
-                                        <td><input autocomplete="off" style="border:none" name="tong" /></td>
-                                        <td><input autocomplete="off" style="border:none" name="motNgay" /></td>
-                                        <td><input autocomplete="off" class="input-field" style="border:none" name="ghiChu" /></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Mét lò đào</th>
-                                        <th>Mét</th>
-                                        <td><input autocomplete="off" style="border:none" name="thucHien" /></td>
-                                        <td><input autocomplete="off" style="border:none" name="keHoach" /></td>
-                                        <td><input autocomplete="off" style="border:none" name="chenhLech" /></td>
-                                        <td><input autocomplete="off" style="border:none" name="phanTramHT" /></td>
-                                        <td><input autocomplete="off" style="border:none" name="luyKe" /></td>
-                                        <td><input autocomplete="off" style="border:none" name="KHDC" /></td>
-                                        <td><input autocomplete="off" style="border:none" name="phanTramTD" /></td>
-                                        <td><input autocomplete="off" style="border:none" name="tong" /></td>
-                                        <td><input autocomplete="off" style="border:none" name="motNgay" /></td>
-                                        <td><input autocomplete="off" class="input-field" style="border:none" name="ghiChu" /></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Mét lò xén</th>
-                                        <th>Mét</th>
-                                        <td><input autocomplete="off" style="border:none" name="thucHien" /></td>
-                                        <td><input autocomplete="off" style="border:none" name="keHoach" /></td>
-                                        <td><input autocomplete="off" style="border:none" name="chenhLech" /></td>
-                                        <td><input autocomplete="off" style="border:none" name="phanTramHT" /></td>
-                                        <td><input autocomplete="off" style="border:none" name="luyKe" /></td>
-                                        <td><input autocomplete="off" style="border:none" name="KHDC" /></td>
-                                        <td><input autocomplete="off" style="border:none" name="phanTramTD" /></td>
-                                        <td><input autocomplete="off" style="border:none" name="tong" /></td>
-                                        <td><input autocomplete="off" style="border:none" name="motNgay" /></td>
-                                        <td><input autocomplete="off" class="input-field" style="border:none" name="ghiChu" /></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Mét lò neo</th>
-                                        <th>Mét</th>
-                                        <td><input autocomplete="off" style="border:none" name="thucHien" /></td>
-                                        <td><input autocomplete="off" style="border:none" name="keHoach" /></td>
-                                        <td><input autocomplete="off" style="border:none" name="chenhLech" /></td>
-                                        <td><input autocomplete="off" style="border:none" name="phanTramHT" /></td>
-                                        <td><input autocomplete="off" style="border:none" name="luyKe" /></td>
-                                        <td><input autocomplete="off" style="border:none" name="KHDC" /></td>
-                                        <td><input autocomplete="off" style="border:none" name="phanTramTD" /></td>
-                                        <td><input autocomplete="off" style="border:none" name="tong" /></td>
-                                        <td><input autocomplete="off" style="border:none" name="motNgay" /></td>
-                                        <td><input autocomplete="off" class="input-field" style="border:none" name="ghiChu" /></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>*@
+
                     <button class="btn blue darken-2" type="submit">Lưu</button>
                 </div>
             </div>
@@ -217,80 +121,101 @@
     </div>
 
 }
-    <script>
-        $(document).ready(function () {
-            $('select').formSelect();
-        });
-    </script>
-    <script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
-    <script src="~/js/Custom JS/Disable_input_material.js"></script>
-    <script src="~/js/Custom JS/form-input-border.js"></script>
-    <script src="~/js/Custom JS/DK/InputCharcoal/AddRow.js"></script>
+<script>
+    $(document).ready(function () {
+        $('select').formSelect();
+    });
+</script>
+<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
+<script src="~/js/Custom JS/Disable_input_material.js"></script>
+<script src="~/js/Custom JS/form-input-border.js"></script>
+<script src="~/js/Custom JS/DK/InputCharcoal/AddRow.js"></script>
 
-    <script>
-        $(document).ready(function () {
-            $(".date-click").datepicker({
-                onSelect: function (dateText) {
-                    change();
-                }
-            });
-        })
+<script>
+    //$(document).ready(function () {
+    //    $(".date-click").datepicker({
+    //        onSelect: function (dateText) {
+    //            change();
+    //        }
+    //    });
+    //})
 
-        $(".datepicker-here").keydown(function (e) {
-            if (e.KeyCode != 8) {
-                e.preventDefault()
-            } else {
-                $(this).val("");
-            }
-        });
-
-
-        function change() {
-            //confirmAlert("Dữ liệu chưa được lưu?", "Xác nhận đổi",
-            //    function () {
-            $("#pre-load").show("slow", function () {
-            });
-            $("#pre-load").css("z-index", "99999");
-            var px_value = $('#cbx-px').val();
-            var to_value = $('#cbx-group').val();
-            var date = $('#date_change').val();
-            $.ajax({
-                type: 'POST',
-                url: '/change',
-                dataType: 'json',
-                data: { 'px_value': px_value, 'to_value': to_value, 'date': date },
-                success: function (response) {
-                    if (response) {
-                        $("#pre-load").hide("slow", function () {
-                        });
-                        successAlert("Đổi thành công", "");
-                    } else {
-                        $("#pre-load").hide("slow", function () {
-                        });
-                        errorAlert("Có lỗi", "");
-                    }
-                }
-            })
-            //}
-            //);
+    $(".datepicker-here").keydown(function (e) {
+        if (e.KeyCode != 8) {
+            e.preventDefault()
+        } else {
+            $(this).val("");
         }
-    </script>
+    });
+
+
+    function change() {
+        confirmAlert("Dữ liệu chưa được lưu?", "Xác nhận đổi",
+            function () {
+                $("#pre-load").show("slow", function () {
+                });
+                $("#pre-load").css("z-index", "99999");
+                var px_value = $('#cbx-px').val();
+                $.ajax({
+                    type: 'POST',
+                    url: '/change',
+                    dataType: 'json',
+                    data: { 'px_value': px_value },
+                    success: function (response) {
+                        if (response.success) {
+                            if (response.list != null) {
+                                $("#table-input-body").empty();
+                                for (i = 0; i < response.list.length; i++) {
+                                    $("#table-input-body").append("<tr>");
+                                    $("#table-input-body").append("<th>" + response.list[i].TenTieuChi + "</th>");
+                                    $("#table-input-body").append("<th>" + response.list[i].DonViDo + "</th>");
+                                    $("#table-input-body").append('<td><input autocomplete="off" style="border:none" name="thucHien" /></td>' +
+                                        '<td><input autocomplete="off" style="border:none" name="keHoach" /></td>' +
+                                        '<td><input autocomplete="off" style="border:none" name="chenhLech" /></td>' +
+                                        '<td><input autocomplete="off" style="border:none" name="phanTramHT" /></td>' +
+                                        '<td><input autocomplete="off" style="border:none" name="luyKe" /></td>' +
+                                        '<td><input autocomplete="off" style="border:none" name="KHDC" /></td>' +
+                                        '<td><input autocomplete="off" style="border:none" name="phanTramTD" /></td>' +
+                                        '<td><input autocomplete="off" style="border:none" name="tong" /></td>' +
+                                        '<td><input autocomplete="off" style="border:none" name="motNgay" /></td>' +
+                                        '<td><input autocomplete="off" class="input-field" style="border:none" name="ghiChu" /></td>');
+                                    $("#table-input-body").append("</tr>");
+                                }
+                                $("#pre-load").hide("slow", function () {
+                                });
+                                successAlert("Đổi thành công", "");
+                            } else {
+                                $("#pre-load").hide("slow", function () {
+                                });
+                                errorAlert("Có lỗi", "");
+                            }
+                        } else {
+                            $("#pre-load").hide("slow", function () {
+                            });
+                            errorAlert("Có lỗi", "");
+                        }
+                    }
+                })
+            }
+        );
+    }
+</script>
 
 <script>
     function SaveChange(form) {
-            $.validator.unobtrusive.parse(form);
-            if ($(form).valid()) {
-                $.ajax({
-                    type: "POST",
-                    url: form.action,
-                    data: $(form).serialize(),
-                    success: function (data) {
-                        dataTable.ajax.reload();
-                        successAlert('Thành công', 'Xóa thành công');
-                    }
-                });
+        $.validator.unobtrusive.parse(form);
+        if ($(form).valid()) {
+            $.ajax({
+                type: "POST",
+                url: form.action,
+                data: $(form).serialize(),
+                success: function (data) {
+                    dataTable.ajax.reload();
+                    successAlert('Thành công', 'Xóa thành công');
+                }
+            });
 
-            }
-            return false;
         }
+        return false;
+    }
 </script>
