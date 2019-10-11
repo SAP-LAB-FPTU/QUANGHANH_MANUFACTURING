@@ -26,5 +26,12 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
 
             return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult SaveChange(string date, string px_value, string to_value, 
+            string[] thucHien, string []keHoach, string []chenhLech, string []phanTramTH, 
+            string []luyKe, string []KHDC, string [] phanTramTD, string []tong, string[]motNgay, string[]ghiChu)
+        {
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
     }
 }

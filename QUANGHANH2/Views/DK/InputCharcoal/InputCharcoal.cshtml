@@ -3,267 +3,294 @@
     ViewBag.Title = "InputCharcoal";
     Layout = "~/Views/Shared/_Layout_DK.cshtml";
 }
-<style>
-</style>
+
 <link href="~/assets/Custom css/TABLE_BORDERED.css" rel="stylesheet" />
 <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
-<div class="card">
-    <div class="card-content">
-        <div class="row">
-            <h3 class="center">NHẬP LIỆU SẢN XUẤT</h3>
-            <div class="input-field col l4 m12 s12">
-                <input class="datepicker-here center form-control date" type="text" placeholder="Ngày" id="date_change" />
-            </div>
-            <div class="input-field col l4 m12 s12">
-                <select class="form-control" id="cbx-px" name="px_value" onchange="change()">
-                    <option value="" disabled selected>Phân xưởng</option>
-                    <option value="KT">Khai thác 1</option>
-                    <option value="KT">Khai thác 2</option>
-                    <option value="KT">Khai thác 3</option>
-                    <option value="KT">Khai thác 4</option>
-                    <option value="KT">Khai thác 5</option>
-                    <option value="KT">Khai thác 6</option>
-                    <option value="KT">Khai thác 7</option>
-                    <option value="KT">Khai thác 8</option>
-                    <option value="KT">Khai thác 9</option>
-                    <option value="KT">Khai thác 10</option>
-                    <option value="KT">Khai thác 11</option>
-                    <option value="DL">Đào lò 3</option>
-                    <option value="DL">Đào lò 5</option>
-                    <option value="DL">Đào lò 7</option>
-                    <option value="DL">Đào lò 8</option>
-                    <option value="DL">Thăng Long</option>
-                    <option value="DL">Asean</option>
-                    <option value="DL">Xây lắp mỏ</option>
-                    <option value="ST">Sàng tuyển</option>
-                    <option value="LT">Lộ thiên</option>
-                    <option value="KCS">KCS</option>
-                </select>
-            </div>
-            <div class="input-field col l4 m12 s12">
-                <select class="form-control" id="cbx-group" onchange="change()">
-                    <option value="" disabled selected>Tổ sản xuất</option>
-                    <option value="1">Tổ 1</option>
-                    <option value="2">Tổ 2</option>
-                    <option value="3">Tổ 3</option>
-                    <option value="4">Tổ 4</option>
-                    <option value="5">Tổ 5</option>
-                </select>
-            </div>
+@using (Html.BeginForm("SaveChange", "Input", FormMethod.Post, new
+{
+    enctype = "multipart/form-data",
+    onSubmit = "return SaveChange(this);",
+    data_restUrl = Url.Action("SaveChange", "Input")
+}))
+{
+    <div class="card">
+        <div class="card-content">
             <div class="row">
-                <div class="col s12 m12 l12 table_container">
-                    <table class="table-kt table-bordered table-input">
-                        <thead>
-                            <tr>
-                                <th class="tieu-chi" rowspan="2">Tiêu chí</th>
-                                <th class="nhap-lieu" rowspan="2">Đơn vị đo</th>
-                                <th class="nhap-lieu" colspan="4">Sản lượng</th>
-                                <th class="nhap-lieu" colspan="3">Tình trạng tiến độ</th>
-                                <th class="nhap-lieu" colspan="2">Còn lại</th>
-                                <th class="ghi-chu" rowspan="2">Ghi chú</th>
-                            </tr>
-                            <tr>
-                                <th>Thực hiện</th>
-                                <th>Kế hoạch</th>
-                                <th>Chênh lệch</th>
-                                <th>Phần trăm hoàn thành</th>
-                                <th>Lũy kế</th>
-                                <th>Ké hoạch điều chỉnh</th>
-                                <th>Phần trăm tiến độ</th>
-                                <th>Tổng</th>
-                                <th>1 ngày</th>
-                            </tr>
-                        </thead>
-                        <tbody id="table-input-body">
-                            <tr>
-                                <th>Than khai thác</th>
-                                <th>Tấn</th>
-                                <td><input autocomplete="off" style="border:none" name="thucHien" /></td>
-                                <td><input autocomplete="off" style="border:none" name="keHoach" /></td>
-                                <td><input autocomplete="off" style="border:none" name="chenhLech" /></td>
-                                <td><input autocomplete="off" style="border:none" name="phanTramHT" /></td>
-                                <td><input autocomplete="off" style="border:none" name="luyKe" /></td>
-                                <td><input autocomplete="off" style="border:none" name="KHDC" /></td>
-                                <td><input autocomplete="off" style="border:none" name="phanTramTD" /></td>
-                                <td><input autocomplete="off" style="border:none" name="tong" /></td>
-                                <td><input autocomplete="off" style="border:none" name="motNgay" /></td>
-                                <td><input autocomplete="off" class="input-field" style="border:none" name="ghiChu" /></td>
-                            </tr>
-                            <tr>
-                                <th>Mét lò đào</th>
-                                <th>Mét</th>
-                                <td><input autocomplete="off" style="border:none" name="thucHien" /></td>
-                                <td><input autocomplete="off" style="border:none" name="keHoach" /></td>
-                                <td><input autocomplete="off" style="border:none" name="chenhLech" /></td>
-                                <td><input autocomplete="off" style="border:none" name="phanTramHT" /></td>
-                                <td><input autocomplete="off" style="border:none" name="luyKe" /></td>
-                                <td><input autocomplete="off" style="border:none" name="KHDC" /></td>
-                                <td><input autocomplete="off" style="border:none" name="phanTramTD" /></td>
-                                <td><input autocomplete="off" style="border:none" name="tong" /></td>
-                                <td><input autocomplete="off" style="border:none" name="motNgay" /></td>
-                                <td><input autocomplete="off" class="input-field" style="border:none" name="ghiChu" /></td>
-                            </tr>
-                            <tr>
-                                <th>Mét lò xén</th>
-                                <th>Mét</th>
-                                <td><input autocomplete="off" style="border:none" name="thucHien" /></td>
-                                <td><input autocomplete="off" style="border:none" name="keHoach" /></td>
-                                <td><input autocomplete="off" style="border:none" name="chenhLech" /></td>
-                                <td><input autocomplete="off" style="border:none" name="phanTramHT" /></td>
-                                <td><input autocomplete="off" style="border:none" name="luyKe" /></td>
-                                <td><input autocomplete="off" style="border:none" name="KHDC" /></td>
-                                <td><input autocomplete="off" style="border:none" name="phanTramTD" /></td>
-                                <td><input autocomplete="off" style="border:none" name="tong" /></td>
-                                <td><input autocomplete="off" style="border:none" name="motNgay" /></td>
-                                <td><input autocomplete="off" class="input-field" style="border:none" name="ghiChu" /></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <h3 class="center">NHẬP LIỆU SẢN XUẤT</h3>
+                <div class="input-field col l4 m12 s12">
+                    <input type="text" placeholder="Ngày" autocomplete="off" class='input-field form-control datepicker-here datepicker-add date-click center' id="dateInput" name="date" multiple />
                 </div>
-
-                <div class="col s12 m12 l12 table_container">
-                    <table class="table-dl table-bordered table-input">
-                        <thead>
-                            <tr>
-                                <th class="tieu-chi" rowspan="2">Tiêu chí</th>
-                                <th class="nhap-lieu" rowspan="2">Đơn vị đo</th>
-                                <th class="nhap-lieu" colspan="4">Sản lượng</th>
-                                <th class="nhap-lieu" colspan="3">Tình trạng tiến độ</th>
-                                <th class="nhap-lieu" colspan="2">Còn lại</th>
-                                <th class="ghi-chu" rowspan="2">Ghi chú</th>
-                            </tr>
-                            <tr>
-                                <th>Thực hiện</th>
-                                <th>Kế hoạch</th>
-                                <th>Chênh lệch</th>
-                                <th>Phần trăm hoàn thành</th>
-                                <th>Lũy kế</th>
-                                <th>Ké hoạch điều chỉnh</th>
-                                <th>Phần trăm tiến độ</th>
-                                <th>Tổng</th>
-                                <th>1 ngày</th>
-                            </tr>
-                        </thead>
-                        <tbody id="table-input-body">
-                            <tr>
-                                <th>Than khai thác</th>
-                                <th>Tấn</th>
-                                <td><input autocomplete="off" style="border:none" name="thucHien" /></td>
-                                <td><input autocomplete="off" style="border:none" name="keHoach" /></td>
-                                <td><input autocomplete="off" style="border:none" name="chenhLech" /></td>
-                                <td><input autocomplete="off" style="border:none" name="phanTramHT" /></td>
-                                <td><input autocomplete="off" style="border:none" name="luyKe" /></td>
-                                <td><input autocomplete="off" style="border:none" name="KHDC" /></td>
-                                <td><input autocomplete="off" style="border:none" name="phanTramTD" /></td>
-                                <td><input autocomplete="off" style="border:none" name="tong" /></td>
-                                <td><input autocomplete="off" style="border:none" name="motNgay" /></td>
-                                <td><input autocomplete="off" class="input-field" style="border:none" name="ghiChu" /></td>
-                            </tr>
-                            <tr>
-                                <th>Mét lò đào</th>
-                                <th>Mét</th>
-                                <td><input autocomplete="off" style="border:none" name="thucHien" /></td>
-                                <td><input autocomplete="off" style="border:none" name="keHoach" /></td>
-                                <td><input autocomplete="off" style="border:none" name="chenhLech" /></td>
-                                <td><input autocomplete="off" style="border:none" name="phanTramHT" /></td>
-                                <td><input autocomplete="off" style="border:none" name="luyKe" /></td>
-                                <td><input autocomplete="off" style="border:none" name="KHDC" /></td>
-                                <td><input autocomplete="off" style="border:none" name="phanTramTD" /></td>
-                                <td><input autocomplete="off" style="border:none" name="tong" /></td>
-                                <td><input autocomplete="off" style="border:none" name="motNgay" /></td>
-                                <td><input autocomplete="off" class="input-field" style="border:none" name="ghiChu" /></td>
-                            </tr>
-                            <tr>
-                                <th>Mét lò xén</th>
-                                <th>Mét</th>
-                                <td><input autocomplete="off" style="border:none" name="thucHien" /></td>
-                                <td><input autocomplete="off" style="border:none" name="keHoach" /></td>
-                                <td><input autocomplete="off" style="border:none" name="chenhLech" /></td>
-                                <td><input autocomplete="off" style="border:none" name="phanTramHT" /></td>
-                                <td><input autocomplete="off" style="border:none" name="luyKe" /></td>
-                                <td><input autocomplete="off" style="border:none" name="KHDC" /></td>
-                                <td><input autocomplete="off" style="border:none" name="phanTramTD" /></td>
-                                <td><input autocomplete="off" style="border:none" name="tong" /></td>
-                                <td><input autocomplete="off" style="border:none" name="motNgay" /></td>
-                                <td><input autocomplete="off" class="input-field" style="border:none" name="ghiChu" /></td>
-                            </tr>
-                            <tr>
-                                <th>Mét lò neo</th>
-                                <th>Mét</th>
-                                <td><input autocomplete="off" style="border:none" name="thucHien" /></td>
-                                <td><input autocomplete="off" style="border:none" name="keHoach" /></td>
-                                <td><input autocomplete="off" style="border:none" name="chenhLech" /></td>
-                                <td><input autocomplete="off" style="border:none" name="phanTramHT" /></td>
-                                <td><input autocomplete="off" style="border:none" name="luyKe" /></td>
-                                <td><input autocomplete="off" style="border:none" name="KHDC" /></td>
-                                <td><input autocomplete="off" style="border:none" name="phanTramTD" /></td>
-                                <td><input autocomplete="off" style="border:none" name="tong" /></td>
-                                <td><input autocomplete="off" style="border:none" name="motNgay" /></td>
-                                <td><input autocomplete="off" class="input-field" style="border:none" name="ghiChu" /></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="input-field col l4 m12 s12">
+                    <select class="form-control" id="cbx-px" name="px_value" onchange="change()">
+                        <option value="" disabled selected>Phân xưởng</option>
+                        <option value="KT1">Khai thác 1</option>
+                        <option value="KT2">Khai thác 2</option>
+                        <option value="KT3">Khai thác 3</option>
+                        <option value="KT4">Khai thác 4</option>
+                        <option value="KT5">Khai thác 5</option>
+                        <option value="KT6">Khai thác 6</option>
+                        <option value="KT7">Khai thác 7</option>
+                        <option value="KT8">Khai thác 8</option>
+                        <option value="KT9">Khai thác 9</option>
+                        <option value="KT10">Khai thác 10</option>
+                        <option value="KT11">Khai thác 11</option>
+                        <option value="DL3">Đào lò 3</option>
+                        <option value="DL5">Đào lò 5</option>
+                        <option value="DL7">Đào lò 7</option>
+                        <option value="DL8">Đào lò 8</option>
+                        <option value="DLTL">Thăng Long</option>
+                        <option value="DLAS">Asean</option>
+                        <option value="DLXLM">Xây lắp mỏ</option>
+                        <option value="ST">Sàng tuyển</option>
+                        <option value="LT">Lộ thiên</option>
+                        <option value="KCS">KCS</option>
+                    </select>
                 </div>
+                <div class="input-field col l4 m12 s12">
+                    <select class="form-control" id="cbx-group" onchange="change()">
+                        <option value="" disabled selected>Tổ sản xuất</option>
+                        <option value="1">Tổ 1</option>
+                        <option value="2">Tổ 2</option>
+                        <option value="3">Tổ 3</option>
+                        <option value="4">Tổ 4</option>
+                        <option value="5">Tổ 5</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <div class="col s12 m12 l12 table_container">
+                        <table class="table-kt table-bordered table-input">
+                            <thead>
+                                <tr>
+                                    <th class="tieu-chi" rowspan="2">Tiêu chí</th>
+                                    <th class="nhap-lieu" rowspan="2">Đơn vị đo</th>
+                                    <th class="nhap-lieu" colspan="4">Sản lượng</th>
+                                    <th class="nhap-lieu" colspan="3">Tình trạng tiến độ</th>
+                                    <th class="nhap-lieu" colspan="2">Còn lại</th>
+                                    <th class="ghi-chu" rowspan="2">Ghi chú</th>
+                                </tr>
+                                <tr>
+                                    <th>Thực hiện</th>
+                                    <th>Kế hoạch</th>
+                                    <th>Chênh lệch</th>
+                                    <th>Phần trăm hoàn thành</th>
+                                    <th>Lũy kế</th>
+                                    <th>Ké hoạch điều chỉnh</th>
+                                    <th>Phần trăm tiến độ</th>
+                                    <th>Tổng</th>
+                                    <th>1 ngày</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-input-body">
+                                <tr>
+                                    <th>Than khai thác</th>
+                                    <th>Tấn</th>
+                                    <td><input autocomplete="off" style="border:none" name="thucHien" /></td>
+                                    <td><input autocomplete="off" style="border:none" name="keHoach" /></td>
+                                    <td><input autocomplete="off" style="border:none" name="chenhLech" /></td>
+                                    <td><input autocomplete="off" style="border:none" name="phanTramHT" /></td>
+                                    <td><input autocomplete="off" style="border:none" name="luyKe" /></td>
+                                    <td><input autocomplete="off" style="border:none" name="KHDC" /></td>
+                                    <td><input autocomplete="off" style="border:none" name="phanTramTD" /></td>
+                                    <td><input autocomplete="off" style="border:none" name="tong" /></td>
+                                    <td><input autocomplete="off" style="border:none" name="motNgay" /></td>
+                                    <td><input autocomplete="off" class="input-field" style="border:none" name="ghiChu" /></td>
+                                </tr>
+                                <tr>
+                                    <th>Mét lò đào</th>
+                                    <th>Mét</th>
+                                    <td><input autocomplete="off" style="border:none" name="thucHien" /></td>
+                                    <td><input autocomplete="off" style="border:none" name="keHoach" /></td>
+                                    <td><input autocomplete="off" style="border:none" name="chenhLech" /></td>
+                                    <td><input autocomplete="off" style="border:none" name="phanTramHT" /></td>
+                                    <td><input autocomplete="off" style="border:none" name="luyKe" /></td>
+                                    <td><input autocomplete="off" style="border:none" name="KHDC" /></td>
+                                    <td><input autocomplete="off" style="border:none" name="phanTramTD" /></td>
+                                    <td><input autocomplete="off" style="border:none" name="tong" /></td>
+                                    <td><input autocomplete="off" style="border:none" name="motNgay" /></td>
+                                    <td><input autocomplete="off" class="input-field" style="border:none" name="ghiChu" /></td>
+                                </tr>
+                                <tr>
+                                    <th>Mét lò xén</th>
+                                    <th>Mét</th>
+                                    <td><input autocomplete="off" style="border:none" name="thucHien" /></td>
+                                    <td><input autocomplete="off" style="border:none" name="keHoach" /></td>
+                                    <td><input autocomplete="off" style="border:none" name="chenhLech" /></td>
+                                    <td><input autocomplete="off" style="border:none" name="phanTramHT" /></td>
+                                    <td><input autocomplete="off" style="border:none" name="luyKe" /></td>
+                                    <td><input autocomplete="off" style="border:none" name="KHDC" /></td>
+                                    <td><input autocomplete="off" style="border:none" name="phanTramTD" /></td>
+                                    <td><input autocomplete="off" style="border:none" name="tong" /></td>
+                                    <td><input autocomplete="off" style="border:none" name="motNgay" /></td>
+                                    <td><input autocomplete="off" class="input-field" style="border:none" name="ghiChu" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
+                    @*<div class="col s12 m12 l12 table_container">
+                            <table class="table-dl table-bordered table-input">
+                                <thead>
+                                    <tr>
+                                        <th class="tieu-chi" rowspan="2">Tiêu chí</th>
+                                        <th class="nhap-lieu" rowspan="2">Đơn vị đo</th>
+                                        <th class="nhap-lieu" colspan="4">Sản lượng</th>
+                                        <th class="nhap-lieu" colspan="3">Tình trạng tiến độ</th>
+                                        <th class="nhap-lieu" colspan="2">Còn lại</th>
+                                        <th class="ghi-chu" rowspan="2">Ghi chú</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Thực hiện</th>
+                                        <th>Kế hoạch</th>
+                                        <th>Chênh lệch</th>
+                                        <th>Phần trăm hoàn thành</th>
+                                        <th>Lũy kế</th>
+                                        <th>Ké hoạch điều chỉnh</th>
+                                        <th>Phần trăm tiến độ</th>
+                                        <th>Tổng</th>
+                                        <th>1 ngày</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table-input-body">
+                                    <tr>
+                                        <th>Than khai thác</th>
+                                        <th>Tấn</th>
+                                        <td><input autocomplete="off" style="border:none" name="thucHien" /></td>
+                                        <td><input autocomplete="off" style="border:none" name="keHoach" /></td>
+                                        <td><input autocomplete="off" style="border:none" name="chenhLech" /></td>
+                                        <td><input autocomplete="off" style="border:none" name="phanTramHT" /></td>
+                                        <td><input autocomplete="off" style="border:none" name="luyKe" /></td>
+                                        <td><input autocomplete="off" style="border:none" name="KHDC" /></td>
+                                        <td><input autocomplete="off" style="border:none" name="phanTramTD" /></td>
+                                        <td><input autocomplete="off" style="border:none" name="tong" /></td>
+                                        <td><input autocomplete="off" style="border:none" name="motNgay" /></td>
+                                        <td><input autocomplete="off" class="input-field" style="border:none" name="ghiChu" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Mét lò đào</th>
+                                        <th>Mét</th>
+                                        <td><input autocomplete="off" style="border:none" name="thucHien" /></td>
+                                        <td><input autocomplete="off" style="border:none" name="keHoach" /></td>
+                                        <td><input autocomplete="off" style="border:none" name="chenhLech" /></td>
+                                        <td><input autocomplete="off" style="border:none" name="phanTramHT" /></td>
+                                        <td><input autocomplete="off" style="border:none" name="luyKe" /></td>
+                                        <td><input autocomplete="off" style="border:none" name="KHDC" /></td>
+                                        <td><input autocomplete="off" style="border:none" name="phanTramTD" /></td>
+                                        <td><input autocomplete="off" style="border:none" name="tong" /></td>
+                                        <td><input autocomplete="off" style="border:none" name="motNgay" /></td>
+                                        <td><input autocomplete="off" class="input-field" style="border:none" name="ghiChu" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Mét lò xén</th>
+                                        <th>Mét</th>
+                                        <td><input autocomplete="off" style="border:none" name="thucHien" /></td>
+                                        <td><input autocomplete="off" style="border:none" name="keHoach" /></td>
+                                        <td><input autocomplete="off" style="border:none" name="chenhLech" /></td>
+                                        <td><input autocomplete="off" style="border:none" name="phanTramHT" /></td>
+                                        <td><input autocomplete="off" style="border:none" name="luyKe" /></td>
+                                        <td><input autocomplete="off" style="border:none" name="KHDC" /></td>
+                                        <td><input autocomplete="off" style="border:none" name="phanTramTD" /></td>
+                                        <td><input autocomplete="off" style="border:none" name="tong" /></td>
+                                        <td><input autocomplete="off" style="border:none" name="motNgay" /></td>
+                                        <td><input autocomplete="off" class="input-field" style="border:none" name="ghiChu" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Mét lò neo</th>
+                                        <th>Mét</th>
+                                        <td><input autocomplete="off" style="border:none" name="thucHien" /></td>
+                                        <td><input autocomplete="off" style="border:none" name="keHoach" /></td>
+                                        <td><input autocomplete="off" style="border:none" name="chenhLech" /></td>
+                                        <td><input autocomplete="off" style="border:none" name="phanTramHT" /></td>
+                                        <td><input autocomplete="off" style="border:none" name="luyKe" /></td>
+                                        <td><input autocomplete="off" style="border:none" name="KHDC" /></td>
+                                        <td><input autocomplete="off" style="border:none" name="phanTramTD" /></td>
+                                        <td><input autocomplete="off" style="border:none" name="tong" /></td>
+                                        <td><input autocomplete="off" style="border:none" name="motNgay" /></td>
+                                        <td><input autocomplete="off" class="input-field" style="border:none" name="ghiChu" /></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>*@
+                    <button class="btn blue darken-2" type="submit">Lưu</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<script>
-    $(document).ready(function () {
-        $('select').formSelect();
-    });
-</script>
-<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
-<script src="~/js/Custom JS/Disable_input_material.js"></script>
-<script src="~/js/Custom JS/form-input-border.js"></script>
-<script src="~/js/Custom JS/DK/InputCharcoal/AddRow.js"></script>
 
-<script>
-    $(document).ready(function () {
-        $(".date").datepicker({
-            onSelect: function (dateText) {
-                change();
+}
+    <script>
+        $(document).ready(function () {
+            $('select').formSelect();
+        });
+    </script>
+    <script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
+    <script src="~/js/Custom JS/Disable_input_material.js"></script>
+    <script src="~/js/Custom JS/form-input-border.js"></script>
+    <script src="~/js/Custom JS/DK/InputCharcoal/AddRow.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $(".date-click").datepicker({
+                onSelect: function (dateText) {
+                    change();
+                }
+            });
+        })
+
+        $(".datepicker-here").keydown(function (e) {
+            if (e.KeyCode != 8) {
+                e.preventDefault()
+            } else {
+                $(this).val("");
             }
         });
-    })
-
-    $(".datepicker-here").keydown(function (e) {
-        if (e.KeyCode != 8) {
-            e.preventDefault()
-        } else {
-            $(this).val("");
-        }
-    });
 
 
-    function change() {
-        //confirmAlert("Dữ liệu chưa được lưu?", "Xác nhận đổi",
-        //    function () {
-                $("#pre-load").show("slow", function () {
-                });
-                $("#pre-load").css("z-index", "99999");
-                var px_value = $('#cbx-px').val();
-                var to_value = $('#cbx-group').val();
-                var date = $('#date_change').val();
-                $.ajax({
-                    type: 'POST',
-                    url: '/change',
-                    dataType: 'json',
-                    data: { 'px_value': px_value, 'to_value': to_value, 'date': date },
-                    success: function (response) {
-                        if (response) {
-                            $("#pre-load").hide("slow", function () {
-                            });
-                            successAlert("Đổi thành công", "");
-                        } else {
-                            $("#pre-load").hide("slow", function () {
-                            });
-                            errorAlert("Có lỗi", "");
-                        }
+        function change() {
+            //confirmAlert("Dữ liệu chưa được lưu?", "Xác nhận đổi",
+            //    function () {
+            $("#pre-load").show("slow", function () {
+            });
+            $("#pre-load").css("z-index", "99999");
+            var px_value = $('#cbx-px').val();
+            var to_value = $('#cbx-group').val();
+            var date = $('#date_change').val();
+            $.ajax({
+                type: 'POST',
+                url: '/change',
+                dataType: 'json',
+                data: { 'px_value': px_value, 'to_value': to_value, 'date': date },
+                success: function (response) {
+                    if (response) {
+                        $("#pre-load").hide("slow", function () {
+                        });
+                        successAlert("Đổi thành công", "");
+                    } else {
+                        $("#pre-load").hide("slow", function () {
+                        });
+                        errorAlert("Có lỗi", "");
                     }
-                })
+                }
+            })
             //}
-        //);
-    }
+            //);
+        }
+    </script>
+
+<script>
+    function SaveChange(form) {
+            $.validator.unobtrusive.parse(form);
+            if ($(form).valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        dataTable.ajax.reload();
+                        successAlert('Thành công', 'Xóa thành công');
+                    }
+                });
+
+            }
+            return false;
+        }
 </script>
