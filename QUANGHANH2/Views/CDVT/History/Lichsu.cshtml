@@ -552,7 +552,9 @@
                 $("#pre-load").css("z-index", "99999");
             }).DataTable({
                 "language": {
-                    "emptyTable": "Không tìm thấy dữ liệu",
+                "emptyTable": "Không tìm thấy dữ liệu",
+                "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
                     "paginate": {
                         "first": "Đầu",
                         "last": "Cuối",
@@ -596,9 +598,7 @@
                 ],
                 "serverSide": true,
                 "rowId": "activityid",
-                "bLengthChange": false,
-                "bFilter": false,
-                "bInfo": false,
+          "lengthChange": false,
                 "bAutoWidth": false,
                 "order": [0, "asc"],
                 "initComplete": function (settings, json) {
@@ -617,7 +617,9 @@
                 $("#pre-load").css("z-index", "99999");
             }).DataTable({
                 "language": {
-                    "emptyTable": "Không tìm thấy dữ liệu",
+                "emptyTable": "Không tìm thấy dữ liệu",
+                "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
                     "paginate": {
                         "first": "Đầu",
                         "last": "Cuối",
@@ -661,9 +663,7 @@
                 ],
                 "serverSide": true,
                 "rowId": "fuelid",
-                "bLengthChange": false,
-                "bFilter": false,
-                "bInfo": false,
+             "lengthChange": false,
                 "bAutoWidth": false,
                 "order": [0, "asc"],
                 "initComplete": function (settings, json) {
@@ -709,7 +709,12 @@
             $("#searchButtonActi").click(function () {
                 $.ajax({
                     success: function () {
-                        dataActiTable.ajax.reload();
+                        dataActiTable.ajax.reload(function () {
+                       $.notify("Tìm kiếm thành công", {
+                      globalPosition: "top center",
+                     className: "success"
+                    })
+                });
 
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -748,7 +753,10 @@
             //ajax search fuel
             $("#searchButtonFuel").click(function () {
                 dataFuelTable.ajax.reload(function () {
-                    
+                       $.notify("Tìm kiếm thành công", {
+                      globalPosition: "top center",
+                     className: "success"
+                    })
                 });
             });
         });

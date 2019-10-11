@@ -508,7 +508,7 @@
                     dataType: "json",
                     success: function (data) {
                         dataTable.ajax.reload();
-                        if (JSON.parse(data).success == true) {
+                        if (data.success == true) {
                             successAlert('Thành công', data.message);
                             $('#exit-add-button').click();
                             $('#pre-load').hide();
