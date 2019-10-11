@@ -27,8 +27,10 @@ namespace QUANGHANH2.Models
             this.Documentary_repair_details = new HashSet<Documentary_repair_details>();
             this.Documentary_repair_details1 = new HashSet<Documentary_repair_details>();
             this.Equipments = new HashSet<Equipment>();
+            this.Header_DiemDanh_NangSuat_LaoDong = new HashSet<Header_DiemDanh_NangSuat_LaoDong>();
+            this.header_KeHoach_TieuChi_TheoNgay = new HashSet<header_KeHoach_TieuChi_TheoNgay>();
+            this.header_KeHoachTungThang = new HashSet<header_KeHoachTungThang>();
             this.Incidents = new HashSet<Incident>();
-            this.KeHoach_TieuChi = new HashSet<KeHoach_TieuChi>();
             this.Maintain_Car = new HashSet<Maintain_Car>();
             this.MealRegistrations = new HashSet<MealRegistration>();
             this.NhanViens = new HashSet<NhanVien>();
@@ -64,9 +66,13 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Equipment> Equipments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Incident> Incidents { get; set; }
+        public virtual ICollection<Header_DiemDanh_NangSuat_LaoDong> Header_DiemDanh_NangSuat_LaoDong { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<KeHoach_TieuChi> KeHoach_TieuChi { get; set; }
+        public virtual ICollection<header_KeHoach_TieuChi_TheoNgay> header_KeHoach_TieuChi_TheoNgay { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<header_KeHoachTungThang> header_KeHoachTungThang { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Incident> Incidents { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Maintain_Car> Maintain_Car { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

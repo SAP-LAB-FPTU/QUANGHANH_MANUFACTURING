@@ -12,19 +12,21 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class VatLieuSanXuat
+    public partial class header_KeHoach_TieuChi_TheoNgay
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public VatLieuSanXuat()
+        public header_KeHoach_TieuChi_TheoNgay()
         {
-            this.TieuChi_VatLieuSanXuat = new HashSet<TieuChi_VatLieuSanXuat>();
+            this.KeHoach_TieuChi_TheoNgay = new HashSet<KeHoach_TieuChi_TheoNgay>();
         }
     
-        public int MaVatLieu { get; set; }
-        public string LoaiVatLieu { get; set; }
-        public string TenVatLieu { get; set; }
+        public int HeaderID { get; set; }
+        public string MaPhongBan { get; set; }
+        public Nullable<int> Ca { get; set; }
+        public Nullable<System.DateTime> NgayNhapKH { get; set; }
     
+        public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TieuChi_VatLieuSanXuat> TieuChi_VatLieuSanXuat { get; set; }
+        public virtual ICollection<KeHoach_TieuChi_TheoNgay> KeHoach_TieuChi_TheoNgay { get; set; }
     }
 }

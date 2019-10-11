@@ -338,6 +338,7 @@
     <Compile Include="Models\ChiTiet_NhiemVu_NhanVien.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ChiTiet_ThucHien_TieuChi_TheoNgay.cs" />
     <Compile Include="Models\ChungChi.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -517,6 +518,9 @@
     <Compile Include="Models\Supply_Documentary_EquipmentDB.cs" />
     <Compile Include="Models\Supply_Extend.cs" />
     <Compile Include="Models\Supply_tieuhao.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TaiNan.cs">
