@@ -4,6 +4,7 @@ using QUANGHANH2.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -54,9 +55,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 ViewBag.TenToChuc = db.Departments.ToList();
                 ViewBag.HeaderCa1 = db.Database.SqlQuery<Ngay>(headerca1).ToList().First();
                 ViewBag.Ca1 = db.Database.SqlQuery<Ngay>(bodyca1).ToList();
-                ViewBag.Ca1Vang = db.DiemDanh_NangSuatLaoDong.Where(a => a.LyDoVangMat != null)
-                    //Where(a => a.CaDiemDanh == 1).Where(a => a.MaDonVi == donvi).
-                    //Where(a => a.NgayDiemDanh == ngay)
+                Header_DiemDanh_NangSuat_LaoDong header1 = db.Header_DiemDanh_NangSuat_LaoDong.Find(1, donvi, ngay);
+                ViewBag.Ca1Vang = db.DiemDanh_NangSuatLaoDong
+                    .Where(a => a.LyDoVangMat != null)
+                    .Where(a => a.HeaderID == header1.HeaderID)
                     .ToList();
                 string mnv = "";
                 List<Vang> lists = new List<Vang>();
@@ -75,9 +77,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 ViewBag.Ca1Vang = lists;
                 ViewBag.HeaderCa2 = db.Database.SqlQuery<Ngay>(headerca2).ToList().First();
                 ViewBag.Ca2 = db.Database.SqlQuery<Ngay>(bodyca2).ToList();
-                ViewBag.Ca2Vang = db.DiemDanh_NangSuatLaoDong.Where(a => a.LyDoVangMat != null)
-                   //Where(a => a.CaDiemDanh == 2).Where(a => a.MaDonVi == donvi).
-                   //Where(a => a.NgayDiemDanh == ngay)
+                Header_DiemDanh_NangSuat_LaoDong header2 = db.Header_DiemDanh_NangSuat_LaoDong.Find(2, donvi, ngay);
+                ViewBag.Ca2Vang = db.DiemDanh_NangSuatLaoDong
+                   .Where(a => a.LyDoVangMat != null)
+                   .Where(a => a.HeaderID == header2.HeaderID)
                    .ToList();
                 List<Vang> lists2 = new List<Vang>();
                 for (int i = 0; i < ViewBag.HeaderCa2.TongNghi; i++)
@@ -95,10 +98,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 ViewBag.Ca2Vang = lists2;
                 ViewBag.HeaderCa3 = db.Database.SqlQuery<Ngay>(headerca3).ToList().First();
                 ViewBag.Ca3 = db.Database.SqlQuery<Ngay>(bodyca3).ToList();
-                ViewBag.Ca3Vang = db.DiemDanh_NangSuatLaoDong.Where(a => a.LyDoVangMat != null)
-                   //.Where(a => a.CaDiemDanh == 3).Where(a => a.MaDonVi == donvi).
-                   //Where(a => a.NgayDiemDanh == ngay)
-                   .ToList();
+                Header_DiemDanh_NangSuat_LaoDong header3 = db.Header_DiemDanh_NangSuat_LaoDong.Find(3, donvi, ngay);
+                ViewBag.Ca3Vang = db.DiemDanh_NangSuatLaoDong
+                    .Where(a => a.LyDoVangMat != null)
+                    .Where(a => a.HeaderID == header3.HeaderID)
+                    .ToList();
                 List<Vang> lists3 = new List<Vang>();
                 for (int i = 0; i < ViewBag.HeaderCa3.TongNghi; i++)
                 {
@@ -125,7 +129,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     VLD = ViewBag.HeaderCa1.VLD + ViewBag.HeaderCa2.VLD + ViewBag.HeaderCa3.VLD,
                     H = ViewBag.HeaderCa1.H + ViewBag.HeaderCa2.H + ViewBag.HeaderCa3.H,
                     TongNghi = ViewBag.HeaderCa1.TongNghi + ViewBag.HeaderCa2.TongNghi + ViewBag.HeaderCa3.TongNghi,
-                    NSLDThucHien = ViewBag.HeaderCa1.NSLDThucHien + ViewBag.HeaderCa2.NSLDThucHien + ViewBag.HeaderCa3.NSLDThucHien
                 };
                 ViewBag.TongDetail = new ArrayList();
                 for (int i = 0; i < ViewBag.Ca1.Count; i++)
@@ -154,72 +157,88 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [Route("phong-tcld/nang-suat-lao-dong-va-tien-luong/nang-suat-lao-dong-va-tien-luong-theo-cac-px-trong-ngay")]
         public ActionResult DailyAll(string date)
         {
-            if (date == null)
+            DateTime dateTime = DateTime.Now;
+            if (date != null)
             {
-                date = string.Format("{0:dd/MM/yyyy}", DateTime.Now);
+                dateTime = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             }
-            string tatcadonvi = QueryForReportAlll(date);
+            string varname1 = 
+               "SELECT Isnull(tongsodiem, 0)  AS TongSoDiem, " + "\n"
+             + "       Isnull(tongsothan, 0)  AS TongSoThan, " + "\n"
+             + "       Isnull(tongsometlo, 0) AS TongSoMetLo, " + "\n"
+             + "       Isnull(tongsoxen, 0)   AS TongSoXen, " + "\n"
+             + "       de.department_id       AS Name " + "\n"
+             + "FROM   (SELECT Sum(totaleffort)   AS TongSoDiem, " + "\n"
+             + "               Sum(thanthuchien)  AS TongSoThan, " + "\n"
+             + "               Sum(metlothuchien) AS TongSoMetLo, " + "\n"
+             + "               Sum(xenthuchien)   AS TongSoXen, " + "\n"
+             + "               maphongban " + "\n"
+             + "        FROM   header_diemdanh_nangsuat_laodong " + "\n"
+             + "        WHERE  ngaydiemdanh = @NgayDiemDanh " + "\n"
+             + "        GROUP  BY maphongban) h " + "\n"
+             + "       RIGHT JOIN department de " + "\n"
+             + "               ON de.department_id = h.maphongban " + "\n"
+             + "WHERE  de.department_type LIKE N'%Chính%' " + "\n"
+             + "       AND de.department_id != 'PXST' " + "\n"
+             + "       AND de.department_id != 'PXLT'";
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
 
-                ViewBag.TatCaDonVi = db.Database.SqlQuery<TatCaDonVI>(tatcadonvi).ToList();
-                string[] teststring = new string[ViewBag.TatCaDonVi.Count];
-                for (int i = 0; i < ViewBag.TatCaDonVi.Count; i++)
-                {
-                    teststring[i] = ViewBag.TatCaDonVi[i].Name;
-                }
-                ViewBag.TenDonVi = teststring;
+                ViewBag.TatCaDonVi = db.Database.SqlQuery<BaoCaoNgayDB>(varname1, new SqlParameter("NgayDiemDanh", dateTime)).ToList();
+                //string[] teststring = new string[ViewBag.TatCaDonVi.Count];
+                //for (int i = 0; i < ViewBag.TatCaDonVi.Count; i++)
+                //{
+                //    teststring[i] = ViewBag.TatCaDonVi[i].Name;
+                //}
+                //ViewBag.TenDonVi = teststring;
 
-                int CBQL = 0;
-                int KT = 0;
-                int CD = 0;
-                int HSTT = 0;
-                int TongLaoDong = 0;
-                int LDTheoDS = 0;
-                int LDSX = 0;
-                int Om = 0;
-                int VLD = 0;
-                int Khac = 0;
-                int TongNghi = 0;
-                decimal TyLe = 0;
-                double NSLDThucHien = 0;
-                foreach (var item in ViewBag.TatCaDonVi)
-                {
-                    CBQL += item.CBQL;
-                    KT += item.KT;
-                    CD += item.CD;
-                    HSTT += item.HSTT;
-                    TongLaoDong += item.TongLaoDong;
-                    LDTheoDS += item.LDTheoDS;
-                    LDSX += item.LDSX;
-                    Om += item.Om;
-                    VLD += item.VLD;
-                    Khac += item.Khac;
-                    TongNghi += item.TongNghi;
-                    NSLDThucHien += item.NSLDThucHien;
-                    TyLe += item.TyLe;
-                };
-                if (ViewBag.TatCaDonVi.Count > 0)
-                {
-                    TyLe = Math.Round(TyLe / ViewBag.TatCaDonVi.Count, 2);
-                };
-                ViewBag.TatCaDonViFooter = new TatCaDonVI
-                {
-                    Name = "Tổng",
-                    CBQL = CBQL,
-                    KT = KT,
-                    CD = CD,
-                    HSTT = HSTT,
-                    TongLaoDong = TongLaoDong,
-                    LDTheoDS = LDTheoDS,
-                    LDSX = LDSX,
-                    Om = Om,
-                    VLD = VLD,
-                    Khac = Khac,
-                    TongNghi = TongNghi,
-                    NSLDThucHien = NSLDThucHien,
-                    TyLe = TyLe
-                };
+                //int CBQL = 0;
+                //int KT = 0;
+                //int CD = 0;
+                //int HSTT = 0;
+                //int TongLaoDong = 0;
+                //int LDTheoDS = 0;
+                //int LDSX = 0;
+                //int Om = 0;
+                //int VLD = 0;
+                //int Khac = 0;
+                //int TongNghi = 0;
+                //decimal TyLe = 0;
+                //foreach (var item in ViewBag.TatCaDonVi)
+                //{
+                //    CBQL += item.CBQL;
+                //    KT += item.KT;
+                //    CD += item.CD;
+                //    HSTT += item.HSTT;
+                //    TongLaoDong += item.TongLaoDong;
+                //    LDTheoDS += item.LDTheoDS;
+                //    LDSX += item.LDSX;
+                //    Om += item.Om;
+                //    VLD += item.VLD;
+                //    Khac += item.Khac;
+                //    TongNghi += item.TongNghi;
+                //    TyLe += item.TyLe;
+                //};
+                //if (ViewBag.TatCaDonVi.Count > 0)
+                //{
+                //    TyLe = Math.Round(TyLe / ViewBag.TatCaDonVi.Count, 2);
+                //};
+                //ViewBag.TatCaDonViFooter = new TatCaDonVI
+                //{
+                //    Name = "Tổng",
+                //CBQL = CBQL,
+                //    KT = KT,
+                //    CD = CD,
+                //    HSTT = HSTT,
+                //    TongLaoDong = TongLaoDong,
+                //    LDTheoDS = LDTheoDS,
+                //    LDSX = LDSX,
+                //    Om = Om,
+                //    VLD = VLD,
+                //    Khac = Khac,
+                //    TongNghi = TongNghi,
+                //    TyLe = TyLe
+                //};
             }
             return View("/Views/TCLD/Report/DailyAll.cshtml");
         }
@@ -254,7 +273,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     int Khac = 0;
                     int TongNghi = 0;
                     decimal TyLe = 0;
-                    double NSLDThucHien = 0;
                     foreach (var item in ViewBag.TatCaDonVi)
                     {
                         CBQL += item.CBQL;
@@ -268,7 +286,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         VLD += item.VLD;
                         Khac += item.Khac;
                         TongNghi += item.TongNghi;
-                        NSLDThucHien += item.NSLDThucHien;
                         TyLe += item.TyLe;
                     };
                     if (ViewBag.TatCaDonVi.Count > 0)
@@ -278,19 +295,18 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     ViewBag.TatCaDonViFooter = new TatCaDonVI
                     {
                         Name = "Tổng",
-                        CBQL = CBQL,
-                        KT = KT,
-                        CD = CD,
-                        HSTT = HSTT,
-                        TongLaoDong = TongLaoDong,
-                        LDTheoDS = LDTheoDS,
-                        LDSX = LDSX,
-                        Om = Om,
-                        VLD = VLD,
-                        Khac = Khac,
-                        TongNghi = TongNghi,
-                        NSLDThucHien = NSLDThucHien,
-                        TyLe = TyLe
+                        //CBQL = CBQL,
+                        //KT = KT,
+                        //CD = CD,
+                        //HSTT = HSTT,
+                        //TongLaoDong = TongLaoDong,
+                        //LDTheoDS = LDTheoDS,
+                        //LDSX = LDSX,
+                        //Om = Om,
+                        //VLD = VLD,
+                        //Khac = Khac,
+                        //TongNghi = TongNghi,
+                        //TyLe = TyLe
                     };
                     excelWorksheet.Cells[1, 1].Value = "BÁO CÁO THỰC HIỆN LAO ĐỘNG, TIỀN LƯƠNG CÔNG NHÂN TRỰC TIẾP NGÀY " + date;
                    
@@ -312,7 +328,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         excelWorksheet.Cells[k, 16].Value = ViewBag.TatCaDonVi[i].Khac;
                         excelWorksheet.Cells[k, 17].Value = ViewBag.TatCaDonVi[i].TongNghi;
                         excelWorksheet.Cells[k, 18].Value = ViewBag.TatCaDonVi[i].TyLe;
-                        excelWorksheet.Cells[k, 24].Value = ViewBag.TatCaDonVi[i].NSLDThucHien;
                         k++;
                         stt++;
                     }
@@ -330,7 +345,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     excelWorksheet.Cells[k, 16].Value = ViewBag.TatCaDonViFooter.Khac;
                     excelWorksheet.Cells[k, 17].Value = ViewBag.TatCaDonViFooter.TongNghi;
                     excelWorksheet.Cells[k, 18].Value = ViewBag.TatCaDonViFooter.TyLe;
-                    excelWorksheet.Cells[k, 24].Value = ViewBag.TatCaDonViFooter.NSLDThucHien;
                     string location = HostingEnvironment.MapPath("/excel/TCLD/download");
                     excelPackage.SaveAs(new FileInfo(location + "/Báo cáo năng suất lao động và tiền lương theo các phân xưởng theo ngày.xlsx"));
                 }
@@ -343,7 +357,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             var ngay = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             string query = "select distinct NhanVien.LoaiNhanVien, ISNULL(b.LDTheoDS,0) as LDTheoDS, ISNULL(b.LĐSX,0) as LDSX, " +
                 "ISNULL(b.Phep,0) as Phep, ISNULL(b.Om,0) as Om, ISNULL(b.Bu,0) as Bu, ISNULL(b.TT,0) as TT, " +
-                "ISNULL(b.VLD,0) as VLD, ISNULL(b.H,0) as H, ISNULL(b.TongNghi,0) as TongNghi, ISNULL(b.NSLDThucHien,0) as NSLDThucHien " +
+                "ISNULL(b.VLD,0) as VLD, ISNULL(b.H,0) as H, ISNULL(b.TongNghi,0) as TongNghi" +
                 "from NhanVien  left join  (select *, (Phep+Om+Bu+TT+VLD+H)as " +
                 "TongNghi from  (select  n.LoaiNhanVien, COUNT(d.CaDiemDanh) as LDTheoDS, " +
                 "Sum(CASE WHEN LyDoVangMat is null THEN 1 ELSE 0 END)  as LĐSX, " +
@@ -352,10 +366,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 "Sum(CASE WHEN LyDoVangMat like N'Bù' THEN 1 ELSE 0 END) AS Bu , " +
                 "Sum(CASE WHEN LyDoVangMat like N'TT' THEN 1 ELSE 0 END) AS TT , " +
                 "Sum(CASE WHEN LyDoVangMat like N'VLD' THEN 1 ELSE 0 END) AS VLD , " +
-                "Sum(CASE WHEN LyDoVangMat like N'H' THEN 1 ELSE 0 END) AS H , " +
-                "sum(NangSuatLaoDong) as NSLDThucHien from  NhanVien n, DiemDanh_NangSuatLaoDong " +
-                "d,Department de where n.MaNV = d.MaNV and de.department_id = d.MaDonVi and " +
-                "CaDiemDanh = " + ca + "  and NgayDiemDanh = '" + ngay + "' and department_id like " +
+                "Sum(CASE WHEN LyDoVangMat like N'H' THEN 1 ELSE 0 END) AS H" +
+                "NhanVien n, DiemDanh_NangSuatLaoDong d, " +
+                "Department de, Header_DiemDanh_NangSuat_LaoDong h " +
+                "where n.MaNV = d.MaNV and de.department_id = h.MaPhongBan and d.HeaderID = h.HeaderID" +
+                "h.Ca = " + ca + "  and h.NgayDiemDanh = '" + ngay + "' and h.MaPhongBan like " +
                 "'" + donvi + "' group by   n.LoaiNhanVien) a) b on NhanVien.LoaiNhanVien= b.LoaiNhanVien   where NhanVien.LoaiNhanVien iS not NULL";
             return query;
         }
@@ -371,8 +386,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 "like N'Bù' THEN 1 ELSE 0 END),0) AS Bu ,Isnull(Sum(CASE WHEN LyDoVangMat " +
                 "like N'TT' THEN 1 ELSE 0 END),0) AS TT , Isnull(Sum(CASE WHEN LyDoVangMat " +
                 "like N'VLD' THEN 1 ELSE 0 END),0) AS VLD , Isnull(Sum(CASE WHEN LyDoVangMat " +
-                "like N'H' THEN 1 ELSE 0 END),0) AS H , Isnull(sum(NangSuatLaoDong),0) as " +
-                "NSLDThucHien from  NhanVien n, DiemDanh_NangSuatLaoDong d,Department de where " +
+                "like N'H' THEN 1 ELSE 0 END),0) AS H" +
+                "from  NhanVien n, DiemDanh_NangSuatLaoDong d,Department de where " +
                 "n.MaNV = d.MaNV and de.department_id = d.MaDonVi and  CaDiemDanh = " + ca + "  and " +
                 "NgayDiemDanh = '" + ngay + "' and department_id like '" + donvi + "' ) a";
 
@@ -382,24 +397,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
         public static string QueryForReportAlll(string date)
         {
             var ngay = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            //string query = "select  distinct Department.department_id as [Name], ROW_NUMBER() OVER " +
-            //    "(ORDER BY Department.department_id) AS [STT], ISNULL(b.CBQL,0) as CBQL, ISNULL(b.KT,0) " +
-            //    "as KT, ISNULL(b.CD,0) as CD, ISNULL(b.HSTT,0) as HSTT,ISNULL((b.KT+b.CD+b.HSTT),0) as " +
-            //    "TongLaoDong, ISNULL(b.LDTheoDS,0) as LDTheoDS , ISNULL(b.LDSX,0) as LDSX  , ISNULL(b.Om,0) " +
-            //    "as Om , ISNULL(b.VLD,0) as VLD ,ISNULL((b.Phep+b.Bu+b.TT+b.H),0) as Khac, ISNULL(b.TongNghi,0) as " +
-            //    "TongNghi, Cast( Case when (b.LDTheoDS) !=0 then (b.LDSX)* 1.0/(b.LDTheoDS)*100 else 100 end as numeric(36,2)) as TyLe, ISNULL(b.NSLDThucHien,0) as NSLDThucHien  from Department left join (select *, " +
-            //    "(Phep+Om+Bu+TT+VLD+H)as TongNghi from  (select  de.department_id, COUNT(d.MaNV) as LDTheoDS, " +
-            //    "Sum(CASE WHEN LyDoVangMat is null THEN 1 ELSE 0 END)  as LDSX, Sum(CASE WHEN LyDoVangMat like " +
-            //    "N'Phép' THEN 1 ELSE 0 END) AS Phep , Sum(CASE WHEN LyDoVangMat like N'Ốm' THEN 1 ELSE 0 END) " +
-            //    "AS Om , Sum(CASE WHEN LyDoVangMat like N'Bù' THEN 1 ELSE 0 END) AS Bu , Sum(CASE WHEN LyDoVangMat " +
-            //    "like N'TT' THEN 1 ELSE 0 END) AS TT , Sum(CASE WHEN LyDoVangMat like N'VLD' THEN 1 ELSE 0 END) AS " +
-            //    "VLD , Sum(CASE WHEN LyDoVangMat like N'H' THEN 1 ELSE 0 END) AS H , SUM(Case when LoaiNhanVien " +
-            //    "like N'CBQL' then 1 else 0 end )as CBQL, SUM(Case when LoaiNhanVien like N'CNKT' then 1 else 0 " +
-            //    "end )as KT, SUM(Case when LoaiNhanVien like N'Cơ Điện' then 1 else 0 end )as CD, SUM(Case when " +
-            //    "LoaiNhanVien like N'HSTT' then 1 else 0 end )as HSTT, sum(NangSuatLaoDong) as NSLDThucHien from  " +
-            //    "NhanVien n, DiemDanh_NangSuatLaoDong d,Department de where n.MaNV = d.MaNV and de.department_id = " +
-            //    "d.MaDonVi and NgayDiemDanh = '" + ngay + "' group by   de.department_id) a) b on " +
-            //    "Department.department_id = b.department_id";
             string query= "SELECT DISTINCT department.department_id AS [Name], \n"
             + "                Row_number() \n"
             + "                  OVER ( \n"
@@ -419,8 +416,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             + "                       WHEN ( b.ldtheods ) != 0 THEN \n"
             + "                       ( b.ldsx ) * 1.0 / ( b.ldtheods ) * 100 \n"
             + "                       ELSE 100 \n"
-            + "                     END AS NUMERIC(36, 2))               AS TyLe, \n"
-            + "                Isnull(b.NSLDThucHien, 0)                 AS NSLDThucHien \n"
+            + "                     END AS NUMERIC(36, 2))               AS TyLe \n"
             + "FROM   department \n"
             + "       LEFT JOIN (SELECT *, \n"
             + "                         ( phep + om + bu + tt + vld + h )AS TongNghi \n"
@@ -474,16 +470,19 @@ namespace QUANGHANHCORE.Controllers.TCLD
             + "                                 Sum(CASE \n"
             + "                                       WHEN loainhanvien LIKE N'HSTT' THEN 1 \n"
             + "                                       ELSE 0 \n"
-            + "                                     END)             AS HSTT, \n"
-            + "                                 Sum(nangsuatlaodong) AS NSLDThucHien \n"
+            + "                                     END)             AS HSTT \n"
             + "                          FROM   nhanvien n, \n"
             + "                                 diemdanh_nangsuatlaodong d, \n"
-            + "                                 department de \n"
+            + "                                 department de, \n"
+            + "                                 Header_DiemDanh_NangSuat_LaoDong h"
             + "                          WHERE  n.manv = d.manv \n"
-            + "                                 AND de.department_id = d.madonvi \n"
-            + "                                 AND ngaydiemdanh = '"+ ngay + "' \n"
+            + "                                 AND de.department_id = h.MaPhongBan \n"
+            + "                                 AND h.HeaderID = d.HeaderID \n"
+            + "                                 AND h.NgayDiemDanh = '" + ngay + "' \n"
             + "                          GROUP  BY de.department_id) a) b \n"
-            + "              ON department.department_id = b.department_id ";
+            + "              ON department.department_id = b.department_id \n"
+            + "              WHERE  department.department_type = N'Phân xưởng sản xuất chính' \n"
+            + "                     AND department.department_id != 'PXLT' AND department.department_id != 'PXST' ";
             return query;
         }
     }
@@ -498,27 +497,17 @@ namespace QUANGHANHCORE.Controllers.TCLD
         public int TT { get; set; }
         public int VLD { get; set; }
         public int H { get; set; }
-        public double NSLDThucHien { get; set; }
         public int TongNghi { get; set; }
     }
 
     public class TatCaDonVI
     {
         public string Name { get; set; }
-        public Int64 STT { get; set; }
-        public int CBQL { get; set; }
-        public int KT { get; set; }
-        public int CD { get; set; }
-        public int HSTT { get; set; }
-        public int TongLaoDong { get; set; }
-        public int LDTheoDS { get; set; }
-        public int LDSX { get; set; }
-        public int Om { get; set; }
-        public int VLD { get; set; }
-        public int Khac { get; set; }
-        public int TongNghi { get; set; }
-        public decimal TyLe { get; set; }
-        public double NSLDThucHien { get; set; }
+        public int TyLe { get; set; }
+        public double TongSoDiem { get; set; }
+        public double TongSoThan { get; set; }
+        public double TongSoMetLo { get; set; }
+        public double TongSoXen { get; set; }
     }
 
     public class Vang
