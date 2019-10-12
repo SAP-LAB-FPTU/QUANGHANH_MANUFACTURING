@@ -76,7 +76,7 @@ namespace QUANGHANHCORE.Controllers
                 string url = (string)Session["url"];
                 if (url == null)
                 {
-                    ViewData["Notification"] = "Bạn không có bất kì quyền hạn nào.";
+                    ViewData["Notification"] = "Tài khoản chưa được kích hoạt";
                     Session.Abandon();
                     return View();
                 }
@@ -104,45 +104,41 @@ namespace QUANGHANHCORE.Controllers
             {
                 RightIDs.Add(right.RightID + "");
             }
-            if (RightIDs.Count > 0)
+            var user = db.Accounts.Where(x => x.ID == UserID).FirstOrDefault();
+
+            if (user.NVID != null)
             {
-                int id = int.Parse(RightIDs[0]);
-                var module = db.Account_Right.Where(x => x.ID == id).FirstOrDefault();
-                string url = module.ModuleID;
-                if (url.Equals("1"))
+                var url = db.NhanViens.Where(x => x.MaNV == user.NVID).FirstOrDefault();
+
+                if (url.MaPhongBan.Equals("CDVT"))
                 {
                     Session["url"] = "phong-cdvt";
                     RightIDs.Add("001");
                 }
-                if (url.Equals("2"))
+                if (url.MaPhongBan.Equals("TCLD"))
                 {
                     Session["url"] = "phong-tcld";
                     RightIDs.Add("002");
                 }
-                if (url.Equals("3"))
+                if (url.MaPhongBan.Equals("KCS"))
                 {
                     Session["url"] = "phong-kcs";
                     RightIDs.Add("003");
                 }
-                if (url.Equals("4"))
+                if (url.MaPhongBan.Equals("DK"))
                 {
                     Session["url"] = "phong-dieu-khien";
                     RightIDs.Add("004");
                 }
-                if (url.Equals("5"))
+                if (url.MaPhongBan.Equals("BGD"))
                 {
                     Session["url"] = "ban-giam-doc";
                     RightIDs.Add("005");
                 }
-                if (url.Equals("6"))
+                if (url.MaPhongBan.Contains("PX"))
                 {
                     Session["url"] = "phan-xuong";
                     RightIDs.Add("006");
-                }
-                if (url.Equals("12"))
-                {
-                    Session["url"] = "phan-xuong-doi-song/theo-doi-suat-an";
-                    RightIDs.Add("012");
                 }
             }
             if (Boolean.Parse(Session["isAdmin"].ToString()) == true)
