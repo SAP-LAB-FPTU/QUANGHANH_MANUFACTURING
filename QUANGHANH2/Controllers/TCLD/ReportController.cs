@@ -162,25 +162,25 @@ namespace QUANGHANHCORE.Controllers.TCLD
             {
                 dateTime = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             }
-            string varname1 = 
-               "SELECT Isnull(tongsodiem, 0)  AS TongSoDiem, " + "\n"
-             + "       Isnull(tongsothan, 0)  AS TongSoThan, " + "\n"
-             + "       Isnull(tongsometlo, 0) AS TongSoMetLo, " + "\n"
-             + "       Isnull(tongsoxen, 0)   AS TongSoXen, " + "\n"
-             + "       de.department_id       AS Name " + "\n"
-             + "FROM   (SELECT Sum(totaleffort)   AS TongSoDiem, " + "\n"
-             + "               Sum(thanthuchien)  AS TongSoThan, " + "\n"
-             + "               Sum(metlothuchien) AS TongSoMetLo, " + "\n"
-             + "               Sum(xenthuchien)   AS TongSoXen, " + "\n"
-             + "               maphongban " + "\n"
-             + "        FROM   header_diemdanh_nangsuat_laodong " + "\n"
-             + "        WHERE  ngaydiemdanh = @NgayDiemDanh " + "\n"
-             + "        GROUP  BY maphongban) h " + "\n"
-             + "       RIGHT JOIN department de " + "\n"
-             + "               ON de.department_id = h.maphongban " + "\n"
-             + "WHERE  de.department_type LIKE N'%Chính%' " + "\n"
-             + "       AND de.department_id != 'PXST' " + "\n"
-             + "       AND de.department_id != 'PXLT'";
+            String varname1 = ""
+             + "select a.MaPhongBan, (a.KT + a.CD + a.HSTT) as Tong, a.KT, a.CD, a.HSTT, " + "\n"
+             + "(a.KT + a.CD + a.HSTT-a.vld-a.om-a.khac) as dilam, (a.vld + a.om + a.khac) as vang, " + "\n"
+             + "a.vld,a.om,a.khac, round(((a.KT + a.CD + a.HSTT-a.vld-a.om-a.khac)/(a.KT + a.CD + a.HSTT)*100),1) as tile, " + "\n"
+             + "a.than, a.metlo, a.xen,a.diemluong " + "\n"
+             + "from " + "\n"
+             + "(select n.MaPhongBan, " + "\n"
+             + "sum(case when n.LoaiNhanVien like '%CNKT%' and h.NgayDiemDanh = @NgayDiemDanh then  1 else 0 end) as KT, " + "\n"
+             + "sum(case when n.LoaiNhanVien like '%CNCD%' and h.NgayDiemDanh = @NgayDiemDanh then  1 else 0 end) as CD, " + "\n"
+             + "sum(case when n.LoaiNhanVien like '%HSTT%' and h.NgayDiemDanh = @NgayDiemDanh then  1 else 0 end) as HSTT, " + "\n"
+             + "sum(case when d.DiLam = 0  and d.LyDoVangMat like '%VLD%' then 1 else 0 end) as 'vld', " + "\n"
+             + "sum(case when d.DiLam = 0  and d.LyDoVangMat like '%om%' then 1 else 0 end) as 'om', " + "\n"
+             + "sum(case when d.DiLam = 0  and d.LyDoVangMat like '%khac%' then 1 else 0 end) as 'khac', " + "\n"
+             + "sum(h.ThanThucHien) as 'than', sum(h.MetLoThucHien) as 'metlo', sum(h.XenThucHien) as 'xen', " + "\n"
+             + "sum(h.TotalEffort) as 'diemluong' " + "\n"
+             + "from NhanVien n left outer join DiemDanh_NangSuatLaoDong d " + "\n"
+             + "on n.MaNV = d.MaNV left outer join Header_DiemDanh_NangSuat_LaoDong h " + "\n"
+             + "on h.HeaderID = d.HeaderID " + "\n"
+             + "group by n.MaPhongBan) as a";
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
 
