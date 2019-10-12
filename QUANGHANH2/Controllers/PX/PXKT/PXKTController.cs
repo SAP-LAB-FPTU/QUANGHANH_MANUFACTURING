@@ -278,13 +278,13 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                         if (item.isEnvolved)
                         {
                             dn.HeaderID = headerID;
-                            if (item.headerID == null)
-                            {
-                                db.DiemDanh_NangSuatLaoDong.Add(dn);
-                            } else
-                            {
+                            //if (item.headerID == null)
+                            //{
+                            //    db.DiemDanh_NangSuatLaoDong.Add(dn);
+                            //} else
+                            //{
                                 db.Entry(dn).State = EntityState.Modified;
-                            }
+                            //}
                         } else
                         {
                             if (item.headerID != null)
