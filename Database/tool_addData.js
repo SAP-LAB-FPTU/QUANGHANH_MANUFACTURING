@@ -1,17 +1,29 @@
 function add_Header_ThucHienHangNgay(session,date){
-    let result ="insert into header_ThucHienTheoNgay(MaPhongBan,Ngay,Ca) VALUES \n"
+    let result =""
+    // pxkt
     for(let i = 1 ; i <= 11 ; i++) {
-        result+="('PXKT"+i+"',"+"'"+date+"',"+session+"),\n"
+        result += "insert into header_ThucHienTheoNgay(MaPhongBan,Ngay,Ca) VALUES \n"
+        result+="('PXKT"+i+"',"+"'"+date+"',"+session+")\n GO \n"
     }
-    //
+    // pxdl
     for(let i = 1 ; i <= 8 ; i++) {
         if (i!=4 && i!=6){
-            result+="('PXDL"+i+"',"+"'"+ date+"',"+session+"),\n"
+            result += "insert into header_ThucHienTheoNgay(MaPhongBan,Ngay,Ca) VALUES \n"
+            result+="('PXDL"+i+"',"+"'"+ date+"',"+session+")\n GO \n"
         }
     }
-    result += "('KCS','"+date+"',"+session+"),\n"
-    result += "('PXST','"+date+"',"+session+"),\n"
-    result += "('CTYDH','"+date+"',"+session+")\n"
+    // kcs
+    result += "insert into header_ThucHienTheoNgay(MaPhongBan,Ngay,Ca) VALUES \n"
+    result += "('KCS','"+date+"',"+session+")\n GO \n"
+    // pxst
+    result += "insert into header_ThucHienTheoNgay(MaPhongBan,Ngay,Ca) VALUES \n"
+    result += "('PXST','"+date+"',"+session+")\n GO \n"
+    // Duong Huy
+    result += "insert into header_ThucHienTheoNgay(MaPhongBan,Ngay,Ca) VALUES \n"
+    result += "('CTYDH','"+date+"',"+session+")\n GO \n"
+    // Lo Thien
+    result += "insert into header_ThucHienTheoNgay(MaPhongBan,Ngay,Ca) VALUES \n"
+    result += "('PXLT','"+date+"',"+session+")\n GO \n"
     return result
 }
 
@@ -26,54 +38,66 @@ for (let i = 1 ; i <= 10; i++){
     }
 }
 
-startPoint = 480;
-inserthihi = "insert into ChiTiet_ThucHien_TieuChi_TheoNgay(HeaderID,MaTieuChi,SanLuong) VALUES";
-while (startPoint <=940){
-    for (let i = 1 ; i <= 22; i++){
-        switch(i){
-            // px khai thac
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-                for(let j=0; j<=10;j++){
-                    inserthihi += "("+(startPoint+j)+","+i+","+Math.ceil(100+Math.random()*900)+"),\n"
-                }
-                break;
-            //px dao lo
-            case 6:
-            case 7:
-            case 9:
-            case 19:
-                for(let j=11; j<=16;j++){
-                    inserthihi += "("+(startPoint+j)+","+i+","+Math.ceil(100+Math.random()*900)+"),\n"
-                }
-                break;
-            // phong kcs
-            case 10:
-            case 11:
-            case 12:
-            case 13:
-            case 14:
-            case 15:
-            case 16:
-            case 17:
-            case 18:
-            case 22:
-                    inserthihi += "("+(startPoint+17)+","+i+","+Math.ceil(100+Math.random()*900)+"),\n"
-                break;
-            // PXST
-            case 21:
-                    inserthihi += "("+(startPoint+18)+","+i+","+Math.ceil(100+Math.random()*900)+"),\n"
-                break;
-            // nhap Duong Huy
-            case 19:
-                    inserthihi += "("+(startPoint+19)+","+i+","+Math.ceil(100+Math.random()*900)+"),\n"
-                break;
+startPoint = 1;
+query = "";
+while (startPoint <=484){
+    for (let i = 0 ; i <= 10 ;i++) {
+            // than khai thac
+            query += "insert into ChiTiet_ThucHien_TieuChi_TheoNgay(HeaderID,MaTieuChi,SanLuong,KeHoach) VALUES \n"
+            query += "("+(startPoint)+","+(2)+","+(Math.ceil(100+Math.random()*900))+","+(Math.ceil(100+Math.random()*900))+") \n"
+            // than ML DAO
+            query += "insert into ChiTiet_ThucHien_TieuChi_TheoNgay(HeaderID,MaTieuChi,SanLuong,KeHoach) VALUES \n"
+            query += "("+(startPoint)+","+(7)+","+(Math.ceil(100+Math.random()*900))+","+(Math.ceil(100+Math.random()*900))+")\n"
+            // than ML NEO
+            query += "insert into ChiTiet_ThucHien_TieuChi_TheoNgay(HeaderID,MaTieuChi,SanLuong,KeHoach) VALUES \n"
+            query += "("+(startPoint)+","+(9)+","+(Math.ceil(100+Math.random()*900))+","+(Math.ceil(100+Math.random()*900))+")\n"
+            // than ML XEN
+            query += "insert into ChiTiet_ThucHien_TieuChi_TheoNgay(HeaderID,MaTieuChi,SanLuong,KeHoach) VALUES \n"
+            query += "("+(startPoint)+","+(19)+","+(Math.ceil(100+Math.random()*900))+","+(Math.ceil(100+Math.random()*900))+")\n"
+            startPoint++;
+    }
+    //
+    for (let i = 11 ; i <= 16 ;i++){
+        // than dao lo
+        query += "insert into ChiTiet_ThucHien_TieuChi_TheoNgay(HeaderID,MaTieuChi,SanLuong,KeHoach) VALUES \n"
+        query += "("+(startPoint)+","+(1)+","+(Math.ceil(100+Math.random()*900))+","+(Math.ceil(100+Math.random()*900))+")\n"
+        // than ML DAO
+        query += "insert into ChiTiet_ThucHien_TieuChi_TheoNgay(HeaderID,MaTieuChi,SanLuong,KeHoach) VALUES \n"
+        query += "("+(startPoint)+","+(7)+","+(Math.ceil(100+Math.random()*900))+","+(Math.ceil(100+Math.random()*900))+")\n"
+        // than ML NEO
+        query += "insert into ChiTiet_ThucHien_TieuChi_TheoNgay(HeaderID,MaTieuChi,SanLuong,KeHoach) VALUES \n"
+        query += "("+(startPoint)+","+(9)+","+(Math.ceil(100+Math.random()*900))+","+(Math.ceil(100+Math.random()*900))+")\n"
+        // than ML XEN
+        query += "insert into ChiTiet_ThucHien_TieuChi_TheoNgay(HeaderID,MaTieuChi,SanLuong,KeHoach) VALUES \n"
+        query += "("+(startPoint)+","+(19)+","+(Math.ceil(100+Math.random()*900))+","+(Math.ceil(100+Math.random()*900))+")\n"
+        startPoint++;
+    }
+    // nhap KCS
+    for (let i= 18;i <= 30; i++){
+        if (i != 19){
+            query += "insert into ChiTiet_ThucHien_TieuChi_TheoNgay(HeaderID,MaTieuChi,SanLuong,KeHoach) VALUES \n"
+            query += "("+(startPoint)+","+(i)+","+(Math.ceil(100+Math.random()*900))+","+(Math.ceil(100+Math.random()*900))+")\n"
         }
     }
-    startPoint += 20;
+    startPoint++
+    // nhap PXST
+    for (let i= 10;i <= 17; i++){
+            query += "insert into ChiTiet_ThucHien_TieuChi_TheoNgay(HeaderID,MaTieuChi,SanLuong,KeHoach) VALUES \n"
+            query += "("+(startPoint)+","+(i)+","+(Math.ceil(100+Math.random()*900))+","+(Math.ceil(100+Math.random()*900))+")\n"
+    }
+    startPoint++
+    // Duong Huy
+    query += "insert into ChiTiet_ThucHien_TieuChi_TheoNgay(HeaderID,MaTieuChi,SanLuong,KeHoach) VALUES \n"
+    query += "("+(startPoint)+","+(6)+","+(Math.ceil(100+Math.random()*900))+","+(Math.ceil(100+Math.random()*900))+")\n"
+    startPoint++
+    // PXLT
+    query += "insert into ChiTiet_ThucHien_TieuChi_TheoNgay(HeaderID,MaTieuChi,SanLuong,KeHoach) VALUES \n"
+    query += "("+(startPoint)+","+(3)+","+(Math.ceil(100+Math.random()*900))+","+(Math.ceil(100+Math.random()*900))+")\n"
+    //
+    query += "insert into ChiTiet_ThucHien_TieuChi_TheoNgay(HeaderID,MaTieuChi,SanLuong,KeHoach) VALUES \n"
+    query += "("+(startPoint)+","+(4)+","+(Math.ceil(100+Math.random()*900))+","+(Math.ceil(100+Math.random()*900))+")\n"
+    startPoint++
+    
 }
 
 console.log(inserthihi)
