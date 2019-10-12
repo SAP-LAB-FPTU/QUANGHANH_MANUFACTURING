@@ -275,6 +275,7 @@
     <Compile Include="Controllers\DK\ReportManuCharcoal\DetailManuReportController.cs" />
     <Compile Include="Controllers\DK\ReportManuCharcoal\ReportManuCharcoalController.cs" />
     <Compile Include="Controllers\DK\SanLuongReportController.cs" />
+    <Compile Include="Controllers\DK\SucoThietbiDKController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KCS\KCSController.cs" />
     <Compile Include="Controllers\KCS\ReportController.cs" />
@@ -7020,6 +7021,8 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="excel\DK\reportdaily.xlsx" />
+    <Content Include="excel\DK\reportmonth.xlsx" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
@@ -7304,6 +7307,7 @@
     <Content Include="Views\Phanxuong\NhapBaoCao\BaoCaoLenDK.cshtml" />
     <Content Include="Views\DK\PhanXuongReport.cshtml" />
     <Content Include="Views\DK\SanLuongReport.cshtml" />
+    <Content Include="Views\DK\SucoThietbi.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
