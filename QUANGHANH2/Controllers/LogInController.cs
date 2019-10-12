@@ -129,7 +129,7 @@ namespace QUANGHANHCORE.Controllers
                 }
                 if (url.Equals("6"))
                 {
-                    Session["url"] = "phan-xuong-khai-thac";
+                    Session["url"] = "phan-xuong";
                     RightIDs.Add("006");
                 }
                 if (url.Equals("12"))
