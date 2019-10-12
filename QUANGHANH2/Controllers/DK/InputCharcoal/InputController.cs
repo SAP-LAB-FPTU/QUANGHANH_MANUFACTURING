@@ -22,7 +22,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             int year = DateTime.Now.Year;
             var ngaySX = db.header_KeHoachTungThang.Where(x => x.ThangKeHoach == month && x.NamKeHoach == year).Select(x => x.SoNgayLamViec).FirstOrDefault();
             ViewBag.SoNgaySX = ngaySX;
-            ViewBag.NgayNhap = DateTime.Today.ToString("dd/MM/yyyy");
+            ViewBag.NgayNhap = DateTime.Today;
             return View("/Views/DK/InputCharcoal/InputCharcoal.cshtml");
         }
         public class LuyKe

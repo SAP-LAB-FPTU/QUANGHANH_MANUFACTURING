@@ -20,7 +20,7 @@
                 <div class="row">
                     <div class="input-field col s4 m4 l4"></div>
                     <div class="input-field col l2 m2 s2">
-                        <input class="form-control center" placeholder="Ngày sản xuất" value="@ViewBag.NgayNhap"/>
+                        <input class="form-control center" placeholder="Ngày sản xuất" />
                     </div>
                     <div class="input-field col l2 m2 s2">
                         <input id="SoNgaySX" class="form-control center" value="@ViewBag.SoNgaySX" disabled />
@@ -28,7 +28,7 @@
                     <div class="input-field col s4 m4 l4"></div>
                 </div>
                 <div class="input-field col l4 m12 s12">
-                    <input type="text" placeholder="Ngày" value="@ViewBag.NgayNhap" autocomplete="off" class='input-field form-control datepicker-here datepicker-add date-click center' id="dateInput" name="date" multiple />
+                    <input type="text" placeholder="Ngày" value="@ViewBag.NgayNhap" autocomplete="off" class='form-control datepicker-here date-click center' id="dateInput" name="date" multiple />
                 </div>
                 <div class="input-field col l4 m12 s12">
                     <select class="form-control" id="cbx-px" name="px_value" onchange="change()">
@@ -130,8 +130,8 @@
 
 
     function change() {
-        confirmAlert("Dữ liệu chưa được lưu?", "Xác nhận đổi",
-            function () {
+        //confirmAlert("Dữ liệu chưa được lưu?", "Xác nhận đổi",
+        //    function () {
                 $("#pre-load").show("slow", function () {
                 });
                 $("#pre-load").css("z-index", "99999");
@@ -178,8 +178,8 @@
                         }
                     }
                 })
-            }
-        );
+            //}
+        //);
     }
 </script>
 <script>
