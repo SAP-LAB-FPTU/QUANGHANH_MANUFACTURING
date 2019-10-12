@@ -17,6 +17,12 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
         [Route("phong-dieu-khien/nhap-lieu-san-xuat")]
         public ActionResult InputCharcoal()
         {
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            int month = DateTime.Now.Month;
+            int year = DateTime.Now.Year;
+            var ngaySX = db.header_KeHoachTungThang.Where(x => x.ThangKeHoach == month && x.NamKeHoach == year).Select(x => x.SoNgayLamViec).FirstOrDefault();
+            ViewBag.SoNgaySX = ngaySX;
+            ViewBag.NgayNhap = DateTime.Today;
             return View("/Views/DK/InputCharcoal/InputCharcoal.cshtml");
         }
         [Route("change")]
@@ -38,22 +44,38 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                     {
                         string query = "select * from TieuChi where MaTieuChi in (1,23,9)";
                         tcList = db.Database.SqlQuery<TieuChi>(query).ToList();
-                    }else
+                    }
+                    else
                     {
-                        string query = "select * from TieuChi where MaTieuChi in (1,24,9)";
+                        string query = "select * from TieuChi where MaTieuChi in (1,24,9,6)";
                         tcList = db.Database.SqlQuery<TieuChi>(query).ToList();
                     }
                 }
-                else if(px_value.Equals("KCS"))
+                else if (px_value.Equals("KCS"))
                 {
-                    string query = "select * from TieuChi where MaTieuChi in (18,19,22)";
+                    string query = "select * from TieuChi where MaTieuChi in (18,19,22,10,11,12,13,14,15,16,17)";
                     tcList = db.Database.SqlQuery<TieuChi>(query).ToList();
-                }else if(px_value.Equals("ST"))
+                }
+                else if (px_value.Equals("ST"))
                 {
-
+                    string query = "select * from TieuChi where MaTieuChi in (21)";
+                    tcList = db.Database.SqlQuery<TieuChi>(query).ToList();
+                }
+                else if (px_value.Equals("LT"))
+                {
+                    string query = "select * from TieuChi where MaTieuChi in (3,4)";
+                    tcList = db.Database.SqlQuery<TieuChi>(query).ToList();
                 }
             }
-            return Json(new { success = true, list = tcList }, JsonRequestBehavior.AllowGet);
+            int month = DateTime.Now.Month;
+            int year = DateTime.Now.Year;
+            if (!date.Equals(""))
+            {
+                month = Convert.ToInt32(date.Split('/')[1]);
+                year = Convert.ToInt32(date.Split('/')[2]);
+            }
+            var ngaySX = db.header_KeHoachTungThang.Where(x => x.ThangKeHoach == month && x.NamKeHoach == year).Select(x => x.SoNgayLamViec).FirstOrDefault();
+            return Json(new { success = true, list = tcList, dateSX = ngaySX }, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult SaveChange(string date, string px_value, string ca_value,

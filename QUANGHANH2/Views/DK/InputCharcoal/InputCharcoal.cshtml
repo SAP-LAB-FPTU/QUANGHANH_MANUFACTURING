@@ -17,8 +17,18 @@
         <div class="card-content">
             <div class="row">
                 <h3 class="center">NHẬP LIỆU SẢN XUẤT</h3>
+                <div class="row">
+                    <div class="input-field col s4 m4 l4"></div>
+                    <div class="input-field col l2 m2 s2">
+                        <input class="form-control center" placeholder="Ngày sản xuất" />
+                    </div>
+                    <div class="input-field col l2 m2 s2">
+                        <input id="SoNgaySX" class="form-control center" value="@ViewBag.SoNgaySX" disabled />
+                    </div>
+                    <div class="input-field col s4 m4 l4"></div>
+                </div>
                 <div class="input-field col l4 m12 s12">
-                    <input type="text" placeholder="Ngày" autocomplete="off" class='input-field form-control datepicker-here datepicker-add date-click center' id="dateInput" name="date" multiple />
+                    <input type="text" placeholder="Ngày" value="@ViewBag.NgayNhap" autocomplete="off" class='input-field form-control datepicker-here datepicker-add date-click center' id="dateInput" name="date" multiple />
                 </div>
                 <div class="input-field col l4 m12 s12">
                     <select class="form-control" id="cbx-px" name="px_value" onchange="change()">
@@ -79,36 +89,6 @@
                                 </tr>
                             </thead>
                             <tbody id="table-input-body">
-                                @*@if (ViewBag.tc != null)
-                                    {
-                                        foreach (var item in ViewBag.tc)
-                                        {
-                                            <tr>
-                                                <th>@item.TenTieuChi</th>
-                                                <th>@item.DonViDo</th>
-                                                '
-                                                <td><input autocomplete="off" style="border:none" name="thucHien" /></td>'+
-                                                '
-                                                <td><input autocomplete="off" style="border:none" name="keHoach" /></td>'+
-                                                '
-                                                <td><input autocomplete="off" style="border:none" name="chenhLech" /></td>'+
-                                                '
-                                                <td><input autocomplete="off" style="border:none" name="phanTramHT" /></td>'+
-                                                '
-                                                <td><input autocomplete="off" style="border:none" name="luyKe" /></td>'+
-                                                '
-                                                <td><input autocomplete="off" style="border:none" name="KHDC" /></td>'+
-                                                '
-                                                <td><input autocomplete="off" style="border:none" name="phanTramTD" /></td>'+
-                                                '
-                                                <td><input autocomplete="off" style="border:none" name="tong" /></td>'+
-                                                '
-                                                <td><input autocomplete="off" style="border:none" name="motNgay" /></td>'+
-                                                '
-                                                <td><input autocomplete="off" class="input-field" style="border:none" name="ghiChu" /></td>'+
-                                            </tr>
-                                        }
-                                    }*@
                             </tbody>
                         </table>
                     </div>
@@ -156,14 +136,16 @@
                 });
                 $("#pre-load").css("z-index", "99999");
                 var px_value = $('#cbx-px').val();
+                var date = $('#dateInput').val();
                 $.ajax({
                     type: 'POST',
                     url: '/change',
                     dataType: 'json',
-                    data: { 'px_value': px_value },
+                    data: { 'px_value': px_value, 'date': date },
                     success: function (response) {
                         if (response.success) {
                             if (response.list != null) {
+                                $("#SoNgaySX").val(response.dateSX)
                                 $("#table-input-body").empty();
                                 for (i = 0; i < response.list.length; i++) {
                                     $("#table-input-body").append("<tr>");
