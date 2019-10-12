@@ -5,6 +5,10 @@
 }
 <link href="~/lib/mutiple select/slimselect.css" rel="stylesheet" />
 <link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
+<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
+<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
+
 <div class="card">
     <div class="card-content">
         <div class="row">
@@ -25,7 +29,7 @@
                                 <th>Tên Nhân Viên</th>
                                 <th>Đơn vị</th>
                                 <th>Lý do tai nạn</th>
-                                @*<th>Loại tai nạn</th>*@
+                                <th>Loại tai nạn</th>
                                 <th>Ca</th>
                                 <th>Ngày</th>
                                 <th colspan="2"></th>
@@ -52,7 +56,7 @@
                     <div class="col s12 m6">
                         <div class="col s12">
                             <label for="number">Mã nhân viên: </label>
-                            <input list="EmployeeID" type="text" class="form-control" name="employeeid" placeholder="Mã nhân viên" id="employeeId1" onkeydown=" searchMaNV(this)" />
+                            <input list="EmployeeID" type="text" class="form-control" placeholder="Mã nhân viên" id="employeeId1" onkeydown=" searchMaNV(this)" />
                         </div>
                         <div class="col s12">
                             <label for="number">Đơn vị: </label>
@@ -61,14 +65,14 @@
                         <div class="col s12">
                             <label for="number">Ca: </label>
                             <select id="ca" class="custom-select">
-                                <option>CA 1</option>
-                                <option>CA 2</option>
-                                <option>CA 3</option>
+                                <option value="1">CA 1</option>
+                                <option value="2">CA 2</option>
+                                <option value="3">CA 3</option>
                             </select>
                         </div>
                         <div class="col s12">
                             <label for="number">Ngày xảy ra: </label>
-                            <input type="text" class=" datepicker-here form-control" placeholder="Ngày" name="date" id="date" />
+                            <input type="text" class="datepicker-here form-control" placeholder="Ngày" name="date" id="date" required />
                         </div>
                     </div>
                     <div class="col s12 m6">
@@ -92,7 +96,64 @@
             </div>
             <div class="modal-footer">
                 <div class="col-md-offset-2 col-md-10">
-                    <button type="submit" class="btn blue btn-default modal-close" style="color:white">Xác nhận</button>
+                    <button type="submit" class="btn blue btn-default modal-close" style="color:white" onclick="ThemTaiNan()" id="ins">Xác nhận</button>
+                    <button type="submit" class="btn blue btn-default modal-close" style="color:white">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="myedit" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Chỉnh sửa tai nạn</h3>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col s12 m6">
+                        <div class="col s12">
+                            <label for="number">Mã nhân viên: </label>
+                            <input list="EmployeeID" type="text" class="form-control" placeholder="Mã nhân viên" id="employeeIdEdit1" onkeydown=" searchMaNVEdit(this)" />
+                            <input type="hidden" id="MATN"/>
+                        </div>
+                        <div class="col s12">
+                            <label for="number">Đơn vị: </label>
+                            <input type="text" class="form-control" placeholder="Phân xưởng" id="departmentEdit1" readonly />
+                        </div>
+                        <div class="col s12">
+                            <label for="number">Ca: </label>
+                            <select id="caedit" class="custom-select">
+                                <option value="1">CA 1</option>
+                                <option value="2">CA 2</option>
+                                <option value="3">CA 3</option>
+                            </select>
+                        </div>
+                        <div class="col s12">
+                            <label for="number">Ngày xảy ra: </label>
+                            <input type="text" class="datepicker-here form-control" placeholder="Ngày" id="dateedit" required />
+                        </div>
+                    </div>
+                    <div class="col s12 m6">
+                        <div class="col s12">
+                            <label for="number">Tên nhân viên: </label>
+                            <input type="text" class="form-control" placeholder="Tên nhân viên" id="employeeNameEdit1" readonly />
+                        </div>
+                        <div class="col s12">
+                            <label for="number">Lí do tai nạn: </label>
+                            <input type="text" class="form-control" placeholder="Lý do tai nạn" id="reasonedit" />
+                        </div>
+                        <div class="col s12">
+                            <label for="number">Loại tai nạn: </label>
+                            <select id="loaitainanedit" class="custom-select">
+                                <option>Nặng</option>
+                                <option>Nhẹ</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-offset-2 col-md-10">
+                    <button type="submit" class="btn blue btn-default modal-close" style="color:white" onclick="UpdateTaiNan()">Xác nhận</button>
                     <button type="submit" class="btn blue btn-default modal-close" style="color:white">Đóng</button>
                 </div>
             </div>
@@ -102,11 +163,8 @@
 <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
 <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
 <!--Stacked Bar Chart JS-->
-<script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
-<script src="~/js/Custom JS/CustomChart.js"></script>
 <script src="~/js/Custom JS/Disable_input_material.js"></script>
-<script src="~/Scripts/notify.min.js"></script>
-
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script>
     $(document).ready(function () {
 
@@ -129,6 +187,7 @@
                     { "data": "Ten", "name": "Ten" },
                     { "data": "department_name", "name": "department_name" },
                     { "data": "LyDo", "name": "LyDo" },
+                    { "data": "Loai", "name": "Loai" },
                     { "data": "Ca", "name": "Ca" },
                     {
                         "data": "Ngay", "name": "Ngay", "render": function (data) {
@@ -172,6 +231,93 @@
                 }
             });
     });
+
+    function ThemTaiNan() {
+        $("#pre-load").show();
+        var emp = {
+            MaNV: document.getElementById("employeeId1").value,
+            LyDo: document.getElementById("reason").value,
+            Ngay: document.getElementById("date").value,
+            Ca: document.getElementById("ca").value,
+            Loai: document.getElementById("loaitainan").value,
+        };
+        $.ajax({
+            type: "POST",
+            url: "/phong-dieu-khien/danh-sach-tai-nan/them",
+            data: JSON.stringify(emp),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data == 1) {
+                    dataTable.ajax.reload();
+                    $.notify("Thêm thành công", {
+                        globalPosition: "top center",
+                        className: "success"
+                    })
+                }
+                if (data == 0) {
+                    dataTable.ajax.reload();
+                    $.notify("Thêm thất bại", {
+                        globalPosition: "top center",
+                        className: "error"
+                    })
+                }
+            },
+            error: function () {
+                dataTable.ajax.reload();
+                $.notify("Thêm thất bại", {
+                    globalPosition: "top center",
+                    className: "error"
+                })
+            }
+        });
+        $("#pre-load").hide();
+    }
+
+    function UpdateTaiNan() {
+        $("#pre-load").show();
+        var emp = {
+            MaTaiNan : document.getElementById("MATN").value,
+            MaNV: document.getElementById("employeeIdEdit1").value,
+            LyDo: document.getElementById("reasonedit").value,
+            Ngay: document.getElementById("dateedit").value,
+            Ca: document.getElementById("caedit").value,
+            Loai: document.getElementById("loaitainanedit").value,
+        };
+        $.ajax({
+            type: "POST",
+            url: "/phong-dieu-khien/danh-sach-tai-nan/sua",
+            data: JSON.stringify(emp),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                dataTable.ajax.reload();
+                if (data == 1) {
+                    dataTable.ajax.reload();
+                    $.notify("Chỉnh sửa thành công", {
+                        globalPosition: "top center",
+                        className: "success"
+                    })
+                }
+                if (data == 0) {
+                    dataTable.ajax.reload();
+                    $.notify("Chỉnh sửa thất bại", {
+                        globalPosition: "top center",
+                        className: "error"
+                    })
+                }
+            },
+            error: function () {
+                dataTable.ajax.reload();
+                $.notify("Chỉnh sửa thất bại", {
+                    globalPosition: "top center",
+                    className: "error"
+                })
+            }
+        });
+        $("#pre-load").hide();
+    }
+
     function searchMaNV(txtMaNV) {
         var tmp = {
             MaNV: txtMaNV.value
@@ -193,15 +339,86 @@
             });
         }
     }
-    function getDeleteIdEmp(idEmp) {
-        deleteIdEmp = idEmp;
-        confirmAlert(
-            'Bạn có chắc chắn muốn xóa chứng chỉ này?',
-            '',
-            function ahihi() {
-                DeleteEmp();
+    function searchMaNVEdit(txtMaNV) {
+        var tmp = {
+            MaNV: txtMaNV.value
+        };
+        if (event.key === 'Enter') {
+            $.ajax({
+                type: "POST",
+                url: "/phong-dieu-khien/bao-cao-tai-nan/returnEmployeeName",
+                data: JSON.stringify(tmp),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    document.getElementById("employeeNameEdit" + txtMaNV.id.slice(-1)).value = r.Ten;
+                    document.getElementById("departmentEdit" + txtMaNV.id.slice(-1)).value = r.department_name;
+
+                }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#pre-load').hide();
+                }
             });
+        }
     }
+    function getDeleteIdEmp(idEmp) {
+        confirmAlert('Bạn có chắc chắn muốn xóa bản ghi này?', '',
+            function tso() {
+                $('#pre-load').show();
+                var emp = {
+                    id: idEmp
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "/phong-dieu-khien/danh-sach-tai-nan/xoa",
+                    data: JSON.stringify(emp),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function () {
+                        dataTable.ajax.reload();
+                        $.notify("Xóa thành công", {
+                            globalPosition: "top center",
+                            className: "success"
+                        })
+                    },
+                    error: function () {
+                        dataTable.ajax.reload();
+                        $.notify("Xóa thất bại", {
+                            globalPosition: "top center",
+                            className: "error"
+                        })
+                    }
+                });
+                $('#pre-load').hide();
+            }
+        );
+    }
+    function getEditId(data) {
+        $('#pre-load').show();
+        var emp = {
+            id: data
+        };
+        $.ajax({
+            type: "POST",
+            url: "/phong-dieu-khien/danh-sach-tai-nan/getid",
+            data: JSON.stringify(emp),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                document.getElementById("employeeIdEdit1").value = data.MaNV;
+                document.getElementById("departmentEdit1").value = data.department_name;
+                document.getElementById("caedit").value = data.Ca;
+                document.getElementById("reasonedit").value = data.LyDo;
+                document.getElementById("employeeNameEdit1").value = data.Ten;
+                document.getElementById("dateedit").value = dateFormat2(data.Ngay);
+                document.getElementById("loaitainanedit").value = data.Loai;
+                document.getElementById("MATN").value = data.MaTaiNan;
+            },
+            error: function () {
+            }
+        });
+        $('#pre-load').hide();
+    }
+
     function dateFormat2(d) {
         var dateString = d.substr(6);
         var currentTime = new Date(parseInt(dateString));
@@ -211,5 +428,20 @@
         var date = day + "/" + month + "/" + year;
         return (date);
     }
+</script>
+<script>
+    $('#date').datepicker({
+        language: 'vi',
+        maxDate: new Date() // Now can select only dates, which goes after today
+    })
+    $(document).ready(function () {
+        $('.datepicker-inline').remove();
+    });
+    $("#date").keyup(function (e) {
+        if (e.which == 13) {
+            $("#ins").click();
+            $("#date").blur();
+        }
+    });
 </script>
 

@@ -540,6 +540,56 @@
 <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
 <script src="~/js/Custom JS/CDVT/Home/DetailManu_Daily.js"></script>
 <script>
+
+     $("#equipmentId-search").keyup( function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#documentary_code-search").blur();
+        }
+     });
+
+     $("#equipmentName-search").keyup( function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#person_created-search").blur();
+        }
+     });
+      $("#category-search").keyup( function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#date-start-search").blur()
+        }
+      });
+      $("#supplier-search").keyup( function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#date-end-search").blur();
+        }
+      });
+          $("#date-start-search").keyup( function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#date-start-search").blur()
+        }
+      });
+      $("#date-end-search").keyup( function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#date-end-search").blur();
+        }
+      });
+       $("#department-search").keyup( function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#date-start-search").blur()
+        }
+      });
+      $("#equipmentQuality-search").keyup( function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#date-end-search").blur();
+        }
+      });
     $('#equipmentId-search').change(function () {
         $(this).closest('form').submit();
     });
@@ -733,9 +783,9 @@
                         ////////////////////////////////////////////////
                     },
                     "serverSide": "true",
-                    "bLengthChange": false,
+                  
                     "bFilter": false,
-                    "bInfo": false,
+                     "lengthChange": false,
                     "bAutoWidth": false,
                     "order": [0, "asc"],
                 "language": {
@@ -746,7 +796,9 @@
                             next: "Trang sau",
                             first: "|<",
                             last: ">|"
-                        }
+                          },
+                           info: "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                                    infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
                     },
 
                 });
@@ -788,6 +840,12 @@
                          },
                          "cache": false
                      },
+                     "drawCallback": function (settings) {
+                        ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
+                        $("#pre-load").hide("slow", function () {
+                        });
+                        ////////////////////////////////////////////////
+                    },
                      "columns": [
                     { "data": "Equipment_category_name", "name" : "Equipment_category_name"},
                     {
@@ -853,12 +911,7 @@
                         "width":"150px"
                         }
                     ],
-                     "drawCallback": function (settings) {
-                        ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
-                        $("#pre-load").hide("slow", function () {
-                        });
-                        ////////////////////////////////////////////////
-                    },
+                     
                     "serverSide": "true",
                     "order": [0, "asc"],
                     "rowId": "incident_id",
@@ -874,8 +927,7 @@
                          })
                      }
                  });
-             $("#pre-load").hide("slow", function () {
-                        });
+          
                 //$('#pre-load').hide();
             });
 
@@ -913,7 +965,7 @@
                 });
         }
 
-        function UpdateEquipment(form) {
+     function UpdateEquipment(form) {
              $("#pre-load").show();
 
             $.validator.unobtrusive.parse(form);

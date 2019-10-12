@@ -25,6 +25,7 @@ namespace QUANGHANH2.Models
         public string LyDoVangMat { get; set; }
         public string GiaiPhapNguyCo { get; set; }
     
+        public virtual Header_DiemDanh_NangSuat_LaoDong Header_DiemDanh_NangSuat_LaoDong { get; set; }
         public virtual NhanVien NhanVien { get; set; }
     }
 }
