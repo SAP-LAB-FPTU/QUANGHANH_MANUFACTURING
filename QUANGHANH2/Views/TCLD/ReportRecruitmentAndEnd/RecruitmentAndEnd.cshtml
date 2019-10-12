@@ -22,8 +22,8 @@
                     <div class="center">
                         <div class="col s4 m4 l4"></div>
                         <div class="col s5 m5 l5">
-                            <div class="col s2 m2 l2"><h4>Năm</h4></div>
-                            <div class="col s4 m4 l4">
+                            <div class="col s12 m2 l2"><h4>Năm</h4></div>
+                            <div class="col s12 m5 l5">
                                 <input type="text" id="calendar" class="form-control datepicker-here datepicker-add center"
                                        data-language='vi'
                                        data-min-view="years"
@@ -31,7 +31,7 @@
                                        data-date-format="yyyy"
                                        required value="Tổng hợp" />
                             </div>
-                            <div class="col s5 m5 l5">
+                            <div class="col s12 m5 l5">
                                 <a class="btn blue darken-2" style="background-color:#273146" id="btn_search">Tìm kiếm</a>
                             </div>
                         </div>
@@ -41,27 +41,29 @@
                 <div class="row">
                     <div class="col l12 table_container">
                         <br />
-                        <table id="cd-td-table" class="table-bordered table-responsive">
-                            <thead>
-                                <tr>
-                                    <th class="jsgrid-header-cell center" rowspan="2">STT</th>
-                                    <th class="jsgrid-header-cell center" rowspan="2">Đơn vị</th>
-                                    <th class="jsgrid-header-cell center" colspan="3">Số lượng chấm dứt</th>
-                                    <th class="jsgrid-header-cell center" colspan="3">Số lượng tuyển dụng</th>
-                                    <th class="jsgrid-header-cell center" rowspan="2">Chênh lệch</th>
-                                </tr>
-                                <tr>
-                                    <th class="jsgrid-header-cell center">Tổng</th>
-                                    <th class="jsgrid-header-cell center">Khai thác</th>
-                                    <th class="jsgrid-header-cell center">Cơ điện</th>
-                                    <th class="jsgrid-header-cell center">Tổng</th>
-                                    <th class="jsgrid-header-cell center">Khai thác</th>
-                                    <th class="jsgrid-header-cell center">Cơ điện</th>
-                                </tr>
-                            </thead>
-                        </table>
+                        <div class="table_container">
+                            <table id="cd-td-table" class="table-bordered table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th class="jsgrid-header-cell center" rowspan="2">STT</th>
+                                        <th class="jsgrid-header-cell center" rowspan="2">Đơn vị</th>
+                                        <th class="jsgrid-header-cell center" colspan="3">Số lượng chấm dứt</th>
+                                        <th class="jsgrid-header-cell center" colspan="3">Số lượng tuyển dụng</th>
+                                        <th class="jsgrid-header-cell center" rowspan="2">Chênh lệch</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="jsgrid-header-cell center">Tổng</th>
+                                        <th class="jsgrid-header-cell center">Khai thác</th>
+                                        <th class="jsgrid-header-cell center">Cơ điện</th>
+                                        <th class="jsgrid-header-cell center">Tổng</th>
+                                        <th class="jsgrid-header-cell center">Khai thác</th>
+                                        <th class="jsgrid-header-cell center">Cơ điện</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                            </div>
+                        </div>
                     </div>
-                </div>
                 <div class="col s12 m12 l12">
                     <br />
                     <a class="btn blue darken-2" style="background-color:#273146" id="ExportExcel">Xuất ra excel</a>
@@ -164,3 +166,4 @@
     </script>
 
 }
+<script src="~/js/Custom JS/Disable_input_material.js"></script>

@@ -396,85 +396,92 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpPost]
         public ActionResult getExcel()
         {
-            HttpPostedFileBase file = Request.Files[0];
-
-            List<TuyenDungModel> list = new List<TuyenDungModel>();
-            string path = HostingEnvironment.MapPath("/excel/TCLD/TuyenDung/UploadContainer");
-
-            if (!Directory.Exists(path))
+            try
             {
-                Directory.CreateDirectory(path);
-            }
-            if (file.ContentLength > 0)
-            {
-                file.SaveAs(HostingEnvironment.MapPath("/excel/TCLD/TuyenDung/UploadContainer/temp.xlsx"));
-                FileInfo process_file = new FileInfo(HostingEnvironment.MapPath("/excel/TCLD/TuyenDung/UploadContainer/temp.xlsx"));
+                HttpPostedFileBase file = Request.Files[0];
 
-                using (ExcelPackage package = new ExcelPackage(process_file))
+                List<TuyenDungModel> list = new List<TuyenDungModel>();
+                string path = HostingEnvironment.MapPath("/excel/TCLD/TuyenDung/UploadContainer");
+
+                if (!Directory.Exists(path))
                 {
-                    ExcelWorksheet workSheet = package.Workbook.Worksheets.FirstOrDefault();
-                    int totalRows = workSheet.Dimension.Rows;
-                    totalRows = totalRows > 50 ? 50 : totalRows;
-                    ////check valid cell
-                    //for (int i = 7; i <= totalRows; i++)
-                    //{
-                    //    for (int j = 3; j <= 19; j++)
-                    //    {
-                    //        string value = workSheet.Cells[i, j].Value == null ? "0" : workSheet.Cells[i, j].Value.ToString();
-                    //        if (!cellIsValid(value))
-                    //        {
-                    //            return Json(new { success = false, message = "Dữ liệu không hợp lệ (Ô "+"["+i+","+j+"]"+")" });
-                    //        }
-                    //    }
-                    //}
-                    //Check Exel
-                    Boolean checkExel = true;
-                    if (!workSheet.Cells[4, 2].Value.ToString().Equals("Số thẻ")) checkExel = false;
-                    if (!workSheet.Cells[4, 3].Value.ToString().Equals("Họ và tên")) checkExel = false;
-                    if (!workSheet.Cells[4, 4].Value.ToString().Equals("Ngày sinh")) checkExel = false;
-                    if (!workSheet.Cells[4, 5].Value.ToString().Equals("Đơn vị")) checkExel = false;
-                    if (!workSheet.Cells[4, 6].Value.ToString().Equals("Trình độ")) checkExel = false;
-                    if (!workSheet.Cells[4, 7].Value.ToString().Equals("Chuyên Nghành")) checkExel = false;
-                    if (!workSheet.Cells[4, 8].Value.ToString().Equals("Công việc bố trí")) checkExel = false;
-                    if (!workSheet.Cells[4, 9].Value.ToString().Equals("Thường trú")) checkExel = false;
-                    if (!workSheet.Cells[4, 10].Value.ToString().Equals("Thang lương")) checkExel = false;
-                    if (!workSheet.Cells[4, 11].Value.ToString().Equals("Bậc")) checkExel = false;
-                    if (!workSheet.Cells[4, 12].Value.ToString().Equals("Mức lương (đồng/ tháng)")) checkExel = false;
-                    if (!workSheet.Cells[3, 5].Value.ToString().Equals("Ngày")) checkExel = false;
-                    if (!workSheet.Cells[3, 7].Value.ToString().Equals("Tháng")) checkExel = false;
-                    if (!workSheet.Cells[3, 9].Value.ToString().Equals("Năm")) checkExel = false;
-                    if (!workSheet.Cells[2, 1].Value.ToString().Equals("Kèm theo Quyết Định Số :")) checkExel = false;
-                    if (!workSheet.Cells[2, 9].Value.ToString().Equals("/QĐ-VQHC")) checkExel = false;
-                    if(checkExel == false)
+                    Directory.CreateDirectory(path);
+                }
+                if (file.ContentLength > 0)
+                {
+                    file.SaveAs(HostingEnvironment.MapPath("/excel/TCLD/TuyenDung/UploadContainer/temp.xlsx"));
+                    FileInfo process_file = new FileInfo(HostingEnvironment.MapPath("/excel/TCLD/TuyenDung/UploadContainer/temp.xlsx"));
+
+                    using (ExcelPackage package = new ExcelPackage(process_file))
                     {
-                        return Json(new { success = true, message = "Excel" });
-                    }
-                        
-                    
-                    //Get excel value:
-                    for (int i = 5; i <= totalRows; i++)
-                    {
-                        TuyenDungModel a = new TuyenDungModel();
-                        a.SoThe = workSheet.Cells[i, 2].Value == null ? "" : workSheet.Cells[i, 2].Value.ToString();
-                        a.HoTen = workSheet.Cells[i, 3].Value == null ? "" : workSheet.Cells[i, 3].Value.ToString();
-                        a.NgaySinh = workSheet.Cells[i, 4].Value == null ? "" : workSheet.Cells[i, 4].Value.ToString();
-                        a.DonVi = workSheet.Cells[i, 5].Value == null ? "" : workSheet.Cells[i, 5].Value.ToString();
-                        a.TrinhDo = workSheet.Cells[i, 6].Value == null ? "" : workSheet.Cells[i, 6].Value.ToString();
-                        a.ChuyenNganh = workSheet.Cells[i, 7].Value == null ? "" : workSheet.Cells[i, 7].Value.ToString();
-                        a.CongViec = workSheet.Cells[i, 8].Value == null ? "" : workSheet.Cells[i, 8].Value.ToString();
-                        a.ThuongTru = workSheet.Cells[i, 9].Value == null ? "" : workSheet.Cells[i, 9].Value.ToString();
-                        a.ThangLuong = workSheet.Cells[i, 10].Value == null ? "" : workSheet.Cells[i, 10].Value.ToString();
-                        a.Bac = workSheet.Cells[i, 11].Value == null ? "" : workSheet.Cells[i, 11].Value.ToString();
-                        a.MucLuong = workSheet.Cells[i, 12].Value == null ? "" : workSheet.Cells[i, 12].Value.ToString();
-                        a.ngay = workSheet.Cells[3,6].Value == null ? "" : workSheet.Cells[3, 6].Value.ToString();
-                        a.thang = workSheet.Cells[3, 8].Value == null ? "" : workSheet.Cells[3, 8].Value.ToString();
-                        a.nam = workSheet.Cells[3, 10].Value == null ? "" : workSheet.Cells[3, 10].Value.ToString();
-                        a.soqd = workSheet.Cells[2, 8].Value == null ? "" : workSheet.Cells[2, 8].Value.ToString();
-                        list.Add(a);
+                        ExcelWorksheet workSheet = package.Workbook.Worksheets.FirstOrDefault();
+                        int totalRows = workSheet.Dimension.Rows;
+                        totalRows = totalRows > 50 ? 50 : totalRows;
+                        ////check valid cell
+                        //for (int i = 7; i <= totalRows; i++)
+                        //{
+                        //    for (int j = 3; j <= 19; j++)
+                        //    {
+                        //        string value = workSheet.Cells[i, j].Value == null ? "0" : workSheet.Cells[i, j].Value.ToString();
+                        //        if (!cellIsValid(value))
+                        //        {
+                        //            return Json(new { success = false, message = "Dữ liệu không hợp lệ (Ô "+"["+i+","+j+"]"+")" });
+                        //        }
+                        //    }
+                        //}
+                        //Check Exel
+                        Boolean checkExel = true;
+                        if (!workSheet.Cells[4, 2].Value.ToString().Equals("Số thẻ")) checkExel = false;
+                        if (!workSheet.Cells[4, 3].Value.ToString().Equals("Họ và tên")) checkExel = false;
+                        if (!workSheet.Cells[4, 4].Value.ToString().Equals("Ngày sinh")) checkExel = false;
+                        if (!workSheet.Cells[4, 5].Value.ToString().Equals("Đơn vị")) checkExel = false;
+                        if (!workSheet.Cells[4, 6].Value.ToString().Equals("Trình độ")) checkExel = false;
+                        if (!workSheet.Cells[4, 7].Value.ToString().Equals("Chuyên Nghành")) checkExel = false;
+                        if (!workSheet.Cells[4, 8].Value.ToString().Equals("Công việc bố trí")) checkExel = false;
+                        if (!workSheet.Cells[4, 9].Value.ToString().Equals("Thường trú")) checkExel = false;
+                        if (!workSheet.Cells[4, 10].Value.ToString().Equals("Thang lương")) checkExel = false;
+                        if (!workSheet.Cells[4, 11].Value.ToString().Equals("Bậc")) checkExel = false;
+                        if (!workSheet.Cells[4, 12].Value.ToString().Equals("Mức lương (đồng/ tháng)")) checkExel = false;
+                        if (!workSheet.Cells[3, 5].Value.ToString().Equals("Ngày")) checkExel = false;
+                        if (!workSheet.Cells[3, 7].Value.ToString().Equals("Tháng")) checkExel = false;
+                        if (!workSheet.Cells[3, 9].Value.ToString().Equals("Năm")) checkExel = false;
+                        if (!workSheet.Cells[2, 1].Value.ToString().Equals("Kèm theo Quyết Định Số :")) checkExel = false;
+                        if (!workSheet.Cells[2, 9].Value.ToString().Equals("/QĐ-VQHC")) checkExel = false;
+                        if (checkExel == false)
+                        {
+                            return Json(new { success = true, message = "Excel" });
+                        }
+
+
+                        //Get excel value:
+                        for (int i = 5; i <= totalRows; i++)
+                        {
+                            TuyenDungModel a = new TuyenDungModel();
+                            a.SoThe = workSheet.Cells[i, 2].Value == null ? "" : workSheet.Cells[i, 2].Value.ToString();
+                            a.HoTen = workSheet.Cells[i, 3].Value == null ? "" : workSheet.Cells[i, 3].Value.ToString();
+                            a.NgaySinh = workSheet.Cells[i, 4].Value == null ? "" : workSheet.Cells[i, 4].Value.ToString();
+                            a.DonVi = workSheet.Cells[i, 5].Value == null ? "" : workSheet.Cells[i, 5].Value.ToString();
+                            a.TrinhDo = workSheet.Cells[i, 6].Value == null ? "" : workSheet.Cells[i, 6].Value.ToString();
+                            a.ChuyenNganh = workSheet.Cells[i, 7].Value == null ? "" : workSheet.Cells[i, 7].Value.ToString();
+                            a.CongViec = workSheet.Cells[i, 8].Value == null ? "" : workSheet.Cells[i, 8].Value.ToString();
+                            a.ThuongTru = workSheet.Cells[i, 9].Value == null ? "" : workSheet.Cells[i, 9].Value.ToString();
+                            a.ThangLuong = workSheet.Cells[i, 10].Value == null ? "" : workSheet.Cells[i, 10].Value.ToString();
+                            a.Bac = workSheet.Cells[i, 11].Value == null ? "" : workSheet.Cells[i, 11].Value.ToString();
+                            a.MucLuong = workSheet.Cells[i, 12].Value == null ? "" : workSheet.Cells[i, 12].Value.ToString();
+                            a.ngay = workSheet.Cells[3, 6].Value == null ? "" : workSheet.Cells[3, 6].Value.ToString();
+                            a.thang = workSheet.Cells[3, 8].Value == null ? "" : workSheet.Cells[3, 8].Value.ToString();
+                            a.nam = workSheet.Cells[3, 10].Value == null ? "" : workSheet.Cells[3, 10].Value.ToString();
+                            a.soqd = workSheet.Cells[2, 8].Value == null ? "" : workSheet.Cells[2, 8].Value.ToString();
+                            list.Add(a);
+                        }
                     }
                 }
+                return Json(new { success = true, list });
             }
-            return Json(new { success = true, list });
+            catch
+            {
+                return Json(new { success = false });
+            }
         }
 
         public class TuyenDungModel

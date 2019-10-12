@@ -6932,7 +6932,6 @@
     <Content Include="excel\CDVT\suachua.xlsx" />
     <Content Include="excel\CDVT\thoatnuoc.xlsx" />
     <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên-hồ-sơ-trong.xlsx" />
-    <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên.xlsx" />
     <Content Include="excel\CDVT\download\DanhsachSuaChua.xlsx" />
     <Content Include="excel\CDVT\download\diennang.xlsx" />
     <Content Include="excel\CDVT\download\suachua.xlsx" />
@@ -6945,7 +6944,6 @@
     <Content Include="excel\TCLD\Certificate\List\download\ListCertificate.xlsx" />
     <Content Include="excel\TCLD\Brief\Inside.xlsx" />
     <Content Include="doc\CDVT\QD\quyetdinhsuachua.docx" />
-    <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên.xlsx" />
     <Content Include="excel\TCLD\download\Danh-sách-nhân-viên.xlsx" />
     <Content Include="doc\CDVT\QD\quyetdinhsuachua.docx" />
     <Content Include="excel\TCLD\Brief\Inside.xlsx" />
@@ -6995,16 +6993,13 @@
     <Content Include="obj\Release\QUANGHANH2.csproj.CopyComplete" />
     <Content Include="obj\Release\QUANGHANH2.csproj.CoreCompileInputs.cache" />
     <Content Include="obj\Release\QUANGHANH2.csprojAssemblyReference.cache" />
-    <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên.xlsx" />
     <Content Include="excel\TCLD\download\Danh-sách-nhân-viên.xlsx" />
     <Content Include="doc\CDVT\QD\quyetdinhsuachua.docx" />
     <Content Include="excel\TCLD\TuyenDung\UploadContainer\temp.xlsx" />
     <Content Include="excel\TCLD\TuyenDung\Template\TuyenDungForm.xlsx" />
-    <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên.xlsx" />
     <Content Include="excel\TCLD\download\Danh-sách-nhân-viên.xlsx" />
     <Content Include="doc\CDVT\QD\quyetdinhsuachua.docx" />
     <Content Include="excel\TCLD\CD_TD_Report.xlsx" />
-    <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên.xlsx" />
     <Content Include="excel\TCLD\download\Danh-sách-nhân-viên.xlsx" />
     <Content Include="doc\CDVT\QD\quyetdinhsuachua.docx" />
     <Content Include="excel\TCLD\Diploma\Bằng cấp - giấy chứng nhận.xlsx" />
@@ -7021,6 +7016,9 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="excel\TCLD\Report_job.xlsx" />
+    <Content Include="assets\uploader\icons.min.css.map" />
+    <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên.xlsx" />
     <Content Include="excel\DK\reportdaily.xlsx" />
     <Content Include="excel\DK\reportmonth.xlsx" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />

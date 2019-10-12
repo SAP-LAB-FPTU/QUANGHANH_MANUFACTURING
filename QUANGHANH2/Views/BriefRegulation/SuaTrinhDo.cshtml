@@ -26,14 +26,14 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.TenTrinhDo, "Tên Trình Độ", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.TenTrinhDo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.TenTrinhDo, new { htmlAttributes = new { @class = "form-control" ,@id = "edt_tentrinhdo" } })
                     @Html.ValidationMessageFor(model => model.TenTrinhDo, "", new { @class = "text-danger" })
                 </div>
             </div>
             <br />
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Lưu" class="btn btn-default blue" />
+                    <input id="btn_submit_edittrinhdo" type="submit" value="Lưu" class="btn btn-default blue" />
                 </div>
             </div>
         </div>
@@ -42,3 +42,17 @@
     </div>
 </body>
 </html>
+<script>
+
+    $(document).ready(function () {
+        $("#edt_tentrinhdo").keyup(function () {
+            if ($("#edt_tentrinhdo").val() == "" || $("#edt_tentrinhdo").val() == null) {
+                $("#btn_submit_edittrinhdo").prop('disabled', true);
+            } else {
+                $("#btn_submit_edittrinhdo").prop('disabled', false);
+            }
+        });
+
+    });
+
+</script>
