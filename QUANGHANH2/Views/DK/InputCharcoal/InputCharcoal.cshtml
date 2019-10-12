@@ -20,7 +20,7 @@
                 <div class="row">
                     <div class="input-field col s4 m4 l4"></div>
                     <div class="input-field col l2 m2 s2">
-                        <input class="form-control center" placeholder="Ngày sản xuất" />
+                        <input class="form-control center" placeholder="Ngày sản xuất" value="@ViewBag.NgayNhap"/>
                     </div>
                     <div class="input-field col l2 m2 s2">
                         <input id="SoNgaySX" class="form-control center" value="@ViewBag.SoNgaySX" disabled />
@@ -112,13 +112,13 @@
 <script src="~/js/Custom JS/DK/InputCharcoal/AddRow.js"></script>
 
 <script>
-    //$(document).ready(function () {
-    //    $(".date-click").datepicker({
-    //        onSelect: function (dateText) {
-    //            change();
-    //        }
-    //    });
-    //})
+    $(document).ready(function () {
+        $(".date-click").datepicker({
+            onSelect: function (dateText) {
+                change();
+            }
+        });
+    })
 
     $(".datepicker-here").keydown(function (e) {
         if (e.KeyCode != 8) {
@@ -151,16 +151,16 @@
                                     $("#table-input-body").append("<tr>");
                                     $("#table-input-body").append("<th>" + response.list[i].TenTieuChi + "</th>");
                                     $("#table-input-body").append("<th>" + response.list[i].DonViDo + "</th>");
-                                    $("#table-input-body").append('<td><input autocomplete="off" style="border:none" name="thucHien" /></td>' +
-                                        '<td><input autocomplete="off" style="border:none" name="keHoach" /></td>' +
-                                        '<td><input autocomplete="off" style="border:none" name="chenhLech" /></td>' +
-                                        '<td><input autocomplete="off" style="border:none" name="phanTramHT" /></td>' +
-                                        '<td><input autocomplete="off" style="border:none" name="luyKe" /></td>' +
-                                        '<td><input autocomplete="off" style="border:none" name="KHDC" /></td>' +
-                                        '<td><input autocomplete="off" style="border:none" name="phanTramTD" /></td>' +
-                                        '<td><input autocomplete="off" style="border:none" name="tong" /></td>' +
-                                        '<td><input autocomplete="off" style="border:none" name="motNgay" /></td>' +
-                                        '<td><input autocomplete="off" class="input-field" style="border:none" name="ghiChu" /></td>');
+                                    $("#table-input-body").append('<td><input class="center" id="thucHien' + i + '" autocomplete="off" style="border:none" name="thucHien" onchange="calChenhLech(' + i + ')"/></td>' +
+                                        '<td><input class="center"  id="keHoach' + i + '" autocomplete="off" style="border:none" name="keHoach"  onchange="calChenhLech(' + i + ')"/></td>' +
+                                        '<td><input class="center" readonly id="chenhLech' + i + '" autocomplete="off" style="border:none" name="chenhLech" /></td>' +
+                                        '<td><input class="center" readonly id="phanTramHT' + i + '" autocomplete="off" style="border:none" name="phanTramHT" /></td>' +
+                                        '<td><input class="center"  autocomplete="off" style="border:none" name="luyKe" /></td>' +
+                                        '<td><input class="center"  autocomplete="off" style="border:none" name="KHDC" /></td>' +
+                                        '<td><input class="center"  autocomplete="off" style="border:none" name="phanTramTD" /></td>' +
+                                        '<td><input class="center"  autocomplete="off" style="border:none" name="tong" /></td>' +
+                                        '<td><input class="center"  autocomplete="off" style="border:none" name="motNgay" /></td>' +
+                                        '<td><input class="center"  autocomplete="off" class="input-field" style="border:none" name="ghiChu" /></td>');
                                     $("#table-input-body").append("</tr>");
                                 }
                                 $("#pre-load").hide("slow", function () {
@@ -182,7 +182,19 @@
         );
     }
 </script>
+<script>
 
+    function calChenhLech(i) {
+        var TH = document.getElementById("thucHien" + i).value;
+        var KH = document.getElementById("keHoach" + i).value;
+        document.getElementById("chenhLech" + i).value = TH - KH;
+        if (KH != 0) {
+            document.getElementById("phanTramHT" + i).value = ((TH / KH) * 100).toFixed(2);
+
+        }
+    }
+
+</script>
 <script>
     function SaveChange(form) {
         $.validator.unobtrusive.parse(form);
@@ -192,7 +204,6 @@
                 url: form.action,
                 data: $(form).serialize(),
                 success: function (data) {
-                    dataTable.ajax.reload();
                     successAlert('Thành công', 'Xóa thành công');
                 }
             });

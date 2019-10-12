@@ -22,8 +22,12 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             int year = DateTime.Now.Year;
             var ngaySX = db.header_KeHoachTungThang.Where(x => x.ThangKeHoach == month && x.NamKeHoach == year).Select(x => x.SoNgayLamViec).FirstOrDefault();
             ViewBag.SoNgaySX = ngaySX;
-            ViewBag.NgayNhap = DateTime.Today;
+            ViewBag.NgayNhap = DateTime.Today.ToString("dd/MM/yyyy");
             return View("/Views/DK/InputCharcoal/InputCharcoal.cshtml");
+        }
+        public class LuyKe
+        {
+            public string LK { get; set; }
         }
         [Route("change")]
         [HttpPost]
@@ -69,11 +73,17 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             }
             int month = DateTime.Now.Month;
             int year = DateTime.Now.Year;
+            List<LuyKe> LK = null;
             if (!date.Equals(""))
             {
                 month = Convert.ToInt32(date.Split('/')[1]);
                 year = Convert.ToInt32(date.Split('/')[2]);
+                //   string queryLK = "select case when sum(tha.SanLuong) is null then 0 else sum(tha.SanLuong) end 'LK' " +
+                //"from(select th2.MaPhongBan, th2.Ca, th2.Ngay, th2.NgaySanXuat, th1.MaTieuChi, th1.SanLuong from ThucHien_TieuChi_TheoNgay th1 join header_ThucHienTheoNgay th2 on th1.HeaderID = th2.HeaderID " +
+                //"where Month(Ngay) = (SELECT Month(CONVERT(VARCHAR(10), '" + date.Split('/')[1] + "/" + date.Split('/')[0] + "/" + date.Split('/')[2] + "', 101)))) as tha";
+                //   List<LuyKe> list = db.Database.SqlQuery<LuyKe>(queryLK).ToList();
             }
+
             var ngaySX = db.header_KeHoachTungThang.Where(x => x.ThangKeHoach == month && x.NamKeHoach == year).Select(x => x.SoNgayLamViec).FirstOrDefault();
             return Json(new { success = true, list = tcList, dateSX = ngaySX }, JsonRequestBehavior.AllowGet);
         }
