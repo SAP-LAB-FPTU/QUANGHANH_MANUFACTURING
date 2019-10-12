@@ -19,6 +19,7 @@ namespace QUANGHANH2.Models
         {
             this.KeHoach_TieuChi_TheoNgay = new HashSet<KeHoach_TieuChi_TheoNgay>();
             this.KeHoach_TieuChi_TheoThang = new HashSet<KeHoach_TieuChi_TheoThang>();
+            this.PhongBan_TieuChi = new HashSet<PhongBan_TieuChi>();
             this.ThucHien_TieuChi_TheoNgay = new HashSet<ThucHien_TieuChi_TheoNgay>();
         }
     
@@ -32,6 +33,8 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<KeHoach_TieuChi_TheoThang> KeHoach_TieuChi_TheoThang { get; set; }
         public virtual NhomTieuChi NhomTieuChi { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PhongBan_TieuChi> PhongBan_TieuChi { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ThucHien_TieuChi_TheoNgay> ThucHien_TieuChi_TheoNgay { get; set; }
     }

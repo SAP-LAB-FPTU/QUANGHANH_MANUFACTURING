@@ -14,6 +14,12 @@ namespace QUANGHANH2.Models
     
     public partial class Account
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Account()
+        {
+            this.FileBaoCaos = new HashSet<FileBaoCao>();
+        }
+    
         public int ID { get; set; }
         public string Name { get; set; }
         public string Username { get; set; }
@@ -39,6 +45,8 @@ namespace QUANGHANH2.Models
         public bool KCM { get; set; }
         public bool ADMIN { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FileBaoCao> FileBaoCaos { get; set; }
         public virtual NhanVien NhanVien { get; set; }
     }
 }
