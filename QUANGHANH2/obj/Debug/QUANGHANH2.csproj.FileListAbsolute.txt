@@ -646,7 +646,6 @@ C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebP
 C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.Razor.xml
 C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Newtonsoft.Json.xml
 C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.csproj.CoreCompileInputs.cache
 C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.csproj.CopyComplete
 C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.dll
 C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.pdb
@@ -837,3 +836,9 @@ D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.csproj.CopyComplete
 D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.dll
 D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.pdb
 D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.csprojAssemblyReference.cache
+C:\Users\DUY\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\DocumentFormat.OpenXml.dll
+C:\Users\DUY\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.IO.FileSystem.Primitives.dll
+C:\Users\DUY\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.IO.Packaging.dll
+C:\Users\DUY\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Net.Http.Formatting.dll
+C:\Users\DUY\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\DocumentFormat.OpenXml.xml
+C:\Users\DUY\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Net.Http.Formatting.xml
