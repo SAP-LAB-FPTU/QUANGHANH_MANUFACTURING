@@ -4,6 +4,8 @@ using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.SqlClient;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Linq.Dynamic;
@@ -18,17 +20,17 @@ namespace QUANGHANH2.Controllers.DK
     {
         //[Auther(RightID = "158")] 
         [Route("phong-dieu-khien/bao-cao-tai-nan")]
-        public ActionResult Index()
-        {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+        //public ActionResult Index()
+        //{
+        //    QUANGHANHABCEntities db = new QUANGHANHABCEntities();
 
-            List<NhanVien> listNhanVien = db.NhanViens.ToList<NhanVien>();
+        //    List<NhanVien> listNhanVien = db.NhanViens.ToList<NhanVien>();
 
 
-            ViewBag.listNhanVien = listNhanVien;
+        //    ViewBag.listNhanVien = listNhanVien;
 
-            return View("/Views/DK/Acident.cshtml");
-        }
+        //    return View("/Views/DK/Acident.cshtml");
+        //}
         [Route("phong-dieu-khien/danh-sach-tai-nan")]
         public ActionResult DanhSachBaoCao()
         {
@@ -37,94 +39,112 @@ namespace QUANGHANH2.Controllers.DK
             ViewBag.listNhanVien = listNhanVien;
             return View("/Views/DK/ListAccident.cshtml");
         }
-        [Route("phong-dieu-khien/danh-sach-tai-nan")]
+        [Route("phong-dieu-khien/danh-sach-tai-nan/search-accident")]
         [HttpPost]
-        public ActionResult getData()
+        public ActionResult SearchAccident(string employeeID, string EmployeeName, string timeFrom, string timeTo)
         {
+            try
+            {
 
-            int start = Convert.ToInt32(Request["start"]);
-            int length = Convert.ToInt32(Request["length"]);
-            string searchValue = Request["search[value]"];
-            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
-            string sortDirection = Request["order[0][dir]"];
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-            {
-                db.Configuration.ProxyCreationEnabled = false;
-                var listTainan = (from tainan in db.TaiNans
-                                  join nhanvien in db.NhanViens on tainan.MaNV equals nhanvien.MaNV
-                                  join depart in db.Departments on nhanvien.MaPhongBan equals depart.department_id
-                                  select new dsTainan
-                                  {
-                                      MaTaiNan = tainan.MaTaiNan,
-                                      MaNV = tainan.MaNV,
-                                      Ten = nhanvien.Ten,
-                                      department_name = depart.department_name,
-                                      LyDo = tainan.LyDo,
-                                      Loai = tainan.Loai,
-                                      Ca = tainan.Ca,
-                                      Ngay = tainan.Ngay,
-                                  }
-                                  ).ToList();
-                int totalrows = listTainan.Count;
-                int totalrowsafterfiltering = listTainan.Count;
-                listTainan = listTainan.OrderBy(sortColumnName + " " + sortDirection).ToList<dsTainan>();
-                listTainan = listTainan.Skip(start).Take(length).ToList<dsTainan>();
-                var js = Json(new { success = true, data = listTainan, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
-                var dataserialize = new JavaScriptSerializer().Serialize(js.Data);
-                return js;
-            }
-        }
-        [Route("phong-dieu-khien/danh-sach-tai-nan/them")]
-        [HttpPost]
-        public JsonResult ThemTaiNan(TaiNan tn)
-        {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-            {
-                if (db.NhanViens.Where(x => x.MaNV == tn.MaNV).Count() > 0)
+                if (timeFrom.Trim() == "")
                 {
-                    db.TaiNans.Add(tn);
-                    db.SaveChanges();
-                    return Json(1, JsonRequestBehavior.AllowGet);
+                    timeFrom = "01/01/1900";
+                }
+                DateTime timeF = DateTime.ParseExact(timeFrom, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+                //validate timeTo when input blank
+                DateTime timeT;
+                if (timeTo.Trim() == "")
+                {
+                    timeT = DateTime.Now;
+                }
+                else
+                {
+                    timeT = DateTime.ParseExact(timeTo, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                }
+                int start = Convert.ToInt32(Request["start"]);
+                int length = Convert.ToInt32(Request["length"]);
+                string searchValue = Request["search[value]"];
+                string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+                string sortDirection = Request["order[0][dir]"];
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+
+                    List<TaiNanDB> listTainan = (from tainan in db.TaiNans
+                                                 join nhanvien in db.NhanViens on tainan.MaNV equals nhanvien.MaNV
+                                                 join depart in db.Departments on nhanvien.MaPhongBan equals depart.department_id
+                                                 select new TaiNanDB
+                                                 {
+                                                     MaTaiNan = tainan.MaTaiNan,
+                                                     MaNV = tainan.MaNV,
+                                                     Ten = nhanvien.Ten,
+                                                     department_name = depart.department_name,
+                                                     LyDo = tainan.LyDo,
+                                                     Ca_Name = tainan.Ca == 1 ? "CA 1" : tainan.Ca == 2 ? "CA 2" : "CA 3",
+                                                     Ngay = tainan.Ngay,
+                                                     Loai = tainan.Loai
+                                                 }
+                                  ).Where(x => x.MaNV.Contains(employeeID) && x.Ten.Contains(EmployeeName) && x.Ngay >= timeF && x.Ngay <= timeT).ToList();
+
+                    int totalrows = listTainan.Count;
+                    int totalrowsafterfiltering = listTainan.Count;
+                    listTainan = listTainan.OrderBy(sortColumnName + " " + sortDirection).ToList<TaiNanDB>();
+                    listTainan = listTainan.Skip(start).Take(length).ToList<TaiNanDB>();
+                    return Json(new { success = true, data = listTainan, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+
                 }
             }
-            return Json(0, JsonRequestBehavior.AllowGet);
-
-        }
-        [Route("phong-dieu-khien/danh-sach-tai-nan/sua")]
-        [HttpPost]
-        public JsonResult SuaTaiNan(TaiNan tn)
-        {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            catch (Exception)
             {
-                if (db.NhanViens.Where(x => x.MaNV == tn.MaNV).Count() > 0)
+                Response.Write("Có lỗi xảy ra, xin vui lòng nhập lại");
+                return new HttpStatusCodeResult(400);
+            }
+        }
+        [Route("phong-dieu-khien/bao-cao-tai-nan/insertaccident")]
+        [HttpPost]
+        public ActionResult InsertMaintainCar(TaiNanDB accident)
+        {
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            using (DbContextTransaction transaction = db.Database.BeginTransaction())
+            {
+                //Truncate Table to delete all old records.
+                //Check for NULL.
+                try
                 {
-                    var tainan = db.TaiNans.Where(x => x.MaTaiNan == tn.MaTaiNan).SingleOrDefault();
-                    tainan.MaNV = tn.MaNV;
-                    tainan.LyDo = tn.LyDo;
-                    tainan.Loai = tn.Loai;
-                    tainan.Ngay = tn.Ngay;
-                    tainan.Ca = tn.Ca;
-                    db.Entry(tainan).State = EntityState.Modified;
+                    TaiNan t = new TaiNan();
+
+                    if (accident.MaNV == null || db.NhanViens.Find(accident.MaNV) == null)
+                    {
+                        transaction.Rollback();
+                        Response.Write("Mã nhân viên không tồn tại");
+                        return new HttpStatusCodeResult(400);
+                    }
+
+                    t.MaNV = accident.MaNV;
+                    t.LyDo = accident.LyDo;
+                    t.Ca = accident.Ca;
+                    t.Loai = accident.Loai;
+                    string date = DateTime.ParseExact(accident.stringDate, "dd/MM/yyyy", null).ToString("yyyy-MM-dd");
+
+                    t.Ngay = DateTime.Parse(date);
+                    db.TaiNans.Add(t);
                     db.SaveChanges();
-                    return Json(1, JsonRequestBehavior.AllowGet);
+
+
+
+
+                    transaction.Commit();
+                    return Json("", JsonRequestBehavior.AllowGet);
                 }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    return new HttpStatusCodeResult(400);
+                }
+
             }
-            return Json(0, JsonRequestBehavior.AllowGet);
 
         }
-        [Route("phong-dieu-khien/danh-sach-tai-nan/xoa")]
-        [HttpPost]
-        public JsonResult XoaTaiNan(int id)
-        {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-            {
-                var tainan = db.TaiNans.Where(x => x.MaTaiNan == id).FirstOrDefault();
-                db.TaiNans.Remove(tainan);
-                db.SaveChanges();
-            }
-            return Json("", JsonRequestBehavior.AllowGet);
-        }
-
         [Route("phong-dieu-khien/bao-cao-tai-nan/returnEmployeeName")]
         [HttpPost]
         public JsonResult returnEmployeename(String MaNV)
@@ -149,44 +169,109 @@ namespace QUANGHANH2.Controllers.DK
             }
 
         }
-
-        [Route("phong-dieu-khien/danh-sach-tai-nan/getid")]
+        [Route("phong-dieu-khien/bao-cao-tai-nan/getaccidentid")]
         [HttpPost]
-        public JsonResult GetTaiNan(int id)
+        public ActionResult getAccidentID(int MaTaiNan)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            try
             {
-                var Tainan = (from tainan in db.TaiNans.Where(x=>x.MaTaiNan == id)
-                                  join nhanvien in db.NhanViens on tainan.MaNV equals nhanvien.MaNV
-                                  join depart in db.Departments on nhanvien.MaPhongBan equals depart.department_id
-                                  select new dsTainan
-                                  {
-                                      MaTaiNan = tainan.MaTaiNan,
-                                      MaNV = tainan.MaNV,
-                                      Ten = nhanvien.Ten,
-                                      department_name = depart.department_name,
-                                      LyDo = tainan.LyDo,
-                                      Loai = tainan.Loai,
-                                      Ca = tainan.Ca,
-                                      Ngay = tainan.Ngay,
-                                  }
-                                  ).FirstOrDefault();
-                return Json(Tainan, JsonRequestBehavior.AllowGet);
+                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+
+                TaiNanDB tn = db.Database.SqlQuery<TaiNanDB>(
+                    "select t.*,n.Ten,d.department_name from TaiNan t, NhanVien n, Department d " +
+    " where t.MaNV = n.MaNV and d.department_id = n.MaPhongBan and MaTaiNan =@MaTaiNan", new SqlParameter("MaTaiNan", MaTaiNan)
+                    ).First();
+                tn.stringDate = tn.Ngay.Value.ToString("dd/MM/yyyy");
+
+                return Json(tn, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                Response.Write("Có lỗi xảy ra, xin vui lòng nhập lại");
+                return new HttpStatusCodeResult(400);
+            }
+        }
+
+        [Route("phong-dieu-khien/bao-cao-tai-nan/editaccident")]
+        [HttpPost]
+        public ActionResult EditAccident(TaiNanDB tainandb)
+        {
+            TaiNan t = new TaiNan();
+            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
+            {
+
+                try
+                {
+
+                    t.MaNV = tainandb.MaNV;
+                    t.LyDo = tainandb.LyDo;
+                    t.Ngay = DateTime.ParseExact(tainandb.stringDate, "dd/MM/yyyy", null);
+                    t.Loai = tainandb.Loai;
+                    t.Ca = tainandb.Ca;
+                    t.MaTaiNan = tainandb.MaTaiNan;
+
+                    DBContext.Entry(t).State = EntityState.Modified;
+
+
+                    DBContext.SaveChanges();
+
+                    transaction.Commit();
+                    return new HttpStatusCodeResult(201);
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+
+
+                    return new HttpStatusCodeResult(400);
+                }
+            }
+        }
+        [Route("phong-dieu-khien/bao-cao-tai-nan/deleteaccident")]
+        [HttpPost]
+        public ActionResult DeleteAccident(int MaTaiNan)
+        {
+            TaiNan t = new TaiNan();
+            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
+            {
+
+                try
+                {
+
+                    TaiNan d = DBContext.TaiNans.Where(x => x.MaTaiNan == MaTaiNan).First();
+                    DBContext.TaiNans.Remove(d);
+
+                    DBContext.SaveChanges();
+
+                    transaction.Commit();
+                    return Json("", JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+
+
+                    return new HttpStatusCodeResult(400);
+                }
             }
         }
     }
     public class TaiNanDB : TaiNan
     {
         public String stringDate { get; set; }
+        public string Ten { get; set; }
+        public string Ca_Name { get; set; }
+        public string department_name { get; set; }
+
     }
     public class dsTainan
     {
         public int MaTaiNan { get; set; }
         public string MaNV { get; set; }
-        public string Ten { get; set; }
-        public string department_name { get; set; }
+
         public string LyDo { get; set; }
-        public string Loai { get; set; }
         public Nullable<int> Ca { get; set; }
         public Nullable<DateTime> Ngay { get; set; }
     }
