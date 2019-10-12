@@ -19,6 +19,7 @@ namespace QUANGHANH2.Models
         public string LyDo { get; set; }
         public Nullable<System.DateTime> Ngay { get; set; }
         public Nullable<int> Ca { get; set; }
+        public string Loai { get; set; }
     
         public virtual NhanVien NhanVien { get; set; }
     }

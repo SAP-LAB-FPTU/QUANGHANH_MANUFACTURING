@@ -17,8 +17,9 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TieuChi()
         {
-            this.TieuChi_VatLieuSanXuat = new HashSet<TieuChi_VatLieuSanXuat>();
-            this.ChiTiet_ThucHien_TieuChi_TheoNgay = new HashSet<ChiTiet_ThucHien_TieuChi_TheoNgay>();
+            this.KeHoach_TieuChi_TheoNgay = new HashSet<KeHoach_TieuChi_TheoNgay>();
+            this.KeHoach_TieuChi_TheoThang = new HashSet<KeHoach_TieuChi_TheoThang>();
+            this.ThucHien_TieuChi_TheoNgay = new HashSet<ThucHien_TieuChi_TheoNgay>();
         }
     
         public int MaTieuChi { get; set; }
@@ -26,10 +27,12 @@ namespace QUANGHANH2.Models
         public string DonViDo { get; set; }
         public Nullable<int> MaNhomTieuChi { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<KeHoach_TieuChi_TheoNgay> KeHoach_TieuChi_TheoNgay { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<KeHoach_TieuChi_TheoThang> KeHoach_TieuChi_TheoThang { get; set; }
         public virtual NhomTieuChi NhomTieuChi { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TieuChi_VatLieuSanXuat> TieuChi_VatLieuSanXuat { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChiTiet_ThucHien_TieuChi_TheoNgay> ChiTiet_ThucHien_TieuChi_TheoNgay { get; set; }
+        public virtual ICollection<ThucHien_TieuChi_TheoNgay> ThucHien_TieuChi_TheoNgay { get; set; }
     }
 }
