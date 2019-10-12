@@ -16,7 +16,7 @@
 </head>
 <body>
     <div>
-        <table id="example" class="display striped" style="width:100%">
+        <table id="reportTable" class="display striped" style="width:100%">
             <thead>
                 <tr>
                     <th rowspan="2">STT</th>
@@ -44,7 +44,6 @@
                 </tr>
             </thead>
             <tbody>
-               
             </tbody>
         </table>
     </div>
@@ -56,11 +55,69 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('#example').DataTable({
+            let count = 0;
+            $('#reportTable').DataTable({
                 "lengthChange": false,
                 "bFilter": false,
                 "bPaginate": false,
-                "info": false
+                "info": false,
+                "ajax": {
+                    "url": "/phong-dieu-khien/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty",
+                    "type": "POST",
+                    "datatype": "json",
+                    "dataSrc": function (result) {
+                        return JSON.parse(result.data);
+                    },
+                    "cache": false
+                },
+                "columns": [
+                    {
+                        data: "MaTieuChi", render: function (data, type, row) {
+                            return count++;
+                        }
+                    },
+                    { data: "TenTieuChi" },
+                    { data: "BQQHDC" },
+                    {
+                        data: "vatlieuchong"
+                    },
+                    {
+                        data: "dientichdao"
+                    },
+                    {
+                        data: "bc"
+                    },
+                    {
+                        data: "ct"
+                    },
+                    {   data: "Ca1" },
+                    {
+                        data: "Ca2"
+                    },
+                    {
+                        data: "Ca3"
+                    },
+                    {
+                        data: "TH"
+                    },
+                    {
+                        data: "KH"
+                    },
+                    {
+                        data: "chenhlech"
+                    },
+                    {
+                        data: "percentage"
+                    },
+                    {
+                        data: "percentageDC"
+                    },
+                    {
+                        data: "SUM"
+                    }, {
+                        data: "perday"
+                    },
+                ]
             });
         });
     </script>

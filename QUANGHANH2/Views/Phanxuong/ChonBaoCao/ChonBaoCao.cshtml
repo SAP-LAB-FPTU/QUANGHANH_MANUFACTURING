@@ -13,16 +13,12 @@
 <script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
 <script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
 <link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
-<div class="row">
-    <div class="col l12 m12 s12">
+        <hr />
         <div class="card">
             <div class="card-content">
                 <h3 class="center">
                     @{
                         var phanxuong = ViewBag.phanxuong;
-                      
-
-
                         switch (phanxuong)
                         {
                             case "pxvt":<b>PHÂN XƯỞNG VẬN TẢI</b>; break;
@@ -48,7 +44,7 @@
 
                 </h3>
                 <div class="row">
-                    <div id="nhap-hoat-dong-hang-ngay" onclick="window.location.href='/phong-cdvt/cap-nhat-hoat-dong'"  class="waves btn-nhap col l6 m6 s12">
+                    <div id="nhap-hoat-dong-hang-ngay" onclick="window.location.href='/phong-cdvt/cap-nhat-hoat-dong'"  class="waves btn-nhap col l6 m12 s12">
                         <div class="card info-gradient card-hover">
                             <div class="card-content">
                                 <div class="d-flex no-block align-items-center">
@@ -66,7 +62,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="nhap-xin-cap-vat-tu"  onclick="window.location.href='/phong-cdvt/xin-cap-vat-tu-sctx'"class="btn-nhap col l6 m6 s12">
+                    <div id="nhap-xin-cap-vat-tu"  onclick="window.location.href='/phong-cdvt/xin-cap-vat-tu-sctx'"class="btn-nhap col l6 m12 s12">
                         <div class="card info-gradient card-hover">
                             <div class="card-content">
                                 <div class="d-flex no-block align-items-center">
@@ -84,7 +80,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="nhap-su-co"  onclick="window.location.href='/phong-cdvt/su-co'"class="btn-nhap col l6 m6 s12">
+                    <div id="nhap-su-co"  onclick="window.location.href='/phong-cdvt/su-co'"class="btn-nhap col l6 m12 s12">
                         <div class="card info-gradient card-hover">
                             <div class="card-content">
                                 <div class="d-flex no-block align-items-center">
@@ -102,7 +98,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="nhap-nhien-lieu-hang-ngay" onclick="window.location.href='/phong-cdvt/cap-nhat-hoat-dong'" class="btn-nhap col l6 m6 s12">
+                    <div id="nhap-nhien-lieu-hang-ngay" onclick="window.location.href='/phong-cdvt/cap-nhat-hoat-dong'" class="btn-nhap col l6 m12 s12">
                         <div class="card info-gradient card-hover">
                             <div class="card-content">
                                 <div class="d-flex no-block align-items-center">
@@ -120,7 +116,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="nghiem-thu" onclick="window.location.href='/phong-cdvt/da-nghiem-thu'" class="btn-nhap col l6 m6 s12">
+                    <div id="nghiem-thu" onclick="window.location.href='/phong-cdvt/da-nghiem-thu'" class="btn-nhap col l6 m12 s12">
                         <div class="card info-gradient card-hover">
                             <div class="card-content">
                                 <div class="d-flex no-block align-items-center">
@@ -138,7 +134,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="xu-li-quyet-dinh" onclick="window.location.href='/phong-cdvt/cap-nhat/quyet-dinh'" class="btn-nhap col l6 m6 s12">
+                    <div id="xu-li-quyet-dinh" onclick="window.location.href='/phong-cdvt/cap-nhat/quyet-dinh'" class="btn-nhap col l6 m12 s12">
                         <div class="card info-gradient card-hover">
                             <div class="card-content">
                                 <div class="d-flex no-block align-items-center">
@@ -159,7 +155,7 @@
                     <div class="col l12 m12 s12">
                         <hr />
                     </div>
-                    <div id="diem-danh" onclick="window.location.href='/phan-xuong-khai-thac/diem-danh'" class="btn-nhap col l6 m6 s12">
+                    <div id="diem-danh" onclick="window.location.href='/phan-xuong-khai-thac/diem-danh'" class="btn-nhap col l6 m12 s12">
                         <div class="card success-gradient card-hover">
                             <div class="card-content">
                                 <div class="d-flex no-block align-items-center">
@@ -177,7 +173,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="xu-li-quyet-dinh" onclick="window.location.href='/phan-xuong/nhap-bao-cao-len-phong-dk?phanxuong=@(ViewBag.phanxuong)'" class="btn-nhap col l6 m6 s12">
+                    <div id="xu-li-quyet-dinh" onclick="window.location.href='/phan-xuong/nhap-bao-cao-len-phong-dk?phanxuong=@(ViewBag.phanxuong)'" class="btn-nhap col l6 m12 s12">
                         <div class="card success-gradient card-hover">
                             <div class="card-content">
                                 <div class="d-flex no-block align-items-center">
@@ -195,7 +191,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="nsld-tien-luong"  onclick="window.location.href='/phan-xuong-khai-thac/nang-suat-lao-dong'"class="btn-nhap col l6 m6 s12">
+                    <div id="nsld-tien-luong"  onclick="window.location.href='/phan-xuong-khai-thac/nang-suat-lao-dong'"class="btn-nhap col l6 m12 s12">
                         <div class="card success-gradient card-hover">
                             <div class="card-content">
                                 <div class="d-flex no-block align-items-center">
@@ -219,7 +215,7 @@
                             <div class="col l12 m12 s12">
                                 <hr />
                             </div>
-                            <div id="xu-li-quyet-dinh" class="btn-nhap col l6 m6 s12">
+                            <div id="xu-li-quyet-dinh" class="btn-nhap col l6 m12 s12">
                                 <div class="card success-gradient card-hover">
                                     <div class="card-content">
                                         <div class="d-flex no-block align-items-center">
@@ -237,7 +233,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="xu-li-quyet-dinh" class="btn-nhap col l6 m6 s12">
+                            <div id="xu-li-quyet-dinh" class="btn-nhap col l6 m12 s12">
                                 <div class="card success-gradient card-hover">
                                     <div class="card-content">
                                         <div class="d-flex no-block align-items-center">
@@ -259,7 +255,5 @@
 
                     }
                 </div>
-            </div>
-        </div>
     </div>
 </div>

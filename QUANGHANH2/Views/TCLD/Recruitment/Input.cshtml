@@ -260,9 +260,11 @@
                 url: "/phong-tcld/quan-ly-nhan-vien/tuyen-dung-nhan-vien-import-excel",
                 statusCode: {
                     404: function (responseObject, textStatus, jqXHR) {
+                        toastr.options.positionClass = 'toast-top-center';
                         toastr.warning('Lỗi!', 'Hệ thống');
                     },
                     503: function (responseObject, textStatus, errorThrown) {
+                        toastr.options.positionClass = 'toast-top-center';
                         toastr.warning('Lỗi mạng!', 'Hệ thống');
                     }
                 },
@@ -275,8 +277,8 @@
                 processData: false,
                 success: function (data) {
                     if (!data.success) {
-                        alert(data.message);
-                        toastr.warning(data.message, 'Hệ thống');
+                        toastr.options.positionClass = 'toast-top-center';
+                        toastr.warning("Lỗi định dạng file", 'Hệ thống');
                     } else if (data.message == "Excel")
                     {
                         errorAlert('Lỗi','Hãy dùng bản mẫu excel của hệ thống');
@@ -310,11 +312,13 @@
                         }
                         //show toast
                         checkInput = false;
+                        toastr.options.positionClass = 'toast-top-center';
                         toastr.success('Upload thành công!', 'Hệ thống');
                     }
                 },
                 error: function (data) {
                     //$('#dvData').html(e.responseText);
+                    toastr.options.positionClass = 'toast-top-center';
                     toastr.warning('Lỗi!', 'Hệ thống'+data);
                 }
             }).done(function () {

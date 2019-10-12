@@ -31,6 +31,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<Account_Right_Detail> Account_Right_Detail { get; set; }
         public virtual DbSet<Activity> Activities { get; set; }
         public virtual DbSet<BangCap_GiayChungNhan> BangCap_GiayChungNhan { get; set; }
+        public virtual DbSet<BaoCaoFile> BaoCaoFiles { get; set; }
         public virtual DbSet<Category_attribute_value> Category_attribute_value { get; set; }
         public virtual DbSet<ChamDut_NhanVien> ChamDut_NhanVien { get; set; }
         public virtual DbSet<ChiTiet_BangCap_GiayChungNhan> ChiTiet_BangCap_GiayChungNhan { get; set; }
@@ -56,6 +57,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<Equipment_Category_Supply> Equipment_Category_Supply { get; set; }
         public virtual DbSet<Equipment_Inspection> Equipment_Inspection { get; set; }
         public virtual DbSet<FakeAPI> FakeAPIs { get; set; }
+        public virtual DbSet<FileBaoCao> FileBaoCaos { get; set; }
         public virtual DbSet<Fuel_activities_consumption> Fuel_activities_consumption { get; set; }
         public virtual DbSet<GiayTo> GiayToes { get; set; }
         public virtual DbSet<Header_DiemDanh_NangSuat_LaoDong> Header_DiemDanh_NangSuat_LaoDong { get; set; }
@@ -76,6 +78,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<NhanVien> NhanViens { get; set; }
         public virtual DbSet<NhiemVu> NhiemVus { get; set; }
         public virtual DbSet<NhomTieuChi> NhomTieuChis { get; set; }
+        public virtual DbSet<PhongBan_TieuChi> PhongBan_TieuChi { get; set; }
         public virtual DbSet<QuanHeGiaDinh> QuanHeGiaDinhs { get; set; }
         public virtual DbSet<QuaTrinhCongTac> QuaTrinhCongTacs { get; set; }
         public virtual DbSet<QuyetDinh> QuyetDinhs { get; set; }
@@ -84,7 +87,6 @@ namespace QUANGHANH2.Models
         public virtual DbSet<Supply_Documentary_Equipment> Supply_Documentary_Equipment { get; set; }
         public virtual DbSet<Supply_tieuhao> Supply_tieuhao { get; set; }
         public virtual DbSet<SupplyPlan> SupplyPlans { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TaiNan> TaiNans { get; set; }
         public virtual DbSet<ThucHien_TieuChi_TheoNgay> ThucHien_TieuChi_TheoNgay { get; set; }
         public virtual DbSet<TieuChi> TieuChis { get; set; }

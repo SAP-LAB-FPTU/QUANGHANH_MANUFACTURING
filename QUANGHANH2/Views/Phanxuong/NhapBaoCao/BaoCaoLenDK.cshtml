@@ -12,7 +12,15 @@
 <link href="~/assets/libs/toastr/build/toastr.min.css" rel="stylesheet">
 
 <style>
-    .file-description {
+    .file-description1 {
+        width: 120px !important;
+    }
+
+    .file-description2 {
+        width: 120px !important;
+    }
+
+    .file-description3 {
         width: 120px !important;
     }
 
@@ -30,6 +38,30 @@
         transition: width 300ms ease-in-out;
     }
 </style>
+@{
+    //var listFiles =@Html.Raw(Json.Encode(ViewBag.listFiles));
+    var listFiles = ViewBag.listFiles;
+    var ca1Number = 0;
+    var ca2Number = 0;
+    var ca3Number = 0;
+    for (int i = 0; i < listFiles.Count; i++)
+    {
+        switch (listFiles[i].ca)
+        {
+            case 1:
+                ca1Number++;
+                break;
+            case 2:
+                ca2Number++;
+                break;
+            case 3:
+                ca3Number++;
+                break;
+            default:
+                break;
+        }
+    }
+}
 <div class="card">
     <div class="card-content">
         <div class="row">
@@ -37,7 +69,7 @@
                 <div class="card-content">
                     <div class="row">
                         <div class="center black-text">
-                            <h3><b>NHẬP BÁO CÁO HOẠT ĐỘNG HÀNG NGÀY</b></h3>
+                            <h3><b>NHẬP BÁO CÁO HÀNG NGÀY</b></h3>
                             <h5>
                                 <i class="fas fa-calendar-alt icon"></i>
                                 <input type='text' class='datepicker-here center' id="ngay-chon" data-language='vi' />
@@ -53,99 +85,187 @@
                                     <h5 class="">Báo cáo từng ca</h5>
                                     <br />
                                     <ul class="collapsible collapsible-dark">
-                                        <li>
-                                            <div class="collapsible-header"><i class="fas fa-paperclip"></i>Ca 1<span id="ca1" class="badge">Đã nhập</span></div>
-                                            <div class="collapsible-body">
-                                                @*<p>
-            <img width="25" style="vertical-align:middle" src="~/assets/uploader/icon.png" />
-            <a href="#">File 1.xlsx</a>
-            <i style="color:red; cursor:pointer" class="fas fa-times-circle"></i>
-        </p>
+                                        <!------------------------------------------------CA 1----------------------------------------------->
+                                        @{
+                                            if (ca1Number == 0)
+                                            {
+                                                <li>
+                                                    <div class="collapsible-header"><i class="fas fa-paperclip"></i>Ca 1<span id="ca1" class="badge">Chưa nhập</span></div>
+                                                    <div class="collapsible-body">
+                                                        <div class="row">
+                                                            <div class="col s12">
+                                                                <form action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzoneCa1">
+                                                                    <div class="fallback">
+                                                                        <input type="file" id="fUpload" name="file" class="form-control" single />
+                                                                    </div>
+                                                                    <div class="dz-message needsclick">
+                                                                        <i class="medium material-icons dp48">cloud_upload</i>
+                                                                        <h3 id="title_uploader">Kéo thả file hoặc click vào đây để tải lên</h3>
+                                                                        <span class="text-muted font-13">(File hợp lệ: xls, xlsx)</span>
+                                                                    </div>
+                                                                </form>
+                                                                <br />
+                                                                <div class="clearfix text-right mt-3">
+                                                                    <button type="button"
+                                                                            class="btn-danger blue waves-effect waves-light btn"
+                                                                            id="btnUpload1">
+                                                                        <i class="material-icons dp48">send</i>
+                                                                        Tải lên
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li class="active">
+                                                    <div class="collapsible-header"><i class="fas fa-paperclip"></i>Ca 1<span id="ca1" class="badge">@ca1Number tệp</span></div>
+                                                    <div class="collapsible-body">
+                                                        @for (int i = 0; i < listFiles.Count; i++)
+                                                        {
+                                                            if (listFiles[i].ca == 1)
+                                                            {
+                                                                <p>
+                                                                    <img width="25" style="vertical-align:middle" src="~/assets/uploader/file-icon.png" />
+                                                                    <a href="~/FileContainer/PhanXuongLenDK/@listFiles[i].fileName">@listFiles[i].fileNameDisplay</a>
+                                                                    @if (listFiles[i].chuthich != "")
+                                                                    {
+                                                                        <i> (Ghi chú: @listFiles[i].chuthich )</i>
+                                                                    }
+                                                                    <i style="color:red; cursor:pointer" class="fas fa-times-circle"></i>
+                                                                </p>
+                                                            }
+                                                        }
+                                                        <div data-target="modal1" style="margin-right:10px" class="modal-trigger waves-effect blue waves-light btn">
+                                                            <i class="fas fa-plus-circle"></i><span> Thêm báo cáo</span>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            }
+                                        }
+                                        <!------------------------------------------------CA 2----------------------------------------------->
+                                        @{
+                                            if (ca2Number == 0)
+                                            {
+                                                <li>
+                                                    <div class="collapsible-header"><i class="fas fa-paperclip"></i>Ca 2<span id="ca2" class="badge">Chưa nhập</span></div>
+                                                    <div class="collapsible-body" >
+                                                        <div class="row">
+                                                            <div class="col s12">
+                                                                <form action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzoneCa2">
+                                                                    <div class="fallback">
+                                                                        <input type="file" id="fUpload" name="file" class="form-control" single />
+                                                                    </div>
+                                                                    <div class="dz-message needsclick">
+                                                                        <i class="medium material-icons dp48">cloud_upload</i>
+                                                                        <h3 id="title_uploader">Kéo thả file hoặc click vào đây để tải lên</h3>
+                                                                        <span class="text-muted font-13">(File hợp lệ: xls, xlsx)</span>
+                                                                    </div>
+                                                                </form>
+                                                                <br />
+                                                                <div class="clearfix text-right mt-3">
+                                                                    <button type="button"
+                                                                            class="btn-danger blue waves-effect waves-light btn"
+                                                                            id="btnUpload2">
+                                                                        <i class="material-icons dp48">send</i>
+                                                                        Tải lên
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li class="active">
+                                                    <div class="collapsible-header"><i class="fas fa-paperclip"></i>Ca 2<span id="ca2" class="badge">@ca2Number tệp</span></div>
+                                                    <div class="collapsible-body" style="display: block;">
+                                                        @for (int i = 0; i < listFiles.Count; i++)
+                                                        {
+                                                            if (listFiles[i].ca == 2)
+                                                            {
+                                                                <p>
+                                                                    <img width="25" style="vertical-align:middle" src="~/assets/uploader/file-icon.png" />
+                                                                    <a href="~/FileContainer/PhanXuongLenDK/@listFiles[i].fileName">@listFiles[i].fileNameDisplay</a>
+                                                                    @if (listFiles[i].chuthich != "")
+                                                                    {
+                                                                        <i> (Ghi chú: @listFiles[i].chuthich )</i>
+                                                                    }
+                                                                    <i style="color:red; cursor:pointer" class="fas fa-times-circle"></i>
+                                                                </p>
+                                                            }
+                                                        }
+                                                        <div data-target="modal2" style="margin-right:10px" class="modal-trigger waves-effect blue waves-light btn">
+                                                            <i class="fas fa-plus-circle"></i><span> Thêm báo cáo</span>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            }
+                                        }
 
-        <div data-target="modal1" style="margin-right:10px" class="modal-trigger waves-effect blue waves-light btn">
-            <i class="fas fa-plus-circle"></i><span> Thêm báo cáo</span>
-        </div>*@
-                                                <div class="row">
-                                                    <div class="col s12">
-                                                        <form action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzoneCa1">
-                                                            <div class="fallback">
-                                                                <input type="file" id="fUpload" name="file" class="form-control" single />
+                                        <!------------------------------------------------CA 3----------------------------------------------->
+                                        @{
+                                            if (ca3Number == 0)
+                                            {
+                                                <li>
+                                                    <div class="collapsible-header"><i class="fas fa-paperclip"></i>Ca 3<span id="ca1" class="badge">Chưa nhập</span></div>
+                                                    <div class="collapsible-body">
+                                                        <div class="row">
+                                                            <div class="col s12">
+                                                                <form action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzoneCa3">
+                                                                    <div class="fallback">
+                                                                        <input type="file" id="fUpload" name="file" class="form-control" single />
+                                                                    </div>
+                                                                    <div class="dz-message needsclick">
+                                                                        <i class="medium material-icons dp48">cloud_upload</i>
+                                                                        <h3 id="title_uploader">Kéo thả file hoặc click vào đây để tải lên</h3>
+                                                                        <span class="text-muted font-13">(File hợp lệ: xls, xlsx)</span>
+                                                                    </div>
+                                                                </form>
+                                                                <br />
+                                                                <div class="clearfix text-right mt-3">
+                                                                    <button type="button"
+                                                                            class="btn-danger blue waves-effect waves-light btn"
+                                                                            id="btnUpload3">
+                                                                        <i class="material-icons dp48">send</i>
+                                                                        Tải lên
+                                                                    </button>
+                                                                </div>
                                                             </div>
-                                                            <div class="dz-message needsclick">
-                                                                <i class="medium material-icons dp48">cloud_upload</i>
-                                                                <h3 id="title_uploader">Kéo thả file hoặc click vào đây để tải lên</h3>
-                                                                <span class="text-muted font-13">(File hợp lệ: xls, xlsx)</span>
-                                                            </div>
-                                                        </form>
-                                                        <br />
-                                                        <div class="clearfix text-right mt-3">
-                                                            <button type="button"
-                                                                    class="btn-danger blue waves-effect waves-light btn"
-                                                                    id="btnUpload1">
-                                                                <i class="material-icons dp48">send</i>
-                                                                Tải lên
-                                                            </button>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="collapsible-header"><i class="fas fa-paperclip"></i>Ca 2<span id="ca2" class="badge">Chưa nhập</span></div>
-                                            <div class="collapsible-body">
-                                                <div class="row">
-                                                    <div class="col s12">
-                                                        <form action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzoneCa2">
-                                                            <div class="fallback">
-                                                                <input type="file" id="fUpload" name="file" class="form-control" single />
-                                                            </div>
-                                                            <div class="dz-message needsclick">
-                                                                <i class="medium material-icons dp48">cloud_upload</i>
-                                                                <h3 id="title_uploader">Kéo thả file hoặc click vào đây để tải lên</h3>
-                                                                <span class="text-muted font-13">(File hợp lệ: xls, xlsx)</span>
-                                                            </div>
-                                                        </form>
-                                                        <br />
-                                                        <div class="clearfix text-right mt-3">
-                                                            <button type="button"
-                                                                    class="btn-danger blue waves-effect waves-light btn"
-                                                                    id="btnUpload2">
-                                                                <i class="material-icons dp48">send</i>
-                                                                Tải lên
-                                                            </button>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li class="active">
+                                                    <div class="collapsible-header"><i class="fas fa-paperclip"></i>Ca 3<span id="ca1" class="badge">@ca3Number tệp</span></div>
+                                                    <div class="collapsible-body" style="display: block;">
+                                                        @for (int i = 0; i < listFiles.Count; i++)
+                                                        {
+                                                            if (listFiles[i].ca == 3)
+                                                            {
+                                                                <p>
+                                                                    <img width="25" style="vertical-align:middle" src="~/assets/uploader/file-icon.png" />
+                                                                    <a href="~/FileContainer/PhanXuongLenDK/@listFiles[i].fileName">@listFiles[i].fileNameDisplay</a>
+                                                                    @if (listFiles[i].chuthich != "")
+                                                                    {
+                                                                        <i> (Ghi chú: @listFiles[i].chuthich )</i>
+                                                                    }
+                                                                    <i style="color:red; cursor:pointer" class="fas fa-times-circle"></i>
+                                                                </p>
+                                                            }
+                                                        }
+                                                        <div data-target="modal3" style="margin-right:10px" class="modal-trigger waves-effect blue waves-light btn">
+                                                            <i class="fas fa-plus-circle"></i><span> Thêm báo cáo</span>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="collapsible-header"><i class="fas fa-paperclip"></i>Ca 3<span id="ca3" class="badge">Chưa nhập</span></div>
-                                            <div class="collapsible-body">
-                                                <div class="row">
-                                                    <div class="col s12">
-                                                        <form action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzoneCa3">
-                                                            <div class="fallback">
-                                                                <input type="file" id="fUpload" name="file" class="form-control" single />
-                                                            </div>
-                                                            <div class="dz-message needsclick">
-                                                                <i class="medium material-icons dp48">cloud_upload</i>
-                                                                <h3 id="title_uploader">Kéo thả file hoặc click vào đây để tải lên</h3>
-                                                                <span class="text-muted font-13">(File hợp lệ: xls, xlsx)</span>
-                                                            </div>
-                                                        </form>
-                                                        <br />
-                                                        <div class="clearfix text-right mt-3">
-                                                            <button type="button"
-                                                                    class="btn-danger blue waves-effect waves-light btn"
-                                                                    id="btnUpload3">
-                                                                <i class="material-icons dp48">send</i>
-                                                                Tải lên
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
+                                                </li>
+                                            }
+                                        }
                                     </ul>
                                 </div>
                             </div>
@@ -158,12 +278,12 @@
 </div>
 <div id="modal1" class="modal">
     <div class="modal-content">
-        <h4 class="modal_title">Nhập liệu từ Excel</h4>
+        <h4 class="modal_title"></h4>
         <div>
             <div class="container-fluid">
                 <div class="row">
                     <div class="col s12">
-                        <form action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzoneModal">
+                        <form action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzoneCa1">
                             <div class="fallback">
                                 <input type="file" id="fUpload" name="file" class="form-control" multiple />
                             </div>
@@ -177,7 +297,73 @@
                         <div class="clearfix text-right mt-3">
                             <button type="button"
                                     class="btn-danger blue waves-effect waves-light btn"
-                                    id="btnUpload">
+                                    id="btnUpload1">
+                                <i class="material-icons dp48">send</i>
+                                Tải lên
+                            </button>
+                            <a href="~/excel/TCLD/TuyenDung/Template/TuyenDungForm.xlsx" style="float:right;">Tải file mẫu</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modal2" class="modal">
+    <div class="modal-content">
+        <h4 class="modal_title"></h4>
+        <div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col s12">
+                        <form action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzoneCa2">
+                            <div class="fallback">
+                                <input type="file" id="fUpload" name="file" class="form-control" multiple />
+                            </div>
+                            <div class="dz-message needsclick">
+                                <i class="medium material-icons dp48">cloud_upload</i>
+                                <h3 id="title_uploader">Kéo thả file hoặc click vào đây để tải lên</h3>
+                                <span class="text-muted font-13">(File hợp lệ: xls, xlsx)</span>
+                            </div>
+                        </form>
+                        <br />
+                        <div class="clearfix text-right mt-3">
+                            <button type="button"
+                                    class="btn-danger blue waves-effect waves-light btn"
+                                    id="btnUpload2">
+                                <i class="material-icons dp48">send</i>
+                                Tải lên
+                            </button>
+                            <a href="~/excel/TCLD/TuyenDung/Template/TuyenDungForm.xlsx" style="float:right;">Tải file mẫu</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modal3" class="modal">
+    <div class="modal-content">
+        <h4 class="modal_title"></h4>
+        <div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col s12">
+                        <form action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzoneCa3">
+                            <div class="fallback">
+                                <input type="file" id="fUpload" name="file" class="form-control" multiple />
+                            </div>
+                            <div class="dz-message needsclick">
+                                <i class="medium material-icons dp48">cloud_upload</i>
+                                <h3 id="title_uploader">Kéo thả file hoặc click vào đây để tải lên</h3>
+                                <span class="text-muted font-13">(File hợp lệ: xls, xlsx)</span>
+                            </div>
+                        </form>
+                        <br />
+                        <div class="clearfix text-right mt-3">
+                            <button type="button"
+                                    class="btn-danger blue waves-effect waves-light btn"
+                                    id="btnUpload3">
                                 <i class="material-icons dp48">send</i>
                                 Tải lên
                             </button>
@@ -198,18 +384,28 @@
 <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
 <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
 <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
+
 <script>
     $(function () {
         $(".select-dropdown").remove();
         $(".caret").remove();
         //////////////////////////////////////
         var date = new Date();
-        $("#ngay-chon").val(date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear());
+        var selectedDate = "";
+        selectedDate="@ViewBag.ngay";
+        if (selectedDate === "0") {
+            $("#ngay-chon").val(date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear());
+        } else {
+            $("#ngay-chon").val(selectedDate);
+        }
+        
+        $(".datepicker-inline").remove();
     })
 </script>
 <!--Stacked Bar Chart JS-->
 <script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
 <script src="~/js/Custom JS/CustomChart.js"></script>
+
 <!--Ca 1-->
 <script>
     var count1 = 0;
@@ -219,7 +415,7 @@
     //Create by TUANKQ
 Dropzone.options.myAwesomeDropzoneCa1 = {
     paramName: "file", // The name that will be used to transfer the file
-    maxFilesize: 2, // MB
+    maxFilesize: 10, // MB
     addRemoveLinks: true,
     autoProcessQueue: false,
     dictRemoveFile: 'Hủy',
@@ -239,7 +435,7 @@ Dropzone.options.myAwesomeDropzoneCa1 = {
     init: function () {
         this.on("addedfile", function () {
             //alert("ahhihi");
-            $(".dz-preview").last().append("<input class=\"file-description form-control\" placeholder=\"Chú thích file\" type=\"text\"/> \n ");
+            $(".dz-preview").last().append("<input class=\"file-description1 form-control\" placeholder=\"Chú thích file\" type=\"text\"/> \n ");
             //if (this.files.length > 10) {
             //    for (int i = 0; i < this.files.length; i++){
             //            this.removeFile(this.files[i]);
@@ -271,32 +467,36 @@ Dropzone.options.myAwesomeDropzoneCa1 = {
                 data1.append("ca", ca1);
 
                 var link = window.location.href;
-                var phanxuong = link.split('=')[1];
+                var phanxuong1 = "@ViewBag.phanxuong";
 
-                data1.append("phanxuong",phanxuong);
-                $.ajax({
-                type: "POST",
-                url: "/phan-xuong/upload-len-dk",
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader("XSRF-TOKEN",
-                        $('input:hidden[name="__RequestVerificationToken"]').val());
-                },
-                data: data1,
-                contentType: false,
-                processData: false,
-                success: function (data) {
-                    reloadAlert("Tải lên thành công!", 1000);
-                },
-                error: function (data) {
-                    //$('#dvData').html(e.responseText);
-                    toastr.warning('Lỗi!', 'Hệ thống'+data);
-                }
-            }).done(function () {
-                //hide pre-loader
-                reloadAlert("Tải lên thành công!", 1000);
-                $("#pre-load").hide("slow", function () {
+                data1.append("phanxuong", phanxuong1);
+                var notes1 = [];
+                $(".file-description1").each(function () {
+                    notes1.push($(this).val());
                 });
-            });
+                data1.append("notes", notes1);
+
+                $.ajax({
+                    type: "POST",
+                    url: "/phan-xuong/upload-len-dk",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("XSRF-TOKEN",
+                            $('input:hidden[name="__RequestVerificationToken"]').val());
+                    },
+                    data: data1,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                         $("#pre-load").hide("slow", function () {
+                         });
+                        if (data.success) {
+                            reloadAlert("Tải lên thành công!", 1000);
+                        } else {
+                            errorAlert("Lỗi!", 1000);
+                            window.location.reload();
+                        }
+                    },
+                });
             }
         });
     },
@@ -315,7 +515,7 @@ Dropzone.options.myAwesomeDropzoneCa1 = {
     //Create by TUANKQ
 Dropzone.options.myAwesomeDropzoneCa2 = {
     paramName: "file", // The name that will be used to transfer the file
-    maxFilesize: 2, // MB
+    maxFilesize: 10, // MB
     addRemoveLinks: true,
     autoProcessQueue: false,
     dictRemoveFile: 'Hủy',
@@ -335,7 +535,7 @@ Dropzone.options.myAwesomeDropzoneCa2 = {
     init: function () {
         this.on("addedfile", function () {
             //alert("ahhihi");
-            $(".dz-preview").last().append("<input class=\"file-description form-control\" placeholder=\"Chú thích file\" type=\"text\"/> \n ");
+            $(".dz-preview").last().append("<input class=\"file-description2 form-control\" placeholder=\"Chú thích file\" type=\"text\"/> \n ");
             //if (this.files.length > 10) {
             //    for (int i = 0; i < this.files.length; i++){
             //            this.removeFile(this.files[i]);
@@ -367,40 +567,46 @@ Dropzone.options.myAwesomeDropzoneCa2 = {
                 data2.append("ca", ca2);
 
                 var link = window.location.href;
-                var phanxuong = link.split('=')[1];
+                var phanxuong2 = "@ViewBag.phanxuong";
 
-                data2.append("phanxuong",phanxuong);
-                $.ajax({
-                type: "POST",
-                url: "/phan-xuong/upload-len-dk",
-                //statusCode: {
-                //    404: function (responseObject, textStatus, jqXHR) {
-                //        toastr.warning('Lỗi!', 'Hệ thống');
-                //    },
-                //    503: function (responseObject, textStatus, errorThrown) {
-                //        toastr.warning('Lỗi mạng!', 'Hệ thống');
-                //    }
-                //},
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader("XSRF-TOKEN",
-                        $('input:hidden[name="__RequestVerificationToken"]').val());
-                },
-                data: data2,
-                contentType: false,
-                processData: false,
-                success: function (data) {
-                    reloadAlert("Tải lên thành công!", 1000);
-                },
-                error: function (data) {
-                    //$('#dvData').html(e.responseText);
-                    toastr.warning('Lỗi!', 'Hệ thống'+data);
-                }
-            }).done(function () {
-                //hide pre-loader
-                reloadAlert("Tải lên thành công!", 1000);
-                $("#pre-load").hide("slow", function () {
+                data2.append("phanxuong", phanxuong2);
+
+                var notes2 = [];
+                $(".file-description2").each(function () {
+                    notes2.push($(this).val());
                 });
-            });
+                data2.append("notes", notes2);
+
+                $.ajax({
+                    type: "POST",
+                    url: "/phan-xuong/upload-len-dk",
+                    //statusCode: {
+                    //    404: function (responseObject, textStatus, jqXHR) {
+                    //        toastr.warning('Lỗi!', 'Hệ thống');
+                    //    },
+                    //    503: function (responseObject, textStatus, errorThrown) {
+                    //        toastr.warning('Lỗi mạng!', 'Hệ thống');
+                    //    }
+                    //},
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("XSRF-TOKEN",
+                            $('input:hidden[name="__RequestVerificationToken"]').val());
+                    },
+                    data: data2,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        $("#pre-load").hide("slow", function () {
+                        });
+                        if (data.success) {
+                            reloadAlert("Tải lên thành công!", 1000);
+                        } else {
+                            errorAlert("Lỗi!", 1000);
+                            window.location.reload();
+                        }
+                    }
+
+                });
             }
         });
     },
@@ -420,7 +626,7 @@ Dropzone.options.myAwesomeDropzoneCa2 = {
     //Create by TUANKQ
 Dropzone.options.myAwesomeDropzoneCa3 = {
     paramName: "file", // The name that will be used to transfer the file
-    maxFilesize: 2, // MB
+    maxFilesize: 10, // MB
     addRemoveLinks: true,
     autoProcessQueue: false,
     dictRemoveFile: 'Hủy',
@@ -440,7 +646,7 @@ Dropzone.options.myAwesomeDropzoneCa3 = {
     init: function () {
         this.on("addedfile", function () {
             //alert("ahhihi");
-            $(".dz-preview").last().append("<input class=\"file-description form-control\" placeholder=\"Chú thích file\" type=\"text\"/> \n ");
+            $(".dz-preview").last().append("<input class=\"file-description3 form-control\" placeholder=\"Chú thích file\" type=\"text\"/> \n ");
             //if (this.files.length > 10) {
             //    for (int i = 0; i < this.files.length; i++){
             //            this.removeFile(this.files[i]);
@@ -472,32 +678,38 @@ Dropzone.options.myAwesomeDropzoneCa3 = {
                 data3.append("ca", ca3);
 
                 var link = window.location.href;
-                var phanxuong = link.split('=')[1];
+                var phanxuong3 = "@ViewBag.phanxuong";
 
-                data3.append("phanxuong",phanxuong);
-                $.ajax({
-                type: "POST",
-                url: "/phan-xuong/upload-len-dk",
-                //beforeSend: function (xhr) {
-                //    xhr.setRequestHeader("XSRF-TOKEN",
-                //        $('input:hidden[name="__RequestVerificationToken"]').val());
-                //},
-                data: data3,
-                contentType: false,
-                processData: false,
-                success: function (data) {
-                        reloadAlert("Tải lên thành công!", 1000);
-                },
-                error: function (data) {
-                    //$('#dvData').html(e.responseText);
-                    toastr.warning('Lỗi!', 'Hệ thống'+data);
-                }
-            }).done(function () {
-                //hide pre-loader
-                reloadAlert("Tải lên thành công!", 1000);
-                $("#pre-load").hide("slow", function () {
+                data3.append("phanxuong", phanxuong3);
+
+                var notes3 = [];
+                $(".file-description3").each(function () {
+                    notes3.push($(this).val());
                 });
-            });
+                data3.append("notes", notes3);
+
+
+                $.ajax({
+                    type: "POST",
+                    url: "/phan-xuong/upload-len-dk",
+                    //beforeSend: function (xhr) {
+                    //    xhr.setRequestHeader("XSRF-TOKEN",
+                    //        $('input:hidden[name="__RequestVerificationToken"]').val());
+                    //},
+                    data: data3,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                          $("#pre-load").hide("slow", function () {
+                         });
+                        if (data.success) {
+                            reloadAlert("Tải lên thành công!", 1000);
+                        } else {
+                            errorAlert("Lỗi!", 1000);
+                            window.location.reload();
+                        }
+                    }
+                });
             }
         });
     },
@@ -509,3 +721,16 @@ Dropzone.options.myAwesomeDropzoneCa3 = {
 
 </script>
 
+<script>
+    $('#ngay-chon').datepicker({
+        language: 'vi',
+        maxDate: new Date(new Date().setDate(new Date().getDate())), // Now can select only dates, which goes after today
+        onSelect: function (fd, d, picker) {
+            var ngay = $('#ngay-chon').val();
+            while (ngay.includes('/')) {
+                ngay = ngay.replace('/', '-');
+            }
+            window.location.href ='/phan-xuong/nhap-bao-cao-len-phong-dk?phanxuong=@ViewBag.phanxuong&ngay=' + ngay;
+        }
+    });
+</script>

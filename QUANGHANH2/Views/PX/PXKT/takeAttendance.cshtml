@@ -103,8 +103,12 @@
             // default date
             //date = "10/09/2019"
             //
+            $('#inputdate').datepicker({
+                language: 'vi',
+                maxDate: new Date()
+            })
             $("#inputdate").val(date);
-            //
+            //inputdate
             $('#phanxuong').text($('.deparment').eq(4).text()) //chua co data nhan vien cua PXDL3, chi co cua PXKT1
         })
         $('.deparment').click(function () {
@@ -157,19 +161,26 @@
                     "cache": false
                 },
                 "initComplete": function (settings) {
-                    $("#8056").html("hihi");
+                    //$("#8056").html("hihi");
                     $("#pre-load").hide();
                 },
 
                 "columns": [
                     {
-                        data: "headerID", render: function (data, type, row) {
-                            if (data == true) {
-                                return "<label><input onclick=\"clickConfirm(this)\" type=\"checkbox\" checked=\"checked\" disabled=\"disabled\" class=\"checkBox1\" id='" + row["maNV"] + "-confirmed'/><span></span></label>";
+                        data: { reason: "reason", status: "status" }, render: function (data, type, row) {
+                            if (!data.status && (data.reason == null || data.reason == "")) {
+                                return "<label><input onclick=\"clickConfirm(this)\" type=\"checkbox\" disabled=\"disabled\" class=\"checkBox1\" id=\"" + row["maNV"].trim() + "-confirmed\"/><span></span></label>";
                             } else {
-                                return "<label><input onclick=\"clickConfirm(this)\" type=\"checkbox\"disabled=\"disabled\"class=\"checkBox1\" id=\"" + row["maNV"].trim() + "-confirmed\"/><span></span></label>";
+                                return "<label><input onclick=\"clickConfirm(this)\" type=\"checkbox\" checked=\"checked\" disabled=\"disabled\" class=\"checkBox1\" id='" + row["maNV"] + "-confirmed'/><span></span></label>";
                             }
                         }
+                        //data: "headerID", render: function (data, type, row) {
+                        //    if (data == true) {
+                        //        return "<label><input onclick=\"clickConfirm(this)\" type=\"checkbox\" checked=\"checked\" disabled=\"disabled\" class=\"checkBox1\" id='" + row["maNV"] + "-confirmed'/><span></span></label>";
+                        //    } else {
+                        //        return "<label><input onclick=\"clickConfirm(this)\" type=\"checkbox\"disabled=\"disabled\"class=\"checkBox1\" id=\"" + row["maNV"].trim() + "-confirmed\"/><span></span></label>";
+                        //    }
+                        //}
                     },
                     { data: "maNV" },
                     { data: "tenNV" },
@@ -183,13 +194,20 @@
                         }
                     },
                     {
-                        data: "headerID", render: function (data) {
-                            if (data != null) {
-                                return data
-                            } else {
+                        data: { reason: "reason", status: "status", headerID: "headerID" }, render: function (data, type, row) {
+                            if (!data.status && (data.reason == null || data.reason == "")) {
                                 return "";
+                            } else {
+                                return data.headerID;
                             }
                         }
+                        //data: "headerID", render: function (data) {
+                        //    if (data != null) {
+                        //        return data
+                        //    } else {
+                        //        return "";
+                        //    }
+                        //}
                     },
                     {
                         data: "timeAttendance", render: function (data) {
@@ -225,11 +243,11 @@
         })
 
         function getcontent() {
-            var dataTable = $('#attendanceTable').DataTable();
             $('#pre-load').show()
-            dataTable.ajax.reload(function () {
-                $('#pre-load').hide();
-            });
+            loadDatatableWith("/phan-xuong-khai-thac/diem-danh")
+                .then((status) => {
+                    $('#pre-load').hide()
+                })
         }
 
         function convertToSQLDate(dateInput) {
@@ -265,8 +283,18 @@
                 console.log(mode)
                 $("#workedAllCheckbox").hide();
                 $("#notWorkedAllCheckbox").hide();
-                $(".reasonBox").html("<select class=\"browser-default \"> <option value=\"\" disabled selected>Lựa chọn lý do</option> <option value=\"1\">Ốm</option> <option value=\"2\">Vô lý do</option><option value=\"3\">Nghỉ phép</option></option><option value=\"4\">Khác</option></select>");
-                //
+                $(".reasonBox").each(function () {
+                    if($(this).text() == "Ốm")
+                        $(this).html("<select class=\"browser-default \"> <option value=\"\" disabled selected>Lựa chọn lý do</option> <option selected value=\"1\">Ốm</option> <option value=\"2\">Vô lý do</option><option value=\"3\">Nghỉ phép</option></option><option value=\"4\">Khác</option></select>");
+                    else if ($(this).text() == "Vô lý do")
+                        $(this).html("<select class=\"browser-default \"> <option value=\"\" disabled selected>Lựa chọn lý do</option> <option value=\"1\">Ốm</option> <option selected value=\"2\">Vô lý do</option><option value=\"3\">Nghỉ phép</option></option><option value=\"4\">Khác</option></select>");
+                    else if ($(this).text() == "Nghỉ phép")
+                        $(this).html("<select class=\"browser-default \"> <option value=\"\" disabled selected>Lựa chọn lý do</option> <option value=\"1\">Ốm</option> <option value=\"2\">Vô lý do</option><option selected value=\"3\">Nghỉ phép</option></option><option value=\"4\">Khác</option></select>");
+                    else if ($(this).text() == "Khác")
+                        $(this).html("<select class=\"browser-default \"> <option value=\"\" disabled selected>Lựa chọn lý do</option> <option value=\"1\">Ốm</option> <option value=\"2\">Vô lý do</option><option value=\"3\">Nghỉ phép</option></option><option selected value=\"4\">Khác</option></select>");
+                    else
+                        $(this).html("<select class=\"browser-default \"> <option value=\"\" disabled selected>Lựa chọn lý do</option> <option value=\"1\">Ốm</option> <option value=\"2\">Vô lý do</option><option value=\"3\">Nghỉ phép</option></option><option value=\"4\">Khác</option></select>");
+                })
                 mode = 1;
             } else {
                 $("#EditSaveBtn").html("<i class=\"material-icons right\">border_color</i>Cập Nhật");
