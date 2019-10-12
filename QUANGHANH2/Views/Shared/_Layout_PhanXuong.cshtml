@@ -276,8 +276,8 @@
                                     <div class="dw-user-box">
                                         <div class="u-img"><img src="/assets/images/users/2.jpg" alt="user"></div>
                                         <div class="u-text">
-                                            <h4>Nguyễn Văn Long</h4>
-                                            <p>long.cdvt@gmail.com</p>
+                                            <h4>@Session["Name"]</h4>
+                                            <p>@Session["username"]</p>
                                             <a class="waves-effect waves-light btn-small red white-text">Xem Hồ Sơ</a>
                                         </div>
                                     </div>
@@ -291,7 +291,7 @@
                                 <li><a href="@Url.Action("Logout","LogIn")"><i class="small material-icons">power_settings_new</i>Đăng Xuất</a></li>
                             </ul>
                         </li>
-                        <li id="user-icon"><a href="">Nguyễn Văn Long <span class="new badge red" data-badge-caption="Chuyên Viên CĐVT"></span></a></li>
+                        <li id="user-icon"><a href="">@Session["Name"] <span class="new badge red" data-badge-caption="@Session["Position"]"></span></a></li>
                     </ul>
                     <!-- ============================================================== -->
                     <!-- Right topbar icon scss in header.scss -->
@@ -325,10 +325,8 @@
             <ul id="slide-out" class="sidenav">
                 <li>
                     <ul class="collapsible slidebar">
-
-
                         <li>
-                           <a href="/phan-xuong/chon-bao-cao?phanxuong=pxkt" class="collapsible-header">
+                           <a href="/phan-xuong/chon-bao-cao?phanxuong=pxkt1" class="collapsible-header">
                                 <i class="material-icons">home</i><span class="hide-menu">
                                     Phân Xưởng Khai Thác
                                 </span>
@@ -336,7 +334,7 @@
                         </li>
 
                         <li>
-                            <a href="/phan-xuong/chon-bao-cao?phanxuong=pxdl" class="collapsible-header">
+                            <a href="/phan-xuong/chon-bao-cao?phanxuong=pxdl1" class="collapsible-header">
                                 <i class="material-icons">home</i><span class="hide-menu">
                                     Phân Xưởng Đào Lò
                                 </span>
