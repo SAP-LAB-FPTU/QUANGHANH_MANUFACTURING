@@ -41,7 +41,7 @@ namespace QUANGHANHCORE.Controllers
         [HttpPost]
         public ActionResult Index(string username, string password, string rm)
         {
-            if(password == null) return RedirectToAction("Index");
+            if (password == null) return RedirectToAction("Index");
             string passXc = new XCryptEngine(XCryptEngine.AlgorithmType.MD5).Encrypt(password, "pl");
             var checkuser = db.Accounts.Where(x => x.Username == username).Where(y => y.Password == passXc).ToList();
             if (checkuser.Count > 0)
@@ -49,6 +49,13 @@ namespace QUANGHANHCORE.Controllers
                 Session["UserID"] = checkuser[0].ID;
                 int id = checkuser[0].ID;
                 var Name = db.Accounts.Where(x => x.ID == id).FirstOrDefault<Account>();
+                if (Name.NVID != null)
+                {
+                    var depart = db.NhanViens.Where(x => x.MaNV == Name.NVID).FirstOrDefault();
+                    var departName = db.Departments.Where(x => x.department_id == depart.MaPhongBan).FirstOrDefault();
+                    Session["departName"] = departName.department_name;
+                    Session["departID"] = departName.department_id;
+                }
                 Session["Name"] = Name.Name;
                 Session["username"] = Name.Username;
                 Session["Position"] = Name.Position;
