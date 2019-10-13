@@ -55,6 +55,10 @@ namespace QUANGHANHCORE.Controllers.BGD
             public double KehoachThang { get; set; }
             public double Ton { get; set; }
         }
+        public class Tainan_Dasboard : TaiNan
+        {
+            public string Ten { get; set; }
+        }
         // GET: /<controller>/
         [Route("ban-giam-doc")]
         [HttpPost]
@@ -236,7 +240,7 @@ namespace QUANGHANHCORE.Controllers.BGD
             if (Daxitkho.KehoachThang != 0) Daxitkho.percentMonth = Convert.ToInt32(Daxitkho.Luyke / Daxitkho.KehoachThang * 100);
             else Daxitkho.percentMonth = 0;
             ViewBag.dxk = Daxitkho;
-
+            //sự cố
             string[] data2 = date.Split('-');
             string sql = "SELECT e.equipment_name, d.department_name, i.*, DATEDIFF(HOUR, i.start_time, i.end_time) as time_different " +
                             " FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId " +
@@ -246,6 +250,16 @@ namespace QUANGHANHCORE.Controllers.BGD
 
             ViewBag.listSC = list;
 
+            //tai nạn
+            string sql_tainan = " SELECT NhanVien.MaNV, NhanVien.Ten, TaiNan.LyDo, TaiNan.Ngay, TaiNan.Loai " +
+                                " FROM NhanVien INNER JOIN TaiNan ON NhanVien.MaNV = TaiNan.MaNV " +
+                                " where YEAR(TaiNan.Ngay) = '" + data2[0] + "' and MONTH(TaiNan.Ngay) = '" + data2[1] + "' and DAY(TaiNan.Ngay) = '" + data2[2] + "'";
+           List<Tainan_Dasboard> list_tainan = db.Database.SqlQuery<Tainan_Dasboard>(sql_tainan).ToList();
+
+            ViewBag.listTN = list_tainan;
+
+            string day_dashboard = data2[2] + "/" + data2[1] + "/" + data2[0];
+            ViewBag.d = day_dashboard;
             return View("/Views/BGD/Dashboard.cshtml");
         }
         [Route("ban-giam-doc/bao-cao-nhanh-cong-tac-san-xuat")]
