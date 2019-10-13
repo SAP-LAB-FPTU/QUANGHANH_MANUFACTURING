@@ -483,13 +483,48 @@
         </div>
     </div>
     <div class="col l6 s12">
-        <div class="card" id="origin">
+        <div class="card" style="">
             <div class="card-content">
                 <h4 class="card-title">Báo cáo tai nạn</h4>
-                <div id="table_tainan"></div>
+                <div id="suco" style="overflow-y:auto">
+                    <table class="striped center-align table-bordered" id="myTable">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Mã NV</th>
+                                <th>Tên NV</th>
+                                <th>Loại tai nạn</th>
+                                <th>Lý do</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                foreach (var item in ViewBag.listTN)
+                                {
+                                    <tr>
+                                        <td></td>
+                                        <td>@item.MaNV</td>
+                                        <td>@item.Ten</td>
+                                        <td>@item.LyDo</td>
+                                        <td>@item.Loai</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
         </div>
     </div>
+    @*<div class="col l6 s12">
+            <div class="card" id="origin">
+                <div class="card-content">
+                    <h4 class="card-title">Báo cáo tai nạn</h4>
+                    <div id="table_tainan"></div>
+                </div>
+            </div>
+        </div>*@
 </div>
 <div class="row">
     <div class="col s12 m6 l6">
@@ -609,5 +644,10 @@
                 document.getElementById("form").submit();
             }
         });
+    });
+
+    $(document).ready(function () {
+        var d = '@ViewBag.d';
+        document.getElementById("data").value = d;
     });
 </script>
