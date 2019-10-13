@@ -25,14 +25,16 @@
 <script src="~/assets/extra-libs/prism/prism.js"></script>
 <script src="../../assets/extra-libs/sparkline/sparkline.js"></script>
 <script src="../../dist/js/pages/sparkline/jquery.charts-sparkline.js"></script>
-
+<form id="form" action="/ban-giam-doc" method="post">
+    <input type="text" id="date" name="date" style="display:none !important" />
+</form>
 <div class="row">
     <div class="col l12 m12 s12">
         <div class="card">
             <div class="card-content">
                 <h3 class="center">
                     <b>BÁO CÁO NHANH NGÀY </b><i class="fas fa-calendar-alt icon"></i>
-                    <input type='text' class='datepicker-here center' data-language='vi' />
+                    <input id="data" type='text' class='datepicker-here center date-click' data-language='vi' />
                 </h3>
                 <!--Date here-->
             </div>
@@ -62,7 +64,7 @@
                 <div class="l12">
                     <h6 class="">
                         Tiến độ kế hoạch (ngày): @{if (ViewBag.tdl.percentDay < 100)
-                            {<b> <span class="red-text"> không hoàn thành. </span> </b>}
+                            { }
                         }
                     </h6>
                     <div class="progress progress-striped active">
@@ -117,7 +119,7 @@
                 <div class="l12">
                     <h6 class="">
                         Tiến độ kế hoạch (ngày): @{if (ViewBag.tlt.percentDay < 100)
-                            {<b> <span class="red-text"> không hoàn thành. </span> </b>}
+                            { }
                         }
                     </h6>
                     <div class="progress progress-striped active">
@@ -172,7 +174,7 @@
                 <div class="l12">
                     <h6 class="">
                         Tiến độ kế hoạch (ngày): @{if (ViewBag.mld.percentDay < 100)
-                            {<b> <span class="red-text"> không hoàn thành. </span> </b>}
+                            { }
                         }
                     </h6>
                     <div class="progress progress-striped active">
@@ -228,7 +230,7 @@
                 <div class="l12">
                     <h6 class="">
                         Tiến độ kế hoạch (ngày): @{if (ViewBag.mln.percentDay < 100)
-                            {<b> <span class="red-text"> không hoàn thành. </span> </b>}
+                            { }
                         }
                     </h6>
                     <div class="progress progress-striped active">
@@ -283,7 +285,7 @@
                 <div class="l12">
                     <h6 class="">
                         Tiến độ kế hoạch (ngày): @{if (ViewBag.mlx.percentDay < 100)
-                            {<b> <span class="red-text"> không hoàn thành. </span> </b>}
+                            { }
                         }
                     </h6>
                     <div class="progress progress-striped active">
@@ -323,31 +325,50 @@
                 <div class="align-items-center">
                     <div class="m-t-10">
                         <h5 class="font-medium">Than tiêu thụ </h5>
-                        <h6 class="">Tiến độ kế hoạch (tháng):</h6>
                     </div>
                     <div class="ml-auto m-t-15">
                         <div class="crypto"></div>
                     </div>
                 </div>
                 <div class="l12">
+                    <h6 class="">Tiến độ kế hoạch (tháng): </h6>
                     <div class="progress progress-striped active">
-                        <div role="progressbar progress-striped" style="width: 35%; height:20px" class="progress-bar progress-bar center">
-                            <span class="progress-pecentage">35%</span>
+                        <div id="tttMonth" role="progressbar progress-striped" style=" height:20px" class="progress-bar progress-bar-default center">
+                            <span class="progress-pecentage">@ViewBag.ttt.percentMonth%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="l12">
+                    <h6 class="">
+                        Tiến độ kế hoạch (ngày): @{if (ViewBag.ttt.percentDay < 100)
+                            { }
+                        }
+                    </h6>
+                    <div class="progress progress-striped active">
+                        <div id="tttDay" role="progressbar progress-striped" style="height:20px" class="progress-bar progress-bar-default center">
+                            <span class="progress-pecentage">@ViewBag.ttt.percentDay%</span>
                         </div>
                     </div>
                 </div>
                 <div class="row text-center m-t-30">
-                    <div class="col s4 center detail-info">
+
+                    <div class="col s4 center detail-info row">
                         <span class="font-14 ">Thực hiện</span>
-                        <p class="font-medium">8672 / 11000 T</p>
+                        <div>
+                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.ttt.Thuchien </span><br />
+                            <span class="font-medium" style="color:orange">@ViewBag.ttt.Kehoach</span>
+                        </div>
                     </div>
                     <div class="col s4 center detail-info">
                         <span class="font-14">Luỹ kế</span>
-                        <p class="font-medium">97955 / 279500 T</p>
+                        <div>
+                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.ttt.Luyke </span><br />
+                            <span class="font-medium" style="color:orange">@ViewBag.ttt.KehoachThang</span>
+                        </div>
                     </div>
                     <div class="col s4 center">
                         <span class="font-14">KH còn lại</span>
-                        <p class="font-medium">11347T</p>
+                        <p class="font-medium">@ViewBag.ttt.Ton</p>
                     </div>
                 </div>
             </div>
@@ -360,31 +381,50 @@
                 <div class="align-items-center">
                     <div class="m-t-10">
                         <h5 class="font-medium">Đá xít kho </h5>
-                        <h6 class="">Tiến độ kế hoạch (tháng):</h6>
                     </div>
                     <div class="ml-auto m-t-15">
                         <div class="crypto"></div>
                     </div>
                 </div>
                 <div class="l12">
+                    <h6 class="">Tiến độ kế hoạch (tháng): </h6>
                     <div class="progress progress-striped active">
-                        <div role="progressbar progress-striped" style="width: 38%; height:20px" class="progress-bar progress-bar center">
-                            <span class="progress-pecentage">38%</span>
+                        <div id="dxkMonth" role="progressbar progress-striped" style=" height:20px" class="progress-bar progress-bar-default center">
+                            <span class="progress-pecentage">@ViewBag.dxk.percentMonth%</span>
                         </div>
                     </div>
                 </div>
-                <div class="row text-center">
-                    <div class="col s4 center detail-info">
+                <div class="l12">
+                    <h6 class="">
+                        Tiến độ kế hoạch (ngày): @{if (ViewBag.dxk.percentDay < 100)
+                            { }
+                        }
+                    </h6>
+                    <div class="progress progress-striped active">
+                        <div id="dxkDay" role="progressbar progress-striped" style="height:20px" class="progress-bar progress-bar-default center">
+                            <span class="progress-pecentage">@ViewBag.dxk.percentDay%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center m-t-30">
+
+                    <div class="col s4 center detail-info row">
                         <span class="font-14 ">Thực hiện</span>
-                        <p class="font-medium">1870 / 1500 T</p>
+                        <div>
+                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.dxk.Thuchien </span><br />
+                            <span class="font-medium" style="color:orange">@ViewBag.dxk.Kehoach</span>
+                        </div>
                     </div>
                     <div class="col s4 center detail-info">
                         <span class="font-14">Luỹ kế</span>
-                        <p class="font-medium">21531 / 56500 T</p>
+                        <div>
+                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.dxk.Luyke </span><br />
+                            <span class="font-medium" style="color:orange">@ViewBag.dxk.KehoachThang</span>
+                        </div>
                     </div>
                     <div class="col s4 center">
                         <span class="font-14">KH còn lại</span>
-                        <p class="font-medium">2186T</p>
+                        <p class="font-medium">@ViewBag.dxk.Ton</p>
                     </div>
                 </div>
             </div>
@@ -410,15 +450,40 @@
 <!-- ============================================================== -->
 <div class="row">
     <div class="col l6 s12">
-        <div class="card">
+        <div class="card" style="">
             <div class="card-content">
                 <h4 class="card-title">Báo cáo sự cố</h4>
-                <div id="table_suco"></div>
+                <div id="suco" style="overflow-y:auto">
+                    <table class="striped center-align table-bordered" id="myTable">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Mã thiết bị</th>
+                                <th>Tên thiết bị</th>
+                                <th>Phân xưởng sử dụng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                foreach (var item in ViewBag.listSC)
+                                {
+                                    <tr>
+                                        <td></td>
+                                        <td>@item.equipmentId</td>
+                                        <td>@item.equipment_name</td>
+                                        <td>@item.department_id</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
         </div>
     </div>
     <div class="col l6 s12">
-        <div class="card">
+        <div class="card" id="origin">
             <div class="card-content">
                 <h4 class="card-title">Báo cáo tai nạn</h4>
                 <div id="table_tainan"></div>
@@ -494,6 +559,30 @@
         $('#mlxDay').width(x + '%');
         x = @ViewBag.mlx.percentMonth;
         $('#mlxMonth').width(x + '%');
+
+         //than tieu thu
+        x = @ViewBag.ttt.percentDay;
+        $('#tttDay').width(x + '%');
+        x = @ViewBag.ttt.percentMonth;
+        $('#tttMonth').width(x + '%');
+
+         //da xit kho
+        x = @ViewBag.ttt.percentDay;
+        $('#dxkDay').width(x + '%');
+        x = @ViewBag.ttt.percentMonth;
+        $('#dxkMonth').width(x + '%');
+
+
+        var h = $('#origin').height();
+        h = h - 82;
+        $('#suco').height(h);
+
+        var table = document.getElementById("myTable");
+        var x = document.getElementById("myTable").rows.length;
+        var i = 1;
+        for (i = 1; i < x; i++) {
+            table.rows[i].cells[0].innerHTML = i;
+        }
     });
     $(document).ready(function () {
         $('.datepicker-inline').remove();
@@ -502,5 +591,23 @@
         var date = new Date();
         var d = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
         $(".datepicker-here").val(d);
+    });
+    function change() {
+        var data = document.getElementById("data").value;
+        document.getElementById("date").value = data;
+        document.getElementById("form").submit();
+    }
+
+    $(document).ready(function () {
+        //$('#bt').click(function () {
+        //    document.getElementById("form").submit();
+        //});
+        $(".date-click").datepicker({
+            onSelect: function (dateText) {
+                var data = document.getElementById("data").value;
+                document.getElementById("date").value = data;
+                document.getElementById("form").submit();
+            }
+        });
     });
 </script>
