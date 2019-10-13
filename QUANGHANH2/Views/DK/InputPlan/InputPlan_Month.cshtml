@@ -1,0 +1,94 @@
+﻿
+@{
+    ViewBag.Title = "InputPlan";
+    Layout = "~/Views/Shared/_Layout_DK.cshtml";
+}
+
+<link href="~/assets/Custom css/TABLE_BORDERED.css" rel="stylesheet" />
+<link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
+<div class="card">
+    <div class="card-content">
+        <h3 class="center">NHẬP KẾ HOẠCH SẢN XUẤT</h3>
+        <div class="row">
+            <div class="row">
+                <div class="input-field col s5 m5 l5"></div>
+                <div class="input-field col l2 m2 s2">
+                    <input class="form-control center" placeholder="Số ngày làm việc" />
+                </div>
+                <div class="input-field col s5 m5 l5"></div>
+            </div>
+            <div class="input-field col l4 m12 s12">
+                <input type="text" id="calendar" class="form-control datepicker-here datepicker-add center"
+                       data-language='vi'
+                       data-min-view="months"
+                       data-view="months"
+                       data-date-format="Tháng mm"
+                       required value="Tháng" />
+            </div>
+            <div class="input-field col l4 m12 s12">
+                <input type="text" id="calendar" class="form-control datepicker-here datepicker-add center"
+                       data-language='vi'
+                       data-min-view="years"
+                       data-view="years"
+                       data-date-format="Năm yyyy"
+                       required value="Năm" />
+            </div>
+            <div class="input-field col l4 m12 s12">
+                <select class="form-control" id="cbx-px" name="px_value" onchange="change()">
+                    <option value="" disabled selected>Phân xưởng</option>
+                    <option value="KT1">Khai thác 1</option>
+                    <option value="KT2">Khai thác 2</option>
+                    <option value="KT3">Khai thác 3</option>
+                    <option value="KT4">Khai thác 4</option>
+                    <option value="KT5">Khai thác 5</option>
+                    <option value="KT6">Khai thác 6</option>
+                    <option value="KT7">Khai thác 7</option>
+                    <option value="KT8">Khai thác 8</option>
+                    <option value="KT9">Khai thác 9</option>
+                    <option value="KT10">Khai thác 10</option>
+                    <option value="KT11">Khai thác 11</option>
+                    <option value="DL3">Đào lò 3</option>
+                    <option value="DL5">Đào lò 5</option>
+                    <option value="DL7">Đào lò 7</option>
+                    <option value="DL8">Đào lò 8</option>
+                    <option value="DLTL">Thăng Long</option>
+                    <option value="DLAS">Asean</option>
+                    <option value="DLXLM">Xây lắp mỏ</option>
+                    <option value="ST">Sàng tuyển</option>
+                    <option value="LT">Lộ thiên</option>
+                    <option value="KCS">KCS</option>
+                </select>
+            </div>
+            <div class="row">
+                <div class="col s12 m12 l12">
+                    <table class="table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Tiêu chí</th>
+                                <th>Đơn vị đo</th>
+                                <th>Sản lượng</th>
+                                <th>Ghi chú</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+                <div class="col s12 m12 l12 input-field">
+                    <button class="btn blue darken-2" type="submit">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('select').formSelect();
+    });
+</script>
+<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
+<script src="~/js/Custom JS/Disable_input_material.js"></script>
+<script src="~/js/Custom JS/form-input-border.js"></script>
+
+

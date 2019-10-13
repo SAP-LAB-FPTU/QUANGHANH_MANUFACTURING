@@ -1,8 +1,15 @@
 ﻿@{
     ViewData["Title"] = "Xincapvattu";
-    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    if (Session["departID"].ToString().Contains("PX"))
+    {
+        Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    }
+
 }
-<link href="~/dist/css/style.css" rel="stylesheet">
 <!-- This page CSS -->
 <link href="~/dist/css/pages/data-table.css" rel="stylesheet">
 <link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
@@ -21,13 +28,13 @@
                 <div class="row">
                     <h3 class="center"><b>XIN CẤP VẬT TƯ SỬA CHỮA THƯỜNG XUYÊN</b></h3>
                 </div>
-                <div class="row">
+                @*<div class="row">
                     <div class="col s12">
                         <ul class="tabs">
                             <li class="col s12 tab"><a class="active" href="#chitiet">Bảng chi tiết</a></li>
                         </ul>
                     </div>
-                </div>
+                </div>*@
                 <div id="chitiet">
                     <div class="row">
                         <div class="col s12 table_container" id="table-wrapper2">

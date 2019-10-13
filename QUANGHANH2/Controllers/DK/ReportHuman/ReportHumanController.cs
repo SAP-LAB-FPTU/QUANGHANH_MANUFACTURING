@@ -167,7 +167,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
             d = temp[2] + "-" + temp[1] + "-" + temp[0];
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             List<report> list = db.Database.SqlQuery<report>("select a.MaPhongBan,a.KT1,a.CD1,a.QL1,b.om1,b.vld1,b.p1,b.khac1,a.KT2,a.CD2,a.QL2,b.om2,b.vld2,b.p2,b.khac2,a.KT3,a.CD3,a.QL3,b.om3,b.vld3,b.p3,b.khac3," +
-                "(a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3) / ((a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3) + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3) * 100 as 'tile'" +
+                "(case when (a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3) != 0 then (a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3) / ((a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3) + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3) * 100 else 0 end) as 'tile'" +
                                     " from (select n.MaPhongBan, sum(case when n.LoaiNhanVien like '%CNKT%' and h.Ca = '1' then 1 else 0 end) as 'KT1'" +
                                     "   , SUM(case when n.LoaiNhanVien like '%CD%' and h.Ca = '1' then 1 else 0 end) as 'CD1'" +
                                     "   , SUM(case when n.LoaiNhanVien like '%QL%' and h.Ca = '1' then 1 else 0 end) as 'QL1'" +
