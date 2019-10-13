@@ -465,14 +465,23 @@
                         </thead>
                         <tbody>
                             @{
-                                foreach (var item in ViewBag.listSC)
+                                if (ViewBag.listSCCount == 0)
                                 {
                                     <tr>
-                                        <td></td>
-                                        <td>@item.equipmentId</td>
-                                        <td>@item.equipment_name</td>
-                                        <td>@item.department_id</td>
+                                        <td colspan="4">Không có sự cố nào</td>
                                     </tr>
+                                }
+                                else
+                                {
+                                    foreach (var item in ViewBag.listSC)
+                                    {
+                                        <tr>
+                                            <td></td>
+                                            <td>@item.equipmentId</td>
+                                            <td>@item.equipment_name</td>
+                                            <td>@item.department_id</td>
+                                        </tr>
+                                    }
                                 }
                             }
                         </tbody>
@@ -487,7 +496,7 @@
             <div class="card-content">
                 <h4 class="card-title">Báo cáo tai nạn</h4>
                 <div id="suco" style="overflow-y:auto">
-                    <table class="striped center-align table-bordered" id="myTable">
+                    <table class="striped center-align table-bordered" id="myTable_tainan">
                         <thead>
                             <tr>
                                 <th>STT</th>
@@ -499,21 +508,30 @@
                         </thead>
                         <tbody>
                             @{
-                                foreach (var item in ViewBag.listTN)
+                                if (ViewBag.listTNCount == 0)
                                 {
                                     <tr>
-                                        <td></td>
-                                        <td>@item.MaNV</td>
-                                        <td>@item.Ten</td>
-                                        <td>@item.LyDo</td>
-                                        <td>@item.Loai</td>
+                                        <td colspan="5">Không có tai nạn nào</td>
                                     </tr>
                                 }
+                                else
+                                {
+                                    foreach (var item in ViewBag.listTN)
+                                    {
+                                        <tr>
+                                            <td></td>
+                                            <td>@item.MaNV</td>
+                                            <td>@item.Ten</td>
+                                            <td>@item.Loai</td>
+                                            <td>@item.LyDo</td>
+                                        </tr>
+                                    }
+                                }
+
                             }
                         </tbody>
                     </table>
                 </div>
-
             </div>
         </div>
     </div>
@@ -612,12 +630,25 @@
         h = h - 82;
         $('#suco').height(h);
 
-        var table = document.getElementById("myTable");
-        var x = document.getElementById("myTable").rows.length;
-        var i = 1;
-        for (i = 1; i < x; i++) {
-            table.rows[i].cells[0].innerHTML = i;
+        var data = @ViewBag.listSCCount;
+        if (data != 0) {
+            var table = document.getElementById("myTable");
+            var x = document.getElementById("myTable").rows.length;
+            var i = 1;
+            for (i = 1; i < x; i++) {
+                table.rows[i].cells[0].innerHTML = i;
+            }
         }
+        var data = @ViewBag.listTNCount;
+        if (data != 0) {
+            var table = document.getElementById("myTable_tainan");
+            var x = document.getElementById("myTable_tainan").rows.length;
+            var i = 1;
+            for (i = 1; i < x; i++) {
+                table.rows[i].cells[0].innerHTML = i;
+            }
+        }
+            
     });
     $(document).ready(function () {
         $('.datepicker-inline').remove();
