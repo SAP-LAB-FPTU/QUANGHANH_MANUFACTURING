@@ -211,7 +211,7 @@ namespace QUANGHANH2.Controllers
         public JsonResult AddNewUser(string Name, string Username, string Position, string Password, string RepeatPassword,string NVID,
                 int module1, int module2, int module3, int module4, int module5, int module6, int module7,
                 int module8, int module9, int module10, int module11, int module12, int module13, int module14,
-                int module15, int module16, int module17, int module18, string rights)
+                int module15, int module16, int module19, string rights)
         {
             if (db.Accounts.Where(x => x.Username == Username).Count() > 0)
             {
@@ -305,8 +305,8 @@ namespace QUANGHANH2.Controllers
                             PXTGQLM = Convert.ToBoolean(module14),
                             PXXD = Convert.ToBoolean(module15),
                             PXLT = Convert.ToBoolean(module16),
-                            AT = Convert.ToBoolean(module17),
-                            KCM = Convert.ToBoolean(module18),
+                            AT = Convert.ToBoolean(module19),
+                            KCM = false,
                         };
                         db.Accounts.Add(a);
                         db.SaveChanges();
@@ -340,8 +340,7 @@ namespace QUANGHANH2.Controllers
                         addModule(module14, acc.ID, 14);
                         addModule(module15, acc.ID, 15);
                         addModule(module16, acc.ID, 16);
-                        addModule(module17, acc.ID, 17);
-                        addModule(module18, acc.ID, 18);
+                        addModule(module19, acc.ID, 19);
                         if (module7 == 1)
                         {
                             var listRight = db.Account_Right.ToList();
@@ -442,7 +441,7 @@ namespace QUANGHANH2.Controllers
         public JsonResult UpdateUser(int ID, string Name, string Username, string Position, string Password, string RepeatPassword,string NVID,
                 int module1, int module2, int module3, int module4, int module5, int module6, int module7,
                 int module8, int module9, int module10, int module11, int module12, int module13, int module14,
-                int module15, int module16, int module17, int module18, string rights)
+                int module15, int module16, int module19, string rights)
         {
             if (db.Accounts.Where(x => x.Username == Username).Where(y => y.ID != ID).Count() > 0)
             {
@@ -542,8 +541,7 @@ namespace QUANGHANH2.Controllers
                     updateModule(module14, ID, user.PXTGQLM, 14);
                     updateModule(module15, ID, user.PXXD, 15);
                     updateModule(module16, ID, user.PXLT, 16);
-                    updateModule(module17, ID, user.AT, 17);
-                    updateModule(module18, ID, user.KCM, 18);
+                    updateModule(module19, ID, user.AT, 19);
                     if (Convert.ToBoolean(module7).Equals(user.ADMIN))
                     { }
                     else
@@ -558,6 +556,8 @@ namespace QUANGHANH2.Controllers
                         if (module7 == 0)
                         {
                             module1 = 0; module2 = 0; module3 = 0; module4 = 0; module5 = 0; module6 = 0; module7 = 0;
+                            module8 = 0;module9 = 0;module10 = 0;module11 = 0;module12 = 0;module13 = 0;module14 = 0;
+                            module15 = 0;module16 = 0;module19 = 0;
                         }
                         else
                         {
@@ -590,8 +590,7 @@ namespace QUANGHANH2.Controllers
                             module14 = 1;
                             module15 = 1;
                             module16 = 1;
-                            module17 = 1;
-                            module18 = 1;
+                            module19 = 1;
                             db.SaveChanges();
                         }
                     }
@@ -622,8 +621,8 @@ namespace QUANGHANH2.Controllers
                     user.PXTGQLM = Convert.ToBoolean(module14);
                     user.PXXD = Convert.ToBoolean(module15);
                     user.PXLT = Convert.ToBoolean(module16);
-                    user.AT = Convert.ToBoolean(module17);
-                    user.KCM = Convert.ToBoolean(module18);
+                    user.AT = Convert.ToBoolean(module19);
+                    user.KCM = false;
                     db.Entry(user).State = EntityState.Modified;
                     db.SaveChanges();
                 }
