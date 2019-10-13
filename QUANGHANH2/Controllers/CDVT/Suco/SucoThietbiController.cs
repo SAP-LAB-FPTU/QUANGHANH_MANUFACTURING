@@ -18,7 +18,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
 {
     public class SucoThietbiController : Controller
     {
-        [Auther(RightID = "19")]
+        [Auther(RightID = "19,179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phong-cdvt/su-co")]
         [HttpGet]
         public ActionResult Index()
@@ -142,7 +142,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             }
         }
 
-        [Auther(RightID = "19")]
+        [Auther(RightID = "19,179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phong-cdvt/su-co")]
         [HttpPost]
         public ActionResult Search(string equipmentId, string equipmentName, string department, string detail, string reason, string dateStart, string dateEnd)

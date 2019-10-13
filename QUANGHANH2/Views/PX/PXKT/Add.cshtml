@@ -1,6 +1,14 @@
 ﻿@{
-    ViewData["Title"] = "Add";
-    Layout = "~/Views/Shared/PX/_Layout_PXKT.cshtml";
+    ViewData["Title"] = "Xincapvattu";
+    if (Session["departID"].ToString().Contains("PX"))
+    {
+        Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    }
+
 }
 
 <link href="~/assets/Custom css/PX/PXKT/ReportProduct.css" rel="stylesheet" />
@@ -24,7 +32,7 @@
                         </div>
                     </div>
                 </div>
-            </div>  
+            </div>
             <div class="row">
                 <div class="col s12">
                     <div class="table-responsive">
@@ -898,6 +906,8 @@
         <a href="javascript:void(0);" class="modal-action modal-close waves-effect waves-green btn red">Hủy</a>
     </div>
 </div>
+@section scripts{
+    <script src="~/js/Custom JS/PX/PXKT/add_product_report.js"></script>
+}
 
-<script src="~/js/Custom JS/PX/PXKT/add_product_report.js"></script>
 

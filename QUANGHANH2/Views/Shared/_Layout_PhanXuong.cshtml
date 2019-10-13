@@ -12,7 +12,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" sizes="16x16" href="~/assets/images/favicon.png">
-    <title>Cơ Điện Vận Tải</title>
+    <title>Phân Xưởng</title>
     <!-- chartist CSS -->
     <link href="~/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
     <link href="~/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css" rel="stylesheet">
@@ -332,7 +332,7 @@
                             if (item.Equals("179"))
                             {
                                 <li>
-                                    <a href="/phan-xuong/chon-bao-cao?phanxuong=pxkt" class="collapsible-header">
+                                    <a href="/phan-xuong/chon-bao-cao" class="collapsible-header">
                                         <i class="material-icons">home</i><span class="hide-menu">
                                             Phân Xưởng Khai Thác
                                         </span>
@@ -462,26 +462,26 @@
                         <div class="center">
                             <h1><b>@Session["departName"]</b></h1>
                         </div>
-
                         @RenderBody()
+                        @RenderSection("scripts", required: false)
                         @*<div class="card">
-                    <div class="card-content">
-                        <div class="row">
-                            <div class="center col l6 m6 s12">
-                                <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
-                            </div>
-                            <div class="center col l6 m6 s12">
-                                <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
-                            </div>
-                            <div class="center col l6 m6 s12">
-                                <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
-                            </div>
-                            <div class="center col l6 m6 s12">
-                                <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
-                            </div>
-                        </div>
+            <div class="card-content">
+                <div class="row">
+                    <div class="center col l6 m6 s12">
+                        <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
                     </div>
-                </div>*@
+                    <div class="center col l6 m6 s12">
+                        <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
+                    </div>
+                    <div class="center col l6 m6 s12">
+                        <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
+                    </div>
+                    <div class="center col l6 m6 s12">
+                        <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
+                    </div>
+                </div>
+            </div>
+        </div>*@
 
                     </div>
 
@@ -507,7 +507,7 @@
         });
     </script>
     <script>
-$(window).resize(function () {
+        $(window).resize(function () {
             if ($(window).width() <= 600) {
                 $("#searchButton1").hide();
                 $("#searchButton2").show();
