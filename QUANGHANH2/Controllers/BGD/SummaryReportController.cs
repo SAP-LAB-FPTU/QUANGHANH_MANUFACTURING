@@ -249,6 +249,7 @@ namespace QUANGHANHCORE.Controllers.BGD
             List<IncidentDB> list = db.Database.SqlQuery<IncidentDB>(sql).ToList();
 
             ViewBag.listSC = list;
+            ViewBag.listSCCount = list.Count();
 
             //tai nạn
             string sql_tainan = " SELECT NhanVien.MaNV, NhanVien.Ten, TaiNan.LyDo, TaiNan.Ngay, TaiNan.Loai " +
@@ -257,7 +258,7 @@ namespace QUANGHANHCORE.Controllers.BGD
            List<Tainan_Dasboard> list_tainan = db.Database.SqlQuery<Tainan_Dasboard>(sql_tainan).ToList();
 
             ViewBag.listTN = list_tainan;
-
+            ViewBag.listTNCount = list_tainan.Count();
             string day_dashboard = data2[2] + "/" + data2[1] + "/" + data2[0];
             ViewBag.d = day_dashboard;
             return View("/Views/BGD/Dashboard.cshtml");
