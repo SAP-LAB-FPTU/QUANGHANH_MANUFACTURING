@@ -61,7 +61,7 @@
             </div>
             <div class="row">
                 <div class="col s12 m12 l12">
-                    <table class="table-bordered">
+                    <table class="table-bordered" id="aspectDetailTable">
                         <thead>
                             <tr>
                                 <th>Tiêu chí</th>
@@ -73,19 +73,33 @@
                         <tbody></tbody>
                     </table>
                 </div>
-
-                <div class="col s12 m12 l12 input-field">
-                    <button class="btn blue darken-2" type="submit">Lưu</button>
+                <div class="col s12 m12 l12 input-field right row">
+                    <a class="btn blue darken-2" onclick="addRows()">Thêm</a>
                 </div>
+            </div>
+            <div class="col s12 m12 l12 input-field center row">
+                <button class="btn blue darken-2" type="submit">Lưu</button>
             </div>
         </div>
     </div>
+    <ul id='dropdown_ca' class='dropdown-content'>
+        <li><a class="dropdown-child-ca session" href="#" name="ca1">CA 1</a></li>
+        <li><a class="dropdown-child-ca session" href="#" name="ca2">CA 2</a></li>
+        <li><a class="dropdown-child-ca session" href="#" name="ca3">CA 3</a></li>
+    </ul>
 </div>
 
 <script>
     $(document).ready(function () {
         $('select').formSelect();
     });
+
+    function addRows() {
+        tableBody = $("#aspectDetailTable").children("tbody");
+        content = tableBody.html();
+        content += "<tr><td class=\"aspect\"> <a class=\"dropdown-trigger btn\" id=\"ca\" href=\"#\" data-target=\"dropdown_ca\" style=\"background-color:#273146\">CA 1</a></td><td></td><td></td><td></td><tr>";
+        tableBody.html(content);
+    }
 </script>
 <script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
 <script src="~/js/Custom JS/Disable_input_material.js"></script>
