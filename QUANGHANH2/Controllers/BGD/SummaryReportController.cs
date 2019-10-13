@@ -13,6 +13,7 @@ using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Globalization;
 using QUANGHANH2.SupportClass;
+using QUANGHANHCORE.Controllers.CDVT.Suco;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -54,12 +55,36 @@ namespace QUANGHANHCORE.Controllers.BGD
             public double KehoachThang { get; set; }
             public double Ton { get; set; }
         }
+        public class Tainan_Dasboard : TaiNan
+        {
+            public string Ten { get; set; }
+        }
         // GET: /<controller>/
         [Route("ban-giam-doc")]
-        [HttpGet]
-        public ActionResult Index()
+        [HttpPost]
+        public ActionResult GetData(string date)
         {
-            DateTime timeEnd = Convert.ToDateTime("2019-09-10");
+            return Index(date);
+
+        }
+
+        [Route("ban-giam-doc")]
+        [HttpGet]
+        public ActionResult Index(string date)
+        {
+            string[] data;
+            if(date != null)
+            {
+                data = date.Split('/');
+                date = data[2] + "-" + data[1] + "-" + data[0];
+            }
+            else
+            {
+                DateTime d = DateTime.Today;
+                date = d.ToString("yyyy-MM-dd");
+            }
+
+            DateTime timeEnd = Convert.ToDateTime(date);
             var timeStart = Convert.ToDateTime("" + timeEnd.Year + "-" + timeEnd.Month + "-1");
             var query = "select *,(table2.TH-table2.KH) as [CHENHLECH],(CASE WHEN KH =0 THEN 100 ELSE ROUND(TH*100/KH,0) end) as [PERCENTAGE], " +
                 "0 as [KHDC], 0 as [percentDC],0 as [SUM],0 as [perday], 0 as [BQKHDC],0 as [VATLIEUCHONG],0 AS[DIENTICHDAO],0 as [BC],0 AS[CT] " +
@@ -85,7 +110,9 @@ namespace QUANGHANHCORE.Controllers.BGD
             Than Metlodao = new Than();
             Than Metloneo = new Than();
             Than Metloxen = new Than();
-            foreach(var item in listReport)
+            Than Thantieuthu = new Than();
+            Than Daxitkho = new Than();
+            foreach (var item in listReport)
             {
                 //than dao lo
                 if(item.MaTieuChi == 1 || item.MaTieuChi == 2)
@@ -136,43 +163,103 @@ namespace QUANGHANHCORE.Controllers.BGD
                     Metloxen.Luyke += item.luyke;
                     Metloxen.KehoachThang += item.KHDC;
                 }
+
+                //than tieu thu
+                if (item.MaTieuChi >= 21 && item.MaTieuChi <= 29)
+                {
+                    Thantieuthu.Thuchien += item.TH;
+                    Thantieuthu.Kehoach += item.KH;
+
+                    Thantieuthu.Luyke += item.luyke;
+                    Thantieuthu.KehoachThang += item.KHDC;
+                }
+
+                //da xit kho
+                if (item.MaTieuChi == 18)
+                {
+                    Daxitkho.Thuchien += item.TH;
+                    Daxitkho.Kehoach += item.KH;
+
+                    Daxitkho.Luyke += item.luyke;
+                    Daxitkho.KehoachThang += item.KHDC;
+                }
             }
 
             //than dao lo
             Thandaolo.Ton = Thandaolo.KehoachThang - Thandaolo.Luyke;
-            Thandaolo.percentDay = Convert.ToInt32(Thandaolo.Thuchien / Thandaolo.Kehoach * 100);
+            if (Thandaolo.Kehoach != 0) Thandaolo.percentDay = Convert.ToInt32(Thandaolo.Thuchien / Thandaolo.Kehoach * 100);
+            else Thandaolo.percentDay = 0;
             if (Thandaolo.KehoachThang != 0) Thandaolo.percentMonth = Convert.ToInt32(Thandaolo.Luyke / Thandaolo.KehoachThang * 100);
             else Thandaolo.percentMonth = 0;
             ViewBag.tdl = Thandaolo;
 
             //than lo thien
             Thanlothien.Ton = Thanlothien.KehoachThang - Thanlothien.Luyke;
-            Thanlothien.percentDay = Convert.ToInt32(Thanlothien.Thuchien / Thanlothien.Kehoach * 100);
+            if (Thanlothien.Kehoach != 0) Thanlothien.percentDay = Convert.ToInt32(Thanlothien.Thuchien / Thanlothien.Kehoach * 100);
+            else Thanlothien.percentDay = 0;
             if (Thanlothien.KehoachThang != 0) Thanlothien.percentMonth = Convert.ToInt32(Thanlothien.Luyke / Thanlothien.KehoachThang * 100);
             else Thanlothien.percentMonth = 0;
             ViewBag.tlt = Thanlothien;
 
             //met lo dao
             Metlodao.Ton = Metlodao.KehoachThang - Metlodao.Luyke;
-            Metlodao.percentDay = Convert.ToInt32(Metlodao.Thuchien / Metlodao.Kehoach * 100);
+            if (Metlodao.Kehoach != 0) Metlodao.percentDay = Convert.ToInt32(Metlodao.Thuchien / Metlodao.Kehoach * 100);
+            else Metlodao.percentDay = 0;
             if (Metlodao.KehoachThang != 0) Metlodao.percentMonth = Convert.ToInt32(Metlodao.Luyke / Metlodao.KehoachThang * 100);
             else Metlodao.percentMonth = 0;
             ViewBag.mld = Metlodao;
 
             //met lo neo
             Metloneo.Ton = Metloneo.KehoachThang - Metloneo.Luyke;
-            Metloneo.percentDay = Convert.ToInt32(Metloneo.Thuchien / Metloneo.Kehoach * 100);
+            if (Metloneo.Kehoach != 0) Metloneo.percentDay = Convert.ToInt32(Metloneo.Thuchien / Metloneo.Kehoach * 100);
+            else Metloneo.percentDay = 0;
             if (Metloneo.KehoachThang != 0) Metloneo.percentMonth = Convert.ToInt32(Metloneo.Luyke / Metloneo.KehoachThang * 100);
             else Metloneo.percentMonth = 0;
             ViewBag.mln = Metloneo;
 
             //met lo xen
             Metloxen.Ton = Metloxen.KehoachThang - Metloxen.Luyke;
-            Metloxen.percentDay = Convert.ToInt32(Metloxen.Thuchien / Metloxen.Kehoach * 100);
+            if (Metloxen.Kehoach != 0) Metloxen.percentDay = Convert.ToInt32(Metloxen.Thuchien / Metloxen.Kehoach * 100);
+            else Metloxen.percentDay = 0;
             if (Metloxen.KehoachThang != 0) Metloxen.percentMonth = Convert.ToInt32(Metloxen.Luyke / Metloxen.KehoachThang * 100);
             else Metloxen.percentMonth = 0;
             ViewBag.mlx = Metloxen;
 
+            //than tieu thu
+            Thantieuthu.Ton = Thantieuthu.KehoachThang - Thantieuthu.Luyke;
+            if (Thantieuthu.Kehoach != 0) Thantieuthu.percentDay = Convert.ToInt32(Thantieuthu.Thuchien / Thantieuthu.Kehoach * 100);
+            else Thantieuthu.percentDay = 0;
+            if (Thantieuthu.KehoachThang != 0) Thantieuthu.percentMonth = Convert.ToInt32(Thantieuthu.Luyke / Thantieuthu.KehoachThang * 100);
+            else Thantieuthu.percentMonth = 0;
+            ViewBag.ttt = Thantieuthu;
+
+            //da xit kho
+            Daxitkho.Ton = Daxitkho.KehoachThang - Daxitkho.Luyke;
+            if (Daxitkho.Kehoach != 0) Daxitkho.percentDay = Convert.ToInt32(Daxitkho.Thuchien / Daxitkho.Kehoach * 100);
+            else Daxitkho.percentDay = 0;
+            if (Daxitkho.KehoachThang != 0) Daxitkho.percentMonth = Convert.ToInt32(Daxitkho.Luyke / Daxitkho.KehoachThang * 100);
+            else Daxitkho.percentMonth = 0;
+            ViewBag.dxk = Daxitkho;
+            //sự cố
+            string[] data2 = date.Split('-');
+            string sql = "SELECT e.equipment_name, d.department_name, i.*, DATEDIFF(HOUR, i.start_time, i.end_time) as time_different " +
+                            " FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId " +
+                            "                 inner join Department d on d.department_id = i.department_id " +
+                            " where YEAR(i.start_time) = '" + data2[0] + "' and MONTH(i.start_time) = '" + data2[1] + "' and DAY(i.start_time) = '" + data2[2] + "'";
+            List<IncidentDB> list = db.Database.SqlQuery<IncidentDB>(sql).ToList();
+
+            ViewBag.listSC = list;
+
+            //tai nạn
+            string sql_tainan = " SELECT NhanVien.MaNV, NhanVien.Ten, TaiNan.LyDo, TaiNan.Ngay, TaiNan.Loai " +
+                                " FROM NhanVien INNER JOIN TaiNan ON NhanVien.MaNV = TaiNan.MaNV " +
+                                " where YEAR(TaiNan.Ngay) = '" + data2[0] + "' and MONTH(TaiNan.Ngay) = '" + data2[1] + "' and DAY(TaiNan.Ngay) = '" + data2[2] + "'";
+           List<Tainan_Dasboard> list_tainan = db.Database.SqlQuery<Tainan_Dasboard>(sql_tainan).ToList();
+
+            ViewBag.listTN = list_tainan;
+
+            string day_dashboard = data2[2] + "/" + data2[1] + "/" + data2[0];
+            ViewBag.d = day_dashboard;
             return View("/Views/BGD/Dashboard.cshtml");
         }
         [Route("ban-giam-doc/bao-cao-nhanh-cong-tac-san-xuat")]
