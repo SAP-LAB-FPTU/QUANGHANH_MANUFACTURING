@@ -58,7 +58,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                 }
                 else if (px_value.Equals("KCS"))
                 {
-                    string query = "select * from TieuChi where MaTieuChi in (6,18,21,22,23,24,25,26,27,28,30)";
+                    string query = "select * from TieuChi where MaTieuChi in (6,18,21,22,23,24,25,26,27,29,30)";
                     tcList = db.Database.SqlQuery<TieuChi>(query).ToList();
                 }
                 else if (px_value.Contains("ST"))
@@ -108,16 +108,27 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             {
                 try
                 {
-                    header_ThucHienTheoNgay tttn = new header_ThucHienTheoNgay();
                     DateTime ngaySXFix = Convert.ToDateTime(ngayNhap.Split('/')[1] + "/" + ngayNhap.Split('/')[0] + "/" + ngayNhap.Split('/')[2]);
+
+                    header_ThucHienTheoNgay tttn = new header_ThucHienTheoNgay();
                     tttn.MaPhongBan = px_value;
                     tttn.Ngay = ngaySXFix;
                     tttn.Ca = Convert.ToInt32(ca_value);
                     tttn.NgaySanXuat = Convert.ToInt32(ngaySX);
                     db.header_ThucHienTheoNgay.Add(tttn);
                     db.SaveChanges();
+
+                    header_KeHoach_TieuChi_TheoNgay khtctn = new header_KeHoach_TieuChi_TheoNgay();
+                    khtctn.MaPhongBan = px_value;
+                    khtctn.NgayNhapKH = ngaySXFix;
+                    khtctn.Ca = Convert.ToInt32(ca_value);
+                    db.header_KeHoach_TieuChi_TheoNgay.Add(khtctn);
+                    db.SaveChanges();
+
                     int caSXConvert = Convert.ToInt32(ca_value);
-                    var headerID = db.header_ThucHienTheoNgay.Where(x => x.MaPhongBan == px_value && x.Ngay == ngaySXFix && x.Ca == caSXConvert).Select(x => x.HeaderID).FirstOrDefault();
+                    var headerIDDay = db.header_ThucHienTheoNgay.Where(x => x.MaPhongBan == px_value && x.Ngay == ngaySXFix && x.Ca == caSXConvert).Select(x => x.HeaderID).FirstOrDefault();
+                    var headerIDPlanDay = db.header_KeHoach_TieuChi_TheoNgay.Where(x => x.MaPhongBan == px_value && x.NgayNhapKH == ngaySXFix && x.Ca == caSXConvert).Select(x => x.HeaderID).FirstOrDefault();
+                    var headerIDMonth = db.header_KeHoachTungThang.Where(x => x.MaPhongBan == px_value && x.ThangKeHoach == ngaySXFix.Month && x.NamKeHoach == ngaySXFix.Year).Select(x => x.HeaderID).FirstOrDefault();
                     List<TieuChi> list = db.TieuChis.ToList();
                     int[] maTieuChi = new int[tenTieuChi.Length];
                     ThucHien_TieuChi_TheoNgay thtctn = new ThucHien_TieuChi_TheoNgay();
@@ -142,9 +153,21 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                         {
                             keHoach[i] = "0";
                         }
-                        string query = "insert into ThucHien_TieuChi_TheoNgay (HeaderID,MaTieuChi,SanLuong,GhiChu,KeHoach) " +
-                            "values(" + headerID + "," + maTieuChi[i] + "," + thucHien[i] + "," + ghiChu[i] + "," + keHoach[i] + ")";
-                        db.Database.ExecuteSqlCommand(query);
+                        else if (KHDC[i].Equals(""))
+                        {
+                            KHDC[i] = "0";
+                        }
+                        string query1 = "insert into ThucHien_TieuChi_TheoNgay (HeaderID,MaTieuChi,SanLuong,GhiChu) " +
+                            "values(" + headerIDDay + "," + maTieuChi[i] + "," + thucHien[i] + "," + ghiChu[i] + ")";
+                        db.Database.ExecuteSqlCommand(query1);
+
+                        string query2 = "insert into KeHoach_TieuChi_TheoNgay (HeaderID, MaTieuChi, KeHoach, ThoiGianNhapCuoiCung) " +
+                            "values(" + headerIDPlanDay + ", " + maTieuChi[i] + ", " + keHoach[i] + ", GETDATE())";
+                        db.Database.ExecuteSqlCommand(query2);
+
+                        string query3 = "insert into KeHoach_TieuChi_TheoThang (HeaderID, MaTieuChi, SanLuong, ThoiGianNhapCuoiCung)" +
+                            " values(" + headerIDMonth + ", " + maTieuChi[i] + ", " + KHDC[i] + ", GETDATE())";
+                        db.Database.ExecuteSqlCommand(query3);
                     }
                     dbct.Commit();
 
@@ -157,7 +180,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
 
                 }
             }
-            return Json(new { success = true }, JsonRequestBehavior.AllowGet) ;
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
     }
 }
