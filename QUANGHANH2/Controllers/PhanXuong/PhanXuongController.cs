@@ -182,9 +182,9 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                             var timeStamp = DateTime.Now.ToFileTime();
                             fileName = ngayNhap.Replace("/", "") + ca + phanxuong + timeStamp + Fextension;
                             string path = "/FileContainer/PhanXuongLenDK/";
-                            if (!Directory.Exists(path))
+                            if (!Directory.Exists(HostingEnvironment.MapPath(path)))
                             {
-                                Directory.CreateDirectory(path);
+                                Directory.CreateDirectory(HostingEnvironment.MapPath(path));
                             }
                             if (file.ContentLength > 0)
                             {
