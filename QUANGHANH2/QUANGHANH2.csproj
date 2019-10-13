@@ -268,6 +268,7 @@
     <Compile Include="Controllers\CDVT\Work\TrungdaituController.cs" />
     <Compile Include="Controllers\DK\AccidentController.cs" />
     <Compile Include="Controllers\DK\DKController.cs" />
+    <Compile Include="Controllers\DK\InputPlan\InputPlan_MonthController.cs" />
     <Compile Include="Controllers\DK\PhanXuongReportController.cs" />
     <Compile Include="Controllers\DK\InputCharcoal\InputController.cs" />
     <Compile Include="Controllers\DK\ReportHuman\ReportHumanController.cs" />
@@ -7311,6 +7312,7 @@
     <Content Include="Views\DK\PhanXuongReport.cshtml" />
     <Content Include="Views\DK\SanLuongReport.cshtml" />
     <Content Include="Views\DK\SucoThietbi.cshtml" />
+    <Content Include="Views\DK\InputPlan\InputPlan_Month.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7318,6 +7320,7 @@
     <Folder Include="Library\" />
     <Folder Include="Views\BaoCaoLenPhongDK\" />
     <Folder Include="Views\HuyDong\" />
+    <Folder Include="Views\InputPlan_Month\" />
     <Folder Include="Views\Input\" />
     <Folder Include="Views\Laydanhsachvattu\" />
     <Folder Include="Views\PhanXuongReport\" />
