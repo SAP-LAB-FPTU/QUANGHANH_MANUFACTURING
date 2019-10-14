@@ -7164,10 +7164,7 @@
     <Content Include="Views\DK\ReportManuCharcoal\DetailManuReport\Week.cshtml" />
     <Content Include="Views\DK\ReportManuCharcoal\QuickReport.cshtml" />
     <Content Include="Views\Home\Privacy.cshtml" />
-    <Content Include="Views\KCS\Index.cshtml" />
-    <Content Include="Views\KCS\Report\EditReport.cshtml" />
     <Content Include="Views\KCS\Report\Report.cshtml" />
-    <Content Include="Views\KCS\Report\Spreadsheet.cshtml" />
     <Content Include="Views\Phanxuong\phanxuong.cshtml" />
     <Content Include="Views\PX\PXKT\Add.cshtml" />
     <Content Include="Views\PX\PXKT\Detail.cshtml" />

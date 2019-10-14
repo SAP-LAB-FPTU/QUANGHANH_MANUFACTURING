@@ -14,7 +14,14 @@ namespace QUANGHANHCORE.Controllers.KCS
         [Route("phong-kcs")]
         public ActionResult Index()
         {
-            return View("/Views/KCS/Index.cshtml");
+            return View("/Views/KCS/Report/Report.cshtml");
+        }
+        [Route("phong-kcs/upload-file")]
+        [HttpPost]
+        public ActionResult uploadFile()
+        {
+
+            return null;
         }
     }
 }
