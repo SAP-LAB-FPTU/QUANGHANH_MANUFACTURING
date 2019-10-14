@@ -513,7 +513,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
     public class TatCaDonVI
     {
         public string Name { get; set; }
-        public int TyLe { get; set; }
+        public decimal TyLe { get; set; }
         public double TongSoDiem { get; set; }
         public double TongSoThan { get; set; }
         public double TongSoMetLo { get; set; }
