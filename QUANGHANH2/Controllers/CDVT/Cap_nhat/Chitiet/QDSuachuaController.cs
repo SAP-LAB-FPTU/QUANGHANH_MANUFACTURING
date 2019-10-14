@@ -13,7 +13,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
 {
     public class SuachuaController : Controller
     {
-        [Auther(RightID = "84")]
+        [Auther(RightID = "84,179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phong-cdvt/cap-nhat/quyet-dinh/sua-chua")]
         [HttpGet]
         public ActionResult Index(string id)
@@ -38,7 +38,6 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
             }
         }
 
-        [Auther(RightID = "84")]
         [Route("phong-cdvt/cap-nhat/quyet-dinh/sua-chua/GetData")]
         [HttpPost]
         public ActionResult GetData(string id)
@@ -68,7 +67,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
             return Json(new { success = true, data = equips, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
-        [Auther(RightID = "84")]
+        [Auther(RightID = "84,179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phong-cdvt/cap-nhat/quyet-dinh/sua-chua/edit")]
         [HttpPost]
         public ActionResult editpost(string edit, string id)
@@ -115,7 +114,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
             return new HttpStatusCodeResult(201);
         }
 
-        [Auther(RightID = "84")]
+        [Auther(RightID = "84,179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phong-cdvt/cap-nhat/quyet-dinh/sua-chua/done")]
         [HttpPost]
         public ActionResult done(string id)

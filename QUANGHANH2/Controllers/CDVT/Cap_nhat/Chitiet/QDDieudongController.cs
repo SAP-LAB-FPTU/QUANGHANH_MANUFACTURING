@@ -13,7 +13,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
 {
     public class DieudongController : Controller
     {
-        [Auther(RightID = "88")]
+        [Auther(RightID = "88,179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phong-cdvt/cap-nhat/quyet-dinh/dieu-dong")]
         [HttpGet]
         public ActionResult Index(string id)
@@ -36,7 +36,6 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
             }
         }
 
-        [Auther(RightID = "88")]
         [Route("phong-cdvt/cap-nhat/quyet-dinh/dieu-dong/GetData")]
         [HttpPost]
         public ActionResult GetData(string id)
@@ -66,7 +65,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
             return Json(new { success = true, data = equips, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
-        [Auther(RightID = "88")]
+        [Auther(RightID = "88,179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phong-cdvt/cap-nhat/quyet-dinh/dieu-dong/edit")]
         [HttpPost]
         public ActionResult editpost(string edit, string id)
