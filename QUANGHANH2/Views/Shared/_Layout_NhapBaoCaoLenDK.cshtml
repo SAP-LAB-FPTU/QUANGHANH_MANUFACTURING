@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" sizes="16x16" href="~/assets/images/favicon.png">
-    <title>Cơ Điện Vận Tải</title>
+    <title>Nhập báo cáo</title>
     <!-- chartist CSS -->
     <link href="~/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
     <link href="~/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css" rel="stylesheet">
@@ -366,25 +366,28 @@
             <!-- Container fluid scss in scafholding.scss -->
             <!-- ============================================================== -->
             <div class="container-fluid">
+                <div class="center">
+                    <h1><b>@Session["departName"]</b></h1>
+                </div>
                 @RenderBody()
                 @*<div class="card">
-                        <div class="card-content">
-                            <div class="row">
-                                <div class="center col l6 m6 s12">
-                                    <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
-                                </div>
-                                <div class="center col l6 m6 s12">
-                                    <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
-                                </div>
-                                <div class="center col l6 m6 s12">
-                                    <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
-                                </div>
-                                <div class="center col l6 m6 s12">
-                                    <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>*@
+            <div class="card-content">
+                <div class="row">
+                    <div class="center col l6 m6 s12">
+                        <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
+                    </div>
+                    <div class="center col l6 m6 s12">
+                        <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
+                    </div>
+                    <div class="center col l6 m6 s12">
+                        <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
+                    </div>
+                    <div class="center col l6 m6 s12">
+                        <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
+                    </div>
+                </div>
+            </div>
+        </div>*@
 
 
             </div>
@@ -423,7 +426,7 @@
     </script>
     <script>
         function goBack() {
-            window.history.back();
+            window.location.href = 'chon-bao-cao';
         }
     </script>
 </body>

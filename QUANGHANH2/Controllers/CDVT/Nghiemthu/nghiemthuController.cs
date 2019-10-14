@@ -15,14 +15,14 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
 {
     public class nghiemthuController : Controller
     {
-        [Auther(RightID = "25")]
+        [Auther(RightID = "25,179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phong-cdvt/nghiem-thu")]
         public ActionResult Index()
         {
             return View("/Views/CDVT/Nghiemthu/Nghiemthu.cshtml");
         }
 
-        [Auther(RightID = "25")]
+        [Auther(RightID = "25,179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phong-cdvt/nghiem-thu/search")]
         [HttpPost]
         public ActionResult Search(string document_code, string equiment_id, string equiment_name)
@@ -125,7 +125,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
         }
 
 
-
+        [Auther(RightID = "82,179,180,181,182,183,184,185,186,187,188,189")]
         [HttpPost]
         [Route("phong-cdvt/nghiem-thu/Edit")]
         public ActionResult Edit(string id, string documentary_code, string documentary_id)
