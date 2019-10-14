@@ -1,7 +1,16 @@
 ﻿@{
     ViewData["Title"] = "Lichsu";
-    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    if (Session["departID"].ToString().Contains("PX"))
+    {
+        Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    }
 }
+
+<link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
 <link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
@@ -10,7 +19,7 @@
 <link href="~/css/transfer_mobilize_history_timeline.css" rel="stylesheet" />
 <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
 <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="~/css/Custom css/CDVT/pages/css.css" rel="stylesheet" />
+
 
 <script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
 <script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
@@ -20,13 +29,13 @@
     <div class="card-content">
         <div class="container-fluid">
             @*<div class="row m-b-40">
-                <div class="col s12">
-                    <ul class="tabs">
-                        <li class="col s6 tab"><a class="active" href="#hoatdong">Chi tiết hoạt động</a></li>
-                        <li class="col s6 tab"><a href="#nhienlieu">Chi tiết tiêu thụ nhiên liệu</a></li>
-                    </ul>
-                </div>
-            </div>*@
+                    <div class="col s12">
+                        <ul class="tabs">
+                            <li class="col s6 tab"><a class="active" href="#hoatdong">Chi tiết hoạt động</a></li>
+                            <li class="col s6 tab"><a href="#nhienlieu">Chi tiết tiêu thụ nhiên liệu</a></li>
+                        </ul>
+                    </div>
+                </div>*@
 
             <div class="row table_container" id="hoatdong">
                 <div class="advanded-search">
@@ -50,7 +59,7 @@
                                             <a class="waves-effect waves-light btn-small blue modal-trigger" href="#myaddacti">Thêm hoạt động</a>
                                         </div>
                                     </div>
-                                </div> 
+                                </div>
                                 <div class="col l6 m6 s12">
                                     <div class="row">
                                         <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
@@ -133,7 +142,7 @@
                     </div>
                     <div class="form-group">
                         <label for="name">Sản lượng : </label>
-                        <input type="number" min="1" class="form-control number" id="quantity"/>
+                        <input type="number" min="1" class="form-control number" id="quantity" />
                     </div>
                 </div>
             </div>
@@ -262,25 +271,20 @@
         var today = new Date();
         var dd = today.getDate();
         var mm = today.getMonth() + 1; //January is 0!
-
         var yyyy = today.getFullYear();
-
         if (dd < 10) {
             dd = '0' + dd;
         }
         if (mm < 10) {
             mm = '0' + mm;
         }
-
         var today = dd + '/' + mm + '/' + yyyy;
         //$(".minDate").each(function () {
         //    $(this).val(today);
         //});
-
         today = new Date("1/1/1900");
         var dd = today.getDate();
         var mm = today.getMonth() + 1; //January is 0!
-
         var yyyy = today.getFullYear();
         if (dd < 10) {
             dd = '0' + dd;
@@ -289,7 +293,6 @@
             mm = '0' + mm;
         }
         var today = dd + '/' + mm + '/' + yyyy;
-
     });
 </script>
 
@@ -299,9 +302,8 @@
     var doubleReg = /[+-]?([0-9]*[,])?[0-9]+$/;
     if (!doubleReg.test(text)) {
          $(this).val("");
-        } 
+        }
     if () {
-
     }
     var acceptList = [45, 35, 40, 34, 37, 9, 12, 39, 36, 38, 33, 8];// , 65, 86, 67, 90
     for (var i = 48; i <= 57; i++) {
@@ -337,15 +339,12 @@
 
     <script>
         var Popup, dataActiTable;
-
         //get first data acti and fuel
         $(document).ready(function () {
             //get data
             searchActi();
         });
-
         function searchActi() {
-
             dataActiTable = $('#acti-table').on('preXhr.dt', function (e, settings, data) {
                 $("#pre-load").show("slow", function () {
                 });
@@ -410,7 +409,6 @@
                 }
             });
         }
-
         //ajax CRUD acti
         $(document).ready(function (){
             //ajax search acti
@@ -423,7 +421,6 @@
                      className: "success"
                     })
                 });
-
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
                         errorAlert('Lỗi','Có lỗi xảy ra , vui lòng nhập lại');
@@ -431,7 +428,6 @@
                 });
             });
         });
-
         //open-EditModal activity.
         $(document).on("click", ".open-EditModal", function () {
             var activity = $(this).data('activity');
@@ -460,7 +456,6 @@
                 cache: false
             })
         });
-
         $("#myeditform").submit(function (e) {
             $.ajax({
                 type: "POST",
@@ -487,7 +482,6 @@
             })
             return false;
         });
-
         //getName after enter ID input
         function getname() {
             var id = document.getElementById("equipmentId-add").value;
@@ -506,7 +500,6 @@
                 }
             });
         }
-
         //add acti.
         function addActi() {
             var data = {
@@ -531,8 +524,6 @@
                 }
             });
         }
-
-
         //get equipment name in edit activity
         function getEquipmentname1() {
             var id = document.getElementById("equipmentId-edit").value;
@@ -551,7 +542,6 @@
                 }
             });
         }
-
     </script>
 
 }
