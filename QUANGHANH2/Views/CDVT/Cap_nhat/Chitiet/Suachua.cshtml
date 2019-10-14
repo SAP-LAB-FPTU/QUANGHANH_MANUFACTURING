@@ -1,15 +1,20 @@
 ﻿@{
-    ViewBag.Title = "Suachua";
-    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    ViewData["Title"] = "sua";
+    if (Session["departID"].ToString().Contains("PX"))
+    {
+        Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    }
 }
 
-<link href="~/dist/css/style.css" rel="stylesheet">
+<link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
 <!-- This page CSS -->
 <link href="~/dist/css/pages/data-table.css" rel="stylesheet">
-
 <link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
-<link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
@@ -103,110 +108,106 @@
     }
 </datalist>
 
-<!-- ============================================================== -->
-<!-- Apps -->
-<!-- ============================================================== -->
-<script src="~/dist/js/app.js"></script>
-<script src="~/dist/js/app.init.js"></script>
-<script src="~/dist/js/app-style-switcher.js"></script>
-<!-- ============================================================== -->
-<!-- This page plugin js -->
-<!-- ============================================================== -->
 <link href="~/css/transfer_mobilize_history_timeline.css" rel="stylesheet" />
-<script src="~/js/Briefs_List.js"></script>
 <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
-<script>
-    var created = 0;
 
-    $("#complex_header").on("click", ".buttonChon", function () {
-        if ($(this).text() == "Chưa nhận") {
-            $(this).text('Đã nhận')
-        }
-        else {
-            $(this).text('Chưa nhận')
-        }
-    });
-
-    $("#addcolumn").click(function () {
-        var $tr = $('<tr>').append(
-            $('<td>').html("<input type='text' list='supplyID' id='vattu' class='form-control td-id' />"),
-            $('<td>').html("<select class='form-control' id='type-search'><option>Mới 100%</option><option>Qua sử dụng</option></select>"),
-            $('<td>').html("<input type='number' min='1' class='form-control' />"),
-            $('<td>').html("<input type='number' min='1' class='form-control' />")
-        );
-        $tr.appendTo('#test tbody');
-    })
-
-    $(document).on("click", ".open-Modal", function () {
-        $("#test").find("tr:gt(0)").remove();
-        var QDIdAndEquipId = $(this).data('list');
-        $('#listId').text("Danh sách vật tư thay thế của thiết bị " + QDIdAndEquipId.split("^")[1])
-        $("#mathietbi").val(QDIdAndEquipId.split("^")[1])
-        $("#maquyetdinh").val(QDIdAndEquipId.split("^")[0])
-        $.ajax({
-            type: "POST",
-            url: "/phong-cdvt/cap-nhat/quyet-dinh/GetSupply2",
-            dataType: "json",
-            success: function (data) {
-                $(function () {
-                    created = 0;
-                    $.each(data, function (i, item) {
-                        var $tr = $('<tr>').append(
-                            $('<td>').text(item.supply_id),
-                            $('<td>').text(item.supplyStatus),
-                            $('<td>').text(item.quantity),
-                            $('<td>').text(item.reuse)
-                        );
-                        $tr.appendTo('#test');
-                        created += 1;
-                    });
-                });
-                $("#pre-load").hide();
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                $.notify(XMLHttpRequest.responseText, {
-                    globalPosition: "top center",
-                    className: "error"
-                });
-            },
-            data: {
-                documentary_id: QDIdAndEquipId.split("^")[0],
-                equipmentId: QDIdAndEquipId.split("^")[1]
-            },
-            cache: false
-        })
-    })
-
-    function getJsonArray() {
-        var output = {};
-        var arr = [];
-        var length = $("#test tr").length;
-        for (var i = 1 + created; i < length + created; i++) {
-            if (!$("#mylist #test tbody tr:nth-child(" + i + ") input").eq(0).val());
-            else {
-                var temp = {};
-                temp.supplyType = 1;
-                temp.supply_id = $("#mylist #test tbody tr:nth-child(" + i + ") input").eq(0).val();
-                temp.supplyStatus = $("#mylist #test tbody tr:nth-child(" + i + ") select").val();
-                temp.quantity = $("#mylist #test tbody tr:nth-child(" + i + ") input").eq(1).val();
-                arr.push(temp);
-                if ($("#mylist #test tbody tr:nth-child(" + i + ") input").eq(3).val() != "") {
-                    var temp2 = {};
-                    temp2.supplyType = 2;
-                    temp2.supply_id = $("#mylist #test tbody tr:nth-child(" + i + ") input").eq(0).val();
-                    temp2.supplyStatus = "Qua sử dụng";
-                    temp2.quantity = $("#mylist #test tbody tr:nth-child(" + i + ") input").eq(2).val();
-                    arr.push(temp2);
-                }
-            }
-        }
-        output.list = arr
-        return JSON.stringify(output);
-    }
-</script>
 
 @section scripts{
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="~/js/Briefs_List.js"></script>
+    <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
+    <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
+    <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
+    <script>
+
+        var created = 0;
+
+        $("#complex_header").on("click", ".buttonChon", function () {
+            if ($(this).text() == "Chưa nhận") {
+                $(this).text('Đã nhận')
+            }
+            else {
+                $(this).text('Chưa nhận')
+            }
+        });
+
+        $("#addcolumn").click(function () {
+            var $tr = $('<tr>').append(
+                $('<td>').html("<input type='text' list='supplyID' id='vattu' class='form-control td-id' />"),
+                $('<td>').html("<select class='form-control' id='type-search'><option>Mới 100%</option><option>Qua sử dụng</option></select>"),
+                $('<td>').html("<input type='number' min='1' class='form-control' />"),
+                $('<td>').html("<input type='number' min='1' class='form-control' />")
+            );
+            $tr.appendTo('#test tbody');
+        })
+
+        $(document).on("click", ".open-Modal", function () {
+            $("#test").find("tr:gt(0)").remove();
+            var QDIdAndEquipId = $(this).data('list');
+            $('#listId').text("Danh sách vật tư thay thế của thiết bị " + QDIdAndEquipId.split("^")[1])
+            $("#mathietbi").val(QDIdAndEquipId.split("^")[1])
+            $("#maquyetdinh").val(QDIdAndEquipId.split("^")[0])
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/cap-nhat/quyet-dinh/GetSupply2",
+                dataType: "json",
+                success: function (data) {
+                    $(function () {
+                        created = 0;
+                        $.each(data, function (i, item) {
+                            var $tr = $('<tr>').append(
+                                $('<td>').text(item.supply_id),
+                                $('<td>').text(item.supplyStatus),
+                                $('<td>').text(item.quantity),
+                                $('<td>').text(item.reuse)
+                            );
+                            $tr.appendTo('#test');
+                            created += 1;
+                        });
+                    });
+                    $("#pre-load").hide();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $.notify(XMLHttpRequest.responseText, {
+                        globalPosition: "top center",
+                        className: "error"
+                    });
+                },
+                data: {
+                    documentary_id: QDIdAndEquipId.split("^")[0],
+                    equipmentId: QDIdAndEquipId.split("^")[1]
+                },
+                cache: false
+            })
+        })
+
+        function getJsonArray() {
+            var output = {};
+            var arr = [];
+            var length = $("#test tr").length;
+            for (var i = 1 + created; i < length + created; i++) {
+                if (!$("#mylist #test tbody tr:nth-child(" + i + ") input").eq(0).val());
+                else {
+                    var temp = {};
+                    temp.supplyType = 1;
+                    temp.supply_id = $("#mylist #test tbody tr:nth-child(" + i + ") input").eq(0).val();
+                    temp.supplyStatus = $("#mylist #test tbody tr:nth-child(" + i + ") select").val();
+                    temp.quantity = $("#mylist #test tbody tr:nth-child(" + i + ") input").eq(1).val();
+                    arr.push(temp);
+                    if ($("#mylist #test tbody tr:nth-child(" + i + ") input").eq(3).val() != "") {
+                        var temp2 = {};
+                        temp2.supplyType = 2;
+                        temp2.supply_id = $("#mylist #test tbody tr:nth-child(" + i + ") input").eq(0).val();
+                        temp2.supplyStatus = "Qua sử dụng";
+                        temp2.quantity = $("#mylist #test tbody tr:nth-child(" + i + ") input").eq(2).val();
+                        arr.push(temp2);
+                    }
+                }
+            }
+            output.list = arr
+            return JSON.stringify(output);
+        }
+    </script>
     <script>
         var Popup, dataTable;
         $('#pre-load').show();
@@ -349,19 +350,12 @@
                 url: "/phong-cdvt/cap-nhat/quyet-dinh/AddSupply",
                 dataType: "text",
                 success: function () {
-                    $.notify("Lưu thành công", {
-                        globalPosition: "top center",
-                        className: "success"
-                    });
+
                     $('#exit-button').click()
                     $('#pre-load').hide();
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     $('#pre-load').hide();
-                    $.notify(XMLHttpRequest.responseText, {
-                        globalPosition: "top center",
-                        className: "error"
-                    });
                 },
                 data: {
                     list: function () { return getJsonArray(); },

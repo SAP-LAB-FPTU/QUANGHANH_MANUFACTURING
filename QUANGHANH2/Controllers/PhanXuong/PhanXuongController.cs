@@ -1,4 +1,5 @@
 ﻿using QUANGHANH2.Models;
+using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -16,6 +17,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
 {
     public class PhanXuongController : Controller
     {
+        [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phan-xuong")]
         public ActionResult Index()
         {
@@ -29,13 +31,14 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         /// ///////////////////////////////////////////////PHAN XUONG KHAI THAC/////////////////////////////////////////////////////
         /// </summary>
         /// <returns></returns>
+        [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phan-xuong/chon-bao-cao")]
-        public ActionResult ChonBaoCao(String phanxuong)
+        public ActionResult ChonBaoCao()
         {
-            ViewBag.phanxuong = phanxuong;
+            ViewBag.phanxuong = Session["departID"].ToString();
             return View("/Views/Phanxuong/ChonBaoCao/ChonBaoCao.cshtml");
         }
-
+        [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phan-xuong/nhap-bao-cao-len-phong-dk")]
         public ActionResult HangNgayKT()
         {
@@ -122,6 +125,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                         return View("/Views/Phanxuong/NhapBaoCao/BaoCaoLenDK.cshtml");
         }
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phan-xuong/upload-len-dk")]
         [HttpPost]
         public ActionResult uploadLenDK()
@@ -218,6 +222,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         /// <summary>
         /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// </summary>
+        [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phan-xuong/delete-file-bao-cao")]
         [HttpPost]
         public ActionResult deleteFile()
