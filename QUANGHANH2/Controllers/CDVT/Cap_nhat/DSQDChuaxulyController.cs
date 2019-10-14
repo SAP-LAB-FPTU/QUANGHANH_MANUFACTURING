@@ -22,7 +22,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Cap_nhat
             return View("/Views/CDVT/Cap_nhat/DSQD.cshtml");
         }
 
-        [Auther(RightID = "23,179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phong-cdvt/cap-nhat/quyet-dinh/search")]
         [HttpPost]
         public ActionResult Search(string documentary_id, string type, string department, string reason, string dateStart, string dateEnd, string status)
