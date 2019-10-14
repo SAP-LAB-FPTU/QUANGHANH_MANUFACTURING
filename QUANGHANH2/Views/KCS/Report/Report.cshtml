@@ -28,6 +28,10 @@
         transition: width 300ms ease-in-out;
     }
 </style>
+@{
+    //var listFiles =@Html.Raw(Json.Encode(ViewBag.listFiles));
+    var listFiles = ViewBag.listFiles;
+}
 <div class="card">
     <div class="card-content">
         <div class="container-fluid">
@@ -48,25 +52,49 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="col s12">
-                                <form action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzone">
-                                    <div class="fallback">
-                                        <input type="file" id="fUpload" name="file" class="form-control" single />
-                                    </div>
-                                    <div class="dz-message needsclick">
-                                        <i class="medium material-icons dp48">cloud_upload</i>
-                                        <h3 id="title_uploader">Kéo thả file hoặc click vào đây để tải lên</h3>
-                                        <span class="text-muted font-13">(File hợp lệ: xls, xlsx)</span>
-                                    </div>
-                                </form>
-                                <br />
-                                <div class="clearfix text-right mt-3">
-                                    <button type="button"
-                                            class="btn-danger blue waves-effect waves-light btn"
-                                            id="btnUpload">
-                                        <i class="material-icons dp48">send</i>
-                                        Tải lên
-                                    </button>
-                                </div>
+                                @{
+                                    if (listFiles.Count == 0)
+                                    {
+                                        <form action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzone">
+                                            <div class="fallback">
+                                                <input type="file" id="fUpload" name="file" class="form-control" single />
+                                            </div>
+                                            <div class="dz-message needsclick">
+                                                <i class="medium material-icons dp48">cloud_upload</i>
+                                                <h3 id="title_uploader">Kéo thả file hoặc click vào đây để tải lên</h3>
+                                                <span class="text-muted font-13">(File hợp lệ: xls, xlsx)</span>
+                                            </div>
+                                        </form>
+                                        <br />
+                                        <div class="clearfix text-right mt-3">
+                                            <button type="button"
+                                                    class="btn-danger blue waves-effect waves-light btn"
+                                                    id="btnUpload">
+                                                <i class="material-icons dp48">send</i>
+                                                Tải lên
+                                            </button>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        for (int i = 0; i < listFiles.Count; i++)
+                                        {
+                                            <p>
+                                                <img width="25" style="vertical-align:middle" src="~/assets/uploader/file-icon.png" />
+                                                <a href="~/FileContainer/PhanXuongLenDK/@listFiles[i].fileName">@listFiles[i].fileNameDisplay</a>
+                                                @if (listFiles[i].chuthich != "")
+                                                {
+                                                    <i> (Ghi chú: @listFiles[i].chuthich )</i>
+                                                }
+                                                <i onclick="deleteFile(@listFiles[i].id)" style="color:red; cursor:pointer" class="fas fa-times-circle"></i>
+                                            </p>
+                                        }
+                                        <div data-target="modal1" style="margin-right:10px" class="modal-trigger waves-effect blue waves-light btn">
+                                            <i class="fas fa-plus-circle"></i><span> Thêm báo cáo</span>
+                                        </div>
+
+                                    }
+                                }
                             </div>
                         </div>
                     </div>
@@ -100,38 +128,24 @@
 </div>
 <div id="modal1" class="modal">
     <div class="modal-content">
-        <h4 class="modal_title">Nhập liệu từ Excel</h4>
-        <div>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col s12">
-                        <div class="card">
-                            <div class="card-content">
-                                <div class="row">
-                                    <div class="input-field col s12">
-                                        <div class="file-field">
-                                            <div class="btn cyan">
-                                                <i class="fas fa-file-excel"></i><span>  Chọn file</span>
-                                                <input type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
-                                            </div>
-                                            <div class="file-path-wrapper">
-                                                <input class="file-path validate" type="text">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="input-field col s12">
-                                        <button class="btn cyan waves-effect waves-light right" type="submit" name="action">
-                                            <i class="fas fa-cloud-upload-alt"></i> Tải lên
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <form action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzone">
+            <div class="fallback">
+                <input type="file" id="fUpload" name="file" class="form-control" single />
             </div>
+            <div class="dz-message needsclick">
+                <i class="medium material-icons dp48">cloud_upload</i>
+                <h3 id="title_uploader">Kéo thả file hoặc click vào đây để tải lên</h3>
+                <span class="text-muted font-13">(File hợp lệ: xls, xlsx)</span>
+            </div>
+        </form>
+        <br />
+        <div class="clearfix text-right mt-3">
+            <button type="button"
+                    class="btn-danger blue waves-effect waves-light btn"
+                    id="btnUpload">
+                <i class="material-icons dp48">send</i>
+                Tải lên
+            </button>
         </div>
     </div>
     <div class="modal-footer">
@@ -153,176 +167,39 @@
         }
 
         $(".datepicker-inline").remove();
+
     })
 </script>
+<script>
+    $("#ngay-chon").datepicker({
+        toggleSelected: false,
+        language: 'vi'
+    });
+</script>
+<script>
+    $(function () {
+        $(".datepicker-inline").remove();
+    })
+</script>
+<script>
+    var prevDay;
+    $('#ngay-chon').datepicker({
+        language: 'vi',
+        maxDate: new Date(new Date().setDate(new Date().getDate())), // Now can select only dates, which goes after today
+        onSelect: function (fd, d, picker) {
+            if (!d) return;
+            var day = d.getDay();
+            if (prevDay != undefined && prevDay == day) return;
+            prevDay = day;
 
-@*PREVENT SPECIAL CHARACTERS*@
-@*<script>
-        var editable = document.getElementsByClassName('editable');
-        for (var i = 0; i < editable.length; i++) {
-            editable[i].addEventListener('keydown', function (event) {
-                var x = event.which || event.keyCode;
-                var ingnore_letters = [];
-                var ingnore_special_chars = [188, 191, 222, 186, 221, 219, 187, 48, 57, 111, 106, 107, 220, 16, 32, 107];
-                var lowEnd = 66;
-                var highEnd = 89;
-                for (var i = 0; i < highEnd - 66 + 1; i++) {
-                    lowEnd++;
-                    if (lowEnd != 67 && lowEnd != 86 && lowEnd != 88) {
-                        ingnore_letters[i] = lowEnd;
-                    }
-                }
-
-                if (jQuery.inArray(x, ingnore_letters) !== -1 || jQuery.inArray(x, ingnore_special_chars) !== -1) {
-                    event.preventDefault();
-                }
+            $("#pre-load").show("slow", function () {
             });
+            $("#pre-load").css("z-index", "99999");
+
+            window.location.href = 'phong-kcs?ngay=' + $("#ngay-chon").val();
         }
-        editable[0].focus();
-    </script>*@
-
-@*MODALS*@
-@*<script>
-        var elem = document.querySelector('.modal');
-        var instance = M.Modal.init(elem, options);
-    </script>*@
-
-@*SELECT ALL WHEN FOCUS CELL*@
-@*<script>
-        $('.editable').each(function () {
-            $(this).on('focus', function () {
-                var cell = this;
-                var range, selection;
-                if (document.body.createTextRange) {
-                    range = document.body.createTextRange();
-                    range.moveToElementText(cell);
-                    range.select();
-                } else if (window.getSelection) {
-                    selection = window.getSelection();
-                    range = document.createRange();
-                    range.selectNodeContents(cell);
-                    selection.removeAllRanges();
-                    selection.addRange(range);
-                }
-            });
-        });
-    </script>*@
-
-@*standardized cell data*@
-@*set to 0 if input of blank or full of '0' characters*@
-@*<script>
-        $('.editable').each(function () {
-            $(this).focusout(function () {
-                var floatReg = /[+-]?([0-9]*[.])?[0-9]+/;
-                var text = $(this).text();
-                if (!floatReg.test(text)) {
-                    $(this).html(0);
-                } else {
-                    $(this).html(parseFloat(text));
-                }
-                text = $(this).text();
-                if (text.length > 8) {
-                    $(this).html(text.substring(0, 8));
-                }
-            });
-        });
-    </script>*@
-@*preventing input many '.' on one input time*@
-@*<script>
-        $('.editable').each(function () {
-            $(this).keydown(function (event) {
-                if (((event.keyCode === 190 || event.keyCode === 231) && $(this).text().indexOf(".") != -1)
-                    || ((event.keyCode === 189) && $(this).text().indexOf("-") != -1)
-                    || ((event.keyCode === 109) && $(this).text().indexOf("-") != -1)) {
-                    event.preventDefault();
-                }
-            });
-        });
-    </script>*@
-@*Unfocus cell when press enter*@
-@*<script>
-        $('.editable').each(function () {
-            $(this).keydown(function (event) {
-                if ((event.keyCode === 13)) {
-                    $(this).blur();
-                }
-            });
-        });
-    </script>*@
-@*limit of input length*@
-@*<script>
-        $('.editable').each(function () {
-            $(this).keydown(function (event) {
-                var text = $(this).text();
-                if ((text.length >= 8) && event.keyCode != 8 && event.keyCode != 65 && event.keyCode != 90 && event.keyCode != 9 && getSelectionText() === "") {
-                    event.preventDefault();
-                    $(this).html(text.substring(0, 8));
-                }
-            });
-        });
-        function getSelectionText() {
-            var text = "";
-            if (window.getSelection) {
-                text = window.getSelection().toString();
-            } else if (document.selection && document.selection.type != "Control") {
-                text = document.selection.createRange().text;
-            }
-            return text;
-        }
-    </script>
-    <script>
-        $('.editable').each(function () {
-            $(this).keyup(function (event) {
-                var text = $(this).text();
-                if ((text.indexOf('a') !== -1) || (text.indexOf('â') !== -1)) {
-                    $(this).html($(this).text().replace('a', ''));
-                    $(this).html($(this).text().replace('â', ''));
-                }
-                if ((text.indexOf('z') !== -1)) {
-                    $(this).html($(this).text().replace('z', ''));
-                }
-                if ((text.indexOf('c') !== -1)) {
-                    $(this).html($(this).text().replace('c', ''));
-                }
-                if ((text.indexOf('v') !== -1)) {
-                    $(this).html($(this).text().replace('v', ''));
-                }
-                if ((text.indexOf('x') !== -1)) {
-                    $(this).html($(this).text().replace('x', ''));
-                }
-                if ((text.indexOf('=') !== -1)) {
-                    $(this).html($(this).text().replace('=', ''));
-                }
-                if ((text.indexOf('-') !== 0 && text.indexOf('-') !== -1)) {
-                    $(this).html($(this).text().replace('-', ''));
-                }
-            });
-        });
-    </script>
-    <script>
-        $(function () {
-            var i = 1;
-            var j = 1
-            $(".editable").each(function () {
-                $(this).attr("id", i + "-" + j);
-                j++;
-                if (i !== 21 && j === 18) {
-                    i++;
-                    j = 1;
-                }
-            });
-
-            $(".editable").each(function () {
-                $(this).keydown(function (event) {
-                    var $focused = $(':focus');
-                    if (event.keyCodde === 39) {
-                        var a = $focused.attr('id').split('-');
-                        alert(a[0] + ";" + (a[1]++));
-                    }
-                });
-            });
-        });
-    </script>*@
+    })
+</script>
 
 <script src="~/dist/js/pages/forms/jquery.validate.min.js"></script>
 <!--uPLOADER-->
@@ -388,9 +265,7 @@ Dropzone.options.myAwesomeDropzone = {
                 data.append("ngayNhap", ngaynhap);
 
                 var link = window.location.href;
-                var phanxuong = "@ViewBag.phanxuong";
 
-                data.append("phanxuong", phanxuong);
                 var notes = [];
                 $(".file-description").each(function () {
                     notes.push($(this).val());
@@ -426,4 +301,28 @@ Dropzone.options.myAwesomeDropzone = {
     dictInvalidFileType: "File không hợp lệ. Hãy chọn một file Excel (xls, xlsx)",
 };
 
+</script>
+<!--DELETE FILE-->
+<script>
+    function deleteFile(id) {
+        confirmAlert("Xác nhận xóa file", "", function () {
+            $.ajax({
+                url: '/phan-xuong/delete-file-bao-cao',
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    'id': id
+                },
+                success: function (response) {
+                    if (response.success) {
+                        $("#pre-load").hide("slow", function () { });
+                        window.location.reload();
+                    } else {
+                        $("#pre-load").hide("slow", function () { });
+                        errorAlert(response.message, "");
+                    }
+                }
+            });
+        });
+    }
 </script>
