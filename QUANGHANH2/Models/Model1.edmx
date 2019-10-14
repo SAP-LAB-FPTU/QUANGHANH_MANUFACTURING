@@ -790,7 +790,6 @@
           <Property Name="MaTieuChi" Type="int" Nullable="false" />
           <Property Name="SanLuong" Type="float" />
           <Property Name="GhiChu" Type="nvarchar(max)" />
-          <Property Name="KeHoach" Type="float" />
         </EntityType>
         <EntityType Name="TieuChi">
           <Key>
@@ -3568,7 +3567,6 @@
           <Property Name="MaTieuChi" Type="Int32" Nullable="false" />
           <Property Name="SanLuong" Type="Double" />
           <Property Name="GhiChu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="KeHoach" Type="Double" />
           <NavigationProperty Name="header_ThucHienTheoNgay" Relationship="Self.FK_ThucHien_TieuChi_TheoNgay_header_ThucHienTheoNgay" FromRole="ThucHien_TieuChi_TheoNgay" ToRole="header_ThucHienTheoNgay" />
           <NavigationProperty Name="TieuChi" Relationship="Self.FK__ThucHien___MaTie__2704CA5F" FromRole="ThucHien_TieuChi_TheoNgay" ToRole="TieuChi" />
         </EntityType>
@@ -6203,7 +6201,6 @@
                 <ScalarProperty Name="MaTieuChi" ColumnName="MaTieuChi" />
                 <ScalarProperty Name="SanLuong" ColumnName="SanLuong" />
                 <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
-                <ScalarProperty Name="KeHoach" ColumnName="KeHoach" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
