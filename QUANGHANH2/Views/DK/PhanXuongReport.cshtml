@@ -39,6 +39,7 @@
 @{
     //var listFiles =@Html.Raw(Json.Encode(ViewBag.listFiles));
     var listFiles = ViewBag.listFiles;
+    var listPX = ViewBag.listPX;
     var ca1Number = 0;
     var ca2Number = 0;
     var ca3Number = 0;
@@ -79,11 +80,32 @@
 
                     </div>
                     <div class="row">
-                        <div class="col l4 m4 s4 center"></div>
-                        <div style="width:34%" class="col l4 m4 s4 center">
+                        <div class="col l4 m4 s3 center"></div>
+                        <div style="width:25%" class="col l5 m5 s5 left">
                             <select class="form-control" id="phongbanSearch">
-                                <option value="-1" selected readonly>Chọn phòng ban</option>
-                                <option value="pxkt1">Phân xưởng khai thác</option>
+                                @{
+                                    if (ViewBag.phanxuong == null)
+                                    {
+                                        <option value="-1" selected readonly>Chọn phòng ban</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="-1">Chọn phòng ban</option>
+                                    }
+                                    for (int i = 0; i < listPX.Count; i++)
+                                    {
+                                        if (listPX[i].department_id == ViewBag.phanxuong)
+                                        {
+                                            <option value="@(listPX[i].department_id)" selected>@(listPX[i].department_name)</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@(listPX[i].department_id)">@(listPX[i].department_name)</option>
+                                        }
+                                    }
+                                }
+
+                                @*<option value="pxkt1">Phân xưởng khai thác</option>
                                 <option value="pxdl1">Phân xưởng đào lò</option>
                                 <option value="pxvt">Phân xưởng vận tải</option>
                                 <option value="pxst">Phân xưởng sàng tuyển</option>
@@ -93,10 +115,12 @@
                                 <option value="pxtg">Phân xưởng Thông gió-Quản Lí Mỏ</option>
                                 <option value="pxxd">Phân xưởng xây dựng</option>
                                 <option value="pxlt">Phân xưởng lộ thiên</option>
-                                <option value="pxck">Phân xưởng cơ khí, sửa chữa</option>
+                                <option value="pxck">Phân xưởng cơ khí, sửa chữa</option>*@
                             </select>
                         </div>
-                        <div class="col l4 m4 s4 center"></div>
+                        <div class="col l3 m3 s3 left">
+                            <button style="width:25%" class="btn blue waves-effect waves-light" id="view-btn-trigger">Xem</button>
+                        </div>
                     </div>
 
                     <hr />
@@ -119,8 +143,7 @@
                                                             <i class="fas fa-paperclip"></i>Ca 1
                                                             <div class="switch" id="switch-ca1">
                                                                 <label>
-
-                                                                    <input type="checkbox">
+                                                                    <input @(ViewBag.ca1IsLock==true?"checked":"") type="checkbox">
                                                                     <span class="lever"></span>
                                                                     Khóa
                                                                 </label>
@@ -143,7 +166,7 @@
                                                             <i class="fas fa-paperclip"></i>Ca 1
                                                             <div class="switch" id="switch-ca1">
                                                                 <label>
-                                                                    <input type="checkbox">
+                                                                    <input  @(ViewBag.ca1IsLock==true?"checked":"") type="checkbox">
                                                                     <span class="lever"></span>
                                                                     Khóa
                                                                 </label>
@@ -188,7 +211,7 @@
                                                             <div class="switch" id="switch-ca2">
                                                                 <label>
 
-                                                                    <input type="checkbox">
+                                                                    <input  @(ViewBag.ca2IsLock==true?"checked":"") type="checkbox">
                                                                     <span class="lever"></span>
                                                                     Khóa
                                                                 </label>
@@ -212,7 +235,7 @@
                                                             <div class="switch" id="switch-ca2">
                                                                 <label>
 
-                                                                    <input type="checkbox">
+                                                                    <input @(ViewBag.ca2IsLock==true?"checked":"") type="checkbox">
                                                                     <span class="lever"></span>
                                                                     Khóa
                                                                 </label>
@@ -254,7 +277,7 @@
                                                             <div class="switch" id="switch-ca3">
                                                                 <label>
 
-                                                                    <input type="checkbox">
+                                                                    <input @(ViewBag.ca3IsLock==true?"checked":"") type="checkbox">
                                                                     <span class="lever"></span>
                                                                     Khóa
 
@@ -279,7 +302,7 @@
                                                             <div class="switch" id="switch-ca3">
                                                                 <label>
 
-                                                                    <input type="checkbox">
+                                                                    <input  @(ViewBag.ca3IsLock==true?"checked":"") type="checkbox">
                                                                     <span class="lever"></span>
                                                                     Khóa
                                                                 </label>
@@ -419,7 +442,7 @@
 </div>
 
 <!--uPLOADER-->
-<script src="~/assets/uploader/dropzoneMultiple.js"></script>
+@*<script src="~/assets/uploader/dropzoneMultiple.js"></script>*@
 <script src="~/assets/extra-libs/prism/prism.js"></script>
 <script src="~/assets/libs/toastr/build/toastr.min.js"></script>
 <script src="~/assets/extra-libs/toastr/toastr-init.js"></script>
@@ -430,26 +453,26 @@
     $(".not-collapse").on("click", function (e) { e.stopPropagation(); });
     $("#switch-ca1").find("input").change(function () {
         if ($(this).is(":checked")) {
-            console.log("Lock K1");
+            lock(1);
         }
         else {
-            console.log("Unlock K1");
+            unLock(1);
         }
     });
     $("#switch-ca2").find("input").change(function () {
         if ($(this).is(":checked")) {
-            console.log("Lock K2");
+            lock(2);
         }
         else {
-            console.log("Unlock K2");
+            unLock(2);
         }
     });
     $("#switch-ca3").find("input").change(function () {
         if ($(this).is(":checked")) {
-            console.log("Lock K3");
+            lock(3);
         }
         else {
-            console.log("Unlock K3");
+            unLock(3);
         }
     });
 </script>
@@ -474,324 +497,8 @@
         $(".datepicker-inline").remove();
     })
 </script>
-<!--Stacked Bar Chart JS-->
-<script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
-<script src="~/js/Custom JS/CustomChart.js"></script>
-
-<!--Ca 1-->
-<script>
-    var count1 = 0;
-    var data1 = new FormData();
-    var ca1 = 1;
-
-    //Create by TUANKQ
-Dropzone.options.myAwesomeDropzoneCa1 = {
-    paramName: "file", // The name that will be used to transfer the file
-    maxFilesize: 2, // MB
-    addRemoveLinks: true,
-    autoProcessQueue: false,
-    dictRemoveFile: 'Hủy',
-    clickable: true,
-    //acceptedFiles: 'application/xls,.xlsx,image/*,application/pdf',
-    maxFiles: 10,
-    uploadMultiple: true,
-    parallelUploads: 10,
-    maxfilesexceeded: function() {
-        //for (var i = 0; i < this.files.length; i++){
-        //   this.removeFile(this.files[i]);
-        //}
-        var myDropzone = this;
-        errorAlert("Chọn tối đa 10 file", "");
-        myDropzone.removeAllFiles();
-    },
-    init: function () {
-        this.on("addedfile", function () {
-            //alert("ahhihi");
-            $(".dz-preview").last().append("<input class=\"file-description1 form-control\" placeholder=\"Chú thích file\" type=\"text\"/> \n ");
-            //if (this.files.length > 10) {
-            //    for (int i = 0; i < this.files.length; i++){
-            //            this.removeFile(this.files[i]);
-            //    }
-            //}
-        });
-        var myDropzone = this;
-        // Update selector to match your button
-        $("#btnUpload1").click(function (e) {
-            e.preventDefault();
-            myDropzone.processQueue();
-        });
-        //this.on("processing", function (file) {
-
-        //});
-        this.on('sending', function (file, xhr, formData) {
-
-                count1++;
-
-                data1.append("file", file);
-
-                $("#pre-load").show("slow", function () {
-                });
-
-            var n = myDropzone.getAcceptedFiles().length;
-            if (count1 === n) {
-                var ngaynhap = $("#ngay-chon").val();
-                data1.append("ngayNhap", ngaynhap);
-                data1.append("ca", ca1);
-
-                var link = window.location.href;
-                var phanxuong1 = "@ViewBag.phanxuong";
-
-                data1.append("phanxuong", phanxuong1);
-                var notes1 = [];
-                $(".file-description1").each(function () {
-                    notes1.push($(this).val());
-                });
-                data1.append("notes", notes1);
-
-                $.ajax({
-                    type: "POST",
-                    url: "/phan-xuong/upload-len-dk",
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader("XSRF-TOKEN",
-                            $('input:hidden[name="__RequestVerificationToken"]').val());
-                    },
-                    data: data1,
-                    contentType: false,
-                    processData: false,
-                    success: function (data) {
-                         $("#pre-load").hide("slow", function () {
-                         });
-                        if (data.success) {
-                            reloadAlert("Tải lên thành công!", 1000);
-                        } else {
-                            errorAlert("Lỗi!", 1000);
-                            window.location.reload();
-                        }
-                    },
-                });
-            }
-        });
-    },
-    dictResponseError: "Lỗi (Code: {{statusCode}})",
-    dictFileTooBig: "Kích cỡ file quá lớn ({{filesize}}MB). Kích cỡ file tối đa: {{maxFilesize}}MB ",
-    dictInvalidFileType: "File không hợp lệ. Hãy chọn một file Excel (xls, xlsx)",
-};
-
-</script>
-<!--Ca 2-->
-<script>
-    var count2 = 0;
-    var data2 = new FormData();
-    var ca2 = 2;
-
-    //Create by TUANKQ
-Dropzone.options.myAwesomeDropzoneCa2 = {
-    paramName: "file", // The name that will be used to transfer the file
-    maxFilesize: 2, // MB
-    addRemoveLinks: true,
-    autoProcessQueue: false,
-    dictRemoveFile: 'Hủy',
-    clickable: true,
-    //acceptedFiles: 'application/xls,.xlsx,image/*,application/pdf',
-    maxFiles: 10,
-    uploadMultiple: true,
-    parallelUploads: 10,
-    maxfilesexceeded: function() {
-        //for (var i = 0; i < this.files.length; i++){
-        //   this.removeFile(this.files[i]);
-        //}
-        var myDropzone = this;
-        errorAlert("Chọn tối đa 10 file", "");
-        myDropzone.removeAllFiles();
-    },
-    init: function () {
-        this.on("addedfile", function () {
-            //alert("ahhihi");
-            $(".dz-preview").last().append("<input class=\"file-description2 form-control\" placeholder=\"Chú thích file\" type=\"text\"/> \n ");
-            //if (this.files.length > 10) {
-            //    for (int i = 0; i < this.files.length; i++){
-            //            this.removeFile(this.files[i]);
-            //    }
-            //}
-        });
-        var myDropzone = this;
-        // Update selector to match your button
-        $("#btnUpload2").click(function (e) {
-            e.preventDefault();
-            myDropzone.processQueue();
-        });
-        //this.on("processing", function (file) {
-
-        //});
-        this.on('sending', function (file, xhr, formData) {
-
-                count2++;
-
-                data2.append("file", file);
-
-                $("#pre-load").show("slow", function () {
-                });
-
-            var n = myDropzone.getAcceptedFiles().length;
-            if (count2 === n) {
-                var ngaynhap = $("#ngay-chon").val();
-                data2.append("ngayNhap", ngaynhap);
-                data2.append("ca", ca2);
-
-                var link = window.location.href;
-                var phanxuong2 = "@ViewBag.phanxuong";
-
-                data2.append("phanxuong", phanxuong2);
-
-                var notes2 = [];
-                $(".file-description2").each(function () {
-                    notes2.push($(this).val());
-                });
-                data2.append("notes", notes2);
-
-                $.ajax({
-                    type: "POST",
-                    url: "/phan-xuong/upload-len-dk",
-                    //statusCode: {
-                    //    404: function (responseObject, textStatus, jqXHR) {
-                    //        toastr.warning('Lỗi!', 'Hệ thống');
-                    //    },
-                    //    503: function (responseObject, textStatus, errorThrown) {
-                    //        toastr.warning('Lỗi mạng!', 'Hệ thống');
-                    //    }
-                    //},
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader("XSRF-TOKEN",
-                            $('input:hidden[name="__RequestVerificationToken"]').val());
-                    },
-                    data: data2,
-                    contentType: false,
-                    processData: false,
-                    success: function (data) {
-                        $("#pre-load").hide("slow", function () {
-                        });
-                        if (data.success) {
-                            reloadAlert("Tải lên thành công!", 1000);
-                        } else {
-                            errorAlert("Lỗi!", 1000);
-                            window.location.reload();
-                        }
-                    }
-
-                });
-            }
-        });
-    },
-    dictResponseError: "Lỗi (Code: {{statusCode}})",
-    dictFileTooBig: "Kích cỡ file quá lớn ({{filesize}}MB). Kích cỡ file tối đa: {{maxFilesize}}MB ",
-    dictInvalidFileType: "File không hợp lệ. Hãy chọn một file Excel (xls, xlsx)",
-
-};
-
-</script>
-<!--Ca 3-->
-<script>
-    var count3 = 0;
-    var data3 = new FormData();
-    var ca3 = 3;
-
-    //Create by TUANKQ
-Dropzone.options.myAwesomeDropzoneCa3 = {
-    paramName: "file", // The name that will be used to transfer the file
-    maxFilesize: 2, // MB
-    addRemoveLinks: true,
-    autoProcessQueue: false,
-    dictRemoveFile: 'Hủy',
-    clickable: true,
-    //acceptedFiles: 'application/xls,.xlsx,image/*,application/pdf',
-    maxFiles: 10,
-    uploadMultiple: true,
-    parallelUploads: 10,
-    maxfilesexceeded: function() {
-        //for (var i = 0; i < this.files.length; i++){
-        //   this.removeFile(this.files[i]);
-        //}
-        var myDropzone = this;
-        errorAlert("Chọn tối đa 10 file", "");
-        myDropzone.removeAllFiles();
-    },
-    init: function () {
-        this.on("addedfile", function () {
-            //alert("ahhihi");
-            $(".dz-preview").last().append("<input class=\"file-description3 form-control\" placeholder=\"Chú thích file\" type=\"text\"/> \n ");
-            //if (this.files.length > 10) {
-            //    for (int i = 0; i < this.files.length; i++){
-            //            this.removeFile(this.files[i]);
-            //    }
-            //}
-        });
-        var myDropzone = this;
-        // Update selector to match your button
-        $("#btnUpload3").click(function (e) {
-            e.preventDefault();
-            myDropzone.processQueue();
-        });
-        //this.on("processing", function (file) {
-
-        //});
-        this.on('sending', function (file, xhr, formData) {
-
-                count3++;
-
-                data3.append("file", file);
-
-                $("#pre-load").show("slow", function () {
-                });
-
-            var n = myDropzone.getAcceptedFiles().length;
-            if (count3 === n) {
-                var ngaynhap = $("#ngay-chon").val();
-                data3.append("ngayNhap", ngaynhap);
-                data3.append("ca", ca3);
-
-                var link = window.location.href;
-                var phanxuong3 = "@ViewBag.phanxuong";
-
-                data3.append("phanxuong", phanxuong3);
-
-                var notes3 = [];
-                $(".file-description3").each(function () {
-                    notes3.push($(this).val());
-                });
-                data3.append("notes", notes3);
 
 
-                $.ajax({
-                    type: "POST",
-                    url: "/phan-xuong/upload-len-dk",
-                    //beforeSend: function (xhr) {
-                    //    xhr.setRequestHeader("XSRF-TOKEN",
-                    //        $('input:hidden[name="__RequestVerificationToken"]').val());
-                    //},
-                    data: data3,
-                    contentType: false,
-                    processData: false,
-                    success: function (data) {
-                          $("#pre-load").hide("slow", function () {
-                         });
-                        if (data.success) {
-                            reloadAlert("Tải lên thành công!", 1000);
-                        } else {
-                            errorAlert("Lỗi!", 1000);
-                            window.location.reload();
-                        }
-                    }
-                });
-            }
-        });
-    },
-    dictResponseError: "Lỗi (Code: {{statusCode}})",
-    dictFileTooBig: "Kích cỡ file quá lớn ({{filesize}}MB). Kích cỡ file tối đa: {{maxFilesize}}MB ",
-    dictInvalidFileType: "File không hợp lệ. Hãy chọn một file Excel (xls, xlsx)",
-
-};
-
-</script>
 
 <script>
 
@@ -806,7 +513,8 @@ Dropzone.options.myAwesomeDropzoneCa3 = {
             //window.location.href ='/phan-xuong/nhap-bao-cao-len-phong-dk?phanxuong=@ViewBag.phanxuong&ngay=' + ngay;
         }
     });
-    $("#phongbanSearch").change(function () {
+
+    $("#view-btn-trigger").click(function () {
         var selectedOption = $('#phongbanSearch').find(":selected").val();
          var ngay = $('#ngay-chon').val();
             while (ngay.includes('/')) {
@@ -814,4 +522,50 @@ Dropzone.options.myAwesomeDropzoneCa3 = {
             }
         window.location.href ="/phong-dieu-khien/bao-cao-phan-xuong-phong-ban?phanxuong="+selectedOption+"&ngay=" + ngay;
     })
+</script>
+<script>
+    function lock(ca) {
+        $("#pre-load").show("slow", function () { });
+        $.ajax({
+            url: '/phong-dieu-khien/lock-nhap-bao-cao',
+            type: 'post',
+            dataType:'json',
+            data: {
+                'ngay': $('#ngay-chon').val(),
+                'ca':ca,
+                'phanxuong': $('#phongbanSearch').find(":selected").val()
+            },
+            success: function (response) {
+                if (response.success) {
+                    $("#pre-load").hide("slow", function () { });
+                } else {
+                    $("#pre-load").hide("slow", function () { });
+                    errorAlert(response.message, "");
+                    $("#switch-ca"+ca).find("input").prop("checked", false);
+                }
+            }
+        })
+    }
+    function unLock(ca) {
+        $("#pre-load").show("slow", function () { });
+        $.ajax({
+            url: '/phong-dieu-khien/unlock-nhap-bao-cao',
+            type: 'post',
+            dataType:'json',
+            data: {
+                'ngay': $('#ngay-chon').val(),
+                'ca':ca,
+                'phanxuong': $('#phongbanSearch').find(":selected").val()
+            },
+            success: function (response) {
+                if (response.success) {
+                    $("#pre-load").hide("slow", function () { });
+                } else {
+                    $("#pre-load").hide("slow", function () { });
+                    errorAlert(response.message, "");
+                    $("#switch-ca"+ca).find("input").prop("checked", true);
+                }
+            }
+        })
+    }
 </script>

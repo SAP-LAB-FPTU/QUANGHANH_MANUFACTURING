@@ -39,9 +39,12 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         [Route("phan-xuong/nhap-bao-cao-len-phong-dk")]
         public ActionResult HangNgayKT()
         {
-            var phanxuong = this.Request.QueryString["phanxuong"];
+            var phanxuong = Session["departId"];
             string ngay = this.Request.QueryString["ngay"];
-            
+            List<BaoCaoFile> isLockList = new List<BaoCaoFile>();
+            bool? ca1IsLock = false;
+            bool? ca2IsLock = false;
+            bool? ca3IsLock = false;
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 using (DbContextTransaction transaction = db.Database.BeginTransaction())
@@ -50,9 +53,11 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                     {
                         string sql;
                         List<fileObjectDisplay> list = new List<fileObjectDisplay>();
+                        /////////////////////GET DATA///////////////////////////
                         if (ngay == null || ngay == "")
                         {
-                        sql = "select f.*,b.ca from filebaocao f,baocaofile b\n" +
+                            ngay = DateTime.Now.ToString("yyyy/MM/dd");
+                            sql = "select f.*,b.ca from filebaocao f,baocaofile b\n" +
                          "where f.baocaoid = b.id and b.ngay = (SELECT CONVERT(VARCHAR(10), getdate(), 101))\n" +
                          "and b.phanxuong_id = @phanxuong";
                           list = db.Database.SqlQuery<fileObjectDisplay>(sql, new SqlParameter("phanxuong", phanxuong)).ToList<fileObjectDisplay>();
@@ -68,17 +73,42 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                              new SqlParameter("ngay", DateTime.Parse(ngay))
                              ).ToList<fileObjectDisplay>();
                         }
-                        
+
                         ViewBag.listFiles = list;
                         ViewBag.phanxuong = phanxuong;
+
+                        /////////////////////GET LOCK STATUS///////////////////////////
+                        sql = "select * from baocaofile\n" +
+                                "where ngay = @ngay\n" +
+                                "and phanxuong_id = @phanxuong";
+                        isLockList = db.BaoCaoFiles.SqlQuery(sql,
+                            new SqlParameter("ngay", DateTime.Parse(ngay)),
+                            new SqlParameter("phanxuong", phanxuong)).ToList<BaoCaoFile>();
+                        for (int i = 0; i < isLockList.Count; i++)
+                        {
+                            switch (isLockList[i].ca)
+                            {
+                                case 1:
+                                    ca1IsLock = isLockList[i].@lock;
+                                    break;
+                                case 2:
+                                    ca2IsLock = isLockList[i].@lock;
+                                    break;
+                                case 3:
+                                    ca3IsLock = isLockList[i].@lock;
+                                    break;
+                            }
+                        }
+                        ViewBag.ca1IsLock = ca1IsLock;
+                        ViewBag.ca2IsLock = ca2IsLock;
+                        ViewBag.ca3IsLock = ca3IsLock;
+
+                      
                         if (ngay != null)
                         {
                             ngay = ngay.Split('/')[2] + "/" + ngay.Split('/')[1] + "/" + ngay.Split('/')[0];
                         }
-                        else
-                        {
-                            ngay = "0";
-                        }
+
                         db.SaveChanges();
                         ViewBag.ngay = ngay;
                         transaction.Commit();
@@ -115,7 +145,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                 {
                     try
                     {
-                        int baoCaoID = 0;
+                        int baoCaoID;
                         string sql = "select * from BaoCaoFile where ngay=@ngay and ca=@ca and phanxuong_id=@phanxuong";
                         List<BaoCaoFile> a = db.BaoCaoFiles.SqlQuery(sql,
                             new SqlParameter("ngay", date),
@@ -152,9 +182,9 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                             var timeStamp = DateTime.Now.ToFileTime();
                             fileName = ngayNhap.Replace("/", "") + ca + phanxuong + timeStamp + Fextension;
                             string path = "/FileContainer/PhanXuongLenDK/";
-                            if (!Directory.Exists(path))
+                            if (!Directory.Exists(HostingEnvironment.MapPath(path)))
                             {
-                                Directory.CreateDirectory(path);
+                                Directory.CreateDirectory(HostingEnvironment.MapPath(path));
                             }
                             if (file.ContentLength > 0)
                             {
@@ -184,6 +214,52 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                 }
             }
           
+        }
+        /// <summary>
+        /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// </summary>
+        [Route("phan-xuong/delete-file-bao-cao")]
+        [HttpPost]
+        public ActionResult deleteFile()
+        {
+            //var phanxuong = Session["departId"];
+            //string ngay = Request["ngay"];
+            //string ca = Request["ca"];
+            String id = Request["id"];
+            if (id != null)
+            {
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    using (DbContextTransaction transaction = db.Database.BeginTransaction())
+                    {
+                        try
+                        {
+                            string sql = "select * from filebaocao where id=@ID";
+                            string fileName = db.Database.SqlQuery<FileBaoCao>(sql, new SqlParameter("id", Int32.Parse(id))).ToList<FileBaoCao>()[0].fileName;
+                            string path = HostingEnvironment.MapPath(@"/FileContainer/PhanXuongLenDK/" + fileName);
+                            if (System.IO.File.Exists(path))
+                            {
+                                    System.IO.File.Delete(path);
+                            }
+
+                            sql = "delete from filebaocao where id=@ID";
+                            db.Database.ExecuteSqlCommand(sql, new SqlParameter("ID", Int32.Parse(id)));
+
+                            db.SaveChanges();
+
+                            transaction.Commit();
+                            return Json(new { success = true });
+                        }
+                        catch (Exception e)
+                        {
+                            transaction.Rollback();
+                            return Json(new { success = false, message = "Lỗi" });
+                        }
+                    }
+
+                }
+            }
+            return Json(new { success = false });
         }
         public class UploadData
         {

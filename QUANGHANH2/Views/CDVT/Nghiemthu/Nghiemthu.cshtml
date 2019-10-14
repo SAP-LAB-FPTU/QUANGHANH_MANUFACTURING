@@ -1,8 +1,15 @@
 ﻿@model IEnumerable<QUANGHANH2.Models.Documentary>
 
 @{
-    ViewData["Title"] = "Nghiemthu";
-    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    ViewData["Title"] = "cap-nhat-thiet-bi";
+    if (Session["departID"].ToString().Contains("PX"))
+    {
+        Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    }
 }
 
 
@@ -154,12 +161,13 @@
         </div>
     </div>
 </div>
-<script src="~/js/Custom JS/CDVT/Capnhat/update.js"></script>
+
 <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
-<script src="~/js/advancedsearch/advancedsearch.js"></script>
 <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
 @section scripts{
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="~/js/advancedsearch/advancedsearch.js"></script>
+    <script src="~/js/Custom JS/CDVT/Capnhat/update.js"></script>
     <script>
         //$("#pre-load").show("slow", function () {
         // });
@@ -167,7 +175,7 @@
         var Popup, dataTable;
         $(document).ready( function () {
             dataTable = $('#docTable').on('preXhr.dt', function (e, settings, data) {
-      				  $("#pre-load").show("slow", function () { 
+      				  $("#pre-load").show("slow", function () {
       				   });
       				  $("#pre-load").css("z-index", "99999");
             })
@@ -228,7 +236,7 @@
                                         next: "Trang sau",
                                         first: "|<",
                                         last: ">|",
-                                                  
+
                                     },
                                     info: "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
                                     infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
