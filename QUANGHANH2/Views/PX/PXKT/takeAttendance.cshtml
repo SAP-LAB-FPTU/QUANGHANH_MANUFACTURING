@@ -250,10 +250,14 @@
         })
 
         function getcontent() {
+            if (mode == 1)
+            {
+                $("#EditSaveBtn").html("<i class=\"material-icons right\">border_color</i>Cập Nhật");
+                mode = 0;
+            }
             $('#pre-load').show()
             loadDatatableWith("/phan-xuong-khai-thac/diem-danh")
                 .then((status) => {
-                    $('#pre-load').hide()
                 })
         }
 
@@ -272,7 +276,9 @@
 
         function loadDatatableWith(url) {
             return new Promise((resolve, reject) => {
-                $("#attendanceTable").DataTable().ajax.url(url).load();
+                $("#attendanceTable").DataTable().ajax.url(url).load(function () {
+                    $('#pre-load').hide()   //promise duoc hoan thanh ke ca khi datatable chua load xong?!?
+                });
                 console.log("1");
                 resolve("successfully");
             })
@@ -304,6 +310,7 @@
                 })
                 mode = 1;
             } else {
+                $('#pre-load').show()
                 $("#EditSaveBtn").html("<i class=\"material-icons right\">border_color</i>Cập Nhật");
                 mode = 0;
                 var dataUpdate = updateReason();
@@ -328,6 +335,7 @@
                     })
                     $("#workedAllCheckbox").show();
                     $("#notWorkedAllCheckbox").show();
+                    $('#pre-load').hide()
                 }
             }
         }
