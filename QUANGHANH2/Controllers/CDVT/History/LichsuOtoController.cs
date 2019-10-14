@@ -20,16 +20,18 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         [HttpGet]
         public ActionResult Index()
         {
+            // only taken by each department.
+            string department_id = Session["departID"].ToString();
+
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             List<Supply> listSupply = db.Supplies.Where(x => x.unit == "L" || x.unit == "kWh").ToList();
-            //List<Supply> listSupply = db.Supplies.Where(x => x.unit != "L" && x.unit != "kWh").ToList();
-            //List<Supply> listSupply = db.Supplies.ToList<Supply>();
-            List<FuelDB> listEQ = db.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from " +
-               " (select distinct e.equipmentId, e.equipment_name from Equipment e inner join Equipment_category_attribute ea " +
-               "  on ea.Equipment_category_id = e.Equipment_category_id where " +
-               " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') as t "
-            ).ToList();
 
+            List<FuelDB> listEQ = db.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from " +
+               " (select distinct e.equipmentId, e.equipment_name ,e.department_id from Equipment e inner join Equipment_category_attribute ea " +
+               "  on ea.Equipment_category_id = e.Equipment_category_id where " +
+               " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') as t " +
+               " where department_id = @department_id", new SqlParameter("department_id", department_id)
+            ).ToList();
             ViewBag.listSupply = listSupply;
             ViewBag.listEQ = listEQ;
             return View("/Views/CDVT/History/LichsuOto.cshtml");
@@ -66,22 +68,26 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
                 string sortDirection = Request["order[0][dir]"];
 
+                // only taken by each department.
+                string department_id = Session["departID"].ToString();
                 QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
                 string query = "select q.[date], q.equipmentId, t.equipment_name, q.activityname, q.hours_per_day, q.quantity,q.activityid"
-                    + " from (select distinct e.equipmentId, e.equipment_name "
+                    + " from (select distinct e.equipmentId, e.equipment_name ,e.department_id "
                     + " from Equipment e inner join Equipment_category_attribute ea  "
                     + " on ea.Equipment_category_id = e.Equipment_category_id and  "
                     + " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = 'So may') "
                     + " as t inner join Activity q on t.equipmentId = q.equipmentId "
                     + " where q.equipmentId LIKE @equipmentId"
                     + " AND t.equipment_name LIKE @equipment_name AND q.[date] between @timeFrom AND @timeTo "
+                    + " ANd t.department_id = @department_id"
                     + " order by q.[date] desc";
                 
                 List<activitiesDB> listActi = DBContext.Database.SqlQuery<activitiesDB>(query,
                     new SqlParameter("equipmentId", '%' + equipmentId + '%'),
                     new SqlParameter("equipment_name", '%' + equipmentName + '%'),
                     new SqlParameter("timeFrom", timeF),
-                    new SqlParameter("timeTo", timeT)
+                    new SqlParameter("timeTo", timeT),
+                    new SqlParameter("department_id", department_id)
                     ).ToList();
 
                 int totalrows = listActi.Count;
@@ -134,8 +140,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
                 string sortDirection = Request["order[0][dir]"];
 
+                // only taken by each department.
+                string department_id = Session["departID"].ToString();
                 QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-                string query = "select f.[date], f.equipmentId, t.equipment_name, f.fuel_type, f.consumption_value, s.unit,s.supply_name,fuelId from(select distinct e.equipmentId, e.equipment_name"
+                string query = "select f.[date], f.equipmentId, t.equipment_name, f.fuel_type, f.consumption_value, s.unit,s.supply_name,fuelId from(select distinct e.equipmentId, e.equipment_name ,e.department_id"
                     + " from Equipment e inner join Equipment_category_attribute ea "
                     + " on ea.Equipment_category_id = e.Equipment_category_id where  "
                     + " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = 'So may') "
@@ -143,13 +151,16 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     + " on t.equipmentId = f.equipmentId "
                     + " join Supply s on s.supply_id = f.fuel_type "
                     + " where f.equipmentId LIKE @equipmentId "
-                    + " AND t.equipment_name LIKE @equipment_name AND f.[date] between @timeFrom AND @timeTo order by f.[date] desc";
+                    + " AND t.equipment_name LIKE @equipment_name AND f.[date] between @timeFrom AND @timeTo " 
+                    + " AND t.department_id = @department_id "
+                    + " order by f.[date] desc";
 
                 List<fuelDB> listFuelConsump = DBContext.Database.SqlQuery<fuelDB>(query,
                     new SqlParameter("equipmentId", '%' + equipmentId + '%'),
                     new SqlParameter("equipment_name", '%' + equipmentName + '%'),
                     new SqlParameter("timeFrom", timeF),
-                    new SqlParameter("timeTo", timeT)
+                    new SqlParameter("timeTo", timeT),
+                    new SqlParameter("department_id", department_id)
                     ).ToList();
 
                 int totalrows = listFuelConsump.Count;
@@ -247,7 +258,20 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
 
                 try
                 {
+                    // only taken by each department.
+                    string department_id = Session["departID"].ToString();
                     Equipment i = DBContext.Equipments.Find(equipmentId);
+                    
+                    //check vehicle eq exist in department
+                    FuelDB f = DBContext.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from " +
+                        " (select distinct e.equipmentId, e.equipment_name ,e.department_id from Equipment e inner join Equipment_category_attribute ea " +
+                        "  on ea.Equipment_category_id = e.Equipment_category_id where " +
+                        " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') as t " +
+                        " where department_id = @department_id" +
+                        " AND equipmentId = @equipmentId "
+                        , new SqlParameter("department_id", department_id)
+                        , new SqlParameter("equipmentId", equipmentId)
+                    ).First();
 
                     //Activity q = DBContext.Activities.Where(x => x.activityid == activityid).SingleOrDefault();
                     Activity q = DBContext.Activities.Find(activityid);
@@ -322,8 +346,21 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 }
                 try
                 {
+                    // only taken by each department.
+                    string department_id = Session["departID"].ToString();
+
                     //note : need to be fixed
                     Equipment e = DBContext.Equipments.Find(equipmentId);
+                    //check vehicle eq exist in department
+                    FuelDB f = DBContext.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from " +
+                        " (select distinct e.equipmentId, e.equipment_name ,e.department_id from Equipment e inner join Equipment_category_attribute ea " +
+                        "  on ea.Equipment_category_id = e.Equipment_category_id where " +
+                        " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') as t " +
+                        " where department_id = @department_id" +
+                        " AND equipmentId = @equipmentId "
+                        , new SqlParameter("department_id", department_id)
+                        , new SqlParameter("equipmentId", equipmentId)
+                    ).First();
 
                     a.equipmentid = e.equipmentId;
                     string date = DateTime.ParseExact(date1, "dd/MM/yyyy", null).ToString("yyyy-MM-dd");
@@ -455,10 +492,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             {
                 QUANGHANHABCEntities db = new QUANGHANHABCEntities();
                 var equipment = db.Database.SqlQuery<FuelDB>("select equipment_name from " +
-"(select distinct e.equipmentId, e.equipment_name from Equipment e inner join Equipment_category_attribute ea " +
-                                               "  on ea.Equipment_category_id = e.Equipment_category_id where " +
-                                                 "ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') as t " +
-"where equipmentId = @id", new SqlParameter("id", id)).SingleOrDefault();
+                    " (select distinct e.equipmentId, e.equipment_name from Equipment e inner join Equipment_category_attribute ea " +
+                    " on ea.Equipment_category_id = e.Equipment_category_id where " +
+                    " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') as t " +
+                    " where equipmentId = @id", new SqlParameter("id", id)).SingleOrDefault();
 
                 return Json(equipment.equipment_name, JsonRequestBehavior.AllowGet);
             }
@@ -497,8 +534,22 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             {
                 try
                 {
+                    // only taken by each department.
+                    string department_id = Session["departID"].ToString();
+
                     //update 
                     Equipment i = DBContext.Equipments.Find(equipmentId);
+                    //check vehicle eq exist in department
+                    FuelDB check = DBContext.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from " +
+                        " (select distinct e.equipmentId, e.equipment_name ,e.department_id from Equipment e inner join Equipment_category_attribute ea " +
+                        "  on ea.Equipment_category_id = e.Equipment_category_id where " +
+                        " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') as t " +
+                        " where department_id = @department_id" +
+                        " AND equipmentId = @equipmentId "
+                        , new SqlParameter("department_id", department_id)
+                        , new SqlParameter("equipmentId", equipmentId)
+                    ).First();
+
                     Supply s = DBContext.Database.SqlQuery<Supply>("select * from Supply where supply_id=@supply_id and (unit = 'L' or unit = 'kWh')", new SqlParameter("supply_id", fuel_type)).First();
                     FuelDB f = DBContext.Database.SqlQuery<FuelDB>("select * from Fuel_activities_consumption where fuelid=" + fuelid + "").First();
                     string date = DateTime.ParseExact(date1, "dd/MM/yyyy", null).ToString("MM-dd-yyyy");
@@ -602,8 +653,21 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             {
                 try
                 {
-                    //Add :
+                    // only taken by each department.
+                    string department_id = Session["departID"].ToString();
+
                     Equipment e = DBContext.Equipments.Find(equipmentId);
+                    //check vehicle eq exist in department
+                    FuelDB check = DBContext.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from " +
+                        " (select distinct e.equipmentId, e.equipment_name ,e.department_id from Equipment e inner join Equipment_category_attribute ea " +
+                        "  on ea.Equipment_category_id = e.Equipment_category_id where " +
+                        " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') as t " +
+                        " where department_id = @department_id" +
+                        " AND equipmentId = @equipmentId "
+                        , new SqlParameter("department_id", department_id)
+                        , new SqlParameter("equipmentId", equipmentId)
+                    ).First();
+
                     DateTime dateTime = DateTime.ParseExact(date1, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                     Supply s = DBContext.Supplies.Where(x => x.supply_id == fuel_type).First();
 

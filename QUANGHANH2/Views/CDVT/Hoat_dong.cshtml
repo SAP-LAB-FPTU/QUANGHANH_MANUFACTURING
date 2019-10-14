@@ -173,14 +173,14 @@
                         </div>*@
                 </div>
 
-                <div class="row">
+                @*<div class="row">
                     <div class="col s12">
                         <ul class="tabs">
                             <li class="col s12 tab"><a href="#chitiet">Chi tiết huy động</a></li>
                             <li class="col s6 tab"><a href="#thongke">Thống kê huy động</a></li>
                         </ul>
                     </div>
-                </div>
+                </div>*@
 
                 <div id="chitiet">
 
@@ -375,137 +375,158 @@
 </div>
 
 <div class="modal fade" id="nhomthietbi">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Thêm nhóm thiết bị mới</h3>
-        </div>
-        <div class="modal-body">
-            <form>
-                <div class="row">
-                    <div class="col s12 m6">
-                        <div class="form-group">
-                            <label for="date">Mã nhóm thiết bị : </label>
-                            <input type="text" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label for="name">Loại thiết bị : </label>
-                            <select class="form-control">
-                                <option>Thiết bị hầm lò</option>
-                                <option>Thiết bị lộ thiên</option>
-                                <option>Thiết bị truyền dẫn</option>
-                                <option>Thiết bị sàng tuyển</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col s12 m6">
-                        <div class="form-group">
-                            <label for="name">Tên nhóm : </label>
-                            <input type="text" class="form-control" />
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="col s12 center-align" style="margin-top:15px">
-                        <h5><b>Đặc tính kỹ thuật</b></h5>
-                    </div>
-                    <div class="col s12">
-                        <table id="TableABC" class="centered striped table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>TT</th>
-                                    <th>Tên đặc tính</th>
-                                    <th>Thông số</th>
-                                    <th>ĐVT</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td id="dem">1</td>
-                                    <td><input type="text" class="form-control" placeholder="Tên đặc tính" /></td>
-                                    <td><input type="number" class="form-control" placeholder="Thông số" /></td>
-                                    <td><input type="text" class="form-control" placeholder="ĐVT" /></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
+    <div class="card">
+        <div class="card-content">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Thêm nhóm thiết bị mới</h3>
                 </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <a class="left"><button id="them" type="submit" class="btn light-blue lighten-1"><i class="large material-icons">add</i></button></a>
-            <button id="check" type="submit" class="btn blue darken-2 modal-close save-category">Lưu</button>
-            <button id="check1" type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            <div class="col s12 m6">
+                                <div class="form-group">
+                                    <label for="date">Mã nhóm thiết bị : </label>
+                                    <input type="text" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">Loại thiết bị : </label>
+                                    <select class="form-control">
+                                        <option>Thiết bị hầm lò</option>
+                                        <option>Thiết bị lộ thiên</option>
+                                        <option>Thiết bị truyền dẫn</option>
+                                        <option>Thiết bị sàng tuyển</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col s12 m6">
+                                <div class="form-group">
+                                    <label for="name">Tên nhóm : </label>
+                                    <input type="text" class="form-control" />
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="col s12 center-align" style="margin-top:15px">
+                                <h5><b>Đặc tính kỹ thuật</b></h5>
+                            </div>
+                            <div class="col s12">
+                                <table id="TableABC" class="centered striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>TT</th>
+                                            <th>Tên đặc tính</th>
+                                            <th>Thông số</th>
+                                            <th>ĐVT</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td id="dem">1</td>
+                                            <td><input type="text" class="form-control" placeholder="Tên đặc tính" /></td>
+                                            <td><input type="number" class="form-control" placeholder="Thông số" /></td>
+                                            <td><input type="text" class="form-control" placeholder="ĐVT" /></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a class="left"><button id="them" type="submit" class="btn light-blue lighten-1"><i class="large material-icons">add</i></button></a>
+                    <button id="check" type="submit" class="btn blue darken-2 modal-close save-category">Lưu</button>
+                    <button id="check1" type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <div class="modal fade" id="myadd">
-    <div class="modal-header center-align">
-        <h3>Thêm</h3>
+    <div class="card">
+        <div class="card-content">
+            <div class="modal-header center-align">
+                <h3>Thêm</h3>
+            </div>
+            @Html.Action("Add", "Hoatdong")
+        </div>
     </div>
-
-    @Html.Action("Add", "Hoatdong")
 </div>
 <div class="modal fade" id="myadd3">
-    <div class="modal-header center-align">
-        <h3>Thêm nhóm thiết bị</h3>
+    <div class="card">
+        <div class="card-content">
+            <div class="modal-header center-align">
+                <h3>Thêm nhóm thiết bị</h3>
+            </div>
+            @Html.Action("AddCategory", "Hoatdong")
+        </div>
     </div>
-    @Html.Action("AddCategory", "Hoatdong")
-
 </div>
 
 
 
 
 <div class="modal fade" id="myedit">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Sửa</h3>
+    <div class="card">
+        <div class="card-content">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Sửa</h3>
+                </div>
+                @Html.Action("Edit", "Hoatdong")
+            </div>
         </div>
-        @Html.Action("Edit", "Hoatdong")
-
     </div>
 </div>
 
 <div id="kiemdinh" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>Cập nhật ngày kiểm định</h3>
+    <div class="card">
+        <div class="card-content">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Cập nhật ngày kiểm định</h3>
+                </div>
+                <form action="/phong-cdvt/huy-dong/kd" method="post">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col s12 m6">
+                                <label for="number">Mã thiết bị: </label>
+                                <input type="text" name="id" class="form-control" />
+                            </div>
+                            <div class="col s12 m6">
+                                <label for="number">Ngày kiểm định: </label>
+                                <input type="datetime" name="date" class="form-control datepicker-here maxDate" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="col-md-offset-2 col-md-10">
+                            <button type="submit" id="save" class="btn blue btn-default modal-close" style="color:white">Cập nhật</button>
+                            @*<input type="submit" value="Cập nhật" class="btn blue btn-default modal-close" />*@
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
-        <form action="/phong-cdvt/huy-dong/kd" method="post">
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col s12 m6">
-                        <label for="number">Mã thiết bị: </label>
-                        <input type="text" name="id" class="form-control" />
-                    </div>
-                    <div class="col s12 m6">
-                        <label for="number">Ngày kiểm định: </label>
-                        <input type="datetime" name="date" class="form-control datepicker-here maxDate" />
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <div class="col-md-offset-2 col-md-10">
-                    <button type="submit" id="save" class="btn blue btn-default modal-close" style="color:white">Cập nhật</button>
-                    @*<input type="submit" value="Cập nhật" class="btn blue btn-default modal-close" />*@
-                </div>
-            </div>
-        </form>
     </div>
 </div>
 <form asp-action="Delete" method="post">
     <div id="myaleart" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Xác nhận xóa mục này</h3>
-            </div>
-            <div class="modal-body">
-                <p class="red-text">Dữ liệu không thể phục hồi sau thao tác này</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn blue darken-2 modal-close">Xóa</button>
-                <button type="button" class="btn red modal-close">Hủy</button>
+        <div class="card">
+            <div class="card-content">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Xác nhận xóa mục này</h3>
+                    </div>
+                    <div class="modal-body">
+                        <p class="red-text">Dữ liệu không thể phục hồi sau thao tác này</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn blue darken-2 modal-close">Xóa</button>
+                        <button type="button" class="btn red modal-close">Hủy</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

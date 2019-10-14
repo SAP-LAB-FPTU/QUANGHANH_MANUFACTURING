@@ -8,9 +8,9 @@
     {
         Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
     }
-
 }
-    <link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
+
+<link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
 <link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
@@ -19,6 +19,8 @@
 <link href="~/css/transfer_mobilize_history_timeline.css" rel="stylesheet" />
 <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
 <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+
 <script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
 <script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
 <script src="~/js/jquery.dataTables.min.js"></script>
@@ -26,14 +28,14 @@
 <div class="card">
     <div class="card-content">
         <div class="container-fluid">
-            <div class="row m-b-40">
-                <div class="col s12">
-                    <ul class="tabs" style="overflow-x:hidden;overflow-y:hidden">
-                        <li class="col s6 tab"><a class="active" href="#hoatdong">Chi tiết hoạt động</a></li>
-                        <li class="col s6 tab"><a href="#nhienlieu">Chi tiết tiêu thụ nhiên liệu</a></li>
-                    </ul>
-                </div>
-            </div>
+            @*<div class="row m-b-40">
+                    <div class="col s12">
+                        <ul class="tabs">
+                            <li class="col s6 tab"><a class="active" href="#hoatdong">Chi tiết hoạt động</a></li>
+                            <li class="col s6 tab"><a href="#nhienlieu">Chi tiết tiêu thụ nhiên liệu</a></li>
+                        </ul>
+                    </div>
+                </div>*@
 
             <div class="row table_container" id="hoatdong">
                 <div class="advanded-search">
@@ -104,127 +106,9 @@
                 </div>
 
             </div>
-
-            <div class="row table_container" id="nhienlieu">
-                <div class="advanded-search">
-                    <div class="row">
-                        <div class="center">
-                            <h3 class="center"><b>CẬP NHẬT TIÊU THỤ NHIÊN LIỆU</b></h3>
-                        </div>
-                        <hr>
-                        <form action="" method="post" role="form">
-                            <div class="row center">
-                                <div class="col l6 m6 s12">
-                                    <div class="row">
-                                        <div class="col l10 m10 s12 input-field">
-                                            <input type="text" placeholder="Tìm kiếm theo mã thiết bị" class='form-control' id="equipmentIdfuel-search" />
-                                        </div>
-                                        <div class="col l10 m10 s12 input-field">
-                                            <i class="fas fa-calendar-alt icon"></i>
-                                            <input placeholder="Nhập ngày bắt đầu (từ)" type='text' class='datepicker-here center maxDate' data-language='vi' id="timeFromfuel-search" />
-                                        </div>
-                                        <div class="col l12 m12 s12 input-field">
-                                            <a class="waves-effect waves-light btn-small blue modal-trigger" href="#myaddfuel">Thêm tiêu thụ nhiên liệu</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col l6 m6 s12">
-                                    <div class="row">
-                                        <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
-                                            <input type="text" placeholder="Tìm kiếm theo tên thiết bị" class='form-control' id="equipmentNamefuel-search" />
-                                        </div>
-                                        <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
-                                            <i class="fas fa-calendar-alt icon"></i>
-                                            <input placeholder="Nhập ngày kết thúc (đến)" type='text' class='datepicker-here center minDate' data-language='vi' id="timeTofuel-search" />
-                                        </div>
-                                        <div class="col l12 m12 s12 input-field">
-                                            <a class="waves-effect waves-light btn blue darken-2 modal-close modal-trigger" id="searchButtonFuel">Tìm kiếm</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-
-                    </div>
-                </div>
-
-                <div class="col s12">
-                    <table id="fuel-table" class="table table-bordered striped table-responsive centered"
-                           style="margin-top:30px; text-align:center;width : 100%">
-                        <thead>
-                            <tr>
-                                <th rowspan="2" colspan="1">Ngày</th>
-                                <th colspan="2">Thông tin thiết bị</th>
-                                <th rowspan="1" colspan="3">Tiêu thụ nhiên liệu </th>
-                                <th rowspan="2" colspan="2"></th>
-                            </tr>
-                            <tr>
-                                <th>Mã thiết bị</th>
-                                <th>Tên thiết bị</th>
-                                <th>Loại nhiên liệu</th>
-                                <th>Lượng tiêu thụ</th>
-                                <th>Đơn vị</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-
-            </div>
         </div>
     </div>
 </div>
-
-
-<form action="" method="POST" role="form" id="myFuelEdit">
-    <div class="modal fade" id="myfuel">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Sửa Nhiên Liệu Tiêu Thụ</h3>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col s12 m6">
-                        <div class="form-group">
-                            <label for="date"> Mã tài sản cố định : </label>
-                            <input type="text" class="form-control" id="equipmentIdfuel-edit" list="eqID" />
-                        </div>
-                        <div class="form-group">
-                            <label for="name"> Ngày : </label>
-                            <input type='text' class='datepicker-here form-control maxDate' data-language='vi' id="datefuel-edit" />
-                        </div>
-                        <div class="form-group">
-                            <label for="name"> Tên thiết bị  : </label>
-                            <input type="text" class="form-control" id="equipmentnamefuel-edit" readonly />
-                        </div>
-                    </div>
-                    <div class="col s12 m6">
-                        <div class="form-group">
-                            <label for="date"> Mã nhiên liệu  : </label>
-                            <input type="text" class="form-control" id="fuel-edit" list="supplyID" />
-                            <input type="hidden" class="form-control" id="fuelID-edit" />
-                        </div>
-                        <div class="form-group">
-                            <label for="supplier"> Loại nhiên liệu  :</label>
-                            <input type="text" class="form-control" id="supply_name-edit" readonly />
-                        </div>
-                        <div class="form-group">
-                            <label for="supplier"> Lượng tiêu thụ   :</label>
-                            <input type="number" min="0" class="form-control number" id="consumption_value-edit" />
-                        </div>
-                        <div class="form-group">
-                            <label for="supplier"> Đơn vị  :</label>
-                            <input type="text" class="form-control" id="unitfuel-edit" readonly />
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn blue darken-2 modal-close save-category">Lưu</button>
-                <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-nhienlieu-button">Thoát</button>
-            </div>
-        </div>
-    </div>
-</form>
 
 <div class="modal fade" id="myaddacti">
     <div class="modal-content">
@@ -283,57 +167,6 @@
         <option value="@item.supply_id">@item.supply_name</option>
     }
 </datalist>
-
-<div class="modal fade" id="myaddfuel">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Thêm nhiên liệu tiêu thụ</h3>
-        </div>
-        <div class="modal-body">
-            <form>
-                <div class="row">
-                    <div class="col s12 m6">
-                        <div class="form-group">
-                            <label for="date">Tên thiết bị : </label>
-                            <input type="text" class="form-control" id="equipmentnamefuel-add" readonly />
-                        </div>
-                        <div class="form-group">
-                            <label for="name">Ngày hoạt động : </label>
-                            <input type='text' class='datepicker-here form-control maxDate' data-language='vi' id="datefuel-add" />
-                        </div>
-                        <div class="form-group">
-                            <label for="number">Mã nhiên liệu: </label>
-                            <input type="text" class="form-control" id="fuelId-add" list="supplyID" />
-                        </div>
-                        <div class="form-group">
-                            <label for="number">Tên nhiên liệu: </label>
-                            <input type="text" class="form-control" id="fuelname-add" readonly />
-                        </div>
-                    </div>
-                    <div class="col s12 m6">
-                        <div class="form-group">
-                            <label for="date">Biểm kiểm soát : </label>
-                            <input type="text" class="form-control" id="equipmentidfuel-add" list="eqID" />
-                        </div>
-                        <div class="form-group">
-                            <label for="supplier">Lượng nhiên liệu tiêu thụ: </label>
-                            <input type="number" min="0" class="form-control number" id="consumption_value-add" />
-                        </div>
-                        <div class="form-group">
-                            <label for="supplier">Đơn vị: </label>
-                            <input type="Text" class="form-control" id="unit-add" readonly />
-                        </div>
-
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button type="submit" class="btn blue darken-2 modal-close save-category" onclick="addFuel()">Lưu</button>
-            <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
-        </div>
-    </div>
-</div>
 
 <form action="" method="POST" id="myeditform" role="form">
     <div class="modal fade" id="myacti">
@@ -419,30 +252,6 @@
         if (e.keyCode === 13)
             getname();
     })
-    $('#myfuel').keydown(function (e) {
-        if (e.keyCode === 13)
-            e.preventDefault();
-    });
-    $("#fuel-edit").keydown(function (e) {
-        if (e.keyCode === 13)
-            getsupplynameinedit();
-    })
-    $("#equipmentIdfuel-edit").keydown(function (e) {
-        if (e.keyCode === 13)
-            getEquipmentnameOnEditFuel();
-    })
-    $('#myaddfuel').keydown(function (e) {
-        if (e.keyCode === 13)
-            e.preventDefault();
-    });
-    $("#fuelId-add").keydown(function (e) {
-        if (e.keyCode === 13)
-            getsupplyname();
-    })
-    $("#equipmentidfuel-add").keydown(function (e) {
-        if (e.keyCode === 13)
-            getEquipmentnameOnAddFuel();
-    })
 </script>
 
 <script>
@@ -462,25 +271,20 @@
         var today = new Date();
         var dd = today.getDate();
         var mm = today.getMonth() + 1; //January is 0!
-
         var yyyy = today.getFullYear();
-
         if (dd < 10) {
             dd = '0' + dd;
         }
         if (mm < 10) {
             mm = '0' + mm;
         }
-
         var today = dd + '/' + mm + '/' + yyyy;
         //$(".minDate").each(function () {
         //    $(this).val(today);
         //});
-
         today = new Date("1/1/1900");
         var dd = today.getDate();
         var mm = today.getMonth() + 1; //January is 0!
-
         var yyyy = today.getFullYear();
         if (dd < 10) {
             dd = '0' + dd;
@@ -489,7 +293,6 @@
             mm = '0' + mm;
         }
         var today = dd + '/' + mm + '/' + yyyy;
-
     });
 </script>
 
@@ -499,6 +302,8 @@
         var doubleReg = /[+-]?([0-9]*[,])?[0-9]+$/;
         if (!doubleReg.test(text)) {
             $(this).val("");
+        }
+        if () {
         }
         var acceptList = [45, 35, 40, 34, 37, 9, 12, 39, 36, 38, 33, 8];// , 65, 86, 67, 90
         for (var i = 48; i <= 57; i++) {
@@ -527,31 +332,19 @@
             searchActi();
         }
     });
-    $(document).on('keypress', function (e) {
-        if (e.which == 13) {
-            dataFuelTable.destroy();
-            searchFuel();
-        }
-    });
 </script>
 
 @section scripts{
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
-    <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
-    <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
-    <script>
-        var Popup, dataActiTable, dataFuelTable;
 
+    <script>
+        var Popup, dataActiTable;
         //get first data acti and fuel
         $(document).ready(function () {
             //get data
             searchActi();
-            searchFuel();
         });
-
         function searchActi() {
-
             dataActiTable = $('#acti-table').on('preXhr.dt', function (e, settings, data) {
                 $("#pre-load").show("slow", function () {
                 });
@@ -602,6 +395,7 @@
                         "width": "150px"
                     }
                 ],
+                "bFilter": false,
                 "serverSide": true,
                 "rowId": "activityid",
                 "lengthChange": false,
@@ -615,100 +409,6 @@
                 }
             });
         }
-
-        function searchFuel() {
-            dataFuelTable = $('#fuel-table').on('preXhr.dt', function (e, settings, data) {
-                $("#pre-load").show("slow", function () {
-                });
-                $("#pre-load").css("z-index", "99999");
-            }).DataTable({
-                "language": {
-                    "emptyTable": "Không tìm thấy dữ liệu",
-                    "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
-                    "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
-                    "paginate": {
-                        "first": "Đầu",
-                        "last": "Cuối",
-                        "next": "Sau",
-                        "previous": "Trước"
-                    }
-                },
-                "ajax": {
-                    "url": "/phong-cdvt/cap-nhat-hoat-dong/search-fuel",
-                    "type": "POST",
-                    "datatype": "json",
-                    "data": {
-                        "equipmentId": function () { return $('#equipmentIdfuel-search').val() },
-                        "equipmentName": function () { return $('#equipmentNamefuel-search').val() },
-                        "timeFrom": function () { return $('#timeFromfuel-search').val() },
-                        "timeTo": function () { return $('#timeTofuel-search').val() }
-                    },
-                    "cache": "false"
-                },
-                "drawCallback": function (settings) {
-                    ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
-                    $("#pre-load").hide("slow", function () {
-                    });
-                    ////////////////////////////////////////////////
-                },
-                "columns": [
-                    { "data": "stringDate", "name": "date" },
-                    { "data": "equipmentId", "name": "equipmentId" },
-                    { "data": "equipment_name", "name": "equipment_name" },
-                    { "data": "supply_name", "name": "supply_name" },
-                    { "data": "consumption_value", "name": "consumption_value" },
-                    { "data": "unit", "name": "unit" },
-                    {
-                        "data": "fuelid", "render": function (data) {
-                            return "<a href=\"#myfuel\" data-toggle=\"modal\" class=\"open-fuelEdit waves-effect waves-light btn blue darken-1 modal-trigger\" data-fuel=\"" + data + "\">Chỉnh&nbsp;Sửa</a>";
-                        },
-                        "orderable": false,
-                        "searchable": false,
-                        "width": "150px"
-                    }
-                ],
-                "serverSide": true,
-                "rowId": "fuelid",
-                "lengthChange": false,
-                "bAutoWidth": false,
-                "order": [0, "asc"],
-                "initComplete": function (settings, json) {
-                    ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
-                    $("#pre-load").hide("slow", function () {
-                    });
-                    //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
-                }
-            });
-        }
-
-        //export excel fuction
-        $("#acti-export-button").click(function () {
-            $("#pre-load").show("slow", function () {
-            });
-            $("#pre-load").css("z-index", "99999");
-            $.ajax({
-                type: "POST",
-                url: "/phong-cdvt/cap-nhat-hoat-dong/export-acti",
-                cache: false
-            }).done(function () {
-                window.location.href = "/excel/CDVT/download/cap-nhat-hoat-dong-temp.xlsx";
-                $("#pre-load").hide("slow", function () { });
-            })
-        });
-        $("#fuel-export-button").click(function () {
-            $("#pre-load").show("slow", function () {
-            });
-            $("#pre-load").css("z-index", "99999");
-            $.ajax({
-                type: "POST",
-                url: "/phong-cdvt/cap-nhat-hoat-dong/export-fuel",
-                cache: false
-            }).done(function () {
-                window.location.href = "/excel/CDVT/download/cap-nhat-hoat-dong-nhien-lieu-temp.xlsx";
-                $("#pre-load").hide("slow", function () { });
-            })
-        });
-
         //ajax CRUD acti
         $(document).ready(function () {
             //ajax search acti
@@ -721,7 +421,6 @@
                                 className: "success"
                             })
                         });
-
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
                         errorAlert('Lỗi', 'Có lỗi xảy ra , vui lòng nhập lại');
@@ -729,44 +428,6 @@
                 });
             });
         });
-
-        //add fuel
-        function addFuel() {
-            var data = {
-                consumption_value: document.getElementById("consumption_value-add").value,
-                fuel_type: document.getElementById("fuelId-add").value,
-                date1: document.getElementById("datefuel-add").value,
-                equipmentId: document.getElementById("equipmentidfuel-add").value
-            };
-            $.ajax({
-                url: "/phong-cdvt/cap-nhat-hoat-dong/add-fuel",
-                type: "POST",
-                data: JSON.stringify(data),
-                contentType: "application/json;charset=utf-8",
-                dataType: "json",
-                success: function () {
-                    dataFuelTable.ajax.reload();
-                    successAlert('Thành công', 'Thêm thành công');
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    errorAlert('Lỗi', 'Có lỗi xảy ra , vui lòng nhập lại');
-                }
-            });
-        }
-
-        //ajax CRUD fuel
-        $(document).ready(function () {
-            //ajax search fuel
-            $("#searchButtonFuel").click(function () {
-                dataFuelTable.ajax.reload(function () {
-                    $.notify("Tìm kiếm thành công", {
-                        globalPosition: "top center",
-                        className: "success"
-                    })
-                });
-            });
-        });
-
         //open-EditModal activity.
         $(document).on("click", ".open-EditModal", function () {
             var activity = $(this).data('activity');
@@ -795,7 +456,6 @@
                 cache: false
             })
         });
-
         $("#myeditform").submit(function (e) {
             $.ajax({
                 type: "POST",
@@ -822,63 +482,6 @@
             })
             return false;
         });
-
-        //open-EditModal fuel.
-        $(document).on("click", ".open-fuelEdit", function () {
-            var fuel = $(this).data('fuel');
-            $.ajax({
-                type: "POST",
-                url: "/phong-cdvt/cap-nhat-hoat-dong/getkeydata-fuel",
-                dataType: "json",
-                success: function (data) {
-                    $('#equipmentIdfuel-edit').val(data.equipmentId);
-                    $("#datefuel-edit").val(data.stringDate);
-                    $('#equipmentnamefuel-edit').val(data.equipment_name);
-                    $('#fuel-edit').val(data.fuel_type);
-                    $('#supply_name-edit').val(data.supply_name);
-                    $('#consumption_value-edit').val(data.consumption_value);
-                    $('#unitfuel-edit').val(data.unit);
-                    $('#fuelID-edit').val(data.fuelid);
-                    $('#fuel-edit').val(data.fuel_type);
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    $.notify("Có lỗi xảy ra , vui lòng thử lại", {
-                        globalPosition: "top center",
-                        className: "error"
-                    });
-                },
-                data: {
-                    fuelid: Number(fuel)
-                },
-                cache: false
-            })
-        });
-
-        $("#myFuelEdit").submit(function (e) {
-            $.ajax({
-                type: "POST",
-                url: "/phong-cdvt/cap-nhat-hoat-dong/edit-fuel",
-                dataType: "text",
-                success: function () {
-                    successAlert('Thành công', 'Chỉnh sửa thành công');
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    errorAlert('Lỗi', 'Có lỗi xảy ra , vui lòng nhập lại');
-                },
-                data: {
-                    equipmentId: $('#equipmentIdfuel-edit').val(),
-                    date1: $("#datefuel-edit").val(),
-                    fuel_type: $('#fuel-edit').val(),
-                    consumption_value: $('#consumption_value-edit').val(),
-                    fuelid: Number($('#fuelID-edit').val())
-                },
-                cache: false
-            }).done(function () {
-                dataFuelTable.ajax.reload();
-            })
-            return false;
-        });
-
         //getName after enter ID input
         function getname() {
             var id = document.getElementById("equipmentId-add").value;
@@ -897,7 +500,6 @@
                 }
             });
         }
-
         //add acti.
         function addActi() {
             var data = {
@@ -922,89 +524,6 @@
                 }
             });
         }
-
-        //get supply name and unit in add fuel
-        function getsupplyname() {
-            var id = document.getElementById("fuelId-add").value;
-            var tmp = {
-                fuel_type: id
-            };
-            $.ajax({
-                url: "/phong-cdvt/cap-nhat-hoat-dong/returnsupplyName",
-                type: "POST",
-                data: JSON.stringify(tmp),
-                contentType: "application/json;charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    document.getElementById("fuelname-add").value = data.split("^")[0];
-                    document.getElementById("unit-add").value = data.split("^")[1];
-                },
-                error: function () {
-                    //alert("fail");
-                }
-            });
-        }
-
-        //get supply name and unit in edit fuel
-        function getsupplynameinedit() {
-            var id = document.getElementById("fuel-edit").value;
-            var tmp = {
-                fuel_type: id
-            };
-            $.ajax({
-                url: "/phong-cdvt/cap-nhat-hoat-dong/returnsupplyName",
-                type: "POST",
-                data: JSON.stringify(tmp),
-                contentType: "application/json;charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    document.getElementById("supply_name-edit").value = data.split("^")[0];
-                    document.getElementById("unitfuel-edit").value = data.split("^")[1];
-                },
-                error: function () {
-                    //alert("fail");
-                }
-            });
-        }
-
-        //get equipment name in add fuel
-        function getEquipmentnameOnAddFuel() {
-            var id = document.getElementById("equipmentidfuel-add").value;
-            var em = { id: id };
-            $.ajax({
-                url: "/phong-cdvt/cap-nhat-hoat-dong/getEQname",
-                type: "POST",
-                data: JSON.stringify(em),
-                contentType: "application/json;charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    document.getElementById("equipmentnamefuel-add").value = data;
-                },
-                error: function () {
-                    //alert("fail");
-                }
-            });
-        }
-
-        //get equipment name in edit fuel
-        function getEquipmentnameOnEditFuel() {
-            var id = document.getElementById("equipmentIdfuel-edit").value;
-            var em = { id: id };
-            $.ajax({
-                url: "/phong-cdvt/cap-nhat-hoat-dong/getEQname",
-                type: "POST",
-                data: JSON.stringify(em),
-                contentType: "application/json;charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    document.getElementById("equipmentnamefuel-edit").value = data;
-                },
-                error: function () {
-                    //alert("fail");
-                }
-            });
-        }
-
         //get equipment name in edit activity
         function getEquipmentname1() {
             var id = document.getElementById("equipmentId-edit").value;
@@ -1023,7 +542,6 @@
                 }
             });
         }
-
     </script>
 
 }
