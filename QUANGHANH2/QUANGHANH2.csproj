@@ -199,6 +199,8 @@
     <Compile Include="Controllers\CDVT\GeneralListController.cs" />
     <Compile Include="Controllers\CDVT\History\LichsuController.cs" />
     <Compile Include="Controllers\CDVT\History\LichsuOtoController.cs" />
+    <Compile Include="Controllers\CDVT\History\LichsuOtoTieuthuController.cs" />
+    <Compile Include="Controllers\CDVT\History\LichsuTieuthuController.cs" />
     <Compile Include="Controllers\CDVT\LongCDVT\Oto\CapnhatOtoController.cs" />
     <Compile Include="Controllers\CDVT\LongCDVT\Oto\ChitietOtoController.cs" />
     <Compile Include="Controllers\CDVT\LongCDVT\Oto\DanhsachotoController.cs" />
@@ -7310,6 +7312,8 @@
     <Content Include="Views\DK\SanLuongReport.cshtml" />
     <Content Include="Views\DK\SucoThietbi.cshtml" />
     <Content Include="Views\DK\InputPlan\InputPlan_Month.cshtml" />
+    <Content Include="Views\CDVT\History\LichsuOtoTieuthu.cshtml" />
+    <Content Include="Views\CDVT\History\LichsuTieuthu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
