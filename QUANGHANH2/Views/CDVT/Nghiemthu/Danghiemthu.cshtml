@@ -7,7 +7,6 @@
 
 <link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
-<link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
@@ -159,12 +158,13 @@
         </div>
     </div>
 </div>
-<script src="~/js/Custom JS/CDVT/Capnhat/update.js"></script>
 <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
-<script src="~/js/advancedsearch/advancedsearch.js"></script>
 <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
 @section scripts{
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="~/js/advancedsearch/advancedsearch.js"></script>
+    <script src="~/js/Custom JS/CDVT/Capnhat/update.js"></script>
+
     <script>
         //$("#pre-load").show("slow", function () {
         // });
@@ -228,7 +228,7 @@
                             next: "Trang sau",
                             first: "|<",
                             last: ">|",
-                                                  
+
                         },
                         info: "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
                         infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
@@ -238,7 +238,7 @@
     		    $("#pre-load").hide("slow", function () {
       		  });
              }
-           
+
             });
 
 
@@ -280,9 +280,9 @@
         $(".datepicker-here").keydown(function (e) {
             e.preventDefault();
         });
-      
 
-        
+
+
         $("#searchButton1").click(function () {
             $("#pre-load").show();
            dataTable.ajax.reload(function () {
