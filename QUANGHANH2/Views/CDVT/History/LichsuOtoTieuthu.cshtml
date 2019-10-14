@@ -1,12 +1,17 @@
-﻿
-@{
-    ViewData["Title"] = "LichsuOtoTieuthu";
-    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+﻿@{
+    ViewData["Title"] = "Lichsu";
+    if (Session["departID"].ToString().Contains("PX"))
+    {
+        Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    }
 }
-
+<link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
 <link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
-<link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
@@ -19,14 +24,7 @@
 <div class="card">
     <div class="card-content">
         <div class="container-fluid">
-            @*<div class="row m-b-40">
-                <div class="col s12">
-                    <ul class="tabs">
-                        <li class="col s6 tab"><a class="active" href="#hoatdong">Chi tiết hoạt động</a></li>
-                        <li class="col s6 tab"><a href="#nhienlieu">Chi tiết tiêu thụ nhiên liệu</a></li>
-                    </ul>
-                </div>
-            </div>*@
+
 
             <div class="row table_container" id="nhienlieu">
                 <div class="advanded-search">
@@ -263,14 +261,14 @@
 <datalist id="eqID">
     @foreach (var item in ViewBag.listEQ)
     {
-        <option value="@item.equipmentId">@item.equipment_name</option>
+    <option value="@item.equipmentId">@item.equipment_name</option>
     }
 </datalist>
 
 <datalist id="supplyID">
     @foreach (var item in ViewBag.listSupply)
     {
-        <option value="@item.supply_id">@item.supply_name</option>
+    <option value="@item.supply_id">@item.supply_name</option>
     }
 </datalist>
 
@@ -292,6 +290,14 @@
 <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
 <link href="//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js" rel="stylesheet" />
 
+
+
+@section scripts{
+<script src="//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="~/assets/sweetalert/sweetalert2.min.js"></script>
+<script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
+<script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
 <script>
     $("#equipmentId-edit").keydown(function (e) {
         if (e.keyCode === 13)
@@ -415,266 +421,262 @@
 
     });
 </script>
+<script>
 
-@section scripts{
-    <script src="//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    var Popup, dataFuelTable;
 
-    <script>
-        var Popup, dataFuelTable;
+    //get first data acti and fuel
+    $(document).ready(function () {
+        //get data
+        searchFuel();
+    });
 
-        //get first data acti and fuel
-        $(document).ready(function () {
-            //get data
-            searchFuel();
+    //get equipment name in add fuel
+    function getEquipmentnameOnAddFuel() {
+        var id = document.getElementById("equipmentidfuel-add").value;
+        var em = { id: id };
+        $.ajax({
+            url: "/phong-cdvt/oto/cap-nhat-hoat-dong/returnEquipmentName",
+            type: "POST",
+            data: JSON.stringify(em),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                document.getElementById("equipmentnamefuel-add").value = data;
+            },
+            error: function () {
+                $.notify("Có lỗi xảy ra , vui lòng thử lại", {
+                    globalPosition: "top center",
+                    className: "error"
+                })
+                //alert("fail");
+            }
         });
-
-        //get equipment name in add fuel
-        function getEquipmentnameOnAddFuel() {
-            var id = document.getElementById("equipmentidfuel-add").value;
-            var em = { id: id };
-            $.ajax({
-                url: "/phong-cdvt/oto/cap-nhat-hoat-dong/returnEquipmentName",
-                type: "POST",
-                data: JSON.stringify(em),
-                contentType: "application/json;charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    document.getElementById("equipmentnamefuel-add").value = data;
-                },
-                error: function () {
-                    $.notify("Có lỗi xảy ra , vui lòng thử lại", {
-                        globalPosition: "top center",
-                        className: "error"
-                    })
-                    //alert("fail");
-                }
-            });
-        }
-        //get equipment name in edit fuel
-        function getEquipmentnameOnEditFuel() {
-            var id = document.getElementById("equipmentIdfuel-edit").value;
-            var em = { id: id };
-            $.ajax({
-                url: "/phong-cdvt/oto/cap-nhat-hoat-dong/returnEquipmentName",
-                type: "POST",
-                data: JSON.stringify(em),
-                contentType: "application/json;charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    document.getElementById("equipmentnamefuel-edit").value = data;
-                },
-                error: function () {
-                    //alert("fail");
-                }
-            });
-        }
-
-        //get supply name and unit in edit fuel
-        function getsupplynameinedit() {
-            var id = document.getElementById("fuel-edit").value;
-            var tmp = {
-                fuel_type: id
-            };
-            $.ajax({
-                url: "/phong-cdvt/oto/cap-nhat-hoat-dong/returnsupplyName",
-                type: "POST",
-                data: JSON.stringify(tmp),
-                contentType: "application/json;charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    document.getElementById("supply_name-edit").value = data.split("^")[0];
-                    document.getElementById("unitfuel-edit").value = data.split("^")[1];
-                },
-                error: function () {
-                    //alert("fail");
-                }
-            });
-        }
-
-        //get supply name and unit in add fuel
-        function getsupplyname() {
-            var id = document.getElementById("fuelId-add").value;
-            var tmp = {
-                fuel_type: id
-            };
-            $.ajax({
-                url: "/phong-cdvt/oto/cap-nhat-hoat-dong/returnsupplyName",
-                type: "POST",
-                data: JSON.stringify(tmp),
-                contentType: "application/json;charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    document.getElementById("fuelname-add").value = data.split("^")[0];
-                    document.getElementById("unit-add").value = data.split("^")[1];
-                },
-                error: function () {
-                    //alert("fail");
-                }
-            });
-        }
-
-        //edit fuel
-        $(document).on("click", ".open-fuelEdit", function () {
-            var fuel = $(this).data('fuel');
-            $.ajax({
-                type: "POST",
-                url: "/phong-cdvt/oto/cap-nhat-hoat-dong/getFuel",
-                dataType: "json",
-                success: function (data) {
-                    $('#equipmentIdfuel-edit').val(data.equipmentId);
-                    $("#datefuel-edit").val(data.stringDate);
-                    $('#equipmentnamefuel-edit').val(data.equipment_name);
-                    $('#fuel-edit').val(data.fuel_type);
-                    $('#supply_name-edit').val(data.supply_name);
-                    $('#consumption_value-edit').val(data.consumption_value);
-                    $('#unitfuel-edit').val(data.unit);
-                    $('#fuelID-edit').val(data.fuelid);
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    $.notify(XMLHttpRequest.responseText, {
-                        globalPosition: "top center",
-                        className: "error"
-                    });
-                },
-                data: {
-                    fuelid: Number(fuel)
-                },
-
-                cache: false
-            })
+    }
+    //get equipment name in edit fuel
+    function getEquipmentnameOnEditFuel() {
+        var id = document.getElementById("equipmentIdfuel-edit").value;
+        var em = { id: id };
+        $.ajax({
+            url: "/phong-cdvt/oto/cap-nhat-hoat-dong/returnEquipmentName",
+            type: "POST",
+            data: JSON.stringify(em),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                document.getElementById("equipmentnamefuel-edit").value = data;
+            },
+            error: function () {
+                //alert("fail");
+            }
         });
+    }
 
-        $("#myFuelEdit").submit(function (e) {
-            $.ajax({
-                type: "POST",
-                url: "/phong-cdvt/oto/cap-nhat-hoat-dong/edit-fuel",
-                dataType: "text",
-                success: function () {
-                    successAlert('Thành công','Chỉnh sửa thành công');
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    errorAlert('Lỗi','Có lỗi xảy ra , vui lòng nhập lại');
-                },
-                data: {
-                    equipmentId: $('#equipmentIdfuel-edit').val(),
-                    date1: $("#datefuel-edit").val(),
-                    fuel_type: $('#fuel-edit').val(),
-                    consumption_value: $('#consumption_value-edit').val(),
-                    fuelid: Number($('#fuelID-edit').val())
-                },
-                cache: false
-            }).done(function () {
-                $('#exit-nhienlieu-button').click();
+    //get supply name and unit in edit fuel
+    function getsupplynameinedit() {
+        var id = document.getElementById("fuel-edit").value;
+        var tmp = {
+            fuel_type: id
+        };
+        $.ajax({
+            url: "/phong-cdvt/oto/cap-nhat-hoat-dong/returnsupplyName",
+            type: "POST",
+            data: JSON.stringify(tmp),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                document.getElementById("supply_name-edit").value = data.split("^")[0];
+                document.getElementById("unitfuel-edit").value = data.split("^")[1];
+            },
+            error: function () {
+                //alert("fail");
+            }
+        });
+    }
+
+    //get supply name and unit in add fuel
+    function getsupplyname() {
+        var id = document.getElementById("fuelId-add").value;
+        var tmp = {
+            fuel_type: id
+        };
+        $.ajax({
+            url: "/phong-cdvt/oto/cap-nhat-hoat-dong/returnsupplyName",
+            type: "POST",
+            data: JSON.stringify(tmp),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                document.getElementById("fuelname-add").value = data.split("^")[0];
+                document.getElementById("unit-add").value = data.split("^")[1];
+            },
+            error: function () {
+                //alert("fail");
+            }
+        });
+    }
+
+    //edit fuel
+    $(document).on("click", ".open-fuelEdit", function () {
+        var fuel = $(this).data('fuel');
+        $.ajax({
+            type: "POST",
+            url: "/phong-cdvt/oto/cap-nhat-hoat-dong/getFuel",
+            dataType: "json",
+            success: function (data) {
+                $('#equipmentIdfuel-edit').val(data.equipmentId);
+                $("#datefuel-edit").val(data.stringDate);
+                $('#equipmentnamefuel-edit').val(data.equipment_name);
+                $('#fuel-edit').val(data.fuel_type);
+                $('#supply_name-edit').val(data.supply_name);
+                $('#consumption_value-edit').val(data.consumption_value);
+                $('#unitfuel-edit').val(data.unit);
+                $('#fuelID-edit').val(data.fuelid);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $.notify(XMLHttpRequest.responseText, {
+                    globalPosition: "top center",
+                    className: "error"
+                });
+            },
+            data: {
+                fuelid: Number(fuel)
+            },
+
+            cache: false
+        })
+    });
+
+    $("#myFuelEdit").submit(function (e) {
+        $.ajax({
+            type: "POST",
+            url: "/phong-cdvt/oto/cap-nhat-hoat-dong/edit-fuel",
+            dataType: "text",
+            success: function () {
+                successAlert('Thành công', 'Chỉnh sửa thành công');
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                errorAlert('Lỗi', 'Có lỗi xảy ra , vui lòng nhập lại');
+            },
+            data: {
+                equipmentId: $('#equipmentIdfuel-edit').val(),
+                date1: $("#datefuel-edit").val(),
+                fuel_type: $('#fuel-edit').val(),
+                consumption_value: $('#consumption_value-edit').val(),
+                fuelid: Number($('#fuelID-edit').val())
+            },
+            cache: false
+        }).done(function () {
+            $('#exit-nhienlieu-button').click();
+            dataFuelTable.ajax.reload();
+        })
+        return false;
+    });
+
+    //add fuel
+    function addFuel() {
+        var data = {
+            consumption_value: document.getElementById("consumption_value-add").value,
+            fuel_type: document.getElementById("fuelId-add").value,
+            date1: document.getElementById("datefuel-add").value,
+            equipmentId: document.getElementById("equipmentidfuel-add").value
+        };
+        $.ajax({
+
+            url: "/phong-cdvt/oto/cap-nhat-hoat-dong/addfuel",
+            type: "POST",
+            data: JSON.stringify(data),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function () {
+                //alert("oke");
                 dataFuelTable.ajax.reload();
-            })
-            return false;
+                successAlert('Thành công', 'Thêm thành công');
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                errorAlert('Lỗi', 'Có lỗi xảy ra , vui lòng nhập lại');
+                //alert("fail");
+            }
+
         });
+    }
 
-        //add fuel
-        function addFuel() {
-            var data = {
-                consumption_value: document.getElementById("consumption_value-add").value,
-                fuel_type: document.getElementById("fuelId-add").value,
-                date1: document.getElementById("datefuel-add").value,
-                equipmentId: document.getElementById("equipmentidfuel-add").value
-            };
-            $.ajax({
+    //ajax CRUD fuel
+    $(document).ready(function () {
+        //ajax search
+        $("#searchButtonFuel").click(function () {
+            dataFuelTable.ajax.reload(function () {
+                $.notify("Tìm kiếm thành công", {
+                    globalPosition: "top center",
+                    className: "success"
+                })
+            });
+        });
+    });
 
-                url: "/phong-cdvt/oto/cap-nhat-hoat-dong/addfuel",
-                type: "POST",
-                data: JSON.stringify(data),
-                contentType: "application/json;charset=utf-8",
-                dataType: "json",
-                success: function () {
-                    //alert("oke");
-                    dataFuelTable.ajax.reload();
-                    successAlert('Thành công','Thêm thành công');
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    errorAlert('Lỗi','Có lỗi xảy ra , vui lòng nhập lại');
-                    //alert("fail");
+    function searchFuel() {
+        dataFuelTable = $('#fuel-table').on('preXhr.dt', function (e, settings, data) {
+            $("#pre-load").show("slow", function () {
+            });
+            $("#pre-load").css("z-index", "99999");
+        }).DataTable({
+            "language": {
+                "emptyTable": "Không tìm thấy dữ liệu",
+                "paginate": {
+                    "first": "Đầu",
+                    "last": "Cuối",
+                    "next": "Sau",
+                    "previous": "Trước"
                 }
-
-            });
-        }
-
-        //ajax CRUD fuel
-        $(document).ready(function () {
-            //ajax search
-            $("#searchButtonFuel").click(function () {
-                dataFuelTable.ajax.reload(function () {
-                       $.notify("Tìm kiếm thành công", {
-                      globalPosition: "top center",
-                     className: "success"
-                    })
-                });
-            });
-        });
-
-        function searchFuel() {
-            dataFuelTable = $('#fuel-table').on('preXhr.dt', function (e, settings, data) {
-                $("#pre-load").show("slow", function () {
-                });
-                $("#pre-load").css("z-index", "99999");
-            }).DataTable({
-                "language": {
-                    "emptyTable": "Không tìm thấy dữ liệu",
-                    "paginate": {
-                        "first": "Đầu",
-                        "last": "Cuối",
-                        "next": "Sau",
-                        "previous": "Trước"
-                    }
+            },
+            "ajax": {
+                "url": "/phong-cdvt/oto/cap-nhat-hoat-dong/search-fuel",
+                "type": "POST",
+                "datatype": "json",
+                "data": {
+                    "equipmentId": function () { return $('#equipmentIdfuel-search').val() },
+                    "equipmentName": function () { return $('#equipmentNamefuel-search').val() },
+                    "timeFrom": function () { return $('#timeFromfuel-search').val() },
+                    "timeTo": function () { return $('#timeTofuel-search').val() }
                 },
-                "ajax": {
-                    "url": "/phong-cdvt/oto/cap-nhat-hoat-dong/search-fuel",
-                    "type": "POST",
-                    "datatype": "json",
-                    "data": {
-                        "equipmentId": function () { return $('#equipmentIdfuel-search').val() },
-                        "equipmentName": function () { return $('#equipmentNamefuel-search').val() },
-                        "timeFrom": function () { return $('#timeFromfuel-search').val() },
-                        "timeTo": function () { return $('#timeTofuel-search').val() }
+                "cache": "false"
+            },
+            "drawCallback": function (settings) {
+                ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
+                $("#pre-load").hide("slow", function () {
+                });
+                ////////////////////////////////////////////////
+            },
+            "columns": [
+                { "data": "stringDate", "name": "date" },
+                { "data": "equipmentId", "name": "equipmentId" },
+                { "data": "equipment_name", "name": "equipment_name" },
+                { "data": "supply_name", "name": "supply_name" },
+                { "data": "consumption_value", "name": "consumption_value" },
+                { "data": "unit", "name": "unit" },
+                {
+                    "data": "fuelid", "render": function (data) {
+                        return "<a href=\"#myfuel\" data-toggle=\"modal\" class=\"open-fuelEdit waves-effect waves-light btn blue darken-1 modal-trigger\" data-fuel=\"" + data + "\">Chỉnh&nbsp;Sửa</a>";
                     },
-                    "cache": "false"
-                },
-                "drawCallback": function (settings) {
-                    ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
-                    $("#pre-load").hide("slow", function () {
-                    });
-                    ////////////////////////////////////////////////
-                },
-                "columns": [
-                    { "data": "stringDate", "name": "date" },
-                    { "data": "equipmentId", "name": "equipmentId" },
-                    { "data": "equipment_name", "name": "equipment_name" },
-                    { "data": "supply_name", "name": "supply_name" },
-                    { "data": "consumption_value", "name": "consumption_value" },
-                    { "data": "unit", "name": "unit" },
-                    {
-                        "data": "fuelid", "render": function (data) {
-                            return "<a href=\"#myfuel\" data-toggle=\"modal\" class=\"open-fuelEdit waves-effect waves-light btn blue darken-1 modal-trigger\" data-fuel=\"" + data + "\">Chỉnh&nbsp;Sửa</a>";
-                        },
-                        "orderable": false,
-                        "searchable": false,
-                        "width": "150px"
-                    }
-                ],
-                "serverSide": true,
-                "rowId": "fuelid",
-                "lengthChange": false,
-                "bAutoWidth": false,
-                "order": [0, "asc"],
-                "initComplete": function (settings, json) {
-                    ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
-                    $("#pre-load").hide("slow", function () {
-                    });
-                    //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
+                    "orderable": false,
+                    "searchable": false,
+                    "width": "150px"
                 }
-            });
-        }
+            ],
+            "serverSide": true,
+            "rowId": "fuelid",
+            "lengthChange": false,
+            "bAutoWidth": false,
+            "order": [0, "asc"],
+            "initComplete": function (settings, json) {
+                ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
+                $("#pre-load").hide("slow", function () {
+                });
+                //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
+            }
+        });
+    }
 
-    </script>
+</script>
 
 }

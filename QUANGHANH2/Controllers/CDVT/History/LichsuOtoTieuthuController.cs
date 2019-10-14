@@ -15,7 +15,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
 {
     public class LichsuOtoTieuthuController : Controller
     {
-
+        [Auther(RightID = "13,179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phong-cdvt/oto/cap-nhat-tieu-thu")]
         [HttpGet]
         public ActionResult Index()

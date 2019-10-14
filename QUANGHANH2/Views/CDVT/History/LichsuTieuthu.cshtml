@@ -1,8 +1,17 @@
 ﻿@{
-    ViewData["Title"] = "LichsuTieuThu";
-    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    ViewData["Title"] = "Lichsu";
+    if (Session["departID"].ToString().Contains("PX"))
+    {
+        Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    }
 }
 <link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
+<link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
+
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
@@ -222,133 +231,136 @@
     </div>
 </div>
 
-<script>
-    $("#equipmentId-edit").keydown(function (e) {
-        if (e.keyCode === 13)
-            getEquipmentname1();
-    })
-    $("#equipmentId-add").keydown(function (e) {
-        if (e.keyCode === 13)
-            getname();
-    })
-    $('#myfuel').keydown(function (e) {
-        if (e.keyCode === 13)
-            e.preventDefault();
-    });
-    $("#fuel-edit").keydown(function (e) {
-        if (e.keyCode === 13)
-            getsupplynameinedit();
-    })
-    $("#equipmentIdfuel-edit").keydown(function (e) {
-        if (e.keyCode === 13)
-            getEquipmentnameOnEditFuel();
-    })
-    $('#myaddfuel').keydown(function (e) {
-        if (e.keyCode === 13)
-            e.preventDefault();
-    });
-    $("#fuelId-add").keydown(function (e) {
-        if (e.keyCode === 13)
-            getsupplyname();
-    })
-    $("#equipmentidfuel-add").keydown(function (e) {
-        if (e.keyCode === 13)
-            getEquipmentnameOnAddFuel();
-    })
-</script>
 
-<script>
-    //function for date.
-    $('.maxDate').datepicker({
-        language: 'vi',
-        maxDate: new Date()
-        ,
-        minDate: new Date("1/1/1900")
-    })
-    $('.minDate').datepicker({
-        language: 'vi',
-        maxDate: new Date() // Now can select only dates, which goes after today
-    })
-    $(document).ready(function () {
-        $('.datepicker-inline').remove();
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1; //January is 0!
-
-        var yyyy = today.getFullYear();
-
-        if (dd < 10) {
-            dd = '0' + dd;
-        }
-        if (mm < 10) {
-            mm = '0' + mm;
-        }
-
-        var today = dd + '/' + mm + '/' + yyyy;
-        //$(".minDate").each(function () {
-        //    $(this).val(today);
-        //});
-
-        today = new Date("1/1/1900");
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1; //January is 0!
-
-        var yyyy = today.getFullYear();
-        if (dd < 10) {
-            dd = '0' + dd;
-        }
-        if (mm < 10) {
-            mm = '0' + mm;
-        }
-        var today = dd + '/' + mm + '/' + yyyy;
-
-    });
-</script>
-
-<script>
-    $(".number").keydown(function (e) {
-    var text = $(this).val().toLowerCase();
-    var doubleReg = /[+-]?([0-9]*[,])?[0-9]+$/;
-    if (!doubleReg.test(text)) {
-         $(this).val("");
-        }
-    if () {
-
-    }
-    var acceptList = [45, 35, 40, 34, 37, 9, 12, 39, 36, 38, 33, 8];// , 65, 86, 67, 90
-    for (var i = 48; i <= 57; i++) {
-        acceptList.push(i);
-    }
-    for (var i = 96; i <= 105; i++) {
-        acceptList.push(i);
-    }
-    if (e.ctrlKey) {
-        if (e.keyCode !== 65 && e.keyCode !== 86 && e.keyCode !== 67 && e.keyCode !== 90 && e.keyCode !== 88) {
-            e.preventDefault();
-        } else {
-            acceptList.push(e.keyCode);
-        }
-    }
-    if (acceptList.indexOf(e.keyCode) === -1) {
-        e.preventDefault();
-    }
-});
-</script>
-
-<script>
-    $(document).on('keypress', function (e) {
-        if (e.which == 13) {
-            dataFuelTable.destroy();
-            searchFuel();
-        }
-    });
-</script>
 
 @section scripts{
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
+    <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
+    <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
+    <script>
+        $("#equipmentId-edit").keydown(function (e) {
+            if (e.keyCode === 13)
+                getEquipmentname1();
+        })
+        $("#equipmentId-add").keydown(function (e) {
+            if (e.keyCode === 13)
+                getname();
+        })
+        $('#myfuel').keydown(function (e) {
+            if (e.keyCode === 13)
+                e.preventDefault();
+        });
+        $("#fuel-edit").keydown(function (e) {
+            if (e.keyCode === 13)
+                getsupplynameinedit();
+        })
+        $("#equipmentIdfuel-edit").keydown(function (e) {
+            if (e.keyCode === 13)
+                getEquipmentnameOnEditFuel();
+        })
+        $('#myaddfuel').keydown(function (e) {
+            if (e.keyCode === 13)
+                e.preventDefault();
+        });
+        $("#fuelId-add").keydown(function (e) {
+            if (e.keyCode === 13)
+                getsupplyname();
+        })
+        $("#equipmentidfuel-add").keydown(function (e) {
+            if (e.keyCode === 13)
+                getEquipmentnameOnAddFuel();
+        })
+    </script>
 
     <script>
-        var Popup,  dataFuelTable;
+        //function for date.
+        $('.maxDate').datepicker({
+            language: 'vi',
+            maxDate: new Date()
+            ,
+            minDate: new Date("1/1/1900")
+        })
+        $('.minDate').datepicker({
+            language: 'vi',
+            maxDate: new Date() // Now can select only dates, which goes after today
+        })
+        $(document).ready(function () {
+            $('.datepicker-inline').remove();
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1; //January is 0!
+
+            var yyyy = today.getFullYear();
+
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+
+            var today = dd + '/' + mm + '/' + yyyy;
+            //$(".minDate").each(function () {
+            //    $(this).val(today);
+            //});
+
+            today = new Date("1/1/1900");
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1; //January is 0!
+
+            var yyyy = today.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            var today = dd + '/' + mm + '/' + yyyy;
+
+        });
+    </script>
+
+    <script>
+        $(".number").keydown(function (e) {
+            var text = $(this).val().toLowerCase();
+            var doubleReg = /[+-]?([0-9]*[,])?[0-9]+$/;
+            if (!doubleReg.test(text)) {
+                $(this).val("");
+            }
+            if () {
+
+            }
+            var acceptList = [45, 35, 40, 34, 37, 9, 12, 39, 36, 38, 33, 8];// , 65, 86, 67, 90
+            for (var i = 48; i <= 57; i++) {
+                acceptList.push(i);
+            }
+            for (var i = 96; i <= 105; i++) {
+                acceptList.push(i);
+            }
+            if (e.ctrlKey) {
+                if (e.keyCode !== 65 && e.keyCode !== 86 && e.keyCode !== 67 && e.keyCode !== 90 && e.keyCode !== 88) {
+                    e.preventDefault();
+                } else {
+                    acceptList.push(e.keyCode);
+                }
+            }
+            if (acceptList.indexOf(e.keyCode) === -1) {
+                e.preventDefault();
+            }
+        });
+    </script>
+
+    <script>
+        $(document).on('keypress', function (e) {
+            if (e.which == 13) {
+                dataFuelTable.destroy();
+                searchFuel();
+            }
+        });
+    </script>
+    <script>
+        var Popup, dataFuelTable;
 
         //get first data acti and fuel
         $(document).ready(function () {
@@ -363,9 +375,9 @@
                 $("#pre-load").css("z-index", "99999");
             }).DataTable({
                 "language": {
-                "emptyTable": "Không tìm thấy dữ liệu",
-                "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
-                "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                    "emptyTable": "Không tìm thấy dữ liệu",
+                    "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                    "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
                     "paginate": {
                         "first": "Đầu",
                         "last": "Cuối",
@@ -438,10 +450,10 @@
                 dataType: "json",
                 success: function () {
                     dataFuelTable.ajax.reload();
-                    successAlert('Thành công','Thêm thành công');
+                    successAlert('Thành công', 'Thêm thành công');
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    errorAlert('Lỗi','Có lỗi xảy ra , vui lòng nhập lại');
+                    errorAlert('Lỗi', 'Có lỗi xảy ra , vui lòng nhập lại');
                 }
             });
         }
@@ -451,9 +463,9 @@
             //ajax search fuel
             $("#searchButtonFuel").click(function () {
                 dataFuelTable.ajax.reload(function () {
-                       $.notify("Tìm kiếm thành công", {
-                      globalPosition: "top center",
-                     className: "success"
+                    $.notify("Tìm kiếm thành công", {
+                        globalPosition: "top center",
+                        className: "success"
                     })
                 });
             });
@@ -496,10 +508,10 @@
                 url: "/phong-cdvt/cap-nhat-hoat-dong/edit-fuel",
                 dataType: "text",
                 success: function () {
-                    successAlert('Thành công','Chỉnh sửa thành công');
+                    successAlert('Thành công', 'Chỉnh sửa thành công');
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    errorAlert('Lỗi','Có lỗi xảy ra , vui lòng nhập lại');
+                    errorAlert('Lỗi', 'Có lỗi xảy ra , vui lòng nhập lại');
                 },
                 data: {
                     equipmentId: $('#equipmentIdfuel-edit').val(),
