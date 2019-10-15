@@ -22,7 +22,6 @@ namespace QUANGHANH2.Models
     
         public int HeaderID { get; set; }
         public int Ca { get; set; }
-        public string MaPhongBan { get; set; }
         public System.DateTime NgayDiemDanh { get; set; }
         public double TotalEffort { get; set; }
         public double ThanThucHien { get; set; }
@@ -30,6 +29,7 @@ namespace QUANGHANH2.Models
         public double XenThucHien { get; set; }
         public string GhiChu { get; set; }
         public bool isFilledFromAPI { get; set; }
+        public string MaPhongBan { get; set; }
     
         public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

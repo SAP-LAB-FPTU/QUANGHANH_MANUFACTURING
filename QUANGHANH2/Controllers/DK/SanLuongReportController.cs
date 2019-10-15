@@ -32,7 +32,7 @@ namespace QUANGHANH2.Controllers.DK
                 "Sum(case when ca = 2 and Ngay = @dateEnd then SanLuong else 0  end )as [CA2], " +
                 "Sum(case when ca = 3 and Ngay = @dateEnd then SanLuong else 0  end )as [CA3], " +
                 "Sum(case when Ngay = @dateEnd then SanLuong else 0  end )as [TH], " +
-                "Sum(case when Ngay = @dateEnd then KeHoach else 0  end )as [KH], " +
+                //"Sum(case when Ngay = @dateEnd then KeHoach else 0  end )as [KH], " +
                 "SUM(SanLuong) as [LUYKE] " +
                 "from(select thuchien.HeaderID, thuchien.MaTieuChi, TieuChi.TenTieuChi, thuchien.SanLuong, thuchien.KeHoach, header_th.Ca, header_th.Ngay, px.department_id, px.isInside from ThucHien_TieuChi_TheoNgay as thuchien " +
                 "inner JOIN header_ThucHienTheoNgay as header_th " +
@@ -60,7 +60,7 @@ namespace QUANGHANH2.Controllers.DK
         public double Ca2 { get; set; }
         public double Ca3 { get; set; }
         public double TH { get; set; }
-        public double KH { get; set; }
+        //public double KH { get; set; }
         public double luyke { get; set; }
         public double chenhlech { get; set; }
         public double percentage { get; set; }
