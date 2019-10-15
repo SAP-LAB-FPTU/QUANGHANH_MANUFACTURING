@@ -33,7 +33,7 @@ namespace QUANGHANHCORE.Controllers.BGD
             public double luyke { get; set; }
             public double chenhlech { get; set; }
             public double percentage { get; set; }
-            public int KHDC { get; set; }
+            public double KHDC { get; set; }
             public int percentageDC { get; set; }
             public int SUM { get; set; }
             public int perday { get; set; }
@@ -86,22 +86,30 @@ namespace QUANGHANHCORE.Controllers.BGD
 
             DateTime timeEnd = Convert.ToDateTime(date);
             var timeStart = Convert.ToDateTime("" + timeEnd.Year + "-" + timeEnd.Month + "-1");
-            var query = "select *,(table2.TH-table2.KH) as [CHENHLECH],(CASE WHEN KH =0 THEN 100 ELSE ROUND(TH*100/KH,0) end) as [PERCENTAGE], " +
-                "0 as [KHDC], 0 as [percentDC],0 as [SUM],0 as [perday], 0 as [BQKHDC],0 as [VATLIEUCHONG],0 AS[DIENTICHDAO],0 as [BC],0 AS[CT] " +
-                "from(select MaTieuChi, TenTieuChi, " +
-                "Sum(case when ca = 1 and Ngay = @dateEnd then SanLuong else 0  end )as [CA1], " +
-                "Sum(case when ca = 2 and Ngay = @dateEnd then SanLuong else 0  end )as [CA2], " +
-                "Sum(case when ca = 3 and Ngay = @dateEnd then SanLuong else 0  end )as [CA3], " +
-                "Sum(case when Ngay = @dateEnd then SanLuong else 0  end )as [TH], " +
-                "Sum(case when Ngay = @dateEnd then KeHoach else 0  end )as [KH], " +
-                "SUM(SanLuong) as [LUYKE] " +
-                "from(select thuchien.HeaderID, thuchien.MaTieuChi, TieuChi.TenTieuChi, thuchien.SanLuong, thuchien.KeHoach, header_th.Ca, header_th.Ngay, px.department_id, px.isInside from ThucHien_TieuChi_TheoNgay as thuchien " +
-                "inner JOIN header_ThucHienTheoNgay as header_th " +
-                "on thuchien.HeaderID = header_th.HeaderID and header_th.Ngay >= @dateStart and header_th.Ngay <= @dateEnd " +
-                "INNER JOIN Department as px on px.department_id = header_th.MaPhongBan " +
-                "INNER JOIN TieuChi on thuchien.MaTieuChi = TieuChi.MaTieuChi) as a " +
-                "GROUP BY MaTieuChi,TenTieuChi) as table2 " +
-                "ORDER By MaTieuChi ";
+            var query = "select a.MaTieuChi,t.TenTieuChi,a.CA1,a.CA2,a.CA3,a.TH,a.LUYKE, "+
+                            "(case when b.SanLuong is null then 0 else b.SanLuong end) as 'KHDC', "+
+                            "(case when c.KeHoach is null then 0 else c.KeHoach end) as 'KH' "+
+                            "from(select MaTieuChi, "+
+                                        "Sum(case when ca = 1 and Ngay = @dateEnd then SanLuong else 0  end )as [CA1], "+
+                                        "Sum(case when ca = 2 and Ngay = @dateEnd then SanLuong else 0  end )as [CA2], " +
+                                        "Sum(case when ca = 3 and Ngay = @dateEnd then SanLuong else 0  end )as [CA3], " +
+                                        "Sum(case when Ngay = @dateEnd then SanLuong else 0  end )as [TH], " +
+                                        "SUM(SanLuong) as [LUYKE] " +
+
+                                    "from header_ThucHienTheoNgay a inner join ThucHien_TieuChi_TheoNgay b on a.HeaderID = b.HeaderID and a.Ngay >= @dateStart and a.Ngay <= @dateEnd " +
+
+                                    "group by MaTieuChi) a " +
+                                    "full join(select k.MaTieuChi, k.SanLuong, k.ThoiGianNhapCuoiCung " +
+
+                                        "from KeHoach_TieuChi_TheoThang k inner join (select k.MaTieuChi, MAX(k.ThoiGianNhapCuoiCung) as 'thoigian' from KeHoach_TieuChi_TheoThang k group by k.MaTieuChi) a " +
+                                         "on k.MaTieuChi = a.MaTieuChi and k.ThoiGianNhapCuoiCung = a.thoigian) b on a.MaTieuChi = b.MaTieuChi " +
+
+                                    "full join(select k.MaTieuChi, k.KeHoach, k.ThoiGianNhapCuoiCung " +
+                                        "from KeHoach_TieuChi_TheoNgay k inner join (select k.MaTieuChi, MAX(k.ThoiGianNhapCuoiCung) as 'thoigian' from KeHoach_TieuChi_TheoNgay k group by k.MaTieuChi) a " +
+                                         "on k.MaTieuChi = a.MaTieuChi and k.ThoiGianNhapCuoiCung = a.thoigian) c on a.MaTieuChi = c.MaTieuChi " +
+
+                                    "inner join TieuChi t on a.MaTieuChi = t.MaTieuChi " +
+                            "order by a.MaTieuChi asc";
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             List<reportEntity> listReport = db.Database.SqlQuery<reportEntity>(query, new SqlParameter("dateStart", timeStart), new SqlParameter("dateEnd", timeEnd)).ToList();
 

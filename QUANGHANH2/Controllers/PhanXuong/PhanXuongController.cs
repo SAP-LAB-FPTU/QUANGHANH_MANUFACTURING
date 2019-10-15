@@ -1,4 +1,5 @@
 ﻿using QUANGHANH2.Models;
+using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -16,6 +17,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
 {
     public class PhanXuongController : Controller
     {
+        [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phan-xuong")]
         public ActionResult Index()
         {
@@ -29,13 +31,14 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         /// ///////////////////////////////////////////////PHAN XUONG KHAI THAC/////////////////////////////////////////////////////
         /// </summary>
         /// <returns></returns>
+        [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phan-xuong/chon-bao-cao")]
-        public ActionResult ChonBaoCao(String phanxuong)
+        public ActionResult ChonBaoCao()
         {
-            ViewBag.phanxuong = phanxuong;
+            ViewBag.phanxuong = Session["departID"].ToString();
             return View("/Views/Phanxuong/ChonBaoCao/ChonBaoCao.cshtml");
         }
-
+        [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phan-xuong/nhap-bao-cao-len-phong-dk")]
         public ActionResult HangNgayKT()
         {
@@ -122,6 +125,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                         return View("/Views/Phanxuong/NhapBaoCao/BaoCaoLenDK.cshtml");
         }
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phan-xuong/upload-len-dk")]
         [HttpPost]
         public ActionResult uploadLenDK()
@@ -146,6 +150,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                     try
                     {
                         int baoCaoID;
+                        bool? isLock=false;
                         string sql = "select * from BaoCaoFile where ngay=@ngay and ca=@ca and phanxuong_id=@phanxuong";
                         List<BaoCaoFile> a = db.BaoCaoFiles.SqlQuery(sql,
                             new SqlParameter("ngay", date),
@@ -167,43 +172,54 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                                 new SqlParameter("ca", Int32.Parse(ca)),
                                 new SqlParameter("phanxuong", phanxuong)).ToList<BaoCaoFile>();
                             baoCaoID = a[0].ID;
+                            isLock = a[0].@lock;
                         }
                         else
                         {
                             baoCaoID = a[0].ID;
+                            isLock = a[0].@lock;
                         }
-                        for (int i = 0; i < files.Count; i++)
+                        if (isLock==false)
                         {
-                            HttpPostedFileBase file = files[i];
-                            Thread.Sleep(300);
-                            string fileName = file.FileName;
-                            string fileNameDisplay = fileName;
-                            string Fextension = Path.GetExtension(fileName);
-                            var timeStamp = DateTime.Now.ToFileTime();
-                            fileName = ngayNhap.Replace("/", "") + ca + phanxuong + timeStamp + Fextension;
-                            string path = "/FileContainer/PhanXuongLenDK/";
-                            if (!Directory.Exists(path))
+                            for (int i = 0; i < files.Count; i++)
                             {
-                                Directory.CreateDirectory(path);
+                                HttpPostedFileBase file = files[i];
+                                Thread.Sleep(300);
+                                string fileName = file.FileName;
+                                string fileNameDisplay = fileName;
+                                string Fextension = Path.GetExtension(fileName);
+                                var timeStamp = DateTime.Now.ToFileTime();
+                                fileName = ngayNhap.Replace("/", "") + ca + phanxuong + timeStamp + Fextension;
+                                string path = "/FileContainer/PhanXuongLenDK/";
+                                if (!Directory.Exists(HostingEnvironment.MapPath(path)))
+                                {
+                                    Directory.CreateDirectory(HostingEnvironment.MapPath(path));
+                                }
+                                if (file.ContentLength > 0)
+                                {
+                                    file.SaveAs(HostingEnvironment.MapPath(path + fileName));
+                                }
+                                sql = "insert into FileBaoCao(baoCaoID,fileName,fileNameDisplay,nguoinhap_id,uploadTime,chuthich)\n" +
+                                    "values(@ID,@filename,@fileNameDisplay,@nguoinhap,@time,@chuthich)";
+                                db.Database.ExecuteSqlCommand(sql,
+                                new SqlParameter("ID", baoCaoID),
+                                new SqlParameter("filename", fileName),
+                                new SqlParameter("fileNameDisplay", fileNameDisplay),
+                                new SqlParameter("nguoinhap", 26),
+                                new SqlParameter("time", DateTime.Now),
+                                new SqlParameter("chuthich", notes[i]));
                             }
-                            if (file.ContentLength > 0)
-                            {
-                                file.SaveAs(HostingEnvironment.MapPath(path + fileName));
-                            }
-                            sql = "insert into FileBaoCao(baoCaoID,fileName,fileNameDisplay,nguoinhap_id,uploadTime,chuthich)\n" +
-                                "values(@ID,@filename,@fileNameDisplay,@nguoinhap,@time,@chuthich)";
-                            db.Database.ExecuteSqlCommand(sql,
-                            new SqlParameter("ID", baoCaoID),
-                            new SqlParameter("filename", fileName),
-                            new SqlParameter("fileNameDisplay", fileNameDisplay),
-                            new SqlParameter("nguoinhap", 26),
-                            new SqlParameter("time", DateTime.Now),
-                            new SqlParameter("chuthich", notes[i]));
+                            db.SaveChanges();
+                            ////////////////////////////////////////////////////
+                            transaction.Commit();
+                            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
                         }
-                        db.SaveChanges();
-                        ////////////////////////////////////////////////////
-                        transaction.Commit();
-                        return Json(new { success = true}, JsonRequestBehavior.AllowGet);
+                        else
+                        {
+                            return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                        }
+                        
+                        
                     }
                     catch (Exception e)
                     {
@@ -218,6 +234,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         /// <summary>
         /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// </summary>
+        [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phan-xuong/delete-file-bao-cao")]
         [HttpPost]
         public ActionResult deleteFile()

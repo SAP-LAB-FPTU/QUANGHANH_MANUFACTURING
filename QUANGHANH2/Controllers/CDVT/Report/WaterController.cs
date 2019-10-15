@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Hosting;
 using System.Web.Mvc;using System.Web.Routing;
+using System.Web.Script.Serialization;
 
 namespace QUANGHANHCORE.Controllers.CDVT.Report
 {
@@ -18,26 +19,59 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
         [Route("phong-cdvt/bao-cao/thoat-nuoc")]
         public ActionResult Water(string type, string date, string month, string quarter, string year)
         {
-            var noww = DateTime.Now.Date.ToString("dd/MM/yyyy");
-            ViewBag.now = noww;
-            Wherecondition(type, date, month, quarter, year);
-            if (ViewBag.ContentReport != null)
+            string query;
+            if (type == null)
             {
-                int totaltieuhao = 0; int totalsanluong = 0; int totalgio = 0;
-                foreach (var item in ViewBag.ContentReport)
-                {
-                    totaltieuhao += item.LuongTieuThu;
-                    totalsanluong += item.SanLuong;
-                    totalgio += item.GioHoatDong;
-                }
-                ViewBag.TieuHao = totaltieuhao;
-                ViewBag.SanLuong = totalsanluong;
-                ViewBag.GioHoatDong = totalgio;
+                var ngay = DateTime.Now.Date.ToString("dd/MM/yyyy");
+                query = Wherecondition("day", ngay, null, null, null);
             }
+            else
+            {
+                query = Wherecondition(type, date, month, quarter, year);
+            }
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                List<contentreportWater> listdata = db.Database.SqlQuery<contentreportWater>(query).ToList();
+                if (listdata != null)
+                {
+                    int totaltieuhao = 0; double totalsanluong = 0; double totalgio = 0;
+                    foreach (var item in listdata)
+                    {
+                        totaltieuhao += item.LuongTieuThu;
+                        totalsanluong += item.SanLuong;
+                        totalgio += item.GioHoatDong;
+                    }
+                    ViewBag.TieuHao = totaltieuhao;
+                    ViewBag.SanLuong = totalsanluong;
+                    ViewBag.GioHoatDong = totalgio;
+                }
+            }
+
             return View("/Views/CDVT/Report/WaterReport.cshtml");
         }
-
-        private void Wherecondition(string type, string date, string month, string quarter, string year)
+        [Route("phong-cdvt/bao-cao/thoat-nuoc")]
+        [HttpPost]
+        public ActionResult List(string type, string date, string month, string quarter, string year)
+        {
+            string query;
+            if (type == null)
+            {
+                var ngay = DateTime.Now.Date.ToString("dd/MM/yyyy");
+                query = Wherecondition("day", ngay, null, null, null);
+            }
+            else
+            {
+                query = Wherecondition(type, date, month, quarter, year);
+            }
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                List<contentreportWater> listdata = db.Database.SqlQuery<contentreportWater>(query).ToList();
+                var js = Json(new { success = true, data = listdata }, JsonRequestBehavior.AllowGet);
+                var dataserialize = new JavaScriptSerializer().Serialize(js.Data);
+                return js;
+            }
+        }
+        private string Wherecondition(string type, string date, string month, string quarter, string year)
         {
             string query = "";
             if (type == null)
@@ -104,11 +138,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                  " where a.fuel_type = b.supply_id and a.equipmentId = c.equipmentId  and ac.equipmentId = c.equipmentId " +
                  " and d.department_id = c.department_id and fuel_type in ('DIEN') and a.date = ac.date and YEAR(a.date) = '" + nam+"' and c.Equipment_category_id = 'BNLT'";
             }
-
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-            {
-                ViewBag.ContentReport = db.Database.SqlQuery<contentreportWater>(query).ToList();
-            }
+            return query;
         }
         [Route("phong-cdvt/bao-cao/thoat-nuoc/excel")]
         public ActionResult Export(string type, string date, string month, string quarter, string year)
@@ -122,30 +152,27 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    Wherecondition(type, date, month, quarter, year);
-                    int totaltieuthu = 0, totalsanluong = 0, totalgio = 0;
-                    if (ViewBag.ContentReport != null)
+                    string query;
+                    if (type == null)
                     {
-                        foreach (var item in ViewBag.ContentReport)
-                        {
-                            totaltieuthu += item.LuongTieuThu;
-                        }
+                        var ngay = DateTime.Now.Date.ToString("dd/MM/yyyy");
+                        query = Wherecondition("day", ngay, null, null, null);
                     }
-                    if (ViewBag.ContentReport != null)
+                    else
                     {
-                        foreach (var item in ViewBag.ContentReport)
-                        {
-                            totalsanluong += item.SanLuong;
-                        }
+                        query = Wherecondition(type, date, month, quarter, year);
                     }
-                    if (ViewBag.ContentReport != null)
+                    List<contentreportWater> content = db.Database.SqlQuery<contentreportWater>(query).ToList();
+                    int totaltieuhao = 0; double totalsanluong = 0; double totalgio = 0;
+                    if (content != null)
                     {
-                        foreach (var item in ViewBag.ContentReport)
-                        {
-                            totalgio += item.GioHoatDong;
-                        }
+                            foreach (var item in content)
+                            {
+                                totaltieuhao += item.LuongTieuThu;
+                                totalsanluong += item.SanLuong;
+                                totalgio += item.GioHoatDong;
+                            }
                     }
-                    List<contentreportWater> content = ViewBag.ContentReport;
                     int k = 3;
                     for(int i = 0; i < content.Count; i++)
                     {
@@ -161,7 +188,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                     }
                     excelWorksheet.Cells[k, 5].Value = "Tổng";
                     excelWorksheet.Cells[k, 6].Value = totalgio;
-                    excelWorksheet.Cells[k, 7].Value = totaltieuthu;
+                    excelWorksheet.Cells[k, 7].Value = totaltieuhao;
                     excelWorksheet.Cells[k, 8].Value = totalsanluong;
                     excelWorksheet.Cells[k, 5].Style.Font.Bold = true;
                     excelWorksheet.Cells[k, 5].Style.Font.Color.SetColor(System.Drawing.Color.Red);

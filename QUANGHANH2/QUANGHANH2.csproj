@@ -199,6 +199,8 @@
     <Compile Include="Controllers\CDVT\GeneralListController.cs" />
     <Compile Include="Controllers\CDVT\History\LichsuController.cs" />
     <Compile Include="Controllers\CDVT\History\LichsuOtoController.cs" />
+    <Compile Include="Controllers\CDVT\History\LichsuOtoTieuthuController.cs" />
+    <Compile Include="Controllers\CDVT\History\LichsuTieuthuController.cs" />
     <Compile Include="Controllers\CDVT\LongCDVT\Oto\CapnhatOtoController.cs" />
     <Compile Include="Controllers\CDVT\LongCDVT\Oto\ChitietOtoController.cs" />
     <Compile Include="Controllers\CDVT\LongCDVT\Oto\DanhsachotoController.cs" />
@@ -7165,10 +7167,7 @@
     <Content Include="Views\DK\ReportManuCharcoal\DetailManuReport\Week.cshtml" />
     <Content Include="Views\DK\ReportManuCharcoal\QuickReport.cshtml" />
     <Content Include="Views\Home\Privacy.cshtml" />
-    <Content Include="Views\KCS\Index.cshtml" />
-    <Content Include="Views\KCS\Report\EditReport.cshtml" />
     <Content Include="Views\KCS\Report\Report.cshtml" />
-    <Content Include="Views\KCS\Report\Spreadsheet.cshtml" />
     <Content Include="Views\Phanxuong\phanxuong.cshtml" />
     <Content Include="Views\PX\PXKT\Add.cshtml" />
     <Content Include="Views\PX\PXKT\Detail.cshtml" />
@@ -7315,6 +7314,8 @@
     <Content Include="Views\DK\SucoThietbi.cshtml" />
     <Content Include="Views\DK\InputPlan\InputPlan_Month.cshtml" />
     <Content Include="Views\DK\MonthlyQuarterlyReport.cshtml" />
+    <Content Include="Views\CDVT\History\LichsuOtoTieuthu.cshtml" />
+    <Content Include="Views\CDVT\History\LichsuTieuthu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
