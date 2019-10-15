@@ -430,16 +430,58 @@
             </div>
         </div>
     </div>
-    <div class="col l4 m6 s12">
+
+    <div class="col l4 m6 s12 extend-height">
         <div class="card green darken-1">
             <div class="card-content info-card">
                 <div class="align-items-center">
                     <div class="m-t-10">
-                        <h5 class="font-medium">Đất đá bóc tự làm</h5>
+                        <h5 class="font-medium">Đất đá bóc tự làm </h5>
+                    </div>
+                    <div class="ml-auto m-t-15">
+                        <div class="crypto"></div>
                     </div>
                 </div>
-                <div>
-                    <h4> Được 442 chuyến= 3094 m3 </h4>
+                <div class="l12">
+                    <h6 class="">Tiến độ kế hoạch (tháng): </h6>
+                    <div class="progress progress-striped active">
+                        <div id="ltMonth" role="progressbar progress-striped" style=" height:20px" class="progress-bar progress-bar-default center">
+                            <span class="progress-pecentage">@ViewBag.lt.percentMonth%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="l12">
+                    <h6 class="">
+                        Tiến độ kế hoạch (ngày): @{if (ViewBag.lt.percentDay < 100)
+                            { }
+                        }
+                    </h6>
+                    <div class="progress progress-striped active">
+                        <div id="ltDay" role="progressbar progress-striped" style="height:20px" class="progress-bar progress-bar-default center">
+                            <span class="progress-pecentage">@ViewBag.lt.percentDay%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center m-t-30">
+
+                    <div class="col s4 center detail-info row">
+                        <span class="font-14 ">Thực hiện</span>
+                        <div>
+                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.lt.Thuchien </span><br />
+                            <span class="font-medium" style="color:orange">@ViewBag.lt.Kehoach</span>
+                        </div>
+                    </div>
+                    <div class="col s4 center detail-info">
+                        <span class="font-14">Luỹ kế</span>
+                        <div>
+                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.lt.Luyke </span><br />
+                            <span class="font-medium" style="color:orange">@ViewBag.lt.KehoachThang</span>
+                        </div>
+                    </div>
+                    <div class="col s4 center">
+                        <span class="font-14">KH còn lại</span>
+                        <p class="font-medium">@ViewBag.lt.Ton</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -624,7 +666,12 @@
         $('#dxkDay').width(x + '%');
         x = @ViewBag.ttt.percentMonth;
         $('#dxkMonth').width(x + '%');
-
+        
+         //da dat boc
+        x = @ViewBag.lt.percentDay;
+        $('#dxkDay').width(x + '%');
+        x = @ViewBag.lt.percentMonth;
+        $('#dxkMonth').width(x + '%');
 
         var h = $('#origin').height();
         h = h - 82;

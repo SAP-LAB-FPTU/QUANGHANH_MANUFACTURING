@@ -55,6 +55,10 @@ namespace QUANGHANHCORE.Controllers.BGD
             public double KehoachThang { get; set; }
             public double Ton { get; set; }
         }
+        public class ThanLoThien
+        {
+            public double SanLuong { get; set; }
+        }
         public class Tainan_Dasboard : TaiNan
         {
             public string Ten { get; set; }
@@ -112,6 +116,7 @@ namespace QUANGHANHCORE.Controllers.BGD
             Than Metloxen = new Than();
             Than Thantieuthu = new Than();
             Than Daxitkho = new Than();
+            Than Lothien = new Than();
             foreach (var item in listReport)
             {
                 //than dao lo
@@ -182,6 +187,14 @@ namespace QUANGHANHCORE.Controllers.BGD
 
                     Daxitkho.Luyke += item.luyke;
                     Daxitkho.KehoachThang += item.KHDC;
+                }
+                //lo thien
+                if (item.MaTieuChi == 3 || item.MaTieuChi == 4)
+                {
+                    Lothien.Thuchien += item.TH;
+                    Lothien.Kehoach += item.KH;
+                    Lothien.Luyke += item.luyke;
+                    Lothien.KehoachThang += item.KHDC;
                 }
             }
 
@@ -261,6 +274,40 @@ namespace QUANGHANHCORE.Controllers.BGD
             ViewBag.listTNCount = list_tainan.Count();
             string day_dashboard = data2[2] + "/" + data2[1] + "/" + data2[0];
             ViewBag.d = day_dashboard;
+
+            //lộ thiên
+            string sql_LTTL = "select top 1 SanLuong from KeHoach_TieuChi_TheoThang " +
+                              " where MaTieuChi = 3 AND YEAR(ThoiGianNhapCuoiCung) = '" + data2[0] + "' and MONTH(ThoiGianNhapCuoiCung) = '" + data2[1] + "' and DAY(ThoiGianNhapCuoiCung) = '" + data2[2] + "'"+
+                              " order by ThoiGianNhapCuoiCung DESC ";
+            ThanLoThien LTTL = new ThanLoThien();
+            LTTL = db.Database.SqlQuery<ThanLoThien>(sql_LTTL).FirstOrDefault<ThanLoThien>();
+            string sql_LTTN = "select top 1 SanLuong from KeHoach_TieuChi_TheoThang " +
+                           " where MaTieuChi = 4 AND YEAR(ThoiGianNhapCuoiCung) = '" + data2[0] + "' and MONTH(ThoiGianNhapCuoiCung) = '" + data2[1] + "' and DAY(ThoiGianNhapCuoiCung) = '" + data2[2] + "'" +
+                           " order by ThoiGianNhapCuoiCung DESC ";
+            ThanLoThien LTTN = new ThanLoThien();
+            LTTN = db.Database.SqlQuery<ThanLoThien>(sql_LTTL).FirstOrDefault<ThanLoThien>();
+            string sql_DDB = "select top 1 SanLuong from KeHoach_TieuChi_TheoThang " +
+                         " where MaTieuChi = 5 AND YEAR(ThoiGianNhapCuoiCung) = '" + data2[0] + "' and MONTH(ThoiGianNhapCuoiCung) = '" + data2[1] + "' and DAY(ThoiGianNhapCuoiCung) = '" + data2[2] + "'" +
+                         " order by ThoiGianNhapCuoiCung DESC ";
+            ThanLoThien DDB = new ThanLoThien();
+            DDB = db.Database.SqlQuery<ThanLoThien>(sql_LTTL).FirstOrDefault<ThanLoThien>();
+            double heso = 0;
+            if(DDB != null && LTTL != null && LTTN != null)
+            {
+                if ((LTTL.SanLuong + LTTN.SanLuong) != 0)
+                {
+                    heso = DDB.SanLuong / (LTTL.SanLuong + LTTN.SanLuong);
+                }
+            }
+            
+            double DDBTH = Lothien.Thuchien * heso;
+            //da dat boc
+            Lothien.Ton = Lothien.KehoachThang - Lothien.Luyke;
+            if (Lothien.Kehoach != 0) Lothien.percentDay = Convert.ToInt32(DDBTH / Lothien.Kehoach * 100);
+            else Lothien.percentDay = 0;
+            if (Lothien.KehoachThang != 0) Lothien.percentMonth = Convert.ToInt32(Lothien.Luyke / Lothien.KehoachThang * 100);
+            else Lothien.percentMonth = 0;
+            ViewBag.lt = Lothien;
             return View("/Views/BGD/Dashboard.cshtml");
         }
         [Route("ban-giam-doc/bao-cao-nhanh-cong-tac-san-xuat")]
