@@ -102,17 +102,16 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
 
                         DBContext.SaveChanges();
                         transaction.Commit();
-                        return new HttpStatusCodeResult(201);
+                        return Json(new { success = true, message = "Lưu thành công" }, JsonRequestBehavior.AllowGet);
                     }
                     catch (Exception)
                     {
                         transaction.Rollback();
-                        Response.Write("Có lỗi xảy ra, xin vui lòng nhập lại");
-                        return new HttpStatusCodeResult(400);
+                        return Json(new { success = false, message = "Có lỗi xảy ra" }, JsonRequestBehavior.AllowGet);
                     }
                 }
             }
-            return new HttpStatusCodeResult(201);
+            return Json(new { success = true, message = "Lưu thành công" }, JsonRequestBehavior.AllowGet);
         }
 
         [Auther(RightID = "86")]
@@ -127,12 +126,11 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
                 Documentary docu = DBContext.Documentaries.Find(idnumber);
                 docu.documentary_status = 2;
                 DBContext.SaveChanges();
-                return new HttpStatusCodeResult(201);
+                return Json(new { success = true, message = "Lưu thành công" }, JsonRequestBehavior.AllowGet);
             }
             else
             {
-                Response.Write("Bạn không thể chuyển trạng thái quyết định khi chưa nhận đủ thiết bị");
-                return new HttpStatusCodeResult(400);
+                return Json(new { success = false, message = "Bạn không thể chuyển trạng thái quyết định\n khi chưa nhận đủ thiết bị" }, JsonRequestBehavior.AllowGet);
             }
         }
     }
