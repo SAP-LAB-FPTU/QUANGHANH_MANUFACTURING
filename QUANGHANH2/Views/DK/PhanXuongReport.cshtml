@@ -31,19 +31,24 @@
         width: 0;
         -webkit-transition: width 300ms ease-in-out;
         -moz-transition: width 300ms ease-in-out;
-        -ms-transition: width 300ms ease-in-out;
         -o-transition: width 300ms ease-in-out;
         transition: width 300ms ease-in-out;
     }
+
+    .files-container {
+    margin-left: 15px;
+}
 </style>
 @{
     //var listFiles =@Html.Raw(Json.Encode(ViewBag.listFiles));
     var listFiles = ViewBag.listFiles;
     var listPX = ViewBag.listPX;
     var ca1Number = 0;
+    var phanxuong = ViewBag.phanxuong;
     var ca2Number = 0;
+    var isLock = ViewBag.isLock;
     var ca3Number = 0;
-    if (listFiles != null)
+    if (listFiles != null&&phanxuong.ToLower()!="kcs")
     {
         for (int i = 0; i < listFiles.Count; i++)
         {
@@ -67,9 +72,6 @@
 <div class="card">
     <div class="card-content">
         <div class="row">
-            <div class="card">
-                <div class="card-content">
-                    <div class="row">
                         <div class="center black-text">
                             <h3><b>BÁO CÁO PHÂN XƯỞNG</b></h3>
                             <h5>
@@ -105,17 +107,6 @@
                                     }
                                 }
 
-                                @*<option value="pxkt1">Phân xưởng khai thác</option>
-                                <option value="pxdl1">Phân xưởng đào lò</option>
-                                <option value="pxvt">Phân xưởng vận tải</option>
-                                <option value="pxst">Phân xưởng sàng tuyển</option>
-                                <option value="pxpv">Phân xưởng phục vụ</option>
-                                <option value="pxds">Phân xưởng đời sống</option>
-                                <option value="pxcdm">Phân xưởng cơ điện mỏ</option>
-                                <option value="pxtg">Phân xưởng Thông gió-Quản Lí Mỏ</option>
-                                <option value="pxxd">Phân xưởng xây dựng</option>
-                                <option value="pxlt">Phân xưởng lộ thiên</option>
-                                <option value="pxck">Phân xưởng cơ khí, sửa chữa</option>*@
                             </select>
                         </div>
                         <div class="col l3 m3 s3 left">
@@ -126,14 +117,18 @@
                     <hr />
                     <div class="row" id="main-content">
                         <div class="col s12">
-                            <div class="card">
-                                <div class="card-content">
-
+                           
+                            <div class="card-content">
+                                @if (phanxuong.ToLower() != "kcs")
+                                {
                                     <h5 class="">Báo cáo từng ca</h5>
-                                    <br />
-                                    <ul class="collapsible expandable">
-                                        <!------------------------------------------------CA 1----------------------------------------------->
-                                        @{
+                                }
+                                <br />
+                                <ul class="collapsible expandable">
+                                    <!------------------------------------------------CA 1----------------------------------------------->
+                                    @{
+                                        if (phanxuong.ToLower() != "kcs")
+                                        {
                                             if (listFiles != null)
                                             {
                                                 if (ca1Number == 0)
@@ -143,7 +138,7 @@
                                                             <i class="fas fa-paperclip"></i>Ca 1
                                                             <div class="switch" id="switch-ca1">
                                                                 <label>
-                                                                    <input @(ViewBag.ca1IsLock==true?"checked":"") type="checkbox">
+                                                                    <input @(ViewBag.ca1IsLock == true ? "checked" : "") type="checkbox">
                                                                     <span class="lever"></span>
                                                                     Khóa
                                                                 </label>
@@ -166,7 +161,7 @@
                                                             <i class="fas fa-paperclip"></i>Ca 1
                                                             <div class="switch" id="switch-ca1">
                                                                 <label>
-                                                                    <input  @(ViewBag.ca1IsLock==true?"checked":"") type="checkbox">
+                                                                    <input @(ViewBag.ca1IsLock == true ? "checked" : "") type="checkbox">
                                                                     <span class="lever"></span>
                                                                     Khóa
                                                                 </label>
@@ -197,10 +192,14 @@
                                                     </li>
                                                 }
                                             }
-
                                         }
-                                        <!------------------------------------------------CA 2----------------------------------------------->
-                                        @{
+
+
+                                    }
+                                    <!------------------------------------------------CA 2----------------------------------------------->
+                                    @{
+                                        if (phanxuong.ToLower() != "kcs")
+                                        {
                                             if (listFiles != null)
                                             {
                                                 if (ca2Number == 0)
@@ -211,7 +210,7 @@
                                                             <div class="switch" id="switch-ca2">
                                                                 <label>
 
-                                                                    <input  @(ViewBag.ca2IsLock==true?"checked":"") type="checkbox">
+                                                                    <input @(ViewBag.ca2IsLock == true ? "checked" : "") type="checkbox">
                                                                     <span class="lever"></span>
                                                                     Khóa
                                                                 </label>
@@ -235,7 +234,7 @@
                                                             <div class="switch" id="switch-ca2">
                                                                 <label>
 
-                                                                    <input @(ViewBag.ca2IsLock==true?"checked":"") type="checkbox">
+                                                                    <input @(ViewBag.ca2IsLock == true ? "checked" : "") type="checkbox">
                                                                     <span class="lever"></span>
                                                                     Khóa
                                                                 </label>
@@ -265,8 +264,12 @@
                                             }
                                         }
 
-                                        <!------------------------------------------------CA 3----------------------------------------------->
-                                        @{
+                                    }
+
+                                    <!------------------------------------------------CA 3----------------------------------------------->
+                                    @{
+                                        if (phanxuong.ToLower() != "kcs")
+                                        {
                                             if (listFiles != null)
                                             {
                                                 if (ca3Number == 0)
@@ -277,7 +280,7 @@
                                                             <div class="switch" id="switch-ca3">
                                                                 <label>
 
-                                                                    <input @(ViewBag.ca3IsLock==true?"checked":"") type="checkbox">
+                                                                    <input @(ViewBag.ca3IsLock == true ? "checked" : "") type="checkbox">
                                                                     <span class="lever"></span>
                                                                     Khóa
 
@@ -301,8 +304,7 @@
                                                             <i class="fas fa-paperclip"></i>Ca 3
                                                             <div class="switch" id="switch-ca3">
                                                                 <label>
-
-                                                                    <input  @(ViewBag.ca3IsLock==true?"checked":"") type="checkbox">
+                                                                    <input @(ViewBag.ca3IsLock == true ? "checked" : "") type="checkbox">
                                                                     <span class="lever"></span>
                                                                     Khóa
                                                                 </label>
@@ -331,16 +333,43 @@
                                                 }
                                             }
                                         }
-                                    </ul>
-                                </div>
+                                    }
+                                    <!------------------------------------------------KCS------------------------------------------------>
+                                    @{
+                                        if (phanxuong.ToLower() == "kcs")
+                                        {
+                                            <br />
+                                            <div class="switch" id="switch-kcs">
+                                                <label>
+                                                    <input @(ViewBag.isLock == true ? "checked" : "") type="checkbox">
+                                                    <span class="lever"></span>
+                                                    Khóa
+                                                </label>
+                                            </div>
+                                            <br />
+                                            <div class="files-container">
+                                                @for (int i = 0; i < listFiles.Count; i++)
+                                                {
+                                                <p>
+                                                    <img width="25" style="vertical-align:middle" src="~/assets/uploader/file-icon.png" />
+                                                    <a href="~/FileContainer/KCS/@listFiles[i].fileName">@listFiles[i].fileNameDisplay</a>
+                                                    @if (listFiles[i].chuthich != "")
+                                                    {
+                                                        <i> (Ghi chú: @listFiles[i].chuthich)</i>
+                                                    }
+                                                </p>
+                                                }
+                                                <br />
+                                            </div>
+                                        }
+                                    }
+                                </ul>
+                            </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
+
 <div id="modal1" class="modal">
     <div class="modal-content">
         <h4 class="modal_title"></h4>
@@ -475,6 +504,14 @@
             unLock(3);
         }
     });
+    $("#switch-kcs").find("input").change(function () {
+        if ($(this).is(":checked")) {
+            lockKCS();
+        }
+        else {
+            unLockKCS();
+        }
+    });
 </script>
 <script>
     $(function () {
@@ -529,11 +566,11 @@
         $.ajax({
             url: '/phong-dieu-khien/lock-nhap-bao-cao',
             type: 'post',
-            dataType:'json',
+            dataType: 'json',
             data: {
                 'ngay': $('#ngay-chon').val(),
-                'ca':ca,
-                'phanxuong': $('#phongbanSearch').find(":selected").val()
+                'ca': ca,
+                'phanxuong': "@ViewBag.phanxuong"
             },
             success: function (response) {
                 if (response.success) {
@@ -541,7 +578,7 @@
                 } else {
                     $("#pre-load").hide("slow", function () { });
                     errorAlert(response.message, "");
-                    $("#switch-ca"+ca).find("input").prop("checked", false);
+                    $("#switch-ca" + ca).find("input").prop("checked", false);
                 }
             }
         })
@@ -551,11 +588,11 @@
         $.ajax({
             url: '/phong-dieu-khien/unlock-nhap-bao-cao',
             type: 'post',
-            dataType:'json',
+            dataType: 'json',
             data: {
                 'ngay': $('#ngay-chon').val(),
-                'ca':ca,
-                'phanxuong': $('#phongbanSearch').find(":selected").val()
+                'ca': ca,
+                'phanxuong': "@ViewBag.phanxuong"
             },
             success: function (response) {
                 if (response.success) {
@@ -563,7 +600,49 @@
                 } else {
                     $("#pre-load").hide("slow", function () { });
                     errorAlert(response.message, "");
-                    $("#switch-ca"+ca).find("input").prop("checked", true);
+                    $("#switch-ca" + ca).find("input").prop("checked", true);
+                }
+            }
+        })
+    }
+    function lockKCS() {
+        $("#pre-load").show("slow", function () { });
+        $.ajax({
+            url: '/phong-dieu-khien/lock-nhap-bao-cao-kcs',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                'ngay': $('#ngay-chon').val(),
+                'phanxuong': "kcs"
+            },
+            success: function (response) {
+                if (response.success) {
+                    $("#pre-load").hide("slow", function () { });
+                } else {
+                    $("#pre-load").hide("slow", function () { });
+                    errorAlert(response.message, "");
+                    $("#switch-ca" + ca).find("input").prop("checked", false);
+                }
+            }
+        })
+    }
+    function unLockKCS() {
+        $("#pre-load").show("slow", function () { });
+        $.ajax({
+            url: '/phong-dieu-khien/unlock-nhap-bao-cao-kcs',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                'ngay': $('#ngay-chon').val(),
+                'phanxuong': "kcs"
+            },
+            success: function (response) {
+                if (response.success) {
+                    $("#pre-load").hide("slow", function () { });
+                } else {
+                    $("#pre-load").hide("slow", function () { });
+                    errorAlert(response.message, "");
+                    $("#switch-ca" + ca).find("input").prop("checked", true);
                 }
             }
         })

@@ -269,7 +269,7 @@
                 $('#pre-load').hide();
             }
         });
-
+         var table = $('#complex_header').DataTable();
         $("#submit").click(function (e) {
             var equipments = "";
             for (var i = 0; i < $('#complex_header tbody tr').length; i++) {
@@ -280,16 +280,19 @@
             $.ajax({
                 type: "POST",
                 url: "/phong-cdvt/cap-nhat/quyet-dinh/trung-dai-tu/edit",
-                dataType: "text",
-                success: function () {
-                    var table = $('#complex_header').DataTable();
-                    table.ajax.reload(function () {
+                dataType: "json",
+                success: function (data) {
+                    if (data.success == true) {
                         $('#pre-load').hide();
-                        $.notify("Lưu thành công", {
-                            globalPosition: "top center",
-                            className: "success"
+                        successAlert(data.message, '');                         
+                        table.ajax.reload(function () {
+                                                   
                         });
-                    }, true);
+                                             
+                    }
+                    else {
+                         errorAlert('Lỗi',data.message);
+                    }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     $('#pre-load').hide();
@@ -306,7 +309,7 @@
             })
             return false;
         });
-
+         var table = $('#complex_header').DataTable();
         $("#submit2").click(function (e) {
             var equipments = "";
             for (var i = 0; i < $('#complex_header tbody tr').length; i++) {
@@ -317,16 +320,15 @@
             $.ajax({
                 type: "POST",
                 url: "/phong-cdvt/cap-nhat/quyet-dinh/trung-dai-tu/done",
-                dataType: "text",
-                success: function () {
-                    var table = $('#complex_header').DataTable();
-                    table.ajax.reload(function () {
-                        $.notify("Lưu thành công", {
-                            globalPosition: "top center",
-                            className: "success"
-                        });
-                    }, true);
-                    window.location.reload(true);
+                dataType: "json",
+                  success: function (data) {
+                    if (data.success == true) {
+                        successAlert('Lưu thành công', '');                       
+                        window.location.reload(true);
+                    }
+                    else {
+                          errorAlert('Lỗi',data.message);
+                    }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     $('#pre-load').hide();
