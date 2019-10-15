@@ -24,27 +24,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             EquipThongKe etk = new EquipThongKe();
             var equipList = db.Equipments.ToList<Equipment>();
             etk.total = equipList.Count().ToString();
-            //List<int> temp = db.Equipments.Where(x => x.current_Status == 3 || x.current_Status == 8 || x.current_Status == 7 || x.current_Status == 5).Select(x => x.current_Status).ToList();
             int total_repair = 0; int total_maintain = 0; int total_TL = 0; int total_TH = 0;
-            //foreach (var item in temp)
-            //{
-            //    switch (item)
-            //    {
-            //        case 3:
-            //            total_repair++;
-            //            break;
-            //        case 5:
-            //            total_maintain++;
-            //            break;
-            //        case 8:
-            //            total_TL++;
-            //            break;
-            //        case 7:
-            //            total_TH++;
-            //            break;
-            //    }
-            //}
-
             var listKD = (from equip in db.Equipments
                                         .Where(equip => equip.current_Status == 10)
                           join cate in db.Equipment_category
@@ -54,13 +34,8 @@ namespace QUANGHANHCORE.Controllers.CDVT
                               equipmentId = equip.equipmentId,
                               equipment_name = equip.equipment_name
                           }).ToList();
-            int totalKD = 0;
-            foreach (var item in listKD)
-            {
-                totalKD++;
-            }
             ViewBag.listKD = listKD;
-            ViewBag.totalKD = totalKD;
+            ViewBag.totalKD = listKD.Count();
             
             etk.total_HD = db.Equipments.Where(x => x.current_Status == 2).Count();
             etk.total_KHD = int.Parse(etk.total) - etk.total_HD;
@@ -95,12 +70,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                                         thang = x.durationOfInspection.Month,
                                         nam = x.durationOfInspection.Year
                                     }).Take(10).ToList().Distinct();
-            int kiemdinhtag = 0;
-            foreach (var item in hanDangKiem)
-            {
-                kiemdinhtag++;
-            }
-            ViewBag.kiemdinhtag = kiemdinhtag;
+            ViewBag.kiemdinhtag = hanDangKiem.Count();
             ViewBag.handangkiem = hanDangKiem;
             var hanBaoduong = db.Equipments.Where(x => x.durationOfMaintainance <= testTime && x.durationOfMaintainance >= DateTime.Now).OrderBy(x => x.durationOfMaintainance).
                                     Select(x => new form1
@@ -111,12 +81,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                                         thang = x.durationOfMaintainance.Month,
                                         nam = x.durationOfMaintainance.Year
                                     }).Take(10).ToList().Distinct();
-            int baoduongtag = 0;
-            foreach (var item in hanBaoduong)
-            {
-                baoduongtag++;
-            }
-            ViewBag.baoduongtag = baoduongtag;
+            ViewBag.baoduongtag = hanBaoduong.Count();
             ViewBag.hanbaoduong = hanBaoduong;
 
             var tongcogioi = (from equip in db.Equipments

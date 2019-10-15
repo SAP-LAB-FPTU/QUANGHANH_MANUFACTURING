@@ -3,13 +3,16 @@
     Layout = "~/Views/Shared/_Layout_DK.cshtml";
 }
 <link href="~/assets/Custom css/DK/ReportHuman/report.css" rel="stylesheet" />
+<form id="form" action="/phong-dieu-khien/bao-cao-nhan-luc/bao-cao-nhan-luc-theo-ngay" method="post">
+    <input type="text" id="date" name="d" style="display:none !important" />
+</form>
 <div class="card">
     <div class="card-content">
         <div class="col s12 center">
             <div class="card-title">
                 <h3><b>BÁO CÁO NHÂN LỰC CÁC PHÂN XƯỞNG THEO NGÀY</b></h3>
                 <i class="fas fa-calendar-alt icon"></i>
-                <input type='text' class='datepicker-here center' data-language='vi' value="19/10/2019" />
+                <input id="data" type='text' class='datepicker-here center date-click' data-language='vi' placeholder="Chọn ngày" />
             </div>
         </div>
         <div class="container-fluid">
@@ -41,8 +44,6 @@
                 <div id="chitiet">
 
                     <div class="col s12 btn-mg">
-                        <a class="btn waves-effect waves-light blue" id="btn-fix">Chỉnh sửa</a>
-                        <a class="btn waves-effect waves-light blue modal-trigger" id="btn-save" href="#modal1">Lưu</a>
                     </div>
                     <div class="col s12">
                         <div class="table-responsive">
@@ -56,19 +57,19 @@
                                     <th rowspan="3">Tổng LĐ PX báo</th>
                                     <th rowspan="3">KH LĐ nghỉ dài</th>
                                     <th colspan="10">Tổng lao động</th>
-                                    <th colspan="9">K1</th>
-                                    <th colspan="9">K2</th>
-                                    <th colspan="9">K3</th>
+                                    <th colspan="10">K1</th>
+                                    <th colspan="10">K2</th>
+                                    <th colspan="10">K3</th>
                                     <th rowspan="3">% đi làm LĐ TT</th>
                                 </tr>
                                 <tr>
                                     <th colspan="5">Đi làm</th>
                                     <th colspan="5">Vắng</th>
-                                    <th colspan="4">Đi làm</th>
+                                    <th colspan="5">Đi làm</th>
                                     <th colspan="5">Vắng</th>
-                                    <th colspan="4">Đi làm</th>
+                                    <th colspan="5">Đi làm</th>
                                     <th colspan="5">Vắng</th>
-                                    <th colspan="4">Đi làm</th>
+                                    <th colspan="5">Đi làm</th>
                                     <th colspan="5">Vắng</th>
                                 </tr>
                                 <tr>
@@ -85,6 +86,7 @@
                                     <th>Khác</th>
 
                                     <th>Tổng</th>
+                                    <th>LĐTT</th>
                                     <th>KT</th>
                                     <th>CĐ</th>
                                     <th>QL</th>
@@ -96,6 +98,7 @@
                                     <th>Khác</th>
 
                                     <th>Tổng</th>
+                                    <th>LĐTT</th>
                                     <th>KT</th>
                                     <th>CĐ</th>
                                     <th>QL</th>
@@ -107,6 +110,7 @@
                                     <th>Khác</th>
 
                                     <th>Tổng</th>
+                                    <th>LĐTT</th>
                                     <th>KT</th>
                                     <th>CĐ</th>
                                     <th>QL</th>
@@ -117,856 +121,72 @@
                                     <th>P</th>
                                     <th>Khác</th>
                                 </tr>
-                                <tr>
-                                    <td>Đlò3</td>
-                                    <td>112</td>
-                                    <td>119</td>
-                                    <td>7</td>
-                                    <td>105</td>
-                                    <td>105</td>
-                                    <td>7</td>
-                                    <td>82</td>
-                                    <td>75</td>
-                                    <td>62</td>
-                                    <td>13</td>
-                                    <td>7</td>
-                                    <td>23</td>
-                                    <td>1</td>
-                                    <td>10</td>
-                                    <td>6</td>
-                                    <td>6</td>
-                                    <td>35</td>
-                                    <td>25</td>
-                                    <td>5</td>
-                                    <td>5</td>
-                                    <td>7</td>
-                                    <td> </td>
-                                    <td>3</td>
-                                    <td>1</td>
-                                    <td>3</td>
-                                    <td>24</td>
-                                    <td>18</td>
-                                    <td>4</td>
-                                    <td>2</td>
-                                    <td>8</td>
-                                    <td>1</td>
-                                    <td>4</td>
-                                    <td>3</td>
-                                    <td> </td>
-                                    <td>23</td>
-                                    <td>18</td>
-                                    <td>4</td>
-                                    <td>1</td>
-                                    <td>8</td>
-                                    <td> </td>
-                                    <td>3</td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td id="bq">71,4</td>
-                                </tr>
-                                <tr>
-                                    <td>Đlò5</td>
-                                    <td>90</td>
-                                    <td>101</td>
-                                    <td>7</td>
-                                    <td>83</td>
-                                    <td>84</td>
-                                    <td>11</td>
-                                    <td>77</td>
-                                    <td>70</td>
-                                    <td>61</td>
-                                    <td>9</td>
-                                    <td>7</td>
-                                    <td>7</td>
-                                    <td>1</td>
-                                    <td>1</td>
-                                    <td>0</td>
-                                    <td>5</td>
-                                    <td>29</td>
-                                    <td>21</td>
-                                    <td>3</td>
-                                    <td>5</td>
-                                    <td>3</td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td>3</td>
-                                    <td>24</td>
-                                    <td>20</td>
-                                    <td>3</td>
-                                    <td>1</td>
-                                    <td>3</td>
-                                    <td>1</td>
-                                    <td>1</td>
-                                    <td> </td>
-                                    <td>1</td>
-                                    <td>24</td>
-                                    <td>20</td>
-                                    <td>3</td>
-                                    <td>1</td>
-                                    <td>1</td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td>1</td>
-                                    <td id="bq">84,3</td>
-                                </tr>
-                                <tr>
-                                    <td>Đlò7</td>
-                                    <td>113</td>
-                                    <td>120</td>
-                                    <td>7</td>
-                                    <td>106</td>
-                                    <td>112</td>
-                                    <td>7</td>
-                                    <td>92</td>
-                                    <td>85</td>
-                                    <td>75</td>
-                                    <td>10</td>
-                                    <td>7</td>
-                                    <td>20</td>
-                                    <td>0</td>
-                                    <td>5</td>
-                                    <td>5</td>
-                                    <td>10</td>
-                                    <td>37</td>
-                                    <td>28</td>
-                                    <td>4</td>
-                                    <td>5</td>
-                                    <td>6</td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td>6</td>
-                                    <td>27</td>
-                                    <td>23</td>
-                                    <td>3</td>
-                                    <td>1</td>
-                                    <td>7</td>
-                                    <td> </td>
-                                    <td>4</td>
-                                    <td>3</td>
-                                    <td> </td>
-                                    <td>28</td>
-                                    <td>24</td>
-                                    <td>3</td>
-                                    <td>1</td>
-                                    <td>7</td>
-                                    <td> </td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>4</td>
-                                    <td id="bq">80,2</td>
-                                </tr>
-                                <tr>
-                                    <td>Đlò8</td>
-                                    <td>98</td>
-                                    <td>103</td>
-                                    <td>7</td>
-                                    <td>91</td>
-                                    <td>101</td>
-                                    <td>5</td>
-                                    <td>87</td>
-                                    <td>80</td>
-                                    <td>69</td>
-                                    <td>11</td>
-                                    <td>7</td>
-                                    <td>14</td>
-                                    <td>3</td>
-                                    <td>6</td>
-                                    <td>1</td>
-                                    <td>4</td>
-                                    <td>32</td>
-                                    <td>22</td>
-                                    <td>5</td>
-                                    <td>5</td>
-                                    <td>3</td>
-                                    <td></td>
-                                    <td>2</td>
-                                    <td> </td>
-                                    <td>1</td>
-                                    <td>28</td>
-                                    <td>24</td>
-                                    <td>3</td>
-                                    <td>1</td>
-                                    <td>4</td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td> </td>
-                                    <td>1</td>
-                                    <td>27</td>
-                                    <td>23</td>
-                                    <td>3</td>
-                                    <td>1</td>
-                                    <td>7</td>
-                                    <td>2</td>
-                                    <td>2</td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>87,9</td>
-                                </tr>
-                                <tr>
-                                    <td>KT1</td>
-                                    <td>84</td>
-                                    <td>92</td>
-                                    <td>7</td>
-                                    <td>77</td>
-                                    <td>81</td>
-                                    <td>8</td>
-                                    <td>76</td>
-                                    <td>69</td>
-                                    <td>56</td>
-                                    <td>13</td>
-                                    <td>7</td>
-                                    <td>5</td>
-                                    <td>0</td>
-                                    <td>1</td>
-                                    <td>1</td>
-                                    <td>3</td>
-                                    <td>34</td>
-                                    <td>25</td>
-                                    <td>4</td>
-                                    <td>5</td>
-                                    <td>0</td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td>20</td>
-                                    <td>16</td>
-                                    <td>3</td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td>2</td>
-                                    <td>22</td>
-                                    <td>15</td>
-                                    <td>6</td>
-                                    <td>1</td>
-                                    <td>3</td>
-                                    <td> </td>
-                                    <td>1</td>
-                                    <td>1</td>
-                                    <td>1</td>
-                                    <td>89,6</td>
-                                </tr>
-                                <tr>
-                                    <td>KT2</td>
-                                    <td>121</td>
-                                    <td>125</td>
-                                    <td>8</td>
-                                    <td>113</td>
-                                    <td>118</td>
-                                    <td>4</td>
-                                    <td>107</td>
-                                    <td>99</td>
-                                    <td>86</td>
-                                    <td>13</td>
-                                    <td>8</td>
-                                    <td>11</td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>5</td>
-                                    <td>43</td>
-                                    <td>33</td>
-                                    <td>5</td>
-                                    <td>5</td>
-                                    <td>4</td>
-                                    <td> </td>
-                                    <td>1</td>
-                                    <td>3</td>
-                                    <td> </td>
-                                    <td>34</td>
-                                    <td>29</td>
-                                    <td>4</td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td>2</td>
-                                    <td>30</td>
-                                    <td>25</td>
-                                    <td>4</td>
-                                    <td>1</td>
-                                    <td>5</td>
-                                    <td>1</td>
-                                    <td>1</td>
-                                    <td> </td>
-                                    <td>3</td>
-                                    <td>87,6</td>
-                                </tr>
-                                <tr>
-                                    <td>KT3</td>
-                                    <td>116</td>
-                                    <td>120</td>
-                                    <td>7</td>
-                                    <td>109</td>
-                                    <td>113</td>
-                                    <td>4</td>
-                                    <td>100</td>
-                                    <td>93</td>
-                                    <td>80</td>
-                                    <td>13</td>
-                                    <td>7</td>
-                                    <td>13</td>
-                                    <td>1</td>
-                                    <td>3</td>
-                                    <td>1</td>
-                                    <td>8</td>
-                                    <td>37</td>
-                                    <td>26</td>
-                                    <td>6</td>
-                                    <td>5</td>
-                                    <td>5</td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td>5</td>
-                                    <td>33</td>
-                                    <td>30</td>
-                                    <td>2</td>
-                                    <td>1</td>
-                                    <td>4</td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td> </td>
-                                    <td>1</td>
-                                    <td>30</td>
-                                    <td>24</td>
-                                    <td>5</td>
-                                    <td>1</td>
-                                    <td>4</td>
-                                    <td> </td>
-                                    <td>1</td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>85,3</td>
-                                </tr>
-                                <tr>
-                                    <td>KT4</td>
-                                    <td>95</td>
-                                    <td>101</td>
-                                    <td>7</td>
-                                    <td>88</td>
-                                    <td>95</td>
-                                    <td>6</td>
-                                    <td>85</td>
-                                    <td>78</td>
-                                    <td>62</td>
-                                    <td>16</td>
-                                    <td>7</td>
-                                    <td>10</td>
-                                    <td>0</td>
-                                    <td>2</td>
-                                    <td>1</td>
-                                    <td>7</td>
-                                    <td>30</td>
-                                    <td>20</td>
-                                    <td>5</td>
-                                    <td>5</td>
-                                    <td>2</td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td>2</td>
-                                    <td>28</td>
-                                    <td>22</td>
-                                    <td>5</td>
-                                    <td>1</td>
-                                    <td>4</td>
-                                    <td> </td>
-                                    <td>2</td>
-                                    <td> </td>
-                                    <td>2</td>
-                                    <td>27</td>
-                                    <td>20</td>
-                                    <td>6</td>
-                                    <td>1</td>
-                                    <td>4</td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td>1</td>
-                                    <td>3</td>
-                                    <td>88,6</td>
-                                </tr>
-                                <tr>
-                                    <td>KT5</td>
-                                    <td>106</td>
-                                    <td>112</td>
-                                    <td>7</td>
-                                    <td>99</td>
-                                    <td>102</td>
-                                    <td>6</td>
-                                    <td>88</td>
-                                    <td>81</td>
-                                    <td>64</td>
-                                    <td>17</td>
-                                    <td>7</td>
-                                    <td>14</td>
-                                    <td>3</td>
-                                    <td>1</td>
-                                    <td>0</td>
-                                    <td>10</td>
-                                    <td>37</td>
-                                    <td>26</td>
-                                    <td>6</td>
-                                    <td>5</td>
-                                    <td>3</td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td>3</td>
-                                    <td>26</td>
-                                    <td>20</td>
-                                    <td>5</td>
-                                    <td>1</td>
-                                    <td>5</td>
-                                    <td> </td>
-                                    <td>1</td>
-                                    <td> </td>
-                                    <td>4</td>
-                                    <td>25</td>
-                                    <td>18</td>
-                                    <td>6</td>
-                                    <td>1</td>
-                                    <td>6</td>
-                                    <td>3</td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td>3</td>
-                                    <td id="bq">81,8</td>
-                                </tr>
-                                <tr>
-                                    <td>KT6</td>
-                                    <td>91</td>
-                                    <td>98</td>
-                                    <td>7</td>
-                                    <td>84</td>
-                                    <td>83</td>
-                                    <td>7</td>
-                                    <td>69</td>
-                                    <td>62</td>
-                                    <td>48</td>
-                                    <td>14</td>
-                                    <td>7</td>
-                                    <td>14</td>
-                                    <td>3</td>
-                                    <td>0</td>
-                                    <td>1</td>
-                                    <td>10</td>
-                                    <td>28</td>
-                                    <td>18</td>
-                                    <td>5</td>
-                                    <td>5</td>
-                                    <td>4</td>
-                                    <td>1</td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td>3</td>
-                                    <td>20</td>
-                                    <td>16</td>
-                                    <td>3</td>
-                                    <td>1</td>
-                                    <td>5</td>
-                                    <td>2</td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td>3</td>
-                                    <td>21</td>
-                                    <td>14</td>
-                                    <td>6</td>
-                                    <td>1</td>
-                                    <td>5</td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td>1</td>
-                                    <td>4</td>
-                                    <td id="bq">73,8</td>
-                                </tr>
-                                <tr>
-                                    <td>KT7</td>
-                                    <td>94</td>
-                                    <td>98</td>
-                                    <td>7</td>
-                                    <td>87</td>
-                                    <td>93</td>
-                                    <td>4</td>
-                                    <td>82</td>
-                                    <td>75</td>
-                                    <td>60</td>
-                                    <td>15</td>
-                                    <td>7</td>
-                                    <td>11</td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>1</td>
-                                    <td>7</td>
-                                    <td>30</td>
-                                    <td>19</td>
-                                    <td>6</td>
-                                    <td>5</td>
-                                    <td>5</td>
-                                    <td> </td>
-                                    <td>1</td>
-                                    <td> </td>
-                                    <td>4</td>
-                                    <td>27</td>
-                                    <td>21</td>
-                                    <td>5</td>
-                                    <td>1</td>
-                                    <td>3</td>
-                                    <td> </td>
-                                    <td>1</td>
-                                    <td> </td>
-                                    <td>2</td>
-                                    <td>25</td>
-                                    <td>20</td>
-                                    <td>4</td>
-                                    <td>1</td>
-                                    <td>3</td>
-                                    <td>1</td>
-                                    <td> </td>
-                                    <td>1</td>
-                                    <td>1</td>
-                                    <td>86,2</td>
-                                </tr>
-                                <tr>
-                                    <td>KT8</td>
-                                    <td>99</td>
-                                    <td>109</td>
-                                    <td>7</td>
-                                    <td>92</td>
-                                    <td>100</td>
-                                    <td>10</td>
-                                    <td>78</td>
-                                    <td>71</td>
-                                    <td>57</td>
-                                    <td>14</td>
-                                    <td>7</td>
-                                    <td>22</td>
-                                    <td>5</td>
-                                    <td>7</td>
-                                    <td>6</td>
-                                    <td>4</td>
-                                    <td>31</td>
-                                    <td>22</td>
-                                    <td>4</td>
-                                    <td>5</td>
-                                    <td>9</td>
-                                    <td>2</td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>2</td>
-                                    <td>26</td>
-                                    <td>20</td>
-                                    <td>5</td>
-                                    <td>1</td>
-                                    <td>5</td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>1</td>
-                                    <td>1</td>
-                                    <td>21</td>
-                                    <td>15</td>
-                                    <td>5</td>
-                                    <td>1</td>
-                                    <td>8</td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>2</td>
-                                    <td>1</td>
-                                    <td id="bq">77,2</td>
-                                </tr>
-                                <tr>
-                                    <td>KT9</td>
-                                    <td>90</td>
-                                    <td>97</td>
-                                    <td>7</td>
-                                    <td>83</td>
-                                    <td>90</td>
-                                    <td>7</td>
-                                    <td>78</td>
-                                    <td>71</td>
-                                    <td>60</td>
-                                    <td>11</td>
-                                    <td>7</td>
-                                    <td>12</td>
-                                    <td>3</td>
-                                    <td>1</td>
-                                    <td>5</td>
-                                    <td>3</td>
-                                    <td>30</td>
-                                    <td>21</td>
-                                    <td>4</td>
-                                    <td>5</td>
-                                    <td>5</td>
-                                    <td>1</td>
-                                    <td> </td>
-                                    <td>2</td>
-                                    <td>2</td>
-                                    <td>23</td>
-                                    <td>19</td>
-                                    <td>3</td>
-                                    <td>1</td>
-                                    <td>5</td>
-                                    <td>1</td>
-                                    <td>1</td>
-                                    <td>3</td>
-                                    <td> </td>
-                                    <td>25</td>
-                                    <td>20</td>
-                                    <td>4</td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>1</td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td>1</td>
-                                    <td>85,5</td>
-                                </tr>
-                                <tr>
-                                    <td>KT10</td>
-                                    <td>107</td>
-                                    <td>115</td>
-                                    <td>7</td>
-                                    <td>100</td>
-                                    <td>109</td>
-                                    <td>8</td>
-                                    <td>98</td>
-                                    <td>91</td>
-                                    <td>77</td>
-                                    <td>14</td>
-                                    <td>7</td>
-                                    <td>11</td>
-                                    <td>1</td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>7</td>
-                                    <td>36</td>
-                                    <td>27</td>
-                                    <td>4</td>
-                                    <td>5</td>
-                                    <td>3</td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>33</td>
-                                    <td>27</td>
-                                    <td>5</td>
-                                    <td>1</td>
-                                    <td>3</td>
-                                    <td>1</td>
-                                    <td>1</td>
-                                    <td> </td>
-                                    <td>1</td>
-                                    <td>29</td>
-                                    <td>23</td>
-                                    <td>5</td>
-                                    <td>1</td>
-                                    <td>5</td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td>1</td>
-                                    <td>4</td>
-                                    <td>91,0</td>
-                                </tr>
-                                <tr>
-                                    <td>KT11</td>
-                                    <td>77</td>
-                                    <td>84</td>
-                                    <td>7</td>
-                                    <td>70</td>
-                                    <td>75</td>
-                                    <td>7</td>
-                                    <td>66</td>
-                                    <td>59</td>
-                                    <td>47</td>
-                                    <td>12</td>
-                                    <td>7</td>
-                                    <td>9</td>
-                                    <td>1</td>
-                                    <td>4</td>
-                                    <td>2</td>
-                                    <td>2</td>
-                                    <td>25</td>
-                                    <td>17</td>
-                                    <td>3</td>
-                                    <td>5</td>
-                                    <td>4</td>
-                                    <td> </td>
-                                    <td>2</td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>40</td>
-                                    <td>35</td>
-                                    <td>4</td>
-                                    <td>1</td>
-                                    <td>8</td>
-                                    <td> </td>
-                                    <td>3</td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>42</td>
-                                    <td>36</td>
-                                    <td>5</td>
-                                    <td>1</td>
-                                    <td>9</td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td>4</td>
-                                    <td>5</td>
-                                    <td id="bq">84,3</td>
-                                </tr>
-                                <tr>
-                                    <td>VT1</td>
-                                    <td>179</td>
-                                    <td>181</td>
-                                    <td>7</td>
-                                    <td>172</td>
-                                    <td>176</td>
-                                    <td>2</td>
-                                    <td>152</td>
-                                    <td>145</td>
-                                    <td>130</td>
-                                    <td>15</td>
-                                    <td>7</td>
-                                    <td>24</td>
-                                    <td>0</td>
-                                    <td>5</td>
-                                    <td>8</td>
-                                    <td>11</td>
-                                    <td>70</td>
-                                    <td>60</td>
-                                    <td>6</td>
-                                    <td>4</td>
-                                    <td>7</td>
-                                    <td> </td>
-                                    <td>2</td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>40</td>
-                                    <td>35</td>
-                                    <td>4</td>
-                                    <td>1</td>
-                                    <td>8</td>
-                                    <td> </td>
-                                    <td>3</td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>42</td>
-                                    <td>36</td>
-                                    <td>5</td>
-                                    <td>1</td>
-                                    <td>9</td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td>4</td>
-                                    <td>5</td>
-                                    <td>84,3</td>
-                                </tr>
-                                <tr>
-                                    <td>VT2</td>
-                                    <td>126</td>
-                                    <td>130</td>
-                                    <td>7</td>
-                                    <td>119</td>
-                                    <td>129</td>
-                                    <td>4</td>
-                                    <td>116</td>
-                                    <td>109</td>
-                                    <td>97</td>
-                                    <td>12</td>
-                                    <td>7</td>
-                                    <td>13</td>
-                                    <td>0</td>
-                                    <td>3</td>
-                                    <td>5</td>
-                                    <td>5</td>
-                                    <td>53</td>
-                                    <td>41</td>
-                                    <td>7</td>
-                                    <td>5</td>
-                                    <td>6</td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td>4</td>
-                                    <td>2</td>
-                                    <td>29</td>
-                                    <td>26</td>
-                                    <td>2</td>
-                                    <td>1</td>
-                                    <td>5</td>
-                                    <td> </td>
-                                    <td>3</td>
-                                    <td>1</td>
-                                    <td>1</td>
-                                    <td>34</td>
-                                    <td>30</td>
-                                    <td>3</td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td>2</td>
-                                    <td>91,6</td>
-                                </tr>
-                                <tr>
-                                    <th>Tổng</th>
-                                    <td>1798</td>
-                                    <td>1905</td>
-                                    <td>120</td>
-                                    <td>1678</td>
-                                    <td>1766</td>
-                                    <td>2</td>
-                                    <td>1533</td>
-                                    <td>1413</td>
-                                    <td>1191</td>
-                                    <td>222</td>
-                                    <td>120</td>
-                                    <td>233</td>
-                                    <td>24</td>
-                                    <td>54</td>
-                                    <td>48</td>
-                                    <td>107</td>
-                                    <td>617</td>
-                                    <td>451</td>
-                                    <td>82</td>
-                                    <td>84</td>
-                                    <td>76</td>
-                                    <td>4</td>
-                                    <td>13</td>
-                                    <td>17</td>
-                                    <td>42</td>
-                                    <td>465</td>
-                                    <td>383</td>
-                                    <td>64</td>
-                                    <td>18</td>
-                                    <td>75</td>
-                                    <td>10</td>
-                                    <td>28</td>
-                                    <td>13</td>
-                                    <td>24</td>
-                                    <td>451</td>
-                                    <td>358</td>
-                                    <td>76</td>
-                                    <td>17</td>
-                                    <td>82</td>
-                                    <td>10</td>
-                                    <td>13</td>
-                                    <td>18</td>
-                                    <td>41</td>
-                                    <td>84,2</td>
+                                @{
+                                    foreach (var item in ViewBag.list)
+                                    {
+                                        <tr>
+                                            <td>@item.MaPhongBan</td>
+                                            <td>@item.tong_tru_nghidai</td>
+                                            <td></td>
+                                            <td>@item.QL_CTy</td>
+                                            <td></td>
+                                            <td>@item.LDPX</td>
+                                            <td></td>
+
+                                            <td>@item.tong</td>
+                                            <td>@item.tong_LDTT</td>
+                                            <td>@item.tong_KT</td>
+                                            <td>@item.tong_CD</td>
+                                            <td>@item.tong_QL</td>
+                                            <td>@item.tong_vang</td>
+                                            <td>@item.tong_vld</td>
+                                            <td>@item.tong_om</td>
+                                            <td>@item.tong_p</td>
+                                            <td>@item.tong_khac</td>
+
+                                            <td>@item.tong1</td>
+                                            <td>@item.LDTT1</td>
+                                            <td>@item.KT1</td>
+                                            <td>@item.CD1</td>
+                                            <td>@item.QL1</td>
+                                            <td>@item.vang1</td>
+                                            <td>@item.vld1</td>
+                                            <td>@item.om1</td>
+                                            <td>@item.p1</td>
+                                            <td>@item.khac1</td>
+
+                                            <td>@item.tong2</td>
+                                            <td>@item.LDTT2</td>
+                                            <td>@item.KT2</td>
+                                            <td>@item.CD2</td>
+                                            <td>@item.QL2</td>
+                                            <td>@item.vang2</td>
+                                            <td>@item.vld2</td>
+                                            <td>@item.om2</td>
+                                            <td>@item.p2</td>
+                                            <td>@item.khac2</td>
+
+                                            <td>@item.tong3</td>
+                                            <td>@item.LDTT3</td>
+                                            <td>@item.KT3</td>
+                                            <td>@item.CD3</td>
+                                            <td>@item.QL3</td>
+                                            <td>@item.vang3</td>
+                                            <td>@item.vld3</td>
+                                            <td>@item.om3</td>
+                                            <td>@item.p3</td>
+                                            <td>@item.khac3</td>
+
+                                            <td id="bq">@item.tile</td>
+                                        </tr>
+                                    }
+                                }
+
+
                             </table>
                         </div>
                         <div class="btn-mg2">
-                            <a class="waves-effect waves-light btn blue ">In báo cáo</a>
-                            <a class="waves-effect waves-light btn blue">Xuất ra file excel</a>
+                            <a id="export-button" class="waves-effect waves-light btn blue">Xuất ra file excel</a>
                         </div>
                     </div>
                 </div>
@@ -985,6 +205,40 @@
     </div>
 </div>
 <!------------Javascript--------------->
+<script>
+     var x = '@ViewBag.dat';
+
+    //export fuction
+    $("#export-button").click(function () {
+        $("#pre-load").show();
+        $.ajax({
+            type: "POST",
+            url: "/phong-dieu-khien/bao-cao-nhan-luc/bao-cao-nhan-luc-theo-ngay/export",
+            data: {
+                "date": x,
+            },
+            cache: false
+        }).done(function () {
+            window.location.href = "/excel/DK/baocaongay.xlsx";
+            $("#pre-load").hide();
+        })
+    });
+
+    function change() {
+        var data = document.getElementById("data").value;
+        document.getElementById("date").value = data;
+        document.getElementById("form").submit();
+    }
+
+    $(document).ready(function () {
+        $(".date-click").datepicker({
+            onSelect: function (dateText) {
+                change();
+            }
+        });
+        document.getElementById("data").value = x;
+    })
+</script>
 <script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
 <script src="~/js/Custom JS/DK/ReportHuman/beo_echart.js"></script>
 <script src="~/js/Custom JS/DK/ReportHuman/editable.js"></script>
