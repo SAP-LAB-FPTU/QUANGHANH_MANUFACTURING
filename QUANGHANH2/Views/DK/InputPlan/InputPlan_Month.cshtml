@@ -132,7 +132,7 @@
             data: {
                 'month': $("#monthCalendar").val().split(" ")[1],
                 'year': $("#yearCalendar").val().split(" ")[1],
-                'department': $("#cbx-px").val()
+                'department': $("#cbx-px").val(),
             },
             success: function (response) {
                 tableBody = $("#aspectDetailTable").children("tbody");
@@ -141,11 +141,13 @@
                 let reponseData = response.data
                 if (reponseData.length > 1) {
                     for (let i = 0; i < reponseData.length; i++) {
-                        content += "<tr><td class=\"aspectName\" id=\"" + reponseData[i].Identify + ("-name") + "\">" + reponseData[i].TenTieuChi + "</td><td id=\"" + reponseData[i].Identify + ("-unit") + "\">" + reponseData[i].DonVi + "</td><td class=\"editableContent\" id=\"" + reponseData[i].Identify + ("-amount") + "\">" + reponseData[i].SanLuong + "</td><td class=\"editableContent\" id=\"" + reponseData[i].Identify + ("-description") + "\">" + reponseData[i].GhiChu + "</td><tr>";
+                        content += "<tr><td class=\"aspectName\" id=\"" + reponseData[i].Identify + ("-name") + "\">" + reponseData[i].TenTieuChi + "</td><td id=\"" + reponseData[i].Identify + ("-unit") + "\">" + reponseData[i].DonViDo + "</td><td class=\"editableContent\" id=\"" + reponseData[i].Identify + ("-amount") + "\">" + reponseData[i].SanLuong + "</td><td class=\"editableContent\" id=\"" + reponseData[i].Identify + ("-description") + "\">" + (reponseData[i].GhiChu == null ? "" : reponseData[i].GhiChu) + "</td><tr>";
                     }
                 } else {
-                    if (reponseData[0].MaTieuChi != null) {
-                        content += "<tr><td class=\"aspectName\" id=\"" + reponseData[i].Identify + ("-name") + "\">" + reponseData[i].TenTieuChi + "</td><td id=\"" + reponseData[i].Identify + ("-unit") + "\">" + reponseData[i].DonVi + "</td><td class=\"editableContent\" id=\"" + reponseData[i].Identify + ("-amount") + "\">" + reponseData[i].SanLuong + "</td><td class=\"editableContent\" id=\"" + reponseData[i].Identify + ("-description") + "\">" + reponseData[i].GhiChu + "</td><tr>";
+                    if (reponseData.length == 1) {
+                        if (reponseData[0].MaTieuChiNull != null) {
+                            content += "<tr><td class=\"aspectName\" id=\"" + reponseData[0].Identify + ("-name") + "\">" + reponseData[0].TenTieuChi + "</td><td id=\"" + reponseData[0].Identify + ("-unit") + "\">" + reponseData[0].DonViDo + "</td><td class=\"editableContent\" id=\"" + reponseData[0].Identify + ("-amount") + "\">" + reponseData[0].SanLuong + "</td><td class=\"editableContent\" id=\"" + reponseData[0].Identify + ("-description") + "\">" + (reponseData[0].GhiChu == null ? "" : reponseData[0].GhiChu) + "</td><tr>";
+                        }
                     }
                 }
                 tableBody.html(content);
@@ -227,29 +229,31 @@
         data = {};
         headerID = null;
         list = [];
-        heads = ["HeaderID", "MaTieuChi", "SanLuong", "GhiChu"]
+        heads =  ["MaTieuChi","DonViDo","SanLuong", "GhiChu"]
         tableBody = $("#aspectDetailTable").children("tbody");
         tableBody.children("tr:even").each(function () {
-            cur = {}
             if ($(this).children("td").hasClass("aspectAdded")) {
-                if ($(this).children("td").attr("skipped") == "0") {
+                if ($(this).children("td").children("select").attr("skipped") == "0") {
+                    cur = {}
+                    cur["HeaderID"] = $("#headerIDhidden").attr("value");
                     $(this).children("td").each(function (i, v) {
                         switch (i) {
-                            case 1:
-                                cur[heads[i]] = $(this).children("select").options[selectTag.selectedIndex].value;
+                            case 0:
+                                cur[heads[i]] = parseInt($(this).children("select").val());
                                 break;
                             case 2:
                             case 3:
                                 cur[heads[i]] = $(this).children("input").val()
                                 break;
-                            case 0:
-                                break;
                             default:
                                 break;
                         }
                     })
+                    list.push(cur)
                 }
             } else {
+                cur = {}
+                cur["HeaderID"] = $("#headerIDhidden").attr("value");
                 $(this).children("td").each(function (i, v) {
                     switch (i) {
                         case 1:
@@ -268,8 +272,8 @@
                             break;
                     }
                 })
+                list.push(cur)
             }
-            list.push(cur)
         })
         if (headerID != null) {
             for (let i = 0; i < list.length; i++) {
@@ -290,7 +294,8 @@
                 'month': $("#monthCalendar").val().split(" ")[1],
                 'year': $("#yearCalendar").val().split(" ")[1],
                 'department': $("#cbx-px").val(),
-                'headerID': $("#headerIDhidden").attr("value")
+                'headerID': $("#headerIDhidden").attr("value"),
+                'totalDays': $("#totalDays").attr("value")
             },
             success: function (response) {
                 tableBody = $("#aspectDetailTable").children("tbody");
@@ -302,8 +307,10 @@
                         content += "<tr><td class=\"aspectName\" id=\"" + reponseData[i].Identify + ("-name") + "\">" + reponseData[i].TenTieuChi + "</td><td id=\"" + reponseData[i].Identify + ("-unit") + "\">" + reponseData[i].DonVi + "</td><td class=\"editableContent\" id=\"" + reponseData[i].Identify + ("-amount") + "\">" + reponseData[i].SanLuong + "</td><td class=\"editableContent\" id=\"" + reponseData[i].Identify + ("-description") + "\">" + reponseData[i].GhiChu + "</td><tr>";
                     }
                 } else {
-                    if (reponseData[0].MaTieuChi != null) {
-                        content += "<tr><td class=\"aspectName\" id=\"" + reponseData[i].Identify + ("-name") + "\">" + reponseData[i].TenTieuChi + "</td><td id=\"" + reponseData[i].Identify + ("-unit") + "\">" + reponseData[i].DonVi + "</td><td class=\"editableContent\" id=\"" + reponseData[i].Identify + ("-amount") + "\">" + reponseData[i].SanLuong + "</td><td class=\"editableContent\" id=\"" + reponseData[i].Identify + ("-description") + "\">" + reponseData[i].GhiChu + "</td><tr>";
+                    if (reponseData.length == 1) {
+                        if (reponseData[0].MaTieuChiNull != null) {
+                            content += "<tr><td class=\"aspectName\" id=\"" + reponseData[0].Identify + ("-name") + "\">" + reponseData[0].TenTieuChi + "</td><td id=\"" + reponseData[0].Identify + ("-unit") + "\">" + reponseData[0].DonVi + "</td><td class=\"editableContent\" id=\"" + reponseData[0].Identify + ("-amount") + "\">" + reponseData[0].SanLuong + "</td><td class=\"editableContent\" id=\"" + reponseData[0].Identify + ("-description") + "\">" + reponseData[0].GhiChu + "</td><tr>";
+                        }
                     }
                 }
                 tableBody.html(content);
