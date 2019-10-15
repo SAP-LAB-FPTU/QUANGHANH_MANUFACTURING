@@ -39,6 +39,9 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             public double LuyKe { get; set; }
             public string GhiChu { get; set; }
             public string DonViDo { get; set; }
+            public string chenhlech { get; set; }
+            public string percentDay { get; set; }
+            public string percentAll { get; set; }
         }
         [Route("change")]
         [HttpPost]
@@ -86,6 +89,12 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                     + " from KeHoach_TieuChi_TheoThang h group by h.MaTieuChi) a on k.MaTieuChi = a.MaTieuChi and k.ThoiGianNhapCuoiCung = a.thoigian  "
                                     + " where h.MaPhongBan = '" + px_value + "' and h.ThangKeHoach = " + month + " and h.NamKeHoach = " + year + ") table4 on p.MaTieuChi = table4.MaTieuChi and p.MaPhongBan = table4.MaPhongBan";
                         listSX = db.Database.SqlQuery<SanXuat>(sql).ToList();
+                        foreach(var item in listSX)
+                        {
+                            item.chenhlech = (Convert.ToInt32(item.SanLuong) - Convert.ToInt32(item.KeHoach)).ToString();
+                            item.percentDay = (Convert.ToInt32(item.SanLuong) / Convert.ToInt32(item.KeHoach) * 100).ToString();
+                            item.percentAll = (Convert.ToInt32(item.LuyKe) / Convert.ToInt32(item.KHDC) * 100).ToString();
+                        }
                         flag = true;
                     }
                     else
@@ -94,12 +103,18 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                         "from(select tc.* " +
                                                 "from PhongBan_TieuChi pbtc inner " +
                                                 "join TieuChi tc on pbtc.MaTieuChi = tc.MaTieuChi " +
-                                                "where pbtc.MaPhongBan = 'KCS') as a left outer join(select a.MaPhongBan, a.MaTieuChi, sum(a.SanLuong) as 'luyke' " +
+                                                "where pbtc.MaPhongBan = '" + px_value + "') as a left outer join(select a.MaPhongBan, a.MaTieuChi, sum(a.SanLuong) as 'luyke' " +
                                                                 "from(select t.SanLuong, t.MaTieuChi, h.MaPhongBan " +
                                                                         "from header_ThucHienTheoNgay h inner " +
                                                                         "join ThucHien_TieuChi_TheoNgay t on h.HeaderID = t.HeaderID " +
-                                                                        "where h.MaPhongBan = 'KCS' and h.Ngay between '" + year + "-" + month + "-1' and '" + date_sql + "' and h.Ca <= "+ca_value+") as a group by a.MaPhongBan, a.MaTieuChi) as LuyKe on a.MaTieuChi = LuyKe.MaTieuChi";
+                                                                        "where h.MaPhongBan = '"+px_value+"' and h.Ngay between '" + year + "-" + month + "-1' and '" + date_sql + "' and h.Ca <= "+ca_value+") as a group by a.MaPhongBan, a.MaTieuChi) as LuyKe on a.MaTieuChi = LuyKe.MaTieuChi";
                         listSX = db.Database.SqlQuery<SanXuat>(query).ToList();
+                        foreach (var item in listSX)
+                        {
+                            item.chenhlech = (Convert.ToInt32(item.SanLuong) - Convert.ToInt32(item.KeHoach)).ToString();
+                            item.percentDay = (Convert.ToInt32(item.SanLuong) / Convert.ToInt32(item.KeHoach) * 100).ToString();
+                            item.percentAll = (Convert.ToInt32(item.LuyKe) / Convert.ToInt32(item.KHDC) * 100).ToString();
+                        }
                         flag = false;
                     }
                 }
