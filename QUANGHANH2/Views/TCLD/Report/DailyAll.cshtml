@@ -1,7 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
     Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
 }
 <link rel="stylesheet" type="text/css" href="~/assets/extra-libs/c3/c3.min.css">
@@ -18,10 +15,6 @@
             }
         })
     });
-    function HienThiTheoDonVi(donvi) {
-        var date = document.getElementById("dateforsearch").value;
-        window.location = "/phong-tcld/nang-suat-lao-dong-va-tien-luong/nang-suat-lao-dong-va-tien-luong-theo-ngay?date="+date+"&donvi="+donvi;
-    }
     $(document).ready(function () {
         $("#dateforsearch").val("@string.Format("{0:dd/MM/yyyy}", System.DateTime.Now)");
         $("#ngayreport").val("@string.Format("{0:dd/MM/yyyy}", System.DateTime.Now)");
@@ -33,12 +26,7 @@
             $("#ngayreport").text(date);
         }
     });
-
-
 </script>
-
-
-
 
 <div class="card">
     <div class="card-content">
@@ -202,7 +190,7 @@
                                     <td>@item.om</td>
                                     <td>@item.phep</td>
                                     <td>@item.khac</td>
-                                    <td>@(item.Tong != 0?item.dilam/item.Tong*100 : 0)</td>
+                                    <td>@(Math.Round(item.Tong != 0 ? (double)item.dilam / item.Tong * 100 : 0, 2))</td>
                                     <td>@item.than</td>
                                     <td>@item.metlo</td>
                                     <td>@item.xen</td>

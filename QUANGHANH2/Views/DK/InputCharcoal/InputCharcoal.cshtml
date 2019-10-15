@@ -65,7 +65,7 @@
                 </div>
                 <div class="row">
                     <div class="col s12 m12 l12 table_container">
-                        <table class="table-kt table-bordered table-input">
+                        <table class="table-kt table-bordered table-input" id="Mytable">
                             <thead>
                                 <tr>
                                     <th class="tieu-chi" rowspan="2">Tiêu chí</th>
@@ -177,8 +177,8 @@
                                     '<td><input class="center"     id="keHoach' + i + '" autocomplete="off" style="border:none" name="keHoach" onchange="KHOnchange(' + i + ')" /></td>' +
                                     '<td><input class="center" readonly id="chenhLech' + i + '" autocomplete="off" style="border:none" name="chenhLech" /></td>' +
                                     '<td><input class="center" readonly id="phanTramHT' + i + '" autocomplete="off" style="border:none" name="phanTramHT" /></td>' +
-                                    '<td><input class="center"  readonly id="luyKe' + i + '" value="' + response.luyKe[i].LuyKe + '" autocomplete="off" style="border:none" name="luyKe" />' +
-                                    ' <input type="hidden" id="luyKeHidden' + i + '" value="' + response.luyKe[i].LuyKe + '" /></td > ' +
+                                    '<td><input class="center"  readonly id="luyKe' + i + '" value="' + response.listSXLoad[i].LuyKe + '" autocomplete="off" style="border:none" name="luyKe" />' +
+                                    ' <input type="hidden" id="luyKeHidden' + i + '" value="' + response.listSXLoad[i].LuyKe + '" /></td > ' +
                                     '<td><input class="center"  id="KHDC' + i + '"  autocomplete="off" style="border:none" name="KHDC" onchange="KHDCOnchange(' + i + ')"/></td>' +
                                     '<td><input class="center" readonly id="phanTramTD' + i + '"  autocomplete="off" style="border:none" name="phanTramTD" /></td>' +
                                     '<td><input class="center" readonly id="tong' + i + '" autocomplete="off" style="border:none" name="tong" /></td>' +
@@ -195,7 +195,9 @@
         );
     }
 </script>
-<script>
+<script> 
+    
+
 
     function THOnchange(i) {
         var ngaySX = document.getElementById("ngaySanXuat").value;
@@ -249,6 +251,7 @@
     function NgaySXOnchange() {
 
     }
+
 </script>
 <script>
     function SaveChange(form) {

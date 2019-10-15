@@ -22,86 +22,15 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         [Route("phong-cdvt/cap-nhat-hoat-dong")]
         public ActionResult Index()
         {
+            // only taken by each department.
+            string department_id = Session["departID"].ToString();
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            List<FuelDB> listEQ = db.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from Equipment ").ToList();
+            List<FuelDB> listEQ = db.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from Equipment where department_id = @department_id", new SqlParameter("department_id", department_id)).ToList();
             List<Supply> listSupply = db.Supplies.Where(x => x.unit == "L" || x.unit == "kWh").ToList();
 
             ViewBag.listSupply = listSupply;
             ViewBag.listEQ = listEQ;
             return View("/Views/CDVT/History/Lichsu.cshtml");
-        }
-
-        //export acti
-        [Route("phong-cdvt/cap-nhat-hoat-dong/export-acti")]
-        [HttpPost]
-        public void exportActi()
-        {
-            string path = HostingEnvironment.MapPath("/excel/CDVT/download/cap-nhat-hoat-dong.xlsx");
-            FileInfo file = new FileInfo(path);
-            using (ExcelPackage excelPackage = new ExcelPackage(file))
-            {
-                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
-                ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
-
-                using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
-                {
-                    var acti = DBContext.Database.SqlQuery<activitiesDB>("select a.[date], a.equipmentId, e.equipment_name , a.activity_name, a.hours_per_day, a.quantity"
-                        + " from Activity a , Equipment e"
-                        + " where e.equipmentId = a.equipmentId"
-                        + " order by a.[date] desc ").ToList();
-                    int k = 0;
-                    for (int i = 1; i < acti.Count + 1; i++)
-                    {
-                        excelWorksheet.Cells[i, 1].Value = (k + 1);
-                        excelWorksheet.Cells[i, 2].Value = acti.ElementAt(k).stringDate;
-                        excelWorksheet.Cells[i, 3].Value = acti.ElementAt(k).equipmentid;
-                        excelWorksheet.Cells[i, 4].Value = acti.ElementAt(k).equipment_name;
-                        excelWorksheet.Cells[i, 5].Value = acti.ElementAt(k).activityname;
-                        excelWorksheet.Cells[i, 6].Value = acti.ElementAt(k).hours_per_day;
-                        excelWorksheet.Cells[i, 7].Value = acti.ElementAt(k).quantity;
-                        k++;
-                    }
-                    string location = HostingEnvironment.MapPath("/excel/CDVT/download");
-                    excelPackage.SaveAs(new FileInfo(location + "/cap-nhat-hoat-dong-temp.xlsx"));
-                }
-            }
-        }
-
-        //export fuel
-        [Route("phong-cdvt/cap-nhat-hoat-dong/export-fuel")]
-        [HttpPost]
-        public void exportFuel()
-        {
-            string path = HostingEnvironment.MapPath("/excel/CDVT/download/cap-nhat-hoat-dong-nhien-lieu.xlsx");
-            FileInfo file = new FileInfo(path);
-            using (ExcelPackage excelPackage = new ExcelPackage(file))
-            {
-                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
-                ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
-
-                using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
-                {
-                    var fuel = DBContext.Database.SqlQuery<fuelDB>("select f.[date], f.equipmentId, e.equipment_name , s.supply_name , f.consumption_value , s.unit"
-                        + " from Fuel_activities_consumption f, Equipment e , Supply s"
-                        + " where e.equipmentId = f.equipmentId and s.supply_id = f.fuel_type"
-                        + " order by f.[date] desc ").ToList();
-
-                    int k = 0;
-                    for (int i = 5; i < fuel.Count + 5; i++)
-                    {
-                        excelWorksheet.Cells[i, 1].Value = (k + 1);
-                        excelWorksheet.Cells[i, 2].Value = fuel.ElementAt(k).stringDate;
-                        excelWorksheet.Cells[i, 3].Value = fuel.ElementAt(k).equipmentId;
-                        excelWorksheet.Cells[i, 4].Value = fuel.ElementAt(k).equipment_name;
-                        excelWorksheet.Cells[i, 5].Value = fuel.ElementAt(k).fuel_type;
-                        excelWorksheet.Cells[i, 6].Value = fuel.ElementAt(k).consumption_value;
-                        excelWorksheet.Cells[i, 7].Value = fuel.ElementAt(k).unit;
-                        k++;
-                    }
-                    string location = HostingEnvironment.MapPath("/excel/CDVT/download");
-                    excelPackage.SaveAs(new FileInfo(location + "/cap-nhat-hoat-dong-nhien-lieu-temp.xlsx"));
-                }
-            }
         }
 
         //search acti
@@ -132,17 +61,21 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
                 string sortDirection = Request["order[0][dir]"];
 
+                // only taken by each department.
+                string department_id = Session["departID"].ToString();
                 QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
                 string query = "select a.[date], a.equipmentId, e.equipment_name , a.activityname, a.hours_per_day, a.quantity , a.[activityid]"
                     + " from Activity a ,Equipment e "
                     + " where e.equipmentId = a.equipmentId AND a.equipmentId LIKE @equipmentId "
-                    + " AND e.equipment_name LIKE @equipment_name AND a.[date] between @timeFrom AND @timeTo ";
+                    + " AND e.equipment_name LIKE @equipment_name AND a.[date] between @timeFrom AND @timeTo "
+                    + " AND e.department_id = @department_id";
 
                 List<activitiesDB> listActi = DBContext.Database.SqlQuery<activitiesDB>(query,
                     new SqlParameter("equipmentId", '%' + equipmentId + '%'),
                     new SqlParameter("equipment_name", '%' + equipmentName + '%'),
                     new SqlParameter("timeFrom", timeF),
-                    new SqlParameter("timeTo", timeT)
+                    new SqlParameter("timeTo", timeT),
+                    new SqlParameter("department_id", department_id)
                     ).ToList();
 
                 int totalrows = listActi.Count;
@@ -196,17 +129,21 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
                 string sortDirection = Request["order[0][dir]"];
 
+                // only taken by each department.
+                string department_id = Session["departID"].ToString();
                 QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
                 string query = "select f.fuelId, f.[date], f.equipmentId, e.equipment_name , s.supply_name , f.consumption_value , s.unit"
                     + " from Fuel_activities_consumption f, Equipment e , Supply s "
                     + "where e.equipmentId = f.equipmentId and s.supply_id = f.fuel_type AND f.equipmentId LIKE @equipmentId "
-                    + " AND e.equipment_name LIKE @equipment_name AND f.[date] between @timeFrom AND @timeTo order by f.[date] desc";
+                    + " AND e.equipment_name LIKE @equipment_name AND f.[date] between @timeFrom AND @timeTo " 
+                    + " AND e.department_id = @department_id order by f.[date] desc";
 
                 List<fuelDB> listFuelConsump = DBContext.Database.SqlQuery<fuelDB>(query,
                     new SqlParameter("equipmentId", '%' + equipmentId + '%'),
                     new SqlParameter("equipment_name", '%' + equipmentName + '%'),
                     new SqlParameter("timeFrom", timeF),
-                    new SqlParameter("timeTo", timeT)
+                    new SqlParameter("timeTo", timeT),
+                    new SqlParameter("department_id", department_id)
                     ).ToList();
 
                 int totalrows = listFuelConsump.Count;
@@ -238,11 +175,15 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         {
             try
             {
+                // only taken by each department.
+                string department_id = "PXKT1";
                 QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
                 activitiesDB activity = DBContext.Database.SqlQuery<activitiesDB>("select a.activityid,a.[date], a.equipmentId, e.equipment_name , a.activityname, a.hours_per_day, a.quantity " +
                     " from Activity a ,Equipment e  " +
                     " where e.equipmentId = a.equipmentId  " +
-                    " and activityid = @activityid ", new SqlParameter("activityid", activityid)
+                    " and activityid = @activityid AND e.department_id = @department_id "
+                    , new SqlParameter("activityid", activityid)
+                    , new SqlParameter("department_id", department_id)
                     ).First();
                 activity.stringDate = activity.date.ToString("dd/MM/yyyy");
 
@@ -290,7 +231,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             {
                 try
                 {
-                    Equipment i = DBContext.Equipments.Find(equipmentId);
+                    //check
+                    //need to check equipment of each department.
+                    string department_id = Session["departID"].ToString();
+                    //Equipment i = DBContext.Equipments.Find(equipmentId);
+                    Equipment i = DBContext.Equipments.Where(x => (x.department_id == department_id &&  x.equipmentId == equipmentId)).First();
 
                     //Activity q = DBContext.Activities.Where(x => x.activityid == activityid).SingleOrDefault();
                     Activity q = DBContext.Activities.Find(activityid);
@@ -359,7 +304,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             {
                 try
                 {
-                    Equipment i = DBContext.Equipments.Find(equipmentId);
+                    // only taken by each department.
+                    string department_id = Session["departID"].ToString();
+
+                    //Equipment i = DBContext.Equipments.Find(equipmentId);
+                    Equipment i = DBContext.Equipments.Where(x => (x.department_id == department_id && x.equipmentId == equipmentId)).First();
+
                     Supply s = DBContext.Database.SqlQuery<Supply>("select * from Supply where supply_id=@supply_id and (unit = 'L' or unit = 'kWh')", new SqlParameter("supply_id", fuel_type)).First();
                     fuelDB f = DBContext.Database.SqlQuery<fuelDB>("select * from Fuel_activities_consumption where fuelid=@fuelid", new SqlParameter("fuelid", fuelid)).First();
                     string date = DateTime.ParseExact(date1, "dd/MM/yyyy", null).ToString("MM-dd-yyyy");
@@ -454,6 +404,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         {
             try
             {
+                // only taken by each department.
                 QUANGHANHABCEntities db = new QUANGHANHABCEntities();
                 var equipment = db.Equipments.Where(x => x.equipmentId == id).SingleOrDefault();
                 return Json(equipment.equipment_name, JsonRequestBehavior.AllowGet);
@@ -477,6 +428,9 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 return new HttpStatusCodeResult(400);
             }
 
+            // only taken by each department.
+            string department_id = Session["departID"].ToString();
+
             //add function
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             Activity a = new Activity();
@@ -484,7 +438,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             {
                 try
                 {
-                    Equipment e = DBContext.Equipments.Find(equipmentId);
+                    Equipment e = DBContext.Equipments.Where(x => (x.department_id == department_id && x.equipmentId == equipmentId)).First();
+                    //Equipment e = DBContext.Equipments.Find(equipmentId);
                     a.equipmentid = e.equipmentId;
                     //fix bug
                     a.date = DateTime.ParseExact(date1, "dd/MM/yyyy", null);
@@ -561,13 +516,18 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         {
             string output = "";
 
+            // only taken by each department.
+            string department_id = Session["departID"].ToString();
+
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             fuelDB f = new fuelDB();
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
             {
                 try
                 {
-                    Equipment e = DBContext.Equipments.Find(equipmentId);
+                    //check eq in department.
+                    Equipment e = DBContext.Equipments.Where(x => (x.department_id == department_id && x.equipmentId == equipmentId)).First();
+                    //Equipment e = DBContext.Equipments.Find(equipmentId);
                     Supply s = DBContext.Database.SqlQuery<Supply>("select * from Supply where supply_id='" + fuel_type + "'").First();
                     DateTime dateTime = DateTime.ParseExact(date1, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                     Supply_tieuhao supp = DBContext.Supply_tieuhao.Where(x => x.supplyid == fuel_type && x.departmentid == e.department_id && x.date.Month == dateTime.Month && x.date.Year == dateTime.Year).First();

@@ -8,15 +8,13 @@
 <link href="~/assets/Custom css/TABLE_BORDERED.css" rel="stylesheet" />
 <link href="~/assets/extra-libs/prism/prism.css" rel="stylesheet" />
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
-<link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
-<link href="~/dist/css/pages/data-table.css" rel="stylesheet" />
-<link href="~/assets/extra-libs/DataTables/datatables.min.css" rel="stylesheet" />
+<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
 <script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
 <script src="~/assets/extra-libs/prism/prism.js"></script>
-<script src="~/assets/extra-libs/DataTables/datatables.min.js"></script>
 <script>
     $(function () {
         var url_string = window.location.href;
@@ -112,18 +110,19 @@
                 { "data": "DonVi", "name": "DonVi" },
 
             ],
-            "language": {
+                    "language": {
+                                    emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                                    paginate:
+                                    {
+                                        previous: "Trang trước",
+                                        next: "Trang sau",
+                                        first: "|<",
+                                        last: ">|",
 
-                    "emptyTable": "Không tìm thấy dữ liệu",
-                    "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
-                    "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
-                    "paginate": {
-                        "first": "Trang đầu",
-                        "last": "Trang cuối",
-                        "next": "Trang sau",
-                        "previous": "Trang trước"
-                    }
-            },
+                                    },
+                                    info: "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                                    infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
+                                },
             "autoWidth": false,
             "searching": false,
             "bLengthChange": false,
@@ -348,7 +347,7 @@
     function ViewbyYear() {
         window.location = "/phong-cdvt/bao-cao/nhien-lieu?type=year&year=" + document.getElementById("txtyear").value;
     }
-        $("#export").click(function () {
+    $("#export").click(function () {
         var url_string = window.location.href;
         var url = new URL(url_string);
         var c = url.searchParams.get("type");
