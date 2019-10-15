@@ -431,8 +431,8 @@
         </div>
     </div>
 
+    
     <div class="col l4 m6 s12 extend-height">
-    @*<div class="col l4 m6 s12">
         <div class="card green darken-1">
             <div class="card-content info-card">
                 <div class="align-items-center">
@@ -486,8 +486,8 @@
                 </div>
             </div>
         </div>
-    </div>*@
-</div>
+    </div>
+
 <!-- ============================================================== -->
 <!-- Sales -->
 <!-- ============================================================== -->
@@ -578,14 +578,7 @@
             </div>
         </div>
     </div>
-    @*<div class="col l6 s12">
-            <div class="card" id="origin">
-                <div class="card-content">
-                    <h4 class="card-title">Báo cáo tai nạn</h4>
-                    <div id="table_tainan"></div>
-                </div>
-            </div>
-        </div>*@
+
 </div>
 <div class="row">
     <div class="col s12 m6 l6">
@@ -670,9 +663,9 @@
         
          //da dat boc
         x = @ViewBag.lt.percentDay;
-        $('#dxkDay').width(x + '%');
+        $('#ltDay').width(x + '%');
         x = @ViewBag.lt.percentMonth;
-        $('#dxkMonth').width(x + '%');
+        $('#ltMonth').width(x + '%');
 
         var h = $('#origin').height();
         h = h - 82;
