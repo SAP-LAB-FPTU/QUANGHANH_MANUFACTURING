@@ -18,7 +18,6 @@ namespace QUANGHANH2.Models
         public int MaTieuChi { get; set; }
         public Nullable<double> SanLuong { get; set; }
         public string GhiChu { get; set; }
-        public Nullable<double> KeHoach { get; set; }
     
         public virtual header_ThucHienTheoNgay header_ThucHienTheoNgay { get; set; }
         public virtual TieuChi TieuChi { get; set; }

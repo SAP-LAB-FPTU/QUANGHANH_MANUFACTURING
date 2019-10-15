@@ -278,8 +278,9 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                         {
                             if (item.headerID != null)
                             {
-                                dn.HeaderID = headerID;
-                                db.Entry(dn).State = EntityState.Modified;
+                                db.DiemDanh_NangSuatLaoDong.Remove(db.DiemDanh_NangSuatLaoDong.Find(item.maNV, item.headerID));
+                                //dn.HeaderID = headerID;
+                                //db.Entry(dn).State = EntityState.Modified;
                             }
                         }
                     }

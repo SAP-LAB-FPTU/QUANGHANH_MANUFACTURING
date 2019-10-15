@@ -13,55 +13,59 @@
             <div class="row">
                 <div class="input-field col s5 m5 l5"></div>
                 <div class="input-field col l2 m2 s2">
-                    <input class="form-control center" placeholder="Số ngày làm việc" />
+                    <input class="form-control center" placeholder="Số ngày làm việc" id="totalDays" disabled />
                 </div>
                 <div class="input-field col s5 m5 l5"></div>
+                @*<a class='dropdown-trigger btn' id='phanxuong' href='#' data-target='dropdown_ca' style='background-color:#273146'>CA</a>*@
             </div>
-            <div class="input-field col l4 m12 s12">
-                <input type="text" id="calendar" class="form-control datepicker-here datepicker-add center"
+            <div class="input-field col l3 m12 s12">
+                <input type="text" id="monthCalendar" class="form-control datepicker-here datepicker-add center"
                        data-language='vi'
                        data-min-view="months"
                        data-view="months"
                        data-date-format="Tháng mm"
                        required value="Tháng" />
             </div>
-            <div class="input-field col l4 m12 s12">
-                <input type="text" id="calendar" class="form-control datepicker-here datepicker-add center"
+            <div class="input-field col l3 m12 s12">
+                <input type="text" id="yearCalendar" class="form-control datepicker-here datepicker-add center"
                        data-language='vi'
                        data-min-view="years"
                        data-view="years"
                        data-date-format="Năm yyyy"
                        required value="Năm" />
             </div>
-            <div class="input-field col l4 m12 s12">
+            <div class="input-field col l3 m12 s12">
                 <select class="form-control" id="cbx-px" name="px_value" onchange="change()">
-                    <option value="" disabled selected>Phân xưởng</option>
-                    <option value="KT1">Khai thác 1</option>
-                    <option value="KT2">Khai thác 2</option>
-                    <option value="KT3">Khai thác 3</option>
-                    <option value="KT4">Khai thác 4</option>
-                    <option value="KT5">Khai thác 5</option>
-                    <option value="KT6">Khai thác 6</option>
-                    <option value="KT7">Khai thác 7</option>
-                    <option value="KT8">Khai thác 8</option>
-                    <option value="KT9">Khai thác 9</option>
-                    <option value="KT10">Khai thác 10</option>
-                    <option value="KT11">Khai thác 11</option>
-                    <option value="DL3">Đào lò 3</option>
-                    <option value="DL5">Đào lò 5</option>
-                    <option value="DL7">Đào lò 7</option>
-                    <option value="DL8">Đào lò 8</option>
-                    <option value="DLTL">Thăng Long</option>
-                    <option value="DLAS">Asean</option>
-                    <option value="DLXLM">Xây lắp mỏ</option>
-                    <option value="ST">Sàng tuyển</option>
-                    <option value="LT">Lộ thiên</option>
+                    <option value="default-px" disabled selected>Phân xưởng</option>
+                    <option value="PXKT1">Khai thác 1</option>
+                    <option value="PXKT2">Khai thác 2</option>
+                    <option value="PXKT3">Khai thác 3</option>
+                    <option value="PXKT4">Khai thác 4</option>
+                    <option value="PXKT5">Khai thác 5</option>
+                    <option value="PXKT6">Khai thác 6</option>
+                    <option value="PXKT7">Khai thác 7</option>
+                    <option value="PXKT8">Khai thác 8</option>
+                    <option value="PXKT9">Khai thác 9</option>
+                    <option value="PXKT10">Khai thác 10</option>
+                    <option value="PXKT11">Khai thác 11</option>
+                    <option value="PXDL3">Đào lò 3</option>
+                    <option value="PXDL5">Đào lò 5</option>
+                    <option value="PXDL7">Đào lò 7</option>
+                    <option value="PXDL8">Đào lò 8</option>
+                    <option value="PXDL2">Thăng Long</option>
+                    <option value="CTA">Asean</option>
+                    <option value="PXDL1">Xây lắp mỏ</option>
+                    <option value="PXST">Sàng tuyển</option>
+                    <option value="PXLT">Lộ thiên</option>
                     <option value="KCS">KCS</option>
                 </select>
             </div>
+            <div class="input-field col l3 m12 s12 center">
+                <a class="btn blue darken-2" onclick="getInformation()">XEM</a>
+            </div>
             <div class="row">
                 <div class="col s12 m12 l12">
-                    <table class="table-bordered">
+                    <table class="table-bordered" id="aspectDetailTable">
                         <thead>
                             <tr>
                                 <th>Tiêu chí</th>
@@ -73,19 +77,249 @@
                         <tbody></tbody>
                     </table>
                 </div>
-
-                <div class="col s12 m12 l12 input-field">
-                    <button class="btn blue darken-2" type="submit">Lưu</button>
+                <div class="col s12 m12 l12 input-field right row">
+                    <a class="btn blue darken-2" onclick="addRows()" id="addRowsbtn">Thêm</a>
                 </div>
+                <div class="col s12 m12 l12 input-field right row">
+                    <a class="btn blue darken-2" onclick="check()">CHECK</a>
+                </div>
+            </div>
+            <div class="col s12 m12 l12 input-field center row">
+                <button class="btn blue darken-2" type="submit" id="EditSaveBtn" onclick="EditOrUpdate()">CHỈNH SỬA</button>
             </div>
         </div>
     </div>
+    <ul id='dropdown_ca' class='dropdown-content'>
+        <li><a class="dropdown-child-ca session" href="#" name="ca1">CA 1</a></li>
+        <li><a class="dropdown-child-ca session" href="#" name="ca2">CA 2</a></li>
+        <li><a class="dropdown-child-ca session" href="#" name="ca3">CA 3</a></li>
+    </ul>
+    <p hidden id="headerIDhidden" value=""></p>
 </div>
 
 <script>
     $(document).ready(function () {
         $('select').formSelect();
+        mode = 0;
+        $('#addRowsbtn').hide();
+        listAspectDepartments = [];
     });
+
+    function addRows() {
+        tableBody = $("#aspectDetailTable").children("tbody");
+        content = tableBody.html();
+        selectContent = "<select class=\"browser-default \" onchange=\"checkDuplicate(this)\" skipped=\"0\"> <option value=\"\" selected>Lựa chọn tiêu chí</option>";
+        for (let i = 0; i < listAspectDepartments.length; i++) {
+            selectContent += "<option value=\"" + listAspectDepartments[i].MaTieuChi + "\">" + listAspectDepartments[i].TenTieuChi + "</option>"
+        }
+        selectContent += "</select>"
+        content += "<tr><td class=\"aspectAdded center\">" + selectContent + "</td><td></td><td><input value=\"\" type=\"text\" class=\"inputDescription\"></td><td><input value=\"\" type=\"text\" class=\"inputDescription\"></td><tr>";
+        tableBody.html(content);
+    }
+
+    function change() {
+        //alert($("#cbx-px").val());
+    }
+</script>
+<script>
+    function getInformation() {
+        console.log($("#monthCalendar").val().split(" ")[1]);
+        console.log($("#yearCalendar").val().split(" ")[1]);
+        console.log($("#cbx-px").val());
+        $.ajax({
+            type: 'post',
+            url: '/phong-dieu-khien/ke-hoach-san-xuat/lay-thong-tin',
+            data: {
+                'month': $("#monthCalendar").val().split(" ")[1],
+                'year': $("#yearCalendar").val().split(" ")[1],
+                'department': $("#cbx-px").val(),
+            },
+            success: function (response) {
+                tableBody = $("#aspectDetailTable").children("tbody");
+                tableBody.empty();
+                content = "";
+                let reponseData = response.data
+                if (reponseData.length > 1) {
+                    for (let i = 0; i < reponseData.length; i++) {
+                        content += "<tr><td class=\"aspectName\" id=\"" + reponseData[i].Identify + ("-name") + "\">" + reponseData[i].TenTieuChi + "</td><td id=\"" + reponseData[i].Identify + ("-unit") + "\">" + reponseData[i].DonViDo + "</td><td class=\"editableContent\" id=\"" + reponseData[i].Identify + ("-amount") + "\">" + reponseData[i].SanLuong + "</td><td class=\"editableContent\" id=\"" + reponseData[i].Identify + ("-description") + "\">" + (reponseData[i].GhiChu == null ? "" : reponseData[i].GhiChu) + "</td><tr>";
+                    }
+                } else {
+                    if (reponseData.length == 1) {
+                        if (reponseData[0].MaTieuChiNull != null) {
+                            content += "<tr><td class=\"aspectName\" id=\"" + reponseData[0].Identify + ("-name") + "\">" + reponseData[0].TenTieuChi + "</td><td id=\"" + reponseData[0].Identify + ("-unit") + "\">" + reponseData[0].DonViDo + "</td><td class=\"editableContent\" id=\"" + reponseData[0].Identify + ("-amount") + "\">" + reponseData[0].SanLuong + "</td><td class=\"editableContent\" id=\"" + reponseData[0].Identify + ("-description") + "\">" + (reponseData[0].GhiChu == null ? "" : reponseData[0].GhiChu) + "</td><tr>";
+                        }
+                    }
+                }
+                tableBody.html(content);
+                ViewMode();
+                mode = 0;
+                listAspectDepartments = response.aspects;
+                $("#totalDays").attr("value", response.totalDays)
+                $("#headerIDhidden").attr("value", response.headerID)
+            },
+            error: function (response) {
+
+            }
+        })
+    }
+
+    function check() {
+        tableBodyRows = $("#aspectDetailTable tbody tr")
+            .each(function () {
+                $(this).find("td").each(function (i, v) {
+                    console.log($(this).val)
+                })
+            });
+    }
+
+    function ViewMode() {
+        $("#EditSaveBtn").html("<i class=\"material-icons right\">border_color</i>CẬP NHẬT");
+        $('#addRowsbtn').hide();
+        //
+        $("#totalDays").attr("disable", true)
+    }
+
+    function EditMode() {
+        $("#EditSaveBtn").html("<i class=\"material-icons right\">border_color</i>LƯU");
+        $('#addRowsbtn').show();
+        //
+        $("#totalDays").removeAttr("disabled")
+    }
+
+    function EditOrUpdate() {
+        if (mode == 0) {
+            //View Mode -> Edit
+            EditMode();
+            $('.editableContent').each(function () {
+                content = $(this).text();
+                console.log($(this).attr("id"))
+                if ($(this).attr("id").includes("amount")) {
+                    $(this).html("<input type=\"number\" value=\"" + content + "\">")
+                } else {
+                    $(this).html("<input type=\"text\" value=\"" + content + "\">")
+                }
+            })
+        } else {
+            // Edit Mode -> View
+            sendUpdateData(getDataFromTable());
+            $('.editableContent').each(function () {
+                content = $(this).children("input").val();
+                console.log($(this).attr("id"))
+                $(this).html(content);
+            })
+            ViewMode();
+        }
+        mode = 1 - mode;
+    }
+
+    function checkDuplicate(selectTag) {
+        selectedName = selectTag.options[selectTag.selectedIndex].text;
+        isDuplicate = false;
+        $('.aspectName').each(function () {
+            if ($(this).text() == selectedName) {
+                isDuplicate = true;
+                alert("Tiêu chí này đã có ! Vui lòng cập nhật")
+                $(selectTag).attr('skipped', '1')
+                return
+            }
+        })
+    }
+
+    function getDataFromTable() {
+        data = {};
+        headerID = null;
+        list = [];
+        heads =  ["MaTieuChi","DonViDo","SanLuong", "GhiChu"]
+        tableBody = $("#aspectDetailTable").children("tbody");
+        tableBody.children("tr:even").each(function () {
+            if ($(this).children("td").hasClass("aspectAdded")) {
+                if ($(this).children("td").children("select").attr("skipped") == "0") {
+                    cur = {}
+                    cur["HeaderID"] = $("#headerIDhidden").attr("value");
+                    $(this).children("td").each(function (i, v) {
+                        switch (i) {
+                            case 0:
+                                cur[heads[i]] = parseInt($(this).children("select").val());
+                                break;
+                            case 2:
+                            case 3:
+                                cur[heads[i]] = $(this).children("input").val()
+                                break;
+                            default:
+                                break;
+                        }
+                    })
+                    list.push(cur)
+                }
+            } else {
+                cur = {}
+                cur["HeaderID"] = $("#headerIDhidden").attr("value");
+                $(this).children("td").each(function (i, v) {
+                    switch (i) {
+                        case 0:
+                            cur[heads[i]] = $(this).attr("id").split("-")[0]
+                            break;
+                        case 2:
+                        case 3:
+                            cur[heads[i]] = $(this).children("input").val()
+                            break;
+                        default:
+                            break;
+                    }
+                })
+                list.push(cur)
+            }
+        })
+        if (headerID != null) {
+            for (let i = 0; i < list.length; i++) {
+                if (list[i]["HeaderID"] == null) {
+                    list[i]["HeaderID"] = headerID;
+                }
+            }
+        }
+        return JSON.stringify(list)
+    }
+
+    function sendUpdateData(data) {
+        $.ajax({
+            url: "/phong-dieu-khien/ke-hoach-san-xuat/cap-nhat-thong-tin",
+            type: "post",
+            data: {
+                "data": data,
+                'month': $("#monthCalendar").val().split(" ")[1],
+                'year': $("#yearCalendar").val().split(" ")[1],
+                'department': $("#cbx-px").val(),
+                'headerID': $("#headerIDhidden").attr("value"),
+                'totalDays': $("#totalDays").attr("value")
+            },
+            success: function (response) {
+                tableBody = $("#aspectDetailTable").children("tbody");
+                tableBody.empty();
+                content = "";
+                let reponseData = response.data
+                if (reponseData.length > 1) {
+                    for (let i = 0; i < reponseData.length; i++) {
+                        content += "<tr><td class=\"aspectName\" id=\"" + reponseData[i].Identify + ("-name") + "\">" + reponseData[i].TenTieuChi + "</td><td id=\"" + reponseData[i].Identify + ("-unit") + "\">" + reponseData[i].DonViDo + "</td><td class=\"editableContent\" id=\"" + reponseData[i].Identify + ("-amount") + "\">" + reponseData[i].SanLuong + "</td><td class=\"editableContent\" id=\"" + reponseData[i].Identify + ("-description") + "\">" + (reponseData[i].GhiChu == null ? "" : reponseData[i].GhiChu) + "</td><tr>";
+                    }
+                } else {
+                    if (reponseData.length == 1) {
+                        if (reponseData[0].MaTieuChiNull != null) {
+                            content += "<tr><td class=\"aspectName\" id=\"" + reponseData[0].Identify + ("-name") + "\">" + reponseData[0].TenTieuChi + "</td><td id=\"" + reponseData[0].Identify + ("-unit") + "\">" + reponseData[0].DonViDo + "</td><td class=\"editableContent\" id=\"" + reponseData[0].Identify + ("-amount") + "\">" + reponseData[0].SanLuong + "</td><td class=\"editableContent\" id=\"" + reponseData[0].Identify + ("-description") + "\">" + (reponseData[i].GhiChu == null ? "" : reponseData[0].GhiChu) + "</td><tr>";
+                        }
+                    }
+                }
+                tableBody.html(content);
+                ViewMode();
+                mode = 0;
+                listAspectDepartments = response.aspects;
+                $("#totalDays").attr("value", response.totalDays)
+                $("#headerIDhidden").attr("value", response.headerID)
+            },
+            error: function (response) {
+
+            }
+        })
+    }
 </script>
 <script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
 <script src="~/js/Custom JS/Disable_input_material.js"></script>

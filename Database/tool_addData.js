@@ -30,12 +30,44 @@ function add_Header_ThucHienHangNgay(session,date){
 insertDB = ""
 
 for (let i = 1 ; i <= 10; i++){
-    if (i !=6 && i!=7){
-        date = "2019-09-" +i
+        date = "2019-08-" +i
         for (let j = 1; j <=3 ;j++){
             insertDB += add_Header_ThucHienHangNgay(j,date) + "\n"
         }
+}
+
+function add_Header_KeHoachTheoThang(month,year,totalWorkDays){
+    let result =""
+    // pxkt
+    for(let i = 1 ; i <= 11 ; i++) {
+        result += "insert into KeHoachTungThang(MaPhongBan,ThangKeHoach,NamKeHoach,SoNgayLamViec) VALUES \n"
+        result+="('PXKT"+i+"',"+month+","+year+","+totalWorkDays+")\n GO \n"
     }
+    // pxdl
+    for(let i = 1 ; i <= 8 ; i++) {
+        if (i!=4 && i!=6){
+            result += "insert into header_ThucHienTheoNgay(MaPhongBan,Ngay,Ca) VALUES \n"
+            result+="('PXKT"+i+"',"+month+","+year+","+totalWorkDays+")\n GO \n"
+        }
+    }
+    // kcs
+    result += "insert into header_ThucHienTheoNgay(MaPhongBan,Ngay,Ca) VALUES \n"
+    result+="('PXKT"+i+"',"+month+","+year+","+totalWorkDays+")\n GO \n"
+    // pxst
+    result += "insert into header_ThucHienTheoNgay(MaPhongBan,Ngay,Ca) VALUES \n"
+    result+="('PXKT"+i+"',"+month+","+year+","+totalWorkDays+")\n GO \n"
+    // Duong Huy
+    result += "insert into header_ThucHienTheoNgay(MaPhongBan,Ngay,Ca) VALUES \n"
+    result+="('PXKT"+i+"',"+month+","+year+","+totalWorkDays+")\n GO \n"
+    // Lo Thien
+    result += "insert into header_ThucHienTheoNgay(MaPhongBan,Ngay,Ca) VALUES \n"
+    result+="('PXKT"+i+"',"+month+","+year+","+totalWorkDays+")\n GO \n"
+    return result
+}
+
+query = "";
+for (let i = 1 ; i <= 10 ; i++){
+    add_Header_KeHoachTheoThang(i,2019,26)
 }
 
 startPoint = 1;

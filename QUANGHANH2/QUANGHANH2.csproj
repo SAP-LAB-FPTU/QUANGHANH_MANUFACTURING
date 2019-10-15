@@ -277,6 +277,7 @@
     <Compile Include="Controllers\DK\ReportIncidentController.cs" />
     <Compile Include="Controllers\DK\ReportManuCharcoal\DetailManuReportController.cs" />
     <Compile Include="Controllers\DK\ReportManuCharcoal\ReportManuCharcoalController.cs" />
+    <Compile Include="Controllers\DK\ReportMonthlyController.cs" />
     <Compile Include="Controllers\DK\SanLuongReportController.cs" />
     <Compile Include="Controllers\DK\SucoThietbiDKController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -7312,6 +7313,7 @@
     <Content Include="Views\DK\SanLuongReport.cshtml" />
     <Content Include="Views\DK\SucoThietbi.cshtml" />
     <Content Include="Views\DK\InputPlan\InputPlan_Month.cshtml" />
+    <Content Include="Views\DK\MonthlyQuarterlyReport.cshtml" />
     <Content Include="Views\CDVT\History\LichsuOtoTieuthu.cshtml" />
     <Content Include="Views\CDVT\History\LichsuTieuthu.cshtml" />
   </ItemGroup>
@@ -7327,6 +7329,7 @@
     <Folder Include="Views\Laydanhsachvattu\" />
     <Folder Include="Views\PhanXuongReport\" />
     <Folder Include="Views\Quanlyvattu\" />
+    <Folder Include="Views\ReportMonthly\" />
     <Folder Include="Views\SanLuongReport\" />
     <Folder Include="Views\WorkHistory\" />
   </ItemGroup>

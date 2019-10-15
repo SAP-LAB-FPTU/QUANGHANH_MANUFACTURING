@@ -7,7 +7,6 @@
 <link href="~/assets/extra-libs/prism/prism.css" rel="stylesheet" />
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
 <link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
-<link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
 <script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
@@ -96,6 +95,41 @@
             document.getElementById("visibleyear").style.display = "inline";
             $("#txtyear").val(year);
         }
+                    var dataTable;
+        dataTable = $("#content-table").DataTable({
+
+            "ajax": {
+                "url": url,
+                "type": "POST",
+                "datatype": "json",
+            },
+            "columns": [
+                { "data": "Thang", "name": "Thang" },
+                { "data": "MaThietBi", "name": "MaThietBi" },
+                { "data": "MaTSCD", "name": "MaTSCD" },
+                { "data": "ViTriDat", "name": "ViTriDat" },
+                { "data": "TenThietBi", "name": "TenThietBi" },
+                { "data": "GioHoatDong", "name": "GioHoatDong" },
+                { "data": "LuongTieuThu", "name": "LuongTieuThu" },
+                { "data": "SanLuong", "name": "SanLuong" },
+            ],
+                    "language": {
+                                    emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                                    paginate:
+                                    {
+                                        previous: "Trang trước",
+                                        next: "Trang sau",
+                                        first: "|<",
+                                        last: ">|",
+
+                                    },
+                                    info: "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                                    infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
+                                },
+            "autoWidth": false,
+            "searching": false,
+            "bLengthChange": false,
+        });
     });
 
 </script>
@@ -211,43 +245,20 @@
         <div id="solieu" class="col s12">
             <div class="row table_container">
                 <div class="col l12">
-                    <table class="table table-bordered striped table-responsive" style="overflow-x:scroll">
+                    <table class="table table-bordered striped table-responsive" id="content-table">
                         <thead>
                             <tr>
-                                <th>STT</th>
+                                <th>Tháng</th>
                                 <th>Tên thiết bị</th>
                                 <th>Mã thiết bị</th>
                                 <th>Mã TSCĐ</th>
                                 <th>Vị trí đặt</th>
                                 <th>Giờ hoạt động</th>
-                                <th>Tiêu hao điện năng</th>
-                                <th>Sản lượng nước</th>
+                                <th>Tiêu hao điện năng (kWh)</th>
+                                <th>Sản lượng nước (m<sup>3</sup>)</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in ViewBag.ContentReport)
-                            {
-                                <tr>
-                                    <td>@item.Thang/@item.Nam</td>
-                                    <td>@item.TenThietBi</td>
-                                    <td>@item.MaThietBi</td>
-                                    <td>@item.MaTSCD</td>
-                                    <td>@item.ViTriDat</td>
-                                    <td>@item.GioHoatDong</td>
-                                    <td>@item.LuongTieuThu</td>
-                                    <td>@item.SanLuong (m<sup>3</sup>)</td>
-                                </tr>
-                            }
-                            <tr style="color:crimson">
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>Tổng cộng</td>
-                                <td>@ViewBag.GioHoatDong</td>
-                                <td>@ViewBag.TieuHao</td>
-                                <td>@ViewBag.SanLuong (m<sup>3</sup>)</td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -269,7 +280,7 @@
                             <tbody>
                                 <tr>
                                     <th class="total_row">Tổng giờ hoạt động: </th>
-                                    <th class="total_row">Tổng sản lượng nước: </th>
+                                    <th class="total_row">Tổng sản lượng nước (m<sup>3</sup>) </th>
                                     <th class="total_row">Tổng tiêu hao điện năng: </th>
                                 </tr>
                                 <tr>
