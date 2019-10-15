@@ -28,7 +28,6 @@ namespace QUANGHANH2.Models
             this.Documentary_repair_details = new HashSet<Documentary_repair_details>();
             this.Documentary_repair_details1 = new HashSet<Documentary_repair_details>();
             this.Equipments = new HashSet<Equipment>();
-            this.Header_DiemDanh_NangSuat_LaoDong = new HashSet<Header_DiemDanh_NangSuat_LaoDong>();
             this.header_KeHoach_TieuChi_TheoNgay = new HashSet<header_KeHoach_TieuChi_TheoNgay>();
             this.header_KeHoachTungThang = new HashSet<header_KeHoachTungThang>();
             this.Incidents = new HashSet<Incident>();
@@ -39,6 +38,7 @@ namespace QUANGHANH2.Models
             this.Supply_tieuhao = new HashSet<Supply_tieuhao>();
             this.SupplyPlans = new HashSet<SupplyPlan>();
             this.SupplyPlans1 = new HashSet<SupplyPlan>();
+            this.Header_DiemDanh_NangSuat_LaoDong = new HashSet<Header_DiemDanh_NangSuat_LaoDong>();
             this.header_ThucHienTheoNgay = new HashSet<header_ThucHienTheoNgay>();
         }
     
@@ -70,8 +70,6 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Equipment> Equipments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Header_DiemDanh_NangSuat_LaoDong> Header_DiemDanh_NangSuat_LaoDong { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<header_KeHoach_TieuChi_TheoNgay> header_KeHoach_TieuChi_TheoNgay { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<header_KeHoachTungThang> header_KeHoachTungThang { get; set; }
@@ -91,6 +89,8 @@ namespace QUANGHANH2.Models
         public virtual ICollection<SupplyPlan> SupplyPlans { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SupplyPlan> SupplyPlans1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Header_DiemDanh_NangSuat_LaoDong> Header_DiemDanh_NangSuat_LaoDong { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<header_ThucHienTheoNgay> header_ThucHienTheoNgay { get; set; }
     }
