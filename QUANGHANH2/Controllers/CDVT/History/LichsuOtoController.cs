@@ -22,16 +22,28 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         {
             // only taken by each department.
             string department_id = Session["departID"].ToString();
-
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            List<Supply> listSupply = db.Supplies.Where(x => x.unit == "L" || x.unit == "kWh").ToList();
+            List<Supply> listSupply; List<FuelDB> listEQ;
+            if (department_id.Contains("PX"))
+            {
+                 listSupply = db.Supplies.Where(x => x.unit == "L" || x.unit == "kWh").ToList();
+                 listEQ = db.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from " +
+                   " (select distinct e.equipmentId, e.equipment_name ,e.department_id from Equipment e inner join Equipment_category_attribute ea " +
+                   "  on ea.Equipment_category_id = e.Equipment_category_id where " +
+                   " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') as t " +
+                   " where department_id = @department_id", new SqlParameter("department_id", department_id)
+                ).ToList();
+            }
+            else
+            {
+                listSupply = db.Supplies.Where(x => x.unit == "L" || x.unit == "kWh").ToList();
+                listEQ = db.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from " +
+                  " (select distinct e.equipmentId, e.equipment_name ,e.department_id from Equipment e inner join Equipment_category_attribute ea " +
+                  "  on ea.Equipment_category_id = e.Equipment_category_id where " +
+                  " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') as t "
+               ).ToList();
+            }
 
-            List<FuelDB> listEQ = db.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from " +
-               " (select distinct e.equipmentId, e.equipment_name ,e.department_id from Equipment e inner join Equipment_category_attribute ea " +
-               "  on ea.Equipment_category_id = e.Equipment_category_id where " +
-               " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') as t " +
-               " where department_id = @department_id", new SqlParameter("department_id", department_id)
-            ).ToList();
             ViewBag.listSupply = listSupply;
             ViewBag.listEQ = listEQ;
             return View("/Views/CDVT/History/LichsuOto.cshtml");
@@ -71,25 +83,45 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 // only taken by each department.
                 string department_id = Session["departID"].ToString();
                 QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-                string query = "select q.[date], q.equipmentId, t.equipment_name, q.activityname, q.hours_per_day, q.quantity,q.activityid"
-                    + " from (select distinct e.equipmentId, e.equipment_name ,e.department_id "
-                    + " from Equipment e inner join Equipment_category_attribute ea  "
-                    + " on ea.Equipment_category_id = e.Equipment_category_id and  "
-                    + " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = 'So may') "
-                    + " as t inner join Activity q on t.equipmentId = q.equipmentId "
-                    + " where q.equipmentId LIKE @equipmentId"
-                    + " AND t.equipment_name LIKE @equipment_name AND q.[date] between @timeFrom AND @timeTo "
-                    + " ANd t.department_id = @department_id"
-                    + " order by q.[date] desc";
-                
-                List<activitiesDB> listActi = DBContext.Database.SqlQuery<activitiesDB>(query,
-                    new SqlParameter("equipmentId", '%' + equipmentId + '%'),
-                    new SqlParameter("equipment_name", '%' + equipmentName + '%'),
-                    new SqlParameter("timeFrom", timeF),
-                    new SqlParameter("timeTo", timeT),
-                    new SqlParameter("department_id", department_id)
-                    ).ToList();
-
+                List<activitiesDB> listActi;
+                if (department_id.Contains("PX"))
+                {
+                    string query = "select q.[date], q.equipmentId, t.equipment_name, q.activityname, q.hours_per_day, q.quantity,q.activityid"
+                        + " from (select distinct e.equipmentId, e.equipment_name ,e.department_id "
+                        + " from Equipment e inner join Equipment_category_attribute ea  "
+                        + " on ea.Equipment_category_id = e.Equipment_category_id and  "
+                        + " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = 'So may') "
+                        + " as t inner join Activity q on t.equipmentId = q.equipmentId "
+                        + " where q.equipmentId LIKE @equipmentId"
+                        + " AND t.equipment_name LIKE @equipment_name AND q.[date] between @timeFrom AND @timeTo "
+                        + " ANd t.department_id = @department_id"
+                        + " order by q.[date] desc";
+                    listActi = DBContext.Database.SqlQuery<activitiesDB>(query,
+                        new SqlParameter("equipmentId", '%' + equipmentId + '%'),
+                        new SqlParameter("equipment_name", '%' + equipmentName + '%'),
+                        new SqlParameter("timeFrom", timeF),
+                        new SqlParameter("timeTo", timeT),
+                        new SqlParameter("department_id", department_id)
+                        ).ToList();
+                }
+                else
+                {
+                    string query = "select q.[date], q.equipmentId, t.equipment_name, q.activityname, q.hours_per_day, q.quantity,q.activityid"
+                        + " from (select distinct e.equipmentId, e.equipment_name ,e.department_id "
+                        + " from Equipment e inner join Equipment_category_attribute ea  "
+                        + " on ea.Equipment_category_id = e.Equipment_category_id and  "
+                        + " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = 'So may') "
+                        + " as t inner join Activity q on t.equipmentId = q.equipmentId "
+                        + " where q.equipmentId LIKE @equipmentId"
+                        + " AND t.equipment_name LIKE @equipment_name AND q.[date] between @timeFrom AND @timeTo "
+                        + " order by q.[date] desc";
+                    listActi = DBContext.Database.SqlQuery<activitiesDB>(query,
+                        new SqlParameter("equipmentId", '%' + equipmentId + '%'),
+                        new SqlParameter("equipment_name", '%' + equipmentName + '%'),
+                        new SqlParameter("timeFrom", timeF),
+                        new SqlParameter("timeTo", timeT)
+                        ).ToList();
+                }
                 int totalrows = listActi.Count;
                 int totalrowsafterfiltering = listActi.Count;
                 //sorting
@@ -143,26 +175,47 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 // only taken by each department.
                 string department_id = Session["departID"].ToString();
                 QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-                string query = "select f.[date], f.equipmentId, t.equipment_name, f.fuel_type, f.consumption_value, s.unit,s.supply_name,fuelId from(select distinct e.equipmentId, e.equipment_name ,e.department_id"
-                    + " from Equipment e inner join Equipment_category_attribute ea "
-                    + " on ea.Equipment_category_id = e.Equipment_category_id where  "
-                    + " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = 'So may') "
-                    + " as t join Fuel_activities_consumption f  "
-                    + " on t.equipmentId = f.equipmentId "
-                    + " join Supply s on s.supply_id = f.fuel_type "
-                    + " where f.equipmentId LIKE @equipmentId "
-                    + " AND t.equipment_name LIKE @equipment_name AND f.[date] between @timeFrom AND @timeTo " 
-                    + " AND t.department_id = @department_id "
-                    + " order by f.[date] desc";
-
-                List<fuelDB> listFuelConsump = DBContext.Database.SqlQuery<fuelDB>(query,
-                    new SqlParameter("equipmentId", '%' + equipmentId + '%'),
-                    new SqlParameter("equipment_name", '%' + equipmentName + '%'),
-                    new SqlParameter("timeFrom", timeF),
-                    new SqlParameter("timeTo", timeT),
-                    new SqlParameter("department_id", department_id)
-                    ).ToList();
-
+                List<fuelDB> listFuelConsump;
+                if (department_id.Contains("PX"))
+                {
+                    string query = "select f.[date], f.equipmentId, t.equipment_name, f.fuel_type, f.consumption_value, s.unit,s.supply_name,fuelId from(select distinct e.equipmentId, e.equipment_name ,e.department_id"
+                        + " from Equipment e inner join Equipment_category_attribute ea "
+                        + " on ea.Equipment_category_id = e.Equipment_category_id where  "
+                        + " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = 'So may') "
+                        + " as t join Fuel_activities_consumption f  "
+                        + " on t.equipmentId = f.equipmentId "
+                        + " join Supply s on s.supply_id = f.fuel_type "
+                        + " where f.equipmentId LIKE @equipmentId "
+                        + " AND t.equipment_name LIKE @equipment_name AND f.[date] between @timeFrom AND @timeTo "
+                        + " AND t.department_id = @department_id "
+                        + " order by f.[date] desc";
+                     listFuelConsump = DBContext.Database.SqlQuery<fuelDB>(query,
+                        new SqlParameter("equipmentId", '%' + equipmentId + '%'),
+                        new SqlParameter("equipment_name", '%' + equipmentName + '%'),
+                        new SqlParameter("timeFrom", timeF),
+                        new SqlParameter("timeTo", timeT),
+                        new SqlParameter("department_id", department_id)
+                        ).ToList();
+                }
+                else
+                {
+                    string query = "select f.[date], f.equipmentId, t.equipment_name, f.fuel_type, f.consumption_value, s.unit,s.supply_name,fuelId from(select distinct e.equipmentId, e.equipment_name ,e.department_id"
+                        + " from Equipment e inner join Equipment_category_attribute ea "
+                        + " on ea.Equipment_category_id = e.Equipment_category_id where  "
+                        + " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = 'So may') "
+                        + " as t join Fuel_activities_consumption f  "
+                        + " on t.equipmentId = f.equipmentId "
+                        + " join Supply s on s.supply_id = f.fuel_type "
+                        + " where f.equipmentId LIKE @equipmentId "
+                        + " AND t.equipment_name LIKE @equipment_name AND f.[date] between @timeFrom AND @timeTo "
+                        + " order by f.[date] desc";
+                    listFuelConsump = DBContext.Database.SqlQuery<fuelDB>(query,
+                       new SqlParameter("equipmentId", '%' + equipmentId + '%'),
+                       new SqlParameter("equipment_name", '%' + equipmentName + '%'),
+                       new SqlParameter("timeFrom", timeF),
+                       new SqlParameter("timeTo", timeT)
+                       ).ToList();
+                }
                 int totalrows = listFuelConsump.Count;
                 int totalrowsafterfiltering = listFuelConsump.Count;
                 //sorting
