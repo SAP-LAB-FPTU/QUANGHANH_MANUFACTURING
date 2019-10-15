@@ -256,17 +256,12 @@
                 cur["HeaderID"] = $("#headerIDhidden").attr("value");
                 $(this).children("td").each(function (i, v) {
                     switch (i) {
-                        case 1:
+                        case 0:
                             cur[heads[i]] = $(this).attr("id").split("-")[0]
                             break;
                         case 2:
                         case 3:
                             cur[heads[i]] = $(this).children("input").val()
-                            break;
-                        case 0:
-                            // id formart : "matieuchi" +"headerid"+"name"
-                            cur[heads[i]] = $(this).attr("id").split("-")[1]
-                            headerID = $(this).attr("id").split("-")[1]
                             break;
                         default:
                             break;
@@ -304,12 +299,12 @@
                 let reponseData = response.data
                 if (reponseData.length > 1) {
                     for (let i = 0; i < reponseData.length; i++) {
-                        content += "<tr><td class=\"aspectName\" id=\"" + reponseData[i].Identify + ("-name") + "\">" + reponseData[i].TenTieuChi + "</td><td id=\"" + reponseData[i].Identify + ("-unit") + "\">" + reponseData[i].DonVi + "</td><td class=\"editableContent\" id=\"" + reponseData[i].Identify + ("-amount") + "\">" + reponseData[i].SanLuong + "</td><td class=\"editableContent\" id=\"" + reponseData[i].Identify + ("-description") + "\">" + reponseData[i].GhiChu + "</td><tr>";
+                        content += "<tr><td class=\"aspectName\" id=\"" + reponseData[i].Identify + ("-name") + "\">" + reponseData[i].TenTieuChi + "</td><td id=\"" + reponseData[i].Identify + ("-unit") + "\">" + reponseData[i].DonViDo + "</td><td class=\"editableContent\" id=\"" + reponseData[i].Identify + ("-amount") + "\">" + reponseData[i].SanLuong + "</td><td class=\"editableContent\" id=\"" + reponseData[i].Identify + ("-description") + "\">" + (reponseData[i].GhiChu == null ? "" : reponseData[i].GhiChu) + "</td><tr>";
                     }
                 } else {
                     if (reponseData.length == 1) {
                         if (reponseData[0].MaTieuChiNull != null) {
-                            content += "<tr><td class=\"aspectName\" id=\"" + reponseData[0].Identify + ("-name") + "\">" + reponseData[0].TenTieuChi + "</td><td id=\"" + reponseData[0].Identify + ("-unit") + "\">" + reponseData[0].DonVi + "</td><td class=\"editableContent\" id=\"" + reponseData[0].Identify + ("-amount") + "\">" + reponseData[0].SanLuong + "</td><td class=\"editableContent\" id=\"" + reponseData[0].Identify + ("-description") + "\">" + reponseData[0].GhiChu + "</td><tr>";
+                            content += "<tr><td class=\"aspectName\" id=\"" + reponseData[0].Identify + ("-name") + "\">" + reponseData[0].TenTieuChi + "</td><td id=\"" + reponseData[0].Identify + ("-unit") + "\">" + reponseData[0].DonViDo + "</td><td class=\"editableContent\" id=\"" + reponseData[0].Identify + ("-amount") + "\">" + reponseData[0].SanLuong + "</td><td class=\"editableContent\" id=\"" + reponseData[0].Identify + ("-description") + "\">" + (reponseData[i].GhiChu == null ? "" : reponseData[0].GhiChu) + "</td><tr>";
                         }
                     }
                 }

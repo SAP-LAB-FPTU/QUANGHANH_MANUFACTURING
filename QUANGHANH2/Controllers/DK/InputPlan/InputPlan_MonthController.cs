@@ -57,9 +57,10 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
                 {
                     foreach (var item in listAspect)
                     {
-                        item.Identify = item.MaTieuChi + "-" + item.HeaderID;
+                        item.Identify = item.MaTieuChiNull + "-" + item.HeaderID;
                     }
-                } else
+                }
+                else
                 {
                     header_KeHoachTungThang header = new header_KeHoachTungThang();
                     header.MaPhongBan = departmentID;
@@ -88,19 +89,37 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
             List<KeHoach_TieuChi_TheoThang> listUpdate = JsonConvert.DeserializeObject<List<KeHoach_TieuChi_TheoThang>>(data);
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
+                var listAspectDepartments = (from pbtc in db.PhongBan_TieuChi
+                            .Where(x => x.MaPhongBan == departmentID)
+                                             join tieuchi in db.TieuChis on pbtc.MaTieuChi equals tieuchi.MaTieuChi
+                                             select new
+                                             {
+                                                 MaTieuChi = tieuchi.MaTieuChi,
+                                                 TenTieuChi = tieuchi.TenTieuChi
+                                             }).ToList();
+
                 DateTime currentTime = DateTime.Now;
                 db.Configuration.ValidateOnSaveEnabled = true;
-                foreach(var item in listUpdate) {
+                foreach (var item in listUpdate)
+                {
                     item.ThoiGianNhapCuoiCung = currentTime;
                     db.KeHoach_TieuChi_TheoThang.Add(item);
                 }
-                var header = db.header_KeHoachTungThang.Where(x => x.MaPhongBan == departmentID && x.ThangKeHoach == month && x.NamKeHoach == year).FirstOrDefault();
-                header.SoNgayLamViec = totalDays;
-                db.Entry(header).State = System.Data.Entity.EntityState.Modified;
+                //var header = db.header_KeHoachTungThang.Where(x => x.MaPhongBan == departmentID && x.ThangKeHoach == month && x.NamKeHoach == year).FirstOrDefault();
+                //header.SoNgayLamViec = totalDays;
+                //db.Entry(header).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
+                var listAspect = GetData(month, year, departmentID);
+                if (listAspect.Count != 0)
+                {
+                    foreach (var item in listAspect)
+                    {
+                        item.Identify = item.MaTieuChiNull + "-" + item.HeaderID;
+                    }
+                }
                 //
+                return Json(new { data = listAspect, aspects = listAspectDepartments });
             }
-            return Json(new {data = GetData(month,year,departmentID)});
         }
     }
 
