@@ -43,44 +43,52 @@ namespace QUANGHANHCORE.Controllers
         {
             if (password == null) return RedirectToAction("Index");
             string passXc = new XCryptEngine(XCryptEngine.AlgorithmType.MD5).Encrypt(password, "pl");
-            var checkuser = db.Accounts.Where(x => x.Username == username).Where(y => y.Password == passXc).ToList();
-            if (checkuser.Count > 0)
+            var checkuser = db.Accounts.Where(x => x.Username == username).Where(y => y.Password == passXc).SingleOrDefault();
+            if(checkuser != null)
             {
-                Session["UserID"] = checkuser[0].ID;
-                int id = checkuser[0].ID;
-                var Name = db.Accounts.Where(x => x.ID == id).FirstOrDefault<Account>();
-                if (Name.NVID != null)
+                if (checkuser.Username.Equals(username) && checkuser.Password.Equals(passXc))
                 {
-                    var depart = db.NhanViens.Where(x => x.MaNV == Name.NVID).FirstOrDefault();
-                    var departName = db.Departments.Where(x => x.department_id == depart.MaPhongBan).FirstOrDefault();
-                    Session["departName"] = departName.department_name;
-                    Session["departID"] = departName.department_id;
-                }
-                Session["Name"] = Name.Name;
-                Session["username"] = Name.Username;
-                Session["Position"] = Name.Position;
-                Session["isAdmin"] = Name.ADMIN;
-                GetPermission(id);
-                if (!String.IsNullOrEmpty(rm))
-                {
-                    if (rm.Equals("on"))
+                    Session["UserID"] = checkuser.ID;
+                    int id = checkuser.ID;
+                    var Name = db.Accounts.Where(x => x.ID == id).FirstOrDefault<Account>();
+                    if (Name.NVID != null)
                     {
-                        HttpCookie remme = new HttpCookie("remme");
-                        remme["username"] = Name.Username;
-                        remme["password"] = password;
-                        remme.Expires = DateTime.Now.AddDays(365);
-                        HttpContext.Response.Cookies.Add(remme);
+                        var depart = db.NhanViens.Where(x => x.MaNV == Name.NVID).FirstOrDefault();
+                        var departName = db.Departments.Where(x => x.department_id == depart.MaPhongBan).FirstOrDefault();
+                        Session["departName"] = departName.department_name;
+                        Session["departID"] = departName.department_id;
                     }
+                    Session["Name"] = Name.Name;
+                    Session["username"] = Name.Username;
+                    Session["Position"] = Name.Position;
+                    Session["isAdmin"] = Name.ADMIN;
+                    GetPermission(id);
+                    if (!String.IsNullOrEmpty(rm))
+                    {
+                        if (rm.Equals("on"))
+                        {
+                            HttpCookie remme = new HttpCookie("remme");
+                            remme["username"] = Name.Username;
+                            remme["password"] = password;
+                            remme.Expires = DateTime.Now.AddDays(365);
+                            HttpContext.Response.Cookies.Add(remme);
+                        }
+                    }
+                    if (Name.ADMIN) return RedirectToAction("Index", "ManagementUser");
+                    string url = (string)Session["url"];
+                    if (url == null)
+                    {
+                        ViewData["Notification"] = "Tài khoản chưa được kích hoạt";
+                        Session.Abandon();
+                        return View();
+                    }
+                    return Redirect(url);
                 }
-                if (Name.ADMIN) return RedirectToAction("Index", "ManagementUser");
-                string url = (string)Session["url"];
-                if (url == null)
+                else
                 {
-                    ViewData["Notification"] = "Tài khoản chưa được kích hoạt";
-                    Session.Abandon();
+                    ViewData["Notification"] = "Tên đăng nhập/mật khẩu không đúng!";
                     return View();
                 }
-                return Redirect(url);
             }
             else
             {
@@ -145,6 +153,7 @@ namespace QUANGHANHCORE.Controllers
             {
                 RightIDs.Add("0");
                 Session["url"] = "ManagementUser/Index";
+                Session["departID"] = "QL";
             }
             Session["RightIDs"] = RightIDs;
         }

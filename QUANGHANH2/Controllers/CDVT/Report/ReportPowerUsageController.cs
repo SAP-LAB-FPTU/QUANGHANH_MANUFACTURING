@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.Script.Serialization;
 
 namespace QUANGHANHCORE.Controllers.CDVT.Report
 {
@@ -20,140 +21,57 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
         [Route("phong-cdvt/bao-cao/dien-nang")]
         public ActionResult Quarter(string type, string date, string month, string quarter, string year)
         {
-            var noww = DateTime.Now.Date.ToString("dd/MM/yyyy");
-            ViewBag.now = noww;
-            Wherecondition(type, date, month, quarter, year);
-            if (ViewBag.ContentReport != null)
+            string query;
+            if (type == null)
             {
-                int total = 0;
-                foreach(var item in ViewBag.ContentReport)
-                {
-                    total += item.LuongTieuThu;
-                }
-                ViewBag.Dien = total;
+                var ngay = DateTime.Now.Date.ToString("dd/MM/yyyy");
+                query = Wherecondition("day", ngay, null, null, null);
             }
-            if (ViewBag.ContentReport != null)
+            else
             {
-                int total = 0;
-                foreach (var item in ViewBag.ContentReport)
-                {
-                    total += item.SanLuong;
-                }
-                ViewBag.SanLuong = total;
+                query = Wherecondition(type, date, month, quarter, year);
             }
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                List<contentreportPower> listdata = db.Database.SqlQuery<contentreportPower>(query).ToList();
+                int totaltieuthu = 0; double totalsanluong = 0;
+                if (listdata != null)
+                {
+                    foreach (var item in listdata)
+                    {
+                        totaltieuthu += item.LuongTieuThu;
+                        totalsanluong += item.SanLuong;
+                    }
+                }
+                ViewBag.Dien = totaltieuthu;
+                ViewBag.SanLuong = totalsanluong;
+            }
+
             return View("/Views/CDVT/Report/QuarterPowerUsage.cshtml");
         }
-        private void getContentbyDay(DateTime date)
+        [Route("phong-cdvt/bao-cao/dien-nang")]
+        [HttpPost]
+        public ActionResult List(string type, string date, string month, string quarter, string year)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            string query;
+            if (type == null)
             {
-                if (db.Fuel_activities_consumption.Where(a => a.fuel_type == "DIEN").Where(a => a.date == date).ToList().Count() == 0)
-                {
-                    ViewBag.Dien = 0;
-                }
-                else
-                {
-                    ViewBag.Dien = db.Fuel_activities_consumption.Where(a => a.fuel_type == "DIEN").Where(a => a.date == date).Sum(a => a.consumption_value);
-                }
-                if (db.Activities.Where(a => a.date == date).ToList().Count() == 0)
-                {
-                    ViewBag.SanLuong = 0;
-                }
-                else
-                {
-                    ViewBag.SanLuong = db.Activities.Where(a => a.date == date).Sum(a => a.quantity);
-                }
+                var ngay = DateTime.Now.Date.ToString("dd/MM/yyyy");
+                query = Wherecondition("day", ngay, null, null, null);
             }
-        }
-        private void getContentbyMonth(int month, int year)
-        {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            else
             {
-                if (db.Fuel_activities_consumption.Where(a => a.fuel_type == "DIEN").Where(a => a.date.Month == month && a.date.Year == year).ToList().Count() == 0)
-                {
-                    ViewBag.Dien = 0;
-                }
-                else
-                {
-                    ViewBag.Dien = db.Fuel_activities_consumption.Where(a => a.fuel_type == "DIEN").Where(a => a.date.Month == month && a.date.Year == year).Sum(a => a.consumption_value);
-                }
-                if (db.Activities.Where(a => a.date.Month == month && a.date.Year == year).ToList().Count() == 0)
-                {
-                    ViewBag.SanLuong = 0;
-                }
-                else
-                {
-                    ViewBag.SanLuong = db.Activities.Where(a => a.date.Month == month && a.date.Year == year).Sum(a => a.quantity);
-                }
-            }
-        }
-        private void getContentbyYear(int year)
-        {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-            {
-                if (db.Fuel_activities_consumption.Where(a => a.fuel_type == "DIEN").Where(a => a.date.Year == year).Count() == 0)
-                {
-                    ViewBag.Dien = 0;
-                }
-                else
-                {
-                    ViewBag.Dien = db.Fuel_activities_consumption.Where(a => a.fuel_type == "DIEN").Where(a => a.date.Year == year).Sum(a => a.consumption_value);
-                }
-                if (db.Activities.Where(a => a.date.Year == year).ToList().Count() == 0)
-                {
-                    ViewBag.SanLuong = 0;
-                }
-                else
-                {
-                    ViewBag.SanLuong = db.Activities.Where(a => a.date.Year == year).Sum(a => a.quantity);
-                }
-            }
-        }
-        private void getContentbyQuater(int quarter, int year)
-        {
-            int low = 1;
-            int high = 3;
-            if (quarter == 1)
-            {
-                low = 1;
-                high = 3;
-            }
-            if (quarter == 2)
-            {
-                low = 4;
-                high = 6;
-            }
-            if (quarter == 3)
-            {
-                low = 7;
-                high = 9;
-            }
-            if (quarter == 4)
-            {
-                low = 10;
-                high = 12;
+                query = Wherecondition(type, date, month, quarter, year);
             }
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                if (db.Fuel_activities_consumption.Where(a => a.fuel_type == "DIEN").Where(a => a.date.Month <= high && a.date.Month >= low && a.date.Year == year).Count() == 0)
-                {
-                    ViewBag.Dien = 0;
-                }
-                else
-                {
-                    ViewBag.Dien = db.Fuel_activities_consumption.Where(a => a.fuel_type == "DIEN").Where(a => a.date.Month <= high && a.date.Month >= low && a.date.Year == year).Sum(a => a.consumption_value);
-                }
-                if (db.Activities.Where(a => a.date.Month <= high && a.date.Month >= low && a.date.Year == year).Count() == 0)
-                {
-                    ViewBag.SanLuong = 0;
-                }
-                else
-                {
-                    ViewBag.SanLuong = db.Activities.Where(a => a.date.Month <= high && a.date.Month >= low && a.date.Year == year).Sum(a => a.quantity);
-                }
+                List<contentreportPower> listdata = db.Database.SqlQuery<contentreportPower>(query).ToList();
+                var js = Json(new { success = true, data = listdata }, JsonRequestBehavior.AllowGet);
+                var dataserialize = new JavaScriptSerializer().Serialize(js.Data);
+                return js;
             }
         }
-        private void Wherecondition(string type, string date, string month, string quarter, string year)
+        private string Wherecondition(string type, string date, string month, string quarter, string year)
         {
             string query = "";
             if (type == null)
@@ -161,7 +79,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                 var ngay = DateTime.Now.Date;
                 query = "select MONTH(a.date) as Thang, YEAR(a.date) as Nam,c.equipmentId as MaThietBi, " +
                 " equipment_name as TenThietBi,consumption_value as " +
-                " LuongTieuThu,ac.quantity as SanLuong from Fuel_activities_consumption a , Supply b, Equipment c , Activity ac " +
+                " LuongTieuThu,ac.quantity as SanLuong,N'tấn' as DonVi from Fuel_activities_consumption a , Supply b, Equipment c , Activity ac " +
                 " where a.fuel_type = b.supply_id and a.equipmentId = c.equipmentId  and ac.equipmentId = c.equipmentId " +
                 " and fuel_type in ('DIEN') and a.date = '" + ngay + "' and a.date = ac.date";
             }
@@ -170,7 +88,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                 var ngay = DateTime.ParseExact(date,"dd/MM/yyyy",null).ToString("yyyy-MM-dd");
                 query = "select MONTH(a.date) as Thang, YEAR(a.date) as Nam,c.equipmentId as MaThietBi, " +
                 " equipment_name as TenThietBi,consumption_value as " +
-                " LuongTieuThu,ac.quantity as SanLuong from Fuel_activities_consumption a , Supply b, Equipment c , Activity ac " +
+                " LuongTieuThu,ac.quantity as SanLuong,N'tấn' as DonVi from Fuel_activities_consumption a , Supply b, Equipment c , Activity ac " +
                 " where a.fuel_type = b.supply_id and a.equipmentId = c.equipmentId  and ac.equipmentId = c.equipmentId " +
                 " and fuel_type in ('DIEN') and a.date = '" + ngay + "' and a.date = ac.date";
                 ViewBag.now = date;
@@ -181,7 +99,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                 int nam = Convert.ToInt32(year);
                 query = "select MONTH(a.date) as Thang, YEAR(a.date) as Nam,c.equipmentId as MaThietBi, " +
                 " equipment_name as TenThietBi,consumption_value as " +
-                " LuongTieuThu,ac.quantity as SanLuong from Fuel_activities_consumption a , Supply b, Equipment c , Activity ac " +
+                " LuongTieuThu,ac.quantity as SanLuong,N'tấn' as DonVi from Fuel_activities_consumption a , Supply b, Equipment c , Activity ac " +
                 " where a.fuel_type = b.supply_id and a.equipmentId = c.equipmentId  and ac.equipmentId = c.equipmentId " +
                 " and fuel_type in ('DIEN') and a.date = ac.date and YEAR(a.date) = " + nam + " and MONTH(a.date) = " + thang;
             }
@@ -207,7 +125,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                 }
                 query = "select MONTH(a.date) as Thang, YEAR(a.date) as Nam,c.equipmentId as MaThietBi, " +
                 " equipment_name as TenThietBi,consumption_value as " +
-                " LuongTieuThu,ac.quantity as SanLuong from Fuel_activities_consumption a , Supply b, Equipment c , Activity ac " +
+                " LuongTieuThu,ac.quantity as SanLuong,N'tấn' as DonVi from Fuel_activities_consumption a , Supply b, Equipment c , Activity ac " +
                 " where a.fuel_type = b.supply_id and a.equipmentId = c.equipmentId  and ac.equipmentId = c.equipmentId " +
                 " and fuel_type in ('DIEN') and a.date = ac.date and YEAR(a.date) = " + nam + " and Month(a.date) in " + quy;
             }
@@ -216,15 +134,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                 int nam = Convert.ToInt32(year);
                 query = " select MONTH(a.date) as Thang, YEAR(a.date) as Nam,c.equipmentId as MaThietBi, " +
                 " equipment_name as TenThietBi,consumption_value as " +
-                " LuongTieuThu,ac.quantity as SanLuong from Fuel_activities_consumption a , Supply b, Equipment c , Activity ac " +
+                " LuongTieuThu,ac.quantity as SanLuong,N'tấn' as DonVi from Fuel_activities_consumption a , Supply b, Equipment c , Activity ac " +
                 " where a.fuel_type = b.supply_id and a.equipmentId = c.equipmentId  and ac.equipmentId = c.equipmentId " +
                 " and fuel_type in ('DIEN') and a.date = ac.date and YEAR(a.date) = " + nam;
             }
-
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-            {
-                ViewBag.ContentReport = db.Database.SqlQuery<contentreportPower>(query).ToList();
-            }
+            return query;
         }
         [Route("phong-cdvt/bao-cao/dien-nang/excel")]
         public ActionResult Export(string type, string date, string month, string quarter, string year)
@@ -238,24 +152,27 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    Wherecondition(type, date, month, quarter, year);
-                    int totaltieuthu = 0; int totalsanluong = 0;
-                    if (ViewBag.ContentReport != null)
+                    string query;
+                    if (type == null)
                     {
-                        foreach (var item in ViewBag.ContentReport)
+                        var ngay = DateTime.Now.Date.ToString("dd/MM/yyyy");
+                        query = Wherecondition("day", ngay, null, null, null);
+                    }
+                    else
+                    {
+                        query = Wherecondition(type, date, month, quarter, year);
+                    }
+                    List<contentreportPower> content = db.Database.SqlQuery<contentreportPower>(query).ToList();
+                    int totaltieuthu = 0; double totalsanluong = 0;
+                    if (content != null)
+                    {
+                        foreach (var item in content)
                         {
                             totaltieuthu += item.LuongTieuThu;
-                        }
-                    }
-                    if (ViewBag.ContentReport != null)
-                    {
-                        foreach (var item in ViewBag.ContentReport)
-                        {
                             totalsanluong += item.SanLuong;
                         }
                     }
                     int k = 3;
-                    List<contentreportPower> content = ViewBag.ContentReport;
                     for (int i = 0; i < content.Count; i++)
                     {
                         excelWorksheet.Cells[k, 1].Value = content.ElementAt(i).Thang + "/" + content.ElementAt(i).Nam;
@@ -263,6 +180,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                         excelWorksheet.Cells[k, 3].Value = content.ElementAt(i).TenThietBi;
                         excelWorksheet.Cells[k, 4].Value = content.ElementAt(i).LuongTieuThu;
                         excelWorksheet.Cells[k, 5].Value = content.ElementAt(i).SanLuong;
+                        excelWorksheet.Cells[k, 6].Value = content.ElementAt(i).DonVi;
                         k++;
                     }
                     excelWorksheet.Cells[k, 3].Value = "Tổng";
@@ -287,5 +205,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
         public string TenThietBi { get; set; }
         public int LuongTieuThu { get; set; }
         public double SanLuong { get; set; }
+        public string DonVi { get; set; }
     }
 }

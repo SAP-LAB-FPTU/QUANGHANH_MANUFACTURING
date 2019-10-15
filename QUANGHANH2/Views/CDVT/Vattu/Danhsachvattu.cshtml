@@ -163,7 +163,24 @@
         </div>
     </div>
 </form>
+<script>
+    $("#supply_id_search").keyup(function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#supply_id_search").blur();
+        }
+    });
 
+    $("#supply_name_search").keyup(function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#supply_name_search").blur();
+        }
+    });
+</script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
 @section scripts{
     <script>
         var Popup, dataTable;
