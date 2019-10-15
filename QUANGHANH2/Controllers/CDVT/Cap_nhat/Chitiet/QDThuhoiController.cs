@@ -101,19 +101,19 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
                             docu.documentary_status = 2;
                         }
 
+                  
                         DBContext.SaveChanges();
                         transaction.Commit();
-                        return new HttpStatusCodeResult(201);
+                        return Json(new { success = true, message = "Lưu thành công" }, JsonRequestBehavior.AllowGet);
                     }
                     catch (Exception)
                     {
                         transaction.Rollback();
-                        Response.Write("Có lỗi xảy ra, xin vui lòng nhập lại");
-                        return new HttpStatusCodeResult(400);
+                        return Json(new { success = false, message = "Có lỗi xảy ra" }, JsonRequestBehavior.AllowGet);
                     }
                 }
             }
-            return new HttpStatusCodeResult(201);
+            return Json(new { success = true, message = "Lưu thành công" }, JsonRequestBehavior.AllowGet);
         }
     }
 }

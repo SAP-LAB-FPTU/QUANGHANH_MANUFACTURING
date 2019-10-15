@@ -60,6 +60,21 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
         {
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             Supply s = DBContext.Supplies.Find(supply_id);
+            if (supply_id.Trim()=="")
+            {
+                return Json(new { success = false, message = "Không được để trống trường Mã vật tư" }, JsonRequestBehavior.AllowGet);
+            }
+            else
+             if (supply_name.Trim() == "")
+            {
+                return Json(new { success = false, message = "Không được để trống trường Tên vật tư" }, JsonRequestBehavior.AllowGet);
+            }
+            else
+              if (unit.Trim() == "")
+            {
+                return Json(new { success = false, message = "Không được để trống trường Đơn vị" }, JsonRequestBehavior.AllowGet);
+            }
+            else
             if (s != null)
                 return Json(new { success = false, message = "Vật tư đã tồn tại"}, JsonRequestBehavior.AllowGet);
             else
