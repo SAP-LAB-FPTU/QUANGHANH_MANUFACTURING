@@ -744,7 +744,6 @@ C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\XCrypt.dll
 C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Runtime.CompilerServices.Unsafe.xml
 C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Unity.Abstractions.pdb
 C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Unity.Container.pdb
-C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.csprojAssemblyReference.cache
 D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\QUANGHANH2.dll.config
 D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\QUANGHANH2.dll
 D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\QUANGHANH2.pdb
@@ -842,3 +841,4 @@ C:\Users\DUY\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.IO.Packa
 C:\Users\DUY\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Net.Http.Formatting.dll
 C:\Users\DUY\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\DocumentFormat.OpenXml.xml
 C:\Users\DUY\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Net.Http.Formatting.xml
+C:\Users\DUY\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.csprojAssemblyReference.cache
