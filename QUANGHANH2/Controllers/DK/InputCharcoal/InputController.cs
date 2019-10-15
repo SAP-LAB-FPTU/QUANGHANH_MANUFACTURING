@@ -66,40 +66,38 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                     List<header_ThucHienTheoNgay> checkList = db.header_ThucHienTheoNgay.Where(x => x.MaPhongBan == px_value && x.Ca == ca && x.Ngay == dateTime).ToList();
                     if (checkList.Count > 0)
                     {
-                        string queryLoad = "select TenTieuChi, SanLuong, KeHoach, KHDC, GhiChu, LuyKe, DonViDo from( " +
-                            "(select th.SanLuong, th.GhiChu, th.MaTieuChi 'TieuChiLoad' from header_ThucHienTheoNgay headth " +
-                            "left outer join ThucHien_TieuChi_TheoNgay th " +
-                            "on headth.HeaderID = th.HeaderID " +
-                            "where headth.MaPhongBan = '" + px_value + "' and headth.Ca = " + ca_value + " and " +
-                            " headth.Ngay = '" + date.Split('/')[1] + "/" + date.Split('/')[0] + "/" + date.Split('/')[2] + "' " +
-                            ") as TH " +
-                            "inner join " +
-                            "(select kh.KeHoach, kh.MaTieuChi from KeHoach_TieuChi_TheoNgay kh " +
-                            "left outer join header_KeHoach_TieuChi_TheoNgay headkh " +
-                            "on kh.HeaderID = headkh.HeaderID " +
+                        string queryLoad = "select TenTieuChi, SanLuong, KeHoach, KHDC, GhiChu, LuyKe, DonViDo " +
+                            "from((select th.SanLuong, th.GhiChu, th.MaTieuChi 'TieuChiLoad' " +
+                            "from header_ThucHienTheoNgay headth left outer join ThucHien_TieuChi_TheoNgay th " +
+                            "on headth.HeaderID = th.HeaderID where headth.MaPhongBan = '" + px_value + "' " +
+                            "and headth.Ca = " + ca_value + " and  headth.Ngay = '" + date.Split('/')[1] + "/" + date.Split('/')[0] + "/" + date.Split('/')[2] + "') " +
+                            "as TH " +
+                            "inner join(select kh.KeHoach, kh.MaTieuChi " +
+                            "from KeHoach_TieuChi_TheoNgay kh left outer join " +
+                            "header_KeHoach_TieuChi_TheoNgay headkh on kh.HeaderID = headkh.HeaderID " +
                             "where headkh.MaPhongBan = '" + px_value + "' and headkh.Ca = " + ca_value + " and " +
-                            "headkh.NgayNhapKH = '" + date.Split('/')[1] + "/" + date.Split('/')[0] + "/" + date.Split('/')[2] + "' " +
-                            ") as KH " +
-                            "on TH.TieuChiLoad = KH.MaTieuChi " +
-                            "inner join " +
-                            "(" +
-                            "select khMonth.MaTieuChi, khMonth.SanLuong 'KHDC' from header_KeHoachTungThang headMonth " +
-                            "left outer join KeHoach_TieuChi_TheoThang khMonth " +
-                            "on headMonth.HeaderID = khMonth.HeaderID " +
-                            "where headMonth.MaPhongBan = '" + px_value + "' and headMonth.ThangKeHoach = " + month + " and headMonth.NamKeHoach = " + year + " " +
-                            ") as KHMonth " +
-                            "on KH.MaTieuChi = KHMonth.MaTieuChi " +
-                            "inner join " +
-                            "TieuChi tc on tc.MaTieuChi = KH.MaTieuChi " +
-                            "inner join " +
-                            "(select case when sum(lk.SanLuong) is null then 0 else sum(lk.SanLuong) end 'LuyKe', lk.MaTieuChi " +
-                            "from(select MaPhongBan, Ngay, Ca, MaTieuChi, SanLuong from header_ThucHienTheoNgay hth join ThucHien_TieuChi_TheoNgay th " +
-                            "on hth.HeaderID = th.HeaderID " +
-                            "where hth.MaPhongBan = '" + px_value + "' and Month(hth.Ngay) = Month('" + date.Split('/')[1] + "/" + date.Split('/')[0] + "/" + date.Split('/')[2] + "') " +
-                            "and Year(hth.Ngay) = Year('" + date.Split('/')[1] + "/" + date.Split('/')[0] + "/" + date.Split('/')[2] + "')) as lk " +
-                            "group by lk.MaTieuChi) as lkk " +
-                            "on lkk.MaTieuChi = tc.MaTieuChi " +
-                            ")";
+                            "headkh.NgayNhapKH = '" + date.Split('/')[1] + "/" + date.Split('/')[0] + "/" + date.Split('/')[2] + "') " +
+                            "as KH on TH.TieuChiLoad = KH.MaTieuChi inner join " +
+                            "(select a.MaTieuChi, a.KHDC, max(a.ThoiGianNhapCuoiCung) as ThoiGian from " +
+                            "(select a.MaTieuChi, khMonth.SanLuong as KHDC, a.ThoiGianNhapCuoiCung from(" +
+                            "select khMonth.MaTieuChi, MAX(khMonth.ThoiGianNhapCuoiCung) as ThoiGianNhapCuoiCung " +
+                            "from header_KeHoachTungThang headMonth left outer join KeHoach_TieuChi_TheoThang khMonth " +
+                            "on headMonth.HeaderID = khMonth.HeaderID where headMonth.MaPhongBan = '" + px_value + "' " +
+                            "and headMonth.ThangKeHoach = " + month + " and headMonth.NamKeHoach = " + year + " " +
+                            "group by khMonth.MaTieuChi) " +
+                            "as a left join KeHoach_TieuChi_TheoThang khMonth on a.MaTieuChi = khMonth.MaTieuChi " +
+                            "and a.ThoiGianNhapCuoiCung = khMonth.ThoiGianNhapCuoiCung " +
+                            ") as a group by MaTieuChi, KHDC " +
+                            ") as KHMonth on KH.MaTieuChi = KHMonth.MaTieuChi inner join TieuChi tc " +
+                            "on tc.MaTieuChi = KH.MaTieuChi inner join(select case when sum(lk.SanLuong) " +
+                            "is null then 0 else sum(lk.SanLuong) end 'LuyKe', lk.MaTieuChi " +
+                            "from(select MaPhongBan, Ngay, Ca, MaTieuChi, SanLuong from header_ThucHienTheoNgay hth " +
+                            "join ThucHien_TieuChi_TheoNgay th on hth.HeaderID = th.HeaderID " +
+                            "where hth.MaPhongBan = '"+px_value+"' " +
+                            "and Month(hth.Ngay) = Month('" + date.Split('/')[1] + "/" + date.Split('/')[0] + "/" + date.Split('/')[2] + "') " +
+                            "and Year(hth.Ngay) = Year('" + date.Split('/')[1] + "/" + date.Split('/')[0] + "/" + date.Split('/')[2] + "')) " +
+                            "as lk group by lk.MaTieuChi)  " +
+                            "as lkk on lkk.MaTieuChi = tc.MaTieuChi )";
                         listSX = db.Database.SqlQuery<SanXuat>(queryLoad).ToList();
                         flag = true;
                     }
@@ -199,20 +197,15 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                         {
                             KHDC[i] = "0";
                         }
-                        string query1 = "insert into ThucHien_TieuChi_TheoNgay (HeaderID,MaTieuChi,SanLuong,GhiChu) " +
-                            "values(" + headerIDDay + "," + maTieuChi[i] + "," + thucHien[i] + ",'" + ghiChu[i] + "')";
-                        db.Database.ExecuteSqlCommand(query1);
-
-                        string query2 = "insert into KeHoach_TieuChi_TheoNgay (HeaderID, MaTieuChi, KeHoach, ThoiGianNhapCuoiCung) " +
-                            "values(" + headerIDPlanDay + ", " + maTieuChi[i] + ", " + keHoach[i] + ", GETDATE())";
-                        db.Database.ExecuteSqlCommand(query2);
-
-                        string query3 = "insert into KeHoach_TieuChi_TheoThang (HeaderID, MaTieuChi, SanLuong, ThoiGianNhapCuoiCung)" +
+                        string query = "insert into ThucHien_TieuChi_TheoNgay (HeaderID,MaTieuChi,SanLuong,GhiChu) " +
+                            "values(" + headerIDDay + "," + maTieuChi[i] + "," + thucHien[i] + ",'" + ghiChu[i] + "') " +
+                            "insert into KeHoach_TieuChi_TheoNgay (HeaderID, MaTieuChi, KeHoach, ThoiGianNhapCuoiCung) " +
+                            "values(" + headerIDPlanDay + ", " + maTieuChi[i] + ", " + keHoach[i] + ", GETDATE()) " +
+                            "insert into KeHoach_TieuChi_TheoThang (HeaderID, MaTieuChi, SanLuong, ThoiGianNhapCuoiCung)" +
                             " values(" + headerIDMonth + ", " + maTieuChi[i] + ", " + KHDC[i] + ", GETDATE())";
-                        db.Database.ExecuteSqlCommand(query3);
+                        db.Database.ExecuteSqlCommand(query);
                     }
                     dbct.Commit();
-
                 }
                 catch (Exception e)
                 {

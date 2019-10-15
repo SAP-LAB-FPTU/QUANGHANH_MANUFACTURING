@@ -37,7 +37,7 @@
         <div class="container-fluid">
             <link rel="stylesheet" href="~/css/tuan_css/css/baocaoluong_css/style.css" />
             <link rel="stylesheet" href="~/css/tuan_css/css/kcs_css/style.css" />
-            <div class="row table_container">
+            <div class="row">
                 <div class="row">
                     <h4 class="report_title">
                         <B>BÁO CÁO CHẤT LƯỢNG THAN TỒN KHO - TIÊU THỤ VÀ THAN SẠCH SẢN XUẤT</B>
@@ -53,7 +53,7 @@
                         <div class="card-body">
                             <div class="col s12">
                                 @{
-                                    if (listFiles.Count == 0)
+                                    if (listFiles.Count == 0 && ViewBag.isLock==false)
                                     {
                                         <form action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzone">
                                             <div class="fallback">
@@ -81,18 +81,23 @@
                                         {
                                             <p>
                                                 <img width="25" style="vertical-align:middle" src="~/assets/uploader/file-icon.png" />
-                                                <a href="~/FileContainer/PhanXuongLenDK/@listFiles[i].fileName">@listFiles[i].fileNameDisplay</a>
+                                                <a href="~/FileContainer/KCS/@listFiles[i].fileName">@listFiles[i].fileNameDisplay</a>
                                                 @if (listFiles[i].chuthich != "")
                                                 {
                                                     <i> (Ghi chú: @listFiles[i].chuthich )</i>
                                                 }
-                                                <i onclick="deleteFile(@listFiles[i].id)" style="color:red; cursor:pointer" class="fas fa-times-circle"></i>
+                                                @if (ViewBag.isLock==false)
+                                                {
+                                                    <i onclick="deleteFile(@listFiles[i].id)" style="color:red; cursor:pointer" class="fas fa-times-circle"></i>
+                                                }
                                             </p>
                                         }
-                                        <div data-target="modal1" style="margin-right:10px" class="modal-trigger waves-effect blue waves-light btn">
-                                            <i class="fas fa-plus-circle"></i><span> Thêm báo cáo</span>
-                                        </div>
-
+                                        if (ViewBag.isLock==false)
+                                        {
+                                            <div data-target="modal1" style="margin-right:10px" class="modal-trigger waves-effect blue waves-light btn">
+                                                <i class="fas fa-plus-circle"></i><span> Thêm báo cáo</span>
+                                            </div>
+                                        }
                                     }
                                 }
                             </div>
