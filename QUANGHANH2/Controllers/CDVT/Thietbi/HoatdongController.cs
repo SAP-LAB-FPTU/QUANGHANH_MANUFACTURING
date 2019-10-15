@@ -68,7 +68,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
 
             }
         }
-
+        [Auther(RightID ="6")]
         [Route("phong-cdvt/huy-dong")]
         [HttpGet]
         public ActionResult Index()

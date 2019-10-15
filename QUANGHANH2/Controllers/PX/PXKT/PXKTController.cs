@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using QUANGHANH2.Models;
+using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -33,7 +34,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
         {
             return View("/Views/PX/PXKT/Add.cshtml");
         }
-
+        [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phan-xuong-khai-thac/nang-suat-lao-dong")]
         public ActionResult NSLD()
         {
@@ -47,7 +48,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
             }
             return View("/Views/PX/PXKT/NSLD.cshtml");
         }
-
+        [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phan-xuong-khai-thac/nang-suat-lao-dong-getData")]
         [HttpPost]
         public ActionResult getDataNSLD()
@@ -108,7 +109,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                 return Json(new { success = false });
             }
         }
-
+        [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phan-xuong-khai-thac/nang-suat-lao-dong-update")]
         public ActionResult UpdateNSLD(string stringjson)
         {
@@ -151,7 +152,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
             }
 
         }
-
+        [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phan-xuong-khai-thac/diem-danh")]
         public ActionResult takeAttendanceView()
         {
@@ -167,36 +168,46 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
-                Header_DiemDanh_NangSuat_LaoDong temp = db.Header_DiemDanh_NangSuat_LaoDong.Where(a => a.MaPhongBan == departmentID && a.Ca == session && a.NgayDiemDanh == date).First();
-                var listAttendance = (from emp in db.NhanViens
-                                        .Where(emp => emp.MaPhongBan == departmentID)
-                                      join per in db.DiemDanh_NangSuatLaoDong on emp.MaNV equals per.MaNV
-                                      where per.HeaderID == temp.HeaderID
-                                      //join per in db.DiemDanh_NangSuatLaoDong on emp.MaNV equals per.MaNV into tmp1
-                                      //from tmp2 in tmp1.DefaultIfEmpty()
-                                      //join header in db.Header_DiemDanh_NangSuat_LaoDong
-                                      //  .Where(h => h.MaPhongBan == departmentID && h.Ca == session && h.NgayDiemDanh == date)
-                                      //on tmp2.HeaderID equals header.HeaderID into attendance
-                                      //from att in attendance.DefaultIfEmpty()
+                Header_DiemDanh_NangSuat_LaoDong header = db.Header_DiemDanh_NangSuat_LaoDong.Where(a => a.MaPhongBan == departmentID && a.Ca == session && a.NgayDiemDanh == date).First();
+                List<string> listAttended = (from h in db.Header_DiemDanh_NangSuat_LaoDong
+                                                .Where(h => h.MaPhongBan == departmentID && h.NgayDiemDanh == date && h.Ca != session)
+                                          join per in db.DiemDanh_NangSuatLaoDong
+                                          on h.HeaderID equals per.HeaderID
+                                          select per.MaNV).ToList();
+                var leftouterjoin = (from emp in db.NhanViens
+                                        .Where(emp => emp.MaPhongBan == departmentID && !listAttended.Any(y => emp.MaNV.Equals(y)))
+                                      join per in db.DiemDanh_NangSuatLaoDong.Where(per => per.HeaderID == header.HeaderID) 
+                                      on emp.MaNV equals per.MaNV into temp
+                                      from per in temp.DefaultIfEmpty()
                                       select new
                                       {
                                           maNV = emp.MaNV,
                                           tenNV = emp.Ten,
-                                          //status = (bool?)tmp2.DiLam,
-                                          //timeAttendance = tmp2.ThoiGianThucTeDiemDanh,
-                                          //reason = tmp2.LyDoVangMat,
-                                          //description = tmp2.GhiChu,
-                                          //headerID =(int?) tmp2.HeaderID
+                                          status = per == null ? null : (bool?)per.DiLam,
+                                          timeAttendance = per == null ? null : per.ThoiGianThucTeDiemDanh,
+                                          reason = per == null ? null : per.LyDoVangMat,
+                                          description = per == null ? null : per.GhiChu,
+                                          headerID = per == null ? null : (int?)per.HeaderID
+                                      }).OrderBy(att => att.status).ToList();
+                var rightouterjoin = (from per in db.DiemDanh_NangSuatLaoDong.Where(per => per.HeaderID == header.HeaderID)
+                                      join emp in db.NhanViens
+                                        .Where(emp => emp.MaPhongBan == departmentID && !listAttended.Any(y => emp.MaNV.Equals(y)))
+                                      on per.MaNV equals emp.MaNV into temp
+                                      from emp in temp.DefaultIfEmpty()
+                                      select new
+                                      {
+                                          maNV = emp == null ? null : emp.MaNV,
+                                          tenNV = emp == null ? null : emp.Ten,
                                           status = (bool?)per.DiLam,
                                           timeAttendance = per.ThoiGianThucTeDiemDanh,
                                           reason = per.LyDoVangMat,
                                           description = per.GhiChu,
                                           headerID = (int?)per.HeaderID
                                       }).OrderBy(att => att.status).ToList();
-                return listAttendance;
+                return leftouterjoin.Union(rightouterjoin);
             }
         }
-
+        [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189")]
         [HttpPost]
         [Route("phan-xuong-khai-thac/diem-danh")]
         public ActionResult takeAttendance()
@@ -219,37 +230,14 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                     header.NgayDiemDanh = dateAtt;
                     db.Header_DiemDanh_NangSuat_LaoDong.Add(header);
                     db.SaveChanges();
-                    listAttendance = (from listNV in db.NhanViens.Where(nv => nv.MaPhongBan == departmentID)
-                                      select new
-                                      {
-                                          maNV = listNV.MaNV,
-                                          tenNV = listNV.Ten,
-                                          status = (bool?)null,
-                                          timeAttendance = (DateTime?)null,
-                                          reason = (String)null,
-                                          description = (String)null
-                                      }).ToList();
-                    for (int i = 0; i < listAttendance.Count; i++)
-                    {
-                        DiemDanh_NangSuatLaoDong temp = new DiemDanh_NangSuatLaoDong();
-                        temp.MaNV = listAttendance[i].maNV;
-                        temp.HeaderID = header.HeaderID;
-                        temp.DiLam = false;
-                        db.DiemDanh_NangSuatLaoDong.Add(temp);
-                        db.SaveChanges();
-                    }
                 }
-                else
-                {
-                    listAttendance = getAll(session, departmentID, dateAtt);
-                }
+                listAttendance = getAll(session, departmentID, dateAtt);
                 JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
                 var result = JsonConvert.SerializeObject(listAttendance, Formatting.Indented, jss);
                 return Json(new { success = true, data = result }, JsonRequestBehavior.AllowGet);
             }
-            //
         }
-
+        [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189")]
         [HttpPost]
         [Route("phan-xuong-khai-thac/diem-danh/cap-nhat")]
         public ActionResult updateAttendance()
@@ -278,19 +266,21 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                         if (item.isEnvolved)
                         {
                             dn.HeaderID = headerID;
-                            //if (item.headerID == null)
-                            //{
-                            //    db.DiemDanh_NangSuatLaoDong.Add(dn);
-                            //} else
-                            //{
+                            if (item.headerID == null)
+                            {
+                                db.DiemDanh_NangSuatLaoDong.Add(dn);
+                            }
+                            else
+                            {
                                 db.Entry(dn).State = EntityState.Modified;
-                            //}
+                            }
                         } else
                         {
                             if (item.headerID != null)
                             {
-                                dn.HeaderID = headerID;
-                                db.Entry(dn).State = EntityState.Modified;
+                                db.DiemDanh_NangSuatLaoDong.Remove(db.DiemDanh_NangSuatLaoDong.Find(item.maNV, item.headerID));
+                                //dn.HeaderID = headerID;
+                                //db.Entry(dn).State = EntityState.Modified;
                             }
                         }
                     }
@@ -304,7 +294,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
             var result = JsonConvert.SerializeObject(listAttendance, Formatting.Indented, jss);
             return Json(new { success = true, data = result }, JsonRequestBehavior.AllowGet);
         }
-
+        [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189")]
         [HttpGet]
         [Route("phan-xuong-khai-thac/diem-danh/dang-ky-nhan-vien")]
         public ActionResult registerEmployee()
@@ -330,7 +320,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                 return Json(new { success = true, data = listNV, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
             }
         }
-
+        [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189")]
         [HttpPost]
         [Route("phan-xuong-khai-thac/diem-danh/lua-chon-diem-danh")]
         public ActionResult filterEmployee()
@@ -369,7 +359,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                 return Json(new { success = true, data = result }, JsonRequestBehavior.AllowGet);
             }
         }
-
+        [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189")]
         [HttpPost]
         [Route("phan-xuong-khai-thac/diem-danh/lay-thong-tin")]
         public ActionResult fetchAPI()

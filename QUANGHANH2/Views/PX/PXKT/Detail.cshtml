@@ -1,6 +1,14 @@
 ﻿@{
-    ViewData["Title"] = "Detail";
-    Layout = "~/Views/Shared/PX/_Layout_PXKT.cshtml";
+    ViewData["Title"] = "Xincapvattu";
+    if (Session["departID"].ToString().Contains("PX"))
+    {
+        Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    }
+
 }
 <link href="~/assets/Custom css/PX/PXKT/ReportProduct.css" rel="stylesheet" />
 
@@ -847,4 +855,7 @@
         </div>
     </div>
 </div>
-<script src="~/js/Custom JS/DK/ReportHuman/editable.js"></script>
+@section scripts{
+    <script src="~/js/Custom JS/DK/ReportHuman/editable.js"></script>
+
+}

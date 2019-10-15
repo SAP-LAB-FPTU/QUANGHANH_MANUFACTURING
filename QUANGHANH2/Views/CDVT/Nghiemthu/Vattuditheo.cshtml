@@ -1,5 +1,13 @@
 ﻿@{
-    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    ViewData["Title"] = "Xincapvattu";
+    if (Session["departID"].ToString().Contains("PX"))
+    {
+        Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    }
 }
 <div class="card">
     <div class="card-content">
@@ -46,19 +54,19 @@
                                     </tr>
                                 }
                             }
-                            @if(ViewBag.ListSup3.Count == 0)
+                            @if (ViewBag.ListSup3.Count == 0)
                             {
-                                <td colspan="5">Không có dữ liệu</td>
-                            }
+                            <td colspan="5">Không có dữ liệu</td>
+                        }
 
                             </tbody>
                         </table>
-                </div>
+                    </div>
 
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
 

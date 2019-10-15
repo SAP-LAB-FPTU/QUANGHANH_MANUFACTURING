@@ -4,13 +4,15 @@
 
 <!DOCTYPE html>
 <html>
-
+@{
+    List<string> rights = (List<string>)Session["RightIDs"];
+}
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" sizes="16x16" href="~/assets/images/favicon.png">
-    <title>Cơ Điện Vận Tải</title>
+    <title>Phân Xưởng</title>
     <!-- chartist CSS -->
     <link href="~/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
     <link href="~/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css" rel="stylesheet">
@@ -21,6 +23,12 @@
     @*<link href="~/dist/css/custom.css" rel="stylesheet">*@
     <!-- This page CSS -->
     <link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
+    <link href="~/css/preloader/css.css" rel="stylesheet" />
+
+    <!--Custom Datepicker CSS-->
+    <link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+    <link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
+    <link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
     <link href="~/css/preloader/css.css" rel="stylesheet" />
 
 
@@ -59,9 +67,13 @@
     <script src="~/dist/js/pages/dashboards/dashboard1.js"></script>
     <script src="~/js/Flexible_user_icon.js"></script>
     <script src="~/js/Custom JS/form-input-border.js"></script>
+
+    <!--Custom Datepicker JS-->
+    <script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
+    <script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
     <style>
-        .btn-nhap{
-            cursor:pointer;
+        .btn-nhap {
+            cursor: pointer;
         }
     </style>
 </head>
@@ -276,8 +288,8 @@
                                     <div class="dw-user-box">
                                         <div class="u-img"><img src="/assets/images/users/2.jpg" alt="user"></div>
                                         <div class="u-text">
-                                            <h4>Nguyễn Văn Long</h4>
-                                            <p>long.cdvt@gmail.com</p>
+                                            <h4>@Session["Name"]</h4>
+                                            <p>@Session["username"]</p>
                                             <a class="waves-effect waves-light btn-small red white-text">Xem Hồ Sơ</a>
                                         </div>
                                     </div>
@@ -291,7 +303,7 @@
                                 <li><a href="@Url.Action("Logout","LogIn")"><i class="small material-icons">power_settings_new</i>Đăng Xuất</a></li>
                             </ul>
                         </li>
-                        <li id="user-icon"><a href="">Nguyễn Văn Long <span class="new badge red" data-badge-caption="Chuyên Viên CĐVT"></span></a></li>
+                        <li id="user-icon"><a href="">@Session["Name"] <span class="new badge red" data-badge-caption="@Session["Position"]"></span></a></li>
                     </ul>
                     <!-- ============================================================== -->
                     <!-- Right topbar icon scss in header.scss -->
@@ -325,87 +337,119 @@
             <ul id="slide-out" class="sidenav">
                 <li>
                     <ul class="collapsible slidebar">
-
-
-                        <li>
-                           <a href="/phan-xuong/chon-bao-cao?phanxuong=pxkt" class="collapsible-header">
-                                <i class="material-icons">home</i><span class="hide-menu">
-                                    Phân Xưởng Khai Thác
-                                </span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="/phan-xuong/chon-bao-cao?phanxuong=pxdl" class="collapsible-header">
-                                <i class="material-icons">home</i><span class="hide-menu">
-                                    Phân Xưởng Đào Lò
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/phan-xuong/chon-bao-cao?phanxuong=pxvt" class="collapsible-header">
-                                <i class="material-icons">home</i><span class="hide-menu">
-                                    Phân Xưởng Vận Tải
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/phan-xuong/chon-bao-cao?phanxuong=pxst" class="collapsible-header">
-                                <i class="material-icons">home</i><span class="hide-menu">
-                                    Phân Xưởng Sàng Tuyển
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/phan-xuong/chon-bao-cao?phanxuong=pxpv" class="collapsible-header">
-                                <i class="material-icons">home</i><span class="hide-menu">
-                                    Phân Xưởng Phục Vụ
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/phan-xuong/chon-bao-cao?phanxuong=pxds" class="collapsible-header">
-                                <i class="material-icons">home</i><span class="hide-menu">
-                                    Phân Xưởng Đời Sống
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/phan-xuong/chon-bao-cao?phanxuong=pxcdm" class="collapsible-header">
-                                <i class="material-icons">home</i><span class="hide-menu">
-                                    Phân Xưởng Cơ Điện Mỏ
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/phan-xuong/chon-bao-cao?phanxuong=pxtg" class="collapsible-header">
-                                <i class="material-icons">home</i><span class="hide-menu">
-                                    Phân Xưởng Thông Gió-Quản Lí Mỏ
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/phan-xuong/chon-bao-cao?phanxuong=pxxd" class="collapsible-header">
-                                <i class="material-icons">home</i><span class="hide-menu">
-                                    Phân Xưởng Xây Dựng
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/phan-xuong/chon-bao-cao?phanxuong=pxlt" class="collapsible-header">
-                                <i class="material-icons">home</i><span class="hide-menu">
-                                    Phân Xưởng Lộ Thiên
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/phan-xuong/chon-bao-cao?phanxuong=pxck" class="collapsible-header">
-                                <i class="material-icons">home</i><span class="hide-menu">
-                                    Phân Xưởng Cơ Khí,Sửa Chữa
-                                </span>
-                            </a>
-                        </li>
-
+                        @foreach (var item in rights)
+                        {
+                            if (item.Equals("179"))
+                            {
+                                <li>
+                                    <a href="/phan-xuong/chon-bao-cao" class="collapsible-header">
+                                        <i class="material-icons">home</i><span class="hide-menu">
+                                            Phân Xưởng Khai Thác
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                            if (item.Equals("180"))
+                            {
+                                <li>
+                                    <a href="/phan-xuong/chon-bao-cao?phanxuong=pxdl" class="collapsible-header">
+                                        <i class="material-icons">home</i><span class="hide-menu">
+                                            Phân Xưởng Đào Lò
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                            if (item.Equals("181"))
+                            {
+                                <li>
+                                    <a href="/phan-xuong/chon-bao-cao?phanxuong=pxvt" class="collapsible-header">
+                                        <i class="material-icons">home</i><span class="hide-menu">
+                                            Phân Xưởng Vận Tải
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                            if (item.Equals("182"))
+                            {
+                                <li>
+                                    <a href="/phan-xuong/chon-bao-cao?phanxuong=pxst" class="collapsible-header">
+                                        <i class="material-icons">home</i><span class="hide-menu">
+                                            Phân Xưởng Sàng Tuyển
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                            if (item.Equals("183"))
+                            {
+                                <li>
+                                    <a href="/phan-xuong/chon-bao-cao?phanxuong=pxpv" class="collapsible-header">
+                                        <i class="material-icons">home</i><span class="hide-menu">
+                                            Phân Xưởng Phục Vụ
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                            if (item.Equals("184"))
+                            {
+                                <li>
+                                    <a href="/phan-xuong/chon-bao-cao?phanxuong=pxds" class="collapsible-header">
+                                        <i class="material-icons">home</i><span class="hide-menu">
+                                            Phân Xưởng Đời Sống
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                            if (item.Equals("185"))
+                            {
+                                <li>
+                                    <a href="/phan-xuong/chon-bao-cao?phanxuong=pxcdm" class="collapsible-header">
+                                        <i class="material-icons">home</i><span class="hide-menu">
+                                            Phân Xưởng Cơ Điện Mỏ
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                            if (item.Equals("186"))
+                            {
+                                <li>
+                                    <a href="/phan-xuong/chon-bao-cao?phanxuong=pxtg" class="collapsible-header">
+                                        <i class="material-icons">home</i><span class="hide-menu">
+                                            Phân Xưởng Thông Gió-Quản Lí Mỏ
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                            if (item.Equals("187"))
+                            {
+                                <li>
+                                    <a href="/phan-xuong/chon-bao-cao?phanxuong=pxxd" class="collapsible-header">
+                                        <i class="material-icons">home</i><span class="hide-menu">
+                                            Phân Xưởng Xây Dựng
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                            if (item.Equals("188"))
+                            {
+                                <li>
+                                    <a href="/phan-xuong/chon-bao-cao?phanxuong=pxlt" class="collapsible-header">
+                                        <i class="material-icons">home</i><span class="hide-menu">
+                                            Phân Xưởng Lộ Thiên
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                            if (item.Equals("189"))
+                            {
+                                <li>
+                                    <a href="/phan-xuong/chon-bao-cao?phanxuong=pxck" class="collapsible-header">
+                                        <i class="material-icons">home</i><span class="hide-menu">
+                                            Phân Xưởng Cơ Khí,Sửa Chữa
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                        }
 
                     </ul>
                 </li>
@@ -423,8 +467,14 @@
             <!-- Container fluid scss in scafholding.scss -->
             <!-- ============================================================== -->
             <div class="container-fluid">
-                @RenderBody()
-                @*<div class="card">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="center">
+                            <h1><b>@Session["departName"]</b></h1>
+                        </div>
+                        @RenderBody()
+                        @RenderSection("scripts", required: false)
+                        @*<div class="card">
             <div class="card-content">
                 <div class="row">
                     <div class="center col l6 m6 s12">
@@ -442,8 +492,10 @@
                 </div>
             </div>
         </div>*@
-                
 
+                    </div>
+
+                </div>
             </div>
             <!-- ============================================================== -->
             <!-- Container fluid scss in scafholding.scss -->
@@ -465,7 +517,7 @@
         });
     </script>
     <script>
-$(window).resize(function () {
+        $(window).resize(function () {
             if ($(window).width() <= 600) {
                 $("#searchButton1").hide();
                 $("#searchButton2").show();

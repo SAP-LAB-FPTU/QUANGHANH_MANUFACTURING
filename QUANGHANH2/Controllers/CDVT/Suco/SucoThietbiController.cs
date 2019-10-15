@@ -18,7 +18,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
 {
     public class SucoThietbiController : Controller
     {
-        [Auther(RightID = "19")]
+        [Auther(RightID = "19,179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phong-cdvt/su-co")]
         [HttpGet]
         public ActionResult Index()
@@ -142,7 +142,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             }
         }
 
-        [Auther(RightID = "19")]
         [Route("phong-cdvt/su-co")]
         [HttpPost]
         public ActionResult Search(string equipmentId, string equipmentName, string department, string detail, string reason, string dateStart, string dateEnd)
@@ -157,9 +156,9 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             string query = "SELECT e.equipment_name, d.department_name, i.*, DATEDIFF(HOUR, i.start_time, i.end_time) as time_different FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId inner join Department d " +
                 "on d.department_id = i.department_id";
+            if (Session["departID"].ToString().Contains("PX")) query += " where d.department_id = '" + Session["departID"].ToString() + "' AND ";
             if (!equipmentId.Equals("") || !equipmentName.Equals("") || !department.Equals("") || !detail.Equals("") || !reason.Equals("") || !(dateStart.Equals("") || dateEnd.Equals("")))
             {
-                query += " where ";
                 if (!dateStart.Equals("") && !dateEnd.Equals(""))
                 {
                     DateTime dtStart = DateTime.ParseExact(dateStart, "dd/MM/yyyy", CultureInfo.InvariantCulture);
@@ -173,8 +172,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                 if (!department.Equals("")) query += "d.department_name LIKE @department_name AND ";
                 if (!detail.Equals("")) query += "i.detail_location LIKE @detail_location AND ";
                 if (!reason.Equals("")) query += "i.reason LIKE @reason AND ";
-                query = query.Substring(0, query.Length - 5);
             }
+            query = query.Substring(0, query.Length - 5);
             List<IncidentDB> incidents = DBContext.Database.SqlQuery<IncidentDB>(query, 
                 new SqlParameter("equipmentId", '%' + equipmentId + '%'),
                 new SqlParameter("equipment_name", '%' + equipmentName + '%'),

@@ -17,6 +17,7 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Department()
         {
+            this.BaoCaoFiles = new HashSet<BaoCaoFile>();
             this.Documentaries = new HashSet<Documentary>();
             this.Documentary_big_maintain_details = new HashSet<Documentary_big_maintain_details>();
             this.Documentary_big_maintain_details1 = new HashSet<Documentary_big_maintain_details>();
@@ -34,6 +35,7 @@ namespace QUANGHANH2.Models
             this.Maintain_Car = new HashSet<Maintain_Car>();
             this.MealRegistrations = new HashSet<MealRegistration>();
             this.NhanViens = new HashSet<NhanVien>();
+            this.PhongBan_TieuChi = new HashSet<PhongBan_TieuChi>();
             this.Supply_tieuhao = new HashSet<Supply_tieuhao>();
             this.SupplyPlans = new HashSet<SupplyPlan>();
             this.SupplyPlans1 = new HashSet<SupplyPlan>();
@@ -45,6 +47,8 @@ namespace QUANGHANH2.Models
         public string department_type { get; set; }
         public bool isInside { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BaoCaoFile> BaoCaoFiles { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Documentary> Documentaries { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -79,6 +83,8 @@ namespace QUANGHANH2.Models
         public virtual ICollection<MealRegistration> MealRegistrations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<NhanVien> NhanViens { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PhongBan_TieuChi> PhongBan_TieuChi { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Supply_tieuhao> Supply_tieuhao { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

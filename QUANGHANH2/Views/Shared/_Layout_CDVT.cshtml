@@ -118,10 +118,12 @@
                     <a href="javascript:void(0)" class="brand-logo">
                         <span class="icon">
                             <img class="light-logo" src="/assets/images/logo-light-icon.png">
+                            <img class="dark-logo" src="~/assets/images/logo-text.png">
 
                         </span>
                         <span class="text">
                             <img class="light-logo" src="/assets/images/logo-light-text.png">
+                            <img class="dark-logo" src="~/assets/images/logo-text.png">
 
                         </span>
                     </a>
@@ -290,7 +292,7 @@
                                 <li role="separator" class="divider"></li>
                                 <li><a href="#"><i class="small material-icons">settings</i> Cài Đặt Tài Khoản</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="@Url.Action("Logout","LogIn")"><i class="material-icons">power_settings_new</i>Đăng Xuất</a></li>
+                                <li><a href="@Url.Action("Logout", "LogIn")"><i class="material-icons">power_settings_new</i>Đăng Xuất</a></li>
                             </ul>
                         </li>
                         <li id="user-icon"><a href="">@Session["Name"] <span class="new badge red" data-badge-caption="@Session["Position"]"></span></a></li>
@@ -319,7 +321,8 @@
                             <div class="collapsible-body">
                                 <ul>
                                     <li><a href="/phong-cdvt/huy-dong"><i class="material-icons">adjust</i><span class="hide-menu">Huy động thiết bị</span></a></li>
-                                    <li><a href="/phong-cdvt/cap-nhat-hoat-dong"><i class="material-icons">adjust</i><span class="hide-menu">Cập nhật hđ hằng ngày</span></a></li>
+                                    <li><a href="/phong-cdvt/cap-nhat-hoat-dong"><i class="material-icons">adjust</i><span class="hide-menu">Hoạt động hằng ngày</span></a></li>
+                                    <li><a href="/phong-cdvt/cap-nhat-tieu-thu"><i class="material-icons">adjust</i><span class="hide-menu">Tiêu thụ hằng ngày</span></a></li>
                                 </ul>
                             </div>
                         </li>
@@ -328,7 +331,8 @@
                             <div class="collapsible-body">
                                 <ul>
                                     <li><a href="/phong-cdvt/oto/huy-dong"><i class="material-icons">adjust</i><span class="hide-menu">Huy động</span></a></li>
-                                    <li><a href="/phong-cdvt/oto/cap-nhat-hoat-dong"><i class="material-icons">adjust</i><span class="hide-menu">Cập nhật hđ hằng ngày</span></a></li>
+                                    <li><a href="/phong-cdvt/oto/cap-nhat-hoat-dong"><i class="material-icons">adjust</i><span class="hide-menu">Hoạt động hằng ngày</span></a></li>
+                                    <li><a href="/phong-cdvt/oto/cap-nhat-tieu-thu"><i class="material-icons">adjust</i><span class="hide-menu">Tiêu thụ hằng ngày</span></a></li>
                                     <li><a href="/phong-cdvt/oto/bao-duong-hang-ngay"><i class="material-icons">adjust</i><span class="hide-menu">Bảo dưỡng hằng ngày</span></a></li>
                                 </ul>
                             </div>
@@ -416,6 +420,7 @@
             <!-- ============================================================== -->
             <div class="container-fluid">
                 @RenderBody()
+                @RenderSection("scripts", required: false)
             </div>
             <!-- ============================================================== -->
             <!-- Container fluid scss in scafholding.scss -->
@@ -444,7 +449,6 @@
     <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
     <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
     <link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
-    @RenderSection("scripts", required: false)
     <script>
         $(".loading").css("z-index", 99999);
         $('body').css('overflow', '');

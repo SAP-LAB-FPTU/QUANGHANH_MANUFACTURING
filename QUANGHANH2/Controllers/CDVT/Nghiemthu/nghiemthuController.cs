@@ -15,20 +15,20 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
 {
     public class nghiemthuController : Controller
     {
-        [Auther(RightID = "25")]
+        [Auther(RightID = "25,179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phong-cdvt/nghiem-thu")]
         public ActionResult Index()
         {
             return View("/Views/CDVT/Nghiemthu/Nghiemthu.cshtml");
         }
 
-        [Auther(RightID = "25")]
         [Route("phong-cdvt/nghiem-thu/search")]
         [HttpPost]
         public ActionResult Search(string document_code, string equiment_id, string equiment_name)
         {
             //Server Side Parameter
             //string requestID = Request["sessionId"];
+            string departID = Session["departID"].ToString();
             int start = Convert.ToInt32(Request["start"]);
             int length = Convert.ToInt32(Request["length"]);
             string searchValue = Request["search[value]"];
@@ -40,28 +40,55 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
+                if (departID.Contains("PX"))
+                {
+                    docList = (from a in db.Acceptances
 
-                docList = (from a in db.Acceptances
+                               join b in db.Equipments.Where(x => x.department_id.Equals(departID)) on a.equipmentId equals b.equipmentId
+                               join c in db.Documentaries on a.documentary_id equals c.documentary_id
+                               where (a.equipmentStatus == 2) && (c.documentary_code.Contains(document_code)) && (a.equipmentId.Contains(equiment_id)) && (b.equipment_name.Contains(equiment_name))
+                               select new
+                               {
+                                   documentary_id = a.documentary_id,
+                                   equipmentId = b.equipmentId,
+                                   equipment_name = b.equipment_name,
+                                   documentary_code = c.documentary_code,
+                                   documentary_type = c.documentary_type
 
-                           join b in db.Equipments on a.equipmentId equals b.equipmentId
-                           join c in db.Documentaries on a.documentary_id equals c.documentary_id
-                           where (a.equipmentStatus == 2) && (c.documentary_code.Contains(document_code)) && (a.equipmentId.Contains(equiment_id)) && (b.equipment_name.Contains(equiment_name))
-                           select new
-                           {
-                               documentary_id = a.documentary_id,
-                               equipmentId = b.equipmentId,
-                               equipment_name = b.equipment_name,
-                               documentary_code = c.documentary_code,
-                               documentary_type = c.documentary_type
+                               }).ToList().Select(p => new Documentary_Extend
+                               {
+                                   documentary_id = p.documentary_id,
+                                   equipmentId = p.equipmentId,
+                                   equipment_name = p.equipment_name,
+                                   documentary_code = p.documentary_code,
+                                   documentary_type = p.documentary_type
+                               }).ToList();
+                }
+                else
+                {
+                    docList = (from a in db.Acceptances
 
-                           }).ToList().Select(p => new Documentary_Extend
-                           {
-                               documentary_id = p.documentary_id,
-                               equipmentId = p.equipmentId,
-                               equipment_name = p.equipment_name,
-                               documentary_code = p.documentary_code,
-                               documentary_type = p.documentary_type
-                           }).ToList();
+                               join b in db.Equipments on a.equipmentId equals b.equipmentId
+                               join c in db.Documentaries on a.documentary_id equals c.documentary_id
+                               where (a.equipmentStatus == 2) && (c.documentary_code.Contains(document_code)) && (a.equipmentId.Contains(equiment_id)) && (b.equipment_name.Contains(equiment_name))
+                               select new
+                               {
+                                   documentary_id = a.documentary_id,
+                                   equipmentId = b.equipmentId,
+                                   equipment_name = b.equipment_name,
+                                   documentary_code = c.documentary_code,
+                                   documentary_type = c.documentary_type
+
+                               }).ToList().Select(p => new Documentary_Extend
+                               {
+                                   documentary_id = p.documentary_id,
+                                   equipmentId = p.equipmentId,
+                                   equipment_name = p.equipment_name,
+                                   documentary_code = p.documentary_code,
+                                   documentary_type = p.documentary_type
+                               }).ToList();
+                }
+
                 foreach (Documentary_Extend item in docList)
                 {
                     item.temp = item.documentary_id + "^" + item.documentary_code;
@@ -125,7 +152,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
         }
 
 
-
+        [Auther(RightID = "82,179,180,181,182,183,184,185,186,187,188,189")]
         [HttpPost]
         [Route("phong-cdvt/nghiem-thu/Edit")]
         public ActionResult Edit(string id, string documentary_code, string documentary_id)
