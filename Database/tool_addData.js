@@ -30,12 +30,10 @@ function add_Header_ThucHienHangNgay(session,date){
 insertDB = ""
 
 for (let i = 1 ; i <= 10; i++){
-    if (i !=6 && i!=7){
-        date = "2019-09-" +i
+        date = "2019-08-" +i
         for (let j = 1; j <=3 ;j++){
             insertDB += add_Header_ThucHienHangNgay(j,date) + "\n"
         }
-    }
 }
 
 function add_Header_KeHoachTheoThang(month,year,totalWorkDays){
