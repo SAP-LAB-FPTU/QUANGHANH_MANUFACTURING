@@ -1,11 +1,10 @@
 ﻿@{
-    ViewData["Title"] = "ChiTietSuCo";
+    ViewData["Title"] = "sua-chua-chon";
     Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
 }
-<link href="~/dist/css/style.css" rel="stylesheet">
 <!-- This page CSS -->
 <link href="~/dist/css/pages/data-table.css" rel="stylesheet">
-
+<link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
 <link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
 <link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
@@ -32,10 +31,10 @@
                     <form method="post" id="myform">
                         <div class="col s3 m3">
                             <textarea name="data" hidden value="" id="json"></textarea>
-                            <input id="documentary_code" name="documentary_code" class="form-control" type="text" placeholder="Nhập mã quyết định" />
+                            <input id="documentary_code" name="documentary_code" class="form-control" type="text" placeholder="Nhập mã quyết định" readonly />
                         </div>
                         <div class="col s3 m3">
-                            <input name="out_in_come" class="form-control" type="text"  placeholder="Nhập nguồn vốn" />
+                            <input name="out_in_come" class="form-control" type="text" placeholder="Nhập nguồn vốn" />
                         </div>
                         <div class="col s3 m3">
                             <input class="form-control" type="text" disabled value="@ViewBag.department_name" />
@@ -246,7 +245,7 @@
             }
             thietbi.vattu = arr;
             output[rownumber] = thietbi;
-            $('#json').val(JSON.stringify(output)) 
+            $('#json').val(JSON.stringify(output))
         }
     })
 
@@ -264,7 +263,9 @@
 <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
 @section scripts{
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-
+    <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
+    <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
+    <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
     <script>
         //validate
         $('#submit').click(function () {

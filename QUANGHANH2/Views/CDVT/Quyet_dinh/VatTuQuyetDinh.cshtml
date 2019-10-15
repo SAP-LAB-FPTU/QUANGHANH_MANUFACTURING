@@ -1,5 +1,14 @@
 ﻿@{
-    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    ViewData["Title"] = "Xincapvattu";
+    if (Session["departID"].ToString().Contains("PX"))
+    {
+        Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    }
+
 }
 <div class="card">
     <div class="card-content">
@@ -12,7 +21,7 @@
                 </div>
 
                 <div class="col s12">
-                    <ul class="tabs">
+                    <ul class="tabs" style="overflow-x:hidden;overflow-y:hidden;">
                         <li class="tab col s6"><a class="active" href="#thaythe">VẬT TƯ THAY THẾ</a></li>
                         <li class="tab col s6"><a class="active" href="#thuhoi">VẬT TƯ THU HỒI</a></li>
                     </ul>
@@ -51,72 +60,72 @@
                                 }
                             }
                             @*@if (ViewBag.ListSup.Count > 0)
-                            {
-                            <td colspan="5">Kết quả: @ViewBag.ListSup[0].documentary_process_result</td>
-                            }
-                            else
-                            {
-                                <td colspan="5">Không có dữ liệu</td>
-                            }*@
-                            @if(ViewBag.ListSup.Count == 0)
-                            {
-                                <td colspan="5">Không có dữ liệu</td>
-                            }
-
-                            </tbody>
-                        </table>
-                </div>
-                <div id="thuhoi" class="col s12">
-                    <table class="striped centered table-bordered">
-                        <thead>
-                            <tr>
-                                <th rowspan="2">Mã nhóm vật tư</th>
-                                <th rowspan="2">Tên vật tư</th>
-                                <th>ĐVT</th>
-                                <th>Số lượng</th>
-                                <th>Tình trạng kỹ thuật</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @for (int i = 0; i < ViewBag.ListSup2.Count; i++)
-                            {
-                                if (i % 2 == 0)
                                 {
-                                    <tr>
-                                        <td rowspan="2">@ViewBag.ListSup2[i].equipmentId</td>
-                                        <td rowspan="2">@ViewBag.ListSup2[i].supply_name</td>
-                                        <td rowspan="2">@ViewBag.ListSup2[i].unit</td>
-                                        <td>@ViewBag.ListSup2[i].quantity</td>
-                                        <td>@ViewBag.ListSup2[i].supplyStatus</td>
-                                    </tr>
+                                <td colspan="5">Kết quả: @ViewBag.ListSup[0].documentary_process_result</td>
                                 }
                                 else
                                 {
-                                    <tr>
-                                        <td>@ViewBag.ListSup2[i].quantity</td>
-                                        <td>@ViewBag.ListSup2[i].supplyStatus</td>
-                                    </tr>
-                                }
-                            }
-                            @*@if (ViewBag.ListSup2.Count > 0)
+                                    <td colspan="5">Không có dữ liệu</td>
+                                }*@
+                            @if (ViewBag.ListSup.Count == 0)
                             {
-                            <td colspan="5">Kết quả: @ViewBag.ListSup2[0].documentary_process_result</td>
-                            }
-                            else
-                            {
-                                <td colspan="5">Không có dữ liệu</td>
-                            }*@
-                            @if(ViewBag.ListSup2.Count == 0)
-                            {
-                                <td colspan="5">Không có dữ liệu</td>
-                            }
+                            <td colspan="5">Không có dữ liệu</td>
+                        }
+
                             </tbody>
                         </table>
+                    </div>
+                    <div id="thuhoi" class="col s12">
+                        <table class="striped centered table-bordered">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2">Mã nhóm vật tư</th>
+                                    <th rowspan="2">Tên vật tư</th>
+                                    <th>ĐVT</th>
+                                    <th>Số lượng</th>
+                                    <th>Tình trạng kỹ thuật</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < ViewBag.ListSup2.Count; i++)
+                                {
+                                    if (i % 2 == 0)
+                                    {
+                                        <tr>
+                                            <td rowspan="2">@ViewBag.ListSup2[i].equipmentId</td>
+                                            <td rowspan="2">@ViewBag.ListSup2[i].supply_name</td>
+                                            <td rowspan="2">@ViewBag.ListSup2[i].unit</td>
+                                            <td>@ViewBag.ListSup2[i].quantity</td>
+                                            <td>@ViewBag.ListSup2[i].supplyStatus</td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td>@ViewBag.ListSup2[i].quantity</td>
+                                            <td>@ViewBag.ListSup2[i].supplyStatus</td>
+                                        </tr>
+                                    }
+                                }
+                                @*@if (ViewBag.ListSup2.Count > 0)
+                                    {
+                                    <td colspan="5">Kết quả: @ViewBag.ListSup2[0].documentary_process_result</td>
+                                    }
+                                    else
+                                    {
+                                        <td colspan="5">Không có dữ liệu</td>
+                                    }*@
+                                @if (ViewBag.ListSup2.Count == 0)
+                                {
+                                <td colspan="5">Không có dữ liệu</td>
+                            }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
 
 

@@ -43,11 +43,11 @@ namespace QUANGHANHCORE.Controllers
         {
             if (password == null) return RedirectToAction("Index");
             string passXc = new XCryptEngine(XCryptEngine.AlgorithmType.MD5).Encrypt(password, "pl");
-            var checkuser = db.Accounts.Where(x => x.Username == username).Where(y => y.Password == passXc).ToList();
-            if (checkuser.Count > 0)
+            var checkuser = db.Accounts.Where(x => x.Username == username).Where(y => y.Password == passXc).SingleOrDefault();
+            if (checkuser.Username.Equals(username) && checkuser.Password.Equals(passXc))
             {
-                Session["UserID"] = checkuser[0].ID;
-                int id = checkuser[0].ID;
+                Session["UserID"] = checkuser.ID;
+                int id = checkuser.ID;
                 var Name = db.Accounts.Where(x => x.ID == id).FirstOrDefault<Account>();
                 if (Name.NVID != null)
                 {
