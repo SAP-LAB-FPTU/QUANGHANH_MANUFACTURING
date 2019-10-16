@@ -21,8 +21,18 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
             try
             {
                 QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-                Documentary documentary = DBContext.Database.SqlQuery<Documentary>("SELECT docu.*, docu.[out/in_come] as out_in_come FROM Documentary_big_maintain_details as detail inner join Documentary as docu on detail.documentary_id = docu.documentary_id WHERE docu.documentary_code IS NOT NULL AND detail.documentary_id = @documentary_id",
-                    new SqlParameter("documentary_id", id)).First();
+                string departid = Session["departID"].ToString();
+                Documentary documentary;
+                if (departid.Contains("PX"))
+                {
+                    documentary = DBContext.Database.SqlQuery<Documentary>("SELECT docu.*, docu.[out/in_come] as out_in_come FROM Documentary_big_maintain_details as detail inner join Documentary as docu on detail.documentary_id = docu.documentary_id WHERE docu.documentary_code IS NOT NULL AND detail.documentary_id = @documentary_id and docu.department_id = @departid",
+                        new SqlParameter("documentary_id", id),new SqlParameter("departid",departid)).First();
+                }
+                else
+                {
+                    documentary = DBContext.Database.SqlQuery<Documentary>("SELECT docu.*, docu.[out/in_come] as out_in_come FROM Documentary_big_maintain_details as detail inner join Documentary as docu on detail.documentary_id = docu.documentary_id WHERE docu.documentary_code IS NOT NULL AND detail.documentary_id = @documentary_id",
+                        new SqlParameter("documentary_id", id)).First();
+                }
                 List<Supply> supplies = DBContext.Supplies.ToList();
                 ViewBag.Supplies = supplies;
                 if (documentary.documentary_status == 1) ViewBag.AddAble = true;
@@ -49,8 +59,18 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            List<Documentary_big_maintain_detailsDB> equips = DBContext.Database.SqlQuery<Documentary_big_maintain_detailsDB>("select e.equipmentId, e.equipment_name, depa.department_name, details.* from Department depa inner join Documentary docu on depa.department_id = docu.department_id inner join Documentary_big_maintain_details details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 6 and details.documentary_id = @documentary_id",
-                new SqlParameter("documentary_id",id)).ToList();
+            string departid = Session["departID"].ToString();
+            List<Documentary_big_maintain_detailsDB> equips;
+            if (departid.Contains("PX"))
+            {
+                equips = DBContext.Database.SqlQuery<Documentary_big_maintain_detailsDB>("select e.equipmentId, e.equipment_name, depa.department_name, details.* from Department depa inner join Documentary docu on depa.department_id = docu.department_id inner join Documentary_big_maintain_details details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 6 and details.documentary_id = @documentary_id and docu.department_id = @departid",
+                    new SqlParameter("documentary_id", id),new SqlParameter("departid",departid)).ToList();
+            }
+            else
+            {
+                equips = DBContext.Database.SqlQuery<Documentary_big_maintain_detailsDB>("select e.equipmentId, e.equipment_name, depa.department_name, details.* from Department depa inner join Documentary docu on depa.department_id = docu.department_id inner join Documentary_big_maintain_details details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 6 and details.documentary_id = @documentary_id",
+                    new SqlParameter("documentary_id", id)).ToList();
+            }
             foreach (Documentary_big_maintain_detailsDB item in equips)
             {
                 item.stringDate = item.end_date.ToString("dd/MM/yyyy");
@@ -106,17 +126,16 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
 
                         DBContext.SaveChanges();
                         transaction.Commit();
-                        return new HttpStatusCodeResult(201);
+                        return Json(new { success = true, message = "Lưu thành công" }, JsonRequestBehavior.AllowGet);
                     }
                     catch (Exception)
                     {
                         transaction.Rollback();
-                        Response.Write("Có lỗi xảy ra, xin vui lòng nhập lại");
-                        return new HttpStatusCodeResult(400);
+                        return Json(new { success = false, message = "Có lỗi xảy ra" }, JsonRequestBehavior.AllowGet);
                     }
                 }
             }
-            return new HttpStatusCodeResult(201);
+            return Json(new { success = true, message = "Lưu thành công" }, JsonRequestBehavior.AllowGet);
         }
 
         [Auther(RightID = "96,179,180,181,182,183,184,185,186,187,188,189")]
@@ -131,12 +150,11 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
                 Documentary docu = DBContext.Documentaries.Find(idnumber);
                 docu.documentary_status = 2;
                 DBContext.SaveChanges();
-                return new HttpStatusCodeResult(201);
+                return Json(new { success = true, message = "Lưu thành công" }, JsonRequestBehavior.AllowGet);
             }
             else
             {
-                Response.Write("Bạn không thể chuyển trạng thái quyết định khi chưa nhận đủ thiết bị");
-                return new HttpStatusCodeResult(400);
+                return Json(new { success = false, message = "Bạn không thể chuyển trạng thái quyết định\n khi chưa nhận đủ thiết bị" }, JsonRequestBehavior.AllowGet);
             }
         }
     }

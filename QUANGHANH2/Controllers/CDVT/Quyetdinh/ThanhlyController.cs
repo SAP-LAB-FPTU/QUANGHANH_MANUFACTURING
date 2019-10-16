@@ -3,6 +3,7 @@ using QUANGHANH2.Models;
 using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
@@ -97,21 +98,41 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
                 }
                 catch
                 {
-
-                    documentary_code = documentary_code.Replace(" ", String.Empty);
-                    i.documentary_code = documentary_code;
-                    i.date_created = DateTime.Parse(date_created);
-                    i.person_created = person_created;
-                    i.reason = reason;
-                    i.out_in_come = out_in_come;
-                    DBContext.SaveChanges();
-                    return Json(new
+                    using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
                     {
-                        success = true,
-                    }, JsonRequestBehavior.AllowGet);
+                        try
+                        {
+                            List<Documentary_liquidation_details> details = DBContext.Documentary_liquidation_details.Where(x => x.documentary_id == documentary_id).ToList();
+                            foreach (Documentary_liquidation_details item in details)
+                            {
+                                Equipment e = DBContext.Equipments.Find(item.equipmentId);
+                                e.current_Status = 8;
+                            }
+                            documentary_code = documentary_code.Replace(" ", String.Empty);
+                            i.documentary_code = documentary_code;
+                            i.date_created = DateTime.Parse(date_created);
+                            i.person_created = person_created;
+                            i.reason = reason;
+                            i.out_in_come = out_in_come;
+                            DBContext.SaveChanges();
+                            transaction.Commit();
+                            return Json(new
+                            {
+                                success = true,
+                            }, JsonRequestBehavior.AllowGet);
+                        }
+                        catch (Exception)
+                        {
+                            transaction.Rollback();
+                            return Json(new
+                            {
+                                success = false,
+                                message = "Có lỗi xảy ra"
+                            }, JsonRequestBehavior.AllowGet);
+                        }
+                    }
                 }
             }
-
         }
 
 

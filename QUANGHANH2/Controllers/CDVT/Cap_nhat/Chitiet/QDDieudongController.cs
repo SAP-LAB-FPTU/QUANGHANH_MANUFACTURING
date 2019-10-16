@@ -21,8 +21,18 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
             try
             {
                 QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-                Documentary documentary = DBContext.Database.SqlQuery<Documentary>("SELECT docu.*, docu.[out/in_come] as out_in_come FROM Documentary_moveline_details as detail inner join Documentary as docu on detail.documentary_id = docu.documentary_id WHERE docu.documentary_code IS NOT NULL AND detail.documentary_id = @documentary_id",
-                    new SqlParameter("documentary_id", id)).First();
+                string departid = Session["departID"].ToString();
+                Documentary documentary;
+                if (departid.Contains("PX"))
+                {
+                    documentary = DBContext.Database.SqlQuery<Documentary>("SELECT docu.*, docu.[out/in_come] as out_in_come FROM Documentary_moveline_details as detail inner join Documentary as docu on detail.documentary_id = docu.documentary_id WHERE docu.documentary_code IS NOT NULL AND detail.documentary_id = @documentary_id and docu.department_id = @departid ",
+                        new SqlParameter("documentary_id", id), new SqlParameter("departid",departid)).First();
+                }
+                else
+                {
+                    documentary = DBContext.Database.SqlQuery<Documentary>("SELECT docu.*, docu.[out/in_come] as out_in_come FROM Documentary_moveline_details as detail inner join Documentary as docu on detail.documentary_id = docu.documentary_id WHERE docu.documentary_code IS NOT NULL AND detail.documentary_id = @documentary_id",
+                        new SqlParameter("documentary_id", id)).First();
+                }
                 if (documentary.documentary_status == 0) ViewBag.AddAble = true;
                 else ViewBag.AddAble = false;
                 ViewBag.id = documentary.documentary_id;
@@ -47,8 +57,18 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            List<Documentary_moveline_detailsDB> equips = DBContext.Database.SqlQuery<Documentary_moveline_detailsDB>("select e.equipmentId, e.equipment_name, depa.department_name, details.date_to, details.department_detail, details.equipment_moveline_status from Department depa inner join Documentary docu on depa.department_id = docu.department_id inner join Documentary_moveline_details details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 3 and details.documentary_id = @documentary_id",
-                new SqlParameter("documentary_id", id)).ToList();
+            string departid = Session["departID"].ToString();
+            List<Documentary_moveline_detailsDB> equips;
+            if (departid.Contains("PX"))
+            {
+                equips = DBContext.Database.SqlQuery<Documentary_moveline_detailsDB>("select e.equipmentId, e.equipment_name, depa.department_name, details.date_to, details.department_detail, details.equipment_moveline_status from Department depa inner join Documentary docu on depa.department_id = docu.department_id inner join Documentary_moveline_details details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 3 and details.documentary_id = @documentary_id and docu.department_id =@departid",
+                    new SqlParameter("documentary_id", id),new SqlParameter("departid",departid)).ToList();
+            }
+            else
+            {
+                equips = DBContext.Database.SqlQuery<Documentary_moveline_detailsDB>("select e.equipmentId, e.equipment_name, depa.department_name, details.date_to, details.department_detail, details.equipment_moveline_status from Department depa inner join Documentary docu on depa.department_id = docu.department_id inner join Documentary_moveline_details details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 3 and details.documentary_id = @documentary_id",
+                    new SqlParameter("documentary_id", id)).ToList();
+            }
             foreach (Documentary_moveline_detailsDB item in equips)
             {
                 item.stringDate = item.date_to.ToString("dd/MM/yyyy");
@@ -104,17 +124,16 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
 
                         DBContext.SaveChanges();
                         transaction.Commit();
-                        return new HttpStatusCodeResult(201);
+                        return Json(new { success = true, message = "Lưu thành công" }, JsonRequestBehavior.AllowGet);
                     }
                     catch (Exception)
                     {
                         transaction.Rollback();
-                        Response.Write("Có lỗi xảy ra, xin vui lòng nhập lại");
-                        return new HttpStatusCodeResult(400);
+                        return Json(new { success = false, message = "Có lỗi xảy ra" }, JsonRequestBehavior.AllowGet);
                     }
                 }
             }
-            return new HttpStatusCodeResult(201);
+            return Json(new { success = true, message = "Lưu thành công" }, JsonRequestBehavior.AllowGet);
         }
     }
 }
