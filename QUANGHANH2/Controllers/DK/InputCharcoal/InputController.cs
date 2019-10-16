@@ -124,16 +124,24 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
 
             if (listSX != null) ViewBag.dem = listSX.Count();
             else ViewBag.dem = 0;
-            int ngay_SX_now = listSX.ElementAt(0).NgaySanXuat;
-
-            foreach (var item in listSX)
+            int ngay_SX_now = 0;
+            try
             {
-                item.chenhlech = (Convert.ToInt32(item.SanLuong) - Convert.ToInt32(item.KeHoach)).ToString();
-                item.percentDay = (Convert.ToInt32(item.SanLuong) / Convert.ToInt32(item.KeHoach) * 100).ToString();
-                item.percentMonth = (Convert.ToInt32(item.LuyKe) / Convert.ToInt32(item.KHDC) * 100).ToString();
-                item.luyke_temp = (Convert.ToInt32(item.SanLuong) + Convert.ToInt32(item.LuyKe)).ToString();
-                item.tong = (Convert.ToInt32(item.KHDC) - Convert.ToInt32(item.luyke_temp)).ToString();
-                item.OneDay = (Convert.ToInt32(item.tong) / (ngaySX - item.NgaySanXuat)).ToString();
+                ngay_SX_now =  listSX.ElementAt(0).NgaySanXuat;
+
+                foreach (var item in listSX)
+                {
+                    item.chenhlech = (Convert.ToInt32(item.SanLuong) - Convert.ToInt32(item.KeHoach)).ToString();
+                    item.percentDay = (Convert.ToInt32(item.SanLuong) / Convert.ToInt32(item.KeHoach) * 100).ToString();
+                    item.percentMonth = (Convert.ToInt32(item.LuyKe) / Convert.ToInt32(item.KHDC) * 100).ToString();
+                    item.luyke_temp = (Convert.ToInt32(item.SanLuong) + Convert.ToInt32(item.LuyKe)).ToString();
+                    item.tong = (Convert.ToInt32(item.KHDC) - Convert.ToInt32(item.luyke_temp)).ToString();
+                    item.OneDay = (Convert.ToInt32(item.tong) / (ngaySX - item.NgaySanXuat)).ToString();
+                }
+            }
+            catch (Exception e)
+            {
+                e.Message.ToString();
             }
             return Json(new { success = flag, list = tcList, dateSX = ngaySX, luyKe = LK, listSXLoad = listSX, ngaySXnow = ngay_SX_now }, JsonRequestBehavior.AllowGet);
         }
