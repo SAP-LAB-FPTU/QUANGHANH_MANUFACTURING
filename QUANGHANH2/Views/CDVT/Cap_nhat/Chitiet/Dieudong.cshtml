@@ -1,15 +1,20 @@
 ﻿@{
-    ViewBag.Title = "Quyet_dinh_dieu_chuyen";
-    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    ViewData["Title"] = "dieu-dong";
+    if (Session["departID"].ToString().Contains("PX"))
+    {
+        Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    }
 }
 
-<link href="~/dist/css/style.css" rel="stylesheet">
 <!-- This page CSS -->
 <link href="~/dist/css/pages/data-table.css" rel="stylesheet">
-
+<link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
 <link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
-<link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
@@ -22,7 +27,7 @@
             <h3 class="center">Chi tiết quyết định điều động số @ViewBag.code</h3>
             <div class="col s12 table_container">
                 <table class="table-bordered striped table-responsive centered"
-                        style="margin-top:30px; text-align:center;" id="complex_header">
+                       style="margin-top:30px; text-align:center;" id="complex_header">
                     <thead>
                         <tr>
                             <th>Mã thiết bị</th>
@@ -72,15 +77,6 @@
     </div>
 </div>
 
-<!-- ============================================================== -->
-<!-- Apps -->
-<!-- ============================================================== -->
-<script src="~/dist/js/app.js"></script>
-<script src="~/dist/js/app.init.js"></script>
-<script src="~/dist/js/app-style-switcher.js"></script>
-<!-- ============================================================== -->
-<!-- This page plugin js -->
-<!-- ============================================================== -->
 <link href="~/css/transfer_mobilize_history_timeline.css" rel="stylesheet" />
 <script src="~/js/Briefs_List.js"></script>
 <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
@@ -112,6 +108,9 @@
 
 @section scripts{
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
+    <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
+    <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
     <script>
         var Popup, dataTable;
         $('#pre-load').show();
@@ -188,22 +187,19 @@
                 success: function (data) {
                     if (data.success == true) {
                         $('#pre-load').hide();
-                        successAlert(data.message, '');                         
+                        successAlert(data.message, '');
                         table.ajax.reload(function () {
-                                                   
+
                         });
-                                             
+
                     }
                     else {
-                         errorAlert('Lỗi',data.message);
+                        errorAlert('Lỗi', data.message);
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     $('#pre-load').hide();
-                    $.notify(XMLHttpRequest.responseText, {
-                        globalPosition: "top center",
-                        className: "error"
-                    });
+                    errorAlert('Lỗi');
                 },
                 data: {
                     id: $('#id').val(),
@@ -221,7 +217,7 @@
                 url: "/phong-cdvt/cap-nhat/quyet-dinh/EditSupplyStatus",
                 dataType: "json",
                 success: function (data) {
-                   
+
                     if (data.success == true) {
                         successAlert(data.message, '');
                         table.ajax.reload(function () {
@@ -233,16 +229,13 @@
                         $('#pre-load').hide();
                     }
                     else {
-                         errorAlert('Lỗi',data.message);
+                        errorAlert('Lỗi', data.message);
                     }
-                  
+
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     $('#pre-load').hide();
-                    $.notify(XMLHttpRequest.responseText, {
-                        globalPosition: "top center",
-                        className: "error"
-                    });
+                    errorAlert('Lỗi');
                 },
                 data: {
                     documentary_id: $('#maquyetdinh').val(),
@@ -285,10 +278,7 @@
                     $("#pre-load").hide();
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    $.notify(XMLHttpRequest.responseText, {
-                        globalPosition: "top center",
-                        className: "error"
-                    });
+                    errorAlert('Lỗi');
                 },
                 data: {
                     documentary_id: QDIdAndEquipId.split("^")[0],

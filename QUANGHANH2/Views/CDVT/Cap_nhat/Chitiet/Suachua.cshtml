@@ -168,10 +168,7 @@
                     $("#pre-load").hide();
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    $.notify(XMLHttpRequest.responseText, {
-                        globalPosition: "top center",
-                        className: "error"
-                    });
+                    errorAlert('Lỗi');
                 },
                 data: {
                     documentary_id: QDIdAndEquipId.split("^")[0],
@@ -297,10 +294,7 @@
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     $('#pre-load').hide();
-                    $.notify(XMLHttpRequest.responseText, {
-                        globalPosition: "top center",
-                        className: "error"
-                    });
+                    errorAlert('Lỗi');
                 },
                 data: {
                     id: $('#id').val(),
@@ -333,10 +327,7 @@
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     $('#pre-load').hide();
-                    $.notify(XMLHttpRequest.responseText, {
-                        globalPosition: "top center",
-                        className: "error"
-                    });
+                    errorAlert('Lỗi');
                 },
                 data: {
                     id: $('#id').val()
@@ -353,10 +344,7 @@
                 url: "/phong-cdvt/cap-nhat/quyet-dinh/AddSupply",
                 dataType: "text",
                 success: function () {
-                      $.notify("Lưu thành công", {
-                        globalPosition: "top center",
-                        className: "success"
-                    });
+                     successAlert('Lưu thành công', '');     
                     $('#exit-button').click()
                     $('#pre-load').hide();
                 },

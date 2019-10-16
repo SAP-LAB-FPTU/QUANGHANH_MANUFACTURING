@@ -323,20 +323,21 @@
     });
 </script>
 
-<script>
-    $(document).on('keypress', function (e) {
-        if (e.which == 13) {
-            dataActiTable.destroy();
-            searchActi();
-        }
-    });
-</script>
+
 
 @section scripts{
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
     <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
     <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
+    <script>
+        $(document).on('keypress', function (e) {
+            if (e.which == 13) {
+                dataActiTable.destroy();
+                searchActi();
+            }
+        });
+    </script>
     <script>
         var Popup, dataActiTable;
         //get first data acti and fuel
@@ -415,12 +416,7 @@
             $("#searchButtonActi").click(function () {
                 $.ajax({
                     success: function () {
-                        dataActiTable.ajax.reload(function () {
-                            $.notify("Tìm kiếm thành công", {
-                                globalPosition: "top center",
-                                className: "success"
-                            })
-                        });
+                        dataActiTable.ajax.reload();
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
                         errorAlert('Lỗi', 'Có lỗi xảy ra , vui lòng nhập lại');
