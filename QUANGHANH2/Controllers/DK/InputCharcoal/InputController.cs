@@ -39,6 +39,15 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             public double LuyKe { get; set; }
             public string GhiChu { get; set; }
             public string DonViDo { get; set; }
+
+            public string chenhlech { get; set; }
+            public string percentDay { get; set; }
+            public string luyke_temp { get; set; }
+            public string percentMonth { get; set; }
+            public string tong { get; set; }
+            public string OneDay { get; set; }
+            public int NgaySanXuat { get; set; }
+
         }
         [Route("change")]
         [HttpPost]
@@ -69,9 +78,9 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
 
                     if (checkList.Count > 0 && checkList2.Count > 0)
                     {
-                        string sql = "select t.TenTieuChi,p.MaPhongBan,t.DonViDo,table1.SanLuong, table1.Ngay, table1.Ca, table2.KeHoach,table3.luyke,table4.SanLuong as 'KHDC',table1.GhiChu "
+                        string sql = "select t.TenTieuChi,p.MaPhongBan,t.DonViDo,table1.SanLuong, table1.Ngay, table1.Ca, table2.KeHoach,table3.luyke,table4.SanLuong as 'KHDC',table1.GhiChu,table1.NgaySanXuat "
                                     + "from PhongBan_TieuChi p inner join TieuChi t on p.MaTieuChi = t.MaTieuChi "
-                                    + " inner join (select t.MaTieuChi, t.SanLuong, h.Ngay, h.Ca, h.MaPhongBan, t.GhiChu  "
+                                    + " inner join (select t.MaTieuChi, t.SanLuong, h.Ngay, h.Ca, h.MaPhongBan, t.GhiChu, h.NgaySanXuat  "
                                     + " from header_ThucHienTheoNgay h inner join ThucHien_TieuChi_TheoNgay t on h.HeaderID = t.HeaderID  "
                                     + " where h.Ngay = '" + date_sql + "' and h.Ca = " + ca_value + " and h.MaPhongBan = '" + px_value + "') table1 on p.MaTieuChi = table1.MaTieuChi and p.MaPhongBan = table1.MaPhongBan "
                                     + " inner join (select h.MaPhongBan,k.MaTieuChi, k.KeHoach  "
@@ -115,8 +124,18 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
 
             if (listSX != null) ViewBag.dem = listSX.Count();
             else ViewBag.dem = 0;
+            int ngay_SX_now = listSX.ElementAt(0).NgaySanXuat;
 
-            return Json(new { success = flag, list = tcList, dateSX = ngaySX, luyKe = LK, listSXLoad = listSX }, JsonRequestBehavior.AllowGet);
+            foreach (var item in listSX)
+            {
+                item.chenhlech = (Convert.ToInt32(item.SanLuong) - Convert.ToInt32(item.KeHoach)).ToString();
+                item.percentDay = (Convert.ToInt32(item.SanLuong) / Convert.ToInt32(item.KeHoach) * 100).ToString();
+                item.percentMonth = (Convert.ToInt32(item.LuyKe) / Convert.ToInt32(item.KHDC) * 100).ToString();
+                item.luyke_temp = (Convert.ToInt32(item.SanLuong) + Convert.ToInt32(item.LuyKe)).ToString();
+                item.tong = (Convert.ToInt32(item.KHDC) - Convert.ToInt32(item.luyke_temp)).ToString();
+                item.OneDay = (Convert.ToInt32(item.tong) / (ngaySX - item.NgaySanXuat)).ToString();
+            }
+            return Json(new { success = flag, list = tcList, dateSX = ngaySX, luyKe = LK, listSXLoad = listSX, ngaySXnow = ngay_SX_now }, JsonRequestBehavior.AllowGet);
         }
         public class MaxKHDate : KeHoach_TieuChi_TheoThang
         {
