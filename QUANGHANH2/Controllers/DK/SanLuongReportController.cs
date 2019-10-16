@@ -26,7 +26,7 @@ namespace QUANGHANH2.Controllers.DK
             DateTime timeEnd = Convert.ToDateTime("2019-09-10");
             var timeStart = Convert.ToDateTime("" + timeEnd.Year + "-" + timeEnd.Month + "-1");
             //
-            var query = "select *,CONVERT(float,0)  as [CHENHLECH],CONVERT(float,0)  as [PERCENTAGE], " +
+            var query = "select *,CONVERT(float,0)  as [KH],CONVERT(float,0)  as [CHENHLECH],CONVERT(float,0)  as [PERCENTAGE], " +
                 "0 as [KHDC], 0 as [percentDC],0 as [SUM],0 as [perday], 0 as [BQKHDC],0 as [VATLIEUCHONG],0 AS[DIENTICHDAO],0 as [BC],0 AS[CT] " +
                 "from(select MaTieuChi, TenTieuChi, " +
                 "Sum(case when ca = 1 and Ngay = @dateEnd then SanLuong else 0  end )as [CA1], " +
@@ -61,7 +61,7 @@ namespace QUANGHANH2.Controllers.DK
         public double Ca2 { get; set; }
         public double Ca3 { get; set; }
         public double TH { get; set; }
-        //public double KH { get; set; }
+        public double KH { get; set; }
         public double luyke { get; set; }
         public double chenhlech { get; set; }
         public double percentage { get; set; }
@@ -71,9 +71,6 @@ namespace QUANGHANH2.Controllers.DK
         public int perday { get; set; }
 
         public int BQQHDC { get; set; }
-        public int vatlieuchong { get; set; }
-        public int dientichdao { get; set; }
-        public int bc { get; set; }
-        public int ct { get; set; }
+        public string GhiChu { get; set; }
     }
 }

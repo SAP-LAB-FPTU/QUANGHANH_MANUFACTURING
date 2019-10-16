@@ -128,7 +128,7 @@ namespace QUANGHANH2.Controllers.DK
                             bc.Q2 = listTH[index2].Q2;
                             bc.Q3 = listTH[index2].Q3;
                             bc.isHeader = false;
-                            bc.TenNhomTieuChi = listKH[index2].TenNhomTieuChi;
+                            bc.TenNhomTieuChi = listTH[index2].TenNhomTieuChi;
                             //
                             bc.JanKH = listKH[index2].Jan;
                             bc.FebKH = listKH[index2].Feb;
