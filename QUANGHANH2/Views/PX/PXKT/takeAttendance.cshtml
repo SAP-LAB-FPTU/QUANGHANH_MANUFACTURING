@@ -45,7 +45,7 @@
                     </h3>
                 </div>
                 <div class="col l3 center">
-                    <a class="waves-effect waves-light btn-large" onclick="fetchAPI()">Cập nhật điểm danh</a>
+                    <button disabled class="waves-effect waves-light btn-large" onclick="fetchAPI()">Cập nhật điểm danh</button>
                 </div>
                 <hr>
             </div>
@@ -174,20 +174,13 @@
 
                 "columns": [
                     {
-                        data: { reason: "reason", status: "status" }, render: function (data, type, row) {
-                            if (!data.status && (data.reason == null || data.reason == "")) {
-                                return "<label><input onclick=\"clickConfirm(this)\" type=\"checkbox\" disabled=\"disabled\" class=\"checkBox1\" id=\"" + row["maNV"].trim() + "-confirmed\"/><span></span></label>";
-                            } else {
+                        data: "headerID", render: function (data, type, row) {
+                            if (data != null) {
                                 return "<label><input onclick=\"clickConfirm(this)\" type=\"checkbox\" checked=\"checked\" disabled=\"disabled\" class=\"checkBox1\" id='" + row["maNV"] + "-confirmed'/><span></span></label>";
+                            } else {
+                                return "<label><input onclick=\"clickConfirm(this)\" type=\"checkbox\"disabled=\"disabled\"class=\"checkBox1\" id=\"" + row["maNV"].trim() + "-confirmed\"/><span></span></label>";
                             }
                         }
-                        //data: "headerID", render: function (data, type, row) {
-                        //    if (data == true) {
-                        //        return "<label><input onclick=\"clickConfirm(this)\" type=\"checkbox\" checked=\"checked\" disabled=\"disabled\" class=\"checkBox1\" id='" + row["maNV"] + "-confirmed'/><span></span></label>";
-                        //    } else {
-                        //        return "<label><input onclick=\"clickConfirm(this)\" type=\"checkbox\"disabled=\"disabled\"class=\"checkBox1\" id=\"" + row["maNV"].trim() + "-confirmed\"/><span></span></label>";
-                        //    }
-                        //}
                     },
                     { data: "maNV" },
                     { data: "tenNV" },
@@ -201,20 +194,13 @@
                         }
                     },
                     {
-                        data: { reason: "reason", status: "status", headerID: "headerID" }, render: function (data, type, row) {
-                            if (!data.status && (data.reason == null || data.reason == "")) {
-                                return "";
+                        data: "headerID", render: function (data) {
+                            if (data != null) {
+                                return data
                             } else {
-                                return data.headerID;
+                                return "";
                             }
                         }
-                        //data: "headerID", render: function (data) {
-                        //    if (data != null) {
-                        //        return data
-                        //    } else {
-                        //        return "";
-                        //    }
-                        //}
                     },
                     {
                         data: "timeAttendance", render: function (data) {
@@ -297,16 +283,44 @@
                 $("#workedAllCheckbox").hide();
                 $("#notWorkedAllCheckbox").hide();
                 $(".reasonBox").each(function () {
-                    if($(this).text() == "Ốm")
-                        $(this).html("<select class=\"browser-default \"> <option value=\"\" disabled selected>Lựa chọn lý do</option> <option selected value=\"1\">Ốm</option> <option value=\"2\">Vô lý do</option><option value=\"3\">Nghỉ phép</option></option><option value=\"4\">Khác</option></select>");
-                    else if ($(this).text() == "Vô lý do")
-                        $(this).html("<select class=\"browser-default \"> <option value=\"\" disabled selected>Lựa chọn lý do</option> <option value=\"1\">Ốm</option> <option selected value=\"2\">Vô lý do</option><option value=\"3\">Nghỉ phép</option></option><option value=\"4\">Khác</option></select>");
-                    else if ($(this).text() == "Nghỉ phép")
-                        $(this).html("<select class=\"browser-default \"> <option value=\"\" disabled selected>Lựa chọn lý do</option> <option value=\"1\">Ốm</option> <option value=\"2\">Vô lý do</option><option selected value=\"3\">Nghỉ phép</option></option><option value=\"4\">Khác</option></select>");
-                    else if ($(this).text() == "Khác")
-                        $(this).html("<select class=\"browser-default \"> <option value=\"\" disabled selected>Lựa chọn lý do</option> <option value=\"1\">Ốm</option> <option value=\"2\">Vô lý do</option><option value=\"3\">Nghỉ phép</option></option><option selected value=\"4\">Khác</option></select>");
+                    var text = "<select class=\"browser-default \"><option value=\"\" disabled>NGHỈ NGẮN HẠN</option><option value=\"1\">Ốm</option><option value=\"2\">Vô lý do</option><option value=\"3\">Nghỉ phép</option><option value=\"4\">Khác</option><option value=\"\" disabled>NGHỈ DÀI HẠN</option><option value=\"5\">Tai nạn lao động</option><option value=\"6\">Ốm dài</option><option value=\"7\">Thai sản</option><option value=\"8\">Tạm hoãn lao động</option><option value=\"9\">Vô lý do dài</option></select>";
+                    if ($(this).text() != "") {
+                        var regex = new RegExp('<option value=\\"[0-9]+\\">' + $(this).text() + '<\/option>');
+                        var arr = text.split(regex);
+                        switch ($(this).text()) {
+                            case "Ốm":
+                                $(this).html(arr[0] + "<option selected value=\"1\">Ốm</option>" + arr[1]);
+                                break;
+                            case "Vô lý do":
+                                $(this).html(arr[0] + "<option selected value=\"2\">Vô lý do</option>" + arr[1]);
+                                break;
+                            case "Nghỉ phép":
+                                $(this).html(arr[0] + "<option selected value=\"3\">Nghỉ phép</option>" + arr[1]);
+                                break;
+                            case "Khác":
+                                $(this).html(arr[0] + "<option selected value=\"4\">Khác</option>" + arr[1]);
+                                break;
+                            case "Tai nạn lao động":
+                                $(this).html(arr[0] + "<option selected value=\"5\">Tai nạn lao động</option>" + arr[1]);
+                                break;
+                            case "Ốm dài":
+                                $(this).html(arr[0] + "<option selected value=\"6\">Ốm dài</option>" + arr[1]);
+                                break;
+                            case "Thai sản":
+                                $(this).html(arr[0] + "<option selected value=\"7\">Thai sản</option>" + arr[1]);
+                                break;
+                            case "Tạm hoãn lao động":
+                                $(this).html(arr[0] + "<option selected value=\"8\">Tạm hoãn lao động</option>" + arr[1]);
+                                break;
+                            case "Vô lý do dài":
+                                $(this).html(arr[0] + "<option selected value=\"9\">Vô lý do dài</option>" + arr[1]);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                     else
-                        $(this).html("<select class=\"browser-default \"> <option value=\"\" disabled selected>Lựa chọn lý do</option> <option value=\"1\">Ốm</option> <option value=\"2\">Vô lý do</option><option value=\"3\">Nghỉ phép</option></option><option value=\"4\">Khác</option></select>");
+                        $(this).html("<select class=\"browser-default \"><option value=\"\" disabled selected>NGHỈ NGẮN HẠN</option><option value=\"1\">Ốm</option><option value=\"2\">Vô lý do</option><option value=\"3\">Nghỉ phép</option><option value=\"4\">Khác</option><option value=\"\" disabled>NGHỈ DÀI HẠN</option><option value=\"5\">Tai nạn lao động</option><option value=\"6\">Ốm dài</option><option value=\"7\">Thai sản</option><option value=\"8\">Tạm hoãn lao động</option><option value=\"9\">Vô lý do dài</option></select>");
                 })
                 mode = 1;
             } else {
@@ -327,12 +341,10 @@
                             console.log(status);
                             $("#workedAllCheckbox").show();
                             $("#notWorkedAllCheckbox").show();
+                            successAlert('Cập nhật thành công', '');
                     })
                 } else {
-                    $.notify("Cập nhật thành công", {
-                        globalPosition: "Không được bỏ trống lý do khác",
-                        className: "fail"
-                    })
+                    successAlert('Cập nhật thành công', '');
                     $("#workedAllCheckbox").show();
                     $("#notWorkedAllCheckbox").show();
                     $('#pre-load').hide()
@@ -392,6 +404,21 @@
                                     break;
                                 case "4":
                                     cur[heads[i]] = "Khác";
+                                    break;
+                                case "5":
+                                    cur[heads[i]] = "Tai nạn lao động";
+                                    break;
+                                case "6":
+                                    cur[heads[i]] = "Ốm dài";
+                                    break;
+                                case "7":
+                                    cur[heads[i]] = "Thai sản";
+                                    break;
+                                case "8":
+                                    cur[heads[i]] = "Tạm hoãn lao động";
+                                    break;
+                                case "9":
+                                    cur[heads[i]] = "Vô lý do dài";
                                     break;
                                 default:
                                     cur[heads[i]] = "";
