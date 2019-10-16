@@ -50,11 +50,11 @@ namespace QUANGHANH2.Controllers.DK
                 "SUM(case when c.ThangKeHoach = 2 then SanLuong else 0 end) as [Feb], SUM(case when c.ThangKeHoach = 3 then SanLuong else 0 end) as [March], " +
                 "SUM(case when c.ThangKeHoach = 4 then SanLuong else 0 end) as [April], SUM(case when((c.ThangKeHoach = 4) or(c.ThangKeHoach = 1) or(c.ThangKeHoach = 2) or(c.ThangKeHoach = 3)) then SanLuong else 0 end) as [Q1]," +
                 "SUM(case when c.ThangKeHoach = 5 then SanLuong else 0 end) as [May], SUM(case when c.ThangKeHoach = 6 then SanLuong else 0 end) as [June], " +
-                "SUM(case when c.ThangKeHoach = 1 then SanLuong else 0 end) as [July], SUM(case when c.ThangKeHoach = 2 then SanLuong else 0 end) as [Aug], " +
+                "SUM(case when c.ThangKeHoach = 7 then SanLuong else 0 end) as [July], SUM(case when c.ThangKeHoach = 8 then SanLuong else 0 end) as [Aug], " +
                 "SUM(case when((c.ThangKeHoach = 5) or(c.ThangKeHoach = 6) or(c.ThangKeHoach = 7) or(c.ThangKeHoach = 8)) then SanLuong else 0 end) as [Q2], " +
-                "SUM(case when c.ThangKeHoach = 3 then SanLuong else 0 end) as [Sep],SUM(case when c.ThangKeHoach = 4 then SanLuong else 0 end) as [Oct]," +
-                "SUM(case when c.ThangKeHoach = 5 then SanLuong else 0 end) as [Nov]," +
-                "SUM(case when c.ThangKeHoach = 6 then SanLuong else 0 end) as [Dec], SUM(case when((c.ThangKeHoach = 9) or(c.ThangKeHoach = 10) or(c.ThangKeHoach = 11) or(c.ThangKeHoach = 12)) then SanLuong else 0 end) as [Q3] " +
+                "SUM(case when c.ThangKeHoach = 9 then SanLuong else 0 end) as [Sep],SUM(case when c.ThangKeHoach = 10 then SanLuong else 0 end) as [Oct]," +
+                "SUM(case when c.ThangKeHoach = 11 then SanLuong else 0 end) as [Nov]," +
+                "SUM(case when c.ThangKeHoach = 12 then SanLuong else 0 end) as [Dec], SUM(case when((c.ThangKeHoach = 9) or(c.ThangKeHoach = 10) or(c.ThangKeHoach = 11) or(c.ThangKeHoach = 12)) then SanLuong else 0 end) as [Q3] " +
                 "from(select TieuChi.MaNhomTieuChi, b.SanLuong, header.ThangKeHoach, header.NamKeHoach, header.MaPhongBan  from (select kehoach.* from " +
                 "(Select HeaderID, MaTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung] from KeHoach_TieuChi_TheoThang group by MaTieuChi, HeaderID) as a " +
                 "inner join KeHoach_TieuChi_TheoThang as kehoach on a.HeaderID = kehoach.HeaderID and a.MaTieuChi = kehoach.MaTieuChi and a.ThoiGianNhapCuoiCung = kehoach.ThoiGianNhapCuoiCung) as b " +
@@ -81,17 +81,17 @@ namespace QUANGHANH2.Controllers.DK
             {
                 var listTH = db.Database.SqlQuery<SanLuongTheoThangQuy>(query, 
                     new SqlParameter("startJan", startDates[0]), new SqlParameter("endJan", endDates[0]),
-                    new SqlParameter("startFeb", startDates[0]), new SqlParameter("endFeb", endDates[1]),
-                    new SqlParameter("startMar", startDates[0]), new SqlParameter("endMar", endDates[2]),
-                    new SqlParameter("startApril", startDates[0]), new SqlParameter("endApril", endDates[3]),
-                    new SqlParameter("startMay", startDates[0]), new SqlParameter("endMay", endDates[4]),
-                    new SqlParameter("startJune", startDates[0]), new SqlParameter("endJune", endDates[5]),
-                    new SqlParameter("startJuly", startDates[0]), new SqlParameter("endJuly", endDates[6]),
-                    new SqlParameter("startAug", startDates[0]), new SqlParameter("endAug", endDates[7]),
-                    new SqlParameter("startSep", startDates[0]), new SqlParameter("endSep", endDates[8]),
-                    new SqlParameter("startOct", startDates[0]), new SqlParameter("endOct", endDates[9]),
-                    new SqlParameter("startNov", startDates[0]), new SqlParameter("endNov", endDates[10]),
-                    new SqlParameter("startDec", startDates[0]), new SqlParameter("endDec", endDates[11])
+                    new SqlParameter("startFeb", startDates[1]), new SqlParameter("endFeb", endDates[1]),
+                    new SqlParameter("startMar", startDates[2]), new SqlParameter("endMar", endDates[2]),
+                    new SqlParameter("startApril", startDates[3]), new SqlParameter("endApril", endDates[3]),
+                    new SqlParameter("startMay", startDates[4]), new SqlParameter("endMay", endDates[4]),
+                    new SqlParameter("startJune", startDates[5]), new SqlParameter("endJune", endDates[5]),
+                    new SqlParameter("startJuly", startDates[6]), new SqlParameter("endJuly", endDates[6]),
+                    new SqlParameter("startAug", startDates[7]), new SqlParameter("endAug", endDates[7]),
+                    new SqlParameter("startSep", startDates[8]), new SqlParameter("endSep", endDates[8]),
+                    new SqlParameter("startOct", startDates[9]), new SqlParameter("endOct", endDates[9]),
+                    new SqlParameter("startNov", startDates[10]), new SqlParameter("endNov", endDates[10]),
+                    new SqlParameter("startDec", startDates[11]), new SqlParameter("endDec", endDates[11])
                     ).ToList();
                 //
                 var listKH = db.Database.SqlQuery<SanLuongTheoThangQuy>(queryKH, new SqlParameter("year", year)).ToList();
