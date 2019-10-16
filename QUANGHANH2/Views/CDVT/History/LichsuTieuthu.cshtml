@@ -458,12 +458,7 @@
         $(document).ready(function () {
             //ajax search fuel
             $("#searchButtonFuel").click(function () {
-                dataFuelTable.ajax.reload(function () {
-                    $.notify("Tìm kiếm thành công", {
-                        globalPosition: "top center",
-                        className: "success"
-                    })
-                });
+                dataFuelTable.ajax.reload();
             });
         });
 
@@ -486,10 +481,7 @@
                     $('#fuel-edit').val(data.fuel_type);
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    $.notify("Có lỗi xảy ra , vui lòng thử lại", {
-                        globalPosition: "top center",
-                        className: "error"
-                    });
+                    errorAlert('Lỗi', 'Có lỗi xảy ra , vui lòng thử lại');
                 },
                 data: {
                     fuelid: Number(fuel)
