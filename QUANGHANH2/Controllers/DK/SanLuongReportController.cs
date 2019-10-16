@@ -12,14 +12,15 @@ namespace QUANGHANH2.Controllers.DK
     public class SanLuongReportController : Controller
     {
         // GET: SanLuongReport
+        [HttpGet]
         [Route("phong-dieu-khien/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty")]
         public ActionResult Index()
         {
             return View("/Views/DK/SanLuongReport.cshtml");
         }
 
-        [Route("phong-dieu-khien/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty")]
         [HttpPost]
+        [Route("phong-dieu-khien/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty")]
         public ActionResult getReport()
         {
             DateTime timeEnd = Convert.ToDateTime("2019-09-10");
