@@ -172,6 +172,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                 List<string> listAttended = (from h in db.Header_DiemDanh_NangSuat_LaoDong
                                                 .Where(h => h.MaPhongBan == departmentID && h.NgayDiemDanh == date && h.Ca != session)
                                           join per in db.DiemDanh_NangSuatLaoDong
+                                            //.Where(dd => dd.DiLam == true)
                                           on h.HeaderID equals per.HeaderID
                                           select per.MaNV).ToList();
                 var leftouterjoin = (from emp in db.NhanViens

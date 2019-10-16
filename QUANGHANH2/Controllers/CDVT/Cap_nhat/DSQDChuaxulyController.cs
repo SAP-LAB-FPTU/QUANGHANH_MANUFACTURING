@@ -32,34 +32,68 @@ namespace QUANGHANHCORE.Controllers.CDVT.Cap_nhat
             string searchValue = Request["search[value]"];
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
-
+            string departid = Session["departID"].ToString();
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            string query = "SELECT docu.*, docu.[out/in_come] as out_in_come, depa.department_name FROM Documentary docu inner join Department depa on docu.department_id = depa.department_id" +
-                " where docu.documentary_code IS NOT NULL AND docu.documentary_status != 3 AND ";
-            if (!documentary_id.Equals("") || !type.Equals("0") || !department.Equals("") || !reason.Equals("") || !status.Equals("0") || !(dateStart.Equals("") || dateEnd.Equals("")))
+            List<DocumentaryDB> incidents;
+            if (departid.Contains("PX"))
             {
-                if (!dateStart.Equals("") && !dateEnd.Equals(""))
+                string query = "SELECT docu.*, docu.[out/in_come] as out_in_come, depa.department_name FROM Documentary docu inner join Department depa on docu.department_id = depa.department_id" +
+                    " where docu.documentary_code IS NOT NULL AND docu.documentary_status != 3 AND docu.department_id = @departid AND ";
+                if (!documentary_id.Equals("") || !type.Equals("0") || !department.Equals("") || !reason.Equals("") || !status.Equals("0") || !(dateStart.Equals("") || dateEnd.Equals("")))
                 {
-                    DateTime dtStart = DateTime.ParseExact(dateStart, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                    DateTime dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                    dtEnd = dtEnd.AddHours(23);
-                    dtEnd = dtEnd.AddMinutes(59);
-                    query += "docu.date_created BETWEEN '" + dtStart + "' AND '" + dtEnd + "' AND ";
+                    if (!dateStart.Equals("") && !dateEnd.Equals(""))
+                    {
+                        DateTime dtStart = DateTime.ParseExact(dateStart, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                        DateTime dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                        dtEnd = dtEnd.AddHours(23);
+                        dtEnd = dtEnd.AddMinutes(59);
+                        query += "docu.date_created BETWEEN '" + dtStart + "' AND '" + dtEnd + "' AND ";
+                    }
+                    if (!documentary_id.Equals("")) query += "docu.documentary_code LIKE @documentary_id AND ";
+                    if (!type.Equals("0")) query += "docu.documentary_type LIKE @documentary_type AND ";
+                    if (!department.Equals("")) query += "depa.department_name LIKE @department_name AND ";
+                    if (!reason.Equals("")) query += "docu.reason LIKE @reason AND ";
+                    if (!status.Equals("0")) query += "docu.documentary_status = @documentary_status AND ";
                 }
-                if (!documentary_id.Equals("")) query += "docu.documentary_code LIKE @documentary_id AND ";
-                if (!type.Equals("0")) query += "docu.documentary_type LIKE @documentary_type AND ";
-                if (!department.Equals("")) query += "depa.department_name LIKE @department_name AND ";
-                if (!reason.Equals("")) query += "docu.reason LIKE @reason AND ";
-                if (!status.Equals("0")) query += "docu.documentary_status = @documentary_status AND ";
+                query = query.Substring(0, query.Length - 5);
+                incidents = DBContext.Database.SqlQuery<DocumentaryDB>(query,
+                    new SqlParameter("departid", departid),
+                    new SqlParameter("documentary_id", '%' + documentary_id + '%'),
+                    new SqlParameter("documentary_type", '%' + type + '%'),
+                    new SqlParameter("department_name", '%' + department + '%'),
+                    new SqlParameter("reason", '%' + reason + '%'),
+                    new SqlParameter("documentary_status", status)
+                    ).ToList();
             }
-            query = query.Substring(0, query.Length - 5);
-            List<DocumentaryDB> incidents = DBContext.Database.SqlQuery<DocumentaryDB>(query,
-                new SqlParameter("documentary_id", '%' + documentary_id + '%'),
-                new SqlParameter("documentary_type", '%' + type + '%'),
-                new SqlParameter("department_name", '%' + department + '%'),
-                new SqlParameter("reason", '%' + reason + '%'),
-                new SqlParameter("documentary_status", status)
-                ).ToList();
+            else
+            {
+                string query = "SELECT docu.*, docu.[out/in_come] as out_in_come, depa.department_name FROM Documentary docu inner join Department depa on docu.department_id = depa.department_id" +
+                    " where docu.documentary_code IS NOT NULL AND docu.documentary_status != 3 AND ";
+                if (!documentary_id.Equals("") || !type.Equals("0") || !department.Equals("") || !reason.Equals("") || !status.Equals("0") || !(dateStart.Equals("") || dateEnd.Equals("")))
+                {
+                    if (!dateStart.Equals("") && !dateEnd.Equals(""))
+                    {
+                        DateTime dtStart = DateTime.ParseExact(dateStart, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                        DateTime dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                        dtEnd = dtEnd.AddHours(23);
+                        dtEnd = dtEnd.AddMinutes(59);
+                        query += "docu.date_created BETWEEN '" + dtStart + "' AND '" + dtEnd + "' AND ";
+                    }
+                    if (!documentary_id.Equals("")) query += "docu.documentary_code LIKE @documentary_id AND ";
+                    if (!type.Equals("0")) query += "docu.documentary_type LIKE @documentary_type AND ";
+                    if (!department.Equals("")) query += "depa.department_name LIKE @department_name AND ";
+                    if (!reason.Equals("")) query += "docu.reason LIKE @reason AND ";
+                    if (!status.Equals("0")) query += "docu.documentary_status = @documentary_status AND ";
+                }
+                query = query.Substring(0, query.Length - 5);
+                incidents = DBContext.Database.SqlQuery<DocumentaryDB>(query,
+                    new SqlParameter("documentary_id", '%' + documentary_id + '%'),
+                    new SqlParameter("documentary_type", '%' + type + '%'),
+                    new SqlParameter("department_name", '%' + department + '%'),
+                    new SqlParameter("reason", '%' + reason + '%'),
+                    new SqlParameter("documentary_status", status)
+                    ).ToList();
+            }
             int totalrows = incidents.Count;
             int totalrowsafterfiltering = incidents.Count;
             //sorting
