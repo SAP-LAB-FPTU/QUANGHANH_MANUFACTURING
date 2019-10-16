@@ -343,12 +343,13 @@
     var listNghiVLD = @Html.Raw(Json.Encode(ViewBag.listNghiVLD));
     var listNhanLuc =@Html.Raw(Json.Encode(ViewBag.listNhanLuc));
     var sanluong = @Html.Raw(Json.Encode(ViewBag.sanluong));
-    $("#slkh").text(AddComma(sanluong.SLKH));
-    $("#lksl").text(AddComma(sanluong.LKSL));
+    $("#slkh").text(AddComma(sanluong.SLKH==null?0:sanluong.SLKH));
+    $("#lksl").text(AddComma(sanluong.LKSL==null?0:sanluong.LKSL));
     $("#slcl").text(AddComma(sanluong.SLKH-sanluong.LKSL));
-    $("#mlkh").text(AddComma(sanluong.MLKH));
-    $("#lkml").text(AddComma(sanluong.LKML));
-    $("#mlcl").text(AddComma(sanluong.MLKH-sanluong.LKML));
+    $("#mlkh").text(AddComma(sanluong.MLKH==null?0:sanluong.MLKH));
+    $("#lkml").text(AddComma(sanluong.LKML==null?0:sanluong.LKML));
+    $("#mlcl").text(AddComma(sanluong.MLKH - sanluong.LKML));
+
 </script>
 <!-- Editable -->
 <script type="text/javascript" src="~/assets/libs/jsgrid/dist/jsgrid.min.js"></script>
@@ -719,11 +720,11 @@
                             },]
                         });
                         /////////////////////////////BAO CAO SAN LUONG//////////////////////////
-                        $("#slkh").text(AddComma(response.sanluong.SLKH));
-                        $("#lksl").text(AddComma(response.sanluong.LKSL));
+                        $("#slkh").text(AddComma(response.sanluong.SLKH==null?0:response.sanluong.SLKH));
+                        $("#lksl").text(AddComma(response.sanluong.LKSL==null?0:response.sanluong.LKSL));
                         $("#slcl").text(AddComma(response.sanluong.SLKH - response.sanluong.LKSL));
-                        $("#mlkh").text(AddComma(response.sanluong.MLKH));
-                        $("#lkml").text(AddComma(response.sanluong.LKML));
+                        $("#mlkh").text(AddComma(response.sanluong.MLKH==null?0:response.sanluong.MLKH));
+                        $("#lkml").text(AddComma(response.sanluong.LKML==null?0:response.sanluong.LKML));
                         $("#mlcl").text(AddComma(response.sanluong.MLKH - response.sanluong.LKML));
                         ///////////////////////////BIEU DO BARCHARRT NHAN LUC/////////////////
                         var donvi = [];
