@@ -120,7 +120,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
         }
         public class MaxKHDate : KeHoach_TieuChi_TheoThang
         {
-            public DateTime maxDate { get; set; }
+            public DateTime Max { get; set; }
         }
 
         public JsonResult SaveChange(string ngaySX, string ngayNhap, string px_value, string ca_value, string[] tenTieuChi,
@@ -143,7 +143,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                     DateTime ngaySXFix = Convert.ToDateTime(ngayNhap.Split('/')[1] + "/" + ngayNhap.Split('/')[0] + "/" + ngayNhap.Split('/')[2]);
 
 
-                    
+
                     List<TieuChi> list = db.TieuChis.ToList();
                     int[] maTieuChi = new int[tenTieuChi.Length];
 
@@ -157,8 +157,8 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                         List<header_ThucHienTheoNgay> checkList = db.header_ThucHienTheoNgay.Where(x => x.MaPhongBan == px_value && x.Ca == ca && x.Ngay == dateTime).ToList();
                         List<header_KeHoach_TieuChi_TheoNgay> checkList2 = db.header_KeHoach_TieuChi_TheoNgay.Where(x => x.MaPhongBan == px_value && x.Ca == ca && x.NgayNhapKH == dateTime).ToList();
                         KeHoach_TieuChi_TheoThang khMonth = new KeHoach_TieuChi_TheoThang();
-                        
-                        if (checkList.Count > 0 || checkList2.Count > 0)
+
+                        if (checkList.Count > 0 && checkList2.Count > 0)
                         {
                             int caSXConvert = Convert.ToInt32(ca_value);
                             var headerIDDay = db.header_ThucHienTheoNgay.Where(x => x.MaPhongBan == px_value && x.Ngay == ngaySXFix && x.Ca == caSXConvert).Select(x => x.HeaderID).FirstOrDefault();
@@ -190,7 +190,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                     KHDC[i] = "0";
                                 }
                                 string queryGet = " select HeaderID, MaTieuChi , MAX(ThoiGianNhapCuoiCung) as 'Max' " +
-                                  "from KeHoach_TieuChi_TheoThang where HeaderID = " + headerIDMonth + " and MaTieuChi = "+maTieuChi[i]+" " +
+                                  "from KeHoach_TieuChi_TheoThang where HeaderID = " + headerIDMonth + " and MaTieuChi = " + maTieuChi[i] + " " +
                                   "group by HeaderID, MaTieuChi";
                                 var maxDate = db.Database.SqlQuery<MaxKHDate>(queryGet).FirstOrDefault();
                                 string query = "update ThucHien_TieuChi_TheoNgay set SanLuong = " + thucHien[i] + ",GhiChu = '" + ghiChu[i] + "' " +
@@ -198,13 +198,13 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                 "  update KeHoach_TieuChi_TheoNgay set  KeHoach = " + keHoach[i] + ", ThoiGianNhapCuoiCung = GETDATE() " +
                                 "  where HeaderID = " + headerIDPlanDay + " and MaTieuChi = " + maTieuChi[i] + " " +
                                 "  update KeHoach_TieuChi_TheoThang set  SanLuong = " + KHDC[i] + ", ThoiGianNhapCuoiCung = GETDATE() " +
-                                "  where HeaderID = " + headerIDMonth + " and MaTieuChi = " + maTieuChi[i] + "";
+                                "  where HeaderID = " + headerIDMonth + " and MaTieuChi = " + maTieuChi[i] + " and ThoiGianNhapCuoiCung = '" + maxDate.Max + "'" +
+                                "  update header_ThucHienTheoNgay set NgaySanXuat = " + ngaySX + " where HeaderID = " + headerIDDay + " ";
                                 db.Database.ExecuteSqlCommand(query);
                             }
                         }
-                        else
+                        else if (checkList.Count <= 0 && checkList2.Count <= 0)
                         {
-
                             header_ThucHienTheoNgay tttn = new header_ThucHienTheoNgay();
                             tttn.MaPhongBan = px_value;
                             tttn.Ngay = ngaySXFix;
@@ -257,6 +257,10 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                     " values(" + headerIDMonth + ", " + maTieuChi[i] + ", " + KHDC[i] + ", GETDATE())";
                                 db.Database.ExecuteSqlCommand(query);
                             }
+                        }
+                        else
+                        {
+                            return Json(new { success = "dataSuck" }, JsonRequestBehavior.AllowGet);
                         }
                     }
                     dbct.Commit();

@@ -264,8 +264,10 @@
                 url: form.action,
                 data: $(form).serialize(),
                 success: function (data) {
-                    if (data.success) {
+                    if (data.success == true) {
                         successAlert('Thành công', 'Thêm thành công');
+                    } else if (data.success == "dataSuck") {
+                        errorAlert('Có lỗi', 'Dữ liệu bị hổng');
                     } else {
                         errorAlert('Có lỗi', 'Thêm không thành công');
                     }
