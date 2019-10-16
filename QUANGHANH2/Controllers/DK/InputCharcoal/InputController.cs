@@ -118,6 +118,10 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
 
             return Json(new { success = flag, list = tcList, dateSX = ngaySX, luyKe = LK, listSXLoad = listSX }, JsonRequestBehavior.AllowGet);
         }
+        public class MaxKHDate : KeHoach_TieuChi_TheoThang
+        {
+            public DateTime maxDate { get; set; }
+        }
 
         public JsonResult SaveChange(string ngaySX, string ngayNhap, string px_value, string ca_value, string[] tenTieuChi,
             string[] thucHien, string[] keHoach, string[] KHDC, string[] ghiChu)
@@ -138,69 +142,124 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                 {
                     DateTime ngaySXFix = Convert.ToDateTime(ngayNhap.Split('/')[1] + "/" + ngayNhap.Split('/')[0] + "/" + ngayNhap.Split('/')[2]);
 
-                    header_ThucHienTheoNgay tttn = new header_ThucHienTheoNgay();
-                    tttn.MaPhongBan = px_value;
-                    tttn.Ngay = ngaySXFix;
-                    tttn.Ca = Convert.ToInt32(ca_value);
-                    tttn.NgaySanXuat = Convert.ToInt32(ngaySX);
-                    db.header_ThucHienTheoNgay.Add(tttn);
-                    db.SaveChanges();
 
-                    header_KeHoach_TieuChi_TheoNgay khtctn = new header_KeHoach_TieuChi_TheoNgay();
-                    khtctn.MaPhongBan = px_value;
-                    khtctn.NgayNhapKH = ngaySXFix;
-                    khtctn.Ca = Convert.ToInt32(ca_value);
-                    db.header_KeHoach_TieuChi_TheoNgay.Add(khtctn);
-                    db.SaveChanges();
-
-                    int caSXConvert = Convert.ToInt32(ca_value);
-                    var headerIDDay = db.header_ThucHienTheoNgay.Where(x => x.MaPhongBan == px_value && x.Ngay == ngaySXFix && x.Ca == caSXConvert).Select(x => x.HeaderID).FirstOrDefault();
-                    var headerIDPlanDay = db.header_KeHoach_TieuChi_TheoNgay.Where(x => x.MaPhongBan == px_value && x.NgayNhapKH == ngaySXFix && x.Ca == caSXConvert).Select(x => x.HeaderID).FirstOrDefault();
-                    var headerIDMonth = db.header_KeHoachTungThang.Where(x => x.MaPhongBan == px_value && x.ThangKeHoach == ngaySXFix.Month && x.NamKeHoach == ngaySXFix.Year).Select(x => x.HeaderID).FirstOrDefault();
+                    
                     List<TieuChi> list = db.TieuChis.ToList();
                     int[] maTieuChi = new int[tenTieuChi.Length];
 
                     ThucHien_TieuChi_TheoNgay thtctn = new ThucHien_TieuChi_TheoNgay();
 
-                    month = Convert.ToInt32(ngayNhap.Split('/')[1]);
-                    year = Convert.ToInt32(ngayNhap.Split('/')[2]);
-                    List<header_ThucHienTheoNgay> checkList = db.header_ThucHienTheoNgay.Where(x => x.MaPhongBan == px_value && x.Ca == ca && x.Ngay == dateTime).ToList();
-                    List<header_KeHoach_TieuChi_TheoNgay> checkList2 = db.header_KeHoach_TieuChi_TheoNgay.Where(x => x.MaPhongBan == px_value && x.Ca == ca && x.NgayNhapKH == dateTime).ToList();
-                    for (int i = 0; i < tenTieuChi.Length; i++)
+
+                    if (!ngayNhap.Equals(""))
                     {
-                        foreach (var item in list)
+                        month = Convert.ToInt32(ngayNhap.Split('/')[1]);
+                        year = Convert.ToInt32(ngayNhap.Split('/')[2]);
+                        List<header_ThucHienTheoNgay> checkList = db.header_ThucHienTheoNgay.Where(x => x.MaPhongBan == px_value && x.Ca == ca && x.Ngay == dateTime).ToList();
+                        List<header_KeHoach_TieuChi_TheoNgay> checkList2 = db.header_KeHoach_TieuChi_TheoNgay.Where(x => x.MaPhongBan == px_value && x.Ca == ca && x.NgayNhapKH == dateTime).ToList();
+                        KeHoach_TieuChi_TheoThang khMonth = new KeHoach_TieuChi_TheoThang();
+                        
+                        if (checkList.Count > 0 || checkList2.Count > 0)
                         {
-                            if (item.TenTieuChi.Equals(tenTieuChi[i]))
+                            int caSXConvert = Convert.ToInt32(ca_value);
+                            var headerIDDay = db.header_ThucHienTheoNgay.Where(x => x.MaPhongBan == px_value && x.Ngay == ngaySXFix && x.Ca == caSXConvert).Select(x => x.HeaderID).FirstOrDefault();
+                            var headerIDPlanDay = db.header_KeHoach_TieuChi_TheoNgay.Where(x => x.MaPhongBan == px_value && x.NgayNhapKH == ngaySXFix && x.Ca == caSXConvert).Select(x => x.HeaderID).FirstOrDefault();
+                            var headerIDMonth = db.header_KeHoachTungThang.Where(x => x.MaPhongBan == px_value && x.ThangKeHoach == ngaySXFix.Month && x.NamKeHoach == ngaySXFix.Year).Select(x => x.HeaderID).FirstOrDefault();
+                            for (int i = 0; i < tenTieuChi.Length; i++)
                             {
-                                maTieuChi[i] = item.MaTieuChi;
+                                foreach (var item in list)
+                                {
+                                    if (item.TenTieuChi.Equals(tenTieuChi[i]))
+                                    {
+                                        maTieuChi[i] = item.MaTieuChi;
+                                    }
+                                }
+                                if (ghiChu[i].Equals(""))
+                                {
+                                    ghiChu[i] = "null";
+                                }
+                                else if (thucHien[i].Equals(""))
+                                {
+                                    thucHien[i] = "0";
+                                }
+                                else if (keHoach[i].Equals(""))
+                                {
+                                    keHoach[i] = "0";
+                                }
+                                else if (KHDC[i].Equals(""))
+                                {
+                                    KHDC[i] = "0";
+                                }
+                                string queryGet = " select HeaderID, MaTieuChi , MAX(ThoiGianNhapCuoiCung) as 'Max' " +
+                                  "from KeHoach_TieuChi_TheoThang where HeaderID = " + headerIDMonth + " and MaTieuChi = "+maTieuChi[i]+" " +
+                                  "group by HeaderID, MaTieuChi";
+                                var maxDate = db.Database.SqlQuery<MaxKHDate>(queryGet).FirstOrDefault();
+                                string query = "update ThucHien_TieuChi_TheoNgay set SanLuong = " + thucHien[i] + ",GhiChu = '" + ghiChu[i] + "' " +
+                                "  where HeaderID = " + headerIDDay + " and MaTieuChi = " + maTieuChi[i] + " " +
+                                "  update KeHoach_TieuChi_TheoNgay set  KeHoach = " + keHoach[i] + ", ThoiGianNhapCuoiCung = GETDATE() " +
+                                "  where HeaderID = " + headerIDPlanDay + " and MaTieuChi = " + maTieuChi[i] + " " +
+                                "  update KeHoach_TieuChi_TheoThang set  SanLuong = " + KHDC[i] + ", ThoiGianNhapCuoiCung = GETDATE() " +
+                                "  where HeaderID = " + headerIDMonth + " and MaTieuChi = " + maTieuChi[i] + "";
+                                db.Database.ExecuteSqlCommand(query);
                             }
                         }
-                        if (ghiChu[i].Equals(""))
+                        else
                         {
-                            ghiChu[i] = "null";
+
+                            header_ThucHienTheoNgay tttn = new header_ThucHienTheoNgay();
+                            tttn.MaPhongBan = px_value;
+                            tttn.Ngay = ngaySXFix;
+                            tttn.Ca = Convert.ToInt32(ca_value);
+                            tttn.NgaySanXuat = Convert.ToInt32(ngaySX);
+                            db.header_ThucHienTheoNgay.Add(tttn);
+                            db.SaveChanges();
+
+                            header_KeHoach_TieuChi_TheoNgay khtctn = new header_KeHoach_TieuChi_TheoNgay();
+                            khtctn.MaPhongBan = px_value;
+                            khtctn.NgayNhapKH = ngaySXFix;
+                            khtctn.Ca = Convert.ToInt32(ca_value);
+                            db.header_KeHoach_TieuChi_TheoNgay.Add(khtctn);
+                            db.SaveChanges();
+
+                            int caSXConvert = Convert.ToInt32(ca_value);
+                            var headerIDDay = db.header_ThucHienTheoNgay.Where(x => x.MaPhongBan == px_value && x.Ngay == ngaySXFix && x.Ca == caSXConvert).Select(x => x.HeaderID).FirstOrDefault();
+                            var headerIDPlanDay = db.header_KeHoach_TieuChi_TheoNgay.Where(x => x.MaPhongBan == px_value && x.NgayNhapKH == ngaySXFix && x.Ca == caSXConvert).Select(x => x.HeaderID).FirstOrDefault();
+                            var headerIDMonth = db.header_KeHoachTungThang.Where(x => x.MaPhongBan == px_value && x.ThangKeHoach == ngaySXFix.Month && x.NamKeHoach == ngaySXFix.Year).Select(x => x.HeaderID).FirstOrDefault();
+                            for (int i = 0; i < tenTieuChi.Length; i++)
+                            {
+                                foreach (var item in list)
+                                {
+                                    if (item.TenTieuChi.Equals(tenTieuChi[i]))
+                                    {
+                                        maTieuChi[i] = item.MaTieuChi;
+                                    }
+                                }
+                                if (ghiChu[i].Equals(""))
+                                {
+                                    ghiChu[i] = "null";
+                                }
+                                else if (thucHien[i].Equals(""))
+                                {
+                                    thucHien[i] = "0";
+                                }
+                                else if (keHoach[i].Equals(""))
+                                {
+                                    keHoach[i] = "0";
+                                }
+                                else if (KHDC[i].Equals(""))
+                                {
+                                    KHDC[i] = "0";
+                                }
+                                string query = "insert into ThucHien_TieuChi_TheoNgay (HeaderID,MaTieuChi,SanLuong,GhiChu) " +
+                                    "values(" + headerIDDay + "," + maTieuChi[i] + "," + thucHien[i] + ",'" + ghiChu[i] + "')" +
+                                    "insert into KeHoach_TieuChi_TheoNgay (HeaderID, MaTieuChi, KeHoach, ThoiGianNhapCuoiCung) " +
+                                    "values(" + headerIDPlanDay + ", " + maTieuChi[i] + ", " + keHoach[i] + ", GETDATE()) " +
+                                    "insert into KeHoach_TieuChi_TheoThang (HeaderID, MaTieuChi, SanLuong, ThoiGianNhapCuoiCung) " +
+                                    " values(" + headerIDMonth + ", " + maTieuChi[i] + ", " + KHDC[i] + ", GETDATE())";
+                                db.Database.ExecuteSqlCommand(query);
+                            }
                         }
-                        else if (thucHien[i].Equals(""))
-                        {
-                            thucHien[i] = "0";
-                        }
-                        else if (keHoach[i].Equals(""))
-                        {
-                            keHoach[i] = "0";
-                        }
-                        else if (KHDC[i].Equals(""))
-                        {
-                            KHDC[i] = "0";
-                        }
-                        string query = "insert into ThucHien_TieuChi_TheoNgay (HeaderID,MaTieuChi,SanLuong,GhiChu) " +
-                            "values(" + headerIDDay + "," + maTieuChi[i] + "," + thucHien[i] + ",'" + ghiChu[i] + "')" +
-                            "insert into KeHoach_TieuChi_TheoNgay (HeaderID, MaTieuChi, KeHoach, ThoiGianNhapCuoiCung) " +
-                            "values(" + headerIDPlanDay + ", " + maTieuChi[i] + ", " + keHoach[i] + ", GETDATE()) " +
-                            "insert into KeHoach_TieuChi_TheoThang (HeaderID, MaTieuChi, SanLuong, ThoiGianNhapCuoiCung) " +
-                            " values(" + headerIDMonth + ", " + maTieuChi[i] + ", " + KHDC[i] + ", GETDATE())";
-                        db.Database.ExecuteSqlCommand(query);
                     }
                     dbct.Commit();
-
                 }
                 catch (Exception e)
                 {
