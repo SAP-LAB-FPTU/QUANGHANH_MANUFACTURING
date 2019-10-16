@@ -69,31 +69,33 @@ namespace QUANGHANHCORE.Controllers.KCS
                                     new SqlParameter("ngay", DateTime.Parse(ngay))
                                     ).ToList<FileBaoCao>();
                             }
+                            bool? isLock= false;
                             ViewBag.listFiles = list;
-                            //sql = "select * from baocaofile\n" +
-                            //    "where ngay = @ngay\n" +
-                            //    "and phanxuong_id = @phanxuong order by ca asc";
-                            //isLockList = db.BaoCaoFiles.SqlQuery(sql,
-                            //    new SqlParameter("ngay", DateTime.Parse(ngay)),
-                            //    new SqlParameter("phanxuong", phanxuong)).ToList<BaoCaoFile>();
-                            //for (int i = 0; i < isLockList.Count; i++)
-                            //{
-                            //    switch (isLockList[i].ca)
-                            //    {
-                            //        case 1:
-                            //            ca1IsLock = isLockList[i].@lock;
-                            //            break;
-                            //        case 2:
-                            //            ca2IsLock = isLockList[i].@lock;
-                            //            break;
-                            //        case 3:
-                            //            ca3IsLock = isLockList[i].@lock;
-                            //            break;
-                            //    }
-                            //}
-                            //ViewBag.ca1IsLock = ca1IsLock;
-                            //ViewBag.ca2IsLock = ca2IsLock;
-                            //ViewBag.ca3IsLock = ca3IsLock;
+                            List<BaoCaoFile> isLockList = new List<BaoCaoFile>();
+                            if (ngay == null)
+                            {
+                                sql = "select * from baocaofile\n" +
+                                                               "where ngay = (SELECT CONVERT(VARCHAR(10), getdate(), 101))\n" +
+                                                               "and phanxuong_id = @phanxuong";
+                                isLockList = db.BaoCaoFiles.SqlQuery(sql,
+                                new SqlParameter("phanxuong", phanxuong)).ToList<BaoCaoFile>();
+                            }
+                            else
+                            {
+                                sql = "select * from baocaofile\n" +
+                                                                "where ngay = @ngay\n" +
+                                                                "and phanxuong_id = @phanxuong";
+                                isLockList = db.BaoCaoFiles.SqlQuery(sql,
+                                new SqlParameter("ngay", DateTime.Parse(ngay)),
+                                new SqlParameter("phanxuong", phanxuong)).ToList<BaoCaoFile>();
+                            }
+                            for (int i = 0; i < isLockList.Count; i++)
+                            {
+                                isLock = isLockList[i].@lock;
+                                break;
+                            }
+                            ViewBag.isLock = isLock;
+      
                         }
                         db.SaveChanges();
 

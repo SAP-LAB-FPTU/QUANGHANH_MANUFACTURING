@@ -159,7 +159,10 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             List<Department> d = db.Departments
                 .Where(i => i.department_type == "Phân xưởng sản xuất chính" && i.department_id != "PXLT" && i.department_id != "PXST").ToList();
+            //string departid = Session["departID"].ToString();
+            //string departname = Session["departName"].ToString();
             ViewBag.departments = d;
+            //ViewBag.departmentsname = departname;
             return View("/Views/PX/PXKT/takeAttendance.cshtml");
         }
 
@@ -172,6 +175,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                 List<string> listAttended = (from h in db.Header_DiemDanh_NangSuat_LaoDong
                                                 .Where(h => h.MaPhongBan == departmentID && h.NgayDiemDanh == date && h.Ca != session)
                                           join per in db.DiemDanh_NangSuatLaoDong
+                                            //.Where(dd => dd.DiLam == true)
                                           on h.HeaderID equals per.HeaderID
                                           select per.MaNV).ToList();
                 var leftouterjoin = (from emp in db.NhanViens
@@ -207,12 +211,12 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                 return leftouterjoin.Union(rightouterjoin);
             }
         }
-        [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189")]
+
         [HttpPost]
         [Route("phan-xuong-khai-thac/diem-danh")]
         public ActionResult takeAttendance()
         {
-            var departmentID = Request["department"];
+            var departmentID = Session["departID"].ToString();
             var dateAtt = Convert.ToDateTime(Request["date"]);
             int session = Int32.Parse(Request["session"]);
             dynamic listAttendance;

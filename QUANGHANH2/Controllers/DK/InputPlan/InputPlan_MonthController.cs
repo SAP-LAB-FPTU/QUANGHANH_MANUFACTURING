@@ -23,7 +23,7 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
 
-                var sqlQuery = " select header_kh.HeaderID,TieuChi.TenTieuChi,kehoach.SanLuong,header_kh.SoNgayLamViec,[kehoach].MaTieuChi as MaTieuChiNull,TieuChi.DonViDo from (select * from header_KeHoachTungThang as header " +
+                var sqlQuery = " select header_kh.HeaderID,TieuChi.TenTieuChi,kehoach.SanLuong,header_kh.SoNgayLamViec,[kehoach].MaTieuChi as MaTieuChiNull,TieuChi.DonViDo,[kehoach].GhiChu from (select * from header_KeHoachTungThang as header " +
                    "where header.MaPhongBan = @departmentID and header.ThangKeHoach = @month and header.NamKeHoach = @year) as header_kh " +
                    "left join (select b.*from(SELECT[HeaderID],[MaTieuChi], Max([ThoiGianNhapCuoiCung]) as [ThoiGianNhapCuoiCung] " +
                    "FROM[QUANGHANHABC].[dbo].[KeHoach_TieuChi_TheoThang] GROUP BY MaTieuChi,HeaderID) as a " +
@@ -38,7 +38,9 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
         [Route("phong-dieu-khien/ke-hoach-san-xuat/lay-thong-tin")]
         public ActionResult getInformation()
         {
-            var month = Int32.Parse(Request["month"]);
+            try
+            {
+                var month = Int32.Parse(Request["month"]);
             var year = Int32.Parse(Request["year"]);
             var departmentID = Request["department"];
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
@@ -75,6 +77,12 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
                 }
                 return Json(new { data = listAspect, aspects = listAspectDepartments, totalDays = (listAspect == null ? 0 : listAspect[0].SoNgayLamViec), headerID = listAspect == null ? -1 : listAspect[0].HeaderID }, JsonRequestBehavior.AllowGet);
             }
+            }
+            catch (Exception)
+            {
+                Response.Write("Có lỗi xảy ra, xin vui lòng nhập lại");
+                return new HttpStatusCodeResult(400);
+            }
         }
         //
         [Route("phong-dieu-khien/ke-hoach-san-xuat/cap-nhat-thong-tin")]
@@ -86,6 +94,7 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
             var headerID = Int32.Parse(Request["headerID"]);
             var totalDays = Int32.Parse(Request["totalDays"]);
             var data = Request["data"];
+
             List<KeHoach_TieuChi_TheoThang> listUpdate = JsonConvert.DeserializeObject<List<KeHoach_TieuChi_TheoThang>>(data);
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
@@ -103,6 +112,7 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
                 foreach (var item in listUpdate)
                 {
                     item.ThoiGianNhapCuoiCung = currentTime;
+                    
                     db.KeHoach_TieuChi_TheoThang.Add(item);
                 }
                 //var header = db.header_KeHoachTungThang.Where(x => x.MaPhongBan == departmentID && x.ThangKeHoach == month && x.NamKeHoach == year).FirstOrDefault();
@@ -120,6 +130,27 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
                 //
                 return Json(new { data = listAspect, aspects = listAspectDepartments });
             }
+        }
+        [Route("phong-dieu-khien/ke-hoach-san-xuat/returnunit")]
+        [HttpPost]
+        public JsonResult returnUnit(int MaTieuChi)
+        {
+
+            try
+            {
+                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+                var ma = db.TieuChis.Where(x => x.MaTieuChi == MaTieuChi).SingleOrDefault();
+                //String item = equipment.supply_name + "^" + equipment.unit;
+                return Json(new
+                {
+                    DonViDo = ma.DonViDo
+                }, JsonRequestBehavior.AllowGet); ;
+            }
+            catch (Exception)
+            {
+                return Json("Mã tiêu chí không tồn tại", JsonRequestBehavior.AllowGet);
+            }
+
         }
     }
 

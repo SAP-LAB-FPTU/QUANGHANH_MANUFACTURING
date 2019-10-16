@@ -58,6 +58,7 @@ namespace QUANGHANHCORE.Controllers
                         Session["departName"] = departName.department_name;
                         Session["departID"] = departName.department_id;
                     }
+                    Session["account_id"] = Name.ID;
                     Session["Name"] = Name.Name;
                     Session["username"] = Name.Username;
                     Session["Position"] = Name.Position;
