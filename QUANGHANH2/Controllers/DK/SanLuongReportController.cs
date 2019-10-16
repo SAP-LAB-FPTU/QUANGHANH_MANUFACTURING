@@ -26,7 +26,7 @@ namespace QUANGHANH2.Controllers.DK
             DateTime timeEnd = Convert.ToDateTime("2019-09-10");
             var timeStart = Convert.ToDateTime("" + timeEnd.Year + "-" + timeEnd.Month + "-1");
             //
-            var query = "select *,(table2.TH-table2.KH) as [CHENHLECH],(CASE WHEN KH =0 THEN 100 ELSE ROUND(TH*100/KH,0) end) as [PERCENTAGE], " +
+            var query = "select *,CONVERT(float,0)  as [CHENHLECH],CONVERT(float,0)  as [PERCENTAGE], " +
                 "0 as [KHDC], 0 as [percentDC],0 as [SUM],0 as [perday], 0 as [BQKHDC],0 as [VATLIEUCHONG],0 AS[DIENTICHDAO],0 as [BC],0 AS[CT] " +
                 "from(select MaTieuChi, TenTieuChi, " +
                 "Sum(case when ca = 1 and Ngay = @dateEnd then SanLuong else 0  end )as [CA1], " +
@@ -35,7 +35,7 @@ namespace QUANGHANH2.Controllers.DK
                 "Sum(case when Ngay = @dateEnd then SanLuong else 0  end )as [TH], " +
                 //"Sum(case when Ngay = @dateEnd then KeHoach else 0  end )as [KH], " +
                 "SUM(SanLuong) as [LUYKE] " +
-                "from(select thuchien.HeaderID, thuchien.MaTieuChi, TieuChi.TenTieuChi, thuchien.SanLuong, thuchien.KeHoach, header_th.Ca, header_th.Ngay, px.department_id, px.isInside from ThucHien_TieuChi_TheoNgay as thuchien " +
+                "from(select thuchien.HeaderID, thuchien.MaTieuChi, TieuChi.TenTieuChi, thuchien.SanLuong, header_th.Ca, header_th.Ngay, px.department_id, px.isInside from ThucHien_TieuChi_TheoNgay as thuchien " +
                 "inner JOIN header_ThucHienTheoNgay as header_th " +
                 "on thuchien.HeaderID = header_th.HeaderID and header_th.Ngay >= @dateStart and header_th.Ngay <= @dateEnd " +
                 "INNER JOIN Department as px on px.department_id = header_th.MaPhongBan " +
