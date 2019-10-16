@@ -154,14 +154,9 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                     }
                     DBContext.SaveChanges();
                     transaction.Commit();
-                    if (documentary_code == "")
-                    {
                         return Redirect("/phong-cdvt/quyet-dinh/bao-duong");
-                    }
-                    else
-                    {
-                        return Redirect("/phong-cdvt/cap-nhat/quyet-dinh");
-                    }
+                    
+                
                 }
                 catch (Exception e)
                 {
