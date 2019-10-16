@@ -45,6 +45,24 @@ namespace QUANGHANH2.Controllers.DK
                 "group by MaNhomTieuChi, MaPhongBan) as c ) as d " +
                 "inner join Department on d.MaPhongBan = Department.department_id " +
                 "inner join NhomTieuChi on d.MaNhomTieuChi = NhomTieuChi.MaNhomTieuChi order by MaPhongBan, MaNhomTieuChi";
+            //
+            var queryKH = "  select d.*,department_name,TenNhomTieuChi from (select MaPhongBan,MaNhomTieuChi, SUM(case when c.ThangKeHoach = 1 then SanLuong else 0 end) as [Jan]," +
+                "SUM(case when c.ThangKeHoach = 2 then SanLuong else 0 end) as [Feb], SUM(case when c.ThangKeHoach = 3 then SanLuong else 0 end) as [March], " +
+                "SUM(case when c.ThangKeHoach = 4 then SanLuong else 0 end) as [April], SUM(case when((c.ThangKeHoach = 4) or(c.ThangKeHoach = 1) or(c.ThangKeHoach = 2) or(c.ThangKeHoach = 3)) then SanLuong else 0 end) as [Q1]," +
+                "SUM(case when c.ThangKeHoach = 5 then SanLuong else 0 end) as [May], SUM(case when c.ThangKeHoach = 6 then SanLuong else 0 end) as [June], " +
+                "SUM(case when c.ThangKeHoach = 1 then SanLuong else 0 end) as [July], SUM(case when c.ThangKeHoach = 2 then SanLuong else 0 end) as [Aug], " +
+                "SUM(case when((c.ThangKeHoach = 5) or(c.ThangKeHoach = 6) or(c.ThangKeHoach = 7) or(c.ThangKeHoach = 8)) then SanLuong else 0 end) as [Q2], " +
+                "SUM(case when c.ThangKeHoach = 3 then SanLuong else 0 end) as [Sep],SUM(case when c.ThangKeHoach = 4 then SanLuong else 0 end) as [Oct]," +
+                "SUM(case when c.ThangKeHoach = 5 then SanLuong else 0 end) as [Nov]," +
+                "SUM(case when c.ThangKeHoach = 6 then SanLuong else 0 end) as [Dec], SUM(case when((c.ThangKeHoach = 9) or(c.ThangKeHoach = 10) or(c.ThangKeHoach = 11) or(c.ThangKeHoach = 12)) then SanLuong else 0 end) as [Q3] " +
+                "from(select TieuChi.MaNhomTieuChi, b.SanLuong, header.ThangKeHoach, header.NamKeHoach, header.MaPhongBan  from (select kehoach.* from " +
+                "(Select HeaderID, MaTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung] from KeHoach_TieuChi_TheoThang group by MaTieuChi, HeaderID) as a " +
+                "inner join KeHoach_TieuChi_TheoThang as kehoach on a.HeaderID = kehoach.HeaderID and a.MaTieuChi = kehoach.MaTieuChi and a.ThoiGianNhapCuoiCung = kehoach.ThoiGianNhapCuoiCung) as b " +
+                "inner join(select * from header_KeHoachTungThang where header_KeHoachTungThang.NamKeHoach = @year) as header on header.HeaderID = b.HeaderID " +
+                "inner join TieuChi on TieuChi.MaTieuChi = b.MaTieuChi) as c group by MaPhongBan,MaNhomTieuChi) as d " +
+                "inner join Department on d.MaPhongBan = Department.department_id " +
+                "inner join NhomTieuChi on d.MaNhomTieuChi = NhomTieuChi.MaNhomTieuChi " +
+                "order by MaPhongBan,MaNhomTieuChi";
             var endDays =new int[] { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
             List<DateTime> endDates = new List<DateTime>();
             List<DateTime> startDates = new List<DateTime>();
@@ -61,7 +79,7 @@ namespace QUANGHANH2.Controllers.DK
             //
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                var listSanLuong = db.Database.SqlQuery<SanLuongTheoThangQuy>(query, 
+                var listTH = db.Database.SqlQuery<SanLuongTheoThangQuy>(query, 
                     new SqlParameter("startJan", startDates[0]), new SqlParameter("endJan", endDates[0]),
                     new SqlParameter("startFeb", startDates[0]), new SqlParameter("endFeb", endDates[1]),
                     new SqlParameter("startMar", startDates[0]), new SqlParameter("endMar", endDates[2]),
@@ -75,6 +93,8 @@ namespace QUANGHANH2.Controllers.DK
                     new SqlParameter("startNov", startDates[0]), new SqlParameter("endNov", endDates[10]),
                     new SqlParameter("startDec", startDates[0]), new SqlParameter("endDec", endDates[11])
                     ).ToList();
+                //
+                var listKH = db.Database.SqlQuery<SanLuongTheoThangQuy>(queryKH, new SqlParameter("year", year)).ToList();
                 //Thu Tu In Ra Theo Ten Phong Ban
                 var departmentName = new string[] { "Phân xưởng khai thác 1", "Phân xưởng khai thác 2", "Phân xưởng khai thác 3", "Phân xưởng khai thác 4","Phân xưởng khai thác 5",
                                                     "Phân xưởng khai thác 6", "Phân xưởng khai thác 7", "Phân xưởng khai thác 8", "Phân xưởng khai thác 9","Phân xưởng khai thác 10",
@@ -88,27 +108,42 @@ namespace QUANGHANH2.Controllers.DK
                     bcHeader.TenPhongBan = departmentName[index];
                     bcHeader.isHeader = true;
                     listBaoCao.Add(bcHeader);
-                    foreach (var itemTH in listSanLuong)
+                    for (var index2 =0; index2 < listTH.Count;index2++)
                     {
-                        if (itemTH.TenPhongBan == departmentName[index])
+                        if (listTH[index2].TenPhongBan == departmentName[index])
                         {
                             ChiTietBaoCao_Object bc = new ChiTietBaoCao_Object();
-                            bc.Jan = itemTH.Jan;
-                            bc.Feb = itemTH.Feb;
-                            bc.March = itemTH.March;
-                            bc.April = itemTH.April;
-                            bc.June = itemTH.June;
-                            bc.July = itemTH.July;
-                            bc.Aug = itemTH.Aug;
-                            bc.Sep = itemTH.Sep;
-                            bc.Oct = itemTH.Oct;
-                            bc.Nov = itemTH.Nov;
-                            bc.Dec = itemTH.Dec;
-                            bc.Q1 = itemTH.Q1;
-                            bc.Q2 = itemTH.Q2;
-                            bc.Q3 = itemTH.Q3;
+                            bc.Jan = listTH[index2].Jan;
+                            bc.Feb = listTH[index2].Feb;
+                            bc.March = listTH[index2].March;
+                            bc.April = listTH[index2].April;
+                            bc.June = listTH[index2].June;
+                            bc.July = listTH[index2].July;
+                            bc.Aug = listTH[index2].Aug;
+                            bc.Sep = listTH[index2].Sep;
+                            bc.Oct = listTH[index2].Oct;
+                            bc.Nov = listTH[index2].Nov;
+                            bc.Dec = listTH[index2].Dec;
+                            bc.Q1 = listTH[index2].Q1;
+                            bc.Q2 = listTH[index2].Q2;
+                            bc.Q3 = listTH[index2].Q3;
                             bc.isHeader = false;
-                            bc.TenNhomTieuChi = itemTH.TenNhomTieuChi;
+                            bc.TenNhomTieuChi = listKH[index2].TenNhomTieuChi;
+                            //
+                            bc.JanKH = listKH[index2].Jan;
+                            bc.FebKH = listKH[index2].Feb;
+                            bc.MarchKH = listKH[index2].March;
+                            bc.AprilKH = listKH[index2].April;
+                            bc.JuneKH = listKH[index2].June;
+                            bc.JulyKH = listKH[index2].July;
+                            bc.AugKH = listKH[index2].Aug;
+                            bc.SepKH = listKH[index2].Sep;
+                            bc.OctKH = listKH[index2].Oct;
+                            bc.NovKH = listKH[index2].Nov;
+                            bc.DecKH = listKH[index2].Dec;
+                            bc.Q1KH = listKH[index2].Q1;
+                            bc.Q2KH = listKH[index2].Q2;
+                            bc.Q3KH = listKH[index2].Q3;
                             listBaoCao.Add(bc);
                         }
                     }
