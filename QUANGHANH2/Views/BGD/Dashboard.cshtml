@@ -620,51 +620,51 @@
 <script>
     $(document).ready(function () {
         //than dao lo
-        var x = @ViewBag.tdl.percentDay;
+        var x = @ViewBag.tdl.percentDay; if (x > 100) x = 100;
         $('#tdlDay').width(x + '%');
-        x = @ViewBag.tdl.percentMonth;
+        x = @ViewBag.tdl.percentMonth; if (x > 100) x = 100;
         $('#tdlMonth').width(x + '%');
 
         //than lo thien
-        x = @ViewBag.tlt.percentDay;
+        x = @ViewBag.tlt.percentDay; if (x > 100) x = 100;
         $('#tltDay').width(x + '%');
-        x = @ViewBag.tlt.percentMonth;
+        x = @ViewBag.tlt.percentMonth; if (x > 100) x = 100;
         $('#tltMonth').width(x + '%');
 
         //met lo dao
-        x = @ViewBag.mld.percentDay;
+        x = @ViewBag.mld.percentDay; if (x > 100) x = 100;
         $('#mldDay').width(x + '%');
-        x = @ViewBag.mld.percentMonth;
+        x = @ViewBag.mld.percentMonth; if (x > 100) x = 100;
         $('#mldMonth').width(x + '%');
 
         //met lo neo
-        x = @ViewBag.mln.percentDay;
+        x = @ViewBag.mln.percentDay; if (x > 100) x = 100;
         $('#mlnDay').width(x + '%');
-        x = @ViewBag.mln.percentMonth;
+        x = @ViewBag.mln.percentMonth; if (x > 100) x = 100;
         $('#mlnMonth').width(x + '%');
 
         //met lo xen
-        x = @ViewBag.mlx.percentDay;
+        x = @ViewBag.mlx.percentDay; if (x > 100) x = 100;
         $('#mlxDay').width(x + '%');
-        x = @ViewBag.mlx.percentMonth;
+        x = @ViewBag.mlx.percentMonth; if (x > 100) x = 100;
         $('#mlxMonth').width(x + '%');
 
          //than tieu thu
-        x = @ViewBag.ttt.percentDay;
+        x = @ViewBag.ttt.percentDay; if (x > 100) x = 100;
         $('#tttDay').width(x + '%');
-        x = @ViewBag.ttt.percentMonth;
+        x = @ViewBag.ttt.percentMonth; if (x > 100) x = 100;
         $('#tttMonth').width(x + '%');
 
          //da xit kho
-        x = @ViewBag.ttt.percentDay;
+        x = @ViewBag.dxk.percentDay; if (x > 100) x = 100;
         $('#dxkDay').width(x + '%');
-        x = @ViewBag.ttt.percentMonth;
+        x = @ViewBag.dxk.percentMonth; if (x > 100) x = 100;
         $('#dxkMonth').width(x + '%');
         
          //da dat boc
-        x = @ViewBag.lt.percentDay;
+        x = @ViewBag.lt.percentDay; if (x > 100) x = 100;
         $('#ltDay').width(x + '%');
-        x = @ViewBag.lt.percentMonth;
+        x = @ViewBag.lt.percentMonth; if (x > 100) x = 100;
         $('#ltMonth').width(x + '%');
 
         var h = $('#origin').height();
