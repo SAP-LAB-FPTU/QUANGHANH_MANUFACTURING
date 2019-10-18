@@ -91,7 +91,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
             string s = date.ToString("dd/MM/yyyy");
             ViewBag.dat = s;
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            List<report> list = db.Database.SqlQuery<report>("select a.MaPhongBan,a.KT1,a.CD1,a.QL1,b.om1,b.vld1,b.p1,b.khac1,a.KT2,a.CD2,a.QL2,b.om2,b.vld2,b.p2,b.khac2,a.KT3,a.CD3,a.QL3,b.om3,b.vld3,b.p3,b.khac3,b.tong_nghidai,a.tong_DS, " +
+            List<report> list = db.Database.SqlQuery<report>("select a.MaPhongBan,a.KT1,a.CD1,a.QL1,b.om1,b.vld1,b.p1,b.khac1,a.KT2,a.CD2,a.QL2,b.om2,b.vld2,b.p2,b.khac2,a.KT3,a.CD3,a.QL3,b.om3,b.vld3,b.p3,b.khac3,b.tong_nghidai,a.tong_DS,a.QL_CTy, " +
                                     "(a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3) / ((a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3) + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3) * 100 as 'tile'" +
                                     " from (select n.MaPhongBan, sum(case when n.LoaiNhanVien like N'CNKT' and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'KT1'" +
                                     "   , SUM(case when n.LoaiNhanVien like N'CNCD' and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'CD1'" +
@@ -103,6 +103,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                                     "   , SUM(case when n.LoaiNhanVien like N'CNCD' and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'CD3'" +
                                     "   , SUM(case when n.LoaiNhanVien like N'CBQL' and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'QL3'" +
                                     "   , count(n.MaNV) as 'tong_DS'" +
+                                    "   , sum(case when n.LoaiNhanVien like N'CBQL' then 1 else 0 end) as 'QL_CTy'" +
                                     " from NhanVien n left outer join DiemDanh_NangSuatLaoDong d on n.MaNV = d.MaNV" +
                                     " left outer join Header_DiemDanh_NangSuat_LaoDong h on d.HeaderID = h.HeaderID" +
                                     " where h.NgayDiemDanh = '" + d + "'" +
@@ -152,9 +153,8 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                 item.tong_vang = item.tong_vld + item.tong_om + item.tong_p + item.tong_khac;
                 //thong so chung
                 item.LDPX = item.tong + item.tong_vang;
-                item.QL_CTy = item.tong_QL;
                 item.tong_tru_nghidai = item.tong_DS - item.tong_nghidai;
-                item.tong_LDTT = item.tong_tru_nghidai - item.tong_QL;
+                item.tong_LDTT = item.tong_tru_nghidai - item.QL_CTy;
 
             }
             ViewBag.list = list;
@@ -230,9 +230,8 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                 item.tong_vang = item.tong_vld + item.tong_om + item.tong_p + item.tong_khac;
                 //thong so chung
                 item.LDPX = item.tong + item.tong_vang;
-                item.QL_CTy = item.tong_QL;
                 item.tong_tru_nghidai = item.tong_DS - item.tong_nghidai;
-                item.tong_LDTT = item.tong_tru_nghidai - item.tong_QL;
+                item.tong_LDTT = item.tong_tru_nghidai - item.QL_CTy;
 
             }
             ViewBag.list = list;
@@ -316,9 +315,8 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                         item.tong_vang = item.tong_vld + item.tong_om + item.tong_p + item.tong_khac;
                         //thong so chung
                         item.LDPX = item.tong + item.tong_vang;
-                        item.QL_CTy = item.tong_QL;
                         item.tong_tru_nghidai = item.tong_DS - item.tong_nghidai;
-                        item.tong_LDTT = item.tong_tru_nghidai - item.tong_QL;
+                        item.tong_LDTT = item.tong_tru_nghidai - item.QL_CTy;
 
                     }
                     int k = 4;
