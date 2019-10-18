@@ -348,6 +348,10 @@
                                             </div>
                                             <br />
                                             <div class="files-container">
+                                                @if (listFiles.Count == 0)
+                                                {
+                                                    <i>Không có tập tin nào</i>
+                                                }
                                                 @for (int i = 0; i < listFiles.Count; i++)
                                                 {
                                                 <p>
