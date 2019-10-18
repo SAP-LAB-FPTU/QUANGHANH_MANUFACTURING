@@ -88,7 +88,7 @@
                                 @{
                                     if (ViewBag.phanxuong == null)
                                     {
-                                        <option value="-1" selected readonly>Chọn phòng ban</option>
+                                        <option value="-1" selected disabled>Chọn phòng ban</option>
                                     }
                                     else
                                     {
@@ -557,11 +557,13 @@
 
     $("#view-btn-trigger").click(function () {
         var selectedOption = $('#phongbanSearch').find(":selected").val();
-         var ngay = $('#ngay-chon').val();
-            while (ngay.includes('/')) {
-                ngay = ngay.replace('/', '-');
-            }
+        if (selectedOption !== "-1") {
+             var ngay = $('#ngay-chon').val();
+            //while (ngay.includes('/')) {
+            //    ngay = ngay.replace('/', '-');
+            //}
         window.location.href ="/phong-dieu-khien/bao-cao-phan-xuong-phong-ban?phanxuong="+selectedOption+"&ngay=" + ngay;
+        }
     })
 </script>
 <script>
