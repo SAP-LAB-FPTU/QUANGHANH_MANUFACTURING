@@ -52,7 +52,10 @@ namespace QUANGHANH2.Controllers.DK
                         "'PXVT1', 'PXVT2', 'PXTGQLKM', 'PXST', 'PXCDM', 'PXCKSC', 'PXPV', 'PXXD', 'PXDS','KCS', 'PXLT')\n" +
                         "order by department_name";
                         listPX = db.Database.SqlQuery<Department>(sql).ToList<Department>();
-                        if (phanxuong != null&&phanxuong.ToLower()!="kcs")
+                        String[] listPXId = {"PXKT1", "PXKT2", "PXKT3", "PXKT4", "PXKT5", "PXKT6", "PXKT7",
+                        "PXKT8", "PXKT9", "PXKT10", "PXKT11", "PXDL3", "PXDL5", "PXDL7", "PXDL8",
+                        "PXVT1", "PXVT2", "PXTGQLKM", "PXST", "PXCDM", "PXCKSC", "PXPV", "PXXD", "PXDS", "KCS", "PXLT"};
+                        if (phanxuong != null&&phanxuong.ToLower()!="kcs"&&Array.IndexOf(listPXId, phanxuong)!=-1)
                         {
                             if (ngay == null || ngay == "")
                             {
@@ -63,7 +66,7 @@ namespace QUANGHANH2.Controllers.DK
                             }
                             else
                             {
-                                ngay = ngay.Split('-')[2] + "/" + ngay.Split('-')[1] + "/" + ngay.Split('-')[0];
+                                ngay = ngay.Split('/')[2] + "/" + ngay.Split('/')[1] + "/" + ngay.Split('/')[0];
                                 sql = "select f.*,b.ca from filebaocao f,baocaofile b\n" +
                                 "where f.baocaoid = b.id and b.ngay = @ngay\n" +
                                 "and b.phanxuong_id = @phanxuong";
@@ -111,7 +114,7 @@ namespace QUANGHANH2.Controllers.DK
                             }
                             else
                             {
-                                ngay = ngay.Split('-')[2] + "/" + ngay.Split('-')[1] + "/" + ngay.Split('-')[0];
+                                ngay = ngay.Split('/')[2] + "/" + ngay.Split('/')[1] + "/" + ngay.Split('/')[0];
                                 sql = "select f.* from filebaocao f,baocaofile b\n" +
                                 "where f.baocaoid = b.id and b.ngay = @ngay\n" +
                                 "and b.phanxuong_id = @phanxuong";
@@ -162,7 +165,7 @@ namespace QUANGHANH2.Controllers.DK
 
             ViewBag.phanxuong = phanxuong;
             ViewBag.listPX = listPX;
-            if (ngay != null)
+            if (ngay != null && ngay.Split('/')[2].Length != 4) 
             {
                 ngay = ngay.Split('/')[2] + "/" + ngay.Split('/')[1] + "/" + ngay.Split('/')[0];
             }
