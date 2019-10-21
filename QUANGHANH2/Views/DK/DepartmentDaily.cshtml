@@ -58,6 +58,7 @@
         <div class="row">
             <a id="export-button" class="waves-effect waves-light btn blue">Xuất ra file excel</a>
         </div>
+        <br />
         <div class="row" id="table-container">
             <table class="centered highlight responsive-table striped responsive-table table-bordered" id="reportTable">
                 <thead id="tableHeader">
@@ -170,4 +171,27 @@
             }
         })
     }
+</script>
+<script>
+    $("#export-button").click(function () {
+        $("#pre-load").show("slow", function () { });
+        $.ajax({
+            type: 'post',
+            url: '/phong-dieu-khien/bao-cao-san-xuat-than/export-excel',
+            data: {
+                'date': changeDateFormat($("#yearCalendar").val()),
+            },
+            success: function (res) {
+                if (res.success) {
+                    var response = JSON.parse(JSON.stringify(res.data));
+                    window.location = '/phong-dieu-khien/bao-cao-san-xuat-than/download?fileGuid=' + response.FileGuid
+                        + '&filename=' + response.FileName;
+                }
+                $("#pre-load").hide("slow", function () { });
+            },
+            error: function (response) {
+
+            }
+        })
+    });
 </script>

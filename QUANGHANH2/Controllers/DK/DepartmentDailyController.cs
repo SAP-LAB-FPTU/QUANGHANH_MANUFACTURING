@@ -7,6 +7,11 @@ using System.Web.Mvc;
 using QUANGHANH2.Controllers.DK;
 using System.Data.SqlClient;
 using Newtonsoft.Json;
+using System.Web.Hosting;
+using System.IO;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
+using System.Drawing;
 
 namespace QUANGHANH2.Controllers.DK
 {
@@ -19,12 +24,8 @@ namespace QUANGHANH2.Controllers.DK
             return View("/Views/DK/DepartmentDaily.cshtml");
         }
         //
-        [Route("phong-dieu-khien/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty-theo-phan-xuong")]
-        [HttpPost]
-        public ActionResult GetData()
+        dynamic getListReport(DateTime timeStart, DateTime timeEnd)
         {
-            DateTime timeEnd = Convert.ToDateTime(Request["date"]);
-            var timeStart = Convert.ToDateTime("" + timeEnd.Year + "-" + timeEnd.Month + "-1");
             var query = "select b.*, TenTieuChi,department_name as TenPhongBan from(select MaPhongBan, MaTieuChi," +
                 "SUM(Case when Ca = 1 and Ngay = @dateEnd then SanLuong else convert(float, 0) end) as [Ca1]," +
                 "SUM(Case when Ca = 2 and Ngay = @dateEnd then SanLuong else convert(float, 0) end) as [Ca2]," +
@@ -70,13 +71,14 @@ namespace QUANGHANH2.Controllers.DK
                                                     "Phân xưởng khai thác 11", "Phân xưởng đào lò 3", "Phân xưởng đào lò 5", "Phân xưởng đào lò 7","Phân xưởng đào lò 7","Phân xưởng đào lò 8",
                                                     "Công Ty Dương Huy","Phân xưởng sàng tuyển","Phân xưởng lộ thiên","Công ty Xây lắp mỏ - TKV","Liên doanh nhà thầu Công ty CP thương mại - công nghệ CT Thăng Long và Công ty tư vấn Công ty Thăng Long"};
                 List<reportEntity> reports = new List<reportEntity>();
-                foreach(var name in departmentName)
+                foreach (var name in departmentName)
                 {
                     reportEntity rp = new reportEntity();
                     rp.TenPhongBan = name;
                     rp.isHeader = true;
                     reports.Add(rp);
-                    foreach (var report in listReport) {
+                    foreach (var report in listReport)
+                    {
                         if (report.TenPhongBan == name)
                         {
                             report.isHeader = false;
@@ -84,7 +86,7 @@ namespace QUANGHANH2.Controllers.DK
                         }
                     }
                 }
-                foreach(var item in reports)
+                foreach (var item in reports)
                 {
                     item.percentageDC = ((item.luyke / item.KHDC) * 100);
                     item.SUM = item.KHDC - item.luyke;
@@ -92,16 +94,130 @@ namespace QUANGHANH2.Controllers.DK
                     item.chenhlech = item.TH - item.KH;
                     item.percentage = item.KH == 0 ? 0 : (item.TH / item.KH);
                 }
-                JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
-                var result = JsonConvert.SerializeObject(reports, Formatting.Indented, jss);
-                return Json(new { success = true, data = result }, JsonRequestBehavior.AllowGet);
+                return reports;
+            }
+        }
+        //
+        [Route("phong-dieu-khien/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty-theo-phan-xuong")]
+        [HttpPost]
+        public ActionResult GetData()
+        {
+            DateTime timeEnd = Convert.ToDateTime(Request["date"]);
+            var timeStart = Convert.ToDateTime("" + timeEnd.Year + "-" + timeEnd.Month + "-1");
+            var reports = getListReport(timeStart, timeEnd);
+            JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            var result = JsonConvert.SerializeObject(reports, Formatting.Indented, jss);
+            return Json(new { success = true, data = result }, JsonRequestBehavior.AllowGet);
+        }
+
+        [Route("phong-dieu-khien/bao-cao-san-xuat-than/export-excel")]
+        [HttpPost]
+        public ActionResult ExportExcel()
+        {
+            DateTime timeEnd = Convert.ToDateTime(Request["date"]);
+            var timeStart = Convert.ToDateTime("" + timeEnd.Year + "-" + timeEnd.Month + "-1");
+            var reports = getListReport(timeStart, timeEnd);
+
+            //////////////////////////////////////////////////////////////////////////////////////
+
+            string path = HostingEnvironment.MapPath("/excel/DK/DailyDepartment/templateBaoCaoTheoPhanXuong.xlsx");
+            FileInfo file = new FileInfo(path);
+            using (ExcelPackage excelPackage = new ExcelPackage(file))
+            {
+                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
+                ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
+
+                int k = 0;
+                int count = 0;
+                for (int i = 3; i <= reports.Count + 2; i++)
+                {
+                    if (reports[k].isHeader)
+                    {
+                        excelWorksheet.Cells[i,1].Value = reports[k].TenPhongBan;
+                        excelWorksheet.Cells[i, 1, i, 16].Merge=true;
+                        excelWorksheet.Cells[i, 1, i, 16].Style.Font.Bold = true;
+                        excelWorksheet.Cells[i, 1, i, 16].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                        excelWorksheet.Cells[i, 1, i, 16].Style.Font.Size = 13;
+
+                        count = 1;
+                    }
+                    else
+                    {
+                        excelWorksheet.Cells[i, 1].Value = count;
+                        excelWorksheet.Cells[i, 2].Value = reports[k].TenTieuChi;
+                        excelWorksheet.Cells[i, 3].Value = reports[k].BQQHDC;
+                        excelWorksheet.Cells[i, 4].Value = reports[k].Ca1;
+                        excelWorksheet.Cells[i, 5].Value = reports[k].Ca2;
+                        excelWorksheet.Cells[i, 6].Value = reports[k].Ca3;
+                        excelWorksheet.Cells[i, 7].Value = reports[k].TH;
+                        excelWorksheet.Cells[i, 8].Value = reports[k].KH;
+                        excelWorksheet.Cells[i, 9].Value = reports[k].chenhlech;
+                        if (reports[k].chenhlech > 0)
+                        {
+                            excelWorksheet.Cells[i, 9].Style.Font.Color.SetColor(Color.Green);
+                        }
+                        else
+                        {
+                            excelWorksheet.Cells[i, 9].Style.Font.Color.SetColor(Color.Red);
+                        }
+                        excelWorksheet.Cells[i, 10].Value = reports[k].percentage;
+                        excelWorksheet.Cells[i, 11].Value = reports[k].luyke;
+                        excelWorksheet.Cells[i, 12].Value = reports[k].KHDC;
+                        excelWorksheet.Cells[i, 13].Value = reports[k].percentageDC;
+                        excelWorksheet.Cells[i, 14].Value = reports[k].SUM;
+                        excelWorksheet.Cells[i, 15].Value = reports[k].perday;
+                        excelWorksheet.Cells[i, 16].Value = reports[k].GhiChu;
+                        count++;
+                    }
+                    k++;
+                    
+                }
+                ExcelRange Rng = excelWorksheet.Cells[3, 1, reports.Count + 2, 16];
+                Rng.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                Rng.Style.Border.Top.Color.SetColor(Color.Gray);
+                Rng.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                Rng.Style.Border.Left.Color.SetColor(Color.Gray);
+                Rng.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                Rng.Style.Border.Right.Color.SetColor(Color.Gray);
+                Rng.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                Rng.Style.Border.Bottom.Color.SetColor(Color.Gray);
+
+                string location = HostingEnvironment.MapPath("/excel/DK/DailyDepartment");
+                excelPackage.SaveAs(new FileInfo(location + "/BaoCao.xlsx"));
+                string handle = Guid.NewGuid().ToString();
+                string downloadFilename = "BaoCaoPhanXuong.xlsx";
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    excelPackage.SaveAs(memoryStream);
+                    memoryStream.Position = 0;
+                    TempData[handle] = memoryStream.ToArray();
+                }
+
+                return Json(new { success = true, data = new { FileGuid = handle, FileName = downloadFilename }}, JsonRequestBehavior.AllowGet);
+            }
+            return null;
+        }
+        [HttpGet]
+        [Route("phong-dieu-khien/bao-cao-san-xuat-than/download")]
+        public virtual ActionResult Download(string fileGuid, string fileName)
+        {
+            if (TempData[fileGuid] != null)
+            {
+                byte[] data = TempData[fileGuid] as byte[];
+                return File(data, "application/vnd.ms-excel", fileName);
+            }
+            else
+            {
+                return new EmptyResult();
             }
         }
     }
-    public class KHDCDepartmentEntity
-    {
-        public int MaTieuChi { get; set; }
-        public double SanLuong { get; set; }
-        public string MaPhongBan { get; set; }
-    }
+   
+
+}
+public class KHDCDepartmentEntity
+{
+    public int MaTieuChi { get; set; }
+    public double SanLuong { get; set; }
+    public string MaPhongBan { get; set; }
 }
