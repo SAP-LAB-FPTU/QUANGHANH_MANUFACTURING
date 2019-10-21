@@ -256,8 +256,8 @@
                 $('#pre-load').hide();
             },
             "columnDefs": [
-                { targets: 4, orderable: false },
-                { targets: 5, orderable: false }
+                { targets: 5, orderable: false },
+                { targets: 6, orderable: false }
             ],
             "preDrawCallback": function (settings) {
                 $('#pre-load').show();
@@ -290,6 +290,7 @@
                     }
                     else {
                          errorAlert('Lỗi',data.message);
+                         $('#pre-load').hide();
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -322,7 +323,9 @@
                         window.location.reload(true);
                     }
                     else {
-                          errorAlert('Lỗi',data.message);
+                        errorAlert('Lỗi', data.message);
+                        $('#pre-load').hide();
+                        $('#exit-button2').click();
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {

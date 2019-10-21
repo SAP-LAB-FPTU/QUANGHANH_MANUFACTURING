@@ -164,7 +164,11 @@
                             if (data[index][tieuchiName[i]] != null) {
                                 content += "<td>" + data[index][tieuchiName[i]] + "</td>"
                             } else {
-                                content += "<td>" + 0 + "</td>"
+                                if (tieuchiName[i] != "GhiChu") {
+                                    content += "<td>" + 0 + "</td>"
+                                } else {
+                                    content += "<td></td>"
+                                }
                             }
                         }
                     }

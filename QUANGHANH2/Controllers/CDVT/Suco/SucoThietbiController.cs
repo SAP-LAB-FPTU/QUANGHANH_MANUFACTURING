@@ -157,6 +157,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             string query = "SELECT e.equipment_name, d.department_name, i.*, DATEDIFF(HOUR, i.start_time, i.end_time) as time_different FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId inner join Department d " +
                 "on d.department_id = i.department_id";
             if (Session["departID"].ToString().Contains("PX")) query += " where d.department_id = '" + Session["departID"].ToString() + "' AND ";
+            else
+            {
+                query += " where";
+            }
             if (!equipmentId.Equals("") || !equipmentName.Equals("") || !department.Equals("") || !detail.Equals("") || !reason.Equals("") || !(dateStart.Equals("") || dateEnd.Equals("")))
             {
                 if (!dateStart.Equals("") && !dateEnd.Equals(""))
@@ -165,13 +169,13 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                     DateTime dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                     dtEnd = dtEnd.AddHours(23);
                     dtEnd = dtEnd.AddMinutes(59);
-                    query += "i.start_time BETWEEN '" + dtStart + "' AND '" + dtEnd + "' AND ";
+                    query += " i.start_time BETWEEN '" + dtStart + "' AND '" + dtEnd + "' AND ";
                 }
-                if (!equipmentId.Equals("")) query += "i.equipmentId LIKE @equipmentId AND ";
-                if (!equipmentName.Equals("")) query += "e.equipment_name LIKE @equipment_name AND ";
-                if (!department.Equals("")) query += "d.department_name LIKE @department_name AND ";
-                if (!detail.Equals("")) query += "i.detail_location LIKE @detail_location AND ";
-                if (!reason.Equals("")) query += "i.reason LIKE @reason AND ";
+                if (!equipmentId.Equals("")) query += " i.equipmentId LIKE @equipmentId AND ";
+                if (!equipmentName.Equals("")) query += " e.equipment_name LIKE @equipment_name AND ";
+                if (!department.Equals("")) query += " d.department_name LIKE @department_name AND ";
+                if (!detail.Equals("")) query += " i.detail_location LIKE @detail_location AND ";
+                if (!reason.Equals("")) query += " i.reason LIKE @reason AND ";
             }
             query = query.Substring(0, query.Length - 5);
             List<IncidentDB> incidents = DBContext.Database.SqlQuery<IncidentDB>(query, 
