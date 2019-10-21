@@ -144,8 +144,8 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                 foreach (var item in listSX)
                 {
                     item.chenhlech = (Convert.ToInt32(item.SanLuong) - Convert.ToInt32(item.KeHoach)).ToString();
-                    item.percentDay = (Convert.ToInt32(item.SanLuong) / Convert.ToInt32(item.KeHoach) * 100).ToString();
-                    item.percentMonth = (Convert.ToInt32(item.LuyKe) / Convert.ToInt32(item.KHDC) * 100).ToString();
+                    item.percentDay = (Convert.ToDouble(item.SanLuong) / Convert.ToDouble(item.KeHoach) * 100).ToString();
+                    item.percentMonth = (Convert.ToDouble(item.LuyKe) / Convert.ToDouble(item.KHDC) * 100).ToString();
                     item.luyke_temp = (Convert.ToInt32(item.SanLuong) + Convert.ToInt32(item.LuyKe)).ToString();
                     item.tong = (Convert.ToInt32(item.KHDC) - Convert.ToInt32(item.luyke_temp)).ToString();
                     item.OneDay = (Convert.ToInt32(item.tong) / (ngaySX - item.NgaySanXuat)).ToString();

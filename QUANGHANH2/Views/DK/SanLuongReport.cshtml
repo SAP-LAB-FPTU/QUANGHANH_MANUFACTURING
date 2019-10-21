@@ -16,7 +16,7 @@
 </head>
 <body>
     <div>
-        <table id="reportTable" class="display striped" style="width:100%">
+        <table id="reportTable" class="display striped centered" style="width:100%">
             <thead>
                 <tr>
                     <th rowspan="2">STT</th>
@@ -25,7 +25,6 @@
                     <th colspan="7">Ngày 10 tháng 09 năm 2019</th>
                     <th colspan="3">Tháng 9</th>
                     <th colspan="2">C.LẠI THEO KHĐC</th>
-                    <th rowspan="2">HIỆN TRẠNG GƯƠNG</th>
                     <th rowspan="2">GHI CHÚ</th>
                 </tr>
                 <tr>
@@ -77,19 +76,7 @@
                         }
                     },
                     { data: "TenTieuChi" },
-                    { data: "BQQHDC" },
-                    {
-                        data: "vatlieuchong"
-                    },
-                    {
-                        data: "dientichdao"
-                    },
-                    {
-                        data: "bc"
-                    },
-                    {
-                        data: "ct"
-                    },
+                    { data: "BQQHDC" }, 
                     {   data: "Ca1" },
                     {
                         data: "Ca2"
@@ -110,6 +97,12 @@
                         data: "percentage"
                     },
                     {
+                        data : "luyke"
+                    },
+                    {
+                        data : "KHDC"
+                    },
+                    {
                         data: "percentageDC"
                     },
                     {
@@ -117,6 +110,13 @@
                     }, {
                         data: "perday"
                     },
+                    {
+                        data: "GhiChu", render: function (data) {
+                            if (data == null) {
+                                return "";
+                            }
+                        }
+                    }
                 ]
             });
         });
