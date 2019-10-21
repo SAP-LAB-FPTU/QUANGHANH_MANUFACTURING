@@ -133,5 +133,7 @@ namespace QUANGHANH2.Controllers.DK
 
         public double BQQHDC { get; set; }
         public string GhiChu { get; set; }
+        public string TenPhongBan { get; set; }
+        public bool isHeader { get; set; }
     }
 }
