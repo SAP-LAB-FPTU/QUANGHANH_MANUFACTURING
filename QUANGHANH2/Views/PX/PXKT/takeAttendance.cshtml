@@ -37,8 +37,9 @@
                 </div>
                 <div class="col l6 center">
                     <h3>
-                        ĐIỂM DANH CỦA <a class="dropdown-trigger btn" id="phanxuong" href="#" data-target="dropdown_px" style="background-color:#273146"></a> <a class="dropdown-trigger btn" id="ca" href="#" data-target="dropdown_ca" style="background-color:#273146">CA 1</a> NGÀY <input type="text" id="inputdate" class="datepicker-here center" data-language="vi" value="" />
+                        ĐIỂM DANH  <a class="dropdown-trigger btn" id="ca" href="#" data-target="dropdown_ca" style="background-color:#273146">CA 1</a> NGÀY <input type="text" id="inputdate" class="datepicker-here center" data-language="vi" value="" />
                         <a class="btn waves-effect waves-light blue modal-trigger" id="btn-view" href="#" onclick="getcontent();">Xem</a>
+                        <input id="phanxuong" hidden value="@Session["departID"].ToString()" />
                         <br><br>
                     </h3>
                 </div>
@@ -115,12 +116,12 @@
             })
             $("#inputdate").val(date);
             //inputdate
-            $('#phanxuong').text($('.deparment').eq(0).text()) //chua co data nhan vien cua PXDL3, chi co cua PXKT1
+            //$('#phanxuong').text($('.deparment').eq(0).text()) //chua co data nhan vien cua PXDL3, chi co cua PXKT1
         })
-        $('.deparment').click(function () {
-            $('#phanxuong').text($(this).text())
-            $('h3').click();
-        })
+        //$('.deparment').click(function () {
+        //    $('#phanxuong').text($(this).text())
+        //    $('h3').click();
+        //})
         $('.session').click(function () {
             $('#ca').text($(this).text())
             $('h3').click();
@@ -135,7 +136,7 @@
             attendanceTable = $("#attendanceTable")
                 .on('preXhr.dt', function (e, settings, data) {
                         data.session = $("#ca").text().split(" ")[1];
-                        data.department = $("#phanxuong").text();
+                        data.department = $("#phanxuong").val();
                         data.date = convertToSQLDate($("#inputdate").val());
                 })
                 .DataTable({
@@ -332,7 +333,7 @@
                     $("#attendanceTable").on('preXhr.dt', function (e, settings, data) {
                         data.sessionId = JSON.stringify(dataUpdate)
                         data.session = $("#ca").text().split(" ")[1];
-                        data.department = $("#phanxuong").text();
+                        data.department = $("#phanxuong").val();
                         data.date = convertToSQLDate($("#inputdate").val());
                     })
                     // $("#attendanceTable").DataTable().ajax.url("/phan-xuong-khai-thac/diem-danh/cap-nhat").load();
@@ -441,7 +442,7 @@
         function fetchAPI() {
             $("#attendanceTable").on('preXhr.dt', function (e, settings, data) {
                 data.session = $("#ca").text().split(" ")[1];
-                data.department = $("#phanxuong").text();
+                data.department = $("#phanxuong").val();
                 data.date = convertToSQLDate($("#inputdate").val());
             })
             $("#attendanceTable").DataTable().ajax.url("/phan-xuong-khai-thac/diem-danh/lay-thong-tin")
@@ -454,7 +455,7 @@
                 data.workChecked = $("#workedAllCheckbox").is(":checked");
                 data.notWorkChecked = $("#notWorkedAllCheckbox").is(":checked");
                 data.session = $("#ca").text().split(" ")[1];
-                data.department = $("#phanxuong").text();
+                data.department = $("#phanxuong").val();
                 data.date = convertToSQLDate($("#inputdate").val());
             })
             $("#attendanceTable").DataTable().ajax.url("/phan-xuong-khai-thac/diem-danh/lua-chon-diem-danh").load();

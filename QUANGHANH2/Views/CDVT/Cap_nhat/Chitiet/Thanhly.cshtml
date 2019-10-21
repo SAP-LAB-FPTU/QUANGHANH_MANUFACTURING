@@ -183,10 +183,14 @@
                 dataType: "json",
                 success: function (data) {
                     if (data.success == true) {
-                        window.location.reload(true);
+                        successAlert(data.message, '');
+                        table.ajax.reload(function () {
+
+                        });
                     }
                     else {
                         errorAlert('Lỗi', data.message);
+                         $('#pre-load').hide();
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -221,6 +225,7 @@
                     }
                     else {
                         errorAlert('Lỗi', data.message);
+                         $('#pre-load').hide();
                     }
 
                 },

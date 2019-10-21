@@ -6,23 +6,39 @@
 }
 <link href="~/assets/Custom css/TABLE_BORDERED.css" rel="stylesheet" />
 <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
-
+<style>
+    #table-container {
+        overflow: scroll;
+    }
+    #yearCalendar {
+    width: 15% !important;
+     float:right;
+    }
+    #view-btn{
+        float:left;
+    }
+    /*.sticky + .table-content {
+  padding-top: 102px;
+}
+    .sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}*/
+</style>
 
 <div class="card">
     <div class="card-content">
         <div class="row">
             <div class="center black-text row">
-                <div class="col l3">
-                </div>
-                <div class="col l6 row">
-                    <div class="col l8">
-                        <h3>
-                            <b>
-                                BÁO CÁO PHÂN XƯỞNG NĂM
-                            </b>
-                        </h3>
-                    </div>
-                    <div class="col l2">
+                <h3>
+                    <b>
+                        BÁO CÁO PHÂN XƯỞNG THEO NĂM
+                    </b>
+                </h3>
+
+                <div class="row">
+                    <div class="col l6 m6 s6">
                         <input type="number" id="yearCalendar" class="form-control datepicker-here datepicker-add center"
                                data-language='vi'
                                data-min-view="years"
@@ -30,18 +46,18 @@
                                data-date-format="yyyy"
                                required value="2019" />
                     </div>
-                    <div class="col l2 m12 s12">
-                        <a class="btn blue darken-2" onclick="getInformation()">XEM</a>
+                    <div class="col l6 m6 s6">
+                        <a id="view-btn" class="waves-effect waves-light btn blue darken-2" onclick="getInformation()">XEM</a>
                     </div>
                 </div>
-                <div class="input-field col l3 m12 s12">
-                </div>
             </div>
-
+            <br />
+            <hr>
+            <br />
         </div>
-        <div class="row">
-            <table class="centered highlight responsive-table" id="reportTable">
-                <thead>
+        <div class="row" id="table-container">
+            <table class="centered highlight responsive-table striped responsive-table table-bordered" id="reportTable">
+                <thead id="tableHeader">
                     <tr>
                         <th rowspan="3"></th>
                         <th colspan="10">Q1</th>
@@ -98,9 +114,10 @@
                         <th>KH</th>
                     </tr>
                 </thead>
-                <tbody class="">
+                <tbody class="table-content">
                 </tbody>
             </table>
+            <div id="bottom_anchor"></div>
         </div>
     </div>
 </div>
@@ -122,16 +139,17 @@
 </script>
 <script>
     function getInformation() {
+        $("#pre-load").show("slow", function () { });
         $.ajax({
             type: 'post',
             url: '/phong-dieu-khien/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty-theo-thang-quy',
             data: {
-                'years' : "2019",
+                'years': "2019",
             },
             success: function (response) {
                 data = JSON.parse(response.data);
                 content = "";
-                tieuchiName = ["Jan", "JanKH", "Feb", "FebKH", "March", "MarchKH", "April","AprilKH","Q1", "Q1KH", "AprilKH", "June", "JuneKH", "July",
+                tieuchiName = ["Jan", "JanKH", "Feb", "FebKH", "March", "MarchKH", "April", "AprilKH", "Q1", "Q1KH", "AprilKH", "June", "JuneKH", "July",
                     "JulyKH", "Aug", "Q2", "Q2KH", "Aug", "AugKH", "Sep", "SepKH", "Oct", "OctKH", "Nov", "NovKH", "Dec", "DecKH", "Q3", "Q3KH"]
                 for (let index = 0; index < data.length; index++) {
                     content += "<tr>"
@@ -146,16 +164,48 @@
                             if (data[index][tieuchiName[i]] != null) {
                                 content += "<td>" + data[index][tieuchiName[i]] + "</td>"
                             } else {
-                                content += "<td>" + 0 + "</td>"
+                                if (tieuchiName[i] != "GhiChu") {
+                                    content += "<td>" + 0 + "</td>"
+                                } else {
+                                    content += "<td></td>"
+                                }
                             }
                         }
                     }
-                    content+="</tr>"
+                    content += "</tr>"
                 }
                 $("#reportTable").children("tbody").html(content);
+                $("#pre-load").hide("slow", function () { });
             },
             error: function (response) {
             }
         })
     }
+</script>
+<script>
+    function moveScroll(){
+    var scroll = $(window).scrollTop();
+    var anchor_top = $("#reportTable").offset().top;
+    var anchor_bottom = $("#bottom_anchor").offset().top;
+    if (scroll>anchor_top && scroll<anchor_bottom) {
+    clone_table = $("#clone");
+    if(clone_table.length == 0){
+        clone_table = $("#reportTable").clone();
+        clone_table.attr('id', 'clone');
+        clone_table.css({position:'fixed',
+                 'pointer-events': 'none',
+                 top:0});
+        clone_table.width($("#reportTable").width()+2);
+        $("#table-container").append(clone_table);
+        $("#clone thead").css({visibility:'visible'});
+        $("#clone tbody").css({ visibility: 'hidden' });
+    }
+    } else {
+    $("#clone").remove();
+    }
+}
+    $(window).scroll(moveScroll);
+    $(window).resize(function () {
+       $("#clone").width($("#reportTable").width()+2);
+    })
 </script>
