@@ -108,69 +108,50 @@
 <script>
     $(document).ready(function () {
         let count = 0;
-        $('#reportTable').DataTable({
-            "lengthChange": false,
-            "bFilter": false,
-            "bPaginate": false,
-            "info": false,
-            "ajax": {
-                "url": "/phong-dieu-khien/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty-theo-phan-xuong",
-                "type": "POST",
-                "datatype": "json",
-                "dataSrc": function (result) {
-                    return JSON.parse(result.data);
-                },
-                "cache": false
-            },
-            "columns": [
-                {
-                    data: "MaTieuChi", render: function (data, type, row) {
-                        return count++;
-                    }
-                },
-                { data: "TenTieuChi" },
-                { data: "BQQHDC" },
-                { data: "Ca1" },
-                {
-                    data: "Ca2"
-                },
-                {
-                    data: "Ca3"
-                },
-                {
-                    data: "TH"
-                },
-                {
-                    data: "KH"
-                },
-                {
-                    data: "chenhlech"
-                },
-                {
-                    data: "percentage"
-                },
-                {
-                    data: "luyke"
-                },
-                {
-                    data: "KHDC"
-                },
-                {
-                    data: "percentageDC"
-                },
-                {
-                    data: "SUM"
-                }, {
-                    data: "perday"
-                },
-                {
-                    data: "GhiChu", render: function (data) {
-                        if (data == null) {
-                            return "";
-                        }
-                    }
-                }
-            ]
-        });
     });
+
+    function getInformation() {
+        $("#pre-load").show("slow", function () { });
+        $.ajax({
+            type: 'post',
+            url: '/phong-dieu-khien/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty-theo-phan-xuong',
+            data: {
+                'years': "2019",
+            },
+            success: function (response) {
+                data = JSON.parse(response.data);
+                content = "";
+                tieuchiName = ["TenTieuChi", "BQKHDC", "Ca1", "Ca2", "Ca3", "TH", "KH", "chenhlech", "percentage", "luyke", "KHDC", "percentageDC", "SUM", "perday", "GhiChu"]
+                let count = 1;
+                for (let index = 0; index < data.length; index++) {
+                    content += "<tr>"
+                    if (data[index]["isHeader"]) {
+                        content += "<td colspan=\"16\"><b>" + data[index]["TenPhongBan"] + "</b></td>"
+                        count = 1;
+                    }
+                    //
+                    if (!data[index]["isHeader"]) {
+                        content += "<td>" + count + "</td>";
+                        for (let i = 0; i < tieuchiName.length; i++) {
+                            if (data[index][tieuchiName[i]] != null) {
+                                content += "<td>" + data[index][tieuchiName[i]] + "</td>"
+                            } else {
+                                if (tieuchiName[i] != "GhiChu") {
+                                    content += "<td>" + 0 + "</td>"
+                                } else {
+                                    content += "<td></td>"
+                                }   
+                            }
+                        }
+                        count++;
+                    }
+                    content += "</tr>"
+                }
+                $("#reportTable").children("tbody").html(content);
+                $("#pre-load").hide("slow", function () { });
+            },
+            error: function (response) {
+            }
+        })
+    }
 </script>
