@@ -197,9 +197,17 @@
     function THOnchange(i) {
         var ngaySX = document.getElementById("ngaySanXuat").value;
         var tongNgaySX = document.getElementById("SoNgaySX").value;
-
-        var TH = document.getElementById("thucHien" + i).value;
-        var KH = document.getElementById("keHoach" + i).value;
+        var TH = 0;
+        var KH = 0;
+        if (document.getElementById("thucHien" + i).value == "") {
+            TH = 0;
+        } else {
+            TH = document.getElementById("thucHien" + i).value;
+        } if (document.getElementById("keHoach" + i).value == "") {
+            KH = 0;
+        } else {
+            KH = document.getElementById("keHoach" + i).value;
+        }
         document.getElementById("chenhLech" + i).value = TH - KH;
         if (KH != 0) {
             document.getElementById("phanTramHT" + i).value = ((TH / KH) * 100).toFixed(2);

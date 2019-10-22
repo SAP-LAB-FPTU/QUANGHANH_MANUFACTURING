@@ -92,7 +92,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                     "from header_ThucHienTheoNgay h left " +
                                     "join ThucHien_TieuChi_TheoNgay t " +
                                     "on h.HeaderID = t.HeaderID " +
-                                    "where h.MaPhongBan = '" + px_value + "' and h.Ngay between '2019-" + month + "-1' and '" + date_sql + "' and h.Ca <= " + ca + ") as a " +
+                                    "where h.MaPhongBan = '" + px_value + "' and h.Ngay between '" + year + "-" + month + "-1' and '" + date_sql + "' and h.Ca <= " + ca + ") as a " +
                                     "group by a.MaPhongBan,a.MaTieuChi) as b " +
                                     "on a.MaTieuChi = b.MaTieuChi " +
                                     "order by a.MaTieuChi ASC";
@@ -101,7 +101,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                     }
                     else
                     {
-                        string query = "select a.MaTieuChi, a.GhiChu,a.NgaySanXuat, a.SanLuong, b.luyke, c.DonViDo, c.TenTieuChi from " +
+                        string query = "select a.MaTieuChi, a.GhiChu,case when a.NgaySanXuat is null then 0 else a.NgaySanXuat end 'NgaySanXuat', a.SanLuong, b.luyke, c.DonViDo, c.TenTieuChi from " +
                                 "(select thDay.MaTieuChi, thDay.GhiChu, headtH.NgaySanXuat, thDay.SanLuong from header_ThucHienTheoNgay headTH " +
                                 "inner " +
                                 "join ThucHien_TieuChi_TheoNgay thDay " +
@@ -113,7 +113,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                 "from header_ThucHienTheoNgay h left " +
                                 "join ThucHien_TieuChi_TheoNgay t " +
                                 "on h.HeaderID = t.HeaderID " +
-                                "where h.MaPhongBan = '" + px_value + "' and h.Ngay between '2019-" + month + "-1' and '" + date_sql + "' and h.Ca <= " + ca + ") as a " +
+                                "where h.MaPhongBan = '" + px_value + "' and h.Ngay between '" + year + "-" + month + "-1' and '" + date_sql + "' and h.Ca <= " + ca + ") as a " +
                                 "group by a.MaPhongBan,a.MaTieuChi) as b " +
                                 "on a.MaTieuChi = b.MaTieuChi " +
                                 "inner join (select tc.MaTieuChi, pb.MaPhongBan, tc.TenTieuChi, tc.DonViDo from PhongBan_TieuChi pb left join TieuChi tc on pb.MaTieuChi = tc.MaTieuChi " +
@@ -205,7 +205,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                     {
                         listSX[i].KeHoach = listKH[i].KeHoach;
                         listSX[i].KHDC = listKHDC[i].KHDC;
-                        if (listSX[i].GhiChu.Equals("null"))
+                        if (listSX[i].GhiChu == null || listSX[i].GhiChu.Equals("null"))
                         {
                             listSX[i].GhiChu = "";
                         }
@@ -248,7 +248,14 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                     }
                     item.luyke_temp = (Math.Round(Convert.ToDouble(item.LuyKe), 2)).ToString();
                     item.tong = (Math.Round(Convert.ToDouble(item.KHDC) - Convert.ToDouble(item.luyke_temp), 2)).ToString();
-                    item.OneDay = (Math.Round(Convert.ToDouble(item.tong) / Convert.ToDouble(ngaySX - item.NgaySanXuat), 2)).ToString();
+                    if (Convert.ToDouble(ngaySX - item.NgaySanXuat) <= 0)
+                    {
+                        item.OneDay = 0 + "";
+                    }
+                    else
+                    {
+                        item.OneDay = (Math.Round(Convert.ToDouble(item.tong) / Convert.ToDouble(ngaySX - item.NgaySanXuat), 2)).ToString();
+                    }
                     item.LuyKe = (Math.Round(Convert.ToDouble(item.LuyKe) - Convert.ToDouble(item.SanLuong), 2));
                 }
             }
