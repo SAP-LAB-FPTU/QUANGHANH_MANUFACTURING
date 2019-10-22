@@ -145,7 +145,7 @@
                     dataType: 'json',
                     data: { 'px_value': px_value, 'date': date, 'ca_value': ca_value },
                     success: function (response) {
-                        $("#ngaySanXuat").val(response.ngaySXnow)
+                        $("#ngaySanXuat").val(response.listSXLoad[1].NgaySanXuat)
                         $("#SoNgaySX").val(response.dateSX)
                         $("#table-input-body").empty();
                         for (i = 0; i < response.listSXLoad.length; i++) {
@@ -179,9 +179,17 @@
     function onChangeAll() {
         var table = document.getElementById("Mytable").rows.length;
         table = table - 2;
-        for (var i = 0; i < table; i++) {
-            THOnchange(i);
-            KHDCOnchange(i);
+        var dataX = document.getElementById('SoNgaySX').value;
+        var dataY = document.getElementById('ngaySanXuat').value;
+        if (parseInt(dataY) < parseInt(dataX)) {
+            for (var i = 0; i < table; i++) {
+                THOnchange(i);
+                KHDCOnchange(i);
+            }
+        } else {
+            for (var i = 0; i < table; i++) {
+                document.getElementById('motNgay' + i).value = document.getElementById('tong' + i).value;
+            }
         }
     }
 
@@ -208,7 +216,7 @@
 
         document.getElementById("tong" + i).value = KHDC - LK;
 
-        document.getElementById("motNgay" + i).value = (KHDC - LK) / (tongNgaySX - ngaySX);
+        document.getElementById("motNgay" + i).value = ((KHDC - LK) / (tongNgaySX - ngaySX)).toFixed(2);
 
 
     }
@@ -231,7 +239,7 @@
             document.getElementById("phanTramTD" + i).value = ((LK / KHDC) * 100).toFixed(2);
         }
         document.getElementById("tong" + i).value = KHDC - LK;
-        document.getElementById("motNgay" + i).value = (KHDC - LK) / (tongNgaySX - ngaySX);
+        document.getElementById("motNgay" + i).value = ((KHDC - LK) / (tongNgaySX - ngaySX)).toFixed(2);
 
     }
 

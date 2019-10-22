@@ -101,8 +101,8 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                     }
                     else
                     {
-                        string query = "select a.MaTieuChi, a.SanLuong, b.luyke, c.DonViDo, c.TenTieuChi from " +
-                                "(select thDay.MaTieuChi, thDay.SanLuong from header_ThucHienTheoNgay headTH " +
+                        string query = "select a.MaTieuChi, a.GhiChu,a.NgaySanXuat, a.SanLuong, b.luyke, c.DonViDo, c.TenTieuChi from " +
+                                "(select thDay.MaTieuChi, thDay.GhiChu, headtH.NgaySanXuat, thDay.SanLuong from header_ThucHienTheoNgay headTH " +
                                 "inner " +
                                 "join ThucHien_TieuChi_TheoNgay thDay " +
                                 "on headTH.HeaderID = thDay.HeaderID " +
@@ -205,8 +205,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                     {
                         listSX[i].KeHoach = listKH[i].KeHoach;
                         listSX[i].KHDC = listKHDC[i].KHDC;
-                        listSX[i].NgaySanXuat = listKHDC[i].NgaySanXuat;
-                        if (listSX[i].GhiChu == null)
+                        if (listSX[i].GhiChu.Equals("null"))
                         {
                             listSX[i].GhiChu = "";
                         }
@@ -230,12 +229,27 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
 
                 foreach (var item in listSX)
                 {
-                    item.chenhlech = (Convert.ToInt32(item.SanLuong) - Convert.ToInt32(item.KeHoach)).ToString();
-                    item.percentDay = (Convert.ToDouble(item.SanLuong) / Convert.ToDouble(item.KeHoach) * 100).ToString();
-                    item.percentMonth = (Convert.ToDouble(item.LuyKe) / Convert.ToDouble(item.KHDC) * 100).ToString();
-                    item.luyke_temp = (Convert.ToInt32(item.SanLuong) + Convert.ToInt32(item.LuyKe)).ToString();
-                    item.tong = (Convert.ToInt32(item.KHDC) - Convert.ToInt32(item.luyke_temp)).ToString();
-                    item.OneDay = (Convert.ToInt32(item.tong) / (ngaySX - item.NgaySanXuat)).ToString();
+                    item.chenhlech = (Math.Round(Convert.ToDouble(item.SanLuong) - Convert.ToDouble(item.KeHoach), 2)).ToString();
+                    if (Convert.ToDouble(item.KeHoach) == 0)
+                    {
+                        item.percentDay = 0 + "";
+                    }
+                    else
+                    {
+                        item.percentDay = (Math.Round(Convert.ToDouble(item.SanLuong) / Convert.ToDouble(item.KeHoach) * 100, 2)).ToString();
+                    }
+                    if (Convert.ToDouble(item.KHDC) == 0)
+                    {
+                        item.percentMonth = 0 + "";
+                    }
+                    else
+                    {
+                        item.percentMonth = (Math.Round(Convert.ToDouble(item.LuyKe) / Convert.ToDouble(item.KHDC) * 100, 2)).ToString();
+                    }
+                    item.luyke_temp = (Math.Round(Convert.ToDouble(item.LuyKe), 2)).ToString();
+                    item.tong = (Math.Round(Convert.ToDouble(item.KHDC) - Convert.ToDouble(item.luyke_temp), 2)).ToString();
+                    item.OneDay = (Math.Round(Convert.ToDouble(item.tong) / Convert.ToDouble(ngaySX - item.NgaySanXuat), 2)).ToString();
+                    item.LuyKe = (Math.Round(Convert.ToDouble(item.LuyKe) - Convert.ToDouble(item.SanLuong), 2));
                 }
             }
             catch (Exception e)
@@ -267,29 +281,32 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                 try
                 {
                     DateTime ngaySXFix = Convert.ToDateTime(ngayNhap.Split('/')[1] + "/" + ngayNhap.Split('/')[0] + "/" + ngayNhap.Split('/')[2]);
-
-
-
                     List<TieuChi> list = db.TieuChis.ToList();
                     int[] maTieuChi = new int[tenTieuChi.Length];
-
                     ThucHien_TieuChi_TheoNgay thtctn = new ThucHien_TieuChi_TheoNgay();
-
-
                     if (!ngayNhap.Equals(""))
                     {
                         month = Convert.ToInt32(ngayNhap.Split('/')[1]);
                         year = Convert.ToInt32(ngayNhap.Split('/')[2]);
                         List<header_ThucHienTheoNgay> checkList = db.header_ThucHienTheoNgay.Where(x => x.MaPhongBan == px_value && x.Ca == ca && x.Ngay == dateTime).ToList();
                         List<header_KeHoach_TieuChi_TheoNgay> checkList2 = db.header_KeHoach_TieuChi_TheoNgay.Where(x => x.MaPhongBan == px_value && x.Ca == ca && x.NgayNhapKH == dateTime).ToList();
+                        int caSXConvert = Convert.ToInt32(ca_value);
                         KeHoach_TieuChi_TheoThang khMonth = new KeHoach_TieuChi_TheoThang();
 
-                        if (checkList.Count > 0 && checkList2.Count > 0)
+                        header_KeHoach_TieuChi_TheoNgay khtctn = new header_KeHoach_TieuChi_TheoNgay();
+                        khtctn.MaPhongBan = px_value;
+                        khtctn.NgayNhapKH = ngaySXFix;
+                        khtctn.Ca = Convert.ToInt32(ca_value);
+                        db.header_KeHoach_TieuChi_TheoNgay.Add(khtctn);
+                        db.SaveChanges();
+
+                        var headerIDPlanDay = db.header_KeHoach_TieuChi_TheoNgay.Where(x => x.MaPhongBan == px_value && x.NgayNhapKH == ngaySXFix && x.Ca == caSXConvert).Select(x => x.HeaderID).FirstOrDefault();
+                        var headerIDMonth = db.header_KeHoachTungThang.Where(x => x.MaPhongBan == px_value && x.ThangKeHoach == ngaySXFix.Month && x.NamKeHoach == ngaySXFix.Year).Select(x => x.HeaderID).FirstOrDefault();
+
+                        if (checkList.Count > 0)
                         {
-                            int caSXConvert = Convert.ToInt32(ca_value);
                             var headerIDDay = db.header_ThucHienTheoNgay.Where(x => x.MaPhongBan == px_value && x.Ngay == ngaySXFix && x.Ca == caSXConvert).Select(x => x.HeaderID).FirstOrDefault();
-                            var headerIDPlanDay = db.header_KeHoach_TieuChi_TheoNgay.Where(x => x.MaPhongBan == px_value && x.NgayNhapKH == ngaySXFix && x.Ca == caSXConvert).Select(x => x.HeaderID).FirstOrDefault();
-                            var headerIDMonth = db.header_KeHoachTungThang.Where(x => x.MaPhongBan == px_value && x.ThangKeHoach == ngaySXFix.Month && x.NamKeHoach == ngaySXFix.Year).Select(x => x.HeaderID).FirstOrDefault();
+
                             for (int i = 0; i < tenTieuChi.Length; i++)
                             {
                                 foreach (var item in list)
@@ -303,34 +320,31 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                 {
                                     ghiChu[i] = "null";
                                 }
-                                else if (thucHien[i].Equals(""))
+                                if (thucHien[i].Equals(""))
                                 {
                                     thucHien[i] = "0";
                                 }
-                                else if (keHoach[i].Equals(""))
+                                if (keHoach[i].Equals(""))
                                 {
                                     keHoach[i] = "0";
                                 }
-                                else if (KHDC[i].Equals(""))
+                                if (KHDC[i].Equals(""))
                                 {
                                     KHDC[i] = "0";
                                 }
-                                string queryGet = " select HeaderID, MaTieuChi , MAX(ThoiGianNhapCuoiCung) as 'Max' " +
-                                  "from KeHoach_TieuChi_TheoThang where HeaderID = " + headerIDMonth + " and MaTieuChi = " + maTieuChi[i] + " " +
-                                  "group by HeaderID, MaTieuChi";
-                                var maxDate = db.Database.SqlQuery<MaxKHDate>(queryGet).FirstOrDefault();
+
                                 string query = "update ThucHien_TieuChi_TheoNgay set SanLuong = " + thucHien[i] + ",GhiChu = '" + ghiChu[i] + "' " +
                                 "  where HeaderID = " + headerIDDay + " and MaTieuChi = " + maTieuChi[i] + " " +
-                                "  update KeHoach_TieuChi_TheoNgay set  KeHoach = " + keHoach[i] + ", ThoiGianNhapCuoiCung = GETDATE() " +
-                                "  where HeaderID = " + headerIDPlanDay + " and MaTieuChi = " + maTieuChi[i] + " " +
-                                "  update KeHoach_TieuChi_TheoThang set  SanLuong = " + KHDC[i] + ", ThoiGianNhapCuoiCung = GETDATE() " +
-                                "  where HeaderID = " + headerIDMonth + " and MaTieuChi = " + maTieuChi[i] + " and ThoiGianNhapCuoiCung = '" + maxDate.Max + "'" +
-                                "  update header_ThucHienTheoNgay set NgaySanXuat = " + ngaySX + " where HeaderID = " + headerIDDay + " ";
+                                "  insert into KeHoach_TieuChi_TheoNgay (HeaderID, MaTieuChi, KeHoach, ThoiGianNhapCuoiCung) " +
+                                "  values(" + headerIDPlanDay + ", " + maTieuChi[i] + ", " + keHoach[i] + ", GETDATE())  " +
+                                "  insert into KeHoach_TieuChi_TheoThang (HeaderID, MaTieuChi, SanLuong, ThoiGianNhapCuoiCung) " +
+                                "  values(" + headerIDMonth + ", " + maTieuChi[i] + ", " + KHDC[i] + ", GETDATE())";
                                 db.Database.ExecuteSqlCommand(query);
                             }
                         }
-                        else if (checkList.Count <= 0 && checkList2.Count <= 0)
+                        else if (checkList.Count <= 0)
                         {
+
                             header_ThucHienTheoNgay tttn = new header_ThucHienTheoNgay();
                             tttn.MaPhongBan = px_value;
                             tttn.Ngay = ngaySXFix;
@@ -339,17 +353,8 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                             db.header_ThucHienTheoNgay.Add(tttn);
                             db.SaveChanges();
 
-                            header_KeHoach_TieuChi_TheoNgay khtctn = new header_KeHoach_TieuChi_TheoNgay();
-                            khtctn.MaPhongBan = px_value;
-                            khtctn.NgayNhapKH = ngaySXFix;
-                            khtctn.Ca = Convert.ToInt32(ca_value);
-                            db.header_KeHoach_TieuChi_TheoNgay.Add(khtctn);
-                            db.SaveChanges();
-
-                            int caSXConvert = Convert.ToInt32(ca_value);
                             var headerIDDay = db.header_ThucHienTheoNgay.Where(x => x.MaPhongBan == px_value && x.Ngay == ngaySXFix && x.Ca == caSXConvert).Select(x => x.HeaderID).FirstOrDefault();
-                            var headerIDPlanDay = db.header_KeHoach_TieuChi_TheoNgay.Where(x => x.MaPhongBan == px_value && x.NgayNhapKH == ngaySXFix && x.Ca == caSXConvert).Select(x => x.HeaderID).FirstOrDefault();
-                            var headerIDMonth = db.header_KeHoachTungThang.Where(x => x.MaPhongBan == px_value && x.ThangKeHoach == ngaySXFix.Month && x.NamKeHoach == ngaySXFix.Year).Select(x => x.HeaderID).FirstOrDefault();
+
                             for (int i = 0; i < tenTieuChi.Length; i++)
                             {
                                 foreach (var item in list)
@@ -363,24 +368,24 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                 {
                                     ghiChu[i] = "null";
                                 }
-                                else if (thucHien[i].Equals(""))
+                                if (thucHien[i].Equals(""))
                                 {
                                     thucHien[i] = "0";
                                 }
-                                else if (keHoach[i].Equals(""))
+                                if (keHoach[i].Equals(""))
                                 {
                                     keHoach[i] = "0";
                                 }
-                                else if (KHDC[i].Equals(""))
+                                if (KHDC[i].Equals(""))
                                 {
                                     KHDC[i] = "0";
                                 }
-                                string query = "insert into ThucHien_TieuChi_TheoNgay (HeaderID,MaTieuChi,SanLuong,GhiChu) " +
-                                    "values(" + headerIDDay + "," + maTieuChi[i] + "," + thucHien[i] + ",'" + ghiChu[i] + "')" +
-                                    "insert into KeHoach_TieuChi_TheoNgay (HeaderID, MaTieuChi, KeHoach, ThoiGianNhapCuoiCung) " +
-                                    "values(" + headerIDPlanDay + ", " + maTieuChi[i] + ", " + keHoach[i] + ", GETDATE()) " +
-                                    "insert into KeHoach_TieuChi_TheoThang (HeaderID, MaTieuChi, SanLuong, ThoiGianNhapCuoiCung) " +
-                                    " values(" + headerIDMonth + ", " + maTieuChi[i] + ", " + KHDC[i] + ", GETDATE())";
+                                string query = "insert ThucHien_TieuChi_TheoNgay (HeaderID, MaTieuChi, SanLuong, GhiChu) " +
+                               "  values (" + headerIDDay + "," + maTieuChi[i] + "," + thucHien[i] + ",'" + ghiChu[i] + "') " +
+                               "  insert into KeHoach_TieuChi_TheoNgay (HeaderID, MaTieuChi, KeHoach, ThoiGianNhapCuoiCung) " +
+                               "  values(" + headerIDPlanDay + ", " + maTieuChi[i] + ", " + keHoach[i] + ", GETDATE())  " +
+                               "  insert into KeHoach_TieuChi_TheoThang (HeaderID, MaTieuChi, SanLuong, ThoiGianNhapCuoiCung) " +
+                               "  values(" + headerIDMonth + ", " + maTieuChi[i] + ", " + KHDC[i] + ", GETDATE())";
                                 db.Database.ExecuteSqlCommand(query);
                             }
                         }
