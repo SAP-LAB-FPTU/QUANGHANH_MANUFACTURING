@@ -343,43 +343,30 @@ namespace QUANGHANH2.Controllers
                         addModule(module19, acc.ID, 19);
                         if (module7 == 1)
                         {
-                            var listRight = db.Account_Right.ToList();
-                            foreach (var r in listRight)
-                            {
-                                if (!String.IsNullOrEmpty(r.ID + ""))
-                                {
-                                    Account_Right_Detail rd = new Account_Right_Detail()
-                                    {
-                                        AccountID = acc.ID,
-                                        RightID = r.ID
-                                    };
-                                    db.Account_Right_Detail.Add(rd);
-                                }
-                            }
                             var user = db.Accounts.SingleOrDefault(x => x.ID == acc.ID);
                             user.Name = Name;
                             user.Username = Username;
                             user.Password = passXc;
                             user.Position = Position;
                             user.NVID = NVID;
-                            user.CDVT = true;
-                            user.TCLD = true;
-                            user.KCS = true;
-                            user.DK = true;
-                            user.BGD = true;
-                            user.PXKT = true;
+                            user.CDVT = false;
+                            user.TCLD = false;
+                            user.KCS = false;
+                            user.DK = false;
+                            user.BGD = false;
+                            user.PXKT = false;
                             user.ADMIN = true;
-                            user.PXDL = true;
-                            user.PXVT = true;
-                            user.PXST = true;
-                            user.PXPV = true;
-                            user.PXDS = true;
-                            user.PXCDM = true;
-                            user.PXTGQLM = true;
-                            user.PXXD = true;
-                            user.PXLT = true;
-                            user.AT = true;
-                            user.KCM = true;
+                            user.PXDL = false;
+                            user.PXVT = false;
+                            user.PXST = false;
+                            user.PXPV = false;
+                            user.PXDS = false;
+                            user.PXCDM = false;
+                            user.PXTGQLM = false;
+                            user.PXXD = false;
+                            user.PXLT = false;
+                            user.AT = false;
+                            user.KCM = false;
                             db.Entry(user).State = EntityState.Modified;
                             db.SaveChanges();
                         }
@@ -561,36 +548,7 @@ namespace QUANGHANH2.Controllers
                         }
                         else
                         {
-                            foreach (var r in listRight)
-                            {
-                                if (!String.IsNullOrEmpty(r.ID + ""))
-                                {
-                                    Account_Right_Detail rd = new Account_Right_Detail()
-                                    {
-                                        AccountID = ID,
-                                        RightID = r.ID
-                                    };
-                                    db.Account_Right_Detail.Add(rd);
-                                }
-                            }
-                            db.SaveChanges();
-                            module1 = 1;
-                            module2 = 1;
-                            module3 = 1;
-                            module4 = 1;
-                            module5 = 1;
-                            module6 = 1;
                             module7 = 1;
-                            module8 = 1;
-                            module9 = 1;
-                            module10 = 1;
-                            module11 = 1;
-                            module12 = 1;
-                            module13 = 1;
-                            module14 = 1;
-                            module15 = 1;
-                            module16 = 1;
-                            module19 = 1;
                             db.SaveChanges();
                         }
                     }
