@@ -18,6 +18,7 @@
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
+<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
 <script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
 <script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
 
@@ -28,13 +29,6 @@
                 <div class="row">
                     <h3 class="center"><b>XIN CẤP VẬT TƯ SỬA CHỮA THƯỜNG XUYÊN</b></h3>
                 </div>
-                @*<div class="row">
-                        <div class="col s12">
-                            <ul class="tabs">
-                                <li class="col s12 tab"><a class="active" href="#chitiet">Bảng chi tiết</a></li>
-                            </ul>
-                        </div>
-                    </div>*@
                 <div id="chitiet">
                     <div class="row">
                         <div class="col s12 table_container" id="table-wrapper2">
@@ -94,6 +88,7 @@
                     "dataSrc": function (json) {
                         payload = json.data;
                         if (payload.length == 0) {
+                            $("#pre-load").hide();
                             $("#submit").attr("disabled", true);
                             $("#update").attr("disabled", true);
                             errorAlert('Không có vật tư cấp mới.');

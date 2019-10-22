@@ -81,6 +81,18 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult GetData(String selectListJson, String searchMa, String searchTen, String phongbanSearch, String chucVuSearch)
         {
+            while(searchMa.Contains("  "))
+            {
+                searchMa=searchMa.Replace("  ", " ");
+            }
+            string[] searchListID = searchMa.Split(' ');
+            searchMa="";
+            for(int i = 0; i < searchListID.Length; i++)
+            {
+                searchMa += "'" + searchListID[i] + "',";
+            }
+            searchMa = searchMa.Contains(",")?searchMa.Substring(0,searchMa.Length-1):searchMa;
+            searchMa = searchMa == "''" ? "" : searchMa;
             HttpCookie cookie;
             if (HttpContext.Request.Cookies["DanhSachNhanVien"] == null)
             {
@@ -113,29 +125,28 @@ namespace QUANGHANHCORE.Controllers.TCLD
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 string sql = "SELECT  A.*,B.department_name,C.TenCongViec,D.TenTrangThai\n" +
-"FROM\n" +
-"(\n" +
-    "(SELECT * FROM NhanVien) A\n" +
-    "left OUTER JOIN\n" +
-    "(SELECT department_id, department_name FROM Department) B on A.MaPhongBan = B.department_id\n" +
-    "left OUTER JOIN\n" +
-    "(SELECT MaCongViec, TenCongViec FROM CongViec) C on A.MaCongViec = C.MaCongViec\n" +
-    "left OUTER JOIN\n" +
-    "(SELECT MaTrangThai, TenTrangThai FROM TrangThai) D on A.MaTrangThai = D.MaTrangThai\n" +
-    ")";
+            "FROM\n" +
+            "(\n" +
+            "(SELECT * FROM NhanVien) A\n" +
+            "left OUTER JOIN\n" +
+            "(SELECT department_id, department_name FROM Department) B on A.MaPhongBan = B.department_id\n" +
+            "left OUTER JOIN\n" +
+            "(SELECT MaCongViec, TenCongViec FROM CongViec) C on A.MaCongViec = C.MaCongViec\n" +
+            "left OUTER JOIN\n" +
+            "(SELECT MaTrangThai, TenTrangThai FROM TrangThai) D on A.MaTrangThai = D.MaTrangThai\n" +
+            ")";
 
                 if ((searchMa != "" || searchTen != "" || chucVuSearch != "-1" || phongbanSearch != "-1"))
                 {
                     sql += " where ";
-                    sql += searchMa == "" ? "" : " A.MaNV like @maNV AND";
+                    sql += searchMa == "" ? "" : " A.MaNV in ("+ searchMa + ") AND";
                     sql += searchTen == "" ? "" : " A.Ten like @tenNV AND";
                     sql += phongbanSearch == "-1" ? "" : " A.MaPhongBan = @maPhongBan AND";
                     sql += chucVuSearch == "-1" ? "" : " A.MaCongViec = @maCongViec AND";
                     sql = sql.Substring(0, sql.Length - 4).Trim();
                 }
-                sql += sql.Contains("where") ? " AND A.MaTrangThai<>3" : " WHERE A.MaTrangThai<>2"; ;
+                sql += sql.Contains("where") ? " AND A.MaTrangThai<>3" : " WHERE A.MaTrangThai<>2";
                 listNhanVien = db.Database.SqlQuery<NhanVienModel>(sql,
-                    new SqlParameter("maNV", "%" + searchMa + "%"),
                     new SqlParameter("tenNV", "%" + searchTen + "%"),
                     new SqlParameter("maPhongBan", phongbanSearch),
                     new SqlParameter("maCongViec", chucVuSearch)
@@ -144,7 +155,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 totalrowsafterfiltering = listNhanVien.Count;
                 listNhanVien = listNhanVien.OrderBy(sortColumnName + " " + sortDirection).ToList<NhanVienModel>();
                 listNhanVien = listNhanVien.Skip(start).Take(length).ToList<NhanVienModel>();
-
             }
             return Json(new { success = true, data = listNhanVien, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
