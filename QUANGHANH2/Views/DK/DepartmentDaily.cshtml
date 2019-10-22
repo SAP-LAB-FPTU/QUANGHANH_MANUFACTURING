@@ -41,7 +41,7 @@
 
                 <div class="row">
                     <div class="col l6 m6 s6">
-                        <input id="yearCalendar" class="form-control datepicker-here datepicker-add center"
+                        <input id="yearCalendar" class=" datepicker-here datepicker-add center"
                                data-language='vi'
                                data-date-format="dd-mm-yyyy"
                                required />
@@ -55,6 +55,10 @@
             <hr>
             <br />
         </div>
+        <div class="row">
+            <a id="export-button" class="waves-effect waves-light btn blue">Xuất ra file excel</a>
+        </div>
+        <br />
         <div class="row" id="table-container">
             <table class="centered highlight responsive-table striped responsive-table table-bordered" id="reportTable">
                 <thead id="tableHeader">
@@ -110,18 +114,23 @@
         let count = 0;
     });
 
+    function changeDateFormat(date) {
+        var x = date.split("-")
+        return x[2] + '-' + x[1] + '-' + x[0];
+    }
+
     function getInformation() {
         $("#pre-load").show("slow", function () { });
         $.ajax({
             type: 'post',
             url: '/phong-dieu-khien/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty-theo-phan-xuong',
             data: {
-                'years': "2019",
+                'date': changeDateFormat($("#yearCalendar").val()),
             },
             success: function (response) {
                 data = JSON.parse(response.data);
                 content = "";
-                tieuchiName = ["TenTieuChi", "BQKHDC", "Ca1", "Ca2", "Ca3", "TH", "KH", "chenhlech", "percentage", "luyke", "KHDC", "percentageDC", "SUM", "perday", "GhiChu"]
+                tieuchiName = ["TenTieuChi", "BQQHDC", "Ca1", "Ca2", "Ca3", "TH", "KH", "chenhlech", "percentage", "luyke", "KHDC", "percentageDC", "SUM", "perday", "GhiChu"]
                 let count = 1;
                 for (let index = 0; index < data.length; index++) {
                     content += "<tr>"
@@ -134,13 +143,21 @@
                         content += "<td>" + count + "</td>";
                         for (let i = 0; i < tieuchiName.length; i++) {
                             if (data[index][tieuchiName[i]] != null) {
-                                content += "<td>" + data[index][tieuchiName[i]] + "</td>"
+                                if (tieuchiName[i] == "chenhlech") {
+                                    if (data[index][tieuchiName[i]] > 0) {
+                                        content += "<td><b><span class=\"green-text\">" + data[index][tieuchiName[i]] + "</span></b></td>"
+                                    } else {
+                                        content += "<td><b><span class=\"red-text\">" + data[index][tieuchiName[i]] + "</span></b></td>"
+                                    }
+                                } else {
+                                    content += "<td>" + data[index][tieuchiName[i]] + "</td>"
+                                }
                             } else {
                                 if (tieuchiName[i] != "GhiChu") {
                                     content += "<td>" + 0 + "</td>"
                                 } else {
                                     content += "<td></td>"
-                                }   
+                                }
                             }
                         }
                         count++;
@@ -154,4 +171,27 @@
             }
         })
     }
+</script>
+<script>
+    $("#export-button").click(function () {
+        $("#pre-load").show("slow", function () { });
+        $.ajax({
+            type: 'post',
+            url: '/phong-dieu-khien/bao-cao-san-xuat-than/export-excel',
+            data: {
+                'date': changeDateFormat($("#yearCalendar").val()),
+            },
+            success: function (res) {
+                if (res.success) {
+                    var response = JSON.parse(JSON.stringify(res.data));
+                    window.location = '/phong-dieu-khien/bao-cao-san-xuat-than/download?fileGuid=' + response.FileGuid
+                        + '&filename=' + response.FileName;
+                }
+                $("#pre-load").hide("slow", function () { });
+            },
+            error: function (response) {
+
+            }
+        })
+    });
 </script>
