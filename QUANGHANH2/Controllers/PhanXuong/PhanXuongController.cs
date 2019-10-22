@@ -17,7 +17,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
 {
     public class PhanXuongController : Controller
     {
-        [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "006")]
         [Route("phan-xuong")]
         public ActionResult Index()
         {
@@ -31,7 +31,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         /// ///////////////////////////////////////////////PHAN XUONG KHAI THAC/////////////////////////////////////////////////////
         /// </summary>
         /// <returns></returns>
-        [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "006")]
         [Route("phan-xuong/chon-bao-cao")]
         public ActionResult ChonBaoCao()
         {
