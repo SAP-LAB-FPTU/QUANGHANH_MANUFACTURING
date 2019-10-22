@@ -58,7 +58,9 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             int month = DateTime.Now.Month;
             int year = DateTime.Now.Year;
             List<SanXuat> LK = null;
-            List<SanXuat> listSX = null;
+            List<SanXuat> listSX = new List<SanXuat>();
+            List<SanXuat> listKH = new List<SanXuat>();
+            List<SanXuat> listKHDC = new List<SanXuat>();
             int ca = 0;
             bool flag = false;
             if (!ca_value.Equals(""))
@@ -75,46 +77,143 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                     year = Convert.ToInt32(date.Split('/')[2]);
                     List<header_ThucHienTheoNgay> checkList = db.header_ThucHienTheoNgay.Where(x => x.MaPhongBan == px_value && x.Ca == ca && x.Ngay == dateTime).ToList();
                     List<header_KeHoach_TieuChi_TheoNgay> checkList2 = db.header_KeHoach_TieuChi_TheoNgay.Where(x => x.MaPhongBan == px_value && x.Ca == ca && x.NgayNhapKH == dateTime).ToList();
+                    List<header_KeHoachTungThang> checkList3 = db.header_KeHoachTungThang.Where(x => x.MaPhongBan == px_value && x.ThangKeHoach == month && x.NamKeHoach == year).ToList();
 
-                    if (checkList.Count > 0 && checkList2.Count > 0)
+                    if (checkList.Count <= 0)
                     {
-                        string sql = "select t.TenTieuChi,p.MaPhongBan,t.DonViDo,table1.SanLuong, table1.Ngay, table1.Ca, table2.KeHoach,table3.luyke,table4.SanLuong as 'KHDC',table1.GhiChu,table1.NgaySanXuat "
-                                    + "from PhongBan_TieuChi p inner join TieuChi t on p.MaTieuChi = t.MaTieuChi "
-                                    + " inner join (select t.MaTieuChi, t.SanLuong, h.Ngay, h.Ca, h.MaPhongBan, t.GhiChu, h.NgaySanXuat  "
-                                    + " from header_ThucHienTheoNgay h inner join ThucHien_TieuChi_TheoNgay t on h.HeaderID = t.HeaderID  "
-                                    + " where h.Ngay = '" + date_sql + "' and h.Ca = " + ca_value + " and h.MaPhongBan = '" + px_value + "') table1 on p.MaTieuChi = table1.MaTieuChi and p.MaPhongBan = table1.MaPhongBan "
-                                    + " inner join (select h.MaPhongBan,k.MaTieuChi, k.KeHoach  "
-                                    + " from header_KeHoach_TieuChi_TheoNgay h inner join KeHoach_TieuChi_TheoNgay k on h.HeaderID = k.HeaderID  "
-                                    + " where h.NgayNhapKH = '" + date_sql + "' and h.Ca = " + ca_value + " and h.MaPhongBan = '" + px_value + "') table2 on p.MaPhongBan = table2.MaPhongBan and p.MaTieuChi = table2.MaTieuChi "
-                                    + " inner join (select a.MaPhongBan,a.MaTieuChi,sum(a.SanLuong) as 'luyke'  "
-                                    + " from (select t.SanLuong,t.MaTieuChi,h.MaPhongBan  "
-                                    + " from header_ThucHienTheoNgay h inner join ThucHien_TieuChi_TheoNgay t on h.HeaderID = t.HeaderID  "
-                                    + " where h.MaPhongBan = '" + px_value + "' and h.Ngay between '" + year + "-" + month + "-1' and '" + date_sql + "' and h.Ca <= " + ca_value + ") as a group by a.MaPhongBan,a.MaTieuChi) table3 on p.MaTieuChi = table3.MaTieuChi and p.MaPhongBan = table3.MaPhongBan "
-                                    + " inner join (select a.MaTieuChi, k.SanLuong, a.thoigian, h.MaPhongBan  "
-                                    + " from header_KeHoachTungThang h inner join KeHoach_TieuChi_TheoThang k on h.HeaderID = k.HeaderID inner join (select h.MaTieuChi, MAX(h.ThoiGianNhapCuoiCung) as 'thoigian'  "
-                                    + " from KeHoach_TieuChi_TheoThang h group by h.MaTieuChi) a on k.MaTieuChi = a.MaTieuChi and k.ThoiGianNhapCuoiCung = a.thoigian  "
-                                    + " where h.MaPhongBan = '" + px_value + "' and h.ThangKeHoach = " + month + " and h.NamKeHoach = " + year + ") table4 on p.MaTieuChi = table4.MaTieuChi and p.MaPhongBan = table4.MaPhongBan";
+                        string sql = "select a.MaTieuChi, a.TenTieuChi,case when b.luyke is null then 0 else b.luyke end 'LuyKe', a.DonViDo from " +
+                                    "(select pb.MaTieuChi, tc.TenTieuChi, tc.DonViDo from PhongBan_TieuChi pb left " +
+                                    "join TieuChi tc " +
+                                    "on pb.MaTieuChi = tc.MaTieuChi " +
+                                    "where pb.MaPhongBan = '" + px_value + "' ) as a " +
+                                    "left join( " +
+                                    "select a.MaPhongBan, a.MaTieuChi, sum(a.SanLuong) as 'luyke' " +
+                                    "from(select t.SanLuong, t.MaTieuChi, h.MaPhongBan " +
+                                    "from header_ThucHienTheoNgay h left " +
+                                    "join ThucHien_TieuChi_TheoNgay t " +
+                                    "on h.HeaderID = t.HeaderID " +
+                                    "where h.MaPhongBan = '" + px_value + "' and h.Ngay between '2019-" + month + "-1' and '" + date_sql + "' and h.Ca <= " + ca + ") as a " +
+                                    "group by a.MaPhongBan,a.MaTieuChi) as b " +
+                                    "on a.MaTieuChi = b.MaTieuChi " +
+                                    "order by a.MaTieuChi ASC";
                         listSX = db.Database.SqlQuery<SanXuat>(sql).ToList();
                         flag = true;
                     }
                     else
                     {
-                        string query = "  select a.TenTieuChi, a.DonViDo, (case when LuyKe.LuyKe is null then 0 else LuyKe.LuyKe end) as LuyKe " +
-                                        "from(select tc.* " +
-                                                "from PhongBan_TieuChi pbtc inner " +
-                                                "join TieuChi tc on pbtc.MaTieuChi = tc.MaTieuChi " +
-                                                "where pbtc.MaPhongBan = '" + px_value + "') as a left outer join(select a.MaPhongBan, a.MaTieuChi, sum(a.SanLuong) as 'luyke' " +
-                                                "from(select t.SanLuong, t.MaTieuChi, h.MaPhongBan " +
-                                                "from header_ThucHienTheoNgay h inner " +
-                                                "join ThucHien_TieuChi_TheoNgay t on h.HeaderID = t.HeaderID " +
-                                                "where h.MaPhongBan = '" + px_value + "' and h.Ngay between '" + year + "-" + month + "-1' and '" + date_sql + "' and h.Ca <= " + ca_value + ")" +
-                                                " as a group by a.MaPhongBan, a.MaTieuChi) as LuyKe on a.MaTieuChi = LuyKe.MaTieuChi";
+                        string query = "select a.MaTieuChi, a.SanLuong, b.luyke, c.DonViDo, c.TenTieuChi from " +
+                                "(select thDay.MaTieuChi, thDay.SanLuong from header_ThucHienTheoNgay headTH " +
+                                "inner " +
+                                "join ThucHien_TieuChi_TheoNgay thDay " +
+                                "on headTH.HeaderID = thDay.HeaderID " +
+                                "where headTH.MaPhongBan = '" + px_value + "' and headTH.Ngay = '" + date_sql + "' and headTH.Ca = " + ca + ") as a " +
+                                "inner join( " +
+                                "select a.MaPhongBan, a.MaTieuChi, sum(a.SanLuong) as 'luyke' " +
+                                "from(select t.SanLuong, t.MaTieuChi, h.MaPhongBan " +
+                                "from header_ThucHienTheoNgay h left " +
+                                "join ThucHien_TieuChi_TheoNgay t " +
+                                "on h.HeaderID = t.HeaderID " +
+                                "where h.MaPhongBan = '" + px_value + "' and h.Ngay between '2019-" + month + "-1' and '" + date_sql + "' and h.Ca <= " + ca + ") as a " +
+                                "group by a.MaPhongBan,a.MaTieuChi) as b " +
+                                "on a.MaTieuChi = b.MaTieuChi " +
+                                "inner join (select tc.MaTieuChi, pb.MaPhongBan, tc.TenTieuChi, tc.DonViDo from PhongBan_TieuChi pb left join TieuChi tc on pb.MaTieuChi = tc.MaTieuChi " +
+                                "where pb.MaPhongBan = '" + px_value + "') as c " +
+                                "on b.MaTieuChi = c.MaTieuChi " +
+                                "order by a.MaTieuChi";
                         listSX = db.Database.SqlQuery<SanXuat>(query).ToList();
                         flag = false;
                     }
-                }
+                    if (checkList2.Count <= 0)
+                    {
+                        string sql = "select * from ( " +
+                            "select tc.TenTieuChi, tc.DonViDo, tc.MaTieuChi, pb.MaPhongBan " +
+                            "from PhongBan_TieuChi pb left join TieuChi tc " +
+                            "on pb.MaTieuChi = tc.MaTieuChi " +
+                            "where pb.MaPhongBan = '" + px_value + "') as a " +
+                            "left join(select * from header_KeHoach_TieuChi_TheoNgay khDay " +
+                            "where khDay.NgayNhapKH = '" + date_sql + "') as b " +
+                            "on b.MaPhongBan = a.MaPhongBan " +
+                            "order by a.MaTieuChi";
+                        listKH = db.Database.SqlQuery<SanXuat>(sql).ToList();
+                    }
+                    else
+                    {
+                        string sql = "select a.*, khDay2.KeHoach, c.DonViDo, c.TenTieuChi from " +
+                                "(select headKH.HeaderID, headKH.MaPhongBan, Headkh.Ca, headKH.NgayNhapKH, khDay.MaTieuChi, MAX(khDay.ThoiGianNhapCuoiCung) as 'MaxDate' " +
+                                "from header_KeHoach_TieuChi_TheoNgay headKH " +
+                                "left " +
+                                "join KeHoach_TieuChi_TheoNgay khDay " +
+                                "on headKH.HeaderID = khDay.HeaderID " +
+                                "where headKH.MaPhongBan = '" + px_value + "'  and headKH.Ca = " + ca + " and headKH.NgayNhapKH = '" + date_sql + "' " +
+                                "group by headKH.HeaderID, headKH.MaPhongBan, Headkh.Ca, headKH.NgayNhapKH, khDay.MaTieuChi) as a " +
+                                "inner join KeHoach_TieuChi_TheoNgay khDay2 " +
+                                "on a.HeaderID = khDay2.HeaderID and a.MaxDate = khday2.ThoiGianNhapCuoiCung " +
+                                "inner join(select tc.TenTieuChi, tc.DonViDo, tc.MaTieuChi from PhongBan_TieuChi pb inner join TieuChi tc " +
+                                "on pb.MaTieuChi = tc.MaTieuChi " +
+                                "where pb.MaPhongBan = '" + px_value + "') as c " +
+                                "on c.MaTieuChi = a.MaTieuChi " +
+                                "order by a.MaTieuChi";
+                        listKH = db.Database.SqlQuery<SanXuat>(sql).ToList();
+                    }
+                    if (checkList3.Count <= 0)
+                    {
+                        string sql = "select pbtc.MaTieuChi, pbtc.DonViDo, pbtc.TenTieuChi, case when khdc.KHDC is null then 0 else khdc.KHDC end 'KHDC', " +
+                                        "case when khdc.SoNgayLamViec is null then 0 else khdc.SoNgayLamViec end 'SoNgayLamViec'  from " +
+                                        "(select pb.MaTieuChi, pb.MaPhongBan, tc.DonViDo, tc.TenTieuChi from PhongBan_TieuChi pb left " +
+                                        "join TieuChi tc on pb.MaTieuChi = tc.MaTieuChi " +
+                                        "where pb.MaPhongBan = '" + px_value + "') as pbtc " +
+                                        "left join(select a.MaTieuChi, a.ThangKeHoach, a.NamKeHoach, b.SanLuong as 'KHDC',a.SoNgayLamViec from( " +
+                                        "select headKH.MaPhongBan, headKH.ThangKeHoach, headKH.NamKeHoach, " +
+                                        "headKH.SoNgayLamViec, khMonth.MaTieuChi, MAX(khMonth.ThoiGianNhapCuoiCung) as 'MaxDate' " +
+                                        "from header_KeHoachTungThang headKH " +
+                                        "left " +
+                                        "join KeHoach_TieuChi_TheoThang khMonth " +
+                                        "on headKH.HeaderID = khMonth.HeaderID " +
+                                        "where headKH.MaPhongBan = '" + px_value + "' " +
+                                        "and headKH.ThangKeHoach = " + month + " " +
+                                        "group by headKH.MaPhongBan, headKH.ThangKeHoach, headKH.NamKeHoach,  " +
+                                        "headKH.SoNgayLamViec, khMonth.MaTieuChi) as a " +
+                                        "left join(select * from KeHoach_TieuChi_TheoThang khMonth " +
+                                        ") as b on a.MaTieuChi = b.MaTieuChi and a.MaxDate = b.ThoiGianNhapCuoiCung) as khdc " +
+                                        "on pbtc.MaTieuChi = khdc.MaTieuChi";
+                        listKHDC = db.Database.SqlQuery<SanXuat>(sql).ToList();
+                    }
+                    else
+                    {
+                        string sql = "select pbtc.MaTieuChi, pbtc.DonViDo, pbtc.TenTieuChi, khdc.KHDC, khdc.SoNgayLamViec from " +
+                                        "(select pb.MaTieuChi, pb.MaPhongBan, tc.DonViDo, tc.TenTieuChi from PhongBan_TieuChi pb left " +
+                                        "join TieuChi tc on pb.MaTieuChi = tc.MaTieuChi " +
+                                        "where pb.MaPhongBan = '" + px_value + "') as pbtc " +
+                                        "left join(select a.MaTieuChi, a.ThangKeHoach, a.NamKeHoach, b.SanLuong as 'KHDC',a.SoNgayLamViec from( " +
+                                        "select headKH.MaPhongBan, headKH.ThangKeHoach, headKH.NamKeHoach, " +
+                                        "headKH.SoNgayLamViec, khMonth.MaTieuChi, MAX(khMonth.ThoiGianNhapCuoiCung) as 'MaxDate' " +
+                                        "from header_KeHoachTungThang headKH " +
+                                        "left " +
+                                        "join KeHoach_TieuChi_TheoThang khMonth " +
+                                        "on headKH.HeaderID = khMonth.HeaderID " +
+                                        "where headKH.MaPhongBan = '" + px_value + "' " +
+                                        "and headKH.ThangKeHoach = " + month + " " +
+                                        "group by headKH.MaPhongBan, headKH.ThangKeHoach, headKH.NamKeHoach,  " +
+                                        "headKH.SoNgayLamViec, khMonth.MaTieuChi) as a " +
+                                        "left join(select * from KeHoach_TieuChi_TheoThang khMonth " +
+                                        ") as b on a.MaTieuChi = b.MaTieuChi and a.MaxDate = b.ThoiGianNhapCuoiCung) as khdc " +
+                                        "on pbtc.MaTieuChi = khdc.MaTieuChi";
+                        listKHDC = db.Database.SqlQuery<SanXuat>(sql).ToList();
+                    }
 
+                    for (int i = 0; i < listSX.Count; i++)
+                    {
+                        listSX[i].KeHoach = listKH[i].KeHoach;
+                        listSX[i].KHDC = listKHDC[i].KHDC;
+                        listSX[i].NgaySanXuat = listKHDC[i].NgaySanXuat;
+                        if (listSX[i].GhiChu == null)
+                        {
+                            listSX[i].GhiChu = "";
+                        }
+                    }
+                }
             }
+
             catch (Exception e)
             {
                 e.Message.ToString();
@@ -127,7 +226,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             int ngay_SX_now = 0;
             try
             {
-                ngay_SX_now =  listSX.ElementAt(0).NgaySanXuat;
+                ngay_SX_now = listSX.ElementAt(0).NgaySanXuat;
 
                 foreach (var item in listSX)
                 {
