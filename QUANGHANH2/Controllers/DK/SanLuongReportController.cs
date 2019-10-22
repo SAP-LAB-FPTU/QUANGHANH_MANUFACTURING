@@ -23,7 +23,7 @@ namespace QUANGHANH2.Controllers.DK
         [Route("phong-dieu-khien/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty")]
         public ActionResult getReport()
         {
-            DateTime timeEnd = Convert.ToDateTime("2019-09-10");
+            DateTime timeEnd = Convert.ToDateTime(Request["date"]);
             var timeStart = Convert.ToDateTime("" + timeEnd.Year + "-" + timeEnd.Month + "-1");
             //
             var query = "select TieuChi.MaTieuChi,TieuChi.TenTieuChi, " +
@@ -41,11 +41,11 @@ namespace QUANGHANH2.Controllers.DK
                 "(Case when KH IS NULL then 0 else KH end) as KH from TieuChi " +
                 "left join (select *,CONVERT(float, 0) as [KH],CONVERT(float, 0) as [CHENHLECH],CONVERT(float, 0) as [PERCENTAGE], CONVERT(float, 0) as [KHDC], CONVERT(float, 0) as [percentDC],CONVERT(float, 0) as [SUM], " +
                 "CONVERT(float, 0) as [perday], CONVERT(float, 0) as [BQKHDC] from(select MaTieuChi, " +
-                "Sum(case when ca = 1 and Ngay = '2019-09-10' then SanLuong else 0  end )as [CA1], Sum(case when ca = 2 and Ngay = '2019-09-10' then SanLuong else 0  end )as [CA2], " +
-                "Sum(case when ca = 3 and Ngay = '2019-09-10' then SanLuong else 0  end )as [CA3], Sum(case when Ngay = '2019-09-10' then SanLuong else 0  end )as [TH],  " +
+                "Sum(case when ca = 1 and Ngay = @dateEnd then SanLuong else 0  end )as [CA1], Sum(case when ca = 2 and Ngay = @dateEnd then SanLuong else 0  end )as [CA2], " +
+                "Sum(case when ca = 3 and Ngay = @dateEnd then SanLuong else 0  end )as [CA3], Sum(case when Ngay = @dateEnd then SanLuong else 0  end )as [TH],  " +
                 "SUM(SanLuong) as [LUYKE] from(select thuchien.HeaderID, thuchien.MaTieuChi, thuchien.SanLuong, header_th.Ca, header_th.Ngay, " +
                 "px.department_id, px.isInside from ThucHien_TieuChi_TheoNgay as thuchien " +
-                "inner JOIN header_ThucHienTheoNgay as header_th on thuchien.HeaderID = header_th.HeaderID and header_th.Ngay >= '2019-09-1' and header_th.Ngay <= '2019-09-10' " +
+                "inner JOIN header_ThucHienTheoNgay as header_th on thuchien.HeaderID = header_th.HeaderID and header_th.Ngay >= @dateStart and header_th.Ngay <= @dateEnd " +
                 "INNER JOIN Department as px on px.department_id = header_th.MaPhongBan) " +
                 "as a GROUP BY MaTieuChi) as table2 ) as table3 " +
                 "on table3.MaTieuChi = TieuChi.MaTieuChi";
@@ -61,14 +61,14 @@ namespace QUANGHANH2.Controllers.DK
             var query_KHDaily = " select MaTieuChi,SUM(KeHoach) as SanLuong from (select kehoach.* from (Select HeaderID,MaTieuChi,Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung]  from KeHoach_TieuChi_TheoNgay " +
                 "group by MaTieuChi,HeaderID) as a inner join KeHoach_TieuChi_TheoNgay as kehoach " +
                 "on a.HeaderID = kehoach.HeaderID and a.MaTieuChi = kehoach.MaTieuChi and a.ThoiGianNhapCuoiCung = kehoach.ThoiGianNhapCuoiCung) as b " +
-                "inner join(select * from header_KeHoach_TieuChi_TheoNgay where NgayNhapKH = '2019-09-10') as header on b.HeaderID = header.HeaderID " +
+                "inner join(select * from header_KeHoach_TieuChi_TheoNgay where NgayNhapKH = @date) as header on b.HeaderID = header.HeaderID " +
                 "group by MaTieuChi";
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
 
                 var listReport = db.Database.SqlQuery<reportEntity>(query, new SqlParameter("dateStart", timeStart), new SqlParameter("dateEnd", timeEnd)).ToList();
-                var list_KHDC = db.Database.SqlQuery<KHDCEntity>(query_KHDC, new SqlParameter("month", 9), new SqlParameter("year", 2019)).ToList();
-                var list_KHDaily = db.Database.SqlQuery<KHDCEntity>(query_KHDaily).ToList();
+                var list_KHDC = db.Database.SqlQuery<KHDCEntity>(query_KHDC, new SqlParameter("month", timeEnd.Month), new SqlParameter("year", timeEnd.Year)).ToList();
+                var list_KHDaily = db.Database.SqlQuery<KHDCEntity>(query_KHDaily, new SqlParameter("date", timeEnd)).ToList();
 
                 foreach (var item in listReport)
                 {
@@ -133,5 +133,7 @@ namespace QUANGHANH2.Controllers.DK
 
         public double BQQHDC { get; set; }
         public string GhiChu { get; set; }
+        public string TenPhongBan { get; set; }
+        public bool isHeader { get; set; }
     }
 }
