@@ -1,0 +1,871 @@
+﻿
+@{
+    ViewData["Title"] = "baoduonghangngay";
+    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+}
+
+
+@{ 
+    List<string> list = (List<string>)Session["RightIDs"];
+}
+<link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+<link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
+<script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
+<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
+<link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
+
+<div class="card">
+    <div class="card-content">
+        <div class="container-fluid">
+            <div class="row">
+
+                <div class="advanded-search">
+                    <div class="row">
+                        <h3 class="center"><b>SỮA CHỮA THƯỜNG XUYÊN</b></h3>
+                        <hr>
+                        <div class="row center">
+                            <div class="col l4 m4 s12">
+                                <div class="row">
+                                    <div class="col l10 m10 s12 input-field">
+                                        <input type="text" placeholder="Tìm kiếm theo biển kiểm soát" class='form-control' id="equipmentId-search" />
+                                    </div>
+                                    <div class="col l10 m10 s12 input-field">
+                                        <input type="text" placeholder="Tìm kiếm theo tên thiết bị" class='form-control' id="equipmentName-search" />
+                                    </div>
+                                    @{
+                                        foreach (var item in list)
+                                        {
+                                            if (item.Equals("17"))
+                                            {
+                                                <div class="col l10 m10 s12 input-field">
+                                                    <a class="waves-effect waves-light btn-small blue modal-trigger" href="#myadd">Thêm sửa chữa thường xuyên thiết bị</a>
+                                                </div>
+                                            }
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                            <div class="col l4 m4 s12">
+                                <div class="row">
+                                    <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
+                                        <i class="fas fa-calendar-alt icon"></i>
+                                        <input placeholder="Nhập ngày bắt đầu (từ)" type='text' class='datepicker-here center maxDate' data-language='vi' id="timeFrom-search" />
+                                    </div>
+                                    <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
+                                        <i class="fas fa-calendar-alt icon"></i>
+                                        <input placeholder="Nhập ngày kết thúc (đến)" type='text' class='datepicker-here center minDate' data-language='vi' id="timeTo-search" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col l4 m4 s12">
+                                <div class="row">
+                                    <div class="col l10 m10 s12 input-field">
+                                        <input type="text" placeholder="Tìm kiếm theo vị trí sửa chữa" class='form-control' id="position-search" />
+                                    </div>
+                                    <div class="col l10 m10 s12 input-field">
+                                        <input type="text" placeholder="Tìm kiếm theo nội dung sửa chữa" class='form-control' id="content-search" />
+                                    </div>
+                                    <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
+                                        <button class="btn blue darken-2 btn-small" id="searchButton">Tìm kiếm </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="col s12" style="margin-bottom:20px">
+                        <div class="left" id="mywrap">
+                            <table id="Table2">
+                                <tr style="border-bottom:none">
+                                    <td><a class="waves-effect waves-light btn-small blue modal-trigger" href="#myadd">Thêm</a></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>*@
+                <div id="table-wrapper2" class="col s12 table_container">
+                    <table id="maintain" class="striped table-responsive centered table-bordered mytable">
+                        <thead>
+                            <tr>
+                                <th class="center-align">Ngày</th>
+                                <th class="center-align">Tên</th>
+                                <th class="center-align">Mã thiết bị</th>
+                                <th>Vị trí sửa chữa</th>
+                                <th>Nội dung sửa chữa</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myadd">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Nhập sửa chữa thường xuyên thiết bị</h3>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="row">
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="id">Mã thiết bị : </label>
+                            <input type="text" class="form-control" id="equipmentID-add" list="eqID" />
+                        </div>
+                        <div class="form-group">
+                            <label for="id">Vị trí sửa chữa : </label>
+                            <input type="text" class="form-control" id="departmentId-add" list="departmentID" />
+                        </div>
+                    </div>
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="id">Tên thiết bị : </label>
+                            <input type="text" class="form-control" readonly id="equipmentName" />
+                        </div>
+                        <div class="form-group">
+                            <label for="id">Nội dung sửa chữa : </label>
+                            <input type="text" class="form-control" id="maintain_content-add" />
+                        </div>
+                        <div class="form-group">
+                            <label for="id">Ngày sửa chữa : </label>
+                            <input type="text" class=" datepicker-here form-control" id="date-add" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <table id="addMaintain" class="centered striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>TT</th>
+                        <th>Mã thiết bị vật tư </th>
+                        <th>Tên thiết bị vật tư (Mã hiệu - quy cách)</th>
+                        <th>ĐVT</th>
+                        <th>SL</th>
+                        <th>Tình trạng kỹ thuật</th>
+                        <th>Loại</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="dem1">1</td>
+                        <td><input list="supplyID" type="text" class="form-control" placeholder="Mã thiết bị vật tư" id="supplyid_add1" onchange="searchMaThietBiVatTuAdd(this)" /></td>
+                        <td><input type="text" class="form-control" placeholder="Tên thiết bị vật tư" id="supplyname_add1" readonly /></td>
+                        <td><input type="text" class="form-control" placeholder="ĐVT" id="unit_add1" readonly /></td>
+                        <td><input type="number" class="form-control" placeholder="SL" id="quantity_add1" /></td>
+                        <td>
+                            <select class="form-control" id="supplyType_add1">
+                                <option value="1">Mới 100%</option>
+                                <option value="2">Cũ qua sử dụng</option>
+                                <option value="3">Cũ qua sửa chữa</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-control" id="supplyStatus_add1">
+                                <option value="1">Thay thế</option>
+                                <option value="2">Thu hồi</option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <a class="left"><button id="them1" type="submit" class="btn light-blue lighten-1"><i class="large material-icons">add</i></button></a>
+            <a class="left"><button id="remove" onclick="deleterow('addMaintain')" class="btn light-blue lighten-1"><i class="large material-icons">remove</i></button></a>
+            <button type="submit" class="btn blue darken-2 modal-close save-category" onclick="addMaintainCar()">Lưu</button>
+            <button type="button" id="exit" class="btn light-blue lighten-1 modal-close">Thoát</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myedit">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Sửa</h3>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="row">
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="date">Mã thiết bị : </label>
+                            <input type="text" class="form-control" id="equipmentedit" list="eqID" />
+                            <input type="hidden" class="form-control" id="maintainid" />
+                        </div>
+                        <div class="form-group">
+                            <label for="id">Phân xưởng : </label>
+                            <input type="text" class="form-control" id="departmentedit" list="departmentID"/>
+                        </div>
+                    </div>
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="id">Tên thiết bị : </label>
+                            <input type="text" class="form-control" id="equipmentname_edit" readonly/>
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier">Nội dung sửa chữa: </label>
+                            <input type="text" class="form-control" id="maintain_contend_edit" />
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier">Date: </label>
+                            <input type="text" class="datepicker-here form-control maxDate" id="date_edit" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+
+        <a href="#myaleart" class="btn blue darken-2 save-category modal-trigger">Lưu</a>
+        <button type="button" class="btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
+    </div>
+</div>
+
+
+<div class="modal fade" id="myeditsupply">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Sửa</h3>
+        </div>
+        <table id="supplyMaintain_edit" class="centered striped table-bordered">
+            <thead>
+                <tr>
+                    <th>TT</th>
+                    <th>Mã thiết bi vật tư</th>
+                    <th>Tên thiết bị vật tư (Mã hiệu - quy cách)</th>
+                    <th>ĐVT</th>
+                    <th>SL</th>
+                    <th>Tình trạng kỹ thuật</th>
+                    <th>Loại</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <a class="left"><button id="them" type="submit" class="btn light-blue lighten-1"><i class="large material-icons">add</i></button></a>
+        <a class="left"><button id="remove" onclick="deleterowedit('supplyMaintain_edit')" class="btn light-blue lighten-1"><i class="large material-icons">remove</i></button></a>
+        <a href="#myaleart1" class="btn blue darken-2  save-category modal-trigger">Lưu</a>
+        <button type="button" id="closeForm1" class="btn light-blue lighten-1 modal-close">Thoát</button>
+    </div>
+</div>
+
+<div id="myaleart" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Xác nhận muốn chỉnh sửa mục này</h3>
+        </div>
+        <div class="modal-body">
+            <p class="red-text">Dữ liệu không thể phục hồi sau thao tác này</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" id="submitedit" class="btn blue darken-2 modal-close">Lưu</button>
+            <button type="button" class="btn red modal-close" id="close">Hủy</button>
+        </div>
+    </div>
+</div>
+<div id="myaleart1" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Xác nhận muốn chỉnh sửa mục này</h3>
+        </div>
+        <div class="modal-body">
+            <p class="red-text">Dữ liệu không thể phục hồi sau thao tác này</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" id="submitedit1" class="btn blue darken-2 modal-close">Lưu</button>
+            <button type="button" class="btn red modal-close" id="close1">Hủy</button>
+        </div>
+    </div>
+</div>
+
+<datalist id="eqID">
+    @foreach (var item in ViewBag.listEQ)
+    {
+        <option value="@item.equipmentId">@item.equipment_name</option>
+    }
+</datalist>
+
+<datalist id="departmentID">
+    @foreach (var item in ViewBag.listDepartment)
+    {
+        <option value="@item.department_name"></option>
+    }
+</datalist>
+
+<datalist id="supplyID">
+    @foreach (var item in ViewBag.listSupply)
+    {
+        <option value="@item.supply_id">@item.supply_name</option>
+    }
+</datalist>
+
+<script src="~/js/Custom JS/CDVT/Car/car.js"></script>
+<script src="~/js/Custom JS/CDVT/Work/Mobilize_PlaceAndTime.js"></script>
+<script>
+    var dem;
+    var dem1;
+    $(document).ready(function () {
+
+        dem = 0;
+        dem1 = $("#dem1").text()
+        $("#them").click(function () {
+            dem++;
+            $("#supplyMaintain_edit").append("<tr><td>" + dem + "</td><td><input list='supplyID' type='text' class='form-control' id='supplyid_edit" + dem + "' placeholder='Mã thiết bị vật tư' onchange='searchMaThietBiVatTu(this)'/><input type='hidden' class='form-control' id='maintaindetailid_edit" + dem + "' placeholder='' /></td><td><input type='text' class='form-control' id='supplyname_edit" + dem + "' placeholder='Tên thiết bị vật tư' readonly/><input type='hidden' class='form-control' id='maintainid_edit' placeholder='Mã thiết bị vật tư' /></td><td><input type='text' class='form-control'id='unit_edit" + dem + "' placeholder='ĐVT' readonly /></td><td><input type='number' class='form-control' id='quantity_edit" + dem + "' placeholder='SL' /></td><td><select class='form-control'id='supplytype_edit" + dem + "'><option value='1'>Mới 100%</option><option value='2'>Cũ qua sử dụng</option><option value='3'>Cũ qua sửa chữa</option></select></td><td><select class='form-control'id='supplystatus_edit" + dem + "'><option value='1'>Thay thế</option><option value='2'>Thu hồi</option></select></td></tr>");
+        });
+        $("#them1").click(function () {
+            dem1++;
+            $("#addMaintain").append("<tr><td>" + dem1 + "</td><td><input  list='supplyID' type='text' class='form-control' id='supplyid_add" + dem1 + "' placeholder='Mã thiết bị vật tư' onchange='searchMaThietBiVatTuAdd(this)' /></td><td><input type='text' class='form-control' id='supplyname_add" + dem1 + "' placeholder='Tên thiết bị vật tư' readonly/></td><td><input type='text' class='form-control' id='unit_add" + dem1 + "' placeholder='ĐVT' readonly/></td><td><input type='number' class='form-control' id='quantity_add" + dem1 + "' placeholder='SL' /></td><td><select class='form-control' id='supplyType_add" + dem1 + "' ><option value='1'>Mới 100%</option><option value='2'>Cũ qua sử dụng</option><option value='3'>Cũ qua sửa chữa</option></select></td><td><select class='form-control' id='supplyStatus_add" + dem1 + "'><option value='1'>Thay thế</option><option value='2'>Thu hồi</option></select></td></tr>");
+        });
+
+        $("#exit").click(function () {
+            dem1 = 1;
+            $("#addMaintain").find("tr:gt(1)").remove();
+        });
+
+    });
+</script>
+
+@* calendar *@
+<script>
+    //function for date.
+    $('.maxDate').datepicker({
+        language: 'vi',
+        maxDate: new Date(),
+        minDate: new Date("1/1/1900")
+    })
+    $('.minDate').datepicker({
+        language: 'vi',
+        maxDate: new Date() // Now can select only dates, which goes after today
+    })
+    $(document).ready(function () {
+        $('.datepicker-inline').remove();
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        var today = dd + '/' + mm + '/' + yyyy;
+        //$(".minDate").each(function () {
+        //    $(this).val(today);
+        //});
+        today = new Date("1/1/1900");
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        var today = dd + '/' + mm + '/' + yyyy;
+        //$(".maxDate").val(today)
+    });
+</script>
+
+<script>
+    $('#myedit').keydown(function (e) {
+        if (e.keyCode === 13)
+            e.preventDefault();
+    });
+    $("#equipmentedit").keydown(function (e) {
+        if (e.keyCode === 13)
+            getEquipmentnameEdit();
+    });
+    $("#equipmentID-add").keydown(function (e) {
+        if (e.keyCode === 13)
+            getEquipmentnameAdd();
+    });
+    $("#equipmentID-add").change(function (e) {
+        
+            getEquipmentnameAdd();
+    });
+    $('#myadd').keydown(function (e) {
+        if (e.keyCode === 13)
+            e.preventDefault();
+    });
+    $('#myeditsupply').keydown(function (e) {
+        if (e.keyCode === 13)
+            e.preventDefault();
+    });
+   
+</script>
+
+<script>
+    $(document).on('keypress', function (e) {
+        if (e.which == 13) {
+            dataTable.destroy();
+            search();
+        }
+    });
+</script>
+
+<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+@section scripts{
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+
+        var Popup, dataTable;
+        $(document).ready(function () {
+            search();
+        });
+
+        function search(){
+            dataTable = $('#maintain').on('preXhr.dt', function (e, settings, data) {
+                $("#pre-load").show("slow", function () {
+                });
+                $("#pre-load").css("z-index", "99999");
+            }).DataTable({
+                "language": {
+                    "emptyTable": "Không tìm thấy dữ liệu",
+                    "paginate": {
+                        "first": "Đầu",
+                        "last": "Cuối",
+                        "next": "Sau",
+                        "previous": "Trước"
+                    }
+                },
+                "ajax": {
+                    "url": "/phong-cdvt/thiet-bi/sctx/search",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": {
+                        "equipmentId": function () { return $('#equipmentId-search').val() },
+                        "equipmentName": function () { return $('#equipmentName-search').val() },
+                        "position": function () { return $('#position-search').val() },
+                        "content": function () { return $('#content-search').val() },
+                        "timeFrom": function () { return $('#timeFrom-search').val() },
+                        "timeTo": function () { return $('#timeTo-search').val() }
+                    },
+                    "cache": "false"
+                },
+                "drawCallback": function (settings) {
+                    ///////////////////////ẨN SAU MỖI AJAX CALL///////////////////
+                    $("#pre-load").hide("slow", function () {
+                    });
+                    ////////////////////////////////////////////////
+                },
+                "columns": [
+
+                    { "data": "stringDate", "name": "stringDate" },
+                    { "data": "equipment_name", "name": "equipment_name" },
+                    {
+                        "data": "equipmentid", "name": "equipmentid", "render": function (data) {
+                            //return ("<form id='myform' action='thiet-bi' method='POST'><input name='id' value='" + data + "' type='hidden' /><a class='btn' onclick='abc()'>" + data + "</a></form>");
+                            return ("<form action=\"../thiet-bi\" method=\"post\"><input type=\"hidden\" name=\"id\" value=\"" + data + "\" class=\"form-control\"/><button class='btn' onclick='submit'>" + data + "</button></form>");
+                        }
+                    },
+                    { "data": "department_name", "name": "department_name" },
+                    { "data": "maintain_content", "name": "maintain_content" },
+                    {//Danh sách vật tư
+                        "data": "maintainid", "render": function (data) {
+                            return "<a href=\"#myeditsupply\" data-toggle=\"modal\" class=\"open-EditModal waves-effect waves-light btn blue darken-1 modal-trigger\" onclick=\"setMaintainID('" + data + "')\" data-maintainid=\"" + data + "\">Danh&nbsp;Sách&nbsp;Vật&nbsp;Tư</a>";
+                        },
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "150px"
+                    },
+                    {//Chỉnh sửa
+                        "data": "maintainid", "render": function (data) {
+                            return "<a href=\"#myedit\" data-toggle=\"modal\" class=\"open-EditMaintainModal waves-effect waves-light btn blue darken-1 modal-trigger\" onclick=\"setMaintainID('" + data + "')\" data-maintainid=\"" + data + "\">Chỉnh&nbsp;Sửa</a>";
+                        },
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "150px"
+                    }
+
+                ],
+                "serverSide": true,
+                "bLengthChange": false,
+                "bFilter": false,
+                "bInfo": false,
+                "bAutoWidth": false,
+                "order": [0, "asc"],
+                "initComplete": function (settings, json) {
+                    ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
+                    $("#pre-load").hide("slow", function () {
+                    });
+                    //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
+                }
+            });
+        }
+
+        function setMaintainID(maintainid) {
+            document.getElementById("maintainid").value = maintainid;
+        }
+
+        //get supply name and unit in edit maintaindeatail
+        function searchMaThietBiVatTu(txtMaThietBiVatTu) {
+            var tmp = {
+                supplyid: txtMaThietBiVatTu.value
+            };
+            if (event.key === 'Enter') {
+                $.ajax({
+                    type: "POST",
+                    url: "/phong-cdvt/thiet-bi/sctx/returnsupplymaintainName",
+                    data: JSON.stringify(tmp),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (r) {
+                        document.getElementById("supplyname_edit" + txtMaThietBiVatTu.id.slice(-1)).value = r.supply_name;
+                        document.getElementById("unit_edit" + txtMaThietBiVatTu.id.slice(-1)).value = r.unit;
+
+                    }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        $('#pre-load').hide();
+                        //alert("fail");
+
+                    }
+                });
+            }
+        }
+        //get supply name and unit in add maintaindeatail
+        function searchMaThietBiVatTuAdd(txtMaThietBiVatTuAdd) {
+            var tmp = {
+                supplyid: txtMaThietBiVatTuAdd.value
+            };
+                $.ajax({
+                    type: "POST",
+                    url: "/phong-cdvt/thiet-bi/sctx/returnsupplymaintainName",
+                    data: JSON.stringify(tmp),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (r) {
+                        document.getElementById("supplyname_add" + txtMaThietBiVatTuAdd.id.slice(-1)).value = r.supply_name;
+                        document.getElementById("unit_add" + txtMaThietBiVatTuAdd.id.slice(-1)).value = r.unit;
+
+                    }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        $('#pre-load').hide();
+                        //alert("co");
+                    }
+
+                });
+            
+        }
+
+        function addMaintainCar() {
+            //Loop through the Table rows and build a JSON array.
+            var maintain = new Array();
+            var i = 0;
+            
+
+            $("#addMaintain TBODY TR").each(function () {
+                i++;
+                var row = $(this);
+                var maintainCar = {};
+                maintainCar.supplyid = document.getElementById("supplyid_add" + i).value;
+                maintainCar.quantity = document.getElementById("quantity_add" + i).value;
+                maintainCar.supplyType = document.getElementById("supplyType_add" + i).value;
+                maintainCar.supplyStatus = document.getElementById("supplyStatus_add" + i).value;
+                maintain.push(maintainCar);
+            });
+            var data = {
+                maintain: maintain,
+                date: document.getElementById("date-add").value,
+                equipmentId: document.getElementById("equipmentID-add").value,
+                department_name: document.getElementById("departmentId-add").value,
+                maintain_content: document.getElementById("maintain_content-add").value
+
+            };
+
+
+            //Send the JSON array to Controller using AJAX.
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/thiet-bi/sctx/insertMaintainCar",
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                     successAlert('Thành công','Thao tác thành công');
+                     dataTable.ajax.reload();
+                        var i = 0;
+                    $("#addMaintain TBODY TR").each(function () {
+                i++;
+               
+                document.getElementById("supplyid_add"+i).value='';
+                    document.getElementById("quantity_add"+i).value='';
+                    document.getElementById("supplyType_add"+i).value='';
+                document.getElementById("supplyStatus_add" + i).value = '';
+                document.getElementById("supplyname_add" + i).value = '';
+                  document.getElementById("unit_add"+i).value='';
+
+            });
+                    
+                    document.getElementById("date-add").value='';
+                    document.getElementById("equipmentID-add").value='';
+                    document.getElementById("departmentId-add").value='';
+                    document.getElementById("maintain_content-add").value = '';
+                    document.getElementById("equipmentName").value = '';
+
+                    
+
+                }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //alert("fail");
+                    errorAlert('Lỗi','Có lỗi xảy ra , vui lòng nhập lại');
+                    $('#pre-load').hide();
+                }
+
+            });
+        }
+        //danh sach vat tu
+        $(document).on("click", ".open-EditModal", function () {
+            $("#supplyMaintain_edit").find("tr:gt(0)").remove();
+            var maintainid = $(this).data('maintainid');
+
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/thiet-bi/sctx/getMaintainCarDetail",
+                dataType: "json",
+                success: function (data) {
+                    var i = 0;
+
+                    $.each(data, function (i, item) {
+                        //Danh sách vật tư.
+                        i++;
+                        var $tr = $('<tr>').append(
+                            $('<td class="dem">').text(i),
+                            $('<td>').html('<input type="text" class="form-control" placeholder="Mã thiết bị vật tư" id="supplyid_edit' + i + '" value="' + item.supplyid + '"onkeydown="searchMaThietBiVatTu(this)" list="supplyID"/><input type="hidden" class="form-control" placeholder="" id="maintaindetailid_edit' + i + '" value="' + item.maintaindetailid + '"/>'),
+
+                            $('<td>').html('<input type="text" class="form-control" placeholder="Tên thiết bị vật tư" id="supplyname_edit' + i + '" value="' + item.supply_name + '" readonly/>'),
+                            $('<td>').html('<input type="text" class="form-control" placeholder="Đơn vị" id="unit_edit' + i + '" value="' + item.unit + '" readonly/>'),
+                            $('<td>').html('<input type="text" class="form-control" placeholder="SL" id="quantity_edit' + i + '" value="' + item.quantity + '"/>'),
+                        );
+                        if (item.supplyType == 1)
+                            $tr.append($('<td>').html('<select class="form-control" id="supplytype_edit' + i + '"><option selected value="1">Mới 100%</option><option  value="2">Cũ qua sử dụng</option><option value="3">Cũ qua sửa chữa</option></select>'))
+                        else if (item.supplyType == 2)
+                            $tr.append($('<td>').html('<select class="form-control" id="supplytype_edit' + i + '"><option value="1">Mới 100%</option><option selected value="2">Cũ qua sử dụng</option><option value="3">Cũ qua sửa chữa</option></select>'))
+                        else if (item.supplyType == 3)
+                            $tr.append($('<td>').html('<select class="form-control" id="supplytype_edit' + i + '"><option value="1">Mới 100%</option><option selected value="2">Cũ qua sử dụng</option><option selected value="3">Cũ qua sửa chữa</option></select>'))
+                        if (item.supplyStatus == 1)
+                            $tr.append($('<td>').html('<select class="form-control"id="supplystatus_edit' + i + '"><option value="1" selected>Thay thế</option><option value="2">Thu hồi</option></select>'))
+                        if (item.supplyStatus == 2)
+                            $tr.append($('<td>').html('<select class="form-control"id="supplystatus_edit' + i + '"><option value="1" >Thay thế</option><option value="2" selected>Thu hồi</option></select>'))
+                        $tr.appendTo('#supplyMaintain_edit TBODY ');
+                    }
+
+                    );
+
+                    dem = document.getElementsByClassName("dem")[document.getElementsByClassName("dem").length - 1].innerText;
+                    dem1 = $("#dem1").text();
+
+
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    errorAlert('Lỗi','Có lỗi xảy ra');
+                },
+                data: {
+                    maintainid: Number(maintainid)
+                },
+                cache: false
+            })
+        });
+
+        //Chỉnh sửa
+        $(document).on("click", ".open-EditMaintainModal", function () {
+            var maintainid = $(this).data('maintainid');
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/thiet-bi/sctx/getMaintainCar",
+                dataType: "json",
+                success: function (data) {
+                    $("#equipmentedit").val(data.equipmentid);
+                    $('#departmentedit').val(data.department_name);
+                    $('#equipmentname_edit').val(data.equipment_name);
+                    $('#maintain_contend_edit').val(data.maintain_content);
+                    $('#date_edit').val(data.stringDate);
+                    $('#maintainid').val(data.maintainid);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    errorAlert('Lỗi','Có lỗi xảy ra');
+                },
+                data: {
+                    maintainid: Number(maintainid)
+                },
+                cache: false
+            })
+        });
+        $("#submitedit").click(function (e) {
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/thiet-bi/sctx/edit",
+                dataType: "text",
+                success: function () {
+                    dataTable.ajax.reload();
+                    successAlert('Thành công','Chỉnh sửa thành công');
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#pre-load').hide();
+                    errorAlert('Lỗi', 'Có lỗi xảy ra , vui lòng nhập lại');
+                    $('#close').click();
+                },
+                data: {
+                    date: $('#date_edit').val(),
+                    equipmentId: $('#equipmentedit').val(),
+                    department_name: $('#departmentedit').val(),
+                    maintain_content: $('#maintain_contend_edit').val(),
+                    maintainid: Number($('#maintainid').val())
+                },
+                cache: false
+            }).done(function () {
+                $('#closeForm').click();
+                $('#close').click();
+
+            })
+            return false;
+
+        });
+        $("#submitedit1").click(function (e) {
+            var supplyDetail = new Array();
+            var i = 0;
+            $("#supplyMaintain_edit TBODY TR").each(function () {
+                i++;
+                var row = $(this);
+                var maintainCar = {};
+                maintainCar.supplyid = document.getElementById("supplyid_edit" + i).value;
+                maintainCar.quantity = document.getElementById("quantity_edit" + i).value;
+                var x = document.getElementById("supplytype_edit" + i);
+                maintainCar.supplyType = x.options[x.selectedIndex].value;
+                var y = document.getElementById("supplystatus_edit" + i);
+                maintainCar.supplyStatus = y.options[y.selectedIndex].value;
+                maintainCar.maintaindetailid = document.getElementById("maintaindetailid_edit" + i).value;
+                maintainCar.maintainid = document.getElementById("maintainid").value;
+                supplyDetail.push(maintainCar);
+            });
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/thiet-bi/sctx/editMaintainDetail",
+                data: JSON.stringify(supplyDetail),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (){
+                    dataTable.ajax.reload();
+                    successAlert('Thành công','Chỉnh sửa thành công');
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#pre-load').hide();
+                    errorAlert('Lỗi', 'Có lỗi xảy ra , vui lòng nhập lại');
+                    $('#close1').click();
+                },
+                cache: false
+            }).done(function () {
+
+                $('#closeForm1').click();
+                $('#close1').click();
+
+            })
+            return false;
+
+        });
+
+        //ajax CRUD
+        $(document).ready(function () {
+            //ajax search
+            $("#searchButton").click(function () {
+                dataTable.ajax.reload(function () {
+                    //$.notify("Tìm kiếm thành công", {
+                    //    globalPosition: "top center",
+                    //    className: "success"
+                    //})
+                });
+            });
+        });
+
+        //get supply name and unit in add fuel
+        //error : id : supply_id1
+        //function getsupplyname() {
+        //    var id = document.getElementById("supplyid_edit").value;
+        //    var tmp = {
+        //        fuel_type: id
+        //    };
+        //    $.ajax({
+        //        url: "/returnsupplyName",
+        //        type: "POST",
+        //        data: JSON.stringify(tmp),
+        //        contentType: "application/json;charset=utf-8",
+        //        dataType: "json",
+        //        success: function (data) {
+        //            document.getElementById("supplyname_edit").value = data.split("^")[0];
+        //            document.getElementById("unit-edit").value = data.split("^")[1];
+        //        },
+        //        error: function () {
+        //            //alert("fail");
+        //        }
+        //    });
+        //}
+
+        //get equipment name to edit
+        //error :
+        function getEquipmentnameEdit() {
+            var id = document.getElementById("equipmentedit").value;
+            var em = { id: id };
+            $.ajax({
+                url: "/phong-cdvt/thiet-bi/sctx/returnEquipmentName",
+                type: "POST",
+                data: JSON.stringify(em),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    document.getElementById("equipmentname_edit").value = data;
+                },
+                error: function () {
+                    //alert("fail");
+                }
+            });
+        }
+
+        //get equipment name to add
+        //error :
+        function getEquipmentnameAdd() {
+            var id = document.getElementById("equipmentID-add").value;
+            var em = { id: id };
+            $.ajax({
+                url: "/phong-cdvt/thiet-bi/sctx/returnEquipmentName",
+                type: "POST",
+                data: JSON.stringify(em),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    document.getElementById("equipmentName").value = data;
+                },
+                error: function () {
+                    //alert("fail");
+                    
+                }
+            });
+        }
+          function deleterow(tableID) {
+    var table = document.getElementById(tableID);
+            table.deleteRow(-1);
+            dem1--;
+        }
+          function deleterowedit(tableID) {
+    var table = document.getElementById(tableID);
+            table.deleteRow(-1);
+            dem--;
+}
+    </script>
+}

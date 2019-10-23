@@ -214,7 +214,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                 QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
                 string query = "select m.[date],  e.equipment_name, m.equipmentid,d.department_name,m.maintain_content,m.maintainid"
                     + " from Maintain_Car m inner join Equipment e on m.equipmentid = e.equipmentId "
-                    + " inner join Department d on d.department_id = m.departmentid  "
+                    + " inner join Department d on d.department_id = m.departmentid  " +
+                    " inner join  (select distinct e.equipmentId, e.equipment_name from Equipment e inner join Equipment_category_attribute ea " +
+                    "  on ea.Equipment_category_id = e.Equipment_category_id where " +
+                    " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') as t on m.equipmentId = t.equipmentId "
                     + " where m.equipmentId LIKE @equipmentId"
                     + " AND e.equipment_name LIKE @equipment_name AND m.[date] between @timeFrom AND @timeTo "
                     + " AND d.department_name LIKE @position AND m.maintain_content LIKE @content "

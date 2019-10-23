@@ -19,6 +19,10 @@ namespace QUANGHANHCORE.Controllers.CDVT
             public string Equipment_category_name { get; set; }
             public string department_name { get; set; }
         }
+        public class Supply_DK : Equipment_Category_Supply
+        {
+            public string supply_name { get; set; }
+        }
         [HttpGet]
         [Route("phong-cdvt/thiet-bi")]
         public ActionResult Index()
@@ -56,8 +60,12 @@ namespace QUANGHANHCORE.Controllers.CDVT
                 listbyyear.Add(tempyear);
             }
             ViewBag.incidents = listbyyear;
+            //DD thiet bi
             var equipment = DBContext.Database.SqlQuery<EquipWithName>("SELECT e.*,d.department_name,s.statusname FROM Equipment e,Status s,Department d WHERE d.department_id = e.department_id and e.current_Status = s.statusid and e.equipmentId = '" + id + "'").First();
             ViewBag.equipment = equipment;
+            //Vat tu di kem
+            var sup = DBContext.Database.SqlQuery<Supply_DK>("select e.*,s.supply_name from Equipment_Category_Supply e join Supply s on e.supply_id = s.supply_id where e.Equipment_category_id = '" + equipment.Equipment_category_id + "'").ToList();
+            ViewBag.sup = sup;
             //NK kiem dinh
             years = DBContext.Database.SqlQuery<int>("SELECT distinct year(ei.inspect_start_date) as years FROM Equipment_Inspection ei inner join Equipment e on e.equipmentId = ei.equipmentId where ei.inspect_start_date is not null and e.equipmentId = @equipmentId order by years desc",
                 new SqlParameter("equipmentId", id)).ToList();
