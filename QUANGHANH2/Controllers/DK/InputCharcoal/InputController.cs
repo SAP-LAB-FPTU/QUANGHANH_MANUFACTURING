@@ -97,6 +97,12 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                     "on a.MaTieuChi = b.MaTieuChi " +
                                     "order by a.MaTieuChi ASC";
                         listSX = db.Database.SqlQuery<SanXuat>(sql).ToList();
+                        foreach(var item in listSX)
+                        {
+                            item.chenhlech = (Convert.ToInt32(item.SanLuong) - Convert.ToInt32(item.KeHoach)).ToString();
+                            item.percentDay = (Convert.ToInt32(item.SanLuong) / Convert.ToInt32(item.KeHoach) * 100).ToString();
+                            item.percentAll = (Convert.ToInt32(item.LuyKe) / Convert.ToInt32(item.KHDC) * 100).ToString();
+                        }
                         flag = true;
                     }
                     else
@@ -121,6 +127,12 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                 "on b.MaTieuChi = c.MaTieuChi " +
                                 "order by a.MaTieuChi";
                         listSX = db.Database.SqlQuery<SanXuat>(query).ToList();
+                        foreach (var item in listSX)
+                        {
+                            item.chenhlech = (Convert.ToInt32(item.SanLuong) - Convert.ToInt32(item.KeHoach)).ToString();
+                            item.percentDay = (Convert.ToInt32(item.SanLuong) / Convert.ToInt32(item.KeHoach) * 100).ToString();
+                            item.percentAll = (Convert.ToInt32(item.LuyKe) / Convert.ToInt32(item.KHDC) * 100).ToString();
+                        }
                         flag = false;
                     }
                     if (checkList2.Count <= 0)
