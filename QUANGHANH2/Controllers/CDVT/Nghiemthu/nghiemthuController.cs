@@ -15,7 +15,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
 {
     public class nghiemthuController : Controller
     {
-        [Auther(RightID = "25,179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "25")]
         [Route("phong-cdvt/nghiem-thu")]
         public ActionResult Index()
         {
@@ -152,7 +152,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
         }
 
 
-        [Auther(RightID = "82,179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "82")]
         [HttpPost]
         [Route("phong-cdvt/nghiem-thu/Edit")]
         public ActionResult Edit(string id, string documentary_code, string documentary_id)
