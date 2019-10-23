@@ -177,8 +177,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 selected = selected.Substring(1, selected.Length - 2);
                 selected = selected.Replace("\"", "\'");
                 //MessageBox.Show(selected);
-            }
-
+            } 
 
             List<NhanVienModel> listNhanVien = new List<NhanVienModel>();
             List<Department> listPhongBan = new List<Department>();
@@ -188,25 +187,20 @@ namespace QUANGHANHCORE.Controllers.TCLD
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
-                //listNhanVien = db.Database.ToList<NhanVienModel>();
-                //totalrows = listNhanVien.Count;
-                //totalrowsafterfiltering = listNhanVien.Count;
-
-                string sql = "SELECT  A.*,B.department_name,C.TenCongViec" +
+                string sql = "SELECT  A.*,B.department_name,C.TenCongViec,C.PhuCap,C.ThangLuong" +
                 " FROM" +
                 "(" +
                 "(SELECT * FROM NhanVien where MaNV in (" + selected + ")) A" +
                 " left OUTER JOIN" +
                 " (SELECT department_id, department_name FROM Department) B on A.MaPhongBan = B.department_id" +
                 " left OUTER JOIN" +
-                " (SELECT MaCongViec, TenCongViec FROM CongViec) C on A.MaCongViec = C.MaCongViec" +
+                " (SELECT MaCongViec, TenCongViec,PhuCap,ThangLuong FROM CongViec) C on A.MaCongViec = C.MaCongViec" +
                 " )";
                 listNhanVien = db.Database.SqlQuery<NhanVienModel>(sql).ToList<NhanVienModel>();
             }
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
-
                 string sql1 = "select * from Department";
                 listPhongBan = db.Departments.SqlQuery(sql1).ToList<Department>();
 
@@ -214,9 +208,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
-
                 string sql1 = "select * from CongViec";
                 listCongViec = db.CongViecs.SqlQuery(sql1).ToList<CongViec>();
+            }
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities()) 
+            {
 
             }
 
@@ -577,6 +573,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
             public string department_name { get; set; }
             public string TenCongViec { get; set; }
             public string TenTrangThai { get; set; }
+            public string PhuCap { get; set; }
+            public string ThangLuong { get; set; }
         }
 
         public class DieuDongModel

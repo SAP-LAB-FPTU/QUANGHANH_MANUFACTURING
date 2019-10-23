@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -85,24 +86,21 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                     "(select pb.MaTieuChi, tc.TenTieuChi, tc.DonViDo from PhongBan_TieuChi pb left " +
                                     "join TieuChi tc " +
                                     "on pb.MaTieuChi = tc.MaTieuChi " +
-                                    "where pb.MaPhongBan = '" + px_value + "' ) as a " +
+                                    "where pb.MaPhongBan = @px ) as a " +
                                     "left join( " +
                                     "select a.MaPhongBan, a.MaTieuChi, sum(a.SanLuong) as 'luyke' " +
                                     "from(select t.SanLuong, t.MaTieuChi, h.MaPhongBan " +
                                     "from header_ThucHienTheoNgay h left " +
                                     "join ThucHien_TieuChi_TheoNgay t " +
                                     "on h.HeaderID = t.HeaderID " +
-                                    "where h.MaPhongBan = '" + px_value + "' and h.Ngay between '" + year + "-" + month + "-1' and '" + date_sql + "' and h.Ca <= " + ca + ") as a " +
+                                    "where h.MaPhongBan = @px and h.Ngay between @start and @date and h.Ca <= @ca) as a " +
                                     "group by a.MaPhongBan,a.MaTieuChi) as b " +
                                     "on a.MaTieuChi = b.MaTieuChi " +
                                     "order by a.MaTieuChi ASC";
-                        listSX = db.Database.SqlQuery<SanXuat>(sql).ToList();
-                        foreach(var item in listSX)
-                        {
-                            item.chenhlech = (Convert.ToInt32(item.SanLuong) - Convert.ToInt32(item.KeHoach)).ToString();
-                            item.percentDay = (Convert.ToInt32(item.SanLuong) / Convert.ToInt32(item.KeHoach) * 100).ToString();
-                            //item.percentAll = (Convert.ToInt32(item.LuyKe) / Convert.ToInt32(item.KHDC) * 100).ToString();
-                        }
+                        listSX = db.Database.SqlQuery<SanXuat>(sql, new SqlParameter("px", px_value),
+                                                                    new SqlParameter("start", year + "-" + month + "-1"),
+                                                                    new SqlParameter("date", date_sql),
+                                                                    new SqlParameter("ca", ca)).ToList();
                         flag = true;
                     }
                     else
@@ -112,27 +110,24 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                 "inner " +
                                 "join ThucHien_TieuChi_TheoNgay thDay " +
                                 "on headTH.HeaderID = thDay.HeaderID " +
-                                "where headTH.MaPhongBan = '" + px_value + "' and headTH.Ngay = '" + date_sql + "' and headTH.Ca = " + ca + ") as a " +
+                                "where headTH.MaPhongBan = @px and headTH.Ngay = @date and headTH.Ca = @ca) as a " +
                                 "inner join( " +
                                 "select a.MaPhongBan, a.MaTieuChi, sum(a.SanLuong) as 'luyke' " +
                                 "from(select t.SanLuong, t.MaTieuChi, h.MaPhongBan " +
                                 "from header_ThucHienTheoNgay h left " +
                                 "join ThucHien_TieuChi_TheoNgay t " +
                                 "on h.HeaderID = t.HeaderID " +
-                                "where h.MaPhongBan = '" + px_value + "' and h.Ngay between '" + year + "-" + month + "-1' and '" + date_sql + "' and h.Ca <= " + ca + ") as a " +
+                                "where h.MaPhongBan = @px and h.Ngay between @start and @date and h.Ca <= @ca) as a " +
                                 "group by a.MaPhongBan,a.MaTieuChi) as b " +
                                 "on a.MaTieuChi = b.MaTieuChi " +
                                 "inner join (select tc.MaTieuChi, pb.MaPhongBan, tc.TenTieuChi, tc.DonViDo from PhongBan_TieuChi pb left join TieuChi tc on pb.MaTieuChi = tc.MaTieuChi " +
-                                "where pb.MaPhongBan = '" + px_value + "') as c " +
+                                "where pb.MaPhongBan = @px) as c " +
                                 "on b.MaTieuChi = c.MaTieuChi " +
                                 "order by a.MaTieuChi";
-                        listSX = db.Database.SqlQuery<SanXuat>(query).ToList();
-                        foreach (var item in listSX)
-                        {
-                            item.chenhlech = (Convert.ToInt32(item.SanLuong) - Convert.ToInt32(item.KeHoach)).ToString();
-                            item.percentDay = (Convert.ToInt32(item.SanLuong) / Convert.ToInt32(item.KeHoach) * 100).ToString();
-                            //item.percentAll = (Convert.ToInt32(item.LuyKe) / Convert.ToInt32(item.KHDC) * 100).ToString();
-                        }
+                        listSX = db.Database.SqlQuery<SanXuat>(query, new SqlParameter("px", px_value),
+                                                                      new SqlParameter("start", year + "-" + month + "-1"),
+                                                                      new SqlParameter("date", date_sql),
+                                                                      new SqlParameter("ca", ca)).ToList();
                         flag = false;
                     }
                     if (checkList2.Count <= 0)
@@ -141,12 +136,13 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                             "select tc.TenTieuChi, tc.DonViDo, tc.MaTieuChi, pb.MaPhongBan " +
                             "from PhongBan_TieuChi pb left join TieuChi tc " +
                             "on pb.MaTieuChi = tc.MaTieuChi " +
-                            "where pb.MaPhongBan = '" + px_value + "') as a " +
+                            "where pb.MaPhongBan = @px) as a " +
                             "left join(select * from header_KeHoach_TieuChi_TheoNgay khDay " +
-                            "where khDay.NgayNhapKH = '" + date_sql + "') as b " +
+                            "where khDay.NgayNhapKH = @date) as b " +
                             "on b.MaPhongBan = a.MaPhongBan " +
                             "order by a.MaTieuChi";
-                        listKH = db.Database.SqlQuery<SanXuat>(sql).ToList();
+                        listKH = db.Database.SqlQuery<SanXuat>(sql, new SqlParameter("px", px_value),
+                                                                    new SqlParameter("date", date_sql)).ToList();
                     }
                     else
                     {
@@ -156,16 +152,18 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                 "left " +
                                 "join KeHoach_TieuChi_TheoNgay khDay " +
                                 "on headKH.HeaderID = khDay.HeaderID " +
-                                "where headKH.MaPhongBan = '" + px_value + "'  and headKH.Ca = " + ca + " and headKH.NgayNhapKH = '" + date_sql + "' " +
+                                "where headKH.MaPhongBan = @px  and headKH.Ca = @ca and headKH.NgayNhapKH = @date " +
                                 "group by headKH.HeaderID, headKH.MaPhongBan, Headkh.Ca, headKH.NgayNhapKH, khDay.MaTieuChi) as a " +
                                 "inner join KeHoach_TieuChi_TheoNgay khDay2 " +
                                 "on a.HeaderID = khDay2.HeaderID and a.MaxDate = khday2.ThoiGianNhapCuoiCung " +
                                 "inner join(select tc.TenTieuChi, tc.DonViDo, tc.MaTieuChi from PhongBan_TieuChi pb inner join TieuChi tc " +
                                 "on pb.MaTieuChi = tc.MaTieuChi " +
-                                "where pb.MaPhongBan = '" + px_value + "') as c " +
+                                "where pb.MaPhongBan = @px) as c " +
                                 "on c.MaTieuChi = a.MaTieuChi " +
                                 "order by a.MaTieuChi";
-                        listKH = db.Database.SqlQuery<SanXuat>(sql).ToList();
+                        listKH = db.Database.SqlQuery<SanXuat>(sql, new SqlParameter("px", px_value),
+                                                                      new SqlParameter("date", date_sql),
+                                                                      new SqlParameter("ca", ca)).ToList();
                     }
                     if (checkList3.Count <= 0)
                     {
@@ -173,7 +171,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                         "case when khdc.SoNgayLamViec is null then 0 else khdc.SoNgayLamViec end 'SoNgayLamViec'  from " +
                                         "(select pb.MaTieuChi, pb.MaPhongBan, tc.DonViDo, tc.TenTieuChi from PhongBan_TieuChi pb left " +
                                         "join TieuChi tc on pb.MaTieuChi = tc.MaTieuChi " +
-                                        "where pb.MaPhongBan = '" + px_value + "') as pbtc " +
+                                        "where pb.MaPhongBan = @px) as pbtc " +
                                         "left join(select a.MaTieuChi, a.ThangKeHoach, a.NamKeHoach, b.SanLuong as 'KHDC',a.SoNgayLamViec from( " +
                                         "select headKH.MaPhongBan, headKH.ThangKeHoach, headKH.NamKeHoach, " +
                                         "headKH.SoNgayLamViec, khMonth.MaTieuChi, MAX(khMonth.ThoiGianNhapCuoiCung) as 'MaxDate' " +
@@ -181,21 +179,22 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                         "left " +
                                         "join KeHoach_TieuChi_TheoThang khMonth " +
                                         "on headKH.HeaderID = khMonth.HeaderID " +
-                                        "where headKH.MaPhongBan = '" + px_value + "' " +
-                                        "and headKH.ThangKeHoach = " + month + " " +
+                                        "where headKH.MaPhongBan = @px " +
+                                        "and headKH.ThangKeHoach = @month " +
                                         "group by headKH.MaPhongBan, headKH.ThangKeHoach, headKH.NamKeHoach,  " +
                                         "headKH.SoNgayLamViec, khMonth.MaTieuChi) as a " +
                                         "left join(select * from KeHoach_TieuChi_TheoThang khMonth " +
                                         ") as b on a.MaTieuChi = b.MaTieuChi and a.MaxDate = b.ThoiGianNhapCuoiCung) as khdc " +
                                         "on pbtc.MaTieuChi = khdc.MaTieuChi";
-                        listKHDC = db.Database.SqlQuery<SanXuat>(sql).ToList();
+                        listKHDC = db.Database.SqlQuery<SanXuat>(sql, new SqlParameter("px", px_value),
+                                                                      new SqlParameter("month", month)).ToList();
                     }
                     else
                     {
                         string sql = "select pbtc.MaTieuChi, pbtc.DonViDo, pbtc.TenTieuChi, khdc.KHDC, khdc.SoNgayLamViec from " +
                                         "(select pb.MaTieuChi, pb.MaPhongBan, tc.DonViDo, tc.TenTieuChi from PhongBan_TieuChi pb left " +
                                         "join TieuChi tc on pb.MaTieuChi = tc.MaTieuChi " +
-                                        "where pb.MaPhongBan = '" + px_value + "') as pbtc " +
+                                        "where pb.MaPhongBan = @px) as pbtc " +
                                         "left join(select a.MaTieuChi, a.ThangKeHoach, a.NamKeHoach, b.SanLuong as 'KHDC',a.SoNgayLamViec from( " +
                                         "select headKH.MaPhongBan, headKH.ThangKeHoach, headKH.NamKeHoach, " +
                                         "headKH.SoNgayLamViec, khMonth.MaTieuChi, MAX(khMonth.ThoiGianNhapCuoiCung) as 'MaxDate' " +
@@ -203,14 +202,15 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                         "left " +
                                         "join KeHoach_TieuChi_TheoThang khMonth " +
                                         "on headKH.HeaderID = khMonth.HeaderID " +
-                                        "where headKH.MaPhongBan = '" + px_value + "' " +
-                                        "and headKH.ThangKeHoach = " + month + " " +
+                                        "where headKH.MaPhongBan = @px " +
+                                        "and headKH.ThangKeHoach = @month " +
                                         "group by headKH.MaPhongBan, headKH.ThangKeHoach, headKH.NamKeHoach,  " +
                                         "headKH.SoNgayLamViec, khMonth.MaTieuChi) as a " +
                                         "left join(select * from KeHoach_TieuChi_TheoThang khMonth " +
                                         ") as b on a.MaTieuChi = b.MaTieuChi and a.MaxDate = b.ThoiGianNhapCuoiCung) as khdc " +
                                         "on pbtc.MaTieuChi = khdc.MaTieuChi";
-                        listKHDC = db.Database.SqlQuery<SanXuat>(sql).ToList();
+                        listKHDC = db.Database.SqlQuery<SanXuat>(sql, new SqlParameter("px", px_value),
+                                                                      new SqlParameter("month", month)).ToList();
                     }
 
                     for (int i = 0; i < listSX.Count; i++)
