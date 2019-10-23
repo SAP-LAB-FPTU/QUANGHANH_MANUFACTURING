@@ -21,8 +21,9 @@ namespace QUANGHANH2.Controllers.DK
         // GET: SanLuongReport
         [HttpGet]
         [Route("phong-dieu-khien/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty")]
-        public ActionResult Index()
+        public ActionResult Index(string ngay)
         {
+            ViewBag.date = ngay;
             return View("/Views/DK/SanLuongReport.cshtml");
         }
 
@@ -103,9 +104,13 @@ namespace QUANGHANH2.Controllers.DK
 
             String[] headers = {"Than Sản Xuất","Than Hầm Lò","Than Lộ Thiên","Đất Đá Bóc", "Nhập Dương Huy", "Tổng Mét Lò CBSX", "Mét Lò CBSX Tự Làm",
                 "Mét Lò CBSX Thuê Ngoài", "Mét Lò Xén", "Than Sàng Tuyển", "Than Tiêu Thụ", "Doanh Thu", "Đá Xít Sau Sàng Tuyển"};
+            //
+            //
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-
+                int tongsongay = (int) db.header_KeHoachTungThang.First(x=> x.ThangKeHoach == timeEnd.Month && x.NamKeHoach == timeEnd.Year).SoNgayLamViec;
+                int ngaylam = (int)db.header_ThucHienTheoNgay.First(x => x.Ngay == timeEnd).NgaySanXuat;
+                //
                 var listReport = db.Database.SqlQuery<reportEntity>(query, new SqlParameter("dateStart", timeStart), new SqlParameter("dateEnd", timeEnd)).ToList();
                 var list_KHDC = db.Database.SqlQuery<KHDCEntity>(query_KHDC, new SqlParameter("month", timeEnd.Month), new SqlParameter("year", timeEnd.Year)).ToList();
                 var list_KHDaily = db.Database.SqlQuery<KHDCEntity>(query_KHDaily, new SqlParameter("date", timeEnd)).ToList();
@@ -113,17 +118,17 @@ namespace QUANGHANH2.Controllers.DK
                 for (var index = 0; index < listReport.Count; index++)
                 {
                     listReport[index].KHDC = list_KHDC[index].SanLuong;
-                    listReport[index].BQQHDC = Math.Round(listReport[index].KHDC / 20, 2, MidpointRounding.ToEven);
+                    listReport[index].BQQHDC = Math.Round(listReport[index].KHDC / (tongsongay - ngaylam), 2, MidpointRounding.ToEven);
                     listReport[index].KH = list_KHDaily[index].SanLuong;
                 }
                 //
-                foreach (var item in listReport)
+                foreach (var item in listReport) 
                 {
                     item.chenhlech = item.TH - item.KH;
                     item.percentage = item.KH == 0 ? 100 : Math.Round(item.TH / item.KH, 2, MidpointRounding.ToEven);
                     item.percentageDC = item.KHDC == 0 ? 100 : Math.Round(item.luyke / item.KHDC, 2, MidpointRounding.ToEven);
                     item.SUM = item.KHDC - item.luyke;
-                    item.perday = Math.Round(item.SUM / 20, 2, MidpointRounding.ToEven);
+                    item.perday = Math.Round(item.SUM / (tongsongay - ngaylam), 2, MidpointRounding.ToEven);
                 }
                 //
                 List<reportEntity> reports = new List<reportEntity>();
