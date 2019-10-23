@@ -100,7 +100,7 @@ namespace QUANGHANH2.Controllers.DK
                 "order by MaTieuChi";
 
             String[] headers = {"Than Sản Xuất","Than Hầm Lò","Than Lộ Thiên","Đất Đá Bóc", "Nhập Dương Huy", "Tổng Mét Lò CBSX", "Mét Lò CBSX Tự Làm",
-                "Mét Lò CBSX Thuê Ngoài", "Mét Lò Xén", "Than Sàng Tuyển", "Than Tiêu Thụ", "Doanh Thu", "Đá Xít Xuất Kho"};
+                "Mét Lò CBSX Thuê Ngoài", "Mét Lò Xén", "Than Sàng Tuyển", "Than Tiêu Thụ", "Doanh Thu", "Đá Xít Sau Sàng Tuyển"};
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
 
@@ -121,7 +121,7 @@ namespace QUANGHANH2.Controllers.DK
                     item.percentage = item.KH == 0 ? 100 : Math.Round(item.TH / item.KH, 2, MidpointRounding.ToEven);
                     item.percentageDC = item.KHDC == 0 ? 100 : Math.Round(item.luyke / item.KHDC, 2, MidpointRounding.ToEven);
                     item.SUM = item.KHDC - item.luyke;
-                    item.perday = Math.Round(item.SUM / 20, 2);
+                    item.perday = Math.Round(item.SUM / 20, 2, MidpointRounding.ToEven);
                 }
                 //
                 List<reportEntity> reports = new List<reportEntity>();
@@ -153,7 +153,10 @@ namespace QUANGHANH2.Controllers.DK
                                         rp2 = item;
                                         //
                                         previousTieuChi = item.MaTieuChi;
-                                        reports.Add(rp2);
+                                        if (rp2.TenTieuChi.ToUpper() != header.ToUpper())
+                                        {
+                                            reports.Add(rp2);
+                                        }
                                     }
                                     else
                                     {
@@ -185,7 +188,10 @@ namespace QUANGHANH2.Controllers.DK
                                             rp2 = item;
                                             //
                                             previousTieuChi = item.MaTieuChi;
-                                            reports.Add(rp2);
+                                            if (rp2.TenTieuChi.ToUpper() != header.ToUpper())
+                                            {
+                                                reports.Add(rp2);
+                                            }
                                         }
                                         else
                                         {
@@ -210,7 +216,10 @@ namespace QUANGHANH2.Controllers.DK
                                         rp2 = item;
                                         //
                                         previousTieuChi = item.MaTieuChi;
-                                        reports.Add(rp2);
+                                        if (rp2.TenTieuChi.ToUpper() != header.ToUpper())
+                                        {
+                                            reports.Add(rp2);
+                                        }
                                     }
                                     else
                                     {
