@@ -197,25 +197,13 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 " (SELECT MaCongViec, TenCongViec,PhuCap,ThangLuong FROM CongViec) C on A.MaCongViec = C.MaCongViec" +
                 " )";
                 listNhanVien = db.Database.SqlQuery<NhanVienModel>(sql).ToList<NhanVienModel>();
-            }
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-            {
-                db.Configuration.LazyLoadingEnabled = false;
-                string sql1 = "select * from Department";
-                listPhongBan = db.Departments.SqlQuery(sql1).ToList<Department>();
 
-            }
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-            {
-                db.Configuration.LazyLoadingEnabled = false;
-                string sql1 = "select * from CongViec";
-                listCongViec = db.CongViecs.SqlQuery(sql1).ToList<CongViec>();
-            }
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities()) 
-            {
+                sql = "select * from Department";
+                listPhongBan = db.Departments.SqlQuery(sql).ToList<Department>();
 
+                sql = "select * from CongViec";
+                listCongViec = db.CongViecs.SqlQuery(sql).ToList<CongViec>();
             }
-
             return Json(new { success = true, cviecs = listCongViec, phongbans = listPhongBan, data = listNhanVien, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
