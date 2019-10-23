@@ -134,6 +134,25 @@
                                     
                                 </table>
 
+                                <div class="col s12 center" style="margin-top:45px">
+                                    <h3>Vật tư đi kèm</h3>
+                                    <table class="striped table-bordered" style="margin-top:10px !important">
+                                        <tr>
+                                            <td>Tên vật tư</td>
+                                            <td>Số lượng</td>
+                                        </tr>
+                                        @{ 
+                                            foreach(var item in ViewBag.sup)
+                                            {
+                                                <tr>
+                                                    <td>@item.supply_name</td>
+                                                    <td></td>
+                                                </tr>
+                                            }
+                                        }
+                                    </table>
+                                </div>
+
                             </div>
                         </div>
 

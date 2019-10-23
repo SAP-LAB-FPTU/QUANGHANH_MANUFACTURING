@@ -11,31 +11,31 @@ using System.Linq.Dynamic;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace QUANGHANHCORE.Controllers.CDVT.Oto
+namespace QUANGHANH2.Controllers.CDVT.Thietbi
 {
-    public class SuachuahangngayController : Controller
+    public class SCTXController : Controller
     {
-        [Auther(RightID = "16")]
-        [Route("phong-cdvt/oto/bao-duong-hang-ngay")]
+
+        [Route("phong-cdvt/thiet-bi/sctx")]
         [HttpGet]
         public ActionResult Index()
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            List<FuelDB> listEQ = db.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from " +
-               " (select distinct e.equipmentId, e.equipment_name from Equipment e inner join Equipment_category_attribute ea " +
-               "  on ea.Equipment_category_id = e.Equipment_category_id where " +
-               " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') as t "
-            ).ToList();
+            List<FuelDB> listEQ = db.Database.SqlQuery<FuelDB>("select e.equipmentId, e.equipment_name from Equipment e  " +
+                    "EXCEPT " +
+                    "select distinct e.equipmentId,e.equipment_name " +
+                    "from Equipment e inner join Equipment_category_attribute ea on e.Equipment_category_id = ea.Equipment_category_id " +
+                    "where ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy'").ToList();
             List<Supply> listSupply = db.Supplies.Where(x => x.unit != "L" && x.unit != "kWh").ToList();
             List<Department> listDepartment = db.Departments.ToList<Department>();
 
             ViewBag.listDepartment = listDepartment;
             ViewBag.listSupply = listSupply;
             ViewBag.listEQ = listEQ;
-
-            return View("/Views/CDVT/Car/baoduonghangngay.cshtml");
+            return View("/Views/CDVT/Thietbi/SCTX.cshtml");
         }
-        [Route("phong-cdvt/oto/bao-duong-hang-ngay")]
+
+        [Route("phong-cdvt/thiet-bi/sctx")]
         [HttpPost]
         public ActionResult GetData()
         {
@@ -50,10 +50,14 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
 
-                List<Maintain_CarDB> maintainCar = db.Database.SqlQuery<Maintain_CarDB>("select m.[date],  e.equipment_name, m.equipmentid,d.department_name,m.maintain_content,m.maintainid " +
-                "from Maintain_Car m inner join Equipment e on m.equipmentid = e.equipmentId " +
-                "inner join Department d on d.department_id = m.departmentid").ToList();
-
+                List<Maintain_CarDB> maintainCar = db.Database.SqlQuery<Maintain_CarDB>("select m.[date], e.equipment_name, m.equipmentid, d.department_name, m.maintain_content, m.maintainid "+
+                                "from Maintain_Car m inner join Equipment e on m.equipmentid = e.equipmentId " +
+                                "inner join Department d on d.department_id = m.departmentid " +
+                                "inner join (select e.equipmentId, e.equipment_name from Equipment e  " +
+                                "EXCEPT " +
+                                "select distinct e.equipmentId,e.equipment_name " +
+                                "from Equipment e inner join Equipment_category_attribute ea on e.Equipment_category_id = ea.Equipment_category_id " +
+                                "where ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') a on m.equipmentid = a.equipmentId ").ToList();
                 int totalrows = maintainCar.Count;
                 int totalrowsafterfiltering = maintainCar.Count;
                 //sorting
@@ -69,7 +73,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             }
         }
 
-        [Route("phong-cdvt/oto/bao-duong-hang-ngay/insertMaintainCar")]
+        [Route("phong-cdvt/thiet-bi/sctx/insertMaintainCar")]
         [HttpPost]
         public JsonResult InsertMaintainCar(List<Maintain_Car_DetailDB> maintain, string equipmentId, string department_name, string date, string maintain_content)
         {
@@ -133,7 +137,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
 
         }
         [Auther(RightID = "18")]
-        [Route("phong-cdvt/oto/bao-duong-hang-ngay/getMaintainCarDetail")]
+        [Route("phong-cdvt/thiet-bi/sctx/getMaintainCarDetail")]
         [HttpPost]
         public JsonResult getMaintainCarDetail(int maintainId)
         {
@@ -146,8 +150,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                 //  "inner join Department d on d.department_id = m.departmentid where m.maintainid = @maintainId ", new SqlParameter("maintainId", maintainId )).SingleOrDefault();
                 //Check for NULL.
                 List<Maintain_Car_DetailDB> m = db.Database.SqlQuery<Maintain_Car_DetailDB>("select m.supplyid,s.supply_name,s.unit, m.quantity, m.supplyType, m.supplyStatus,m.maintaindetailid from Maintain_Car_Detail m inner " +
-"join Supply s on m.supplyid = s.supply_id " +
-"where m.maintainid = @maintainId ", new SqlParameter("maintainId", maintainId)).ToList();
+                    "join Supply s on m.supplyid = s.supply_id " +
+                    "where m.maintainid = @maintainId ", new SqlParameter("maintainId", maintainId)).ToList();
                 //maintainCar.stringDate = maintainCar.date.ToString("dd/MM/yyyy");
 
                 //Temp temp = new Temp();
@@ -157,7 +161,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             }
         }
         [Auther(RightID = "18")]
-        [Route("phong-cdvt/oto/bao-duong-hang-ngay/getMaintainCar")]
+        [Route("phong-cdvt/thiet-bi/sctx/getMaintainCar")]
         [HttpPost]
         public JsonResult getMaintainCar(int maintainId)
         {
@@ -165,9 +169,15 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
 
             {
                 //Truncate Table to delete all old records.
-                Maintain_CarDB maintainCar = db.Database.SqlQuery<Maintain_CarDB>("select m.[date], m.maintainid ,e.equipment_name, m.equipmentid,d.department_name,m.maintain_content,m.maintainid " +
-                          "from Maintain_Car m inner join Equipment e on m.equipmentid = e.equipmentId " +
-                          "inner join Department d on d.department_id = m.departmentid where m.maintainid = @maintainId ", new SqlParameter("maintainId", maintainId)).SingleOrDefault();
+                Maintain_CarDB maintainCar = db.Database.SqlQuery<Maintain_CarDB>("select m.[date], e.equipment_name, m.equipmentid, d.department_name, m.maintain_content, m.maintainid " +
+                                "from Maintain_Car m inner join Equipment e on m.equipmentid = e.equipmentId " +
+                                "inner join Department d on d.department_id = m.departmentid " +
+                                "inner join (select e.equipmentId, e.equipment_name from Equipment e  " +
+                                "EXCEPT " +
+                                "select distinct e.equipmentId,e.equipment_name " +
+                                "from Equipment e inner join Equipment_category_attribute ea on e.Equipment_category_id = ea.Equipment_category_id " +
+                                "where ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') a on m.equipmentid = a.equipmentId " +
+                                " where m.maintainid = @maintainId ", new SqlParameter("maintainId", maintainId)).SingleOrDefault();
                 //Check for NULL.
 
                 maintainCar.stringDate = maintainCar.date.ToString("dd/MM/yyyy");
@@ -179,7 +189,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             }
         }
 
-        [Route("phong-cdvt/oto/bao-duong-hang-ngay/search")]
+        [Route("phong-cdvt/thiet-bi/sctx/search")]
         [HttpPost]
         public ActionResult Search(string equipmentId, string equipmentName, string timeFrom, string timeTo, string content, string position)
         {
@@ -214,10 +224,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                 QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
                 string query = "select m.[date],  e.equipment_name, m.equipmentid,d.department_name,m.maintain_content,m.maintainid"
                     + " from Maintain_Car m inner join Equipment e on m.equipmentid = e.equipmentId "
-                    + " inner join Department d on d.department_id = m.departmentid  " +
-                    " inner join  (select distinct e.equipmentId, e.equipment_name from Equipment e inner join Equipment_category_attribute ea " +
-                    "  on ea.Equipment_category_id = e.Equipment_category_id where " +
-                    " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') as t on m.equipmentId = t.equipmentId "
+                    + " inner join Department d on d.department_id = m.departmentid" +
+                    " inner join (select e.equipmentId, e.equipment_name from Equipment e" +
+                    " EXCEPT" +
+                    " select distinct e.equipmentId,e.equipment_name" +
+                    " from Equipment e inner join Equipment_category_attribute ea on e.Equipment_category_id = ea.Equipment_category_id" +
+                    " where ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') a on m.equipmentid = a.equipmentId  "
                     + " where m.equipmentId LIKE @equipmentId"
                     + " AND e.equipment_name LIKE @equipment_name AND m.[date] between @timeFrom AND @timeTo "
                     + " AND d.department_name LIKE @position AND m.maintain_content LIKE @content "
@@ -252,29 +264,31 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             }
         }
 
-        [Route("phong-cdvt/oto/bao-duong-hang-ngay/returnEquipmentName")]
+        [Route("phong-cdvt/thiet-bi/sctx/returnEquipmentName")]
         [HttpPost]
         public JsonResult returnname(string id)
         {
             try
             {
                 QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-                var equipment = db.Database.SqlQuery<FuelDB>("select equipment_name from " +
-                        "(select distinct e.equipmentId, e.equipment_name from Equipment e inner join Equipment_category_attribute ea " +
-                        " on ea.Equipment_category_id = e.Equipment_category_id where " +
-                        " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') as t " +
-                        " where equipmentId = @id", new SqlParameter("id", id)).SingleOrDefault();
+                var equipment = db.Database.SqlQuery<FuelDB>("select e.equipmentId, e.equipment_name from Equipment e  where  e.equipmentId = @id " +
+                                "EXCEPT " +
+                                "select distinct e.equipmentId,e.equipment_name " +
+                                "from Equipment e inner join Equipment_category_attribute ea on e.Equipment_category_id = ea.Equipment_category_id " +
+                                "where ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy' " +
+                        "", new SqlParameter("id", id)).SingleOrDefault();
                 return Json(equipment.equipment_name, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ex.Message.ToString();
                 return Json("Mã thiết bị cơ giới không tồn tại", JsonRequestBehavior.AllowGet);
             }
         }
 
 
         [Auther(RightID = "18")]
-        [Route("phong-cdvt/oto/bao-duong-hang-ngay/edit")]
+        [Route("phong-cdvt/thiet-bi/sctx/edit")]
         [HttpPost]
         public ActionResult EditMaintain(string date, String equipmentId, String department_name, String maintain_content, int maintainid)
         {
@@ -318,7 +332,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             }
         }
         [Auther(RightID = "18")]
-        [Route("phong-cdvt/oto/bao-duong-hang-ngay/editMaintainDetail")]
+        [Route("phong-cdvt/thiet-bi/sctx/editMaintainDetail")]
         [HttpPost]
         public ActionResult EditMaintainDetail(List<Maintain_Car_Detail> supplyDetail)
         {
@@ -335,7 +349,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                         {
                             Maintain_Car e = db.Maintain_Car.Where(x => x.maintainid == item.maintainid).FirstOrDefault();
 
-                            Supply_tieuhao su = db.Supply_tieuhao.Where(x => x.supplyid == item.supplyid && x.departmentid == e.departmentid && x.date.Month == e.date.Month&& x.date.Year == e.date.Year).First();
+                            Supply_tieuhao su = db.Supply_tieuhao.Where(x => x.supplyid == item.supplyid && x.departmentid == e.departmentid && x.date.Month == e.date.Month && x.date.Year == e.date.Year).First();
 
                             if (item.supplyStatus == 1) { su.used = su.used + item.quantity; /*db.Entry(s).State = EntityState.Modified;*/ }
                             else { su.thuhoi = su.thuhoi + item.quantity; /*db.Entry(s).State = EntityState.Modified;*/ }
@@ -377,7 +391,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                             }
                             else
                             {
-                                if (item.quantity < ma.quantity&&item.supplyStatus==ma.supplyStatus)
+                                if (item.quantity < ma.quantity && item.supplyStatus == ma.supplyStatus)
                                 {
                                     if (item.supplyStatus == 1)
                                     {
@@ -385,7 +399,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                                     }
                                     else { su.thuhoi = su.thuhoi + (item.quantity - ma.quantity); }
                                 }
-                                else if (item.quantity > ma.quantity&& item.supplyStatus == ma.supplyStatus)
+                                else if (item.quantity > ma.quantity && item.supplyStatus == ma.supplyStatus)
                                 {
                                     if (item.supplyStatus == 1)
                                     {
@@ -393,18 +407,20 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                                     }
                                     else { su.thuhoi = su.thuhoi + (item.quantity - ma.quantity); }
                                 }
-                                else if ( item.supplyStatus != ma.supplyStatus)
+                                else if (item.supplyStatus != ma.supplyStatus)
                                 {
                                     if (item.supplyStatus == 1)
                                     {
-                                        su.used = su.used + item.quantity ;
+                                        su.used = su.used + item.quantity;
                                         su.thuhoi = su.thuhoi - ma.quantity;
                                     }
-                                    else { su.thuhoi = su.thuhoi + item.quantity ;
+                                    else
+                                    {
+                                        su.thuhoi = su.thuhoi + item.quantity;
                                         su.used = su.used - ma.quantity;
                                     }
                                 }
-                               
+
                             }
 
                             db.Entry(su).State = EntityState.Modified;
@@ -450,7 +466,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                 }
             }
         }
-        [Route("phong-cdvt/oto/bao-duong-hang-ngay/returnsupplymaintainName")]
+        [Route("phong-cdvt/thiet-bi/sctx/returnsupplymaintainName")]
         [HttpPost]
         public JsonResult returnsupplymaintainname(String supplyid)
         {
@@ -490,10 +506,4 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
         public String unit { get; set; }
 
     }
-
-    //public class Temp
-    //{
-    //    public List<Maintain_Car_DetailDB> m { get; set; }
-    //    public Maintain_CarDB maintainCar { get; set; }
-    //}
 }
