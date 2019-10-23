@@ -18,6 +18,15 @@ namespace QUANGHANH2.Controllers
 
         public ActionResult Index(string username)
         {
+            var employ = (from nv in db.NhanViens
+                          join pb in db.Departments on nv.MaPhongBan equals pb.department_id
+                          select new employ
+                          {
+                              id = nv.MaNV,
+                              name = nv.Ten,
+                              pb = pb.department_name
+                          }).ToList();
+            ViewBag.employ = employ;
             if (!String.IsNullOrEmpty(username))
             {
                 if (db.Accounts.Where(a => a.Username == username).Count() > 0)
@@ -674,5 +683,11 @@ namespace QUANGHANH2.Controllers
     public class rightBasic
     {
         public string ID { get; set; }
+    }
+    public class employ
+    {
+        public string id { get; set; }
+        public string name { get; set; }
+        public string pb { get; set; }
     }
 }
