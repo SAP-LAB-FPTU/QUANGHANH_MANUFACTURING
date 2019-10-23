@@ -33,8 +33,8 @@ namespace QUANGHANH2.Controllers.DK
             item1.KHDC += item2.KHDC;
             item1.perday += item2.perday;
             //
-            item1.percentage = item1.KH == 0 ? 100 : Math.Round(item1.TH / item1.KH, 2, MidpointRounding.ToEven);
-            item1.percentageDC = item1.KHDC == 0 ? 100 : Math.Round(item1.luyke / item1.KHDC, 2, MidpointRounding.ToEven);
+            item1.percentage = item1.KH == 0 ? 100 : Math.Round(item1.TH / item1.KH,2, MidpointRounding.ToEven);
+            item1.percentageDC = item1.KHDC == 0 ? 100 : Math.Round(item1.luyke / item1.KHDC,2, MidpointRounding.ToEven);
             return item1;
         }
 
@@ -111,17 +111,17 @@ namespace QUANGHANH2.Controllers.DK
                 for (var index = 0; index < listReport.Count; index++)
                 {
                     listReport[index].KHDC = list_KHDC[index].SanLuong;
-                    listReport[index].BQQHDC = Math.Round(listReport[index].KHDC / 20, 2, MidpointRounding.ToEven);
+                    listReport[index].BQQHDC = Math.Round(listReport[index].KHDC / 20,2, MidpointRounding.ToEven);
                     listReport[index].KH = list_KHDaily[index].SanLuong;
                 }
                 //
                 foreach (var item in listReport)
                 {
                     item.chenhlech = item.TH - item.KH;
-                    item.percentage = item.KH == 0 ? 100 : Math.Round(item.TH / item.KH, 2, MidpointRounding.ToEven);
-                    item.percentageDC = item.KHDC == 0 ? 100 : Math.Round(item.luyke / item.KHDC, 2, MidpointRounding.ToEven);
+                    item.percentage = item.KH == 0 ? 100 : Math.Round(item.TH / item.KH,2, MidpointRounding.ToEven);
+                    item.percentageDC = item.KHDC == 0 ? 100 : Math.Round(item.luyke / item.KHDC,2, MidpointRounding.ToEven);
                     item.SUM = item.KHDC - item.luyke;
-                    item.perday = Math.Round(item.SUM / 20, 2);
+                    item.perday = Math.Round(item.SUM / 20,2, MidpointRounding.ToEven);
                 }
                 //
                 List<reportEntity> reports = new List<reportEntity>();
