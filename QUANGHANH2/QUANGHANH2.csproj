@@ -168,6 +168,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="Controllers\AT\ViewAccidentController.cs" />
     <Compile Include="Controllers\BGD\AccidentReportController.cs" />
     <Compile Include="Controllers\BGD\CDVT\BGDKiemdinhController.cs" />
     <Compile Include="Controllers\BGD\CDVT\BGDLiquidationReportController.cs" />
@@ -7321,6 +7322,8 @@
     <Content Include="Views\CDVT\History\LichsuTieuthu.cshtml" />
     <Content Include="Views\DK\DepartmentDaily.cshtml" />
     <Content Include="Views\CDVT\Thietbi\SCTX.cshtml" />
+    <Content Include="Views\Shared\_Layout_AT.cshtml" />
+    <Content Include="Views\AT\ViewAccident.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7337,6 +7340,7 @@
     <Folder Include="Views\Quanlyvattu\" />
     <Folder Include="Views\ReportMonthly\" />
     <Folder Include="Views\SanLuongReport\" />
+    <Folder Include="Views\ViewAccident\" />
     <Folder Include="Views\WorkHistory\" />
   </ItemGroup>
   <ItemGroup>
