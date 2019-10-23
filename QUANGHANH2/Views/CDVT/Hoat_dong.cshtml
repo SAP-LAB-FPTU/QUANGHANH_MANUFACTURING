@@ -35,29 +35,15 @@
                             <div class="col l4 m4 s12">
                                 <div class="row">
                                     <div class="col l10 m10 s12 input-field">
-                                        @using (Html.BeginForm("Change", "Hoatdong", FormMethod.Post, new
-                                        {
-                                            enctype = "multipart/form-data",
-                                            onSubmit = "return Change(this);",
-                                            data_restUrl = Url.Action("Change", "Hoatdong")
-                                        }))
-                                        {
-                                            <input list="IDlist" type="text" placeholder="Tìm kiếm theo mã thiết bị" name="id" class='form-control' id="equipmentId-search"
+                                            <input type="text" placeholder="Tìm kiếm theo mã thiết bị" name="id" class='form-control' id="equipmentId-search"
                                                    multiple />
-                                        }
+                                        
 
                                     </div>
                                     <div class="col l10 m10 s12 input-field">
-                                        @using (Html.BeginForm("ChangeName", "Hoatdong", FormMethod.Post, new
-                                        {
-                                            enctype = "multipart/form-data",
-                                            onSubmit = "return Change(this);",
-                                            data_restUrl = Url.Action("ChangeName", "Hoatdong")
-                                        }))
-                                        {
-                                            <input list="IDlist" type="text" placeholder="Tìm kiếm theo tên thiết bị" name="name" class='form-control' id="equipmentName-search"
+                                            <input type="text" placeholder="Tìm kiếm theo tên thiết bị" name="name" class='form-control' id="equipmentName-search"
                                                    multiple />
-                                        }
+                                        
                                     </div>
                                     <div class="col l10 m10 s12 input-field">
                                         <select class="form-control" id="department-search">
@@ -90,16 +76,10 @@
                             <div class="col l4 m4 s12">
                                 <div class="row">
                                     <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
-                                        @using (Html.BeginForm("ChangeCateName", "Hoatdong", FormMethod.Post, new
-                                        {
-                                            enctype = "multipart/form-data",
-                                            onSubmit = "return Change(this);",
-                                            data_restUrl = Url.Action("ChangeCateName", "Hoatdong")
-                                        }))
-                                        {
-                                            <input list="IDlist" type="text" placeholder="Tìm kiếm theo nhóm thiết bị" name="name" class='form-control' id="category-search"
+                                       
+                                            <input type="text" placeholder="Tìm kiếm theo nhóm thiết bị" name="name" class='form-control' id="category-search"
                                                    multiple />
-                                        }
+                                        
                                     </div>
 
                                     <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
@@ -113,16 +93,10 @@
                                         </select>
                                     </div>
                                     <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
-                                        @using (Html.BeginForm("ChangeSup", "Hoatdong", FormMethod.Post, new
-                                        {
-                                            enctype = "multipart/form-data",
-                                            onSubmit = "return Change(this);",
-                                            data_restUrl = Url.Action("ChangeSup", "Hoatdong")
-                                        }))
-                                        {
-                                            <input list="IDlist" type="text" placeholder="Tìm kiếm theo nhà cung cấp" name="name" class='form-control' id="supplier-search"
+                                      
+                                            <input type="text" placeholder="Tìm kiếm theo nhà cung cấp" name="name" class='form-control' id="supplier-search"
                                                    multiple />
-                                        }
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -611,22 +585,6 @@
             $("#date-end-search").blur();
         }
       });
-    $('#equipmentId-search').change(function () {
-        $(this).closest('form').submit();
-    });
-    $('equipmentName-search').change(function () {
-        $(this).closest('form').submit();
-    });
-    $('category-search').change(function () {
-        $(this).closest('form').submit();
-    });
-    $('supplier-search').change(function () {
-        $(this).closest('form').submit();
-    });
-    $('#Equipment_category_id').change(function () {
-        $('#atri').val($('#Equipment_category_id').val());
-        $('#myForm').submit();
-    });
 
     $(window).resize(function () {
         if ($(window).width() <= 600) {

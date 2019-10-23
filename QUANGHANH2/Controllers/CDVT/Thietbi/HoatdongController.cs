@@ -165,7 +165,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         {
             ViewBag.listID = null;
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            List<EquipWithName> listID = db.Database.SqlQuery<EquipWithName>("select e.equipmentId from Equipment e where e.equipmentId like '%" + id + "%'").Take(10).ToList();
+            string sql = "select e.equipmentId from Equipment e where e.equipmentId like @id";
+            List<EquipWithName> listID = db.Database.SqlQuery<EquipWithName>(sql, new SqlParameter("id", "%" + id + "%")).Take(10).ToList();
             ViewBag.listID = listID;
             string d = "";
             foreach (var item in listID)
@@ -177,52 +178,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
 
         }
 
-        [HttpPost]
-        public ActionResult ChangeName(string name)
-        {
-            ViewBag.listID = null;
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            List<EquipWithName> listID = db.Database.SqlQuery<EquipWithName>("select e.equipment_name from Equipment e where e.equipment_name like N'%" + name + "%'").Take(10).ToList();
-            ViewBag.listID = listID;
-            string d = "";
-            foreach (var item in listID)
-            {
-                d += "<option value='" + item.equipment_name + "'/>";
-            }
-            return Json(new { success = true, data = d }, JsonRequestBehavior.AllowGet);
-
-
-        }
-
-        [HttpPost]
-        public ActionResult ChangeCateName(string name)
-        {
-            ViewBag.listID = null;
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            List<Equipment_category> listID = db.Database.SqlQuery<Equipment_category>("select e.* from Equipment_category e where e.Equipment_category_name like N'%" + name + "%'").Take(10).ToList();
-            ViewBag.listID = listID;
-            string d = "";
-            foreach (var item in listID)
-            {
-                d += "<option value='" + item.Equipment_category_name + "'/>";
-            }
-            return Json(new { success = true, data = d }, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
-        public ActionResult ChangeSup(string name)
-        {
-            ViewBag.listID = null;
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            List<EquipWithName> listID = db.Database.SqlQuery<EquipWithName>("select distinct e.supplier from Equipment e where e.supplier like N'%" + name + "%'").Take(10).ToList();
-            ViewBag.listID = listID;
-            string d = "";
-            foreach (var item in listID)
-            {
-                d += "<option value='" + item.supplier + "'/>";
-            }
-            return Json(new { success = true, data = d }, JsonRequestBehavior.AllowGet);
-        }
 
         [HttpPost]
         public ActionResult Atri(string name)
@@ -230,7 +185,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             ViewBag.listID = null;
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             String d = "";
-            List<Equipment_category_attribute> list = db.Database.SqlQuery<Equipment_category_attribute>("select * from Equipment_category_attribute where Equipment_category_id = '" + name + "'").ToList();
+            string sql = "select * from Equipment_category_attribute where Equipment_category_id = @name";
+            List<Equipment_category_attribute> list = db.Database.SqlQuery<Equipment_category_attribute>("name", "%" + name + "%").ToList();
             foreach (var item in list)
             {
                 d += "<tr>";
@@ -487,7 +443,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         date_fix = date[1] + "/" + date[0] + "/" + date[2];
                         emp.durationOfMaintainance = Convert.ToDateTime(date_fix);
                         db.Equipments.Add(emp);
-                        List<Equipment_category_attribute> list = db.Database.SqlQuery<Equipment_category_attribute>("select * from Equipment_category_attribute where Equipment_category_id = '" + emp.Equipment_category_id + "'").ToList();
+                        string sql = "select * from Equipment_category_attribute where Equipment_category_id = @cateid";
+                        List<Equipment_category_attribute> list = db.Database.SqlQuery<Equipment_category_attribute>(sql, new SqlParameter("cateid", emp.Equipment_category_id)).ToList();
                         if (id != null)
                         {
                             for (int i = 0; i < id.Count(); i++)
