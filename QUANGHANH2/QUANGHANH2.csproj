@@ -7321,6 +7321,7 @@
     <Content Include="Views\CDVT\History\LichsuOtoTieuthu.cshtml" />
     <Content Include="Views\CDVT\History\LichsuTieuthu.cshtml" />
     <Content Include="Views\DK\DepartmentDaily.cshtml" />
+    <Content Include="Views\DK\SanLuongView.cshtml" />
     <Content Include="Views\CDVT\Thietbi\SCTX.cshtml" />
     <Content Include="Views\Shared\_Layout_AT.cshtml" />
     <Content Include="Views\AT\ViewAccident.cshtml" />
