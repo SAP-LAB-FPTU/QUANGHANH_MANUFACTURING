@@ -32,9 +32,11 @@ namespace QUANGHANH2.Controllers.DK
         {
 
             var phanxuong = this.Request.QueryString["phanxuong"];
+            phanxuong = phanxuong == null ? "all" : phanxuong;
             string ngay = this.Request.QueryString["ngay"];
+            ngay = ngay == null ? System.DateTime.Now.Date.ToString("dd/MM/yyyy") : ngay;
             List<Department> listPX = new List<Department>();
-            bool? ca1IsLock= false;
+            bool? ca1IsLock = false;
             bool? ca2IsLock = false;
             bool? ca3IsLock = false;
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
@@ -46,6 +48,7 @@ namespace QUANGHANH2.Controllers.DK
                         string sql;
                         List<fileObjectDisplay> list = new List<fileObjectDisplay>();
                         List<BaoCaoFile> isLockList = new List<BaoCaoFile>();
+                        List<allFileObject> allFilesList = new List<allFileObject>();
                         sql = "select * from department where department_id in\n" +
                         "('PXKT1', 'PXKT2', 'PXKT3', 'PXKT4', 'PXKT5', 'PXKT6', 'PXKT7',\n" +
                         "'PXKT8', 'PXKT9', 'PXKT10', 'PXKT11', 'PXDL3', 'PXDL5', 'PXDL7', 'PXDL8',\n" +
@@ -55,7 +58,11 @@ namespace QUANGHANH2.Controllers.DK
                         String[] listPXId = {"PXKT1", "PXKT2", "PXKT3", "PXKT4", "PXKT5", "PXKT6", "PXKT7",
                         "PXKT8", "PXKT9", "PXKT10", "PXKT11", "PXDL3", "PXDL5", "PXDL7", "PXDL8",
                         "PXVT1", "PXVT2", "PXTGQLKM", "PXST", "PXCDM", "PXCKSC", "PXPV", "PXXD", "PXDS", "KCS", "PXLT"};
-                        if (phanxuong != null&&phanxuong.ToLower()!="kcs"&&Array.IndexOf(listPXId, phanxuong)!=-1)
+                        ///////////////////////////////////////////FOR PHAN XUONG///////////////////////////////////////
+                        if (phanxuong != null
+                            && phanxuong.ToLower() != "kcs"
+                            && Array.IndexOf(listPXId, phanxuong) != -1
+                            && phanxuong != "all")
                         {
                             if (ngay == null || ngay == "")
                             {
@@ -82,7 +89,7 @@ namespace QUANGHANH2.Controllers.DK
                             isLockList = db.BaoCaoFiles.SqlQuery(sql,
                                 new SqlParameter("ngay", DateTime.Parse(ngay)),
                                 new SqlParameter("phanxuong", phanxuong)).ToList<BaoCaoFile>();
-                            for(int i = 0; i < isLockList.Count; i++)
+                            for (int i = 0; i < isLockList.Count; i++)
                             {
                                 switch (isLockList[i].ca)
                                 {
@@ -101,8 +108,11 @@ namespace QUANGHANH2.Controllers.DK
                             ViewBag.ca2IsLock = ca2IsLock;
                             ViewBag.ca3IsLock = ca3IsLock;
                         }
-
-                        if (phanxuong!=null&&phanxuong.ToLower() == "kcs")
+                        else
+                        //////////////////////////////////////////FOR KCS///////////////////////////////////////////////
+                        if (phanxuong != null
+                            && phanxuong.ToLower() == "kcs"
+                            && phanxuong != "all")
                         {
                             List<FileBaoCao> listFileKCS = new List<FileBaoCao>();
                             if (ngay == null || ngay == "")
@@ -149,6 +159,17 @@ namespace QUANGHANH2.Controllers.DK
                             }
                             ViewBag.isLock = isLock;
                         }
+                        else
+                        //////////////////////////////////////////FOR ALL///////////////////////////////////////////////
+                        {
+                            ngay = ngay.Split('/')[2] + "/" + ngay.Split('/')[1] + "/" + ngay.Split('/')[0];
+                            sql = "select f.*,b.ngay,b.ca,d.department_name from filebaocao f, baocaofile b, Department d\n"+
+                            "where b.id = f.baocaoid and b.phanxuong_id = d.department_id and b.ngay=@ngay\n" +
+                            "order by f.id desc";
+                            allFilesList = db.Database.SqlQuery<allFileObject>(sql,
+                                new SqlParameter("ngay",ngay)).ToList<allFileObject>();
+                            ViewBag.allFilesList = allFilesList;
+                        }
 
                         phanxuong = phanxuong == null ? "" : phanxuong;
                         db.SaveChanges();
@@ -165,7 +186,7 @@ namespace QUANGHANH2.Controllers.DK
 
             ViewBag.phanxuong = phanxuong;
             ViewBag.listPX = listPX;
-            if (ngay != null && ngay.Split('/')[2].Length != 4) 
+            if (ngay != null && ngay.Split('/')[2].Length != 4)
             {
                 ngay = ngay.Split('/')[2] + "/" + ngay.Split('/')[1] + "/" + ngay.Split('/')[0];
             }
@@ -222,7 +243,7 @@ namespace QUANGHANH2.Controllers.DK
                                 baoCaoID = a[0].ID;
                             }
                             sql = "update baocaofile set lock=1 where ID=@ID";
-                            db.Database.ExecuteSqlCommand(sql,new SqlParameter("ID",baoCaoID));
+                            db.Database.ExecuteSqlCommand(sql, new SqlParameter("ID", baoCaoID));
 
                             db.SaveChanges();
 
@@ -232,7 +253,7 @@ namespace QUANGHANH2.Controllers.DK
                         catch (Exception e)
                         {
                             transaction.Rollback();
-                            return Json(new { success = false,message="Lỗi" });
+                            return Json(new { success = false, message = "Lỗi" });
                         }
                     }
 
@@ -286,7 +307,7 @@ namespace QUANGHANH2.Controllers.DK
                                 baoCaoID = a[0].ID;
                             }
                             sql = "update baocaofile set lock=0 where ID=@ID";
-                            db.Database.ExecuteSqlCommand(sql,new SqlParameter("ID",baoCaoID));
+                            db.Database.ExecuteSqlCommand(sql, new SqlParameter("ID", baoCaoID));
 
                             db.SaveChanges();
 
@@ -296,7 +317,7 @@ namespace QUANGHANH2.Controllers.DK
                         catch (Exception e)
                         {
                             transaction.Rollback();
-                            return Json(new { success = false,message="Lỗi" });
+                            return Json(new { success = false, message = "Lỗi" });
                         }
                     }
 
@@ -345,7 +366,7 @@ namespace QUANGHANH2.Controllers.DK
                                 baoCaoID = a[0].ID;
                             }
                             sql = "update baocaofile set lock=1 where ID=@ID";
-                            db.Database.ExecuteSqlCommand(sql,new SqlParameter("ID",baoCaoID));
+                            db.Database.ExecuteSqlCommand(sql, new SqlParameter("ID", baoCaoID));
 
                             db.SaveChanges();
 
@@ -355,7 +376,7 @@ namespace QUANGHANH2.Controllers.DK
                         catch (Exception e)
                         {
                             transaction.Rollback();
-                            return Json(new { success = false,message="Lỗi" });
+                            return Json(new { success = false, message = "Lỗi" });
                         }
                     }
 
@@ -406,7 +427,7 @@ namespace QUANGHANH2.Controllers.DK
                                 baoCaoID = a[0].ID;
                             }
                             sql = "update baocaofile set lock=0 where ID=@ID";
-                            db.Database.ExecuteSqlCommand(sql,new SqlParameter("ID",baoCaoID));
+                            db.Database.ExecuteSqlCommand(sql, new SqlParameter("ID", baoCaoID));
 
                             db.SaveChanges();
 
@@ -416,7 +437,7 @@ namespace QUANGHANH2.Controllers.DK
                         catch (Exception e)
                         {
                             transaction.Rollback();
-                            return Json(new { success = false,message="Lỗi" });
+                            return Json(new { success = false, message = "Lỗi" });
                         }
                     }
 
@@ -426,6 +447,13 @@ namespace QUANGHANH2.Controllers.DK
         }
 
 
+    }
+    public class allFileObject : FileBaoCao
+    {
+        public DateTime ngay { get; set; }
+        public int? ca { get; set; }
+        public string phanxuong_id { get; set; }
+        public string department_name { get; set; }
     }
     public class fileObjectDisplay : FileBaoCao
     {
