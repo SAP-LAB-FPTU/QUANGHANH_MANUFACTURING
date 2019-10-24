@@ -64,7 +64,7 @@
                     </select>
                 </div>
                 <div class="input-field col l3 m12 s12">
-                    <a class="btn btn-small darken-2 blue" style="width:100%!important" onclick="change()">Đổi</a>
+                    <a id="changeButton" disabled class="btn btn-small darken-2 blue" style="width:100%!important" onclick="change()">Đổi</a>
                 </div>
                 <div class="row">
                     <div class="col s12 m12 l12 table_container">
@@ -115,10 +115,16 @@
 
 <script>
     $(document).ready(function () {
+
         $(".date-click").datepicker({
             onSelect: function (dateText) {
             }
         });
+        $('#cbx-px').change(function () {
+            if ($('#cbx-px').val() != null) {
+                $('#changeButton').removeAttr("disabled");
+            }
+        })
     })
 
     //$(".datepicker-here").keydown(function (e) {
@@ -278,4 +284,5 @@
         }
         return false;
     }
+
 </script>

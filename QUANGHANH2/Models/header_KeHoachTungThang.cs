@@ -14,12 +14,6 @@ namespace QUANGHANH2.Models
     
     public partial class header_KeHoachTungThang
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public header_KeHoachTungThang()
-        {
-            this.KeHoach_TieuChi_TheoThang = new HashSet<KeHoach_TieuChi_TheoThang>();
-        }
-    
         public int HeaderID { get; set; }
         public string MaPhongBan { get; set; }
         public Nullable<int> ThangKeHoach { get; set; }
@@ -27,7 +21,5 @@ namespace QUANGHANH2.Models
         public Nullable<int> SoNgayLamViec { get; set; }
     
         public virtual Department Department { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<KeHoach_TieuChi_TheoThang> KeHoach_TieuChi_TheoThang { get; set; }
     }
 }
