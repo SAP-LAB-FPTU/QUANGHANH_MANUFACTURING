@@ -63,7 +63,6 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             List<SanXuat> listKH = new List<SanXuat>();
             List<SanXuat> listKHDC = new List<SanXuat>();
             int ca = 0;
-            bool flag = false;
             if (!ca_value.Equals(""))
             {
                 ca = Convert.ToInt32(ca_value);
@@ -86,7 +85,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                     "(select pb.MaTieuChi, tc.TenTieuChi, tc.DonViDo from PhongBan_TieuChi pb left " +
                                     "join TieuChi tc " +
                                     "on pb.MaTieuChi = tc.MaTieuChi " +
-                                    "where pb.MaPhongBan = @px ) as a " +
+                                    "where pb.MaPhongBan = @px and pb.Thang = @thang and pb.Nam = @nam) as a " +
                                     "left join( " +
                                     "select a.MaPhongBan, a.MaTieuChi, sum(a.SanLuong) as 'luyke' " +
                                     "from(select t.SanLuong, t.MaTieuChi, h.MaPhongBan " +
@@ -100,8 +99,9 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                         listSX = db.Database.SqlQuery<SanXuat>(sql, new SqlParameter("px", px_value),
                                                                     new SqlParameter("start", year + "-" + month + "-1"),
                                                                     new SqlParameter("date", date_sql),
-                                                                    new SqlParameter("ca", ca)).ToList();
-                        flag = true;
+                                                                    new SqlParameter("ca", ca),
+                                                                    new SqlParameter("thang", month),
+                                                                    new SqlParameter("nam", year)).ToList();
                     }
                     else
                     {
@@ -121,14 +121,15 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                 "group by a.MaPhongBan,a.MaTieuChi) as b " +
                                 "on a.MaTieuChi = b.MaTieuChi " +
                                 "inner join (select tc.MaTieuChi, pb.MaPhongBan, tc.TenTieuChi, tc.DonViDo from PhongBan_TieuChi pb left join TieuChi tc on pb.MaTieuChi = tc.MaTieuChi " +
-                                "where pb.MaPhongBan = @px) as c " +
+                                "where pb.MaPhongBan = @px and pb.Thang = @thang and pb.Nam = @nam) as c " +
                                 "on b.MaTieuChi = c.MaTieuChi " +
                                 "order by a.MaTieuChi";
                         listSX = db.Database.SqlQuery<SanXuat>(query, new SqlParameter("px", px_value),
                                                                       new SqlParameter("start", year + "-" + month + "-1"),
                                                                       new SqlParameter("date", date_sql),
-                                                                      new SqlParameter("ca", ca)).ToList();
-                        flag = false;
+                                                                      new SqlParameter("ca", ca),
+                                                                      new SqlParameter("thang", month),
+                                                                      new SqlParameter("nam", year)).ToList();
                     }
                     if (checkList2.Count <= 0)
                     {
@@ -136,13 +137,15 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                             "select tc.TenTieuChi, tc.DonViDo, tc.MaTieuChi, pb.MaPhongBan " +
                             "from PhongBan_TieuChi pb left join TieuChi tc " +
                             "on pb.MaTieuChi = tc.MaTieuChi " +
-                            "where pb.MaPhongBan = @px) as a " +
+                            "where pb.MaPhongBan = @px and pb.Thang = @thang and pb.Nam = @nam) as a " +
                             "left join(select * from header_KeHoach_TieuChi_TheoNgay khDay " +
                             "where khDay.NgayNhapKH = @date) as b " +
                             "on b.MaPhongBan = a.MaPhongBan " +
                             "order by a.MaTieuChi";
                         listKH = db.Database.SqlQuery<SanXuat>(sql, new SqlParameter("px", px_value),
-                                                                    new SqlParameter("date", date_sql)).ToList();
+                                                                    new SqlParameter("date", date_sql),
+                                                                    new SqlParameter("thang", month),
+                                                                    new SqlParameter("nam", year)).ToList();
                     }
                     else
                     {
@@ -158,12 +161,14 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                 "on a.HeaderID = khDay2.HeaderID and a.MaxDate = khday2.ThoiGianNhapCuoiCung " +
                                 "inner join(select tc.TenTieuChi, tc.DonViDo, tc.MaTieuChi from PhongBan_TieuChi pb inner join TieuChi tc " +
                                 "on pb.MaTieuChi = tc.MaTieuChi " +
-                                "where pb.MaPhongBan = @px) as c " +
+                                "where pb.MaPhongBan = @px and pb.Thang = @thang and pb.Nam = @nam) as c " +
                                 "on c.MaTieuChi = a.MaTieuChi " +
                                 "order by a.MaTieuChi";
                         listKH = db.Database.SqlQuery<SanXuat>(sql, new SqlParameter("px", px_value),
                                                                       new SqlParameter("date", date_sql),
-                                                                      new SqlParameter("ca", ca)).ToList();
+                                                                      new SqlParameter("ca", ca),
+                                                                      new SqlParameter("thang", month),
+                                                                      new SqlParameter("nam", year)).ToList();
                     }
                     if (checkList3.Count <= 0)
                     {
@@ -180,14 +185,15 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                         "join KeHoach_TieuChi_TheoThang khMonth " +
                                         "on headKH.HeaderID = khMonth.HeaderID " +
                                         "where headKH.MaPhongBan = @px " +
-                                        "and headKH.ThangKeHoach = @month " +
+                                        "and headKH.ThangKeHoach = @thang " +
                                         "group by headKH.MaPhongBan, headKH.ThangKeHoach, headKH.NamKeHoach,  " +
                                         "headKH.SoNgayLamViec, khMonth.MaTieuChi) as a " +
                                         "left join(select * from KeHoach_TieuChi_TheoThang khMonth " +
                                         ") as b on a.MaTieuChi = b.MaTieuChi and a.MaxDate = b.ThoiGianNhapCuoiCung) as khdc " +
                                         "on pbtc.MaTieuChi = khdc.MaTieuChi";
                         listKHDC = db.Database.SqlQuery<SanXuat>(sql, new SqlParameter("px", px_value),
-                                                                      new SqlParameter("month", month)).ToList();
+                                                                      new SqlParameter("thang", month),
+                                                                      new SqlParameter("nam", year)).ToList();
                     }
                     else
                     {
@@ -203,14 +209,14 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                         "join KeHoach_TieuChi_TheoThang khMonth " +
                                         "on headKH.HeaderID = khMonth.HeaderID " +
                                         "where headKH.MaPhongBan = @px " +
-                                        "and headKH.ThangKeHoach = @month " +
+                                        "and headKH.ThangKeHoach = @thang " +
                                         "group by headKH.MaPhongBan, headKH.ThangKeHoach, headKH.NamKeHoach,  " +
                                         "headKH.SoNgayLamViec, khMonth.MaTieuChi) as a " +
                                         "left join(select * from KeHoach_TieuChi_TheoThang khMonth " +
                                         ") as b on a.MaTieuChi = b.MaTieuChi and a.MaxDate = b.ThoiGianNhapCuoiCung) as khdc " +
                                         "on pbtc.MaTieuChi = khdc.MaTieuChi";
                         listKHDC = db.Database.SqlQuery<SanXuat>(sql, new SqlParameter("px", px_value),
-                                                                      new SqlParameter("month", month)).ToList();
+                                                                      new SqlParameter("thang", month)).ToList();
                     }
 
                     for (int i = 0; i < listSX.Count; i++)
@@ -228,6 +234,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             catch (Exception e)
             {
                 e.Message.ToString();
+                return Json(new { success = false, message = "Có lỗi xảy ra" }, JsonRequestBehavior.AllowGet);
             }
             var ngaySX = db.header_KeHoachTungThang.Where(x => x.ThangKeHoach == month && x.NamKeHoach == year && x.MaPhongBan.Equals(px_value)).Select(x => x.SoNgayLamViec).FirstOrDefault();
             ViewBag.SoNgaySX = ngaySX;
@@ -237,7 +244,10 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             int ngay_SX_now = 0;
             try
             {
-                ngay_SX_now = listSX.ElementAt(0).NgaySanXuat;
+                try
+                {
+                    ngay_SX_now = listSX.ElementAt(0).NgaySanXuat;
+                
 
                 foreach (var item in listSX)
                 {
@@ -270,12 +280,17 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                     }
                     item.LuyKe = (Math.Round(Convert.ToDouble(item.LuyKe) - Convert.ToDouble(item.SanLuong), 2));
                 }
+                }
+                catch (Exception)
+                {
+                    return Json(new { success = false, message = "Tháng chưa có kế hoạch cho tiêu chí"}, JsonRequestBehavior.AllowGet);
+                }
             }
             catch (Exception e)
             {
                 e.Message.ToString();
             }
-            return Json(new { success = flag, list = tcList, dateSX = ngaySX, luyKe = LK, listSXLoad = listSX, ngaySXnow = ngay_SX_now }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true, list = tcList, dateSX = ngaySX, luyKe = LK, listSXLoad = listSX, ngaySXnow = ngay_SX_now }, JsonRequestBehavior.AllowGet);
         }
         public class MaxKHDate : KeHoach_TieuChi_TheoThang
         {
