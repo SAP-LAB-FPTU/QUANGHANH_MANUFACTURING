@@ -210,6 +210,7 @@
     <Compile Include="Controllers\CDVT\Nghiemthu\VattukemtheoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\ChitietotoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\DanhsachController.cs" />
+    <Compile Include="Controllers\CDVT\Oto\GPSController.cs" />
     <Compile Include="Controllers\CDVT\Oto\HuydongOtoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\NhomotoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\SuachuahangngayController.cs" />
@@ -335,6 +336,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BaoCaoNgayDB.cs" />
+    <Compile Include="Models\CarGP.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Category_attribute_value.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -7025,6 +7029,7 @@
     <Content Include="excel\TCLD\Brief\Danh-sách-nhân-viên.xlsx" />
     <Content Include="excel\DK\reportdaily.xlsx" />
     <Content Include="excel\DK\reportmonth.xlsx" />
+    <Content Include="excel\DK\DailyDepartment\templateBaoCaoTheoPhanXuong.xlsx" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -7032,7 +7037,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="excel\DK\DailyDepartment\templateBaoCaoTheoPhanXuong.xlsx" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
@@ -7319,6 +7323,7 @@
     <Content Include="Views\CDVT\History\LichsuOtoTieuthu.cshtml" />
     <Content Include="Views\CDVT\History\LichsuTieuthu.cshtml" />
     <Content Include="Views\DK\DepartmentDaily.cshtml" />
+    <Content Include="Views\CDVT\Car\GPS.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7327,6 +7332,7 @@
     <Folder Include="Library\" />
     <Folder Include="Views\BaoCaoLenPhongDK\" />
     <Folder Include="Views\DepartmentDaily\" />
+    <Folder Include="Views\GPS\" />
     <Folder Include="Views\HuyDong\" />
     <Folder Include="Views\InputPlan_Month\" />
     <Folder Include="Views\Input\" />
