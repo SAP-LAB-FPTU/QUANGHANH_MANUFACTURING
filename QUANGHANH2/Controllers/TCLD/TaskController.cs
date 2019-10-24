@@ -250,8 +250,8 @@ namespace QUANGHANH2.Controllers.TCLD
                                 join
                                 nv in db.NhanViens
                                 on pxx.department_id equals nv.MaPhongBan
-                                where (nv.Ten.Contains(name) 
-                                && nv.MaTrangThai == 1 
+                                where (nv.Ten.Contains(name)
+                                && nv.MaTrangThai == 1
                                 && pxx.department_id.Equals(department_id))
                                 select new
                                 {
@@ -375,9 +375,9 @@ namespace QUANGHANH2.Controllers.TCLD
 
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                var temp = (from a in db.Departments where a.department_type.Contains("chính") select new {MaPhanXuong = a.department_id, TenPhanXuong = a.department_name }).ToList();
+                var temp = (from a in db.Departments where a.department_type.Contains("chính") select new { MaPhanXuong = a.department_id, TenPhanXuong = a.department_name }).ToList();
 
-                IEnumerable<Department> arrPhanXuong = temp.Select(p => new Department {department_id = p.MaPhanXuong, department_name = p.TenPhanXuong });
+                IEnumerable<Department> arrPhanXuong = temp.Select(p => new Department { department_id = p.MaPhanXuong, department_name = p.TenPhanXuong });
                 ViewBag.nameDepartment = "vld-antoan";
                 ViewBag.PhanXuongs = arrPhanXuong;
                 IOrderedEnumerable<NhiemVu> arrNhiemVu = db.NhiemVus.ToList().OrderBy(n => n.Loai);
@@ -472,50 +472,65 @@ namespace QUANGHANH2.Controllers.TCLD
                             rtSplit = rt.Split('_');
                             string mnv = rtSplit[1];
                             int mnvu = Convert.ToInt16(rtSplit[0]);
-                            ChiTiet_NhiemVu_NhanVien temp = db.ChiTiet_NhiemVu_NhanVien.Where(p => p.MaNV.Equals(mnv) && p.MaNhiemVu == mnvu).Where(p => p.IsInProcess == true).FirstOrDefault();
-                            if (temp != null)
+                            ChiTiet_NhiemVu_NhanVien at = db.ChiTiet_NhiemVu_NhanVien.Where(p => p.MaNV.Equals(mnv) 
+                            && p.MaNhiemVu.Equals(mnvu) && p.IsInProcess == true && p.IsUpdated == false).FirstOrDefault();
+                            if(at != null)
                             {
-                                temp.IsInProcess = false;
+                                at.IsUpdated = true;
                             }
+                            ChiTiet_NhiemVu_NhanVien nvu = new ChiTiet_NhiemVu_NhanVien
+                            {
+                                MaNV = mnv,
+                                MaNhiemVu = mnvu,
+                                NgayNhanNhiemVu = now,
+                                IsInProcess = false,
+                                IsUpdated = false,
+                                LanCuoiCapNhat = now
+                            };
+                            db.ChiTiet_NhiemVu_NhanVien.Add(nvu);
                         }
                     }
 
                     if (tasks != null)
                     {
-                        foreach (string t in tasks)
+                        foreach (string t in tasks) // truong hop bo nhiem vu cua nhan vien di va khong dang ki cai moi
                         {
                             tSplit = t.Split('_');
                             string mnv = tSplit[1];
                             int mnvu = Convert.ToInt16(tSplit[0]);
-                            cnn = new ChiTiet_NhiemVu_NhanVien
+                            ChiTiet_NhiemVu_NhanVien at = db.ChiTiet_NhiemVu_NhanVien.Where(p => p.MaNV.Equals(mnv)
+                            && p.MaNhiemVu.Equals(mnvu)  && p.IsUpdated == false).FirstOrDefault();
+                            if(at != null)
                             {
-                                MaNhiemVu = mnvu,
-                                MaNV = mnv,
-                                NgayNhanNhiemVu = now,
-                                IsInProcess = true
-                            };
-                            ChiTiet_NhiemVu_NhanVien at = db.ChiTiet_NhiemVu_NhanVien.Where(p => p.MaNV.Equals(mnv) && p.MaNhiemVu.Equals(mnvu)).FirstOrDefault();
-
-                            if (at != null)
-                            {
-                                if (at.NgayNhanNhiemVu.Date.Equals(now.Date))
+                                if (!at.IsInProcess == true)
                                 {
-                                    if (at.IsInProcess == false)
+                                    at.IsUpdated = true;
+                                    ChiTiet_NhiemVu_NhanVien nvu = new ChiTiet_NhiemVu_NhanVien
                                     {
-                                        at.IsInProcess = true;
-                                    }
-                                }
-                                else
-                                {
-                                    at.IsInProcess = false;
-                                    db.ChiTiet_NhiemVu_NhanVien.Add(cnn);
+                                        MaNV = mnv,
+                                        MaNhiemVu = mnvu,
+                                        NgayNhanNhiemVu = now,
+                                        IsInProcess = true,
+                                        IsUpdated = false,
+                                        LanCuoiCapNhat = now
+                                    };
+                                    db.ChiTiet_NhiemVu_NhanVien.Add(nvu);
                                 }
                             }
                             else
                             {
-                                db.ChiTiet_NhiemVu_NhanVien.Add(cnn);
+                                ChiTiet_NhiemVu_NhanVien nvu = new ChiTiet_NhiemVu_NhanVien
+                                {
+                                    MaNV = mnv,
+                                    MaNhiemVu = mnvu,
+                                    NgayNhanNhiemVu = now,
+                                    IsInProcess = true,
+                                    IsUpdated = false,
+                                    LanCuoiCapNhat = now
+                                };
+                                db.ChiTiet_NhiemVu_NhanVien.Add(nvu);
                             }
-
+                          
                         }
                     }
                     db.SaveChanges();
@@ -605,7 +620,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 {
                     foreach (ChiTiet_NhiemVu_NhanVien nvnv in db.ChiTiet_NhiemVu_NhanVien)
                     {
-                        if (nv.MaNV.Equals(nvnv.MaNV) && nvnv.IsInProcess == true)
+                        if (nv.MaNV.Equals(nvnv.MaNV) && nvnv.IsInProcess == true && Convert.ToBoolean(nvnv.IsUpdated) == false)
                         {
 
                             var mccTemp = (from nvunv in db.ChiTiet_NhiemVu_NhanVien
@@ -694,6 +709,7 @@ namespace QUANGHANH2.Controllers.TCLD
                                                    where nvnhiemvu.MaNV.Equals(nv.MaNV)
                                                    && nvnhiemvu.MaNhiemVu.Equals(nvu.MaNhiemVu)
                                                    && nvnhiemvu.IsInProcess == true
+                                                   && nvnhiemvu.IsUpdated == false
                                                    select new { nvnhiemvu.MaNV }
                                   ).FirstOrDefault();
                         if (isNvienDoingThisJob != null)
@@ -1197,7 +1213,7 @@ namespace QUANGHANH2.Controllers.TCLD
                     {
                         foreach (ChiTiet_NhiemVu_NhanVien nvnv in db.ChiTiet_NhiemVu_NhanVien)
                         {
-                            if (nv.MaNV.Equals(nvnv.MaNV) && nvnv.IsInProcess == true)
+                            if (nv.MaNV.Equals(nvnv.MaNV) && nvnv.IsInProcess == true && Convert.ToBoolean(nvnv.IsUpdated) == false)
                             {
 
                                 var mccTemp = (from nvunv in db.ChiTiet_NhiemVu_NhanVien
@@ -1341,25 +1357,25 @@ namespace QUANGHANH2.Controllers.TCLD
                 {
                     string department_id = Session["departID"].ToString();
                     List<NhanVien_Extend> arrNhanVien = null;
-                    
-                        var temp = (from px in db.Departments
-                                    join
-                                    nv in db.NhanViens
-                                    on px.department_id equals nv.MaPhongBan
-                                    where nv.MaTrangThai == 1
-                                    && px.department_id.Equals(department_id)
-                                    select new
-                                    {
-                                        TenNhanVien = nv.Ten,
-                                        MaNhanVien = nv.MaNV
-                                    });
-                        arrNhanVien = temp.ToList().Select(p => new NhanVien_Extend { Ten = p.TenNhanVien, MaNV = p.MaNhanVien }).ToList();
+
+                    var temp = (from px in db.Departments
+                                join
+                                nv in db.NhanViens
+                                on px.department_id equals nv.MaPhongBan
+                                where nv.MaTrangThai == 1
+                                && px.department_id.Equals(department_id)
+                                select new
+                                {
+                                    TenNhanVien = nv.Ten,
+                                    MaNhanVien = nv.MaNV
+                                });
+                    arrNhanVien = temp.ToList().Select(p => new NhanVien_Extend { Ten = p.TenNhanVien, MaNV = p.MaNhanVien }).ToList();
 
                     foreach (NhanVien_Extend nv in arrNhanVien)
                     {
                         foreach (ChiTiet_NhiemVu_NhanVien nvnv in db.ChiTiet_NhiemVu_NhanVien)
                         {
-                            if (nv.MaNV.Equals(nvnv.MaNV) && nvnv.IsInProcess == true)
+                            if (nv.MaNV.Equals(nvnv.MaNV) && nvnv.IsInProcess == true && Convert.ToBoolean(nvnv.IsUpdated) == false)
                             {
 
                                 var mccTemp = (from nvunv in db.ChiTiet_NhiemVu_NhanVien
@@ -1477,8 +1493,8 @@ namespace QUANGHANH2.Controllers.TCLD
                         x++;
                     }
                     string location = HostingEnvironment.MapPath("/excel/TCLD/download");
-                   
-                        excelPackage.SaveAs(new FileInfo(location + "/Report_Job_" + department_id + ".xlsx"));
+
+                    excelPackage.SaveAs(new FileInfo(location + "/Report_Job_" + department_id + ".xlsx"));
                 }
             }
 

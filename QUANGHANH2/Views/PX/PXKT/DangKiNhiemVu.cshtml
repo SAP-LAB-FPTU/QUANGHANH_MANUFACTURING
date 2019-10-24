@@ -105,7 +105,7 @@
                 },
                 "columns": [
                     { "data": "MaNV", "name": "MaNV", "render": (data) => { return "<label>" + data + "</label>" }, "orderable": true },
-                    { "data": "Ten", "name": "Ten", "render": (data, type, row, meta) => { return "<a class='font-weight-bold text-success' href='@Url.Action("chung-chi-cua-nhan-vien", "phong-tcld")?MaNV=" + row['MaNV'] + "'>" + data + "</a>" }, "orderable": true },
+                    { "data": "Ten", "name": "Ten", "render": (data, type, row, meta) => { return "<a class='font-weight-bold text-success'>" + data + "</a>" }, "orderable": true },
                     @{
                         int index = 0;
                         foreach (var b in arrNhiemVu)
@@ -130,7 +130,7 @@
                                         "}" +/* end if*/
                                     "}" + /*end for*/
                                         " var rt = \"<label><input class='job' value='"
-                                                + c.MaNhiemVu + "_" + "\"+data+\"" + "'  id='cbx" + c.MaNhiemVu + "_" + "\"+data+\"" + "'  type ='checkbox' onclick=removeTask('"
+                                                + c.MaNhiemVu + "_" + "\"+data+\"" + "'  id='cbx" + c.MaNhiemVu + "_" + "\"+data+\"" + "'  type ='checkbox' onclick=selectNewJob('"
                                                 + c.MaNhiemVu + "_" + "\"+data+\"" + "')  disabled /><span></span></label>\";" +
                                             "if(row['ChungChiNhiemVu'][ii].TinhTrangChungChi == 'Còn hạn'){" +
                                                 " rt += \"<a class='label label-success' >\"+row['ChungChiNhiemVu'][ii].TinhTrangChungChi+\"</a>\"}" +
@@ -242,8 +242,9 @@
                             if (response.success == true) {
                                 $("#pre-load").hide()
                                 selectedJob = []
-                                successAlert('Thành công', 'thêm nhiệm vụ thành công');
                                 turnOnChinhSuaMode();
+                                removeJob = [];
+                                reloadAlert('Thêm nhiệm vụ thành công', 1000);
                             } else {
                                 $("#pre-load").hide()
                                 turnOnDefaultMode()
@@ -271,25 +272,16 @@
 
         var newJob = []
         function selectNewJob(data) {
-            if (!newJob.includes(data)) { // nhiem vu dc them lan dau -> checkbox o trang thai tick hoac da bo tick va duoc tick lai
-                newJob.push(data)
-                if (removeJob.includes(data)) { // xoa data neu data da nam trong list huy nhiem vu
-                    var index = removeJob.indexOf(data)
-                    removeJob.splice(index, 1)
-                }
-            } else {// nhiem vu bi huy -> checkbox o trang thai untick
-                if (!removeJob.includes(data)) { // them data vao danh sach nhiem vu bi huy
-                    removeJob.push(data)
-                }
-                var index = newJob.indexOf(data)// xoa data neu data da nam trong list them nhiem vu
-                newJob.splice(index,1)
-            }
+            
         }
 
         var removeJob = []
         function removeTask(data) { // khi nhiem vu da duoc tick tu truoc ti se dc them vao danh sach huy nhiem vu
             if (!removeJob.includes(data)) {
                 removeJob.push(data)
+            } else {
+                var index = removeJob.indexOf(data)
+                removeJob.splice(index, 1)
             }
         }
 
