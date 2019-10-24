@@ -25,7 +25,7 @@ namespace QUANGHANHCORE.Controllers.KCS
     public class KCSController : Controller
     {
         // GET: /<controller>/
-        [Route("phong-kcs")]
+        [Route("phong-kcs/bao-cao/bao-cao-len-dk")]
         public ActionResult Index()
         {
             var phanxuong = "kcs";

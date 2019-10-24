@@ -64,7 +64,7 @@
                     </select>
                 </div>
                 <div class="input-field col l3 m12 s12">
-                    <a class="btn btn-small darken-2 blue" style="width:100%!important" onclick="change()">Đổi</a>
+                    <a id="changeButton" disabled class="btn btn-small darken-2 blue" style="width:100%!important" onclick="change()">Đổi</a>
                 </div>
                 <div class="row">
                     <div class="col s12 m12 l12 table_container">
@@ -115,10 +115,16 @@
 
 <script>
     $(document).ready(function () {
+
         $(".date-click").datepicker({
             onSelect: function (dateText) {
             }
         });
+        $('#cbx-px').change(function () {
+            if ($('#cbx-px').val() != null) {
+                $('#changeButton').removeAttr("disabled");
+            }
+        })
     })
 
     //$(".datepicker-here").keydown(function (e) {
@@ -145,53 +151,29 @@
                     dataType: 'json',
                     data: { 'px_value': px_value, 'date': date, 'ca_value': ca_value },
                     success: function (response) {
-                        if (response.success) {
-                            $("#ngaySanXuat").val(response.ngaySXnow)
-                            $("#SoNgaySX").val(response.dateSX)
-                            $("#table-input-body").empty();
-                            for (i = 0; i < response.listSXLoad.length; i++) {
-                                $("#table-input-body").append("<tr>");
-                                $("#table-input-body").append('<th><input class="center" readonly style="border:none" name="tenTieuChi" value="' + response.listSXLoad[i].TenTieuChi + '"/></th>');
-                                $("#table-input-body").append("<th>" + response.listSXLoad[i].DonViDo + "</th>");
-                                $("#table-input-body").append('<td><input class="center" required value="' + response.listSXLoad[i].SanLuong + '" id="thucHien' + i + '" autocomplete="off" style="border:none" name="thucHien" onchange="THOnchange(' + i + ')"/></td>' +
-                                    '<td><input class="center" required value="' + response.listSXLoad[i].KeHoach + '"   id="keHoach' + i + '" autocomplete="off" style="border:none" name="keHoach" onchange="KHOnchange(' + i + ')" /></td>' +
-                                    '<td><input class="center" value="' + response.listSXLoad[i].chenhlech + '" readonly id="chenhLech' + i + '" autocomplete="off" style="border:none" name="chenhLech" /></td>' +
-                                    '<td><input class="center" value="' + response.listSXLoad[i].percentDay + '" readonly id="phanTramHT' + i + '" autocomplete="off" style="border:none" name="phanTramHT" /></td>' +
-                                    '<td><input class="center"  readonly id="luyKe' + i + '" value="' + response.listSXLoad[i].luyke_temp + '" autocomplete="off" style="border:none" name="luyKe" />' +
-                                    ' <input type="hidden" id="luyKeHidden' + i + '" value="' + response.listSXLoad[i].LuyKe + '" /></td > ' +
-                                    '<td><input class="center" required value="' + response.listSXLoad[i].KHDC + '"  id="KHDC' + i + '"  autocomplete="off" style="border:none" name="KHDC" onchange="KHDCOnchange(' + i + ')"/></td>' +
-                                    '<td><input class="center" value="' + response.listSXLoad[i].percentMonth + '" readonly id="phanTramTD' + i + '"  autocomplete="off" style="border:none" name="phanTramTD" /></td>' +
-                                    '<td><input class="center" value="' + response.listSXLoad[i].tong + '" readonly id="tong' + i + '" autocomplete="off" style="border:none" name="tong" /></td>' +
-                                    '<td><input class="center" value="' + response.listSXLoad[i].OneDay + '" readonly id="motNgay' + i + '" autocomplete="off" style="border:none" name="motNgay" /></td>' +
-                                    '<td><input class="center"  value="' + response.listSXLoad[i].GhiChu + '"  autocomplete="off" class="input-field" style="border:none" name="ghiChu" /></td>');
-                                $("#table-input-body").append("</tr>");
-                            }
-                            $("#pre-load").hide("slow", function () {
-                            });
-                            successAlert("Đổi thành công", "");
-                        } else {
-                            $("#SoNgaySX").val(response.dateSX)
-                            $("#table-input-body").empty();
-                            for (i = 0; i < response.listSXLoad.length; i++) {
-                                $("#table-input-body").append("<tr>");
-                                $("#table-input-body").append('<th><input class="center" readonly style="border:none" name="tenTieuChi" value="' + response.listSXLoad[i].TenTieuChi + '"/></th>');
-                                $("#table-input-body").append("<th>" + response.listSXLoad[i].DonViDo + "</th>");
-                                $("#table-input-body").append('<td><input required class="center"  id="thucHien' + i + '" autocomplete="off" style="border:none" name="thucHien" onchange="THOnchange(' + i + ')"/></td>' +
-                                    '<td><input class="center"   required  id="keHoach' + i + '" autocomplete="off" style="border:none" name="keHoach" onchange="KHOnchange(' + i + ')" /></td>' +
-                                    '<td><input class="center" readonly id="chenhLech' + i + '" autocomplete="off" style="border:none" name="chenhLech" /></td>' +
-                                    '<td><input class="center" readonly id="phanTramHT' + i + '" autocomplete="off" style="border:none" name="phanTramHT" /></td>' +
-                                    '<td><input class="center"  readonly id="luyKe' + i + '" value="' + response.listSXLoad[i].LuyKe + '" autocomplete="off" style="border:none" name="luyKe" />' +
-                                    ' <input type="hidden" id="luyKeHidden' + i + '" value="' + response.listSXLoad[i].LuyKe + '" /></td > ' +
-                                    '<td><input class="center" required  id="KHDC' + i + '"  autocomplete="off" style="border:none" name="KHDC" onchange="KHDCOnchange(' + i + ')"/></td>' +
-                                    '<td><input class="center" readonly id="phanTramTD' + i + '"  autocomplete="off" style="border:none" name="phanTramTD" /></td>' +
-                                    '<td><input class="center" readonly id="tong' + i + '" autocomplete="off" style="border:none" name="tong" /></td>' +
-                                    '<td><input class="center" readonly id="motNgay' + i + '" autocomplete="off" style="border:none" name="motNgay" /></td>' +
-                                    '<td><input class="center"  autocomplete="off" class="input-field" style="border:none" name="ghiChu" /></td>');
-                            }
-                            $("#pre-load").hide("slow", function () {
-                            });
-                            successAlert("Đổi thành công", "");
+                        $("#ngaySanXuat").val(response.listSXLoad[1].NgaySanXuat)
+                        $("#SoNgaySX").val(response.dateSX)
+                        $("#table-input-body").empty();
+                        for (i = 0; i < response.listSXLoad.length; i++) {
+                            $("#table-input-body").append("<tr>");
+                            $("#table-input-body").append('<th><input class="center" readonly style="border:none" name="tenTieuChi" value="' + response.listSXLoad[i].TenTieuChi + '"/></th>');
+                            $("#table-input-body").append("<th>" + response.listSXLoad[i].DonViDo + "</th>");
+                            $("#table-input-body").append('<td><input class="center" required value="' + response.listSXLoad[i].SanLuong + '" id="thucHien' + i + '" autocomplete="off" style="border:none" name="thucHien" onchange="THOnchange(' + i + ')"/></td>' +
+                                '<td><input class="center" required value="' + response.listSXLoad[i].KeHoach + '"   id="keHoach' + i + '" autocomplete="off" style="border:none" name="keHoach" onchange="KHOnchange(' + i + ')" /></td>' +
+                                '<td><input class="center" value="' + response.listSXLoad[i].chenhlech + '" readonly id="chenhLech' + i + '" autocomplete="off" style="border:none" name="chenhLech" /></td>' +
+                                '<td><input class="center" value="' + response.listSXLoad[i].percentDay + '" readonly id="phanTramHT' + i + '" autocomplete="off" style="border:none" name="phanTramHT" /></td>' +
+                                '<td><input class="center"  readonly id="luyKe' + i + '" value="' + response.listSXLoad[i].luyke_temp + '" autocomplete="off" style="border:none" name="luyKe" />' +
+                                ' <input type="hidden" id="luyKeHidden' + i + '" value="' + response.listSXLoad[i].LuyKe + '" /></td > ' +
+                                '<td><input class="center" required value="' + response.listSXLoad[i].KHDC + '"  id="KHDC' + i + '"  autocomplete="off" style="border:none" name="KHDC" onchange="KHDCOnchange(' + i + ')"/></td>' +
+                                '<td><input class="center" value="' + response.listSXLoad[i].percentMonth + '" readonly id="phanTramTD' + i + '"  autocomplete="off" style="border:none" name="phanTramTD" /></td>' +
+                                '<td><input class="center" value="' + response.listSXLoad[i].tong + '" readonly id="tong' + i + '" autocomplete="off" style="border:none" name="tong" /></td>' +
+                                '<td><input class="center" value="' + response.listSXLoad[i].OneDay + '" readonly id="motNgay' + i + '" autocomplete="off" style="border:none" name="motNgay" /></td>' +
+                                '<td><input class="center"  value="' + response.listSXLoad[i].GhiChu + '"  autocomplete="off" class="input-field" style="border:none" name="ghiChu" /></td>');
+                            $("#table-input-body").append("</tr>");
                         }
+                        $("#pre-load").hide("slow", function () {
+                        });
+                        successAlert("Đổi thành công", "");
                     }
                 })
             }
@@ -203,9 +185,17 @@
     function onChangeAll() {
         var table = document.getElementById("Mytable").rows.length;
         table = table - 2;
-        for (var i = 0; i < table; i++) {
-            THOnchange(i);
-            KHDCOnchange(i);
+        var dataX = document.getElementById('SoNgaySX').value;
+        var dataY = document.getElementById('ngaySanXuat').value;
+        if (parseInt(dataY) < parseInt(dataX)) {
+            for (var i = 0; i < table; i++) {
+                THOnchange(i);
+                KHDCOnchange(i);
+            }
+        } else {
+            for (var i = 0; i < table; i++) {
+                document.getElementById('motNgay' + i).value = document.getElementById('tong' + i).value;
+            }
         }
     }
 
@@ -213,9 +203,17 @@
     function THOnchange(i) {
         var ngaySX = document.getElementById("ngaySanXuat").value;
         var tongNgaySX = document.getElementById("SoNgaySX").value;
-
-        var TH = document.getElementById("thucHien" + i).value;
-        var KH = document.getElementById("keHoach" + i).value;
+        var TH = 0;
+        var KH = 0;
+        if (document.getElementById("thucHien" + i).value == "") {
+            TH = 0;
+        } else {
+            TH = document.getElementById("thucHien" + i).value;
+        } if (document.getElementById("keHoach" + i).value == "") {
+            KH = 0;
+        } else {
+            KH = document.getElementById("keHoach" + i).value;
+        }
         document.getElementById("chenhLech" + i).value = TH - KH;
         if (KH != 0) {
             document.getElementById("phanTramHT" + i).value = ((TH / KH) * 100).toFixed(2);
@@ -232,7 +230,7 @@
 
         document.getElementById("tong" + i).value = KHDC - LK;
 
-        document.getElementById("motNgay" + i).value = (KHDC - LK) / (tongNgaySX - ngaySX);
+        document.getElementById("motNgay" + i).value = ((KHDC - LK) / (tongNgaySX - ngaySX)).toFixed(2);
 
 
     }
@@ -255,7 +253,7 @@
             document.getElementById("phanTramTD" + i).value = ((LK / KHDC) * 100).toFixed(2);
         }
         document.getElementById("tong" + i).value = KHDC - LK;
-        document.getElementById("motNgay" + i).value = (KHDC - LK) / (tongNgaySX - ngaySX);
+        document.getElementById("motNgay" + i).value = ((KHDC - LK) / (tongNgaySX - ngaySX)).toFixed(2);
 
     }
 
@@ -286,4 +284,5 @@
         }
         return false;
     }
+
 </script>

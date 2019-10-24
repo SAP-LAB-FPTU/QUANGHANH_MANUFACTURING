@@ -161,17 +161,18 @@ namespace QUANGHANHCORE.Controllers.CDVT
             ViewBag.cogioiTH = cogioiTH;
             ViewBag.slTH = cogioiTH.Count();
 
-            var hanDangKiemcogioi = (from equip in db.Equipments.Where(x => x.durationOfInspection <= testTime && x.durationOfInspection >= DateTime.Now).OrderBy(x => x.durationOfInspection)
+            var hanDangKiemcogioi = (from equip in db.Equipments.Where(x => x.durationOfInspection <= testTime && x.durationOfInspection >= DateTime.Now)
                                      join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
                                         on equip.Equipment_category_id equals cate.Equipment_category_id
-                                     select new form1
+                                     select new SL
                                      {
                                          equipment_name = equip.equipment_name,
                                          equipmentId = equip.equipmentId,
+                                         day = equip.durationOfInspection,
                                          ngay = equip.durationOfInspection.Day,
                                          thang = equip.durationOfInspection.Month,
                                          nam = equip.durationOfInspection.Year
-                                     }).Take(10).GroupBy(x=>x.equipment_name + x.equipmentId + x.ngay+x.thang+x.nam).Select(x=>x.FirstOrDefault());
+                                     }).Take(10).GroupBy(x=>x.equipment_name + x.equipmentId + x.ngay+x.thang+x.nam).Select(x=>x.FirstOrDefault()).OrderBy(x => x.day);
             ViewBag.kiemdinhcogioitag = hanDangKiemcogioi.Count();
             ViewBag.hanDangKiemcogioi = hanDangKiemcogioi;
 
@@ -358,6 +359,11 @@ namespace QUANGHANHCORE.Controllers.CDVT
     }
     public class SL
     {
-        public int count { get; set; }
+        public string equipment_name { get; set; }
+        public string equipmentId { get; set; }
+        public DateTime day { get; set; }
+        public int ngay { get; set; }
+        public int thang { get; set; }
+        public int nam { get; set; }
     }
 }

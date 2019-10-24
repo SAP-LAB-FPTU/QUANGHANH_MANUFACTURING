@@ -168,6 +168,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="Controllers\AT\ViewAccidentController.cs" />
     <Compile Include="Controllers\BGD\AccidentReportController.cs" />
     <Compile Include="Controllers\BGD\CDVT\BGDKiemdinhController.cs" />
     <Compile Include="Controllers\BGD\CDVT\BGDLiquidationReportController.cs" />
@@ -210,6 +211,7 @@
     <Compile Include="Controllers\CDVT\Nghiemthu\VattukemtheoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\ChitietotoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\DanhsachController.cs" />
+    <Compile Include="Controllers\CDVT\Oto\GPSController.cs" />
     <Compile Include="Controllers\CDVT\Oto\HuydongOtoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\NhomotoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\SuachuahangngayController.cs" />
@@ -231,6 +233,7 @@
     <Compile Include="Controllers\CDVT\Report\TangGiamController.cs" />
     <Compile Include="Controllers\CDVT\Report\TrungdaituReportController.cs" />
     <Compile Include="Controllers\CDVT\Thietbi\KiemdinhController.cs" />
+    <Compile Include="Controllers\CDVT\Thietbi\SCTXController.cs" />
     <Compile Include="Controllers\CDVT\Vattu\DanhsachvattuController.cs" />
     <Compile Include="Controllers\CDVT\Useless\ThongtinsucoController.cs" />
     <Compile Include="Controllers\CDVT\Report\KiemdinhController.cs" />
@@ -335,6 +338,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BaoCaoNgayDB.cs" />
+    <Compile Include="Models\CarGP.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Category_attribute_value.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -7321,6 +7327,12 @@
     <Content Include="Views\CDVT\History\LichsuTieuthu.cshtml" />
     <Content Include="Views\DK\DepartmentDaily.cshtml" />
     <Content Include="Views\PX\PXKT\DangKiNhiemVu.cshtml" />
+    <Content Include="Views\CDVT\Car\GPS.cshtml" />
+    <Content Include="Views\DK\SanLuongView.cshtml" />
+    <Content Include="Views\CDVT\Thietbi\SCTX.cshtml" />
+    <Content Include="Views\Shared\_Layout_AT.cshtml" />
+    <Content Include="Views\AT\ViewAccident.cshtml" />
+    <Content Include="Views\KCS\NhapKeHoach\InputPlan_Month.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7329,6 +7341,7 @@
     <Folder Include="Library\" />
     <Folder Include="Views\BaoCaoLenPhongDK\" />
     <Folder Include="Views\DepartmentDaily\" />
+    <Folder Include="Views\GPS\" />
     <Folder Include="Views\HuyDong\" />
     <Folder Include="Views\InputPlan_Month\" />
     <Folder Include="Views\Input\" />
@@ -7337,6 +7350,7 @@
     <Folder Include="Views\Quanlyvattu\" />
     <Folder Include="Views\ReportMonthly\" />
     <Folder Include="Views\SanLuongReport\" />
+    <Folder Include="Views\ViewAccident\" />
     <Folder Include="Views\WorkHistory\" />
   </ItemGroup>
   <ItemGroup>
