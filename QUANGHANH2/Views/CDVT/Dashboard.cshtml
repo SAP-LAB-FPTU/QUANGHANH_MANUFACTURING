@@ -879,12 +879,13 @@
             <div class="col l12">
                 <div class="card">
                     <div class="card-content ">
-                        <h5 class="card-title">Thiết bị kiểm định</h5>
+                        <h5 class="card-title">Kiểm định thiết bị</h5>
                         <div id="basic-barkd" style="height:400px;"></div>
                     </div>
                 </div>
             </div>
         }
+
     }
 
 </div>
@@ -1104,6 +1105,125 @@
         maxDate: new Date() // Now can select only dates, which goes after today
     });
     $(document).ready(function () {
+
+
+    var array = @Html.Raw(Json.Encode(ViewBag.trungdaitu));
+        var a = JSON.stringify(array);
+        var jsonData = JSON.parse(a);
+        var soluong = [];
+        var thang = [];
+        if(@ViewBag.type == month) {
+            for (var i = 0; i < jsonData.length; i++) {
+                soluong[i] = jsonData[i].soluong;
+                thang[i] = "Ngày "+jsonData[i].date;
+                }
+        }
+        if(@ViewBag.type == year) {
+            for (var i = 0; i < jsonData.length; i++) {
+                soluong[i] = jsonData[i].soluong;
+                thang[i] = "Tháng "+jsonData[i].date;
+                }
+        }
+        if(@ViewBag.type == yearss) {
+            for (var i = 0; i < jsonData.length; i++) {
+                soluong[i] = jsonData[i].soluong;
+                thang[i] = jsonData[i].date;
+                }
+        }
+                var a5 = {
+                    type: 'bar',
+                    data: soluong,
+                }
+                var b5 = {
+                    type: 'category',
+                    data : thang,
+                }
+             var myCharttdt = echarts.init(document.getElementById('basic-bartdt'));
+             var option = {
+                grid: {
+                    left: '1%',
+                    right: '2%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                color: ["#2962FF", "#4fc3f7"],
+                calculable: true,
+                xAxis: [
+                        b5
+                ],
+                yAxis: [
+                    {
+                        type: 'value'
+                    }
+                ],
+                series: [
+                    a5
+                ]
+    };
+        myCharttdt.setOption(option);
+
+        var array = @Html.Raw(Json.Encode(ViewBag.kiemdinh));
+        var a = JSON.stringify(array);
+        var jsonData = JSON.parse(a);
+        var soluong = [];
+        var thang = [];
+        if(@ViewBag.type == month) {
+            for (var i = 0; i < jsonData.length; i++) {
+                soluong[i] = jsonData[i].soluong;
+                thang[i] = "Ngày "+jsonData[i].date;
+                }
+        }
+        if(@ViewBag.type == year) {
+            for (var i = 0; i < jsonData.length; i++) {
+                soluong[i] = jsonData[i].soluong;
+                thang[i] = "Tháng "+jsonData[i].date;
+                }
+        }
+        if(@ViewBag.type == yearss) {
+            for (var i = 0; i < jsonData.length; i++) {
+                soluong[i] = jsonData[i].soluong;
+                thang[i] = jsonData[i].date;
+                }
+        }
+                var a = {
+                    type: 'bar',
+                    data: soluong,
+                }
+                var b = {
+                    type: 'category',
+                    data : thang,
+                }
+        $('.datepicker-inline').remove();
+             var myChartkd = echarts.init(document.getElementById('basic-barkd'));
+             var option = {
+                grid: {
+                    left: '1%',
+                    right: '2%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                color: ["#2962FF", "#4fc3f7"],
+                calculable: true,
+                xAxis: [
+                        b
+                ],
+                yAxis: [
+                    {
+                        type: 'value'
+                    }
+                ],
+                series: [
+                    a
+                ]
+    };
+        myChartkd.setOption(option);
+
         var array = @Html.Raw(Json.Encode(ViewBag.suachua));
         var a = JSON.stringify(array);
         var jsonData = JSON.parse(a);
@@ -1278,122 +1398,6 @@
                 ]
     };
         myCharttl.setOption(option);
-
-    var array = @Html.Raw(Json.Encode(ViewBag.trungdaitu));
-        var a = JSON.stringify(array);
-        var jsonData = JSON.parse(a);
-        var soluong = [];
-        var thang = [];
-        if(@ViewBag.type == month) {
-            for (var i = 0; i < jsonData.length; i++) {
-                soluong[i] = jsonData[i].soluong;
-                thang[i] = "Ngày "+jsonData[i].date;
-                }
-        }
-        if(@ViewBag.type == year) {
-            for (var i = 0; i < jsonData.length; i++) {
-                soluong[i] = jsonData[i].soluong;
-                thang[i] = "Tháng "+jsonData[i].date;
-                }
-        }
-        if(@ViewBag.type == yearss) {
-            for (var i = 0; i < jsonData.length; i++) {
-                soluong[i] = jsonData[i].soluong;
-                thang[i] = jsonData[i].date;
-                }
-        }
-                var a = {
-                    type: 'bar',
-                    data: soluong,
-                }
-                var b = {
-                    type: 'category',
-                    data : thang,
-                }
-             var myCharttdt = echarts.init(document.getElementById('basic-bartdt'));
-             var option = {
-                grid: {
-                    left: '1%',
-                    right: '2%',
-                    bottom: '3%',
-                    containLabel: true
-                },
-                tooltip: {
-                    trigger: 'axis'
-                },
-                color: ["#2962FF", "#4fc3f7"],
-                calculable: true,
-                xAxis: [
-                        b
-                ],
-                yAxis: [
-                    {
-                        type: 'value'
-                    }
-                ],
-                series: [
-                    a
-                ]
-    };
-        myCharttdt.setOption(option);
-
- var array = @Html.Raw(Json.Encode(ViewBag.kiemdinh));
-        var a = JSON.stringify(array);
-        var jsonData = JSON.parse(a);
-        var soluong = [];
-        var thang = [];
-        if(@ViewBag.type == month) {
-            for (var i = 0; i < jsonData.length; i++) {
-                soluong[i] = jsonData[i].soluong;
-                thang[i] = "Ngày "+jsonData[i].date;
-                }
-        }
-        if(@ViewBag.type == year) {
-            for (var i = 0; i < jsonData.length; i++) {
-                soluong[i] = jsonData[i].soluong;
-                thang[i] = "Tháng "+jsonData[i].date;
-                }
-        }
-        if(@ViewBag.type == yearss) {
-            for (var i = 0; i < jsonData.length; i++) {
-                soluong[i] = jsonData[i].soluong;
-                thang[i] = jsonData[i].date;
-                }
-        }
-                var a = {
-                    type: 'bar',
-                    data: soluong,
-                }
-                var b = {
-                    type: 'category',
-                    data : thang,
-                }
-             var myChartkd = echarts.init(document.getElementById('basic-barkd'));
-             var option = {
-                grid: {
-                    left: '1%',
-                    right: '2%',
-                    bottom: '3%',
-                    containLabel: true
-                },
-                tooltip: {
-                    trigger: 'axis'
-                },
-                color: ["#2962FF", "#4fc3f7"],
-                calculable: true,
-                xAxis: [
-                        b
-                ],
-                yAxis: [
-                    {
-                        type: 'value'
-                    }
-                ],
-                series: [
-                    a
-                ]
-    };
-        myChartkd.setOption(option);
 
         $(function () {
             $(window).on('resize', resize);

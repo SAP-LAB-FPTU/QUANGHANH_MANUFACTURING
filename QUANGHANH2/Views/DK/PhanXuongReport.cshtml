@@ -36,8 +36,11 @@
     }
 
     .files-container {
-    margin-left: 15px;
-}
+        margin-left: 15px;
+    }
+    #files-table .file-td{
+        text-align:left !important;
+    }
 </style>
 @{
     //var listFiles =@Html.Raw(Json.Encode(ViewBag.listFiles));
@@ -48,7 +51,7 @@
     var ca2Number = 0;
     var isLock = ViewBag.isLock;
     var ca3Number = 0;
-    if (listFiles != null&&phanxuong.ToLower()!="kcs")
+    if (listFiles != null && phanxuong.ToLower() != "kcs")
     {
         for (int i = 0; i < listFiles.Count; i++)
         {
@@ -72,307 +75,334 @@
 <div class="card">
     <div class="card-content">
         <div class="row">
-                        <div class="center black-text">
-                            <h3><b>BÁO CÁO PHÂN XƯỞNG</b></h3>
-                            <h5>
-                                <i class="fas fa-calendar-alt icon"></i>
-                                <input type='text' class='datepicker-here center' id="ngay-chon" data-language='vi' />
-                            </h5>
-                        </div>
+            <div class="center black-text">
+                <h3><b>BÁO CÁO PHÂN XƯỞNG</b></h3>
+                <h5>
+                    <i class="fas fa-calendar-alt icon"></i>
+                    <input type='text' class='datepicker-here center' id="ngay-chon" data-language='vi' />
+                </h5>
+            </div>
 
-                    </div>
-                    <div class="row">
-                        <div class="col l4 m4 s3 center"></div>
-                        <div style="width:25%" class="col l5 m5 s5 left">
-                            <select class="form-control" id="phongbanSearch">
-                                @{
-                                    if (ViewBag.phanxuong == null)
+        </div>
+        <div class="row">
+            <div class="col l4 m4 s3 center"></div>
+            <div style="width:25%" class="col l5 m5 s5 left">
+                <select class="form-control" id="phongbanSearch">
+                    @{
+                        if (ViewBag.phanxuong == null)
+                        {
+                            <option value="all" selected>Tất cả phòng ban</option>
+                        }
+                        else
+                        {
+                            <option value="all">Tất cả phòng ban</option>
+                        }
+                        for (int i = 0; i < listPX.Count; i++)
+                        {
+                            if (listPX[i].department_id == ViewBag.phanxuong)
+                            {
+                                <option value="@(listPX[i].department_id)" selected>@(listPX[i].department_name)</option>
+                            }
+                            else
+                            {
+                                <option value="@(listPX[i].department_id)">@(listPX[i].department_name)</option>
+                            }
+                        }
+                    }
+
+                </select>
+            </div>
+            <div class="col l3 m3 s3 left">
+                <button style="width:25%" class="btn blue waves-effect waves-light" id="view-btn-trigger">Xem</button>
+            </div>
+        </div>
+
+        <hr />
+        <div class="row" id="main-content">
+            <div class="col s12">
+
+                <div class="card-content">
+                    @if (phanxuong.ToLower() != "kcs" && phanxuong.ToLower() != "all")
+                    {
+                        <h5 class="">Báo cáo từng ca</h5>
+                    }
+                    <br />
+                    <ul class="collapsible expandable">
+                        @{
+                            if (phanxuong.ToLower() != "kcs" && phanxuong.ToLower() != "all")
+                            {
+                                if (listFiles != null)
+                                {
+                                    <!--CA1-->
+                                    if (ca1Number == 0)
                                     {
-                                        <option value="-1" selected disabled>Chọn phòng ban</option>
+                                        <li class=" not-collapse">
+                                            <div class="collapsible-header">
+                                                <i class="fas fa-paperclip"></i>Ca 1
+                                                <div class="switch" id="switch-ca1">
+                                                    <label>
+                                                        <input @(ViewBag.ca1IsLock == true ? "checked" : "") type="checkbox">
+                                                        <span class="lever"></span>
+                                                        Khóa
+                                                    </label>
+                                                </div>
+                                                <span id="ca1" class="badge">Không có tệp nào</span>
+                                            </div>
+                                            <div class="collapsible-body">
+                                                <div class="row">
+                                                    <div class="col s12">
+                                                        <i>Chưa có file nào</i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
                                     }
                                     else
                                     {
-                                        <option value="-1">Chọn phòng ban</option>
-                                    }
-                                    for (int i = 0; i < listPX.Count; i++)
-                                    {
-                                        if (listPX[i].department_id == ViewBag.phanxuong)
-                                        {
-                                            <option value="@(listPX[i].department_id)" selected>@(listPX[i].department_name)</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@(listPX[i].department_id)">@(listPX[i].department_name)</option>
-                                        }
-                                    }
-                                }
+                                        <li class="active not-collapse">
+                                            <div class="collapsible-header">
+                                                <i class="fas fa-paperclip"></i>Ca 1
+                                                <div class="switch" id="switch-ca1">
+                                                    <label>
+                                                        <input @(ViewBag.ca1IsLock == true ? "checked" : "") type="checkbox">
+                                                        <span class="lever"></span>
+                                                        Khóa
+                                                    </label>
+                                                </div>
+                                                <span id="ca1" class="badge">
+                                                    @ca1Number tệp
+                                                </span>
 
-                            </select>
-                        </div>
-                        <div class="col l3 m3 s3 left">
-                            <button style="width:25%" class="btn blue waves-effect waves-light" id="view-btn-trigger">Xem</button>
-                        </div>
-                    </div>
-
-                    <hr />
-                    <div class="row" id="main-content">
-                        <div class="col s12">
-                           
-                            <div class="card-content">
-                                @if (phanxuong.ToLower() != "kcs")
-                                {
-                                    <h5 class="">Báo cáo từng ca</h5>
-                                }
-                                <br />
-                                <ul class="collapsible expandable">
-                                    <!------------------------------------------------CA 1----------------------------------------------->
-                                    @{
-                                        if (phanxuong.ToLower() != "kcs")
-                                        {
-                                            if (listFiles != null)
-                                            {
-                                                if (ca1Number == 0)
-                                                {
-                                                    <li class=" not-collapse">
-                                                        <div class="collapsible-header">
-                                                            <i class="fas fa-paperclip"></i>Ca 1
-                                                            <div class="switch" id="switch-ca1">
-                                                                <label>
-                                                                    <input @(ViewBag.ca1IsLock == true ? "checked" : "") type="checkbox">
-                                                                    <span class="lever"></span>
-                                                                    Khóa
-                                                                </label>
-                                                            </div>
-                                                            <span id="ca1" class="badge">Không có tệp nào</span>
-                                                        </div>
-                                                        <div class="collapsible-body">
-                                                            <div class="row">
-                                                                <div class="col s12">
-                                                                    <i>Chưa có file nào</i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                }
-                                                else
-                                                {
-                                                    <li class="active not-collapse">
-                                                        <div class="collapsible-header">
-                                                            <i class="fas fa-paperclip"></i>Ca 1
-                                                            <div class="switch" id="switch-ca1">
-                                                                <label>
-                                                                    <input @(ViewBag.ca1IsLock == true ? "checked" : "") type="checkbox">
-                                                                    <span class="lever"></span>
-                                                                    Khóa
-                                                                </label>
-                                                            </div>
-                                                            <span id="ca1" class="badge">
-                                                                @ca1Number tệp
-                                                            </span>
-
-                                                        </div>
-                                                        <div class="collapsible-body">
-                                                            @for (int i = 0; i < listFiles.Count; i++)
-                                                            {
-                                                                if (listFiles[i].ca == 1)
-                                                                {
-                                                                    <p>
-                                                                        <img width="25" style="vertical-align:middle" src="~/assets/uploader/file-icon.png" />
-                                                                        <a href="~/FileContainer/PhanXuongLenDK/@listFiles[i].fileName">@listFiles[i].fileNameDisplay</a>
-                                                                        @if (listFiles[i].chuthich != "")
-                                                                        {
-                                                                            <i> (Ghi chú: @listFiles[i].chuthich )</i>
-                                                                        }
-
-                                                                    </p>
-                                                                }
-                                                            }
-
-                                                        </div>
-                                                    </li>
-                                                }
-                                            }
-                                        }
-
-
-                                    }
-                                    <!------------------------------------------------CA 2----------------------------------------------->
-                                    @{
-                                        if (phanxuong.ToLower() != "kcs")
-                                        {
-                                            if (listFiles != null)
-                                            {
-                                                if (ca2Number == 0)
-                                                {
-                                                    <li class="not-collapse">
-                                                        <div class="collapsible-header">
-                                                            <i class="fas fa-paperclip"></i>Ca 2
-                                                            <div class="switch" id="switch-ca2">
-                                                                <label>
-
-                                                                    <input @(ViewBag.ca2IsLock == true ? "checked" : "") type="checkbox">
-                                                                    <span class="lever"></span>
-                                                                    Khóa
-                                                                </label>
-                                                            </div>
-                                                            <span id="ca2" class="badge">Không có tệp nào</span>
-                                                        </div>
-                                                        <div class="collapsible-body">
-                                                            <div class="row">
-                                                                <div class="col s12">
-                                                                    <i>Chưa có file nào</i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                }
-                                                else
-                                                {
-                                                    <li class="active not-collapse">
-                                                        <div class="collapsible-header">
-                                                            <i class="fas fa-paperclip"></i>Ca 2
-                                                            <div class="switch" id="switch-ca2">
-                                                                <label>
-
-                                                                    <input @(ViewBag.ca2IsLock == true ? "checked" : "") type="checkbox">
-                                                                    <span class="lever"></span>
-                                                                    Khóa
-                                                                </label>
-                                                            </div>
-                                                            <span id="ca2" class="badge">@ca2Number tệp</span>
-                                                        </div>
-                                                        <div class="collapsible-body" style="display: block;">
-                                                            @for (int i = 0; i < listFiles.Count; i++)
-                                                            {
-                                                                if (listFiles[i].ca == 2)
-                                                                {
-                                                                    <p>
-                                                                        <img width="25" style="vertical-align:middle" src="~/assets/uploader/file-icon.png" />
-                                                                        <a href="~/FileContainer/PhanXuongLenDK/@listFiles[i].fileName">@listFiles[i].fileNameDisplay</a>
-                                                                        @if (listFiles[i].chuthich != "")
-                                                                        {
-                                                                            <i> (Ghi chú: @listFiles[i].chuthich )</i>
-                                                                        }
-
-                                                                    </p>
-                                                                }
-                                                            }
-
-                                                        </div>
-                                                    </li>
-                                                }
-                                            }
-                                        }
-
-                                    }
-
-                                    <!------------------------------------------------CA 3----------------------------------------------->
-                                    @{
-                                        if (phanxuong.ToLower() != "kcs")
-                                        {
-                                            if (listFiles != null)
-                                            {
-                                                if (ca3Number == 0)
-                                                {
-                                                    <li class="not-collapse">
-                                                        <div class="collapsible-header">
-                                                            <i class="fas fa-paperclip"></i>Ca 3
-                                                            <div class="switch" id="switch-ca3">
-                                                                <label>
-
-                                                                    <input @(ViewBag.ca3IsLock == true ? "checked" : "") type="checkbox">
-                                                                    <span class="lever"></span>
-                                                                    Khóa
-
-                                                                </label>
-                                                            </div>
-                                                            <span id="ca1" class="badge">Không có tệp nào</span>
-                                                        </div>
-                                                        <div class="collapsible-body">
-                                                            <div class="row">
-                                                                <div class="col s12">
-                                                                    <i>Chưa có file nào</i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                }
-                                                else
-                                                {
-                                                    <li class="active not-collapse">
-                                                        <div class="collapsible-header">
-                                                            <i class="fas fa-paperclip"></i>Ca 3
-                                                            <div class="switch" id="switch-ca3">
-                                                                <label>
-                                                                    <input @(ViewBag.ca3IsLock == true ? "checked" : "") type="checkbox">
-                                                                    <span class="lever"></span>
-                                                                    Khóa
-                                                                </label>
-                                                            </div>
-                                                            <span id="ca1" class="badge">@ca3Number tệp</span>
-                                                        </div>
-                                                        <div class="collapsible-body" style="display: block;">
-                                                            @for (int i = 0; i < listFiles.Count; i++)
-                                                            {
-                                                                if (listFiles[i].ca == 3)
-                                                                {
-                                                                    <p>
-                                                                        <img width="25" style="vertical-align:middle" src="~/assets/uploader/file-icon.png" />
-                                                                        <a href="~/FileContainer/PhanXuongLenDK/@listFiles[i].fileName">@listFiles[i].fileNameDisplay</a>
-                                                                        @if (listFiles[i].chuthich != "")
-                                                                        {
-                                                                            <i> (Ghi chú: @listFiles[i].chuthich )</i>
-                                                                        }
-
-                                                                    </p>
-                                                                }
-                                                            }
-
-                                                        </div>
-                                                    </li>
-                                                }
-                                            }
-                                        }
-                                    }
-                                    <!------------------------------------------------KCS------------------------------------------------>
-                                    @{
-                                        if (phanxuong.ToLower() == "kcs")
-                                        {
-                                            <br />
-                                            <div class="switch" id="switch-kcs">
-                                                <label>
-                                                    <input @(ViewBag.isLock == true ? "checked" : "") type="checkbox">
-                                                    <span class="lever"></span>
-                                                    Khóa
-                                                </label>
                                             </div>
-                                            <br />
-                                            <div class="files-container">
-                                                @if (listFiles.Count == 0)
-                                                {
-                                                    <i>Không có tập tin nào</i>
-                                                }
+                                            <div class="collapsible-body">
                                                 @for (int i = 0; i < listFiles.Count; i++)
                                                 {
-                                                <p>
-                                                    <img width="25" style="vertical-align:middle" src="~/assets/uploader/file-icon.png" />
-                                                    <a href="~/FileContainer/KCS/@listFiles[i].fileName">@listFiles[i].fileNameDisplay</a>
-                                                    @if (listFiles[i].chuthich != "")
+                                                    if (listFiles[i].ca == 1)
                                                     {
-                                                        <i> (Ghi chú: @listFiles[i].chuthich)</i>
+                                                        <p>
+                                                            <img width="25" style="vertical-align:middle" src="~/assets/uploader/file-icon.png" />
+                                                            <a href="~/FileContainer/PhanXuongLenDK/@listFiles[i].fileName">@listFiles[i].fileNameDisplay</a>
+                                                            @if (listFiles[i].chuthich != "")
+                                                            {
+                                                                <i> (Ghi chú: @listFiles[i].chuthich )</i>
+                                                            }
+
+                                                        </p>
                                                     }
-                                                </p>
                                                 }
-                                                <br />
+
                                             </div>
-                                        }
+                                        </li>
                                     }
-                                </ul>
-                            </div>
-                            </div>
-                        </div>
-                    </div>
+
+                                    <!--CA2-->
+                                    if (ca2Number == 0)
+                                    {
+                                        <li class="not-collapse">
+                                            <div class="collapsible-header">
+                                                <i class="fas fa-paperclip"></i>Ca 2
+                                                <div class="switch" id="switch-ca2">
+                                                    <label>
+
+                                                        <input @(ViewBag.ca2IsLock == true ? "checked" : "") type="checkbox">
+                                                        <span class="lever"></span>
+                                                        Khóa
+                                                    </label>
+                                                </div>
+                                                <span id="ca2" class="badge">Không có tệp nào</span>
+                                            </div>
+                                            <div class="collapsible-body">
+                                                <div class="row">
+                                                    <div class="col s12">
+                                                        <i>Chưa có file nào</i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="active not-collapse">
+                                            <div class="collapsible-header">
+                                                <i class="fas fa-paperclip"></i>Ca 2
+                                                <div class="switch" id="switch-ca2">
+                                                    <label>
+
+                                                        <input @(ViewBag.ca2IsLock == true ? "checked" : "") type="checkbox">
+                                                        <span class="lever"></span>
+                                                        Khóa
+                                                    </label>
+                                                </div>
+                                                <span id="ca2" class="badge">@ca2Number tệp</span>
+                                            </div>
+                                            <div class="collapsible-body" style="display: block;">
+                                                @for (int i = 0; i < listFiles.Count; i++)
+                                                {
+                                                    if (listFiles[i].ca == 2)
+                                                    {
+                                                        <p>
+                                                            <img width="25" style="vertical-align:middle" src="~/assets/uploader/file-icon.png" />
+                                                            <a href="~/FileContainer/PhanXuongLenDK/@listFiles[i].fileName">@listFiles[i].fileNameDisplay</a>
+                                                            @if (listFiles[i].chuthich != "")
+                                                            {
+                                                                <i> (Ghi chú: @listFiles[i].chuthich )</i>
+                                                            }
+
+                                                        </p>
+                                                    }
+                                                }
+
+                                            </div>
+                                        </li>
+                                    }
+
+                                    <!--CA3-->
+
+                                    if (ca3Number == 0)
+                                    {
+                                        <li class="not-collapse">
+                                            <div class="collapsible-header">
+                                                <i class="fas fa-paperclip"></i>Ca 3
+                                                <div class="switch" id="switch-ca3">
+                                                    <label>
+
+                                                        <input @(ViewBag.ca3IsLock == true ? "checked" : "") type="checkbox">
+                                                        <span class="lever"></span>
+                                                        Khóa
+
+                                                    </label>
+                                                </div>
+                                                <span id="ca1" class="badge">Không có tệp nào</span>
+                                            </div>
+                                            <div class="collapsible-body">
+                                                <div class="row">
+                                                    <div class="col s12">
+                                                        <i>Chưa có file nào</i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="active not-collapse">
+                                            <div class="collapsible-header">
+                                                <i class="fas fa-paperclip"></i>Ca 3
+                                                <div class="switch" id="switch-ca3">
+                                                    <label>
+                                                        <input @(ViewBag.ca3IsLock == true ? "checked" : "") type="checkbox">
+                                                        <span class="lever"></span>
+                                                        Khóa
+                                                    </label>
+                                                </div>
+                                                <span id="ca1" class="badge">@ca3Number tệp</span>
+                                            </div>
+                                            <div class="collapsible-body" style="display: block;">
+                                                @for (int i = 0; i < listFiles.Count; i++)
+                                                {
+                                                    if (listFiles[i].ca == 3)
+                                                    {
+                                                        <p>
+                                                            <img width="25" style="vertical-align:middle" src="~/assets/uploader/file-icon.png" />
+                                                            <a href="~/FileContainer/PhanXuongLenDK/@listFiles[i].fileName">@listFiles[i].fileNameDisplay</a>
+                                                            @if (listFiles[i].chuthich != "")
+                                                            {
+                                                                <i> (Ghi chú: @listFiles[i].chuthich )</i>
+                                                            }
+
+                                                        </p>
+                                                    }
+                                                }
+
+                                            </div>
+                                        </li>
+                                    }
+                                }
+                            }
+
+                        }
+
+                        <!------------------------------------------------KCS------------------------------------------------>
+                        @{
+                            if (phanxuong.ToLower() == "kcs")
+                            {
+                                <br />
+                                <div class="switch" id="switch-kcs">
+                                    <label>
+                                        <input @(ViewBag.isLock == true ? "checked" : "") type="checkbox">
+                                        <span class="lever"></span>
+                                        Khóa
+                                    </label>
+                                </div>
+                                <br />
+                                <div class="files-container">
+                                    @if (listFiles.Count == 0)
+                                    {
+                                        <i>Không có tập tin nào</i>
+                                    }
+                                    @for (int i = 0; i < listFiles.Count; i++)
+                                    {
+                                        <p>
+                                            <img width="25" style="vertical-align:middle" src="~/assets/uploader/file-icon.png" />
+                                            <a href="~/FileContainer/KCS/@listFiles[i].fileName">@listFiles[i].fileNameDisplay</a>
+                                            @if (listFiles[i].chuthich != "")
+                                            {
+                                                <i> (Ghi chú: @listFiles[i].chuthich)</i>
+                                            }
+                                        </p>
+                                    }
+                                    <br />
+                                </div>
+                            }
+                        }
+                        <!------------------------------------------------All------------------------------------------------>
+                        @{
+                            if (phanxuong == "all")
+                            {
+                                var allFilesList = ViewBag.allFilesList;
+                                <table class="table-bordered" id="files-table">
+                                    <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>File</th>
+                                            <th>Ghi chú</th>
+                                            <th>Phân xưởng</th>
+                                            <th>Ca</th>
+                                            <th>Thời gian</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (allFilesList.Count == 0)
+                                        {
+                                            <tr>
+                                                <td colspan="6"><i>Không có tập tin nào</i></td>
+                                            </tr>
+                                        }
+
+                                        @for (int i = 0; i < allFilesList.Count; i++)
+                                        {
+                                            <tr>
+                                                <td>@(i + 1)</td>
+                                                <td class="file-td">
+                                                    <img width="25" style="vertical-align:middle" src="~/assets/uploader/file-icon.png" />
+                                                    <a href="~/FileContainer/PhanXuongLenDK/@allFilesList[i].fileName">@allFilesList[i].fileNameDisplay</a>
+                                                </td>
+                                                <td>@allFilesList[i].chuthich</td>
+                                                <td>@allFilesList[i].department_name</td>
+                                                <td>@allFilesList[i].ca</td>
+                                                <td>@allFilesList[i].uploadTime.ToString("hh:mm:ss tt")</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                        }
+                    </ul>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div id="modal1" class="modal">
     <div class="modal-content">
@@ -557,13 +587,9 @@
 
     $("#view-btn-trigger").click(function () {
         var selectedOption = $('#phongbanSearch').find(":selected").val();
-        if (selectedOption !== "-1") {
              var ngay = $('#ngay-chon').val();
-            //while (ngay.includes('/')) {
-            //    ngay = ngay.replace('/', '-');
-            //}
         window.location.href ="/phong-dieu-khien/bao-cao-phan-xuong-phong-ban?phanxuong="+selectedOption+"&ngay=" + ngay;
-        }
+
     })
 </script>
 <script>

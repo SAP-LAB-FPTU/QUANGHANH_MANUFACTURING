@@ -15,7 +15,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
 {
     public class nghiemthuController : Controller
     {
-        [Auther(RightID = "25,179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "25")]
         [Route("phong-cdvt/nghiem-thu")]
         public ActionResult Index()
         {
@@ -152,7 +152,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
         }
 
 
-        [Auther(RightID = "82,179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "82")]
         [HttpPost]
         [Route("phong-cdvt/nghiem-thu/Edit")]
         public ActionResult Edit(string id, string documentary_code, string documentary_id)
@@ -185,30 +185,36 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                 new SqlParameter("equipmentId", id),
                                 new SqlParameter("documentary_id", documentary.documentary_id)).First();
                             equipment.department_id = documentary_Repair_Details.department_id;
+                            equipment.current_Status = 2;
                             break;
                         case "2":
                             Documentary_maintain_details Documentary_maintain_details = db.Database.SqlQuery<Documentary_maintain_details>("SELECT * FROM Documentary_maintain_details WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId",
                                 new SqlParameter("equipmentId", id),
                                 new SqlParameter("documentary_id", documentary.documentary_id)).First();
                             equipment.department_id = Documentary_maintain_details.department_id;
+                            equipment.current_Status = 2;
                             break;
                         case "3":
                             Documentary_moveline_details documentary_Moveline_Details = db.Database.SqlQuery<Documentary_moveline_details>("SELECT * FROM Documentary_moveline_details WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId",
                                 new SqlParameter("equipmentId", id),
                                 new SqlParameter("documentary_id", documentary.documentary_id)).First();
                             equipment.department_id = documentary_Moveline_Details.department_id;
+                            equipment.current_Status = 2;
                             break;
                         case "4":
                             equipment.department_id = "CDVT";
+                            equipment.current_Status = 1;
                             break;
                         case "5":
                             equipment.department_id = "CDVT";
+                            equipment.current_Status = 15;
                             break;
                         case "6":
                             Documentary_big_maintain_details documentary_Big_Maintain_Details = db.Database.SqlQuery<Documentary_big_maintain_details>("SELECT * FROM Documentary_big_maintain_details WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId",
                                 new SqlParameter("equipmentId", id),
                                 new SqlParameter("documentary_id", documentary.documentary_id)).First();
                             equipment.department_id = documentary_Big_Maintain_Details.department_id;
+                            equipment.current_Status = 1;
                             break;
                         default:
                             break;

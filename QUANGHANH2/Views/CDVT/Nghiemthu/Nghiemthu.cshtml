@@ -269,7 +269,11 @@
             var equipmentId = $(this).data('equip');
             var documentary_id = $(this).data('code');
             var documentary_code = $(this).parent().parent().children().eq(0).text();
-            $.ajax({
+            confirmAlert(
+            'Bạn có chắc chắn muốn nghiệm thu không?',
+            '',
+            function nghiemthu(){
+                $.ajax({
                 type: "POST",
                 url: "/phong-cdvt/nghiem-thu/Edit",
                 dataType: "json",
@@ -290,6 +294,7 @@
                 },
                 cache: false
             })
+            });
         });
 
         $("#searchButton").click(function () {

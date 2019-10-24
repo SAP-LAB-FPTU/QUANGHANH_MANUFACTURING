@@ -24,10 +24,10 @@
     }
 
     .right-part {
-        width: calc(100% - 500px) !important;
+        width: calc(100% - 600px) !important;
         min-height: calc(100vh - 64px);
         overflow: auto;
-        margin-left: 500px !important;
+        margin-left: 600px !important;
     }
 
     .left-part.fixed-left-part {
@@ -39,7 +39,7 @@
     .left-part {
         margin-top: 50px !important;
         height: 100%;
-        width: 500px !important;
+        width: 600px !important;
         position: absolute;
         border-right: 1px solid rgba(120, 130, 140, 0.13);
     }
@@ -298,7 +298,9 @@
                                 </div>
                                 <div class="row" style="padding-left : 3rem">
                                     <label class="control-label col-3 align-self-center text-right">Liên kết mã nhân viên</label>
-                                    <input type="text" class="form-control col 12" value="@Model.NVID" id="txtNVID">
+                                    <div class="linedisplay">
+                                        <input type="text" class="form-control col 12" value="@Model.NVID" id="txtNVID" list="eqID">
+                                    </div>
                                 </div>
                                 <div class="row" style="padding-left : 3rem">
                                     <label class="control-label col-3 align-self-center text-right">Mật khẩu</label>
@@ -739,7 +741,12 @@
 
         </form>
     </div>
-    
+    <datalist id="eqID">
+        @foreach (var item in ViewBag.employ)
+        {
+            <option value="@item.id">@item.name - @item.pb</option>
+        }
+    </datalist>
 </body>
 </html>
 
