@@ -8,7 +8,6 @@
 @{List<string> right = (List<string>)Session["RightIDs"];}
 <link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
-<link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
@@ -171,8 +170,8 @@
 
                 <div class="row">
                     <div class="col s12">
-                        <ul class="tabs">
-                            <li class="col s12 tab"><a href="#chitiet">Chi tiết huy động</a></li>
+                        <ul class="tabs" style="overflow-x:hidden;overflow-y:hidden">
+                            <li class="col s6 tab"><a href="#chitiet">Chi tiết huy động</a></li>
                             <li class="col s6 tab"><a href="#thongke">Thống kê huy động</a></li>
                         </ul>
                     </div>
@@ -768,10 +767,7 @@
         $("#searchButton1").click(function () {
               $("#pre-load").show();
             dataTable.ajax.reload(function () {
-               $.notify("Tìm kiếm thành công", {
-                      globalPosition: "top center",
-                     className: "success"
-                    })
+               successAlert('Tìm kiếm thành công', '');
             });
             // dataTable.destroy();
             @*$("#pre-load").show();
@@ -997,10 +993,7 @@
                         dataTable.ajax.reload();
                         $("#pre-load").hide("slow", function () {
                         });
-                        $.notify("Cập nhật thành công", {
-                            globalPosition: "top center",
-                            className: "success"
-                        })
+                        successAlert('Cập nhật thành công', '');
 
                     },
                     error: function () {
@@ -1030,15 +1023,9 @@
                     success: function (data) {
                         dataTable.ajax.reload();
                         if (data.success == false) {
-                            $.notify("Lỗi", {
-                                globalPosition: "top center",
-                                className: "error"
-                            })
+                             errorAlert('Lỗi', 'Có lỗi xảy ra');
                         } else {
-                            $.notify("Thêm thành công", {
-                                globalPosition: "top center",
-                                className: "success"
-                            });
+                            successAlert('Thêm thành công', '');
                             window.location.reload(true);
                         }
 
@@ -1047,10 +1034,7 @@
                     error: function (data) {
                         dataTable.ajax.reload();
                         $("#btn-submit").addClass("modal-close");
-                        $.notify("Lỗi", {
-                            globalPosition: "top center",
-                            className: "error"
-                        })
+                        errorAlert('Lỗi', 'Có lỗi xảy ra');
 
                     },
                 });
@@ -1077,15 +1061,9 @@
                     success: function (data) {
                         dataTable.ajax.reload();
                         if (data.success == false) {
-                            $.notify("Lỗi", {
-                                globalPosition: "top center",
-                                className: "error"
-                            })
+                            errorAlert('Lỗi', 'Có lỗi xảy ra');
                         } else {
-                            $.notify("Thêm thành công", {
-                                globalPosition: "top center",
-                                className: "success"
-                            })
+                            successAlert('Thêm thành công', '');
                         }
 
                     }
@@ -1124,10 +1102,7 @@
                     dataTable.ajax.reload();
                     $("#pre-load").hide("slow", function () {
                     });
-                    $.notify("Hihi Xóa Xong", {
-                        globalPosition: "top center",
-                        className: "success"
-                    })
+                    successAlert('Xóa thành công', '');
 
                 });
 

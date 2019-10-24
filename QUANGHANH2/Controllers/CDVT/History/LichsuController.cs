@@ -621,7 +621,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     transaction.Commit();
                     return Json("", JsonRequestBehavior.AllowGet);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     transaction.Rollback();
                     if (DBContext.Equipments.Where(x => x.equipmentId == equipmentId).Count() == 0)

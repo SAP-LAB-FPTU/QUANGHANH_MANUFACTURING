@@ -260,7 +260,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             }
         }
 
-        [Auther(RightID = "20")]
         [Route("phong-cdvt/su-co/getDepartment")]
         [HttpPost]
         public ActionResult getDepartment(string equipmentId)
