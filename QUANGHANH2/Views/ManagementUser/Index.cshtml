@@ -6,59 +6,61 @@
 
 <!DOCTYPE html>
 <style>
-    label {
-        font-weight: 500;
-        font-size: 14px !important;
-        color: black !important;
-        margin-top: 5px !important;
-    }
+        label {
+            font-weight: 500;
+            font-size: 14px !important;
+            color: black !important;
+            margin-top: 5px !important;
+        }
 
-    .topbar {
-        position: fixed !important;
-        width: 100%;
-        z-index: 1000;
-    }
+        .topbar {
+            position: fixed !important;
+            width: 100%;
+            z-index: 1000;
+        }
 
-    .right-part {
-        padding-top: 50px;
-    }
+        .right-part {
+            padding-top: 50px;
+        }
 
-    .right-part {
-        width: calc(100% - 600px) !important;
-        min-height: calc(100vh - 64px);
-        overflow: auto;
-        margin-left: 600px !important;
-    }
+        .right-part {
+            width: calc(100% - 600px) !important;
+            min-height: calc(100vh - 64px);
+            overflow: auto;
+            margin-left: 600px !important;
+        }
 
-    .left-part.fixed-left-part {
-        position: fixed;
-        top: 0px;
-        padding-top: 10px;
-    }
+        .left-part.fixed-left-part {
+            position: fixed;
+            top: 0px;
+            padding-top: 10px;
+        }
 
-    .left-part {
-        margin-top: 50px !important;
-        height: 100%;
-        width: 600px !important;
-        position: absolute;
-        border-right: 1px solid rgba(120, 130, 140, 0.13);
-    }
+        .left-part {
+            margin-top: 50px !important;
+            height: 100%;
+            width: 600px !important;
+            position: absolute;
+            border-right: 1px solid rgba(120, 130, 140, 0.13);
+        }
 
-    #account-table-container {
-        padding-bottom: 100px;
-    }
-    /*#table_account {
-    padding-right: 100px !important;
-}*/
-    #delete-btn {
-    margin-left: 10px;
-}
-   .topbar nav .nav-wrapper .brand-logo{
-        background-color:white !important;
-    }
-   body {
-    background: #f7f7f7 !important;
-}
+        #account-table-container {
+            padding-bottom: 100px;
+        }
+        /*#table_account {
+        padding-right: 100px !important;
+    }*/
+        #delete-btn {
+            margin-left: 10px;
+        }
+
+        .topbar nav .nav-wrapper .brand-logo {
+            background-color: white !important;
+        }
+
+        body {
+            background: #f7f7f7 !important;
+        }
 </style>
 <html>
 
@@ -185,20 +187,20 @@
 
 <body>
     <div id="pre-load" hidden>
-            <div class="loading">
-                <div class="preloader-wrapper big active">
-                    <div class="spinner-layer spinner-blue-only">
-                        <div class="circle-clipper left">
-                            <div class="circle"></div>
-                        </div><div class="gap-patch">
-                            <div class="circle"></div>
-                        </div><div class="circle-clipper right">
-                            <div class="circle"></div>
-                        </div>
+        <div class="loading">
+            <div class="preloader-wrapper big active">
+                <div class="spinner-layer spinner-blue-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div><div class="gap-patch">
+                        <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                        <div class="circle"></div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
     <header class="topbar">
         <nav>
@@ -297,9 +299,15 @@
                                     <input type="text" class="form-control col 12" value="@Model.Position" id="txtPosition">
                                 </div>
                                 <div class="row" style="padding-left : 3rem">
-                                    <label class="control-label col-3 align-self-center text-right">Liên kết mã nhân viên</label>
+                                    <label class="control-label col-3 align-self-center text-right">Mã nhân viên</label>
                                     <div class="linedisplay">
                                         <input type="text" class="form-control col 12" value="@Model.NVID" id="txtNVID" list="eqID">
+                                    </div>
+                                </div>
+                                <div class="row" style="padding-left : 3rem">
+                                    <label class="control-label col-3 align-self-center text-right">Phòng ban</label>
+                                    <div class="linedisplay">
+                                        <input type="text" class="form-control col 12" value="" id="txtPB" readonly>
                                     </div>
                                 </div>
                                 <div class="row" style="padding-left : 3rem">
@@ -311,7 +319,7 @@
                                     <input type="password" class="form-control col" id="txtRepeatPassword">
                                 </div>
                                 <br />
-                                <h5 class="center"><b>Quyền truy cập vào các phòng ban</b></h5>
+                                <h5 class="center" id="rightlabel"><b>Quyền truy cập vào tài nguyên phòng ban</b></h5>
 
 
                                 <div class="row">
@@ -319,7 +327,7 @@
                                         <div class="card">
                                             <div class="content">
                                                 <table class="table" style="margin-left:10px" id="bodytable">
-                                                    <tr>
+                                                    <tr id="hide18">
                                                         <td><label>Ban Giám Đốc</label></td>
                                                         <td>
                                                             <select class="form-control" id="module5">
@@ -336,7 +344,7 @@
                                                         </td>
                                                         <td><a href="#!" onclick="ShowRight(5)">Các quyền</a></td>
                                                     </tr>
-                                                    <tr>
+                                                    <tr id="hide17">
                                                         <td><label>KCS</label></td>
                                                         <td>
                                                             <select class="form-control" id="module3">
@@ -353,7 +361,7 @@
                                                         </td>
                                                         <td><a href="#!" onclick="ShowRight(3)">Các quyền</a></td>
                                                     </tr>
-                                                    <tr>
+                                                    <tr id="hide16">
                                                         <td><label>Cơ Điện Vận Tải</label></td>
                                                         <td>
                                                             <select class="form-control" id="module1">
@@ -370,7 +378,7 @@
                                                         </td>
                                                         <td><a href="#!" onclick="ShowRight(1)">Các quyền</a></td>
                                                     </tr>
-                                                    <tr>
+                                                    <tr id="hide15">
                                                         <td><label>Tổ Chức Lao Động</label></td>
                                                         <td>
                                                             <select class="form-control" id="module2">
@@ -387,7 +395,7 @@
                                                         </td>
                                                         <td><a href="#!" onclick="ShowRight(2)">Các quyền</a></td>
                                                     </tr>
-                                                    <tr>
+                                                    <tr id="hide14">
                                                         <td><label>Phòng Điều Khiển</label></td>
                                                         <td>
                                                             <select class="form-control" id="module4">
@@ -404,7 +412,7 @@
                                                         </td>
                                                         <td><a href="#!" onclick="ShowRight(4)">Các quyền</a></td>
                                                     </tr>
-                                                    <tr>
+                                                    <tr id="hide13">
                                                         <td><label>Phân Xưởng Khai Thác</label></td>
                                                         <td>
                                                             <select class="form-control" id="module6">
@@ -747,13 +755,19 @@
             <option value="@item.id">@item.name - @item.pb</option>
         }
     </datalist>
+    @*<datalist id="PB">
+            @foreach (var item in ViewBag.employ)
+            {
+                <option value="@item.pb"></option>
+            }
+        </datalist>*@
 </body>
 </html>
 
 <script>
     $(".loading").css("z-index", 99999);
     $('body').css('overflow', '');
-    
+
     $(document).ready(function () {
         $('#pre-load').show();
         $("#hide1").hide();
@@ -768,6 +782,14 @@
         $("#hide10").hide();
         $("#hide11").hide();
         $("#hide12").hide();
+        $("#hide13").hide();
+        $("#hide14").hide();
+        $("#hide15").hide();
+        $("#hide16").hide();
+        $("#hide17").hide();
+        $("#hide18").hide();
+        $("#buttonshow").hide();
+        //$("#rightlabel").hide();
         GetRightFromDBNotFill(1);
         GetRightFromDBNotFill(2);
         GetRightFromDBNotFill(3);
@@ -787,22 +809,61 @@
         $('#pre-load').hide();
         //$(document).ajaxStop(function () {
         //    $('#pre-load').hide();
-        //});  
+        //});
+        getPB(document.getElementById('txtNVID').value);
+        $('#txtNVID').change(function () {
+            getPB(document.getElementById('txtNVID').value);
+        });
+        
+
     });
+    function getPB(id) {
+        var empObj = {
+            id: id
+        };
+        $.ajax({
+            url: "/ManagementUser/getPB",
+            data: JSON.stringify(empObj),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            success: function (result) {
+                document.getElementById('txtPB').value = result;
+                RightDetail();
+                $('#pre-load').hide();
+            },
+            error: function (errormessage) {
+                $('#pre-load').hide();
+            }
+        });
+    }
+
+    function RightDetail() {
+        show();
+        if (document.getElementById('txtPB').value === 'Cơ điện vận tải') {
+            $("#hide16").show();
+        }
+    }
+
     function show() {
         //$("#hide1").show();
-        $("#hide2").show();
-        $("#hide3").show();
-        $("#hide4").show();
-        $("#hide5").show();
-        $("#hide6").show();
-        $("#hide7").show();
-        $("#hide8").show();
-        $("#hide9").show();
-        $("#hide10").show();
-        $("#hide11").show();
-        $("#hide12").show();
-        $("#buttonshow").hide();
+        $("#hide1").hide();
+        $("#hide2").hide();
+        $("#hide3").hide();
+        $("#hide4").hide();
+        $("#hide5").hide();
+        $("#hide6").hide();
+        $("#hide7").hide();
+        $("#hide8").hide();
+        $("#hide9").hide();
+        $("#hide10").hide();
+        $("#hide11").hide();
+        $("#hide12").hide();
+        $("#hide13").hide();
+        $("#hide14").hide();
+        $("#hide15").hide();
+        $("#hide16").hide();
+        $("#hide17").hide();
+        $("#hide18").hide();
     }
     function showLoading() {
         $('#pre-load').show();
