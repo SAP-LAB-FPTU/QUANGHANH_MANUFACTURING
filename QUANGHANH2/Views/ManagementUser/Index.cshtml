@@ -518,7 +518,7 @@
                                                         <td><a href='#!' onclick='ShowRight(13)'>Các quyền</a></td>
                                                     </tr>
                                                     <tr id="hide8">
-                                                        <td><label>Phân Xưởng Thông Gió Quản Lí Mỏ</label></td>
+                                                        <td><label>Phân Xưởng Thông Gió Quản Lí Khí Mỏ</label></td>
                                                         <td>
                                                             <select class='form-control' id='module14'>
                                                                 <option value='0'>Không</option>
@@ -742,6 +742,7 @@
                     </div>
                 </div>
                 <input type="hidden" value="@Model.ID" id="UserID" />
+                <input type="hidden" value="" id="MaPB" />
             </div>
             <!-- ============================================================== -->
             <!-- Container fluid scss in scafholding.scss -->
@@ -810,12 +811,13 @@
         //$(document).ajaxStop(function () {
         //    $('#pre-load').hide();
         //});
-        getPB(document.getElementById('txtNVID').value);
+        if (document.getElementById('txtNVID').value != '') {
+            getPB(document.getElementById('txtNVID').value);
+        }
         $('#txtNVID').change(function () {
             getPB(document.getElementById('txtNVID').value);
         });
         
-
     });
     function getPB(id) {
         var empObj = {
@@ -827,7 +829,8 @@
             type: "POST",
             contentType: "application/json;charset=utf-8",
             success: function (result) {
-                document.getElementById('txtPB').value = result;
+                document.getElementById('txtPB').value = result.department_name;
+                document.getElementById('MaPB').value = result.department_id;
                 RightDetail();
                 $('#pre-load').hide();
             },
@@ -839,9 +842,24 @@
 
     function RightDetail() {
         show();
-        if (document.getElementById('txtPB').value === 'Cơ điện vận tải') {
-            $("#hide16").show();
-        }
+        var pb = document.getElementById('MaPB').value;
+        if (pb === 'CDVT') { $("#hide16").show(); }
+        if (pb === 'TCLD') { $("#hide15").show(); }
+        if (pb === 'KCS') { $("#hide17").show(); }
+        if (pb === 'DK') { $("#hide14").show(); }
+        if (pb === 'BGD') { $("#hide18").show(); }
+        if (pb === 'PXCDM') { $("#hide7").show(); }
+        if (pb === 'PXCKSC') { $("#hide2").show(); }
+        if (pb === 'KCM') { $("#hide1").show(); }
+        if (pb.substring(0,4) === 'PXDL') { $("#hide3").show(); }
+        if (pb === 'PXDS') { $("#hide11").show(); }
+        if (pb.substring(0,4) === 'PXKT') { $("#hide13").show(); }
+        if (pb === 'PXLT') { $("#hide5").show(); }
+        if (pb === 'PXPV') { $("#hide10").show(); }
+        if (pb === 'PXST') { $("#hide6").show(); }
+        if (pb === 'PXTGQLKM') { $("#hide8").show(); }
+        if (pb.substring(0,4) === 'PXVT') { $("#hide4").show(); }
+        if (pb === 'PXXD') { $("#hide9").show(); }
     }
 
     function show() {
