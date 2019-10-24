@@ -12,21 +12,27 @@ namespace QUANGHANHCORE.Controllers.KCS
         {
             return View();
         }
-        [Route("phong-kcs/bao-cao/bao-cao-chat-luong-than-san-xuat")]
+        [Route("phong-kcs")]
         public ActionResult Report()
         {
-            return View("/Views/KCS/Report/Report.cshtml");
+            Response.Redirect("phong-kcs/bao-cao/bao-cao-len-dk");
+            return null;
         }
-        [Route("phong-kcs/bao-cao/nhap-bao-cao")]
-        public ActionResult Spreadsheet()
+        [Route("phong-kcs/nhap-ke-hoach-san-xuat")]
+        public ActionResult NhapKHSX()
         {
-            return View("/Views/KCS/Report/Spreadsheet.cshtml");
+            return View("/Views/KCS/NhapKeHoach/InputPlan_Month.cshtml");
         }
-        [Route("phong-kcs/bao-cao/sua-bao-cao")]
-        public ActionResult EditReport()
-        {
-            return View("/Views/KCS/Report/EditReport.cshtml");
-        }
+        //[Route("phong-kcs/bao-cao/nhap-bao-cao")]
+        //public ActionResult Spreadsheet()
+        //{
+        //    return View("/Views/KCS/Report/Spreadsheet.cshtml");
+        //}
+        //[Route("phong-kcs/bao-cao/sua-bao-cao")]
+        //public ActionResult EditReport()
+        //{
+        //    return View("/Views/KCS/Report/EditReport.cshtml");
+        //}
     }
 
 }

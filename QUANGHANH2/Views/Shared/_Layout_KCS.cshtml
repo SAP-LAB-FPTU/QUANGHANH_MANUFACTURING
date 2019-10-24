@@ -295,19 +295,18 @@
         <!-- ============================================================== -->
         <aside class="left-sidebar">
             <ul id="slide-out" class="sidenav">
-                @*<li>
+                <li>
                     <ul class="collapsible">
                         <li>
-                            <a href="/phong-kcs/bao-cao/bao-cao-chat-luong-than-san-xuat" class="collapsible-header has-arrow"><i class="material-icons">view_list</i><span class="hide-menu">Báo cáo</span></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li><a href="/phong-kcs/bao-cao/bao-cao-chat-luong-than-san-xuat"><i class="material-icons">adjust</i><span class="hide-menu">Báo cáo</span></a></li>
-                                    <li><a href="/phong-kcs/bao-cao/nhap-bao-cao"><i class="material-icons">adjust</i><span class="hide-menu">Nhập báo cáo</span></a></li>
-                                </ul>
-                            </div>
+                            <a href="/phong-kcs/bao-cao/bao-cao-len-dk" class="collapsible-header"><i class="material-icons dp48">view_list</i><span class="hide-menu">Báo cáo lên phòng điều khiển</span></a>
                         </li>
+                        <li>
+                            <a href="/phong-kcs/nhap-ke-hoach-san-xuat" class="collapsible-header"><i class="material-icons dp48">view_list</i><span class="hide-menu">Nhập kế hoạch SX</span></a>
+                        </li>
+                      
+
                     </ul>
-                </li>*@
+                </li>
             </ul>
         </aside>
         <!-- ============================================================== -->
@@ -654,6 +653,9 @@
     <script>
         $(".loading").css("z-index", 99999);
         $('body').css('overflow', '');
+        $(function () {
+            $(".datepicker-inline").remove();
+        })
     </script>
 </body>
 
