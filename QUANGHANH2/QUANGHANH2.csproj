@@ -211,6 +211,7 @@
     <Compile Include="Controllers\CDVT\Nghiemthu\VattukemtheoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\ChitietotoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\DanhsachController.cs" />
+    <Compile Include="Controllers\CDVT\Oto\GPSController.cs" />
     <Compile Include="Controllers\CDVT\Oto\HuydongOtoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\NhomotoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\SuachuahangngayController.cs" />
@@ -337,6 +338,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BaoCaoNgayDB.cs" />
+    <Compile Include="Models\CarGP.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Category_attribute_value.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -7321,6 +7325,7 @@
     <Content Include="Views\CDVT\History\LichsuOtoTieuthu.cshtml" />
     <Content Include="Views\CDVT\History\LichsuTieuthu.cshtml" />
     <Content Include="Views\DK\DepartmentDaily.cshtml" />
+    <Content Include="Views\CDVT\Car\GPS.cshtml" />
     <Content Include="Views\DK\SanLuongView.cshtml" />
     <Content Include="Views\CDVT\Thietbi\SCTX.cshtml" />
     <Content Include="Views\Shared\_Layout_AT.cshtml" />
@@ -7334,6 +7339,7 @@
     <Folder Include="Library\" />
     <Folder Include="Views\BaoCaoLenPhongDK\" />
     <Folder Include="Views\DepartmentDaily\" />
+    <Folder Include="Views\GPS\" />
     <Folder Include="Views\HuyDong\" />
     <Folder Include="Views\InputPlan_Month\" />
     <Folder Include="Views\Input\" />
