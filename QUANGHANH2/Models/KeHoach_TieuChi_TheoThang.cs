@@ -20,7 +20,6 @@ namespace QUANGHANH2.Models
         public System.DateTime ThoiGianNhapCuoiCung { get; set; }
         public string GhiChu { get; set; }
     
-        public virtual header_KeHoachTungThang header_KeHoachTungThang { get; set; }
         public virtual TieuChi TieuChi { get; set; }
     }
 }
