@@ -456,6 +456,16 @@
     <!------------------------------ WIZARD ------------------------------>
     <!------------------------------ STEP2 ------------------------------>
     <script>
+        var cviecs = @Html.Raw(Json.Encode(ViewBag.listCongViec));
+        var phongbans=@Html.Raw(Json.Encode(ViewBag.listPhongBan));
+        var doichieuluong=@Html.Raw(Json.Encode(ViewBag.doichieuluong));
+        var tagCV = "";
+                        tagCV += "<option value='-1' disabled>Chọn chức vụ</option>\n";
+                        for (var k = 0; k < cviecs.length; k++) {
+                            tagCV += "<option value=\"" + cviecs[k].MaCongViec + "\">" + cviecs[k].TenCongViec + "</option>\n";
+                        }
+    </script>
+    <script>
         //check selected index:
         function step2() {
             $("#pre-load").show("slow", function () {
@@ -471,17 +481,12 @@
                         $("#selected-container").empty();
                         var date = new Date();
                         $("#ngay-quyet-dinh").val(date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear());
-                        var tagCV = "";
-                        tagCV += "<option value='-1' disabled selected>Chọn chức vụ</option>\n";
-                        for (var k = 0; k < response.cviecs.length; k++) {
-                            tagCV += "<option value=\"" + response.cviecs[k].MaCongViec + "\">" + response.cviecs[k].TenCongViec + "</option>\n";
-                        }
+
                         for (var i = 0; i < response.data.length; i++) {
                             var selectPhongBan = "";
-                            for (var j = 0; j < response.phongbans.length; j++) {
-                                if (response.phongbans[j].department_id !== response.data[i].MaPhongBan) {
-                                    selectPhongBan += "<option value=\"" + response.phongbans[j].department_id + "\">" + response.phongbans[j].department_name + "</option>\n";
-                                }
+                            selectPhongBan += "<option value='-1' disabled>Chọn phòng ban</option>\n";
+                            for (var j = 0; j < phongbans.length; j++) {
+                                    selectPhongBan += "<option value=\"" + phongbans[j].department_id + "\">" + phongbans[j].department_name + "</option>\n";
                             }
                             $("#selected-container").append("<tr>\n");
                             $("#selected-container").append("<td>" + (i + 1) + "</td>\n");
@@ -494,13 +499,25 @@
                             var bac = response.data[i].BacLuong === null ? "" : response.data[i].BacLuong;
                             $("#selected-container").append("<td><input id=\"" + "bac" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"bac form-control\" placeholder=\"Bậc\" value=\"" + bac + "\" required/></td>\n");
                             var luong = response.data[i].MucLuong === null ? "" : response.data[i].MucLuong;
-                            $("#selected-container").append("<td><input id=\"" + "luong" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"luong numberInput form-control\" placeholder=\"Lương\" value=\"" + luong + "\"required /></td>\n");
+                            $("#selected-container").append("<td><input id=\"" + "luong" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"luong numberInput form-control\" placeholder=\"Lương\" value=\"" + AddComma(luong) + "\"required /></td>\n");
                             var thang = response.data[i].ThangLuong === null ? "" : response.data[i].ThangLuong;
                             $("#selected-container").append("<td><input id=\"" + "thang" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"thang  form-control\" placeholder=\"Thang\" value=\"" + thang + "\" disabled /></td>\n");
                             var phucap = response.data[i].PhuCap === null ? "" : response.data[i].PhuCap;
-                            $("#selected-container").append("<td><input id=\"" + "phucap" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"phucap numberInput form-control\" placeholder=\"Phụ cấp\" value=\"" + phucap + "\" disabled /></td>\n");
+                            $("#selected-container").append("<td><input id=\"" + "phucap" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"phucap numberInput form-control\" placeholder=\"Phụ cấp\" value=\"" + AddComma(phucap) + "\" disabled /></td>\n");
                             $("#selected-container").append("<td><input id=\"" + "lydo" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"lydo form-control\" placeholder=\"Lý do điều động\" /></td>\n");
                             $("#selected-container").append(" </tr>\n");
+                            /////////////////////////set combobox cong viec value/////////////////////////////
+                            if (response.data[i].MaCongViec == null) {
+                                $("#chucvu" + "-" + response.data[i].MaNV).val("-1");
+                            } else {
+                                $("#chucvu" + "-" + response.data[i].MaNV).val(response.data[i].MaCongViec);
+                            }
+                            /////////////////////////////////////
+                             if (response.data[i].MaPhongBan == null) {
+                                $("#donvi" + "-" + response.data[i].MaNV).val("-1");
+                            } else {
+                                $("#donvi" + "-" + response.data[i].MaNV).val(response.data[i].MaPhongBan);
+                            }
                         }
                         //$(".date-chooser").removeClass("datepicker-here");
                         $(".form-control").each(function () {
@@ -517,15 +534,16 @@
 
                         $(".chucvu").change(function () {
                             var value = $(this).find(":selected").val();
-                            for (var n = 0; n < response.cviecs.length; n++) {
-                                if (response.cviecs[n].MaCongViec == value) {
-                                    $("#thang-" + $(this).attr('id').split('-')[1]).val(response.cviecs[n].ThangLuong);
-                                    $("#phucap-" + $(this).attr('id').split('-')[1]).val(AddComma(response.cviecs[n].PhuCap) === 'null' ? "0" : AddComma(response.cviecs[n].PhuCap));
+                            for (var n = 0; n < cviecs.length; n++) {
+                                if (cviecs[n].MaCongViec == value) {
+                                    $("#thang-" + $(this).attr('id').split('-')[1]).val(cviecs[n].ThangLuong);
+                                    $("#phucap-" + $(this).attr('id').split('-')[1]).val(AddComma(cviecs[n].PhuCap) === 'null' ? "0" : AddComma(cviecs[n].PhuCap));
+                                    $("#luong-" + $(this).attr('id').split('-')[1]).val("");
+                                    $("#bac-" + $(this).attr('id').split('-')[1]).val("");
                                     break;
                                 }
                             }
-                            //var b = $(this).attr('id').split('-');
-                            //$("#thang-" + $(this).attr('id').split('-')[1]).val(thangluong[a]);
+                            
                         });
 
                         //////////////////////////////////--VALIDATE--/////////////////////////////////////
@@ -584,7 +602,7 @@
                                 $(this).val(text + "/");
                             }
                         });
-                        //////////////////////CHU VU//////////////////////
+                        //////////////////////CHUC VU//////////////////////
                         $(".chucvu").keydown(function (e) {
                         });
                         /////////////////////NGAY//////////////////////
@@ -592,6 +610,24 @@
                             e.preventDefault();
                         });
                         $("#pre-load").hide("slow", function () {
+                        });
+                        /////////////////////////////////////////////////////////////////////LUONG_DOI CHIEU/////////////////////////////////////////////////////////////
+                        $(".bac").keyup(function () {
+                            ///////////////////////////
+                            var thisId = $(this).attr('id').split('-')[1];
+                            //////////////////////////
+                            var BacLuongValue = $("#bac-" + thisId).val();
+                                var ThangLuongValue = $("#thang-" + thisId).val();
+                                for (var i = 0; i < doichieuluong.length; i++) {
+                                    if (BacLuongValue === doichieuluong[i].BacLuong
+                                        && ThangLuongValue === doichieuluong[i].ThangLuong) {
+                                        var thisLuong = AddComma(doichieuluong[i].MucLuong);
+                                        $("#luong-" + thisId).val(thisLuong);
+                                        break;
+                                    } else {
+                                        $("#luong-" + thisId).val("");
+                                    }
+                                }
                         });
                     } else {
 

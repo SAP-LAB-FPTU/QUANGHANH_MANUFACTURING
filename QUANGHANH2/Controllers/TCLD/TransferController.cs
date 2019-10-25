@@ -45,17 +45,22 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 string sql1 = "select * from CongViec";
                 listCongViec = db.CongViecs.SqlQuery(sql1).ToList<CongViec>();
 
-            }
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
+                string sql = "select * from CongViec";
+                listCongViec = db.CongViecs.SqlQuery(sql).ToList<CongViec>();
 
-                string sql1 = "select * from Department";
-                listPhongBan = db.Departments.SqlQuery(sql1).ToList<Department>();
+                sql = "select * from Department";
+                listPhongBan = db.Departments.SqlQuery(sql).ToList<Department>();
+
+                sql = "select * from DoiChieu_Luong";
+                listBacAndLuong = db.Database.SqlQuery<DoiChieu_Luong>(sql).ToList<DoiChieu_Luong>();
 
             }
             ViewBag.listCongViec = listCongViec;
             ViewBag.listPhongBan = listPhongBan;
+            ViewBag.doichieuluong = listBacAndLuong;
             ViewBag.nameDepartment = "dieuchuyen";
             return View("/Views/TCLD/Transfer/Process.cshtml");
         }
@@ -180,8 +185,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
             } 
 
             List<NhanVienModel> listNhanVien = new List<NhanVienModel>();
-            List<Department> listPhongBan = new List<Department>();
-            List<CongViec> listCongViec = new List<CongViec>();
+            //List<Department> listPhongBan = new List<Department>();
+            //List<CongViec> listCongViec = new List<CongViec>();
+            //List<DoiChieu_Luong> listBacAndLuong = new List<DoiChieu_Luong>();
             int totalrows = listNhanVien.Count;
             int totalrowsafterfiltering = listNhanVien.Count;
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
@@ -198,13 +204,16 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 " )";
                 listNhanVien = db.Database.SqlQuery<NhanVienModel>(sql).ToList<NhanVienModel>();
 
-                sql = "select * from Department";
-                listPhongBan = db.Departments.SqlQuery(sql).ToList<Department>();
+                //sql = "select * from Department";
+                //listPhongBan = db.Departments.SqlQuery(sql).ToList<Department>();
 
-                sql = "select * from CongViec";
-                listCongViec = db.CongViecs.SqlQuery(sql).ToList<CongViec>();
+                //sql = "select * from CongViec";
+                //listCongViec = db.CongViecs.SqlQuery(sql).ToList<CongViec>();
+
+                //sql = "select * from DoiChieu_Luong";
+                //listBacAndLuong= db.Database.SqlQuery<DoiChieu_Luong>(sql).ToList<DoiChieu_Luong>();
             }
-            return Json(new { success = true, cviecs = listCongViec, phongbans = listPhongBan, data = listNhanVien, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true, data = listNhanVien, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
         [Auther(RightID = "64")]
