@@ -38,12 +38,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         {
             List<CongViec> listCongViec = new List<CongViec>();
             List<Department> listPhongBan = new List<Department>();
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-            {
-                db.Configuration.LazyLoadingEnabled = false;
-
-                string sql1 = "select * from CongViec";
-                listCongViec = db.CongViecs.SqlQuery(sql1).ToList<CongViec>();
+            List<DoiChieu_Luong> listBacAndLuong = new List<DoiChieu_Luong>();
 
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
