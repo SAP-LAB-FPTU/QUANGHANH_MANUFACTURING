@@ -131,18 +131,22 @@
                                         <td>Tình trạng hiện tại</td>
                                         <td>@ViewBag.equipment.statusname</td>
                                     </tr>
-                                    
-                                </table>
 
-                                <div class="col s12 center" style="margin-top:45px">
+                                </table>
+                                <ul class="tabs">
+                                    <li class="tab col s6"><a class="active" href="#VT_DK">Vật tư đi kèm</a></li>
+                                    <li class="tab col s6"><a href="#VT_DP">Vật tư dự phòng</a></li>
+                                </ul>
+
+                                <div id="VT_DK" class="col s12 center" style="margin-top:45px">
                                     <h3>Vật tư đi kèm</h3>
                                     <table class="striped table-bordered" style="margin-top:10px !important">
                                         <tr>
                                             <td>Tên vật tư</td>
                                             <td>Số lượng</td>
                                         </tr>
-                                        @{ 
-                                            foreach(var item in ViewBag.sup)
+                                        @{
+                                            foreach (var item in ViewBag.sup)
                                             {
                                                 <tr>
                                                     <td>@item.supply_name</td>
@@ -152,7 +156,9 @@
                                         }
                                     </table>
                                 </div>
+                                <div id="VT_DP">
 
+                                </div>
                             </div>
                         </div>
 

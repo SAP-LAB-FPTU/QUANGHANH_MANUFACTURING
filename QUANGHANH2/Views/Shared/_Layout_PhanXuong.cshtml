@@ -482,23 +482,23 @@
                         @RenderBody()
                         @RenderSection("scripts", required: false)
                         @*<div class="card">
-            <div class="card-content">
-                <div class="row">
-                    <div class="center col l6 m6 s12">
-                        <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
-                    </div>
-                    <div class="center col l6 m6 s12">
-                        <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
-                    </div>
-                    <div class="center col l6 m6 s12">
-                        <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
-                    </div>
-                    <div class="center col l6 m6 s12">
-                        <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
-                    </div>
-                </div>
-            </div>
-        </div>*@
+                                <div class="card-content">
+                                    <div class="row">
+                                        <div class="center col l6 m6 s12">
+                                            <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
+                                        </div>
+                                        <div class="center col l6 m6 s12">
+                                            <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
+                                        </div>
+                                        <div class="center col l6 m6 s12">
+                                            <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
+                                        </div>
+                                        <div class="center col l6 m6 s12">
+                                            <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>*@
 
                     </div>
 
@@ -537,7 +537,11 @@
         $(".loading").css("z-index", 99999);
         $('body').css('overflow', '');
     </script>
-
+    <script>
+        $(".datepicker-here").keydown(function (e) {
+            e.preventDefault();
+        });
+    </script>
 </body>
 
 </html>

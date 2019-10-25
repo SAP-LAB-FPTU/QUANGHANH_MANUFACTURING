@@ -232,6 +232,7 @@
     <Compile Include="Controllers\CDVT\Report\TangGiamController.cs" />
     <Compile Include="Controllers\CDVT\Report\TrungdaituReportController.cs" />
     <Compile Include="Controllers\CDVT\Thietbi\KiemdinhController.cs" />
+    <Compile Include="Controllers\CDVT\Thietbi\SCTXController.cs" />
     <Compile Include="Controllers\CDVT\Vattu\DanhsachvattuController.cs" />
     <Compile Include="Controllers\CDVT\Useless\ThongtinsucoController.cs" />
     <Compile Include="Controllers\CDVT\Report\KiemdinhController.cs" />
@@ -7320,6 +7321,8 @@
     <Content Include="Views\CDVT\History\LichsuOtoTieuthu.cshtml" />
     <Content Include="Views\CDVT\History\LichsuTieuthu.cshtml" />
     <Content Include="Views\DK\DepartmentDaily.cshtml" />
+    <Content Include="Views\DK\SanLuongView.cshtml" />
+    <Content Include="Views\CDVT\Thietbi\SCTX.cshtml" />
     <Content Include="Views\Shared\_Layout_AT.cshtml" />
     <Content Include="Views\AT\ViewAccident.cshtml" />
     <Content Include="Views\KCS\NhapKeHoach\InputPlan_Month.cshtml" />
