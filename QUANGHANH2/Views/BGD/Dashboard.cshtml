@@ -431,7 +431,7 @@
         </div>
     </div>
 
-    
+
     <div class="col l4 m6 s12 extend-height">
         <div class="card green darken-1">
             <div class="card-content info-card">
@@ -488,136 +488,155 @@
         </div>
     </div>
 
-<!-- ============================================================== -->
-<!-- Sales -->
-<!-- ============================================================== -->
-<div class="row">
-    <div class="col l6 s12">
-        <div class="card" style="">
-            <div class="card-content">
-                <h4 class="card-title">Báo cáo sự cố</h4>
-                <div id="suco" style="overflow-y:auto">
-                    <table class="striped center-align table-bordered" id="myTable">
-                        <thead>
-                            <tr>
-                                <th>STT</th>
-                                <th>Mã thiết bị</th>
-                                <th>Tên thiết bị</th>
-                                <th>Phân xưởng sử dụng</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @{
-                                if (ViewBag.listSCCount == 0)
-                                {
-                                    <tr>
-                                        <td colspan="4">Không có sự cố nào</td>
-                                    </tr>
-                                }
-                                else
-                                {
-                                    foreach (var item in ViewBag.listSC)
+    <!-- ============================================================== -->
+    <!-- Sales -->
+    <!-- ============================================================== -->
+    <div class="row">
+        <div class="col l6 s12">
+            <div class="card" style="">
+                <div class="card-content">
+                    <h4 class="card-title">Báo cáo sự cố</h4>
+                    <div id="suco" style="overflow-y:auto">
+                        <table class="striped center-align table-bordered" id="myTable">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Mã thiết bị</th>
+                                    <th>Tên thiết bị</th>
+                                    <th>Phân xưởng sử dụng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    if (ViewBag.listSCCount == 0)
                                     {
                                         <tr>
-                                            <td></td>
-                                            <td>@item.equipmentId</td>
-                                            <td>@item.equipment_name</td>
-                                            <td>@item.department_id</td>
+                                            <td colspan="4">Không có sự cố nào</td>
                                         </tr>
                                     }
-                                }
-                            }
-                        </tbody>
-                    </table>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <div class="col l6 s12">
-        <div class="card" style="">
-            <div class="card-content">
-                <h4 class="card-title">Báo cáo tai nạn</h4>
-                <div id="suco" style="overflow-y:auto">
-                    <table class="striped center-align table-bordered" id="myTable_tainan">
-                        <thead>
-                            <tr>
-                                <th>STT</th>
-                                <th>Mã NV</th>
-                                <th>Tên NV</th>
-                                <th>Loại tai nạn</th>
-                                <th>Lý do</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @{
-                                if (ViewBag.listTNCount == 0)
-                                {
-                                    <tr>
-                                        <td colspan="5">Không có tai nạn nào</td>
-                                    </tr>
-                                }
-                                else
-                                {
-                                    foreach (var item in ViewBag.listTN)
+                                    else
                                     {
-                                        <tr>
-                                            <td></td>
-                                            <td>@item.MaNV</td>
-                                            <td>@item.Ten</td>
-                                            <td>@item.Loai</td>
-                                            <td>@item.LyDo</td>
-                                        </tr>
+                                        foreach (var item in ViewBag.listSC)
+                                        {
+                                            <tr>
+                                                <td></td>
+                                                <td>@item.equipmentId</td>
+                                                <td>@item.equipment_name</td>
+                                                <td>@item.department_id</td>
+                                            </tr>
+                                        }
                                     }
                                 }
+                            </tbody>
+                        </table>
+                    </div>
 
-                            }
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>
-    </div>
+        <div class="col l6 s12">
+            <div class="card" style="">
+                <div class="card-content">
+                    <h4 class="card-title">Báo cáo tai nạn</h4>
+                    <div id="suco" style="overflow-y:auto">
+                        <table class="striped center-align table-bordered" id="myTable_tainan">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Mã NV</th>
+                                    <th>Tên NV</th>
+                                    <th>Loại tai nạn</th>
+                                    <th>Lý do</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    if (ViewBag.listTNCount == 0)
+                                    {
+                                        <tr>
+                                            <td colspan="5">Không có tai nạn nào</td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        foreach (var item in ViewBag.listTN)
+                                        {
+                                            <tr>
+                                                <td></td>
+                                                <td>@item.MaNV</td>
+                                                <td>@item.Ten</td>
+                                                <td>@item.Loai</td>
+                                                <td>@item.LyDo</td>
+                                            </tr>
+                                        }
+                                    }
 
-</div>
-<div class="row">
-    <div class="col s12 m6 l6">
-        <div class="card">
-            <div class="card-content analytics-info">
-                <h5 class="card-title center">Báo cáo nhân lực đi làm các PX</h5>
-                <div id="basic-bar2" style="height:400px;"></div>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col s12 m6 l6">
+            <div class="card">
+                <div class="card-content analytics-info">
+                    <h5 class="card-title center">Báo cáo nhân lực đi làm các PX</h5>
+                    <div id="basic-bar2" style="height:400px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m6 l6">
+            <div class="card">
+                <div class="card-content analytics-info">
+                    <h5 class="card-title center">Báo cáo nhân lực nghỉ các PX</h5>
+                    <div id="basic-bar3" style="height:400px;"></div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col s12 m6 l6">
-        <div class="card">
-            <div class="card-content analytics-info">
-                <h5 class="card-title center">Báo cáo nhân lực nghỉ các PX</h5>
-                <div id="basic-bar3" style="height:400px;"></div>
-            </div>
-        </div>
-    </div>
-</div>
-<script src="~/dist/js/custom.min.js"></script>
-<!-- ============================================================== -->
-<!-- This page plugin js -->
-<!-- ============================================================== -->
-<script src="~/assets/libs/chartist/dist/chartist.min.js"></script>
-<script src="~/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
-<script src="~/assets/extra-libs/sparkline/sparkline.js"></script>
-<script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
-<script src="~/dist/dashboard_Tuan/dashBoardChart_tuan.js"></script>
-<script src="~/dist/dashboard_Tuan/dashBoardChart2_tuan.js"></script>
-<!-- Editable -->
-<script src="~/dist/dashboard_Tuan/db_Tuan.js"></script>
-<script type="text/javascript" src="~/assets/libs/jsgrid/dist/jsgrid.min.js"></script>
-<script src="~/dist/dashboard_Tuan/jsgrid-init_Tuan.js"></script>
-<!--chart-->
-<script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
-<script src="~/assets/libs/chart.js/dist/Chart.min.js"></script>
-<script src="../../assets/extra-libs/sparkline/sparkline.js"></script>
+    <script>
+        var temp = "@ViewBag.donvi";
+        temp = temp.split("&quot;").join("");
+        temp = temp.split("[").join("");
+        temp = temp.split("]").join("");
+        var donvi = temp.split(",");
 
-<script>
+        temp = "@ViewBag.dilam";
+        temp = temp.split("&quot;").join("");
+        temp = temp.split("[").join("");
+        temp = temp.split("]").join("");
+        var dilam = temp.split(",");
+
+        temp = "@ViewBag.dilam";
+        temp = temp.split("&quot;").join("");
+        temp = temp.split("[").join("");
+        temp = temp.split("]").join("");
+        var nghilam = temp.split(",");
+    </script>
+    <script src="~/dist/js/custom.min.js"></script>
+    <!-- ============================================================== -->
+    <!-- This page plugin js -->
+    <!-- ============================================================== -->
+    <script src="~/assets/libs/chartist/dist/chartist.min.js"></script>
+    <script src="~/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+    <script src="~/assets/extra-libs/sparkline/sparkline.js"></script>
+    <script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
+    <script src="~/dist/dashboard_Tuan/dashBoardChart_tuan.js"></script>
+    <script src="~/dist/dashboard_Tuan/dashBoardChart2_tuan.js"></script>
+    <!-- Editable -->
+    <script src="~/dist/dashboard_Tuan/db_Tuan.js"></script>
+    <script type="text/javascript" src="~/assets/libs/jsgrid/dist/jsgrid.min.js"></script>
+    <script src="~/dist/dashboard_Tuan/jsgrid-init_Tuan.js"></script>
+    <!--chart-->
+    <script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
+    <script src="~/assets/libs/chart.js/dist/Chart.min.js"></script>
+    <script src="../../assets/extra-libs/sparkline/sparkline.js"></script>
+
+    <script>
     $(document).ready(function () {
         //than dao lo
         var x = @ViewBag.tdl.percentDay; if (x > 100) x = 100;
@@ -660,7 +679,7 @@
         $('#dxkDay').width(x + '%');
         x = @ViewBag.dxk.percentMonth; if (x > 100) x = 100;
         $('#dxkMonth').width(x + '%');
-        
+
          //da dat boc
         x = @ViewBag.lt.percentDay; if (x > 100) x = 100;
         $('#ltDay').width(x + '%');
@@ -689,7 +708,7 @@
                 table.rows[i].cells[0].innerHTML = i;
             }
         }
-            
+
     });
     $(document).ready(function () {
         $('.datepicker-inline').remove();
@@ -722,4 +741,4 @@
         var d = '@ViewBag.d';
         document.getElementById("data").value = d;
     });
-</script>
+    </script>
