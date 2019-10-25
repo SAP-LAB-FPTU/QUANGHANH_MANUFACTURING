@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using QUANGHANH2.Models;
+using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -15,8 +16,9 @@ namespace QUANGHANH2.Controllers.CDVT.Oto
 {
     public class GPSController : Controller
     {
+        [Auther(RightID ="190")]
         [Route("phong-cdvt/oto/GPS")]
-        public ActionResult Index(string stringDate)
+        public ActionResult Index()
         {
             return View("/Views/CDVT/Car/GPS.cshtml");
         }
@@ -63,7 +65,7 @@ namespace QUANGHANH2.Controllers.CDVT.Oto
             //paging
             return Json(new { success = true, data = list, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
-
+        //[Auther(RightID = "191")]
         [Route("phong-cdvt/oto/GPS/Update")]
         [HttpPost]
         public ActionResult Update(string stringjson)
