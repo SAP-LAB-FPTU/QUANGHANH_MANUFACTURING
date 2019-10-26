@@ -19,6 +19,8 @@ namespace QUANGHANH2.Models
         public int MaNhiemVu { get; set; }
         public int MaChiTiet_NhiemVu_NhanVien { get; set; }
         public bool IsInProcess { get; set; }
+        public Nullable<System.DateTime> LanCuoiCapNhat { get; set; }
+        public Nullable<bool> IsUpdated { get; set; }
     
         public virtual NhanVien NhanVien { get; set; }
         public virtual NhiemVu NhiemVu { get; set; }

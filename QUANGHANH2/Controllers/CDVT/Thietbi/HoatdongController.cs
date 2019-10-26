@@ -346,73 +346,51 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             ViewBag.listSup = listSup;
             return View(new Equipment_category());
         }
-        //[HttpPost]
-        //public ActionResult AddCategory(Equipment_category ec, string[] id, string[] name, string[] unit, string[] nameSup, int[] quantitySup)
-        //{
-        //    QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-        //    db.Equipment_category.Add(ec);
-        //    using (DbContextTransaction dbc = db.Database.BeginTransaction())
-        //    {
-        //        try
-        //        {
-        //            if (id != null)
-        //            {
-        //                for (int i = 0; i < id.Count(); i++)
-        //                {
-        //                    if (!id[i].Equals(""))
-        //                    {
-        //                        Equipment_category_attribute ea = new Equipment_category_attribute();
-        //                        ea.Equipment_category_id = ec.Equipment_category_id;
-        //                        ea.Equipment_category_attribute_id = id[i];
-        //                        ea.unit = unit[i];
-        //                        ea.Equipment_category_attribute_name = name[i];
-        //                        db.Equipment_category_attribute.Add(ea);
-        //                    }
-
-        //                }
-        //            }
-        //            if (nameSup != null)
-        //            {
-        //                List<Supply> listSup = db.Supplies.ToList();
-        //                for (int i = 0; i < nameSup.Count(); i++)
-        //                {
-        //                    if (!nameSup[i].Equals(""))
-        //                    {
-        //                        Equipment_Category_Supply ecs = new Equipment_Category_Supply();
-        //                        Supply s = new Supply();
-        //                        for (int j = 0; j < listSup.Count(); j++)
-        //                        {
-        //                            if (listSup.ElementAt(j).supply_name.Equals(nameSup[i]))
-        //                            {
-        //                                s.supply_id = listSup.ElementAt(j).supply_id;
-        //                                break;
-        //                            }
-        //                        }
-        //                        ecs.supply_id = s.supply_id;
-        //                        ecs.Equipment_category_id = ec.Equipment_category_id;
-        //                        db.Equipment_Category_Supply.Add(ecs);
-        //                    }
-
-        //                }
-        //            }
-        //            db.SaveChanges();
-        //            dbc.Commit();
-        //            return RedirectToAction("GetData");
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            dbc.Rollback();
-        //            return Json(new { success = false, message = e.Message }, JsonRequestBehavior.AllowGet);
-
-        //        }
-        //    }
-
-
-
-        //}
 
         [HttpPost]
-        public ActionResult Add(Equipment emp, string import, string duraInspec, string duraInsura, string used, string duramain, string[] id, string[] name, int[] value, string[] unit, int[] attri)
+        public ActionResult AddCategory(Equipment_category ec, string[] id, string[] name, string[] unit)
+        {
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            db.Equipment_category.Add(ec);
+            using (DbContextTransaction dbc = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    if (id != null)
+                    {
+                        for (int i = 0; i < id.Count(); i++)
+                        {
+                            if (!id[i].Equals(""))
+                            {
+                                Equipment_category_attribute ea = new Equipment_category_attribute();
+                                ea.Equipment_category_id = ec.Equipment_category_id;
+                                ea.Equipment_category_attribute_id = id[i];
+                                ea.unit = unit[i];
+                                ea.Equipment_category_attribute_name = name[i];
+                                db.Equipment_category_attribute.Add(ea);
+                            }
+
+                        }
+                    }
+                    
+                    db.SaveChanges();
+                    dbc.Commit();
+                    return RedirectToAction("GetData");
+                }
+                catch (Exception e)
+                {
+                    dbc.Rollback();
+                    return Json(new { success = false, message = e.Message }, JsonRequestBehavior.AllowGet);
+
+                }
+            }
+
+
+
+        }
+
+        [HttpPost]
+        public ActionResult Add(Equipment emp, string import, string duraInspec, string duraInsura, string used, string duramain, string[] id, string[] name, int[] value, string[] unit, int[] attri, string[] nameSup, int[] quantity)
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
@@ -477,16 +455,48 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                                 }
                             }
                         }
+
                         Equipment_Inspection ei = new Equipment_Inspection();
                         ei.equipmentId = emp.equipmentId;
                         ei.inspect_expected_date = emp.durationOfInspection;
                         db.Equipment_Inspection.Add(ei);
+                        db.SaveChanges();
+
+                        if (nameSup != null)
+                        {
+                            List<Supply> listSup = db.Supplies.ToList();
+                            for (int i = 0; i < nameSup.Count(); i++)
+                            {
+                                if (!nameSup[i].Equals(""))
+                                {
+                                    Supply s = new Supply();
+                                    for (int j = 0; j < listSup.Count(); j++)
+                                    {
+                                        if (listSup.ElementAt(j).supply_name.Equals(nameSup[i]))
+                                        {
+                                            s.supply_id = listSup.ElementAt(j).supply_id;
+                                            break;
+                                        }
+                                    }
+                                    string note = "";
+                                    string sql_sup = "insert into Supply_DiKem values (@supid, @eid, @quan, @note)";
+                                    db.Database.ExecuteSqlCommand(sql_sup
+                                        , new SqlParameter("supid", s.supply_id)
+                                        , new SqlParameter("eid", emp.equipmentId)
+                                        , new SqlParameter("quan", quantity[i])
+                                        , new SqlParameter("note", note));
+                                }
+
+                            }
+                        }
+
                         db.SaveChanges();
                         dbc.Commit();
                         return RedirectToAction("GetData");
                     }
                     catch (Exception e)
                     {
+                        e.Message.ToString();
                         dbc.Rollback();
                         return Json(new { success = false, message = e.Message }, JsonRequestBehavior.AllowGet);
 
