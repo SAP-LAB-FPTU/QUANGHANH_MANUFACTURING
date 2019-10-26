@@ -32,6 +32,8 @@ namespace QUANGHANH2.Models
         public virtual DbSet<Activity> Activities { get; set; }
         public virtual DbSet<BangCap_GiayChungNhan> BangCap_GiayChungNhan { get; set; }
         public virtual DbSet<BaoCaoFile> BaoCaoFiles { get; set; }
+        public virtual DbSet<Car> Cars { get; set; }
+        public virtual DbSet<CarGP> CarGPS { get; set; }
         public virtual DbSet<Category_attribute_value> Category_attribute_value { get; set; }
         public virtual DbSet<ChamDut_NhanVien> ChamDut_NhanVien { get; set; }
         public virtual DbSet<ChiTiet_BangCap_GiayChungNhan> ChiTiet_BangCap_GiayChungNhan { get; set; }
@@ -39,22 +41,24 @@ namespace QUANGHANH2.Models
         public virtual DbSet<ChungChi> ChungChis { get; set; }
         public virtual DbSet<ChungChi_NhanVien> ChungChi_NhanVien { get; set; }
         public virtual DbSet<ChuyenNganh> ChuyenNganhs { get; set; }
+        public virtual DbSet<CongTacAnToan> CongTacAnToans { get; set; }
         public virtual DbSet<CongViec> CongViecs { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<DiemDanh_NangSuatLaoDong> DiemDanh_NangSuatLaoDong { get; set; }
         public virtual DbSet<DieuDong_NhanVien> DieuDong_NhanVien { get; set; }
         public virtual DbSet<Documentary> Documentaries { get; set; }
         public virtual DbSet<Documentary_big_maintain_details> Documentary_big_maintain_details { get; set; }
+        public virtual DbSet<Documentary_Improve_Detail> Documentary_Improve_Detail { get; set; }
         public virtual DbSet<Documentary_liquidation_details> Documentary_liquidation_details { get; set; }
         public virtual DbSet<Documentary_maintain_details> Documentary_maintain_details { get; set; }
         public virtual DbSet<Documentary_moveline_details> Documentary_moveline_details { get; set; }
         public virtual DbSet<Documentary_repair_details> Documentary_repair_details { get; set; }
         public virtual DbSet<Documentary_revoke_details> Documentary_revoke_details { get; set; }
+        public virtual DbSet<DoiChieu_Luong> DoiChieu_Luong { get; set; }
         public virtual DbSet<Equipment> Equipments { get; set; }
         public virtual DbSet<Equipment_attribute> Equipment_attribute { get; set; }
         public virtual DbSet<Equipment_category> Equipment_category { get; set; }
         public virtual DbSet<Equipment_category_attribute> Equipment_category_attribute { get; set; }
-        public virtual DbSet<Equipment_Category_Supply> Equipment_Category_Supply { get; set; }
         public virtual DbSet<Equipment_Inspection> Equipment_Inspection { get; set; }
         public virtual DbSet<FakeAPI> FakeAPIs { get; set; }
         public virtual DbSet<FileBaoCao> FileBaoCaos { get; set; }
@@ -87,6 +91,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<Supply_Documentary_Equipment> Supply_Documentary_Equipment { get; set; }
         public virtual DbSet<Supply_tieuhao> Supply_tieuhao { get; set; }
         public virtual DbSet<SupplyPlan> SupplyPlans { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TaiNan> TaiNans { get; set; }
         public virtual DbSet<ThucHien_TieuChi_TheoNgay> ThucHien_TieuChi_TheoNgay { get; set; }
         public virtual DbSet<TieuChi> TieuChis { get; set; }
@@ -94,5 +99,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<TrinhDo> TrinhDoes { get; set; }
         public virtual DbSet<Truong> Truongs { get; set; }
         public virtual DbSet<TuyenDung_NhanVien> TuyenDung_NhanVien { get; set; }
+        public virtual DbSet<Supply_DiKem> Supply_DiKem { get; set; }
+        public virtual DbSet<Supply_DuPhong> Supply_DuPhong { get; set; }
     }
 }

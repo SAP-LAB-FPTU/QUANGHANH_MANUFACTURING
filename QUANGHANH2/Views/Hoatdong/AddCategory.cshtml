@@ -86,31 +86,7 @@
         </datalist>
 
 
-        <div class="col-12" id="myadd20" style="margin-top:15px">
-            <div class="modal-header center-align">
-                <h3>Thêm vật tư nhóm thiết bị</h3>
-            </div>
-            <div class="modal-body">
-                <table id="myTableSup" class="table-bordered">
-                    <tr>
-                        <th>STT</th>
-                        <th>Tên vật ưu</th>
-                        <th>Số lượng</th>
-                        <th></th>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td><input list="Suplist" type='text' name="nameSup" class='form-control' placeholder='Tên vật ưu' /></td>
-                        <td><input type="number" name="quantity" class="form-control" placeholder="Số lượng" /></td>
-                        <td><button type="button" class="btnSelect3 btn blue btn-small left"><i class="large material-icons">remove</i></button></td>
-                    </tr>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" onclick="myFunction3()" class="btn blue btn-small left"><i class="large material-icons">add</i></button>
-
-            </div>
-        </div>
+        
         <div class="modal-footer">
 
             <div class="form-group">
@@ -141,20 +117,7 @@
             count2 = document.getElementById("myTableCate").rows.length;
         });
 
-        // code to read selected table row cell data (values).
-        $("#myTableSup").on('click', '.btnSelect3', function () {
-            // get the current row
-            var currentRow = $(this).closest("tr");
-            var data = currentRow.find("td:eq(0)").text();
-            document.getElementById("myTableSup").deleteRow(data);
-            var table = document.getElementById("myTableSup");
-            var x = document.getElementById("myTableSup").rows.length;
-            var i = 1;
-            for (i = 1; i < x; i++) {
-                table.rows[i].cells[0].innerHTML = i;
-            }
-            count3 = document.getElementById("myTableSup").rows.length;
-        });
+       
     });
     var count2 = 2;
     function myFunction2() {
@@ -174,21 +137,7 @@
         count2++;
     }
 
-    var count3 = 2;
-    function myFunction3() {
-        var x = document.getElementById("myTableSup").rows.length;
-        var table = document.getElementById("myTableSup");
-        var row = table.insertRow(x);
-        var cell1 = row.insertCell(0);
-        var cell2 = row.insertCell(1);
-        var cell3 = row.insertCell(2);
-        var cell4 = row.insertCell(3);
-        cell1.innerHTML = "" + count3 + "";
-        cell2.innerHTML = "<input list='Suplist' type='text' name='nameSup' class='form-control' placeholder='Tên vật ưu' />";
-        cell3.innerHTML = "<input type='number' name='quantity' class='form-control' placeholder='Số lượng' />";
-        cell4.innerHTML = "<button type='button' class='btnSelect3 btn blue btn-small left'><i class='large material-icons'>remove</i></button>";
-        count3++;
-    }
+   
 </script>
 
 @section Scripts {

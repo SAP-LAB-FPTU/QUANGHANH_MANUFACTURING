@@ -19,8 +19,10 @@ namespace QUANGHANH2.Models
         {
             this.Acceptances = new HashSet<Acceptance>();
             this.Activities = new HashSet<Activity>();
+            this.CarGPS = new HashSet<CarGP>();
             this.Category_attribute_value = new HashSet<Category_attribute_value>();
             this.Documentary_big_maintain_details = new HashSet<Documentary_big_maintain_details>();
+            this.Documentary_Improve_Detail = new HashSet<Documentary_Improve_Detail>();
             this.Documentary_liquidation_details = new HashSet<Documentary_liquidation_details>();
             this.Documentary_maintain_details = new HashSet<Documentary_maintain_details>();
             this.Documentary_moveline_details = new HashSet<Documentary_moveline_details>();
@@ -31,7 +33,9 @@ namespace QUANGHANH2.Models
             this.Fuel_activities_consumption = new HashSet<Fuel_activities_consumption>();
             this.Incidents = new HashSet<Incident>();
             this.Maintain_Car = new HashSet<Maintain_Car>();
+            this.Supply_DiKem = new HashSet<Supply_DiKem>();
             this.Supply_Documentary_Equipment = new HashSet<Supply_Documentary_Equipment>();
+            this.Supply_DuPhong = new HashSet<Supply_DuPhong>();
             this.SupplyPlans = new HashSet<SupplyPlan>();
         }
     
@@ -58,11 +62,16 @@ namespace QUANGHANH2.Models
         public virtual ICollection<Acceptance> Acceptances { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Activity> Activities { get; set; }
+        public virtual Car Car { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CarGP> CarGPS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Category_attribute_value> Category_attribute_value { get; set; }
         public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Documentary_big_maintain_details> Documentary_big_maintain_details { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Documentary_Improve_Detail> Documentary_Improve_Detail { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Documentary_liquidation_details> Documentary_liquidation_details { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -86,7 +95,11 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Maintain_Car> Maintain_Car { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Supply_DiKem> Supply_DiKem { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Supply_Documentary_Equipment> Supply_Documentary_Equipment { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Supply_DuPhong> Supply_DuPhong { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SupplyPlan> SupplyPlans { get; set; }
     }
