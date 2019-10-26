@@ -12,13 +12,10 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Equipment_Category_Supply
+    public partial class DoiChieu_Luong
     {
-        public int ecsId { get; set; }
-        public string Equipment_category_id { get; set; }
-        public string supply_id { get; set; }
-    
-        public virtual Equipment_category Equipment_category { get; set; }
-        public virtual Supply Supply { get; set; }
+        public string BacLuong { get; set; }
+        public string ThangLuong { get; set; }
+        public double MucLuong { get; set; }
     }
 }

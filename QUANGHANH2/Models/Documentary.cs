@@ -24,6 +24,7 @@ namespace QUANGHANH2.Models
             this.Documentary_moveline_details = new HashSet<Documentary_moveline_details>();
             this.Documentary_repair_details = new HashSet<Documentary_repair_details>();
             this.Documentary_revoke_details = new HashSet<Documentary_revoke_details>();
+            this.Documentary_Improve_Detail = new HashSet<Documentary_Improve_Detail>();
             this.Supply_Documentary_Equipment = new HashSet<Supply_Documentary_Equipment>();
         }
     
@@ -52,6 +53,8 @@ namespace QUANGHANH2.Models
         public virtual ICollection<Documentary_repair_details> Documentary_repair_details { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Documentary_revoke_details> Documentary_revoke_details { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Documentary_Improve_Detail> Documentary_Improve_Detail { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Supply_Documentary_Equipment> Supply_Documentary_Equipment { get; set; }
     }
