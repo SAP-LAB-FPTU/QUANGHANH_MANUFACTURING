@@ -1,7 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "Quyet_dinh_cai_tien";
-    Layout = "~/Views/Shared/_Layout_DK.cshtml";
+    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
 }
 @{
     List<string> right = (List<string>)Session["RightIDs"];
@@ -14,8 +14,7 @@
                 <h3><b>DANH SÁCH QUYẾT ĐỊNH CẢI TIẾN</b></h3>
                 <div class="col l4 m4 s12">
                     <div class="col l8 m8 s12 offset-l1 offset-m1 input-field">
-                        <input type="text" placeholder="Tìm kiếm theo tên người lập quyết định" class='form-control' id="person_created-search"
-                                multiple />
+                        <input type="text" placeholder="Tên người lập quyết định" class='form-control' id="person_created-search" />
                     </div>
                 </div>
                 <div class="col l4 m4 s12">
@@ -30,18 +29,18 @@
                         <input type='text' class='datepicker-here center minDate' id="date-end-search" data-language='vi' value="Nhập ngày kết thúc (đến)" style="height: 24px" />
                     </div>
                 </div>
-                <div class="col">
+                <div class="col s12">
                     <div class="input-field">
                         <button class="btn blue darken-2 btn-small" id="searchButton1">Tìm kiếm</button>
                     </div>
                 </div>
-                <div class="col s12 left" style="margin-bottom:20px">
+                <div class="col left" style="margin-bottom:20px">
                     @{
                         foreach (var item in right)
                         {
                             if (item.Equals("83"))
                             {
-                                <a href="/phong-cdvt/bao-duong" class="waves-effect waves-light btn blue darken-1 blue">Thêm</a>
+                                <a href="/phong-cdvt/cai-tien" class="waves-effect waves-light btn blue darken-1 blue">Thêm</a>
 
                             }
                         }
@@ -176,3 +175,214 @@
 
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
+@section scripts{
+    <script>
+     	$("#pre-load").show();
+        $("#pre-load").css("z-index", "9999");
+        var Popup, dataTable;
+
+ //--------------Get Data--------------------
+        $(document).ready(function () {
+            dataTable = $('#DocumnetaryTable').DataTable({
+                language: {
+                    emptyTable: "Không tìm thấy dữ liệu",
+                    info: "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                    infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
+                    paginate: {
+                        first: "Trang đầu",
+                        last: "Trang cuối",
+                        next: "Trang sau",
+                        previous: "Trang trước"
+                    }
+                },
+                ajax: {
+                    url: "/phong-cdvt/quyet-dinh/cai-tien/search",
+                    type: "POST",
+                    datatype: "json",
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        $("#pre-load").hide();
+                        errorAlert('Có lỗi xảy ra', '');
+                    },
+                    data: {
+                        person_created: function() { return $('#person_created-search').val() },
+                        dateStart: function() { return $('#date-start-search').val() },
+                        dateEnd: function() { return $('#date-end-search').val() }
+                    }
+                },
+                drawCallback: function () {
+                    $("#pre-load").hide();
+                },
+                columns: [
+                    {
+                        data: "date_created", name: "date_created", render: function (data) {
+                            return dateFormat2(data);
+                        },
+                    },
+                    {
+                        data: "documentary_id", name: "documentary_id", render: function (data) {
+                            return "<a></a>";
+                        },
+                        orderable: true,
+                        searchable:false,
+                    },
+                    { data: "person_created", name: "person_created" },
+                    { data: "count", name: "count" },
+                    { data: "reason" , name : "reason"},
+                    { data: "out_in_come" , name :"out_in_come" },
+                    {
+                        data: "tempId", render: function (data) {
+                            return "<a href=\"#myupdate\" data-toggle=\"modal\" class=\"open-UpdateModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-incident-id=\"" + data.split("^")[0] + "\">Cập&nbsp;nhật</a>";
+                                    },
+                        orderable: false,
+                        searchable:false,
+
+                    },
+                    {
+                        data: "tempId", render: function (data) {
+                            return " <a class=\"waves-effect waves-light btn blue darken-1 modal-trigger\" onclick=GetData('@Url.Action("LoadPage","ChitietBaoduong")?id=" + data.split("^")[0] + "')>Chi&nbsp;tiết</a>";
+                     },
+                        orderable: false,
+                        searchable:false,
+
+                    }
+
+                ],
+                serverSide: "true",
+                order: [0, "desc"],
+                lengthChange: false,
+                searching: false,
+                initComplete: function () {
+                    $("#pre-load").hide();
+                }
+            });
+        });
+
+
+        function GetData(url) {
+            window.location.href = url;
+        }
+//-------------- format Date ------------------------------
+        function dateFormat2(d) {
+            var dateString = d.substr(6);
+            var currentTime = new Date(parseInt(dateString));
+            var month = currentTime.getMonth() + 1;
+            var day = currentTime.getDate();
+            var year = currentTime.getFullYear();
+            var date = day + "/" + month + "/" + year;
+            return (date);
+        }
+
+
+//---------------Search Data -----------------
+        $("#searchButton1").click(function () {
+            $("#pre-load").show();
+            dataTable.ajax.reload();
+        });
+
+ //--------------Get Data--------------------
+        $(document).on("click", ".open-UpdateModal", function () {
+            var id = $(this).data('incident-id').toString();
+            var ListId = [id];
+            $.ajax({
+                type: "POST",
+                url: "/suaChuaQD/GetById",
+                contentType: "application/json",
+                dataType: "json",
+                data: '{docID: ' + JSON.stringify(ListId) + '}',
+                success: function (data) {
+                    $("#documentary_id_update").val(data.documentary_id);
+                    $("#documentary_id_edit").val(data.documentary_id);
+                    $("#date_created_edit").val(dateFormat2(data.date_created));
+                    $('#documentary_code_edit').val(data.documentary_code);
+                    $('#person_created_edit').val(data.person_created);
+                    $('#reason_edit').val(data.reason);
+                    $('#out_in_come_edit').val(data.out_in_come);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $.notify(XMLHttpRequest.responseText, {
+                        globalPosition: "top center",
+                        className: "error"
+                    });
+                },
+                cache: false
+            })
+        });
+//------------------------Export Excel------------------------
+
+        $("#ExportExcel").click(function () {
+            $("#pre-load").show();
+            $("#pre-load").css("z-index", "9999");
+            $.ajax({
+                url: '@Url.Action("ExportExcel","BaoDuongQD")',
+                type: 'POST',
+
+            }).done(function () {
+                window.location.href = "/excel/CDVT/download/BaoDuongThietBi.xlsx";
+                 $("#pre-load").hide();
+            })
+        });
+
+//------------Update------------------------------------------
+        $("#myupdateform").submit(function (e) {
+            $("#pre-load").show();
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/quyet-dinh/bao-duong/update",
+                dataType: "json",
+                success: function (data) {
+                    if (data.success == true) {
+                        dataTable.ajax.reload();
+                        redirectAlert('Cập nhật thông tin thành công', '/phong-cdvt/cap-nhat/quyet-dinh');
+                    }
+                    else {
+                        errorAlert('Lỗi',data.message);
+                    }
+
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#pre-load').hide();
+
+                    errorAlert('Lỗi',XMLHttpRequest.responseText);
+                },
+                data: {
+
+                    documentary_id: $('#documentary_id_update').val(),
+                    documentary_code: $('#documentary_code_edit').val(),
+                    date_created: $('#date_created_edit').val().split(/\//).reverse().join('/'),
+                    person_created: $('#person_created_edit').val(),
+                    reason: $('#reason_edit').val(),
+                    out_in_come: $('#out_in_come_edit').val()
+
+
+                },
+                cache: false
+            }).done(function () {
+                $('#pre-load').hide();
+                $('#exit-update-button').click();
+            })
+            return false;
+        });
+
+
+ //--------------Delete--------------------
+        $("#Delete").click(function () {
+            $("#pre-load").show();
+            $("#pre-load").css("z-index", "9999");
+            var docID = $('#documentary_id_update').val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("DeleteDoc","BaoDuongQD")',
+                data: '{docID: ' + docID + '}',
+                contentType: "application/json",
+                dataType: "script",
+                success: function () {
+                    dataTable.ajax.reload();
+                    successAlert('Xóa quyết định thành công','');
+                    $("#pre-load").hide();
+                    $('#exit-update-button').click();
+                }
+            });
+        });
+    </script>
+}
