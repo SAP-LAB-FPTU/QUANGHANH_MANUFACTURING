@@ -276,6 +276,7 @@
     <Compile Include="Controllers\CDVT\Work\TrungdaituController.cs" />
     <Compile Include="Controllers\DK\AccidentController.cs" />
     <Compile Include="Controllers\DK\DepartmentDailyController.cs" />
+    <Compile Include="Controllers\DK\Department_CriteriaController.cs" />
     <Compile Include="Controllers\DK\DKController.cs" />
     <Compile Include="Controllers\DK\InputPlan\InputPlan_MonthController.cs" />
     <Compile Include="Controllers\DK\PhanXuongReportController.cs" />
@@ -7352,6 +7353,7 @@
     <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_cai_tien.cshtml" />
     <Content Include="Views\CDVT\Work\CaiTien\ChonThietBi.cshtml" />
     <Content Include="Views\CDVT\Work\CaiTien\ThemCaiTien.cshtml" />
+    <Content Include="Views\DK\Department_Criteria.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7360,6 +7362,7 @@
     <Folder Include="Library\" />
     <Folder Include="Views\BaoCaoLenPhongDK\" />
     <Folder Include="Views\DepartmentDaily\" />
+    <Folder Include="Views\Department_Criteria\" />
     <Folder Include="Views\GPS\" />
     <Folder Include="Views\HuyDong\" />
     <Folder Include="Views\InputPlan_Month\" />

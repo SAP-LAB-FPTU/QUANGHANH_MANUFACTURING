@@ -26,42 +26,53 @@ namespace QUANGHANH2.Controllers.DK
         //
         dynamic getListReport(DateTime timeStart, DateTime timeEnd)
         {
-            var query = "select b.*, TenTieuChi,department_name as TenPhongBan from(select MaPhongBan, MaTieuChi," +
-                "SUM(Case when Ca = 1 and Ngay = @dateEnd then SanLuong else convert(float, 0) end) as [Ca1]," +
+            var query = "select PhongBan_TieuChi.MaPhongBan,PhongBan_TieuChi.MaTieuChi,department_name as TenPhongBan," +
+                "(case when b.Ca1 is null then 0 else b.Ca1 end) as Ca1,(case when b.Ca2 is null then 0 else b.Ca2 end) as Ca2," +
+                "(case when b.Ca3 is null then 0 else b.Ca3 end) as Ca3,(case when b.TH is null then 0 else b.TH end) as TH," +
+                "(case when b.LUYKE is null then 0 else b.LUYKE end) as LUYKE from(" +
+                "select MaPhongBan, MaTieuChi, SUM(Case when Ca = 1 and Ngay = @dateEnd then SanLuong else convert(float, 0) end) as [Ca1]," +
                 "SUM(Case when Ca = 2 and Ngay = @dateEnd then SanLuong else convert(float, 0) end) as [Ca2]," +
                 "SUM(Case when Ca = 3 and Ngay = @dateEnd  then SanLuong else convert(float, 0) end) as [Ca3]," +
                 "SUM(Case when Ngay = @dateEnd  then SanLuong else convert(float, 0) end) as [TH]," +
-                "SUM(SanLuong) as [LUYKE] " +
-                "from(select header.HeaderID, th.MaTieuChi, th.SanLuong, header.MaPhongBan, header.Ca, header.Ngay from ThucHien_TieuChi_TheoNgay as th " +
-                "inner join(select * from header_ThucHienTheoNgay where Ngay <= @dateEnd and Ngay >= @dateStart) as header " +
-                "on th.HeaderID = header.HeaderID) as a " +
-                "group by MaPhongBan,MaTieuChi ) as b inner join TieuChi on b.MaTieuChi = TieuChi.MaTieuChi " +
-                "inner join Department on b.MaPhongBan = Department.department_id " +
+                "SUM(SanLuong) as [LUYKE] from(" +
+                "select header.HeaderID, th.MaTieuChi, th.SanLuong, header.MaPhongBan, header.Ca, header.Ngay from ThucHien_TieuChi_TheoNgay as th " +
+                "inner join(select * from header_ThucHienTheoNgay where Ngay <= @dateEnd and Ngay >= @dateStart) as header on th.HeaderID = header.HeaderID) as a " +
+                "group by MaPhongBan,MaTieuChi ) as b " +
+                "right join(select* from PhongBan_TieuChi where PhongBan_TieuChi.Thang = 9) as PhongBan_TieuChi on b.MaPhongBan = PhongBan_TieuChi.MaPhongBan and PhongBan_TieuChi.MaTieuChi = b.MaTieuChi " +
+                "join Department on PhongBan_TieuChi.MaPhongBan = department_id " +
                 "order by MaPhongBan";
-            var queryKHDC = "select kh.MaTieuChi,kh.SanLuong,header.MaPhongBan from (" +
-                "select KeHoach_TieuChi_TheoThang.* from (select HeaderID,MaTieuChi,MAX(ThoiGianNhapCuoiCung) as ThoiGianNhapCuoiCung " +
-                "from KeHoach_TieuChi_TheoThang group by HeaderID,MaTieuChi) as a " +
-                "inner join KeHoach_TieuChi_TheoThang " +
+            var queryKHDC = "select PhongBan_TieuChi.MaPhongBan, PhongBan_TieuChi.MaTieuChi," +
+                "(case when SanLuong is null then 0 else SanLuong end) as [SanLuong] from(select kh.MaTieuChi, kh.SanLuong, header.MaPhongBan from(" +
+                "select KeHoach_TieuChi_TheoThang.* from(" +
+                "select HeaderID, MaTieuChi, MAX(ThoiGianNhapCuoiCung) as ThoiGianNhapCuoiCung from KeHoach_TieuChi_TheoThang group by HeaderID, MaTieuChi) " +
+                "as a inner join KeHoach_TieuChi_TheoThang " +
                 "on a.HeaderID = KeHoach_TieuChi_TheoThang.HeaderID and a.MaTieuChi = KeHoach_TieuChi_TheoThang.MaTieuChi " +
                 "and a.ThoiGianNhapCuoiCung = KeHoach_TieuChi_TheoThang.ThoiGianNhapCuoiCung) as kh " +
-                "inner join(select* from header_KeHoachTungThang where ThangKeHoach = @month and NamKeHoach = @year) as header " +
-                "on kh.HeaderID = header.HeaderID " +
-                "order by MaPhongBan";
-            var querykHDaily = "select MaPhongBan,MaTieuChi,SUM(KeHoach) as SanLuong from (select khtc.* from (select HeaderID,MaTieuChi,MAX(ThoiGianNhapCuoiCung) as ThoiGianNhapCuoiCung  " +
-                "from KeHoach_TieuChi_TheoNgay " +
-                "group by HeaderID,MaTieuChi) as a " +
+                "inner join(select * from header_KeHoachTungThang where ThangKeHoach = @month and NamKeHoach = @year) as header on kh.HeaderID = header.HeaderID) as table1 " +
+                "right join(select* from PhongBan_TieuChi where PhongBan_TieuChi.Thang = @month) as PhongBan_TieuChi on table1.MaPhongBan = PhongBan_TieuChi.MaPhongBan and PhongBan_TieuChi.MaTieuChi = table1.MaTieuChi " +
+                "order by PhongBan_TieuChi.MaPhongBan";
+            var querykHDaily = "select PhongBan_TieuChi.MaPhongBan, PhongBan_TieuChi.MaTieuChi," +
+                "(case when SanLuong is null then 0 else SanLuong end) as [SanLuong] from " +
+                "(select MaPhongBan, MaTieuChi, SUM(KeHoach) as SanLuong from( " +
+                "select khtc.* from(select HeaderID, MaTieuChi, MAX(ThoiGianNhapCuoiCung) as ThoiGianNhapCuoiCung  from KeHoach_TieuChi_TheoNgay " +
+                "group by HeaderID, MaTieuChi) as a " +
                 "inner join KeHoach_TieuChi_TheoNgay as khtc " +
                 "on a.HeaderID = khtc.HeaderID and a.MaTieuChi = khtc.MaTieuChi and a.ThoiGianNhapCuoiCung = khtc.ThoiGianNhapCuoiCung) as kh " +
-                "inner join(select* from header_KeHoach_TieuChi_TheoNgay where NgayNhapKH = @date) as header " +
+                "inner join(select * from header_KeHoach_TieuChi_TheoNgay where NgayNhapKH = '2019-10-23') as header " +
                 "on kh.HeaderID = header.HeaderID " +
-                "group by MaPhongBan,MaTieuChi order by MaPhongBan";
+                "group by MaPhongBan, MaTieuChi) as table1 " +
+                "right join(select* from PhongBan_TieuChi where PhongBan_TieuChi.Thang = 9) as PhongBan_TieuChi on table1.MaPhongBan = PhongBan_TieuChi.MaPhongBan and PhongBan_TieuChi.MaTieuChi = table1.MaTieuChi " +
+                "order by PhongBan_TieuChi.MaPhongBan";
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 var listReport = db.Database.SqlQuery<reportEntity>(query, new SqlParameter("dateStart", timeStart), new SqlParameter("dateEnd", timeEnd)).ToList();
-                var listKHDC = db.Database.SqlQuery<KHDCDepartmentEntity>(queryKHDC, new SqlParameter("month", timeEnd.Month), new SqlParameter("year", timeEnd.Year)).ToList();
-                var listKHDaily = db.Database.SqlQuery<KHDCDepartmentEntity>(querykHDaily, new SqlParameter("date", timeEnd)).ToList();
+                // var listKHDC = db.Database.SqlQuery<KHDCDepartmentEntity>(queryKHDC, new SqlParameter("month", timeEnd.Month), new SqlParameter("year", timeEnd.Year)).ToList();
+                var listKHDC = db.Database.SqlQuery<KHDCDepartmentEntity>(queryKHDC, new SqlParameter("month", 9), new SqlParameter("year", timeEnd.Year)).ToList();
+                // var listKHDaily = db.Database.SqlQuery<KHDCDepartmentEntity>(querykHDaily, new SqlParameter("date", timeEnd), new SqlParameter("month", timeEnd.Month)).ToList();
+                var listKHDaily = db.Database.SqlQuery<KHDCDepartmentEntity>(querykHDaily, new SqlParameter("date", timeEnd), new SqlParameter("month", 9)).ToList();
                 for (var index = 0; index < listReport.Count; index++)
                 {
+
                     listReport[index].KHDC = listKHDC[index].SanLuong;
                     listReport[index].BQQHDC = listReport[index].KHDC / 16;
                     listReport[index].KH = listKHDaily[index].SanLuong;
@@ -69,7 +80,8 @@ namespace QUANGHANH2.Controllers.DK
                 var departmentName = new string[] { "Phân xưởng khai thác 1", "Phân xưởng khai thác 2", "Phân xưởng khai thác 3", "Phân xưởng khai thác 4","Phân xưởng khai thác 5",
                                                     "Phân xưởng khai thác 6", "Phân xưởng khai thác 7", "Phân xưởng khai thác 8", "Phân xưởng khai thác 9","Phân xưởng khai thác 10",
                                                     "Phân xưởng khai thác 11", "Phân xưởng đào lò 3", "Phân xưởng đào lò 5", "Phân xưởng đào lò 7","Phân xưởng đào lò 7","Phân xưởng đào lò 8",
-                                                    "Công Ty Dương Huy","Phân xưởng sàng tuyển","Phân xưởng lộ thiên","Công ty Xây lắp mỏ - TKV","Liên doanh nhà thầu Công ty CP thương mại - công nghệ CT Thăng Long và Công ty tư vấn Công ty Thăng Long"};
+                                                    "Công Ty Dương Huy","Phân xưởng sàng tuyển","Phân xưởng lộ thiên","Công ty Xây lắp mỏ - TKV","Liên doanh nhà thầu Công ty CP thương mại - công nghệ CT Thăng Long và Công ty tư vấn Công ty Thăng Long",
+                                                    "Công ty ASEAN"};
                 List<reportEntity> reports = new List<reportEntity>();
                 foreach (var name in departmentName)
                 {
@@ -133,8 +145,8 @@ namespace QUANGHANH2.Controllers.DK
                 {
                     if (reports[k].isHeader)
                     {
-                        excelWorksheet.Cells[i,1].Value = reports[k].TenPhongBan;
-                        excelWorksheet.Cells[i, 1, i, 16].Merge=true;
+                        excelWorksheet.Cells[i, 1].Value = reports[k].TenPhongBan;
+                        excelWorksheet.Cells[i, 1, i, 16].Merge = true;
                         excelWorksheet.Cells[i, 1, i, 16].Style.Font.Bold = true;
                         excelWorksheet.Cells[i, 1, i, 16].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         excelWorksheet.Cells[i, 1, i, 16].Style.Font.Size = 13;
@@ -170,7 +182,7 @@ namespace QUANGHANH2.Controllers.DK
                         count++;
                     }
                     k++;
-                    
+
                 }
                 ExcelRange Rng = excelWorksheet.Cells[3, 1, reports.Count + 2, 16];
                 Rng.Style.Border.Top.Style = ExcelBorderStyle.Thin;
@@ -193,7 +205,7 @@ namespace QUANGHANH2.Controllers.DK
                     TempData[handle] = memoryStream.ToArray();
                 }
 
-                return Json(new { success = true, data = new { FileGuid = handle, FileName = downloadFilename }}, JsonRequestBehavior.AllowGet);
+                return Json(new { success = true, data = new { FileGuid = handle, FileName = downloadFilename } }, JsonRequestBehavior.AllowGet);
             }
             return null;
         }
@@ -212,7 +224,7 @@ namespace QUANGHANH2.Controllers.DK
             }
         }
     }
-   
+
 
 }
 public class KHDCDepartmentEntity
