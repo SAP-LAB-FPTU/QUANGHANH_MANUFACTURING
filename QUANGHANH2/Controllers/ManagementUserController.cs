@@ -114,6 +114,12 @@ namespace QUANGHANH2.Controllers
                 data = result
             });
         }
+        public JsonResult getPB(string id)
+        {
+            var pb = db.Database.SqlQuery<rightBasic>("select d.department_id, d.department_name from NhanVien nv , Department d where nv.MaPhongBan = d.department_id and nv.MaNV = '"+id+"'").FirstOrDefault();
+            return Json(pb, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         public JsonResult GetRightInModule(string module, int UserID)
         {
@@ -682,7 +688,9 @@ namespace QUANGHANH2.Controllers
     }
     public class rightBasic
     {
-        public string ID { get; set; }
+        public string department_id { get; set; }
+        public string department_name { get; set; }
+
     }
     public class employ
     {

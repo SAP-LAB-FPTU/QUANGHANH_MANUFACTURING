@@ -14,6 +14,7 @@ using System.Data.SqlClient;
 using System.Globalization;
 using QUANGHANH2.SupportClass;
 using QUANGHANHCORE.Controllers.CDVT.Suco;
+using Newtonsoft.Json;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -316,8 +317,83 @@ namespace QUANGHANHCORE.Controllers.BGD
             if (Lothien.KehoachThang != 0) Lothien.percentMonth = Convert.ToInt32(Lothien.Luyke / Lothien.KehoachThang * 100);
             else Lothien.percentMonth = 0;
             ViewBag.lt = Lothien;
+
+            string sql_chart = "select a.MaPhongBan " +
+                        "	,(a.KT1 + a.KT2 + a.KT3 + a.CD1 + a.CD2 + a.CD3 + a.QL1 + a.QL2 + a.QL3) as 'dilam' " +
+                        "	,(b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 + b.khac1 + b.khac2 + b.khac3) as 'nghi' " +
+                        "from (select n.MaPhongBan " +
+                        "	, sum(case when n.LoaiNhanVien like N'CNKT' and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'KT1' " +
+                        "	, SUM(case when n.LoaiNhanVien like N'CNCD' and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'CD1'    " +
+                        "	, SUM(case when n.LoaiNhanVien like N'CBQL' and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'QL1'    " +
+                        "	, sum(case when n.LoaiNhanVien like N'CNKT' and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'KT2'    " +
+                        "	, SUM(case when n.LoaiNhanVien like N'CNCD' and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'CD2'    " +
+                        "	, SUM(case when n.LoaiNhanVien like N'CBQL' and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'QL2'    " +
+                        "	, sum(case when n.LoaiNhanVien like N'CNKT' and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'KT3'    " +
+                        "	, SUM(case when n.LoaiNhanVien like N'CNCD' and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'CD3'    " +
+                        "	, SUM(case when n.LoaiNhanVien like N'CBQL' and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'QL3'    " +
+                        "	, count(n.MaNV) as 'tong_DS'   , sum(case when n.LoaiNhanVien like N'CBQL' then 1 else 0 end) as 'QL_CTy'  " +
+                        "	from NhanVien n left outer join DiemDanh_NangSuatLaoDong d on n.MaNV = d.MaNV left outer join Header_DiemDanh_NangSuat_LaoDong h on d.HeaderID = h.HeaderID  " +
+                        "	where h.NgayDiemDanh = @day group by n.MaPhongBan) a full join  " +
+                        "	(select n.MaPhongBan " +
+                        "	, SUM(case when d.LyDoVangMat like N'Vô lý do' and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'vld1'    " +
+                        "	, sum(case when d.LyDoVangMat like N'Ốm'  and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'om1'    " +
+                        "	, SUM(case when d.LyDoVangMat like N'Nghỉ phép' and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'p1'  " +
+                        "	, SUM(case when d.LyDoVangMat like N'Khác' and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'khac1'    " +
+                        "	, SUM(case when d.LyDoVangMat like N'Vô lý do' and h.Ca = '2' and d.DiLam = '0' then 1 else 0 end) as 'vld2'    " +
+                        "	, sum(case when d.LyDoVangMat like N'Ốm'  and h.Ca = '2' and d.DiLam = '0' then 1 else 0 end) as 'om2'    " +
+                        "	, SUM(case when d.LyDoVangMat like N'Nghỉ phép' and h.Ca = '2' and d.DiLam = '0' then 1 else 0 end) as 'p2'  " +
+                        "	, SUM(case when d.LyDoVangMat like N'Khác' and h.Ca = '2' and d.DiLam = '0' then 1 else 0 end) as 'khac2'    " +
+                        "	, SUM(case when d.LyDoVangMat like N'Vô lý do' and h.Ca = '3' and d.DiLam = '0' then 1 else 0 end) as 'vld3'    " +
+                        "	, sum(case when d.LyDoVangMat like N'Ốm'  and h.Ca = '3' and d.DiLam = '0' then 1 else 0 end) as 'om3'    " +
+                        "	, SUM(case when d.LyDoVangMat like N'Nghỉ phép' and h.Ca = '3' and d.DiLam = '0' then 1 else 0 end) as 'p3'  " +
+                        "	, SUM(case when d.LyDoVangMat like N'Khác' and h.Ca = '3' and d.DiLam = '0' then 1 else 0 end) as 'khac3'    " +
+                        "	, SUM(case when d.LyDoVangMat in (N'Tai nạn lao động',N'Ốm dài',N'Thai sản',N'Tạm hoãn lao động',N'Vô lý do dài') then 1 else 0 end) as 'tong_nghidai'  " +
+                        "	from NhanVien n left outer join DiemDanh_NangSuatLaoDong d on n.MaNV = d.MaNV left outer join Header_DiemDanh_NangSuat_LaoDong h on d.HeaderID = h.HeaderID  " +
+                        "	where h.NgayDiemDanh = @day group by n.MaPhongBan) b on a.MaPhongBan = b.MaPhongBan " +
+                        "	where a.MaPhongBan in ('PXDL3', 'PXDL5', 'PXDL7', 'PXDL8', 'PXKT1', 'PXKT2', 'PXKT3', 'PXKT4', 'PXKT5', 'PXKT6', 'PXKT7', 'PXKT8', 'PXKT9', 'PXKT10', 'PXKT11', 'PXVT1', 'PXVT2') " +
+                        "	order by a.MaPhongBan ";
+            List<chart> list_chart = db.Database.SqlQuery<chart>(sql_chart, new SqlParameter("day", date)).ToList();
+            List<string> donvi = new List<string> { "PXDL3", "PXDL5", "PXDL7", "PXDL8", "PXKT1", "PXKT2", "PXKT3", "PXKT4", "PXKT5", "PXKT6", "PXKT7", "PXKT8", "PXKT9", "PXKT10", "PXKT11", "PXVT1", "PXVT2" };
+            string result = JsonConvert.SerializeObject(donvi);
+            ViewBag.donvi = result;
+
+
+            List<int> dilam = new List<int>();
+            List<int> nghi = new List<int>();
+            for (int i = 0; i < donvi.Count(); i++)
+            {
+                int temp_dilam = 0;
+                int temp_nghi = 0;
+
+                string temp = donvi[i];
+                foreach(var item in list_chart)
+                {
+                    if (item.MaPhongBan.Equals(temp))
+                    {
+                        temp_dilam = item.dilam;
+                        temp_nghi = item.nghi;
+                        break;
+                    }
+                }
+                dilam.Add(temp_dilam);
+                nghi.Add(temp_nghi);
+
+            }
+            string dilam_result = JsonConvert.SerializeObject(dilam);
+            string nghi_result = JsonConvert.SerializeObject(nghi);
+            ViewBag.dilam = dilam_result;
+            ViewBag.nghi = nghi_result;
+
             return View("/Views/BGD/Dashboard.cshtml");
         }
+
+        public class chart
+        {
+            public string MaPhongBan { get; set; }
+            public int dilam { get; set; }
+            public int nghi { get; set; }
+        }
+
         [Route("ban-giam-doc/bao-cao-nhanh-cong-tac-san-xuat")]
         public ActionResult QuickReportTCLD()
         {
