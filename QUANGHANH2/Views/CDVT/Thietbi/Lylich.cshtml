@@ -168,8 +168,34 @@
                                     <a data-target="addDK" id="add" class="btn blue btn-small center modal-trigger left" style="margin-top:10px"><i class="large material-icons">add</i></a>
 
                                 </div>
-                                <div id="VT_DP">
-
+                                <div id="VT_DP" class="col s12 center" style="margin-top:45px">
+                                    <h3>Vật tư dự phòng</h3>
+                                    <table id="DP_table" class="striped table-bordered" style="margin-top:10px !important">
+                                        <thead>
+                                            <tr>
+                                                <th>Mã vật tư</th>
+                                                <th>Tên vật tư</th>
+                                                <th>Số lượng</th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="DP_table_body">
+                                            @{
+                                                foreach (var item in ViewBag.supDP)
+                                                {
+                                                    <tr>
+                                                        <td>@item.supply_id</td>
+                                                        <td>@item.supply_name</td>
+                                                        <td>@item.quantity</td>
+                                                        <td><button type="button" class="btnSelectDP btn blue btn-small center"><i class="large material-icons">remove</i></button></td>
+                                                        <td><a class="btnSelectDP2 btn blue btn-small left modal-trigger" data-target="updateDP">Chỉnh sửa</a></td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                    <a data-target="addDP" id="add2" class="btn blue btn-small center modal-trigger left" style="margin-top:10px"><i class="large material-icons">add</i></a>
                                 </div>
                             </div>
                         </div>
@@ -808,6 +834,102 @@
 
     }
 
+    @using (Html.BeginForm("addDP", "Lylich", FormMethod.Post, new
+    {
+        id = "DKform",
+        enctype = "multipart/form-data",
+        onSubmit = "return Change2(this);",
+        data_restUrl = Url.Action("addDP", "Lylich", new { id = "" })
+    }))
+    {
+        <div class="card">
+            <div class="card-content">
+                <div class="modal" id="addDP">
+                    <div class="modal-header">
+                        <h3 class="center">Thêm vật tư dự phòng</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col s4">
+                                <label>Tên vật tư</label>
+                                <input list="Suplist" name="nameSup" class="form-control" />
+                            </div>
+                            <div class="col s4">
+                                <label>Mã thiết bị</label>
+                                <input readonly="true" id="idDP_add" name="id" class="form-control" />
+                            </div>
+                            <div class="col s4">
+                                <label>Số lượng</label>
+                                <input type="number" name="quan" class="form-control" />
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn blue modal-close">Lưu</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    }
+
+    @using (Html.BeginForm("updateDP", "Lylich", FormMethod.Post, new
+    {
+        id = "DKform",
+        enctype = "multipart/form-data",
+        onSubmit = "return Change2(this);",
+        data_restUrl = Url.Action("updateDP", "Lylich", new { id = "" })
+    }))
+    {
+        <div class="card">
+            <div class="card-content">
+                <div class="modal" id="updateDP">
+                    <div class="modal-header">
+                        <h3 class="center">Cập nhật vật tư dự phòng</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col s4">
+                                <label>Mã vật tư</label>
+                                <input readonly="true" id="supDP_id_update" name="supid" class="form-control" />
+                            </div>
+                            <div class="col s4">
+                                <label>Mã thiết bị</label>
+                                <input readonly="true" id="idDP_update" name="id" class="form-control" />
+                            </div>
+                            <div class="col s4">
+                                <label>Số lượng</label>
+                                <input type="number" id="quanDP_update" name="quan" class="form-control" />
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn blue modal-close">Lưu</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    }
+
+    @using (Html.BeginForm("deleteDP", "Lylich", FormMethod.Post, new
+    {
+        id = "DKform",
+        enctype = "multipart/form-data",
+        onSubmit = "return Change2(this);",
+        data_restUrl = Url.Action("deleteDP", "Lylich", new { id = "" })
+    }))
+    {
+        <input type="hidden" id="supDP_id" name="supid" />
+        <input type="hidden" id="idDP" name="id" />
+    }
+
     <ul id='dropdown1' class='dropdown-content'>
         <li><a href="#!">Danh sách hết bảo hiểm</a></li>
         <li><a href="#!">Danh sách hết khấu hao</a></li>
@@ -846,6 +968,31 @@
                 document.getElementById("id_add").value = '@ViewBag.equipment.equipmentId';
             });
 
+            $("#add2").click(function () {
+                document.getElementById("idDP_add").value = '@ViewBag.equipment.equipmentId';
+            });
+
+            // code to read selected table row cell data (values).
+            $("#DP_table").on('click', '.btnSelectDP2', function () {
+                // get the current row
+                var currentRow = $(this).closest("tr");
+                var data = currentRow.find("td:eq(0)").text();
+                document.getElementById("supDP_id_update").value = data;
+                document.getElementById("idDP_update").value = '@ViewBag.equipment.equipmentId';
+                data = currentRow.find("td:eq(2)").text();
+                document.getElementById("quanDP_update").value = data;
+            });
+
+            // code to read selected table row cell data (values).
+            $("#DP_table").on('click', '.btnSelectDP', function () {
+                // get the current row
+                var currentRow = $(this).closest("tr");
+                var data = currentRow.find("td:eq(0)").text();
+                document.getElementById("supDP_id").value = data;
+                document.getElementById("idDP").value = '@ViewBag.equipment.equipmentId';
+                $("#supDP_id").closest('form').submit();
+            });
+
 
         });
 
@@ -870,6 +1017,41 @@
                                 "<td>" + response.data[i].quantity + "</td>" +
                                 "<td><button type='button' class='btnSelect btn blue btn-small center'><i class='large material-icons'>remove</i></button></td>" +
                                 "<td><a class='btnSelect2 btn blue btn-small center modal-trigger' data-target='updateDK'>Chỉnh sửa</a></td>" +
+                                "</tr> ");
+                        }
+                        $("#pre-load").hide("slow", function () {
+                        });
+
+                    }
+                });
+            }
+
+
+            return false;
+
+
+        }
+
+        function Change2(form) {
+             $("#pre-load").show("slow", function () {
+                    });
+            $("#pre-load").css("z-index", "99999");
+            $.validator.unobtrusive.parse(form);
+
+            if ($(form).valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(),
+                    success: function (response) {
+                        $("#DP_table_body").empty();
+                        for (i = 0; i < response.data.length; i++) {
+                            $("#DP_table_body").append("<tr>"+
+                                "<td>" + response.data[i].supply_id + "</td>" +
+                                "<td>" + response.data[i].supply_name + "</td>" +
+                                "<td>" + response.data[i].quantity + "</td>" +
+                                "<td><button type='button' class='btnSelectDP btn blue btn-small center'><i class='large material-icons'>remove</i></button></td>" +
+                                "<td><a class='btnSelectDP2 btn blue btn-small center modal-trigger' data-target='updateDP'>Chỉnh sửa</a></td>" +
                                 "</tr> ");
                         }
                         $("#pre-load").hide("slow", function () {
