@@ -1199,7 +1199,7 @@ namespace QUANGHANH2.Controllers.TCLD
                                     join
                                     nv in db.NhanViens
                                     on px.department_id equals nv.MaPhongBan
-                                    where px.department_name.Equals(pb)
+                                    where px.department_id.Equals(pb)
                                     && nv.MaTrangThai == 1
                                     select new
                                     {
