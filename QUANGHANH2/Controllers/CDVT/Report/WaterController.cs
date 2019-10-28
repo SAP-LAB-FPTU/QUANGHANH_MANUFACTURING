@@ -34,12 +34,13 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                 List<contentreportWater> listdata = db.Database.SqlQuery<contentreportWater>(query).ToList();
                 if (listdata != null)
                 {
-                    int totaltieuhao = 0; double totalsanluong = 0; double totalgio = 0;
+                    double totaltieuhao = 0; double totalsanluong = 0; double totalgio = 0;
                     foreach (var item in listdata)
                     {
                         totaltieuhao += item.LuongTieuThu;
                         totalsanluong += item.SanLuong;
                         totalgio += item.GioHoatDong;
+                        item.LuongTieuThu = Math.Round(item.LuongTieuThu, 1);
                     }
                     ViewBag.TieuHao = totaltieuhao;
                     ViewBag.SanLuong = totalsanluong;
@@ -66,6 +67,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 List<contentreportWater> listdata = db.Database.SqlQuery<contentreportWater>(query).ToList();
+                foreach (var item in listdata)
+                {
+                    item.LuongTieuThu = Math.Round(item.LuongTieuThu, 1);
+                }
                 var js = Json(new { success = true, data = listdata }, JsonRequestBehavior.AllowGet);
                 var dataserialize = new JavaScriptSerializer().Serialize(js.Data);
                 return js;
@@ -77,31 +82,30 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
             if (type == null)
             {
                 var ngay = DateTime.Now.Date;
-                query = "select MONTH(a.date) as Thang, YEAR(a.date) as Nam,c.equipmentId as MaThietBi,c.mark_code as MaTSCD, "+
-                 " d.department_name as ViTriDat, equipment_name as TenThietBi, ac.hours_per_day as GioHoatDong ,consumption_value as " +
-                 " LuongTieuThu,ac.quantity as SanLuong from Fuel_activities_consumption a , Supply b, Equipment c , Activity ac,Department d " +
-                 " where a.fuel_type = b.supply_id and a.equipmentId = c.equipmentId  and ac.equipmentId = c.equipmentId and d.department_id = c.department_id " +
-                 " and fuel_type in ('DIEN') and a.date = '"+ngay+ "' and a.date = ac.date and c.Equipment_category_id = 'BNLT'";
+                query = "select MONTH(ac.date) as Thang, YEAR(ac.date) as Nam,c.equipmentId as MaThietBi,c.mark_code as MaTSCD, " +
+                 " d.department_name as ViTriDat, equipment_name as TenThietBi, ac.hours_per_day as GioHoatDong , hours_per_day * (CAST(ea.[value] as float) / 1000) as " +
+                 " LuongTieuThu,ac.quantity as SanLuong from Equipment c , Activity ac, Department d, Equipment_attribute ea " +
+                 " where ac.equipmentId = c.equipmentId and d.department_id = c.department_id and ea.equipmentId = c.equipmentId " +
+                 " and ac.date = '"+ngay+"' and c.Equipment_category_id = 'BNLT' OR c.Equipment_category_id = 'BNHL'";
             }
             if (type == "day")
             {
                 var ngay = DateTime.ParseExact(date, "dd/MM/yyyy", null).ToString("yyyy-MM-dd");
-                query = "select MONTH(a.date) as Thang, YEAR(a.date) as Nam,c.equipmentId as MaThietBi,c.mark_code as MaTSCD, " +
-                 " d.department_name as ViTriDat, equipment_name as TenThietBi, ac.hours_per_day as GioHoatDong ,consumption_value as " +
-                 " LuongTieuThu,ac.quantity as SanLuong from Fuel_activities_consumption a , Supply b, Equipment c , Activity ac,Department d " +
-                 " where a.fuel_type = b.supply_id and a.equipmentId = c.equipmentId  and ac.equipmentId = c.equipmentId " +
-                 " and d.department_id = c.department_id  and fuel_type in ('DIEN') and a.date = '" + ngay + "' and a.date = ac.date and c.Equipment_category_id = 'BNLT'";
-                ViewBag.now = date;
+                query = "select MONTH(ac.date) as Thang, YEAR(ac.date) as Nam,c.equipmentId as MaThietBi,c.mark_code as MaTSCD, " +
+                 " d.department_name as ViTriDat, equipment_name as TenThietBi, ac.hours_per_day as GioHoatDong , hours_per_day * (CAST(ea.[value] as float) / 1000) as " +
+                 " LuongTieuThu,ac.quantity as SanLuong from Equipment c , Activity ac, Department d, Equipment_attribute ea " +
+                 " where ac.equipmentId = c.equipmentId and d.department_id = c.department_id and ea.equipmentId = c.equipmentId " +
+                 " and ac.date = '" + ngay + "' and c.Equipment_category_id = 'BNLT' OR c.Equipment_category_id = 'BNHL'";
             }
             if (type == "month")
             {
                 int thang = Convert.ToInt32(month);
                 int nam = Convert.ToInt32(year);
-                query = "select MONTH(a.date) as Thang, YEAR(a.date) as Nam,c.equipmentId as MaThietBi,c.mark_code as MaTSCD, " +
-                 " d.department_name as ViTriDat, equipment_name as TenThietBi, ac.hours_per_day as GioHoatDong ,consumption_value as " +
-                 " LuongTieuThu,ac.quantity as SanLuong from Fuel_activities_consumption a , Supply b, Equipment c , Activity ac,Department d " +
-                 " where a.fuel_type = b.supply_id and a.equipmentId = c.equipmentId  and ac.equipmentId = c.equipmentId " +
-                 " and d.department_id = c.department_id and fuel_type in ('DIEN') and a.date = ac.date and YEAR(a.date) = '" + nam+"' and MONTH(a.date) = '"+thang+ "' and c.Equipment_category_id = 'BNLT'";
+                query = "select MONTH(ac.date) as Thang, YEAR(ac.date) as Nam,c.equipmentId as MaThietBi,c.mark_code as MaTSCD, " +
+                 " d.department_name as ViTriDat, equipment_name as TenThietBi, ac.hours_per_day as GioHoatDong , hours_per_day * (CAST(ea.[value] as float) / 1000) as " +
+                 " LuongTieuThu,ac.quantity as SanLuong from Equipment c , Activity ac, Department d, Equipment_attribute ea " +
+                 " where ac.equipmentId = c.equipmentId and d.department_id = c.department_id and ea.equipmentId = c.equipmentId " +
+                 " and MONTH(ac.date) = '" + thang + "' and YEAR(ac.date) = '"+nam+"' and c.Equipment_category_id = 'BNLT' OR c.Equipment_category_id = 'BNHL'";
             }
             if (type == "quarter")
             {
@@ -123,20 +127,20 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                 {
                     quy = " (10,11,12) ";
                 }
-                query = "select MONTH(a.date) as Thang, YEAR(a.date) as Nam,c.equipmentId as MaThietBi,c.mark_code as MaTSCD, " +
-                 " d.department_name as ViTriDat, equipment_name as TenThietBi, ac.hours_per_day as GioHoatDong ,consumption_value as " +
-                 " LuongTieuThu,ac.quantity as SanLuong from Fuel_activities_consumption a , Supply b, Equipment c , Activity ac,Department d " +
-                 " where a.fuel_type = b.supply_id and a.equipmentId = c.equipmentId  and ac.equipmentId = c.equipmentId " +
-                 " and d.department_id = c.department_id and fuel_type in ('DIEN') and a.date = ac.date and YEAR(a.date) = '" + nam+"' and MONTH(a.date) in "+quy+" and c.Equipment_category_id = 'BNLT'";
+                query = "select MONTH(ac.date) as Thang, YEAR(ac.date) as Nam,c.equipmentId as MaThietBi,c.mark_code as MaTSCD, " +
+                 " d.department_name as ViTriDat, equipment_name as TenThietBi, ac.hours_per_day as GioHoatDong , hours_per_day * (CAST(ea.[value] as float) / 1000) as " +
+                 " LuongTieuThu,ac.quantity as SanLuong from Equipment c , Activity ac, Department d, Equipment_attribute ea " +
+                 " where ac.equipmentId = c.equipmentId and d.department_id = c.department_id and ea.equipmentId = c.equipmentId " +
+                 " and MONTH(ac.date) in "+ quy + " and YEAR(ac.date) = '"+nam+"' and c.Equipment_category_id = 'BNLT' OR c.Equipment_category_id = 'BNHL'";
             }
             if (type == "year")
             {
                 int nam = Convert.ToInt32(year);
-                query = " select MONTH(a.date) as Thang, YEAR(a.date) as Nam,c.equipmentId as MaThietBi,c.mark_code as MaTSCD, " +
-                 " d.department_name as ViTriDat, equipment_name as TenThietBi, ac.hours_per_day as GioHoatDong ,consumption_value as " +
-                 " LuongTieuThu,ac.quantity as SanLuong from Fuel_activities_consumption a , Supply b, Equipment c , Activity ac,Department d " +
-                 " where a.fuel_type = b.supply_id and a.equipmentId = c.equipmentId  and ac.equipmentId = c.equipmentId " +
-                 " and d.department_id = c.department_id and fuel_type in ('DIEN') and a.date = ac.date and YEAR(a.date) = '" + nam+"' and c.Equipment_category_id = 'BNLT'";
+                query = "select MONTH(ac.date) as Thang, YEAR(ac.date) as Nam,c.equipmentId as MaThietBi,c.mark_code as MaTSCD, " +
+                 " d.department_name as ViTriDat, equipment_name as TenThietBi, ac.hours_per_day as GioHoatDong , hours_per_day * (CAST(ea.[value] as float) / 1000) as " +
+                 " LuongTieuThu,ac.quantity as SanLuong from Equipment c , Activity ac, Department d, Equipment_attribute ea " +
+                 " where ac.equipmentId = c.equipmentId and d.department_id = c.department_id and ea.equipmentId = c.equipmentId " +
+                 " and YEAR(ac.date) = '" + nam + "' and c.Equipment_category_id = 'BNLT' OR c.Equipment_category_id = 'BNHL'";
             }
             return query;
         }
@@ -163,7 +167,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                         query = Wherecondition(type, date, month, quarter, year);
                     }
                     List<contentreportWater> content = db.Database.SqlQuery<contentreportWater>(query).ToList();
-                    int totaltieuhao = 0; double totalsanluong = 0; double totalgio = 0;
+                    double totaltieuhao = 0; double totalsanluong = 0; double totalgio = 0;
                     if (content != null)
                     {
                             foreach (var item in content)
@@ -210,7 +214,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
         public string ViTriDat { get; set; }
         public string TenThietBi { get; set; }
         public double GioHoatDong { get; set; }
-        public int LuongTieuThu { get; set; }
+        public double LuongTieuThu { get; set; }
         public double SanLuong { get; set; }
     }
 }
