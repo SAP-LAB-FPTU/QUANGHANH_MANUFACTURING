@@ -18,17 +18,6 @@ namespace QUANGHANH2.Controllers.DK
             return View("/Views/DK/Department_Criteria.cshtml");
         }
 
-        public dynamic GetData(int month, int year, string departmentID)
-        {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-            {
-
-                var sqlQuery = "select * from PhongBan_TieuChi where MaPhongBan = @departmentID and Thang = @month and Nam = @year";
-                return db.Database.SqlQuery<CacTieuChi>(sqlQuery, new SqlParameter("departmentID", departmentID), new SqlParameter("month", month), new SqlParameter("year", year)).ToList();
-            }
-        }
-
-
         [Route("phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi/lay-thong-tin")]
         public ActionResult getInformation()
         {
@@ -37,52 +26,32 @@ namespace QUANGHANH2.Controllers.DK
                 var month = Int32.Parse(Request["month"]);
                 var year = Int32.Parse(Request["year"]);
                 var departmentID = Request["department"];
+                List<TieuChiABC> list = new List<TieuChiABC>();
+                List<TieuChi> listTieuChi = new List<TieuChi>();
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    var listAspectDepartments = (from pbtc in db.PhongBan_TieuChi
-                                 .Where(x => x.MaPhongBan == departmentID)
-                                                 join tieuchi in db.TieuChis on pbtc.MaTieuChi equals tieuchi.MaTieuChi
-                                                 select new
-                                                 {
-                                                     MaTieuChi = tieuchi.MaTieuChi,
-                                                     TenTieuChi = tieuchi.TenTieuChi
-                                                 }).ToList();
-
-                    var listAspect = GetData(month, year, departmentID);
-                    if (listAspect.Count != 0)
-                    {
-                        foreach (var item in listAspect)
-                        {
-                            item.Identify = item.MaTieuChiNull + "-" + item.HeaderID;
-                        }
-                    }
-                    else
-                    {
-                        header_KeHoachTungThang header = new header_KeHoachTungThang();
-                        header.MaPhongBan = departmentID;
-                        header.ThangKeHoach = month;
-                        header.NamKeHoach = year;
-                        header.SoNgayLamViec = 26;
-                        db.header_KeHoachTungThang.Add(header);
-                        db.SaveChanges();
-                        var HearderID = db.header_KeHoachTungThang.Where(x => x.MaPhongBan == departmentID && x.ThangKeHoach == month && x.NamKeHoach == year).Select(x => x.HeaderID).FirstOrDefault();
-                        return Json(new { data = listAspect, aspects = listAspectDepartments, totalDays = (26), headerID = HearderID }, JsonRequestBehavior.AllowGet);
-
-                    }
-                    return Json(new { data = listAspect, aspects = listAspectDepartments, totalDays = (listAspect == null ? 0 : listAspect[0].SoNgayLamViec), headerID = listAspect == null ? -1 : listAspect[0].HeaderID }, JsonRequestBehavior.AllowGet);
+                    string sqlPhongBanTieuChi = "select a.MaPhongBan,a.MaTieuChi,b.TenTieuChi from PhongBan_TieuChi a left join TieuChi b on a.MaTieuChi = b.MaTieuChi\n" +
+                        "where MaPhongBan = @maphongban and Thang = @thang and Nam = @nam ";
+                    string sqlTieuChi = "select * from TieuChi";
+                    list = db.Database.SqlQuery<TieuChiABC>(sqlPhongBanTieuChi, new SqlParameter("maphongban", departmentID),
+                        new SqlParameter("thang", month),
+                        new SqlParameter("nam", year)).ToList<TieuChiABC>();
+                    listTieuChi = db.Database.SqlQuery<TieuChi>(sqlTieuChi).ToList<TieuChi>();
+                    return Json(new { listPhongBanTieuChi = list , listTieuChi = listTieuChi});
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Response.Write("Có lỗi xảy ra, xin vui lòng nhập lại");
-                return new HttpStatusCodeResult(400);
+
             }
+            return null;
         }
     }
 
-    public class CacTieuChi : TieuChi
+    public class TieuChiABC : TieuChi
     {
-        public Nullable<int> MaTieuChiNull { get; set; }
-
+        public string MaPhongBan { get; set; }
+        public int MaTieuChi { get; set; }
+        public string TenTieuChi { get; set; }
     }
 }

@@ -27,7 +27,7 @@
                        required placeholder="Năm" />
             </div>
             <div class="input-field col l3 m12 s12">
-                <select class="form-control" id="cbx-px" name="px_value" onchange="change()">
+                <select class="form-control" id="cbx-px" name="px_value">
                     <option value="default-px" disabled selected>Phân xưởng</option>
                     <option value="PXKT1">Khai thác 1</option>
                     <option value="PXKT2">Khai thác 2</option>
@@ -99,8 +99,6 @@
         }
         selectContent += "</select>"
 
-        //content = "<tr><td class=\"aspectAdded center\"> " + selectContent + "</td><td><input  id=\"unit" + dem + "\" readonly ></td><td><input  type=\"text\" class=\"inputDescription\"></td><td><input value=\"\" type=\"text\" class=\"inputDescription\"></td><tr>";
-        //dem++;
         tableBody.append(selectContent);
       }
 
@@ -125,25 +123,21 @@
                 tableBody = $("#aspectDetailTable").children("tbody");
                 tableBody.empty();
                 content = "";
-                let reponseData = response.data
-                if (reponseData.length > 1) {
-                    for (let i = 0; i < reponseData.length; i++) {
-                        content += "<tr><td class=\"aspectName\" id=\"" + reponseData[i].Identify + ("-name") + "\">" + reponseData[i].TenTieuChi + "</td><td id=\"" + reponseData[i].Identify + ("-unit") + "\">" + reponseData[i].DonViDo + "</td><td class=\"editableContent\" id=\"" + reponseData[i].Identify + ("-amount") + "\">" + (reponseData[i].SanLuong == null ? 0 : reponseData[i].SanLuong) + "</td><td class=\"editableContent\" id=\"" + reponseData[i].Identify + ("-description") + "\">" + (reponseData[i].GhiChu == null ? "" : reponseData[i].GhiChu) + "</td><tr>";
+                let reponseListPhongBanTieuChi = response.listPhongBanTieuChi
+                if (reponseListPhongBanTieuChi.length > 1) {
+                    for (let i = 0; i < reponseListPhongBanTieuChi.length; i++) {
+                        content += "<tr><td class=\"aspectName\" id=\"" + reponseListPhongBanTieuChi[i].MaTieuChi + "\">" + reponseListPhongBanTieuChi[i].TenTieuChi + "</td><tr>";
                     }
                 } else {
-                   if (reponseData.length == 1) {
-                        if (reponseData[0]["Identify"].split("-")[0] != "") {
-                            content += "<tr><td class=\"aspectName\" id=\"" + reponseData[0].Identify + ("-name") + "\">" + reponseData[0].TenTieuChi + "</td><td id=\"" + reponseData[0].Identify + ("-unit") + "\">" + reponseData[0].DonViDo + "</td><td class=\"editableContent\" id=\"" + reponseData[0].Identify + ("-amount") + "\">" + (reponseData[0].SanLuong == null ? 0 : reponseData[0].SanLuong) + "</td><td class=\"editableContent\" id=\"" + reponseData[0].Identify + ("-description") + "\">" + (reponseData[0].GhiChu == null ? "" : reponseData[0].GhiChu) + "</td><tr>";
-                        }
-                    }
+
                 }
                 tableBody.html(content);
                 ViewMode();
                 mode = 0;
-                listAspectDepartments = response.aspects;
-                $("#totalDays").attr("value", response.totalDays)
-                $("#headerIDhidden").attr("value", response.headerID)
-                $("#totalDays").attr("disable", "disable")
+                listAspectDepartments = response.listTieuChi;
+                //$("#totalDays").attr("value", response.totalDays)
+                //$("#headerIDhidden").attr("value", response.headerID)
+                //$("#totalDays").attr("disable", "disable")
                 $('#pre-load').hide();
             },
             error: function (response) {
@@ -282,7 +276,7 @@
     function sendUpdateData(data) {
         setTimeout($('#pre-load').show(),3000)
         $.ajax({
-            url: "/phong-dieu-khien/ke-hoach-san-xuat/cap-nhat-thong-tin",
+            url: "/phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi/cap-nhat-thong-tin",
             type: "post",
             data: {
                 "data": data,
@@ -297,25 +291,21 @@
                 tableBody = $("#aspectDetailTable").children("tbody");
                 tableBody.empty();
                 content = "";
-                let reponseData = response.data
-                if (reponseData.length > 1) {
-                    for (let i = 0; i < reponseData.length; i++) {
-                        content += "<tr><td class=\"aspectName\" id=\"" + reponseData[i].Identify + ("-name") + "\">" + reponseData[i].TenTieuChi + "</td><td id=\"" + reponseData[i].Identify + ("-unit") + "\">" + reponseData[i].DonViDo + "</td><td class=\"editableContent\" id=\"" + reponseData[i].Identify + ("-amount") + "\">" + (reponseData[i].SanLuong == null ? 0 : reponseData[i].SanLuong) + "</td><td class=\"editableContent\" id=\"" + reponseData[i].Identify + ("-description") + "\">" + (reponseData[i].GhiChu == null ? "" : reponseData[i].GhiChu) + "</td><tr>";
+                let reponseListPhongBanTieuChi = response.listPhongBanTieuChi;
+                if (reponseListPhongBanTieuChi.length > 1) {
+                    for (let i = 0; i < reponseListPhongBanTieuChi.length; i++) {
+                        content += "<tr><td class=\"aspectName\" id=\"" + reponseListPhongBanTieuChi[i].MaTieuChi + "\">" + reponseListPhongBanTieuChi[i].TenTieuChi + "</td><tr>";
                     }
                 } else {
-                    if (reponseData.length == 1) {
-                        if (reponseData[0]["Identify"].split("-")[0] != "") {
-                            content += "<tr><td class=\"aspectName\" id=\"" + reponseData[0].Identify + ("-name") + "\">" + reponseData[0].TenTieuChi + "</td><td id=\"" + reponseData[0].Identify + ("-unit") + "\">" + reponseData[0].DonViDo + "</td><td class=\"editableContent\" id=\"" + reponseData[0].Identify + ("-amount") + "\">" + (reponseData[0].SanLuong == null ? 0 : reponseData[0].SanLuong) + "</td><td class=\"editableContent\" id=\"" + reponseData[0].Identify + ("-description") + "\">" + (reponseData[0].GhiChu == null ? "" : reponseData[0].GhiChu) + "</td><tr>";
-                        }
-                    }
+
                 }
                 tableBody.html(content);
                 ViewMode();
                 mode = 0;
-                listAspectDepartments = response.aspects;
-                $("#totalDays").attr("value", response.totalDays)
-                $("#headerIDhidden").attr("value", response.headerID)
-                $("#totalDays").attr("disable", "disable")
+                listAspectDepartments = response.listTieuChi;
+                //$("#totalDays").attr("value", response.totalDays)
+                //$("#headerIDhidden").attr("value", response.headerID)
+                //$("#totalDays").attr("disable", "disable")
                 $('#pre-load').hide();
             },
             error: function (response) {
