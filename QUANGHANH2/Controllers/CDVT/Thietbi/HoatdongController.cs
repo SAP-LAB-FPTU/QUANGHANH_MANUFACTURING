@@ -197,7 +197,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
 
             return Json(new { success = true, data = d }, JsonRequestBehavior.AllowGet);
         }
-
+        [Auther(RightID = "6")]
         [Route("phong-cdvt/huy-dong/search")]
         [HttpPost]
         public ActionResult Search(string equipmentId, string equipmentName, string department, string quality, string dateStart, string dateEnd, string category, string sup)
@@ -255,7 +255,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             equiplist = equiplist.Skip(start).Take(length).ToList<EquipWithName>();
             return Json(new { success = true, data = equiplist, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
-
         [HttpGet]
         public ActionResult AddOrEdit(string id = "")
         {
@@ -553,7 +552,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             }
         }
 
-
+        [Auther(RightID = "4")]
         [HttpGet]
         public ActionResult Edit(string id)
         {
