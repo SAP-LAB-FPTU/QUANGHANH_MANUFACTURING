@@ -366,6 +366,7 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ChungChi_NhanVien_Model.cs" />
+    <Compile Include="Models\Chung_Chi_Nhan_Vien_Extend.cs" />
     <Compile Include="Models\ChuyenNganh.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -7341,6 +7342,7 @@
     <Content Include="Views\CDVT\History\LichsuOtoTieuthu.cshtml" />
     <Content Include="Views\CDVT\History\LichsuTieuthu.cshtml" />
     <Content Include="Views\DK\DepartmentDaily.cshtml" />
+    <Content Include="Views\PX\PXKT\DangKiNhiemVu.cshtml" />
     <Content Include="Views\CDVT\Car\GPS.cshtml" />
     <Content Include="Views\DK\SanLuongView.cshtml" />
     <Content Include="Views\CDVT\Thietbi\SCTX.cshtml" />
