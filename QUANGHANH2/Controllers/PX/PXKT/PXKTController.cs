@@ -5,6 +5,7 @@ using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
@@ -101,7 +102,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                     than = header.ThanThucHien,
                     lo = header.MetLoThucHien,
                     xen = header.XenThucHien,
-                    note = header.GhiChu == null?"":header.GhiChu
+                    note = header.GhiChu == null ? "" : header.GhiChu
                 }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
@@ -171,44 +172,53 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
-                Header_DiemDanh_NangSuat_LaoDong header = db.Header_DiemDanh_NangSuat_LaoDong.Where(a => a.MaPhongBan == departmentID && a.Ca == session && a.NgayDiemDanh == date).First();
-                List<string> listAttended = (from h in db.Header_DiemDanh_NangSuat_LaoDong
-                                                .Where(h => h.MaPhongBan == departmentID && h.NgayDiemDanh == date && h.Ca != session)
-                                          join per in db.DiemDanh_NangSuatLaoDong
-                                            //.Where(dd => dd.DiLam == true)
-                                          on h.HeaderID equals per.HeaderID
-                                          select per.MaNV).ToList();
-                var leftouterjoin = (from emp in db.NhanViens
-                                        .Where(emp => emp.MaPhongBan == departmentID && !listAttended.Any(y => emp.MaNV.Equals(y)))
-                                      join per in db.DiemDanh_NangSuatLaoDong.Where(per => per.HeaderID == header.HeaderID) 
-                                      on emp.MaNV equals per.MaNV into temp
-                                      from per in temp.DefaultIfEmpty()
-                                      select new
-                                      {
-                                          maNV = emp.MaNV,
-                                          tenNV = emp.Ten,
-                                          status = per == null ? null : (bool?)per.DiLam,
-                                          timeAttendance = per == null ? null : per.ThoiGianThucTeDiemDanh,
-                                          reason = per == null ? null : per.LyDoVangMat,
-                                          description = per == null ? null : per.GhiChu,
-                                          headerID = per == null ? null : (int?)per.HeaderID
-                                      }).OrderBy(att => att.status).ToList();
-                var rightouterjoin = (from per in db.DiemDanh_NangSuatLaoDong.Where(per => per.HeaderID == header.HeaderID)
-                                      join emp in db.NhanViens
-                                        .Where(emp => emp.MaPhongBan == departmentID && !listAttended.Any(y => emp.MaNV.Equals(y)))
-                                      on per.MaNV equals emp.MaNV into temp
-                                      from emp in temp.DefaultIfEmpty()
-                                      select new
-                                      {
-                                          maNV = emp == null ? null : emp.MaNV,
-                                          tenNV = emp == null ? null : emp.Ten,
-                                          status = (bool?)per.DiLam,
-                                          timeAttendance = per.ThoiGianThucTeDiemDanh,
-                                          reason = per.LyDoVangMat,
-                                          description = per.GhiChu,
-                                          headerID = (int?)per.HeaderID
-                                      }).OrderBy(att => att.status).ToList();
-                return leftouterjoin.Union(rightouterjoin);
+                // Header_DiemDanh_NangSuat_LaoDong header = db.Header_DiemDanh_NangSuat_LaoDong.Where(a => a.MaPhongBan == departmentID && a.Ca == session && a.NgayDiemDanh == date).First();
+                // List<string> listAttended = (from h in db.Header_DiemDanh_NangSuat_LaoDong
+                //                                .Where(h => h.MaPhongBan == departmentID && h.NgayDiemDanh == date && h.Ca != session)
+                //                          join per in db.DiemDanh_NangSuatLaoDong
+                //                            //.Where(dd => dd.DiLam == true)
+                //                          on h.HeaderID equals per.HeaderID
+                //                          select per.MaNV).ToList();
+                //var leftouterjoin = (from emp in db.NhanViens
+                //                        .Where(emp => emp.MaPhongBan == departmentID && !listAttended.Any(y => emp.MaNV.Equals(y)))
+                //                      join per in db.DiemDanh_NangSuatLaoDong.Where(per => per.HeaderID == header.HeaderID) 
+                //                      on emp.MaNV equals per.MaNV into temp
+                //                      from per in temp.DefaultIfEmpty()
+                //                      select new
+                //                      {
+                //                          maNV = emp.MaNV,
+                //                          tenNV = emp.Ten,
+                //                          status = per == null ? null : (bool?)per.DiLam,
+                //                          timeAttendance = per == null ? null : per.ThoiGianThucTeDiemDanh,
+                //                          reason = per == null ? null : per.LyDoVangMat,
+                //                          description = per == null ? null : per.GhiChu,
+                //                          headerID = per == null ? null : (int?)per.HeaderID
+                //                      }).OrderBy(att => att.status).ToList();
+                //var rightouterjoin = (from per in db.DiemDanh_NangSuatLaoDong.Where(per => per.HeaderID == header.HeaderID)
+                //                      join emp in db.NhanViens
+                //                        .Where(emp => emp.MaPhongBan == departmentID && !listAttended.Any(y => emp.MaNV.Equals(y)))
+                //                      on per.MaNV equals emp.MaNV into temp
+                //                      from emp in temp.DefaultIfEmpty()
+                //                      select new
+                //                      {
+                //                          maNV = emp == null ? null : emp.MaNV,
+                //                          tenNV = emp == null ? null : emp.Ten,
+                //                          status = (bool?)per.DiLam,
+                //                          timeAttendance = per.ThoiGianThucTeDiemDanh,
+                //                          reason = per.LyDoVangMat,
+                //                          description = per.GhiChu,
+                //                          headerID = (int?)per.HeaderID
+                //                      }).OrderBy(att => att.status).ToList();
+                //return leftouterjoin.Union(rightouterjoin);
+                var query = "select b.DiLam as [status], b.HeaderID as headerID,nv.MaNV,nv.Ten as tenNV,b.ThoiGianThucTeDiemDanh as timeAttendance,b.reason,[b].[description] " +
+                    "from (select dd.DiLam,header.HeaderID , dd.MaNV ,dd.ThoiGianThucTeDiemDanh,dd.LyDoVangMat as reason,dd.GhiChu as [description] " +
+                    "from (select * from Header_DiemDanh_NangSuat_LaoDong " +
+                    "where NgayDiemDanh = @date and Ca = @session and MaPhongBan = @departmentID) as header " +
+                    "left join DiemDanh_NangSuatLaoDong as dd on header.HeaderID = dd.HeaderID) as b " +
+                    "right join(select* from NhanVien where MaPhongBan = @departmentID) as nv on b.MaNV = nv.MaNV";
+                var listAttended = db.Database.SqlQuery<attendanceEntity>(query, new SqlParameter("date", date), new SqlParameter("session", session), new SqlParameter("departmentID", departmentID)).ToList();
+
+                return listAttended;
             }
         }
 
@@ -265,7 +275,7 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                         dn.MaNV = item.maNV;
                         dn.DiLam = item.status;
                         dn.LyDoVangMat = item.reason;
-                        dn.ThoiGianThucTeDiemDanh = item.timeAttendance != "" ? (DateTime?) Convert.ToDateTime(item.timeAttendance) : null;
+                        dn.ThoiGianThucTeDiemDanh = item.timeAttendance != "" ? (DateTime?)Convert.ToDateTime(item.timeAttendance) : null;
                         dn.GhiChu = item.description;
                         if (item.isEnvolved)
                         {
@@ -449,6 +459,18 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
         public string timeAttendance { get; set; }
         public string reason { get; set; }
         public string description { get; set; }
+    }
+
+    public class attendanceEntity{
+        public int? headerID { get; set; }
+        public string maNV { get; set; }
+        public string tenNV { get; set; }
+        public DateTime? timeAttendance { get; set; }
+        public string reason { get; set; }
+        public string description { get; set; }
+
+        public bool? status { get; set; }
+
     }
 
     public class BaoCaoTheoCa
