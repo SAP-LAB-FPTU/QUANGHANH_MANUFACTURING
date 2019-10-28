@@ -4,15 +4,6 @@
     Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
 }
 
-
-<link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
-<link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
-<link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
-<link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
-<link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
-<script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
-<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
-
 <div class="card">
     <div class="card-content">
         <div class="row">
@@ -56,16 +47,16 @@
                     <table id="docTable" class="striped table-bordered centered responsive-table mytable">
                         <thead>
                             <tr>
-                                <th colspan="4">Thông tin thiết bị</th>
+                                <th rowspan="2">Quyết định số</th>
+                                <th rowspan="2">Ngày nghiệm thu</th>
+                                <th colspan="3">Thông tin thiết bị</th>
                             </tr>
                             <tr>
-                                <th>Quyết định số</th>
-                                <th>Mã TSCĐ</th>
+                                <th>Mã thiết bị</th>
                                 <th>Tên thiết bị</th>
-                                <th>Ngày nghiệm thu</th>
+                                <th></th>
                             </tr>
                         </thead>
-
                     </table>
                 </div>
             </div>
@@ -101,83 +92,46 @@
 
     </div>
 </div>
-<div class="modal fade" id="myedit">
+
+<div class="modal" id="mylist">
     <div class="modal-content">
         <div class="modal-header">
-            <h3 class="modal-title">Sửa quyết định sửa chữa</h3>
+            <h3 class="modal-title" id="listId"></h3>
         </div>
-        <div class="modal-body">
-            <form>
-                <div class="row">
-                    <div class="col s12 m6">
-                        <div class="form-group">
-                            <label for="date">Ngày : </label>
-                            <input type="date" class="form-control" value="10/1/2019" />
-                        </div>
-                        <div class="form-group">
-                            <label for="date">Người lập quyết định : </label>
-                            <input type="text" class="form-control" value="Nguyễn Thị Thương" />
-                        </div>
-                        <div class="form-group">
-                            <label for="date">Số lượng thiết bị : </label>
-                            <input type="number" class="form-control" value="10" />
-                        </div>
-
-                    </div>
-                    <div class="col s12 m6">
-                        <div class="form-group">
-                            <label for="id">Số quyết định : </label>
-                            <input type="text" class="form-control" value="001" />
-                        </div>
-                        <div class="form-group">
-                            <label for="date">Người phê duyệt quyết định : </label>
-                            <input type="text" class="form-control" value="Nguyễn Văn Thái" />
-                        </div>
-
-                    </div>
-                </div>
-            </form>
+        <div class="modal-body table_container">
+            <div class="row">
+                <form>
+                    <table id="test" class="striped table-responsive centered table-bordered mytable">
+                        <thead>
+                            <tr>
+                                <th>Mã vật tư</th>
+                                <th>Số lượng xin cấp</th>
+                                <th>Số lượng đã nhận</th>
+                                <th>Số lượng sử dụng</th>
+                                <th>Số lượng lấy ra</th>
+                                <th>Ghi chú</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </form>
+            </div>
+            <input type="hidden" id="mathietbi" disabled />
+            <input type="hidden" id="maquyetdinh" disabled />
         </div>
         <div class="modal-footer">
-            <button type="submit" class="btn blue darken-2 modal-close save-category">Lưu</button>
-            <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
+            <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-button">Thoát</button>
         </div>
     </div>
 </div>
-<div id="myaleart" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Xác nhận lưu mục này</h3>
-        </div>
-        <div class="modal-body">
-            <p class="red-text">Bạn có chắc chắn muốn lưu lại ?</p>
-        </div>
-        <div class="modal-footer">
-            <a id="xacnhan" href="/phong-cdvt/cap-nhat/quyet-dinh"><button type="button" class="btn blue darken-2 modal-close">Xác nhận</button></a>
-            <button type="button" class="btn red modal-close">Hủy</button>
-        </div>
-    </div>
-</div>
-<link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
-<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+
 @section scripts{
-    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script src="~/js/advancedsearch/advancedsearch.js"></script>
-    <script src="~/js/Custom JS/CDVT/Capnhat/update.js"></script>
-
     <script>
-        //$("#pre-load").show("slow", function () {
-        // });
-        //$("#pre-load").css("z-index", "99999");
+        $("#pre-load").show();
         var Popup, dataTable;
 
         $(document).ready(function () {
-            dataTable = $('#docTable').on('preXhr.dt', function (e, settings, data) {
-
-      				  $("#pre-load").show("slow", function () {
-      				   });
-      				  $("#pre-load").css("z-index", "99999");
-                }).DataTable({
+            dataTable = $('#docTable').DataTable({
                 "ajax": {
                     "url": "/phong-cdvt/da-nghiem-thu/search",
                     "type": "POST",
@@ -189,63 +143,97 @@
                         "date_start": function () {return $('#min_Date').val() },
                         "date_end": function () {return $('#max_Date').val() }
                         },
-               },
-                "drawCallback": function (settings) {
-                    $("#pre-load").hide("slow", function () {
-                });
                 },
-                    "columns": [
-                        {
-                            "data": "temp", "name" : "documentary_id", "render": function (data) {
+                "drawCallback": function (settings) {
+                    $("#pre-load").hide();
+                },
+                "columns": [
+                    {
+                        "data": "temp", "name" : "documentary_id", "render": function (data) {
                             return "<a id='click' class='modal-trigger' data-target='thongtin' onclick=Detail('@Url.Action("Detail","nghiemthu")?id=" + data.split("^")[0] + "')> "+data.split("^")[1]+"</a>";
-
-                        },
-                        },
-                    { @*"data": "equipmentId", "name": "equipmentId", "render": function (data) {
-                            //return "<td><a href='#capnhat' class='modal-trigger'>"+data+"</a></td>";
-                        return "<a class='modal-trigger' onclick=GetData('@Url.Action("Index","VatTuQuyetDinh")?id=" + data + "')>" + data + "</a>";
-                        },*@
-                        "data": "linkIdCode", "name": "equipmentId",
-                        "render": function (data) {
-                            return "<a href=\"" + data.link + "?id=" + data.id + "&doc="+data.doc+"\"> " + data.code + "</a>";
                         },
                     },
-                    { "data": "equipment_name", "name": "equipment_name" },
                     {
-                        "data": "acceptance_date", "name": "acceptance_date","render": function (data) {
+                        "data": "acceptance_date", "name": "acceptance_date", "render": function (data) {
                             return dateFormat(data);
                         }
+                    },
+                    { "data": "equipmentId", "name": "equipmentId" },
+                    { "data": "equipment_name", "name": "equipment_name" },
+                    {
+                        "data": {}, "render": function (data) {
+                            return "<td><a class='btn blue modal-trigger open-SupplyModal' data-equip='" + data.equipmentId + "' data-code='" + data.documentary_id + "' href='#mylist'>Vật tư</a></td>";
+                        },
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "150px"
                     }
-                    ],
+                ],
                 "searching": false,
                 "bLengthChange": false,
                 "serverSide": "true",
                 "language": {
-                        emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
-                        paginate:
-                        {
-                            previous: "Trang trước",
-                            next: "Trang sau",
-                            first: "|<",
-                            last: ">|",
+                    emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                    paginate:
+                    {
+                        previous: "Trang trước",
+                        next: "Trang sau",
+                        first: "|<",
+                        last: ">|",
 
-                        },
-                        info: "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
-                        infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
                     },
+                    info: "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                    infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
+                },
                 "order": [0, "asc"],
                 "initComplete": function(settings, json) {
-    		    $("#pre-load").hide("slow", function () {
-      		  });
-             }
-
+    		        $("#pre-load").hide();
+                }
             });
-
-
         });
 
+        $(document).on("click", ".open-SupplyModal", function () {
+            $('#pre-load').show();
+            $("#test").find("tr:gt(0)").remove();
+            var documentary_id = $(this).data("code");
+            var equipmentId = $(this).data("equip");
+            var QDIdAndEquipId = $(this).data('list');
+            $('#listId').text("Danh sách vật tư thay thế của thiết bị " + equipmentId)
+            $("#mathietbi").val(equipmentId)
+            $("#maquyetdinh").val(documentary_id)
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/cap-nhat/quyet-dinh/GetSupply2",
+                dataType: "json",
+                success: function (data) {
+                    $(function () {
+                        $.each(data, function (i, item) {
+                            var temp = item.supplyStatus == null ? "" : item.supplyStatus;
+                            var $tr = $('<tr>').append(
+                                $('<td>').html('<input type="text" value="' + item.supply_id + '" readonly class="form-control" />'),
+                                $('<td>').html('<input type="text" value="' + item.quantity_plan + '" readonly class="form-control" />'),
+                                $('<td>').html("<input readonly class='form-control' type='number' min='" + item.quantity_in + "' max='" + item.quantity_plan + "' value='" + item.quantity_in + "' />"),
+                                $('<td>').html("<input readonly class='form-control' type='number' min='" + item.quantity_used + "' max='" + item.quantity_plan + "' value='" + item.quantity_used + "' />"),
+                                $('<td>').html("<input readonly class='form-control' type='number' min='" + item.quantity_out + "' max='" + item.quantity_plan + "' value='" + item.quantity_out + "' />"),
+                                $('<td>').html("<input readonly class='form-control' type='text' value='" + temp + "' />")
+                            );
+                            $tr.appendTo('#test');
+                        });
+                    });
+                    $("#pre-load").hide();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    errorAlert('Lỗi');
+                },
+                data: {
+                    documentary_id: documentary_id,
+                    equipmentId: equipmentId
+                },
+                cache: false
+            })
+        })
 
-          function GetData(url) {
+        function GetData(url) {
              window.location.href = url;
         }
         function dateFormat(d) {

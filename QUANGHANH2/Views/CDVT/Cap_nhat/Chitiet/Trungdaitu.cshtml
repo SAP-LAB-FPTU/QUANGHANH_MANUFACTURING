@@ -10,17 +10,6 @@
     }
 }
 
-<!-- This page CSS -->
-<link href="~/dist/css/pages/data-table.css" rel="stylesheet">
-<link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
-<link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
-<link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
-<link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
-<link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
-<link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
-<script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
-<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
-
 <div class="card">
     <div class="card-content">
         <div class="row">
@@ -36,17 +25,16 @@
                             <th>Loại bảo dưỡng</th>
                             <th>Ngày hoàn thành dự kiến</th>
                             <th>Danh sách vật tư thay thế</th>
-                            <th>Đã đến</th>
+                            <th>Đã xử lý</th>
                         </tr>
                     </thead>
                 </table>
-                <input name="id" hidden value="@ViewBag.id" id="id" />
-                @if (ViewBag.AddAble == true)
-                {
-                    <a class="btn blue" id="submit">Lưu</a>
-                    <a class="btn blue darken-2 modal-trigger" href="#alert">Xác nhận đã xử lý</a>
-                }
             </div>
+            <input name="id" hidden value="@ViewBag.id" id="id" />
+            @if (ViewBag.AddAble == true)
+            {
+            <a class="btn blue darken-2 modal-trigger" href="#alert">Lưu</a>
+            }
         </div>
     </div>
 </div>
@@ -56,16 +44,18 @@
         <div class="modal-header">
             <h3 class="modal-title" id="listId"></h3>
         </div>
-        <div class="modal-body">
+        <div class="modal-body table_container">
             <div class="row">
                 <form>
                     <table id="test" class="striped table-responsive centered table-bordered mytable">
                         <thead>
                             <tr>
                                 <th>Mã vật tư</th>
-                                <th>Chất lượng</th>
-                                <th>Số lượng thay thế</th>
-                                <th>Số lượng có thể tái sử dụng</th>
+                                <th>Số lượng xin cấp</th>
+                                <th>Số lượng đã nhận</th>
+                                <th>Số lượng sử dụng</th>
+                                <th>Số lượng lấy ra</th>
+                                <th>Ghi chú</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -89,13 +79,12 @@
 <div class="modal" id="alert">
     <div class="modal-content">
         <div class="modal-header">
-            <h3 class="modal-title">Xác nhận đã xử lý xong quyết định</h3>
         </div>
         <div class="modal-body">
-            <h4>Lưu ý: bạn không thể thêm vật tư cho quyết định sau khi đã xử lý xong</h4>
+            <h4>Lưu ý: bạn không thể sửa đổi vật tư cho quyết định sau khi đã xử lý xong</h4>
         </div>
         <div class="modal-footer">
-            <a id="submit2" class="waves-effect waves-light btn blue darken-2 modal-trigger">Lưu</a>
+            <a id="submit" class="waves-effect waves-light btn blue darken-2 modal-trigger">Xác nhận</a>
             <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-button2">Thoát</button>
         </div>
     </div>
@@ -113,33 +102,31 @@
 <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
 
 @section scripts{
-    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
-    <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
-    <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
+    <script src="~/js/jquery.dataTables.min.js"></script>
     <script>
-        var created = 0;
-
         $("#complex_header").on("click", ".buttonChon", function () {
-            if ($(this).text() == "Chưa nhận") {
-                $(this).text('Đã nhận')
+            if ($(this).text() == "Chưa xử lý") {
+                $(this).text('Đã xử lý')
             }
             else {
-                $(this).text('Chưa nhận')
+                $(this).text('Chưa xử lý')
             }
         });
 
         $("#addcolumn").click(function () {
             var $tr = $('<tr>').append(
                 $('<td>').html("<input list='supplyID' type='text' id='vattu' class='form-control td-id' />"),
-                $('<td>').html("<select class='form-control' id='type-search'><option>Mới 100%</option><option>Qua sử dụng</option></select>"),
-                $('<td>').html("<input type='number' min='1' class='form-control' />"),
-                $('<td>').html("<input type='number' min='1' class='form-control' />")
+                $('<td>').html("<input type='number' min='0' value='0' class='form-control' />"),
+                $('<td>').html("<input type='number' min='0' value='0' class='form-control' />"),
+                $('<td>').html("<input type='number' min='1' value='1' class='form-control' />"),
+                $('<td>').html("<input type='number' min='0' value='0' class='form-control' />"),
+                $('<td>').html("<input type='text' class='form-control' />")
             );
             $tr.appendTo('#test tbody');
         })
 
         $(document).on("click", ".open-Modal", function () {
+            $('#pre-load').show();
             $("#test").find("tr:gt(0)").remove();
             var QDIdAndEquipId = $(this).data('list');
             $('#listId').text("Danh sách vật tư thay thế của thiết bị " + QDIdAndEquipId.split("^")[1])
@@ -151,16 +138,17 @@
                 dataType: "json",
                 success: function (data) {
                     $(function () {
-                        created = 0;
                         $.each(data, function (i, item) {
+                            var temp = item.supplyStatus == null ? "" : item.supplyStatus;
                             var $tr = $('<tr>').append(
-                                $('<td>').text(item.supply_id),
-                                $('<td>').text(item.supplyStatus),
-                                $('<td>').text(item.quantity),
-                                $('<td>').text(item.reuse)
+                                $('<td>').html('<input type="text" value="' + item.supply_id + '" readonly class="form-control" />'),
+                                $('<td>').html('<input type="text" value="' + item.quantity_plan + '" readonly class="form-control" />'),
+                                $('<td>').html("<input class='form-control' type='number' min='" + item.quantity_in + "' max='" + item.quantity_plan + "' value='" + item.quantity_in + "' />"),
+                                $('<td>').html("<input class='form-control' type='number' min='" + item.quantity_used + "' max='" + item.quantity_plan + "' value='" + item.quantity_used + "' />"),
+                                $('<td>').html("<input class='form-control' type='number' min='" + item.quantity_out + "' max='" + item.quantity_plan + "' value='" + item.quantity_out + "' />"),
+                                $('<td>').html("<input class='form-control' type='text' value='" + temp + "' />")
                             );
                             $tr.appendTo('#test');
-                            created += 1;
                         });
                     });
                     $("#pre-load").hide();
@@ -180,27 +168,32 @@
             var output = {};
             var arr = [];
             var length = $("#test tr").length;
-            for (var i = 1 + created; i < length + created; i++) {
-                if (!$("#mylist #test tbody tr:nth-child(" + i + ") input").eq(0).val());
-                else {
-                    var temp = {};
-                    temp.supplyType = 1;
-                    temp.supply_id = $("#mylist #test tbody tr:nth-child(" + i + ") input").eq(0).val();
-                    temp.supplyStatus = $("#mylist #test tbody tr:nth-child(" + i + ") select").val();
-                    temp.quantity = $("#mylist #test tbody tr:nth-child(" + i + ") input").eq(1).val();
-                    arr.push(temp);
-                    if ($("#mylist #test tbody tr:nth-child(" + i + ") input").eq(3).val() != "") {
-                        var temp2 = {};
-                        temp2.supplyType = 2;
-                        temp2.supply_id = $("#mylist #test tbody tr:nth-child(" + i + ") input").eq(0).val();
-                        temp2.supplyStatus = "Qua sử dụng";
-                        temp2.quantity = $("#mylist #test tbody tr:nth-child(" + i + ") input").eq(2).val();
-                        arr.push(temp2);
-                    }
-                }
+            for (var i = 1; i < length; i++) {
+                var temp = {};
+                if ($("#mylist #test tbody tr:nth-child(" + i + ") input").eq(0).val() == "") break;
+                temp.supply_id = $("#mylist #test tbody tr:nth-child(" + i + ") td:nth-child(" + 1 + ") input").val();
+                temp.quantity_plan = $("#mylist #test tbody tr:nth-child(" + i + ") td:nth-child(" + 2 + ") input").val();
+                temp.quantity_in = $("#mylist #test tbody tr:nth-child(" + i + ") td:nth-child(" + 3 + ") input").val();
+                temp.quantity_used = $("#mylist #test tbody tr:nth-child(" + i + ") td:nth-child(" + 4 + ") input").val();
+                temp.quantity_out = $("#mylist #test tbody tr:nth-child(" + i + ") td:nth-child(" + 5 + ") input").val();
+                temp.supplyStatus = $("#mylist #test tbody tr:nth-child(" + i + ") td:nth-child(" + 6 + ") input").val();
+                arr.push(temp);
             }
             output.list = arr
             return JSON.stringify(output);
+        }
+
+        function checkDuplicate() {
+            var list = [];
+            var length = $("#test tr").length;
+            for (var i = 1; i < length; i++) {
+                if ($("#mylist #test tbody tr:nth-child(" + i + ") input").eq(0).val() == "") break;
+                var temp = $("#mylist #test tbody tr:nth-child(" + i + ") td:nth-child(" + 1 + ") input").val();
+                list.push(temp);
+            }
+            var findDuplicates = arr => arr.filter((item, index) => arr.indexOf(item) != index)
+            if (findDuplicates(list) == 0) return true;
+            else return false;
         }
     </script>
     <script>
@@ -240,8 +233,8 @@
                 },
                 {
                     "data": "statusAndEquip", "name": "person_created", "render": function (data) {
-                        if (data.split("^")[0] == "0") return "<button id=\"buttonChon\" class='btn blue darken-2 buttonChon' value=\"" + data.split("^")[1] + "\">Chưa nhận</button>";
-                        else return "<button disabled class=\"btn blue darken-2\">Đã nhận</button>"
+                        if (data.split("^")[0] == "0") return "<button id=\"buttonChon\" class='btn blue darken-2 buttonChon' value=\"" + data.split("^")[1] + "\">Chưa xử lý</button>";
+                        else return "<button disabled class=\"btn blue darken-2\">Đã xử lý</button>"
                     }
                 }
             ],
@@ -264,87 +257,61 @@
                 $('#pre-load').hide();
             }
         });
-        var table = $('#complex_header').DataTable();
-        $("#submit").click(function (e) {
-            var equipments = "";
-            for (var i = 0; i < $('#complex_header tbody tr').length; i++) {
-                if ($('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').text() == "Đã nhận")
-                    equipments += $('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').val() + "^"
-            }
-            $("#pre-load").show();
-            $.ajax({
-                type: "POST",
-                url: "/phong-cdvt/cap-nhat/quyet-dinh/trung-dai-tu/edit",
-                dataType: "json",
-                success: function (data) {
-                    if (data.success == true) {
-                        $('#pre-load').hide();
-                        successAlert(data.message, '');
-                        table.ajax.reload(function () {
-                        });
 
-                    }
-                    else {
-                        errorAlert('Lỗi', data.message);
+        $(document).on('click', '#submit', function () {
+            $("#submit").click(function (e) {
+                var equipments = "";
+                for (var i = 0; i < $('#complex_header tbody tr').length; i++) {
+                    if ($('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').text() == "Đã xử lý")
+                        equipments += $('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').val() + "^"
+                }
+                $("#pre-load").show();
+                $.ajax({
+                    type: "POST",
+                    url: "/phong-cdvt/cap-nhat/quyet-dinh/trung-dai-tu/edit",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.success == true) {
+                            dataTable.ajax.reload(function () {
+                                $('#pre-load').hide();
+                                successAlert(data.message);
+                            });
+                        }
+                        else {
+                            errorAlert(data.message);
+                            $('#pre-load').hide();
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
                         $('#pre-load').hide();
-                    }
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    $('#pre-load').hide();
-                    errorAlert('Lỗi');
-                },
-                data: {
-                    id: $('#id').val(),
-                    edit: equipments
-                },
-                cache: false
-            })
-            return false;
-        });
-        var table = $('#complex_header').DataTable();
-        $("#submit2").click(function (e) {
-            var equipments = "";
-            for (var i = 0; i < $('#complex_header tbody tr').length; i++) {
-                if ($('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').text() == "Đã nhận")
-                    equipments += $('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').val() + "^"
-            }
-            $("#pre-load").show();
-            $.ajax({
-                type: "POST",
-                url: "/phong-cdvt/cap-nhat/quyet-dinh/trung-dai-tu/done",
-                dataType: "json",
-                success: function (data) {
-                    if (data.success == true) {
-                        successAlert('Lưu thành công', '');
-                        window.location.reload(true);
-                    }
-                    else {
-                        errorAlert('Lỗi', data.message);
-                        $('#pre-load').hide();
-                        $('#exit-button2').click();
-                    }
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    $('#pre-load').hide();
-                    errorAlert('Lỗi');
-                },
-                data: {
-                    id: $('#id').val()
-                },
-                cache: false
-            })
-            return false;
-        });
+                        errorAlert('Lỗi');
+                    },
+                    data: {
+                        id: $('#id').val(),
+                        edit: equipments
+                    },
+                    cache: false
+                })
+                return false;
+            });
+        })
 
         $("#submitvattu").click(function () {
+            if (!checkDuplicate())
+                return errorAlert('Vật tư đã tồn tại');
             $("#pre-load").show();
             $.ajax({
                 type: "POST",
                 url: "/phong-cdvt/cap-nhat/quyet-dinh/AddSupply",
-                dataType: "text",
-                success: function () {
-                    successAlert('Lưu thành công', '');
-                    $('#exit-button').click()
+                dataType: "json",
+                success: function (data) {
+                    if (data.success) {
+                        successAlert(data.message);
+                        $('#exit-button').click()
+                    }
+                    else {
+                        errorAlert(data.message);
+                    }
                     $('#pre-load').hide();
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {

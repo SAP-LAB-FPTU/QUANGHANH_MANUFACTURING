@@ -2,18 +2,6 @@
     ViewData["Title"] = "PlaceAndTime";
     Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
 }
-<link href="~/dist/css/style.css" rel="stylesheet">
-<!-- This page CSS -->
-<link href="~/dist/css/pages/data-table.css" rel="stylesheet">
-
-<link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
-<link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
-<link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
-<link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
-<link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
-<link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
-<script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
-<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
 
 <div class="card">
     <div class="card-content">
@@ -120,7 +108,6 @@
                             <tr>
                                 <th>Mã vật tư</th>
                                 <th>Số lượng</th>
-                                <th>Tình trạng kỹ thuật</th>
                                 <th>Nơi lĩnh</th>
                             </tr>
                         </thead>
@@ -128,7 +115,6 @@
                             <tr>
                                 <td><input type='text' list='supplyID' class='form-control required' /></td>
                                 <td><input type='number' min='1' value='1' class='form-control' /></td>
-                                <td><select class='form-control'><option>Mới 100%</option><option>Cũ đã qua sử dụng</option></select></td>
                                 <td><input type='text' list='departmentName' class='form-control required' /></td>
                             </tr>
                         </tbody>
@@ -217,13 +203,9 @@
                 var item = output[id].vattu[i];
                 var $tr = $('<tr>').append(
                     $('<td>').html("<input type='text' list='supplyID' class='form-control required' value='" + item.supply_id + "' /> "),
-                    $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> ")
+                    $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> "),
+                    $('<td>').html("<input type='text' list='departmentName' class='form-control required' value='" + item.department_id + "' /> ")
                 );
-                if (item.supplyStatus == 'Qua sử dụng')
-                    $tr.append($('<td>').html("<select class='form-control'><option>Mới 100%</option><option selected>Qua sử dụng</option></select> "))
-                else
-                    $tr.append($('<td>').html("<select class='form-control'><option>Mới 100%</option><option>Qua sử dụng</option></select> "))
-                $tr.append($('<td>').html("<input type='text' list='departmentName' class='form-control required' value='" + item.department_id + "' /> "))
                 $tr.appendTo('#test tbody');
             }
         }
@@ -233,7 +215,6 @@
         var $tr = $('<tr>').append(
             $('<td>').html("<input type='text' list='supplyID' class='form-control required' />"),
             $('<td>').html("<input type='number' min='1' value='1' class='form-control' />"),
-            $('<td>').html("<select class='form-control'><option>Mới 100%</option><option>Qua sử dụng</option></select>"),
             $('<td>').html("<input type='text'  value='" + $('#depa-id').val() + "' list='departmentName' class='form-control required' />")
         );
         $tr.appendTo('#test tbody');
@@ -251,7 +232,7 @@
                     var vattu = {};
                     vattu.supply_id = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(0).val();
                     vattu.quantity = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(1).val();
-                    vattu.supplyStatus = $('#mylist #test tbody tr:nth-child(' + i + ') select').val();
+                    vattu.supplyStatus = null;
                     vattu.department_id = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(2).val();
                     arr.push(vattu);
                 }
@@ -343,8 +324,4 @@
             });
         });
     </script>
-    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-
-    @*<script src="~/js/Custom JS/CDVT/Work/Mobilize_PlaceAndTime.js"></script>
-    <script src="~/js/Custom JS/CDVT/Work/suachuachon.js"></script>*@
 }

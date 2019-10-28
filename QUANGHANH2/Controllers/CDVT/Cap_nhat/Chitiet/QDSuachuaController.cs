@@ -33,7 +33,6 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
                     documentary = DBContext.Database.SqlQuery<Documentary>("SELECT docu.*, docu.[out/in_come] as out_in_come FROM Documentary_repair_details as detail inner join Documentary as docu on detail.documentary_id = docu.documentary_id WHERE docu.documentary_code IS NOT NULL AND detail.documentary_id = @documentary_id",
                         new SqlParameter("documentary_id", id)).First();
                 }
-
                 List<Supply> supplies = DBContext.Supplies.ToList();
                 ViewBag.Supplies = supplies;
                 if (documentary.documentary_status == 1) ViewBag.AddAble = true;
@@ -111,13 +110,16 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
                             temp.equipment_repair_status = 1;
                             Acceptance a = new Acceptance();
                             a.acceptance_date = DateTime.Now;
-                            a.acceptance_result = null;
                             a.documentary_id = idnumber;
-                            a.documentary_process_result = null;
                             a.equipmentId = item;
                             a.equipmentStatus = 2;
                             DBContext.Acceptances.Add(a);
                             DBContext.SaveChanges();
+                        }
+                        if (DBContext.Database.SqlQuery<Documentary_repair_detailsDB>("select details.equipment_repair_status from Department depa inner join Documentary docu on depa.department_id = docu.department_id inner join Documentary_repair_details details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 1 and details.documentary_id = @documentary_id and equipment_repair_status = '0'", new SqlParameter("documentary_id", id)).Count() == 0)
+                        {
+                            Documentary docu = DBContext.Documentaries.Find(idnumber);
+                            docu.documentary_status = 2;
                         }
 
                         DBContext.SaveChanges();
@@ -132,26 +134,6 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
                 }
             }
             return Json(new { success = true, message = "Lưu thành công" }, JsonRequestBehavior.AllowGet);
-        }
-
-        [Auther(RightID = "84,179,180,181,182,183,184,185,186,187,188,189")]
-        [Route("phong-cdvt/cap-nhat/quyet-dinh/sua-chua/done")]
-        [HttpPost]
-        public ActionResult done(string id)
-        {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            int idnumber = int.Parse(id);
-            if (DBContext.Database.SqlQuery<Documentary_repair_detailsDB>("select details.equipment_repair_status from Department depa inner join Documentary docu on depa.department_id = docu.department_id inner join Documentary_repair_details details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 1 and details.documentary_id = @documentary_id and equipment_repair_status = '0'", new SqlParameter("documentary_id", id)).Count() == 0)
-            {
-                Documentary docu = DBContext.Documentaries.Find(idnumber);
-                docu.documentary_status = 2;
-                DBContext.SaveChanges();
-                return Json(new { success = true, message = "Lưu thành công" }, JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                return Json(new { success = false, message = "Bạn không thể chuyển trạng thái quyết định\n khi chưa nhận đủ thiết bị" }, JsonRequestBehavior.AllowGet);
-            }
         }
     }
 }
