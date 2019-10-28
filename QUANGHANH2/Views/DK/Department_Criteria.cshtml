@@ -93,11 +93,11 @@
         selectContent = "<select id=\"MaTieuChi" + dem + "\" onclick=\"searchUnit(this)\"class=\"browser-default \" onchange=\"checkDuplicate(this)\" skipped=\"0\"> <option value=\"\" selected>Lựa chọn tiêu chí</option>";
         unit = "";
 
-        //for (let i = 0; i < listAspectDepartments.length; i++) {
-        //    selectContent += "<option value=\"" + listAspectDepartments[i].MaTieuChi + "\">" + listAspectDepartments[i].TenTieuChi + "</option>"
+        for (let i = 0; i < listAspectDepartments.length; i++) {
+            selectContent += "<option value=\"" + listAspectDepartments[i].MaTieuChi + "\">" + listAspectDepartments[i].TenTieuChi + "</option>"
 
-        //}
-        //selectContent += "</select>"
+        }
+        selectContent += "</select>"
 
         //content = "<tr><td class=\"aspectAdded center\"> " + selectContent + "</td><td><input  id=\"unit" + dem + "\" readonly ></td><td><input  type=\"text\" class=\"inputDescription\"></td><td><input value=\"\" type=\"text\" class=\"inputDescription\"></td><tr>";
         //dem++;
