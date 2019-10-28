@@ -23,7 +23,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Cap_nhat
             return View("/Views/CDVT/Cap_nhat/Daxuly.cshtml");
         }
 
-        [Auther(RightID = "24")]
         [Route("phong-cdvt/cap-nhat/quyet-dinh-da-xu-ly/search")]
         [HttpPost]
         public ActionResult Search(string documentary_id, string type, string department, string reason, string dateStart, string dateEnd)

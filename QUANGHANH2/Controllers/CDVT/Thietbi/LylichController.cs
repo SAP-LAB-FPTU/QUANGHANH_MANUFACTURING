@@ -1,4 +1,5 @@
 ﻿using QUANGHANH2.Models;
+using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -31,7 +32,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
         {
             return Redirect("/phong-cdvt/huy-dong");
         }
-
+        [Auther(RightID ="10,6")]
         [Route("phong-cdvt/thiet-bi")]
         [HttpPost]
         public ActionResult ABC(string id)
