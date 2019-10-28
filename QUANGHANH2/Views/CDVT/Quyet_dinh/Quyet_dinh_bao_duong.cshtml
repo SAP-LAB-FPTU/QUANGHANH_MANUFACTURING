@@ -389,7 +389,7 @@
                     success: function (data) {
                         if (data.success == true) {
                             dataTable.ajax.reload();
-                            redirectAlert('Cập nhật thông tin thành công', '/phong-cdvt/cap-nhat/quyet-dinh');
+                            successAlert('Cập nhật quyết định thành công','');
                         }
                         else {
                             errorAlert('Lỗi',data.message);

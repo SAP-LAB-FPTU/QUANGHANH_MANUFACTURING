@@ -12,6 +12,7 @@ using System.Web.Routing;
 using System.Linq.Dynamic;
 using System.Globalization;
 using System.Data.Entity;
+using QUANGHANH2.SupportClass;
 
 namespace QUANGHANHCORE.Controllers.CDVT.Oto
 {
@@ -21,6 +22,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
         {
             public string abc { get; set; }
         }
+        [Auther(RightID ="10")]
         [Route("phong-cdvt/oto/huy-dong")]
         [HttpGet]
         public ActionResult Index()
@@ -176,7 +178,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
 
             }
         }
-
+        [Auther(RightID = "10")]
         [Route("phong-cdvt/oto/huy-dong/search")]
         [HttpPost]
         public ActionResult Search(string equipmentId, string equipmentName, string department, string quality, string dateStart, string dateEnd, string category, string sup)
