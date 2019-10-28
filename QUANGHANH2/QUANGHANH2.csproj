@@ -216,6 +216,7 @@
     <Compile Include="Controllers\CDVT\Oto\NhomotoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\SuachuahangngayController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\BaoduongController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\CaitienController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ChitietBaoduongController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ChitietKiemdinhController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ChiTietQuyetDInhController.cs" />
@@ -261,6 +262,8 @@
     <Compile Include="Controllers\CDVT\Vattu\XincapvattuSummaryController.cs" />
     <Compile Include="Controllers\CDVT\Work\BaoduongchonController.cs" />
     <Compile Include="Controllers\CDVT\Work\baoduongController.cs" />
+    <Compile Include="Controllers\CDVT\Work\CaiTien\ChonThietBiController.cs" />
+    <Compile Include="Controllers\CDVT\Work\CaiTien\ThemCaiTienController.cs" />
     <Compile Include="Controllers\CDVT\Work\DieudongchonController.cs" />
     <Compile Include="Controllers\CDVT\Work\dieudongController.cs" />
     <Compile Include="Controllers\CDVT\Work\suachuachonController.cs" />
@@ -7349,6 +7352,9 @@
     <Content Include="Views\Shared\_Layout_AT.cshtml" />
     <Content Include="Views\AT\ViewAccident.cshtml" />
     <Content Include="Views\KCS\NhapKeHoach\InputPlan_Month.cshtml" />
+    <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_cai_tien.cshtml" />
+    <Content Include="Views\CDVT\Work\CaiTien\ChonThietBi.cshtml" />
+    <Content Include="Views\CDVT\Work\CaiTien\ThemCaiTien.cshtml" />
     <Content Include="Views\DK\Department_Criteria.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -7368,6 +7374,7 @@
     <Folder Include="Views\Quanlyvattu\" />
     <Folder Include="Views\ReportMonthly\" />
     <Folder Include="Views\SanLuongReport\" />
+    <Folder Include="Views\ThemCaiTien\" />
     <Folder Include="Views\ViewAccident\" />
     <Folder Include="Views\WorkHistory\" />
   </ItemGroup>
