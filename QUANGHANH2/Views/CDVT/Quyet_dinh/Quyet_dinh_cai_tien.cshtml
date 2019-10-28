@@ -281,6 +281,7 @@
 
  //--------------Get Data--------------------
         $(document).on("click", ".open-UpdateModal", function () {
+            $('#pre-load').show();
             var id = $(this).data('incident-id').toString();
             var ListId = [id];
             $.ajax({
@@ -297,6 +298,7 @@
                     $('#person_created_edit').val(data.person_created);
                     $('#reason_edit').val(data.reason);
                     $('#out_in_come_edit').val(data.out_in_come);
+                    $('#pre-load').hide();
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     $.notify(XMLHttpRequest.responseText, {
@@ -313,7 +315,7 @@
             $("#pre-load").show();
             $("#pre-load").css("z-index", "9999");
             $.ajax({
-                url: '@Url.Action("ExportExcel","BaoDuongQD")',
+                url: '@Url.Action("ExportExcel","Caitien")',
                 type: 'POST',
 
             }).done(function () {
@@ -327,12 +329,12 @@
             $("#pre-load").show();
             $.ajax({
                 type: "POST",
-                url: "/phong-cdvt/quyet-dinh/bao-duong/update",
+                url: "/phong-cdvt/quyet-dinh/cai-tien/update",
                 dataType: "json",
                 success: function (data) {
                     if (data.success == true) {
                         dataTable.ajax.reload();
-                        redirectAlert('Cập nhật thông tin thành công', '/phong-cdvt/cap-nhat/quyet-dinh');
+                        successAlert('Cập nhật thông tin thành công', '');
                     }
                     else {
                         errorAlert('Lỗi',data.message);
@@ -372,7 +374,7 @@
             var docID = $('#documentary_id_update').val();
             $.ajax({
                 type: "POST",
-                url: '@Url.Action("DeleteDoc","BaoDuongQD")',
+                url: '@Url.Action("DeleteDoc","Caitien")',
                 data: '{docID: ' + docID + '}',
                 contentType: "application/json",
                 dataType: "script",

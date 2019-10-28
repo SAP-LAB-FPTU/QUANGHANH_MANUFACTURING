@@ -1,18 +1,20 @@
-﻿using DocumentFormat.OpenXml.Drawing;
-using DocumentFormat.OpenXml.Packaging;
-using Newtonsoft.Json.Linq;
-using QUANGHANH2.Models;
-using QUANGHANH2.SupportClass;
+﻿using QUANGHANH2.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Web;
-using System.Web.Hosting;
+using System.Linq.Dynamic;
 using System.Web.Mvc;
+using System.Web.Routing;
+using QUANGHANH2.SupportClass;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
+using System.Web.Hosting;
+using System.IO;
+using Newtonsoft.Json.Linq;
+using System.Globalization;
+using System.Data.Entity;
+using System.Text.RegularExpressions;
 
 namespace QUANGHANH2.Controllers.CDVT.Work.CaiTien
 {
@@ -164,12 +166,12 @@ namespace QUANGHANH2.Controllers.CDVT.Work.CaiTien
 
         //export file world
         [Auther(RightID = "85")]
-        [Route("phong-cdvt/bao-duong-chon/export")]
+        [Route("phong-cdvt/cai-tien-chon/export")]
         [HttpPost]
         public ActionResult ExportQuyetDinh(string data, string documentary_code)
         {
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            string Flocation = "/doc/CDVT/QD/quyetdinhbaoduong.docx";
+            string Flocation = "/doc/CDVT/QD/quyetdinhcaitien.docx";
             string fileName = HostingEnvironment.MapPath("/doc/CDVT/QD/quyetdinh-template.docx");
             byte[] byteArray = System.IO.File.ReadAllBytes(fileName);
             using (var stream = new MemoryStream())
