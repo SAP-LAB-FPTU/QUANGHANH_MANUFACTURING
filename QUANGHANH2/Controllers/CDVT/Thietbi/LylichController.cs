@@ -1,4 +1,5 @@
 ﻿using QUANGHANH2.Models;
+using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -31,7 +32,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
         {
             return Redirect("/phong-cdvt/huy-dong");
         }
-
+        [Auther(RightID ="10,6")]
         [Route("phong-cdvt/thiet-bi")]
         [HttpPost]
         public ActionResult ABC(string id)
@@ -74,6 +75,9 @@ namespace QUANGHANHCORE.Controllers.CDVT
             //Vat tu di kem
             var sup = DBContext.Database.SqlQuery<Supply_DK>("select e.*,s.supply_name from Supply_DiKem e join Supply s on e.supply_id = s.supply_id where e.equipmentId = @id", new SqlParameter("id", equipment.equipmentId)).ToList();
             ViewBag.sup = sup;
+            //Vat tu du phong
+            var supDP = DBContext.Database.SqlQuery<Supply_DK>("select e.*,s.supply_name from Supply_DuPhong e join Supply s on e.supply_id = s.supply_id where e.equipmentId = @id", new SqlParameter("id", equipment.equipmentId)).ToList();
+            ViewBag.supDP = supDP;
             //NK kiem dinh
             years = DBContext.Database.SqlQuery<int>("SELECT distinct year(ei.inspect_start_date) as years FROM Equipment_Inspection ei inner join Equipment e on e.equipmentId = ei.equipmentId where ei.inspect_start_date is not null and e.equipmentId = @equipmentId order by years desc",
                 new SqlParameter("equipmentId", id)).ToList();
@@ -297,6 +301,106 @@ namespace QUANGHANHCORE.Controllers.CDVT
                     DBContext.SaveChanges();
                     dbc.Commit();
                     var sup = DBContext.Database.SqlQuery<Supply_DK>("select e.*,s.supply_name from Supply_DiKem e join Supply s on e.supply_id = s.supply_id where e.equipmentId = @id", new SqlParameter("id", id)).ToList();
+                    return Json(new { success = true, data = sup }, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception e)
+                {
+                    e.Message.ToString();
+                    dbc.Rollback();
+                    return Json(new { success = false, message = e.Message }, JsonRequestBehavior.AllowGet);
+                }
+
+            }
+
+        }
+
+        [HttpPost]
+        public ActionResult addDP(string id, string nameSup, int quan)
+        {
+            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            using (DbContextTransaction dbc = DBContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    if (nameSup != null)
+                    {
+                        List<Supply> listSup = DBContext.Supplies.ToList();
+
+
+                        Supply s = new Supply();
+                        for (int j = 0; j < listSup.Count(); j++)
+                        {
+                            if (listSup.ElementAt(j).supply_name.Equals(nameSup))
+                            {
+                                s.supply_id = listSup.ElementAt(j).supply_id;
+                                break;
+                            }
+                        }
+                        string note = "";
+                        string sql_sup = "insert into Supply_DuPhong values (@supid, @eid, @quan)";
+                        DBContext.Database.ExecuteSqlCommand(sql_sup
+                            , new SqlParameter("@supid", s.supply_id)
+                            , new SqlParameter("@eid", id)
+                            , new SqlParameter("@quan", quan));
+
+
+
+                    }
+                    DBContext.SaveChanges();
+                    dbc.Commit();
+                    var sup = DBContext.Database.SqlQuery<Supply_DK>("select e.*,s.supply_name from Supply_DuPhong e join Supply s on e.supply_id = s.supply_id where e.equipmentId = @id", new SqlParameter("id", id)).ToList();
+                    return Json(new { success = true, data = sup }, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception e)
+                {
+                    e.Message.ToString();
+                    dbc.Rollback();
+                    return Json(new { success = false, message = e.Message }, JsonRequestBehavior.AllowGet);
+                }
+
+            }
+
+        }
+
+        [HttpPost]
+        public ActionResult updateDP(string id, string supid, int quan)
+        {
+            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            using (DbContextTransaction dbc = DBContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    string sql = "update Supply_DuPhong set quantity = @quan where supply_id = @supid and equipmentId = @eid";
+                    DBContext.Database.ExecuteSqlCommand(sql, new SqlParameter("quan", quan), new SqlParameter("supid", supid), new SqlParameter("eid", id));
+                    DBContext.SaveChanges();
+                    dbc.Commit();
+                    var sup = DBContext.Database.SqlQuery<Supply_DK>("select e.*,s.supply_name from Supply_DuPhong e join Supply s on e.supply_id = s.supply_id where e.equipmentId = @id", new SqlParameter("id", id)).ToList();
+                    return Json(new { success = true, data = sup }, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception e)
+                {
+                    e.Message.ToString();
+                    dbc.Rollback();
+                    return Json(new { success = false, message = e.Message }, JsonRequestBehavior.AllowGet);
+                }
+
+            }
+
+        }
+
+        [HttpPost]
+        public ActionResult deleteDP(string id, string supid)
+        {
+            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            using (DbContextTransaction dbc = DBContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    string sql = "delete from Supply_DuPhong where supply_id = @supid and equipmentId = @eid";
+                    DBContext.Database.ExecuteSqlCommand(sql, new SqlParameter("supid", supid), new SqlParameter("eid", id));
+                    DBContext.SaveChanges();
+                    dbc.Commit();
+                    var sup = DBContext.Database.SqlQuery<Supply_DK>("select e.*,s.supply_name from Supply_DuPhong e join Supply s on e.supply_id = s.supply_id where e.equipmentId = @id", new SqlParameter("id", id)).ToList();
                     return Json(new { success = true, data = sup }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)

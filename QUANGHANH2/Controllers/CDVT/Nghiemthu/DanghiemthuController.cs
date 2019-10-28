@@ -21,7 +21,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
             return View("/Views/CDVT/Nghiemthu/Danghiemthu.cshtml");
         }
 
-        [Auther(RightID = "26")]
         [Route("phong-cdvt/da-nghiem-thu/search")]
         [HttpPost]
         public ActionResult Search(string document_code,string equimentid,string equimentname, string date_start, string date_end)
