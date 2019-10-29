@@ -211,6 +211,7 @@
     <Compile Include="Controllers\CDVT\Nghiemthu\VattukemtheoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\ChitietotoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\DanhsachController.cs" />
+    <Compile Include="Controllers\CDVT\Oto\GPSController.cs" />
     <Compile Include="Controllers\CDVT\Oto\HuydongOtoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\NhomotoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\SuachuahangngayController.cs" />
@@ -272,6 +273,7 @@
     <Compile Include="Controllers\CDVT\Work\TrungdaituController.cs" />
     <Compile Include="Controllers\DK\AccidentController.cs" />
     <Compile Include="Controllers\DK\DepartmentDailyController.cs" />
+    <Compile Include="Controllers\DK\Department_CriteriaController.cs" />
     <Compile Include="Controllers\DK\DKController.cs" />
     <Compile Include="Controllers\DK\InputPlan\InputPlan_MonthController.cs" />
     <Compile Include="Controllers\DK\PhanXuongReportController.cs" />
@@ -337,6 +339,12 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BaoCaoNgayDB.cs" />
+    <Compile Include="Models\Car.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CarGP.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Category_attribute_value.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -358,7 +366,11 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ChungChi_NhanVien_Model.cs" />
+    <Compile Include="Models\Chung_Chi_Nhan_Vien_Extend.cs" />
     <Compile Include="Models\ChuyenNganh.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CongTacAnToan.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CongViec.cs">
@@ -380,6 +392,9 @@
     <Compile Include="Models\Documentary_big_maintain_details.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Documentary_Improve_Detail.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Documentary_liquidation_details.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -395,6 +410,9 @@
     <Compile Include="Models\Documentary_revoke_details.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DoiChieu_Luong.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Equipment.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -405,9 +423,6 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Equipment_category_attribute.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Equipment_Category_Supply.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Equipment_Inspection.cs">
@@ -529,10 +544,16 @@
     <Compile Include="Models\SupplyPlan.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Supply_DiKem.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Supply_Documentary_Equipment.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Supply_Documentary_EquipmentDB.cs" />
+    <Compile Include="Models\Supply_DuPhong.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Supply_Extend.cs" />
     <Compile Include="Models\Supply_tieuhao.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -7321,11 +7342,14 @@
     <Content Include="Views\CDVT\History\LichsuOtoTieuthu.cshtml" />
     <Content Include="Views\CDVT\History\LichsuTieuthu.cshtml" />
     <Content Include="Views\DK\DepartmentDaily.cshtml" />
+    <Content Include="Views\PX\PXKT\DangKiNhiemVu.cshtml" />
+    <Content Include="Views\CDVT\Car\GPS.cshtml" />
     <Content Include="Views\DK\SanLuongView.cshtml" />
     <Content Include="Views\CDVT\Thietbi\SCTX.cshtml" />
     <Content Include="Views\Shared\_Layout_AT.cshtml" />
     <Content Include="Views\AT\ViewAccident.cshtml" />
     <Content Include="Views\KCS\NhapKeHoach\InputPlan_Month.cshtml" />
+    <Content Include="Views\DK\Department_Criteria.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7334,6 +7358,8 @@
     <Folder Include="Library\" />
     <Folder Include="Views\BaoCaoLenPhongDK\" />
     <Folder Include="Views\DepartmentDaily\" />
+    <Folder Include="Views\Department_Criteria\" />
+    <Folder Include="Views\GPS\" />
     <Folder Include="Views\HuyDong\" />
     <Folder Include="Views\InputPlan_Month\" />
     <Folder Include="Views\Input\" />

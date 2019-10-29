@@ -25,6 +25,7 @@ namespace QUANGHANH2.Models
         public string QuanHe { get; set; }
         public string SoCMND { get; set; }
         public string SoDienThoai { get; set; }
+        public string DiaChiThuongTru { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<NhanVien> NhanViens { get; set; }

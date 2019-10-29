@@ -17,7 +17,6 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Supply()
         {
-            this.Equipment_Category_Supply = new HashSet<Equipment_Category_Supply>();
             this.Fuel_activities_consumption = new HashSet<Fuel_activities_consumption>();
             this.Maintain_Car_Detail = new HashSet<Maintain_Car_Detail>();
             this.Supply_Documentary_Equipment = new HashSet<Supply_Documentary_Equipment>();
@@ -32,13 +31,13 @@ namespace QUANGHANH2.Models
         public Nullable<double> price { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Equipment_Category_Supply> Equipment_Category_Supply { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Fuel_activities_consumption> Fuel_activities_consumption { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Maintain_Car_Detail> Maintain_Car_Detail { get; set; }
+        public virtual Supply_DiKem Supply_DiKem { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Supply_Documentary_Equipment> Supply_Documentary_Equipment { get; set; }
+        public virtual Supply_DuPhong Supply_DuPhong { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Supply_tieuhao> Supply_tieuhao { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

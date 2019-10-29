@@ -674,7 +674,7 @@
         bol = @hihi.ToString().ToLower();
         bol2 = false;
         $(document).ready(function () {
-            $("#pre-load").show();
+            
 
             dataTable = $('#equipmentTable')
                 .on('preXhr.dt', function (e, settings, data) {
@@ -1066,6 +1066,10 @@
                     data: $(form).serialize(),
                     success: function (data) {
                         dataTable.ajax.reload();
+
+                        $("#pre-load").hide("slow", function () {
+                        });
+                        $("#pre-load").hide();
                         if (data.success == false) {
                             errorAlert('Lỗi', 'Có lỗi xảy ra');
                         } else {
@@ -1075,6 +1079,10 @@
 
                     },
                     error: function (data) {
+
+                        $("#pre-load").hide("slow", function () {
+                        });
+                        $("#pre-load").hide();
                         dataTable.ajax.reload();
                         $("#btn-submit").addClass("modal-close");
                         errorAlert('Lỗi', 'Có lỗi xảy ra');
@@ -1082,9 +1090,6 @@
                     },
                 });
             }
-            $("#pre-load").hide("slow", function () {
-            });
-            $("#pre-load").hide();
 
             return false;
         }
