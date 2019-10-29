@@ -25,9 +25,10 @@
                                 <li class="tab col s2"><a class="active" href="#dacdiem">ĐẶC TÍNH KỸ THUẬT</a></li>
                                 <li class="tab col s2"><a href="#dieuchuyen">NK ĐIỀU CHUYỂN</a></li>
                                 <li class="tab col s2"><a href="#suachua">NK SỬA CHỮA</a></li>
-                                <li class="tab col s2"><a href="#suco">NK SỰ CỐ</a></li>
-                                <li class="tab col s2"><a href="#kiemdinh">NK KIỂM ĐỊNH</a></li>
-                                <li class="tab col s2"><a href="#lichsu">NK HOẠT ĐỘNG</a></li>
+                                <li class="tab col s1"><a href="#suco">NK SỰ CỐ</a></li>
+                                <li class="tab col s1"><a href="#baohiem">NK BẢO HIỂM</a></li>
+                                <li class="tab col s1"><a href="#kiemdinh">NK KIỂM ĐỊNH</a></li>
+                                <li class="tab col s1"><a href="#lichsu">NK HOẠT ĐỘNG</a></li>
                                 <li class="tab col s2"><a href="#tieuthu">NK TIÊU THỤ NHIÊN LIỆU</a></li>
                             </ul>
                         </div>
@@ -133,7 +134,7 @@
                                     </tr>
 
                                 </table>
-                                <ul class="tabs">
+                                <ul class="tabs" style="overflow-x:hidden;overflow-y:hidden">
                                     <li class="tab col s6"><a class="active" href="#VT_DK">Vật tư đi kèm</a></li>
                                     <li class="tab col s6"><a href="#VT_DP">Vật tư dự phòng</a></li>
                                 </ul>
@@ -415,6 +416,55 @@
                                             }
                                         </div>
                                         count = 1;
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="baohiem" class="col s12">
+                            <div class="wrapper-timeline">
+                                <div class="container">
+                                    @foreach (var x in ViewBag.listBH)
+                                    {
+                                        <div class="timeline">
+                                            <div class="timeline-month" id="title-@x.year">
+                                                Năm @x.year
+                                                <span>@x.count lần bảo hiểm</span>
+                                            </div>
+
+                                            @foreach (var y in x.equipment_Ins)
+                                            {
+                                                if (count == 0)
+                                                {
+                                                    @Html.Raw("<div class=\"timeline-section " + x.year + " lastest-year\">")
+                                                }
+                                                else
+                                                {
+                                                    @Html.Raw("<div class=\"timeline-section " + x.year + "\">")
+                                                }
+                                                <div class="timeline-date">
+                                                    @y.getDateString(y.insurance_expected_date)
+                                                    @*Thứ @(y.insurance_expected_date.DayOfWeek + 1), ngày @y.insurance_expected_date.Day tháng @y.insurance_expected_date.Month*@
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="timeline-box">
+                                                            <div class="box-content table_container">
+                                                                <table id="myborder" class="table-bordered striped table-responsive center">
+                                                                    <tr class="highlight">
+                                                                        <th>Thời hạn bảo hiểm</th>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>@y.getStringtime(y.insurance_expected_date)</td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @Html.Raw("</div>")
+                                            }
+                                        </div>
                                     }
                                 </div>
                             </div>
