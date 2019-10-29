@@ -185,6 +185,7 @@
     <Compile Include="Controllers\CDVT\Cap_nhat\CapnhathoatdongController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\CapnhatsucoController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\ChitietController.cs" />
+    <Compile Include="Controllers\CDVT\Cap_nhat\Chitiet\QDCaitienController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\Chitiet\VattucuaQDController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\Chitiet\QDBaoduongController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\Chitiet\QDDieudongController.cs" />
@@ -7371,6 +7372,7 @@
     <Folder Include="Views\Input\" />
     <Folder Include="Views\Laydanhsachvattu\" />
     <Folder Include="Views\PhanXuongReport\" />
+    <Folder Include="Views\QDCaitien\" />
     <Folder Include="Views\Quanlyvattu\" />
     <Folder Include="Views\ReportMonthly\" />
     <Folder Include="Views\SanLuongReport\" />

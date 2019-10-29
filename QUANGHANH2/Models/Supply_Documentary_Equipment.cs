@@ -18,8 +18,10 @@ namespace QUANGHANH2.Models
         public int documentary_id { get; set; }
         public string equipmentId { get; set; }
         public string supply_id { get; set; }
-        public int quantity { get; set; }
-        public int supplyType { get; set; }
+        public int quantity_plan { get; set; }
+        public int quantity_in { get; set; }
+        public int quantity_used { get; set; }
+        public int quantity_out { get; set; }
         public string supplyStatus { get; set; }
         public int supply_documentary_status { get; set; }
     
