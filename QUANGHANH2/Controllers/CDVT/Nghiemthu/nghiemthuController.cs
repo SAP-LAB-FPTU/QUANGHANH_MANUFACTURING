@@ -208,6 +208,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                         case "5":
                             equipment.department_id = "CDVT";
                             equipment.current_Status = 15;
+                            db.Database.ExecuteSqlCommand("DELETE FROM Supply_DuPhong WHERE equipmentId = @equipmentId",
+                                new SqlParameter("equipmentId", id));
                             break;
                         case "6":
                             Documentary_big_maintain_details documentary_Big_Maintain_Details = db.Database.SqlQuery<Documentary_big_maintain_details>("SELECT * FROM Documentary_big_maintain_details WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId",
@@ -216,32 +218,59 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                             equipment.department_id = documentary_Big_Maintain_Details.department_id;
                             equipment.current_Status = 1;
                             break;
+                        case "7":
+                            Documentary_Improve_Detail documentary_Improve_Details = db.Database.SqlQuery<Documentary_Improve_Detail>("SELECT * FROM Documentary_big_maintain_details WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId",
+                                new SqlParameter("equipmentId", id),
+                                new SqlParameter("documentary_id", documentary.documentary_id)).First();
+                            List<Supply_Documentary_Equipment> supplies = db.Supply_Documentary_Equipment.Where(x => x.documentary_id == documentary.documentary_id && x.equipmentId == id).ToList();
+                            foreach (Supply_Documentary_Equipment item in supplies)
+                            {
+                                Supply_DiKem s = db.Supply_DiKem.Where(x => x.equipmentId == id && x.supply_id == item.supply_id).FirstOrDefault();
+                                if (s == null)
+                                {
+                                    s = new Supply_DiKem();
+                                    s.equipmentId = id;
+                                    s.note = item.supplyStatus;
+                                    s.quantity = item.quantity_used;
+                                    s.supply_id = item.supply_id;
+                                    db.Supply_DiKem.Add(s);
+                                }
+                                else
+                                {
+                                    s.quantity = item.quantity_used;
+                                    s.note = item.supplyStatus;
+                                }
+                                db.SaveChanges();
+                            }
+                            equipment.department_id = documentary_Improve_Details.department_id;
+                            equipment.current_Status = 1;
+                            break;
                         default:
                             break;
                     }
-                    List<Supply_Documentary_Equipment> ListSD = db.Database.SqlQuery<Supply_Documentary_Equipment>("SELECT * FROM Supply_Documentary_Equipment WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId AND supplyType = 1",
-                        new SqlParameter("equipmentId", id),
-                        new SqlParameter("documentary_id", documentary.documentary_id)).ToList();
-                    List<Supply_Documentary_Equipment> ListTH = db.Database.SqlQuery<Supply_Documentary_Equipment>("SELECT * FROM Supply_Documentary_Equipment WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId AND supplyType = 2",
-                        new SqlParameter("equipmentId", id),
-                        new SqlParameter("documentary_id", documentary.documentary_id)).ToList();
-                    foreach (Supply_Documentary_Equipment item in ListSD)
-                    {
-                        db.Database.ExecuteSqlCommand("UPDATE Supply_tieuhao SET used = (used + @param) WHERE supplyid = @supplyid",
-                            new SqlParameter("param", item.quantity),
-                            new SqlParameter("supplyid", item.supply_id));
-                    }
-                    foreach (Supply_Documentary_Equipment item in ListTH)
-                    {
-                        db.Database.ExecuteSqlCommand("UPDATE Supply_tieuhao SET thuhoi = (thuhoi + @param) WHERE supplyid = @supplyid",
-                            new SqlParameter("param", item.quantity),
-                            new SqlParameter("supplyid", item.supply_id));
-                    }
+                    //List<Supply_Documentary_Equipment> ListSD = db.Database.SqlQuery<Supply_Documentary_Equipment>("SELECT * FROM Supply_Documentary_Equipment WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId AND supplyType = 1",
+                    //    new SqlParameter("equipmentId", id),
+                    //    new SqlParameter("documentary_id", documentary.documentary_id)).ToList();
+                    //List<Supply_Documentary_Equipment> ListTH = db.Database.SqlQuery<Supply_Documentary_Equipment>("SELECT * FROM Supply_Documentary_Equipment WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId AND supplyType = 2",
+                    //    new SqlParameter("equipmentId", id),
+                    //    new SqlParameter("documentary_id", documentary.documentary_id)).ToList();
+                    //foreach (Supply_Documentary_Equipment item in ListSD)
+                    //{
+                    //    db.Database.ExecuteSqlCommand("UPDATE Supply_tieuhao SET used = (used + @param) WHERE supplyid = @supplyid",
+                    //        new SqlParameter("param", item.quantity_used),
+                    //        new SqlParameter("supplyid", item.supply_id));
+                    //}
+                    //foreach (Supply_Documentary_Equipment item in ListTH)
+                    //{
+                    //    db.Database.ExecuteSqlCommand("UPDATE Supply_tieuhao SET thuhoi = (thuhoi + @param) WHERE supplyid = @supplyid",
+                    //        new SqlParameter("param", item.quantity_out),
+                    //        new SqlParameter("supplyid", item.supply_id));
+                    //}
                     db.SaveChanges();
                     transaction.Commit();
                     return Json(new { success = true, message = "Nghiệm thu thành công" }, JsonRequestBehavior.AllowGet);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     transaction.Rollback();
                     return Json(new { success = false, message = "Nghiệm thu thất bại" }, JsonRequestBehavior.AllowGet);
