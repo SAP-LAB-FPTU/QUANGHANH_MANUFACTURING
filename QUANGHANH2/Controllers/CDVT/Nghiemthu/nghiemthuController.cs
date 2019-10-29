@@ -270,7 +270,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                     transaction.Commit();
                     return Json(new { success = true, message = "Nghiệm thu thành công" }, JsonRequestBehavior.AllowGet);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     transaction.Rollback();
                     return Json(new { success = false, message = "Nghiệm thu thất bại" }, JsonRequestBehavior.AllowGet);
