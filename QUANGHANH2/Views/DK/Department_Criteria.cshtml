@@ -85,20 +85,21 @@
         $('#addRowsbtn').hide();
         listAspectDepartments = [];
     });
-      var dem=0;
+    var dem = 0;
+
     function addRows() {
         tableBody = $("#aspectDetailTable").children("tbody");
         content = tableBody.html();
 
-        selectContent = "<select id=\"MaTieuChi" + dem + "\" onclick=\"searchUnit(this)\"class=\"browser-default \" onchange=\"checkDuplicate(this)\" skipped=\"0\"> <option value=\"\" selected>Lựa chọn tiêu chí</option>";
+        selectContent = "<select id=\"MaTieuChi" + dem + "\" onclick=\"searchUnit(this)\"class=\"browser-default\" onchange=\"return checkDuplicate(this);\" skipped=\"0\"> <option value=\"\" selected disabled>Lựa chọn tiêu chí</option>";
         unit = "";
 
         for (let i = 0; i < listAspectDepartments.length; i++) {
-            selectContent += "<option value=\"" + listAspectDepartments[i].MaTieuChi + "\">" + listAspectDepartments[i].TenTieuChi + "</option>"
+            selectContent += "<option id=\""+ listAspectDepartments[i].MaTieuChi + "\" value=\"" + listAspectDepartments[i].MaTieuChi + "\">" + listAspectDepartments[i].TenTieuChi + "</option>"
 
         }
         selectContent += "</select>"
-
+        dem++;
         tableBody.append(selectContent);
       }
 
@@ -118,6 +119,7 @@
                 'month': $("#monthCalendar").val().split(" ")[1],
                 'year': $("#yearCalendar").val().split(" ")[1],
                 'department': $("#cbx-px").val(),
+
             },
             success: function (response) {
                 tableBody = $("#aspectDetailTable").children("tbody");
@@ -196,19 +198,17 @@
         mode = 1 - mode;
     }
 
+
     function checkDuplicate(selectTag) {
-        selectedName = selectTag.options[selectTag.selectedIndex].text;
-        isDuplicate = false;
-        $('.aspectName').each(function () {
-            if ($(this).text() == selectedName) {
-                isDuplicate = true;
-                alert("Tiêu chí này đã có ! Vui lòng cập nhật")
-                $(selectTag).attr('skipped', '1')
-                return
-            } else {
-                $(selectTag).attr('skipped', '0')
-            }
-        })
+        selectedValue = selectTag.options[selectTag.selectedIndex].value;
+        var listTieuChiValue = [];
+        $("#aspectDetailTable").find("select").each(function () {
+            listTieuChiValue.push($(this).val());
+            $("option:not(option#" + $(this).val() + ")").removeAttr("disabled", "disabled");
+            $("option#" + $(this).val()).attr("disabled", "disabled");
+        });
+
+
     }
 
     function getDataFromTable() {
@@ -282,9 +282,7 @@
                 "data": data,
                 'month': $("#monthCalendar").val().split(" ")[1],
                 'year': $("#yearCalendar").val().split(" ")[1],
-                'department': $("#cbx-px").val(),
-                'headerID': $("#headerIDhidden").attr("value"),
-                'totalDays': $("#totalDays").attr("value")
+                'department': $("#cbx-px").val()
             },
             success: function (response) {
               successAlert('Thành công','Thao tác thành công');

@@ -46,6 +46,18 @@ namespace QUANGHANH2.Controllers.DK
             }
             return null;
         }
+        //
+        [Route("phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi/cap-nhat-thong-tin")]
+        public ActionResult UpdteInformation()
+        {
+            var month = Int32.Parse(Request["month"]);
+            var year = Int32.Parse(Request["year"]);
+            var departmentID = Request["department"];
+            
+
+            return null;
+        }
+
     }
 
     public class TieuChiABC : TieuChi
