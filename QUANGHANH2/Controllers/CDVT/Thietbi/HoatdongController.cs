@@ -459,6 +459,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         ei.equipmentId = emp.equipmentId;
                         ei.inspect_expected_date = emp.durationOfInspection;
                         db.Equipment_Inspection.Add(ei);
+                        Equipment_Insurance ins = new Equipment_Insurance();
+                        ins.equipmentId = emp.equipmentId;
+                        ins.insurance_expected_date = emp.durationOfInsurance;
+                        db.Equipment_Insurance.Add(ins);
                         db.SaveChanges();
 
                         if (nameSup != null)
@@ -527,6 +531,13 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         //durationOfInsurance
                         date = insua.Split('/');
                         date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                        if (emp.durationOfInsurance.CompareTo(Convert.ToDateTime(date_fix)) != 0)
+                        {
+                            Equipment_Insurance ins = new Equipment_Insurance();
+                            ins.equipmentId = emp.equipmentId;
+                            ins.insurance_expected_date = Convert.ToDateTime(date_fix);
+                            db.Equipment_Insurance.Add(ins);
+                        }
                         emp.durationOfInsurance = Convert.ToDateTime(date_fix);
                         //usedDay
                         date = used.Split('/');
