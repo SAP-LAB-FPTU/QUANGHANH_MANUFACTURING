@@ -110,6 +110,39 @@ namespace QUANGHANHCORE.Controllers.CDVT
                 }
             }
             ViewBag.listKD = listKD;
+            //NK bao hiem
+            years = DBContext.Database.SqlQuery<int>("SELECT distinct year(ei.insurance_expected_date) as years FROM Equipment_Insurance ei inner join Equipment e on e.equipmentId = ei.equipmentId where  e.equipmentId = @equipmentId order by years desc",
+                new SqlParameter("equipmentId", id)).ToList();
+            List<Equipment_InsDB> EIs = DBContext.Database.SqlQuery<Equipment_InsDB>("SELECT * FROM Equipment_Insurance WHERE equipmentId = @equipmentId order by insurance_expected_date desc",
+                new SqlParameter("equipmentId", id)).ToList();
+            List<Equipment_InsByYear> listBH = new List<Equipment_InsByYear>();
+            for (int i = 0; i < years.Count; i++)
+            {
+                Equipment_InsByYear item = new Equipment_InsByYear();
+                item.year = years[i];
+                item.count = 0;
+                item.equipment_Ins = new List<Equipment_InsDB>();
+                listBH.Add(item);
+            }
+            for (int i = 0; i < EIs.Count; i++)
+            {
+                Equipment_InsDB temp = EIs[i];
+                DateTime dateTime;
+                DateTime.TryParse(temp.insurance_expected_date.ToString(), out dateTime);
+                foreach (Equipment_InsByYear item in listBH)
+                {
+                    var stringdate = dateTime.ToString("yyyy");
+                    if (stringdate.Equals(item.year + ""))
+                    {
+                        item.equipment_Ins.Add(temp);
+                        item.count++;
+                        break;
+                    }
+
+                }
+            }
+            listBH.OrderBy(x => x.equipment_Ins.OrderByDescending(y => y.insurance_expected_date));
+            ViewBag.listBH = listBH;
             //NK dieu dong
             var yearDD = DBContext.Database.SqlQuery<int>("SELECT distinct year(d.date_created) as years FROM Documentary d, Documentary_moveline_details dm, Equipment e where e.equipmentId = @id and e.equipmentId = dm.equipmentId and dm.documentary_id = d.documentary_id order by years desc", new SqlParameter("id", id)).ToList<int>();
             List<moveLineByYear> listDD = new List<moveLineByYear>();
@@ -530,5 +563,43 @@ namespace QUANGHANHCORE.Controllers.CDVT
         public int year { get; set; }
         public List<Equipment_InspectionDB> equipment_Inspections { get; set; }
         public int count { get; set; }
+    }
+    public class Equipment_InsByYear
+    {
+        public int year { get; set; }
+        public List<Equipment_InsDB> equipment_Ins { get; set; }
+        public int count { get; set; }
+    }
+
+    public class Equipment_InsDB : Equipment_Insurance
+    {
+        public string equipment_name { get; set; }
+        public string statusname { get; set; }
+        public string stringExpectedTime { get; set; }
+        public string stringStartTime { get; set; }
+        public string stringEndTime { get; set; }
+        public string updateAble { get; set; }
+
+        public string getStringtime(Nullable<DateTime> dateTime)
+        {
+            if (dateTime == null) return "";
+            else
+            {
+                DateTime temp;
+                DateTime.TryParse(dateTime.ToString(), out temp);
+                return temp.ToString("dd/MM/yyyy");
+            }
+        }
+
+        public string getDateString(Nullable<DateTime> dateTime)
+        {
+            if (dateTime == null) return "";
+            else
+            {
+                DateTime temp;
+                DateTime.TryParse(dateTime.ToString(), out temp);
+                return "Thứ " + ((int)temp.DayOfWeek + 1) + ", ngày " + temp.Day + " tháng " + temp.Month;
+            }
+        }
     }
 }
