@@ -142,8 +142,15 @@ namespace QUANGHANH2.Repositories
                             "e.Equipment_category_id = ecs.Equipment_category_id AND " +
                             "ecs.supply_id = s.supply_id";
                     }
+                }try
+                {
+                    vattus = Context.Database.SqlQuery<XincapvattuModelView>(query).ToList();
                 }
-                vattus = Context.Database.SqlQuery<XincapvattuModelView>(query).ToList();
+                catch(Exception e)
+                {
+
+                }
+                
             }
             return vattus;
         }

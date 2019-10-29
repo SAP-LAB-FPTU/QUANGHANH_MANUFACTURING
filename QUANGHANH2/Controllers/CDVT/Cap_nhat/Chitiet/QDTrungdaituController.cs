@@ -110,9 +110,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
                             temp.equipment_big_maintain_status = 1;
                             Acceptance a = new Acceptance();
                             a.acceptance_date = DateTime.Now;
-                            a.acceptance_result = null;
                             a.documentary_id = idnumber;
-                            a.documentary_process_result = null;
                             a.equipmentId = item;
                             a.equipmentStatus = 2;
                             DBContext.Acceptances.Add(a);
@@ -136,26 +134,6 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
                 }
             }
             return Json(new { success = true, message = "Lưu thành công" }, JsonRequestBehavior.AllowGet);
-        }
-
-        [Auther(RightID = "96,179,180,181,182,183,184,185,186,187,188,189")]
-        [Route("phong-cdvt/cap-nhat/quyet-dinh/trung-dai-tu/done")]
-        [HttpPost]
-        public ActionResult done(string id)
-        {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            int idnumber = int.Parse(id);
-            if (DBContext.Database.SqlQuery<Documentary_big_maintain_detailsDB>("select details.equipment_big_maintain_status from Department depa inner join Documentary docu on depa.department_id = docu.department_id inner join Documentary_big_maintain_details details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 6 and details.documentary_id = @documentary_id and equipment_big_maintain_status = '0'", new SqlParameter("documentary_id", id)).Count() == 0)
-            {
-                Documentary docu = DBContext.Documentaries.Find(idnumber);
-                docu.documentary_status = 2;
-                DBContext.SaveChanges();
-                return Json(new { success = true, message = "Lưu thành công" }, JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                return Json(new { success = false, message = "Bạn không thể chuyển trạng thái quyết định\n khi chưa nhận đủ thiết bị" }, JsonRequestBehavior.AllowGet);
-            }
         }
     }
 }

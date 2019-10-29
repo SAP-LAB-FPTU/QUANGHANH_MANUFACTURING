@@ -287,6 +287,7 @@
             <PropertyRef Name="equipmentId" />
             <PropertyRef Name="documentary_id" />
           </Key>
+          <Property Name="equipment_Improve_status" Type="int" Nullable="false" />
           <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="documentary_id" Type="int" Nullable="false" />
           <Property Name="department_id" Type="nvarchar" MaxLength="150" />
@@ -794,7 +795,7 @@
           <Property Name="supply_id" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="quantity" Type="int" Nullable="false" />
           <Property Name="supplyType" Type="int" Nullable="false" />
-          <Property Name="supplyStatus" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="supplyStatus" Type="nvarchar" MaxLength="150" />
           <Property Name="supply_documentary_status" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Supply_DuPhong">
@@ -3125,6 +3126,7 @@
             <PropertyRef Name="equipmentId" />
             <PropertyRef Name="documentary_id" />
           </Key>
+          <Property Name="equipment_Improve_status" Type="Int32" Nullable="false" />
           <Property Name="equipmentId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="documentary_id" Type="Int32" Nullable="false" />
           <Property Name="department_id" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
@@ -3753,7 +3755,7 @@
           <Property Name="supply_id" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="quantity" Type="Int32" Nullable="false" />
           <Property Name="supplyType" Type="Int32" Nullable="false" />
-          <Property Name="supplyStatus" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="supplyStatus" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="supply_documentary_status" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Documentary" Relationship="Self.FK__Supply_Do__docum__671F4F74" FromRole="Supply_Documentary_Equipment" ToRole="Documentary" />
           <NavigationProperty Name="Equipment" Relationship="Self.FK__Supply_Do__equip__2F9A1060" FromRole="Supply_Documentary_Equipment" ToRole="Equipment" />
@@ -6049,6 +6051,7 @@
           <EntitySetMapping Name="Documentary_Improve_Detail">
             <EntityTypeMapping TypeName="QUANGHANHABCModel.Documentary_Improve_Detail">
               <MappingFragment StoreEntitySet="Documentary_Improve_Detail">
+                <ScalarProperty Name="equipment_Improve_status" ColumnName="equipment_Improve_status" />
                 <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
                 <ScalarProperty Name="documentary_id" ColumnName="documentary_id" />
                 <ScalarProperty Name="department_id" ColumnName="department_id" />

@@ -24,16 +24,15 @@ namespace QUANGHANH2.Controllers.CDVT.Nghiemthu
             //
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-
                 db.Configuration.LazyLoadingEnabled = false;
                 supList3 = (from a in db.Supply_Documentary_Equipment
-                           where (a.equipmentId == requestID) && (a.supplyType == 3) && (a.documentary_id == doc)
+                           where (a.equipmentId == requestID) && (a.documentary_id == doc)
                             join b in db.Supplies on a.supply_id equals b.supply_id
                            select new
                            {
                                equipmentId = a.equipmentId,
                                supply_id = a.supply_id,
-                               quantity = a.quantity,
+                               quantity = a.quantity_plan,
                                supplyStatus = a.supplyStatus,
                                supply_name = b.supply_name,
                                unit = b.unit

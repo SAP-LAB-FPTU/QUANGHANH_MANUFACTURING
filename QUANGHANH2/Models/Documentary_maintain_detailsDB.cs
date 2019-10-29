@@ -12,7 +12,6 @@ namespace QUANGHANH2.Models
         public string stringDate { get; set; }
         public string statusAndEquip { get; set; }
 
-        public string department_id { get; set; }
         public string reason { get; set; }
         public int order_number { get; set; }
         public string documentary_code { get; set; }

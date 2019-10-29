@@ -20,7 +20,6 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
             return View("/Views/CDVT/Vattu/Danhsachvattu.cshtml");
         }
 
-        [Auther(RightID = "172")]
         [Route("phong-cdvt/danh-sach-vat-tu")]
         [HttpPost]
         public ActionResult Index(string supply_id, string supply_name)
