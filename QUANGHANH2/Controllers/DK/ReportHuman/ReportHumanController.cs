@@ -92,7 +92,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
             ViewBag.dat = s;
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             List<report> list = db.Database.SqlQuery<report>("select a.MaPhongBan,a.KT1,a.CD1,a.QL1,b.om1,b.vld1,b.p1,b.khac1,a.KT2,a.CD2,a.QL2,b.om2,b.vld2,b.p2,b.khac2,a.KT3,a.CD3,a.QL3,b.om3,b.vld3,b.p3,b.khac3,b.tong_nghidai,a.tong_DS,a.QL_CTy, " +
-                                    "(a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3) / ((a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3) + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3) * 100 as 'tile'" +
+                                    "(case when a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 != 0 then (a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3) / (a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3) * 100 else 0 end) as 'tile'" +
                                     " from (select n.MaPhongBan, sum(case when n.LoaiNhanVien like N'CNKT' and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'KT1'" +
                                     "   , SUM(case when n.LoaiNhanVien like N'CNCD' and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'CD1'" +
                                     "   , SUM(case when n.LoaiNhanVien like N'CBQL' and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'QL1'" +
@@ -150,7 +150,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                 item.tong_khac = item.khac1 + item.khac2 + item.khac3;
                 item.tong_LDTT = item.tong_CD + item.tong_KT;
                 item.tong = item.tong_LDTT + item.tong_QL;
-                item.tong_vang = item.tong_vld + item.tong_om + item.tong_p + item.tong_khac;
+                item.tong_vang = item.tong_vld + item.tong_om + item.tong_p + item.tong_khac + item.tong_nghidai;
                 //thong so chung
                 item.LDPX = item.tong + item.tong_vang;
                 item.tong_tru_nghidai = item.tong_DS - item.tong_nghidai;
@@ -169,8 +169,8 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
             string[] temp = d.Split('/');
             d = temp[2] + "-" + temp[1] + "-" + temp[0];
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            List<report> list = db.Database.SqlQuery<report>("select a.MaPhongBan,a.KT1,a.CD1,a.QL1,b.om1,b.vld1,b.p1,b.khac1,a.KT2,a.CD2,a.QL2,b.om2,b.vld2,b.p2,b.khac2,a.KT3,a.CD3,a.QL3,b.om3,b.vld3,b.p3,b.khac3,b.tong_nghidai,a.tong_DS, " +
-                                    "(a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3) / ((a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3) + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3) * 100 as 'tile'" +
+            string sql = "select a.MaPhongBan,a.KT1,a.CD1,a.QL1,b.om1,b.vld1,b.p1,b.khac1,a.KT2,a.CD2,a.QL2,b.om2,b.vld2,b.p2,b.khac2,a.KT3,a.CD3,a.QL3,b.om3,b.vld3,b.p3,b.khac3,b.tong_nghidai,a.tong_DS, " +
+                                    "(case when a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 != 0 then (a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3) / (a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3) * 100 else 0 end) as 'tile'" +
                                     " from (select n.MaPhongBan, sum(case when n.LoaiNhanVien like N'CNKT' and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'KT1'" +
                                     "   , SUM(case when n.LoaiNhanVien like N'CNCD' and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'CD1'" +
                                     "   , SUM(case when n.LoaiNhanVien like N'CBQL' and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'QL1'" +
@@ -183,7 +183,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                                     "   , count(n.MaNV) as 'tong_DS'" +
                                     " from NhanVien n left outer join DiemDanh_NangSuatLaoDong d on n.MaNV = d.MaNV" +
                                     " left outer join Header_DiemDanh_NangSuat_LaoDong h on d.HeaderID = h.HeaderID" +
-                                    " where h.NgayDiemDanh = '" + d + "'" +
+                                    " where h.NgayDiemDanh = @date" +
                                     " group by n.MaPhongBan) a full join" +
                                     "	(select n.MaPhongBan, SUM(case when d.LyDoVangMat like N'Vô lý do' and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'vld1'" +
                                     "   , sum(case when d.LyDoVangMat like N'Ốm'  and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'om1'" +
@@ -200,8 +200,9 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                                     "   , SUM(case when d.LyDoVangMat in (N'Tai nạn lao động',N'Ốm dài',N'Thai sản',N'Tạm hoãn lao động',N'Vô lý do dài') then 1 else 0 end) as 'tong_nghidai'" +
                                     " from NhanVien n left outer join DiemDanh_NangSuatLaoDong d on n.MaNV = d.MaNV" +
                                     " left outer join Header_DiemDanh_NangSuat_LaoDong h on d.HeaderID = h.HeaderID" +
-                                    " where h.NgayDiemDanh = '" + d + "'" +
-                                    " group by n.MaPhongBan) b on a.MaPhongBan = b.MaPhongBan").ToList();
+                                    " where h.NgayDiemDanh = @date" +
+                                    " group by n.MaPhongBan) b on a.MaPhongBan = b.MaPhongBan";
+            List<report> list = db.Database.SqlQuery<report>(sql, new SqlParameter("date", d)).ToList();
             foreach (var item in list)
             {
 
@@ -227,7 +228,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                 item.tong_khac = item.khac1 + item.khac2 + item.khac3;
                 item.tong_LDTT = item.tong_CD + item.tong_KT;
                 item.tong = item.tong_LDTT + item.tong_QL;
-                item.tong_vang = item.tong_vld + item.tong_om + item.tong_p + item.tong_khac;
+                item.tong_vang = item.tong_vld + item.tong_om + item.tong_p + item.tong_khac + item.tong_nghidai;
                 //thong so chung
                 item.LDPX = item.tong + item.tong_vang;
                 item.tong_tru_nghidai = item.tong_DS - item.tong_nghidai;
@@ -255,7 +256,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                 {
 
                     List<report> list = db.Database.SqlQuery<report>("select a.MaPhongBan,a.KT1,a.CD1,a.QL1,b.om1,b.vld1,b.p1,b.khac1,a.KT2,a.CD2,a.QL2,b.om2,b.vld2,b.p2,b.khac2,a.KT3,a.CD3,a.QL3,b.om3,b.vld3,b.p3,b.khac3,b.tong_nghidai,a.tong_DS, " +
-                                    "(a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3) / ((a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3) + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3) * 100 as 'tile'" +
+                                    "(case when a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 != 0 then (a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3) / (a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3) * 100 else 0 end) as 'tile'" +
                                     " from (select n.MaPhongBan, sum(case when n.LoaiNhanVien like N'CNKT' and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'KT1'" +
                                     "   , SUM(case when n.LoaiNhanVien like N'CNCD' and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'CD1'" +
                                     "   , SUM(case when n.LoaiNhanVien like N'CBQL' and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'QL1'" +
@@ -312,7 +313,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                         item.tong_khac = item.khac1 + item.khac2 + item.khac3;
                         item.tong_LDTT = item.tong_CD + item.tong_KT;
                         item.tong = item.tong_LDTT + item.tong_QL;
-                        item.tong_vang = item.tong_vld + item.tong_om + item.tong_p + item.tong_khac;
+                        item.tong_vang = item.tong_vld + item.tong_om + item.tong_p + item.tong_khac + item.tong_nghidai;
                         //thong so chung
                         item.LDPX = item.tong + item.tong_vang;
                         item.tong_tru_nghidai = item.tong_DS - item.tong_nghidai;
