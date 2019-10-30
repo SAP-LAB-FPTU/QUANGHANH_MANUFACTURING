@@ -23,6 +23,8 @@
     <div class="card-content">
         <h3 class="center">TIÊU CHÍ CHO PHÒNG BAN</h3>
         <div class="row">
+            <div class="input-field col l1 m12 s12">
+            </div>
             <div class="input-field col l3 m12 s12">
                 <input type="text" id="monthCalendar" class="form-control datepicker-here datepicker-add center"
                        data-language='vi'
@@ -65,8 +67,10 @@
                     <option value="KCS">KCS</option>
                 </select>
             </div>
-            <div class="input-field col l3 m12 s12 center">
-                <a class="btn blue darken-2" onclick="getInformation()">XEM</a>
+            <div class="input-field col l1 m12 s12">
+                <a class="btn blue darken-2 right" onclick="getInformation()">XEM</a>
+            </div>
+            <div class="input-field col l1 m12 s12">
             </div>
             <div class="row">
                 <div class="col s12 m12 l12">
@@ -74,13 +78,14 @@
                         <thead>
                             <tr>
                                 <th>Tiêu chí</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody></tbody>
                     </table>
                 </div>
                 <div class="col s12 m12 l12 input-field right row">
-                    <a class="btn blue darken-2" onclick="addRows()" id="addRowsbtn">Thêm</a>
+                    <a class="btn blue darken-2" id="addRowsbtn">Thêm</a>
                 </div>
 
             </div>
@@ -91,6 +96,7 @@
     </div>
 </div>
 
+<!--ADD ROW-->
 <script>
     $(document).ready(function () {
         $('select').formSelect();
@@ -99,22 +105,42 @@
         listAspectDepartments = [];
     });
     var dem = 0;
-    function addRows() {
-        // onchange=\"return checkDuplicate(this);\"
-        //onclick=\"searchUnit(this)\"
-        selectContent = "<select onclick=\"getCheckList()\" id=\"MaTieuChi" + dem + "\" onchange=\"return checkDuplicate(this);\" class=\"browser-default\" skipped=\"0\"> <option value=\"-1\" selected disabled>Lựa chọn tiêu chí</option>";
+
+    /////////////////////Button Thêm/////////////////////
+    $("#addRowsbtn").on("click", function () {
+        content = "";
+        selectContent = "<select id=\"MaTieuChi" + dem + "\" onchange=\"return checkDuplicate(this);\" class=\"browser-default\" skipped=\"0\"> <option value=\"-1\" selected disabled>Lựa chọn tiêu chí</option>";
 
         for (let i = 0; i < listAspectDepartments.length; i++) {
-            selectContent += "<option id=\"" + listAspectDepartments[i].MaTieuChi + "\" value=\"" + listAspectDepartments[i].MaTieuChi + "\">" + listAspectDepartments[i].TenTieuChi + "</option>"
+            selectContent += "<option id=\"" + listAspectDepartments[i].MaTieuChi + "\" value=\"" + listAspectDepartments[i].MaTieuChi + "\">" + listAspectDepartments[i].TenTieuChi + "</option>";
         }
-        selectContent += "</select>"
+        selectContent += "</select>";
+        content += "<tr id=\"MaTieuChi" + dem + "\"><td>" + selectContent + "</td><td><a id='delete-btn' name=\"MaTieuChi" + dem + "\" class='btn red darken-2'>Xóa</a></td></tr>";
         dem++;
-        tableBody.append(selectContent);
-    }
+        tableBody.append(content);
+    });
+
+    /////////////////////Button Xóa///////////////////////
+    $("#aspectDetailTable").on("click", "#delete-btn", function () {
+        $("tr#" + $(this).attr("name")).remove();
+        emptyArr();
+        $("#aspectDetailTable").find("select").each(function () {
+            var value = $(this).val();
+            if (value != null) {
+                if (value !== -1 || currentSelectedValue.indexOf(value) !== -1) {
+                    currentSelectedValue.push(value);
+                }
+            }
+        })
+        dem--;
+    })
 </script>
 
+
+<!--LIST + ADD + UPDATE + DELETE-->
 <script>
     function getInformation() {
+        dem = 0;
         if ($('#monthCalendar').val() == "" || $('#yearCalendar').val() == "" || $('#cbx-px').val() == null)
             return false;
         $('#pre-load').show();
@@ -128,27 +154,19 @@
                 'month': $("#monthCalendar").val().split(" ")[1],
                 'year': $("#yearCalendar").val().split(" ")[1],
                 'department': $("#cbx-px").val(),
-
             },
             success: function (response) {
                 tableBody = $("#aspectDetailTable").children("tbody");
                 tableBody.empty();
                 content = "";
                 let reponseListPhongBanTieuChi = response.listPhongBanTieuChi
-                if (reponseListPhongBanTieuChi.length > 1) {
-                    for (let i = 0; i < reponseListPhongBanTieuChi.length; i++) {
-                        content += "<tr><td class=\"aspectName\" id=\"" + reponseListPhongBanTieuChi[i].MaTieuChi + "\">" + reponseListPhongBanTieuChi[i].TenTieuChi + "</td><tr>";
-                    }
-                } else {
-
+                for (let i = 0; i < reponseListPhongBanTieuChi.length; i++) {
+                    content += "<tr><td class=\"aspectName\" id=\"" + reponseListPhongBanTieuChi[i].MaTieuChi + "\">" + reponseListPhongBanTieuChi[i].TenTieuChi + "</td><td><a class='btn red darken-2' onclick='deleteInformation(" + reponseListPhongBanTieuChi[i].MaTieuChi + ")'>Xóa</a></td><tr>";
                 }
                 tableBody.html(content);
                 ViewMode();
                 mode = 0;
                 listAspectDepartments = response.listTieuChi;
-                //$("#totalDays").attr("value", response.totalDays)
-                //$("#headerIDhidden").attr("value", response.headerID)
-                //$("#totalDays").attr("disable", "disable")
                 $('#pre-load').hide();
             },
             error: function (response) {
@@ -169,21 +187,21 @@
     function ViewMode() {
         $("#EditSaveBtn").html("<i class=\"material-icons right\">border_color</i>CẬP NHẬT");
         $('#addRowsbtn').hide();
-        //
         $("#totalDays").attr("disable", true)
     }
 
     function EditMode() {
         $("#EditSaveBtn").html("<i class=\"material-icons right\">border_color</i>LƯU");
         $('#addRowsbtn').show();
-        //
         $("#totalDays").removeAttr("disabled")
     }
 
     function EditOrUpdate() {
         if (mode == 0) {
             //View Mode -> Edit
+           
             EditMode();
+            
             $('.editableContent').each(function () {
                 content = $(this).text();
                 console.log($(this).attr("id"))
@@ -196,165 +214,98 @@
 
         } else {
             // Edit Mode -> View
-            sendUpdateData(getDataFromTable());
-            $('.editableContent').each(function () {
-                content = $(this).children("input").val();
-                console.log($(this).attr("id"))
-                $(this).html(content);
-            })
+            sendUpdateData();
             ViewMode();
         }
         mode = 1 - mode;
     }
 
-    function getDataFromTable() {
-        data = {};
-        headerID = null;
-        list = [];
-        heads = ["MaTieuChi", "DonViDo", "SanLuong", "GhiChu"]
-        tableBody = $("#aspectDetailTable").children("tbody");
-        tableBody.children("tr:even").each(function () {
-            if ($(this).children("td").hasClass("aspectAdded")) {
-                if ($(this).children("td").children("select").attr("skipped") == "0") {
-                    cur = {}
-                    cur["HeaderID"] = $("#headerIDhidden").attr("value");
-                    $(this).children("td").each(function (i, v) {
-                        switch (i) {
-                            case 0:
-                                cur[heads[i]] = parseInt($(this).children("select").val());
-                                break;
-                            case 2:
-                            case 3:
-                                cur[heads[i]] = $(this).children("input").val()
-                                break;
-                            //case 1:
-                            //    cur[heads[i]] = $(this).html()
-                            default:
-                                break;
-                        }
-                    })
-                    if (!isNaN(cur["MaTieuChi"])) {
-                        if (cur["SanLuong"] == null) {
-                            cur["SanLuong"] = 0;
-                        }
-                        list.push(cur)
-                    }
-                }
-            } else {
-                cur = {}
-                cur["HeaderID"] = $("#headerIDhidden").attr("value");
-                $(this).children("td").each(function (i, v) {
-                    switch (i) {
-                        case 0:
-                            cur[heads[i]] = $(this).attr("id").split("-")[0]
-                            break;
-                        case 2:
-                        case 3:
-                            cur[heads[i]] = $(this).children("input").val()
-                            break;
-                        default:
-                            break;
-                    }
-                })
-                list.push(cur)
-            }
-        })
-        if (headerID != null) {
-            for (let i = 0; i < list.length; i++) {
-                if (list[i]["HeaderID"] == null) {
-                    list[i]["HeaderID"] = headerID;
-                }
-            }
-        }
-        return JSON.stringify(list)
-    }
-
-    function sendUpdateData(data) {
+    function sendUpdateData() {
         setTimeout($('#pre-load').show(), 3000)
         $.ajax({
             url: "/phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi/cap-nhat-thong-tin",
             type: "post",
             data: {
-                "data": data,
                 'month': $("#monthCalendar").val().split(" ")[1],
                 'year': $("#yearCalendar").val().split(" ")[1],
-                'department': $("#cbx-px").val()
+                'department': $("#cbx-px").val(),
+                'currentSelectedValue': JSON.stringify(currentSelectedValue)
             },
             success: function (response) {
                 successAlert('Thành công', 'Thao tác thành công');
-                tableBody = $("#aspectDetailTable").children("tbody");
-                tableBody.empty();
-                content = "";
-                let reponseListPhongBanTieuChi = response.listPhongBanTieuChi;
-                if (reponseListPhongBanTieuChi.length > 1) {
-                    for (let i = 0; i < reponseListPhongBanTieuChi.length; i++) {
-                        content += "<tr><td class=\"aspectName\" id=\"" + reponseListPhongBanTieuChi[i].MaTieuChi + "\">" + reponseListPhongBanTieuChi[i].TenTieuChi + "</td><tr>";
-                    }
-                } else {
-
-                }
-                tableBody.html(content);
-                ViewMode();
-                mode = 0;
-                listAspectDepartments = response.listTieuChi;
-                //$("#totalDays").attr("value", response.totalDays)
-                //$("#headerIDhidden").attr("value", response.headerID)
-                //$("#totalDays").attr("disable", "disable")
+                getInformation();
                 $('#pre-load').hide();
             },
             error: function (response) {
-                errorAlert('Lỗi', 'Có lỗi xảy ra , vui lòng nhập lại');
+                errorAlert('Lỗi', 'Có lỗi xảy ra , vui lòng nhập lại.');
                 $('#pre-load').hide();
             }
         })
     }
-    function searchUnit(txtMaTieuChiAdd) {
-        var tmp = {
-            MaTieuChi: txtMaTieuChiAdd.value
-        };
-        //if (event.key === 'click') {
+
+    function deleteInformation(MaTieuChi) {
+        confirmAlert("Xác nhận xóa?", "", function () {
+             setTimeout($('#pre-load').show(), 3000);
         $.ajax({
-            type: "POST",
-            url: "/phong-dieu-khien/ke-hoach-san-xuat/returnunit",
-            data: JSON.stringify(tmp),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (r) {
-                document.getElementById("unit" + txtMaTieuChiAdd.id.slice(-1)).value = r.DonViDo;
-
-
-            }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+            url: "/phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi/xoa-tieu-chi-cua-phong-ban",
+            type: "post",
+            //dataType: "json",
+            data: {
+                'month': $("#monthCalendar").val().split(" ")[1],
+                'year': $("#yearCalendar").val().split(" ")[1],
+                'department': $("#cbx-px").val(),
+                'crỉteria': MaTieuChi
+            },
+            success: function (response) {
+                successAlert('Thành công', 'Thao tác thành công');
+                getInformation();
                 $('#pre-load').hide();
-                //alert("co");
+            },
+            error: function (response) {
+                errorAlert('Lỗi', 'Có lỗi xảy ra, không thể xóa.');
+                $('#pre-load').hide();
             }
-
-        });
-        //}
+        })
+        })
     }
 
 </script>
+
+<!--VALIDATE-->
 <script>
     var currentSelectedValue = [];
+    var selectedValueTD = [];
 
     function emptyArr() {
         currentSelectedValue = [];
+        selectedValueTD = [];
     }
 
-    function getCheckList() {
+    $("#aspectDetailTable").on("click", "select", function () {
         emptyArr();
-        $("#aspectDetailTable").find("select").click(function () {
-            $("#aspectDetailTable").find("select").each(function () {
-                var value = $(this).val();
+        //////Push to array after empty//////
+        $("#aspectDetailTable").find("select").each(function () {
+            var value = $(this).val();
+            if (value != null) {
                 if (value !== -1 || currentSelectedValue.indexOf(value) !== -1) {
                     currentSelectedValue.push(value);
                 }
-            })
-            currentSelectedValue=[...new Set(currentSelectedValue)];
-        });
-    }
+            }
+        })
+        ///////////
+        $("#aspectDetailTable").find("td").each(function () {
+            var value = $(this).attr('id');
+            if (value != null) {
+                if (value !== -1 || selectedValueTD.indexOf(value) !== -1) {
+                    selectedValueTD.push(value);
+                }
+            }
+        })
+    });
+
     function checkDuplicate(selectTag) {
         selectedValue = selectTag.options[selectTag.selectedIndex].value;
-        if (currentSelectedValue.indexOf(selectedValue) !== -1) {
+        if (currentSelectedValue.indexOf(selectedValue) !== -1 || selectedValueTD.indexOf(selectedValue) !== -1) {
             selectTag.value = '-1';
             toastr.error('Tiêu chí này đã tồn tại', '');
         }

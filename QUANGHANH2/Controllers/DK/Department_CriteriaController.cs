@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using System.Data.SqlClient;
+using System.Web.Script.Serialization;
 
 namespace QUANGHANH2.Controllers.DK
 {
@@ -18,6 +19,7 @@ namespace QUANGHANH2.Controllers.DK
             return View("/Views/DK/Department_Criteria.cshtml");
         }
 
+        /////////////////////////////////LIST/////////////////////////////////////
         [Route("phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi/lay-thong-tin")]
         public ActionResult getInformation()
         {
@@ -46,20 +48,62 @@ namespace QUANGHANH2.Controllers.DK
             }
             return null;
         }
-        //
-        [Route("phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi/cap-nhat-thong-tin")]
-        public ActionResult UpdteInformation()
-        {
-            var month = Int32.Parse(Request["month"]);
-            var year = Int32.Parse(Request["year"]);
-            var departmentID = Request["department"];
-            
 
+        //////////////////////////////////INSERT////////////////////////////////////
+        [Route("phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi/cap-nhat-thong-tin")]
+        public ActionResult InsertInformation()
+        {
+            try
+            {
+                var month = Int32.Parse(Request["month"]);
+                var year = Int32.Parse(Request["year"]);
+                var departmentID = Request["department"];
+                var currentSelectedValue = Request["currentSelectedValue"];
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                string[] listCriteria = js.Deserialize<string[]>(currentSelectedValue);
+                string sqlQuery = "insert into PhongBan_TieuChi(MaPhongBan, MaTieuChi, Thang, Nam) values";
+                for(int i = 0; i < listCriteria.Length; i++)
+                {
+                    sqlQuery += " ('" + departmentID + "'," + listCriteria[i] + "," + month + "," + year + "),";
+                }
+                sqlQuery = sqlQuery.Substring(0, sqlQuery.Length - 1);
+                using(QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    db.Database.ExecuteSqlCommand(sqlQuery);
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
             return null;
         }
 
-    }
+        ///////////////////////////////DELETE///////////////////////////////
+        [Route("phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi/xoa-tieu-chi-cua-phong-ban")]
+        public ActionResult DeleteInformation()
+        {
+            try
+            {
+                var month = Int32.Parse(Request["month"]);
+                var year = Int32.Parse(Request["year"]);
+                var departmentID = Request["department"];
+                var criteria = Request["crỉteria"];
+                string sqlDelete = "Delete PhongBan_TieuChi where MaTieuChi = "+ criteria +" and MaPhongBan = '"+ departmentID +"' and Thang = "+ month +" and Nam = "+ year +"";
+                using (QUANGHANHABCEntities db =  new QUANGHANHABCEntities())
+                {
+                    db.Database.ExecuteSqlCommand(sqlDelete);
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
 
+            }
+            return null;
+        }
+    }
     public class TieuChiABC : TieuChi
     {
         public string MaPhongBan { get; set; }
