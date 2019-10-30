@@ -6,6 +6,19 @@
 
 <link href="~/assets/Custom css/TABLE_BORDERED.css" rel="stylesheet" />
 <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
+<link href="~/assets/libs/toastr/build/toastr.min.css" rel="stylesheet">
+<style>
+    #toast-container {
+        min-width: 10%;
+        top: 0;
+        right: 50%;
+        transform: translateX(50%) translateY(50%);
+    }
+
+    #export-button {
+        float: right !important;
+    }
+</style>
 <div class="card">
     <div class="card-content">
         <h3 class="center">TIÊU CHÍ CHO PHÒNG BAN</h3>
@@ -86,27 +99,23 @@
         listAspectDepartments = [];
     });
     var dem = 0;
-
     function addRows() {
-        tableBody = $("#aspectDetailTable").children("tbody");
-        content = tableBody.html();
-
-        selectContent = "<select id=\"MaTieuChi" + dem + "\" onclick=\"searchUnit(this)\"class=\"browser-default\" onchange=\"return checkDuplicate(this);\" skipped=\"0\"> <option value=\"\" selected disabled>Lựa chọn tiêu chí</option>";
-        unit = "";
+        // onchange=\"return checkDuplicate(this);\"
+        //onclick=\"searchUnit(this)\"
+        selectContent = "<select onclick=\"getCheckList()\" id=\"MaTieuChi" + dem + "\" onchange=\"return checkDuplicate(this);\" class=\"browser-default\" skipped=\"0\"> <option value=\"-1\" selected disabled>Lựa chọn tiêu chí</option>";
 
         for (let i = 0; i < listAspectDepartments.length; i++) {
-            selectContent += "<option id=\""+ listAspectDepartments[i].MaTieuChi + "\" value=\"" + listAspectDepartments[i].MaTieuChi + "\">" + listAspectDepartments[i].TenTieuChi + "</option>"
-
+            selectContent += "<option id=\"" + listAspectDepartments[i].MaTieuChi + "\" value=\"" + listAspectDepartments[i].MaTieuChi + "\">" + listAspectDepartments[i].TenTieuChi + "</option>"
         }
         selectContent += "</select>"
         dem++;
         tableBody.append(selectContent);
-      }
-
+    }
 </script>
+
 <script>
     function getInformation() {
-        if ($('#monthCalendar').val() == "" || $('#yearCalendar').val() == ""||$('#cbx-px').val() == null)
+        if ($('#monthCalendar').val() == "" || $('#yearCalendar').val() == "" || $('#cbx-px').val() == null)
             return false;
         $('#pre-load').show();
         console.log($("#monthCalendar").val().split(" ")[1]);
@@ -198,19 +207,6 @@
         mode = 1 - mode;
     }
 
-
-    function checkDuplicate(selectTag) {
-        selectedValue = selectTag.options[selectTag.selectedIndex].value;
-        var listTieuChiValue = [];
-        $("#aspectDetailTable").find("select").each(function () {
-            listTieuChiValue.push($(this).val());
-            $("option:not(option#" + $(this).val() + ")").removeAttr("disabled", "disabled");
-            $("option#" + $(this).val()).attr("disabled", "disabled");
-        });
-
-
-    }
-
     function getDataFromTable() {
         data = {};
         headerID = null;
@@ -274,7 +270,7 @@
     }
 
     function sendUpdateData(data) {
-        setTimeout($('#pre-load').show(),3000)
+        setTimeout($('#pre-load').show(), 3000)
         $.ajax({
             url: "/phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi/cap-nhat-thong-tin",
             type: "post",
@@ -285,7 +281,7 @@
                 'department': $("#cbx-px").val()
             },
             success: function (response) {
-              successAlert('Thành công','Thao tác thành công');
+                successAlert('Thành công', 'Thao tác thành công');
                 tableBody = $("#aspectDetailTable").children("tbody");
                 tableBody.empty();
                 content = "";
@@ -307,40 +303,68 @@
                 $('#pre-load').hide();
             },
             error: function (response) {
-                errorAlert('Lỗi','Có lỗi xảy ra , vui lòng nhập lại');
-                 $('#pre-load').hide();
+                errorAlert('Lỗi', 'Có lỗi xảy ra , vui lòng nhập lại');
+                $('#pre-load').hide();
             }
         })
     }
-      function searchUnit(txtMaTieuChiAdd) {
-            var tmp = {
-                MaTieuChi: txtMaTieuChiAdd.value
-            };
-            //if (event.key === 'click') {
-                $.ajax({
-                    type: "POST",
-                    url: "/phong-dieu-khien/ke-hoach-san-xuat/returnunit",
-                    data: JSON.stringify(tmp),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (r) {
-                        document.getElementById("unit"+ txtMaTieuChiAdd.id.slice(-1)).value = r.DonViDo;
+    function searchUnit(txtMaTieuChiAdd) {
+        var tmp = {
+            MaTieuChi: txtMaTieuChiAdd.value
+        };
+        //if (event.key === 'click') {
+        $.ajax({
+            type: "POST",
+            url: "/phong-dieu-khien/ke-hoach-san-xuat/returnunit",
+            data: JSON.stringify(tmp),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+                document.getElementById("unit" + txtMaTieuChiAdd.id.slice(-1)).value = r.DonViDo;
 
 
-                    }, error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        $('#pre-load').hide();
-                        //alert("co");
-                    }
+            }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $('#pre-load').hide();
+                //alert("co");
+            }
 
-                });
-            //}
+        });
+        //}
+    }
+
+</script>
+<script>
+    var currentSelectedValue = [];
+
+    function emptyArr() {
+        currentSelectedValue = [];
+    }
+
+    function getCheckList() {
+        emptyArr();
+        $("#aspectDetailTable").find("select").click(function () {
+            $("#aspectDetailTable").find("select").each(function () {
+                var value = $(this).val();
+                if (value !== -1 || currentSelectedValue.indexOf(value) !== -1) {
+                    currentSelectedValue.push(value);
+                }
+            })
+            currentSelectedValue=[...new Set(currentSelectedValue)];
+        });
+    }
+    function checkDuplicate(selectTag) {
+        selectedValue = selectTag.options[selectTag.selectedIndex].value;
+        if (currentSelectedValue.indexOf(selectedValue) !== -1) {
+            selectTag.value = '-1';
+            toastr.error('Tiêu chí này đã tồn tại', '');
         }
-
+    }
 </script>
 <script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
 <script src="~/js/Custom JS/Disable_input_material.js"></script>
 <script src="~/js/Custom JS/form-input-border.js"></script>
-
+<script src="~/assets/libs/toastr/build/toastr.min.js"></script>
+<script src="~/assets/extra-libs/toastr/toastr-init.js"></script>
 
 
 
