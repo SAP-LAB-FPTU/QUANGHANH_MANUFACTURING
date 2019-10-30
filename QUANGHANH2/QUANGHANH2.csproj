@@ -442,6 +442,9 @@
     <Compile Include="Models\Documentary_repair_detailsDB.cs" />
     <Compile Include="Models\Documentary_revoke_detailsDB.cs" />
     <Compile Include="Models\equipmentExtend.cs" />
+    <Compile Include="Models\Equipment_Insurance.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\FakeAPI.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
