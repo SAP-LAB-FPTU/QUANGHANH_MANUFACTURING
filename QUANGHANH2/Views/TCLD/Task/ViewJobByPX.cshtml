@@ -29,7 +29,7 @@
                         @{
                             foreach (var phanXuong in arrPhanXuong)
                             {
-                                <option value="@phanXuong.department_name">@phanXuong.department_name</option>
+                                <option value="@phanXuong.department_id">@phanXuong.department_name</option>
                             }
                         }
                     </select>
@@ -70,12 +70,84 @@
             <hr />
             <div class="row">
                 <div class="col s12 m5 l5">
-                    <div class="col s3 m3 l3"><button type="button" class="btn blue darken-2" disabled id="btnluu" onclick="submitJob()">Lưu</button></div>
-                    <div class="col s4 m4 l4"><button type="button" class="btn blue darken-2" id="btn-sua" onclick="turnOnChinhSuaMode()">Chỉnh sửa</button></div>
                     <div class="col s5 m5 l5"><button type="button" class="btn blue darken-2" id="ExportExcel">Xuất excel</button></div>
                 </div>
             </div>
 
+        </div>
+    </div>
+</div>
+<div class="modal open" id="giahan">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Gia hạn chứng chỉ</h3>
+        </div>
+        <div class="modal-body row">
+            <div class="col m6 l6 s12">
+                <strong>Số hiệu</strong>
+                <input disabled id="gh-in-sohieu" class="form-control" />
+                <input hidden id="gh-in-mnv" />
+                <input hidden id="gh-in-mcc" />
+            </div>
+
+            <div class="col m6 l6 s12">
+                <strong>Tên nhân viên</strong>
+                <input disabled id="gh-in-tennhanvien" class="form-control" />
+            </div>
+
+            <div class="col m6 l6 s12">
+                <strong>Tên chứng chỉ</strong>
+                <input disabled id="gh-in-tenchungchi" class="form-control" />
+            </div>
+
+            <div class="col m6 l6 s12">
+                <strong>Ngày cấp</strong><strong hidden id="gh-nc-warning" class="orange-text text-justify">     không được để trống</strong>
+                <strong hidden id="gh-nc-warning2" class="orange-text text-justify">     ngày không hợp lệ</strong>
+                <input id="gh-in-ngaycap" class="form-control datepicker-here center" data-language="vi" />
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="btn blue darken-2" onclick="xacNhanGiaHan()">Gia hạn</a>
+            <a class="btn red modal-close">Hủy</a>
+        </div>
+    </div>
+</div>
+
+<div class="modal open" id="chuaco">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title"><b>Đăng ký chứng chỉ</b></h3>
+        </div>
+        <div class="modal-body row">
+            <div class="modal-body row">
+                <div class="col m6 l6 s12">
+                    <strong>Số hiệu</strong><span hidden id="tm-sh-warning" class="orange-text text-justify">     không được để trống</span>
+                    <input id="tm-in-sohieu" class="form-control" />
+                    <input hidden id="tm-in-mnv" />
+                    <input hidden id="tm-in-mcc" />
+                </div>
+
+                <div class="col m6 l6 s12">
+                    <strong>Tên nhân viên</strong>
+                    <input disabled id="tm-in-tennhanvien" class="form-control" />
+                </div>
+
+                <div class="col m6 l6 s12">
+                    <strong>Tên chứng chỉ</strong>
+                    <input disabled id="tm-in-tenchungchi" class="form-control" />
+                </div>
+
+                <div class="col m6 l6 s12">
+                    <strong>Ngày cấp</strong><strong hidden id="tm-nc-warning" class="orange-text text-justify">     không được để trống</strong>
+                    <strong hidden id="tm-nc-warning2" class="orange-text text-justify">     ngày không hợp lệ</strong>
+                    <input id="tm-in-ngaycap" class="form-control datepicker-here center" data-language="vi" />
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <a class="btn blue darken-2" onclick="xacNhanThemMoi()">Thêm mới</a>
+            <a class="btn red modal-close">Hủy</a>
         </div>
     </div>
 </div>
@@ -96,8 +168,6 @@
                 $("#pre-load").show("slow", function () {
                 });
                 $("#pre-load").css("z-index", "99999");
-            }).on('page.dt', () => { // su kien chuyen trang datatable
-                turnOnDefaultMode()
             }).DataTable({
                  "ajax": {
                      "url": '@Url.Action("GetAllNhanVienByPX", "Task")',
@@ -117,21 +187,37 @@
                             foreach (var c in b.arrNV)
                             {
 
-                                var pp = "{ \"data\": \"MaNV\", \"render\": (data, type, row, meta) => { if(row['MaNhiemVu'].includes(" + c.MaNhiemVu + ")){return \"<label><input class='job' value='"
-                                    + c.MaNhiemVu + "_" + "\"+data+\"" + "'  id='cbx" + c.MaNhiemVu + "_" + "\"+data+\"" + "'  type ='checkbox' onclick=removeTask('"
-                                    + c.MaNhiemVu + "_" + "\"+data+\"" + "') checked disabled /><span></span></label> \"}else{return \"<label><input class='job' value='"
-                                    + c.MaNhiemVu + "_" + "\"+data+\"" + "'  id='cbx" + c.MaNhiemVu + "_" + "\"+data+\"" + "'  type ='checkbox' onclick=selectNewJob('"
-                                    + c.MaNhiemVu + "_" + "\"+data+\"" + "') disabled /><span></span></label> \"}  },\"orderable\": false  } ,";
+                                var pp = "{ \"data\": \"MaNV\", \"render\": (data, type, row, meta) => {" +
+                                    "var i;" +
+                                    "for(i =0 ; i < row['ChungChiNhiemVu'].length ; i++ ){" +
+                                        "if(row['ChungChiNhiemVu'][i].MaNhiemVu == " + c.MaNhiemVu + "){" +
+                                            "var rt = \"<label><input class='job' value='"
+                                                + c.MaNhiemVu + "_" + "\"+data+\"" + "'  id='cbx" + c.MaNhiemVu + "_" + "\"+data+\"" + "'  type ='checkbox' onclick=removeTask('"
+                                                + c.MaNhiemVu + "_" + "\"+data+\"" + "') checked disabled /><span></span></label></br>\";" +
+                                            "if(row['ChungChiNhiemVu'][i].TinhTrangChungChi == 'Còn hạn'){" +
+                                                " rt += \"<a class='label label-success' >\"+row['ChungChiNhiemVu'][i].TinhTrangChungChi+\"</a></br>\" +" + "\"<a class='label label-success' >\"+row['ChungChiNhiemVu'][i].SoNgay+\" ngày</a>\" " + "}" +
+                                            "else if(row['ChungChiNhiemVu'][i].TinhTrangChungChi == 'Hết hạn'){" +
+                                              " rt += \"<a class='label label-warning modal-trigger' onclick=popupGiaHan(\"+data+\",\"+row['ChungChiNhiemVu'][i].MaChungChi+\") data-target='giahan'>\"+row['ChungChiNhiemVu'][i].TinhTrangChungChi+\"</a></br>\" +" + "\"<a class='label label-warning' >\"+row['ChungChiNhiemVu'][i].SoNgay+\" ngày</a>\" " + "}" +
+                                            "else{" +
+                                                "rt += \"<a class='label label-danger modal-trigger'  onclick=popupThemMoi(\"+data+\",\"+row['ChungChiNhiemVu'][i].MaChungChi+\") data-target='chuaco'>\"+row['ChungChiNhiemVu'][i].TinhTrangChungChi+\"</a>\" }" +
+                                            "rt = \"<div class='row'>\"+rt+\"</div>\"; return rt;" +
+                                        "}" +/* end if*/
+                                    "}" + /*end for*/
+                                        "return \"<label><input class='job' value='"
+                                        + c.MaNhiemVu + "_" + "\"+data+\"" + "'  id='cbx" + c.MaNhiemVu + "_" + "\"+data+\"" + "'  type ='checkbox' onclick=selectNewJob('"
+                                        + c.MaNhiemVu + "_" + "\"+data+\"" + "') disabled /><span></span></label> " +
+                                        "\"} " + // ngoac cua function render
+                                        " ,\"orderable\": false  } ,";
 
 
                                 <text>
                                     @{WriteLiteral(pp);}
-                                </text>
+                    </text>
 
                             }
                         }
                     }
-                    { "data": "MaNhiemVu", "name": "MaNhiemVu", "render": () => {return "" }}
+                    { "data": "ChungChiNhiemVu", "name": "ChungChiNhiemVu", "render": () => { return "" }, "orderable" : false },
                 ],
                 "bInfo": false,
                 "bLengthChange": false,
@@ -165,7 +251,7 @@
             //them su kien an enter de tim kiem cho truong ten
             document.querySelector('#name_search').addEventListener('keypress', function (e) { // them su kien nhan nut enter cho phan search
                 var key = e.which || e.keyCode;
-                if (key === 13) { 
+                if (key === 13) {
                     search();
                 }
             });
@@ -173,6 +259,7 @@
             document.querySelector('#mnv_search').addEventListener('keypress', function (e) { // them su kien nhan nut enter cho phan search
                 var key = e.which || e.keyCode;
                 if (key === 13) {
+
                     search();
                 }
             });
@@ -193,89 +280,6 @@
 
         })
 
-
-        var selectedJob = []
-        function submitJob() {
-
-            confirmAlert(
-                'Xác nhận thêm nhiệm vụ?',
-                'Xác nhận thêm nhiệm vụ vừa chọn cho nhân viên',
-                function submit() {
-                    for (var i = 0; i< $('.job:checkbox:checked').length; i++)
-                {
-                    var cbxChecked = $('.job:checkbox:checked')[i];
-                    if (!selectedJob.includes(cbxChecked.value.toString())) {
-                        selectedJob.push(cbxChecked.value.toString())
-                    }
-                    }
-                    if (selectedJob.length == 0 && removeJob.length ==0) {
-                    $.notify("Chưa chọn công việc", {
-                        globalPosition: "top center",
-                        className: "fail"
-                    })
-                    return false;
-                }
-                 $("#pre-load").show()
-
-                    $.ajax({
-                        url: '@Url.Action("AssignTask","Task")',
-                        type: "POST",
-                        data: { tasks: selectedJob, removedTask: removeJob },
-                        dataType: "json",
-                        success: (response) => {
-                            if (response.success == true) {
-                                $("#pre-load").hide()
-                                selectedJob = []
-                                successAlert('Thành công', 'thêm nhiệm vụ thành công');
-                                turnOnChinhSuaMode();
-                            } else {
-                                $("#pre-load").hide()
-                                turnOnDefaultMode()
-                                errorAlert('Thất bại', 'Đã xảy ra lỗi');
-                            }
-
-                        },
-                        error: () => {
-                            $("#pre-load").hide()
-                            turnOnDefaultMode()
-                            errorAlert('Thất bại', 'Đã xảy ra lỗi');
-                        }
-
-            })
-                });
-        }
-
-        // bat che do khong cho chinh sua
-        function turnOnDefaultMode() {
-            isEnableCheckBox = false;
-            $("#btnluu").prop('disabled', true);
-            removeJob = [];
-            var newJob = [];
-        }
-
-        var newJob = []
-        function selectNewJob(data) {
-            if (!newJob.includes(data)) { // nhiem vu dc them lan dau -> checkbox o trang thai tick hoac da bo tick va duoc tick lai
-                newJob.push(data)
-                if (removeJob.includes(data)) { // xoa data neu data da nam trong list huy nhiem vu
-                    var index = removeJob.indexOf(data)
-                    removeJob.splice(index, 1)
-                }
-            } else {// nhiem vu bi huy -> checkbox o trang thai untick
-                if (!removeJob.includes(data)) { // them data vao danh sach nhiem vu bi huy
-                    removeJob.push(data)
-                }
-                var index = newJob.indexOf(data)// xoa data neu data da nam trong list them nhiem vu
-                newJob.splice(index,1)
-            }
-        }
-
-        var removeJob = []
-        function removeTask(data) { // khi nhiem vu da duoc tick tu truoc ti se dc them vao danh sach huy nhiem vu
-            if (!removeJob.includes(data)) {
-                removeJob.push(data)
-            }
-        }
 
         function normailize(input) {
             input = input.trim();
@@ -315,26 +319,6 @@
 
         }
 
-
-        function turnOnChinhSuaMode() {
-            $("#pre-load").show()
-            if (!isEnableCheckBox) {
-                for (var i = 0; i < $('.job:checkbox').length; i++) {
-                    $('.job:checkbox')[i].disabled = false;
-                }
-                isEnableCheckBox = true;
-                $("#btnluu").prop('disabled', false);
-                $("#pre-load").hide()
-            } else {
-                for (var i = 0; i < $('.job:checkbox').length; i++) {
-                    $('.job:checkbox')[i].disabled = true;
-                }
-                isEnableCheckBox = false;
-                $("#btnluu").prop('disabled', true);
-                $("#pre-load").hide()
-            }
-        }
-
         $("#ExportExcel").click(function () {
             $("#pre-load").show();
             $("#pre-load").css("z-index", "9999");
@@ -356,4 +340,201 @@
         });
 
     </script>
+    <script>
+        $(document).ready(function () {
+            $('.dropdown-trigger').dropdown();
+            //validate for input field
+            $("#tm-in-sohieu").blur(() => { if ($("#tm-in-sohieu").val() == null || $("#tm-in-sohieu").val() == "") { $("#tm-sh-warning").show()  } })
+            $("#tm-in-sohieu").focus(() => { $("#tm-sh-warning").hide() })
+            //validate for input field
+            $("#gh-in-ngaycap").blur(() => { if ($("#gh-in-ngaycap").val() == null || $("#gh-in-ngaycap").val() == "") { $("#gh-nc-warning").show() } })
+            $("#gh-in-ngaycap").focus(() => { $("#gh-nc-warning").hide(); $("#gh-nc-warning2").hide() })
+            //validate for input field
+            $("#tm-in-ngaycap").blur(() => { if ($("#tm-in-ngaycap").val() == null || $("#tm-in-ngaycap").val() == "") { $("#tm-nc-warning").show()  } })
+            $("#tm-in-ngaycap").focus(() => { $("#tm-nc-warning").hide(); $("#tm-nc-warning2").hide()  })
+
+            // set default date cho datetime picker
+
+        });
+
+
+        function setDefaultDate() {
+            var date = new Date();
+            $(".datepicker-here").val(date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear());
+            $(".datepicker-here").datepicker({
+                toggleSelected: false
+            })
+        }
+        // popup len form gia han khi nhan vao nhan vien cos chung chi het han
+        var popupGiaHan = (mnv, mcc) => {
+            $("#pre-load").show();
+            $.ajax({
+                url: '@Url.Action("getGiaHanPopUpInfo", "Task")',
+                type: "POST",
+                data: { maNV: mnv, maCC: mcc },
+                dataType: "json",
+                success: (response) => {
+                    data = response.data[0]
+                    console.log(data)
+                    $("#gh-in-sohieu").val(data.SoHieu)
+                    $("#gh-in-tennhanvien").val(data.TenNV)
+                    $("#gh-in-tenchungchi").val(data.TenChungChi)
+                    $("#gh-in-mnv").val(data.MaNV)
+                    $("#gh-in-mcc").val(data.MaChungChi)
+                    setDefaultDate()
+                    $("#pre-load").hide();
+                },
+                error: () => {
+                     $("#pre-load").hide();
+                     errorAlert('Thất bại', 'Gặp vấn đề về mạng');
+                }
+            })
+        };
+
+        // popup len form them moi khi nhan vao them moi cho nhan vien chua co chung chi
+    var popupThemMoi = (mnv, mcc) => {
+
+         $("#pre-load").show();
+            $.ajax({
+                url: '@Url.Action("getThemMoiPopUpInfo", "Task")',
+                type: "POST",
+                data: { maNV: mnv, maCC: mcc },
+                dataType: "json",
+                success: (response) => {
+                    data = response.data
+                    console.log(data)
+                    $("#tm-in-tennhanvien").val(data.TenNV)
+                    $("#tm-in-tenchungchi").val(data.TenChungChi)
+                    $("#tm-in-mnv").val(mnv)
+                    $("#tm-in-mcc").val(mcc)
+                    setDefaultDate()
+                    $("#pre-load").hide();
+                },
+                error: () => {
+                     $("#pre-load").hide();
+                     errorAlert('Thất bại', 'Gặp vấn đề về mạng');
+                }
+            })
+    };
+        var xacNhanThemMoi = () => {
+
+            if ($("#tm-in-sohieu").val() == "" || $("#tm-in-sohieu").val() == null) {
+                $("#tm-sh-warning").show()
+                return false;
+            }
+            if ($("#tm-in-ngaycap").val() == null || $("#tm-in-ngaycap").val() == "") {
+                $("#tm-nc-warning").show()
+                return false;
+            }
+            if (!isDate($("#tm-in-ngaycap").val())) {
+                $("#tm-nc-warning2").show()
+                return false;
+            }
+            $("#pre-load").show()
+            var obj = {
+            sohieu: $("#tm-in-sohieu").val(),
+            mnv: $("#tm-in-mnv").val(),
+            mcc: $("#tm-in-mcc").val(),
+            ngaycap: $("#tm-in-ngaycap").val(),
+            }
+
+        var objJson = JSON.stringify(obj)
+
+        $.ajax({
+            url: '@Url.Action("XacNhanThemMoi","Task")',
+            type: "POST",
+            data: { data: objJson },
+            dataType: "json",
+            success: (response) => {
+                if (response.success == true) {
+                    $("#pre-load").hide()
+                    reloadAlert('Thêm mới chứng chỉ thành công', 1000);
+                } else {
+                    $("#pre-load").hide()
+                    errorAlert('Thất bại', 'Số hiệu đã tồn tại,thêm mới chứng chỉ thất bại');
+                }
+            },
+            error: (response) => {
+                $("#pre-load").hide()
+                errorAlert('Thất bại', 'Gặp vấn đề về mạng');
+            }
+        })
+    };
+
+        // khi nhan nut gia han trong form popup
+        var xacNhanGiaHan = () => {
+
+            if ($("#gh-in-ngaycap").val() == null || $("#gh-in-ngaycap").val() == "") {
+                $("#gh-nc-warning").show()
+                return false;
+            }
+            if (!isDate($("#gh-in-ngaycap").val())) {
+                $("#gh-nc-warning2").show()
+                return false;
+            }
+            $("#pre-load").show()
+            var obj = {
+                sohieu: $("#gh-in-sohieu").val(),
+                mnv: $("#gh-in-mnv").val(),
+                mcc: $("#gh-in-mcc").val(),
+                ngaycap: $("#gh-in-ngaycap").val(),
+            }
+
+            var objJson = JSON.stringify(obj)
+
+            $.ajax({
+                url: '@Url.Action("XacNhanGiaHan","Task")',
+                type: "POST",
+                data: { data: objJson },
+                dataType: "json",
+                success: (response) => {
+                    if (response.success == true) {
+                        $("#pre-load").hide()
+                        reloadAlert('Gia hạn chứng chỉ thành công', 1000);
+                    } else {
+                        $("#pre-load").hide()
+                        errorAlert('Thất bại', 'Gia hạn chứng chỉ thất bại');
+                    }
+                },
+                error: (response) => {
+                    $("#pre-load").hide()
+                    errorAlert('Thất bại', 'Gặp vấn đề về mạng');
+                }
+
+            })
+
+        };
+
+        // kiem tra ngay theo dung format dd/mm/yyyy
+        function isDate(txtDate) {
+            var currVal = txtDate;
+            if (currVal == '')
+                return false;
+
+            var rxDatePattern = /^(\d{1,2})(\/|-)(\d{1,2})(\/|-)(\d{4})$/; //Declare Regex
+            var dtArray = currVal.match(rxDatePattern); // is format OK?
+
+            if (dtArray == null)
+                return false;
+
+            dtDay = dtArray[1];
+            dtMonth = dtArray[3];
+            dtYear = dtArray[5];
+
+            if (dtMonth < 1 || dtMonth > 12)
+                return false;
+            else if (dtDay < 1 || dtDay > 31)
+                return false;
+            else if ((dtMonth == 4 || dtMonth == 6 || dtMonth == 9 || dtMonth == 11) && dtDay == 31)
+                return false;
+            else if (dtMonth == 2) {
+                var isleap = (dtYear % 4 == 0 && (dtYear % 100 != 0 || dtYear % 400 == 0));
+                if (dtDay > 29 || (dtDay == 29 && !isleap))
+                    return false;
+            }
+            return true;
+        };
+
+    </script>
 }
+    <script src="~/js/Custom JS/Disable_input_material.js"></script>
