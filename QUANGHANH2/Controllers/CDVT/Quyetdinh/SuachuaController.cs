@@ -192,9 +192,9 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
             DateTime dtStart;
             try
             {
-                if (dateStart == "Nhập ngày bắt đầu (từ)") dateStart = "01/01/1900";
+                if (dateStart == "") dateStart = "01/01/1900";
                 dtStart = DateTime.ParseExact(dateStart, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                if (dateEnd == "Nhập ngày kết thúc (đến)") dtEnd = DateTime.Now;
+                if (dateEnd == "") dtEnd = DateTime.Now;
                 else dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                 dtEnd = dtEnd.AddHours(23);
                 dtEnd = dtEnd.AddMinutes(59);

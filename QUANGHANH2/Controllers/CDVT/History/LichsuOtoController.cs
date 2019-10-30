@@ -26,7 +26,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             List<Supply> listSupply; List<FuelDB> listEQ;
             if (department_id.Contains("PX"))
             {
-                 listSupply = db.Supplies.Where(x => x.unit == "L" || x.unit == "kWh").ToList();
+                 listSupply = db.Supplies.Where(x => x.unit == "L").ToList();
                  listEQ = db.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from " +
                    " (select distinct e.equipmentId, e.equipment_name ,e.department_id from Equipment e inner join Equipment_category_attribute ea " +
                    "  on ea.Equipment_category_id = e.Equipment_category_id where " +
@@ -36,7 +36,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             }
             else
             {
-                listSupply = db.Supplies.Where(x => x.unit == "L" || x.unit == "kWh").ToList();
+                listSupply = db.Supplies.Where(x => x.unit == "L" ).ToList();
                 listEQ = db.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from " +
                   " (select distinct e.equipmentId, e.equipment_name ,e.department_id from Equipment e inner join Equipment_category_attribute ea " +
                   "  on ea.Equipment_category_id = e.Equipment_category_id where " +
@@ -273,7 +273,33 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 return Json(new { success = true, data = incidents, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
             }
         }
-
+        public void AddSupply_tieuhao(DateTime date, String supplyid, String department_id, int quantity)
+        {
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            Supply_tieuhao supply = db.Supply_tieuhao.Where(x => x.supplyid == supplyid && x.departmentid == department_id && x.date.Month == date.Month && x.date.Year == date.Year).FirstOrDefault();
+            if (supply == null)
+            {
+                Supply_tieuhao supply_tieuhao = new Supply_tieuhao();
+                supply_tieuhao.date = date;
+                supply_tieuhao.supplyid = supplyid;
+                supply_tieuhao.departmentid = department_id;
+                supply_tieuhao.quantity = 0;
+                supply_tieuhao.used = quantity;
+                db.Supply_tieuhao.Add(supply_tieuhao);
+            }
+            db.SaveChanges();
+        }
+        public void EditSupply_duphong(String supplyid, int quantity)
+        {
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            Supply_DuPhong duphong = db.Supply_DuPhong.Where(x => x.supply_id == supplyid).FirstOrDefault();
+            if (duphong != null)
+            {
+                duphong.quantity -= quantity;
+                db.Entry(duphong).State = EntityState.Modified;
+            }
+            db.SaveChanges();
+        }
         [Route("phong-cdvt/oto/cap-nhat-hoat-dong/getdata")]
         [HttpPost]
         public ActionResult getActivityID(int activityid)
@@ -609,7 +635,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     //Supply_tieuhao supply = DBContext.Supply_tieuhao.Where(x => x.supplyid == fuel_type && x.departmentid == i.department_id && x.date.Month == DateTime.Parse(date).Month && x.date.Year == DateTime.Parse(date).Year).First();
                     DBContext.Database.ExecuteSqlCommand("UPDATE Fuel_activities_consumption  set fuel_type =@fuel_type, [date] =@date1, consumption_value = @consumption_value, equipmentId = @equipmentId where fuelId= @fuelid",
                         new SqlParameter("fuel_type", fuel_type), new SqlParameter("date1", date), new SqlParameter("consumption_value", consumption_value), new SqlParameter("equipmentId", equipmentId), new SqlParameter("fuelId", fuelid));
-
+                    AddSupply_tieuhao(DateTime.ParseExact(date1, "dd/MM/yyyy", null), fuel_type, department_id, consumption_value);
+                    EditSupply_duphong(fuel_type, consumption_value);
                     //get old and new.
                     string oldFuelType = f.fuel_type;
                     string newFuelType = fuel_type;
@@ -724,7 +751,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     DateTime dateTime = DateTime.ParseExact(date1, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                     Supply s = DBContext.Supplies.Where(x => x.supply_id == fuel_type).First();
 
-                    Supply_tieuhao supp = DBContext.Supply_tieuhao.Where(x => x.supplyid == fuel_type && x.departmentid == e.department_id && x.date.Month == dateTime.Month&& x.date.Year == dateTime.Year).First();
+                    AddSupply_tieuhao(DateTime.ParseExact(date1, "dd/MM/yyyy", null), fuel_type, department_id, consumption_value);
+                    EditSupply_duphong(fuel_type, consumption_value);
 
 
                     int count = DBContext.Database.SqlQuery<ActivityDB>("select f.[date],f.equipmentId, " +
