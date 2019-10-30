@@ -36,11 +36,11 @@
                         <div class="row center">
                             <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
                                 <i class="fas fa-calendar-alt icon"></i>
-                                <input type='text' class='datepicker-here center maxDate' id="date-start-search" data-language='vi' value="Nhập ngày bắt đầu (từ)" style="height: 24px" />
+                                <input type='text' class='datepicker-here center maxDate' id="date-start-search" data-language='vi' placeholder="Nhập ngày bắt đầu (từ)" style="height: 24px" />
                             </div>
                             <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
                                 <i class="fas fa-calendar-alt icon"></i>
-                                <input type='text' class='datepicker-here center minDate' id="date-end-search" data-language='vi' value="Nhập ngày kết thúc (đến)" style="height: 24px" />
+                                <input type='text' class='datepicker-here center minDate' id="date-end-search" data-language='vi' placeholder="Nhập ngày kết thúc (đến)" style="height: 24px" />
                             </div>
                             <div class="col l8 m8 s6 offset-l2 offset-m2 input-field">
                                 <button class="btn blue darken-2 btn-small" id="searchButton1">Tìm kiếm</button>
@@ -395,7 +395,7 @@
                         success: function (data) {
                         if (data.success == true) {
                             dataTable.ajax.reload();
-                            redirectAlert('Cập nhật thông tin thành công', '/phong-cdvt/cap-nhat/quyet-dinh');
+                            successAlert('Cập nhật quyết định thành công','');
                         }
                         else {
                             errorAlert('Lỗi',data.message);

@@ -152,7 +152,7 @@
                     data: { 'px_value': px_value, 'date': date, 'ca_value': ca_value },
                     success: function (response) {
                         if (response.success == true) {
-                            $("#ngaySanXuat").val(response.listSXLoad[1].NgaySanXuat)
+                            $("#ngaySanXuat").val(response.listSXLoad[0].NgaySanXuat)
                             $("#SoNgaySX").val(response.dateSX)
                             $("#table-input-body").empty();
                             for (i = 0; i < response.listSXLoad.length; i++) {

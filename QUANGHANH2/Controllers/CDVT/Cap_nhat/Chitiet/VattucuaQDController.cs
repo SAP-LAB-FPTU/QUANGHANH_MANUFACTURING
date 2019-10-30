@@ -30,7 +30,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
         public ActionResult GetSupply2(string documentary_id, string equipmentId)
         {
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            List<Supply_Documentary_EquipmentDB> supplies = DBContext.Database.SqlQuery<Supply_Documentary_EquipmentDB>("SELECT s.supply_id, supply_name, s.supplyStatus, s.quantity, a.quantity as reuse FROM (SELECT * FROM Supply_Documentary_Equipment where supplyType = 2 AND documentary_id = @documentary_id AND equipmentId = @equipmentId) as a inner join Supply_Documentary_Equipment as s on a.supply_id = s.supply_id inner join Supply on Supply.supply_id = s.supply_id WHERE s.documentary_id = @documentary_id AND s.equipmentId = @equipmentId AND s.supplyType = 1 ",
+            List<Supply_Documentary_EquipmentDB> supplies = DBContext.Database.SqlQuery<Supply_Documentary_EquipmentDB>("SELECT * FROM Supply_Documentary_Equipment WHERE equipmentId = @equipmentId AND documentary_id = @documentary_id",
                 new SqlParameter("equipmentId", equipmentId),
                 new SqlParameter("documentary_id", documentary_id)).ToList();
             return Json(supplies);
@@ -93,7 +93,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
 
         [Route("phong-cdvt/cap-nhat/quyet-dinh/AddSupply")]
         [HttpPost]
-        public ActionResult AddSupply(string list, string documentary_id, string equipmentId)
+        public ActionResult AddSupply(string list, int documentary_id, string equipmentId)
         {
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
@@ -101,52 +101,43 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
                 try
                 {
                     JObject json = JObject.Parse(list);
-                    JArray temp = (JArray)json.SelectToken("list");
-                    int i = 0;
-                    foreach (JObject item in temp)
+                    JArray arr = (JArray)json.SelectToken("list");
+                    foreach (JObject item in arr)
                     {
-                        if(i == 0 && (string)item["supply_id"] == null) return new HttpStatusCodeResult(201);
-                        if (DBContext.Database.SqlQuery<Supply_Documentary_Equipment>("SELECT * FROM Supply_Documentary_Equipment WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId AND supply_id = @supply_id AND supplyType = @supplyType AND supplyStatus = @supplyStatus",
-                            new SqlParameter("documentary_id", Int32.Parse(documentary_id)),
-                            new SqlParameter("equipmentId", equipmentId),
-                            new SqlParameter("supply_id", (string)item["supply_id"]),
-                            new SqlParameter("quantity", (int)item["quantity"]),
-                            new SqlParameter("supplyType", (int)item["supplyType"]),
-                            new SqlParameter("supplyStatus", (string)item["supplyStatus"]),
-                            new SqlParameter("supply_documentary_status", 1)).Count() == 0) { 
-                            
-                            DBContext.Database.ExecuteSqlCommand("INSERT INTO Supply_Documentary_Equipment values (@documentary_id, @equipmentId, @supply_id, @quantity, @supplyType, @supplyStatus, @supply_documentary_status)",
-                                new SqlParameter("documentary_id", Int32.Parse(documentary_id)),
-                                new SqlParameter("equipmentId", equipmentId),
-                                new SqlParameter("supply_id", (string)item["supply_id"]),
-                                new SqlParameter("quantity", (int)item["quantity"]),
-                                new SqlParameter("supplyType", (int)item["supplyType"]),
-                                new SqlParameter("supplyStatus", (string)item["supplyStatus"]),
-                                new SqlParameter("supply_documentary_status", 1));
+                        string supply_id = (string)item["supply_id"];
+                        if (DBContext.Supplies.Find(supply_id) == null)
+                            return Json(new { success = false, message = "Mã vật tư không tồn tại" });
+                        Supply_Documentary_Equipment temp = DBContext.Supply_Documentary_Equipment.Where(a => a.documentary_id == documentary_id && a.equipmentId == equipmentId && a.supply_id == supply_id).FirstOrDefault();
+                        if (temp == null)
+                        {
+                            temp = new Supply_Documentary_Equipment();
+                            temp.documentary_id = documentary_id;
+                            temp.equipmentId = equipmentId;
+                            temp.quantity_in = (int)item["quantity_in"];
+                            temp.quantity_out = (int)item["quantity_out"];
+                            temp.quantity_plan = (int)item["quantity_plan"];
+                            temp.quantity_used = (int)item["quantity_used"];
+                            temp.supplyStatus = (string)item["supplyStatus"];
+                            temp.supply_id = (string)item["supply_id"];
+                            DBContext.Supply_Documentary_Equipment.Add(temp);
                         }
                         else
                         {
-                            DBContext.Database.ExecuteSqlCommand("UPDATE Supply_Documentary_Equipment SET quantity = (quantity + @quantity) WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId AND supply_id = @supply_id AND supplyType = @supplyType AND supplyStatus = @supplyStatus",
-                                new SqlParameter("documentary_id", Int32.Parse(documentary_id)),
-                                new SqlParameter("equipmentId", equipmentId),
-                                new SqlParameter("supply_id", (string)item["supply_id"]),
-                                new SqlParameter("quantity", (int)item["quantity"]),
-                                new SqlParameter("supplyType", (int)item["supplyType"]),
-                                new SqlParameter("supplyStatus", (string)item["supplyStatus"]),
-                                new SqlParameter("supply_documentary_status", 1));
+                            temp.quantity_in = (int)item["quantity_in"];
+                            temp.quantity_out = (int)item["quantity_out"];
+                            temp.quantity_used = (int)item["quantity_used"];
+                            temp.supplyStatus = (string)item["supplyStatus"];
                         }
-                        i++;
                         DBContext.SaveChanges();
                     }
                     DBContext.SaveChanges();
                     transaction.Commit();
-                    return new HttpStatusCodeResult(201);
+                    return Json(new { success = true, message = "Cập nhật thành công" });
                 }
                 catch (Exception)
                 {
                     transaction.Rollback();
-                    Response.Write("Có lỗi xảy ra, xin vui lòng nhập lại");
-                    return new HttpStatusCodeResult(400);
+                    return Json(new { success = false, message = "Có lỗi xảy ra" });
                 }
             }
         }

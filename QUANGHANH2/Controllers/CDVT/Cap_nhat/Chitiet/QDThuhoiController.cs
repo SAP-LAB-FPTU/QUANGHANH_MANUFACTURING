@@ -107,9 +107,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
                             temp.equipment_revoke_status = 1;
                             Acceptance a = new Acceptance();
                             a.acceptance_date = DateTime.Now;
-                            a.acceptance_result = null;
                             a.documentary_id = idnumber;
-                            a.documentary_process_result = null;
                             a.equipmentId = item;
                             a.equipmentStatus = 2;
                             DBContext.Acceptances.Add(a);

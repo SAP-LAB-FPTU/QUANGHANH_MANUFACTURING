@@ -10,17 +10,6 @@
     }
 }
 
-<!-- This page CSS -->
-<link href="~/dist/css/pages/data-table.css" rel="stylesheet">
-<link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
-<link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
-<link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
-<link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
-<link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
-<link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
-<script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
-<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
-
 <div class="card">
     <div class="card-content">
         <div class="row">
@@ -33,7 +22,7 @@
                             <th>Mã thiết bị</th>
                             <th>Tên thiết bị</th>
                             <th>Danh sách vật tư đi kèm</th>
-                            <th>Trạng thái</th>
+                            <th>Đã xử lý</th>
                         </tr>
                     </thead>
                 </table>
@@ -49,16 +38,17 @@
         <div class="modal-header">
             <h3 class="modal-title" id="listId">Danh sách vật tư đi kèm</h3>
         </div>
-        <div class="modal-body">
+        <div class="modal-body table_container">
             <div class="row">
                 <table id="test" class="striped table-responsive centered table-bordered mytable">
                     <thead>
                         <tr>
                             <th>Mã vật tư</th>
-                            <th>Tên vật tư</th>
-                            <th>Số lượng</th>
-                            <th>Chất lượng</th>
-                            <th>Đã thu hồi</th>
+                            <th>Số lượng xin cấp</th>
+                            <th>Số lượng Đã xử lý</th>
+                            <th>Số lượng sử dụng</th>
+                            <th>Số lượng lấy ra</th>
+                            <th>Ghi chú</th>
                         </tr>
                     </thead>
                 </table>
@@ -74,16 +64,13 @@
     </div>
 </div>
 
-<link href="~/css/transfer_mobilize_history_timeline.css" rel="stylesheet" />
-<script src="~/js/Briefs_List.js"></script>
-<link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
 <script>
     $("#complex_header").on("click", ".buttonChon", function () {
-        if ($(this).text() == "Chưa nhận") {
-            $(this).text('Đã nhận')
+        if ($(this).text() == "Chưa xử lý") {
+            $(this).text('Đã xử lý')
         }
         else {
-            $(this).text('Chưa nhận')
+            $(this).text('Chưa xử lý')
         }
     });
 
@@ -92,20 +79,18 @@
         if (!listvattu.includes($(vattu).val())) {
             listvattu += $(vattu).val() + "^";
             $(vattu).removeClass("darken-2");
-            $(vattu).text("Đã nhận")
+            $(vattu).text("Đã xử lý")
         }
         else {
             listvattu = listvattu.replace(($(vattu).val() + "^"), "")
             $(vattu).addClass("darken-2")
-            $(vattu).text("Chưa nhận")
+            $(vattu).text("Chưa xử lý")
         }
         $("#dsvattu").val(listvattu)
     }
 </script>
 
 @section scripts{
-    <script src="~/js/jquery.dataTables.min.js"></script>
-    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
     <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
     <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
@@ -143,8 +128,8 @@
                 },
                 {
                     "data": "statusAndEquip", "name": "person_created", "render": function (data) {
-                        if (data.split("^")[0] == "0") return "<button id=\"buttonChon\" class='btn blue darken-2 buttonChon' value=\"" + data.split("^")[1] + "\">Chưa nhận</button>";
-                        else return "<button disabled class=\"btn blue darken-2\">Đã nhận</button>"
+                        if (data.split("^")[0] == "0") return "<button id=\"buttonChon\" class='btn blue darken-2 buttonChon' value=\"" + data.split("^")[1] + "\">Chưa xử lý</button>";
+                        else return "<button disabled class=\"btn blue darken-2\">Đã xử lý</button>"
                     }
                 }
             ],
@@ -172,7 +157,7 @@
         $("#submit").click(function (e) {
             var equipments = "";
             for (var i = 0; i < $('#complex_header tbody tr').length; i++) {
-                if ($('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').text() == "Đã nhận")
+                if ($('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').text() == "Đã xử lý")
                     equipments += $('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').val() + "^"
             }
             $("#pre-load").show();
@@ -269,9 +254,9 @@
                                 $('<td>').text(item.supplyStatus)
                             );
                             if (item.supply_documentary_status != 0)
-                                $tr.append($('<td>').html("<button disabled class=\"btn blue darken-2 buttonVattu\">Đã nhận</button>"))
+                                $tr.append($('<td>').html("<button disabled class=\"btn blue darken-2 buttonVattu\">Đã xử lý</button>"))
                             else
-                                $tr.append($('<td>').html("<button id='temp' onclick=\"modify_qty(this)\" class=\"btn blue darken-2 buttonVattu\" value=\"" + item.supply_id + "\">Chưa nhận</button>"))
+                                $tr.append($('<td>').html("<button id='temp' onclick=\"modify_qty(this)\" class=\"btn blue darken-2 buttonVattu\" value=\"" + item.supply_id + "\">Chưa xử lý</button>"))
                             $tr.appendTo('#test');
                         });
                     });

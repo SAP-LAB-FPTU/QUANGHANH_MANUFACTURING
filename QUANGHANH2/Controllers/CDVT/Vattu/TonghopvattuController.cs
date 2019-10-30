@@ -29,7 +29,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
             return View("/Views/CDVT/Vattu/Tonghopvattu.cshtml");
         }
 
-        [Auther(RightID = "35")]
         [HttpGet]
         [Route("phong-cdvt/tong-hop-vat-tu/details")]
         public ActionResult Details(string DepartmentId, string SupplyId, string SupplyName, string MonthPicked)

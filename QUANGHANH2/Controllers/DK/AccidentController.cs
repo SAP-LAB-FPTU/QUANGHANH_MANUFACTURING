@@ -80,9 +80,10 @@ namespace QUANGHANH2.Controllers.DK
                                                      Ten = nhanvien.Ten,
                                                      department_name = depart.department_name,
                                                      LyDo = tainan.LyDo,
+                                                     Loai = tainan.Loai,
                                                      Ca_Name = tainan.Ca == 1 ? "CA 1" : tainan.Ca == 2 ? "CA 2" : "CA 3",
-                                                     Ngay = tainan.Ngay,
-                                                     Loai = tainan.Loai
+                                                     Ngay = tainan.Ngay
+
                                                  }
                                   ).Where(x => x.MaNV.Contains(employeeID) && x.Ten.Contains(EmployeeName) && x.Ngay >= timeF && x.Ngay <= timeT).ToList();
 
@@ -91,6 +92,45 @@ namespace QUANGHANH2.Controllers.DK
                     listTainan = listTainan.OrderBy(sortColumnName + " " + sortDirection).ToList<TaiNanDB>();
                     listTainan = listTainan.Skip(start).Take(length).ToList<TaiNanDB>();
                     return Json(new { success = true, data = listTainan, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+
+                }
+            }
+            catch (Exception)
+            {
+                Response.Write("Có lỗi xảy ra, xin vui lòng nhập lại");
+                return new HttpStatusCodeResult(400);
+            }
+        }
+        [Route("phong-dieu-khien/danh-sach-tai-nan/get-information")]
+        [HttpPost]
+        public ActionResult GetInformation()
+        {
+            try
+            {
+
+
+
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+
+                    List<TaiNanDB> listTainan = (from tainan in db.TaiNans
+                                                 join nhanvien in db.NhanViens on tainan.MaNV equals nhanvien.MaNV
+                                                 join depart in db.Departments on nhanvien.MaPhongBan equals depart.department_id
+                                                 select new TaiNanDB
+                                                 {
+                                                     MaTaiNan = tainan.MaTaiNan,
+                                                     MaNV = tainan.MaNV,
+                                                     Ten = nhanvien.Ten,
+                                                     department_name = depart.department_name,
+                                                     LyDo = tainan.LyDo,
+                                                     Ca_Name = tainan.Ca == 1 ? "CA 1" : tainan.Ca == 2 ? "CA 2" : "CA 3",
+                                                     Ngay = tainan.Ngay,
+                                                     Loai = tainan.Loai,
+                                                     GhiChu = tainan.GhiChu
+                                                 }
+                                  ).ToList();
+
+                    return Json(new { success = true, data = listTainan }, JsonRequestBehavior.AllowGet);
 
                 }
             }
@@ -257,6 +297,148 @@ namespace QUANGHANH2.Controllers.DK
                 }
             }
         }
+        //[Auther(RightID = "35")]
+        [HttpPost]
+        [Route("phong-dieu-khien/bao-cao-tai-nan/export")]
+        public void Export()
+        {
+            try
+            {
+                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+                List<TaiNanDB> vattus = (from tainan in db.TaiNans
+                                             join nhanvien in db.NhanViens on tainan.MaNV equals nhanvien.MaNV
+                                             join depart in db.Departments on nhanvien.MaPhongBan equals depart.department_id
+                                             select new TaiNanDB
+                                             {
+                                                 MaTaiNan = tainan.MaTaiNan,
+                                                 MaNV = tainan.MaNV,
+                                                 Ten = nhanvien.Ten,
+                                                 department_name = depart.department_name,
+                                                 LyDo = tainan.LyDo,
+                                                 Loai = tainan.Loai,
+                                                 Ca_Name = tainan.Ca == 1 ? "CA 1" : tainan.Ca == 2 ? "CA 2" : "CA 3",
+                                                 Ngay = tainan.Ngay
+
+                                             }
+                                  ).ToList();
+
+                string path = HostingEnvironment.MapPath("/excel/DK/");
+                string templateFilename = "DanhSachTaiNan.xlsx";
+                string downloadFilename = "DanhSachTaiNan-download.xlsx";
+                FileInfo file = new FileInfo(path + templateFilename);
+                using (ExcelPackage workbook = new ExcelPackage(file))
+                {
+                    int index = 2;
+                    ExcelWorkbook excelWorkbook = workbook.Workbook;
+                    ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
+                    string abc = "";
+                    for(int i = 0; i < vattus.Count(); i++)
+                    {
+                        excelWorksheet.Cells[index, 1].Value = vattus.ElementAt(i).MaNV;
+                        excelWorksheet.Cells[index, 2].Value = vattus.ElementAt(i).Ten;
+                        excelWorksheet.Cells[index, 3].Value = vattus.ElementAt(i).department_name;
+                        excelWorksheet.Cells[index, 4].Value = vattus.ElementAt(i).LyDo;
+                        excelWorksheet.Cells[index, 5].Value = vattus.ElementAt(i).Loai;
+                        excelWorksheet.Cells[index, 6].Value = vattus.ElementAt(i).Ca_Name;
+                        excelWorksheet.Cells[index, 7].Value = vattus.ElementAt(i).Ngay.Value.ToString("dd/MM/yyyy");
+
+                        index++;
+                    }
+                    workbook.SaveAs(new FileInfo(HostingEnvironment.MapPath("/excel/DK/DanhSachTaiNan-download.xlsx")));
+                    
+                }
+            }
+            catch (Exception e)
+            {
+                e.Message.ToString();
+                
+            }
+
+        }
+        
+        //[Route("phong-dieu-khien/hien-trang-lo")]
+        //public ActionResult Index()
+        //{
+        //    return View("/Views/DK/HienTrangLo.cshtml");
+        //}
+        [Route("phong-dieu-khien/bao-cao-tai-nan/getinformation")]
+        [HttpPost]
+        public ActionResult GetData(String date)
+        {
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+
+                var sqlQuery = " select department_name,GhiChu,MaCongTacAnToan,Ngay,MaPhongBan,LoaiGhiChu from CongTacAnToan,Department " +
+                    "where CongTacAnToan.MaPhongBan=Department.department_id " +
+                    "and CongTacAnToan.Ngay=@date";
+                List<CongTacAnToanDB> m = db.Database.SqlQuery<CongTacAnToanDB>(sqlQuery, new SqlParameter("date", DateTime.ParseExact(date, "dd/MM/yyyy", null))).ToList();
+                var listAspectDepartments = (from d in db.Departments
+                                             select new
+                                             {
+                                                 department_id = d.department_id,
+                                                 department_name = d.department_name
+                                             }).ToList();
+                return Json(new { data = m, aspects = listAspectDepartments }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [Route("phong-dieu-khien/bao-cao-tai-nan/edit")]
+        [HttpPost]
+        public ActionResult AddOrEdit(List<CongTacAnToanDB> antoan)
+        {
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+
+            CongTacAnToan m = new CongTacAnToan();
+            using (DbContextTransaction transaction = db.Database.BeginTransaction())
+            {
+                //note:  thiếu data db cho supply id
+                try
+                {
+                    //                
+                    foreach (CongTacAnToanDB item in antoan)
+                    {
+
+                        if (item.MaCongTacAnToan == 0)
+                        {
+
+                            m.MaPhongBan = item.MaPhongBan;
+                            m.Ngay = DateTime.ParseExact(item.stringDate, "dd/MM/yyyy", null);
+                            m.GhiChu = item.GhiChu;
+                            db.CongTacAnToans.Add(m);
+                            db.SaveChanges();
+                           
+                        }
+                        else 
+                        {
+                            CongTacAnToan c = db.CongTacAnToans.Where(x => x.MaCongTacAnToan == item.MaCongTacAnToan).First();
+                            c.MaPhongBan = item.MaPhongBan;
+                            c.Ngay = DateTime.ParseExact(item.stringDate, "dd/MM/yyyy", null);
+                            c.GhiChu = item.GhiChu;
+                            c.MaCongTacAnToan = item.MaCongTacAnToan;
+                            db.Entry(c).State = EntityState.Modified;
+                            db.SaveChanges();
+
+
+                        }
+                       
+                    }
+                   
+                    transaction.Commit();
+
+                    return Json("", JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                    string output = "";
+
+
+                    if (output == "")
+                        output += "Có lỗi xảy ra, xin vui lòng nhập lại";
+                    Response.Write(output);
+                    return new HttpStatusCodeResult(400);
+                }
+            }
+        }
     }
     public class TaiNanDB : TaiNan
     {
@@ -274,5 +456,12 @@ namespace QUANGHANH2.Controllers.DK
         public string LyDo { get; set; }
         public Nullable<int> Ca { get; set; }
         public Nullable<DateTime> Ngay { get; set; }
+    }
+    public class CongTacAnToanDB : CongTacAnToan
+    {
+
+        public string department_name { get; set; }
+
+        public string stringDate { get; set; }
     }
 }

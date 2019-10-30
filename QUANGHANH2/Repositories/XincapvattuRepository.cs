@@ -99,24 +99,24 @@ namespace QUANGHANH2.Repositories
                     if (HasDraft())
                     {
                         var today = DateTime.Now;
-                        query = $"SELECT DISTINCT CAST(sp.id AS VARCHAR(10)) Id, sp.departmentid DepartmentId, sp.supplyid SupplyId, sp.equipmentid EquipmentId, sp.dinh_muc SupplyAverage, sp.quantity_plan SupplyPlan, e.Equipment_category_id EquipmentCategoryId, dp.department_name DetailLocation, s.supply_name SupplyName, s.unit SupplyUnit, e.equipment_name EquipmentName " +
-                            $"FROM SupplyPlan sp, Equipment e, Department dp, Supply s " +
-                            $"WHERE sp.[status] = 0 AND " +
-                            $"YEAR(sp.[date]) = {today.Year} AND " +
-                            $"MONTH(sp.[date]) = {today.Month} AND " +
-                            $"e.equipmentId = sp.equipmentid AND " +
-                            $"e.department_id = dp.department_id AND " +
-                            $"e.department_id = '"+ departID + "' AND " +
-                            $"s.supply_id = sp.supplyid " +
-                            $"ORDER BY DepartmentId";
+                        query = "SELECT DISTINCT CAST(sp.id AS VARCHAR(10)) Id, sp.departmentid DepartmentId, sp.supplyid SupplyId, sp.equipmentid EquipmentId, sp.dinh_muc SupplyAverage, sp.quantity_plan SupplyPlan, e.Equipment_category_id EquipmentCategoryId, dp.department_name DetailLocation, s.supply_name SupplyName, s.unit SupplyUnit, e.equipment_name EquipmentName " +
+                                " FROM SupplyPlan sp, Equipment e, Department dp, Supply s " +
+                                " WHERE sp.[status] = 0 AND " +
+                                $" YEAR(sp.[date]) = {today.Year} AND " +
+                                $" MONTH(sp.[date]) = {today.Month} AND " +
+                                " e.equipmentId = sp.equipmentid AND " +
+                                " sp.departmentid = dp.department_id AND " +
+                                $"dp.department_id = '" + departID + "' AND " +
+                                " s.supply_id = sp.supplyid " +
+                                " ORDER BY DepartmentId";
                     }
                     else
                     {
-                        query = "SELECT DISTINCT CONCAT(e.equipmentId, '_', s.supply_id) Id, e.department_id DepartementId , e.Equipment_category_id EquipmentCategoryId, e.equipmentId EquipmentId, e.equipment_name EquipmentName, dp.department_name [DetailLocation], s.supply_id SupplyId, s.supply_name SupplyName, s.unit SupplyUnit, 0 SypplyAverage, 0 SypplyPlan " +
-                            "FROM Department dp, Equipment e, Equipment_Category_Supply ecs, Supply s " +
-                            "WHERE dp.department_id = e.department_id AND dp.department_id = '"+departID+"' AND " +
-                            "e.Equipment_category_id = ecs.Equipment_category_id AND " +
-                            "ecs.supply_id = s.supply_id";
+                        query = "SELECT DISTINCT CONCAT(e.equipmentId, '_', s.supply_id) Id, e.department_id DepartementId , e.Equipment_category_id EquipmentCategoryId, e.equipmentId EquipmentId, e.equipment_name EquipmentName, dp.department_name [DetailLocation], s.supply_id SupplyId, s.supply_name SupplyName, s.unit SupplyUnit, 0 SupplyAverage, 0 SupplyPlan " +
+                            " FROM Department dp, Equipment e, Supply_DuPhong ecs, Supply s " +
+                            " WHERE dp.department_id = e.department_id AND dp.department_id = '" + departID + "' and " +
+                            " e.equipmentId = ecs.equipmentId AND " +
+                            " ecs.supply_id = s.supply_id";
                     }
                 }
                 else
@@ -124,26 +124,33 @@ namespace QUANGHANH2.Repositories
                     if (HasDraft())
                     {
                         var today = DateTime.Now;
-                        query = $"SELECT DISTINCT CAST(sp.id AS VARCHAR(10)) Id, sp.departmentid DepartmentId, sp.supplyid SupplyId, sp.equipmentid EquipmentId, sp.dinh_muc SupplyAverage, sp.quantity_plan SupplyPlan, e.Equipment_category_id EquipmentCategoryId, dp.department_name DetailLocation, s.supply_name SupplyName, s.unit SupplyUnit, e.equipment_name EquipmentName " +
-                            $"FROM SupplyPlan sp, Equipment e, Department dp, Supply s " +
-                            $"WHERE sp.[status] = 0 AND " +
-                            $"YEAR(sp.[date]) = {today.Year} AND " +
-                            $"MONTH(sp.[date]) = {today.Month} AND " +
-                            $"e.equipmentId = sp.equipmentid AND " +
-                            $"e.department_id = dp.department_id AND " +
-                            $"s.supply_id = sp.supplyid " +
-                            $"ORDER BY DepartmentId";
+                        query = "SELECT DISTINCT CAST(sp.id AS VARCHAR(10)) Id, sp.departmentid DepartmentId, sp.supplyid SupplyId, sp.equipmentid EquipmentId, sp.dinh_muc SupplyAverage, sp.quantity_plan SupplyPlan, e.Equipment_category_id EquipmentCategoryId, dp.department_name DetailLocation, s.supply_name SupplyName, s.unit SupplyUnit, e.equipment_name EquipmentName " +
+                                " FROM SupplyPlan sp, Equipment e, Department dp, Supply s " +
+                                " WHERE sp.[status] = 0 AND " +
+                                $" YEAR(sp.[date]) = {today.Year} AND " +
+                                $" MONTH(sp.[date]) = {today.Month} AND " +
+                                " e.equipmentId = sp.equipmentid AND " +
+                                " sp.departmentid = dp.department_id AND " +
+                                " s.supply_id = sp.supplyid " +
+                                " ORDER BY DepartmentId";
                     }
                     else
                     {
-                        query = "SELECT DISTINCT CONCAT(e.equipmentId, '_', s.supply_id) Id, e.department_id DepartementId , e.Equipment_category_id EquipmentCategoryId, e.equipmentId EquipmentId, e.equipment_name EquipmentName, dp.department_name [DetailLocation], s.supply_id SupplyId, s.supply_name SupplyName, s.unit SupplyUnit, 0 SypplyAverage, 0 SypplyPlan " +
-                            "FROM Department dp, Equipment e, Equipment_Category_Supply ecs, Supply s " +
-                            "WHERE dp.department_id = e.department_id AND " +
-                            "e.Equipment_category_id = ecs.Equipment_category_id AND " +
-                            "ecs.supply_id = s.supply_id";
+                        query = "SELECT DISTINCT CONCAT(e.equipmentId, '_', s.supply_id) Id, e.department_id DepartementId , e.Equipment_category_id EquipmentCategoryId, e.equipmentId EquipmentId, e.equipment_name EquipmentName, dp.department_name [DetailLocation], s.supply_id SupplyId, s.supply_name SupplyName, s.unit SupplyUnit, 0 SupplyAverage, 0 SupplyPlan " +
+                            " FROM Department dp, Equipment e, Supply_DuPhong ecs, Supply s " +
+                            " WHERE dp.department_id = e.department_id AND " +
+                            " e.equipmentId = ecs.equipmentId AND " +
+                            " ecs.supply_id = s.supply_id";
                     }
+                }try
+                {
+                    vattus = Context.Database.SqlQuery<XincapvattuModelView>(query).ToList();
                 }
-                vattus = Context.Database.SqlQuery<XincapvattuModelView>(query).ToList();
+                catch(Exception e)
+                {
+
+                }
+                
             }
             return vattus;
         }

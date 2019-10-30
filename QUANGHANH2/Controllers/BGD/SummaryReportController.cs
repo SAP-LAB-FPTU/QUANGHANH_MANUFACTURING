@@ -65,6 +65,7 @@ namespace QUANGHANHCORE.Controllers.BGD
             public string Ten { get; set; }
         }
         // GET: /<controller>/
+        [Auther(RightID = "005")]
         [Route("ban-giam-doc")]
         [HttpPost]
         public ActionResult GetData(string date)
@@ -73,6 +74,7 @@ namespace QUANGHANHCORE.Controllers.BGD
 
         }
 
+        [Auther(RightID = "005")]
         [Route("ban-giam-doc")]
         [HttpGet]
         public ActionResult Index(string date)

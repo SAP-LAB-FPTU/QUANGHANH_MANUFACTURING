@@ -25,7 +25,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
             return View("/Views/CDVT/Vattu/Tieuhao.cshtml");
         }
 
-        [Auther(RightID = "35")]
         [HttpGet]
         [Route("phong-cdvt/vat-tu/tieu-hao/details")]
         public ActionResult Details(string SupplyId, string SupplyName, string DepartmentId, string DeparmentName)

@@ -32,13 +32,13 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
 
                 db.Configuration.LazyLoadingEnabled = false;
                 supList = (from a in db.Supply_Documentary_Equipment
-                           where (a.equipmentId == requestID) && (a.supplyType == 1) && (a.documentary_id == doc)
+                           where (a.equipmentId == requestID) && (a.documentary_id == doc)
                            join b in db.Supplies on a.supply_id equals b.supply_id
                            select new
                            {
                                equipmentId = a.equipmentId,
                                supply_id = a.supply_id,
-                               quantity = a.quantity,
+                               quantity = a.quantity_used,
                                supplyStatus = a.supplyStatus,
                                supply_name = b.supply_name,
                                unit = b.unit
@@ -57,13 +57,13 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
 
                 ViewBag.ListSup = supList;
                 supList2 = (from a in db.Supply_Documentary_Equipment
-                           where (a.equipmentId == requestID) && (a.supplyType == 2) && (a.documentary_id == doc)
+                           where (a.equipmentId == requestID) && (a.documentary_id == doc)
                             join b in db.Supplies on a.supply_id equals b.supply_id
                             select new
                            {
                                equipmentId = a.equipmentId,
                                supply_id = a.supply_id,
-                               quantity = a.quantity,
+                               quantity = a.quantity_out,
                                supplyStatus = a.supplyStatus,
                                supply_name = b.supply_name,
                                unit = b.unit

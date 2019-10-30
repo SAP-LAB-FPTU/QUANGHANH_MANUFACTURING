@@ -1,0 +1,315 @@
+﻿
+@{
+    ViewBag.Title = "ThemCaiTien";
+    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+}
+
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <div class="col m12">
+                <div class="center">
+                    <h3><b>CHI TIẾT CẢI TIẾN</b></h3>
+                </div>
+                @if (ViewBag.validate == 0)
+                {
+                    <h4>Bạn đã chọn 2 hoặc nhiều thiết bị khác vị trí, xin vui lòng <a href="/phong-cdvt/cai-tien">quay lại</a> </h4>
+                }
+                else
+                {
+                    <form action="/phong-cdvt/cai-tien-chon/add" method="post" id="myform">
+                        <div class="col s3 m3">
+                            <textarea name="data" hidden value="" id="json"></textarea>
+                            <input id="documentary_code" name="documentary_code" disabled class="form-control" type="text" placeholder="Nhập mã quyết định" />
+                        </div>
+                        <div class="col s3 m3">
+                            <input name="out_in_come" class="form-control" type="text" placeholder="Nhập nguồn vốn" />
+                        </div>
+                        <div class="col s3 m3">
+                            <input class="form-control" type="text" disabled value="@ViewBag.department_name" />
+                            <input name="department_id" id="depa-id" type="hidden" readonly value="@ViewBag.department_id" />
+                        </div>
+                        <div class="col s3 m3">
+                            <input name="reason" class="form-control" type="text" required placeholder="Nội dung quyết định" />
+                        </div>
+                        <div class="col s12 table_container">
+                            <table id="mytablevattu" class="striped table-responsive centered table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="center-align">Mã thiết bị<span></span></th>
+                                        <th class="center-align">Tên thiết bị<span></span></th>
+                                        <th class="center-align">Tình trạng hiện tại</th>
+                                        <th class="center-align">Cải tiến tại</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int i = 0; i < ViewBag.DataThietBi.Count; i++)
+                                    {
+                                        <tr id="@i">
+                                            <td>@ViewBag.DataThietBi[i].equipmentId</td>
+                                            <td>@ViewBag.DataThietBi[i].equipment_name</td>
+                                            <td>@ViewBag.DataThietBi[i].statusname</td>
+                                            <td>
+                                                <input type="text" required class='form-control' list="departmentName" value="@ViewBag.department_id" />
+                                            </td>
+                                            <td>
+                                                <a class="btn blue darken-2 modal-trigger open-Modal" data-id="@i" href="#mylist">Vật tư cải tiến</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                    <div class="col l12 m12 s12 center">
+                        <a id="export-button" class="btn blue darken-2">Xuất quyết định</a>
+                        <a id="submit" class="btn blue darken-2 modal-trigger">Xác nhận cải tiến</a>
+                        <a href="cai-tien" class="btn blue darken-2 ">Quay lại</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="mylist">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title" id="listId"></h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <form>
+                    <table id="test" class="striped table-responsive center table-bordered mytable">
+                        <thead>
+                            <tr>
+                                <th>Mã vật tư</th>
+                                <th>Số lượng</th>
+                                <th>Ghi chú</th>
+                                <th>Nơi lĩnh</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type='text' list='supplyID' class='form-control required' /></td>
+                                <td><input type='number' min='1' value='1' class='form-control' /></td>
+                                <td><input type='text' class='form-control' /></td>
+                                <td><input type='text' list='departmentName' class='form-control required' /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+            <input type="hidden" id="rownumber" disabled />
+        </div>
+        <div class="modal-footer">
+            <a id="addcolumn" class="waves-effect waves-light btn blue darken-2 left">Thêm</a>
+            <a id="submitvattu" class="waves-effect waves-light btn blue darken-2 modal-close">Lưu</a>
+            <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-button">Thoát</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="confirm">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Bạn có muốn tạo quyết định này không?</h3>
+        </div>
+        <div class="modal-footer">
+            <a id="create" class="waves-effect waves-light btn blue darken-2 center">Tạo</a>
+            <a class="btn light-blue lighten-1 modal-close center">Thoát</a>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hidden_thietbi" value="" />
+
+<datalist id="supplyID">
+    @foreach (var item in ViewBag.Supplies)
+    {
+        <option value="@item.supply_id">@item.supply_name</option>
+    }
+</datalist>
+
+<datalist id="departmentName">
+    @foreach (var item in ViewBag.Departments)
+    {
+        <option value="@item.department_id">@item.department_name</option>
+    }
+</datalist>
+
+<script>
+    var output = {};
+    var vatTuDiKem = @Html.Raw(Json.Encode(ViewBag.vatTuDiKem));
+
+    $(document).ready(function () {
+        $('input[required]').each(function myfunction() {
+            $(this).attr("oninvalid", "setCustomValidity('Không được bỏ trống ô này')");
+            $(this).attr("oninput", "this.setCustomValidity('')");
+        })
+    })
+
+    $('.minDate').datepicker({
+        language: 'vi',
+        minDate: new Date() // Now can select only dates, which goes after today
+    })
+
+    $(document).ready(function () {
+        $('.datepicker-inline').remove();
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        var today = dd + '/' + mm + '/' + yyyy;
+        $(".minDate").each(function () {
+            $(this).val(today);
+        });
+    })
+    //đọc lại json rồi apply vào modal
+    $(document).on("click", ".open-Modal", function () {
+        var id = $(this).data('id');
+        $('#rownumber').val(id);
+        $("#test").find("tr:gt(0)").remove();
+        $('#listId').text("Danh sách vật tư thêm của thiết bị " + $('#' + id + ' td:first-child').text())
+        if (output.hasOwnProperty(id)) {
+            for (var i = 0; i < output[id].vattu.length; i++) {
+                var item = output[id].vattu[i];
+                var $tr = $('<tr>').append(
+                    $('<td>').html("<input type='text' list='supplyID' class='form-control required' value='" + item.supply_id + "' /> "),
+                    $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> "),
+                    $('<td>').html("<input type='text' class='form-control' value='" + item.note + "' />"),
+                    $('<td>').html("<input type='text' list='departmentName' class='form-control required' value='" + item.department_id + "' /> ")
+                );
+                $tr.appendTo('#test tbody');
+            }
+        }
+    })
+
+    $("#addcolumn").click(function () {
+        var $tr = $('<tr>').append(
+            $('<td>').html("<input type='text' list='supplyID' class='form-control required' />"),
+            $('<td>').html("<input type='number' min='1' value='1' class='form-control' />"),
+            $('<td>').html("<input type='text' class='form-control' />"),
+            $('<td>').html("<input type='text' value='" + $('#depa-id').val() + "' list='departmentName' class='form-control required' />")
+        );
+        $tr.appendTo('#test tbody');
+    });
+    //tạo json cho thiết bị khi nhập submit vật tư
+    $("#submitvattu").click(function () {
+        if ($('#mylist #test tr').length > 1) {
+            var thietbi = {};
+            var arr = [];
+            var rownumber = $('#rownumber').val();
+            thietbi.id = $('#' + rownumber + ' td:first-child').text();
+            for (var i = 1; i < $('#test tbody tr').length + 1; i++) {
+                if ($('#mylist #test tbody tr:nth-child(' + i + ') input').eq(0).val() != "" &&
+                    $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(3).val() != "" &&
+                    $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(1).val() > 0) {
+                    var vattu = {};
+                    vattu.supply_id = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(0).val();
+                    vattu.quantity = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(1).val();
+                    vattu.note = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(2).val();
+                    vattu.department_id = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(3).val();
+                    arr.push(vattu);
+                }
+            }
+            thietbi.vattu = arr;
+            output[rownumber] = thietbi;
+            $('#json').val(JSON.stringify(output))
+        }
+    })
+
+    $(document).ready(function () {
+        for (var i = 0; i < $('#mytablevattu tbody tr').length; i++) {
+            var thietbi = {};
+            var arr = [];
+            thietbi.id = $('#mytablevattu tbody tr:nth-child(' + (i + 1) + ') td').eq(0).text();
+            for (var j = 0; j < vatTuDiKem.length; j++) {
+                if (vatTuDiKem[j].equipmentId == thietbi.id) {
+                    var temp = {};
+                    temp.supply_id = vatTuDiKem[j].supply_id;
+                    temp.quantity = 0;
+                    temp.note = "";
+                    temp.department_id = "@ViewBag.department_id";
+                    arr.push(temp);
+                }
+            }
+            thietbi.vattu = arr;
+            output[i] = thietbi;
+        }
+        $('#json').val(JSON.stringify(output))
+    })
+
+</script>
+@section scripts{
+
+    <script>
+        //validate
+        $('#submit').click(function () {
+            var validate = 1;
+            $(':input[required]:visible').each(function () {
+                if ($(this).val() == "") {
+                    $(this).focus();
+                    validate = 0;
+                }
+            })
+            if (validate == 1) {
+                if (Object.keys(output).length < $('#mytablevattu tbody tr').length)
+                    $.notify("phải điền đầy đủ vật tư vào thiết bị", {
+                        globalPosition: "top center",
+                        className: "error"
+                    });
+                else {
+                    for (var key in output) {
+                        output[key].department_id = $('#' + key + ' input').eq(0).val();
+                        output[key].finish_date_plan = $('#' + key + ' input').eq(2).val();
+                    }
+                    $('#json').val(JSON.stringify(output))
+                    $('#confirm').modal("open");
+
+                }
+            } else
+                $.notify("không được bổ trống ô này", {
+                    globalPosition: "top center",
+                    className: "error"
+                });
+        })
+
+        $('#create').click(function () {
+            $('#myform').submit();
+        })
+
+        $("#export-button").click(function () {
+            $("#pre-load").show();
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/cai-tien-chon/export",
+                data: {
+                    data: $('#json').val(),
+                    documentary_code: $('#documentary_code').val()
+                },
+                cache: false,
+                success: function (response) {
+                    if (response.success) {
+                        window.location.href = response.location;
+                        $("#pre-load").hide("slow", function () {
+                        });
+                    } else {
+                        $.notify("ối, có lỗi xảy ra", {
+                            globalPosition: "top center",
+                            className: "error"
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+}

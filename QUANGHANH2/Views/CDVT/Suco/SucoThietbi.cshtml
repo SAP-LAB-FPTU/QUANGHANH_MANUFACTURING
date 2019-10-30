@@ -360,7 +360,6 @@
 
 @section scripts{
 
-    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script>
         $('.maxDate').datepicker({
             language: 'vi',
@@ -656,10 +655,60 @@
             });
 
             //search
+      $("#equipmentId-search").keyup(function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#equipmentId-search").blur();
+        }
+       });
+      $("#equipmentName-search").keyup(function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#equipmentName-search").blur();
+        }
+             });
+      $("#department-search").keyup(function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#department-search").blur();
+        }
+             });
+      $("#date-start-search").keyup(function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#date-start-search").blur();
+        }
+      });
+      $("#date-end-search").keyup(function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#date-end-search").blur();
+        }
+             });
+      $("#detail-search").keyup(function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#detail-search").blur();
+        }
+      });
+      $("#reason-search").keyup(function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#reason-search").blur();
+        }
+       });
+
+
+
+
             $("#searchButton1").click(function () {
                 $("#pre-load").show();
                 dataTable.ajax.reload(function () {
                     $("#pre-load").hide();
+                    $.notify("Tìm kiếm thành công", {
+                      globalPosition: "top center",
+                     className: "success"
+                    })
                 })
             });
         });
