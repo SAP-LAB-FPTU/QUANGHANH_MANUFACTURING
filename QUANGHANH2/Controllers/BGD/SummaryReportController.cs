@@ -65,13 +65,15 @@ namespace QUANGHANHCORE.Controllers.BGD
             public string Ten { get; set; }
         }
         // GET: /<controller>/
-        //[Route("ban-giam-doc")]
-        //[HttpPost]
-        //public ActionResult GetData(string date)
-        //{
-        //    return Index(date);
+        [Auther(RightID = "005")]
+        [Route("ban-giam-doc")]
+        [HttpPost]
+        public ActionResult GetData(string date)
+        {
+            return Index(date);
 
-        //}
+        }
+
         [Auther(RightID = "005")]
         [Route("ban-giam-doc")]
         [HttpGet]
