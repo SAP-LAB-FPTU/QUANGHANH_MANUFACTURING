@@ -154,6 +154,11 @@ namespace QUANGHANHCORE.Controllers
                     Session["url"] = "phong-an-toan/danh-sach-tai-nan";
                     RightIDs.Add("007");
                 }
+                if (url.MaPhongBan.Equals("KCM"))
+                {
+                    Session["url"] = "phong-kcm/nhap-ke-hoach-san-xuat";
+                    RightIDs.Add("008");
+                }
             }
             if (Boolean.Parse(Session["isAdmin"].ToString()) == true)
             {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QUANGHANH2.SupportClass;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,6 +7,7 @@ using System.Web.Mvc;using System.Web.Routing;
 
 namespace QUANGHANHCORE.Controllers.KCS
 {
+    [Auther(RightID="003")]
     public class ReportController : Controller
     {
         public ActionResult Index()
@@ -17,11 +19,6 @@ namespace QUANGHANHCORE.Controllers.KCS
         {
             Response.Redirect("phong-kcs/bao-cao/bao-cao-len-dk");
             return null;
-        }
-        [Route("phong-kcs/nhap-ke-hoach-san-xuat")]
-        public ActionResult NhapKHSX()
-        {
-            return View("/Views/KCS/NhapKeHoach/InputPlan_Month.cshtml");
         }
         //[Route("phong-kcs/bao-cao/nhap-bao-cao")]
         //public ActionResult Spreadsheet()
