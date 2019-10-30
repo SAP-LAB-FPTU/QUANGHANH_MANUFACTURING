@@ -290,6 +290,7 @@
     <Compile Include="Controllers\DK\SanLuongReportController.cs" />
     <Compile Include="Controllers\DK\SucoThietbiDKController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\KCM\InputPlanController.cs" />
     <Compile Include="Controllers\KCS\KCSController.cs" />
     <Compile Include="Controllers\KCS\ReportController.cs" />
     <Compile Include="Controllers\LogInController.cs" />
@@ -7355,11 +7356,12 @@
     <Content Include="Views\CDVT\Thietbi\SCTX.cshtml" />
     <Content Include="Views\Shared\_Layout_AT.cshtml" />
     <Content Include="Views\AT\ViewAccident.cshtml" />
-    <Content Include="Views\KCS\NhapKeHoach\InputPlan_Month.cshtml" />
+    <Content Include="Views\KCM\NhapKeHoach\InputPlan_Month.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_cai_tien.cshtml" />
     <Content Include="Views\CDVT\Work\CaiTien\ChonThietBi.cshtml" />
     <Content Include="Views\CDVT\Work\CaiTien\ThemCaiTien.cshtml" />
     <Content Include="Views\DK\Department_Criteria.cshtml" />
+    <Content Include="Views\Shared\_Layout_KCM.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

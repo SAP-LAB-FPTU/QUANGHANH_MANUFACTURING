@@ -18,11 +18,6 @@ namespace QUANGHANHCORE.Controllers.KCS
             Response.Redirect("phong-kcs/bao-cao/bao-cao-len-dk");
             return null;
         }
-        [Route("phong-kcs/nhap-ke-hoach-san-xuat")]
-        public ActionResult NhapKHSX()
-        {
-            return View("/Views/KCS/NhapKeHoach/InputPlan_Month.cshtml");
-        }
         //[Route("phong-kcs/bao-cao/nhap-bao-cao")]
         //public ActionResult Spreadsheet()
         //{
