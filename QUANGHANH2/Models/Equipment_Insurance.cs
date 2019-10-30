@@ -12,14 +12,14 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Acceptance
+    public partial class Equipment_Insurance
     {
-        public int equipmentStatus { get; set; }
-        public Nullable<System.DateTime> acceptance_date { get; set; }
-        public int documentary_id { get; set; }
+        public int insurance_id { get; set; }
         public string equipmentId { get; set; }
+        public System.DateTime insurance_expected_date { get; set; }
+        public Nullable<System.DateTime> insurance_start_date { get; set; }
+        public Nullable<System.DateTime> insurance_end_date { get; set; }
     
-        public virtual Documentary Documentary { get; set; }
         public virtual Equipment Equipment { get; set; }
     }
 }

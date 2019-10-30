@@ -24,7 +24,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
             return View("/Views/CDVT/Vattu/Xincapvattu.cshtml");
         }
 
-        [Auther(RightID = "33,179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phong-cdvt/xin-cap-vat-tu-sctx/all")]
         [HttpGet]
         public ActionResult All()
