@@ -14,7 +14,6 @@
 <link href="~/dist/css/pages/data-table.css" rel="stylesheet">
 <link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
-<link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
 <link href="~/dist/datatable/jquery.dataTables.min.css" rel="stylesheet" />
@@ -38,12 +37,8 @@
                                         <th class="center-align">Mã nhóm thiết bị</th>
                                         <th class="center-align">Tên</th>
                                         <th class="center-align">Mã TSCĐ</th>
-                                        <th class="center-align">Vị trí lắp đặt</th>
                                         <th class="center-align">Mã vật tư</th>
                                         <th class="center-align">Vật tư SCTX</th>
-                                        <th class="center-align">ĐVT</th>
-                                        <th class="center-align">Định mức chung</th>
-                                        <th class="center-align">Kế hoạch phân xưởng</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -67,12 +62,60 @@
 
     </div>
 </div>
+
+<div class="modal" id="mylist">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title center">Vật tư dự phòng</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <form>
+                    <table id="test" class="striped table-responsive centered table-bordered mytable">
+                        <thead>
+                            <tr>
+                                <th>Mã vật tư</th>
+                                <th>Định mức chung</th>
+                                <th>Kế hoạch chung</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a id="addcolumn" class="waves-effect waves-light btn blue darken-2 left"><i class='large material-icons'>add</i></a>
+            <a id="submitvattu" class="waves-effect waves-light btn blue darken-2 right">Lưu</a>
+        </div>
+    </div>
+</div>
+<input type='hidden' id='vt_id' list='listVT' class='form-control' />
+<datalist id="listVT">
+    @foreach (var item in ViewBag.Supplies)
+    {
+        <option value="@item.supply_id">@item.supply_name</option>
+    }
+</datalist>
+
 @section scripts{
     <script src="~/dist/datatable/jquery.dataTables.min.js"></script>
     <script>
         var payload;
         var datatable;
         $("#pre-load").show();
+
+        $("#addcolumn").click(function () {
+            var $tr = $('<tr>').append(
+                $('<td>').html("<input type='text' id='vt_name' list='listVT' class='form-control' />"),
+                $('<td>').html("<input type='number' min='0' value='0' class='form-control' />"),
+                $('<td>').html("<input type='number' min='0' value='0' class='form-control' />"),
+                $('<td>').html("<button type='button' class='btnSelect btn blue btn-small center'><i class='large material-icons'>remove</i></button>"),
+            );
+            $tr.appendTo('#test tbody');
+        });
+
         $(document).ready(function () {
             var index = 1;
             datatable = $('#Table').DataTable({
@@ -97,22 +140,10 @@
                     { "data": "EquipmentCategoryId", "name": "EquipmentCategoryId" },
                     { "data": "EquipmentName", "name": "EquipmentName" },
                     { "data": "EquipmentId", "name": "EquipmentId" },
-                    { "data": "DetailLocation", "name": "DetailLocation" },
                     { "data": "SupplyId", "name": "SupplyId" },
-                    { "data": "SupplyName", "name": "SupplyName" },
-                    { "data": "SupplyUnit", "name": "SupplyUnit" },
                     {
-                        "data": "SupplyAverage", "name": "SupplyAverage", "render": function (data, type, row, meta) {
-                            let id = row['Id'];
-                            let domId = 'supply_average_' + id;
-                            return `<input type="number" min="0" value="${data}" class="form-control" id="` + domId + '" ' + 'oninput="' + `handleSupplyAverageChange('${domId}', '${id}')` + '" ' + '/>';
-                        }
-                    },
-                    {
-                        "data": "SupplyPlan", "name": "SupplyPlan", "render": function (data, type, row, meta) {
-                            let id = row['Id'];
-                            let domId = 'supply_plan_' + id;
-                            return `<input type="number" min="0" value="${data}" class="form-control" id="` + domId + '" ' + 'oninput="' + `handleSupplyPlanChange('${domId}', '${id}')` + '" ' + '/>';
+                        "data": "", "render": function (data) {
+                            return "<a data-target=\"mylist\" id=\"add2\" class=\"btn blue btn-small center modal-trigger\" style=\"margin-top:10px\">Thêm</a>";
                         }
                     },
                 ],

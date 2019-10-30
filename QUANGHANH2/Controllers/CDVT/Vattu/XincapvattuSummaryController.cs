@@ -23,12 +23,11 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
             return View("/Views/CDVT/Vattu/XincapvattuSummary.cshtml");
         }
 
-        [Auther(RightID = "35")]
         [Route("phong-cdvt/xin-cap-vat-tu-sctx-summary/all")]
         [HttpGet]
         public ActionResult All(string departmentId)
         {
-            IList<XincapvattuSummaryModelView> vattus = _repository.GetVattus(departmentId);
+            IList<XincapvattuSummaryModelViewVer2> vattus = _repository.GetVattus(departmentId);
             return Json(new
             {
                 success = true,

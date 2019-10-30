@@ -6,7 +6,7 @@ namespace QUANGHANH2.Repositories.Intefaces
 {
     public interface IXincapvattuSummaryRepository
     {
-        IList<XincapvattuSummaryModelView> GetVattus(string departmentId);
+        IList<XincapvattuSummaryModelViewVer2> GetVattus(string departmentId);
 
         bool CreateSupplyConsumable(IList<XincapvattuSummaryModelView> vattus);
 
