@@ -3,69 +3,116 @@
     ViewBag.Title = "ListAccident";
     Layout = "~/Views/Shared/_Layout_DK.cshtml";
 }
+<style>
+    select {
+        width: 100% !important;
+    }
+</style>
 <link href="~/lib/mutiple select/slimselect.css" rel="stylesheet" />
 <link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
 <div class="card">
     <div class="card-content">
         <div class="row">
             <div class="col s12 m12 l12">
-                <div class="center">
-                    <h3><b>DANH SÁCH TAI NẠN</b></h3>
+                <div class="col m12">
+                    <ul class="tabs">
+                        <li class="tab col s12 m6 l6"><a class="active" href="#baocaotainan">Báo cáo tai nạn</a></li>
+                        <li class="tab col s12 m6 l6"><a href="#hientranglo">Hiện trạng lò</a></li>
+                    </ul>
+                    <hr />
                 </div>
+                <div id="baocaotainan">
+                    <div class="center">
+                        <h3><b>DANH SÁCH TAI NẠN</b></h3>
+                    </div>
+                    <div class="row center">
+                        <div class="col l6 m6 s12">
+                            <div class="row">
+                                <div class="col l10 m10 s12 input-field">
+                                    <input type="text" placeholder="Tìm kiếm theo mã nhân viên" class='form-control' id="equipmentId-search" />
+                                </div>
+                                <div class="col l10 m10 s12 input-field">
+                                    <i class="fas fa-calendar-alt icon"></i>
+                                    <input placeholder="Nhập ngày bắt đầu (từ)" type='text' class='datepicker-here center maxDate' data-language='vi' id="timeFrom-search" />
+                                </div>
+                                <div class="col l12 m12 s12 input-field">
+                                    <a class="waves-effect waves-light btn-small blue modal-trigger" href="#themtainan">Thêm Tai Nạn</a>
+                                    <a class="waves-effect waves-light btn btn-small blue darken-2 input-field" id="export_excel"><i class="fas fa-file-excel"></i>&nbsp;Excel</a>
 
-                <div class="row center">
-                    <div class="col l6 m6 s12">
-                        <div class="row">
-                            <div class="col l10 m10 s12 input-field">
-                                <input type="text" placeholder="Tìm kiếm theo mã nhân viên" class='form-control' id="equipmentId-search" />
+                                </div>
+
                             </div>
-                            <div class="col l10 m10 s12 input-field">
-                                <i class="fas fa-calendar-alt icon"></i>
-                                <input placeholder="Nhập ngày bắt đầu (từ)" type='text' class='datepicker-here center maxDate' data-language='vi' id="timeFrom-search" />
-                            </div>
-                            <div class="col l12 m12 s12 input-field">
-                                <a class="waves-effect waves-light btn-small blue modal-trigger" href="#themtainan">Thêm Tai Nạn</a>
+                        </div>
+                        <div class="col l6 m6 s12">
+                            <div class="row">
+                                <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
+                                    <input type="text" placeholder="Tìm kiếm theo tên nhân viên" class='form-control' id="equipmentName-search" />
+                                </div>
+                                <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
+                                    <i class="fas fa-calendar-alt icon"></i>
+                                    <input placeholder="Nhập ngày kết thúc (đến)" type='text' class='datepicker-here center minDate' data-language='vi' id="timeTo-search" />
+                                </div>
+                                <div class="col l12 m12 s12 input-field">
+                                    <a class="waves-effect waves-light btn blue darken-2 modal-close modal-trigger" id="searchButtonActi">Tìm kiếm</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col l6 m6 s12">
-                        <div class="row">
-                            <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
-                                <input type="text" placeholder="Tìm kiếm theo tên nhân viên" class='form-control' id="equipmentName-search" />
-                            </div>
-                            <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
-                                <i class="fas fa-calendar-alt icon"></i>
-                                <input placeholder="Nhập ngày kết thúc (đến)" type='text' class='datepicker-here center minDate' data-language='vi' id="timeTo-search" />
-                            </div>
-                            <div class="col l12 m12 s12 input-field">
-                                <a class="waves-effect waves-light btn blue darken-2 modal-close modal-trigger" id="searchButtonActi" ">Tìm kiếm</a>
-                            </div>
-                        </div>
+
+                    <div class="col s12" style="margin-bottom:10px">
+
+                    </div>
+                    <div class="modal-content">
+                        <table class="centered striped table-bordered" id="table_tainan">
+                            <thead>
+                                <tr>
+                                    <th>Mã Nhân Viên</th>
+                                    <th>Tên Nhân Viên</th>
+                                    <th>Đơn vị</th>
+                                    <th>Lý do tai nạn</th>
+                                    <th>Loại tai nạn</th>
+                                    <th>Ca</th>
+                                    <th>Ngày</th>
+                                    <th colspan="2"></th>
+                                </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
-                <div class="row center">
+                <div id="hientranglo">
+                    <h3 class="center"><b>NHẬP HIỆN TRẠNG LÒ</b></h3>
+                    <div class="row">
+                        <div class="center col s12" style="margin-bottom: 20px">
+                            <i class="fas fa-calendar-alt icon"></i>
+                            <input type='text' class='datepicker-here center' id="date" data-language='vi' />
+                            <a class="btn blue darken-2" onclick="getInformation()">XEM</a>
 
-                </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 m12 l12">
+                                <table class="table-bordered" id="aspectDetailTable">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 400px !important">Phòng ban</th>
+                                            <th>Ghi chú</th>
 
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                            <div class="col s12 m12 l12 input-field right row">
 
-                <div class="col s12" style="margin-bottom:10px">
+                                <a class="left"><button id="them" onclick="addRows()" type="submit" class="btn light-blue lighten-1"><i class="large material-icons">add</i></button></a>
+                                <a class="left"><button id="remove" onclick="deleterow('aspectDetailTable')" class="btn light-blue lighten-1"><i class="large material-icons">remove</i></button></a>
+                            </div>
 
-                </div>
-                <div class="modal-content">
-                    <table class="centered striped table-bordered" id="table_tainan">
-                        <thead>
-                            <tr>
-                                <th>Mã Nhân Viên</th>
-                                <th>Tên Nhân Viên</th>
-                                <th>Đơn vị</th>
-                                <th>Lý do tai nạn</th>
-                                <th>Loại tai nạn</th>
-                                <th>Ca</th>
-                                <th>Ngày</th>
-                                <th colspan="2"></th>
-                            </tr>
-                        </thead>
-                    </table>
+                        </div>
+                        <div class="col s12 m12 l12 input-field center row">
+                            <button class="btn blue darken-2" type="submit" id="EditSaveBtn" @*onclick="EditOrUpdate()*@>CHỈNH SỬA</button>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -86,7 +133,7 @@
                     <div class="col s12 m6">
                         <div class="col s12">
                             <label for="number">Mã nhân viên: </label>
-                            <input list="EmployeeID" type="text" class="form-control" name="employeeid" placeholder="Mã nhân viên" id="employeeId" onkeydown=" searchMaNV(this)" />
+                            <input list="EmployeeID" type="text" class="form-control" name="employeeid" placeholder="Mã nhân viên" id="employeeId" onclick=" searchMaNV(this)" />
                         </div>
                         <div class="col s12">
                             <label for="number">Đơn vị: </label>
@@ -119,6 +166,7 @@
                             <select id="loaitainan" class="custom-select">
                                 <option value="Nặng">Nặng</option>
                                 <option value="Nhẹ">Nhẹ</option>
+                                <option value="Nghiêm trọng">Nghiêm trọng</option>
                             </select>
                         </div>
                     </div>
@@ -142,7 +190,7 @@
                     <div class="col s12 m6">
                         <div class="col s12">
                             <label for="number">Mã nhân viên: </label>
-                            <input list="EmployeeID" type="text" class="form-control" name="employeeid" placeholder="Mã nhân viên" id="employeeIdEdit" onkeydown=" searchMaNV(this)" />
+                            <input list="EmployeeID" type="text" class="form-control" name="employeeid" placeholder="Mã nhân viên" id="employeeIdEdit" onclick=" searchMaNV(this)" />
                             <input type="hidden" class="form-control" name="employeeid" placeholder="Mã nhân viên" id="MaTaiNan" />
                         </div>
                         <div class="col s12">
@@ -176,6 +224,7 @@
                             <select id="loaitainanEdit" class="custom-select">
                                 <option value="Nặng">Nặng</option>
                                 <option value="Nhẹ">Nhẹ</option>
+                                <option value="Nghiêm Trọng">Nghiêm Trọng</option>
                             </select>
                         </div>
                     </div>
@@ -203,6 +252,22 @@
             </div>
         </div>
     </div>
+    <div id="themhientranglo" class="modal">
+        @*<div class="modal-header">
+                <h3 class="modal-title">Thêm Hiện Trạng Lò</h3>
+            </div>*@
+        <div class="modal-content">
+            <label for="number">THÊM HIỆN TRẠNG LÒ: </label>
+            <input type="text" class="form-control" id="hientrang" placeholder="Hiện trạng lò" />
+
+        </div>
+        <div class="modal-footer">
+            <div class="col-md-offset-2 col-md-10">
+                <button id="submitedit" class="btn blue darken-2 modal-close save-category modal-close" onclick="addNote()">Lưu</button>
+                <button type="button" class="btn light-blue lighten-1 modal-close" id="exit">Thoát</button>
+            </div>
+        </div>
+    </div>
 </div>
 <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
 <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
@@ -213,7 +278,6 @@
 <script src="~/js/Custom JS/TCLD/Brief/ManageBrief/DeletePopup.min.js"></script>
 <link href="~/assets/Custom css/TCLD/Brief/ManageBrief/DeletePopup.css" rel="stylesheet" />
 <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
-
 <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script>
     //function for date.
@@ -229,15 +293,13 @@
         $('.datepicker-inline').remove();
     });
 </script>
+<!--JavaScript của Báo cáo tai nạn-->
 <script>
     $(document).ready(function () {
         //get data
         searchAccident();
-
     });
     $(document).ready(function () {
-
-
         //ajax search
         $("#searchButtonActi").click(function () {
             dataTable.ajax.reload(function () {
@@ -245,6 +307,7 @@
             });
         });
     });
+    var exportPayload = [], isFirstInit = true;
     function searchAccident() {
 
         //get data
@@ -272,12 +335,22 @@
                     "timeFrom": function () { return $('#timeFrom-search').val() },
                     "timeTo": function () { return $('#timeTo-search').val() }
                 },
-                "cache": "false"
+                "cache": "false",
+                "dataSrc": function (json) {
+                    index = 1;
+                    if (isFirstInit) {
+                        exportPayload = json.data;
+                        isFirstInit = false;
+                    }
+                    return json.data;
+                }
             },
             "drawCallback": function (settings) {
                 $("#pre-load").hide("slow", function () {
                 });
             },
+
+
             "columns": [
                 { "data": "MaNV", "name": "MaNV" },
                 { "data": "Ten", "name": "Ten" },
@@ -323,27 +396,39 @@
 
         });
     }
+    $("#export_excel").click(function () {
+        $("#pre-load").show();
+        $.ajax({
+            type: "POST",
+            url: "/phong-dieu-khien/bao-cao-tai-nan/export",
+            cache: false
+        }).done(function () {
+            window.location.href = "/excel/DK/DanhSachTaiNan-download.xlsx";
+            $("#pre-load").hide();
+
+        });
+    });
     function searchMaNV(txtMaNV) {
         var tmp = {
             MaNV: txtMaNV.value
         };
-        if (event.key === 'Enter') {
-            $.ajax({
-                type: "POST",
-                url: "/phong-dieu-khien/bao-cao-tai-nan/returnEmployeeName",
-                data: JSON.stringify(tmp),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (r) {
-                    document.getElementById("employeeName").value = r.Ten;
-                    document.getElementById("department").value = r.department_name;
-                    document.getElementById("employeeNameEdit").value = r.Ten;
-                    document.getElementById("departmentEdit").value = r.department_name;
-                }, error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    $('#pre-load').hide();
-                }
-            });
-        }
+
+        $.ajax({
+            type: "POST",
+            url: "/phong-dieu-khien/bao-cao-tai-nan/returnEmployeeName",
+            data: JSON.stringify(tmp),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+                document.getElementById("employeeName").value = r.Ten;
+                document.getElementById("department").value = r.department_name;
+                document.getElementById("employeeNameEdit").value = r.Ten;
+                document.getElementById("departmentEdit").value = r.department_name;
+            }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $('#pre-load').hide();
+            }
+        });
+
     }
 
     function getDeleteIdEmp(MaTaiNan) {
@@ -413,7 +498,7 @@
                 successAlert('Thành công', 'Thêm thành công');
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
-                
+
                 dataTable.ajax.reload();
                 errorAlert('Lỗi', 'Có lỗi xảy ra , vui lòng nhập lại');
             }
@@ -481,5 +566,190 @@
             cache: false
         })
     });
+
+    function addNote() {
+        var accident = {
+            GhiChu: document.getElementById("hientrang").value
+
+        };
+        $.ajax({
+            url: "/phong-dieu-khien/bao-cao-tai-nan/insertnote",
+            type: "POST",
+            data: JSON.stringify(accident),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function () {
+
+                dataTable.ajax.reload();
+                successAlert('Thành công', 'Thêm thành công');
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+
+                dataTable.ajax.reload();
+                errorAlert('Lỗi', 'Có lỗi xảy ra , vui lòng nhập lại');
+            }
+        });
+    }
 </script>
+
+<!--JavaScript cho Hiện trạng lò-->
+<script>
+    $(document).ready(function () {
+
+        $('select').formSelect();
+        mode = 0;
+        //$('#addRowsbtn').hide();
+        listAspectDepartments = [];
+    });
+    var dem;
+    function addRows() {
+        dem++;
+        tableBody = $("#aspectDetailTable").children("tbody");
+        content = tableBody.html();
+
+        selectContent = "<select id=\"MaPhongBan" + dem + "\"class=\"browser-default \"  skipped=\"0\"> <option value=\"\" selected>Lựa chọn phòng ban</option>";
+        unit = "";
+
+        for (let i = 0; i < listAspectDepartments.length; i++) {
+            selectContent += "<option value=\"" + listAspectDepartments[i].department_id + "\">" + listAspectDepartments[i].department_name + "</option>"
+
+        }
+        selectContent += "</select>"
+
+        content = "<tr><td class=\"aspectAdded center\"> " + selectContent + "</td><td><input type=\"text\" id=\"note" + dem + "\"  ><input type=\"hidden\" id=\"MaAnToan" + dem + "\"  ></td></tr>";
+
+        tableBody.append(content);
+    }
+
+
+    //function ViewMode() {
+    //    $("#EditSaveBtn").html("<i class=\"material-icons right\">border_color</i>CẬP NHẬT");
+    //    $('#addRowsbtn').hide();
+    //    //
+    //    $("#totalDays").attr("disable", true)
+    //}
+
+    //function EditMode() {
+    //    $("#EditSaveBtn").html("<i  id=\"edit\"class=\"material-icons right\">border_color</i>LƯU");
+    //    $('#addRowsbtn').show();
+    //    //
+    //    $("#totalDays").removeAttr("disabled")
+    //}
+    function getInformation() {
+        if ($('#date').val() == "")
+            return false;
+        $('#pre-load').show();
+        $("#aspectDetailTable").find("tr:gt(0)").remove();
+
+        var date = document.getElementById("date").value;
+
+        $.ajax({
+            type: "POST",
+            url: "/phong-dieu-khien/bao-cao-tai-nan/getinformation",
+            dataType: "json",
+            success: function (response) {
+
+                listAspectDepartments = response.aspects;
+                let data = response.data;
+                $.each(data, function (i, item) {
+                    //Danh sách vật tư.
+                    i++;
+
+                    selectContent = "<select id=\"MaPhongBan" + i + "\"class=\"browser-default \"  skipped=\"0\"> <option value=\"\" selected>Lựa chọn phòng ban</option>";
+
+
+                    for (let i = 0; i < listAspectDepartments.length; i++) {
+                        if (listAspectDepartments[i].department_id == item.MaPhongBan) {
+                            selectContent += "<option selected value=\"" + listAspectDepartments[i].department_id + "\">" + listAspectDepartments[i].department_name + "</option>"
+                        } else {
+                            selectContent += "<option value=\"" + listAspectDepartments[i].department_id + "\">" + listAspectDepartments[i].department_name + "</option>"
+                        }
+                    }
+
+                    selectContent += "</select>"
+                    var $tr = $('<tr>').append(
+
+                        $('<td>').html('<class=\"aspectAdded center\"> ' + selectContent + ''),
+                        $('<td>').html('<input id=\"note' + i + '\"value="' + item.GhiChu + '"  ><input type="hidden" id=\"MaAnToan' + i + '\"value="' + item.MaCongTacAnToan + '"  ><input type="hidden" class=\"dem\"value="' + i + '"  >'),
+                    );
+
+                    $tr.appendTo('#aspectDetailTable TBODY ');
+                }
+
+                );
+
+
+                var a = document.getElementsByClassName("dem").length;
+                if (a == null) { dem = 0; }
+                else { dem = a; }
+                //dem1 = $("#dem1").text();
+
+                //ViewMode();
+                $('#pre-load').hide();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                errorAlert('Lỗi', 'Có lỗi xảy ra');
+            },
+            data: {
+                date: date
+
+            },
+            cache: false
+        })
+    }
+
+    $("#EditSaveBtn").click(function (e) {
+        //EditMode();
+        var antoan = new Array();
+        var i = 0;
+        $("#aspectDetailTable TBODY TR").each(function () {
+            i++;
+            var row = $(this);
+            var maintainCar = {};
+
+            maintainCar.stringDate = document.getElementById("date").value;
+            maintainCar.GhiChu = document.getElementById("note" + i).value;
+            var x = document.getElementById("MaPhongBan" + i);
+            maintainCar.MaPhongBan = x.options[x.selectedIndex].value;
+
+
+            maintainCar.MaCongTacAnToan = document.getElementById("MaAnToan" + i).value;
+            antoan.push(maintainCar);
+
+        });
+        $.ajax({
+            type: "POST",
+            url: "/phong-dieu-khien/bao-cao-tai-nan/edit",
+            data: JSON.stringify(antoan),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function () {
+                dataTable.ajax.reload();
+                successAlert('Thành công', 'Chỉnh sửa thành công');
+
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $('#pre-load').hide();
+                errorAlert('Lỗi', 'Có lỗi xảy ra , vui lòng nhập lại');
+                $('#close1').click();
+            },
+            cache: false
+        }).done(function () {
+
+            $('#closeForm1').click();
+            $('#close1').click();
+
+        })
+        return false;
+
+    });
+    function deleterow(tableID) {
+        var table = document.getElementById(tableID);
+        table.deleteRow(-1);
+        dem--;
+    }
+
+</script>
+<script src="~/js/Custom JS/Disable_input_material.js"></script>
+
 
