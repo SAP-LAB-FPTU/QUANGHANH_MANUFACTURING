@@ -917,11 +917,10 @@ namespace QUANGHANH2.Controllers.TCLD
                 {
                     try
                     {
-                        string query = "delete from QuanHeGiaDinh where MaQuanHeGiaDinh = " + maQH;
-                        db.Database.ExecuteSqlCommand(query);
-                        string query2 = "select * from QuanHeGiaDinh where MaNV =" + id;
-
-                        list = db.Database.SqlQuery<QuanHeGiaDinh>(query2).ToList();
+                        string query = "delete from QuanHeGiaDinh where MaQuanHeGiaDinh = @maQH";
+                        db.Database.ExecuteSqlCommand(query, new SqlParameter("maQH", maQH));
+                        string query2 = "select * from QuanHeGiaDinh where MaNV = @id";
+                        list = db.Database.SqlQuery<QuanHeGiaDinh>(query2, new SqlParameter("id", id)).ToList();
                         transaction.Commit();
                     }
                     catch (Exception e)
@@ -946,11 +945,10 @@ namespace QUANGHANH2.Controllers.TCLD
                 {
                     try
                     {
-                        string query = "delete from QuaTrinhCongTac where MaCongTac = " + maCT;
-                        db.Database.ExecuteSqlCommand(query);
-                        string query2 = "select * from QuaTrinhCongTac where MaNV =" + id;
-
-                        list = db.Database.SqlQuery<QuaTrinhCongTac>(query2).ToList();
+                        string query = "delete from QuaTrinhCongTac where MaCongTac = @maCT";
+                        db.Database.ExecuteSqlCommand(query, new SqlParameter("maCT", maCT));
+                        string query2 = "select * from QuaTrinhCongTac where MaNV = @id";
+                        list = db.Database.SqlQuery<QuaTrinhCongTac>(query2, new SqlParameter("id", id)).ToList();
                         transaction.Commit();
                     }
                     catch (Exception e)

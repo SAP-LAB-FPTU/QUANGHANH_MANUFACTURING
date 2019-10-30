@@ -103,8 +103,8 @@ namespace QUANGHANH2.Controllers.TCLD
             string query = "select q.SoQuyetDinh, nv.MaNV, nv.Ten, cd.LoaiChamDut, cd.NgayChamDut " +
                 "from QuyetDinh q inner join ChamDut_NhanVien cd " +
                 "on q.MaQuyetDinh = cd.MaQuyetDinh inner join NhanVien nv " +
-                "on cd.MaNV = nv.MaNV where cd.LoaiChamDut is not null and q.SoQuyetDinh != '' and q.MaQuyetDinh = " + id;
-            List<QuyetDinhLink> list = db.Database.SqlQuery<QuyetDinhLink>(query).ToList();
+                "on cd.MaNV = nv.MaNV where cd.LoaiChamDut is not null and q.SoQuyetDinh != '' and q.MaQuyetDinh = @id";
+            List<QuyetDinhLink> list = db.Database.SqlQuery<QuyetDinhLink>(query, new SqlParameter("id", id)).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
 
         }
@@ -119,15 +119,15 @@ namespace QUANGHANH2.Controllers.TCLD
             {
                 try
                 {
-                    string query3 = "select cd.* from ChamDut_NhanVien cd inner join NhanVien nv on cd.MaNV = nv.MaNV inner join QuyetDinh q on q.MaQuyetDinh = cd.MaQuyetDinh where cd.MaQuyetDinh = " + id;
-                    List<ChamDut_NhanVien> list = db.Database.SqlQuery<ChamDut_NhanVien>(query3).ToList();
-                    string query4 = "update NhanVien set MaTrangThai = 1 where MaNV = " + list[0].MaNV;
-                    db.Database.ExecuteSqlCommand(query4);
+                    string query3 = "select cd.* from ChamDut_NhanVien cd inner join NhanVien nv on cd.MaNV = nv.MaNV inner join QuyetDinh q on q.MaQuyetDinh = cd.MaQuyetDinh where cd.MaQuyetDinh = @id";
+                    List<ChamDut_NhanVien> list = db.Database.SqlQuery<ChamDut_NhanVien>(query3, new SqlParameter("id", id)).ToList();
+                    string query4 = "update NhanVien set MaTrangThai = 1 where MaNV = @MaNV";
+                    db.Database.ExecuteSqlCommand(query4, new SqlParameter("MaNV", list[0].MaNV));
 
-                    string query1 = "delete from ChamDut_NhanVien where MaQuyetDinh = " + id;
-                    db.Database.ExecuteSqlCommand(query1);
-                    string query2 = "delete from QuyetDinh where MaQuyetDinh = " + id;
-                    db.Database.ExecuteSqlCommand(query2);
+                    string query1 = "delete from ChamDut_NhanVien where MaQuyetDinh = @id";
+                    db.Database.ExecuteSqlCommand(query1, new SqlParameter("id", id));
+                    string query2 = "delete from QuyetDinh where MaQuyetDinh = @id";
+                    db.Database.ExecuteSqlCommand(query2, new SqlParameter("id", id));
                     //db.SaveChanges();
                     dbct.Commit();
                     return Json(new { success = true }, JsonRequestBehavior.AllowGet);
@@ -152,15 +152,15 @@ namespace QUANGHANH2.Controllers.TCLD
             {
                 try
                 {
-                    string query3 = "select cd.* from ChamDut_NhanVien cd inner join NhanVien nv on cd.MaNV = nv.MaNV inner join QuyetDinh q on q.MaQuyetDinh = cd.MaQuyetDinh where cd.MaQuyetDinh = " + id;
-                    List<ChamDut_NhanVien> list = db.Database.SqlQuery<ChamDut_NhanVien>(query3).ToList();
-                    string query4 = "update NhanVien set MaTrangThai = 1 where MaNV = " + list[0].MaNV;
-                    db.Database.ExecuteSqlCommand(query4);
+                    string query3 = "select cd.* from ChamDut_NhanVien cd inner join NhanVien nv on cd.MaNV = nv.MaNV inner join QuyetDinh q on q.MaQuyetDinh = cd.MaQuyetDinh where cd.MaQuyetDinh = @id";
+                    List<ChamDut_NhanVien> list = db.Database.SqlQuery<ChamDut_NhanVien>(query3, new SqlParameter("id", id)).ToList();
+                    string query4 = "update NhanVien set MaTrangThai = 1 where MaNV = @MaNV";
+                    db.Database.ExecuteSqlCommand(query4, new SqlParameter("MaNV", list[0].MaNV));
 
-                    string query1 = "delete from ChamDut_NhanVien where MaQuyetDinh = " + id;
-                    db.Database.ExecuteSqlCommand(query1);
-                    string query2 = "delete from QuyetDinh where MaQuyetDinh = " + id;
-                    db.Database.ExecuteSqlCommand(query2);
+                    string query1 = "delete from ChamDut_NhanVien where MaQuyetDinh = @id";
+                    db.Database.ExecuteSqlCommand(query1, new SqlParameter("id", id));
+                    string query2 = "delete from QuyetDinh where MaQuyetDinh = @id";
+                    db.Database.ExecuteSqlCommand(query2, new SqlParameter("id", id));
                     //db.SaveChanges();
                     dbct.Commit();
                     return Json(new { success = true }, JsonRequestBehavior.AllowGet);
@@ -241,8 +241,8 @@ namespace QUANGHANH2.Controllers.TCLD
             db.Configuration.LazyLoadingEnabled = false;
 
             string query = "select  nv.MaNV, nv.Ten, cd.LoaiChamDut, cd.NgayChamDut " +
-                "from QuyetDinh q inner join ChamDut_NhanVien cd on q.MaQuyetDinh = cd.MaQuyetDinh inner join NhanVien nv on cd.MaNV = nv.MaNV where q.SoQuyetDinh = '' and q.MaQuyetDinh = " + id;
-            List<QuyetDinhLink> list = db.Database.SqlQuery<QuyetDinhLink>(query).ToList();
+                "from QuyetDinh q inner join ChamDut_NhanVien cd on q.MaQuyetDinh = cd.MaQuyetDinh inner join NhanVien nv on cd.MaNV = nv.MaNV where q.SoQuyetDinh = '' and q.MaQuyetDinh = @id";
+            List<QuyetDinhLink> list = db.Database.SqlQuery<QuyetDinhLink>(query, new SqlParameter("id", id)).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
