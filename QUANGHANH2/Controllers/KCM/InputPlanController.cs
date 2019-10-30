@@ -6,16 +6,13 @@ using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using System.Data.SqlClient;
+using QUANGHANH2.SupportClass;
 
 namespace QUANGHANH2.Controllers.KCM
 {
+    [Auther(RightID = "008")]
     public class InputPlanController : Controller
     {
-        // GET: InputPlan
-        public ActionResult Index()
-        {
-            return View();
-        }
         [Route("phong-kcm/nhap-ke-hoach-san-xuat")]
         public ActionResult NhapKHSX()
         {
