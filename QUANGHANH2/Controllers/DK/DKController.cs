@@ -391,6 +391,5 @@ namespace QUANGHANHCORE.Controllers.DK
             public int dilam { get; set; }
             public int nghi { get; set; }
         }
-
     }
 }

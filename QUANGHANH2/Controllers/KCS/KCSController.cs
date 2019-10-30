@@ -17,11 +17,13 @@ using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Windows;
+using QUANGHANH2.SupportClass;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace QUANGHANHCORE.Controllers.KCS
 {
+    [Auther(RightID = "003")]
     public class KCSController : Controller
     {
         // GET: /<controller>/
