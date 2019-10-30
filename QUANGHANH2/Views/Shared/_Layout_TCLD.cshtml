@@ -76,6 +76,8 @@
     <script src="~/assets/libs/jquery-validation/dist/jquery.validate.min.js"></script>
     <link href="~/assets/libs/jquery-steps/jquery.steps.css" rel="stylesheet">
     <link href="~/assets/libs/jquery-steps/steps.css" rel="stylesheet">
+    <link href="~/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/dist/css/pages/data-table.css" rel="stylesheet">
 </head>
 
 <body>
@@ -383,11 +385,11 @@
                                         <a href="@Url.Content("/phong-tcld/cham-dut-va-tuyen-dung/tong-hop-cac-don-vi-cham-dut-tuyen-dung")"><i class="material-icons">swap_vert</i><span class="hide-menu">Tổng hợp CD, TD</span></a>
                                     </li>
                                     @*<li>
-                                        <a href="@Url.Content("/phong-tcld/cham-dut-va-tuyen-dung/tong-hop-tuyen-dung")"><i class="material-icons">subdirectory_arrow_right</i><span class="hide-menu">Tổng hợp tuyển dụng</span></a>
-                                    </li>
-                                    <li>
-                                        <a href="@Url.Content("/phong-tcld/cham-dut-va-tuyen-dung/tong-hop-cham-dut")"><i class="material-icons">subdirectory_arrow_left</i><span class="hide-menu">Tổng hợp chấm dứt</span></a>
-                                    </li>*@
+                                            <a href="@Url.Content("/phong-tcld/cham-dut-va-tuyen-dung/tong-hop-tuyen-dung")"><i class="material-icons">subdirectory_arrow_right</i><span class="hide-menu">Tổng hợp tuyển dụng</span></a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Content("/phong-tcld/cham-dut-va-tuyen-dung/tong-hop-cham-dut")"><i class="material-icons">subdirectory_arrow_left</i><span class="hide-menu">Tổng hợp chấm dứt</span></a>
+                                        </li>*@
                                 </ul>
                             </div>
                         </li>
@@ -744,6 +746,7 @@
     <script src="~/Scripts/notify.min.js"></script>
     <script src="~/Scripts/jquery.validate.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/js/jquery.dataTables.min.js"></script>
     @*@Scripts.Render("~/Scripts/moment.js")*@
     <script>
         $(".loading").css("z-index", 99999);
