@@ -180,11 +180,37 @@
     })
     //đọc lại json rồi apply vào modal
     $(document).on("click", ".open-Modal", function () {
+        $('#pre-load').show();
         var id = $(this).data('id');
         $('#rownumber').val(id);
         $("#test").find("tr:gt(0)").remove();
-        $('#listId').text("Danh sách vật tư đi kèm của thiết bị " + $('#' + id + ' td:first-child').text())
-        if (output.hasOwnProperty(id)) {
+        var equipmentId = $('#' + id + ' td:first-child').text();
+        $('#listId').text("Danh sách vật tư đi kèm của thiết bị " + equipmentId)
+        if (output[id].vattu.length == 0) {
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/thiet-bi/get-supply",
+                dataType: "json",
+                success: function (data) {
+                    $.each(data, function (i, item) {
+                        var $tr = $('<tr>').append(
+                            $('<td>').html("<input type='text' list='supplyID' class='form-control required' value='" + item.supply_id + "' /> "),
+                            $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> ")
+                        );
+                        $tr.appendTo('#test tbody');
+                    });
+                    $('#pre-load').hide();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#pre-load').hide();
+                },
+                data: {
+                    equipmentId: equipmentId
+                },
+                cache: false
+            })
+        }
+        else {
             for (var i = 0; i < output[id].vattu.length; i++) {
                 var item = output[id].vattu[i];
                 var $tr = $('<tr>').append(
@@ -193,6 +219,7 @@
                 );
                 $tr.appendTo('#test tbody');
             }
+            $('#pre-load').hide();
         }
     })
 
@@ -235,10 +262,7 @@
         $('#json').val(JSON.stringify(output))
     })
 </script>
-<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
 @section scripts{
-    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-
     <script>
         //validate
         $('#submit').click(function () {

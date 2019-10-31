@@ -40,6 +40,7 @@
                                         <th class="center-align">Tình trạng thiết bị<span></span></th>
                                         <th class="center-align">Lý do thu hồi (Không bắt buộc)<span></span></th>
                                         <th></th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -54,6 +55,9 @@
                                         </td>
                                         <td>
                                             <a class="btn blue darken-2 modal-trigger open-Modal" data-id="@i" href="#mylist">Vật tư đi kèm</a>
+                                        </td>
+                                        <td>
+                                            <a class="btn blue darken-2 modal-trigger open-Modal2" data-id="@i" href="#mylist">Vật tư dự phòng</a>
                                         </td>
                                     </tr>
                                     }
@@ -99,8 +103,6 @@
             <input type="hidden" id="rownumber" disabled />
         </div>
         <div class="modal-footer">
-            <a id="addcolumn" class="waves-effect waves-light btn blue darken-2 left">Thêm</a>
-            <a id="submitvattu" class="waves-effect waves-light btn blue darken-2 modal-close">Lưu</a>
             <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-button">Thoát</button>
         </div>
     </div>
@@ -167,20 +169,65 @@
     })
     //đọc lại json rồi apply vào modal
     $(document).on("click", ".open-Modal", function () {
+        $('#pre-load').show();
         var id = $(this).data('id');
         $('#rownumber').val(id);
         $("#test").find("tr:gt(0)").remove();
-        $('#listId').text("Danh sách vật tư đi kèm của thiết bị " + $('#' + id + ' td:first-child').text())
-        if (output.hasOwnProperty(id)) {
-            for (var i = 0; i < output[id].vattu.length; i++) {
-                var item = output[id].vattu[i];
-                var $tr = $('<tr>').append(
-                    $('<td>').html("<input type='text' list='supplyID' class='form-control required' value='" + item.supply_id + "' /> "),
-                    $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> ")
-                );
-                $tr.appendTo('#test tbody');
-            }
-        }
+        var equipmentId = $('#' + id + ' td:first-child').text();
+        $('#listId').text("Danh sách vật tư đi kèm của thiết bị " + equipmentId)
+        $.ajax({
+            type: "POST",
+            url: "/phong-cdvt/thiet-bi/get-supply",
+            dataType: "json",
+            success: function (data) {
+                $.each(data, function (i, item) {
+                    var $tr = $('<tr>').append(
+                        $('<td>').text(item.supply_id),
+                        $('<td>').text(item.quantity)
+                    );
+                    $tr.appendTo('#test tbody');
+                });
+                $('#pre-load').hide();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $('#pre-load').hide();
+            },
+            data: {
+                equipmentId: equipmentId
+            },
+            cache: false
+        })
+    })
+
+    $(document).on("click", ".open-Modal2", function () {
+        $('#pre-load').show();
+        var id = $(this).data('id');
+        $('#rownumber').val(id);
+        $("#test").find("tr:gt(0)").remove();
+        var equipmentId = $('#' + id + ' td:first-child').text();
+        $('#listId').text("Danh sách vật tư đi kèm của thiết bị " + equipmentId)
+        $.ajax({
+            type: "POST",
+            url: "/phong-cdvt/thiet-bi/get-supply2",
+            dataType: "json",
+            success: function (data) {
+                $.each(data, function (i, item) {
+                    var $tr = $('<tr>').append(
+                        $('<td>').text(item.supply_id),
+                        $('<td>').text(item.quantity)
+                    );
+                    $tr.appendTo('#test tbody');
+                });
+                $('#pre-load').hide();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $('#pre-load').hide();
+            },
+            data: {
+                equipmentId: equipmentId
+            },
+            cache: false
+        })
     })
 
     $("#addcolumn").click(function () {
@@ -224,10 +271,7 @@
         $('#json').val(JSON.stringify(output))
     })
 </script>
-<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
 @section scripts{
-    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-
     <script>
         //validate
         $('#submit').click(function () {
