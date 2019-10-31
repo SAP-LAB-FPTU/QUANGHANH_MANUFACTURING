@@ -48,7 +48,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
             }
         }
 
-        [Route("phong-cdvt/cap-nhat/quyet-dinh/bao-duong/GetData")]
+        [Route("phong-cdvt/cap-nhat/quyet-dinh/cai-tien/GetData")]
         [HttpPost]
         public ActionResult GetData(string id)
         {
@@ -88,7 +88,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
         }
 
         [Auther(RightID = "86,179,180,181,182,183,184,185,186,187,188,189")]
-        [Route("phong-cdvt/cap-nhat/quyet-dinh/bao-duong/edit")]
+        [Route("phong-cdvt/cap-nhat/quyet-dinh/cai-tien/edit")]
         [HttpPost]
         public ActionResult editpost(string edit, string id)
         {
