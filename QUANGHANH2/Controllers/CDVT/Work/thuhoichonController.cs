@@ -128,21 +128,28 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                         drd.equipmentId = equipmentId;
                         DBContext.Documentary_revoke_details.Add(drd);
                         DBContext.SaveChanges();
-                        JArray vattu = (JArray)item.Value.SelectToken("vattu");
-                        foreach (JObject jObject in vattu)
+                        List<Supply_DiKem> diKem = DBContext.Supply_DiKem.Where(x => x.equipmentId.Equals(equipmentId)).ToList();
+                        foreach (Supply_DiKem supply in diKem)
                         {
-                            string supply_id = (string)jObject["supply_id"];
-                            int quantity = (int)jObject["quantity"];
-                            string supplyStatus = (string)jObject["supplyStatus"];
-                            string department_id_temp = (string)jObject["department_id"];
-                            Supply_Documentary_Equipment sde = new Supply_Documentary_Equipment();
-                            sde.documentary_id = documentary.documentary_id;
-                            sde.equipmentId = equipmentId;
-                            sde.supply_id = supply_id;
-                            sde.quantity_plan = quantity;
-                            sde.supplyStatus = supplyStatus;
-                            sde.supply_documentary_status = 0;
-                            DBContext.Supply_Documentary_Equipment.Add(sde);
+                            Supply_Documentary_Equipment s = new Supply_Documentary_Equipment();
+                            s.documentary_id = documentary.documentary_id;
+                            s.equipmentId = equipmentId;
+                            s.quantity_plan = supply.quantity;
+                            s.supply_id = supply.supply_id;
+                            s.supplyStatus = supply.note;
+                            DBContext.Supply_Documentary_Equipment.Add(s);
+                            DBContext.SaveChanges();
+                        }
+                        List<Supply_DuPhong> duPhong = DBContext.Supply_DuPhong.Where(x => x.equipmentId.Equals(equipmentId)).ToList();
+                        foreach (Supply_DuPhong supply in duPhong)
+                        {
+                            Supply_Documentary_Equipment s = new Supply_Documentary_Equipment();
+                            s.documentary_id = documentary.documentary_id;
+                            s.equipmentId = equipmentId;
+                            s.quantity_plan = supply.quantity;
+                            s.supply_id = supply.supply_id;
+                            s.supply_documentary_status = 1;
+                            DBContext.Supply_Documentary_Equipment.Add(s);
                             DBContext.SaveChanges();
                         }
                     }

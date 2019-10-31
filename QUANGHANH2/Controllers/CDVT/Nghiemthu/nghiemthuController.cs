@@ -198,6 +198,26 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                             Documentary_moveline_details documentary_Moveline_Details = db.Database.SqlQuery<Documentary_moveline_details>("SELECT * FROM Documentary_moveline_details WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId",
                                 new SqlParameter("equipmentId", id),
                                 new SqlParameter("documentary_id", documentary.documentary_id)).First();
+                            List<Supply_Documentary_Equipment> supplies_Moveline = db.Supply_Documentary_Equipment.Where(x => x.documentary_id == documentary.documentary_id && x.equipmentId == id).ToList();
+                            foreach (Supply_Documentary_Equipment item in supplies_Moveline)
+                            {
+                                Supply_DiKem s = db.Supply_DiKem.Where(x => x.equipmentId == id && x.supply_id == item.supply_id).FirstOrDefault();
+                                if (s == null)
+                                {
+                                    s = new Supply_DiKem();
+                                    s.equipmentId = id;
+                                    s.note = item.supplyStatus;
+                                    s.quantity = item.quantity_in;
+                                    s.supply_id = item.supply_id;
+                                    db.Supply_DiKem.Add(s);
+                                }
+                                else
+                                {
+                                    s.quantity = item.quantity_in;
+                                    s.note = item.supplyStatus;
+                                }
+                                db.SaveChanges();
+                            }
                             equipment.department_id = documentary_Moveline_Details.department_id;
                             equipment.current_Status = 2;
                             break;
@@ -206,9 +226,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                             equipment.current_Status = 1;
                             break;
                         case "5":
-                            equipment.department_id = "CDVT";
+                            equipment.department_id = "KHO";
                             equipment.current_Status = 15;
                             db.Database.ExecuteSqlCommand("DELETE FROM Supply_DuPhong WHERE equipmentId = @equipmentId",
+                                new SqlParameter("equipmentId", id));
+                            db.Database.ExecuteSqlCommand("DELETE FROM Supply_DiKem WHERE equipmentId = @equipmentId",
                                 new SqlParameter("equipmentId", id));
                             break;
                         case "6":
