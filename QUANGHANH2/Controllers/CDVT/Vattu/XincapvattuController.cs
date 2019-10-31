@@ -1,7 +1,9 @@
-﻿using QUANGHANH2.ModelViews;
+﻿using QUANGHANH2.Models;
+using QUANGHANH2.ModelViews;
 using QUANGHANH2.Repositories.Intefaces;
 using QUANGHANH2.SupportClass;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -11,7 +13,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
     {
         //Property of the type IRepository <TEnt, in TPk>
         private readonly IXincapvattuRepository _repository;
-
         public XincapvattuController(IXincapvattuRepository repo)
         {
             _repository = repo;
@@ -21,10 +22,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
         [Route("phong-cdvt/xin-cap-vat-tu-sctx")]
         public ActionResult Index()
         {
+            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            List<Supply> supplies = DBContext.Supplies.ToList();
+            ViewBag.Supplies = supplies;
             return View("/Views/CDVT/Vattu/Xincapvattu.cshtml");
         }
 
-        [Auther(RightID = "33,179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phong-cdvt/xin-cap-vat-tu-sctx/all")]
         [HttpGet]
         public ActionResult All()

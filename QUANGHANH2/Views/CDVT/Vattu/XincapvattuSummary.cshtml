@@ -45,6 +45,8 @@
                                     <thead>
                                         <tr>
                                             <th>STT</th>
+                                            <th>Tên thiết bị</th>
+                                            <th>Mã TSCĐ</th>
                                             <th>Mã vật tư</th>
                                             <th>Tên vật tư</th>
                                             <th>ĐVT</th>
@@ -75,7 +77,6 @@
     </div>
 </div>
 @section scripts{
-    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script>
         var payload = [];
         var datatable;
@@ -160,6 +161,8 @@
                 },
                 "columns": [
                     { "data": null, "name": "Index", "render": function (data) { return index++; } },
+                    { "data": "equipment_name", "name": "equipment_name" },
+                    { "data": "Equipmentid", "name": "Equipmentid" },
                     { "data": "SupplyId", "name": "SupplyId" },
                     { "data": "SupplyName", "name": "SupplyName" },
                     { "data": "SupplyUnit", "name": "SupplyUnit" },

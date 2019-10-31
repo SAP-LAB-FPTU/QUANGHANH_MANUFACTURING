@@ -197,7 +197,8 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                     }
                     else
                     {
-                        string sql = "select pbtc.MaTieuChi, pbtc.DonViDo, pbtc.TenTieuChi, khdc.KHDC, khdc.SoNgayLamViec from " +
+                        string sql = "select pbtc.MaTieuChi, pbtc.DonViDo, pbtc.TenTieuChi, case when khdc.KHDC is null then 0 else khdc.KHDC end 'KHDC', " +
+                                        "case when khdc.SoNgayLamViec is null then 0 else khdc.SoNgayLamViec end 'SoNgayLamViec' from " +
                                         "(select pb.MaTieuChi, pb.MaPhongBan, tc.DonViDo, tc.TenTieuChi from PhongBan_TieuChi pb left " +
                                         "join TieuChi tc on pb.MaTieuChi = tc.MaTieuChi " +
                                         "where pb.MaPhongBan = @px) as pbtc " +

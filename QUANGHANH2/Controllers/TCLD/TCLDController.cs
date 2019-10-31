@@ -130,9 +130,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 ////////////////////////////////////////////////////////////////////////////////////////////////
 
                 //////////////////////////////////////GET NV NGHI VLD////////////////////////////////////////
-                sql = "select dd.MaNV,n.Ten as HoTen,d.department_name as TenDonVi from DiemDanh_NangSuatLaoDong dd,Department d,NhanVien n\n" +
-                "where DiLam=0 and LyDoVangMat=N'VLD'\n" +
-                "and dd.MaDonVi = d.department_id and n.MaNV = dd.MaNV and NgayDiemDanh=(SELECT CONVERT(VARCHAR(10), getdate() - 1, 101))";
+                sql = "select n.MaNV, n.Ten as HoTen,Department.department_name as TenDonVi\n" +
+                "from Department, Header_DiemDanh_NangSuat_LaoDong hd inner join DiemDanh_NangSuatLaoDong d\n" +
+                "on hd.HeaderID = d.HeaderID and hd.NgayDiemDanh = (SELECT CONVERT(VARCHAR(10), getdate() - 1, 101) and d.LyDoVangMat like N'Vô lý do' inner join NhanVien n\n" +
+                "on d.MaNV = n.MaNV\n" +
+                "where Department.department_id = hd.MaPhongBan";
                 try
                 {
                     listNghiVLD = db.Database.SqlQuery<NghiVLD>(sql).ToList<NghiVLD>();
@@ -147,17 +149,19 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
                 ////////////////////////////////////////GET DATA NHAN LUC////////////////////////////////////////////////
                 sql = "select tb1.department_id as MaDonVi,\n" +
-                "(case when tb2.soluong is null then 0 else tb2.soluong end) as SoLuong\n" +
-                "from\n" +
-                "(select * from Department where department_id in\n" +
-                "('PXKT1', 'PXKT2', 'PXKT3', 'PXKT4', 'PXKT5', 'PXKT6', 'PXKT7', 'PXKT8', 'PXKT9', 'PXKT10', 'PXKT11',\n" +
-                "'PXDL3', 'PXDL5', 'PXDL7', 'PXDL8', 'PXVT1', 'PXVT2')) tb1\n" +
-                     "left join\n" +
-                     "(select MaDonVi, count(MaNV) as soluong from DiemDanh_NangSuatLaoDong\n" +
-                     "where NgayDiemDanh = (SELECT CONVERT(VARCHAR(10), getdate() - 1, 101)) and DiLam = 1\n" +
-                "group by MaDonVi) tb2\n" +
-                "on tb1.department_id = tb2.MaDonVi\n" +
-                "group by tb1.department_id,tb2.soluong";
+"(case when tb2.soluong is null then 0 else tb2.soluong end) as SoLuong\n" +
+"from\n" +
+"(select * from Department where department_id in\n" +
+"('PXKT1', 'PXKT2', 'PXKT3', 'PXKT4', 'PXKT5', 'PXKT6', 'PXKT7', 'PXKT8', 'PXKT9', 'PXKT10', 'PXKT11',\n" +
+"'PXDL3', 'PXDL5', 'PXDL7', 'PXDL8', 'PXVT1', 'PXVT2')) tb1\n" +
+"left join\n" +
+"(select hd.MaPhongBan, count(d.MaNV) as soluong from Header_DiemDanh_NangSuat_LaoDong hd inner\n" +
+ "                                               join DiemDanh_NangSuatLaoDong d\n" +
+"on hd.HeaderID = d.HeaderID\n" +
+"where hd.NgayDiemDanh = (SELECT CONVERT(VARCHAR(10), getdate() - 1, 101)) and DiLam = 1\n" +
+"group by hd.MaPhongBan) tb2\n" +
+"on tb1.department_id = tb2.MaPhongBan\n" +
+"group by tb1.department_id,tb2.soluong";
                 try
                 {
                     listNhanLuc = db.Database.SqlQuery<NhanLuc>(sql).ToList<NhanLuc>();
@@ -257,8 +261,16 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     sql = "select (case when Count(tn.MaNV) is null then 0 else Count(tn.MaNV) end )  from \n" +
                       "(select MaNV, Ngay from TaiNan where\n" +
                       "Ngay = @NgayQuyetDinh) as tn";
-                    vuTaiNan = db.Database.SqlQuery<int>(sql,
-                        new SqlParameter("NgayQuyetDinh", DateTime.Parse(date))).ToList<int>()[0];
+                    try
+                    {
+                        vuTaiNan = db.Database.SqlQuery<int>(sql,
+                       new SqlParameter("NgayQuyetDinh", DateTime.Parse(date))).ToList<int>()[0];
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
+
                     //////////////////////////////////////////////////////////////////////////////
 
                     /// ////////////////////////////GET SO LUONG HET HAN CC//////////////////////////////
@@ -267,24 +279,50 @@ namespace QUANGHANHCORE.Controllers.TCLD
                       "when DATEADD(MONTH, cc.ThoiHan, cn.NgayCap) <= @NgayQuyetDinh\n" +
                       "then 1 else 0 end) as st\n" +
                       "from ChungChi_NhanVien cn join ChungChi cc on cn.MaChungChi = cc.MaChungChi) as th";
-                    hetHanChungChi = db.Database.SqlQuery<int>(sql, new SqlParameter("NgayQuyetDinh", DateTime.Parse(date))).ToList<int>()[0];
+                    try
+                    {
+                        hetHanChungChi = db.Database.SqlQuery<int>(sql, new SqlParameter("NgayQuyetDinh", DateTime.Parse(date))).ToList<int>()[0];
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
+
 
                     //////////////////////////////////////////////////////////////////////////////
 
                     /// ////////////////////////////GET SO LUONG NGHI VLD//////////////////////////////
-                    sql = "select (case when Count(vld.MaNV)  is null then 0 else Count(vld.MaNV) end ) from \n" +
-                        "(select MaNV, NgayDiemDanh from DiemDanh_NangSuatLaoDong\n" +
-                        "where NgayDiemDanh = @NgayQuyetDinh\n" +
-                        "and DiLam=0 and LyDoVangMat=N'VLD') as vld";
-                    nghiVLD = db.Database.SqlQuery<int>(sql,
-                new SqlParameter("NgayQuyetDinh", DateTime.Parse(date))).ToList<int>()[0];
+                    sql = "select (case when Count(n.MaNV)  is null then 0 else Count(n.MaNV) end )\n" +
+               "from Department, Header_DiemDanh_NangSuat_LaoDong hd inner join DiemDanh_NangSuatLaoDong d\n" +
+               "on hd.HeaderID = d.HeaderID and hd.NgayDiemDanh = @NgayDiemDanh and d.LyDoVangMat like N'Vô lý do' inner join NhanVien n\n" +
+               "on d.MaNV = n.MaNV\n" +
+               "where Department.department_id = hd.MaPhongBan";
+                    try
+                    {
+                        nghiVLD = db.Database.SqlQuery<int>(sql,
+                                        new SqlParameter("NgayDiemDanh", DateTime.Parse(date))).ToList<int>()[0];
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
+
 
                     //////////////////////////////////////////////////////////////////////////////
 
                     //////////////////////////////////////GET TI LE HUY DONG////////////////////////////////////////
                     string tempDate = date.Split('/')[2] + "/" + date.Split('/')[1] + "/" + date.Split('/')[0];
-                    sql = QUANGHANHCORE.Controllers.TCLD.ReportController.QueryForReportAlll(tempDate);
-                    List<TatCaDonVI> listTLHD = db.Database.SqlQuery<TatCaDonVI>(sql).ToList();
+                    List<TatCaDonVI> listTLHD = new List<TatCaDonVI>();
+                    try
+                    {
+                        sql = QUANGHANHCORE.Controllers.TCLD.ReportController.QueryForReportAlll(tempDate);
+                        listTLHD = db.Database.SqlQuery<TatCaDonVI>(sql).ToList();
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
+
                     for (int i = 0; i < listTLHD.Count; i++)
                     {
                         if (listTLHD[i].TyLe > 82)
@@ -299,43 +337,68 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     ////////////////////////////////////////////////////////////////////////////////////////////////
 
                     //////////////////////////////////////GET NV NGHI VLD////////////////////////////////////////
-                    sql = "select dd.MaNV,n.Ten as HoTen,d.department_name as TenDonVi from DiemDanh_NangSuatLaoDong dd,Department d,NhanVien n\n" +
-                    "where DiLam=0 and LyDoVangMat=N'VLD'\n" +
-                    "and dd.MaDonVi = d.department_id and n.MaNV = dd.MaNV and NgayDiemDanh=@NgayDiemDanh";
-                    listNghiVLD = db.Database.SqlQuery<NghiVLD>(sql, new SqlParameter("NgayDiemDanh", date)).ToList<NghiVLD>();
+                    sql = "select n.MaNV, n.Ten as HoTen,Department.department_name as TenDonVi\n" +
+               "from Department, Header_DiemDanh_NangSuat_LaoDong hd inner join DiemDanh_NangSuatLaoDong d\n" +
+               "on hd.HeaderID = d.HeaderID and hd.NgayDiemDanh = @NgayDiemDanh and d.LyDoVangMat like N'Vô lý do' inner join NhanVien n\n" +
+               "on d.MaNV = n.MaNV\n" +
+               "where Department.department_id = hd.MaPhongBan";
+                    try
+                    {
+                        listNghiVLD = db.Database.SqlQuery<NghiVLD>(sql, new SqlParameter("NgayDiemDanh", date)).ToList<NghiVLD>();
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
                     ///////////////////////////////////////////////////////////////////////////////////////////////////
                     ///
                     ////////////////////////////////////////GET DATA NHAN LUC////////////////////////////////////////////////
                     sql = "select tb1.department_id as MaDonVi,\n" +
-                    "(case when tb2.soluong is null then 0 else tb2.soluong end) as SoLuong\n" +
-                    "from\n" +
-                    "(select * from Department  where department_id in\n" +
-                    "('PXKT1', 'PXKT2', 'PXKT3', 'PXKT4', 'PXKT5', 'PXKT6', 'PXKT7', 'PXKT8', 'PXKT9', 'PXKT10', 'PXKT11',\n" +
-                    "'PXDL3', 'PXDL5', 'PXDL7', 'PXDL8', 'PXVT1', 'PXVT2')) tb1\n" +
-                    "left join\n" +
-                    "(select MaDonVi,count(MaNV) as soluong from DiemDanh_NangSuatLaoDong \n" +
-                    "where NgayDiemDanh = @NgayDiemDanh and DiLam = 1 \n" +
-                    "group by MaDonVi) tb2\n" +
-                    "on tb1.department_id=tb2.MaDonVi\n" +
-                    "group by tb1.department_id,tb2.soluong";
-                    listNhanLuc = db.Database.SqlQuery<NhanLuc>(sql, new SqlParameter("NgayDiemDanh", date)).ToList<NhanLuc>();
+"(case when tb2.soluong is null then 0 else tb2.soluong end) as SoLuong\n" +
+"from\n" +
+"(select * from Department where department_id in\n" +
+"('PXKT1', 'PXKT2', 'PXKT3', 'PXKT4', 'PXKT5', 'PXKT6', 'PXKT7', 'PXKT8', 'PXKT9', 'PXKT10', 'PXKT11',\n" +
+"'PXDL3', 'PXDL5', 'PXDL7', 'PXDL8', 'PXVT1', 'PXVT2')) tb1\n" +
+"left join\n" +
+"(select hd.MaPhongBan, count(d.MaNV) as soluong from Header_DiemDanh_NangSuat_LaoDong hd inner\n" +
+ "                                               join DiemDanh_NangSuatLaoDong d\n" +
+"on hd.HeaderID = d.HeaderID\n" +
+"where hd.NgayDiemDanh = @NgayDiemDanh and DiLam = 1\n" +
+"group by hd.MaPhongBan) tb2\n" +
+"on tb1.department_id = tb2.MaPhongBan\n" +
+"group by tb1.department_id,tb2.soluong";
+                    try
+                    {
+                        listNhanLuc = db.Database.SqlQuery<NhanLuc>(sql, new SqlParameter("NgayDiemDanh", date)).ToList<NhanLuc>();
+                    }
+                    catch (Exception e)
+                    {
 
+                    }
                     ///////////////////////////////////////GET DATA SAN LUONG///////////////////////////////////////////////
                     sql = "select (select (case when sum(tc_kh.SanLuongKeHoach) is null then 0 else sum(tc_kh.SanLuongKeHoach) end) from (select tc.MaTieuChi, tc.DonViDo, kh.SanLuongKeHoach, kh.ThangKeHoach, kh.NamKeHoach from KeHoach_TieuChi kh join TieuChi tc on kh.MaTieuChi = tc.MaTieuChi) as tc_kh where tc_kh.MaTieuChi in (1,2,3,4) and  tc_kh.ThangKeHoach = @Thang1 and tc_kh.NamKeHoach = @Nam1) 'SLKH',\n" +
                     "(select(case when sum(tc_kh.SanLuongKeHoach) is null then 0 else sum(tc_kh.SanLuongKeHoach) end) from(select tc.MaTieuChi, tc.DonViDo, kh.SanLuongKeHoach, kh.ThangKeHoach, kh.NamKeHoach from KeHoach_TieuChi kh join TieuChi tc on kh.MaTieuChi = tc.MaTieuChi) as tc_kh where tc_kh.MaTieuChi in (7, 8) and tc_kh.ThangKeHoach = @Thang2 and tc_kh.NamKeHoach = @Nam2) 'MLKH',\n" +
                     "(select(case when sum(tc_th.SanLuongThucHien) is null then 0 else sum(tc_th.SanLuongThucHien) end) from(select tc.MaTieuChi, tc.DonViDo, th.SanLuongThucHien, th.NgayThucHien from ThucHien_TieuChi th join TieuChi tc on th.MaTieuChi = tc.MaTieuChi) as tc_th where tc_th.MaTieuChi in (1, 2, 3, 4) and MONTH(tc_th.NgayThucHien) = @Thang3  and YEAR(tc_th.NgayThucHien) = @Nam3) 'LKSL',\n" +
                     "(select(case when sum(tc_th.SanLuongThucHien) is null then 0 else sum(tc_th.SanLuongThucHien) end) from(select tc.MaTieuChi, tc.DonViDo, th.SanLuongThucHien, th.NgayThucHien from ThucHien_TieuChi th join TieuChi tc on th.MaTieuChi = tc.MaTieuChi) as tc_th where tc_th.MaTieuChi in (7, 8) and MONTH(tc_th.NgayThucHien) = @Thang4  and YEAR(tc_th.NgayThucHien) = @Nam4) 'LKML'";
 
-                    sanluong = db.Database.SqlQuery<SanLuong>(sql,
-                        new SqlParameter("Thang1", date.Split('/')[1]),
-                        new SqlParameter("Thang2", date.Split('/')[1]),
-                        new SqlParameter("Thang3", date.Split('/')[1]),
-                        new SqlParameter("Thang4", date.Split('/')[1]),
-                        new SqlParameter("Nam1", date.Split('/')[0]),
-                        new SqlParameter("Nam2", date.Split('/')[0]),
-                        new SqlParameter("Nam3", date.Split('/')[0]),
-                        new SqlParameter("Nam4", date.Split('/')[0])
-                        ).ToList<SanLuong>()[0];
+                    try
+                    {
+                        sanluong = db.Database.SqlQuery<SanLuong>(sql,
+                                                new SqlParameter("Thang1", date.Split('/')[1]),
+                                                new SqlParameter("Thang2", date.Split('/')[1]),
+                                                new SqlParameter("Thang3", date.Split('/')[1]),
+                                                new SqlParameter("Thang4", date.Split('/')[1]),
+                                                new SqlParameter("Nam1", date.Split('/')[0]),
+                                                new SqlParameter("Nam2", date.Split('/')[0]),
+                                                new SqlParameter("Nam3", date.Split('/')[0]),
+                                                new SqlParameter("Nam4", date.Split('/')[0])
+                                                ).ToList<SanLuong>()[0];
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
+
                 }
                 return Json(new { success = true, tren82 = tren82, duoi82 = duoi82, soLuongHuyDong = soLuotHuyDong, vuTaiNan = vuTaiNan, nghiVLD = nghiVLD, hetHanChungChi = hetHanChungChi, listNghiVLD = listNghiVLD, listNhanLuc = listNhanLuc, sanluong = sanluong }, JsonRequestBehavior.AllowGet);
             }

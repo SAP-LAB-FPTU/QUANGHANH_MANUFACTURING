@@ -30,6 +30,7 @@ namespace QUANGHANH2.Models
             this.Documentary_revoke_details = new HashSet<Documentary_revoke_details>();
             this.Equipment_attribute = new HashSet<Equipment_attribute>();
             this.Equipment_Inspection = new HashSet<Equipment_Inspection>();
+            this.Equipment_Insurance = new HashSet<Equipment_Insurance>();
             this.Fuel_activities_consumption = new HashSet<Fuel_activities_consumption>();
             this.Incidents = new HashSet<Incident>();
             this.Maintain_Car = new HashSet<Maintain_Car>();
@@ -88,6 +89,8 @@ namespace QUANGHANH2.Models
         public virtual ICollection<Equipment_attribute> Equipment_attribute { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Equipment_Inspection> Equipment_Inspection { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Equipment_Insurance> Equipment_Insurance { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Fuel_activities_consumption> Fuel_activities_consumption { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

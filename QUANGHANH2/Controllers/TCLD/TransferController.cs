@@ -565,7 +565,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             public string department_name { get; set; }
             public string TenCongViec { get; set; }
             public string TenTrangThai { get; set; }
-            public string PhuCap { get; set; }
+            public double? PhuCap { get; set; }
             public string ThangLuong { get; set; }
         }
 

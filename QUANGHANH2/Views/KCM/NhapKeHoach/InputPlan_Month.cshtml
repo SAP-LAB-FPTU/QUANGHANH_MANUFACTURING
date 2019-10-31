@@ -1,7 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "InputPlan";
-    Layout = "~/Views/Shared/_Layout_KCS.cshtml";
+    Layout = "~/Views/Shared/_Layout_KCM.cshtml";
 }
 
 <link href="~/assets/Custom css/TABLE_BORDERED.css" rel="stylesheet" />
@@ -135,7 +135,7 @@
         console.log($("#cbx-px").val());
         $.ajax({
             type: 'post',
-            url: '/phong-dieu-khien/ke-hoach-san-xuat/lay-thong-tin',
+            url: '/phong-kcm/ke-hoach-san-xuat/lay-thong-tin',
             data: {
                 'month': $("#monthCalendar").val().split(" ")[1],
                 'year': $("#yearCalendar").val().split(" ")[1],
@@ -302,7 +302,7 @@
     function sendUpdateData(data) {
         setTimeout($('#pre-load').show(),3000)
         $.ajax({
-            url: "/phong-dieu-khien/ke-hoach-san-xuat/cap-nhat-thong-tin",
+            url: "/phong-kcm/ke-hoach-san-xuat/cap-nhat-thong-tin",
             type: "post",
             data: {
                 "data": data,
@@ -351,7 +351,7 @@
             //if (event.key === 'click') {
                 $.ajax({
                     type: "POST",
-                    url: "/phong-dieu-khien/ke-hoach-san-xuat/returnunit",
+                    url: "/phong-kcm/ke-hoach-san-xuat/returnunit",
                     data: JSON.stringify(tmp),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
