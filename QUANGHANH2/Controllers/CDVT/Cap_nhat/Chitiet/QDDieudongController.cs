@@ -33,7 +33,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
                     documentary = DBContext.Database.SqlQuery<Documentary>("SELECT docu.*, docu.[out/in_come] as out_in_come FROM Documentary_moveline_details as detail inner join Documentary as docu on detail.documentary_id = docu.documentary_id WHERE docu.documentary_code IS NOT NULL AND detail.documentary_id = @documentary_id",
                         new SqlParameter("documentary_id", id)).First();
                 }
-                if (documentary.documentary_status == 0) ViewBag.AddAble = true;
+                if (documentary.documentary_status == 1) ViewBag.AddAble = true;
                 else ViewBag.AddAble = false;
                 ViewBag.id = documentary.documentary_id;
                 ViewBag.code = documentary.documentary_code as string;

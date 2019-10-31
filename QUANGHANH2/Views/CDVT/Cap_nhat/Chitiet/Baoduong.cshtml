@@ -13,7 +13,7 @@
 <div class="card">
     <div class="card-content">
         <div class="row">
-            <h3 class="center">Chi tiết quyết định bảo dưỡng số @ViewBag.id</h3>
+            <h3 class="center">Chi tiết quyết định bảo dưỡng số @ViewBag.code</h3>
             <div class="col s12 table_container">
                 <table class="table-bordered striped table-responsive centered"
                        style="margin-top:30px; text-align:center;" id="complex_header">
@@ -32,8 +32,7 @@
             <input name="id" hidden value="@ViewBag.id" id="id" />
             @if (ViewBag.AddAble == true)
             {
-                <a class="btn blue" id="submit">Lưu</a>
-                <a class="btn blue darken-2 modal-trigger" href="#alert">Xác nhận đã xử lý</a>
+                <a class="btn blue darken-2 modal-trigger" href="#alert">Lưu</a>
             }
         </div>
     </div>
@@ -52,7 +51,7 @@
                             <tr>
                                 <th>Mã vật tư</th>
                                 <th>Số lượng xin cấp</th>
-                                <th>Số lượng Đã xử lý</th>
+                                <th>Số lượng đã nhận</th>
                                 <th>Số lượng sử dụng</th>
                                 <th>Số lượng lấy ra</th>
                                 <th>Ghi chú</th>
@@ -84,8 +83,8 @@
             <h4>Lưu ý: bạn không thể sửa đổi vật tư cho quyết định sau khi đã xử lý xong</h4>
         </div>
         <div class="modal-footer">
-            <a id="submit" class="waves-effect waves-light btn blue darken-2 modal-trigger">Lưu</a>
-            <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-button2">Thoát</button>
+            <a id="submit" class="waves-effect waves-light btn blue darken-2 modal-trigger modal-close">Lưu</a>
+            <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
         </div>
     </div>
 </div>
@@ -98,7 +97,7 @@
 </datalist>
 
 @section scripts{
-    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="~/js/jquery.dataTables.min.js"></script>
     <script>
         $("#complex_header").on("click", ".buttonChon", function () {
             if ($(this).text() == "Chưa xử lý") {
@@ -135,6 +134,7 @@
                 success: function (data) {
                     $(function () {
                         $.each(data, function (i, item) {
+                            var temp = item.supplyStatus == null ? "" : item.supplyStatus;
                             var $tr = $('<tr>').append(
                                 $('<td>').html('<input type="text" value="' + item.supply_id + '" readonly class="form-control" />'),
                                 $('<td>').html('<input type="text" value="' + item.quantity_plan + '" readonly class="form-control" />'),
@@ -166,7 +166,7 @@
             var output = {};
             var arr = [];
             var length = $("#test tr").length;
-            for (var i = 1 + created; i < length + created; i++) {
+            for (var i = 1; i < length; i++) {
                 var temp = {};
                 if ($("#mylist #test tbody tr:nth-child(" + i + ") input").eq(0).val() == "") break;
                 temp.supply_id = $("#mylist #test tbody tr:nth-child(" + i + ") td:nth-child(" + 1 + ") input").val();
@@ -197,7 +197,7 @@
     <script>
         var Popup, dataTable;
         $('#pre-load').show();
-        dataTable = $('#complex_header').dataTable({
+        dataTable = $('#complex_header').DataTable({
             "language": {
                 "emptyTable": "Không tìm thấy dữ liệu",
                 "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
@@ -262,6 +262,8 @@
                     if ($('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').text() == "Đã xử lý")
                         equipments += $('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').val() + "^"
                 }
+                if (equipments == "")
+                    return false;
                 $("#pre-load").show();
                 $.ajax({
                     type: "POST",
@@ -289,7 +291,6 @@
                     },
                     cache: false
                 })
-                return false;
             });
         })
 
