@@ -296,6 +296,7 @@
     <Compile Include="Controllers\KCS\ReportController.cs" />
     <Compile Include="Controllers\LogInController.cs" />
     <Compile Include="Controllers\ManagementUserController.cs" />
+    <Compile Include="Controllers\NotifiController.cs" />
     <Compile Include="Controllers\PhanXuong\PhanXuongController.cs" />
     <Compile Include="Controllers\PX\PXDS\PxdsController.cs" />
     <Compile Include="Controllers\PX\BaoCaoLenPhongDKController.cs" />
@@ -401,6 +402,7 @@
     <Compile Include="Models\Documentary_Improve_Detail.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Documentary_Improve_DetailDB.cs" />
     <Compile Include="Models\Documentary_liquidation_details.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -7365,6 +7367,7 @@
     <Content Include="Views\Shared\_Layout_KCM.cshtml" />
     <Content Include="Views\Shared\_Layout_Cam.cshtml" />
     <Content Include="Views\Camera\View.cshtml" />
+    <Content Include="Views\CDVT\Cap_nhat\Chitiet\Caitien.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7380,6 +7383,7 @@
     <Folder Include="Views\InputPlan_Month\" />
     <Folder Include="Views\Input\" />
     <Folder Include="Views\Laydanhsachvattu\" />
+    <Folder Include="Views\Notifi\" />
     <Folder Include="Views\PhanXuongReport\" />
     <Folder Include="Views\QDCaitien\" />
     <Folder Include="Views\Quanlyvattu\" />
