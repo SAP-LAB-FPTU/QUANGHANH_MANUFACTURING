@@ -24,6 +24,8 @@ namespace QUANGHANHCORE.Controllers.CDVT
         public class Supply_DK : Supply_DiKem
         {
             public string supply_name { get; set; }
+            public string unit { get; set; }
+
         }
 
         [HttpGet]
@@ -73,10 +75,10 @@ namespace QUANGHANHCORE.Controllers.CDVT
             var equipment = DBContext.Database.SqlQuery<EquipWithName>("SELECT e.*,d.department_name,s.statusname FROM Equipment e,Status s,Department d WHERE d.department_id = e.department_id and e.current_Status = s.statusid and e.equipmentId = @id", new SqlParameter("id", id)).First();
             ViewBag.equipment = equipment;
             //Vat tu di kem
-            var sup = DBContext.Database.SqlQuery<Supply_DK>("select e.*,s.supply_name from Supply_DiKem e join Supply s on e.supply_id = s.supply_id where e.equipmentId = @id", new SqlParameter("id", equipment.equipmentId)).ToList();
+            var sup = DBContext.Database.SqlQuery<Supply_DK>("select e.*,s.supply_name, s.unit,e.note from Supply_DiKem e join Supply s on e.supply_id = s.supply_id where e.equipmentId = @id", new SqlParameter("id", equipment.equipmentId)).ToList();
             ViewBag.sup = sup;
             //Vat tu du phong
-            var supDP = DBContext.Database.SqlQuery<Supply_DK>("select e.*,s.supply_name from Supply_DuPhong e join Supply s on e.supply_id = s.supply_id where e.equipmentId = @id", new SqlParameter("id", equipment.equipmentId)).ToList();
+            var supDP = DBContext.Database.SqlQuery<Supply_DK>("select e.*,s.supply_name, s.unit from Supply_DuPhong e join Supply s on e.supply_id = s.supply_id where e.equipmentId = @id", new SqlParameter("id", equipment.equipmentId)).ToList();
             ViewBag.supDP = supDP;
             //NK kiem dinh
             years = DBContext.Database.SqlQuery<int>("SELECT distinct year(ei.inspect_start_date) as years FROM Equipment_Inspection ei inner join Equipment e on e.equipmentId = ei.equipmentId where ei.inspect_start_date is not null and e.equipmentId = @equipmentId order by years desc",
@@ -273,18 +275,18 @@ namespace QUANGHANHCORE.Controllers.CDVT
         }
 
         [HttpPost]
-        public ActionResult updateDK(string id, string supid, int quan)
+        public ActionResult updateDK(string id, string supid, int quan, string dvt, string note)
         {
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             using (DbContextTransaction dbc = DBContext.Database.BeginTransaction())
             {
                 try
                 {
-                    string sql = "update Supply_DiKem set quantity = @quan where supply_id = @supid and equipmentId = @eid";
-                    DBContext.Database.ExecuteSqlCommand(sql, new SqlParameter("quan", quan), new SqlParameter("supid", supid), new SqlParameter("eid", id));
+                    string sql = "update Supply_DiKem set quantity = @quan, note = @note where supply_id = @supid and equipmentId = @eid";
+                    DBContext.Database.ExecuteSqlCommand(sql, new SqlParameter("quan", quan), new SqlParameter("note", note), new SqlParameter("supid", supid), new SqlParameter("eid", id));
                     DBContext.SaveChanges();
                     dbc.Commit();
-                    var sup = DBContext.Database.SqlQuery<Supply_DK>("select e.*,s.supply_name from Supply_DiKem e join Supply s on e.supply_id = s.supply_id where e.equipmentId = @id", new SqlParameter("id", id)).ToList();
+                    var sup = DBContext.Database.SqlQuery<Supply_DK>("select e.*,s.supply_name,s.unit from Supply_DiKem e join Supply s on e.supply_id = s.supply_id where e.equipmentId = @id", new SqlParameter("id", id)).ToList();
                     return Json(new { success = true, data = sup }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)
@@ -299,7 +301,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
         }
 
         [HttpPost]
-        public ActionResult addDK(string id, string nameSup, int quan)
+        public ActionResult addDK(string id, string nameSup, int quan, string dvt, string note)
         {
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             using (DbContextTransaction dbc = DBContext.Database.BeginTransaction())
@@ -320,7 +322,6 @@ namespace QUANGHANHCORE.Controllers.CDVT
                                 break;
                             }
                         }
-                        string note = "";
                         string sql_sup = "insert into Supply_DiKem values (@supid, @eid, @quan, @note)";
                         DBContext.Database.ExecuteSqlCommand(sql_sup
                             , new SqlParameter("@supid", s.supply_id)
@@ -333,7 +334,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                     }
                     DBContext.SaveChanges();
                     dbc.Commit();
-                    var sup = DBContext.Database.SqlQuery<Supply_DK>("select e.*,s.supply_name from Supply_DiKem e join Supply s on e.supply_id = s.supply_id where e.equipmentId = @id", new SqlParameter("id", id)).ToList();
+                    var sup = DBContext.Database.SqlQuery<Supply_DK>("select e.*,s.supply_name,s.unit from Supply_DiKem e join Supply s on e.supply_id = s.supply_id where e.equipmentId = @id", new SqlParameter("id", id)).ToList();
                     return Json(new { success = true, data = sup }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)
@@ -446,6 +447,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             }
 
         }
+
 
 
 
