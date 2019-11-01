@@ -17,9 +17,14 @@
             border-radius: 50%;
             padding: 3px 8px;
         }
-
+        #noti_dropdown{
+            top:65px !important;
+        }
         .notif {
             position: absolute;
+        }
+        #drop {
+            height: 64px !important;
         }
     </style>
     <meta charset="utf-8">
@@ -172,7 +177,7 @@
                         <!-- Notification icon scss in header.scss -->
                         <!-- ============================================================== -->
                         <li>
-                            <a class="dropdown-trigger" href="#!" data-target="noti_dropdown">
+                            <a class="dropdown-trigger" id="drop" href="#!" data-target="noti_dropdown">
                                 <i class="small material-icons" >notifications</i>
                                 <small class="notification-badge" id="number"></small>
                             </a>
@@ -207,7 +212,7 @@
                         <!-- ============================================================== -->
                         <!-- Comment topbar icon scss in header.scss -->
                         <!-- ============================================================== -->
-                        <li>
+                        @*<li>
                             <a class="dropdown-trigger" href="javascript: void(0);" data-target="msg_dropdown">
                                 <i class="small material-icons">comment</i>
                             </a>
@@ -217,8 +222,8 @@
                                 </li>
                                 <li>
                                     <div class="message-center">
-                                        <!-- Message -->
-                                        @*<a href="#">
+                                         Message 
+                                        <a href="#">
                                                 <span class="user-img">
                                                     <img src="~/assets/images/users/2.jpg" alt="user" class="circle">
                                                     <span class="profile-status online pull-right"></span>
@@ -228,7 +233,7 @@
                                                     <span class="mail-desc">Gửi báo cáo chưa ? </span>
                                                     <span class="time">9:30 AM</span>
                                                 </span>
-                                            </a>*@
+                                            </a>
                                     </div>
                                 </li>
                                 <li>
@@ -237,7 +242,7 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>
+                        </li>*@
                     </ul>
                     <!-- ============================================================== -->
                     <!-- Left topbar icon scss in header.scss -->
