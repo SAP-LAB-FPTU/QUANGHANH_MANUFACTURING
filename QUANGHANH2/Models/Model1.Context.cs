@@ -32,6 +32,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<Activity> Activities { get; set; }
         public virtual DbSet<BangCap_GiayChungNhan> BangCap_GiayChungNhan { get; set; }
         public virtual DbSet<BaoCaoFile> BaoCaoFiles { get; set; }
+        public virtual DbSet<Camera> Cameras { get; set; }
         public virtual DbSet<Car> Cars { get; set; }
         public virtual DbSet<CarGP> CarGPS { get; set; }
         public virtual DbSet<Category_attribute_value> Category_attribute_value { get; set; }
@@ -48,6 +49,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<DieuDong_NhanVien> DieuDong_NhanVien { get; set; }
         public virtual DbSet<Documentary> Documentaries { get; set; }
         public virtual DbSet<Documentary_big_maintain_details> Documentary_big_maintain_details { get; set; }
+        public virtual DbSet<Documentary_camera_repair_details> Documentary_camera_repair_details { get; set; }
         public virtual DbSet<Documentary_Improve_Detail> Documentary_Improve_Detail { get; set; }
         public virtual DbSet<Documentary_liquidation_details> Documentary_liquidation_details { get; set; }
         public virtual DbSet<Documentary_maintain_details> Documentary_maintain_details { get; set; }
@@ -87,6 +89,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<QuanHeGiaDinh> QuanHeGiaDinhs { get; set; }
         public virtual DbSet<QuaTrinhCongTac> QuaTrinhCongTacs { get; set; }
         public virtual DbSet<QuyetDinh> QuyetDinhs { get; set; }
+        public virtual DbSet<Room> Rooms { get; set; }
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<Supply> Supplies { get; set; }
         public virtual DbSet<Supply_DiKem> Supply_DiKem { get; set; }
@@ -101,5 +104,6 @@ namespace QUANGHANH2.Models
         public virtual DbSet<TrinhDo> TrinhDoes { get; set; }
         public virtual DbSet<Truong> Truongs { get; set; }
         public virtual DbSet<TuyenDung_NhanVien> TuyenDung_NhanVien { get; set; }
+        public virtual DbSet<Disk> Disks { get; set; }
     }
 }
