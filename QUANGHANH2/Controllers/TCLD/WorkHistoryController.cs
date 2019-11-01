@@ -16,6 +16,7 @@ namespace QUANGHANH2.Controllers.TCLD
         {
             return View();
         }
+        [Route("lich-su-lam-viec")]
         [HttpGet]
         public ActionResult WorkHistory(string id)
         {

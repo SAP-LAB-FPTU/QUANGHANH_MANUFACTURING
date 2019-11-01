@@ -33,7 +33,7 @@
             <input name="id" hidden value="@ViewBag.id" id="id" />
             @if (ViewBag.AddAble == true)
             {
-                <a class="btn blue" id="submit">Lưu</a>
+            <a class="btn blue darken-2 modal-trigger" href="#alert">Lưu</a>
             }
         </div>
     </div>
@@ -52,7 +52,7 @@
                             <tr>
                                 <th>Mã vật tư</th>
                                 <th>Số lượng xin cấp</th>
-                                <th>Số lượng Đã xử lý</th>
+                                <th>Số lượng đã nhận</th>
                                 <th>Số lượng sử dụng</th>
                                 <th>Số lượng lấy ra</th>
                                 <th>Ghi chú</th>
@@ -84,8 +84,8 @@
             <h4>Lưu ý: bạn không thể sửa đổi vật tư cho quyết định sau khi đã xử lý xong</h4>
         </div>
         <div class="modal-footer">
-            <a id="submit" class="waves-effect waves-light btn blue darken-2 modal-trigger">Lưu</a>
-            <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-button2">Thoát</button>
+            <a id="submit" class="waves-effect waves-light btn blue darken-2 modal-trigger modal-close">Lưu</a>
+            <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
         </div>
     </div>
 </div>
@@ -260,45 +260,41 @@
             }
         });
 
-        $(document).on('click', '#submit', function () {
-            $("#submit").click(function (e) {
-
-                var equipments = "";
-                for (var i = 0; i < $('#complex_header tbody tr').length; i++) {
-                    if ($('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').text() == "Đã xử lý")
-                        equipments += $('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').val() + "^"
-                }
-                $("#pre-load").show();
-                $.ajax({
-                    type: "POST",
-                    url: "/phong-cdvt/cap-nhat/quyet-dinh/sua-chua/edit",
-                    dataType: "json",
-                    success: function (data) {
-                        if (data.success == true) {
-                            $('#pre-load').hide();
-                            successAlert(data.message, '');
-                            table.ajax.reload(function () {
-
-                            });
-
-                        }
-                        else {
-                            errorAlert('Lỗi', data.message);
-                            $('#pre-load').hide();
-                        }
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        $('#pre-load').hide();
-                        errorAlert('Lỗi');
-                    },
-                    data: {
-                        id: $('#id').val(),
-                        edit: equipments
-                    },
-                    cache: false
-                })
+        $("#submit").click(function myfunction() {
+            var equipments = "";
+            for (var i = 0; i < $('#complex_header tbody tr').length; i++) {
+                if ($('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').text() == "Đã xử lý")
+                    equipments += $('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').val() + "^"
+            }
+            if (equipments == "")
                 return false;
-            });
+            $("#pre-load").show();
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/cap-nhat/quyet-dinh/sua-chua/edit",
+                dataType: "json",
+                success: function (data) {
+                    if (data.success == true) {
+                        dataTable.ajax.reload(function () {
+                            $('#pre-load').hide();
+                            successAlert(data.message);
+                        });
+                    }
+                    else {
+                        $('#pre-load').hide();
+                        errorAlert(data.message);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#pre-load').hide();
+                    errorAlert('Lỗi');
+                },
+                data: {
+                    id: $('#id').val(),
+                    edit: equipments
+                },
+                cache: false
+            })
         })
 
         $("#submitvattu").click(function () {
@@ -308,7 +304,7 @@
             $.ajax({
                 type: "POST",
                 url: "/phong-cdvt/cap-nhat/quyet-dinh/AddSupply",
-                dataType: "text",
+                dataType: "json",
                 success: function (data) {
                     if (data.success) {
                         successAlert(data.message);
