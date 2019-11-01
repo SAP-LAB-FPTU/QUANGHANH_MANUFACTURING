@@ -86,16 +86,12 @@
                             <tr>
                                 <th>Mã vật tư</th>
                                 <th>Số lượng</th>
-                                <th>Ghi chú</th>
-                                <th>Nơi lĩnh</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><input type='text' list='supplyID' class='form-control required' /></td>
                                 <td><input type='number' min='1' value='1' class='form-control' /></td>
-                                <td><input type='text' class='form-control' /></td>
-                                <td><input type='text' list='departmentName' class='form-control required' /></td>
                             </tr>
                         </tbody>
                     </table>
@@ -184,9 +180,7 @@
                 var item = output[id].vattu[i];
                 var $tr = $('<tr>').append(
                     $('<td>').html("<input type='text' list='supplyID' class='form-control required' value='" + item.supply_id + "' /> "),
-                    $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> "),
-                    $('<td>').html("<input type='text' class='form-control' value='" + item.note + "' />"),
-                    $('<td>').html("<input type='text' list='departmentName' class='form-control required' value='" + item.department_id + "' /> ")
+                    $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> ")
                 );
                 $tr.appendTo('#test tbody');
             }
@@ -196,9 +190,7 @@
     $("#addcolumn").click(function () {
         var $tr = $('<tr>').append(
             $('<td>').html("<input type='text' list='supplyID' class='form-control required' />"),
-            $('<td>').html("<input type='number' min='1' value='1' class='form-control' />"),
-            $('<td>').html("<input type='text' class='form-control' />"),
-            $('<td>').html("<input type='text' value='" + $('#depa-id').val() + "' list='departmentName' class='form-control required' />")
+            $('<td>').html("<input type='number' min='1' value='1' class='form-control' />")
         );
         $tr.appendTo('#test tbody');
     });

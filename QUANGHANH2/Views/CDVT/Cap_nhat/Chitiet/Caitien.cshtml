@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "thanh-li";
+    ViewData["Title"] = "cai-tien";
     if (Session["departID"].ToString().Contains("PX"))
     {
         Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
@@ -13,7 +13,7 @@
 <div class="card">
     <div class="card-content">
         <div class="row">
-            <h3 class="center">Chi tiết quyết định thanh lý số @ViewBag.code</h3>
+            <h3 class="center">Chi tiết quyết định cải tiến số @ViewBag.code</h3>
             <div class="col s12 table_container">
                 <table class="table-bordered striped table-responsive centered"
                        style="margin-top:30px; text-align:center;" id="complex_header">
@@ -21,9 +21,8 @@
                         <tr>
                             <th>Mã thiết bị</th>
                             <th>Tên thiết bị</th>
-                            <th>Bên mua</th>
-                            <th>Danh sách vật tư đi kèm</th>
-                            <th>Danh sách vật tư dự phòng</th>
+                            <th>Vị trí ban đầu</th>
+                            <th>Vật tư trong quyết định</th>
                             <th>Đã xử lý</th>
                         </tr>
                     </thead>
@@ -46,7 +45,7 @@
         <div class="modal-header">
             <h3 class="modal-title" id="listId">Danh sách vật tư đi kèm</h3>
         </div>
-        <div class="modal-body">
+        <div class="modal-body table_container">
             <div class="row">
                 <table id="test" class="striped table-responsive centered table-bordered mytable">
                     <thead>
@@ -55,34 +54,9 @@
                             <th>Tên vật tư</th>
                             <th>Số lượng trong quyết định</th>
                             <th>Số lượng đã nhận</th>
+                            <th>Số lượng đã sử dụng</th>
+                            <th>Số lượng thu hồi</th>
                             <th>Ghi chú</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <a class="waves-effect waves-light btn blue darken-2 modal-trigger submitvattu">Lưu</a>
-            <button type="button" class="btn light-blue lighten-1 modal-close exit-button">Thoát</button>
-        </div>
-    </div>
-</div>
-
-<div class="modal" id="mylist2">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title" id="listId2">Danh sách vật tư dự phòng</h3>
-        </div>
-        <div class="modal-body table_container">
-            <div class="row">
-                <table id="test2" class="striped table-responsive centered table-bordered mytable">
-                    <thead>
-                        <tr>
-                            <th>Mã vật tư</th>
-                            <th>Tên vật tư</th>
-                            <th>Số lượng trong quyết định</th>
-                            <th>Số lượng đã nhận</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -130,18 +104,9 @@
                 if ($("#test tbody tr:nth-child(" + i + ") input").eq(0).val() == "") break;
                 temp.supply_id = $("#test tbody tr:nth-child(" + i + ") td:nth-child(" + 1 + ") input").val();
                 temp.quantity_in = $("#test tbody tr:nth-child(" + i + ") td:nth-child(" + 4 + ") input").val();
-                temp.supplyStatus = $("#test tbody tr:nth-child(" + i + ") td:nth-child(" + 5 + ") input").val();
-                arr.push(temp);
-            }
-        }
-        else {
-            var length = $("#test2 tr").length;
-            for (var i = 1; i < length; i++) {
-                var temp = {};
-                if ($("#test2 tbody tr:nth-child(" + i + ") input").eq(0).val() == "") break;
-                temp.supply_id = $("#test2 tbody tr:nth-child(" + i + ") td:nth-child(" + 1 + ") input").val();
-                temp.quantity_in = $("#test2 tbody tr:nth-child(" + i + ") td:nth-child(" + 4 + ") input").val();
-                temp.supplyStatus = $("#test2 tbody tr:nth-child(" + i + ") td:nth-child(" + 5 + ") input").val();
+                temp.quantity_used = $("#test tbody tr:nth-child(" + i + ") td:nth-child(" + 5 + ") input").val();
+                temp.quantity_out = $("#test tbody tr:nth-child(" + i + ") td:nth-child(" + 6 + ") input").val();
+                temp.supplyStatus = $("#test tbody tr:nth-child(" + i + ") td:nth-child(" + 7 + ") input").val();
                 arr.push(temp);
             }
         }
@@ -168,7 +133,7 @@
                 }
             },
             "ajax": {
-                "url": "/phong-cdvt/cap-nhat/quyet-dinh/thanh-ly/GetData",
+                "url": "/phong-cdvt/cap-nhat/quyet-dinh/cai-tien/GetData",
                 "type": "POST",
                 "datatype": "json",
                 "data": {
@@ -179,15 +144,10 @@
             "columns": [
                 { "data": "equipmentId", "name": "equipmentId" },
                 { "data": "equipment_name", "name": "equipment_name" },
-                { "data": "buyer", "name": "buyer" },
+                { "data": "department_name", "name": "department_name" },
                 {
                     "data": "idAndEquip", "name": "person_created", "render": function (data) {
-                        return "<a data-list=\"" + data + "\" class=\"waves-effect waves-light btn-small blue modal-trigger open-Modal\" href=\"#mylist\">Vật tư đi kèm</a>";
-                    }
-                },
-                {
-                    "data": "idAndEquip", "name": "person_created", "render": function (data) {
-                        return "<a data-list=\"" + data + "\" class=\"waves-effect waves-light btn-small blue modal-trigger open-Modal2\" href=\"#mylist2\">Vật tư dự phòng</a>";
+                        return "<a data-list=\"" + data + "\" class=\"waves-effect waves-light btn-small blue modal-trigger open-Modal\" href=\"#mylist\">Chi tiết</a>";
                     }
                 },
                 {
@@ -228,7 +188,7 @@
             $("#pre-load").show();
             $.ajax({
                 type: "POST",
-                url: "/phong-cdvt/cap-nhat/quyet-dinh/thanh-ly/edit",
+                url: "/phong-cdvt/cap-nhat/quyet-dinh/cai-tien/edit",
                 dataType: "json",
                 success: function (data) {
                     if (data.success == true) {
@@ -289,7 +249,7 @@
             $("#pre-load").show();
             $("#test").find("tr:gt(0)").remove();
             var QDIdAndEquipId = $(this).data('list');
-            $('#listId').text("Danh sách vật tư đi kèm của thiết bị " + QDIdAndEquipId.split("^")[1])
+            $('#listId').text("Danh sách vật tư thêm cho thiết bị " + QDIdAndEquipId.split("^")[1])
             $("#mathietbi").val(QDIdAndEquipId.split("^")[1])
             $("#maquyetdinh").val(QDIdAndEquipId.split("^")[0])
             $("#type").val(1);
@@ -305,47 +265,11 @@
                             $('<td>').text(item.supply_name),
                             $('<td>').text(item.quantity_plan),
                             $('<td>').html("<input class='form-control' type='number' min='" + item.quantity_in + "' max='" + item.quantity_plan + "' value='" + item.quantity_in + "' />"),
+                            $('<td>').html("<input class='form-control' type='number' min='" + item.quantity_used + "' max='" + item.quantity_plan + "' value='" + item.quantity_used + "' />"),
+                            $('<td>').html("<input class='form-control' type='number' min='" + item.quantity_out + "' max='" + item.quantity_plan + "' value='" + item.quantity_out + "' />"),
                             $('<td>').html("<input class='form-control' type='text' value='" + temp + "' />")
                         );
                         $tr.appendTo('#test tbody');
-                    });
-                    $("#pre-load").hide();
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    errorAlert('Lỗi');
-                },
-                data: {
-                    documentary_id: QDIdAndEquipId.split("^")[0],
-                    equipmentId: QDIdAndEquipId.split("^")[1]
-                },
-                cache: false
-            })
-        });
-
-        $(document).on("click", ".open-Modal2", function () {
-            $("#pre-load").show();
-            $("#test2").find("tr:gt(0)").remove();
-            var QDIdAndEquipId = $(this).data('list');
-            var response = {};
-            $('#listId2').text("Danh sách vật tư dự phòng của thiết bị " + QDIdAndEquipId.split("^")[1])
-            $("#mathietbi").val(QDIdAndEquipId.split("^")[1])
-            $("#maquyetdinh").val(QDIdAndEquipId.split("^")[0])
-            $("#type").val(2);
-            $.ajax({
-                type: "POST",
-                url: "/phong-cdvt/cap-nhat/quyet-dinh/GetSupplyDuPhong",
-                dataType: "json",
-                success: function (data) {
-                    $(function () {
-                        $.each(data, function (i, item) {
-                            var $tr = $('<tr>').append(
-                                $('<td>').html("<input readonly class='form-control' type='text' value='" + item.supply_id + "' />"),
-                                $('<td>').text(item.supply_name),
-                                $('<td>').text(item.quantity_plan),
-                                $('<td>').html("<input class='form-control' type='number' min='" + item.quantity_in + "' max='" + item.quantity_plan + "' value='" + item.quantity_in + "' />"),
-                            );
-                            $tr.appendTo('#test2 tbody');
-                        });
                     });
                     $("#pre-load").hide();
                 },
