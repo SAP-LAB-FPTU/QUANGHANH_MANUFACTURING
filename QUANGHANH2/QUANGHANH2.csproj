@@ -182,6 +182,7 @@
     <Compile Include="Controllers\BGD\DK\HumanResourceController.cs" />
     <Compile Include="Controllers\BGD\SummaryReportController.cs" />
     <Compile Include="Controllers\BGD\TCLD\PeformanceAndSalaryReportController.cs" />
+    <Compile Include="Controllers\Camera\CamController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\CapnhathoatdongController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\CapnhatsucoController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\ChitietController.cs" />
@@ -7364,6 +7365,8 @@
     <Content Include="Views\CDVT\Work\CaiTien\ThemCaiTien.cshtml" />
     <Content Include="Views\DK\Department_Criteria.cshtml" />
     <Content Include="Views\Shared\_Layout_KCM.cshtml" />
+    <Content Include="Views\Shared\_Layout_Cam.cshtml" />
+    <Content Include="Views\Camera\View.cshtml" />
     <Content Include="Views\CDVT\Cap_nhat\Chitiet\Caitien.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -7372,6 +7375,7 @@
     <Folder Include="FileContainer\PhanXuongLenDK\" />
     <Folder Include="Library\" />
     <Folder Include="Views\BaoCaoLenPhongDK\" />
+    <Folder Include="Views\Cam\" />
     <Folder Include="Views\DepartmentDaily\" />
     <Folder Include="Views\Department_Criteria\" />
     <Folder Include="Views\GPS\" />
