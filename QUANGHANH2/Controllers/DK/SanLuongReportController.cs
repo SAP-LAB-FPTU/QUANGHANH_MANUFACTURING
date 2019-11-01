@@ -108,8 +108,10 @@ namespace QUANGHANH2.Controllers.DK
             //
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                int tongsongay = (int) db.header_KeHoachTungThang.First(x=> x.ThangKeHoach == timeEnd.Month && x.NamKeHoach == timeEnd.Year).SoNgayLamViec;
-                int ngaylam = (int)db.header_ThucHienTheoNgay.First(x => x.Ngay == timeEnd).NgaySanXuat;
+                var tongsongayDB = db.header_KeHoachTungThang.FirstOrDefault(x=> x.ThangKeHoach == timeEnd.Month && x.NamKeHoach == timeEnd.Year);
+                int tongsongay = tongsongayDB == null ?1: (int)tongsongayDB.SoNgayLamViec;
+                var headerDateWorked = db.header_ThucHienTheoNgay.FirstOrDefault(x => x.Ngay == timeEnd);
+                int ngaylam = headerDateWorked == null ? 0 : (int)headerDateWorked.NgaySanXuat;
                 //
                 var listReport = db.Database.SqlQuery<reportEntity>(query, new SqlParameter("dateStart", timeStart), new SqlParameter("dateEnd", timeEnd)).ToList();
                 var list_KHDC = db.Database.SqlQuery<KHDCEntity>(query_KHDC, new SqlParameter("month", timeEnd.Month), new SqlParameter("year", timeEnd.Year)).ToList();
@@ -252,7 +254,7 @@ namespace QUANGHANH2.Controllers.DK
         [Route("phong-dieu-khien/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty")]
         public ActionResult getReport()
         {
-            DateTime timeEnd = Convert.ToDateTime("2019-09-10");
+            DateTime timeEnd = Convert.ToDateTime(Request["date"]);
             var timeStart = Convert.ToDateTime("" + timeEnd.Year + "-" + timeEnd.Month + "-1");
             //
             var reports = getData(timeStart, timeEnd);
