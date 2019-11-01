@@ -12,11 +12,12 @@
     }
 
     #yearCalendar {
-        width: 15% !important;
+        width: 20% !important;
         float: right;
     }
 
     #view-btn {
+        width:170px;
         float: left;
     }
     /*.sticky + .table-content {
@@ -40,12 +41,14 @@
                 </h3>
 
                 <div class="row">
-                    <div class="col l6 m6 s6">
-                        <input id="yearCalendar" class=" datepicker-here datepicker-add center"
-                               data-language='vi'
-                               data-date-format="dd-mm-yyyy"
-                               required />
-                    </div>
+                    <h3>
+                        <div class="col l6 m6 s6">
+                            <input id="yearCalendar" class=" datepicker-here datepicker-add center"
+                                   data-language='vi'
+                                   data-date-format="dd-mm-yyyy"
+                                   required />
+                        </div>
+                    </h3>
                     <div class="col l6 m6 s6">
                         <a id="view-btn" class="waves-effect waves-light btn blue darken-2" onclick="getInformation()">XEM</a>
                     </div>
@@ -66,8 +69,8 @@
                         <th rowspan="2">STT</th>
                         <th rowspan="2">TOÀN CÔNG TY</th>
                         <th rowspan="2">BQKHDC THÁNG</th>
-                        <th colspan="7">Ngày 10 tháng 09 năm 2019</th>
-                        <th colspan="3">Tháng 9</th>
+                        <th colspan="7" id="date-cell"></th>
+                        <th colspan="3" id="month-cell"></th>
                         <th colspan="2">C.LẠI THEO KHĐC</th>
                         <th rowspan="2">GHI CHÚ</th>
                     </tr>
@@ -130,6 +133,11 @@
             success: function (response) {
                 data = JSON.parse(response.data);
                 content = "";
+                var ngay = $("#yearCalendar").val().split("-")[0];
+                var thang= $("#yearCalendar").val().split("-")[1];
+                var nam = $("#yearCalendar").val().split("-")[2];
+                $("#date-cell").text("Ngày "+ngay +" tháng "+thang+" năm "+nam);
+                $("#month-cell").text("Tháng "+thang);
                 tieuchiName = ["TenTieuChi", "BQQHDC", "Ca1", "Ca2", "Ca3", "TH", "KH", "chenhlech", "percentage", "luyke", "KHDC", "percentageDC", "SUM", "perday", "GhiChu"]
                 let count = 1;
                 for (let index = 0; index < data.length; index++) {

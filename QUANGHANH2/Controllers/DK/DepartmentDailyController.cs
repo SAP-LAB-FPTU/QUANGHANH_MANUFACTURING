@@ -129,7 +129,9 @@ namespace QUANGHANH2.Controllers.DK
             DateTime timeEnd = Convert.ToDateTime(Request["date"]);
             var timeStart = Convert.ToDateTime("" + timeEnd.Year + "-" + timeEnd.Month + "-1");
             var reports = getListReport(timeStart, timeEnd);
-
+            var nam = Request["date"].Split('-')[0];
+            var thang = Request["date"].Split('-')[1];
+            var ngay = Request["date"].Split('-')[2];
             //////////////////////////////////////////////////////////////////////////////////////
 
             string path = HostingEnvironment.MapPath("/excel/DK/DailyDepartment/templateBaoCaoTheoPhanXuong.xlsx");
@@ -141,6 +143,8 @@ namespace QUANGHANH2.Controllers.DK
 
                 int k = 0;
                 int count = 0;
+                excelWorksheet.Cells[1, 4].Value = "Ngày " + ngay + " tháng " + thang + " năm " + nam;
+                excelWorksheet.Cells[1, 11].Value = "Tháng " + thang;
                 for (int i = 3; i <= reports.Count + 2; i++)
                 {
                     if (reports[k].isHeader)
