@@ -5,11 +5,9 @@
 
 <div class="card">
     <div class="card-content">
-        <div class="row">
+        <div class="row center">
             <div class="col m12">
-                <div class="center">
-                    <h3><b>CHI TIẾT THU HỒI</b></h3>
-                </div>
+                <h3><b>CHI TIẾT THU HỒI</b></h3>
                 @if (ViewBag.validate == 0)
                 {
                     <h4>Bạn đã chọn 2 hoặc nhiều thiết bị khác vị trí, xin vui lòng <a href="/phong-cdvt/thu-hoi">quay lại</a></h4>
@@ -54,10 +52,10 @@
                                             <input type='text' class='form-control' />
                                         </td>
                                         <td>
-                                            <a class="btn blue darken-2 modal-trigger open-Modal" data-id="@i" href="#mylist">Vật tư đi kèm</a>
+                                            <a class="btn blue darken-2 modal-trigger open-Modal" data-id="@i" href="#mylist">VT đi kèm</a>
                                         </td>
                                         <td>
-                                            <a class="btn blue darken-2 modal-trigger open-Modal2" data-id="@i" href="#mylist">Vật tư dự phòng</a>
+                                            <a class="btn blue darken-2 modal-trigger open-Modal2" data-id="@i" href="#mylist">VT dự phòng</a>
                                         </td>
                                     </tr>
                                     }
@@ -230,36 +228,6 @@
         })
     })
 
-    $("#addcolumn").click(function () {
-        var $tr = $('<tr>').append(
-            $('<td>').html("<input type='text' list='supplyID' class='form-control required' />"),
-            $('<td>').html("<input type='number' min='1' value='1' class='form-control' />"),
-        );
-        $tr.appendTo('#test tbody');
-    });
-    //tạo json cho thiết bị khi nhập submit vật tư
-    $("#submitvattu").click(function () {
-        if ($('#mylist #test tr').length > 1) {
-            var thietbi = {};
-            var arr = [];
-            var rownumber = $('#rownumber').val();
-            thietbi.id = $('#' + rownumber + ' td:first-child').text();
-            for (var i = 1; i < $('#test tbody tr').length + 1; i++) {
-                if ($('#mylist #test tbody tr:nth-child(' + i + ') input').eq(0).val() != "" &&
-                    $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(2).val() != "") {
-                    var vattu = {};
-                    vattu.supply_id = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(0).val();
-                    vattu.quantity = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(1).val();
-                    vattu.supplyStatus = null;
-                    arr.push(vattu);
-                }
-            }
-            thietbi.vattu = arr;
-            output[rownumber] = thietbi;
-            $('#json').val(JSON.stringify(output))
-        }
-    })
-
     $(document).ready(function () {
         for (var i = 0; i < $('#mytablevattu tbody tr').length; i++) {
             var thietbi = {};
@@ -275,32 +243,11 @@
     <script>
         //validate
         $('#submit').click(function () {
-            var validate = 1;
-            $(':input[required]:visible').each(function () {
-                if ($(this).val() == "") {
-                    $(this).focus();
-                    validate = 0;
-                }
-            })
-            if (validate == 1) {
-                if (Object.keys(output).length < $('#mytablevattu tbody tr').length)
-                    $.notify("phải điền đầy đủ vật tư vào thiết bị", {
-                        globalPosition: "top center",
-                        className: "error"
-                    });
-                else {
-                    for (var key in output) {
-                        output[key].equipment_revoke_reason = $('#' + key + ' input').eq(0).val();
-                    }
-                    $('#json').val(JSON.stringify(output))
-                    $('#confirm').modal("open");
-
-                }
-            } else
-                $.notify("không được bổ trống ô này", {
-                    globalPosition: "top center",
-                    className: "error"
-                });
+            for (var key in output) {
+                output[key].equipment_revoke_reason = $('#' + key + ' input').eq(0).val();
+            }
+            $('#json').val(JSON.stringify(output))
+            $('#confirm').modal("open");
         })
 
         $('#create').click(function () {

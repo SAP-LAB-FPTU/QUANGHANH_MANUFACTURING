@@ -43,6 +43,7 @@
                                         <th class="center-align">Đến ngày<span></span></th>
                                         <th class="center-align">Lý do điều động (không bắt buộc)<span></span></th>
                                         <th></th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -52,7 +53,6 @@
                                         <td>@ViewBag.DataThietBi[i].equipmentId</td>
                                         <td>@ViewBag.DataThietBi[i].equipment_name</td>
                                         <td>@ViewBag.DataThietBi[i].statusname</td>
-
                                         <td>
                                             <input list='departmentName' type="text" required class="form-control" />
                                         </td>
@@ -66,7 +66,10 @@
                                             <input type='text' class='form-control' />
                                         </td>
                                         <td>
-                                            <a class="btn blue darken-2 modal-trigger open-Modal" data-id="@i" href="#mylist">Vật tư đi kèm</a>
+                                            <a class="btn blue darken-2 modal-trigger open-Modal" data-id="@i" href="#mylist">VT đi kèm</a>
+                                        </td>
+                                        <td>
+                                            <a class="btn blue darken-2 modal-trigger open-Modal-DuPhong" data-id="@i" href="#mylist">VT dự phòng</a>
                                         </td>
                                     </tr>
                                     }
@@ -74,6 +77,7 @@
                             </table>
                         </div>
                     </form>
+                    <input hidden readonly id="type" />
                     <div class="col l12 m12 s12 center">
                         <a id="export-button" class="btn blue darken-2">Xuất quyết định</a>
                         <a id="submit" class="btn blue darken-2 modal-trigger">Xác nhận điều động thiết bị</a>
@@ -149,6 +153,17 @@
     var output = {};
 
     $(document).ready(function () {
+        for (var i = 0; i < $('#mytablevattu tbody tr').length; i++) {
+            var thietbi = {};
+            thietbi.id = $('#mytablevattu tbody tr:nth-child(' + (i + 1) + ') td').eq(0).text();
+            thietbi.dikem = [];
+            thietbi.duphong = [];
+            output[i] = thietbi;
+        }
+        $('#json').val(JSON.stringify(output))
+    })
+
+    $(document).ready(function () {
         $('input[required]').each(function myfunction() {
             $(this).attr("oninvalid", "setCustomValidity('Không được bỏ trống ô này')");
             $(this).attr("oninput", "this.setCustomValidity('')");
@@ -186,7 +201,8 @@
         $("#test").find("tr:gt(0)").remove();
         var equipmentId = $('#' + id + ' td:first-child').text();
         $('#listId').text("Danh sách vật tư đi kèm của thiết bị " + equipmentId)
-        if (output[id].vattu.length == 0) {
+        $('#type').val(0);
+        if (output[id].dikem.length == 0) {
             $.ajax({
                 type: "POST",
                 url: "/phong-cdvt/thiet-bi/get-supply",
@@ -211,8 +227,53 @@
             })
         }
         else {
-            for (var i = 0; i < output[id].vattu.length; i++) {
-                var item = output[id].vattu[i];
+            for (var i = 0; i < output[id].dikem.length; i++) {
+                var item = output[id].dikem[i];
+                var $tr = $('<tr>').append(
+                    $('<td>').html("<input type='text' list='supplyID' class='form-control required' value='" + item.supply_id + "' /> "),
+                    $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> ")
+                );
+                $tr.appendTo('#test tbody');
+            }
+            $('#pre-load').hide();
+        }
+    })
+
+    $(document).on("click", ".open-Modal-DuPhong", function () {
+        $('#pre-load').show();
+        var id = $(this).data('id');
+        $('#rownumber').val(id);
+        $("#test").find("tr:gt(0)").remove();
+        var equipmentId = $('#' + id + ' td:first-child').text();
+        $('#listId').text("Danh sách vật tư dự phòng của thiết bị " + equipmentId)
+        $('#type').val(1);
+        if (output[id].duphong.length == 0) {
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/thiet-bi/get-supply2",
+                dataType: "json",
+                success: function (data) {
+                    $.each(data, function (i, item) {
+                        var $tr = $('<tr>').append(
+                            $('<td>').html("<input type='text' list='supplyID' class='form-control required' value='" + item.supply_id + "' /> "),
+                            $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> ")
+                        );
+                        $tr.appendTo('#test tbody');
+                    });
+                    $('#pre-load').hide();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#pre-load').hide();
+                },
+                data: {
+                    equipmentId: equipmentId
+                },
+                cache: false
+            })
+        }
+        else {
+            for (var i = 0; i < output[id].duphong.length; i++) {
+                var item = output[id].duphong[i];
                 var $tr = $('<tr>').append(
                     $('<td>').html("<input type='text' list='supplyID' class='form-control required' value='" + item.supply_id + "' /> "),
                     $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> ")
@@ -232,32 +293,23 @@
     });
     //tạo json cho thiết bị khi nhập submit vật tư
     $("#submitvattu").click(function () {
-        var thietbi = {};
         var arr = [];
         var rownumber = $('#rownumber').val();
-        thietbi.id = $('#' + rownumber + ' td:first-child').text();
         for (var i = 1; i < $('#test tbody tr').length + 1; i++) {
             if ($('#mylist #test tbody tr:nth-child(' + i + ') input').eq(0).val() != "" &&
                 $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(2).val() != "") {
-                var vattu = {};
-                vattu.supply_id = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(0).val();
-                vattu.quantity = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(1).val();
-                vattu.supplyStatus = null;
-                arr.push(vattu);
+                var dikem = {};
+                dikem.supply_id = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(0).val();
+                dikem.quantity = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(1).val();
+                dikem.supplyStatus = null;
+                arr.push(dikem);
             }
         }
-        thietbi.vattu = arr;
-        output[rownumber] = thietbi;
-        $('#json').val(JSON.stringify(output))
-    })
-
-    $(document).ready(function () {
-        for (var i = 0; i < $('#mytablevattu tbody tr').length; i++) {
-            var thietbi = {};
-            var arr = [];
-            thietbi.id = $('#mytablevattu tbody tr:nth-child(' + (i + 1) + ') td').eq(0).text();
-            thietbi.vattu = arr;
-            output[i] = thietbi;
+        if ($('#type').val() == 0) {
+            output[rownumber].dikem = arr;
+        }
+        else {
+            output[rownumber].duphong = arr;
         }
         $('#json').val(JSON.stringify(output))
     })
