@@ -58,24 +58,29 @@ namespace QUANGHANH2.Controllers.DK
                 "group by HeaderID, MaTieuChi) as a " +
                 "inner join KeHoach_TieuChi_TheoNgay as khtc " +
                 "on a.HeaderID = khtc.HeaderID and a.MaTieuChi = khtc.MaTieuChi and a.ThoiGianNhapCuoiCung = khtc.ThoiGianNhapCuoiCung) as kh " +
-                "inner join(select * from header_KeHoach_TieuChi_TheoNgay where NgayNhapKH = '2019-10-23') as header " +
+                "inner join(select * from header_KeHoach_TieuChi_TheoNgay where NgayNhapKH = @date) as header " +
                 "on kh.HeaderID = header.HeaderID " +
                 "group by MaPhongBan, MaTieuChi) as table1 " +
-                "right join(select* from PhongBan_TieuChi where PhongBan_TieuChi.Thang = 9) as PhongBan_TieuChi on table1.MaPhongBan = PhongBan_TieuChi.MaPhongBan and PhongBan_TieuChi.MaTieuChi = table1.MaTieuChi " +
+                "right join(select* from PhongBan_TieuChi where PhongBan_TieuChi.Thang = @month) as PhongBan_TieuChi on table1.MaPhongBan = PhongBan_TieuChi.MaPhongBan and PhongBan_TieuChi.MaTieuChi = table1.MaTieuChi " +
                 "order by PhongBan_TieuChi.MaPhongBan";
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 var listReport = db.Database.SqlQuery<reportEntity>(query, new SqlParameter("dateStart", timeStart), new SqlParameter("dateEnd", timeEnd)).ToList();
                 // var listKHDC = db.Database.SqlQuery<KHDCDepartmentEntity>(queryKHDC, new SqlParameter("month", timeEnd.Month), new SqlParameter("year", timeEnd.Year)).ToList();
-                var listKHDC = db.Database.SqlQuery<KHDCDepartmentEntity>(queryKHDC, new SqlParameter("month", 9), new SqlParameter("year", timeEnd.Year)).ToList();
+                var listKHDC = db.Database.SqlQuery<KHDCDepartmentEntity>(queryKHDC, new SqlParameter("month", timeEnd.Month), new SqlParameter("year", timeEnd.Year)).ToList();
                 // var listKHDaily = db.Database.SqlQuery<KHDCDepartmentEntity>(querykHDaily, new SqlParameter("date", timeEnd), new SqlParameter("month", timeEnd.Month)).ToList();
-                var listKHDaily = db.Database.SqlQuery<KHDCDepartmentEntity>(querykHDaily, new SqlParameter("date", timeEnd), new SqlParameter("month", 9)).ToList();
+                var listKHDaily = db.Database.SqlQuery<KHDCDepartmentEntity>(querykHDaily, new SqlParameter("date", timeEnd), new SqlParameter("month", timeEnd.Month)).ToList();
                 for (var index = 0; index < listReport.Count; index++)
                 {
-
-                    listReport[index].KHDC = listKHDC[index].SanLuong;
-                    listReport[index].BQQHDC = listReport[index].KHDC / 16;
-                    listReport[index].KH = listKHDaily[index].SanLuong;
+                    if (index < listKHDC.Count)
+                    {
+                        listReport[index].KHDC = listKHDC[index].SanLuong;
+                        listReport[index].BQQHDC = listReport[index].KHDC / 16;
+                    }
+                    if (index < listKHDaily.Count)
+                    {
+                        listReport[index].KH = listKHDaily[index].SanLuong;
+                    }
                 }
                 var departmentName = new string[] { "Phân xưởng khai thác 1", "Phân xưởng khai thác 2", "Phân xưởng khai thác 3", "Phân xưởng khai thác 4","Phân xưởng khai thác 5",
                                                     "Phân xưởng khai thác 6", "Phân xưởng khai thác 7", "Phân xưởng khai thác 8", "Phân xưởng khai thác 9","Phân xưởng khai thác 10",

@@ -1324,11 +1324,15 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
+
+
                     var mydata = (from p in db.NhanViens
                                   join p1 in db.HoSoes on p.MaNV equals p1.MaNV
                                   join p2 in db.ChamDut_NhanVien on p1.MaNV equals p2.MaNV
                                   join p3 in db.Departments on p.MaPhongBan equals p3.department_id
-                                  //  where p1.TrangThaiHoSo == "ngoai" 
+                                  join p4 in db.NguoiUyQuyenLayHoSo_BaoHiem on p.MaUyQuyen equals p4.MaUyQuyen into pp
+                                  from p4 in pp.DefaultIfEmpty()
+                                  where p.MaTrangThai == 2 
                                   select new
                                   {
                                       stt = "1",
@@ -1339,8 +1343,52 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                       sdt = p.SoDienThoai,
                                       diachi = p.NoiOHienTai,
                                       loaichamdut = p2.LoaiChamDut,
-                                      edit = true
+                                      edit = true,
+                                      tenUQ = p4.HoTen,
+                                      quanheUQ = p4.QuanHe,
+                                      sdtUQ = p4.SoDienThoai,
+                                      socmtUQ = p4.SoCMND
                                   }).ToList();
+
+                    var giaytoList = (from p in db.GiayToes
+                                  select
+                                  new
+                                  {
+                                      manv=p.MaNV,
+                                      ten = p.TenGiayTo,
+                                      kieu = p.KieuGiayTo,
+                                      ngaycap = "",
+                                      ngaytra = p.NgayTra
+
+                                  }).ToList();
+
+                    var chungchiList = (from p in db.ChungChis
+                                    join p1 in db.ChungChi_NhanVien on p.MaChungChi equals p1.MaChungChi
+                                   
+                                    select new
+                                    {
+                                        manv= p1.MaNV,
+                                        ten = p.TenChungChi,
+                                        kieu = p.KieuChungChi,
+                                        ngaycap = p1.NgayCap,
+                                        ngaytra = p1.NgayTra
+                                    }
+                                       ).ToList();
+
+                    var bangcapList = (from p in db.BangCap_GiayChungNhan
+                                   join p1 in db.ChiTiet_BangCap_GiayChungNhan on p.MaBangCap_GiayChungNhan equals p1.MaBangCap_GiayChungNhan
+
+                                   select new
+                                   {
+                                       manv= p1.MaNV,
+                                       ten = p.TenBangCap,
+                                       kieu = p.KieuBangCap,
+                                       ngaycap = p1.NgayCap,
+                                       ngaytra = p1.NgayTra
+                                   }).ToList();
+
+                   
+
                     int index = 4;
                     int tempIndex;
                     int stt = 1;
@@ -1355,17 +1403,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         excelWorksheet.Cells[index, 6].Value = item.sdt;
                         excelWorksheet.Cells[index, 7].Value = item.diachi;
                         excelWorksheet.Cells[index, 8].Value = item.loaichamdut;
-                        var giayto = (from p in db.GiayToes
-                                      where p.MaNV == item.manv
-                                      select
-                                      new
-                                      {
-                                          ten = p.TenGiayTo,
-                                          kieu = p.KieuGiayTo,
-                                          ngaycap = "",
-                                          ngaytra = p.NgayTra
-
-                                      }).ToList();
+                        var giayto = giaytoList.Where(p => p.manv == item.manv).ToList();
 
 
                         // not empty
@@ -1383,17 +1421,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                             }
                             if (indexGiayTo >= tempIndex) tempIndex = indexGiayTo;
                         }
-                        var chungchi = (from p in db.ChungChis
-                                        join p1 in db.ChungChi_NhanVien on p.MaChungChi equals p1.MaChungChi
-                                        where p1.MaNV == item.manv
-                                        select new
-                                        {
-                                            ten = p.TenChungChi,
-                                            kieu = p.KieuChungChi,
-                                            ngaycap = p1.NgayCap,
-                                            ngaytra = p1.NgayTra
-                                        }
-                                       ).ToList();
+                        var chungchi = chungchiList.Where(p => p.manv == item.manv).ToList();
                         if (chungchi.Count != 0)
                         {
                             int indexChungChi = index;
@@ -1410,16 +1438,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                 tempIndex = indexChungChi;
                             }
                         }
-                        var bangcap = (from p in db.BangCap_GiayChungNhan
-                                       join p1 in db.ChiTiet_BangCap_GiayChungNhan on p.MaBangCap_GiayChungNhan equals p1.MaBangCap_GiayChungNhan
-                                       where p1.MaNV == item.manv
-                                       select new
-                                       {
-                                           ten = p.TenBangCap,
-                                           kieu = p.KieuBangCap,
-                                           ngaycap = p1.NgayCap,
-                                           ngaytra = p1.NgayTra
-                                       }).ToList();
+                        var bangcap = bangcapList.Where(p => p.manv == item.manv).ToList();
                         if (bangcap.Count != 0)
                         {
                             int indexBangCap = index;
@@ -1437,24 +1456,15 @@ namespace QUANGHANHCORE.Controllers.TCLD
                             }
                         }
 
-                        var thongtinUyQuyen = (from p in db.NguoiUyQuyenLayHoSo_BaoHiem
-                                               join p1 in db.NhanViens on p.MaUyQuyen equals p1.MaUyQuyen
-                                               where p1.MaNV == item.manv
-                                               select new
-                                               {
-                                                   ten = p.HoTen,
-                                                   quanhe = p.QuanHe,
-                                                   sdt = p.SoDienThoai,
-                                                   socmt = p.SoCMND
-                                               }).ToList();
+                        var thongtinUyQuyen = mydata.Where(p => p.manv == item.manv).ToList();
                         if (thongtinUyQuyen.Count != 0)
                         {
                             foreach (var i in thongtinUyQuyen)
                             {
-                                excelWorksheet.Cells[index, 21].Value = i.ten;
-                                excelWorksheet.Cells[index, 22].Value = i.quanhe;
-                                excelWorksheet.Cells[index, 23].Value = i.sdt;
-                                excelWorksheet.Cells[index, 24].Value = i.socmt;
+                                excelWorksheet.Cells[index, 21].Value = i.tenUQ;
+                                excelWorksheet.Cells[index, 22].Value = i.quanheUQ;
+                                excelWorksheet.Cells[index, 23].Value = i.sdtUQ;
+                                excelWorksheet.Cells[index, 24].Value = i.socmtUQ;
                             }
                         }
 
