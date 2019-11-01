@@ -400,6 +400,7 @@
     <Compile Include="Models\Documentary_Improve_Detail.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Documentary_Improve_DetailDB.cs" />
     <Compile Include="Models\Documentary_liquidation_details.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -7362,6 +7363,7 @@
     <Content Include="Views\CDVT\Work\CaiTien\ThemCaiTien.cshtml" />
     <Content Include="Views\DK\Department_Criteria.cshtml" />
     <Content Include="Views\Shared\_Layout_KCM.cshtml" />
+    <Content Include="Views\CDVT\Cap_nhat\Chitiet\Caitien.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
