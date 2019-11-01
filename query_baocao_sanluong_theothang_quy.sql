@@ -30,3 +30,55 @@ inner join Department on d.MaPhongBan = Department.department_id
 inner join NhomTieuChi on d.MaNhomTieuChi = NhomTieuChi.MaNhomTieuChi
 order by MaPhongBan,MaNhomTieuChi
 set statistics time off
+
+select * from KeHoach_TieuChi_TheoNgay
+where HeaderID = 1
+
+
+select d.*,department_name,TenNhomTieuChi from (
+select MaPhongBan,MaNhomTieuChi, SUM(case when c.ThangKeHoach = 1 and c.NamKeHoach = 2019 then SanLuong else 0 end) as [Jan],
+SUM(case when c.ThangKeHoach = 2 and c.NamKeHoach = 2019 then SanLuong else 0 end) as [Feb], 
+SUM(case when c.ThangKeHoach = 3 and c.NamKeHoach = 2019 then SanLuong else 0 end) as [March], 
+SUM(case when c.ThangKeHoach = 4 and c.NamKeHoach = 2019 then SanLuong else 0 end) as [April], 
+SUM(case when((c.ThangKeHoach = 4 and c.NamKeHoach = 2019) or(c.ThangKeHoach = 1 and c.NamKeHoach = 2019) or(c.ThangKeHoach = 2 and c.NamKeHoach = 2019) or(c.ThangKeHoach = 3 and c.NamKeHoach = 2019)) then SanLuong else 0 end) as [Q1],
+SUM(case when c.ThangKeHoach = 5 and c.NamKeHoach = 2019 then SanLuong else 0 end) as [May], 
+SUM(case when c.ThangKeHoach = 6 and c.NamKeHoach = 2019 then SanLuong else 0 end) as [June], 
+SUM(case when c.ThangKeHoach = 7 and c.NamKeHoach = 2019 then SanLuong else 0 end) as [July], 
+SUM(case when c.ThangKeHoach = 8 and c.NamKeHoach = 2019 then SanLuong else 0 end) as [Aug], 
+SUM(case when((c.ThangKeHoach = 5 and c.NamKeHoach = 2019) or(c.ThangKeHoach = 6 and c.NamKeHoach = 2019) or(c.ThangKeHoach = 7 and c.NamKeHoach = 2019) or(c.ThangKeHoach = 8 and c.NamKeHoach = 2019)) then SanLuong else 0 end) as [Q2], 
+SUM(case when c.ThangKeHoach = 9 and c.NamKeHoach = 2019 then SanLuong else 0 end) as [Sep],
+SUM(case when c.ThangKeHoach = 10 and c.NamKeHoach = 2019 then SanLuong else 0 end) as [Oct],
+SUM(case when c.ThangKeHoach = 11 and c.NamKeHoach = 2019 then SanLuong else 0 end) as [Nov],
+SUM(case when c.ThangKeHoach = 12 and c.NamKeHoach = 2019 then SanLuong else 0 end) as [Dec], 
+SUM(case when((c.ThangKeHoach = 9 and c.NamKeHoach = 2019) or(c.ThangKeHoach = 10 and c.NamKeHoach = 2019) or(c.ThangKeHoach = 11 and c.NamKeHoach = 2019) or(c.ThangKeHoach = 12 and c.NamKeHoach = 2019)) then SanLuong else 0 end) as [Q3] from(
+select TieuChi.MaNhomTieuChi, b.SanLuong, header.ThangKeHoach, header.NamKeHoach, header.MaPhongBan  from (
+select kehoach.* from (
+Select HeaderID, MaTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung] from KeHoach_TieuChi_TheoThang 
+group by MaTieuChi, HeaderID) as a 
+inner join 
+KeHoach_TieuChi_TheoThang as kehoach 
+on a.HeaderID = kehoach.HeaderID and a.MaTieuChi = kehoach.MaTieuChi and a.ThoiGianNhapCuoiCung = kehoach.ThoiGianNhapCuoiCung) as b 
+inner join
+(select * from header_KeHoachTungThang where header_KeHoachTungThang.NamKeHoach = 2019) as header 
+on header.HeaderID = b.HeaderID 
+inner join TieuChi 
+on TieuChi.MaTieuChi = b.MaTieuChi) as c group by MaPhongBan,MaNhomTieuChi) as d 
+inner join 
+Department 
+on d.MaPhongBan = Department.department_id 
+inner join 
+NhomTieuChi 
+on d.MaNhomTieuChi = NhomTieuChi.MaNhomTieuChi 
+order by MaPhongBan,MaNhomTieuChi
+
+select * from header_KeHoachTungThang
+where HeaderID = 1
+
+insert into KeHoach_TieuChi_TheoThang(HeaderID,MaTieuChi,SanLuong,ThoiGianNhapCuoiCung)
+values (1,17,2000,'2019-11-1')
+
+select * from header_ThucHienTheoNgay
+where Ngay = '2019-01-01'
+
+insert into ThucHien_TieuChi_TheoNgay(HeaderID,MaTieuChi,SanLuong)
+values (13861,17,1000)
