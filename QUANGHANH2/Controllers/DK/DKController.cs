@@ -53,6 +53,11 @@ namespace QUANGHANHCORE.Controllers.DK
             public double Luyke { get; set; }
             public double KehoachThang { get; set; }
             public double Ton { get; set; }
+            public string ThuchienDis { get; set; }
+            public string KehoachDis { get; set; }
+            public string LuykeDis { get; set; }
+            public string KehoachThangDis { get; set; }
+            public string TonDis { get; set; }
         }
         public class ThanLoThien
         {
@@ -69,6 +74,24 @@ namespace QUANGHANHCORE.Controllers.DK
         {
             return Index(date);
 
+        }
+
+        public string Display(double calculateNumber)
+        {
+            string display = "";
+            if ((Math.Abs(calculateNumber) / 1000000000) >= 1)
+            {
+                display += Math.Round((calculateNumber / 1000000000), 2) + "Tỉ";
+            }
+            else if ((Math.Abs(calculateNumber) / 1000000) >= 1)
+            {
+                display += Math.Round((calculateNumber / 1000000), 2) +"Tr";
+            }
+            else
+            {
+                display += calculateNumber + "";
+            }
+            return display;
         }
 
         [Route("phong-dieu-khien")]
@@ -211,6 +234,13 @@ namespace QUANGHANHCORE.Controllers.DK
             else Thandaolo.percentDay = 0;
             if (Thandaolo.KehoachThang != 0) Thandaolo.percentMonth = Convert.ToInt32(Thandaolo.Luyke / Thandaolo.KehoachThang * 100);
             else Thandaolo.percentMonth = 0;
+
+            Thandaolo.ThuchienDis = Display(Thandaolo.Thuchien);
+            Thandaolo.KehoachDis = Display(Thandaolo.Kehoach);
+            Thandaolo.LuykeDis = Display(Thandaolo.Luyke);
+            Thandaolo.KehoachThangDis = Display(Thandaolo.KehoachThang);
+            Thandaolo.TonDis = Display(Thandaolo.Ton);
+
             ViewBag.tdl = Thandaolo;
 
             //than lo thien
@@ -219,6 +249,14 @@ namespace QUANGHANHCORE.Controllers.DK
             else Thanlothien.percentDay = 0;
             if (Thanlothien.KehoachThang != 0) Thanlothien.percentMonth = Convert.ToInt32(Thanlothien.Luyke / Thanlothien.KehoachThang * 100);
             else Thanlothien.percentMonth = 0;
+            Thanlothien.ThuchienDis = Display(Thanlothien.Thuchien);
+            Thanlothien.KehoachDis = Display(Thanlothien.Kehoach);
+            Thanlothien.LuykeDis = Display(Thanlothien.Luyke);
+            Thanlothien.KehoachThangDis = Display(Thanlothien.KehoachThang);
+            Thanlothien.TonDis = Display(Thanlothien.Ton);
+
+
+
             ViewBag.tlt = Thanlothien;
 
             //met lo dao
@@ -227,6 +265,7 @@ namespace QUANGHANHCORE.Controllers.DK
             else Metlodao.percentDay = 0;
             if (Metlodao.KehoachThang != 0) Metlodao.percentMonth = Convert.ToInt32(Metlodao.Luyke / Metlodao.KehoachThang * 100);
             else Metlodao.percentMonth = 0;
+
             ViewBag.mld = Metlodao;
 
             //met lo neo
@@ -251,6 +290,12 @@ namespace QUANGHANHCORE.Controllers.DK
             else Thantieuthu.percentDay = 0;
             if (Thantieuthu.KehoachThang != 0) Thantieuthu.percentMonth = Convert.ToInt32(Thantieuthu.Luyke / Thantieuthu.KehoachThang * 100);
             else Thantieuthu.percentMonth = 0;
+
+            Thantieuthu.ThuchienDis = Display(Thantieuthu.Thuchien);
+            Thantieuthu.KehoachDis = Display(Thantieuthu.Kehoach);
+            Thantieuthu.LuykeDis = Display(Thantieuthu.Luyke);
+            Thantieuthu.KehoachThangDis = Display(Thantieuthu.KehoachThang);
+            Thantieuthu.TonDis = Display(Thantieuthu.Ton);
             ViewBag.ttt = Thantieuthu;
 
             //da xit kho

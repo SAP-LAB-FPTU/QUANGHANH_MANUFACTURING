@@ -147,6 +147,8 @@
                                                 <th>Mã vật tư</th>
                                                 <th>Tên vật tư</th>
                                                 <th>Số lượng</th>
+                                                <th>Đơn vị tính</th>
+                                                <th>Ghi chú</th>
                                                 <th></th>
                                                 <th></th>
                                             </tr>
@@ -159,6 +161,8 @@
                                                         <td>@item.supply_id</td>
                                                         <td>@item.supply_name</td>
                                                         <td>@item.quantity</td>
+                                                        <td>@item.unit</td>
+                                                        <td>@item.note</td>
                                                         <td><button type="button" class="btnSelect btn blue btn-small center"><i class="large material-icons">remove</i></button></td>
                                                         <td><a class="btnSelect2 btn blue btn-small left modal-trigger" data-target="updateDK">Chỉnh sửa</a></td>
                                                     </tr>
@@ -177,6 +181,7 @@
                                                 <th>Mã vật tư</th>
                                                 <th>Tên vật tư</th>
                                                 <th>Số lượng</th>
+                                                <th>Đơn vị tính</th>
                                                 <th></th>
                                                 <th></th>
                                             </tr>
@@ -189,6 +194,7 @@
                                                         <td>@item.supply_id</td>
                                                         <td>@item.supply_name</td>
                                                         <td>@item.quantity</td>
+                                                        <td>@item.unit</td>
                                                         <td><button type="button" class="btnSelectDP btn blue btn-small center"><i class="large material-icons">remove</i></button></td>
                                                         <td><a class="btnSelectDP2 btn blue btn-small left modal-trigger" data-target="updateDP">Chỉnh sửa</a></td>
                                                     </tr>
@@ -807,17 +813,21 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col s4">
+                            <div class="col s6">
                                 <label>Mã vật tư</label>
                                 <input readonly="true" id="supDK_id_update" name="supid" class="form-control" />
                             </div>
-                            <div class="col s4">
+                            <div class="col s6">
                                 <label>Mã thiết bị</label>
                                 <input readonly="true" id="id_update" name="id" class="form-control" />
                             </div>
-                            <div class="col s4">
+                            <div class="col s6">
                                 <label>Số lượng</label>
                                 <input type="number" id="quan_update" name="quan" class="form-control" />
+                            </div>
+                            <div class="col s6">
+                                <label>Ghi chú</label>
+                                <input type="text" id="note_update" name="note" class="form-control" />
                             </div>
                         </div>
 
@@ -850,25 +860,27 @@
         data_restUrl = Url.Action("addDK", "Lylich", new { id = "" })
     }))
     {
-        <div class="card">
-            <div class="card-content">
                 <div class="modal" id="addDK">
                     <div class="modal-header">
                         <h3 class="center">Thêm vật tư đi kèm</h3>
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col s4">
+                            <div class="col s6">
                                 <label>Tên vật tư</label>
                                 <input list="Suplist" name="nameSup" class="form-control" />
                             </div>
-                            <div class="col s4">
+                            <div class="col s6">
                                 <label>Mã thiết bị</label>
                                 <input readonly="true" id="id_add" name="id" class="form-control" />
                             </div>
-                            <div class="col s4">
+                            <div class="col s6">
                                 <label>Số lượng</label>
                                 <input type="number" name="quan" class="form-control" />
+                            </div>
+                            <div class="col s6">
+                                <label>Ghi chú</label>
+                                <input type="text" name="note" class="form-control" />
                             </div>
                         </div>
 
@@ -878,8 +890,6 @@
                         <button type="submit" class="btn blue modal-close">Lưu</button>
                     </div>
                 </div>
-            </div>
-        </div>
 
 
     }
@@ -892,8 +902,6 @@
         data_restUrl = Url.Action("addDP", "Lylich", new { id = "" })
     }))
     {
-        <div class="card">
-            <div class="card-content">
                 <div class="modal" id="addDP">
                     <div class="modal-header">
                         <h3 class="center">Thêm vật tư dự phòng</h3>
@@ -920,8 +928,6 @@
                         <button type="submit" class="btn blue modal-close">Lưu</button>
                     </div>
                 </div>
-            </div>
-        </div>
 
 
     }
@@ -934,8 +940,7 @@
         data_restUrl = Url.Action("updateDP", "Lylich", new { id = "" })
     }))
     {
-        <div class="card">
-            <div class="card-content">
+ 
                 <div class="modal" id="updateDP">
                     <div class="modal-header">
                         <h3 class="center">Cập nhật vật tư dự phòng</h3>
@@ -962,8 +967,6 @@
                         <button type="submit" class="btn blue modal-close">Lưu</button>
                     </div>
                 </div>
-            </div>
-        </div>
 
 
     }
@@ -1012,6 +1015,8 @@
                 document.getElementById("id_update").value = '@ViewBag.equipment.equipmentId';
                 data = currentRow.find("td:eq(2)").text();
                 document.getElementById("quan_update").value = data;
+                data = currentRow.find("td:eq(4)").text();
+                document.getElementById("note_update").value = data
             });
 
             $("#add").click(function () {
@@ -1065,6 +1070,8 @@
                                 "<td>" + response.data[i].supply_id + "</td>" +
                                 "<td>" + response.data[i].supply_name + "</td>" +
                                 "<td>" + response.data[i].quantity + "</td>" +
+                                "<td>" + response.data[i].unit + "</td>" +
+                                "<td>" + response.data[i].note + "</td>" +
                                 "<td><button type='button' class='btnSelect btn blue btn-small center'><i class='large material-icons'>remove</i></button></td>" +
                                 "<td><a class='btnSelect2 btn blue btn-small center modal-trigger' data-target='updateDK'>Chỉnh sửa</a></td>" +
                                 "</tr> ");

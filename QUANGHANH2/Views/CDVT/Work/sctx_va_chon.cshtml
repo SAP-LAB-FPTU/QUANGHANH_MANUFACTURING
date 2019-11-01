@@ -108,14 +108,12 @@
                             <tr>
                                 <th>Mã vật tư</th>
                                 <th>Số lượng</th>
-                                <th>Nơi lĩnh</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><input type='text' list='supplyID' class='form-control required' /></td>
                                 <td><input type='number' min='1' value='1' class='form-control' /></td>
-                                <td><input type='text' list='departmentName' class='form-control required' /></td>
                             </tr>
                         </tbody>
                     </table>
@@ -192,30 +190,11 @@
             $(this).val(today);
         });
     })
-    //đọc lại json rồi apply vào modal
-    $(document).on("click", ".open-Modal", function () {
-        var id = $(this).data('id');
-        $('#rownumber').val(id);
-        $("#test").find("tr:gt(0)").remove();
-        $('#listId').text("Danh sách vật tư thay thế của thiết bị " + $('#' + id + ' td:first-child').text())
-        if (output.hasOwnProperty(id)) {
-            for (var i = 0; i < output[id].vattu.length; i++) {
-                var item = output[id].vattu[i];
-                var $tr = $('<tr>').append(
-                    $('<td>').html("<input type='text' list='supplyID' class='form-control required' value='" + item.supply_id + "' /> "),
-                    $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> "),
-                    $('<td>').html("<input type='text' list='departmentName' class='form-control required' value='" + item.department_id + "' /> ")
-                );
-                $tr.appendTo('#test tbody');
-            }
-        }
-    })
 
     $("#addcolumn").click(function () {
         var $tr = $('<tr>').append(
             $('<td>').html("<input type='text' list='supplyID' class='form-control required' />"),
-            $('<td>').html("<input type='number' min='1' value='1' class='form-control' />"),
-            $('<td>').html("<input type='text'  value='" + $('#depa-id').val() + "' list='departmentName' class='form-control required' />")
+            $('<td>').html("<input type='number' min='1' value='1' class='form-control' />")
         );
         $tr.appendTo('#test tbody');
     });
@@ -228,7 +207,7 @@
             thietbi.id = $('#' + rownumber + ' td:first-child').text();
             for (var i = 1; i < $('#test tbody tr').length + 1; i++) {
                 if ($('#mylist #test tbody tr:nth-child(' + i + ') input').eq(0).val() != "" &&
-                    $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(2).val() != "") {
+                    $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(1).val() >= 1) {
                     var vattu = {};
                     vattu.supply_id = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(0).val();
                     vattu.quantity = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(1).val();
@@ -255,8 +234,52 @@
     })
 </script>
 @section scripts{
-
     <script>
+        $(document).on("click", ".open-Modal", function () {
+            $('#pre-load').show();
+            var id = $(this).data('id');
+            $('#rownumber').val(id);
+            $("#test").find("tr:gt(0)").remove();
+            var equipmentId = $('#' + id + ' td:first-child').text();
+            $('#listId').text("Danh sách vật tư dự phòng của thiết bị " + equipmentId)
+            $('#type').val(1);
+            if (output[id].vattu.length == 0) {
+                $.ajax({
+                    type: "POST",
+                    url: "/phong-cdvt/thiet-bi/get-supply2",
+                    dataType: "json",
+                    success: function (data) {
+                        $.each(data, function (i, item) {
+                            var $tr = $('<tr>').append(
+                                $('<td>').html("<input type='text' list='supplyID' class='form-control required' value='" + item.supply_id + "' /> "),
+                                $('<td>').html("<input type='number' min='1' class='form-control' value='0' /> ")
+                            );
+                            $tr.appendTo('#test tbody');
+                        });
+                        $('#pre-load').hide();
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        $('#pre-load').hide();
+                    },
+                    data: {
+                        equipmentId: equipmentId
+                    },
+                    cache: false
+                })
+            }
+            else {
+                for (var i = 0; i < output[id].vattu.length; i++) {
+                    var item = output[id].vattu[i];
+                    var $tr = $('<tr>').append(
+                        $('<td>').html("<input type='text' list='supplyID' class='form-control required' value='" + item.supply_id + "' /> "),
+                        $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> ")
+                    );
+                    $tr.appendTo('#test tbody');
+                }
+                $('#pre-load').hide();
+            }
+        })
+
         //validate
         $('#submit').click(function () {
             var validate = 1;
