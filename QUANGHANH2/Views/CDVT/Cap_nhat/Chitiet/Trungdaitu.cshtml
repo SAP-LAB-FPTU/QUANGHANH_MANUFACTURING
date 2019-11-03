@@ -33,7 +33,7 @@
             <input name="id" hidden value="@ViewBag.id" id="id" />
             @if (ViewBag.AddAble == true)
             {
-            <a class="btn blue darken-2 modal-trigger" href="#alert">Lưu</a>
+                <a class="btn blue darken-2 modal-trigger" href="#alert">Lưu</a>
             }
         </div>
     </div>
@@ -97,14 +97,8 @@
     }
 </datalist>
 
-<link href="~/css/transfer_mobilize_history_timeline.css" rel="stylesheet" />
-<script src="~/js/Briefs_List.js"></script>
-<link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
-
 @section scripts{
-    <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
-    <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
-    <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
+    <script src="~/js/jquery.dataTables.min.js"></script>
     <script>
         $("#complex_header").on("click", ".buttonChon", function () {
             if ($(this).text() == "Chưa xử lý") {
@@ -201,7 +195,7 @@
     <script>
         var Popup, dataTable;
         $('#pre-load').show();
-        dataTable = $('#complex_header').dataTable({
+        dataTable = $('#complex_header').DataTable({
             "language": {
                 "emptyTable": "Không tìm thấy dữ liệu",
                 "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
@@ -261,41 +255,40 @@
         });
 
         $(document).on('click', '#submit', function () {
-            $("#submit").click(function (e) {
-                var equipments = "";
-                for (var i = 0; i < $('#complex_header tbody tr').length; i++) {
-                    if ($('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').text() == "Đã xử lý")
-                        equipments += $('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').val() + "^"
-                }
-                $("#pre-load").show();
-                $.ajax({
-                    type: "POST",
-                    url: "/phong-cdvt/cap-nhat/quyet-dinh/trung-dai-tu/edit",
-                    dataType: "json",
-                    success: function (data) {
-                        if (data.success == true) {
-                            dataTable.ajax.reload(function () {
-                                $('#pre-load').hide();
-                                successAlert(data.message);
-                            });
-                        }
-                        else {
-                            errorAlert(data.message);
-                            $('#pre-load').hide();
-                        }
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        $('#pre-load').hide();
-                        errorAlert('Lỗi');
-                    },
-                    data: {
-                        id: $('#id').val(),
-                        edit: equipments
-                    },
-                    cache: false
-                })
+            var equipments = "";
+            for (var i = 0; i < $('#complex_header tbody tr').length; i++) {
+                if ($('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').text() == "Đã xử lý")
+                    equipments += $('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').val() + "^"
+            }
+            if (equipments == "")
                 return false;
-            });
+            $("#pre-load").show();
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/cap-nhat/quyet-dinh/trung-dai-tu/edit",
+                dataType: "json",
+                success: function (data) {
+                    if (data.success == true) {
+                        dataTable.ajax.reload(function () {
+                            $('#pre-load').hide();
+                            successAlert(data.message);
+                        });
+                    }
+                    else {
+                        errorAlert(data.message);
+                        $('#pre-load').hide();
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#pre-load').hide();
+                    errorAlert('Lỗi');
+                },
+                data: {
+                    id: $('#id').val(),
+                    edit: equipments
+                },
+                cache: false
+            })
         })
 
         $("#submitvattu").click(function () {
