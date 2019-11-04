@@ -12,11 +12,12 @@
     }
 
     #yearCalendar {
-        width: 15% !important;
+        width: 20% !important;
         float: right;
     }
 
     #view-btn {
+        width:170px;
         float: left;
     }
     /*.sticky + .table-content {
@@ -40,12 +41,14 @@
                 </h3>
 
                 <div class="row">
-                    <div class="col l6 m6 s6">
-                        <input id="yearCalendar" class=" datepicker-here datepicker-add center"
-                               data-language='vi'
-                               data-date-format="dd-mm-yyyy"
-                               required />
-                    </div>
+                    <h3>
+                        <div class="col l6 m6 s6">
+                            <input id="yearCalendar" class=" datepicker-here datepicker-add center"
+                                   data-language='vi'
+                                   data-date-format="dd-mm-yyyy"
+                                   required />
+                        </div>
+                    </h3>
                     <div class="col l6 m6 s6">
                         <a id="view-btn" class="waves-effect waves-light btn blue darken-2" onclick="getInformation()">XEM</a>
                     </div>
@@ -74,10 +77,43 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 
 <script>
-    $(document).ready(function () {
-    })
+    $("#export-button").click(function () {
+        var x = $("#yearCalendar").val().split("-");
+        var date = x[2] + '-' + x[1] + '-' + x[0];
+        $("#pre-load").show("slow", function () { });
+        $.ajax({
+            type: 'post',
+            url: '/phong-dieu-khien/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty-export-excel',
+            data: {
+                'date': date,
+                "someData": ""
+            },
+            success: function (response) {
+                if (response.success) {
+                    var response = JSON.parse(JSON.stringify(response.data));
+                    window.location = '/phong-dieu-khien/bao-cao-san-xuat-than/download?fileGuid=' + response.FileGuid
+                        + '&filename=' + response.FileName;
+                } else {
+                    errorAlert("Lỗi!","");
+                }
+                $("#pre-load").hide("slow", function () { });
+            },
+            error: function (response) {
+            }
+        })
+    });
+</script>
+<script>
+        $(function () {
+            var currentTime = new Date();
+            var month = currentTime.getMonth() + 1;
+            var day = currentTime.getDate();
+            var year = currentTime.getFullYear();
+            var date = day + "-" + month + "-" + year;
+            $("#yearCalendar").val(date);
+        })
 
     function getInformation() {
-        window.open("/phong-dieu-khien/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty?ngay="+ $("#yearCalendar").val())
+        window.open("/phong-dieu-khien/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty?ngay=" + $("#yearCalendar").val())
     }
 </script>

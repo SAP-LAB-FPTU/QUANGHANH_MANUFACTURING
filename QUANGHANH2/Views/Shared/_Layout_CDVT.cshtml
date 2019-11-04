@@ -6,6 +6,27 @@
 <html>
 
 <head>
+    <style>
+        .notification-badge {
+            position: relative;
+            right: -20px;
+            top: -80px;
+            color: white;
+            background-color: red;
+            margin: 0 -.6em;
+            border-radius: 50%;
+            padding: 3px 8px;
+        }
+        #noti_dropdown{
+            top:65px !important;
+        }
+        .notif {
+            position: absolute;
+        }
+        #drop {
+            height: 64px !important;
+        }
+    </style>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -44,8 +65,6 @@
     <script src="~/dist/js/app.init.js"></script>
     <script src="~/dist/js/app-style-switcher.js"></script>
     <!-- ============================================================== -->
-
-
     <!-- Custom js -->
     <!-- ============================================================== -->
     <script src="~/dist/js/custom.min.js"></script>
@@ -68,8 +87,6 @@
     <!-- Datepicker -->
     <!-- ============================================================== -->
     <link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
-    <link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
-    <link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
     <link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
     <link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
     <script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
@@ -160,49 +177,42 @@
                         <!-- Notification icon scss in header.scss -->
                         <!-- ============================================================== -->
                         <li>
-                            <a class="dropdown-trigger" href="javascript: void(0);" data-target="noti_dropdown">
-                                <i class="small material-icons">notifications</i>
+                            <a class="dropdown-trigger" id="drop" href="#!" data-target="noti_dropdown">
+                                <i class="small material-icons" >notifications</i>
+                                <small class="notification-badge" id="number"></small>
                             </a>
                             <ul id="noti_dropdown" class="mailbox dropdown-content">
                                 <li>
                                     <div class="drop-title">Thông Báo</div>
                                 </li>
                                 <li>
-                                    <div class="message-center">
+                                    <div class="message-center" id="message">
                                         <!-- Message -->
-                                        <a href="#">
-                                            <span class="btn-floating btn-large red">
-                                                <i class="small material-icons">link</i>
-                                            </span>
-                                            <span class="mail-contnet">
-                                                <h5>Phòng CĐVT</h5>
-                                                <span class="mail-desc">Cần cập nhật thiết bị</span> <span class="time">9:30 AM</span>
-                                            </span>
-                                        </a>
-                                        <!-- Message -->
-                                        <a href="#">
-                                            <span class="btn-floating btn-large blue">
-                                                <i class="small material-icons">date_range</i>
-                                            </span>
-                                            <span class="mail-contnet">
-                                                <h5>Các sự kiện</h5>
-                                                <span class="mail-desc">Đặt lịch họp cho trưởng phòng</span>
-                                                <span class="time">9:10 AM</span>
-                                            </span>
-                                        </a>
+                                        @*<a href="#">
+                                                <span class="btn-floating btn-large red">
+                                                    <i class="large material-icons">
+                                                        error
+                                                    </i>
+                                                </span>
+                                                <span class="mail-contnet">
+                                                    <h5><b id="pb">Phòng CĐVT</b></h5>
+                                                    <span class="mail-desc black-text" id="title" style="font-size:14px !important">Bảo hiểm thiết bị</span>
+                                                    <span class="blue-text" id="date_remain" style="font-size:13px !important">Còn 6 ngày đến hạn bảo hiểm</span>
+                                                </span>
+                                            </a>*@
                                     </div>
                                 </li>
-                                <li>
-                                    <a class="center-align" href="javascript:void(0);">
-                                        <strong>Xoá thông báo</strong>
-                                    </a>
-                                </li>
+                                @*<li>
+                                        <a class="center-align" href="javascript:void(0);">
+                                            <strong>Xoá thông báo</strong>
+                                        </a>
+                                    </li>*@
                             </ul>
                         </li>
                         <!-- ============================================================== -->
                         <!-- Comment topbar icon scss in header.scss -->
                         <!-- ============================================================== -->
-                        <li>
+                        @*<li>
                             <a class="dropdown-trigger" href="javascript: void(0);" data-target="msg_dropdown">
                                 <i class="small material-icons">comment</i>
                             </a>
@@ -212,54 +222,18 @@
                                 </li>
                                 <li>
                                     <div class="message-center">
-                                        <!-- Message -->
+                                         Message 
                                         <a href="#">
-                                            <span class="user-img">
-                                                <img src="~/assets/images/users/2.jpg" alt="user" class="circle">
-                                                <span class="profile-status online pull-right"></span>
-                                            </span>
-                                            <span class="mail-contnet">
-                                                <h5>Trần Long- CĐVT</h5>
-                                                <span class="mail-desc">Gửi báo cáo chưa ? </span>
-                                                <span class="time">9:30 AM</span>
-                                            </span>
-                                        </a>
-                                        <!-- Message -->
-                                        <a href="#">
-                                            <span class="user-img">
-                                                <img src="~/assets/images/users/2.jpg" alt="user" class="circle">
-                                                <span class="profile-status busy pull-right"></span>
-                                            </span>
-                                            <span class="mail-contnet">
-                                                <h5>Nguyễn Văn Học - TCLĐ</h5>
-                                                <span class="mail-desc">Gửi anh báo cáo nhân sự</span>
-                                                <span class="time">9:10 AM</span>
-                                            </span>
-                                        </a>
-                                        <!-- Message -->
-                                        <a href="#">
-                                            <span class="user-img">
-                                                <img src="~/assets/images/users/2.jpg" alt="user" class="circle">
-                                                <span class="profile-status away pull-right"></span>
-                                            </span>
-                                            <span class="mail-contnet">
-                                                <h5>Trần Văn Vương - TCLĐ</h5>
-                                                <span class="mail-desc">Em ơi gửi anh chứng chỉ lao động</span>
-                                                <span class="time">9:08 AM</span>
-                                            </span>
-                                        </a>
-                                        <!-- Message -->
-                                        <a href="#">
-                                            <span class="user-img">
-                                                <img src="~/assets/images/users/2.jpg" alt="user" class="circle">
-                                                <span class="profile-status offline pull-right"></span>
-                                            </span>
-                                            <span class="mail-contnet">
-                                                <h5>Lê Văn Tam - Trưởng phòng CDVT</h5>
-                                                <span class="mail-desc">Gửi báo cáo hàng ngày em nhé!</span>
-                                                <span class="time">9:02 AM</span>
-                                            </span>
-                                        </a>
+                                                <span class="user-img">
+                                                    <img src="~/assets/images/users/2.jpg" alt="user" class="circle">
+                                                    <span class="profile-status online pull-right"></span>
+                                                </span>
+                                                <span class="mail-contnet">
+                                                    <h5>Trần Long- CĐVT</h5>
+                                                    <span class="mail-desc">Gửi báo cáo chưa ? </span>
+                                                    <span class="time">9:30 AM</span>
+                                                </span>
+                                            </a>
                                     </div>
                                 </li>
                                 <li>
@@ -268,7 +242,7 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>
+                        </li>*@
                     </ul>
                     <!-- ============================================================== -->
                     <!-- Left topbar icon scss in header.scss -->
@@ -457,6 +431,24 @@
     <script>
         $(".datepicker-here").keydown(function (e) {
             e.preventDefault();
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: "/Notifi/CDVT",
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                success: function (result) {
+                    result.result.forEach(function (key) {
+                        var string = "<a href ='#!'><span class='btn-floating btn-large red'><i class='small material-icons'>error</i></span><span class='mail-contnet'><h5><b>Phòng " + key.pb + "</b></h5><span class='mail-desc black-text' style='font-size:14px !important'>" + key.title + "</span><span class='blue-text' style='font-size:13px !important'>" + key.remain_title + "</span></span></a>";
+                        $('#message').append(string);
+                    });
+                    $('#number').html(result.result.length);
+                },
+                error: function (errormessage) {
+                }
+            });
         });
     </script>
 </body>

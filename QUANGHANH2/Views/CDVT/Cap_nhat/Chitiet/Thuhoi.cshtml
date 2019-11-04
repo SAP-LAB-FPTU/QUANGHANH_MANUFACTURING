@@ -27,15 +27,15 @@
                         </tr>
                     </thead>
                 </table>
-                <input name="id" hidden value="@ViewBag.id" id="id" />
-                <input hidden id="mathietbi" disabled />
-                <input hidden id="maquyetdinh" disabled />
-                <input hidden id="type" disabled />
-                @if (ViewBag.AddAble == true)
-                {
-                    <a class="btn blue darken-2 modal-trigger" href="#alert">Lưu</a>
-                }
             </div>
+            <input name="id" hidden value="@ViewBag.id" id="id" />
+            <input hidden id="mathietbi" disabled />
+            <input hidden id="maquyetdinh" disabled />
+            <input hidden id="type" disabled />
+            @if (ViewBag.AddAble == true)
+            {
+                <a class="btn blue darken-2 modal-trigger" href="#alert">Lưu</a>
+            }
         </div>
     </div>
 </div>
@@ -221,6 +221,8 @@
                 if ($('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').text() == "Đã xử lý")
                     equipments += $('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').val() + "^"
             }
+            if (equipments == "")
+                return false;
             $("#pre-load").show();
             $.ajax({
                 type: "POST",
@@ -228,15 +230,13 @@
                 dataType: "json",
                 success: function (data) {
                     if (data.success == true) {
-                        $('#pre-load').hide();
-                        successAlert(data.message, '');
-                        table.ajax.reload(function () {
-
+                        dataTable.ajax.reload(function () {
+                            $('#pre-load').hide();
+                            successAlert(data.message);
                         });
-
                     }
                     else {
-                        errorAlert('Lỗi', data.message);
+                        errorAlert(data.message);
                         $('#pre-load').hide();
                     }
                 },
@@ -250,7 +250,6 @@
                 },
                 cache: false
             })
-            return false;
         });
 
         $(".submitvattu").click(function (e) {
@@ -281,7 +280,6 @@
                 },
                 cache: false
             })
-            return false;
         });
 
         //get data and push to modal list
@@ -289,7 +287,6 @@
             $("#pre-load").show();
             $("#test").find("tr:gt(0)").remove();
             var QDIdAndEquipId = $(this).data('list');
-            var response = {};
             $('#listId').text("Danh sách vật tư đi kèm của thiết bị " + QDIdAndEquipId.split("^")[1])
             $("#mathietbi").val(QDIdAndEquipId.split("^")[1])
             $("#maquyetdinh").val(QDIdAndEquipId.split("^")[0])

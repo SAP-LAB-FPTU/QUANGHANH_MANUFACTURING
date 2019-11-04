@@ -84,8 +84,7 @@
                     temp.available = false;
                     temp.reason = $('#complex_header tbody tr:nth-child(' + (i + 1) + ') td:nth-child(' + (2 * j + 2) + ') input').val();
                 }
-                else
-                {
+                else {
                     temp.available = true;
                     temp.reason = null;
                 }
@@ -226,6 +225,10 @@
                         }
                         else
                             errorAlert('Có lỗi xảy ra', '');
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        errorAlert('Có lỗi xảy ra', '');
+                        $("#pre-load").hide();
                     },
                     data: {
                         stringjson: myfunction()

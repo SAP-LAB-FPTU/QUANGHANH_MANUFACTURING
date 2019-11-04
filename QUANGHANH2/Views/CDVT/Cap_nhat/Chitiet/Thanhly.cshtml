@@ -23,13 +23,20 @@
                             <th>Tên thiết bị</th>
                             <th>Bên mua</th>
                             <th>Danh sách vật tư đi kèm</th>
-                            <th>Đã thanh lý</th>
+                            <th>Danh sách vật tư dự phòng</th>
+                            <th>Đã xử lý</th>
                         </tr>
                     </thead>
                 </table>
-                <input name="id" hidden value="@ViewBag.id" id="id" />
-                <a class="btn blue darken-2" id="submit">Lưu</a>
             </div>
+            <input name="id" hidden value="@ViewBag.id" id="id" />
+            <input hidden id="mathietbi" disabled />
+            <input hidden id="maquyetdinh" disabled />
+            <input hidden id="type" disabled />
+            @if (ViewBag.AddAble == true)
+            {
+                <a class="btn blue darken-2 modal-trigger" href="#alert">Lưu</a>
+            }
         </div>
     </div>
 </div>
@@ -46,61 +53,109 @@
                         <tr>
                             <th>Mã vật tư</th>
                             <th>Tên vật tư</th>
-                            <th>Số lượng</th>
-                            <th>Chất lượng</th>
-                            <th>Đã thu hồi</th>
+                            <th>Số lượng trong quyết định</th>
+                            <th>Số lượng đã nhận</th>
+                            <th>Ghi chú</th>
                         </tr>
                     </thead>
+                    <tbody></tbody>
                 </table>
             </div>
-            <input type="hidden" id="dsvattu" disabled />
-            <input type="hidden" id="mathietbi" disabled />
-            <input type="hidden" id="maquyetdinh" disabled />
         </div>
         <div class="modal-footer">
-            <a id="submitvattu" class="waves-effect waves-light btn blue darken-2 modal-trigger">Lưu</a>
-            <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-add-button">Thoát</button>
+            <a class="waves-effect waves-light btn blue darken-2 modal-trigger submitvattu">Lưu</a>
+            <button type="button" class="btn light-blue lighten-1 modal-close exit-button">Thoát</button>
         </div>
     </div>
 </div>
 
-<link href="~/css/transfer_mobilize_history_timeline.css" rel="stylesheet" />
-<script src="~/js/Briefs_List.js"></script>
-<link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
+<div class="modal" id="mylist2">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title" id="listId2">Danh sách vật tư dự phòng</h3>
+        </div>
+        <div class="modal-body table_container">
+            <div class="row">
+                <table id="test2" class="striped table-responsive centered table-bordered mytable">
+                    <thead>
+                        <tr>
+                            <th>Mã vật tư</th>
+                            <th>Tên vật tư</th>
+                            <th>Số lượng trong quyết định</th>
+                            <th>Số lượng đã nhận</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="waves-effect waves-light btn blue darken-2 modal-trigger submitvattu">Lưu</a>
+            <button type="button" class="btn light-blue lighten-1 modal-close exit-button">Thoát</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="alert">
+    <div class="modal-content">
+        <div class="modal-header">
+        </div>
+        <div class="modal-body">
+            <h4>Lưu ý: bạn không thể sửa đổi vật tư cho quyết định sau khi đã xử lý xong</h4>
+        </div>
+        <div class="modal-footer">
+            <a id="submit" class="waves-effect waves-light btn blue darken-2 modal-trigger modal-close">Lưu</a>
+            <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
+        </div>
+    </div>
+</div>
+
 <script>
     $("#complex_header").on("click", ".buttonChon", function () {
-        if ($(this).text() == "Chưa nhận") {
-            $(this).text('Đã nhận')
+        if ($(this).text() == "Chưa xử lý") {
+            $(this).text('Đã xử lý')
         }
         else {
-            $(this).text('Chưa nhận')
+            $(this).text('Chưa xử lý')
         }
     });
 
-    var listvattu = ""
-    function modify_qty(vattu) {
-        if (!listvattu.includes($(vattu).val())) {
-            listvattu += $(vattu).val() + "^";
-            $(vattu).removeClass("darken-2");
-            $(vattu).text("Đã nhận")
+    function getJsonArray() {
+        var output = {};
+        var arr = [];
+        if ($('#type').val() == 1) {
+            var length = $("#test tr").length;
+            for (var i = 1; i < length; i++) {
+                var temp = {};
+                if ($("#test tbody tr:nth-child(" + i + ") input").eq(0).val() == "") break;
+                temp.supply_id = $("#test tbody tr:nth-child(" + i + ") td:nth-child(" + 1 + ") input").val();
+                temp.quantity_in = $("#test tbody tr:nth-child(" + i + ") td:nth-child(" + 4 + ") input").val();
+                temp.supplyStatus = $("#test tbody tr:nth-child(" + i + ") td:nth-child(" + 5 + ") input").val();
+                arr.push(temp);
+            }
         }
         else {
-            listvattu = listvattu.replace(($(vattu).val() + "^"), "")
-            $(vattu).addClass("darken-2")
-            $(vattu).text("Chưa nhận")
+            var length = $("#test2 tr").length;
+            for (var i = 1; i < length; i++) {
+                var temp = {};
+                if ($("#test2 tbody tr:nth-child(" + i + ") input").eq(0).val() == "") break;
+                temp.supply_id = $("#test2 tbody tr:nth-child(" + i + ") td:nth-child(" + 1 + ") input").val();
+                temp.quantity_in = $("#test2 tbody tr:nth-child(" + i + ") td:nth-child(" + 4 + ") input").val();
+                temp.supplyStatus = $("#test2 tbody tr:nth-child(" + i + ") td:nth-child(" + 5 + ") input").val();
+                arr.push(temp);
+            }
         }
-        $("#dsvattu").val(listvattu)
+        output.list = arr
+        return JSON.stringify(output);
     }
 </script>
 
 @section scripts{
-    <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
-    <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
-    <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
+    <script src="~/js/jquery.dataTables.min.js"></script>
     <script>
         var Popup, dataTable;
         $('#pre-load').show();
-        dataTable = $('#complex_header').dataTable({
+        dataTable = $('#complex_header').DataTable({
             "language": {
                 "emptyTable": "Không tìm thấy dữ liệu",
                 "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
@@ -131,9 +186,14 @@
                     }
                 },
                 {
+                    "data": "idAndEquip", "name": "person_created", "render": function (data) {
+                        return "<a data-list=\"" + data + "\" class=\"waves-effect waves-light btn-small blue modal-trigger open-Modal2\" href=\"#mylist2\">Vật tư dự phòng</a>";
+                    }
+                },
+                {
                     "data": "statusAndEquip", "name": "person_created", "render": function (data) {
-                        if (data.split("^")[0] == "0") return "<button id=\"buttonChon\" class='btn blue darken-2 buttonChon' value=\"" + data.split("^")[1] + "\">Chưa nhận</button>";
-                        else return "<button disabled class=\"btn blue darken-2\">Đã nhận</button>"
+                        if (data.split("^")[0] == "0") return "<button id=\"buttonChon\" class='btn blue darken-2 buttonChon' value=\"" + data.split("^")[1] + "\">Chưa xử lý</button>";
+                        else return "<button disabled class=\"btn blue darken-2\">Đã xử lý</button>"
                     }
                 }
             ],
@@ -156,13 +216,15 @@
                 $('#pre-load').hide();
             }
         });
-        var table = $('#complex_header').DataTable();
+
         $("#submit").click(function (e) {
             var equipments = "";
             for (var i = 0; i < $('#complex_header tbody tr').length; i++) {
-                if ($('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').text() == "Đã nhận")
+                if ($('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').text() == "Đã xử lý")
                     equipments += $('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').val() + "^"
             }
+            if (equipments == "")
+                return false;
             $("#pre-load").show();
             $.ajax({
                 type: "POST",
@@ -170,14 +232,14 @@
                 dataType: "json",
                 success: function (data) {
                     if (data.success == true) {
-                        successAlert(data.message, '');
-                        table.ajax.reload(function () {
-
+                        dataTable.ajax.reload(function () {
+                            $('#pre-load').hide();
+                            successAlert(data.message);
                         });
                     }
                     else {
-                        errorAlert('Lỗi', data.message);
-                         $('#pre-load').hide();
+                        errorAlert(data.message);
+                        $('#pre-load').hide();
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -190,44 +252,36 @@
                 },
                 cache: false
             })
-            return false;
         });
-        var table = $('#complex_header').DataTable();
-        $("#submitvattu").click(function (e) {
+
+        $(".submitvattu").click(function (e) {
             $("#pre-load").show();
             $.ajax({
                 type: "POST",
-                url: "/phong-cdvt/cap-nhat/quyet-dinh/EditSupplyStatus",
+                url: "/phong-cdvt/cap-nhat/quyet-dinh/AddSupply",
                 dataType: "json",
                 success: function (data) {
-                    if (data.success == true) {
-                        successAlert(data.message, '');
-                        table.ajax.reload(function () {
-
-                        });
-                        $('#dsvattu').val("");
-                        listvattu = "";
-                        $('#exit-button').click()
-                        $('#pre-load').hide();
+                    if (data.success) {
+                        successAlert(data.message);
+                        $('.exit-button').click()
                     }
                     else {
-                        errorAlert('Lỗi', data.message);
-                         $('#pre-load').hide();
+                        errorAlert(data.message);
                     }
-
+                    $('#pre-load').hide();
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     $('#pre-load').hide();
                     errorAlert('Lỗi');
                 },
                 data: {
-                    documentary_id: $('#maquyetdinh').val(),
-                    equipmentId: $('#mathietbi').val(),
-                    listSupplies: $('#dsvattu').val()
+                    list: function () { return getJsonArray(); },
+                    documentary_id: $("#maquyetdinh").val(),
+                    equipmentId: $("#mathietbi").val(),
+                    type: $('#type').val()
                 },
                 cache: false
             })
-            return false;
         });
 
         //get data and push to modal list
@@ -238,24 +292,59 @@
             $('#listId').text("Danh sách vật tư đi kèm của thiết bị " + QDIdAndEquipId.split("^")[1])
             $("#mathietbi").val(QDIdAndEquipId.split("^")[1])
             $("#maquyetdinh").val(QDIdAndEquipId.split("^")[0])
+            $("#type").val(1);
             $.ajax({
                 type: "POST",
                 url: "/phong-cdvt/cap-nhat/quyet-dinh/GetSupply",
                 dataType: "json",
                 success: function (data) {
+                    $.each(data, function (i, item) {
+                        var temp = item.supplyStatus == null ? "" : item.supplyStatus;
+                        var $tr = $('<tr>').append(
+                            $('<td>').html("<input readonly class='form-control' type='text' value='" + item.supply_id + "' />"),
+                            $('<td>').text(item.supply_name),
+                            $('<td>').text(item.quantity_plan),
+                            $('<td>').html("<input class='form-control' type='number' min='" + item.quantity_in + "' max='" + item.quantity_plan + "' value='" + item.quantity_in + "' />"),
+                            $('<td>').html("<input class='form-control' type='text' value='" + temp + "' />")
+                        );
+                        $tr.appendTo('#test tbody');
+                    });
+                    $("#pre-load").hide();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    errorAlert('Lỗi');
+                },
+                data: {
+                    documentary_id: QDIdAndEquipId.split("^")[0],
+                    equipmentId: QDIdAndEquipId.split("^")[1]
+                },
+                cache: false
+            })
+        });
+
+        $(document).on("click", ".open-Modal2", function () {
+            $("#pre-load").show();
+            $("#test2").find("tr:gt(0)").remove();
+            var QDIdAndEquipId = $(this).data('list');
+            var response = {};
+            $('#listId2').text("Danh sách vật tư dự phòng của thiết bị " + QDIdAndEquipId.split("^")[1])
+            $("#mathietbi").val(QDIdAndEquipId.split("^")[1])
+            $("#maquyetdinh").val(QDIdAndEquipId.split("^")[0])
+            $("#type").val(2);
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/cap-nhat/quyet-dinh/GetSupplyDuPhong",
+                dataType: "json",
+                success: function (data) {
                     $(function () {
                         $.each(data, function (i, item) {
                             var $tr = $('<tr>').append(
-                                $('<td>').text(item.supply_id),
+                                $('<td>').html("<input readonly class='form-control' type='text' value='" + item.supply_id + "' />"),
                                 $('<td>').text(item.supply_name),
-                                $('<td>').text(item.quantity),
-                                $('<td>').text(item.supplyStatus)
+                                $('<td>').text(item.quantity_plan),
+                                $('<td>').html("<input class='form-control' type='number' min='" + item.quantity_in + "' max='" + item.quantity_plan + "' value='" + item.quantity_in + "' />"),
                             );
-                            if (item.supply_documentary_status != 0)
-                                $tr.append($('<td>').html("<button disabled class=\"btn blue darken-2 buttonVattu\">Đã nhận</button>"))
-                            else
-                                $tr.append($('<td>').html("<button id='temp' onclick=\"modify_qty(this)\" class=\"btn blue darken-2 buttonVattu\" value=\"" + item.supply_id + "\">Chưa nhận</button>"))
-                            $tr.appendTo('#test');
+                            $tr.appendTo('#test2 tbody');
                         });
                     });
                     $("#pre-load").hide();

@@ -49,12 +49,13 @@
                             <tr>
                                 <th rowspan="2">Quyết định số</th>
                                 <th rowspan="2">Ngày nghiệm thu</th>
-                                <th colspan="3">Thông tin thiết bị</th>
+                                <th colspan="2">Thông tin thiết bị</th>
+                                <th rowspan="2"></th>
+                                <th rowspan="2"></th>
                             </tr>
                             <tr>
                                 <th>Mã thiết bị</th>
                                 <th>Tên thiết bị</th>
-                                <th></th>
                             </tr>
                         </thead>
                     </table>
@@ -102,16 +103,7 @@
             <div class="row">
                 <form>
                     <table id="test" class="striped table-responsive centered table-bordered mytable">
-                        <thead>
-                            <tr>
-                                <th>Mã vật tư</th>
-                                <th>Số lượng xin cấp</th>
-                                <th>Số lượng đã nhận</th>
-                                <th>Số lượng sử dụng</th>
-                                <th>Số lượng lấy ra</th>
-                                <th>Ghi chú</th>
-                            </tr>
-                        </thead>
+                        <thead></thead>
                         <tbody></tbody>
                     </table>
                 </form>
@@ -124,9 +116,6 @@
         </div>
     </div>
 </div>
-<link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
-    <script src="~/js/advancedsearch/advancedsearch.js"></script>
-    <script src="~/js/Custom JS/CDVT/Capnhat/update.js"></script>
 
 @section scripts{
     <script>
@@ -165,11 +154,17 @@
                     { "data": "equipment_name", "name": "equipment_name" },
                     {
                         "data": {}, "render": function (data) {
-                            return "<td><a class='btn blue modal-trigger open-SupplyModal' data-equip='" + data.equipmentId + "' data-code='" + data.documentary_id + "' href='#mylist'>Vật tư</a></td>";
+                            return "<td><a class='btn blue modal-trigger open-DiKem' data-equip='" + data.equipmentId + "' data-code='" + data.documentary_id + "' href='#mylist'>VT đi kèm</a></td>";
                         },
                         "orderable": false,
-                        "searchable": false,
-                        "width": "150px"
+                        "searchable": false
+                    },
+                    {
+                        "data": {}, "render": function (data) {
+                            return "<td><a class='btn blue modal-trigger open-DuPhong' data-equip='" + data.equipmentId + "' data-code='" + data.documentary_id + "' href='#mylist'>VT dự phòng</a></td>";
+                        },
+                        "orderable": false,
+                        "searchable": false
                     }
                 ],
                 "searching": false,
@@ -195,9 +190,9 @@
             });
         });
 
-        $(document).on("click", ".open-SupplyModal", function () {
+        $(document).on("click", ".open-DiKem", function () {
             $('#pre-load').show();
-            $("#test").find("tr:gt(0)").remove();
+            $("#test").find("tr").remove();
             var documentary_id = $(this).data("code");
             var equipmentId = $(this).data("equip");
             var QDIdAndEquipId = $(this).data('list');
@@ -206,10 +201,12 @@
             $("#maquyetdinh").val(documentary_id)
             $.ajax({
                 type: "POST",
-                url: "/phong-cdvt/cap-nhat/quyet-dinh/GetSupply2",
+                url: "/phong-cdvt/cap-nhat/quyet-dinh/GetSupply",
                 dataType: "json",
                 success: function (data) {
                     $(function () {
+                        var header = $('<tr>').html('<th>Mã vật tư</th><th>Số lượng xin cấp</th><th>Số lượng đã nhận</th><th>Số lượng sử dụng</th><th>Số lượng lấy ra</th><th>Ghi chú</th>');
+                        header.appendTo('#test thead');
                         $.each(data, function (i, item) {
                             var temp = item.supplyStatus == null ? "" : item.supplyStatus;
                             var $tr = $('<tr>').append(
@@ -220,7 +217,48 @@
                                 $('<td>').html("<input readonly class='form-control' type='number' min='" + item.quantity_out + "' max='" + item.quantity_plan + "' value='" + item.quantity_out + "' />"),
                                 $('<td>').html("<input readonly class='form-control' type='text' value='" + temp + "' />")
                             );
-                            $tr.appendTo('#test');
+                            $tr.appendTo('#test tbody');
+                        });
+                    });
+                    $("#pre-load").hide();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    errorAlert('Lỗi');
+                },
+                data: {
+                    documentary_id: documentary_id,
+                    equipmentId: equipmentId
+                },
+                cache: false
+            })
+        })
+
+        $(document).on("click", ".open-DuPhong", function () {
+            $('#pre-load').show();
+            $("#test").find("tr").remove();
+            var documentary_id = $(this).data("code");
+            var equipmentId = $(this).data("equip");
+            var QDIdAndEquipId = $(this).data('list');
+            $('#listId').text("Danh sách vật tư thay thế của thiết bị " + equipmentId)
+            $("#mathietbi").val(equipmentId)
+            $("#maquyetdinh").val(documentary_id)
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/cap-nhat/quyet-dinh/GetSupplyDuPhong",
+                dataType: "json",
+                success: function (data) {
+                    $(function () {
+                        var header = $('<tr>').html('<th>Mã vật tư</th><th>Số lượng xin cấp</th><th>Số lượng đã nhận</th><th>Số lượng sử dụng</th><th>Số lượng lấy ra</th>');
+                        header.appendTo('#test thead');
+                        $.each(data, function (i, item) {
+                            var $tr = $('<tr>').append(
+                                $('<td>').html('<input type="text" value="' + item.supply_id + '" readonly class="form-control" />'),
+                                $('<td>').html('<input type="text" value="' + item.quantity_plan + '" readonly class="form-control" />'),
+                                $('<td>').html("<input readonly class='form-control' type='number' min='" + item.quantity_in + "' max='" + item.quantity_plan + "' value='" + item.quantity_in + "' />"),
+                                $('<td>').html("<input readonly class='form-control' type='number' min='" + item.quantity_used + "' max='" + item.quantity_plan + "' value='" + item.quantity_used + "' />"),
+                                $('<td>').html("<input readonly class='form-control' type='number' min='" + item.quantity_out + "' max='" + item.quantity_plan + "' value='" + item.quantity_out + "' />")
+                            );
+                            $tr.appendTo('#test tbody');
                         });
                     });
                     $("#pre-load").hide();

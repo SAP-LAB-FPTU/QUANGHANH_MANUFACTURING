@@ -198,23 +198,46 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                             Documentary_moveline_details documentary_Moveline_Details = db.Database.SqlQuery<Documentary_moveline_details>("SELECT * FROM Documentary_moveline_details WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId",
                                 new SqlParameter("equipmentId", id),
                                 new SqlParameter("documentary_id", documentary.documentary_id)).First();
+                            db.Database.ExecuteSqlCommand("DELETE FROM Supply_DuPhong WHERE equipmentId = @equipmentId",
+                                new SqlParameter("equipmentId", id));
+                            db.Database.ExecuteSqlCommand("DELETE FROM Supply_DiKem WHERE equipmentId = @equipmentId",
+                                new SqlParameter("equipmentId", id));
                             List<Supply_Documentary_Equipment> supplies_Moveline = db.Supply_Documentary_Equipment.Where(x => x.documentary_id == documentary.documentary_id && x.equipmentId == id).ToList();
                             foreach (Supply_Documentary_Equipment item in supplies_Moveline)
                             {
-                                Supply_DiKem s = db.Supply_DiKem.Where(x => x.equipmentId == id && x.supply_id == item.supply_id).FirstOrDefault();
-                                if (s == null)
+                                if (item.supply_documentary_status == 0)
                                 {
-                                    s = new Supply_DiKem();
-                                    s.equipmentId = id;
-                                    s.note = item.supplyStatus;
-                                    s.quantity = item.quantity_in;
-                                    s.supply_id = item.supply_id;
-                                    db.Supply_DiKem.Add(s);
+                                    Supply_DiKem s = db.Supply_DiKem.Where(x => x.equipmentId == id && x.supply_id == item.supply_id).FirstOrDefault();
+                                    if (s == null)
+                                    {
+                                        s = new Supply_DiKem();
+                                        s.equipmentId = id;
+                                        s.note = item.supplyStatus;
+                                        s.quantity = item.quantity_in;
+                                        s.supply_id = item.supply_id;
+                                        db.Supply_DiKem.Add(s);
+                                    }
+                                    else
+                                    {
+                                        s.quantity = item.quantity_in;
+                                        s.note = item.supplyStatus;
+                                    }
                                 }
                                 else
                                 {
-                                    s.quantity = item.quantity_in;
-                                    s.note = item.supplyStatus;
+                                    Supply_DuPhong s = db.Supply_DuPhong.Where(x => x.equipmentId == id && x.supply_id == item.supply_id).FirstOrDefault();
+                                    if (s == null)
+                                    {
+                                        s = new Supply_DuPhong();
+                                        s.equipmentId = id;
+                                        s.quantity = item.quantity_in;
+                                        s.supply_id = item.supply_id;
+                                        db.Supply_DuPhong.Add(s);
+                                    }
+                                    else
+                                    {
+                                        s.quantity = item.quantity_in;
+                                    }
                                 }
                                 db.SaveChanges();
                             }
@@ -241,7 +264,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                             equipment.current_Status = 1;
                             break;
                         case "7":
-                            Documentary_Improve_Detail documentary_Improve_Details = db.Database.SqlQuery<Documentary_Improve_Detail>("SELECT * FROM Documentary_big_maintain_details WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId",
+                            Documentary_Improve_Detail documentary_Improve_Details = db.Database.SqlQuery<Documentary_Improve_Detail>("SELECT * FROM Documentary_Improve_Detail WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId",
                                 new SqlParameter("equipmentId", id),
                                 new SqlParameter("documentary_id", documentary.documentary_id)).First();
                             List<Supply_Documentary_Equipment> supplies = db.Supply_Documentary_Equipment.Where(x => x.documentary_id == documentary.documentary_id && x.equipmentId == id).ToList();
@@ -259,7 +282,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                 }
                                 else
                                 {
-                                    s.quantity = item.quantity_used;
+                                    s.quantity += item.quantity_used;
                                     s.note = item.supplyStatus;
                                 }
                                 db.SaveChanges();

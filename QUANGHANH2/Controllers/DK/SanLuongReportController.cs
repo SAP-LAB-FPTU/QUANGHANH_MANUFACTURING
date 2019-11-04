@@ -1,11 +1,17 @@
 ﻿using Newtonsoft.Json;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using QUANGHANH2.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Hosting;
 using System.Web.Mvc;
+using System.Windows;
 
 namespace QUANGHANH2.Controllers.DK
 {
@@ -108,8 +114,10 @@ namespace QUANGHANH2.Controllers.DK
             //
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                int tongsongay = (int) db.header_KeHoachTungThang.First(x=> x.ThangKeHoach == timeEnd.Month && x.NamKeHoach == timeEnd.Year).SoNgayLamViec;
-                int ngaylam = (int)db.header_ThucHienTheoNgay.First(x => x.Ngay == timeEnd).NgaySanXuat;
+                var tongsongayDB = db.header_KeHoachTungThang.FirstOrDefault(x=> x.ThangKeHoach == timeEnd.Month && x.NamKeHoach == timeEnd.Year);
+                int tongsongay = tongsongayDB == null ?1: (int)tongsongayDB.SoNgayLamViec;
+                var headerDateWorked = db.header_ThucHienTheoNgay.FirstOrDefault(x => x.Ngay == timeEnd);
+                int ngaylam = headerDateWorked == null ? 0 : (int)headerDateWorked.NgaySanXuat;
                 //
                 var listReport = db.Database.SqlQuery<reportEntity>(query, new SqlParameter("dateStart", timeStart), new SqlParameter("dateEnd", timeEnd)).ToList();
                 var list_KHDC = db.Database.SqlQuery<KHDCEntity>(query_KHDC, new SqlParameter("month", timeEnd.Month), new SqlParameter("year", timeEnd.Year)).ToList();
@@ -252,7 +260,7 @@ namespace QUANGHANH2.Controllers.DK
         [Route("phong-dieu-khien/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty")]
         public ActionResult getReport()
         {
-            DateTime timeEnd = Convert.ToDateTime("2019-09-10");
+            DateTime timeEnd = Convert.ToDateTime(Request["date"]);
             var timeStart = Convert.ToDateTime("" + timeEnd.Year + "-" + timeEnd.Month + "-1");
             //
             var reports = getData(timeStart, timeEnd);
@@ -260,6 +268,127 @@ namespace QUANGHANH2.Controllers.DK
             var result = JsonConvert.SerializeObject(reports, Formatting.Indented, jss);
             return Json(new { success = true, data = result }, JsonRequestBehavior.AllowGet);
         }
+
+        [Route("phong-dieu-khien/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty-export-excel")]
+        [HttpPost]
+        public ActionResult ExportToExcel()
+        {
+            try
+            {
+                DateTime timeEnd = Convert.ToDateTime(Request["date"]);
+                var timeStart = Convert.ToDateTime("" + timeEnd.Year + "-" + timeEnd.Month + "-1");
+                var reports = getData(timeStart, timeEnd);
+                var nam = Request["date"].Split('-')[0];
+                var thang = Request["date"].Split('-')[1];
+                var ngay = Request["date"].Split('-')[2];
+                //////////////////////////////////////////////////////////////////////////////////////
+
+                string path = HostingEnvironment.MapPath("/excel/DK/DailyDepartment/templateBaoCaoTheoPhanXuong.xlsx");
+                FileInfo file = new FileInfo(path);
+                using (ExcelPackage excelPackage = new ExcelPackage(file))
+                {
+                    ExcelWorkbook excelWorkbook = excelPackage.Workbook;
+                    ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
+
+                    int k = 0;
+                    int count = 0;
+                    excelWorksheet.Cells[1, 4].Value = "Ngày " + ngay + " tháng " + thang + " năm " + nam;
+                    excelWorksheet.Cells[1, 11].Value = "Tháng " + thang;
+                    for (int i = 3; i <= reports.Count + 2; i++)
+                    {
+                        if (reports[k].isHeader)
+                        {
+                     //       excelWorksheet.Cells[i, 1].Value = count;
+                            excelWorksheet.Cells[i, 2].Value = reports[k].TenTieuChi;
+                            excelWorksheet.Cells[i, 3].Value = reports[k].BQQHDC;
+                            excelWorksheet.Cells[i, 4].Value = reports[k].Ca1;
+                            excelWorksheet.Cells[i, 5].Value = reports[k].Ca2;
+                            excelWorksheet.Cells[i, 6].Value = reports[k].Ca3;
+                            excelWorksheet.Cells[i, 7].Value = reports[k].TH;
+                            excelWorksheet.Cells[i, 8].Value = reports[k].KH;
+                            excelWorksheet.Cells[i, 9].Value = reports[k].chenhlech;
+                            if (reports[k].chenhlech > 0)
+                            {
+                                excelWorksheet.Cells[i, 9].Style.Font.Color.SetColor(Color.Green);
+                            }
+                            else
+                            {
+                                excelWorksheet.Cells[i, 9].Style.Font.Color.SetColor(Color.Red);
+                            }
+                            excelWorksheet.Cells[i, 10].Value = reports[k].percentage;
+                            excelWorksheet.Cells[i, 11].Value = reports[k].luyke;
+                            excelWorksheet.Cells[i, 12].Value = reports[k].KHDC;
+                            excelWorksheet.Cells[i, 13].Value = reports[k].percentageDC;
+                            excelWorksheet.Cells[i, 14].Value = reports[k].SUM;
+                            excelWorksheet.Cells[i, 15].Value = reports[k].perday;
+                            excelWorksheet.Cells[i, 16].Value = reports[k].GhiChu;
+                            for(int j = 1; j <= 16; j++)
+                            {
+                                excelWorksheet.Cells[i, j].Style.Font.Bold = true;
+                            }
+                            count = 1;
+                        }
+                        else
+                        {
+                            excelWorksheet.Cells[i, 1].Value = count;
+                            excelWorksheet.Cells[i, 2].Value = reports[k].TenTieuChi;
+                            excelWorksheet.Cells[i, 3].Value = reports[k].BQQHDC;
+                            excelWorksheet.Cells[i, 4].Value = reports[k].Ca1;
+                            excelWorksheet.Cells[i, 5].Value = reports[k].Ca2;
+                            excelWorksheet.Cells[i, 6].Value = reports[k].Ca3;
+                            excelWorksheet.Cells[i, 7].Value = reports[k].TH;
+                            excelWorksheet.Cells[i, 8].Value = reports[k].KH;
+                            excelWorksheet.Cells[i, 9].Value = reports[k].chenhlech;
+                            if (reports[k].chenhlech > 0)
+                            {
+                                excelWorksheet.Cells[i, 9].Style.Font.Color.SetColor(Color.Green);
+                            }
+                            else
+                            {
+                                excelWorksheet.Cells[i, 9].Style.Font.Color.SetColor(Color.Red);
+                            }
+                            excelWorksheet.Cells[i, 10].Value = reports[k].percentage;
+                            excelWorksheet.Cells[i, 11].Value = reports[k].luyke;
+                            excelWorksheet.Cells[i, 12].Value = reports[k].KHDC;
+                            excelWorksheet.Cells[i, 13].Value = reports[k].percentageDC;
+                            excelWorksheet.Cells[i, 14].Value = reports[k].SUM;
+                            excelWorksheet.Cells[i, 15].Value = reports[k].perday;
+                            excelWorksheet.Cells[i, 16].Value = reports[k].GhiChu;
+                            count++;
+                        }
+                        k++;
+
+                    }
+                    ExcelRange Rng = excelWorksheet.Cells[3, 1, reports.Count + 2, 16];
+                    Rng.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                    Rng.Style.Border.Top.Color.SetColor(Color.Gray);
+                    Rng.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                    Rng.Style.Border.Left.Color.SetColor(Color.Gray);
+                    Rng.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                    Rng.Style.Border.Right.Color.SetColor(Color.Gray);
+                    Rng.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                    Rng.Style.Border.Bottom.Color.SetColor(Color.Gray);
+
+                    string location = HostingEnvironment.MapPath("/excel/DK/DailyDepartment");
+                    excelPackage.SaveAs(new FileInfo(location + "/BaoCaoToanCongTy.xlsx"));
+                    string handle = Guid.NewGuid().ToString();
+                    string downloadFilename = "BaoCaoToanCongTy.xlsx";
+                    using (MemoryStream memoryStream = new MemoryStream())
+                    {
+                        excelPackage.SaveAs(memoryStream);
+                        memoryStream.Position = 0;
+                        TempData[handle] = memoryStream.ToArray();
+                    }
+
+                    return Json(new { success = true, data = new { FileGuid = handle, FileName = downloadFilename } }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch(Exception e)
+            {
+            }
+            return null;
+        }
+
     }
 }
 
