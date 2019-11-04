@@ -133,12 +133,12 @@
     </div>
 </div>
 
-<div class="modal" id="edit">
-    @using (Html.BeginForm("Add", "CameraManagement", FormMethod.Post, new
+<div class="modal" id="Myedit">
+    @using (Html.BeginForm("Edit", "CameraManagement", FormMethod.Post, new
     {
         enctype = "multipart/form-data",
-        onSubmit = "return SubmitForm(this);",
-        data_restUrl = Url.Action("Add", "CameraManagement", new { id = "" })
+        onSubmit = "return UpdateEquipment(this);",
+        data_restUrl = Url.Action("Edit", "CameraManagement", new { id = "" })
     }))
     {
         <div class="card">
@@ -160,7 +160,7 @@
                                     @{
                                         foreach (var item in ViewBag.room)
                                         {
-                                            <option value="@item.room_id">@item.room_name</option>
+                                            <option id="@item.room_name" value="@item.room_id">@item.room_name</option>
                                         }
                                     }
                                 </select>
@@ -171,7 +171,7 @@
                                     @{
                                         foreach (var item in ViewBag.status)
                                         {
-                                            <option value="@item.statusid">@item.statusname</option>
+                                            <option id="@item.statusname" value="@item.statusid">@item.statusname</option>
                                         }
                                     }
                                 </select>
@@ -206,7 +206,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn blue">Thêm</button>
+                    <button type="submit" class="btn blue modal-close">Cập nhật</button>
                 </div>
             </div>
         </div>
@@ -255,7 +255,6 @@
                                         }
                                     }
                                 </select>
-
                             </div>
                         </div>
                         <div class="col s6">
@@ -458,7 +457,7 @@
         var Popup, dataTable, bol, bol2;
         $(document).ready(function () {
 
-             // code to read selected table row cell data (values).
+            // code to read selected table row cell data (values).
             $("#equipmentTable").on('click', '.btnSelect', function () {
                 // get the current row
                 var currentRow = $(this).closest("tr");
@@ -470,9 +469,21 @@
 
                 data = currentRow.find("td:eq(7)").text();
                 document.getElementById("note_edit").value = data;
-                
+
                 data = currentRow.find("td:eq(2)").text();
-                document.getElementById("room_edit").value = data;
+                document.getElementById(data).selected = "true";
+
+                data = currentRow.find("td:eq(6)").text();
+                document.getElementById(data).selected = "true";
+
+                data = currentRow.find("td:eq(3)").text();
+                document.getElementById("seri_edit").value = data;
+
+                data = currentRow.find("td:eq(4)").text();
+                document.getElementById("cap_edit").value = data;
+
+                data = currentRow.find("td:eq(5)").text();
+                document.getElementById("disk_edit").value = data;
             });
 
             dataTable = $('#equipmentTable')
@@ -502,7 +513,7 @@
                         //
                         {
                             "data": "equipmentId", "visible": bol, "render": function (data) {
-                                return "<a class='waves-effect waves-light btn-small blue modal-trigger btnSelect' data-target='edit'><i class='fa fa-pencil'></i>Chỉnh&nbsp;sửa</a>";
+                                return "<a class='waves-effect waves-light btn-small blue modal-trigger btnSelect' href='#Myedit')><i class='fa fa-pencil'></i>Chỉnh&nbsp;sửa</a>";
                             },
                             "orderable": false,
                             "searchable": false,
@@ -571,7 +582,7 @@
                         //
                         {
                             "data": "equipmentId", "visible": bol, "render": function (data) {
-                                return "<a class='waves-effect waves-light btn-small blue modal-trigger btnSelect' data-target='edit')><i class='fa fa-pencil'></i>Chỉnh&nbsp;sửa</a>";
+                                return "<a class='waves-effect waves-light btn-small blue modal-trigger btnSelect' href='#Myedit')><i class='fa fa-pencil'></i>Chỉnh&nbsp;sửa</a>";
                             },
                             "orderable": false,
                             "searchable": false,
