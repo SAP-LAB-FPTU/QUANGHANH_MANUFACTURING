@@ -65,7 +65,7 @@ namespace QUANGHANH2.Controllers.CDVT.Oto
             //paging
             return Json(new { success = true, data = list, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
-        //[Auther(RightID = "191")]
+        [Auther(RightID = "191")]
         [Route("phong-cdvt/oto/GPS/Update")]
         [HttpPost]
         public ActionResult Update(string stringjson)

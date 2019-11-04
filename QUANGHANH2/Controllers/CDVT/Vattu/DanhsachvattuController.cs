@@ -42,13 +42,19 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
             }
             List<Supply> supplies = DBContext.Database.SqlQuery<Supply>(query,
                 new SqlParameter("supply_id", '%' + supply_id + '%'),
-                new SqlParameter("supply_name", '%' + supply_name + '%')).ToList();
-            int totalrows = supplies.Count;
-            int totalrowsafterfiltering = supplies.Count;
+                new SqlParameter("supply_name", '%' + supply_name + '%'))
+                .OrderBy(sortColumnName + " " + sortDirection).Skip(start)
+                .Take(length).ToList<Supply>().ToList();
+
+            int totalrows = DBContext.Database.SqlQuery<Int32>(query.Replace("*","Count(*) as count"),
+                new SqlParameter("supply_id", '%' + supply_id + '%'),
+                new SqlParameter("supply_name", '%' + supply_name + '%')).ToList<Int32>()[0];
+
+            int totalrowsafterfiltering = totalrows;
             //sorting
-            supplies = supplies.OrderBy(sortColumnName + " " + sortDirection).ToList<Supply>();
+            //supplies = supplies.OrderBy(sortColumnName + " " + sortDirection).ToList<Supply>();
             //paging
-            supplies = supplies.Skip(start).Take(length).ToList<Supply>();
+            //supplies = supplies
             return Json(new { success = true, data = supplies, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
