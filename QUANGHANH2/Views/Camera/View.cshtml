@@ -95,11 +95,7 @@
 
                 <div class="col s12" style="margin-bottom:20px">
                     <div class="left" style="text-align:left !important">
-
-                        <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="myadd" onclick="PopupForm('@Url.Action("AddOrEdit","Hoatdong")')"><i class="fa fa-plus"></i> Thêm</a>
-                        <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="myadd3" @*onclick="PopupForm('@Url.Action("AddOrEdit","Hoatdong")')*@><i class="fa fa-plus"></i> Thêm nhóm thiết bị</a>
-
-
+                        <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="add"><i class="fa fa-plus"></i> Thêm</a>
                     </div>
                 </div>
 
@@ -110,26 +106,18 @@
                         <table id="equipmentTable" class="table-bordered striped mytb">
                             <thead>
                                 <tr>
-                                    <th>Nhóm thiết bị</th>
-                                    <th>Mã TSCĐ</th>
-                                    <th>Tên thiết bị</th>
-                                    <th>Số hiệu</th>
-                                    <th>Số chế tạo</th>
-                                    <th>Nhà cung cấp</th>
-                                    <th>Ngày nhập</th>
-                                    <th>Ngày đưa vào sử dụng</th>
-                                    <th>Tổng thời gian hoạt động</th>
-                                    <th>Loại chất lượng</th>
-                                    <th>Đường nhập</th>
-                                    <th>Thời hạn bảo hiểm</th>
-                                    <th>Thời điểm kiểm định</th>
-                                    <th>Thời hạn bảo dưỡng</th>
-                                    <th>Phân xưởng sử dụng</th>
-                                    <th>Tình trạng hiện tại</th>
-                                    <th>Khấu hao ước tính</th>
-                                    <th>Khấu hao hiện tại</th>
-                                    <th></th>
-                                    <th></th>
+                                    <th rowspan="2">Mã camera</th>
+                                    <th rowspan="2">Tên camera</th>
+                                    <th rowspan="2">Vị trí</th>
+                                    <th colspan="3">Ổ cứng</th>
+                                    <th rowspan="2">Tình trạng camera</th>
+                                    <th rowspan="2">Ghi chú</th>
+                                    <th rowspan="2"></th>
+                                </tr>
+                                <tr>
+                                    <th>Mã ổ cứng</th>
+                                    <th>Dung lượng</th>
+                                    <th>Tình trạng ổ cứng</th>
                                 </tr>
                             </thead>
                         </table>
@@ -145,112 +133,174 @@
     </div>
 </div>
 
-<div class="modal fade" id="nhomthietbi">
-    <div class="card">
-        <div class="card-content">
-            <div class="modal-content">
+<div class="modal" id="edit">
+    @using (Html.BeginForm("Add", "CameraManagement", FormMethod.Post, new
+    {
+        enctype = "multipart/form-data",
+        onSubmit = "return SubmitForm(this);",
+        data_restUrl = Url.Action("Add", "CameraManagement", new { id = "" })
+    }))
+    {
+        <div class="card">
+            <div class="card-content">
                 <div class="modal-header">
-                    <h3 class="modal-title">Thêm nhóm thiết bị mới</h3>
+                    <h3><b>Chỉnh sửa camera</b></h3>
                 </div>
                 <div class="modal-body">
-                    <form>
-                        <div class="row">
-                            <div class="col s12 m6">
-                                <div class="form-group">
-                                    <label for="date">Mã nhóm thiết bị : </label>
-                                    <input type="text" class="form-control" />
-                                </div>
-                                <div class="form-group">
-                                    <label for="name">Loại thiết bị : </label>
-                                    <select class="form-control">
-                                        <option>Thiết bị hầm lò</option>
-                                        <option>Thiết bị lộ thiên</option>
-                                        <option>Thiết bị truyền dẫn</option>
-                                        <option>Thiết bị sàng tuyển</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col s12 m6">
-                                <div class="form-group">
-                                    <label for="name">Tên nhóm : </label>
-                                    <input type="text" class="form-control" />
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="col s12 center-align" style="margin-top:15px">
-                                <h5><b>Đặc tính kỹ thuật</b></h5>
+                    <div class="row">
+                        <h5>Thông tin camera</h5>
+                        <div class="col s6">
+                            <div class="col s12">
+                                <label>Mã camera</label>
+                                <input id="code_edit" name="code" type="text" class="form-control" />
                             </div>
                             <div class="col s12">
-                                <table id="TableABC" class="centered striped table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>TT</th>
-                                            <th>Tên đặc tính</th>
-                                            <th>Thông số</th>
-                                            <th>ĐVT</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td id="dem">1</td>
-                                            <td><input type="text" class="form-control" placeholder="Tên đặc tính" /></td>
-                                            <td><input type="number" class="form-control" placeholder="Thông số" /></td>
-                                            <td><input type="text" class="form-control" placeholder="ĐVT" /></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <label>Vị trí</label>
+                                <select id="room_edit" class="form-control" name="room">
+                                    @{
+                                        foreach (var item in ViewBag.room)
+                                        {
+                                            <option value="@item.room_id">@item.room_name</option>
+                                        }
+                                    }
+                                </select>
                             </div>
+                            <div class="col s12">
+                                <label>Trạng thái camera</label>
+                                <select id="cam_edit" class="form-control" name="cam_status">
+                                    @{
+                                        foreach (var item in ViewBag.status)
+                                        {
+                                            <option value="@item.statusid">@item.statusname</option>
+                                        }
+                                    }
+                                </select>
 
+                            </div>
                         </div>
-                    </form>
+                        <div class="col s6">
+                            <div class="col s12">
+                                <label>Tên camera</label>
+                                <input id="name_edit" name="name" type="text" class="form-control" />
+                            </div>
+                            <div class="col s12">
+                                <label>Ghi chú</label>
+                                <input id="note_edit" name="note" type="text" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col s12">
+                            <h5 style="margin-top:10px">Thông tin ổ cứng</h5>
+                            <div class="col s4">
+                                <label>Seri</label>
+                                <input id="seri_edit" name="seri" type="text" class="form-control" />
+                            </div>
+                            <div class="col s4">
+                                <label>Dung lượng</label>
+                                <input id="cap_edit" name="capacty" type="number" min="0" class="form-control" />
+                            </div>
+                            <div class="col s4">
+                                <label>Tình trạng ổ cứng</label>
+                                <input id="disk_edit" name="disk_status" type="text" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <a class="left"><button id="them" type="submit" class="btn light-blue lighten-1"><i class="large material-icons">add</i></button></a>
-                    <button id="check" type="submit" class="btn blue darken-2 modal-close save-category">Lưu</button>
-                    <button id="check1" type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
+                    <button type="submit" class="btn blue">Thêm</button>
                 </div>
             </div>
         </div>
-    </div>
+    }
 </div>
 
-
-
-
-
-
-
-<div id="kiemdinh" class="modal">
-    <div class="card">
-        <div class="card-content">
-            <div class="modal-content">
+<div class="modal" id="add">
+    @using (Html.BeginForm("Add", "CameraManagement", FormMethod.Post, new
+    {
+        enctype = "multipart/form-data",
+        onSubmit = "return SubmitForm(this);",
+        data_restUrl = Url.Action("Add", "CameraManagement", new { id = "" })
+    }))
+    {
+        <div class="card">
+            <div class="card-content">
                 <div class="modal-header">
-                    <h3>Cập nhật ngày kiểm định</h3>
+                    <h3 style="margin-top:10px"><b>Thêm camera mới</b></h3>
                 </div>
-                <form action="/phong-cdvt/huy-dong/kd" method="post">
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col s12 m6">
-                                <label for="number">Mã thiết bị: </label>
-                                <input type="text" name="id" class="form-control" />
+                <div class="modal-body">
+                    <div class="row">
+                        <h5>Thông tin camera</h5>
+                        <div class="col s6">
+                            <div class="col s12">
+                                <label>Mã camera</label>
+                                <input name="code" type="text" class="form-control" />
                             </div>
-                            <div class="col s12 m6">
-                                <label for="number">Ngày kiểm định: </label>
-                                <input type="datetime" name="date" class="form-control datepicker-here maxDate" />
+                            <div class="col s12">
+                                <label>Vị trí</label>
+                                <select class="form-control" name="room">
+                                    @{
+                                        foreach (var item in ViewBag.room)
+                                        {
+                                            <option value="@item.room_id">@item.room_name</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="col s12">
+                                <label>Trạng thái camera</label>
+                                <select class="form-control" name="cam_status">
+                                    @{
+                                        foreach (var item in ViewBag.status)
+                                        {
+                                            <option value="@item.statusid">@item.statusname</option>
+                                        }
+                                    }
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="col s6">
+                            <div class="col s12">
+                                <label>Tên camera</label>
+                                <input name="name" type="text" class="form-control" />
+                            </div>
+                            <div class="col s12">
+                                <label>Ghi chú</label>
+                                <input name="note" type="text" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col s12">
+                            <h5 style="margin-top:10px">Thông tin ổ cứng</h5>
+                            <div class="col s4">
+                                <label>Seri</label>
+                                <input name="seri" type="text" class="form-control" />
+                            </div>
+                            <div class="col s4">
+                                <label>Dung lượng</label>
+                                <input name="capacty" type="number" min="0" class="form-control" />
+                            </div>
+                            <div class="col s4">
+                                <label>Tình trạng ổ cứng</label>
+                                <input name="disk_status" type="text" class="form-control" />
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <div class="col-md-offset-2 col-md-10">
-                            <button type="submit" id="save" class="btn blue btn-default modal-close" style="color:white">Cập nhật</button>
-                            @*<input type="submit" value="Cập nhật" class="btn blue btn-default modal-close" />*@
-                        </div>
-                    </div>
-                </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn blue">Thêm</button>
+                </div>
             </div>
         </div>
-    </div>
+    }
 </div>
+
+
+
+
+
+
+
+
+
 <form asp-action="Delete" method="post">
     <div id="myaleart" class="modal">
         <div class="card">
@@ -389,6 +439,9 @@
 
 @section scripts{
     <script>
+
+
+
         //export fuction
         $("#export-button").click(function () {
             $("#pre-load").show();
@@ -402,9 +455,25 @@
             })
         });
 
-        var Popup, dataTable, bol,bol2;
+        var Popup, dataTable, bol, bol2;
         $(document).ready(function () {
 
+             // code to read selected table row cell data (values).
+            $("#equipmentTable").on('click', '.btnSelect', function () {
+                // get the current row
+                var currentRow = $(this).closest("tr");
+                var data = currentRow.find("td:eq(0)").text();
+                document.getElementById("code_edit").value = data;
+
+                data = currentRow.find("td:eq(1)").text();
+                document.getElementById("name_edit").value = data;
+
+                data = currentRow.find("td:eq(7)").text();
+                document.getElementById("note_edit").value = data;
+                
+                data = currentRow.find("td:eq(2)").text();
+                document.getElementById("room_edit").value = data;
+            });
 
             dataTable = $('#equipmentTable')
                 .on('preXhr.dt', function (e, settings, data) {
@@ -416,73 +485,28 @@
                 })
                 .DataTable({
                     "ajax": {
-                        "url": "/phong-cdvt/huy-dong",
-                    "type": "POST",
-                    "datatype": "json",
-                },
-                "columns": [
-                    { "data": "Equipment_category_name", "name" : "Equipment_category_name"},
-                    {
-                        "data": "equipmentId", "name": "equipmentId", "render": function (data) {
-                            return ("<form action=\"thiet-bi\" method=\"post\"><input type=\"hidden\" name=\"id\" value=\"" + data + "\" class=\"form-control\"/><button class='btn' onclick='submit'>" + data + "</button></form>");
-                        }
+                        "url": "/camera",
+                        "type": "POST",
+                        "datatype": "json",
                     },
-                    { "data": "equipment_name", "name": "equipment_name" },
-                    { "data": "fabrication_number", "name": "fabrication_number" },
-                    { "data": "mark_code", "name" : "mark_code"},
-                    { "data": "supplier", "name": "supplier" },
-                    {
-                        "data": "date_import", "name": "date_import", "render": function (data) {
-                            return dateFormat2(data) + " ";
-                        },
+                    "columns": [
+                        { "data": "camera_id", "name": "camera_id" },
+                        { "data": "camera_name", "name": "camera_name" },
+                        { "data": "room_name", "name": "room_name" },
+                        { "data": "series", "name": "series" },
+                        { "data": "capacity", "name": "capacity" },
+                        { "data": "disk_status", "name": "disk_status" },
+                        { "data": "statusname", "name": "statusname" },
+                        { "data": "note", "name": "note" },
 
-                    },
-                    {
-                        "data": "usedDay", "name": "usedDay", "render": function (data) {
-                            return dateFormat2(data) + " ";
-                        },
-                    },
-                    { "data": "total_operating_hours" , "name" : "total_operating_hours"},
-                    { "data": "quality_type" , "name" : "quality_type"},
-                    { "data": "input_channel", "name": "input_channel" },
-                    {
-                        "data": "durationOfInsurance", "name": "durationOfInsurance", "render": function (data) {
-                            return dateFormat2(data) + " ";
-                        },
-                    },
-                    {
-                        "data": "durationOfInspection_fix", "name": "durationOfInspection", "render": function (data) {
-                            return dateFormat2(data) + " ";
-                        },
-                    },
-                    {
-                        "data": "durationOfMaintainance", "name": "durationOfMaintainance", "render": function (data) {
-                            return dateFormat2(data) + " ";
-                        },
-                    },
-                    { "data": "department_name" , "name" : "department_name"},
-                    { "data": "statusname", "name" : "statusname"},
-                    { "data": "depreciation_estimate", "name": "depreciation_estimate" },
-                    { "data": "depreciation_present", "name": "depreciation_present" },
-
-
-
-                    //
-                    {
-                        "data": "equipmentId", "visible":bol,"render": function (data) {
-                return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='myedit' onclick=Edit('@Url.Action("Edit","Hoatdong")/" + data + "')><i class='fa fa-pencil'></i>Chỉnh&nbsp;sửa</a>";
-            },
-                        "orderable": false,
-                        "searchable":false,
-                        "width":"150px"
-                    },
-                    {
-                        "data": "equipmentId", "visible":bol2, "render": function (data) {
-                return "<a class='waves-effect waves-light btn-small blue' style='margin-left:5px' onclick=Delete('@Url.Action("Delete","Hoatdong")/" + data + "')><i class='fa fa-trash'></i>Xóa</a>";
-            },
-                        "orderable": false,
-                        "searchable":false,
-                        "width":"150px"
+                        //
+                        {
+                            "data": "equipmentId", "visible": bol, "render": function (data) {
+                                return "<a class='waves-effect waves-light btn-small blue modal-trigger btnSelect' data-target='edit'><i class='fa fa-pencil'></i>Chỉnh&nbsp;sửa</a>";
+                            },
+                            "orderable": false,
+                            "searchable": false,
+                            "width": "150px"
                         }
                     ],
                     "drawCallback": function (settings) {
@@ -494,10 +518,10 @@
                     "serverSide": "true",
 
                     "bFilter": false,
-                     "lengthChange": false,
+                    "lengthChange": false,
                     "bAutoWidth": false,
                     "order": [0, "asc"],
-                "language": {
+                    "language": {
                         emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
                         paginate:
                         {
@@ -505,137 +529,83 @@
                             next: "Trang sau",
                             first: "|<",
                             last: ">|"
-                          },
-                           info: "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
-                                    infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
+                        },
+                        info: "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                        infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
                     },
 
                 });
             $("#pre-load").hide("slow", function () {
-                        });
-                //$("#pre-load").hide();
+            });
+            //$("#pre-load").hide();
         });
 
-         $("#searchButton1").click(function () {
-             $("#pre-load").show();
-                dataTable.destroy();
+        $("#searchButton1").click(function () {
+            $("#pre-load").show();
+            dataTable.destroy();
 
-             dataTable = $('#equipmentTable')
-                  .on('preXhr.dt', function (e, settings, data) {
+            dataTable = $('#equipmentTable')
+                .on('preXhr.dt', function (e, settings, data) {
                     ////////////////////////////////////HIỆN LÊN MỖI KHI CHẠY AJAX//////////////////////////////////
                     $("#pre-load").show("slow", function () {
                     });
                     $("#pre-load").css("z-index", "99999");
                     ////////////////////////////////////////////////////////////////////////
                 })
-                 .DataTable({
-                     "language": {
-                         "equipmentTable": "Không tìm thấy dữ liệu"
-                     },
-                     "ajax": {
-                         "url": "/phong-cdvt/huy-dong/search",
-                         "type": "POST",
-                         "search": false,
-                         "datatype": "json",
-                         "data": {
-                             "equipmentId": $('#equipmentId-search').val(),
-                             "equipmentName": $('#equipmentName-search').val(),
-                             "department": $('#department-search').val(),
-                             "quality": $('#equipmentQuality-search').val(),
-                             "dateStart": $('#date-start-search').val(),
-                             "dateEnd": $('#date-end-search').val(),
-                             "category": $('#category-search').val(),
-                             "sup": $('#supplier-search').val()
-                         },
-                         "cache": false
-                     },
-                     "drawCallback": function (settings) {
+                .DataTable({
+                    "ajax": {
+                        "url": "/camera",
+                        "type": "POST",
+                        "datatype": "json",
+                    },
+                    "columns": [
+                        { "data": "camera_id", "name": "camera_id" },
+                        { "data": "camera_name", "name": "camera_name" },
+                        { "data": "room_name", "name": "room_name" },
+                        { "data": "series", "name": "series" },
+                        { "data": "capacity", "name": "capacity" },
+                        { "data": "disk_status", "name": "disk_status" },
+                        { "data": "statusname", "name": "statusname" },
+                        { "data": "note", "name": "note" },
+
+                        //
+                        {
+                            "data": "equipmentId", "visible": bol, "render": function (data) {
+                                return "<a class='waves-effect waves-light btn-small blue modal-trigger btnSelect' data-target='edit')><i class='fa fa-pencil'></i>Chỉnh&nbsp;sửa</a>";
+                            },
+                            "orderable": false,
+                            "searchable": false,
+                            "width": "150px"
+                        }
+                    ],
+                    "drawCallback": function (settings) {
                         ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
                         $("#pre-load").hide("slow", function () {
                         });
                         ////////////////////////////////////////////////
                     },
-                     "columns": [
-                    { "data": "Equipment_category_name", "name" : "Equipment_category_name"},
-                    {
-                        "data": "equipmentId", "name": "equipmentId", "render": function (data) {
-                            return ("<form action=\"thiet-bi\" method=\"post\"><input type=\"hidden\" name=\"id\" value=\"" + data + "\" class=\"form-control\"/><button class='btn' onclick='submit'>" + data + "</button></form>");
-                        }
-                    },
-                    { "data": "equipment_name", "name": "equipment_name" },
-                    { "data": "fabrication_number", "name": "fabrication_number" },
-                    { "data": "mark_code", "name" : "mark_code"},
-                    { "data": "supplier", "name": "supplier" },
-                    {
-                        "data": "date_import", "name": "date_import", "render": function (data) {
-                            return dateFormat2(data) + " ";
-                        },
-
-                    },
-                    {
-                        "data": "usedDay", "name": "usedDay", "render": function (data) {
-                            return dateFormat2(data) + " ";
-                        },
-                    },
-                    { "data": "total_operating_hours" , "name" : "total_operating_hours"},
-                    { "data": "quality_type" , "name" : "quality_type"},
-                    { "data": "input_channel", "name": "input_channel" },
-                    {
-                        "data": "durationOfInsurance", "name": "durationOfInsurance", "render": function (data) {
-                            return dateFormat2(data) + " ";
-                        },
-                    },
-                    {
-                        "data": "durationOfInspection_fix", "name": "durationOfInspection", "render": function (data) {
-                            return dateFormat2(data) + " ";
-                        },
-                    },
-                    {
-                        "data": "durationOfMaintainance", "name": "durationOfMaintainance", "render": function (data) {
-                            return dateFormat2(data) + " ";
-                        },
-                    },
-                    { "data": "department_name" , "name" : "department_name"},
-                    { "data": "statusname", "name" : "statusname"},
-                    { "data": "depreciation_estimate", "name": "depreciation_estimate" },
-                    { "data": "depreciation_present", "name": "depreciation_present" },
-
-
-
-                    //
-                    {
-                        "data": "equipmentId", "visible":bol,"render": function (data) {
-                return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='myedit' onclick=Edit('@Url.Action("Edit","Hoatdong")/" + data + "')><i class='fa fa-pencil'></i>Chỉnh&nbsp;sửa</a>";
-            },
-                        "orderable": false,
-                        "searchable":false,
-                        "width":"150px"
-                    },
-                    {
-                        "data": "equipmentId", "visible":bol2, "render": function (data) {
-                return "<a class='waves-effect waves-light btn-small blue' style='margin-left:5px' onclick=Delete('@Url.Action("Delete","Hoatdong")/" + data + "')><i class='fa fa-trash'></i>Xóa</a>";
-            },
-                        "orderable": false,
-                        "searchable":false,
-                        "width":"150px"
-                        }
-                    ],
-
                     "serverSide": "true",
-                    "order": [0, "asc"],
-                    "rowId": "incident_id",
-                    "lengthChange": false,
-                     "searching": false,
-                     "bInfo": false,
-                     "initComplete": function (settings, json) {
-                         $("#pre-load").hide("slow", function () {
-                         });
-                         successAlert('Tìm kiếm thành công', '');
-                     }
-                 });
 
-                //$('#pre-load').hide();
-            });
+                    "bFilter": false,
+                    "lengthChange": false,
+                    "bAutoWidth": false,
+                    "order": [0, "asc"],
+                    "language": {
+                        emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                        paginate:
+                        {
+                            previous: "Trang trước",
+                            next: "Trang sau",
+                            first: "|<",
+                            last: ">|"
+                        },
+                        info: "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                        infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
+                    },
+
+                });
+            $('#pre-load').hide();
+        });
 
         function dateFormat2(d) {
             var dateString = d.substr(6);
@@ -671,61 +641,61 @@
                 });
         }
 
-     function UpdateEquipment(form) {
-             $("#pre-load").show();
+        function UpdateEquipment(form) {
+            $("#pre-load").show();
 
             $.validator.unobtrusive.parse(form);
-                if($(form).valid()){
+            if ($(form).valid()) {
                 $.ajax({
-                    type : "POST",
-                    url : form.action,
-                    data : $(form).serialize(),
-                    success : function (data) {
-                            dataTable.ajax.reload();
-                           successAlert('Cập nhật thành công', '');
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        dataTable.ajax.reload();
+                        successAlert('Cập nhật thành công', '');
 
                     },
                     error: function () {
-                            alert(response.data.message)
+                        alert(response.data.message)
                     }
-                    });
+                });
             }
-                $("#pre-load").hide();
+            $("#pre-load").hide();
 
-                return false;
+            return false;
         }
 
         function Change(form) {
 
             $.validator.unobtrusive.parse(form);
 
-                if($(form).valid()){
+            if ($(form).valid()) {
                 $.ajax({
-                    type : "POST",
+                    type: "POST",
                     url: form.action,
                     data: $(form).serialize(),
                     success: function (data) {
-                    var options = '';
+                        var options = '';
                         options = JSON.stringify(data);
                         var i = options.length;;
-                        options = options.substring(24, i-2);
-                    document.getElementById('IDlist').innerHTML = options;
+                        options = options.substring(24, i - 2);
+                        document.getElementById('IDlist').innerHTML = options;
 
-                        }
-                    });
+                    }
+                });
             }
 
 
-                return false;
-            }
+            return false;
+        }
 
-            function Atri(form) {
+        function Atri(form) {
 
             $.validator.unobtrusive.parse(form);
 
-                if($(form).valid()){
+            if ($(form).valid()) {
                 $.ajax({
-                    type : "POST",
+                    type: "POST",
                     url: form.action,
                     data: $(form).serialize(),
                     success: function (data) {
@@ -735,8 +705,8 @@
                         $('#cateTB tbody').empty();
                         $('#cateTB').append(options);
 
-                        }
-                    });
+                    }
+                });
             }
 
 
@@ -840,15 +810,15 @@
 
 
 
-            function Delete(url) {
-             $.get(url)
-                 .done(function (response) {
+        function Delete(url) {
+            $.get(url)
+                .done(function (response) {
 
                     dataTable.ajax.reload();
                     successAlert('Thành công', 'Xóa thành công ');
 
-                 });
-                return false;
+                });
+            return false;
         }
 
 
