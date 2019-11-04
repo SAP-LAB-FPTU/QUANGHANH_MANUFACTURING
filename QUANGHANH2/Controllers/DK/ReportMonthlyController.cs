@@ -128,23 +128,26 @@ namespace QUANGHANH2.Controllers.DK
                             bc.Q2 = listTH[index2].Q2;
                             bc.Q3 = listTH[index2].Q3;
                             bc.isHeader = false;
-                            //bc.TenNhomTieuChi = listTH[index2].TenNhomTieuChi;
-                            ////
-                            //bc.JanKH = listKH[index2].Jan;
-                            //bc.FebKH = listKH[index2].Feb;
-                            //bc.MarchKH = listKH[index2].March;
-                            //bc.AprilKH = listKH[index2].April;
-                            //bc.JuneKH = listKH[index2].June;
-                            //bc.JulyKH = listKH[index2].July;
-                            //bc.AugKH = listKH[index2].Aug;
-                            //bc.SepKH = listKH[index2].Sep;
-                            //bc.OctKH = listKH[index2].Oct;
-                            //bc.NovKH = listKH[index2].Nov;
-                            //bc.DecKH = listKH[index2].Dec;
-                            //bc.Q1KH = listKH[index2].Q1;
-                            //bc.Q2KH = listKH[index2].Q2;
-                            //bc.Q3KH = listKH[index2].Q3;
-                            listBaoCao.Add(bc);
+                            bc.TenNhomTieuChi = listTH[index2].TenNhomTieuChi;
+                            //
+                            if (index2 < listKH.Count)
+                            {
+                                bc.JanKH = listKH[index2].Jan;
+                                bc.FebKH = listKH[index2].Feb;
+                                bc.MarchKH = listKH[index2].March;
+                                bc.AprilKH = listKH[index2].April;
+                                bc.JuneKH = listKH[index2].June;
+                                bc.JulyKH = listKH[index2].July;
+                                bc.AugKH = listKH[index2].Aug;
+                                bc.SepKH = listKH[index2].Sep;
+                                bc.OctKH = listKH[index2].Oct;
+                                bc.NovKH = listKH[index2].Nov;
+                                bc.DecKH = listKH[index2].Dec;
+                                bc.Q1KH = listKH[index2].Q1;
+                                bc.Q2KH = listKH[index2].Q2;
+                                bc.Q3KH = listKH[index2].Q3;
+                                listBaoCao.Add(bc);
+                            }
                         }
                     }
                 }
