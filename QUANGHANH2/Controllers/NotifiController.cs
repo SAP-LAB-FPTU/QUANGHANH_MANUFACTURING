@@ -22,7 +22,7 @@ namespace QUANGHANH2.Controllers
             var hanDangKiem = db.Equipments.Where(x => x.durationOfInspection <= testTime && x.durationOfInspection >= DateTime.Now).OrderBy(x => x.durationOfInspection).
                                     Select(x => new main
                                     {
-                                        pb = "CDVT",
+                                        pb = "Cơ điện vận tải",
                                         title = "Mã thiết bị "+x.equipmentId,
                                         date = x.durationOfInspection
                                     }).FirstOrDefault();
@@ -31,7 +31,7 @@ namespace QUANGHANH2.Controllers
                                         on equip.Equipment_category_id equals cate.Equipment_category_id
                                      select new main
                                      {
-                                         pb = "CDVT",
+                                         pb = "Cơ điện vận tải",
                                          title = "Mã thiết bị " + equip.equipmentId,
                                          date = equip.durationOfInsurance
                                      }).OrderBy(x => x.date).FirstOrDefault();
