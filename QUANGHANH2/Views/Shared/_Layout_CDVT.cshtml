@@ -17,17 +17,22 @@
             border-radius: 50%;
             padding: 3px 8px;
         }
-        #noti_dropdown{
-            top:65px !important;
+
+        #noti_dropdown {
+            top: 65px !important;
         }
+
         .notif {
             position: absolute;
         }
+
         #drop {
             height: 64px !important;
         }
-        #noti_dropdown{
+
+        #noti_dropdown {
             border: 1px solid #2ea7e5;
+            border-radius:10px;
         }
     </style>
     <meta charset="utf-8">
@@ -181,7 +186,7 @@
                         <!-- ============================================================== -->
                         <li>
                             <a class="dropdown-trigger" id="drop" href="#!" data-target="noti_dropdown">
-                                <i class="small material-icons" >notifications</i>
+                                <i class="small material-icons">notifications</i>
                                 <small id="number"></small>
                             </a>
                             <ul id="noti_dropdown" class="mailbox dropdown-content">
@@ -204,36 +209,36 @@
                         <!-- Comment topbar icon scss in header.scss -->
                         <!-- ============================================================== -->
                         @*<li>
-                            <a class="dropdown-trigger" href="javascript: void(0);" data-target="msg_dropdown">
-                                <i class="small material-icons">comment</i>
-                            </a>
-                            <ul id="msg_dropdown" class="mailbox dropdown-content">
-                                <li>
-                                    <div class="drop-title">Bạn có 4 tin nhắn mới</div>
-                                </li>
-                                <li>
-                                    <div class="message-center">
-                                         Message 
-                                        <a href="#">
-                                                <span class="user-img">
-                                                    <img src="~/assets/images/users/2.jpg" alt="user" class="circle">
-                                                    <span class="profile-status online pull-right"></span>
-                                                </span>
-                                                <span class="mail-contnet">
-                                                    <h5>Trần Long- CĐVT</h5>
-                                                    <span class="mail-desc">Gửi báo cáo chưa ? </span>
-                                                    <span class="time">9:30 AM</span>
-                                                </span>
-                                            </a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a class="center-align" href="javascript:void(0);">
-                                        <strong>Xoá tin nhắn</strong>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>*@
+                                <a class="dropdown-trigger" href="javascript: void(0);" data-target="msg_dropdown">
+                                    <i class="small material-icons">comment</i>
+                                </a>
+                                <ul id="msg_dropdown" class="mailbox dropdown-content">
+                                    <li>
+                                        <div class="drop-title">Bạn có 4 tin nhắn mới</div>
+                                    </li>
+                                    <li>
+                                        <div class="message-center">
+                                             Message
+                                            <a href="#">
+                                                    <span class="user-img">
+                                                        <img src="~/assets/images/users/2.jpg" alt="user" class="circle">
+                                                        <span class="profile-status online pull-right"></span>
+                                                    </span>
+                                                    <span class="mail-contnet">
+                                                        <h5>Trần Long- CĐVT</h5>
+                                                        <span class="mail-desc">Gửi báo cáo chưa ? </span>
+                                                        <span class="time">9:30 AM</span>
+                                                    </span>
+                                                </a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a class="center-align" href="javascript:void(0);">
+                                            <strong>Xoá tin nhắn</strong>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>*@
                     </ul>
                     <!-- ============================================================== -->
                     <!-- Left topbar icon scss in header.scss -->
@@ -431,14 +436,14 @@
                 contentType: "application/json;charset=utf-8",
                 success: function (result) {
                     result.result.forEach(function (key) {
-                        var string = "<a href ='#!'><span class='btn-floating btn-large red'><i class='large material-icons' style='font-size:40px'>error</i></span><span class='mail-contnet'><h5><b>" + key.pb + "</b></h5><span class='mail-desc black-text' style='font-size:14px !important'>" + key.title + "</span><span class='blue-text' style='font-size:13px !important'>" + key.remain_title + "</span></span></a>";
+                        var string = "<a href ='Notifi/Export?type="+key.type+"'><span class='btn-floating btn-large red'><i class='large material-icons' style='font-size:40px'>error</i></span><span class='mail-contnet'><h5><b>" + key.pb + "</b></h5><span class='mail-desc black-text' style='font-size:14px !important'>" + key.title + "</span><span class='blue-text' style='font-size:13px !important'>" + key.remain_title + "</span></span></a>";
                         $('#message').append(string);
                     });
                     if (result.result.length != 0) {
                         $('#number').attr('class', 'notification-badge');
                         $('#number').html(result.result.length);
                     } else {
-                        $('#message').attr('class','center');
+                        $('#message').attr('class', 'center');
                         $('#message').html('Bạn chưa có thông báo nào');
                     }
                 },
