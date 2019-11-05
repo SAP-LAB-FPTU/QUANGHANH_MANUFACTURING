@@ -647,6 +647,7 @@
     <Content Include="assets\uploader\dropzone.js" />
     <Content Include="assets\uploader\dropzone.min.css" />
     <Content Include="assets\uploader\dropzone.min.js" />
+    <Content Include="assets\uploader\file-icon.png" />
     <Content Include="assets\uploader\icon.png" />
     <Content Include="assets\uploader\icons.min.css" />
     <Content Include="assets\uploader\style_uploader.css" />
