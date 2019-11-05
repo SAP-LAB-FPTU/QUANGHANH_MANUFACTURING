@@ -97,22 +97,22 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                     items.linkIdCode = new LinkIdCode2();
                     switch (items.documentary_type)
                     {
-                        case "1":
+                        case 1:
                             items.linkIdCode.link = "vat-tu";
                             break;
-                        case "2":
+                        case 2:
                             items.linkIdCode.link = "vat-tu";
                             break;
-                        case "3":
+                        case 3:
                             items.linkIdCode.link = "vat-tu-kem-theo";
                             break;
-                        case "4":
+                        case 4:
                             items.linkIdCode.link = "vat-tu";
                             break;
-                        case "5":
+                        case 5:
                             items.linkIdCode.link = "vat-tu";
                             break;
-                        case "6":
+                        case 6:
                             items.linkIdCode.link = "vat-tu";
                             break;
                     }
