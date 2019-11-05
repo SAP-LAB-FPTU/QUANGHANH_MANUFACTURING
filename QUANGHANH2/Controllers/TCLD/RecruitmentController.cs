@@ -72,14 +72,13 @@ namespace QUANGHANH2.Controllers.TCLD
                         string dob = (string)item["2"];
                         string gender = (string)item["3"];
                         string unit = (string)item["4"];
-                        string kind = (string)item["5"];
-                        string level = (string)item["6"];
-                        string specialized = (string)item["7"];
-                        string working = (string)item["8"];
-                        string place = (string)item["9"];
-                        string salary = (string)item["10"];
-                        string leveWork = (string)item["11"];
-                        string salaryMonth = (string)item["12"];
+                        string level = (string)item["5"];
+                        string specialized = (string)item["6"];
+                        string working = (string)item["7"];
+                        string place = (string)item["8"];
+                        string salary = (string)item["9"];
+                        string leveWork = (string)item["10"];
+                        string salaryMonth = (string)item["11"];
                         TuyenDung_NhanVien tdnv = new TuyenDung_NhanVien();
                         tdnv.MaQuyetDinh = maQD;
                         tdnv.MaNV = id;
@@ -107,7 +106,7 @@ namespace QUANGHANH2.Controllers.TCLD
                                 return Json(new { message = "NgaySinh", responseText = id }, JsonRequestBehavior.AllowGet);
                             }
                         }
-                        emp.LoaiNhanVien = kind;
+
                         emp.BacLuong = leveWork;
                         if(gender.Equals("nam"))
                         {
