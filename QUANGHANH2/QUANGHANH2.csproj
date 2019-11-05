@@ -402,6 +402,7 @@
     <Compile Include="Models\Documentary.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DocumentaryType.cs" />
     <Compile Include="Models\Documentary_big_maintain_details.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -646,6 +647,7 @@
     <Content Include="assets\uploader\dropzone.js" />
     <Content Include="assets\uploader\dropzone.min.css" />
     <Content Include="assets\uploader\dropzone.min.js" />
+    <Content Include="assets\uploader\file-icon.png" />
     <Content Include="assets\uploader\icon.png" />
     <Content Include="assets\uploader\icons.min.css" />
     <Content Include="assets\uploader\style_uploader.css" />

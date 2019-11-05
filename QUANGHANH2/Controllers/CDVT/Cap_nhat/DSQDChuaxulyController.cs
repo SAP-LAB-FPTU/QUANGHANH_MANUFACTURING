@@ -105,31 +105,31 @@ namespace QUANGHANHCORE.Controllers.CDVT.Cap_nhat
                 item.linkIdCode = new LinkIdCode();
                 switch (item.documentary_type)
                 {
-                    case "1":
+                    case 1:
                         item.stringtype = "Sửa chữa";
                         item.linkIdCode.link = "sua-chua";
                         break;
-                    case "2":
+                    case 2:
                         item.stringtype = "Bảo dưỡng";
                         item.linkIdCode.link = "bao-duong";
                         break;
-                    case "3":
+                    case 3:
                         item.stringtype = "Điều động";
                         item.linkIdCode.link = "dieu-dong";
                         break;
-                    case "4":
+                    case 4:
                         item.stringtype = "Thu hồi";
                         item.linkIdCode.link = "thu-hoi";
                         break;
-                    case "5":
+                    case 5:
                         item.stringtype = "Thanh lý";
                         item.linkIdCode.link = "thanh-ly";
                         break;
-                    case "6":
+                    case 6:
                         item.stringtype = "Trung đại tu";
                         item.linkIdCode.link = "trung-dai-tu";
                         break;
-                    case "7":
+                    case 7:
                         item.stringtype = "Cải tiến";
                         item.linkIdCode.link = "cai-tien";
                         break;

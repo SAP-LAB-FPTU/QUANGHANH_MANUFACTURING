@@ -56,6 +56,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<Documentary_moveline_details> Documentary_moveline_details { get; set; }
         public virtual DbSet<Documentary_repair_details> Documentary_repair_details { get; set; }
         public virtual DbSet<Documentary_revoke_details> Documentary_revoke_details { get; set; }
+        public virtual DbSet<DocumentaryType> DocumentaryTypes { get; set; }
         public virtual DbSet<DoiChieu_Luong> DoiChieu_Luong { get; set; }
         public virtual DbSet<Equipment> Equipments { get; set; }
         public virtual DbSet<Equipment_attribute> Equipment_attribute { get; set; }
