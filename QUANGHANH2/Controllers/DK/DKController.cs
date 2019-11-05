@@ -27,7 +27,7 @@ namespace QUANGHANHCORE.Controllers.DK
             public double Ca1 { get; set; }
             public double Ca2 { get; set; }
             public double Ca3 { get; set; }
-            public double TH { get; set; }
+            public double thuchien { get; set; }
             public double KH { get; set; }
             public double luyke { get; set; }
             public double chenhlech { get; set; }
@@ -98,7 +98,7 @@ namespace QUANGHANHCORE.Controllers.DK
         [HttpGet]
         public ActionResult Index(string date)
         {
-            string[] data;
+            string[] data = new string[4];
             if (date != null)
             {
                 data = date.Split('/');
@@ -107,37 +107,31 @@ namespace QUANGHANHCORE.Controllers.DK
             else
             {
                 DateTime d = DateTime.Today;
-                date = d.ToString("yyyy-MM-dd");
+                date = d.ToString("dd/MM/yyyy");
+                data = date.Split('/');
+                date = data[2] + "-" + data[1] + "-" + data[0];
             }
 
             DateTime timeEnd = Convert.ToDateTime(date);
             var timeStart = Convert.ToDateTime("" + timeEnd.Year + "-" + timeEnd.Month + "-1");
-            var query = "select a.MaTieuChi,t.TenTieuChi,a.CA1,a.CA2,a.CA3,a.TH,a.LUYKE, " +
-                            "(case when b.SanLuong is null then 0 else b.SanLuong end) as 'KHDC', " +
-                            "(case when c.KeHoach is null then 0 else c.KeHoach end) as 'KH' " +
-                            "from(select MaTieuChi, " +
-                                        "Sum(case when ca = 1 and Ngay = @dateEnd then SanLuong else 0  end )as [CA1], " +
-                                        "Sum(case when ca = 2 and Ngay = @dateEnd then SanLuong else 0  end )as [CA2], " +
-                                        "Sum(case when ca = 3 and Ngay = @dateEnd then SanLuong else 0  end )as [CA3], " +
-                                        "Sum(case when Ngay = @dateEnd then SanLuong else 0  end )as [TH], " +
-                                        "SUM(SanLuong) as [LUYKE] " +
-
-                                    "from header_ThucHienTheoNgay a inner join ThucHien_TieuChi_TheoNgay b on a.HeaderID = b.HeaderID and a.Ngay >= @dateStart and a.Ngay <= @dateEnd " +
-
-                                    "group by MaTieuChi) a " +
-                                    "full join(select k.MaTieuChi, k.SanLuong, k.ThoiGianNhapCuoiCung " +
-
-                                        "from KeHoach_TieuChi_TheoThang k inner join (select k.MaTieuChi, MAX(k.ThoiGianNhapCuoiCung) as 'thoigian' from KeHoach_TieuChi_TheoThang k group by k.MaTieuChi) a " +
-                                         "on k.MaTieuChi = a.MaTieuChi and k.ThoiGianNhapCuoiCung = a.thoigian) b on a.MaTieuChi = b.MaTieuChi " +
-
-                                    "full join(select k.MaTieuChi, k.KeHoach, k.ThoiGianNhapCuoiCung " +
-                                        "from KeHoach_TieuChi_TheoNgay k inner join (select k.MaTieuChi, MAX(k.ThoiGianNhapCuoiCung) as 'thoigian' from KeHoach_TieuChi_TheoNgay k group by k.MaTieuChi) a " +
-                                         "on k.MaTieuChi = a.MaTieuChi and k.ThoiGianNhapCuoiCung = a.thoigian) c on a.MaTieuChi = c.MaTieuChi " +
-
-                                    "inner join TieuChi t on a.MaTieuChi = t.MaTieuChi " +
-                            "order by a.MaTieuChi asc";
+            var query = "  select b.MaTieuChi, (case when a.thuchien is null then 0 else a.thuchien end) as 'thuchien', b.LUYKE, c.KH, d.KHDC " +
+                              "from(select MaTieuChi, sum(SanLuong) as 'thuchien' from ThucHien_TieuChi_TheoNgay as th " +
+                            "join (select *from header_ThucHienTheoNgay where Ngay = @date) as h on th.HeaderID = h.HeaderID " +
+                              "group by MaTieuChi) as a right outer join " +
+                             "(select MaTieuChi, sum(SanLuong) as 'LUYKE' from ThucHien_TieuChi_TheoNgay as th " +
+                            "join (select *from header_ThucHienTheoNgay where Ngay between @dateStart and @dateEnd) as h on th.HeaderID = h.HeaderID " +
+                              "group by MaTieuChi) as b on a.MaTieuChi = b.MaTieuChi " +
+                              "join  (select k.MaTieuChi, sum(k.KeHoach) as 'KH' " +
+                              "from header_KeHoach_TieuChi_TheoNgay h join KeHoach_TieuChi_TheoNgay k on h.HeaderID = k.HeaderID " +
+                              "where h.NgayNhapKH = @date " +
+                              "group by k.MaTieuChi) as c on a.MaTieuChi = c.MaTieuChi " +
+                              "join   (select k.MaTieuChi, sum(k.SanLuong) as 'KHDC' " +
+                              "from header_KeHoachTungThang h join KeHoach_TieuChi_TheoThang k on h.HeaderID = k.HeaderID " +
+                              "  where h.ThangKeHoach = @month and h.NamKeHoach = @year " +
+                              "group by k.MaTieuChi) as d on a.MaTieuChi = d.MaTieuChi " +
+                              "order by a.MaTieuChi";
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            List<reportEntity> listReport = db.Database.SqlQuery<reportEntity>(query, new SqlParameter("dateStart", timeStart), new SqlParameter("dateEnd", timeEnd)).ToList();
+            List<reportEntity> listReport = db.Database.SqlQuery<reportEntity>(query, new SqlParameter("date", date), new SqlParameter("dateStart", timeStart), new SqlParameter("dateEnd", timeEnd), new SqlParameter("month", data[1]), new SqlParameter("year", data[2])).ToList();
 
             Than Thandaolo = new Than();
             Than Thanlothien = new Than();
@@ -152,7 +146,7 @@ namespace QUANGHANHCORE.Controllers.DK
                 //than dao lo
                 if (item.MaTieuChi == 1 || item.MaTieuChi == 2)
                 {
-                    Thandaolo.Thuchien += item.TH;
+                    Thandaolo.Thuchien += item.thuchien;
                     Thandaolo.Kehoach += item.KH;
 
                     Thandaolo.Luyke += item.luyke;
@@ -162,7 +156,7 @@ namespace QUANGHANHCORE.Controllers.DK
                 //than lo thien
                 if (item.MaTieuChi == 3 || item.MaTieuChi == 4)
                 {
-                    Thanlothien.Thuchien += item.TH;
+                    Thanlothien.Thuchien += item.thuchien;
                     Thanlothien.Kehoach += item.KH;
 
                     Thanlothien.Luyke += item.luyke;
@@ -172,7 +166,7 @@ namespace QUANGHANHCORE.Controllers.DK
                 //met lo dao
                 if (item.MaTieuChi == 7)
                 {
-                    Metlodao.Thuchien += item.TH;
+                    Metlodao.Thuchien += item.thuchien;
                     Metlodao.Kehoach += item.KH;
 
                     Metlodao.Luyke += item.luyke;
@@ -182,7 +176,7 @@ namespace QUANGHANHCORE.Controllers.DK
                 //met lo neo
                 if (item.MaTieuChi == 9)
                 {
-                    Metloneo.Thuchien += item.TH;
+                    Metloneo.Thuchien += item.thuchien;
                     Metloneo.Kehoach += item.KH;
 
                     Metloneo.Luyke += item.luyke;
@@ -192,7 +186,7 @@ namespace QUANGHANHCORE.Controllers.DK
                 //met lo xen
                 if (item.MaTieuChi == 19)
                 {
-                    Metloxen.Thuchien += item.TH;
+                    Metloxen.Thuchien += item.thuchien;
                     Metloxen.Kehoach += item.KH;
 
                     Metloxen.Luyke += item.luyke;
@@ -202,7 +196,7 @@ namespace QUANGHANHCORE.Controllers.DK
                 //than tieu thu
                 if (item.MaTieuChi >= 21 && item.MaTieuChi <= 29)
                 {
-                    Thantieuthu.Thuchien += item.TH;
+                    Thantieuthu.Thuchien += item.thuchien;
                     Thantieuthu.Kehoach += item.KH;
 
                     Thantieuthu.Luyke += item.luyke;
@@ -212,7 +206,7 @@ namespace QUANGHANHCORE.Controllers.DK
                 //da xit kho
                 if (item.MaTieuChi == 18)
                 {
-                    Daxitkho.Thuchien += item.TH;
+                    Daxitkho.Thuchien += item.thuchien;
                     Daxitkho.Kehoach += item.KH;
 
                     Daxitkho.Luyke += item.luyke;
@@ -221,7 +215,7 @@ namespace QUANGHANHCORE.Controllers.DK
                 //lo thien
                 if (item.MaTieuChi == 3 || item.MaTieuChi == 4)
                 {
-                    Lothien.Thuchien += item.TH;
+                    Lothien.Thuchien += item.thuchien;
                     Lothien.Kehoach += item.KH;
                     Lothien.Luyke += item.luyke;
                     Lothien.KehoachThang += item.KHDC;
