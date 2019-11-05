@@ -81,7 +81,7 @@
                                         {
                                             <p>
                                                 <img width="25" style="vertical-align:middle" src="~/assets/uploader/file-icon.png" />
-                                                <a href="/phan-xuong/download-file?location=~/FileContainer/KCS/@listFiles[i].fileName&fileName=@listFiles[i].fileNameDisplay">@listFiles[i].fileNameDisplay</a>
+                                                <a href="~/FileContainer/KCS/@listFiles[i].fileName">@listFiles[i].fileNameDisplay</a>
                                                 @if (listFiles[i].chuthich != "")
                                                 {
                                                     <i> (Ghi chú: @listFiles[i].chuthich )</i>
@@ -201,7 +201,7 @@
             });
             $("#pre-load").css("z-index", "99999");
 
-            window.location.href = '?ngay=' + $("#ngay-chon").val();
+            window.location.href = 'phong-kcs?ngay=' + $("#ngay-chon").val();
         }
     })
 </script>

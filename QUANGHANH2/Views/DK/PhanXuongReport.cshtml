@@ -38,9 +38,8 @@
     .files-container {
         margin-left: 15px;
     }
-
-    #files-table .file-td {
-        text-align: left !important;
+    #files-table .file-td{
+        text-align:left !important;
     }
 </style>
 @{
@@ -182,7 +181,7 @@
                                                     {
                                                         <p>
                                                             <img width="25" style="vertical-align:middle" src="~/assets/uploader/file-icon.png" />
-                                                            <a href="/phan-xuong/download-file?location=/phan-xuong/download-file?location=~/FileContainer/PhanXuongLenDK/@listFiles[i].fileName&fileName=@listFiles[i].fileNameDisplay&fileName=@listFiles[i].fileNameDisplay">@listFiles[i].fileNameDisplay</a>
+                                                            <a href="~/FileContainer/PhanXuongLenDK/@listFiles[i].fileName">@listFiles[i].fileNameDisplay</a>
                                                             @if (listFiles[i].chuthich != "")
                                                             {
                                                                 <i> (Ghi chú: @listFiles[i].chuthich )</i>
@@ -243,7 +242,7 @@
                                                     {
                                                         <p>
                                                             <img width="25" style="vertical-align:middle" src="~/assets/uploader/file-icon.png" />
-                                                            <a href="/phan-xuong/download-file?location=~/FileContainer/PhanXuongLenDK/@listFiles[i].fileName&fileName=@listFiles[i].fileNameDisplay">@listFiles[i].fileNameDisplay</a>
+                                                            <a href="~/FileContainer/PhanXuongLenDK/@listFiles[i].fileName">@listFiles[i].fileNameDisplay</a>
                                                             @if (listFiles[i].chuthich != "")
                                                             {
                                                                 <i> (Ghi chú: @listFiles[i].chuthich )</i>
@@ -305,7 +304,7 @@
                                                     {
                                                         <p>
                                                             <img width="25" style="vertical-align:middle" src="~/assets/uploader/file-icon.png" />
-                                                            <a href="/phan-xuong/download-file?location=~/FileContainer/PhanXuongLenDK/@listFiles[i].fileName&fileName=@listFiles[i].fileNameDisplay">@listFiles[i].fileNameDisplay</a>
+                                                            <a href="~/FileContainer/PhanXuongLenDK/@listFiles[i].fileName">@listFiles[i].fileNameDisplay</a>
                                                             @if (listFiles[i].chuthich != "")
                                                             {
                                                                 <i> (Ghi chú: @listFiles[i].chuthich )</i>
@@ -345,7 +344,7 @@
                                     {
                                         <p>
                                             <img width="25" style="vertical-align:middle" src="~/assets/uploader/file-icon.png" />
-                                            <a href="/phan-xuong/download-file?location=~/FileContainer/KCS/@listFiles[i].fileName&fileName=@listFiles[i].fileNameDisplay">@listFiles[i].fileNameDisplay</a>
+                                            <a href="~/FileContainer/KCS/@listFiles[i].fileName">@listFiles[i].fileNameDisplay</a>
                                             @if (listFiles[i].chuthich != "")
                                             {
                                                 <i> (Ghi chú: @listFiles[i].chuthich)</i>
@@ -379,24 +378,21 @@
                                                 <td colspan="6"><i>Không có tập tin nào</i></td>
                                             </tr>
                                         }
-                                        else
-                                        {
-                                            for (int i = 0; i < allFilesList.Count; i++)
-                                            {
-                                                <tr>
-                                                    <td>@(i + 1)</td>
-                                                    <td class="file-td">
-                                                        <img width="25" style="vertical-align:middle" src="~/assets/uploader/file-icon.png" />
-                                                        <a href="/phan-xuong/download-file?location=~/FileContainer/@(allFilesList[i].department_id!="KCS"?"PhanXuongLenDK":"KCS")/@allFilesList[i].fileName&fileName=@allFilesList[i].fileNameDisplay">@allFilesList[i].fileNameDisplay</a>
-                                                    </td>
-                                                    <td>@allFilesList[i].chuthich</td>
-                                                    <td>@allFilesList[i].department_name</td>
-                                                    <td>@allFilesList[i].ca</td>
-                                                    <td>@allFilesList[i].uploadTime.ToString("hh:mm:ss tt")</td>
-                                                </tr>
-                                            }
-                                        }
 
+                                        @for (int i = 0; i < allFilesList.Count; i++)
+                                        {
+                                            <tr>
+                                                <td>@(i + 1)</td>
+                                                <td class="file-td">
+                                                    <img width="25" style="vertical-align:middle" src="~/assets/uploader/file-icon.png" />
+                                                    <a href="~/FileContainer/PhanXuongLenDK/@allFilesList[i].fileName">@allFilesList[i].fileNameDisplay</a>
+                                                </td>
+                                                <td>@allFilesList[i].chuthich</td>
+                                                <td>@allFilesList[i].department_name</td>
+                                                <td>@allFilesList[i].ca</td>
+                                                <td>@allFilesList[i].uploadTime.ToString("hh:mm:ss tt")</td>
+                                            </tr>
+                                        }
                                     </tbody>
                                 </table>
                             }
@@ -433,7 +429,7 @@
                                 <i class="material-icons dp48">send</i>
                                 Tải lên
                             </button>
-
+                            <a href="~/excel/TCLD/TuyenDung/Template/TuyenDungForm.xlsx" style="float:right;">Tải file mẫu</a>
                         </div>
                     </div>
                 </div>
@@ -466,7 +462,7 @@
                                 <i class="material-icons dp48">send</i>
                                 Tải lên
                             </button>
-
+                            <a href="~/excel/TCLD/TuyenDung/Template/TuyenDungForm.xlsx" style="float:right;">Tải file mẫu</a>
                         </div>
                     </div>
                 </div>
@@ -499,7 +495,7 @@
                                 <i class="material-icons dp48">send</i>
                                 Tải lên
                             </button>
-
+                            <a href="~/excel/TCLD/TuyenDung/Template/TuyenDungForm.xlsx" style="float:right;">Tải file mẫu</a>
                         </div>
                     </div>
                 </div>

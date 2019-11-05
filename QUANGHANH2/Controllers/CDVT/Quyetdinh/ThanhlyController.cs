@@ -206,7 +206,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
       
                 documentaryList = (from document in db.Documentaries
-                             where document.documentary_type.Equals(5) && (document.documentary_code =="" || document.documentary_code == null) && document.person_created.Contains(person_created) && (document.date_created >= dtStart && document.date_created <= dtEnd)
+                             where document.documentary_type.Equals("5") && (document.documentary_code =="" || document.documentary_code == null) && document.person_created.Contains(person_created) && (document.date_created >= dtStart && document.date_created <= dtEnd)
                              join detail in db.Documentary_liquidation_details on document.documentary_id equals detail.documentary_id
                              into temporary
                              select new
@@ -267,7 +267,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
                     List<Documentary_Extend> documentaryList = (from document in db.Documentaries
-                                                          where (document.documentary_type.Equals(5) && (document.documentary_code == "" || document.documentary_code == null))
+                                                          where (document.documentary_type.Equals("5") && (document.documentary_code == "" || document.documentary_code == null))
                                                           join detail in db.Documentary_liquidation_details on document.documentary_id equals detail.documentary_id
                                                           into temporary
                                                           select new
