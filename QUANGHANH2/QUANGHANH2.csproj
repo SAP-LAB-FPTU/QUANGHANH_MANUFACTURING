@@ -183,6 +183,7 @@
     <Compile Include="Controllers\BGD\SummaryReportController.cs" />
     <Compile Include="Controllers\BGD\TCLD\PeformanceAndSalaryReportController.cs" />
     <Compile Include="Controllers\Camera\CameraManagementController.cs" />
+    <Compile Include="Controllers\Camera\SucoCamController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\CapnhathoatdongController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\CapnhatsucoController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\ChitietController.cs" />
@@ -347,6 +348,9 @@
     </Compile>
     <Compile Include="Models\BaoCaoNgayDB.cs" />
     <Compile Include="Models\Camera.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CameraIncident.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Car.cs">
@@ -579,6 +583,9 @@
     </Compile>
     <Compile Include="Models\Supply_Extend.cs" />
     <Compile Include="Models\Supply_tieuhao.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TaiNan.cs">
@@ -7072,6 +7079,7 @@
     <Content Include="excel\DK\reportdaily.xlsx" />
     <Content Include="excel\DK\reportmonth.xlsx" />
     <Content Include="excel\DK\DailyDepartment\templateBaoCaoTheoPhanXuong.xlsx" />
+    <Content Include="excel\Notifi\ThongbaoCDVT.xlsx" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -7079,7 +7087,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="excel\Notifi\ThongbaoCDVT.xlsx" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
@@ -7381,6 +7388,7 @@
     <Content Include="Views\Shared\_Layout_Cam.cshtml" />
     <Content Include="Views\Camera\View.cshtml" />
     <Content Include="Views\CDVT\Cap_nhat\Chitiet\Caitien.cshtml" />
+    <Content Include="Views\Camera\SuCo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7404,6 +7412,7 @@
     <Folder Include="Views\Quanlyvattu\" />
     <Folder Include="Views\ReportMonthly\" />
     <Folder Include="Views\SanLuongReport\" />
+    <Folder Include="Views\SucoCam\" />
     <Folder Include="Views\ThemCaiTien\" />
     <Folder Include="Views\ViewAccident\" />
     <Folder Include="Views\WorkHistory\" />
