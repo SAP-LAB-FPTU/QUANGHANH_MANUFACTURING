@@ -234,7 +234,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         /// <summary>
         /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// </summary>
-        [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189,003")]
         [Route("phan-xuong/delete-file-bao-cao")]
         [HttpPost]
         public ActionResult deleteFile()
@@ -288,6 +288,32 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         public class fileObjectDisplay : FileBaoCao
         {
             public int ca { get; set; }
+        }
+
+        [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189,003,004")]
+        [HttpGet]
+        [Route("phan-xuong/download-file")]
+        public virtual ActionResult Download(string location, string fileName)
+        {
+
+            MemoryStream memoryStream = new MemoryStream();
+            string handle = Guid.NewGuid().ToString();
+            using (FileStream fileStream = new FileStream(HostingEnvironment.MapPath(location), FileMode.Open, FileAccess.Read))
+            {
+                fileStream.CopyTo(memoryStream);
+                memoryStream.Position = 0;
+                TempData[handle] = memoryStream.ToArray();
+            }
+  
+            if (TempData[handle] != null)
+            {
+                byte[] data = TempData[handle] as byte[];
+                return File(data, "application/vnd.ms-excel", fileName);
+            }
+            else
+            {
+                return new EmptyResult();
+            }
         }
     }
 }
