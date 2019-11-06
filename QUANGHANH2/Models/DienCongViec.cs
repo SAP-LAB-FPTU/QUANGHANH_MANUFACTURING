@@ -12,24 +12,18 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class CongViec
+    public partial class DienCongViec
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CongViec()
+        public DienCongViec()
         {
-            this.NhanViens = new HashSet<NhanVien>();
+            this.CongViecs = new HashSet<CongViec>();
         }
     
-        public int MaCongViec { get; set; }
-        public string TenCongViec { get; set; }
-        public string ThangLuong { get; set; }
-        public Nullable<double> PhuCap { get; set; }
-        public Nullable<int> MaNhomCongViec { get; set; }
-        public Nullable<int> MaDienCongViec { get; set; }
+        public int MaDienCongViec { get; set; }
+        public string DienCongViec1 { get; set; }
     
-        public virtual DienCongViec DienCongViec { get; set; }
-        public virtual NhomCongViec NhomCongViec { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<NhanVien> NhanViens { get; set; }
+        public virtual ICollection<CongViec> CongViecs { get; set; }
     }
 }
