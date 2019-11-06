@@ -6,61 +6,61 @@
 
 <!DOCTYPE html>
 <style>
-        label {
-            font-weight: 500;
-            font-size: 14px !important;
-            color: black !important;
-            margin-top: 5px !important;
-        }
+    label {
+        font-weight: 500;
+        font-size: 14px !important;
+        color: black !important;
+        margin-top: 5px !important;
+    }
 
-        .topbar {
-            position: fixed !important;
-            width: 100%;
-            z-index: 1000;
-        }
+    .topbar {
+        position: fixed !important;
+        width: 100%;
+        z-index: 1000;
+    }
 
-        .right-part {
-            padding-top: 50px;
-        }
+    .right-part {
+        padding-top: 50px;
+    }
 
-        .right-part {
-            width: calc(100% - 600px) !important;
-            min-height: calc(100vh - 64px);
-            overflow: auto;
-            margin-left: 600px !important;
-        }
+    .right-part {
+        width: calc(100% - 600px) !important;
+        min-height: calc(100vh - 64px);
+        overflow: auto;
+        margin-left: 600px !important;
+    }
 
-        .left-part.fixed-left-part {
-            position: fixed;
-            top: 0px;
-            padding-top: 10px;
-        }
+    .left-part.fixed-left-part {
+        position: fixed;
+        top: 0px;
+        padding-top: 10px;
+    }
 
-        .left-part {
-            margin-top: 50px !important;
-            height: 100%;
-            width: 600px !important;
-            position: absolute;
-            border-right: 1px solid rgba(120, 130, 140, 0.13);
-        }
+    .left-part {
+        margin-top: 50px !important;
+        height: 100%;
+        width: 600px !important;
+        position: absolute;
+        border-right: 1px solid rgba(120, 130, 140, 0.13);
+    }
 
-        #account-table-container {
-            padding-bottom: 100px;
-        }
-        /*#table_account {
+    #account-table-container {
+        padding-bottom: 100px;
+    }
+    /*#table_account {
         padding-right: 100px !important;
     }*/
-        #delete-btn {
-            margin-left: 10px;
-        }
+    #delete-btn {
+        margin-left: 10px;
+    }
 
-        .topbar nav .nav-wrapper .brand-logo {
-            background-color: white !important;
-        }
+    .topbar nav .nav-wrapper .brand-logo {
+        background-color: white !important;
+    }
 
-        body {
-            background: #f7f7f7 !important;
-        }
+    body {
+        background: #f7f7f7 !important;
+    }
 </style>
 <html>
 
@@ -791,33 +791,15 @@
         $("#hide18").hide();
         $("#buttonshow").hide();
         //$("#rightlabel").hide();
-        GetRightFromDBNotFill(1);
-        GetRightFromDBNotFill(2);
-        GetRightFromDBNotFill(3);
-        GetRightFromDBNotFill(4);
-        GetRightFromDBNotFill(5);
-        GetRightFromDBNotFill(6);
-        GetRightFromDBNotFill(8);
-        GetRightFromDBNotFill(9);
-        GetRightFromDBNotFill(10);
-        GetRightFromDBNotFill(11);
-        GetRightFromDBNotFill(12);
-        GetRightFromDBNotFill(13);
-        GetRightFromDBNotFill(14);
-        GetRightFromDBNotFill(15);
-        GetRightFromDBNotFill(16);
-        GetRightFromDBNotFill(19);
-        $('#pre-load').hide();
-        //$(document).ajaxStop(function () {
-        //    $('#pre-load').hide();
-        //});
+        $(document).ajaxStop(function () {
+            $('#pre-load').hide();
+        });
         if (document.getElementById('txtNVID').value != '') {
             getPB(document.getElementById('txtNVID').value);
         }
         $('#txtNVID').change(function () {
             getPB(document.getElementById('txtNVID').value);
         });
-        
     });
     function getPB(id) {
         var empObj = {
@@ -843,23 +825,23 @@
     function RightDetail() {
         show();
         var pb = document.getElementById('MaPB').value;
-        if (pb === 'CDVT') { $("#hide16").show(); }
-        if (pb === 'TCLD') { $("#hide15").show(); }
-        if (pb === 'KCS') { $("#hide17").show(); }
-        if (pb === 'DK') { $("#hide14").show(); }
-        if (pb === 'BGD') { $("#hide18").show(); }
-        if (pb === 'PXCDM') { $("#hide7").show(); }
-        if (pb === 'PXCKSC') { $("#hide2").show(); }
+        if (pb === 'CDVT') { $("#hide16").show(); GetRightFromDBNotFill(1); }
+        if (pb === 'TCLD') { $("#hide15").show(); GetRightFromDBNotFill(2); }
+        if (pb === 'KCS') { $("#hide17").show(); GetRightFromDBNotFill(3); }
+        if (pb === 'DK') { $("#hide14").show(); GetRightFromDBNotFill(4); }
+        if (pb === 'BGD') { $("#hide18").show(); GetRightFromDBNotFill(5); }
+        if (pb === 'PXCDM') { $("#hide7").show(); GetRightFromDBNotFill(13); }
+        if (pb === 'PXCKSC') { $("#hide2").show(); GetRightFromDBNotFill(19); }
         if (pb === 'KCM') { $("#hide1").show(); }
-        if (pb.substring(0,4) === 'PXDL') { $("#hide3").show(); }
-        if (pb === 'PXDS') { $("#hide11").show(); }
-        if (pb.substring(0,4) === 'PXKT') { $("#hide13").show(); }
-        if (pb === 'PXLT') { $("#hide5").show(); }
-        if (pb === 'PXPV') { $("#hide10").show(); }
-        if (pb === 'PXST') { $("#hide6").show(); }
-        if (pb === 'PXTGQLKM') { $("#hide8").show(); }
-        if (pb.substring(0,4) === 'PXVT') { $("#hide4").show(); }
-        if (pb === 'PXXD') { $("#hide9").show(); }
+        if (pb.substring(0, 4) === 'PXDL') { $("#hide3").show(); GetRightFromDBNotFill(8); }
+        if (pb === 'PXDS') { $("#hide11").show(); GetRightFromDBNotFill(12); }
+        if (pb.substring(0, 4) === 'PXKT') { $("#hide13").show(); GetRightFromDBNotFill(6); }
+        if (pb === 'PXLT') { $("#hide5").show(); GetRightFromDBNotFill(16); }
+        if (pb === 'PXPV') { $("#hide10").show(); GetRightFromDBNotFill(11); }
+        if (pb === 'PXST') { $("#hide6").show(); GetRightFromDBNotFill(10); }
+        if (pb === 'PXTGQLKM') { $("#hide8").show(); GetRightFromDBNotFill(14); }
+        if (pb.substring(0, 4) === 'PXVT') { $("#hide4").show(); GetRightFromDBNotFill(9); }
+        if (pb === 'PXXD') { $("#hide9").show(); GetRightFromDBNotFill(15); }
     }
 
     function show() {
@@ -884,312 +866,332 @@
         $("#hide18").hide();
     }
     function showLoading() {
-        $('#pre-load').show();
+        //$('#pre-load').show();
     }
     function AddNewUser() {
-        if (right1 == null || right2 == null || right3 == null || right4 == null || right5 == null || right6 == null
-            || right8 == null || right9 == null || right10 == null || right11 == null || right12 == null
-            || right13 == null || right14 == null || right15 == null || right16 == null || right19 == null) {
+        //if (right1 == null || right2 == null || right3 == null || right4 == null || right5 == null || right6 == null
+        //    || right8 == null || right9 == null || right10 == null || right11 == null || right12 == null
+        //    || right13 == null || right14 == null || right15 == null || right16 == null || right19 == null) {
 
-            document.getElementById("notifyMessage").innerHTML = "Vui lòng chờ!";
-            $("#modalNotify").modal();
-        } else {
-            $('#pre-load').show();
-            var module1 = $('#module1').val();
-            var module2 = $('#module2').val();
-            var module3 = $('#module3').val();
-            var module4 = $('#module4').val();
-            var module5 = $('#module5').val();
-            var module6 = $('#module6').val();
-            var module7 = $('#module7').val();
-            var module8 = $('#module8').val();
-            var module9 = $('#module9').val();
-            var module10 = $('#module10').val();
-            var module11 = $('#module11').val();
-            var module12 = $('#module12').val();
-            var module13 = $('#module13').val();
-            var module14 = $('#module14').val();
-            var module15 = $('#module15').val();
-            var module16 = $('#module16').val();
-            var module19 = $('#module19').val();
-            if (module1 == null) {
-                module1 = 0;
-            }
-            if (module2 == null) {
-                module2 = 0;
-            }
-            if (module3 == null) {
-                module3 = 0;
-            }
-            if (module4 == null) {
-                module4 = 0;
-            }
-            if (module5 == null) {
-                module5 = 0;
-            }
-            if (module6 == null) {
-                module6 = 0;
-            }
-            if (module7 == null) {
-                module7 = 0;
-            }
-            if (module8 == null) {
-                module8 = 0;
-            }
-            if (module9 == null) {
-                module9 = 0;
-            }
-            if (module10 == null) {
-                module10 = 0;
-            }
-            if (module11 == null) {
-                module11 = 0;
-            }
-            if (module12 == null) {
-                module12 = 0;
-            }
-            if (module13 == null) {
-                module13 = 0;
-            }
-            if (module14 == null) {
-                module14 = 0;
-            }
-            if (module15 == null) {
-                module15 = 0;
-            }
-            if (module16 == null) {
-                module16 = 0;
-            }
-            if (module19 == null) {
-                module19 = 0;
-            }
-            var rights = GetAcceptRights(right1) +
-                GetAcceptRights(right2) +
-                GetAcceptRights(right3) +
-                GetAcceptRights(right4) +
-                GetAcceptRights(right5) +
-                GetAcceptRights(right6) +
-                GetAcceptRights(right8) +
-                GetAcceptRights(right9) +
-                GetAcceptRights(right10) +
-                GetAcceptRights(right11) +
-                GetAcceptRights(right12) +
-                GetAcceptRights(right13) +
-                GetAcceptRights(right14) +
-                GetAcceptRights(right15) +
-                GetAcceptRights(right16) +
-                GetAcceptRights(right19);
-            var empObj = {
-                Name: document.getElementById("txtName").value,
-                Username: document.getElementById("txtUsername").value,
-                Position: document.getElementById("txtPosition").value,
-                Password: document.getElementById("txtPassword").value,
-                RepeatPassword: document.getElementById("txtRepeatPassword").value,
-                NVID: document.getElementById("txtNVID").value,
-                module1: module1,
-                module2: module2,
-                module3: module3,
-                module4: module4,
-                module5: module5,
-                module6: module6,
-                module7: module7,
-                module8: module8,
-                module9: module9,
-                module10: module10,
-                module11: module11,
-                module12: module12,
-                module13: module13,
-                module14: module14,
-                module15: module15,
-                module16: module16,
-                module19: module19,
-                rights: rights.substring(0, rights.length - 1),
-            }
-            $.ajax({
-                url: "/ManagementUser/AddNewUser",
-                data: JSON.stringify(empObj),
-                type: "POST",
-                contentType: "application/json;charset=utf-8",
-                success: function (result) {
-                    switch (result.CodeError) {
-                        case 0:
-                            $("#modalNotifyUpdate").modal('open');
-                            document.getElementById("notifyMessageUpdate").innerHTML = result.Data;
-                            break;
-                        case 1:
-                            $("#modalNotify").modal('open');
-                            document.getElementById("notifyMessage").innerHTML = result.Data;
-                            break;
-                        case 2:
-                            $("#modalNotify").modal('open');
-                            document.getElementById("notifyMessage").innerHTML = result.Data;
-                            break;
-                        default:
+        //    document.getElementById("notifyMessage").innerHTML = "Vui lòng chờ!";
+        //    $("#modalNotify").modal();
+        //} else {
+        $('#pre-load').show();
+        var module1 = $('#module1').val();
+        var module2 = $('#module2').val();
+        var module3 = $('#module3').val();
+        var module4 = $('#module4').val();
+        var module5 = $('#module5').val();
+        var module6 = $('#module6').val();
+        var module7 = $('#module7').val();
+        var module8 = $('#module8').val();
+        var module9 = $('#module9').val();
+        var module10 = $('#module10').val();
+        var module11 = $('#module11').val();
+        var module12 = $('#module12').val();
+        var module13 = $('#module13').val();
+        var module14 = $('#module14').val();
+        var module15 = $('#module15').val();
+        var module16 = $('#module16').val();
+        var module19 = $('#module19').val();
+        if (module1 == null) {
+            module1 = 0;
+        }
+        if (module2 == null) {
+            module2 = 0;
+        }
+        if (module3 == null) {
+            module3 = 0;
+        }
+        if (module4 == null) {
+            module4 = 0;
+        }
+        if (module5 == null) {
+            module5 = 0;
+        }
+        if (module6 == null) {
+            module6 = 0;
+        }
+        if (module7 == null) {
+            module7 = 0;
+        }
+        if (module8 == null) {
+            module8 = 0;
+        }
+        if (module9 == null) {
+            module9 = 0;
+        }
+        if (module10 == null) {
+            module10 = 0;
+        }
+        if (module11 == null) {
+            module11 = 0;
+        }
+        if (module12 == null) {
+            module12 = 0;
+        }
+        if (module13 == null) {
+            module13 = 0;
+        }
+        if (module14 == null) {
+            module14 = 0;
+        }
+        if (module15 == null) {
+            module15 = 0;
+        }
+        if (module16 == null) {
+            module16 = 0;
+        }
+        if (module19 == null) {
+            module19 = 0;
+        }
+        var pb = document.getElementById('MaPB').value;
+        if (pb === 'CDVT') { var rights = GetAcceptRights(right1); }
+        if (pb === 'TCLD') { var rights = GetAcceptRights(right2); }
+        if (pb === 'KCS') { var rights = GetAcceptRights(right3); }
+        if (pb === 'DK') { var rights = GetAcceptRights(right4); }
+        if (pb === 'BGD') { var rights = GetAcceptRights(right5); }
+        if (pb === 'PXCDM') { var rights = GetAcceptRights(right13); }
+        if (pb === 'PXCKSC') { var rights = GetAcceptRights(right19); }
+        if (pb === 'KCM') { var rights = GetAcceptRights(right18); }
+        if (pb.substring(0, 4) === 'PXDL') { var rights = GetAcceptRights(right8); }
+        if (pb === 'PXDS') { var rights = GetAcceptRights(right12); }
+        if (pb.substring(0, 4) === 'PXKT') { var rights = GetAcceptRights(right6); }
+        if (pb === 'PXLT') { var rights = GetAcceptRights(right16); }
+        if (pb === 'PXPV') { var rights = GetAcceptRights(right11); }
+        if (pb === 'PXST') { var rights = GetAcceptRights(right10); }
+        if (pb === 'PXTGQLKM') { var rights = GetAcceptRights(right14); }
+        if (pb.substring(0, 4) === 'PXVT') { var rights = GetAcceptRights(right9); }
+        if (pb === 'PXXD') { var rights = GetAcceptRights(right15); }
+        var empObj = {
+            Name: document.getElementById("txtName").value,
+            Username: document.getElementById("txtUsername").value,
+            Position: document.getElementById("txtPosition").value,
+            Password: document.getElementById("txtPassword").value,
+            RepeatPassword: document.getElementById("txtRepeatPassword").value,
+            NVID: document.getElementById("txtNVID").value,
+            module1: module1,
+            module2: module2,
+            module3: module3,
+            module4: module4,
+            module5: module5,
+            module6: module6,
+            module7: module7,
+            module8: module8,
+            module9: module9,
+            module10: module10,
+            module11: module11,
+            module12: module12,
+            module13: module13,
+            module14: module14,
+            module15: module15,
+            module16: module16,
+            module19: module19,
+            rights: rights.substring(0, rights.length - 1),
+        }
+        $.ajax({
+            url: "/ManagementUser/AddNewUser",
+            data: JSON.stringify(empObj),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            success: function (result) {
+                switch (result.CodeError) {
+                    case 0:
+                        $("#modalNotifyUpdate").modal('open');
+                        document.getElementById("notifyMessageUpdate").innerHTML = result.Data;
+                        break;
+                    case 1:
+                        $("#modalNotify").modal('open');
+                        document.getElementById("notifyMessage").innerHTML = result.Data;
+                        break;
+                    case 2:
+                        $("#modalNotify").modal('open');
+                        document.getElementById("notifyMessage").innerHTML = result.Data;
+                        break;
+                    default:
 
-
-                    }
-                    $('#pre-load').hide();
-                },
-                error: function (errormessage) {
 
                 }
-            });
-        }
+                $('#pre-load').hide();
+            },
+            error: function (errormessage) {
+                $('#pre-load').hide();
+            }
+        });
+        //}
     }
 
     function UpdateUser() {
 
-        if (right1 == null || right2 == null || right3 == null || right4 == null || right5 == null || right6 == null
-            || right8 == null || right9 == null || right10 == null || right11 == null || right12 == null
-            || right13 == null || right14 == null || right15 == null || right16 == null || right19 == null) {
-            document.getElementById("notifyMessage").innerHTML = "Vui lòng chờ!";
-            $("#modalNotify").modal('open');
-        } else {
-            $('#pre-load').show();
+        //if (right1 == null || right2 == null || right3 == null || right4 == null || right5 == null || right6 == null
+        //    || right8 == null || right9 == null || right10 == null || right11 == null || right12 == null
+        //    || right13 == null || right14 == null || right15 == null || right16 == null || right19 == null) {
+        //    document.getElementById("notifyMessage").innerHTML = "Vui lòng chờ!";
+        //    $("#modalNotify").modal('open');
+        //} else {
+        $('#pre-load').show();
 
-            var module1 = $('#module1').val();
-            var module2 = $('#module2').val();
-            var module3 = $('#module3').val();
-            var module4 = $('#module4').val();
-            var module5 = $('#module5').val();
-            var module6 = $('#module6').val();
-            var module7 = $('#module7').val();
-            var module8 = $('#module8').val();
-            var module9 = $('#module9').val();
-            var module10 = $('#module10').val();
-            var module11 = $('#module11').val();
-            var module12 = $('#module12').val();
-            var module13 = $('#module13').val();
-            var module14 = $('#module14').val();
-            var module15 = $('#module15').val();
-            var module16 = $('#module16').val();
-            var module19 = $('#module19').val();
-            if (module1 == null) {
-                module1 = 0;
-            }
-            if (module2 == null) {
-                module2 = 0;
-            }
-            if (module3 == null) {
-                module3 = 0;
-            }
-            if (module4 == null) {
-                module4 = 0;
-            }
-            if (module5 == null) {
-                module5 = 0;
-            }
-            if (module6 == null) {
-                module6 = 0;
-            }
-            if (module7 == null) {
-                module7 = 0;
-            }
-            if (module8 == null) {
-                module8 = 0;
-            }
-            if (module9 == null) {
-                module9 = 0;
-            }
-            if (module10 == null) {
-                module10 = 0;
-            }
-            if (module11 == null) {
-                module11 = 0;
-            }
-            if (module12 == null) {
-                module12 = 0;
-            }
-            if (module13 == null) {
-                module13 = 0;
-            }
-            if (module14 == null) {
-                module14 = 0;
-            }
-            if (module15 == null) {
-                module15 = 0;
-            }
-            if (module16 == null) {
-                module16 = 0;
-            }
-            if (module19 == null) {
-                module19 = 0;
-            }
-            var rights = GetAcceptRights(right1) +
-                GetAcceptRights(right2) +
-                GetAcceptRights(right3) +
-                GetAcceptRights(right4) +
-                GetAcceptRights(right5) +
-                GetAcceptRights(right6) +
-                GetAcceptRights(right8) +
-                GetAcceptRights(right9) +
-                GetAcceptRights(right10) +
-                GetAcceptRights(right11) +
-                GetAcceptRights(right12) +
-                GetAcceptRights(right13) +
-                GetAcceptRights(right14) +
-                GetAcceptRights(right15) +
-                GetAcceptRights(right16) +
-                GetAcceptRights(right19);
-            var empObj = {
-                ID: document.getElementById("txtID").value,
-                Name: document.getElementById("txtName").value,
-                Username: document.getElementById("txtUsername").value,
-                Position: document.getElementById("txtPosition").value,
-                Password: document.getElementById("txtPassword").value,
-                RepeatPassword: document.getElementById("txtRepeatPassword").value,
-                NVID: document.getElementById("txtNVID").value,
-                module1: module1,
-                module2: module2,
-                module3: module3,
-                module4: module4,
-                module5: module5,
-                module6: module6,
-                module7: module7,
-                module8: module8,
-                module9: module9,
-                module10: module10,
-                module11: module11,
-                module12: module12,
-                module13: module13,
-                module14: module14,
-                module15: module15,
-                module16: module16,
-                module19: module19,
-                rights: rights.substring(0, rights.length - 1),
-            }
-            $.ajax({
-                url: "/ManagementUser/UpdateUser",
-                data: JSON.stringify(empObj),
-                type: "POST",
-                contentType: "application/json;charset=utf-8",
-                success: function (result) {
-                    switch (result.CodeError) {
+        var module1 = $('#module1').val();
+        var module2 = $('#module2').val();
+        var module3 = $('#module3').val();
+        var module4 = $('#module4').val();
+        var module5 = $('#module5').val();
+        var module6 = $('#module6').val();
+        var module7 = $('#module7').val();
+        var module8 = $('#module8').val();
+        var module9 = $('#module9').val();
+        var module10 = $('#module10').val();
+        var module11 = $('#module11').val();
+        var module12 = $('#module12').val();
+        var module13 = $('#module13').val();
+        var module14 = $('#module14').val();
+        var module15 = $('#module15').val();
+        var module16 = $('#module16').val();
+        var module19 = $('#module19').val();
+        if (module1 == null) {
+            module1 = 0;
+        }
+        if (module2 == null) {
+            module2 = 0;
+        }
+        if (module3 == null) {
+            module3 = 0;
+        }
+        if (module4 == null) {
+            module4 = 0;
+        }
+        if (module5 == null) {
+            module5 = 0;
+        }
+        if (module6 == null) {
+            module6 = 0;
+        }
+        if (module7 == null) {
+            module7 = 0;
+        }
+        if (module8 == null) {
+            module8 = 0;
+        }
+        if (module9 == null) {
+            module9 = 0;
+        }
+        if (module10 == null) {
+            module10 = 0;
+        }
+        if (module11 == null) {
+            module11 = 0;
+        }
+        if (module12 == null) {
+            module12 = 0;
+        }
+        if (module13 == null) {
+            module13 = 0;
+        }
+        if (module14 == null) {
+            module14 = 0;
+        }
+        if (module15 == null) {
+            module15 = 0;
+        }
+        if (module16 == null) {
+            module16 = 0;
+        }
+        if (module19 == null) {
+            module19 = 0;
+        }
+        //var rights = GetAcceptRights(right1) +
+        //    GetAcceptRights(right2) +
+        //    GetAcceptRights(right3) +
+        //    GetAcceptRights(right4) +
+        //    GetAcceptRights(right5) +
+        //    GetAcceptRights(right6) +
+        //    GetAcceptRights(right8) +
+        //    GetAcceptRights(right9) +
+        //    GetAcceptRights(right10) +
+        //    GetAcceptRights(right11) +
+        //    GetAcceptRights(right12) +
+        //    GetAcceptRights(right13) +
+        //    GetAcceptRights(right14) +
+        //    GetAcceptRights(right15) +
+        //    GetAcceptRights(right16) +
+        //    GetAcceptRights(right19);
+        var pb = document.getElementById('MaPB').value;
+        if (pb === 'CDVT') { var rights = GetAcceptRights(right1); }
+        if (pb === 'TCLD') { var rights = GetAcceptRights(right2); }
+        if (pb === 'KCS') { var rights = GetAcceptRights(right3); }
+        if (pb === 'DK') { var rights = GetAcceptRights(right4); }
+        if (pb === 'BGD') { var rights = GetAcceptRights(right5); }
+        if (pb === 'PXCDM') { var rights = GetAcceptRights(right13); }
+        if (pb === 'PXCKSC') { var rights = GetAcceptRights(right19); }
+        if (pb === 'KCM') { $("#hide1").show(); }
+        if (pb.substring(0, 4) === 'PXDL') { var rights = GetAcceptRights(right8); }
+        if (pb === 'PXDS') { var rights = GetAcceptRights(right12); }
+        if (pb.substring(0, 4) === 'PXKT') { var rights = GetAcceptRights(right6); }
+        if (pb === 'PXLT') { var rights = GetAcceptRights(right16); }
+        if (pb === 'PXPV') { var rights = GetAcceptRights(right11); }
+        if (pb === 'PXST') { var rights = GetAcceptRights(right10); }
+        if (pb === 'PXTGQLKM') { var rights = GetAcceptRights(right14); }
+        if (pb.substring(0, 4) === 'PXVT') { var rights = GetAcceptRights(right9); }
+        if (pb === 'PXXD') { var rights = GetAcceptRights(right15); }
+        var empObj = {
+            ID: document.getElementById("txtID").value,
+            Name: document.getElementById("txtName").value,
+            Username: document.getElementById("txtUsername").value,
+            Position: document.getElementById("txtPosition").value,
+            Password: document.getElementById("txtPassword").value,
+            RepeatPassword: document.getElementById("txtRepeatPassword").value,
+            NVID: document.getElementById("txtNVID").value,
+            module1: module1,
+            module2: module2,
+            module3: module3,
+            module4: module4,
+            module5: module5,
+            module6: module6,
+            module7: module7,
+            module8: module8,
+            module9: module9,
+            module10: module10,
+            module11: module11,
+            module12: module12,
+            module13: module13,
+            module14: module14,
+            module15: module15,
+            module16: module16,
+            module19: module19,
+            rights: rights.substring(0, rights.length - 1),
+        }
+        $.ajax({
+            url: "/ManagementUser/UpdateUser",
+            data: JSON.stringify(empObj),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            success: function (result) {
+                switch (result.CodeError) {
 
-                        case 0:
-                            $("#modalNotifyUpdate").modal('open');
-                            document.getElementById("notifyMessageUpdate").innerHTML = result.Data;
-                            break;
-                        case 1:
-                            $("#modalNotify").modal('open');
-                            document.getElementById("notifyMessage").innerHTML = result.Data;
-                            break;
-                        case 2:
-                            $("#modalNotify").modal('open');
-                            document.getElementById("notifyMessage").innerHTML = result.Data;
-                            break;
-                        default:
-                            break;
+                    case 0:
+                        $("#modalNotifyUpdate").modal('open');
+                        document.getElementById("notifyMessageUpdate").innerHTML = result.Data;
+                        break;
+                    case 1:
+                        $("#modalNotify").modal('open');
+                        document.getElementById("notifyMessage").innerHTML = result.Data;
+                        break;
+                    case 2:
+                        $("#modalNotify").modal('open');
+                        document.getElementById("notifyMessage").innerHTML = result.Data;
+                        break;
+                    default:
+                        break;
 
-
-                    }
-                    $('#pre-load').hide();
-                },
-                error: function (errormessage) {
 
                 }
-            });
-        }
+                $('#pre-load').hide();
+            },
+            error: function (errormessage) {
+                $('#pre-load').hide();
+            }
+        });
+        //}
     }
 
     function GetAcceptRights(right) {
@@ -1291,6 +1293,7 @@
     var right14 = null;
     var right15 = null;
     var right16 = null;
+    var right18 = "";
     var right19 = null;
     function ShowRight(moduleID) {
         if (moduleID == 1) {
@@ -1428,6 +1431,15 @@
                 FillData(right16, 16);
             }
         }
+        if (moduleID == 18) {
+            document.getElementById("titleRight").innerText = "Các quyền trong KCM";
+            if (right18 == null) {
+                GetRightFromDB(18);
+            }
+            else {
+                FillData(right18, 18);
+            }
+        }
         if (moduleID == 19) {
             document.getElementById("titleRight").innerText = "Các quyền trong Phân Xưởng Cơ Khí Sửa Chữa";
             if (right19 == null) {
@@ -1512,6 +1524,10 @@
                     right16 = result;
                     FillData(right16, 16);
                 }
+                if (moduleID == 18) {
+                    right18 = result;
+                    FillData(right18, 18);
+                }
                 if (moduleID == 19) {
                     right19 = result;
                     FillData(right19, 19);
@@ -1524,7 +1540,6 @@
         });
     }
     function GetRightFromDBNotFill(moduleID) {
-        $('#pre-load').show();
         var empObj = {
             module: moduleID,
             UserID: document.getElementById("UserID").value
@@ -1583,6 +1598,9 @@
                 }
                 if (moduleID == 16) {
                     right16 = result;
+                }
+                if (moduleID == 18) {
+                    right18 = result;
                 }
                 if (moduleID == 19) {
                     right19 = result;
@@ -1766,6 +1784,16 @@
                     };
                     right16.Accept.push(item);
                     break;
+                case '18':
+                    var res = denyRights[id].innerText.split("-");
+                    right18.Deny.splice(denyRights[id].index, 1);
+                    var item = {
+                        ID: denyRightsID[id],
+                        Right: res[1],
+                        GroupID: res[0]
+                    };
+                    right18.Accept.push(item);
+                    break;
                 case '19':
                     var res = denyRights[id].innerText.split("-");
                     right19.Deny.splice(denyRights[id].index, 1);
@@ -1938,6 +1966,16 @@
                         GroupID: res[0]
                     };
                     right16.Deny.push(item);
+                    break;
+                case '18':
+                    var res = acceptRights[id].innerText.split("-");
+                    right18.Accept.splice(acceptRights[id].index, 1);
+                    var item = {
+                        ID: acceptRightsID[id],
+                        Right: res[1],
+                        GroupID: res[0]
+                    };
+                    right18.Deny.push(item);
                     break;
                 case '19':
                     var res = acceptRights[id].innerText.split("-");
