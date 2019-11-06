@@ -69,7 +69,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     {
                         Name = db.NhanViens.Where(a => a.MaNV == mnv).ToList().First().Ten,
                         MaNV = ViewBag.Ca1Vang[i].MaNV,
-                        ChucVu = db.NhanViens.Where(a =>a.MaNV == mnv).ToList().First().LoaiNhanVien,
+                        //ChucVu = db.NhanViens.Where(a =>a.MaNV == mnv).ToList().First().LoaiNhanVien,
                         LyDo = ViewBag.Ca1Vang[i].LyDoVangMat,
                     };
                     lists.Add(v);
@@ -90,7 +90,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     {
                         Name = db.NhanViens.Where(a => a.MaNV == mnv).ToList().First().Ten,
                         MaNV = ViewBag.Ca2Vang[i].MaNV,
-                        ChucVu = db.NhanViens.Where(a => a.MaNV == mnv).ToList().First().LoaiNhanVien,
+                        //ChucVu = db.NhanViens.Where(a => a.MaNV == mnv).ToList().First().LoaiNhanVien,
                         LyDo = ViewBag.Ca2Vang[i].LyDoVangMat,
                     };
                     lists2.Add(v);
@@ -111,7 +111,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     {
                         Name = db.NhanViens.Where(a => a.MaNV == mnv).ToList().First().Ten,
                         MaNV = ViewBag.Ca3Vang[i].MaNV,
-                        ChucVu = db.NhanViens.Where(a => a.MaNV == mnv).ToList().First().LoaiNhanVien,
+                        //ChucVu = db.NhanViens.Where(a => a.MaNV == mnv).ToList().First().LoaiNhanVien,
                         LyDo = ViewBag.Ca3Vang[i].LyDoVangMat,
                     };
                     lists3.Add(v);

@@ -389,7 +389,8 @@ namespace QUANGHANHCORE.Controllers.DK
                         "	where h.NgayDiemDanh = @day group by n.MaPhongBan) b on a.MaPhongBan = b.MaPhongBan " +
                         "	where a.MaPhongBan in ('PXDL3', 'PXDL5', 'PXDL7', 'PXDL8', 'PXKT1', 'PXKT2', 'PXKT3', 'PXKT4', 'PXKT5', 'PXKT6', 'PXKT7', 'PXKT8', 'PXKT9', 'PXKT10', 'PXKT11', 'PXVT1', 'PXVT2') " +
                         "	order by a.MaPhongBan ";
-            List<chart> list_chart = db.Database.SqlQuery<chart>(sql_chart, new SqlParameter("day", date)).ToList();
+            // List<chart> list_chart = db.Database.SqlQuery<chart>(sql_chart, new SqlParameter("day", date)).ToList();
+            var list_chart = new List<chart>();
             List<string> donvi = new List<string> { "PXDL3", "PXDL5", "PXDL7", "PXDL8", "PXKT1", "PXKT2", "PXKT3", "PXKT4", "PXKT5", "PXKT6", "PXKT7", "PXKT8", "PXKT9", "PXKT10", "PXKT11", "PXVT1", "PXVT2" };
             string result = JsonConvert.SerializeObject(donvi);
             ViewBag.donvi = result;
