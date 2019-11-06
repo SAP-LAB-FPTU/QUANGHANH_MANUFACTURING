@@ -60,7 +60,7 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
                                                  }).ToList();
 
                     var listAspect = GetData(month, year, departmentID);
-                    if (listAspect.Count != 0)
+                    if (listAspect != null)
                     {
                         foreach (var item in listAspect)
                         {
