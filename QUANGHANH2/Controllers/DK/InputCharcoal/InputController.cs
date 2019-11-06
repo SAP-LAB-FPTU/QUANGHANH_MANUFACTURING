@@ -282,8 +282,9 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                     item.LuyKe = (Math.Round(Convert.ToDouble(item.LuyKe) - Convert.ToDouble(item.SanLuong), 2));
                 }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    e.Message.ToString();
                     return Json(new { success = false, message = "Tháng chưa có kế hoạch cho tiêu chí"}, JsonRequestBehavior.AllowGet);
                 }
             }
