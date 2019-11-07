@@ -15,7 +15,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
 {
     public class SCTXController : Controller
     {
-
+        [Auther(RightID = "179,180,181,182,183,184,185,186,187,189")]
         [Route("phong-cdvt/thiet-bi/sctx")]
         [HttpGet]
         public ActionResult Index()
@@ -72,7 +72,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                 return Json(new { success = true, data = maintainCar, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
             }
         }
-
+        [Auther(RightID = "179,180,181,182,183,184,185,186,187,189")]
         [Route("phong-cdvt/thiet-bi/sctx/insertMaintainCar")]
         [HttpPost]
         public JsonResult InsertMaintainCar(List<Maintain_Car_DetailDB> maintain, string equipmentId, string department_name, string date, string maintain_content)
@@ -136,7 +136,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             }
 
         }
-        [Auther(RightID = "18")]
+        [Auther(RightID = "179,180,181,182,183,184,185,186,187,189")]
         [Route("phong-cdvt/thiet-bi/sctx/getMaintainCarDetail")]
         [HttpPost]
         public JsonResult getMaintainCarDetail(int maintainId)
@@ -160,7 +160,6 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                 return Json(m);
             }
         }
-        [Auther(RightID = "18")]
         [Route("phong-cdvt/thiet-bi/sctx/getMaintainCar")]
         [HttpPost]
         public JsonResult getMaintainCar(int maintainId)
@@ -188,7 +187,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                 return Json(maintainCar);
             }
         }
-
+        [Auther(RightID = "179,180,181,182,183,184,185,186,187,189")]
         [Route("phong-cdvt/thiet-bi/sctx/search")]
         [HttpPost]
         public ActionResult Search(string equipmentId, string equipmentName, string timeFrom, string timeTo, string content, string position)
@@ -233,7 +232,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                     + " where m.equipmentId LIKE @equipmentId"
                     + " AND e.equipment_name LIKE @equipment_name AND m.[date] between @timeFrom AND @timeTo "
                     + " AND d.department_name LIKE @position AND m.maintain_content LIKE @content "
-                    + " order by m.[date] desc";
+                    + " AND e.department_id = @department_id order by m.[date] desc";
 
                 List<Maintain_CarDB> maintainCar = DBContext.Database.SqlQuery<Maintain_CarDB>(query,
                     new SqlParameter("equipmentId", '%' + equipmentId + '%'),
@@ -241,7 +240,8 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                     new SqlParameter("timeFrom", timeF),
                     new SqlParameter("timeTo", timeT),
                     new SqlParameter("position", '%' + position + '%'),
-                    new SqlParameter("content", '%' + content + '%')
+                    new SqlParameter("content", '%' + content + '%'),
+                    new SqlParameter("department_id", Session["departID"].ToString())
                     ).ToList();
 
                 int totalrows = maintainCar.Count;
@@ -287,7 +287,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
         }
 
 
-        [Auther(RightID = "18")]
+        [Auther(RightID = "179,180,181,182,183,184,185,186,187,189")]
         [Route("phong-cdvt/thiet-bi/sctx/edit")]
         [HttpPost]
         public ActionResult EditMaintain(string date, String equipmentId, String department_name, String maintain_content, int maintainid)
@@ -331,7 +331,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                 }
             }
         }
-        [Auther(RightID = "18")]
+        [Auther(RightID = "179,180,181,182,183,184,185,186,187,189")]
         [Route("phong-cdvt/thiet-bi/sctx/editMaintainDetail")]
         [HttpPost]
         public ActionResult EditMaintainDetail(List<Maintain_Car_Detail> supplyDetail)
