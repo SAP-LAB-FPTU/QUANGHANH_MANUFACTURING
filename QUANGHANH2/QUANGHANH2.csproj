@@ -312,6 +312,9 @@
     <Compile Include="Controllers\TCLD\EmployeesController.cs" />
     <Compile Include="Controllers\TCLD\ManagerController.cs" />
     <Compile Include="Controllers\TCLD\MaterialProtectionController.cs" />
+    <Compile Include="Controllers\TCLD\Occupation\GroupOccupationController.cs" />
+    <Compile Include="Controllers\TCLD\Occupation\OccupationController.cs" />
+    <Compile Include="Controllers\TCLD\Occupation\SideOccupationController.cs" />
     <Compile Include="Controllers\TCLD\RecruitmentAndEndController.cs" />
     <Compile Include="Controllers\TCLD\RecruitmentController.cs" />
     <Compile Include="Controllers\TCLD\ReportController.cs" />
@@ -7390,6 +7393,9 @@
     <Content Include="Views\Camera\View.cshtml" />
     <Content Include="Views\CDVT\Cap_nhat\Chitiet\Caitien.cshtml" />
     <Content Include="Views\Camera\SuCo.cshtml" />
+    <Content Include="Views\TCLD\Occupation\Occupation.cshtml" />
+    <Content Include="Views\TCLD\Occupation\GroupOccupation.cshtml" />
+    <Content Include="Views\TCLD\Occupation\SideOccupation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7403,16 +7409,19 @@
     <Folder Include="Views\DepartmentDaily\" />
     <Folder Include="Views\Department_Criteria\" />
     <Folder Include="Views\GPS\" />
+    <Folder Include="Views\GroupOccupation\" />
     <Folder Include="Views\HuyDong\" />
     <Folder Include="Views\InputPlan_Month\" />
     <Folder Include="Views\Input\" />
     <Folder Include="Views\Laydanhsachvattu\" />
     <Folder Include="Views\Notifi\" />
+    <Folder Include="Views\Occupation\" />
     <Folder Include="Views\PhanXuongReport\" />
     <Folder Include="Views\QDCaitien\" />
     <Folder Include="Views\Quanlyvattu\" />
     <Folder Include="Views\ReportMonthly\" />
     <Folder Include="Views\SanLuongReport\" />
+    <Folder Include="Views\SideOccupation\" />
     <Folder Include="Views\SucoCam\" />
     <Folder Include="Views\ThemCaiTien\" />
     <Folder Include="Views\ViewAccident\" />
