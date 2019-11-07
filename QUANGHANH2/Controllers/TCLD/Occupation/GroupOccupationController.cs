@@ -20,12 +20,11 @@ namespace QUANGHANH2.Controllers.TCLD.Occupation
         [HttpGet]
         public ActionResult List()
         {
-            using(QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                // var sqlList = db.NhomCongViecs.Select(x => new NhomCongViec { LoaiNhomCongViec = x.LoaiNhomCongViec, TenNhomCongViec = x.TenNhomCongViec }).ToList();
                 var sqlList = (from x in db.NhomCongViecs
                                select new { LoaiNhomCongViec = x.LoaiNhomCongViec, TenNhomCongViec = x.TenNhomCongViec }).ToList();
-                return Json(new {sqlList = sqlList, success = true }, JsonRequestBehavior.AllowGet);
+                return Json(new { sqlList = sqlList, success = true }, JsonRequestBehavior.AllowGet);
             }
         }
     }
