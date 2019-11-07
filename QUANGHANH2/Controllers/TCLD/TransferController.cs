@@ -150,11 +150,14 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     new SqlParameter("tenNV", "%" + searchTen + "%"),
                     new SqlParameter("maPhongBan", phongbanSearch),
                     new SqlParameter("maCongViec", chucVuSearch)
-                    ).ToList<NhanVienModel>();
-                totalrows = listNhanVien.Count;
-                totalrowsafterfiltering = listNhanVien.Count;
-                listNhanVien = listNhanVien.OrderBy(sortColumnName + " " + sortDirection).ToList<NhanVienModel>();
-                listNhanVien = listNhanVien.Skip(start).Take(length).ToList<NhanVienModel>();
+                    )
+                    .OrderBy(sortColumnName + " " + sortDirection).Skip(start)
+                    .Take(length).ToList<NhanVienModel>().ToList();
+                totalrows = db.Database.SqlQuery<Int32>(sql.Replace("A.*,B.department_name,C.TenCongViec,D.TenTrangThai", "Count(*) as count")).ToList<Int32>()[0];
+                totalrowsafterfiltering = totalrows;
+
+                //listNhanVien = listNhanVien.OrderBy(sortColumnName + " " + sortDirection).ToList<NhanVienModel>();
+                //listNhanVien = listNhanVien.Skip(start).Take(length).ToList<NhanVienModel>();
             }
             return Json(new { success = true, data = listNhanVien, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
