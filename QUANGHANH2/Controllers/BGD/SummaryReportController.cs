@@ -317,20 +317,20 @@ namespace QUANGHANHCORE.Controllers.BGD
             string sql_chart = "select a.MaPhongBan " +
                         "	,(a.KT1 + a.KT2 + a.KT3 + a.CD1 + a.CD2 + a.CD3 + a.QL1 + a.QL2 + a.QL3) as 'dilam' " +
                         "	,(b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 + b.khac1 + b.khac2 + b.khac3) as 'nghi' " +
-                        "from (select n.MaPhongBan "+
-                        ", sum(case when nc.LoaiNhomCongViec like N'CNKT' and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'KT1' "+
-                        ", SUM(case when nc.LoaiNhomCongViec like N'CNCD' and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'CD1' " +
-                        ", SUM(case when nc.LoaiNhomCongViec like N'CBQL' and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'QL1' " +
-                        ", sum(case when nc.LoaiNhomCongViec like N'CNKT' and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'KT2' " +
-                        ", SUM(case when nc.LoaiNhomCongViec like N'CNCD' and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'CD2' " +
-                        ", SUM(case when nc.LoaiNhomCongViec like N'CBQL' and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'QL2' " +
-                        ", sum(case when nc.LoaiNhomCongViec like N'CNKT' and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'KT3' " +
-                        ", SUM(case when nc.LoaiNhomCongViec like N'CNCD' and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'CD3' " +
-                        ", SUM(case when nc.LoaiNhomCongViec like N'CBQL' and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'QL3' " +
-                        ", count(n.MaNV) as 'tong_DS'   , sum(case when nc.LoaiNhomCongViec like N'CBQL' then 1 else 0 end) as 'QL_CTy' " +
+                        "from (select n.MaPhongBan  "+
+                        ", sum(case when nc.MaNhomCongViec = 1 and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'KT1' "+
+                        ", SUM(case when nc.MaNhomCongViec = 2 and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'CD1' " +
+                        ", SUM(case when nc.MaNhomCongViec = 3 and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'QL1' " +
+                        ", sum(case when nc.MaNhomCongViec = 1 and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'KT2' " +
+                        ", SUM(case when nc.MaNhomCongViec = 2 and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'CD2' " +
+                        ", SUM(case when nc.MaNhomCongViec = 3 and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'QL2' " +
+                        ", sum(case when nc.MaNhomCongViec = 1 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'KT3' " +
+                        ", SUM(case when nc.MaNhomCongViec = 2 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'CD3' " +
+                        ", SUM(case when nc.MaNhomCongViec = 3 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'QL3' " +
+                        ", count(n.MaNV) as 'tong_DS'   , sum(case when nc.MaNhomCongViec = 3 then 1 else 0 end) as 'QL_CTy' " +
                         "from NhanVien n left outer join DiemDanh_NangSuatLaoDong d on n.MaNV = d.MaNV left outer join Header_DiemDanh_NangSuat_LaoDong h on d.HeaderID = h.HeaderID " +
-                        "   inner join CongViec c on n.MaCongViec = c.MaCongViec " +
-                        "  inner join NhomCongViec nc on c.MaNhomCongViec = nc.MaNhomCongViec " +
+                        "    inner join CongViec c on n.MaCongViec = c.MaCongViec " +
+                        "    inner join NhomCongViec nc on c.MaNhomCongViec = nc.MaNhomCongViec " +
                         "where h.NgayDiemDanh = @day group by n.MaPhongBan) a full join  " +
                         "	(select n.MaPhongBan " +
                         "	, SUM(case when d.LyDoVangMat like N'Vô lý do' and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'vld1'    " +
