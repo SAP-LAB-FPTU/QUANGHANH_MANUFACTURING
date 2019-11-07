@@ -51,20 +51,24 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
                     var listAspectDepartments = (from pbtc in db.PhongBan_TieuChi
-                                 .Where(x => x.MaPhongBan == departmentID)
+                                                    .Where(x => x.MaPhongBan == departmentID && x.Thang == month && x.Nam == year)
                                                  join tieuchi in db.TieuChis on pbtc.MaTieuChi equals tieuchi.MaTieuChi
                                                  select new
                                                  {
                                                      MaTieuChi = tieuchi.MaTieuChi,
                                                      TenTieuChi = tieuchi.TenTieuChi
                                                  }).ToList();
-
+                    var listAspect2 = new List<ChiTietTieuChi>();
                     var listAspect = GetData(month, year, departmentID);
-                    if (listAspect != null)
+                    if (listAspect.Count > 0)
                     {
                         foreach (var item in listAspect)
                         {
-                            item.Identify = item.MaTieuChiNull + "-" + item.HeaderID;
+                            if (item.MaTieuChiNull != null)
+                            {
+                                item.Identify = item.MaTieuChiNull + "-" + item.HeaderID;
+                                listAspect2.Add(item);
+                            }
                         }
                     }
                     else
@@ -80,7 +84,7 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
                         return Json(new { data = listAspect, aspects = listAspectDepartments, totalDays = (26), headerID = HearderID }, JsonRequestBehavior.AllowGet);
 
                     }
-                    return Json(new { data = listAspect, aspects = listAspectDepartments, totalDays = (listAspect == null ? 0 : listAspect[0].SoNgayLamViec), headerID = listAspect == null ? -1 : listAspect[0].HeaderID }, JsonRequestBehavior.AllowGet);
+                    return Json(new { data = listAspect2, aspects = listAspectDepartments, totalDays = (listAspect.Count == 0 ? 0 : listAspect[0].SoNgayLamViec), headerID = listAspect.Count == 0 ? -1 : listAspect[0].HeaderID }, JsonRequestBehavior.AllowGet);
                 }
             }
             catch (Exception ex)
