@@ -43,54 +43,19 @@
 <div class="modal" id="mylist">
     <div class="modal-content">
         <div class="modal-header">
-            <h3 class="modal-title" id="listId">Danh sách vật tư đi kèm</h3>
+            <h3 class="modal-title">Danh sách vật tư đi kèm</h3>
         </div>
         <div class="modal-body table_container">
             <div class="row">
                 <table id="test" class="striped table-responsive centered table-bordered mytable">
-                    <thead>
-                        <tr>
-                            <th>Mã vật tư</th>
-                            <th>Tên vật tư</th>
-                            <th>Số lượng trong quyết định</th>
-                            <th>Số lượng đã nhận</th>
-                            <th>Ghi chú</th>
-                        </tr>
-                    </thead>
+                    <thead></thead>
                     <tbody></tbody>
                 </table>
             </div>
         </div>
-        <div class="modal-footer">
-            <a class="waves-effect waves-light btn blue darken-2 modal-trigger submitvattu">Lưu</a>
-            <button type="button" class="btn light-blue lighten-1 modal-close exit-button">Thoát</button>
-        </div>
-    </div>
-</div>
-
-<div class="modal" id="mylist2">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title" id="listId2">Danh sách vật tư dự phòng</h3>
-        </div>
-        <div class="modal-body table_container">
-            <div class="row">
-                <table id="test2" class="striped table-responsive centered table-bordered mytable">
-                    <thead>
-                        <tr>
-                            <th>Mã vật tư</th>
-                            <th>Tên vật tư</th>
-                            <th>Số lượng trong quyết định</th>
-                            <th>Số lượng đã nhận</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <a class="waves-effect waves-light btn blue darken-2 modal-trigger submitvattu">Lưu</a>
-            <button type="button" class="btn light-blue lighten-1 modal-close exit-button">Thoát</button>
+        <div class="modal-footer" id="vattu2">
+            <a id='submitvattu' class='waves-effect waves-light btn blue darken-2 modal-trigger'>Lưu</a>
+            <a id="exit-button" class="btn light-blue lighten-1 modal-close">Thoát</a>
         </div>
     </div>
 </div>
@@ -110,15 +75,6 @@
 </div>
 
 <script>
-    $("#complex_header").on("click", ".buttonChon", function () {
-        if ($(this).text() == "Chưa xử lý") {
-            $(this).text('Đã xử lý')
-        }
-        else {
-            $(this).text('Chưa xử lý')
-        }
-    });
-
     function getJsonArray() {
         var output = {};
         var arr = [];
@@ -148,6 +104,7 @@
         return JSON.stringify(output);
     }
 </script>
+<script src="~/js/Custom JS/CDVT/Capnhat/check.js"></script>
 
 @section scripts{
     <script src="~/js/jquery.dataTables.min.js"></script>
@@ -185,7 +142,7 @@
                 },
                 {
                     "data": "idAndEquip", "name": "person_created", "render": function (data) {
-                        return "<a data-list=\"" + data + "\" class=\"waves-effect waves-light btn-small blue modal-trigger open-Modal2\" href=\"#mylist2\">Vật tư dự phòng</a>";
+                        return "<a data-list=\"" + data + "\" class=\"waves-effect waves-light btn-small blue modal-trigger open-Modal2\" href=\"#mylist\">Vật tư dự phòng</a>";
                     }
                 },
                 {
@@ -215,7 +172,7 @@
             }
         });
 
-        $("#submit").click(function (e) {
+        $(document).on("click", "#submit", function (e) {
             var equipments = "";
             for (var i = 0; i < $('#complex_header tbody tr').length; i++) {
                 if ($('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').text() == "Đã xử lý")
@@ -252,7 +209,7 @@
             })
         });
 
-        $(".submitvattu").click(function (e) {
+        $(document).on("click", "#submitvattu", function (e) {
             $("#pre-load").show();
             $.ajax({
                 type: "POST",
@@ -260,8 +217,8 @@
                 dataType: "json",
                 success: function (data) {
                     if (data.success) {
+                        $('#exit-button').click();
                         successAlert(data.message);
-                        $('.exit-button').click()
                     }
                     else {
                         errorAlert(data.message);
@@ -285,9 +242,9 @@
         //get data and push to modal list
         $(document).on("click", ".open-Modal", function () {
             $("#pre-load").show();
-            $("#test").find("tr:gt(0)").remove();
+            $("#test").find("tr").remove();
             var QDIdAndEquipId = $(this).data('list');
-            $('#listId').text("Danh sách vật tư đi kèm của thiết bị " + QDIdAndEquipId.split("^")[1])
+            $('#mylist h3').text("Danh sách vật tư đi kèm của thiết bị " + QDIdAndEquipId.split("^")[1])
             $("#mathietbi").val(QDIdAndEquipId.split("^")[1])
             $("#maquyetdinh").val(QDIdAndEquipId.split("^")[0])
             $("#type").val(1);
@@ -296,6 +253,8 @@
                 url: "/phong-cdvt/cap-nhat/quyet-dinh/GetSupply",
                 dataType: "json",
                 success: function (data) {
+                    var header = $('<tr>').html("<th>Mã vật tư</th><th>Tên vật tư</th><th>Số lượng trong quyết định</th><th>Số lượng đã nhận</th><th>Ghi chú</th>");
+                    header.appendTo('#test thead');
                     $.each(data, function (i, item) {
                         var temp = item.supplyStatus == null ? "" : item.supplyStatus;
                         var $tr = $('<tr>').append(
@@ -322,10 +281,9 @@
 
         $(document).on("click", ".open-Modal2", function () {
             $("#pre-load").show();
-            $("#test2").find("tr:gt(0)").remove();
+            $("#test").find("tr").remove();
             var QDIdAndEquipId = $(this).data('list');
-            var response = {};
-            $('#listId2').text("Danh sách vật tư dự phòng của thiết bị " + QDIdAndEquipId.split("^")[1])
+            $('#mylist h3').text("Danh sách vật tư dự phòng của thiết bị " + QDIdAndEquipId.split("^")[1])
             $("#mathietbi").val(QDIdAndEquipId.split("^")[1])
             $("#maquyetdinh").val(QDIdAndEquipId.split("^")[0])
             $("#type").val(2);
@@ -334,16 +292,16 @@
                 url: "/phong-cdvt/cap-nhat/quyet-dinh/GetSupplyDuPhong",
                 dataType: "json",
                 success: function (data) {
-                    $(function () {
-                        $.each(data, function (i, item) {
-                            var $tr = $('<tr>').append(
-                                $('<td>').html("<input readonly class='form-control' type='text' value='" + item.supply_id + "' />"),
-                                $('<td>').text(item.supply_name),
-                                $('<td>').text(item.quantity_plan),
-                                $('<td>').html("<input class='form-control' type='number' min='" + item.quantity_in + "' max='" + item.quantity_plan + "' value='" + item.quantity_in + "' />"),
-                            );
-                            $tr.appendTo('#test2 tbody');
-                        });
+                    var header = $('<tr>').html("<th>Mã vật tư</th><th>Tên vật tư</th><th>Số lượng trong quyết định</th><th>Số lượng đã nhận</th>");
+                    header.appendTo('#test thead');
+                    $.each(data, function (i, item) {
+                        var $tr = $('<tr>').append(
+                            $('<td>').html("<input readonly class='form-control' type='text' value='" + item.supply_id + "' />"),
+                            $('<td>').text(item.supply_name),
+                            $('<td>').text(item.quantity_plan),
+                            $('<td>').html("<input class='form-control' type='number' min='" + item.quantity_in + "' max='" + item.quantity_plan + "' value='" + item.quantity_in + "' />"),
+                        );
+                        $tr.appendTo('#test tbody');
                     });
                     $("#pre-load").hide();
                 },

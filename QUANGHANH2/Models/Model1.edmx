@@ -137,7 +137,7 @@
           <Property Name="date" Type="date" Nullable="false" />
           <Property Name="session" Type="int" Nullable="false" />
           <Property Name="available" Type="bit" Nullable="false" />
-          <Property Name="reason" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="reason" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="Category_attribute_value">
           <Key>
@@ -412,6 +412,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="documentary_name" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="du_phong" Type="bit" Nullable="false" />
           <Property Name="di_kem" Type="bit" Nullable="false" />
+          <Property Name="can" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="DoiChieu_Luong">
           <Key>
@@ -3184,7 +3185,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="session" Type="Int32" Nullable="false" />
           <Property Name="available" Type="Boolean" Nullable="false" />
-          <Property Name="reason" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="reason" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Equipment" Relationship="Self.FK__CarGPS__equipmen__382F5661" FromRole="CarGPS" ToRole="Equipment" />
         </EntityType>
         <EntityType Name="Category_attribute_value">
@@ -3534,6 +3535,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="documentary_name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="du_phong" Type="Boolean" Nullable="false" />
           <Property Name="di_kem" Type="Boolean" Nullable="false" />
+          <Property Name="can" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Documentaries" Relationship="Self.FK__Documenta__docum__4D2A7347" FromRole="DocumentaryType" ToRole="Documentary" />
         </EntityType>
         <EntityType Name="DoiChieu_Luong">
@@ -6709,6 +6711,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
                 <ScalarProperty Name="documentary_name" ColumnName="documentary_name" />
                 <ScalarProperty Name="du_phong" ColumnName="du_phong" />
                 <ScalarProperty Name="di_kem" ColumnName="di_kem" />
+                <ScalarProperty Name="can" ColumnName="can" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
