@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "layout_phanxuong";
     Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
 }
@@ -135,6 +134,50 @@
                     </div>
                 </div>
             </div>
+            @{
+                if (Session["departID"].ToString().Equals("PXLT"))
+                {
+                    <div id="xu-li-quyet-dinh" onclick="window.location.href='/phong-cdvt/oto/bao-duong-hang-ngay'" class="btn-nhap col l6 m12 s12">
+                        <div class="card info-gradient card-hover">
+                            <div class="card-content">
+                                <div class="d-flex no-block align-items-center">
+                                    <div>
+                                        <h3 class="white-text m-b-5">Bảo dưỡng hàng ngày</h3>
+                                        <h6 class="white-text op-1"></h6>
+                                        <br>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <span class="white-text display-6">
+                                            <i class="material-icons">receipt</i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div id="xu-li-quyet-dinh" onclick="window.location.href='/phong-cdvt/thiet-bi/sctx'" class="btn-nhap col l6 m12 s12">
+                        <div class="card info-gradient card-hover">
+                            <div class="card-content">
+                                <div class="d-flex no-block align-items-center">
+                                    <div>
+                                        <h3 class="white-text m-b-5">Sửa chữa thường xuyên</h3>
+                                        <h6 class="white-text op-1"></h6>
+                                        <br>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <span class="white-text display-6">
+                                            <i class="material-icons">receipt</i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
             <div class="col l12 m12 s12">
                 <hr />
             </div>
