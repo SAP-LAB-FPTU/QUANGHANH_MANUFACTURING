@@ -15,7 +15,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
 {
     public class SuachuahangngayController : Controller
     {
-        [Auther(RightID = "16")]
+        [Auther(RightID = "188")]
         [Route("phong-cdvt/oto/bao-duong-hang-ngay")]
         [HttpGet]
         public ActionResult Index()
@@ -81,7 +81,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             db.Supply_tieuhao.Add(supply_tieuhao);
             db.SaveChanges();
         }
-        public void EditSupply_duphong(String supplyid,int quantity)
+        public void EditSupply_duphong(String supplyid, int quantity)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             Supply_DuPhong duphong = db.Supply_DuPhong.Where(x => x.supply_id == supplyid).FirstOrDefault();
@@ -92,7 +92,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             }
             db.SaveChanges();
         }
-
+        [Auther(RightID = "188")]
         [Route("phong-cdvt/oto/bao-duong-hang-ngay/insertMaintainCar")]
         [HttpPost]
         public JsonResult InsertMaintainCar(List<Maintain_Car_DetailDB> maintain, string equipmentId, string department_name, string date, string maintain_content, int hour, int minute, int year, int month, int day)
@@ -167,7 +167,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             }
 
         }
-        [Auther(RightID = "18")]
         [Route("phong-cdvt/oto/bao-duong-hang-ngay/getMaintainCarDetail")]
         [HttpPost]
         public JsonResult getMaintainCarDetail(int maintainId)
@@ -182,7 +181,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                 return Json(m);
             }
         }
-        [Auther(RightID = "18")]
+        [Auther(RightID = "188")]
         [Route("phong-cdvt/oto/bao-duong-hang-ngay/getMaintainCar")]
         [HttpPost]
         public JsonResult getMaintainCar(int maintainId)
@@ -204,7 +203,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                 return Json(maintainCar);
             }
         }
-
+        [Auther(RightID = "188")]
         [Route("phong-cdvt/oto/bao-duong-hang-ngay/search")]
         [HttpPost]
         public ActionResult Search(string equipmentId, string equipmentName, string timeFrom, string timeTo, string content, string position)
@@ -244,7 +243,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                     + " where m.equipmentId LIKE @equipmentId"
                     + " AND e.equipment_name LIKE @equipment_name AND m.[date] between @timeFrom AND @timeTo "
                     + " AND d.department_name LIKE @position AND m.maintain_content LIKE @content "
-                    + " order by m.[date] desc";
+                    + " AND e.department_id = @department_id order by m.[date] desc";
 
                 List<Maintain_CarDB> maintainCar = DBContext.Database.SqlQuery<Maintain_CarDB>(query,
                     new SqlParameter("equipmentId", '%' + equipmentId + '%'),
@@ -252,7 +251,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                     new SqlParameter("timeFrom", timeF),
                     new SqlParameter("timeTo", timeT),
                     new SqlParameter("position", '%' + position + '%'),
-                    new SqlParameter("content", '%' + content + '%')
+                    new SqlParameter("content", '%' + content + '%'),
+                    new SqlParameter("department_id", Session["departID"].ToString())
                     ).ToList();
 
                 int totalrows = maintainCar.Count;
@@ -296,7 +296,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
         }
 
 
-        [Auther(RightID = "18")]
+        [Auther(RightID = "188")]
         [Route("phong-cdvt/oto/bao-duong-hang-ngay/edit")]
         [HttpPost]
         public ActionResult EditMaintain(string date, String equipmentId, String department_name, String maintain_content, int maintainid, int hour, int minute, int year, int month, int day)
@@ -310,7 +310,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
 
                     DateTime startDate = new DateTime(year, month, day, hour, minute, 0);
                     Department d = db.Departments.Where(x => x.department_name == department_name).FirstOrDefault();
-                    
+
 
                     m.equipmentid = equipmentId;
                     m.departmentid = d.department_id;
@@ -338,7 +338,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                 }
             }
         }
-        [Auther(RightID = "18")]
+        [Auther(RightID = "188")]
         [Route("phong-cdvt/oto/bao-duong-hang-ngay/editMaintainDetail")]
         [HttpPost]
         public ActionResult EditMaintainDetail(List<Maintain_Car_Detail> supplyDetail)
