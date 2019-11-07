@@ -17,13 +17,13 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public DienCongViec()
         {
-            this.CongViecs = new HashSet<CongViec>();
+            this.NhomCongViecs = new HashSet<NhomCongViec>();
         }
     
         public int MaDienCongViec { get; set; }
         public string DienCongViec1 { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CongViec> CongViecs { get; set; }
+        public virtual ICollection<NhomCongViec> NhomCongViecs { get; set; }
     }
 }
