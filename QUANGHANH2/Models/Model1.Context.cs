@@ -44,6 +44,8 @@ namespace QUANGHANH2.Models
         public virtual DbSet<ChuyenNganh> ChuyenNganhs { get; set; }
         public virtual DbSet<CongTacAnToan> CongTacAnToans { get; set; }
         public virtual DbSet<CongViec> CongViecs { get; set; }
+        public virtual DbSet<DienCongViec> DienCongViecs { get; set; }
+        
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<DiemDanh_NangSuatLaoDong> DiemDanh_NangSuatLaoDong { get; set; }
         public virtual DbSet<DieuDong_NhanVien> DieuDong_NhanVien { get; set; }
@@ -78,6 +80,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<LichSuBoSungSYLL> LichSuBoSungSYLLs { get; set; }
         public virtual DbSet<Maintain_Car> Maintain_Car { get; set; }
         public virtual DbSet<Maintain_Car_Detail> Maintain_Car_Detail { get; set; }
+        public virtual DbSet<NhomCongViec> NhomCongViecs { get; set; }
         public virtual DbSet<MealRegistration> MealRegistrations { get; set; }
         public virtual DbSet<Module> Modules { get; set; }
         public virtual DbSet<Nganh> Nganhs { get; set; }
