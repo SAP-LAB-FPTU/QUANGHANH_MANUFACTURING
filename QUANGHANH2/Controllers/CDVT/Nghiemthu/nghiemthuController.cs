@@ -47,13 +47,17 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                join b in db.Equipments.Where(x => x.department_id.Equals(departID)) on a.equipmentId equals b.equipmentId
                                join c in db.Documentaries on a.documentary_id equals c.documentary_id
                                where (a.equipmentStatus == 2) && (c.documentary_code.Contains(document_code)) && (a.equipmentId.Contains(equiment_id)) && (b.equipment_name.Contains(equiment_name))
+                               join d in db.DocumentaryTypes on c.documentary_type equals d.documentary_type
                                select new
                                {
                                    documentary_id = a.documentary_id,
                                    equipmentId = b.equipmentId,
                                    equipment_name = b.equipment_name,
                                    documentary_code = c.documentary_code,
-                                   documentary_type = c.documentary_type
+                                   documentary_type = c.documentary_type,
+                                   documentary_name = d.documentary_name,
+                                   du_phong = d.du_phong,
+                                   di_kem = d.di_kem
 
                                }).ToList().Select(p => new Documentary_Extend
                                {
@@ -61,7 +65,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                    equipmentId = p.equipmentId,
                                    equipment_name = p.equipment_name,
                                    documentary_code = p.documentary_code,
-                                   documentary_type = p.documentary_type
+                                   documentary_type = p.documentary_type,
+                                   documentary_name = p.documentary_name,
+                                   du_phong = p.du_phong,
+                                   di_kem = p.di_kem
                                }).ToList();
                 }
                 else
@@ -71,13 +78,18 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                join b in db.Equipments on a.equipmentId equals b.equipmentId
                                join c in db.Documentaries on a.documentary_id equals c.documentary_id
                                where (a.equipmentStatus == 2) && (c.documentary_code.Contains(document_code)) && (a.equipmentId.Contains(equiment_id)) && (b.equipment_name.Contains(equiment_name))
+                               join d in db.DocumentaryTypes on c.documentary_type equals d.documentary_type
                                select new
                                {
                                    documentary_id = a.documentary_id,
                                    equipmentId = b.equipmentId,
                                    equipment_name = b.equipment_name,
                                    documentary_code = c.documentary_code,
-                                   documentary_type = c.documentary_type
+                                   documentary_type = c.documentary_type,
+                                   documentary_name = d.documentary_name,
+                                   du_phong = d.du_phong,
+                                   di_kem = d.di_kem,
+                                   can = d.can
 
                                }).ToList().Select(p => new Documentary_Extend
                                {
@@ -85,7 +97,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                    equipmentId = p.equipmentId,
                                    equipment_name = p.equipment_name,
                                    documentary_code = p.documentary_code,
-                                   documentary_type = p.documentary_type
+                                   documentary_type = p.documentary_type,
+                                   documentary_name = p.documentary_name,
+                                   du_phong = p.du_phong,
+                                   di_kem = p.di_kem,
+                                   can = p.can
                                }).ToList();
                 }
 
