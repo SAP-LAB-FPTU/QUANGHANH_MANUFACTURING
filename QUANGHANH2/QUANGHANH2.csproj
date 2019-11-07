@@ -400,6 +400,7 @@
     <Compile Include="Models\DienCongViec.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DienCongViec.cs" />
     <Compile Include="Models\DieuDong_NhanVien.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -553,6 +554,7 @@
     <Compile Include="Models\NhomCongViec.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\NhomCongViec.cs" />
     <Compile Include="Models\NhomTieuChi.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
