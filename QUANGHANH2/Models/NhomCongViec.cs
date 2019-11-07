@@ -23,7 +23,9 @@ namespace QUANGHANH2.Models
         public int MaNhomCongViec { get; set; }
         public string LoaiNhomCongViec { get; set; }
         public string TenNhomCongViec { get; set; }
+        public Nullable<int> MaDienCongViec { get; set; }
     
+        public virtual DienCongViec DienCongViec { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CongViec> CongViecs { get; set; }
     }
