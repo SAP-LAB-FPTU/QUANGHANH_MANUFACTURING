@@ -43,7 +43,7 @@
 <div class="modal" id="mylist">
     <div class="modal-content">
         <div class="modal-header">
-            <h3 class="modal-title" id="listId">Danh sách vật tư đi kèm</h3>
+            <h3 class="modal-title">Danh sách vật tư đi kèm</h3>
         </div>
         <div class="modal-body table_container">
             <div class="row">
@@ -63,7 +63,7 @@
                 </table>
             </div>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer" id="vattu">
             <a class="waves-effect waves-light btn blue darken-2 modal-trigger submitvattu">Lưu</a>
             <button type="button" class="btn light-blue lighten-1 modal-close exit-button">Thoát</button>
         </div>
@@ -249,7 +249,7 @@
             $("#pre-load").show();
             $("#test").find("tr:gt(0)").remove();
             var QDIdAndEquipId = $(this).data('list');
-            $('#listId').text("Danh sách vật tư thêm cho thiết bị " + QDIdAndEquipId.split("^")[1])
+            $('#mylist h3').text("Danh sách vật tư thêm cho thiết bị " + QDIdAndEquipId.split("^")[1])
             $("#mathietbi").val(QDIdAndEquipId.split("^")[1])
             $("#maquyetdinh").val(QDIdAndEquipId.split("^")[0])
             $("#type").val(1);

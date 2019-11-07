@@ -24,6 +24,7 @@ namespace QUANGHANH2.Models
         public string documentary_name { get; set; }
         public bool du_phong { get; set; }
         public bool di_kem { get; set; }
+        public bool can { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Documentary> Documentaries { get; set; }

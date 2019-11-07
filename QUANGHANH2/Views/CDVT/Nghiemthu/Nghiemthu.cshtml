@@ -51,6 +51,7 @@
                         <thead>
                             <tr>
                                 <th rowspan="2">Quyết định số</th>
+                                <th rowspan="2">Loại quyết định</th>
                                 <th colspan="2">Thông tin thiết bị</th>
                                 <th rowspan="2"></th>
                                 <th rowspan="2"></th>
@@ -146,18 +147,27 @@
 
                         },
                     },
+                    { "data": "documentary_name", "name": "documentary_name" },
                     { "data": "equipmentId", "name": "equipmentId" },
                     { "data": "equipment_name", "name": "equipment_name" },
                     {
-                        "data": "idAndid", "render": function (data) {
-                            return "<td><a class='btn blue modal-trigger open-DiKem' data-equip='" + data.split("^")[0] + "' data-code='" + data.split("^")[1] + "' href='#mylist'>VT đi kèm</a></td>";
+                        "data": {}, "render": function (data) {
+                            if (data.di_kem)
+                                return "<td><a class='btn blue modal-trigger open-DiKem' data-equip='" + data.equipmentId + "' data-code='" + data.documentary_id + "' href='#mylist'>VT đi kèm</a></td>";
+                            else if (data.can)
+                                return "<td><a class='btn blue modal-trigger open-DiKem' data-equip='" + data.equipmentId + "' data-code='" + data.documentary_id + "' href='#mylist'>VT cần</a></td>";
+                            else
+                                return "";
                         },
                         "orderable": false,
                         "searchable": false
                     },
                     {
-                        "data": "idAndid", "render": function (data) {
-                            return "<td><a class='btn blue modal-trigger open-DuPhong' data-equip='" + data.split("^")[0] + "' data-code='" + data.split("^")[1] + "' href='#mylist'>VT dự phòng</a></td>";
+                        "data": {}, "render": function (data) {
+                            if (data.du_phong)
+                                return "<td><a class='btn blue modal-trigger open-DuPhong' data-equip='" + data.equipmentId + "' data-code='" + data.documentary_id + "' href='#mylist'>VT dự phòng</a></td>";
+                            else
+                                return "";
                         },
                         "orderable": false,
                         "searchable": false
@@ -198,8 +208,7 @@
             $("#test").find("tr").remove();
             var documentary_id = $(this).data("code");
             var equipmentId = $(this).data("equip");
-            var QDIdAndEquipId = $(this).data('list');
-            $('#listId').text("Danh sách vật tư thay thế của thiết bị " + equipmentId)
+            $('#mylist h3').text("Thiết bị " + equipmentId)
             $("#mathietbi").val(equipmentId)
             $("#maquyetdinh").val(documentary_id)
             $.ajax({
@@ -241,8 +250,7 @@
             $("#test").find("tr").remove();
             var documentary_id = $(this).data("code");
             var equipmentId = $(this).data("equip");
-            var QDIdAndEquipId = $(this).data('list');
-            $('#listId').text("Danh sách vật tư thay thế của thiết bị " + equipmentId)
+            $('#mylist h3').text("Thiết bị " + equipmentId)
             $("#mathietbi").val(equipmentId)
             $("#maquyetdinh").val(documentary_id)
             $.ajax({
