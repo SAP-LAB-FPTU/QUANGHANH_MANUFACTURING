@@ -393,6 +393,9 @@
     <Compile Include="Models\DiemDanh_NangSuatLaoDong.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DienCongViec.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DieuDong_NhanVien.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -400,6 +403,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Documentary.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DocumentaryType.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Documentary_big_maintain_details.cs">
@@ -538,6 +544,9 @@
     </Compile>
     <Compile Include="Models\NhanVien_Extend.cs" />
     <Compile Include="Models\NhiemVu.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NhomCongViec.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\NhomTieuChi.cs">
