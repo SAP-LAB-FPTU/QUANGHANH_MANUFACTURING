@@ -7,6 +7,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Linq.Dynamic;
 using System.Web.Script.Serialization;
+using Newtonsoft.Json.Linq;
+using Microsoft.Ajax.Utilities;
 
 namespace QUANGHANH2.Controllers.TCLD
 {
@@ -17,7 +19,14 @@ namespace QUANGHANH2.Controllers.TCLD
         [Route("phong-tcld/quan-ly-phong-ban")]
         public ActionResult Index()
         {
-            return View("/Views/TCLD/Department/List.cshtml");
+            using(QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                var arr_department_type = db.Departments.DistinctBy(d => d.department_type).ToList();
+
+                ViewBag.arr_department_type = arr_department_type;
+                return View("/Views/TCLD/Department/List.cshtml");
+            }
+
         }
 
         [Auther(RightID = "175")]
@@ -122,7 +131,7 @@ namespace QUANGHANH2.Controllers.TCLD
         //Add Diploma
         [Auther(RightID = "176")]
         [HttpGet]
-        public ActionResult AddDepartment()
+        public ActionResult AddNewDepartment()
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
@@ -135,19 +144,83 @@ namespace QUANGHANH2.Controllers.TCLD
         }
         [Auther(RightID = "176")]
         [HttpPost]
-        public ActionResult AddDepartment(Department department)
+        public ActionResult AddNewDepartment(string departmentJson)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            dynamic dataJson = JObject.Parse(departmentJson);
+            string mpb = dataJson.mpb;
+            string tpb = dataJson.tpb;
+            string lpb = dataJson.lpb;
+            bool isInside = Convert.ToBoolean(dataJson.isInside);
+
+            Department department = new Department { department_id = mpb, department_name = tpb, department_type = lpb, isInside = isInside };
+
+            try
             {
-                if (department != null)
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-
-                    db.Departments.Add(department);
+                    var pb = db.Departments.Add(department);
                     db.SaveChanges();
+                    return Json(new { success = true}, JsonRequestBehavior.AllowGet);
                 }
-                return RedirectToAction("List");
             }
+            catch (Exception)
+            {
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
+           
 
+        }
+
+        [Auther(RightID = "176")]
+        [HttpPost]
+        public ActionResult GetEditDepartment(string did)
+        {
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                db.Configuration.LazyLoadingEnabled = false;
+                var pb = db.Departments.Where(d => d.department_id.Equals(did)).FirstOrDefault();
+                var dataJson = Json(new { success = true, data = pb }, JsonRequestBehavior.AllowGet);
+                string dataSerialize = new JavaScriptSerializer().Serialize(dataJson.Data);
+                return dataJson;
+            }
+        }
+
+        [Auther(RightID = "176")]
+        [HttpPost]
+        public ActionResult EditDepartment(string departmentJson, string did)
+        {
+            dynamic dataJson = JObject.Parse(departmentJson);
+            string mpb = dataJson.mpb;
+            string tpb = dataJson.tpb;
+            string lpb = dataJson.lpb;
+            bool isInside = Convert.ToBoolean(dataJson.isInside);
+
+            Department department = new Department { department_id = mpb, department_name = tpb, department_type = lpb, isInside = isInside };
+
+            try
+            {
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    Department pb = db.Departments.Where(d => d.department_id.Equals(did)).FirstOrDefault<Department>();
+                    if(pb!= null)
+                    {
+                        pb.department_id = mpb;
+                        pb.department_name = tpb;
+                        pb.department_type = lpb;
+                        pb.isInside = isInside;
+                        db.SaveChanges();
+                        return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
 
         }
     }

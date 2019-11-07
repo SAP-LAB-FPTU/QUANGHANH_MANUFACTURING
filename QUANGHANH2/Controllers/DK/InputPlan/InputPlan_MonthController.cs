@@ -35,9 +35,7 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
                     "a.HeaderID = b.HeaderID and a.MaTieuChi = b.MaTieuChi " +
                     "and a.ThoiGianNhapCuoiCung = b.ThoiGianNhapCuoiCung) as kehoach " +
                     "on header_kh.HeaderID = kehoach.HeaderID left join TieuChi " +
-                    "on kehoach.MaTieuChi = TieuChi.MaTieuChi) as table1 " +
-                    "inner join PhongBan_TieuChi " +
-                    "on table1.MaTieuChiNull = PhongBan_TieuChi.MaTieuChi and PhongBan_TieuChi.MaPhongBan = @departmentID and PhongBan_TieuChi.Thang = @month and Nam = @year";
+                    "on kehoach.MaTieuChi = TieuChi.MaTieuChi) as table1 ";
                 return db.Database.SqlQuery<ChiTietTieuChi>(sqlQuery, new SqlParameter("departmentID", departmentID), new SqlParameter("month", month), new SqlParameter("year", year)).ToList();
             }
         }
@@ -48,44 +46,44 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
             try
             {
                 var month = Int32.Parse(Request["month"]);
-            var year = Int32.Parse(Request["year"]);
-            var departmentID = Request["department"];
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-            {
-                var listAspectDepartments = (from pbtc in db.PhongBan_TieuChi
-                             .Where(x => x.MaPhongBan == departmentID)
-                                             join tieuchi in db.TieuChis on pbtc.MaTieuChi equals tieuchi.MaTieuChi
-                                             select new
-                                             {
-                                                 MaTieuChi = tieuchi.MaTieuChi,
-                                                 TenTieuChi = tieuchi.TenTieuChi
-                                             }).ToList();
-
-                var listAspect = GetData(month, year, departmentID);
-                if (listAspect.Count != 0)
+                var year = Int32.Parse(Request["year"]);
+                var departmentID = Request["department"];
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    foreach (var item in listAspect)
+                    var listAspectDepartments = (from pbtc in db.PhongBan_TieuChi
+                                 .Where(x => x.MaPhongBan == departmentID)
+                                                 join tieuchi in db.TieuChis on pbtc.MaTieuChi equals tieuchi.MaTieuChi
+                                                 select new
+                                                 {
+                                                     MaTieuChi = tieuchi.MaTieuChi,
+                                                     TenTieuChi = tieuchi.TenTieuChi
+                                                 }).ToList();
+
+                    var listAspect = GetData(month, year, departmentID);
+                    if (listAspect != null)
                     {
-                        item.Identify = item.MaTieuChiNull + "-" + item.HeaderID;
+                        foreach (var item in listAspect)
+                        {
+                            item.Identify = item.MaTieuChiNull + "-" + item.HeaderID;
+                        }
                     }
-                }
-                else
-                {
-                    header_KeHoachTungThang header = new header_KeHoachTungThang();
-                    header.MaPhongBan = departmentID;
-                    header.ThangKeHoach = month;
-                    header.NamKeHoach = year;
-                    header.SoNgayLamViec = 26;
-                    db.header_KeHoachTungThang.Add(header);
-                    db.SaveChanges();
-                    var HearderID = db.header_KeHoachTungThang.Where(x => x.MaPhongBan == departmentID && x.ThangKeHoach == month && x.NamKeHoach == year).Select(x => x.HeaderID).FirstOrDefault();
-                    return Json(new { data = listAspect, aspects = listAspectDepartments, totalDays = (26), headerID = HearderID }, JsonRequestBehavior.AllowGet);
+                    else
+                    {
+                        header_KeHoachTungThang header = new header_KeHoachTungThang();
+                        header.MaPhongBan = departmentID;
+                        header.ThangKeHoach = month;
+                        header.NamKeHoach = year;
+                        header.SoNgayLamViec = 26;
+                        db.header_KeHoachTungThang.Add(header);
+                        db.SaveChanges();
+                        var HearderID = db.header_KeHoachTungThang.Where(x => x.MaPhongBan == departmentID && x.ThangKeHoach == month && x.NamKeHoach == year).Select(x => x.HeaderID).FirstOrDefault();
+                        return Json(new { data = listAspect, aspects = listAspectDepartments, totalDays = (26), headerID = HearderID }, JsonRequestBehavior.AllowGet);
 
+                    }
+                    return Json(new { data = listAspect, aspects = listAspectDepartments, totalDays = (listAspect == null ? 0 : listAspect[0].SoNgayLamViec), headerID = listAspect == null ? -1 : listAspect[0].HeaderID }, JsonRequestBehavior.AllowGet);
                 }
-                return Json(new { data = listAspect, aspects = listAspectDepartments, totalDays = (listAspect == null ? 0 : listAspect[0].SoNgayLamViec), headerID = listAspect == null ? -1 : listAspect[0].HeaderID }, JsonRequestBehavior.AllowGet);
             }
-            }
-            catch (Exception)
+            catch (Exception ex)
             {
                 Response.Write("Có lỗi xảy ra, xin vui lòng nhập lại");
                 return new HttpStatusCodeResult(400);
@@ -119,7 +117,7 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
                 foreach (var item in listUpdate)
                 {
                     item.ThoiGianNhapCuoiCung = currentTime;
-                    
+
                     db.KeHoach_TieuChi_TheoThang.Add(item);
                 }
                 //var header = db.header_KeHoachTungThang.Where(x => x.MaPhongBan == departmentID && x.ThangKeHoach == month && x.NamKeHoach == year).FirstOrDefault();
@@ -153,7 +151,7 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
                     DonViDo = ma.DonViDo
                 }, JsonRequestBehavior.AllowGet); ;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return Json("Mã tiêu chí không tồn tại", JsonRequestBehavior.AllowGet);
             }

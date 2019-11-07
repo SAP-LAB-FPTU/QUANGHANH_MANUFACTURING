@@ -163,7 +163,7 @@ namespace QUANGHANH2.Controllers.DK
                         //////////////////////////////////////////FOR ALL///////////////////////////////////////////////
                         {
                             ngay = ngay.Split('/')[2] + "/" + ngay.Split('/')[1] + "/" + ngay.Split('/')[0];
-                            sql = "select f.*,b.ngay,b.ca,d.department_name from filebaocao f, baocaofile b, Department d\n"+
+                            sql = "select f.*,b.ngay,b.ca,d.department_name,d.department_id from filebaocao f, baocaofile b, Department d\n" +
                             "where b.id = f.baocaoid and b.phanxuong_id = d.department_id and b.ngay=@ngay\n" +
                             "order by f.id desc";
                             allFilesList = db.Database.SqlQuery<allFileObject>(sql,
@@ -452,7 +452,7 @@ namespace QUANGHANH2.Controllers.DK
     {
         public DateTime ngay { get; set; }
         public int? ca { get; set; }
-        public string phanxuong_id { get; set; }
+        public string department_id { get; set; }
         public string department_name { get; set; }
     }
     public class fileObjectDisplay : FileBaoCao
