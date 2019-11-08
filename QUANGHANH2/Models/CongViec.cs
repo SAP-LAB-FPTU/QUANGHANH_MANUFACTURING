@@ -18,18 +18,17 @@ namespace QUANGHANH2.Models
         public CongViec()
         {
             this.NhanViens = new HashSet<NhanVien>();
+            this.NhomCongViecs = new HashSet<NhomCongViec>();
         }
     
         public int MaCongViec { get; set; }
         public string TenCongViec { get; set; }
         public string ThangLuong { get; set; }
         public Nullable<double> PhuCap { get; set; }
-        public Nullable<int> MaNhomCongViec { get; set; }
-        public Nullable<int> MaDienCongViec { get; set; }
     
-        public virtual DienCongViec DienCongViec { get; set; }
-        public virtual NhomCongViec NhomCongViec { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<NhanVien> NhanViens { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<NhomCongViec> NhomCongViecs { get; set; }
     }
 }
