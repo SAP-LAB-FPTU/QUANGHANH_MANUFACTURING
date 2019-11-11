@@ -1,0 +1,257 @@
+﻿@{
+    ViewData["Title"] = "sua-chua";
+    Layout = "~/Views/Shared/_Layout_Cam.cshtml";
+}
+<link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
+
+<link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
+<script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
+<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
+
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <h3 class="center"><b>SỬA CHỮA THIẾT BỊ</b></h3>
+            <hr>
+            <form action="" method="POST" id="mysearchform" role="form">
+                <div class="col l6 m6 s12">
+                    <div class="row">
+                        <div class="col l10 m10 offset-l2 offset-m2 s12 input-field">
+                            <input type="text" placeholder="Tìm kiếm theo mã thiết bị" class='form-control' id="equipmentId-search" />
+                        </div>
+                        <div class="col l10 m10 offset-l2 offset-m2 s12 input-field">
+                            <input type="text" placeholder="Tìm kiếm theo tên thiết bị" class='form-control' id="equipmentName-search" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col l6 m6 s12">
+                    <div class="row">
+                        <div class="col l10 m10 s12 input-field">
+                            <input type="text" placeholder="Tìm kiếm theo phân xưởng chịu trách nhiệm" class='form-control' id="department-search" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col l12 m12 s12 input-field center">
+                    <a class="waves-effect waves-light btn blue darken-2 modal-close modal-trigger" id="searchButton1">Tìm kiếm</a>
+                </div>
+            </form>
+            <div class="col s12 table_container">
+                <table id="equipmentTable" class="table-bordered striped table-responsive centered">
+                    <thead>
+                        <tr>
+                            <th>Mã thiết bị</th>
+                            <th>Tên thiết bị</th>
+                            <th>Vị trí phòng</th>
+                            <th>Tình trạng thiết bị</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="col">
+                <a href="#" id="tienhanh" onclick="SaveStatus()" class="btn blue darken-2">Tiến hành điều động sửa chữa</a>
+                <a class="btn blue darken-2" id="drop">Bỏ Chọn</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="~/js/Custom JS/CDVT/Work/suachua.js"></script>
+
+@*<datalist id="equipmentId-search">
+        @foreach (var item in ViewBag.EquipmentID)
+        {
+        <option value="@item.equipment_id">@item.equipment_id</option>
+        }
+    </datalist>*@
+
+<script>
+    @if (ViewBag.alert == true)
+    {
+        <text>
+    $(document).ready(function () {
+                errorAlert('Lỗi', 'Bạn đã nhập sai vật tư');
+            })
+        </text>
+    }
+</script>
+
+
+
+
+
+@section scripts{
+    <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
+    <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
+    <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
+    <script>
+        //$("#pre-load").show();
+        var Popup, dataTable;
+        @{
+            var listFromServer = "[]";
+            if (ViewBag.selectedList != null)
+            {
+                listFromServer = ViewBag.selectedList;
+            }
+         }
+        var arrCarSelected = JSON.parse("@listFromServer".replace(/(&quot\;)/g, "\""));
+        window.onbeforeunload = function (e) {
+            document.cookie = 'SuaChuaThietBi=; expires=' + d.toGMTString() + ';';
+        }
+        $("#drop").click(function () {
+            $(".my_checkbox").each(function () {
+                if ($(this).is(":checked")) $(this).click();
+            })
+            //here
+            arrCarSelected = null;
+        })
+        $(document).ready(function () {
+            dataTable = $('#equipmentTable')
+                .on('preXhr.dt', function ( e, settings, data )  {
+                data.sessionId = "@ViewBag.id";
+                data.selectList = JSON.stringify(arrCarSelected);
+            })
+                .DataTable({
+                    "language": {
+                        "emptyTable": "Không tìm thấy dữ liệu",
+                        "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                        "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                        "paginate": {
+                            "first": "Trang đầu",
+                            "last": "Trang cuối",
+                            "next": "Trang sau",
+                            "previous": "Trang trước"
+                        }
+                    },
+                    "ajax": {
+                        "url": "/camera/sua-chua/search",
+                        "type": "POST",
+                        "datatype": "json",
+                        "data": {
+                            "cameraID": function () { return $('#equipmentId-search').val() },
+                            "department_name": function () { return $('#department-search').val() },
+                            "cameraName": function () { return $('#equipmentName-search').val() }
+                        },
+                        "cache": false
+                    },
+                    "columns": [
+                        { "data": "camera_id", "name": "camera_id", "searchable": true },
+                        { "data": "camera_name", "name": "camera_name" },
+                        { "data": "room_name", "name": "room_name" },
+                        { "data": "statusname", "name": "statusname" },
+                        {
+                            "data": "camera_id", "render": function (data) {
+                                if (arrCarSelected != null) {
+                                    for (let i = 0; i < arrCarSelected.length; i++)
+                                        if (arrCarSelected[i] == data) {
+                                            return "<label><input class='my_checkbox'  name='abc' id ='" + data + "' value='" + data + "' type ='checkbox' onclick=updateList('" + data + "') checked><span></span></label>";
+                                        }
+                                }
+                                return "<label><input class='my_checkbox'  name='abc' id ='" + data + "' value='" + data + "' type ='checkbox' onclick=updateList('" + data + "')><span></span></label>";
+                            },
+                            "orderable": false,
+                            "searchable": false,
+                            "width": "150px"
+                        }
+                    ],
+                    "bLengthChange": false,
+                    "searching": false,
+                    "serverSide": "true",
+                    "order": [0, "asc"],
+                    "initComplete": function (settings, json) {
+                        $("#pre-load").hide();
+                    },
+                    "preDrawCallback": function (settings) {
+                        $('#pre-load').show();
+                    },
+                    "drawCallback": function (settings) {
+                        $('#pre-load').hide();
+                    }
+            });
+
+            $("#equipmentId-search").keyup(function (event) {
+                if (event.keyCode === 13) {
+                    $("#searchButton1").click();
+                    $("#equipmentId-search").blur();
+                }
+            });
+
+            $("#equipmentName-search").keyup(function (event) {
+                if (event.keyCode === 13) {
+                    $("#searchButton1").click();
+                    $("#equipmentName-search").blur();
+                }
+            });
+
+            $("#department-search").keyup(function (event) {
+                if (event.keyCode === 13) {
+                    $("#searchButton1").click();
+                    $("#department-search").blur();
+                }
+            });
+
+
+            $("#searchButton1").click(function () {
+                $("#pre-load").show();
+                dataTable.ajax.reload(function () {
+                    $.notify("Tìm kiếm thành công", {
+                        globalPosition: "top center",
+                        className: "success"
+                    });
+                    $("#pre-load").hide();
+                })
+            })
+        });
+
+        var table = new $.fn.dataTable.Api('#myTable');
+
+        // Get data from the first row
+        var data = table.rows().data()[0]; // same as row(0).data()
+
+        function updateList(id) {
+            isExist = false;
+            if (arrCarSelected != null) {
+                for (let i = 0; i < arrCarSelected.length; i++) {
+                    if (arrCarSelected[i] == id) {
+                        isExist = true;
+                        arrCarSelected.splice(i, 1);
+                        break;
+                    }
+                }
+            }
+
+            if (!isExist && id != "" && id != null) {
+                if (arrCarSelected != null) {
+                    arrCarSelected.push(id);
+                    console.log(arrCarSelected)
+                } else {
+                    arrCarSelected = [id];
+
+                }
+            }
+        }
+
+        function SaveStatus() {
+            $.ajax({
+                url: "/camera/sua-chua",
+                method: "POST",
+                data: {
+                    "selectList": JSON.stringify(arrCarSelected)
+                }
+            })
+            document.getElementById("selectListJson").value = arrCarSelected;
+            document.getElementById("formSaveStatus").submit();
+        }
+
+        function sendData() {
+            $.each($("input[name='abc']:checked"), function () {
+            });
+        }
+    </script>
+}
+<form action="/camera/sua-chua-chon" id="formSaveStatus">
+    <input type="hidden" name="selectListJson" id="selectListJson" value="" />
+</form>

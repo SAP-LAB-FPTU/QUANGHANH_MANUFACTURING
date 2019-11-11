@@ -182,6 +182,9 @@
     <Compile Include="Controllers\BGD\DK\HumanResourceController.cs" />
     <Compile Include="Controllers\BGD\SummaryReportController.cs" />
     <Compile Include="Controllers\BGD\TCLD\PeformanceAndSalaryReportController.cs" />
+    <Compile Include="Controllers\Camera\CamController.cs" />
+    <Compile Include="Controllers\Camera\ChitietSuachuaCamController.cs" />
+    <Compile Include="Controllers\Camera\SuachuaCameraController.cs" />
     <Compile Include="Controllers\Camera\CameraManagementController.cs" />
     <Compile Include="Controllers\Camera\SucoCamController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\CapnhathoatdongController.cs" />
@@ -7406,6 +7409,10 @@
     <Content Include="Views\Shared\_Layout_Cam.cshtml" />
     <Content Include="Views\Camera\View.cshtml" />
     <Content Include="Views\CDVT\Cap_nhat\Chitiet\Caitien.cshtml" />
+    <Content Include="Views\Camera\Chi_tiet_sua_chua.cshtml" />
+    <Content Include="Views\Camera\Quyet_dinh_sua_chua.cshtml" />
+    <Content Include="Views\Camera\Sua_chua_camera.cshtml" />
+    <Content Include="Views\Camera\Sua_chua_camera_chon.cshtml" />
     <Content Include="Views\Camera\SuCo.cshtml" />
     <Content Include="Views\TCLD\Occupation\Occupation.cshtml" />
     <Content Include="Views\TCLD\Occupation\GroupOccupation.cshtml" />
@@ -7421,6 +7428,7 @@
     <Folder Include="Views\BaoCaoLenPhongDK\" />
     <Folder Include="Views\CameraManagement\" />
     <Folder Include="Views\Cam\" />
+    <Folder Include="Views\ChitietSuachuaCam\" />
     <Folder Include="Views\DepartmentDaily\" />
     <Folder Include="Views\Department_Criteria\" />
     <Folder Include="Views\GPS\" />
@@ -7436,6 +7444,7 @@
     <Folder Include="Views\Quanlyvattu\" />
     <Folder Include="Views\ReportMonthly\" />
     <Folder Include="Views\SanLuongReport\" />
+    <Folder Include="Views\SuachuaCamera\" />
     <Folder Include="Views\SideOccupation\" />
     <Folder Include="Views\SucoCam\" />
     <Folder Include="Views\ThemCaiTien\" />
