@@ -28,9 +28,9 @@ namespace QUANGHANH2.Models
             this.Documentary_moveline_details = new HashSet<Documentary_moveline_details>();
             this.Documentary_repair_details = new HashSet<Documentary_repair_details>();
             this.Documentary_revoke_details = new HashSet<Documentary_revoke_details>();
-            this.Equipment_attribute = new HashSet<Equipment_attribute>();
             this.Equipment_Inspection = new HashSet<Equipment_Inspection>();
             this.Equipment_Insurance = new HashSet<Equipment_Insurance>();
+            this.Equipment_attribute = new HashSet<Equipment_attribute>();
             this.Fuel_activities_consumption = new HashSet<Fuel_activities_consumption>();
             this.Incidents = new HashSet<Incident>();
             this.Maintain_Car = new HashSet<Maintain_Car>();
@@ -84,13 +84,13 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Documentary_revoke_details> Documentary_revoke_details { get; set; }
         public virtual Status Status { get; set; }
-        public virtual Equipment_category Equipment_category { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Equipment_attribute> Equipment_attribute { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Equipment_Inspection> Equipment_Inspection { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Equipment_Insurance> Equipment_Insurance { get; set; }
+        public virtual Equipment_category Equipment_category { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Equipment_attribute> Equipment_attribute { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Fuel_activities_consumption> Fuel_activities_consumption { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
