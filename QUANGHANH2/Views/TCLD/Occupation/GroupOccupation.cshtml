@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewBag.Title = "GroupOccupation";
+    Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
+}
+
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <h3 class="center"><b>DANH SÁCH NHÓM CÔNG VIỆC</b></h3>
+            <div>
+                <a class="btn blue darken-2 btn-small input-field modal-trigger" href="#themNhomCongViec">Thêm</a>
+            </div>
+            <div>
+                <table id="nhomcongviec" class="table table-bordered center">
+                    <thead>
+                        <tr>
+                            <th>Loại nhóm công việc</th>
+                            <th>Tên nhóm công việc</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal themNhomCongViec-->
+<div id="themNhomCongViec" class="modal">
+    <div class="card">
+        <div class="card-content">
+            <h4 class="center"><b>Thêm Nhóm Công Việc</b></h4>
+            <div class="modal-content">
+                <div class="row">
+                    <div class="col s12 m6 l6">
+                        <label>Loại nhóm công việc</label>
+                        <input type="text" class="form-control" id="loaiNhomCongViec" />
+                    </div>
+                    <div class="col s12 m6 l6">
+                        <label>Tên nhóm công việc</label>
+                        <input type="text" class="form-control" id="tenNhomCongViec" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn blue darken-2 btn-small">Xác nhận</button>
+                <button class="btn red darken-2 btn-small modal-close">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<link href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#nhomcongviec').DataTable({
+            "ajax": {
+                "url": "/phong-tcld/quan-ly-nhom-cong-viec/danh-sach-nhom-cong-viec",
+                "type": "GET",
+                "datatype": "json",
+                "cache": "false",
+                "dataSrc": function (json) {
+                    return json["sqlList"];
+                }
+            }
+        });
+    });
+    
+</script>

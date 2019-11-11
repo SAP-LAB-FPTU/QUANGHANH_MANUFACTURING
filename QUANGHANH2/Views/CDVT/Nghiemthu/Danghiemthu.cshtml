@@ -48,6 +48,7 @@
                         <thead>
                             <tr>
                                 <th rowspan="2">Quyết định số</th>
+                                <th rowspan="2">Loại quyết định</th>
                                 <th rowspan="2">Ngày nghiệm thu</th>
                                 <th colspan="2">Thông tin thiết bị</th>
                                 <th rowspan="2"></th>
@@ -145,6 +146,7 @@
                             return "<a id='click' class='modal-trigger' data-target='thongtin' onclick=Detail('@Url.Action("Detail","nghiemthu")?id=" + data.split("^")[0] + "')> "+data.split("^")[1]+"</a>";
                         },
                     },
+                    { "data": "documentary_name", "name": "documentary_name" },
                     {
                         "data": "acceptance_date", "name": "acceptance_date", "render": function (data) {
                             return dateFormat(data);
@@ -154,14 +156,22 @@
                     { "data": "equipment_name", "name": "equipment_name" },
                     {
                         "data": {}, "render": function (data) {
-                            return "<td><a class='btn blue modal-trigger open-DiKem' data-equip='" + data.equipmentId + "' data-code='" + data.documentary_id + "' href='#mylist'>VT đi kèm</a></td>";
+                            if (data.di_kem)
+                                return "<td><a class='btn blue modal-trigger open-DiKem' data-equip='" + data.equipmentId + "' data-code='" + data.documentary_id + "' href='#mylist'>VT đi kèm</a></td>";
+                            else if (data.can)
+                                return "<td><a class='btn blue modal-trigger open-DiKem' data-equip='" + data.equipmentId + "' data-code='" + data.documentary_id + "' href='#mylist'>VT cần</a></td>";
+                            else
+                                return "";
                         },
                         "orderable": false,
                         "searchable": false
                     },
                     {
                         "data": {}, "render": function (data) {
-                            return "<td><a class='btn blue modal-trigger open-DuPhong' data-equip='" + data.equipmentId + "' data-code='" + data.documentary_id + "' href='#mylist'>VT dự phòng</a></td>";
+                            if (data.du_phong)
+                                return "<td><a class='btn blue modal-trigger open-DuPhong' data-equip='" + data.equipmentId + "' data-code='" + data.documentary_id + "' href='#mylist'>VT dự phòng</a></td>";
+                            else
+                                return "";
                         },
                         "orderable": false,
                         "searchable": false
@@ -183,7 +193,7 @@
                     info: "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
                     infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
                 },
-                "order": [0, "asc"],
+                "order": [2, "desc"],
                 "initComplete": function(settings, json) {
     		        $("#pre-load").hide();
                 }
@@ -195,8 +205,7 @@
             $("#test").find("tr").remove();
             var documentary_id = $(this).data("code");
             var equipmentId = $(this).data("equip");
-            var QDIdAndEquipId = $(this).data('list');
-            $('#listId').text("Danh sách vật tư thay thế của thiết bị " + equipmentId)
+            $('#mylist h3').text("Thiết bị " + equipmentId)
             $("#mathietbi").val(equipmentId)
             $("#maquyetdinh").val(documentary_id)
             $.ajax({
@@ -238,8 +247,7 @@
             $("#test").find("tr").remove();
             var documentary_id = $(this).data("code");
             var equipmentId = $(this).data("equip");
-            var QDIdAndEquipId = $(this).data('list');
-            $('#listId').text("Danh sách vật tư thay thế của thiết bị " + equipmentId)
+            $('#mylist h3').text("Thiết bị " + equipmentId)
             $("#mathietbi").val(equipmentId)
             $("#maquyetdinh").val(documentary_id)
             $.ajax({

@@ -55,7 +55,6 @@
                                     <th class="center-align">Ngày sinh</th>
                                     <th class="center-align" width="9%">Giới tính</th>
                                     <th class="center-align">Đơn vị</th>
-                                    <th class="center-align" width="15%">Loại</th>
                                     <th class="center-align">Trình độ</th>
                                     <th class="center-align">Chuyên Nghành</th>
                                     <th class="center-align">Công việc bố trí</th>
@@ -147,8 +146,6 @@
             for (var j = 0; j < $('#tuyendung thead tr:nth-child(1) th').length; j++) {
                 if (j == 3) {
                     temp[j] = $('#tablecontent tr:nth-child(' + i + ') td #gender').val();
-                } else if (j == 5) {
-                    temp[j] = $('#tablecontent tr:nth-child(' + i + ') td #kind').val();
                 } else {
                     temp[j] = $('#tablecontent tr:nth-child(' + i + ') td').eq(j).text();
                 }
@@ -284,7 +281,7 @@
                         errorAlert('Lỗi','Hãy dùng bản mẫu excel của hệ thống');
                     } else {
                         var gender = '<select class="form-control" id="gender"><option value="nam" selected>Nam</option><option value="nu">Nữ</option></select>';
-                        var select = '<select class="form-control" id="kind"><option value="CBQL" selected>Cán bộ quản lý</option><option value="CNKT">Công nhân khai thác</option><option value="CD">Công nhân cơ điện</option><option value="HSTT">Học sinh thực tập</option></select>';
+                       
                         if (checkInput == false) {
                             $('#tablecontent tr').remove();
                         }
@@ -299,7 +296,7 @@
                                 $tr.append("<td>" + formatDate(data.list[i].NgaySinh) + "</td>");
                                 $tr.append("<td>" + gender + "</td>");
                                 $tr.append("<td>" + data.list[i].DonVi + "</td>");
-                                $tr.append("<td>" + select + "</td>");
+
                                 $tr.append("<td>" + data.list[i].TrinhDo + "</td>");
                                 $tr.append("<td>" + data.list[i].ChuyenNganh + "</td>");
                                 $tr.append("<td>" + data.list[i].CongViec + "</td>");

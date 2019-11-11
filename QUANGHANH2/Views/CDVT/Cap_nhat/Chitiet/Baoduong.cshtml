@@ -64,12 +64,9 @@
             <input type="hidden" id="mathietbi" disabled />
             <input type="hidden" id="maquyetdinh" disabled />
         </div>
-        <div class="modal-footer">
-            @if (ViewBag.AddAble == true)
-            {
-                <a id="addcolumn" class="waves-effect waves-light btn blue darken-2 left">Thêm</a>
-                <a id="submitvattu" class="waves-effect waves-light btn blue darken-2 modal-trigger">Lưu</a>
-            }
+        <div class="modal-footer" id="vattu">
+            <a id="addcolumn" class="waves-effect waves-light btn blue darken-2 left">Thêm</a>
+            <a id="submitvattu" class="waves-effect waves-light btn blue darken-2 modal-trigger">Lưu</a>
             <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-button">Thoát</button>
         </div>
     </div>
@@ -95,6 +92,7 @@
         <option value="@item.supply_id">@item.supply_name</option>
     }
 </datalist>
+<script src="~/js/Custom JS/CDVT/Capnhat/check.js"></script>
 
 @section scripts{
     <script src="~/js/jquery.dataTables.min.js"></script>
@@ -108,7 +106,7 @@
             }
         });
 
-        $("#addcolumn").click(function () {
+        $(document).on("click", "#addcolumn", function () {
             var $tr = $('<tr>').append(
                 $('<td>').html("<input list='supplyID' type='text' id='vattu' class='form-control td-id' />"),
                 $('<td>').html("<input type='number' min='0' value='0' class='form-control' />"),
@@ -256,45 +254,43 @@
         });
 
         $(document).on('click', '#submit', function () {
-            $("#submit").click(function (e) {
-                var equipments = "";
-                for (var i = 0; i < $('#complex_header tbody tr').length; i++) {
-                    if ($('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').text() == "Đã xử lý")
-                        equipments += $('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').val() + "^"
-                }
-                if (equipments == "")
-                    return false;
-                $("#pre-load").show();
-                $.ajax({
-                    type: "POST",
-                    url: "/phong-cdvt/cap-nhat/quyet-dinh/bao-duong/edit",
-                    dataType: "json",
-                    success: function (data) {
-                        if (data.success == true) {
-                            dataTable.ajax.reload(function () {
-                                $('#pre-load').hide();
-                                successAlert(data.message);
-                            });
-                        }
-                        else {
-                            errorAlert(data.message);
+            var equipments = "";
+            for (var i = 0; i < $('#complex_header tbody tr').length; i++) {
+                if ($('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').text() == "Đã xử lý")
+                    equipments += $('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').val() + "^"
+            }
+            if (equipments == "")
+                return false;
+            $("#pre-load").show();
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/cap-nhat/quyet-dinh/bao-duong/edit",
+                dataType: "json",
+                success: function (data) {
+                    if (data.success == true) {
+                        dataTable.ajax.reload(function () {
                             $('#pre-load').hide();
-                        }
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            successAlert(data.message);
+                        });
+                    }
+                    else {
+                        errorAlert(data.message);
                         $('#pre-load').hide();
-                        errorAlert('Lỗi');
-                    },
-                    data: {
-                        id: $('#id').val(),
-                        edit: equipments
-                    },
-                    cache: false
-                })
-            });
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#pre-load').hide();
+                    errorAlert('Lỗi');
+                },
+                data: {
+                    id: $('#id').val(),
+                    edit: equipments
+                },
+                cache: false
+            })
         })
 
-        $("#submitvattu").click(function () {
+        $(document).on("click", "#submitvattu", function () {
             if (!checkDuplicate())
                 return errorAlert('Vật tư đã tồn tại');
             $("#pre-load").show();

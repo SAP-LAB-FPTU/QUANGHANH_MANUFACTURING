@@ -1,7 +1,8 @@
-﻿
+﻿@using QUANGHANH2.Models
 @{
     ViewBag.Title = "List";
     Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
+    List<Department> arrDepartmentType = (List<Department>)ViewBag.arr_department_type;
 }
 
 <link href="~/assets/Custom css/TCLD/Certificate/Certificate.css" rel="stylesheet" />
@@ -38,7 +39,7 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="row">
-                            <a class="btn btn-small blue darken-2 modal-trigger btn-mg input-field" data-target="addDepartment">Thêm phòng ban </a>
+                            <a class="btn btn-small blue darken-2 modal-trigger btn-mg input-field" data-target="addDerpartment">Thêm phòng ban </a>
 
                         </div>
                         <div class="table-responsive">
@@ -61,13 +62,90 @@
         </div>
     </div>
 </div>
-<div id="addDepartment" class="modal">
+<div class="modal open" id="addDerpartment">
     <div class="modal-content">
         <div class="modal-header">
-            <h3 class="modal-title">Thêm phòng ban</h3>
+            <h3 class="modal-title"><b>Thêm phòng ban mới</b></h3>
         </div>
-        <div class="modal-body">
-            @Html.Action("AddDepartment", "Department")
+        <div class="modal-body row">
+            <div class="modal-body row">
+                <div class="col m6 l6 s12">
+                    <strong>Mã phòng ban</strong><span hidden id="tm-in-mpb-warning" class="orange-text text-justify">     không được để trống</span>
+                    <input id="tm-in-mpb" class="form-control" />
+                </div>
+
+                <div class="col m6 l6 s12">
+                    <strong>Tên phòng ban</strong><span hidden id="tm-in-tpb-warning" class="orange-text text-justify">     không được để trống</span>
+                    <input id="tm-in-tpb" class="form-control" />
+                </div>
+
+                <div class="col m6 l6 s12">
+                    <strong>Loại phòng ban</strong><span hidden id="tm-in-lpb-warning" class="orange-text text-justify">     không được để trống</span>
+                    <select id="tm-sl-lpb" class="form-control">
+                        @foreach (var dt in arrDepartmentType)
+                        {
+                            <option value="@dt.department_type">@dt.department_type</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col m6 l6 s12">
+                    <strong>Phòng ban trong/ngoài công ty</strong><strong hidden id="tm-nc-warning" class="orange-text text-justify">     không được để trống</strong>
+                    <select id="tm-sl-IsInside" class="form-control">
+                        <option value="true">Trong</option>
+                        <option value="false">Ngoài</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <a class="btn blue darken-2" onclick="xacNhanThemMoi()">Thêm mới</a>
+            <a class="btn red modal-close">Hủy</a>
+        </div>
+    </div>
+</div>
+
+<div class="modal open" id="editDerpartment">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title"><b>Chỉnh sửa phòng ban</b></h3>
+        </div>
+        <div class="modal-body row">
+            <div class="modal-body row">
+                <div class="col m6 l6 s12">
+                    <strong>Mã phòng ban</strong><span hidden id="ed-in-mpb-warning" class="orange-text text-justify">     không được để trống</span>
+                    <input id="ed-in-mpb" class="form-control" />
+                </div>
+
+                <div class="col m6 l6 s12">
+                    <strong>Tên phòng ban</strong><span hidden id="ed-in-tpb-warning" class="orange-text text-justify">     không được để trống</span>
+                    <input id="ed-in-tpb" class="form-control" />
+                </div>
+
+                <div class="col m6 l6 s12">
+                    <strong>Loại phòng ban</strong><span hidden id="ed-in-lpb-warning" class="orange-text text-justify">     không được để trống</span>
+                    <select id="ed-sl-lpb" class="form-control">
+                        @foreach (var dt in arrDepartmentType)
+                        {
+                            <option value="@dt.department_type">@dt.department_type</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col m6 l6 s12">
+                    <strong>Phòng ban trong/ngoài công ty</strong><strong hidden id="ed-nc-warning" class="orange-text text-justify">     không được để trống</strong>
+                    <select id="ed-sl-IsInside" class="form-control">
+                        <option value="true">Trong</option>
+                        <option value="false">Ngoài</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <a class="btn blue darken-2" onclick="xacNhanChinhSua()">Chỉnh sửa</a>
+            <a class="btn red modal-close">Hủy</a>
         </div>
     </div>
 </div>
@@ -84,13 +162,13 @@
         $("#pre-load").show("slow", function () {
         });
         $("#pre-load").css("z-index", "99999");
-        var dataTableDepartment;
+        var dataTable;
         var searchId;
         var isSearchCertificate = true;
         var current_index;
         $(document).ready(function () {
             // Diploma
-            dataTableDepartment = $("#table_department")
+            dataTable = $("#table_department")
                 .on('preXhr.dt', function (e, settings, data) {
                     $("#pre-load").show("slow", function () {
                     });
@@ -113,18 +191,11 @@
                     { "data": "department_type", "name": "department_type" },
                     {
                         "data": "department_id", "render": function (data) {
-                            return "<a class='waves-effect waves-light btn-small blue darken-2 modal-trigger' data-target='editDiploma' style='margin-left:5px' onclick=getEditIdDiploma(" + data + ") ><i class='far fa-edit'></i>Sửa</a>";
+                            return "<a class='waves-effect waves-light btn-small blue darken-2 modal-trigger' data-target='editDerpartment' style='margin-left:5px' onclick=getEditIdDepartment('" + data + "') ><i class='far fa-edit'></i>Sửa</a>";
                     },
                     "orderable": false,
                     "searchable": false,
                     },
-                    {
-                        "data": "department_id", "render": function (data) {
-                            return "<a class='waves-effect waves-light btn-small red modal-trigger'  style='margin-left:5px' onclick=getDeleteIdDiploma(" + data + ") ><i class='fa fa-trash'></i> Xóa</a>";
-                    },
-                    "orderable": false,
-                    "searchable": false,
-                },
 
                 ],
                 "language": {
@@ -152,41 +223,166 @@
 
                     }
                 });
+            // su kien nhan nut enter de search cho truong ma phong ban
+            document.querySelector('#maPhongBanTxt').addEventListener('keypress', function (e) { // them su kien nhan nut enter cho phan search
+                var key = e.which || e.keyCode;
+                if (key === 13) {
+                    search();
+                }
+            });
+            // su kien nhan nut enter de search cho truong ma phong ban
+            document.querySelector('#tenPhongBanTxt').addEventListener('keypress', function (e) { // them su kien nhan nut enter cho phan search
+                var key = e.which || e.keyCode;
+                if (key === 13) {
+                    search();
+                }
+            });
+            // su kien nhan nut enter de search cho truong ma phong ban
+            document.querySelector('#loaiTxt').addEventListener('keypress', function (e) { // them su kien nhan nut enter cho phan search
+                var key = e.which || e.keyCode;
+                if (key === 13) {
+                    search();
+                }
+            });
 
         });
 
-
-            function SubmitFormDiploma(form) {
-            $.validator.unobtrusive.parse(form);
-            if ($(form).valid()) {
-                $("#pre-load").show("slow", function () {
-                });
-                $("#pre-load").css("z-index", "99999");
-                $.ajax({
-                    type: "POST",
-                    url: form.action,
-                    data: $(form).serialize(),
-                    success: function (data) {
-                        dataTableDiploma.ajax.reload();
-                        dataDiplomaEmp.ajax.reload();
-                        $("#pre-load").hide("slow", function () {
-                        });
-                        successAlert('Thành công', '');
-                        $(".modal").modal();
-                        $("body").css("overflow", "");
-                        $("#addDiplomaEmp").load('@Url.Action("AddDiplomaEmployee")');
-                    },
-                    error: function () {
-                        errorAlert('Lỗi', 'Thử lại');
-                    }
-                })
+        function xacNhanThemMoi() {
+            if ($("#tm-in-mpb").val() == "" || $("#tm-in-mpb").val() == null) {
+                $("#tm-in-mpb-warning").show()
+                return false;
             }
-            return false;
+            if ($("#tm-in-tpb").val() == "" || $("#tm-in-tpb").val() == null) {
+                $("#tm-in-tpb-warning").show()
+                return false;
+            }
+            if ($("#tm-sl-lpb").val() == "" || $("#tm-sl-lpb").val() == null) {
+                $("#tm-in-lpb-warning").show()
+                return false;
+            }
+
+            $("#pre-load").show()
+            var obj = {
+                mpb: $("#tm-in-mpb").val(),
+                tpb: $("#tm-in-tpb").val(),
+                lpb: $("#tm-sl-lpb").val(),
+                isInside: $("#tm-sl-IsInside").val(),
+            }
+
+            var objJson = JSON.stringify(obj)
+
+            $.ajax({
+
+                url:'@Url.Action("AddNewDepartment","Department")',
+                type: "POST",
+                data: { departmentJson: objJson },
+                datatype: "json",
+                success: (response) => {
+                    if (response.success == true) {
+                        $("#pre-load").hide()
+                        successAlert('Thành công','Thêm mới phòng ban thành công');
+                        dataTable.ajax.reload();
+                        $("#addDerpartment").modal('hide');
+                        $("body").css("overflow", "");
+                    } else {
+                        $("#pre-load").hide()
+                        errorAlert('Thất bại', 'Mã phòng ban đã tồn tại');
+                    }
+                },
+                error: (response) => {
+                    $("#pre-load").hide()
+                    errorAlert('Thất bại', 'Thêm mới phòng ban thất bại');
+                }
+            })
+
+        }
+        var editId ='';
+
+        function xacNhanChinhSua() {
+            if ($("#ed-in-mpb").val() == "" || $("#ed-in-mpb").val() == null) {
+                $("#tedm-in-mpb-warning").show()
+                return false;
+            }
+            if ($("#ed-in-tpb").val() == "" || $("#ed-in-tpb").val() == null) {
+                $("#ed-in-tpb-warning").show()
+                return false;
+            }
+            if ($("#ed-sl-lpb").val() == "" || $("#ed-sl-lpb").val() == null) {
+                $("#ed-in-lpb-warning").show()
+                return false;
+            }
+
+            $("#pre-load").show()
+            var obj = {
+                mpb: $("#ed-in-mpb").val(),
+                tpb: $("#ed-in-tpb").val(),
+                lpb: $("#ed-sl-lpb").val(),
+                 isInside: $("#ed-sl-IsInside").val(),
+            }
+
+            var objJson = JSON.stringify(obj);
+            $.ajax({
+
+                url:'@Url.Action("EditDepartment","Department")',
+                type: "POST",
+                data: {
+                    departmentJson: objJson
+                    , did: editId
+                },
+                datatype: "json",
+                success: (response) => {
+                    if (response.success == true) {
+                        $("#pre-load").hide()
+                        successAlert('Thành công', 'Chỉnh sửa phòng ban thành công');
+                        dataTable.ajax.reload();
+                    } else {
+                        $("#pre-load").hide()
+                        errorAlert('Thất bại', 'Chỉnh sửa phòng ban thất bại');
+                    }
+                },
+                error: (response) => {
+                    $("#pre-load").hide()
+                    errorAlert('Thất bại', 'Chỉnh sửa phòng ban thất bại');
+                }
+            })
+
         }
 
+        
+        function getEditIdDepartment(data) {
+            editId = data;
+            $.ajax({
 
+                url:'@Url.Action("GetEditDepartment", "Department")',
+                type: "POST",
+                data: { did: data },
+                dataType: "json",
+                success: (response) => {
+                    $("#ed-in-mpb").val(response.data.department_id);
+                    $("#ed-in-tpb").val(response.data.department_name);
+                    $('#ed-sl-lpb').val(response.data.department_type).trigger('change');
+                    if (response.data.isInside) {
+                        $('#ed-sl-IsInside').val("true").trigger('change'); 
+                    } else {
+                        $('#ed-sl-IsInside').val("false").trigger('change'); 
+                    }
+                },
+                error: (response) => {
+                    alert('error')
+                    console.log(response);
+                }
+            })
+
+        }
+
+        //searching bang nut search
         $("#searchEmpBtn").click(function () {
 
+            search();
+        });
+
+        //searching
+        function search() {
             var maPhongBanTxt = $("#maPhongBanTxt").val();
             var tenPhongBanTxt = $("#tenPhongBanTxt").val();
             var loaiTxt = $("#loaiTxt").val();
@@ -204,7 +400,11 @@
                     className: "success"
                 })
             }, true)
-        });
+        }
+
+
+
+
     </script>
 
 }

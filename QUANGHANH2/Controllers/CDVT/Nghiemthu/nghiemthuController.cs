@@ -47,13 +47,17 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                join b in db.Equipments.Where(x => x.department_id.Equals(departID)) on a.equipmentId equals b.equipmentId
                                join c in db.Documentaries on a.documentary_id equals c.documentary_id
                                where (a.equipmentStatus == 2) && (c.documentary_code.Contains(document_code)) && (a.equipmentId.Contains(equiment_id)) && (b.equipment_name.Contains(equiment_name))
+                               join d in db.DocumentaryTypes on c.documentary_type equals d.documentary_type
                                select new
                                {
                                    documentary_id = a.documentary_id,
                                    equipmentId = b.equipmentId,
                                    equipment_name = b.equipment_name,
                                    documentary_code = c.documentary_code,
-                                   documentary_type = c.documentary_type
+                                   documentary_type = c.documentary_type,
+                                   documentary_name = d.documentary_name,
+                                   du_phong = d.du_phong,
+                                   di_kem = d.di_kem
 
                                }).ToList().Select(p => new Documentary_Extend
                                {
@@ -61,7 +65,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                    equipmentId = p.equipmentId,
                                    equipment_name = p.equipment_name,
                                    documentary_code = p.documentary_code,
-                                   documentary_type = p.documentary_type
+                                   documentary_type = p.documentary_type,
+                                   documentary_name = p.documentary_name,
+                                   du_phong = p.du_phong,
+                                   di_kem = p.di_kem
                                }).ToList();
                 }
                 else
@@ -71,13 +78,18 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                join b in db.Equipments on a.equipmentId equals b.equipmentId
                                join c in db.Documentaries on a.documentary_id equals c.documentary_id
                                where (a.equipmentStatus == 2) && (c.documentary_code.Contains(document_code)) && (a.equipmentId.Contains(equiment_id)) && (b.equipment_name.Contains(equiment_name))
+                               join d in db.DocumentaryTypes on c.documentary_type equals d.documentary_type
                                select new
                                {
                                    documentary_id = a.documentary_id,
                                    equipmentId = b.equipmentId,
                                    equipment_name = b.equipment_name,
                                    documentary_code = c.documentary_code,
-                                   documentary_type = c.documentary_type
+                                   documentary_type = c.documentary_type,
+                                   documentary_name = d.documentary_name,
+                                   du_phong = d.du_phong,
+                                   di_kem = d.di_kem,
+                                   can = d.can
 
                                }).ToList().Select(p => new Documentary_Extend
                                {
@@ -85,7 +97,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                    equipmentId = p.equipmentId,
                                    equipment_name = p.equipment_name,
                                    documentary_code = p.documentary_code,
-                                   documentary_type = p.documentary_type
+                                   documentary_type = p.documentary_type,
+                                   documentary_name = p.documentary_name,
+                                   du_phong = p.du_phong,
+                                   di_kem = p.di_kem,
+                                   can = p.can
                                }).ToList();
                 }
 
@@ -101,22 +117,22 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                     items.linkIdCode = new LinkIdCode2();
                     switch (items.documentary_type)
                     {
-                        case "1":
+                        case 1:
                             items.linkIdCode.link = "vat-tu";
                             break;
-                        case "2":
+                        case 2:
                             items.linkIdCode.link = "vat-tu";
                             break;
-                        case "3":
+                        case 3:
                             items.linkIdCode.link = "vat-tu-kem-theo";
                             break;
-                        case "4":
+                        case 4:
                             items.linkIdCode.link = "vat-tu";
                             break;
-                        case "5":
+                        case 5:
                             items.linkIdCode.link = "vat-tu";
                             break;
-                        case "6":
+                        case 6:
                             items.linkIdCode.link = "vat-tu";
                             break;
                     }
@@ -180,21 +196,21 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
 
                     switch (documentary.documentary_type)
                     {
-                        case "1":
+                        case 1:
                             Documentary_repair_details documentary_Repair_Details = db.Database.SqlQuery<Documentary_repair_details>("SELECT * FROM Documentary_repair_details WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId",
                                 new SqlParameter("equipmentId", id),
                                 new SqlParameter("documentary_id", documentary.documentary_id)).First();
                             equipment.department_id = documentary_Repair_Details.department_id;
                             equipment.current_Status = 2;
                             break;
-                        case "2":
+                        case 2:
                             Documentary_maintain_details Documentary_maintain_details = db.Database.SqlQuery<Documentary_maintain_details>("SELECT * FROM Documentary_maintain_details WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId",
                                 new SqlParameter("equipmentId", id),
                                 new SqlParameter("documentary_id", documentary.documentary_id)).First();
                             equipment.department_id = Documentary_maintain_details.department_id;
                             equipment.current_Status = 2;
                             break;
-                        case "3":
+                        case 3:
                             Documentary_moveline_details documentary_Moveline_Details = db.Database.SqlQuery<Documentary_moveline_details>("SELECT * FROM Documentary_moveline_details WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId",
                                 new SqlParameter("equipmentId", id),
                                 new SqlParameter("documentary_id", documentary.documentary_id)).First();
@@ -244,11 +260,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                             equipment.department_id = documentary_Moveline_Details.department_id;
                             equipment.current_Status = 2;
                             break;
-                        case "4":
+                        case 4:
                             equipment.department_id = "CDVT";
                             equipment.current_Status = 1;
                             break;
-                        case "5":
+                        case 5:
                             equipment.department_id = "KHO";
                             equipment.current_Status = 15;
                             db.Database.ExecuteSqlCommand("DELETE FROM Supply_DuPhong WHERE equipmentId = @equipmentId",
@@ -256,14 +272,14 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                             db.Database.ExecuteSqlCommand("DELETE FROM Supply_DiKem WHERE equipmentId = @equipmentId",
                                 new SqlParameter("equipmentId", id));
                             break;
-                        case "6":
+                        case 6:
                             Documentary_big_maintain_details documentary_Big_Maintain_Details = db.Database.SqlQuery<Documentary_big_maintain_details>("SELECT * FROM Documentary_big_maintain_details WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId",
                                 new SqlParameter("equipmentId", id),
                                 new SqlParameter("documentary_id", documentary.documentary_id)).First();
                             equipment.department_id = documentary_Big_Maintain_Details.department_id;
                             equipment.current_Status = 1;
                             break;
-                        case "7":
+                        case 7:
                             Documentary_Improve_Detail documentary_Improve_Details = db.Database.SqlQuery<Documentary_Improve_Detail>("SELECT * FROM Documentary_Improve_Detail WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId",
                                 new SqlParameter("equipmentId", id),
                                 new SqlParameter("documentary_id", documentary.documentary_id)).First();

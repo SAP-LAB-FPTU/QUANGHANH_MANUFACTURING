@@ -42,7 +42,7 @@
 <div class="modal" id="mylist">
     <div class="modal-content">
         <div class="modal-header">
-            <h3 class="modal-title" id="listId"></h3>
+            <h3 class="modal-title"></h3>
         </div>
         <div class="modal-body table_container">
             <div class="row">
@@ -65,12 +65,9 @@
             <input type="hidden" id="mathietbi" disabled />
             <input type="hidden" id="maquyetdinh" disabled />
         </div>
-        <div class="modal-footer">
-            @if (ViewBag.AddAble == true)
-            {
-                <a id="addcolumn" class="waves-effect waves-light btn blue darken-2 left">Thêm</a>
-                <a id="submitvattu" class="waves-effect waves-light btn blue darken-2 modal-trigger">Lưu</a>
-            }
+        <div class="modal-footer" id="vattu">
+            <a id="addcolumn" class="waves-effect waves-light btn blue darken-2 left">Thêm</a>
+            <a id="submitvattu" class="waves-effect waves-light btn blue darken-2 modal-trigger">Lưu</a>
             <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-button">Thoát</button>
         </div>
     </div>
@@ -84,8 +81,8 @@
             <h4>Lưu ý: bạn không thể sửa đổi vật tư cho quyết định sau khi đã xử lý xong</h4>
         </div>
         <div class="modal-footer">
-            <a id="submit" class="waves-effect waves-light btn blue darken-2 modal-trigger">Xác nhận</a>
-            <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-button2">Thoát</button>
+            <a id="submit" class="waves-effect waves-light btn blue darken-2 modal-trigger modal-close">Lưu</a>
+            <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
         </div>
     </div>
 </div>
@@ -96,6 +93,7 @@
         <option value="@item.supply_id">@item.supply_name</option>
     }
 </datalist>
+<script src="~/js/Custom JS/CDVT/Capnhat/check.js"></script>
 
 @section scripts{
     <script src="~/js/jquery.dataTables.min.js"></script>
@@ -125,7 +123,7 @@
             $('#pre-load').show();
             $("#test").find("tr:gt(0)").remove();
             var QDIdAndEquipId = $(this).data('list');
-            $('#listId').text("Danh sách vật tư thay thế của thiết bị " + QDIdAndEquipId.split("^")[1])
+            $('#mylist h3').text("Danh sách vật tư thay thế của thiết bị " + QDIdAndEquipId.split("^")[1])
             $("#mathietbi").val(QDIdAndEquipId.split("^")[1])
             $("#maquyetdinh").val(QDIdAndEquipId.split("^")[0])
             $.ajax({
@@ -291,7 +289,7 @@
             })
         })
 
-        $("#submitvattu").click(function () {
+        $(document).on("click", "#submitvattu", function () {
             if (!checkDuplicate())
                 return errorAlert('Vật tư đã tồn tại');
             $("#pre-load").show();

@@ -11,6 +11,10 @@ namespace QUANGHANH2.Models
         public string equipmentId { get; set; }
         public string equipment_name { get; set; }
         public string idAndid { get; set; }
+        public bool du_phong { get; set; }
+        public bool di_kem { get; set; }
+        public bool can { get; set; }
+        public string documentary_name { get; set; }
 
         public string temp { get; set; }
         public Nullable<System.DateTime> acceptance_date { get; set; }

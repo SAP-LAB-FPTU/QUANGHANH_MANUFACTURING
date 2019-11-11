@@ -185,6 +185,8 @@
     <Compile Include="Controllers\Camera\CamController.cs" />
     <Compile Include="Controllers\Camera\ChitietSuachuaCamController.cs" />
     <Compile Include="Controllers\Camera\SuachuaCameraController.cs" />
+    <Compile Include="Controllers\Camera\CameraManagementController.cs" />
+    <Compile Include="Controllers\Camera\SucoCamController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\CapnhathoatdongController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\CapnhatsucoController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\ChitietController.cs" />
@@ -313,6 +315,9 @@
     <Compile Include="Controllers\TCLD\EmployeesController.cs" />
     <Compile Include="Controllers\TCLD\ManagerController.cs" />
     <Compile Include="Controllers\TCLD\MaterialProtectionController.cs" />
+    <Compile Include="Controllers\TCLD\Occupation\GroupOccupationController.cs" />
+    <Compile Include="Controllers\TCLD\Occupation\OccupationController.cs" />
+    <Compile Include="Controllers\TCLD\Occupation\SideOccupationController.cs" />
     <Compile Include="Controllers\TCLD\RecruitmentAndEndController.cs" />
     <Compile Include="Controllers\TCLD\RecruitmentController.cs" />
     <Compile Include="Controllers\TCLD\ReportController.cs" />
@@ -349,6 +354,9 @@
     </Compile>
     <Compile Include="Models\BaoCaoNgayDB.cs" />
     <Compile Include="Models\Camera.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CameraIncident.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Car.cs">
@@ -395,6 +403,9 @@
     <Compile Include="Models\DiemDanh_NangSuatLaoDong.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DienCongViec.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DieuDong_NhanVien.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -402,6 +413,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Documentary.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DocumentaryType.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Documentary_big_maintain_details.cs">
@@ -542,6 +556,9 @@
     <Compile Include="Models\NhiemVu.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\NhomCongViec.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\NhomTieuChi.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -651,6 +668,7 @@
     <Content Include="assets\uploader\dropzone.js" />
     <Content Include="assets\uploader\dropzone.min.css" />
     <Content Include="assets\uploader\dropzone.min.js" />
+    <Content Include="assets\uploader\file-icon.png" />
     <Content Include="assets\uploader\icon.png" />
     <Content Include="assets\uploader\icons.min.css" />
     <Content Include="assets\uploader\style_uploader.css" />
@@ -7077,6 +7095,8 @@
     <Content Include="excel\DK\reportdaily.xlsx" />
     <Content Include="excel\DK\reportmonth.xlsx" />
     <Content Include="excel\DK\DailyDepartment\templateBaoCaoTheoPhanXuong.xlsx" />
+    <Content Include="excel\Notifi\ThongbaoCDVT.xlsx" />
+    <Content Include="js\Custom JS\CDVT\Capnhat\check.js" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -7389,29 +7409,39 @@
     <Content Include="Views\Camera\Quyet_dinh_sua_chua.cshtml" />
     <Content Include="Views\Camera\Sua_chua_camera.cshtml" />
     <Content Include="Views\Camera\Sua_chua_camera_chon.cshtml" />
+    <Content Include="Views\Camera\SuCo.cshtml" />
+    <Content Include="Views\TCLD\Occupation\Occupation.cshtml" />
+    <Content Include="Views\TCLD\Occupation\GroupOccupation.cshtml" />
+    <Content Include="Views\TCLD\Occupation\SideOccupation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="excel\Notifi\download\" />
     <Folder Include="FileContainer\KCS\" />
     <Folder Include="FileContainer\PhanXuongLenDK\" />
     <Folder Include="Library\" />
     <Folder Include="Views\BaoCaoLenPhongDK\" />
+    <Folder Include="Views\CameraManagement\" />
     <Folder Include="Views\Cam\" />
     <Folder Include="Views\ChitietSuachuaCam\" />
     <Folder Include="Views\DepartmentDaily\" />
     <Folder Include="Views\Department_Criteria\" />
     <Folder Include="Views\GPS\" />
+    <Folder Include="Views\GroupOccupation\" />
     <Folder Include="Views\HuyDong\" />
     <Folder Include="Views\InputPlan_Month\" />
     <Folder Include="Views\Input\" />
     <Folder Include="Views\Laydanhsachvattu\" />
     <Folder Include="Views\Notifi\" />
+    <Folder Include="Views\Occupation\" />
     <Folder Include="Views\PhanXuongReport\" />
     <Folder Include="Views\QDCaitien\" />
     <Folder Include="Views\Quanlyvattu\" />
     <Folder Include="Views\ReportMonthly\" />
     <Folder Include="Views\SanLuongReport\" />
     <Folder Include="Views\SuachuaCamera\" />
+    <Folder Include="Views\SideOccupation\" />
+    <Folder Include="Views\SucoCam\" />
     <Folder Include="Views\ThemCaiTien\" />
     <Folder Include="Views\ViewAccident\" />
     <Folder Include="Views\WorkHistory\" />

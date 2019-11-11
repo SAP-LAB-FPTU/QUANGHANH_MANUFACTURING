@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "MonthlyQuarterlyReport";
     Layout = "~/Views/Shared/_Layout_DK.cshtml";
 
@@ -144,7 +143,7 @@
             type: 'post',
             url: '/phong-dieu-khien/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty-theo-thang-quy',
             data: {
-                'years': "2019",
+                'years': $("#yearCalendar").val(),
             },
             success: function (response) {
                 data = JSON.parse(response.data);

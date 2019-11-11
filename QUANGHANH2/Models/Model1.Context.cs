@@ -33,6 +33,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<BangCap_GiayChungNhan> BangCap_GiayChungNhan { get; set; }
         public virtual DbSet<BaoCaoFile> BaoCaoFiles { get; set; }
         public virtual DbSet<Camera> Cameras { get; set; }
+        public virtual DbSet<CameraIncident> CameraIncidents { get; set; }
         public virtual DbSet<Car> Cars { get; set; }
         public virtual DbSet<CarGP> CarGPS { get; set; }
         public virtual DbSet<Category_attribute_value> Category_attribute_value { get; set; }
@@ -46,6 +47,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<CongViec> CongViecs { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<DiemDanh_NangSuatLaoDong> DiemDanh_NangSuatLaoDong { get; set; }
+        public virtual DbSet<DienCongViec> DienCongViecs { get; set; }
         public virtual DbSet<DieuDong_NhanVien> DieuDong_NhanVien { get; set; }
         public virtual DbSet<Documentary> Documentaries { get; set; }
         public virtual DbSet<Documentary_big_maintain_details> Documentary_big_maintain_details { get; set; }
@@ -56,6 +58,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<Documentary_moveline_details> Documentary_moveline_details { get; set; }
         public virtual DbSet<Documentary_repair_details> Documentary_repair_details { get; set; }
         public virtual DbSet<Documentary_revoke_details> Documentary_revoke_details { get; set; }
+        public virtual DbSet<DocumentaryType> DocumentaryTypes { get; set; }
         public virtual DbSet<DoiChieu_Luong> DoiChieu_Luong { get; set; }
         public virtual DbSet<Equipment> Equipments { get; set; }
         public virtual DbSet<Equipment_attribute> Equipment_attribute { get; set; }
@@ -84,6 +87,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<NguoiUyQuyenLayHoSo_BaoHiem> NguoiUyQuyenLayHoSo_BaoHiem { get; set; }
         public virtual DbSet<NhanVien> NhanViens { get; set; }
         public virtual DbSet<NhiemVu> NhiemVus { get; set; }
+        public virtual DbSet<NhomCongViec> NhomCongViecs { get; set; }
         public virtual DbSet<NhomTieuChi> NhomTieuChis { get; set; }
         public virtual DbSet<PhongBan_TieuChi> PhongBan_TieuChi { get; set; }
         public virtual DbSet<QuanHeGiaDinh> QuanHeGiaDinhs { get; set; }

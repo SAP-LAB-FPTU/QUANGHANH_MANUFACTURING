@@ -18,6 +18,7 @@ namespace QUANGHANH2.Models
         public CongViec()
         {
             this.NhanViens = new HashSet<NhanVien>();
+            this.NhomCongViecs = new HashSet<NhomCongViec>();
         }
     
         public int MaCongViec { get; set; }
@@ -27,5 +28,7 @@ namespace QUANGHANH2.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<NhanVien> NhanViens { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<NhomCongViec> NhomCongViecs { get; set; }
     }
 }

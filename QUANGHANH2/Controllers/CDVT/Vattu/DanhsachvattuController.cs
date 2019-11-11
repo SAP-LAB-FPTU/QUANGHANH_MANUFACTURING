@@ -32,29 +32,22 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
             string sortDirection = Request["order[0][dir]"];
 
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            string query = "SELECT * FROM Supply";
-            if (!supply_id.Equals("") || !supply_name.Equals(""))
-            {
-                query += " where ";
-                if (!supply_id.Equals("")) query += "supply_id LIKE @supply_id AND ";
-                if (!supply_name.Equals("")) query += "supply_name LIKE @supply_name AND ";
-                query = query.Substring(0, query.Length - 5);
-            }
-            List<Supply> supplies = DBContext.Database.SqlQuery<Supply>(query,
-                new SqlParameter("supply_id", '%' + supply_id + '%'),
-                new SqlParameter("supply_name", '%' + supply_name + '%'))
-                .OrderBy(sortColumnName + " " + sortDirection).Skip(start)
-                .Take(length).ToList<Supply>().ToList();
 
-            int totalrows = DBContext.Database.SqlQuery<Int32>(query.Replace("*","Count(*) as count"),
-                new SqlParameter("supply_id", '%' + supply_id + '%'),
-                new SqlParameter("supply_name", '%' + supply_name + '%')).ToList<Int32>()[0];
+            var supplies = (from a in DBContext.Supplies.Where(x => x.supply_id.Contains(supply_id) && x.supply_name.Contains(supply_name))
+                .OrderBy(sortColumnName + " " + sortDirection).Skip(start)
+                .Take(length)
+                            select new
+                            {
+                                supply_id = a.supply_id,
+                                supply_name = a.supply_name,
+                                unit = a.unit,
+                                price = a.price
+                            }).ToList();
+
+            int totalrows = DBContext.Supplies.Where(x => x.supply_id.Contains(supply_id) && x.supply_name.Contains(supply_name)).Count();
 
             int totalrowsafterfiltering = totalrows;
-            //sorting
-            //supplies = supplies.OrderBy(sortColumnName + " " + sortDirection).ToList<Supply>();
-            //paging
-            //supplies = supplies
+
             return Json(new { success = true, data = supplies, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 

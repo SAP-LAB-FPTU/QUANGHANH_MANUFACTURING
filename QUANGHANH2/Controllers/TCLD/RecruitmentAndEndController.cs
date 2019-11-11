@@ -73,7 +73,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                join
                                                  n in db.NhanViens on
                                                  cn.MaNV equals n.MaNV
-                                               where n.LoaiNhanVien.Equals("CNCD")
+                                               join cv in db.CongViecs
+                                               on n.MaCongViec equals cv.MaCongViec
+                                               //join ncv in db.NhomCongViecs
+                                               //on cv.MaNhomCongViec equals ncv.MaNhomCongViec
+                                               //where ncv.MaNhomCongViec == 2
                                                join qd in db.QuyetDinhs
                                                on cn.MaQuyetDinh equals qd.MaQuyetDinh
                                                where qd.SoQuyetDinh != null
@@ -88,7 +92,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                  join
                                                n in db.NhanViens on
                                                cn.MaNV equals n.MaNV
-                                                 where n.LoaiNhanVien.Equals("CNKT")
+                                                 join cv in db.CongViecs
+                                               on n.MaCongViec equals cv.MaCongViec
+                                                 //join ncv in db.NhomCongViecs
+                                                 //on cv.MaNhomCongViec equals ncv.MaNhomCongViec
+                                                 //where ncv.MaNhomCongViec == 1
                                                  join qd in db.QuyetDinhs
                                                on cn.MaQuyetDinh equals qd.MaQuyetDinh
                                                  where qd.SoQuyetDinh != null
@@ -103,7 +111,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                              join
                                              n in db.NhanViens on
                                              cn.MaNV equals n.MaNV
-                                             where n.LoaiNhanVien.Equals("CNCD")
+                                             join cv in db.CongViecs
+                                               on n.MaCongViec equals cv.MaCongViec
+                                             //join ncv in db.NhomCongViecs
+                                             //on cv.MaNhomCongViec equals ncv.MaNhomCongViec
+                                             //where ncv.MaNhomCongViec == 2
                                              join qd in db.QuyetDinhs
                                                on cn.MaQuyetDinh equals qd.MaQuyetDinh
                                              where qd.SoQuyetDinh != null
@@ -118,7 +130,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                join
                                                n in db.NhanViens on
                                                cn.MaNV equals n.MaNV
-                                               where n.LoaiNhanVien.Equals("CNKT")
+                                               join cv in db.CongViecs
+                                                on n.MaCongViec equals cv.MaCongViec
+                                               //join ncv in db.NhomCongViecs
+                                               //on cv.MaNhomCongViec equals ncv.MaNhomCongViec
+                                               //where ncv.MaNhomCongViec == 1
                                                join qd in db.QuyetDinhs
                                                on cn.MaQuyetDinh equals qd.MaQuyetDinh
                                                where qd.SoQuyetDinh != null
@@ -227,7 +243,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                join
                                                  n in db.NhanViens on
                                                  cn.MaNV equals n.MaNV
-                                               where n.LoaiNhanVien.Equals("CNCD")
+                                               join cv in db.CongViecs
+                                               on n.MaCongViec equals cv.MaCongViec
+                                               //join ncv in db.NhomCongViecs
+                                               //on cv.MaNhomCongViec equals ncv.MaNhomCongViec
+                                               //where ncv.MaNhomCongViec == 2
                                                join qd in db.QuyetDinhs
                                                on cn.MaQuyetDinh equals qd.MaQuyetDinh
                                                where qd.SoQuyetDinh != null
@@ -243,7 +263,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                  join
                                                n in db.NhanViens on
                                                cn.MaNV equals n.MaNV
-                                                 where n.LoaiNhanVien.Equals("CNKT")
+                                                 join cv in db.CongViecs
+                                               on n.MaCongViec equals cv.MaCongViec
+                                                 //join ncv in db.NhomCongViecs
+                                                 //on cv.MaNhomCongViec equals ncv.MaNhomCongViec
+                                                 //where ncv.MaNhomCongViec == 1
                                                  join qd in db.QuyetDinhs
                                                on cn.MaQuyetDinh equals qd.MaQuyetDinh
                                                  where qd.SoQuyetDinh != null
@@ -259,7 +283,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                              join
                                              n in db.NhanViens on
                                              cn.MaNV equals n.MaNV
-                                             where n.LoaiNhanVien.Equals("CNCD")
+                                             join cv in db.CongViecs
+                                               on n.MaCongViec equals cv.MaCongViec
+                                             //join ncv in db.NhomCongViecs
+                                             //on cv.MaNhomCongViec equals ncv.MaNhomCongViec
+                                             //where ncv.MaNhomCongViec == 2
                                              join qd in db.QuyetDinhs
                                                on cn.MaQuyetDinh equals qd.MaQuyetDinh
                                              where qd.SoQuyetDinh != null
@@ -275,7 +303,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                join
                                                n in db.NhanViens on
                                                cn.MaNV equals n.MaNV
-                                               where n.LoaiNhanVien.Equals("CNKT")
+                                               join cv in db.CongViecs
+                                                on n.MaCongViec equals cv.MaCongViec
+                                               //join ncv in db.NhomCongViecs
+                                               //on cv.MaNhomCongViec equals ncv.MaNhomCongViec
+                                               //where ncv.MaNhomCongViec == 1
                                                join qd in db.QuyetDinhs
                                                on cn.MaQuyetDinh equals qd.MaQuyetDinh
                                                where qd.SoQuyetDinh != null
@@ -396,7 +428,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                    join
                                                    n in db.NhanViens on
                                                    cn.MaNV equals n.MaNV
-                                                   where n.LoaiNhanVien.Equals("CNCD")
+                                                   join cv in db.CongViecs
+                                                on n.MaCongViec equals cv.MaCongViec
+                                                   //join ncv in db.NhomCongViecs
+                                                   //on cv.MaNhomCongViec equals ncv.MaNhomCongViec
+                                                   //where ncv.MaNhomCongViec == 2
                                                    join qd in db.QuyetDinhs
                                                on cn.MaQuyetDinh equals qd.MaQuyetDinh
                                                    where qd.SoQuyetDinh != null
@@ -411,7 +447,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                      join
                                                    n in db.NhanViens on
                                                    cn.MaNV equals n.MaNV
-                                                     where n.LoaiNhanVien.Equals("CNKT")
+                                                     join cv in db.CongViecs
+                                                on n.MaCongViec equals cv.MaCongViec
+                                                     //join ncv in db.NhomCongViecs
+                                                     //on cv.MaNhomCongViec equals ncv.MaNhomCongViec
+                                                     //where ncv.MaNhomCongViec == 1
                                                      join qd in db.QuyetDinhs
                                                on cn.MaQuyetDinh equals qd.MaQuyetDinh
                                                      where qd.SoQuyetDinh != null
@@ -426,7 +466,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                  join
                                                  n in db.NhanViens on
                                                  cn.MaNV equals n.MaNV
-                                                 where n.LoaiNhanVien.Equals("CNCD")
+                                                 join cv in db.CongViecs
+                                                on n.MaCongViec equals cv.MaCongViec
+                                                 //join ncv in db.NhomCongViecs
+                                                 //on cv.MaNhomCongViec equals ncv.MaNhomCongViec
+                                                 //where ncv.MaNhomCongViec == 2
                                                  join qd in db.QuyetDinhs
                                                on cn.MaQuyetDinh equals qd.MaQuyetDinh
                                                  where qd.SoQuyetDinh != null
@@ -441,7 +485,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                    join
                                                    n in db.NhanViens on
                                                    cn.MaNV equals n.MaNV
-                                                   where n.LoaiNhanVien.Equals("CNKT")
+                                                   join cv in db.CongViecs
+                                               on n.MaCongViec equals cv.MaCongViec
+                                                   //join ncv in db.NhomCongViecs
+                                                   //on cv.MaNhomCongViec equals ncv.MaNhomCongViec
+                                                   //where ncv.MaNhomCongViec == 1
                                                    join qd in db.QuyetDinhs
                                                on cn.MaQuyetDinh equals qd.MaQuyetDinh
                                                    where qd.SoQuyetDinh != null
@@ -558,7 +606,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                    join
                                                    n in db.NhanViens on
                                                    cn.MaNV equals n.MaNV
-                                                   where n.LoaiNhanVien.Equals("CNCD")
+                                                   join cv in db.CongViecs
+                                               on n.MaCongViec equals cv.MaCongViec
+                                                   //join ncv in db.NhomCongViecs
+                                                   //on cv.MaNhomCongViec equals ncv.MaNhomCongViec
+                                                   //where ncv.MaNhomCongViec == 2
                                                    join qd in db.QuyetDinhs
                                                on cn.MaQuyetDinh equals qd.MaQuyetDinh
                                                    where qd.SoQuyetDinh != null
@@ -574,7 +626,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                      join
                                                    n in db.NhanViens on
                                                    cn.MaNV equals n.MaNV
-                                                     where n.LoaiNhanVien.Equals("CNKT")
+                                                     join cv in db.CongViecs
+                                               on n.MaCongViec equals cv.MaCongViec
+                                                     //join ncv in db.NhomCongViecs
+                                                     //on cv.MaNhomCongViec equals ncv.MaNhomCongViec
+                                                     //where ncv.MaNhomCongViec == 1
                                                      join qd in db.QuyetDinhs
                                                on cn.MaQuyetDinh equals qd.MaQuyetDinh
                                                      where qd.SoQuyetDinh != null
@@ -590,7 +646,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                  join
                                                  n in db.NhanViens on
                                                  cn.MaNV equals n.MaNV
-                                                 where n.LoaiNhanVien.Equals("CNCD")
+                                                 join cv in db.CongViecs
+                                               on n.MaCongViec equals cv.MaCongViec
+                                                 //join ncv in db.NhomCongViecs
+                                                 //on cv.MaNhomCongViec equals ncv.MaNhomCongViec
+                                                 //where ncv.MaNhomCongViec == 2
                                                  join qd in db.QuyetDinhs
                                                on cn.MaQuyetDinh equals qd.MaQuyetDinh
                                                  where qd.SoQuyetDinh != null
@@ -606,7 +666,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                    join
                                                    n in db.NhanViens on
                                                    cn.MaNV equals n.MaNV
-                                                   where n.LoaiNhanVien.Equals("CNKT")
+                                                   join cv in db.CongViecs
+                                               on n.MaCongViec equals cv.MaCongViec
+                                                   //join ncv in db.NhomCongViecs
+                                                   //on cv.MaNhomCongViec equals ncv.MaNhomCongViec
+                                                   //where ncv.MaNhomCongViec == 1
                                                    join qd in db.QuyetDinhs
                                                    on cn.MaQuyetDinh equals qd.MaQuyetDinh
                                                    where qd.SoQuyetDinh != null

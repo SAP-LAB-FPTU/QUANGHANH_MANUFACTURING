@@ -17,14 +17,22 @@
             border-radius: 50%;
             padding: 3px 8px;
         }
-        #noti_dropdown{
-            top:65px !important;
+
+        #noti_dropdown {
+            top: 65px !important;
         }
+
         .notif {
             position: absolute;
         }
-        #drop {
+
+        #droppp {
             height: 64px !important;
+        }
+
+        #noti_dropdown {
+            border: 1px solid #2ea7e5;
+            border-radius: 10px;
         }
     </style>
     <meta charset="utf-8">
@@ -177,9 +185,9 @@
                         <!-- Notification icon scss in header.scss -->
                         <!-- ============================================================== -->
                         <li>
-                            <a class="dropdown-trigger" id="drop" href="#!" data-target="noti_dropdown">
-                                <i class="small material-icons" >notifications</i>
-                                <small class="notification-badge" id="number"></small>
+                            <a class="dropdown-trigger" id="droppp" href="#!" data-target="noti_dropdown">
+                                <i class="small material-icons">notifications</i>
+                                <small id="number"></small>
                             </a>
                             <ul id="noti_dropdown" class="mailbox dropdown-content">
                                 <li>
@@ -187,19 +195,7 @@
                                 </li>
                                 <li>
                                     <div class="message-center" id="message">
-                                        <!-- Message -->
-                                        @*<a href="#">
-                                                <span class="btn-floating btn-large red">
-                                                    <i class="large material-icons">
-                                                        error
-                                                    </i>
-                                                </span>
-                                                <span class="mail-contnet">
-                                                    <h5><b id="pb">Phòng CĐVT</b></h5>
-                                                    <span class="mail-desc black-text" id="title" style="font-size:14px !important">Bảo hiểm thiết bị</span>
-                                                    <span class="blue-text" id="date_remain" style="font-size:13px !important">Còn 6 ngày đến hạn bảo hiểm</span>
-                                                </span>
-                                            </a>*@
+
                                     </div>
                                 </li>
                                 @*<li>
@@ -213,36 +209,36 @@
                         <!-- Comment topbar icon scss in header.scss -->
                         <!-- ============================================================== -->
                         @*<li>
-                            <a class="dropdown-trigger" href="javascript: void(0);" data-target="msg_dropdown">
-                                <i class="small material-icons">comment</i>
-                            </a>
-                            <ul id="msg_dropdown" class="mailbox dropdown-content">
-                                <li>
-                                    <div class="drop-title">Bạn có 4 tin nhắn mới</div>
-                                </li>
-                                <li>
-                                    <div class="message-center">
-                                         Message 
-                                        <a href="#">
-                                                <span class="user-img">
-                                                    <img src="~/assets/images/users/2.jpg" alt="user" class="circle">
-                                                    <span class="profile-status online pull-right"></span>
-                                                </span>
-                                                <span class="mail-contnet">
-                                                    <h5>Trần Long- CĐVT</h5>
-                                                    <span class="mail-desc">Gửi báo cáo chưa ? </span>
-                                                    <span class="time">9:30 AM</span>
-                                                </span>
-                                            </a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a class="center-align" href="javascript:void(0);">
-                                        <strong>Xoá tin nhắn</strong>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>*@
+                                <a class="dropdown-trigger" href="javascript: void(0);" data-target="msg_dropdown">
+                                    <i class="small material-icons">comment</i>
+                                </a>
+                                <ul id="msg_dropdown" class="mailbox dropdown-content">
+                                    <li>
+                                        <div class="drop-title">Bạn có 4 tin nhắn mới</div>
+                                    </li>
+                                    <li>
+                                        <div class="message-center">
+                                             Message
+                                            <a href="#">
+                                                    <span class="user-img">
+                                                        <img src="~/assets/images/users/2.jpg" alt="user" class="circle">
+                                                        <span class="profile-status online pull-right"></span>
+                                                    </span>
+                                                    <span class="mail-contnet">
+                                                        <h5>Trần Long- CĐVT</h5>
+                                                        <span class="mail-desc">Gửi báo cáo chưa ? </span>
+                                                        <span class="time">9:30 AM</span>
+                                                    </span>
+                                                </a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a class="center-align" href="javascript:void(0);">
+                                            <strong>Xoá tin nhắn</strong>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>*@
                     </ul>
                     <!-- ============================================================== -->
                     <!-- Left topbar icon scss in header.scss -->
@@ -270,7 +266,6 @@
                                 </li>
                                 <li role="separator" class="divider"></li>
                                 <li><a href="#"><i class="small material-icons">account_circle</i> Hồ Sơ Của Tôi</a></li>
-                                <li><a href="#"><i class="small material-icons">inbox</i> Tin nhắn</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a href="#"><i class="small material-icons">settings</i> Cài Đặt Tài Khoản</a></li>
                                 <li role="separator" class="divider"></li>
@@ -305,7 +300,7 @@
                                     <li><a href="/phong-cdvt/huy-dong"><i class="material-icons">adjust</i><span class="hide-menu">Huy động thiết bị</span></a></li>
                                     <li><a href="/phong-cdvt/cap-nhat-hoat-dong"><i class="material-icons">adjust</i><span class="hide-menu">Hoạt động hằng ngày</span></a></li>
                                     <li><a href="/phong-cdvt/cap-nhat-tieu-thu"><i class="material-icons">adjust</i><span class="hide-menu">Tiêu thụ hằng ngày</span></a></li>
-                                    <li><a href="/phong-cdvt/thiet-bi/sctx"><i class="material-icons">adjust</i><span class="hide-menu">Sửa chữa thường xuyên</span></a></li>
+                                    @*<li><a href="/phong-cdvt/thiet-bi/sctx"><i class="material-icons">adjust</i><span class="hide-menu">Sửa chữa thường xuyên</span></a></li>*@
                                 </ul>
                             </div>
                         </li>
@@ -316,7 +311,7 @@
                                     <li><a href="/phong-cdvt/oto/huy-dong"><i class="material-icons">adjust</i><span class="hide-menu">Huy động</span></a></li>
                                     <li><a href="/phong-cdvt/oto/cap-nhat-hoat-dong"><i class="material-icons">adjust</i><span class="hide-menu">Hoạt động hằng ngày</span></a></li>
                                     <li><a href="/phong-cdvt/oto/cap-nhat-tieu-thu"><i class="material-icons">adjust</i><span class="hide-menu">Tiêu thụ hằng ngày</span></a></li>
-                                    <li><a href="/phong-cdvt/oto/bao-duong-hang-ngay"><i class="material-icons">adjust</i><span class="hide-menu">Bảo dưỡng hằng ngày</span></a></li>
+                                    @*<li><a href="/phong-cdvt/oto/bao-duong-hang-ngay"><i class="material-icons">adjust</i><span class="hide-menu">Bảo dưỡng hằng ngày</span></a></li>*@
                                     <li><a href="/phong-cdvt/oto/GPS"><i class="material-icons">adjust</i><span class="hide-menu">GPS</span></a></li>
                                 </ul>
                             </div>
@@ -327,9 +322,9 @@
                         <li>
                             <a href="/phong-cdvt/su-co" class="collapsible-header"><i class="small material-icons">build</i><span class="hide-menu">Sự cố</span></a>
                         </li>
-                        <li>
-                            <a href="/phong-cdvt/cap-nhat/quyet-dinh" class="collapsible-header"><i class="material-icons">autorenew</i><span class="hide-menu">Xử lý quyết định</span></a>
-                        </li>
+                        @*<li>
+                                <a href="/phong-cdvt/cap-nhat/quyet-dinh" class="collapsible-header"><i class="material-icons">autorenew</i><span class="hide-menu">Xử lý quyết định</span></a>
+                            </li>*@
                         <li>
                             <a href="/phong-cdvt/kiem-dinh" class="collapsible-header"><i class="material-icons">assignment_turned_in</i><span class="hide-menu">Kiểm định</span></a>
                         </li>
@@ -346,7 +341,7 @@
                             <a href="javascript: void(0);" class="collapsible-header has-arrow"><i class="material-icons">apps</i><span class="hide-menu">Vật tư SCTX</span></a>
                             <div class="collapsible-body">
                                 <ul>
-                                    <li><a href="/phong-cdvt/xin-cap-vat-tu-sctx"><i class="material-icons">adjust</i><span class="hide-menu">Xin cấp vật tư</span></a></li>
+                                    @*<li><a href="/phong-cdvt/xin-cap-vat-tu-sctx"><i class="material-icons">adjust</i><span class="hide-menu">Xin cấp vật tư</span></a></li>*@
                                     <li><a href="/phong-cdvt/xin-cap-vat-tu-sctx-summary"><i class="material-icons">adjust</i><span class="hide-menu">Xin cấp vật tư tổng hợp</span></a></li>
                                     <li><a href="/phong-cdvt/tong-hop-vat-tu"><i class="material-icons">adjust</i><span class="hide-menu">Tổng hợp vật tư</span></a></li>
                                     <li><a href="/phong-cdvt/vat-tu/tieu-hao"><i class="material-icons">adjust</i><span class="hide-menu">Tiêu hao vật tư</span></a></li>
@@ -441,10 +436,16 @@
                 contentType: "application/json;charset=utf-8",
                 success: function (result) {
                     result.result.forEach(function (key) {
-                        var string = "<a href ='#!'><span class='btn-floating btn-large red'><i class='small material-icons'>error</i></span><span class='mail-contnet'><h5><b>Phòng " + key.pb + "</b></h5><span class='mail-desc black-text' style='font-size:14px !important'>" + key.title + "</span><span class='blue-text' style='font-size:13px !important'>" + key.remain_title + "</span></span></a>";
+                        var string = "<a href ='Notifi/Export?type="+key.type+"'><span class='btn-floating btn-large red'><i class='large material-icons' style='font-size:40px'>error</i></span><span class='mail-contnet'><h5><b>" + key.pb + "</b></h5><span class='mail-desc black-text' style='font-size:14px !important'>" + key.title + "</span><span class='blue-text' style='font-size:13px !important'>" + key.remain_title + "</span></span></a>";
                         $('#message').append(string);
                     });
-                    $('#number').html(result.result.length);
+                    if (result.result.length != 0) {
+                        $('#number').attr('class', 'notification-badge');
+                        $('#number').html(result.result.length);
+                    } else {
+                        $('#message').attr('class', 'center');
+                        $('#message').html('Bạn chưa có thông báo nào');
+                    }
                 },
                 error: function (errormessage) {
                 }

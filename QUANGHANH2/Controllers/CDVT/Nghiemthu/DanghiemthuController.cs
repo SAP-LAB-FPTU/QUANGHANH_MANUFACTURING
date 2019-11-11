@@ -23,7 +23,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
 
         [Route("phong-cdvt/da-nghiem-thu/search")]
         [HttpPost]
-        public ActionResult Search(string document_code,string equimentid,string equimentname, string date_start, string date_end)
+        public ActionResult Search(string document_code, string equimentid, string equimentname, string date_start, string date_end)
         {
             //Server Side Parameter
             string requestID = Request["sessionId"];
@@ -64,10 +64,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 docList = (from a in db.Acceptances
-                          
+
                            join b in db.Equipments on a.equipmentId equals b.equipmentId
                            join c in db.Documentaries on a.documentary_id equals c.documentary_id
                            where (a.equipmentStatus == 3) && (c.documentary_code.Contains(document_code)) && (a.equipmentId.Contains(equimentid) && b.equipment_name.Contains(equimentname) && (a.acceptance_date >= dstart && a.acceptance_date <= dend))
+                           join d in db.DocumentaryTypes on c.documentary_type equals d.documentary_type
                            select new
                            {
                                documentary_id = a.documentary_id,
@@ -75,9 +76,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                equipment_name = b.equipment_name,
                                acceptance_date = a.acceptance_date,
                                documentary_code = c.documentary_code,
-                               documentary_type = c.documentary_type
-
-
+                               documentary_type = c.documentary_type,
+                               documentary_name = d.documentary_name,
+                               du_phong = d.du_phong,
+                               di_kem = d.di_kem,
+                               can = d.can
                            }).ToList().Select(p => new Documentary_Extend
                            {
                                documentary_id = p.documentary_id,
@@ -85,8 +88,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                equipment_name = p.equipment_name,
                                acceptance_date = p.acceptance_date,
                                documentary_code = p.documentary_code,
-                               documentary_type = p.documentary_type
-
+                               documentary_type = p.documentary_type,
+                               documentary_name = p.documentary_name,
+                               du_phong = p.du_phong,
+                               di_kem = p.di_kem,
+                               can = p.can
                            }).ToList();
                 foreach (Documentary_Extend item in docList)
                 {
@@ -97,22 +103,22 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                     items.linkIdCode = new LinkIdCode2();
                     switch (items.documentary_type)
                     {
-                        case "1":
+                        case 1:
                             items.linkIdCode.link = "vat-tu";
                             break;
-                        case "2":
+                        case 2:
                             items.linkIdCode.link = "vat-tu";
                             break;
-                        case "3":
+                        case 3:
                             items.linkIdCode.link = "vat-tu-kem-theo";
                             break;
-                        case "4":
+                        case 4:
                             items.linkIdCode.link = "vat-tu";
                             break;
-                        case "5":
+                        case 5:
                             items.linkIdCode.link = "vat-tu";
                             break;
-                        case "6":
+                        case 6:
                             items.linkIdCode.link = "vat-tu";
                             break;
                     }

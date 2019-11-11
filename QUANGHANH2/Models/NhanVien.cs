@@ -81,7 +81,6 @@ namespace QUANGHANH2.Models
         public Nullable<int> MaUyQuyen { get; set; }
         public string SoBHXH { get; set; }
         public Nullable<System.DateTime> NgayTraBHXH { get; set; }
-        public string LoaiNhanVien { get; set; }
         public Nullable<int> MaCongViec { get; set; }
         public Nullable<double> MucLuong { get; set; }
         public Nullable<int> MaTrinhDo { get; set; }
