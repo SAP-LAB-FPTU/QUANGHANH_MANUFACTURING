@@ -286,12 +286,9 @@
             },
                 success: function (data){
                     datatable.ajax.reload();
-                    if (data.success == 'true') {
-                        successAlert('Thành công', data.message);
+                     successAlert('Thành công', data.message);
                         $('#closeForm1').click();
-                    }
-                    else
-                        errorAlert('Lỗi', data.message);
+                    
                     
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
