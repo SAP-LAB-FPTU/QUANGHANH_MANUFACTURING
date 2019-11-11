@@ -19,6 +19,7 @@ namespace QUANGHANH2.Models
         {
             this.Disks = new HashSet<Disk>();
             this.Documentary_camera_repair_details = new HashSet<Documentary_camera_repair_details>();
+            this.Supply_Documentary_Camera = new HashSet<Supply_Documentary_Camera>();
         }
     
         public string camera_id { get; set; }
@@ -33,5 +34,7 @@ namespace QUANGHANH2.Models
         public virtual ICollection<Disk> Disks { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Documentary_camera_repair_details> Documentary_camera_repair_details { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Supply_Documentary_Camera> Supply_Documentary_Camera { get; set; }
     }
 }
