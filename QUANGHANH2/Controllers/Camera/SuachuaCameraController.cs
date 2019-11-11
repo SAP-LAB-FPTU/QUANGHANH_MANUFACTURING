@@ -190,11 +190,11 @@ namespace QUANGHANH2.Controllers.Camera
                     {
                         try
                         {
-                            List<Documentary_repair_details> details = DBContext.Documentary_repair_details.Where(x => x.documentary_id == documentary_id).ToList();
-                            foreach (Documentary_repair_details item in details)
+                            List<Documentary_camera_repair_details> details = DBContext.Documentary_camera_repair_details.Where(x => x.documentary_id == documentary_id).ToList();
+                            foreach (Documentary_camera_repair_details item in details)
                             {
-                                Equipment e = DBContext.Equipments.Find(item.equipmentId);
-                                e.current_Status = 3;
+                                Models.Camera e = DBContext.Cameras.Find(item.camera_id);
+                                e.camera_status = 3;
                             }
                             documentary_code = documentary_code.Replace(" ", String.Empty);
                             i.documentary_code = documentary_code;
