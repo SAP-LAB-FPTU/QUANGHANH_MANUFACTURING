@@ -183,7 +183,9 @@
     <Compile Include="Controllers\BGD\SummaryReportController.cs" />
     <Compile Include="Controllers\BGD\TCLD\PeformanceAndSalaryReportController.cs" />
     <Compile Include="Controllers\Camera\CameraManagementController.cs" />
+    <Compile Include="Controllers\Camera\ChiTietXuLyQDController.cs" />
     <Compile Include="Controllers\Camera\SucoCamController.cs" />
+    <Compile Include="Controllers\Camera\XuLyQDController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\CapnhathoatdongController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\CapnhatsucoController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\ChitietController.cs" />
@@ -7403,6 +7405,7 @@
     <Content Include="Views\TCLD\Occupation\Occupation.cshtml" />
     <Content Include="Views\TCLD\Occupation\GroupOccupation.cshtml" />
     <Content Include="Views\TCLD\Occupation\SideOccupation.cshtml" />
+    <Content Include="Views\Camera\DSQD.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7413,6 +7416,7 @@
     <Folder Include="Views\BaoCaoLenPhongDK\" />
     <Folder Include="Views\CameraManagement\" />
     <Folder Include="Views\Cam\" />
+    <Folder Include="Views\ChiTietXuLyQD\" />
     <Folder Include="Views\DepartmentDaily\" />
     <Folder Include="Views\Department_Criteria\" />
     <Folder Include="Views\GPS\" />
@@ -7433,6 +7437,7 @@
     <Folder Include="Views\ThemCaiTien\" />
     <Folder Include="Views\ViewAccident\" />
     <Folder Include="Views\WorkHistory\" />
+    <Folder Include="Views\XuLyQD\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
