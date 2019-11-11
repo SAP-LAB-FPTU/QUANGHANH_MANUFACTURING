@@ -186,7 +186,9 @@
     <Compile Include="Controllers\Camera\ChitietSuachuaCamController.cs" />
     <Compile Include="Controllers\Camera\SuachuaCameraController.cs" />
     <Compile Include="Controllers\Camera\CameraManagementController.cs" />
+    <Compile Include="Controllers\Camera\ChiTietXuLyQDController.cs" />
     <Compile Include="Controllers\Camera\SucoCamController.cs" />
+    <Compile Include="Controllers\Camera\XuLyQDController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\CapnhathoatdongController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\CapnhatsucoController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\ChitietController.cs" />
@@ -357,6 +359,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CameraIncident.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Camera_Acceptance.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Car.cs">
@@ -7417,7 +7422,9 @@
     <Content Include="Views\TCLD\Occupation\Occupation.cshtml" />
     <Content Include="Views\TCLD\Occupation\GroupOccupation.cshtml" />
     <Content Include="Views\TCLD\Occupation\SideOccupation.cshtml" />
+    <Content Include="Views\Camera\DSQD.cshtml" />
     <Content Include="Views\LogIn\Account_Information.cshtml" />
+    <Content Include="Views\Camera\Suachua.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7428,6 +7435,7 @@
     <Folder Include="Views\BaoCaoLenPhongDK\" />
     <Folder Include="Views\CameraManagement\" />
     <Folder Include="Views\Cam\" />
+    <Folder Include="Views\ChiTietXuLyQD\" />
     <Folder Include="Views\ChitietSuachuaCam\" />
     <Folder Include="Views\DepartmentDaily\" />
     <Folder Include="Views\Department_Criteria\" />
@@ -7450,6 +7458,7 @@
     <Folder Include="Views\ThemCaiTien\" />
     <Folder Include="Views\ViewAccident\" />
     <Folder Include="Views\WorkHistory\" />
+    <Folder Include="Views\XuLyQD\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
