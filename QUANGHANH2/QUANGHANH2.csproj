@@ -396,6 +396,9 @@
     <Compile Include="Models\CongViec.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CongViec_NhomCongViec.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DayHistoryWork.cs" />
     <Compile Include="Models\Department.cs">
       <DependentUpon>Model1.tt</DependentUpon>

@@ -20,6 +20,7 @@ namespace QUANGHANH2.Models
             this.Fuel_activities_consumption = new HashSet<Fuel_activities_consumption>();
             this.Maintain_Car_Detail = new HashSet<Maintain_Car_Detail>();
             this.Supply_DiKem = new HashSet<Supply_DiKem>();
+            this.Supply_Documentary_Camera = new HashSet<Supply_Documentary_Camera>();
             this.Supply_Documentary_Equipment = new HashSet<Supply_Documentary_Equipment>();
             this.Supply_DuPhong = new HashSet<Supply_DuPhong>();
             this.Supply_tieuhao = new HashSet<Supply_tieuhao>();
@@ -38,6 +39,8 @@ namespace QUANGHANH2.Models
         public virtual ICollection<Maintain_Car_Detail> Maintain_Car_Detail { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Supply_DiKem> Supply_DiKem { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Supply_Documentary_Camera> Supply_Documentary_Camera { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Supply_Documentary_Equipment> Supply_Documentary_Equipment { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

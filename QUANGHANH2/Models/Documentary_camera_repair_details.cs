@@ -18,8 +18,11 @@ namespace QUANGHANH2.Models
         public string camera_id { get; set; }
         public string repair_requirement { get; set; }
         public string note { get; set; }
+        public int Documentary_camera_repair_status { get; set; }
+        public string department_id { get; set; }
     
         public virtual Camera Camera { get; set; }
+        public virtual Department Department { get; set; }
         public virtual Documentary Documentary { get; set; }
     }
 }
