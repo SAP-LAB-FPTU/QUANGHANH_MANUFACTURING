@@ -1,11 +1,14 @@
 ﻿using QUANGHANH2.Models;
+using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.SessionState;
 using XCrypt;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -49,6 +52,7 @@ namespace QUANGHANHCORE.Controllers
                 if (checkuser.Username.Equals(username) && checkuser.Password.Equals(passXc))
                 {
                     Session["UserID"] = checkuser.ID;
+                    Session["time"] = DateTime.Now;
                     int id = checkuser.ID;
                     var Name = db.Accounts.Where(x => x.ID == id).FirstOrDefault<Account>();
                     if (Name.NVID != null)
@@ -166,12 +170,65 @@ namespace QUANGHANHCORE.Controllers
                 Session["url"] = "ManagementUser/Index";
                 Session["departID"] = "QL";
             }
+            RightIDs.Add("000");
             Session["RightIDs"] = RightIDs;
+        }
+        [Auther(RightID ="000")]
+        public ActionResult Detail()
+        {
+            DateTime start = Convert.ToDateTime(Session["time"]).AddMinutes(20);
+            ViewBag.remain = start.Subtract(DateTime.Now).TotalMinutes;
+            return View("/Views/LogIn/Account_Information.cshtml");
+        }
+        [Auther(RightID = "000")]
+        public JsonResult ResetPassword(string oldPass,string newPass,string rePass)
+        {
+            int id = Convert.ToInt32(Session["account_id"]);
+            string passXc = new XCryptEngine(XCryptEngine.AlgorithmType.MD5).Encrypt(oldPass, "pl");
+            string rePasss = new XCryptEngine(XCryptEngine.AlgorithmType.MD5).Encrypt(rePass, "pl");
+            var user = db.Accounts.Where(x => x.ID == id).FirstOrDefault();
+            if (string.IsNullOrEmpty(oldPass) || string.IsNullOrEmpty(newPass) || string.IsNullOrEmpty(rePass))
+            {
+                return Json(new Result()
+                {
+                    CodeError = 1,
+                    Data = "Mật khẩu không được để trống"
+                }, JsonRequestBehavior.AllowGet);
+            }
+            if (!newPass.Equals(rePass))
+            {
+                return Json(new Result()
+                {
+                    CodeError = 1,
+                    Data = "2 mật khẩu không trùng khớp"
+                }, JsonRequestBehavior.AllowGet);
+            }
+            if (!user.Password.Equals(passXc))
+            {
+                return Json(new Result()
+                {
+                    CodeError = 1,
+                    Data = "Mật khẩu cũ không đúng"
+                }, JsonRequestBehavior.AllowGet);
+            }
+            user.Password = rePasss;
+            db.Entry(user).State = EntityState.Modified;
+            db.SaveChanges();
+            return Json(new Result()
+            {
+                CodeError = 2,
+                Data = "Thay đổi mật khẩu thành công"
+            }, JsonRequestBehavior.AllowGet);
         }
     }
     public class login
     {
         public string username { get; set; }
         public string password { get; set; }
+    }
+    public class Result
+    {
+        public int CodeError { get; set; }
+        public string Data { get; set; }
     }
 }

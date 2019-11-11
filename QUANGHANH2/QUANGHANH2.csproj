@@ -6415,6 +6415,7 @@
     <Content Include="images\banner2.svg" />
     <Content Include="images\banner3.svg" />
     <Content Include="images\icons\accident_icon.png" />
+    <Content Include="images\icons\avatar.jpg" />
     <Content Include="images\icons\certificate_icon.png" />
     <Content Include="images\login\background.png" />
     <Content Include="images\login\quanghanh.png" />
@@ -7403,6 +7404,7 @@
     <Content Include="Views\TCLD\Occupation\Occupation.cshtml" />
     <Content Include="Views\TCLD\Occupation\GroupOccupation.cshtml" />
     <Content Include="Views\TCLD\Occupation\SideOccupation.cshtml" />
+    <Content Include="Views\LogIn\Account_Information.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
