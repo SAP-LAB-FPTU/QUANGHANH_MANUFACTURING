@@ -63,6 +63,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
         {
             public string sokhung { get; set; }
             public string somay { get; set; }
+            public Boolean GPS { get; set; }
+            public string GPSstring { get; set; }
             public Nullable<System.DateTime> durationOfInspection_fix { get; set; }
             public string statusname { get; set; }
             public string Equipment_category_name { get; set; }
@@ -89,31 +91,15 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             {
 
 
-                var equipList = db.Database.SqlQuery<EquipWithName>("SELECT e.[equipmentId],e.[equipment_name],[supplier],[date_import],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_expected_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfMaintainance],[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
-                "from Equipment e, Department d, Equipment_category ec,Status s, " +
-                "(select distinct e.equipmentId, e.equipment_name from Equipment e inner join Equipment_category_attribute ea on ea.Equipment_category_id = e.Equipment_category_id where ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') a" +
-                " where a.equipmentId = e.equipmentId and e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id AND e.current_Status = s.statusid").ToList();
+                var equipList = db.Database.SqlQuery<EquipWithName>("select e.*, c.sokhung, c.somay, c.GPS "+
+                                "from Equipment e inner "+
+                                "join Car c on e.equipmentId = c.equipmentId").ToList();
 
                 var value = db.Database.SqlQuery<EquipAtrr>("select distinct c.*, a.Equipment_category_attribute_name " +
                 "from Category_attribute_value c, (select distinct e.equipmentId, ea.Equipment_category_attribute_name, ea.Equipment_category_attribute_id " +
                 "from Equipment e join Equipment_category_attribute ea on e.Equipment_category_id = ea.Equipment_category_id " +
                 "where ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') a " +
                 "where c.Equipment_category_attribute_id = a.Equipment_category_attribute_id").ToList();
-
-                foreach(var item in equipList)
-                {
-                    foreach(var i in value)
-                    {
-                        if(item.equipmentId.Equals(i.equipmentId) && i.Equipment_category_attribute_name.Equals("Số khung"))
-                        {
-                            item.sokhung = i.Value.ToString();
-                        }
-                        if (item.equipmentId.Equals(i.equipmentId) && i.Equipment_category_attribute_name.Equals("Số máy"))
-                        {
-                            item.somay = i.Value.ToString();
-                        }
-                    }
-                }
 
                 int totalrows = equipList.Count;
                 int totalrowsafterfiltering = equipList.Count;
@@ -205,9 +191,9 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                 string date_fix = date[2] + "/" + date[1] + "/" + date[0];
                 dtEnd = DateTime.ParseExact(date_fix, "yyyy/MM/dd", CultureInfo.InvariantCulture);
             }
-            string query = "SELECT e.[equipmentId],e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_expected_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
+            string query = "SELECT e.[equipmentId],e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_expected_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name,a.sokhung, a.somay, a.GPS " +
                 "from Equipment e, Department d, Equipment_category ec,Status s, " +
-                "(select distinct e.equipmentId, e.equipment_name from Equipment e inner join Equipment_category_attribute ea on ea.Equipment_category_id = e.Equipment_category_id where ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') a" +
+                "Car a " +
                 " where a.equipmentId = e.equipmentId and e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id AND e.current_Status = s.statusid AND e.usedDay between @start_time1 and @start_time2 and ";
 
 
@@ -231,6 +217,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                 new SqlParameter("cate", '%' + category + '%'),
                 new SqlParameter("sup", '%' + sup + '%')
                 ).ToList();
+            foreach(var item in equiplist)
+            {
+                if (item.GPS) item.GPSstring = "Có tín hiệu";
+                else item.GPSstring = "Mất tín hiệu";
+            }
             int totalrows = equiplist.Count;
             int totalrowsafterfiltering = equiplist.Count;
             //sorting

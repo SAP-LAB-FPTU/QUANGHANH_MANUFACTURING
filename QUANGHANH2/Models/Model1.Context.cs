@@ -33,6 +33,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<BangCap_GiayChungNhan> BangCap_GiayChungNhan { get; set; }
         public virtual DbSet<BaoCaoFile> BaoCaoFiles { get; set; }
         public virtual DbSet<Camera> Cameras { get; set; }
+        public virtual DbSet<Camera_Acceptance> Camera_Acceptance { get; set; }
         public virtual DbSet<CameraIncident> CameraIncidents { get; set; }
         public virtual DbSet<Car> Cars { get; set; }
         public virtual DbSet<CarGP> CarGPS { get; set; }
