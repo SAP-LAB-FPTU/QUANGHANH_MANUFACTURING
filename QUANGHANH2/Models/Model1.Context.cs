@@ -45,6 +45,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<ChuyenNganh> ChuyenNganhs { get; set; }
         public virtual DbSet<CongTacAnToan> CongTacAnToans { get; set; }
         public virtual DbSet<CongViec> CongViecs { get; set; }
+        public virtual DbSet<CongViec_NhomCongViec> CongViec_NhomCongViec { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<DiemDanh_NangSuatLaoDong> DiemDanh_NangSuatLaoDong { get; set; }
         public virtual DbSet<DienCongViec> DienCongViecs { get; set; }
@@ -97,6 +98,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<Supply> Supplies { get; set; }
         public virtual DbSet<Supply_DiKem> Supply_DiKem { get; set; }
+        public virtual DbSet<Supply_Documentary_Camera> Supply_Documentary_Camera { get; set; }
         public virtual DbSet<Supply_Documentary_Equipment> Supply_Documentary_Equipment { get; set; }
         public virtual DbSet<Supply_DuPhong> Supply_DuPhong { get; set; }
         public virtual DbSet<Supply_tieuhao> Supply_tieuhao { get; set; }

@@ -37,56 +37,59 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
             try
             {
 
-                QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-                // only taken by each department.
-                string department_id = Session["departID"].ToString();
-                List<Eq> listequipment;
-                int count = DBContext.SupplyPlans.Where(x => x.departmentid == department_id && x.date.Month == DateTime.Now.Month && x.status == 1).Count();
-                if (count > 0)
+                using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
                 {
-                    string query = "select equipmentId,equipment_name from Equipment inner join Department on Equipment.department_id=Department.department_id " +
-               " where Department.department_id='' ";
-                    listequipment = DBContext.Database.SqlQuery<Eq>(query,
-                      new SqlParameter("department_id", department_id)
-                       ).ToList();
-                }
-                else
-                {
+                    // only taken by each department.
+                    string department_id = Session["departID"].ToString();
+                    List<Eq> listequipment;
+                    int count = DBContext.SupplyPlans.Where(x => x.departmentid == department_id && x.date.Month == DateTime.Now.Month && x.status == 1).Count();
+                    if (count > 0)
+                    {
+                        string query = "select equipmentId,equipment_name from Equipment inner join Department on Equipment.department_id=Department.department_id " +
+                   " where Department.department_id='' ";
+                        listequipment = DBContext.Database.SqlQuery<Eq>(query,
+                          new SqlParameter("department_id", department_id)
+                           ).ToList();
+                    }
+                    else
+                    {
 
 
-                    string query = "select equipmentId,equipment_name from Equipment inner join Department on Equipment.department_id=Department.department_id " +
-                           " where Department.department_id=@department_id ";
-                    listequipment = DBContext.Database.SqlQuery<Eq>(query,
-                      new SqlParameter("department_id", department_id)
-                       ).ToList();
-                }
+                        string query = "select equipmentId,equipment_name from Equipment inner join Department on Equipment.department_id=Department.department_id " +
+                               " where Department.department_id=@department_id ";
+                        listequipment = DBContext.Database.SqlQuery<Eq>(query,
+                          new SqlParameter("department_id", department_id)
+                           ).ToList();
+                    }
 
-                int totalrows = listequipment.Count;
-                int totalrowsafterfiltering = listequipment.Count;
+                    int totalrows = listequipment.Count;
+                    int totalrowsafterfiltering = listequipment.Count;
 
 
-                return Json(new { success = true, data = listequipment, draw = Request["draw"], recordsTotal = totalrows/*, recordsFiltered = totalrowsafterfiltering*/ }, JsonRequestBehavior.AllowGet);
-            }
+                    return Json(new { success = true, data = listequipment, draw = Request["draw"], recordsTotal = totalrows/*, recordsFiltered = totalrowsafterfiltering*/ }, JsonRequestBehavior.AllowGet);
+                } }
             catch (Exception)
             {
                 Response.Write("Có lỗi xảy ra, xin vui lòng nhập lại");
                 return new HttpStatusCodeResult(400);
-            }
+            } 
         }
         [Auther(RightID = "33,179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phan-xuong/xin-cap-vat-tu-sctx/getListSupply")]
         [HttpPost]
         public JsonResult getListSupply(String equipmentId)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+           using(QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            { 
 
-            {
-                List<SupplyPlanDB> m = db.Database.SqlQuery<SupplyPlanDB>("select supp.supplyid, s.supply_name,supp.dinh_muc, s.unit ,supp.quantity_plan,supp.id,(case when su.quantity is null then 0 else su.quantity end) 'quantity'  " +
-               "from Supply s inner join SupplyPlan supp on s.supply_id = supp.supplyid left join Supply_DuPhong su on supp.supplyid=su.supply_id where supp.equipmentid = @equipmentid and status=0", new SqlParameter("equipmentid", equipmentId)).ToList();
+                {
+                    List<SupplyPlanDB> m = db.Database.SqlQuery<SupplyPlanDB>("select supp.supplyid, s.supply_name,supp.dinh_muc, s.unit ,supp.quantity_plan,supp.id,(case when su.quantity is null then 0 else su.quantity end) 'quantity'  " +
+                   "from Supply s inner join SupplyPlan supp on s.supply_id = supp.supplyid left join Supply_DuPhong su on supp.supplyid=su.supply_id where supp.equipmentid = @equipmentid and status=0", new SqlParameter("equipmentid", equipmentId)).ToList();
 
-                return Json(m);
-            }
+                    return Json(m);
+                } }
         }
+
         [Auther(RightID = "33,179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phan-xuong/xin-cap-vat-tu-sctx/editoradd")]
         [HttpPost]
@@ -145,7 +148,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
                 {
                     transaction.Rollback();
 
-                    return Json(new { success = false, message = "Có lỗi xảy ra vui lòng nhập lại " }, JsonRequestBehavior.AllowGet);
+                    return new HttpStatusCodeResult(400);
                 }
             }
         }
@@ -160,7 +163,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
             {
                 try
                 {
-                    db.Database.ExecuteSqlCommand("update Supplyplan set status=1 where departmentid=@departmentid and month(date)=month(getDate())",
+                    db.Database.ExecuteSqlCommand("update Supplyplan set status=1,date=getdate() where departmentid=@departmentid and month(date)=month(getDate())",
                     new SqlParameter("departmentid", department_id));
                     db.SaveChanges();
 
@@ -171,7 +174,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
                 {
                     transaction.Rollback();
 
-                    return Json("Có lỗi xảy ra vui lòng nhập lại ", JsonRequestBehavior.AllowGet);
+                    return new HttpStatusCodeResult(400);
                 }
             }
         }

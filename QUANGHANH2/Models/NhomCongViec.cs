@@ -17,7 +17,7 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public NhomCongViec()
         {
-            this.CongViecs = new HashSet<CongViec>();
+            this.CongViec_NhomCongViec = new HashSet<CongViec_NhomCongViec>();
         }
     
         public int MaNhomCongViec { get; set; }
@@ -25,8 +25,8 @@ namespace QUANGHANH2.Models
         public string TenNhomCongViec { get; set; }
         public Nullable<int> MaDienCongViec { get; set; }
     
-        public virtual DienCongViec DienCongViec { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CongViec> CongViecs { get; set; }
+        public virtual ICollection<CongViec_NhomCongViec> CongViec_NhomCongViec { get; set; }
+        public virtual DienCongViec DienCongViec { get; set; }
     }
 }
