@@ -358,6 +358,9 @@
     <Compile Include="Models\CameraIncident.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Camera_Acceptance.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Car.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -7408,6 +7411,7 @@
     <Content Include="Views\TCLD\Occupation\SideOccupation.cshtml" />
     <Content Include="Views\Camera\DSQD.cshtml" />
     <Content Include="Views\LogIn\Account_Information.cshtml" />
+    <Content Include="Views\Camera\Suachua.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
