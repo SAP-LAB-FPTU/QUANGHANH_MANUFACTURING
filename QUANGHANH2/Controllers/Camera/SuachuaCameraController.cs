@@ -301,7 +301,7 @@ namespace QUANGHANH2.Controllers.Camera
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
 
             documentaryList = (from document in db.Documentaries
-                               where document.documentary_type.Equals("99") && (document.documentary_code == null || document.documentary_code == "") && document.person_created.Contains(person_created) && (document.date_created >= dtStart && document.date_created <= dtEnd)
+                               where document.documentary_type == 8 && (document.documentary_code == null || document.documentary_code == "") && document.person_created.Contains(person_created) && (document.date_created >= dtStart && document.date_created <= dtEnd)
                                join cam in db.Documentary_camera_repair_details on document.documentary_id equals cam.documentary_id
                                into temporary
                                select new
@@ -459,6 +459,7 @@ namespace QUANGHANH2.Controllers.Camera
                 catch (Exception e)
                 {
                     ViewBag.alert = true;
+                    e.Message.ToString();
                     TempData["shortMessage"] = true;
                     return Redirect("sua-chua");
                     throw e;
@@ -479,7 +480,7 @@ namespace QUANGHANH2.Controllers.Camera
                 {
                     Documentary documentary = new Documentary();
                     documentary.documentary_code = documentary_code == "" ? null : documentary_code;
-                    documentary.documentary_type = "99";
+                    documentary.documentary_type = 8;
                     documentary.department_id = department_id;
                     documentary.date_created = DateTime.Now;
                     documentary.person_created = Session["Name"] + "";
@@ -492,7 +493,7 @@ namespace QUANGHANH2.Controllers.Camera
                     foreach (var item in json)
                     {
                         string cameraId = (string)item.Value["id"];
-                        string department_id_to = (string)item.Value["department_id"];//
+                        string department_id_to = (string)item.Value["department_id"];
                         string repair_reason = (string)item.Value["repair_reason"];
                         string datestring = (string)item.Value["finish_date_plan"];
                         if (documentary_code != "")
@@ -501,7 +502,7 @@ namespace QUANGHANH2.Controllers.Camera
                             e.current_Status = 3;
                         }
                         Documentary_camera_repair_details drd = new Documentary_camera_repair_details();
-                        drd.Documentary_camera_repair_status = false;
+                        drd.Documentary_camera_repair_status = 0;
                         drd.repair_requirement = repair_reason;
                         drd.department_id = department_id_to;//
                         drd.documentary_id = documentary.documentary_id;
