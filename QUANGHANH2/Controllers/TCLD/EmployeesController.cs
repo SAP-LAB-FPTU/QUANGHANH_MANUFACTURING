@@ -47,239 +47,236 @@ namespace QUANGHANH2.Controllers.TCLD
             public string ghichu { get; set; }
         }
 
-        //public ActionResult exportExcelToListEmployees()
-        //{
-        //    List<RecordTotalEmployee> list = ListAllEmployees();
+        public ActionResult exportExcelToListEmployees()
+        {
+            List<RecordTotalEmployee> list = ListAllEmployees();
 
-        //    string path = HostingEnvironment.MapPath("/excel/TCLD/TongHopNhanSu/Tổng-hợp-nhân-lực.xlsx");
+            string path = HostingEnvironment.MapPath("/excel/TCLD/TongHopNhanSu/Tổng-hợp-nhân-lực.xlsx");
 
-        //    string saveAsPath = ("/excel/TCLD/download/Tổng-hợp-nhân-lực.xlsx");
-        //    FileInfo file = new FileInfo(path);
-        //    using (ExcelPackage excelPackage = new ExcelPackage(file))
-        //    {
-        //        ExcelWorkbook excelWorkbook = excelPackage.Workbook;
-        //        ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
-        //        int index = 3;
-        //        foreach (var item in list)
-        //        {
-        //            if (item.ghichu.Equals("tong") || item.ghichu.Equals("phongban"))
-        //            {
-        //                excelWorksheet.Cells[index, 1].Style.Font.Bold = true;
+            string saveAsPath = ("/excel/TCLD/download/Tổng-hợp-nhân-lực.xlsx");
+            FileInfo file = new FileInfo(path);
+            using (ExcelPackage excelPackage = new ExcelPackage(file))
+            {
+                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
+                ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
+                int index = 3;
+                foreach (var item in list)
+                {
+                    if (item.ghichu.Equals("tong") || item.ghichu.Equals("phongban"))
+                    {
+                        excelWorksheet.Cells[index, 1].Style.Font.Bold = true;
 
-        //            }
+                    }
 
-        //            excelWorksheet.Cells[index, 1].Value = item.dv;
-        //            excelWorksheet.Cells[index, 2].Value = item.ldts;
-        //            excelWorksheet.Cells[index, 3].Value = item.nu;
-        //            excelWorksheet.Cells[index, 4].Value = item.tsgt;
-        //            excelWorksheet.Cells[index, 5].Value = item.qd;
-        //            excelWorksheet.Cells[index, 6].Value = item.pppgd;
-        //            excelWorksheet.Cells[index, 7].Value = item.pqdcd;
-        //            excelWorksheet.Cells[index, 8].Value = item.nvkt;
-        //            excelWorksheet.Cells[index, 9].Value = item.cv;
-        //            excelWorksheet.Cells[index, 10].Value = item.ts1;
-        //            excelWorksheet.Cells[index, 11].Value = item.kt;
-        //            excelWorksheet.Cells[index, 12].Value = item.cdl;
-        //            excelWorksheet.Cells[index, 13].Value = item.khac;
-        //            excelWorksheet.Cells[index, 14].Value = item.ts2;
-        //            excelWorksheet.Cells[index, 15].Value = item.pv;
-        //            excelWorksheet.Cells[index, 16].Value = item.ktv;
-        //            excelWorksheet.Cells[index, 17].Value = item.pt;
-        //            index++;
-        //        }
+                    excelWorksheet.Cells[index, 1].Value = item.dv;
+                    excelWorksheet.Cells[index, 2].Value = item.ldts;
+                    excelWorksheet.Cells[index, 3].Value = item.nu;
+                    excelWorksheet.Cells[index, 4].Value = item.tsgt;
+                    excelWorksheet.Cells[index, 5].Value = item.qd;
+                    excelWorksheet.Cells[index, 6].Value = item.pppgd;
+                    excelWorksheet.Cells[index, 7].Value = item.pqdcd;
+                    excelWorksheet.Cells[index, 8].Value = item.nvkt;
+                    excelWorksheet.Cells[index, 9].Value = item.cv;
+                    excelWorksheet.Cells[index, 10].Value = item.ts1;
+                    excelWorksheet.Cells[index, 11].Value = item.kt;
+                    excelWorksheet.Cells[index, 12].Value = item.cdl;
+                    excelWorksheet.Cells[index, 13].Value = item.khac;
+                    excelWorksheet.Cells[index, 14].Value = item.ts2;
+                    excelWorksheet.Cells[index, 15].Value = item.pv;
+                    excelWorksheet.Cells[index, 16].Value = item.ktv;
+                    excelWorksheet.Cells[index, 17].Value = item.pt;
+                    index++;
+                }
 
-        //        excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath(saveAsPath)));
-        //        return Json(new { success = true, location = saveAsPath }, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
+                excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath(saveAsPath)));
+                return Json(new { success = true, location = saveAsPath }, JsonRequestBehavior.AllowGet);
+            }
+        }
 
-        //[HttpPost]
-        //public ActionResult getDataTongNhanSu()
-        //{
-        //    List<RecordTotalEmployee> list = ListAllEmployees();
-        //    int start = Convert.ToInt32(Request["start"]);
-        //    int length = Convert.ToInt32(Request["length"]);
-        //    int totalrows = list.Count;
-        //    int totalrowsafterfiltering = list.Count;
-        //    list = list.Skip(start).Take(length).ToList();
-        //    return Json(new { success = true, data = list, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+        [HttpPost]
+        public ActionResult getDataTongNhanSu()
+        {
+            List<RecordTotalEmployee> list = ListAllEmployees();
+            int start = Convert.ToInt32(Request["start"]);
+            int length = Convert.ToInt32(Request["length"]);
+            int totalrows = list.Count;
+            int totalrowsafterfiltering = list.Count;
+            list = list.Skip(start).Take(length).ToList();
+            return Json(new { success = true, data = list, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
 
 
-        //}
-        //private List<RecordTotalEmployee> ListAllEmployees()
-        //{
+        }
+        private List<RecordTotalEmployee> ListAllEmployees()
+        {
 
-        //    using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-        //    {
-        //        List<RecordTotalEmployee> listAll = new List<RecordTotalEmployee>();
-        //        List<RecordTotalEmployee> listAllTemp = new List<RecordTotalEmployee>();
-        //        //var congviec_nhomcongviec = (from p in db.CongViecs
-        //                                     //from p1 in p.NhomCongViecs
-        //                                     //select new { macv = p.MaCongViec, manhomcv = p1.MaNhomCongViec });
-        //        var recordAll = (from p in db.Departments
-        //                         join p1 in db.NhanViens on p.department_id equals p1.MaPhongBan
-        //                         join p2 in db.CongViecs on p1.MaCongViec equals p2.MaCongViec
-        //                         //join p3 in congviec_nhomcongviec on p2.MaCongViec equals p3.macv
-        //                         //join p4 in db.NhomCongViecs on p3.manhomcv equals p4.MaNhomCongViec
-        //                         join p5 in db.DienCongViecs on p4.MaDienCongViec equals p5.MaDienCongViec
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                List<RecordTotalEmployee> listAll = new List<RecordTotalEmployee>();
+                List<RecordTotalEmployee> listAllTemp = new List<RecordTotalEmployee>();
+                var recordAll = (from p in db.Departments
+                                 join p1 in db.NhanViens on p.department_id equals p1.MaPhongBan
+                                 join p2 in db.CongViecs on p1.MaCongViec equals p2.MaCongViec
+                                 join p3 in db.CongViec_NhomCongViec on p2.MaCongViec equals p3.MaCongViec
+                                 join p4 in db.NhomCongViecs on p3.MaNhomCongViec equals p4.MaNhomCongViec
+                                 join p5 in db.DienCongViecs on p4.MaDienCongViec equals p5.MaDienCongViec
 
-        //                         where p1.MaTrangThai == 1 & p.department_type != "Đơn vị sản xuất thuê ngoài"
-        //                         select
-        //                         new
-        //                         {
-        //                             idCongViec = p2.MaCongViec,
-        //                             idDienCongViec = p5.MaDienCongViec,
-        //                             idNhomCongViec = p3.manhomcv,
-        //                             tenPhongBan = p.department_name,
-        //                             maPhongBan = p.department_id,
-        //                             tenDonVi = p.department_type,
-        //                             gioiTinh = p1.GioiTinh,
-        //                             maNv = p1.MaNV,
+                                 where p1.MaTrangThai == 1 & p.department_type != "Đơn vị sản xuất thuê ngoài"
+                                 select
+                                 new
+                                 {
+                                     idCongViec = p2.MaCongViec,
+                                     idDienCongViec = p5.MaDienCongViec,
+                                     idNhomCongViec = p3.MaNhomCongViec,
+                                     tenPhongBan = p.department_name,
+                                     maPhongBan = p.department_id,
+                                     tenDonVi = p.department_type,
+                                     gioiTinh = p1.GioiTinh,
+                                     maNv = p1.MaNV,
 
-        //                         }
+                                 }
 
-        //                        ).ToList();
-        //        var listDonVi = (from p in db.Departments
-        //                         where p.department_type != "Đơn vị sản xuất thuê ngoài"
-        //                         select new
-        //                         {
-        //                             tenPhongBan = p.department_name,
-        //                             maPhongBan = p.department_id,
-        //                             tenDonVi = p.department_type,
+                                ).ToList();
+                var listDonVi = (from p in db.Departments
+                                 where p.department_type != "Đơn vị sản xuất thuê ngoài"
+                                 select new
+                                 {
+                                     tenPhongBan = p.department_name,
+                                     maPhongBan = p.department_id,
+                                     tenDonVi = p.department_type,
 
-        //                         }).ToList();
+                                 }).ToList();
 
-        //        foreach (var i in listDonVi.DistinctBy(x => x.tenDonVi).ToList())
-        //        {
-        //            var listPhongBan = listDonVi.Where(x => x.tenDonVi == i.tenDonVi);
-        //            var count = listPhongBan.Count();
-        //            List<RecordTotalEmployee> listPhongBanAll = new List<RecordTotalEmployee>();
-        //            List<RecordTotalEmployee> listPhongBanTemp = new List<RecordTotalEmployee>();
+                foreach (var i in listDonVi.DistinctBy(x => x.tenDonVi).ToList())
+                {
+                    var listPhongBan = listDonVi.Where(x => x.tenDonVi == i.tenDonVi);
+                    var count = listPhongBan.Count();
+                    List<RecordTotalEmployee> listPhongBanAll = new List<RecordTotalEmployee>();
+                    List<RecordTotalEmployee> listPhongBanTemp = new List<RecordTotalEmployee>();
 
-        //            foreach (var item in listPhongBan)
-        //            {
+                    foreach (var item in listPhongBan)
+                    {
 
-        //                var tonglaodongphongban = recordAll.Where(x => x.maPhongBan == item.maPhongBan).Count();
-        //                var tonglaodongphongbanNu = recordAll.Where(x => x.gioiTinh == false).Count();
-        //                var quandocNumber = recordAll.Where(x => x.maPhongBan == item.maPhongBan & x.idNhomCongViec == 1).Count();
-        //                var ppOrPgd = recordAll.Where(x => x.maPhongBan == item.maPhongBan & x.idNhomCongViec == 2).Count();
-        //                var pqdcdV = recordAll.Where(x => x.maPhongBan == item.maPhongBan & x.idNhomCongViec == 3).Count();
-        //                var nvktV = recordAll.Where(x => x.maPhongBan == item.maPhongBan & x.idNhomCongViec == 4).Count();
-        //                var cvV = recordAll.Where(x => x.maPhongBan == item.maPhongBan & x.idNhomCongViec == 5).Count();
-        //                var ktvV = recordAll.Where(x => x.maPhongBan == item.maPhongBan & x.idNhomCongViec == 6).Count();
-        //                var cdlV = recordAll.Where(x => x.maPhongBan == item.maPhongBan & x.idNhomCongViec == 7).Count();
-        //                //recordAll.Where(x => x.maPhongBan == i.maPhongBan ).Count();
-        //                var khacV = recordAll.Where(x => x.maPhongBan == item.maPhongBan & x.idNhomCongViec != 6 & x.idNhomCongViec != 7 & x.idDienCongViec == 2).Count(); ;
-        //                //recordAll.Where(x => x.maPhongBan == i.maPhongBan).Count();                      
-        //                var pvV = recordAll.Where(x => x.maPhongBan == item.maPhongBan & x.idNhomCongViec == 8).Count();
-        //                //recordAll.Where(x => x.maPhongBan == i.maPhongBan).Count();
-        //                var ktV = recordAll.Where(x => x.maPhongBan == item.maPhongBan & x.idNhomCongViec == 9).Count();
-        //                var ptV = recordAll.Where(x => x.maPhongBan == item.maPhongBan & x.idNhomCongViec == 10).Count();
-        //                //recordAll.Where(x => x.maPhongBan == i.maPhongBan).Count();
-        //                RecordTotalEmployee phongban = new RecordTotalEmployee
-        //                {
-        //                    dv = item.tenPhongBan,
-        //                    ldts = tonglaodongphongban,
-        //                    nu = tonglaodongphongbanNu,
-        //                    tsgt = quandocNumber + ppOrPgd + nvktV + cvV + pqdcdV,
-        //                    qd = quandocNumber,
-        //                    pppgd = ppOrPgd,
-        //                    pqdcd = pqdcdV,
-        //                    nvkt = nvktV,
-        //                    cv = cvV,
-        //                    ts1 = ktvV + cdlV + khacV,
-        //                    kt = ktvV,
-        //                    cdl = cdlV,
-        //                    khac = khacV,
-        //                    ts2 = pvV + ktvV + ptV,
-        //                    pv = pvV,
-        //                    ktv = ktvV,
-        //                    pt = ptV,
-        //                    ghichu = "donvi"
-        //                };
-        //                listPhongBanTemp.Add(phongban);
-        //            }
+                        var tonglaodongphongban = recordAll.Where(x => x.maPhongBan == item.maPhongBan).Count();
+                        var tonglaodongphongbanNu = recordAll.Where(x => x.gioiTinh == false).Count();
+                        var quandocNumber = recordAll.Where(x => x.maPhongBan == item.maPhongBan & x.idNhomCongViec == 1).Count();
+                        var ppOrPgd = recordAll.Where(x => x.maPhongBan == item.maPhongBan & x.idNhomCongViec == 2).Count();
+                        var pqdcdV = recordAll.Where(x => x.maPhongBan == item.maPhongBan & x.idNhomCongViec == 3).Count();
+                        var nvktV = recordAll.Where(x => x.maPhongBan == item.maPhongBan & x.idNhomCongViec == 4).Count();
+                        var cvV = recordAll.Where(x => x.maPhongBan == item.maPhongBan & x.idNhomCongViec == 5).Count();
+                        var ktvV = recordAll.Where(x => x.maPhongBan == item.maPhongBan & x.idNhomCongViec == 6).Count();
+                        var cdlV = recordAll.Where(x => x.maPhongBan == item.maPhongBan & x.idNhomCongViec == 7).Count();
+                        //recordAll.Where(x => x.maPhongBan == i.maPhongBan ).Count();
+                                              
+                        var pvV = recordAll.Where(x => x.maPhongBan == item.maPhongBan & x.idNhomCongViec == 8).Count();
+                        //recordAll.Where(x => x.maPhongBan == i.maPhongBan).Count();
+                        var ktV = recordAll.Where(x => x.maPhongBan == item.maPhongBan & x.idNhomCongViec == 9).Count();
+                        var ptV = recordAll.Where(x => x.maPhongBan == item.maPhongBan & x.idNhomCongViec == 10).Count();
+                        var khacV = tonglaodongphongban - (quandocNumber + ppOrPgd + pqdcdV + nvktV + cvV + ktvV + cdlV + pvV + ktV + ptV);
+                        //recordAll.Where(x => x.maPhongBan == i.maPhongBan).Count();
+                        RecordTotalEmployee phongban = new RecordTotalEmployee
+                        {
+                            dv = item.tenPhongBan,
+                            ldts = tonglaodongphongban,
+                            nu = tonglaodongphongbanNu,
+                            tsgt = quandocNumber + ppOrPgd + nvktV + cvV + pqdcdV,
+                            qd = quandocNumber,
+                            pppgd = ppOrPgd,
+                            pqdcd = pqdcdV,
+                            nvkt = nvktV,
+                            cv = cvV,
+                            ts1 = ktvV + cdlV + khacV,
+                            kt = ktvV,
+                            cdl = cdlV,
+                            khac = khacV,
+                            ts2 = pvV + ktvV + ptV,
+                            pv = pvV,
+                            ktv = ktvV,
+                            pt = ptV,
+                            ghichu = "donvi"
+                        };
+                        listPhongBanTemp.Add(phongban);
+                    }
 
-        //            //first row donvi=>phong ban
+                    //first row donvi=>phong ban
 
-        //            var tonglaodongdonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi).Count(); ;
-        //            var tonglaodongdonviNu = recordAll.Where(x => x.gioiTinh == false & x.tenDonVi == i.tenDonVi).Count();
-        //            var quandocNumberdonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi & x.idNhomCongViec == 1).Count();
-        //            var ppOrPgddonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi & x.idNhomCongViec == 2).Count();
-        //            var pqdcdVdonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi & x.idNhomCongViec == 3).Count(); ;
-        //            var nvktVdonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi & x.idNhomCongViec == 4).Count();
-        //            var cvVdonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi & x.idNhomCongViec == 5).Count();
-        //            var ktvVdonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi & x.idNhomCongViec == 6).Count();
-        //            var cdlVdonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi & x.idNhomCongViec == 7).Count();
-        //            var khacVdonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi & x.idNhomCongViec != 6 & x.idNhomCongViec != 7 & x.idDienCongViec == 2).Count(); ;
-        //            var pvVdonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi & x.idNhomCongViec == 8).Count();
-        //            var ktVdonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi & x.idNhomCongViec == 9).Count();
-        //            var ptVdonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi & x.idNhomCongViec == 10).Count();
+                    var tonglaodongdonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi).Count(); ;
+                    var tonglaodongdonviNu = recordAll.Where(x => x.gioiTinh == false & x.tenDonVi == i.tenDonVi).Count();
+                    var quandocNumberdonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi & x.idNhomCongViec == 1).Count();
+                    var ppOrPgddonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi & x.idNhomCongViec == 2).Count();
+                    var pqdcdVdonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi & x.idNhomCongViec == 3).Count(); ;
+                    var nvktVdonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi & x.idNhomCongViec == 4).Count();
+                    var cvVdonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi & x.idNhomCongViec == 5).Count();
+                    var ktvVdonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi & x.idNhomCongViec == 6).Count();
+                    var cdlVdonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi & x.idNhomCongViec == 7).Count();
+                    var pvVdonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi & x.idNhomCongViec == 8).Count();
+                    var ktVdonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi & x.idNhomCongViec == 9).Count();
+                    var ptVdonvi = recordAll.Where(x => x.tenDonVi == i.tenDonVi & x.idNhomCongViec == 10).Count();
+                    var khacVdonvi = tonglaodongdonvi - (quandocNumberdonvi + ppOrPgddonvi + pqdcdVdonvi + nvktVdonvi + cvVdonvi + ktvVdonvi + cdlVdonvi + pvVdonvi + ktVdonvi + ptVdonvi);
 
-        //            listPhongBanAll.Add(new RecordTotalEmployee
-        //            {
-        //                dv = i.tenDonVi.ToUpper(),
-        //                ldts = tonglaodongdonvi,
-        //                nu = tonglaodongdonviNu,
-        //                tsgt = quandocNumberdonvi + ppOrPgddonvi + nvktVdonvi + cvVdonvi + pqdcdVdonvi,
-        //                qd = quandocNumberdonvi,
-        //                pppgd = ppOrPgddonvi,
-        //                pqdcd = pqdcdVdonvi,
-        //                nvkt = nvktVdonvi,
-        //                cv = cvVdonvi,
-        //                ts1 = ktvVdonvi + cdlVdonvi + khacVdonvi,
-        //                kt = ktvVdonvi,
-        //                cdl = cdlVdonvi,
-        //                khac = khacVdonvi,
-        //                ts2 = pvVdonvi + ktVdonvi + ptVdonvi,
-        //                pv = pvVdonvi,
-        //                ktv = ktVdonvi,
-        //                pt = ptVdonvi,
-        //                ghichu = "phongban"
-        //            });
-        //            listPhongBanAll.AddRange(listPhongBanTemp);
+                    listPhongBanAll.Add(new RecordTotalEmployee
+                    {
+                        dv = i.tenDonVi.ToUpper(),
+                        ldts = tonglaodongdonvi,
+                        nu = tonglaodongdonviNu,
+                        tsgt = quandocNumberdonvi + ppOrPgddonvi + nvktVdonvi + cvVdonvi + pqdcdVdonvi,
+                        qd = quandocNumberdonvi,
+                        pppgd = ppOrPgddonvi,
+                        pqdcd = pqdcdVdonvi,
+                        nvkt = nvktVdonvi,
+                        cv = cvVdonvi,
+                        ts1 = ktvVdonvi + cdlVdonvi + khacVdonvi,
+                        kt = ktvVdonvi,
+                        cdl = cdlVdonvi,
+                        khac = khacVdonvi,
+                        ts2 = pvVdonvi + ktVdonvi + ptVdonvi,
+                        pv = pvVdonvi,
+                        ktv = ktVdonvi,
+                        pt = ptVdonvi,
+                        ghichu = "phongban"
+                    });
+                    listPhongBanAll.AddRange(listPhongBanTemp);
 
 
 
-        //            listAllTemp.AddRange(listPhongBanAll);
-        //        }
+                    listAllTemp.AddRange(listPhongBanAll);
+                }
 
-        //        //total Tong
+                //total Tong
 
-        //        var tonglaodongAll = recordAll.Count();
-        //        var tonglaodongAllNu = recordAll.Where(x => x.gioiTinh == false).Count();
-        //        var quandocNumberAll = recordAll.Where(x => x.idNhomCongViec == 1).Count();
-        //        var ppOrPgdAll = recordAll.Where(x => x.idNhomCongViec == 2).Count();
-        //        var pqdcdVAll = recordAll.Where(x => x.idNhomCongViec == 3).Count(); ;
-        //        var nvktVAll = recordAll.Where(x => x.idNhomCongViec == 4).Count();
-        //        var cvVAll = recordAll.Where(x => x.idNhomCongViec == 5).Count();
-        //        var ktvVAll = recordAll.Where(x => x.idNhomCongViec == 6).Count();
-        //        var cdlVAll = recordAll.Where(x => x.idNhomCongViec == 7).Count();
-        //        var khacVAll = recordAll.Where(x => x.idNhomCongViec != 6 & x.idNhomCongViec != 7 & x.idDienCongViec == 2).Count();
-        //        var pvVAll = recordAll.Where(x => x.idNhomCongViec == 8).Count();
-        //        var ktVAll = recordAll.Where(x => x.idNhomCongViec == 9).Count();
-        //        var ptVAll = recordAll.Where(x => x.idNhomCongViec == 10).Count();
-        //        listAll.Add(new RecordTotalEmployee
-        //        {
-        //            dv = "Tổng ",
-        //            ldts = tonglaodongAll,
-        //            nu = tonglaodongAllNu,
-        //            tsgt = quandocNumberAll + pqdcdVAll + nvktVAll + cvVAll + pqdcdVAll,
-        //            qd = quandocNumberAll,
-        //            pppgd = ppOrPgdAll,
-        //            pqdcd = pqdcdVAll,
-        //            nvkt = nvktVAll,
-        //            cv = cvVAll,
-        //            ts1 = ktvVAll + cdlVAll + khacVAll,
-        //            kt = ktvVAll,
-        //            cdl = cdlVAll,
-        //            khac = khacVAll,
-        //            ts2 = pvVAll + ktVAll + ptVAll,
-        //            pv = pvVAll,
-        //            ktv = ktVAll,
-        //            pt = ptVAll,
-        //            ghichu = "tong"
-        //        });
+                var tonglaodongAll = recordAll.Count();
+                var tonglaodongAllNu = recordAll.Where(x => x.gioiTinh == false).Count();
+                var quandocNumberAll = recordAll.Where(x => x.idNhomCongViec == 1).Count();
+                var ppOrPgdAll = recordAll.Where(x => x.idNhomCongViec == 2).Count();
+                var pqdcdVAll = recordAll.Where(x => x.idNhomCongViec == 3).Count(); ;
+                var nvktVAll = recordAll.Where(x => x.idNhomCongViec == 4).Count();
+                var cvVAll = recordAll.Where(x => x.idNhomCongViec == 5).Count();
+                var ktvVAll = recordAll.Where(x => x.idNhomCongViec == 6).Count();
+                var cdlVAll = recordAll.Where(x => x.idNhomCongViec == 7).Count();          
+                var pvVAll = recordAll.Where(x => x.idNhomCongViec == 8).Count();
+                var ktVAll = recordAll.Where(x => x.idNhomCongViec == 9).Count();
+                var ptVAll = recordAll.Where(x => x.idNhomCongViec == 10).Count();
+                var khacVAll = tonglaodongAll - (quandocNumberAll + ppOrPgdAll + pqdcdVAll + nvktVAll + cvVAll + ktvVAll + cdlVAll + pvVAll + ktVAll + ptVAll);
+                listAll.Add(new RecordTotalEmployee
+                {
+                    dv = "Tổng ",
+                    ldts = tonglaodongAll,
+                    nu = tonglaodongAllNu,
+                    tsgt = quandocNumberAll + pqdcdVAll + nvktVAll + cvVAll + pqdcdVAll,
+                    qd = quandocNumberAll,
+                    pppgd = ppOrPgdAll,
+                    pqdcd = pqdcdVAll,
+                    nvkt = nvktVAll,
+                    cv = cvVAll,
+                    ts1 = ktvVAll + cdlVAll + khacVAll,
+                    kt = ktvVAll,
+                    cdl = cdlVAll,
+                    khac = khacVAll,
+                    ts2 = pvVAll + ktVAll + ptVAll,
+                    pv = pvVAll,
+                    ktv = ktVAll,
+                    pt = ptVAll,
+                    ghichu = "tong"
+                });
 
 
 
@@ -290,47 +287,47 @@ namespace QUANGHANH2.Controllers.TCLD
 
 
 
-        //        //total phan xuong 
+                //total phan xuong 
 
-        //        var tonglaodongphanxuong = recordAll.Where(x => x.tenDonVi == "Phân xưởng sản xuất chính" | x.tenDonVi == "Phân xưởng thuộc về phục vụ").Count(); ;
-        //        var tonglaodongphanxuongNu = recordAll.Where(x => x.gioiTinh == false & (x.tenDonVi == "Phân xưởng sản xuất chính" | x.tenDonVi == "Phân xưởng thuộc về phục vụ")).Count();
-        //        var quandocNumberphanxuong = recordAll.Where(x => (x.tenDonVi == "Phân xưởng sản xuất chính" | x.tenDonVi == "Phân xưởng thuộc về phục vụ") & x.idNhomCongViec == 1).Count();
-        //        var ppOrPgdphanxuong = recordAll.Where(x => (x.tenDonVi == "Phân xưởng sản xuất chính" | x.tenDonVi == "Phân xưởng thuộc về phục vụ") & x.idNhomCongViec == 2).Count();
-        //        var pqdcdVphanxuong = recordAll.Where(x => (x.tenDonVi == "Phân xưởng sản xuất chính" | x.tenDonVi == "Phân xưởng thuộc về phục vụ") & x.idNhomCongViec == 3).Count(); ;
-        //        var nvktVphanxuong = recordAll.Where(x => (x.tenDonVi == "Phân xưởng sản xuất chính" | x.tenDonVi == "Phân xưởng thuộc về phục vụ") & x.idNhomCongViec == 4).Count();
-        //        var cvVphanxuong = recordAll.Where(x => (x.tenDonVi == "Phân xưởng sản xuất chính" | x.tenDonVi == "Phân xưởng thuộc về phục vụ") & x.idNhomCongViec == 5).Count();
-        //        var ktvVphanxuong = recordAll.Where(x => (x.tenDonVi == "Phân xưởng sản xuất chính" | x.tenDonVi == "Phân xưởng thuộc về phục vụ") & x.idNhomCongViec == 6).Count();
-        //        var cdlVphanxuong = recordAll.Where(x => (x.tenDonVi == "Phân xưởng sản xuất chính" | x.tenDonVi == "Phân xưởng thuộc về phục vụ") & x.idNhomCongViec == 7).Count();
-        //        var khacVphanxuong = recordAll.Where(x => (x.tenDonVi == "Phân xưởng sản xuất chính" | x.tenDonVi == "Phân xưởng thuộc về phục vụ") & x.idNhomCongViec != 6 & x.idNhomCongViec != 7 & x.idDienCongViec == 2).Count();
-        //        var pvVphanxuong = recordAll.Where(x => (x.tenDonVi == "Phân xưởng sản xuất chính" | x.tenDonVi == "Phân xưởng thuộc về phục vụ") & x.idNhomCongViec == 8).Count();
-        //        var ktVphanxuong = recordAll.Where(x => (x.tenDonVi == "Phân xưởng sản xuất chính" | x.tenDonVi == "Phân xưởng thuộc về phục vụ") & x.idNhomCongViec == 9).Count();
-        //        var ptVphanxuong = recordAll.Where(x => (x.tenDonVi == "Phân xưởng sản xuất chính" | x.tenDonVi == "Phân xưởng thuộc về phục vụ") & x.idNhomCongViec == 10).Count();
-        //        listAll.Add(new RecordTotalEmployee
-        //        {
-        //            dv = "PHÂN XƯỞNG",
-        //            ldts = tonglaodongphanxuong,
-        //            nu = tonglaodongphanxuongNu,
-        //            tsgt = quandocNumberphanxuong + pqdcdVphanxuong + nvktVphanxuong + cvVphanxuong + ppOrPgdphanxuong,
-        //            qd = quandocNumberphanxuong,
-        //            pppgd = ppOrPgdphanxuong,
-        //            pqdcd = pqdcdVphanxuong,
-        //            nvkt = nvktVphanxuong,
-        //            cv = cvVphanxuong,
-        //            ts1 = ktvVphanxuong + cdlVphanxuong + khacVphanxuong,
-        //            kt = ktvVphanxuong,
-        //            cdl = cdlVphanxuong,
-        //            khac = khacVphanxuong,
-        //            ts2 = pvVphanxuong + ktVphanxuong + ptVphanxuong,
-        //            pv = pvVphanxuong,
-        //            ktv = ktVphanxuong,
-        //            pt = ptVphanxuong,
-        //            ghichu = "phongban"
-        //        });
-        //        listAll.AddRange(listAllTemp);
+                var tonglaodongphanxuong = recordAll.Where(x => x.tenDonVi == "Phân xưởng sản xuất chính" | x.tenDonVi == "Phân xưởng thuộc về phục vụ").Count(); ;
+                var tonglaodongphanxuongNu = recordAll.Where(x => x.gioiTinh == false & (x.tenDonVi == "Phân xưởng sản xuất chính" | x.tenDonVi == "Phân xưởng thuộc về phục vụ")).Count();
+                var quandocNumberphanxuong = recordAll.Where(x => (x.tenDonVi == "Phân xưởng sản xuất chính" | x.tenDonVi == "Phân xưởng thuộc về phục vụ") & x.idNhomCongViec == 1).Count();
+                var ppOrPgdphanxuong = recordAll.Where(x => (x.tenDonVi == "Phân xưởng sản xuất chính" | x.tenDonVi == "Phân xưởng thuộc về phục vụ") & x.idNhomCongViec == 2).Count();
+                var pqdcdVphanxuong = recordAll.Where(x => (x.tenDonVi == "Phân xưởng sản xuất chính" | x.tenDonVi == "Phân xưởng thuộc về phục vụ") & x.idNhomCongViec == 3).Count(); ;
+                var nvktVphanxuong = recordAll.Where(x => (x.tenDonVi == "Phân xưởng sản xuất chính" | x.tenDonVi == "Phân xưởng thuộc về phục vụ") & x.idNhomCongViec == 4).Count();
+                var cvVphanxuong = recordAll.Where(x => (x.tenDonVi == "Phân xưởng sản xuất chính" | x.tenDonVi == "Phân xưởng thuộc về phục vụ") & x.idNhomCongViec == 5).Count();
+                var ktvVphanxuong = recordAll.Where(x => (x.tenDonVi == "Phân xưởng sản xuất chính" | x.tenDonVi == "Phân xưởng thuộc về phục vụ") & x.idNhomCongViec == 6).Count();
+                var cdlVphanxuong = recordAll.Where(x => (x.tenDonVi == "Phân xưởng sản xuất chính" | x.tenDonVi == "Phân xưởng thuộc về phục vụ") & x.idNhomCongViec == 7).Count();  
+                var pvVphanxuong = recordAll.Where(x => (x.tenDonVi == "Phân xưởng sản xuất chính" | x.tenDonVi == "Phân xưởng thuộc về phục vụ") & x.idNhomCongViec == 8).Count();
+                var ktVphanxuong = recordAll.Where(x => (x.tenDonVi == "Phân xưởng sản xuất chính" | x.tenDonVi == "Phân xưởng thuộc về phục vụ") & x.idNhomCongViec == 9).Count();
+                var ptVphanxuong = recordAll.Where(x => (x.tenDonVi == "Phân xưởng sản xuất chính" | x.tenDonVi == "Phân xưởng thuộc về phục vụ") & x.idNhomCongViec == 10).Count();
+                var khacVphanxuong = tonglaodongphanxuong - (quandocNumberphanxuong + ppOrPgdphanxuong + pqdcdVphanxuong + nvktVphanxuong + cvVphanxuong + ktvVphanxuong + cdlVphanxuong + pvVphanxuong + ktVphanxuong + ptVphanxuong);
+                listAll.Add(new RecordTotalEmployee
+                {
+                    dv = "PHÂN XƯỞNG",
+                    ldts = tonglaodongphanxuong,
+                    nu = tonglaodongphanxuongNu,
+                    tsgt = quandocNumberphanxuong + pqdcdVphanxuong + nvktVphanxuong + cvVphanxuong + ppOrPgdphanxuong,
+                    qd = quandocNumberphanxuong,
+                    pppgd = ppOrPgdphanxuong,
+                    pqdcd = pqdcdVphanxuong,
+                    nvkt = nvktVphanxuong,
+                    cv = cvVphanxuong,
+                    ts1 = ktvVphanxuong + cdlVphanxuong + khacVphanxuong,
+                    kt = ktvVphanxuong,
+                    cdl = cdlVphanxuong,
+                    khac = khacVphanxuong,
+                    ts2 = pvVphanxuong + ktVphanxuong + ptVphanxuong,
+                    pv = pvVphanxuong,
+                    ktv = ktVphanxuong,
+                    pt = ptVphanxuong,
+                    ghichu = "phongban"
+                });
+                listAll.AddRange(listAllTemp);
 
-        //        return listAll;
-        //    }
-        //}
+                return listAll;
+            }
+        }
 
 
 
