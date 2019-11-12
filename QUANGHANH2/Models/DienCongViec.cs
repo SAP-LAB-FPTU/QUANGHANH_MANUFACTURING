@@ -21,7 +21,7 @@ namespace QUANGHANH2.Models
         }
     
         public int MaDienCongViec { get; set; }
-        public string DienCongViec1 { get; set; }
+        public string TenDienCongViec { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<NhomCongViec> NhomCongViecs { get; set; }

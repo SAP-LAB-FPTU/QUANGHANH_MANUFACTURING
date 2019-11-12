@@ -26,7 +26,7 @@ namespace QUANGHANH2.Controllers.TCLD.Occupation
                 try
                 {
                     var sqlList = (from x in db.DienCongViecs
-                                   select new { MaDienCongViec = x.MaDienCongViec, DienCongViec = x.DienCongViec1 }).ToList();
+                                   select new { MaDienCongViec = x.MaDienCongViec, DienCongViec = x.TenDienCongViec }).ToList();
                     return Json(new { sqlList = sqlList, success = true }, JsonRequestBehavior.AllowGet);
                 }
                 catch(Exception e)
