@@ -60,7 +60,6 @@
                             <th>Tên thiết bị</th>
                             <th>Tình trạng hiện tại</th>
                             <th>Thời gian kiểm định dự tính</th>
-                            <th>Thời gian bắt đầu kiểm định</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -69,24 +68,6 @@
         </div>
     </div>
 </div>
-
-<form action="" method="POST" id="myupdateform" role="form">
-    <div id="myupdate" class="modal">
-        <div class="modal-content">
-            <div class="modal-header center">
-                <h3>Bắt đầu kiểm định thiết bị</h3>
-            </div>
-            <div class="modal-body">
-                <h5>Thiết bị sẽ được mang đi kiểm định trong hôm nay</h5>
-            </div>
-            <div class="modal-footer">
-                <input type="hidden" readonly id="id-update" />
-                <button class="waves-effect waves-light btn blue darken-2">Lưu</button>
-                <button type="button" class="btn light-blue modal-close darken-2" id="exit-update-button">Đóng</button>
-            </div>
-        </div>
-    </div>
-</form>
 
 <form action="" method="POST" id="myeditform" role="form">
     <div id="myedit" class="modal">
@@ -218,13 +199,9 @@
                     { "data": "equipment_name", "name": "equipment_name" },
                     { "data": "statusname", "name": "statusname" },
                     { "data": "stringExpectedTime", "name": "inspect_expected_date" },
-                    { "data": "stringStartTime", "name": "inspect_start_date" },
                     {
-                        "data": "updateAble", "render": function (data) {
-                            if (data.startsWith("1"))
-                                return "<a href=\"#myupdate\" data-toggle=\"modal\" class=\"open-UpdateModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-inspect_id=\"" + data.substr(1) + "\">Bắt&nbsp;đầu</a>";
-                            else
-                                return "<a href=\"#myedit\" data-toggle=\"modal\" class=\"open-EditModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-inspect_id=\"" + data.substr(1) + "\">Kết&nbsp;thúc</a>";
+                        "data": {}, "render": function (data) {
+                            return "<a href=\"#myedit\" data-toggle=\"modal\" class=\"open-EditModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-equipmentId=\"" + data.equipmentId + "\" data-inspect_id=\"" + data.inspect_id + "\">Cập&nbsp;nhật</a>";
                         },
                         "orderable": false,
                         "searchable": false,
@@ -232,7 +209,7 @@
                     }
                 ],
                 "serverSide": "true",
-                "order": [3, "desc"],
+                "order": [3, "asc"],
                 "rowId": "incident_id",
                 "lengthChange": false,
                 "searching": false,
@@ -252,41 +229,12 @@
         $(document).ready(function () {
             var dataTable = $('#complex_header').DataTable();
 
-            //ajax update
-            $("#myupdateform").submit(function (e) {
-                $("#pre-load").show();
-                $.ajax({
-                    type: "POST",
-                    url: "/phong-cdvt/kiem-dinh/update",
-                    dataType: "json",
-                    success: function (data) {
-                        dataTable.ajax.reload();
-                        if(data.success == true)
-                            successAlert('Thành công', data.message);
-                        else
-                            errorAlert('Lỗi', data.message);
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        $('#pre-load').hide();
-                        errorAlert('Lỗi', 'Có lỗi xảy ra');
-                    },
-                    data: {
-                        inspect_id: $('#id-update').val(),
-                    },
-                    cache: false
-                }).done(function () {
-                    $("#pre-load").hide();
-                    $("#exit-update-button").click();
-                })
-                return false;
-            });
-
-            //ajax edit
+            //ajax add
             $("#myeditform").submit(function (e) {
                 $("#pre-load").show();
                 $.ajax({
                     type: "POST",
-                    url: "/phong-cdvt/kiem-dinh/edit",
+                    url: "/phong-cdvt/kiem-dinh/add",
                     dataType: "json",
                     success: function (data) {
                         dataTable.ajax.reload();
@@ -321,15 +269,9 @@
             });
         });
 
-        //get data and push to modal update
-        $(document).on("click", ".open-UpdateModal", function () {
-            var inspect_id = $(this).data('inspect_id');
-            $('#id-update').val(inspect_id);
-            $('#myupdate h3').text("Bắt đầu kiểm định cho thiết bị " + $(this).parent().parent().children().eq(0).text())
-        });
-
         //get data and push to modal edit
         $(document).on("click", ".open-EditModal", function () {
+            $('#myedit h3').text("Cập nhật kiểm định cho thiết bị " + $(this).data('equipmentId'));
             var inspect_id = $(this).data('inspect_id');
             $('#id-edit').val(inspect_id);
             var today = new Date();
@@ -343,9 +285,8 @@
             if (mm < 10) {
                 mm = '0' + mm;
             }
-            var today = dd + '/' + mm + '/' + (yyyy + 30);
+            var today = dd + '/' + mm + '/' + (yyyy + 1);
             $('#myedit .minDate').val(today);
-            $('#myedit h3').text("Kết thúc kiểm định cho thiết bị " + $(this).parent().parent().children().eq(0).text())
         });
     </script>
 }

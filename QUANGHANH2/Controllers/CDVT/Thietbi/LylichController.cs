@@ -98,7 +98,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             {
                 Equipment_InspectionDB temp = EI[i];
                 DateTime dateTime;
-                DateTime.TryParse(temp.inspect_start_date.ToString(), out dateTime);
+                DateTime.TryParse(temp.inspect_expected_date.ToString(), out dateTime);
                 foreach (Equipment_InspectionByYear item in listKD)
                 {
                     var stringdate = dateTime.ToString("yyyy");

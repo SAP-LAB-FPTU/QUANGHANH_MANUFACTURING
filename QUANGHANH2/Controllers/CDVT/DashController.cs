@@ -222,9 +222,9 @@ namespace QUANGHANHCORE.Controllers.CDVT
                              " where do.documentary_id = a.documentary_id and do.documentary_type = 6 " +
                              " and MONTH(a.acceptance_date) = " + monthnull + " and YEAR(a.acceptance_date) = " + yearnull + " " +
                              " group by DAY(a.acceptance_date)";
-                queryKD = "select DAY(e.inspect_end_date) as [date] ,COUNT(e.inspect_end_date) as soluong " +
-                            " from Equipment_Inspection e where MONTH(e.inspect_end_date) = " + monthnull + " and YEAR(e.inspect_end_date) = " + yearnull + " " +
-                            " group by DAY(e.inspect_end_date)";
+                queryKD = "select DAY(e.inspect_expected_date) as [date] ,COUNT(e.inspect_expected_date) as soluong " +
+                            " from Equipment_Inspection e where MONTH(e.inspect_expected_date) = " + monthnull + " and YEAR(e.inspect_expected_date) = " + yearnull + " " +
+                            " group by DAY(e.inspect_expected_date)";
             }
             if (type == "month")
             {
@@ -246,9 +246,9 @@ namespace QUANGHANHCORE.Controllers.CDVT
                              " where do.documentary_id = a.documentary_id and do.documentary_type = 6 " +
                              " and MONTH(a.acceptance_date) = " + thang + " and YEAR(a.acceptance_date) = " + nam + " " +
                              " group by DAY(a.acceptance_date)";
-                queryKD = "select DAY(e.inspect_end_date) as [date] ,COUNT(e.inspect_end_date) as soluong " +
-                            " from Equipment_Inspection e where MONTH(e.inspect_end_date) = " + thang + " and YEAR(e.inspect_end_date) = " + nam + " " +
-                            " group by DAY(e.inspect_end_date)";
+                queryKD = "select DAY(e.inspect_expected_date) as [date] ,COUNT(e.inspect_expected_date) as soluong " +
+                            " from Equipment_Inspection e where MONTH(e.inspect_expected_date) = " + thang + " and YEAR(e.inspect_expected_date) = " + nam + " " +
+                            " group by DAY(e.inspect_expected_date)";
             }
             if (type == "year")
             {
@@ -280,7 +280,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                 queryKD = "select CAST(t.[month] as int) as [date], count(e.equipmentId) as soluong from (select number as [month] " +
                              " FROM(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) a(n), " +
                              " (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a where number <= 12 and number > 0) as t left join Equipment_Inspection e " +
-                             " on t.[month] = month(e.inspect_end_date) and YEAR(e.inspect_end_date) = "+nam+" group by t.[month]";
+                             " on t.[month] = month(e.inspect_expected_date) and YEAR(e.inspect_expected_date) = "+nam+" group by t.[month]";
             }
             if (type == "yearss")
             {
@@ -313,7 +313,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                              " FROM(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) a(n), " +
                              " (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a " +
                              " where DATEADD(year, Number, '01/01/2010') <= GETDATE()) as t left join Equipment_Inspection e " +
-                             " on t.[year] = year(e.inspect_end_date) group by t.[year] order by t.[year] asc";
+                             " on t.[year] = year(e.inspect_expected_date) group by t.[year] order by t.[year] asc";
             }
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
