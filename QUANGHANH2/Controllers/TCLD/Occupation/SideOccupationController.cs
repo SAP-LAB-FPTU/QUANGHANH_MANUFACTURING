@@ -22,10 +22,19 @@ namespace QUANGHANH2.Controllers.TCLD.Occupation
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                var sqlList = (from x in db.DienCongViecs
-                               select new { MaDienCongViec = x.MaDienCongViec, DienCongViec = x.DienCongViec1 });
-                return Json(new { sqlList = sqlList, success = true }, JsonRequestBehavior.AllowGet);   
+                db.Configuration.LazyLoadingEnabled = true;
+                try
+                {
+                    var sqlList = (from x in db.DienCongViecs
+                                   select new { MaDienCongViec = x.MaDienCongViec, DienCongViec = x.DienCongViec1 }).ToList();
+                    return Json(new { sqlList = sqlList, success = true }, JsonRequestBehavior.AllowGet);
+                }
+                catch(Exception e)
+                {
+
+                }
             }
+            return null;
         }
     }
 }
