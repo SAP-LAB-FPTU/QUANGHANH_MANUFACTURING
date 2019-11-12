@@ -17,6 +17,7 @@
                         <tr>
                             <th>Loại nhóm công việc</th>
                             <th>Tên nhóm công việc</th>
+                            <th>Tên diện công việc</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -62,7 +63,10 @@
                 "dataSrc": function (json) {
                     return json["sqlList"];
                 }
-            }
+            },
+            "column": [
+                {}
+            ]
         });
     });
     
