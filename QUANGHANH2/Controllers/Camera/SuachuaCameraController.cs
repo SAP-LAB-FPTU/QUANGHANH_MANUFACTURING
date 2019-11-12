@@ -483,7 +483,7 @@ namespace QUANGHANH2.Controllers.Camera
                     documentary.documentary_type = 8;
                     documentary.department_id = department_id;
                     documentary.date_created = DateTime.Now;
-                    documentary.person_created = Session["Name"] + "";
+                    documentary.person_created = "Long";
                     documentary.reason = reason;
                     documentary.out_in_come = out_in_come;
                     documentary.documentary_status = 1;

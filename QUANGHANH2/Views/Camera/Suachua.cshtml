@@ -17,7 +17,6 @@
                             <th>Mã thiết bị</th>
                             <th>Tên thiết bị</th>
                             <th>Vị trí hiện tại</th>
-                            <th>Ngày kết thúc dự kiến</th>
                             <th>Danh sách vật tư thay thế</th>
                             <th>Đã xử lý</th>
                         </tr>
@@ -191,7 +190,7 @@
                 }
             },
             "ajax": {
-                "url": "/phong-cdvt/cap-nhat/cam/quyet-dinh/sua-chua/GetData",
+                "url": "/cap-nhat/camera/quyet-dinh/sua-chua/GetData",
                 "type": "POST",
                 "datatype": "json",
                 "data": {
@@ -203,7 +202,6 @@
                 { "data": "equipmentId", "name": "equipmentId" },
                 { "data": "equipment_name", "name": "equipment_name" },
                 { "data": "department_name", "name": "department_name" },
-                { "data": "stringDate", "name": "stringDate" },
                 {
                     "data": "idAndEquip", "name": "person_created", "render": function (data) {
                         return "<a data-list=\"" + data + "\" class=\"waves-effect waves-light btn-small blue modal-trigger open-Modal\" href=\"#mylist\">Vật tư thay thế</a>";
@@ -225,8 +223,8 @@
                 $('#pre-load').hide();
             },
             "columnDefs": [
-                { targets: 4, orderable: false },
-                { targets: 5, orderable: false }
+                { targets: 3, orderable: false },
+                { targets: 4, orderable: false }
             ],
             "preDrawCallback": function (settings) {
                 $('#pre-load').show();
@@ -247,13 +245,14 @@
             $("#pre-load").show();
             $.ajax({
                 type: "POST",
-                url: "/phong-cdvt/cap-nhat/cam/quyet-dinh/sua-chua/edit",
+                url: "/cap-nhat/camera/quyet-dinh/sua-chua/edit",
                 dataType: "json",
                 success: function (data) {
                     if (data.success == true) {
                         dataTable.ajax.reload(function () {
                             $('#pre-load').hide();
                             successAlert(data.message);
+                            location.replace("/camera/cap-nhat/quyet-dinh")
                         });
                     }
                     else {
