@@ -183,6 +183,7 @@
     <Compile Include="Controllers\BGD\SummaryReportController.cs" />
     <Compile Include="Controllers\BGD\TCLD\PeformanceAndSalaryReportController.cs" />
     <Compile Include="Controllers\Camera\ChitietSuachuaCamController.cs" />
+    <Compile Include="Controllers\Camera\NghiemThuCamController.cs" />
     <Compile Include="Controllers\Camera\SuachuaCameraController.cs" />
     <Compile Include="Controllers\Camera\CameraManagementController.cs" />
     <Compile Include="Controllers\Camera\ChiTietXuLyQDController.cs" />
@@ -7426,6 +7427,7 @@
     <Content Include="Views\LogIn\Account_Information.cshtml" />
     <Content Include="Views\Camera\Suachua.cshtml" />
     <Content Include="Views\CDVT\Vattu\Xincapvattulan1.cshtml" />
+    <Content Include="Views\Camera\Nghiemthu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7446,6 +7448,7 @@
     <Folder Include="Views\InputPlan_Month\" />
     <Folder Include="Views\Input\" />
     <Folder Include="Views\Laydanhsachvattu\" />
+    <Folder Include="Views\NghiemThuCam\" />
     <Folder Include="Views\Notifi\" />
     <Folder Include="Views\Occupation\" />
     <Folder Include="Views\PhanXuongReport\" />
