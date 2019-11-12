@@ -42,7 +42,18 @@
                         <div class="row">
                             <div class="col s12 table_container" id="table-wrapper2">
                                 <table id="summary_tbl" class="table-bordered striped table-responsive centered" sstyle="margin-top:30px; text-align:center;width:100%;">
-                                    
+                                    <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Mã thiết bị</th>
+                                            <th>Tên thiết bị</th>
+                                            <th>Mã vật tư</th>
+                                            <th>Tên vật tư</th>
+                                            <th>Đơn vị tính</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -65,76 +76,8 @@
     </div>
 </div>
 @section scripts{
-    <script>
-        $(document).ready(function() {
-  var resultArray = [
-    ["290013", "TEST OF ENSEMBLE", "11-25-2016", "", "", "22001204", "TEST EP PRODUCT FOR DEVELOPMENT", "F1 id", "F1 code", "F1 name", "F1 desc", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
-    ["290015", "XXX5", "10-19-2016", "test", "$33.00", "22001204", "TEST EP PRODUCT FOR DEVELOPMENT", "2002", "XXX5 id", "XXX5", "XXX name", "", "1864", "2017", "VERSION", "23004746", "XXX5", "", "One Time", "", "", "", "", "", "", "21004482", "9189", "Feature Set", "20003880", "XXX5", "XXX5", "BASE", "19-APR-2017", "04-18-2017", "3877", "", ""],
-    ["290015", "XXX5", "10-19-2016", "test", "$33.00", "22001204", "TEST EP PRODUCT FOR DEVELOPMENT", "CC 1", "Code2", "Name", "Desc", "", "1865", "Deluxe", "EDITION", "", "", "", "", "", "", "", "", "", "", "", "9190", "Charge", "", "", "", "", "", "", "", "", ""]
-  ];
 
-  console.log(JSON.stringify(resultArray));
-  var table = $('#example').DataTable({
-    columns: [{
-      title: 'Item Master Number',
-      name: 'ItemMasterNumber'
-    }, {
-      title: 'Description',
-      name: 'Description'
-    }, {
-      title: 'First Processing Date',
-      name: 'FirstProcessingDate'
-    }, {
-      title: 'Alias',
-      name: 'Alias'
-    }, {
-      title: 'Master Price',
-      name: 'MasterPrice'
-    }, {
-      title: 'Product Id',
-      name: 'ProductId'
-    }, {
-      title: 'Product Description',
-      name: 'ProductDescription'
-    }, {
-      title: 'Feature Set#',
-      name: 'FeatureSetId'
-    }, {
-      title: 'Feature Set Code',
-      name: 'FeatureSetCode'
-    }, {
-      title: 'Feature Set Name',
-      name: 'FeatureSetName'
-    }, {
-      title: 'Feature Set Description',
-      name: 'Feature Set Description'
-    }, {
-      title: 'Enablement Type',
-      name: 'Enablement Type'
-    }, {
-      title: 'Feature Id',
-      name: 'FeatureId'
-    }, {
-      title: 'Attribute Name',
-      name: 'AttributeName'
-    }, {
-      title: 'Attribute Value',
-      name: 'AttributeValue'
-    }],
-    data: resultArray,
-    rowsGroup: [
-      // Always the array (!) of the column-selectors in specified
-      // order to which rows groupping is applied.
-      // (column-selector could be any of specified in:
-      // https://datatables.net/reference/type/column-selector)
-      'ItemMasterNumber:name',
-      'Description:name'
-    ],
-    pageLength: '20',
-  });
-});
-    </script>
-
+    <script src="~/assets/libs/jquery.rowspanizer.js"></script>
     <script>
         var payload = [];
         var datatable;
@@ -142,7 +85,6 @@
             setDepartments();
             datatable = drawTable();
             $('#department_search').on('change', function () {
-                $('#summary_tbl').dataTable().fnDestroy();
                 drawTable();
             });
 
@@ -172,118 +114,98 @@
                         }
                     });
                 });
-                
+
             });
         });
 
-       // function getCurrDepId() {
-       //     return $("#department_search option:selected").val();
-       // }
+        function getCurrDepId() {
+            return $("#department_search option:selected").val();
+        }
 
-       // function setDepartments() {
-       //     let departments = [];
-       //     $("#pre-load").show();
-       //     $.ajax({
-       //         async: false,
-       //         dataType: "json",
-       //         contentType: "application/json, charset=utf-8",
-       //         type: 'GET',
-       //         url: '/phong-cdvt/xin-cap-vat-tu-sctx-summary/departments',
-       //         data: JSON.stringify(payload),
-       //         success: function (res) {
-       //             departments = res.data;
-       //         }
-       //     });
-       //     for (let i = 0; i < departments.length; i++) {
-       //         $("#department_search").append(new Option(departments[i].DepartmentName, departments[i].DepartmentId));
-       //     }
-       //     $("#pre-load").hide();
-       // }
+        function setDepartments() {
+            let departments = [];
+            $("#pre-load").show();
+            $.ajax({
+                async: false,
+                dataType: "json",
+                contentType: "application/json, charset=utf-8",
+                type: 'GET',
+                url: '/phong-cdvt/xin-cap-vat-tu-sctx-summary/departments',
+                data: JSON.stringify(payload),
+                success: function (res) {
+                    departments = res.data;
+                }
+            });
+            for (let i = 0; i < departments.length; i++) {
+                $("#department_search").append(new Option(departments[i].DepartmentName, departments[i].DepartmentId));
+            }
+            $("#pre-load").hide();
+        }
 
-       //function drawTable() {
-       //     $("#pre-load").show();
-       //     let index = 1;
-       //     return $('#summary_tbl').DataTable({
-       //         "ajax": {
-       //             "url": "/phong-cdvt/xin-cap-vat-tu-sctx-summary/all",
-       //             "type": "GET",
-       //             "data": {
-       //                 "departmentId": getCurrDepId()
-       //             },
-       //             "datatype": "json",
-       //             "cache": "false",
-       //             "dataSrc": function (json) {
-       //                 payload = json.data;
-       //                 return json.data;
-       //             }
-       //         },
 
-       //         "columns": [
-       //             {
-       //                 "data": null,
-       //                 "name": "Index",
-       //                 "render": function (data) { return index++; }
-       //             },
-       //             {
-       //                 "data": "Equipmentid",
-       //                 "name": "Equipmentid"
-       //             },
-       //             {
-       //                 "data": "equipment_name",
-       //                 "name": "equipment_name"
-       //             },
-       //             {
-       //                 "data": "SupplyId",
-       //                 "name": "SupplyId"
-       //             },
-       //             {
-       //                 "data": "SupplyName",
-       //                 "name": "SupplyName"
-       //             },
-       //             {
-       //                 "data": "SupplyUnit",
-       //                 "name": "SupplyUnit"
-       //             }
-                   
-       //             //{
-       //             //    "data": "Id", "name": "SupplyQuantity", "render": function (data) {
-       //             //        let domId = 'supply_quantity_' + data;
-       //             //        return '<input type="number" min="0" value="0" class="form-control" id="' + domId + '" ' + 'oninput="' + `handleSupplyQuantityChange('${domId}', '${data}')` + '" ' + '/>';
-       //             //    }
-       //             //},
-       //         ],
+        function drawTable() {
+            $("#pre-load").show();
+            $("#summary_tbl").find("tbody").empty();
+            let index = 1;
+            $.ajax({
+                url: "/phong-cdvt/xin-cap-vat-tu-sctx-summary/all",
+                type: "GET",
+                data: {
+                    departmentId: getCurrDepId()
+                },
+                datatype: "json",
+                cache: false,
+                success: function (response) {
+                    resultArray = response.data;
 
-       //         "rowsGroup": [
-       //             'Equipmentid:name'
-       //         ],
-       //         "destroy":true,
-       //         "processing": false,
-       //         //"order": [0, "asc"],
-       //         "rowId": "SupplyId",
-       //         "lengthChange": false,
-       //         "searching": false,
-       //         "paging": false,
-       //         "initComplete": function (settings, json) {
-       //             if (payload.length == 0) {
-       //                 $("#submit").attr("disabled", true);
-       //             } else {
-       //                 $("#submit").attr("disabled", false);
-       //             }
-       //             $("#pre-load").hide();
-       //         },
-       //         "language": {
-       //             "emptyTable": "Không tìm thấy dữ liệu", 
-       //             "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
-       //             "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
-       //             "paginate": {
-       //                 "first": "Trang đầu",
-       //                 "last": "Trang cuối",
-       //                 "next": "Trang sau",
-       //                 "previous": "Trang trước"
-       //             }
-       //         }
-       //     });
-       // }
+                    var tbData = "";
+                    if (resultArray.length == 0) {
+                         $("#summary_tbl").find("tbody").append("<tr><td colspan=\"6\"><i>Không có dữ liệu</i></td></tr>")
+                    } else {
+                        for (var i = 0; i < resultArray.length; i++) {
+                            tbData += "<tr>" +
+                                "<td>" + (i + 1) + "</td>" +
+                                "<td class=\"row-auto-span\">" + resultArray[i].Equipmentid + "</td>" +
+                                "<td>" + resultArray[i].equipment_name + "</td>" +
+                                "<td>" + resultArray[i].SupplyId + "</td>" +
+                                "<td>" + resultArray[i].SupplyName + "</td>" +
+                                "<td>" + resultArray[i].SupplyUnit + "</td>" +
+                                "</tr>";
+                        }
+                        $("#summary_tbl").find("tbody").append(tbData);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                        var indexOfColumnToRowSpan = 1;
+                        var $table = $('#summary_tbl');
+                        var rowSpanMap = {};
+                        $table.find('tr').each(function () {
+                            var valueOfTheSpannableCell = $($(this).children('td')[indexOfColumnToRowSpan]).text();
+                            $($(this).children('td')[indexOfColumnToRowSpan]).attr('data-original-value', valueOfTheSpannableCell);
+                            rowSpanMap[valueOfTheSpannableCell] = true;
+                        });
+
+                        for (var rowGroup in rowSpanMap) {
+                            var $cellsToSpan = $('td[data-original-value="' + rowGroup + '"]');
+                            var numberOfRowsToSpan = $cellsToSpan.length;
+                            $cellsToSpan.each(function (index) {
+                                if (index == 0) {
+                                    $(this).attr('rowspan', numberOfRowsToSpan);
+                                } else {
+                                    $(this).hide();
+                                }
+                            });
+                        }
+                    }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+                    $("#pre-load").hide();
+                }
+            });
+
+        }
 
         function handleSupplyQuantityChange(domId, id) {
             let value = 0;
