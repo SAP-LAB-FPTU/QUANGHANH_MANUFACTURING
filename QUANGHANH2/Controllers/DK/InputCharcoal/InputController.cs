@@ -222,8 +222,22 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
 
                     for (int i = 0; i < listSX.Count; i++)
                     {
-                        listSX[i].KeHoach = listKH[i].KeHoach;
-                        listSX[i].KHDC = listKHDC[i].KHDC;
+                        for (int j = 0; j < listKH.Count; j++)
+                        {
+                            if(listSX[i].TenTieuChi.Equals(listKH[j].TenTieuChi))
+                            {
+                                listSX[i].KeHoach = listKH[j].KeHoach;
+                                break;
+                            }
+                        }
+                        for (int k = 0; k < listKHDC.Count; k++)
+                        {
+                            if(listSX[i].TenTieuChi.Equals(listKHDC[k].TenTieuChi))
+                            {
+                                listSX[i].KHDC = listKHDC[k].KHDC;
+                                break;
+                            }
+                        }
                         if (listSX[i].GhiChu == null || listSX[i].GhiChu.Equals("null"))
                         {
                             listSX[i].GhiChu = "";
