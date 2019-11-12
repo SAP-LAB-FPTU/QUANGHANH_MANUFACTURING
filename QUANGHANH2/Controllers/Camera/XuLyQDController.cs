@@ -16,13 +16,13 @@ namespace QUANGHANH2.Controllers.Camera
 {
     public class XuLyQDController : Controller
     {
-        [Route("phong-cdvt/cam/cap-nhat/quyet-dinh")]
+        [Route("camera/cap-nhat/quyet-dinh")]
         public ActionResult Index()
         {
             return View("/Views/Camera/DSQD.cshtml");
         }
 
-        [Route("phong-cdvt/cam/cap-nhat/quyet-dinh/search")]
+        [Route("camera/cap-nhat/quyet-dinh/search")]
         [HttpPost]
         public ActionResult Search(string documentary_id, string type, string department, string reason, string dateStart, string dateEnd, string status)
         {
