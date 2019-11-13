@@ -153,7 +153,7 @@
                     }
                 },
                 "ajax": {
-                    "url": "/phong-cdvt/cam/cap-nhat/quyet-dinh/search",
+                    "url": "/camera/cap-nhat/quyet-dinh/search",
                     "type": "POST",
                     "data": {
                         "documentary_id": function () { return $('#id-search').val() },
@@ -171,7 +171,7 @@
                     {
                         "data": "linkIdCode", "name": "documentary_id",
                         "render": function (data) {
-                            return "<a href=\"/phong-cdvt/cap-nhat/cam/quyet-dinh/" + data.link + "?id=" + data.id + "\"> " + data.code + "</a>";
+                            return "<a href=\"/cap-nhat/camera/quyet-dinh/" + data.link + "?id=" + data.id + "\"> " + data.code + "</a>";
                         },
                     },
                     { "data": "stringtype", "name": "stringtype" },
