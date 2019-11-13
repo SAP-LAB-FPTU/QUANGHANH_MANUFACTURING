@@ -94,6 +94,10 @@
                 </div>
 
                 <div class="col s12" style="margin-bottom:20px">
+
+                    <div class="left" style="text-align:left !important; margin-right:10px">
+                        <a class="waves-effect waves-light btn-small blue modal-trigger" id="export-button"><i class="fa fa-plus"></i>Xuất Excel</a>
+                    </div>
                     <div class="left" style="text-align:left !important">
                         <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="add"><i class="fa fa-plus"></i> Thêm</a>
                     </div>
@@ -446,10 +450,10 @@
             $("#pre-load").show();
             $.ajax({
                 type: "POST",
-                url: "/phong-cdvt/huy-dong/export",
+                url: "/camera/export",
                 cache: false
             }).done(function () {
-                window.location.href = "/excel/CDVT/download/baocaohoatdong.xlsx";
+                window.location.href = "/excel/Camera/Download/camera-temp-download.xlsx";
                 $("#pre-load").hide();
             })
         });

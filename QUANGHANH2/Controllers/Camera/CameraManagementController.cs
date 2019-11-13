@@ -20,6 +20,45 @@ namespace QUANGHANH2.Controllers.Camera
 {
     public class CameraManagementController : Controller
     {
+        [Route("camera/export")]
+        [HttpPost]
+        public void Export()
+        {
+            string path = HostingEnvironment.MapPath("/excel/Camera/");
+            string filename = "camera-temp.xlsx";
+            FileInfo file = new FileInfo(path + filename);
+            using (ExcelPackage excelPackage = new ExcelPackage(file))
+            {
+                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
+                ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
+
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+
+                    string sql = "select c.*, d.capacity, d.disk_status, d.series, r.room_name, de.department_name, s.statusname " +
+                                "from Camera c inner join Disk d on c.camera_id = d.camera_id " +
+                                "inner join Room r on c.room_id = r.room_id " +
+                                "inner join Department de on r.department_id = de.department_id " +
+                                "inner join Status s on c.camera_status = s.statusid";
+                    var equipList = db.Database.SqlQuery<camDB>(sql).ToList();
+                    int k = 3;
+                    for (int i = 0; i < equipList.Count; i++)
+                    {
+                        excelWorksheet.Cells[k, 1].Value = equipList.ElementAt(i).camera_id;
+                        excelWorksheet.Cells[k, 2].Value = equipList.ElementAt(i).camera_name;
+                        excelWorksheet.Cells[k, 3].Value = equipList.ElementAt(i).room_name;
+                        excelWorksheet.Cells[k, 4].Value = equipList.ElementAt(i).series;
+                        excelWorksheet.Cells[k, 5].Value = equipList.ElementAt(i).capacity;
+                        excelWorksheet.Cells[k, 6].Value = equipList.ElementAt(i).disk_status;
+                        excelWorksheet.Cells[k, 7].Value = equipList.ElementAt(i).statusname;
+                        excelWorksheet.Cells[k, 8].Value = equipList.ElementAt(i).note;
+                        k++;
+                    }
+                    excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath("/excel/Camera/Download/camera-temp-download.xlsx")));
+                }
+            }
+        }
+
         [Route("camera")]
         [HttpGet]
         public ActionResult Index()
