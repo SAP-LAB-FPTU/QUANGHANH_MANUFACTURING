@@ -50,14 +50,19 @@
 <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 <script>
     $(document).ready(function () {
-        $("#diencongviec").DataTable({
+        $('#diencongviec').DataTable({
             "ajax": {
-                "url": "phong-tcld/quan-ly-dien-cong-viec/danh-sach-dien-cong-viec",
+                "url": "/phong-tcld/quan-ly-dien-cong-viec/danh-sach-dien-cong-viec",
                 "type": "GET",
                 "datatype": "json",
                 "cache": "false",
-                "dataSrc": ""
-            }
+                "dataSrc": function (json) {
+                    return json["sqlList"];
+                }
+            },
+            "columns": [
+                { "data": "DienCongViec" }
+            ]
         });
 
     });
