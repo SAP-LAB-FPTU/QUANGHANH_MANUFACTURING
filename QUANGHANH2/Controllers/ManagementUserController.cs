@@ -3,10 +3,14 @@ using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Web;
 using System.Web.Mvc;
 using XCrypt;
+
+using System.Web.Routing;
 
 namespace QUANGHANH2.Controllers
 {
@@ -116,7 +120,7 @@ namespace QUANGHANH2.Controllers
         }
         public JsonResult getPB(string id)
         {
-            var pb = db.Database.SqlQuery<rightBasic>("select d.department_id, d.department_name from NhanVien nv , Department d where nv.MaPhongBan = d.department_id and nv.MaNV = '"+id+"'").FirstOrDefault();
+            var pb = db.Database.SqlQuery<rightBasic>("select d.department_id, d.department_name from NhanVien nv , Department d where nv.MaPhongBan = d.department_id and nv.MaNV = '" + id + "'").FirstOrDefault();
             return Json(pb, JsonRequestBehavior.AllowGet);
         }
 
@@ -223,7 +227,7 @@ namespace QUANGHANH2.Controllers
             }
         }
         [HttpPost]
-        public JsonResult AddNewUser(string Name, string Username, string Position, string Password, string RepeatPassword,string NVID,
+        public JsonResult AddNewUser(string Name, string Username, string Position, string Password, string RepeatPassword, string NVID,
                 int module1, int module2, int module3, int module4, int module5, int module6, int module7,
                 int module8, int module9, int module10, int module11, int module12, int module13, int module14,
                 int module15, int module16, int module19, string rights)
@@ -238,7 +242,7 @@ namespace QUANGHANH2.Controllers
             }
             if (!String.IsNullOrEmpty(NVID))
             {
-                if (db.NhanViens.Where(x=>x.MaNV == NVID).Count() == 0)
+                if (db.NhanViens.Where(x => x.MaNV == NVID).Count() == 0)
                 {
                     return Json(new Result()
                     {
@@ -440,7 +444,7 @@ namespace QUANGHANH2.Controllers
             }
         }
         [HttpPost]
-        public JsonResult UpdateUser(int ID, string Name, string Username, string Position, string Password, string RepeatPassword,string NVID,
+        public JsonResult UpdateUser(int ID, string Name, string Username, string Position, string Password, string RepeatPassword, string NVID,
                 int module1, int module2, int module3, int module4, int module5, int module6, int module7,
                 int module8, int module9, int module10, int module11, int module12, int module13, int module14,
                 int module15, int module16, int module19, string rights)
@@ -558,8 +562,8 @@ namespace QUANGHANH2.Controllers
                         if (module7 == 0)
                         {
                             module1 = 0; module2 = 0; module3 = 0; module4 = 0; module5 = 0; module6 = 0; module7 = 0;
-                            module8 = 0;module9 = 0;module10 = 0;module11 = 0;module12 = 0;module13 = 0;module14 = 0;
-                            module15 = 0;module16 = 0;module19 = 0;
+                            module8 = 0; module9 = 0; module10 = 0; module11 = 0; module12 = 0; module13 = 0; module14 = 0;
+                            module15 = 0; module16 = 0; module19 = 0;
                         }
                         else
                         {
@@ -653,6 +657,121 @@ namespace QUANGHANH2.Controllers
                 return Json("Có lỗi xảy ra !!! Vui lòng thử lại.", JsonRequestBehavior.AllowGet);
             }
         }
+        public ActionResult Management()
+        {
+            List<Module> list = db.Modules.OrderBy(x => x.ID).ToList();
+            ViewBag.pb = list;
+            return View("/Views/ManagementUser/Roles.cshtml");
+        }
+        [HttpPost]
+        public ActionResult searchRoles(string module, string rights)
+        {
+            try
+            {
+                string sql = "";
+                if (string.IsNullOrEmpty(module))
+                {
+                    sql = "select a.ID,a.[Right],m.Module,a.GroupID from Account_Right a, Module m where a.ModuleID=m.ID and a.[Right] like @rights";
+                }
+                else
+                {
+                    sql = "select a.ID,a.[Right],m.Module,a.GroupID from Account_Right a, Module m where a.ModuleID=m.ID and a.[Right] like @rights and m.ID = @module";
+                }
+                int start = Convert.ToInt32(Request["start"]);
+                int length = Convert.ToInt32(Request["length"]);
+                string searchValue = Request["search[value]"];
+                string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+                string sortDirection = Request["order[0][dir]"];
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    List<Account_Rights> list = db.Database.SqlQuery<Account_Rights>(sql
+                        , new SqlParameter("rights", '%' + rights + '%')
+                        , new SqlParameter("module",  module )
+                        ).ToList();
+
+                    int totalrows = list.Count;
+                    int totalrowsafterfiltering = list.Count;
+                    list = list.OrderBy(sortColumnName + " " + sortDirection).ToList<Account_Rights>();
+                    list = list.Skip(start).Take(length).ToList<Account_Rights>();
+                    return Json(new { success = true, data = list, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+
+                }
+            }
+            catch (Exception)
+            {
+                Response.Write("Có lỗi xảy ra, xin vui lòng nhập lại");
+                return new HttpStatusCodeResult(400);
+            }
+        }
+        [HttpPost]
+        public ActionResult getEdit(int id)
+        {
+            try
+            {
+                db.Configuration.ProxyCreationEnabled = false;
+                var obj = db.Account_Right.Where(x => x.ID == id).FirstOrDefault();
+                return Json(obj, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return new HttpStatusCodeResult(400);
+            }
+        }
+        public ActionResult EditRoles(int id, string name, int group, int module)
+        {
+            try
+            {
+                var role = db.Account_Right.Where(x => x.ID == id).FirstOrDefault();
+                role.Right = name;
+                role.GroupID = group;
+                role.ModuleID = module.ToString();
+                db.Entry(role).State = EntityState.Modified;
+                db.SaveChanges();
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return new HttpStatusCodeResult(400);
+            }
+        }
+        public ActionResult DeleteRoles(int id)
+        {
+            try
+            {
+                var obj = db.Account_Right.Where(x => x.ID == id).FirstOrDefault();
+                db.Account_Right.Remove(obj);
+                db.SaveChanges();
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return new HttpStatusCodeResult(400);
+            }
+        }
+        public ActionResult AddRoles(string name, int group, int module)
+        {
+            try
+            {
+                Account_Right a = new Account_Right();
+                a.Right = name;
+                a.ModuleID = module.ToString();
+                a.GroupID = group;
+                db.Account_Right.Add(a);
+                db.SaveChanges();
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return new HttpStatusCodeResult(400);
+            }
+        }
+    }
+    public class Account_Rights
+    {
+        public int ID { get; set; }
+        public string Right { get; set; }
+        public string Module { get; set; }
+        public int GroupID { get; set; }
     }
     public class CustomUser
     {

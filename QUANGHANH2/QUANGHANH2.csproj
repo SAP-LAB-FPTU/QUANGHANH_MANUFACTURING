@@ -183,6 +183,7 @@
     <Compile Include="Controllers\BGD\SummaryReportController.cs" />
     <Compile Include="Controllers\BGD\TCLD\PeformanceAndSalaryReportController.cs" />
     <Compile Include="Controllers\Camera\ChitietSuachuaCamController.cs" />
+    <Compile Include="Controllers\Camera\NghiemThuCamController.cs" />
     <Compile Include="Controllers\Camera\SuachuaCameraController.cs" />
     <Compile Include="Controllers\Camera\CameraManagementController.cs" />
     <Compile Include="Controllers\Camera\ChiTietXuLyQDController.cs" />
@@ -265,6 +266,7 @@
     <Compile Include="Controllers\CDVT\Useless\MaintenanceController.cs" />
     <Compile Include="Controllers\CDVT\Vattu\TieuhaoController.cs" />
     <Compile Include="Controllers\CDVT\Vattu\TonghopvattuController.cs" />
+    <Compile Include="Controllers\CDVT\Vattu\Xincapvattu1Controller.cs" />
     <Compile Include="Controllers\CDVT\Vattu\XincapvattuController.cs" />
     <Compile Include="Controllers\CDVT\Vattu\XincapvattuSummaryController.cs" />
     <Compile Include="Controllers\CDVT\Work\BaoduongchonController.cs" />
@@ -431,6 +433,7 @@
     <Compile Include="Models\Documentary_camera_repair_details.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Documentary_cam_repair_detailsDB.cs" />
     <Compile Include="Models\Documentary_Improve_Detail.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -7112,6 +7115,8 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="excel\Camera\camera-temp.xlsx" />
+    <Content Include="excel\Camera\Download\camera-temp-download.xlsx" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
@@ -7424,6 +7429,9 @@
     <Content Include="Views\Camera\DSQD.cshtml" />
     <Content Include="Views\LogIn\Account_Information.cshtml" />
     <Content Include="Views\Camera\Suachua.cshtml" />
+    <Content Include="Views\CDVT\Vattu\Xincapvattulan1.cshtml" />
+    <Content Include="Views\Camera\Nghiemthu.cshtml" />
+    <Content Include="Views\ManagementUser\Roles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7444,6 +7452,7 @@
     <Folder Include="Views\InputPlan_Month\" />
     <Folder Include="Views\Input\" />
     <Folder Include="Views\Laydanhsachvattu\" />
+    <Folder Include="Views\NghiemThuCam\" />
     <Folder Include="Views\Notifi\" />
     <Folder Include="Views\Occupation\" />
     <Folder Include="Views\PhanXuongReport\" />
