@@ -7431,6 +7431,7 @@
     <Content Include="Views\Camera\Suachua.cshtml" />
     <Content Include="Views\CDVT\Vattu\Xincapvattulan1.cshtml" />
     <Content Include="Views\Camera\Nghiemthu.cshtml" />
+    <Content Include="Views\ManagementUser\Roles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

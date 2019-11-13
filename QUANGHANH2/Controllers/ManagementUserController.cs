@@ -708,6 +708,7 @@ namespace QUANGHANH2.Controllers
         {
             try
             {
+                db.Configuration.ProxyCreationEnabled = false;
                 var obj = db.Account_Right.Where(x => x.ID == id).FirstOrDefault();
                 return Json(obj, JsonRequestBehavior.AllowGet);
             }
@@ -749,13 +750,20 @@ namespace QUANGHANH2.Controllers
         }
         public ActionResult AddRoles(string name, int group, int module)
         {
-            Account_Right a = new Account_Right();
-            a.Right = name;
-            a.ModuleID = module.ToString();
-            a.GroupID = group;
-            db.Account_Right.Add(a);
-            db.SaveChanges();
-            return Json("",JsonRequestBehavior.AllowGet);
+            try
+            {
+                Account_Right a = new Account_Right();
+                a.Right = name;
+                a.ModuleID = module.ToString();
+                a.GroupID = group;
+                db.Account_Right.Add(a);
+                db.SaveChanges();
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return new HttpStatusCodeResult(400);
+            }
         }
     }
     public class Account_Rights
