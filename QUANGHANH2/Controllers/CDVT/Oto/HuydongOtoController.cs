@@ -407,7 +407,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                         }
                         Equipment_Inspection ei = new Equipment_Inspection();
                         ei.equipmentId = emp.equipmentId;
-                        ei.inspect_expected_date = emp.durationOfInspection;
+                        ei.inspect_date = emp.durationOfInspection;
                         db.Equipment_Inspection.Add(ei);
                         db.SaveChanges();
                         dbc.Commit();

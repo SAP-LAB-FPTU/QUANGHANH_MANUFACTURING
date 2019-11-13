@@ -498,7 +498,7 @@
                                                     @Html.Raw("<div class=\"timeline-section " + x.year + "\">")
                                                 }
                                                 <div class="timeline-date">
-                                                    @y.getDateString(y.inspect_start_date)
+                                                    @y.getDateString(y.inspect_date)
                                                     @*Thứ @((int)y.date.DayOfWeek + 1), ngày @y.date.Day tháng @y.date.Month*@
                                                 </div>
                                                 <div class="row">
@@ -507,14 +507,10 @@
                                                             <div class="box-content table_container">
                                                                 <table id="myborder" class="table-bordered striped table-responsive center">
                                                                     <tr class="highlight">
-                                                                        <th>Thời gian bắt đầu dự tính</th>
-                                                                        <th>Thời gian bắt đầu kiểm định</th>
-                                                                        <th>Thời gian kết thúc kiểm định</th>
+                                                                        <th>Thời gian kiểm định</th>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>@y.getStringtime(y.inspect_expected_date)</td>
-                                                                        <td>@y.getStringtime(y.inspect_start_date)</td>
-                                                                        <td>@y.getStringtime(y.inspect_end_date)</td>
+                                                                        <td>@y.getStringtime(y.inspect_date)</td>
                                                                     </tr>
                                                                 </table>
                                                             </div>

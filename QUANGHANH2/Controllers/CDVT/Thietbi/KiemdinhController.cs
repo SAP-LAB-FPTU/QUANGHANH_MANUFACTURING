@@ -36,28 +36,34 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             DateTime dtStart = dateStart.Equals("") ? DateTime.MinValue : DateTime.ParseExact(dateStart, "dd/MM/yyyy", null);
             DateTime dtEnd = dateStart.Equals("") ? DateTime.MaxValue : DateTime.ParseExact(dateEnd, "dd/MM/yyyy", null);
-            var list = (from ei in DBContext.Equipment_Inspection
-                        where ei.inspect_expected_date >= dtStart && ei.inspect_expected_date <= dtEnd && ei.inspect_real_date == null
+            var list = (from ei in DBContext.Equipment_Inspection.GroupBy(x => x.equipmentId).Select(x => new
+            {
+                equipmentId = x.Key,
+                inspect_date = x.Max(row => row.inspect_date)
+            })
+                        where ei.inspect_date >= dtStart && ei.inspect_date <= dtEnd
+                        join ei2 in DBContext.Equipment_Inspection on ei.equipmentId equals ei2.equipmentId
+                        where ei2.inspect_date == ei.inspect_date
                         join e in DBContext.Equipments.Where(e => e.equipmentId.Contains(equipmentId) && e.equipment_name.Contains(equipmentName)) on ei.equipmentId equals e.equipmentId
                         join s in DBContext.Status on e.current_Status equals s.statusid
                         select new
                         {
                             ei.equipmentId,
-                            ei.inspect_expected_date,
-                            ei.inspect_id,
+                            ei.inspect_date,
+                            ei2.inspect_id,
                             s.statusname,
                             e.equipment_name
                         }).OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList().Select(p => new Equipment_InspectionDB
                         {
                             equipmentId = p.equipmentId,
                             equipment_name = p.equipment_name,
-                            inspect_expected_date = p.inspect_expected_date,
+                            inspect_date = p.inspect_date,
                             inspect_id = p.inspect_id,
                             statusname = p.statusname,
-                            stringExpectedTime = p.inspect_expected_date.ToString("dd/MM/yyyy")
+                            stringExpectedTime = p.inspect_date.ToString("dd/MM/yyyy")
                         }).ToList<Equipment_InspectionDB>();
-            int totalrows = (from ei in DBContext.Equipment_Inspection
-                             where ei.inspect_expected_date >= dtStart && ei.inspect_expected_date <= dtEnd && ei.inspect_real_date == null
+            int totalrows = (from ei in DBContext.Equipment_Inspection.GroupBy(x => x.equipmentId).Select(x => x.FirstOrDefault())
+                             where ei.inspect_date >= dtStart && ei.inspect_date <= dtEnd
                              join e in DBContext.Equipments.Where(e => e.equipmentId.Contains(equipmentId) && e.equipment_name.Contains(equipmentName)) on ei.equipmentId equals e.equipmentId
                              join s in DBContext.Status on e.current_Status equals s.statusid
                              select ei).Count();
@@ -75,11 +81,11 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             {
                 Equipment_Inspection ei = DBContext.Equipment_Inspection.Find(inspect_id);
                 DateTime dtTemp = DateTime.ParseExact(dateTemp, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                ei.inspect_real_date = DateTime.Now;
+                ei.inspect_date = DateTime.Now;
                 Equipment e = DBContext.Equipments.Find(ei.equipmentId);
                 Equipment_Inspection temp = new Equipment_Inspection();
                 temp.equipmentId = ei.equipmentId;
-                temp.inspect_expected_date = dtTemp;
+                temp.inspect_date = dtTemp;
                 DBContext.Equipment_Inspection.Add(temp);
                 DBContext.SaveChanges();
                 return Json(new { success = true, message = "Cập nhật thành công" }, JsonRequestBehavior.AllowGet);
