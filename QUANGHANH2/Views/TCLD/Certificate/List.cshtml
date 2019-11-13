@@ -53,7 +53,7 @@
         </div>
         <hr />
         <div class="row" id="tabs">
-            <ul class="tabs">
+            <ul class="tabs" style="overflow-x:hidden;overflow-y:hidden">
                 <li class="tab col m6 l6 s12"><a data-toggle="tab" id="tab-ccct" href="#chungchicongty">Chứng chỉ của cả công ty</a></li>
                 <li class="tab col m6 l6 s12 active"><a data-toggle="tab" id="tab-ccnv" href="#chungchicuanhanvien">Chứng chỉ của nhân viên</a></li>
             </ul>
@@ -482,10 +482,8 @@
                     success: function (data) {
                         $("#edit-modal-body").html(data)
                     }
-
                 });
             }
-
         }
         function getEditIdEmp(id) {
             if (id != null) {
