@@ -368,6 +368,7 @@
     <Compile Include="Models\Car.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CarDB.cs" />
     <Compile Include="Models\CarGP.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

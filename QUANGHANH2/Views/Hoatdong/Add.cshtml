@@ -107,6 +107,17 @@
                             @Html.ValidationMessageFor(model => model.durationOfMaintainance, "", new { @class = "text-danger" })
                         </div>
                     </div>
+                    <div id="plus2">
+                        <div class="form-group">
+                            <label class="control-label col-md-2">GPS</label>
+                            <div class="col-md-10">
+                                <select class="form-control" name="gps">
+                                    <option value="1">Có</option>
+                                    <option value="2">Không</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
 
 
 
@@ -192,6 +203,22 @@
                             @Html.ValidationMessageFor(model => model.department_id, "", new { @class = "text-danger" })
                         </div>
                     </div>
+                    <div id="plus">
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Số khung</label>
+                            <div class="col-md-10">
+                                <input type="text" name="sk" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Số máy</label>
+                            <div class="col-md-10">
+                                <input type="text" name="sm" class="form-control" />
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
 
@@ -275,10 +302,7 @@
     <div class="modal-footer">
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                @*<a href="#myadd2" class="modal-trigger btn">Thêm thuộc tính</a>*@
                 <button type="submit" id="save" class="btn blue btn-default modal-close" style="color:white">Thêm</button>
-                @*<button type="submit" class="btn blue btn-default modal-trgger" data-target="myadd2" style="color:white">Thêm</button>*@
-                @*<input type="submit" value="Thêm" class="btn blue btn-default" id="btn-submit" onclick="ABC()" />*@
             </div>
         </div>
     </div>
@@ -288,6 +312,15 @@
 <script>
 
     $(document).ready(function () {
+
+        var ck = $("#title").text();
+        if (ck.endsWith('1')) {
+            $('#plus').show();
+            $('#plus1').show();
+        } else {
+            $('#plus').hide();
+            $('#plus1').hide();
+        }
 
         // code to read selected table row cell data (values).
         $("#myTable").on('click', '.btnSelect', function () {
@@ -304,7 +337,7 @@
             count = document.getElementById("myTable").rows.length;
         });
 
-         // code to read selected table row cell data (values).
+        // code to read selected table row cell data (values).
         $("#myTableSup").on('click', '.btnSelect3', function () {
             // get the current row
             var currentRow = $(this).closest("tr");
