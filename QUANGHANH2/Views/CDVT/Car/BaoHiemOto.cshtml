@@ -1,12 +1,13 @@
-﻿@{
-    ViewBag.Title = "Kiemdinh";
+﻿
+@{
+    ViewBag.Title = "BaoHiemOto";
     Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
 }
 
 <div class="card">
     <div class="card-content">
         <div class="row center">
-            <h3><b>THÔNG TIN KIỂM ĐỊNH</b></h3>
+            <h3><b>DANH SÁCH BẢO HIỂM ÔTÔ</b></h3>
             <hr>
             <form action="" method="POST" id="mysearchform" role="form">
                 <div class="col l6 m6 s12">
@@ -41,7 +42,8 @@
                             <th>Mã thiết bị</th>
                             <th>Tên thiết bị</th>
                             <th>Tình trạng hiện tại</th>
-                            <th>Thời gian kiểm định dự tính</th>
+                            <th>Ngày đăng ký bảo hiểm</th>
+                            <th>Ngày hết hạn bảo hiểm</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -55,13 +57,13 @@
     <div id="myedit" class="modal">
         <div class="modal-content">
             <div class="modal-header center">
-                <h3><b>Cập nhật kiểm định</b></h3>
+                <h3><b>Cập nhật bảo hiểm</b></h3>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col s12 m6">
                         <div class="form-group">
-                            <label for="date">Thời gian kiểm định dự tính lần sau: </label>
+                            <label for="date">Thời gian hết hạn bảo hiểm: </label>
                             <input required type='text' class='datepicker-here form-control minDate' data-language='vi' value="" id="date-temp-edit" />
                         </div>
                     </div>
@@ -140,7 +142,7 @@
                     }
                 },
                 "ajax": {
-                    "url": "/phong-cdvt/kiem-dinh",
+                    "url": "/phong-cdvt/oto/bao-hiem",
                     "type": "POST",
                     "datatype": "json",
                     "data": {
@@ -155,10 +157,11 @@
                     { "data": "equipmentId", "name": "equipmentId" },
                     { "data": "equipment_name", "name": "equipment_name" },
                     { "data": "statusname", "name": "statusname" },
-                    { "data": "stringExpectedTime", "name": "inspect_date" },
+                    { "data": "stringStartDate", "name": "insurance_start_date" },
+                    { "data": "stringEndDate", "name": "insurance_end_date" },
                     {
                         "data": {}, "render": function (data) {
-                            return "<a href=\"#myedit\" data-toggle=\"modal\" class=\"open-EditModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-equipmentId=\"" + data.equipmentId + "\" data-inspect_id=\"" + data.inspect_id + "\">Cập&nbsp;nhật</a>";
+                            return "<a href=\"#myedit\" data-toggle=\"modal\" class=\"open-EditModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-equipmentId=\"" + data.equipmentId + "\">Cập&nbsp;nhật</a>";
                         },
                         "orderable": false,
                         "searchable": false,
@@ -191,7 +194,7 @@
                 $("#pre-load").show();
                 $.ajax({
                     type: "POST",
-                    url: "/phong-cdvt/kiem-dinh/add",
+                    url: "/phong-cdvt/oto/bao-hiem/add",
                     dataType: "json",
                     success: function (data) {
                         dataTable.ajax.reload();
@@ -206,7 +209,7 @@
                         errorAlert('Lỗi', 'Có lỗi xảy ra');
                     },
                     data: {
-                        inspect_id: $('#id-edit').val(),
+                        equipmentId: $('#id-edit').val(),
                         dateTemp: $('#date-temp-edit').val()
                     },
                     cache: false
@@ -228,8 +231,8 @@
 
         //get data and push to modal edit
         $(document).on("click", ".open-EditModal", function () {
-            $('#myedit h3').text("Cập nhật kiểm định cho thiết bị " + $(this).data('equipmentId'));
-            var inspect_id = $(this).data('inspect_id');
+            $('#myedit h3').text("Cập nhật bảo hiểm cho thiết bị " + $(this).data('equipmentid'));
+            var inspect_id = $(this).data('equipmentid');
             $('#id-edit').val(inspect_id);
             var today = new Date();
             var dd = today.getDate();

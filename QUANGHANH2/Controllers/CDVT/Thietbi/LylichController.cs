@@ -113,9 +113,9 @@ namespace QUANGHANHCORE.Controllers.CDVT
             }
             ViewBag.listKD = listKD;
             //NK bao hiem
-            years = DBContext.Database.SqlQuery<int>("SELECT distinct year(ei.insurance_expected_date) as years FROM Equipment_Insurance ei inner join Equipment e on e.equipmentId = ei.equipmentId where  e.equipmentId = @equipmentId order by years desc",
+            years = DBContext.Database.SqlQuery<int>("SELECT distinct year(ei.insurance_start_date) as years FROM Equipment_Insurance ei inner join Equipment e on e.equipmentId = ei.equipmentId where  e.equipmentId = @equipmentId order by years desc",
                 new SqlParameter("equipmentId", id)).ToList();
-            List<Equipment_InsDB> EIs = DBContext.Database.SqlQuery<Equipment_InsDB>("SELECT * FROM Equipment_Insurance WHERE equipmentId = @equipmentId order by insurance_expected_date desc",
+            List<Equipment_InsDB> EIs = DBContext.Database.SqlQuery<Equipment_InsDB>("SELECT * FROM Equipment_Insurance WHERE equipmentId = @equipmentId order by insurance_start_date desc",
                 new SqlParameter("equipmentId", id)).ToList();
             List<Equipment_InsByYear> listBH = new List<Equipment_InsByYear>();
             for (int i = 0; i < years.Count; i++)
@@ -130,7 +130,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             {
                 Equipment_InsDB temp = EIs[i];
                 DateTime dateTime;
-                DateTime.TryParse(temp.insurance_expected_date.ToString(), out dateTime);
+                DateTime.TryParse(temp.insurance_end_date.ToString(), out dateTime);
                 foreach (Equipment_InsByYear item in listBH)
                 {
                     var stringdate = dateTime.ToString("yyyy");
@@ -143,7 +143,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
 
                 }
             }
-            listBH.OrderBy(x => x.equipment_Ins.OrderByDescending(y => y.insurance_expected_date));
+            listBH.OrderBy(x => x.equipment_Ins.OrderByDescending(y => y.insurance_end_date));
             ViewBag.listBH = listBH;
             //NK dieu dong
             var yearDD = DBContext.Database.SqlQuery<int>("SELECT distinct year(d.date_created) as years FROM Documentary d, Documentary_moveline_details dm, Equipment e where e.equipmentId = @id and e.equipmentId = dm.equipmentId and dm.documentary_id = d.documentary_id order by years desc", new SqlParameter("id", id)).ToList<int>();

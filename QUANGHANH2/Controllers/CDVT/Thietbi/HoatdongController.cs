@@ -461,7 +461,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         db.Equipment_Inspection.Add(ei);
                         Equipment_Insurance ins = new Equipment_Insurance();
                         ins.equipmentId = emp.equipmentId;
-                        ins.insurance_expected_date = emp.durationOfInsurance;
+                        ins.insurance_end_date = emp.durationOfInsurance;
                         db.Equipment_Insurance.Add(ins);
                         db.SaveChanges();
 
@@ -535,7 +535,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         {
                             Equipment_Insurance ins = new Equipment_Insurance();
                             ins.equipmentId = emp.equipmentId;
-                            ins.insurance_expected_date = Convert.ToDateTime(date_fix);
+                            ins.insurance_end_date = Convert.ToDateTime(date_fix);
                             db.Equipment_Insurance.Add(ins);
                         }
                         emp.durationOfInsurance = Convert.ToDateTime(date_fix);
