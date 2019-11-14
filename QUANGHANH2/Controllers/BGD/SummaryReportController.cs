@@ -330,7 +330,8 @@ namespace QUANGHANHCORE.Controllers.BGD
                         ", count(n.MaNV) as 'tong_DS'   , sum(case when nc.MaNhomCongViec = 3 then 1 else 0 end) as 'QL_CTy' " +
                         "from NhanVien n left outer join DiemDanh_NangSuatLaoDong d on n.MaNV = d.MaNV left outer join Header_DiemDanh_NangSuat_LaoDong h on d.HeaderID = h.HeaderID " +
                         "    inner join CongViec c on n.MaCongViec = c.MaCongViec " +
-                        "    inner join NhomCongViec nc on c.MaNhomCongViec = nc.MaNhomCongViec " +
+                        "    inner join CongViec_NhomCongViec nc on c.MaCongViec = nc.MaCongViec" +
+                        "   inner join NhomCongViec ncv on nc.MaNhomCongViec = ncv.MaNhomCongViec " +
                         "where h.NgayDiemDanh = @day group by n.MaPhongBan) a full join  " +
                         "	(select n.MaPhongBan " +
                         "	, SUM(case when d.LyDoVangMat like N'Vô lý do' and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'vld1'    " +

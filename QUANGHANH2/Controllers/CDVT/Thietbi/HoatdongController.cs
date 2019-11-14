@@ -68,7 +68,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
 
             }
         }
-        [Auther(RightID ="6")]
+        [Auther(RightID = "6")]
         [Route("phong-cdvt/huy-dong")]
         [HttpGet]
         public ActionResult Index()
@@ -186,7 +186,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             String d = "";
             string sql = "select * from Equipment_category_attribute where Equipment_category_id = @name";
-            List<Equipment_category_attribute> list = db.Database.SqlQuery<Equipment_category_attribute>("name", "%" + name + "%").ToList();
+            List<Equipment_category_attribute> list = db.Database.SqlQuery<Equipment_category_attribute>(sql, new SqlParameter("name", "%" + name + "%")).ToList();
             foreach (var item in list)
             {
                 d += "<tr>";
@@ -371,7 +371,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
 
                         }
                     }
-                    
+
                     db.SaveChanges();
                     dbc.Commit();
                     return RedirectToAction("GetData");
@@ -389,7 +389,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         }
 
         [HttpPost]
-        public ActionResult Add(Equipment emp, string import, string duraInspec, string duraInsura, string used, string duramain, string[] id, string[] name, int[] value, string[] unit, int[] attri, string[] nameSup, int[] quantity)
+        public ActionResult Add(Equipment emp, string import, string duraInspec, string duraInsura, string used, string duramain, string[] id, string[] name, int[] value, string[] unit, int[] attri, string[] nameSup, int[] quantity, string sk, string sm, string gps)
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
@@ -438,6 +438,22 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                                 }
 
                             }
+                        }
+                        if (sk != "" && sm != "")
+                        {
+                            Car ca = new Car();
+                            ca.equipmentId = emp.equipmentId;
+                            ca.sokhung = sk;
+                            ca.somay = sm;
+                            if (gps.Equals(1))
+                            {
+                                ca.GPS = true;
+                            }
+                            else
+                            {
+                                ca.GPS = false;
+                            }
+                            db.Cars.Add(ca);
                         }
                         if (attri != null)
                         {
@@ -511,7 +527,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         }
 
         [HttpPost]
-        public ActionResult Edit(Equipment emp, string import, string inspec, string insua, string used, string main)
+        public ActionResult Edit(Equipment emp, string import, string inspec, string insua, string used, string main, string sk, string sm)
         {
 
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
@@ -547,6 +563,15 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         date = main.Split('/');
                         date_fix = date[1] + "/" + date[0] + "/" + date[2];
                         emp.durationOfMaintainance = Convert.ToDateTime(date_fix);
+
+                        if(sk != "" && sm != "")
+                        {
+                            Car ca = db.Cars.Where(x => x.equipmentId == emp.equipmentId).FirstOrDefault();
+                            ca.sokhung = sk;
+                            ca.somay = sm;
+                            db.Entry(ca).State = EntityState.Modified;
+                        }
+
                         db.Entry(emp).State = EntityState.Modified;
                         db.SaveChanges();
                         dbc.Commit();
@@ -611,7 +636,13 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 listDN.Add(new SelectListItem { Text = "Đường kế toán", Value = "Đường kế toán" });
                 listDN.Add(new SelectListItem { Text = "Đường vật tư", Value = "Đường vật tư" });
                 ViewBag.listDN = listDN;
-                return View(db.Equipments.Where(x => x.equipmentId == id).FirstOrDefault<Equipment>());
+                string query = "SELECT e.[equipmentId],e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_expected_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name,a.sokhung, a.somay, a.GPS " +
+                "from Equipment e, Department d, Equipment_category ec,Status s, " +
+                "Car a " +
+                " where a.equipmentId = e.equipmentId and e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id AND e.current_Status = s.statusid AND e.equipmentId LIKE @equipmentId";
+
+                CarDB ca = db.Database.SqlQuery<CarDB>(query, new SqlParameter("equipmentId", '%' + id + '%')).FirstOrDefault();
+                return View(ca);
                 //return Json(new { success = true, message = "Cập nhật thành công" , data= db.Equipments.Where(x => x.equipmentId == id).FirstOrDefault<Equipment>()}, JsonRequestBehavior.AllowGet);
             }
         }
