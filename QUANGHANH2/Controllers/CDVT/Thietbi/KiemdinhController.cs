@@ -34,81 +34,58 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             string sortDirection = Request["order[0][dir]"];
 
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            string query = "SELECT ei.*, e.equipment_name, s.statusname FROM Equipment_Inspection ei INNER JOIN Equipment e on e.equipmentId = ei.equipmentId INNER JOIN Status s on s.statusid = e.current_Status WHERE ei.inspect_end_date IS NULL AND ";
-            if (!equipmentId.Equals("") || !equipmentName.Equals("") || !(dateStart.Equals("") || dateEnd.Equals("")))
+            DateTime dtStart = dateStart.Equals("") ? DateTime.MinValue : DateTime.ParseExact(dateStart, "dd/MM/yyyy", null);
+            DateTime dtEnd = dateStart.Equals("") ? DateTime.MaxValue : DateTime.ParseExact(dateEnd, "dd/MM/yyyy", null);
+            var list = (from ei in DBContext.Equipment_Inspection.GroupBy(x => x.equipmentId).Select(x => new
             {
-                if (!dateStart.Equals("") && !dateEnd.Equals(""))
-                {
-                    DateTime dtStart = DateTime.ParseExact(dateStart, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                    DateTime dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                    dtEnd = dtEnd.AddHours(23);
-                    dtEnd = dtEnd.AddMinutes(59);
-                    query += "inspect_expected_date BETWEEN '" + dtStart + "' AND '" + dtEnd + "' AND ";
-                }
-                if (!equipmentId.Equals("")) query += "ei.equipmentId LIKE @equipmentId AND ";
-                if (!equipmentName.Equals("")) query += "e.equipment_name LIKE @equipment_name AND ";
-            }
-            query = query.Substring(0, query.Length - 5);
-            List<Equipment_InspectionDB> list = DBContext.Database.SqlQuery<Equipment_InspectionDB>(query,
-                new SqlParameter("equipmentId", '%' + equipmentId + '%'),
-                new SqlParameter("equipment_name", '%' + equipmentName + '%')).ToList();
-            int totalrows = list.Count;
-            int totalrowsafterfiltering = list.Count;
-            //sorting
-            list = list.OrderBy(sortColumnName + " " + sortDirection).ToList<Equipment_InspectionDB>();
-            //paging
-            list = list.Skip(start).Take(length).ToList<Equipment_InspectionDB>();
-            foreach (Equipment_InspectionDB item in list)
-            {
-                item.stringExpectedTime = item.inspect_expected_date.ToString("dd/MM/yyyy");
-                item.stringStartTime = item.getStringtime(item.inspect_start_date);
-                item.updateAble = item.stringStartTime == "" ? "1" + item.inspect_id : "0" + item.inspect_id;
-            }
+                equipmentId = x.Key,
+                inspect_date = x.Max(row => row.inspect_date)
+            })
+                        where ei.inspect_date >= dtStart && ei.inspect_date <= dtEnd
+                        join ei2 in DBContext.Equipment_Inspection on ei.equipmentId equals ei2.equipmentId
+                        where ei2.inspect_date == ei.inspect_date
+                        join e in DBContext.Equipments.Where(e => e.equipmentId.Contains(equipmentId) && e.equipment_name.Contains(equipmentName)) on ei.equipmentId equals e.equipmentId
+                        join s in DBContext.Status on e.current_Status equals s.statusid
+                        select new
+                        {
+                            ei.equipmentId,
+                            ei.inspect_date,
+                            ei2.inspect_id,
+                            s.statusname,
+                            e.equipment_name
+                        }).OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList().Select(p => new Equipment_InspectionDB
+                        {
+                            equipmentId = p.equipmentId,
+                            equipment_name = p.equipment_name,
+                            inspect_date = p.inspect_date,
+                            inspect_id = p.inspect_id,
+                            statusname = p.statusname,
+                            stringExpectedTime = p.inspect_date.ToString("dd/MM/yyyy")
+                        }).ToList<Equipment_InspectionDB>();
+            int totalrows = (from ei in DBContext.Equipment_Inspection.GroupBy(x => x.equipmentId).Select(x => x.FirstOrDefault())
+                             where ei.inspect_date >= dtStart && ei.inspect_date <= dtEnd
+                             join e in DBContext.Equipments.Where(e => e.equipmentId.Contains(equipmentId) && e.equipment_name.Contains(equipmentName)) on ei.equipmentId equals e.equipmentId
+                             join s in DBContext.Status on e.current_Status equals s.statusid
+                             select ei).Count();
+            int totalrowsafterfiltering = totalrows;
             return Json(new { success = true, data = list, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
         [Auther(RightID = "171")]
-        [Route("phong-cdvt/kiem-dinh/update")]
+        [Route("phong-cdvt/kiem-dinh/add")]
         [HttpPost]
-        public ActionResult Update(string inspect_id)
-        {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
-            {
-                try
-                {
-                    Equipment_Inspection ei = DBContext.Equipment_Inspection.Find(int.Parse(inspect_id));
-                    ei.inspect_start_date = DateTime.Now;
-                    Equipment e = DBContext.Equipments.Find(ei.equipmentId);
-                    e.current_Status = 10;
-                    DBContext.SaveChanges();
-                    transaction.Commit();
-                    return Json(new { success = true, message = "Cập nhật thành công"}, JsonRequestBehavior.AllowGet);
-                }
-                catch (Exception)
-                {
-                    transaction.Rollback();
-                    return Json(new { success = false, message = "Có lỗi xảy ra\nxin vui lòng thử lại" }, JsonRequestBehavior.AllowGet);
-                }
-            }
-        }
-
-        [Auther(RightID = "171")]
-        [Route("phong-cdvt/kiem-dinh/edit")]
-        [HttpPost]
-        public ActionResult Edit(string inspect_id, string dateTemp)
+        public ActionResult Edit(int inspect_id, string dateTemp)
         {
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             try
             {
-                Equipment_Inspection ei = DBContext.Equipment_Inspection.Find(int.Parse(inspect_id));
+                Equipment_Inspection ei = DBContext.Equipment_Inspection.Find(inspect_id);
                 DateTime dtTemp = DateTime.ParseExact(dateTemp, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                ei.inspect_end_date = DateTime.Now;
+                ei.inspect_date = DateTime.Now;
                 Equipment e = DBContext.Equipments.Find(ei.equipmentId);
-                e.current_Status = 1;
                 Equipment_Inspection temp = new Equipment_Inspection();
                 temp.equipmentId = ei.equipmentId;
-                temp.inspect_expected_date = dtTemp;
+                temp.inspect_date = dtTemp;
                 DBContext.Equipment_Inspection.Add(temp);
                 DBContext.SaveChanges();
                 return Json(new { success = true, message = "Cập nhật thành công" }, JsonRequestBehavior.AllowGet);

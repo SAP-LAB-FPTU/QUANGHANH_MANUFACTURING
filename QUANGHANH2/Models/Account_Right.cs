@@ -19,5 +19,7 @@ namespace QUANGHANH2.Models
         public Nullable<int> GroupID { get; set; }
         public string Right { get; set; }
         public Nullable<bool> isBasic { get; set; }
+    
+        public virtual Module Module { get; set; }
     }
 }

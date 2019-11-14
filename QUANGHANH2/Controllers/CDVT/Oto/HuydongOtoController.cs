@@ -129,7 +129,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
 
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    var equipList = db.Database.SqlQuery<EquipWithName>("SELECT e.[equipmentId],e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_expected_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
+                    var equipList = db.Database.SqlQuery<EquipWithName>("SELECT e.[equipmentId],e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
                "from Equipment e, Department d, Equipment_category ec,Status s, " +
                "(select distinct e.equipmentId, e.equipment_name from Equipment e inner join Equipment_category_attribute ea on ea.Equipment_category_id = e.Equipment_category_id where ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') a" +
                " where a.equipmentId = e.equipmentId and e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id AND e.current_Status = s.statusid").ToList();
@@ -191,7 +191,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                 string date_fix = date[2] + "/" + date[1] + "/" + date[0];
                 dtEnd = DateTime.ParseExact(date_fix, "yyyy/MM/dd", CultureInfo.InvariantCulture);
             }
-            string query = "SELECT e.[equipmentId],e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_expected_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name,a.sokhung, a.somay, a.GPS " +
+            string query = "SELECT e.[equipmentId],e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name,a.sokhung, a.somay, a.GPS " +
                 "from Equipment e, Department d, Equipment_category ec,Status s, " +
                 "Car a " +
                 " where a.equipmentId = e.equipmentId and e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id AND e.current_Status = s.statusid AND e.usedDay between @start_time1 and @start_time2 and ";
@@ -407,7 +407,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                         }
                         Equipment_Inspection ei = new Equipment_Inspection();
                         ei.equipmentId = emp.equipmentId;
-                        ei.inspect_expected_date = emp.durationOfInspection;
+                        ei.inspect_date = emp.durationOfInspection;
                         db.Equipment_Inspection.Add(ei);
                         db.SaveChanges();
                         dbc.Commit();

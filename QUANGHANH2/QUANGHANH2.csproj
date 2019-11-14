@@ -217,6 +217,7 @@
     <Compile Include="Controllers\CDVT\Nghiemthu\DanghiemthuController.cs" />
     <Compile Include="Controllers\CDVT\Nghiemthu\nghiemthuController.cs" />
     <Compile Include="Controllers\CDVT\Nghiemthu\VattukemtheoController.cs" />
+    <Compile Include="Controllers\CDVT\Oto\BaoHiemOtoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\ChitietotoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\DanhsachController.cs" />
     <Compile Include="Controllers\CDVT\Oto\GPSController.cs" />
@@ -368,6 +369,7 @@
     <Compile Include="Models\Car.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CarDB.cs" />
     <Compile Include="Models\CarGP.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -433,6 +435,7 @@
     <Compile Include="Models\Documentary_camera_repair_details.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Documentary_cam_repair_detailsDB.cs" />
     <Compile Include="Models\Documentary_Improve_Detail.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -483,6 +486,7 @@
     <Compile Include="Models\Equipment_Insurance.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Equipment_InsuranceDB.cs" />
     <Compile Include="Models\FakeAPI.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -7107,6 +7111,8 @@
     <Content Include="excel\DK\DailyDepartment\templateBaoCaoTheoPhanXuong.xlsx" />
     <Content Include="excel\Notifi\ThongbaoCDVT.xlsx" />
     <Content Include="js\Custom JS\CDVT\Capnhat\check.js" />
+    <Content Include="excel\Camera\camera-temp.xlsx" />
+    <Content Include="excel\Camera\Download\camera-temp-download.xlsx" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -7428,6 +7434,8 @@
     <Content Include="Views\Camera\Suachua.cshtml" />
     <Content Include="Views\CDVT\Vattu\Xincapvattulan1.cshtml" />
     <Content Include="Views\Camera\Nghiemthu.cshtml" />
+    <Content Include="Views\ManagementUser\Roles.cshtml" />
+    <Content Include="Views\CDVT\Car\BaoHiemOto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7436,6 +7444,7 @@
     <Folder Include="FileContainer\PhanXuongLenDK\" />
     <Folder Include="Library\" />
     <Folder Include="Views\BaoCaoLenPhongDK\" />
+    <Folder Include="Views\BaoHiemOto\" />
     <Folder Include="Views\CameraManagement\" />
     <Folder Include="Views\Cam\" />
     <Folder Include="Views\ChitietSuachuaCam\" />
@@ -7451,15 +7460,9 @@
     <Folder Include="Views\NghiemThuCam\" />
     <Folder Include="Views\Notifi\" />
     <Folder Include="Views\Occupation\" />
-    <Folder Include="Views\PhanXuongReport\" />
-    <Folder Include="Views\QDCaitien\" />
-    <Folder Include="Views\Quanlyvattu\" />
-    <Folder Include="Views\ReportMonthly\" />
-    <Folder Include="Views\SanLuongReport\" />
     <Folder Include="Views\SideOccupation\" />
     <Folder Include="Views\SuachuaCamera\" />
     <Folder Include="Views\SucoCam\" />
-    <Folder Include="Views\ThemCaiTien\" />
     <Folder Include="Views\ViewAccident\" />
     <Folder Include="Views\WorkHistory\" />
     <Folder Include="Views\XuLyQD\" />

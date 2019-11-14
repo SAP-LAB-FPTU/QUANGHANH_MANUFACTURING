@@ -1,13 +1,13 @@
 ﻿using OfficeOpenXml;
 using QUANGHANH2.Models;
+using QUANGHANH2.SupportClass;
 using System;
 using System.IO;
 using System.Linq;
-using System.Web.Hosting;
 using System.Linq.Dynamic;
+using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
-using QUANGHANH2.SupportClass;
 
 namespace QUANGHANHCORE.Controllers.TCLD
 {
@@ -29,14 +29,14 @@ namespace QUANGHANHCORE.Controllers.TCLD
             public TDCDModel()
             {
                 Stt = 1;
-                TenPhongBan = String.Empty;
+                TenPhongBan = string.Empty;
                 TongTuyenDungCoDien = 0;
                 TongChamDutCoDien = 0;
                 TongTuyenDungKhaiThac = 0;
                 TongChamDutKhaiThac = 0;
                 TongTuyenDung = 0;
                 TongChamDut = 0;
-                GhiChu = String.Empty;
+                GhiChu = string.Empty;
                 ChenhLech = 0;
             }
         }
@@ -69,103 +69,111 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
                     // them phan check nam vao day
-                    var arrTuyenDungCoDien = ((from cn in db.TuyenDung_NhanVien
-                                               join
-                                                 n in db.NhanViens on
-                                                 cn.MaNV equals n.MaNV
-                                               join cv in db.CongViecs
-                                               on n.MaCongViec equals cv.MaCongViec
-                                               //join ncv in db.NhomCongViecs
-                                               //on cv.MaNhomCongViec equals ncv.MaNhomCongViec
-                                               //where ncv.MaNhomCongViec == 2
-                                               join qd in db.QuyetDinhs
-                                               on cn.MaQuyetDinh equals qd.MaQuyetDinh
-                                               where qd.SoQuyetDinh != null
-                                               join d in db.Departments on
-                                               n.MaPhongBan equals d.department_id
-                                               into tb1
-                                               from tb2 in tb1.DefaultIfEmpty()
-                                               group tb2 by tb2.department_name into groupted
-                                               select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
+                    System.Collections.Generic.List<CountModel> arrTuyenDungCoDien = ((from cn in db.TuyenDung_NhanVien
+                                                                                       join
+                                                                                       n in db.NhanViens on
+                                                                                       cn.MaNV equals n.MaNV
+                                                                                       join cv in db.CongViecs
+                                                                                       on n.MaCongViec equals cv.MaCongViec
+                                                                                       join cvncv in db.CongViec_NhomCongViec
+                                                                                       on cv.MaCongViec equals cvncv.MaCongViec
+                                                                                       join ncv in db.NhomCongViecs
+                                                                                       on cvncv.MaNhomCongViec equals ncv.MaNhomCongViec
+                                                                                       where ncv.MaNhomCongViec == 7
+                                                                                       join qd in db.QuyetDinhs
+                                                                                       on cn.MaQuyetDinh equals qd.MaQuyetDinh
+                                                                                       where qd.SoQuyetDinh != null
+                                                                                       join d in db.Departments on
+                                                                                       n.MaPhongBan equals d.department_id
+                                                                                       into tb1
+                                                                                       from tb2 in tb1.DefaultIfEmpty()
+                                                                                       group tb2 by tb2.department_name into groupted
+                                                                                       select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
                                               ).ToList();
-                    var arrTuyenDungKhaiThac = ((from cn in db.TuyenDung_NhanVien
-                                                 join
-                                               n in db.NhanViens on
-                                               cn.MaNV equals n.MaNV
-                                                 join cv in db.CongViecs
-                                               on n.MaCongViec equals cv.MaCongViec
-                                                 //join ncv in db.NhomCongViecs
-                                                 //on cv.MaNhomCongViec equals ncv.MaNhomCongViec
-                                                 //where ncv.MaNhomCongViec == 1
-                                                 join qd in db.QuyetDinhs
-                                               on cn.MaQuyetDinh equals qd.MaQuyetDinh
-                                                 where qd.SoQuyetDinh != null
-                                                 join d in db.Departments on
-                                                 n.MaPhongBan equals d.department_id
-                                                 into tb1
-                                                 from tb2 in tb1.DefaultIfEmpty()
-                                                 group tb2 by tb2.department_name into groupted
-                                                 select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
+                    System.Collections.Generic.List<CountModel> arrTuyenDungKhaiThac = ((from cn in db.TuyenDung_NhanVien
+                                                                                         join
+                                                                                         n in db.NhanViens on
+                                                                                         cn.MaNV equals n.MaNV
+                                                                                         join cv in db.CongViecs
+                                                                                         on n.MaCongViec equals cv.MaCongViec
+                                                                                         join cvncv in db.CongViec_NhomCongViec
+                                                                                         on cv.MaCongViec equals cvncv.MaCongViec
+                                                                                         join ncv in db.NhomCongViecs
+                                                                                         on cvncv.MaNhomCongViec equals ncv.MaNhomCongViec
+                                                                                         where ncv.MaNhomCongViec == 6
+                                                                                         join qd in db.QuyetDinhs
+                                                                                         on cn.MaQuyetDinh equals qd.MaQuyetDinh
+                                                                                         where qd.SoQuyetDinh != null
+                                                                                         join d in db.Departments on
+                                                                                         n.MaPhongBan equals d.department_id
+                                                                                         into tb1
+                                                                                         from tb2 in tb1.DefaultIfEmpty()
+                                                                                         group tb2 by tb2.department_name into groupted
+                                                                                         select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
                                               ).ToList();
-                    var arrChamDutCoDien = ((from cn in db.ChamDut_NhanVien
-                                             join
-                                             n in db.NhanViens on
-                                             cn.MaNV equals n.MaNV
-                                             join cv in db.CongViecs
-                                               on n.MaCongViec equals cv.MaCongViec
-                                             //join ncv in db.NhomCongViecs
-                                             //on cv.MaNhomCongViec equals ncv.MaNhomCongViec
-                                             //where ncv.MaNhomCongViec == 2
-                                             join qd in db.QuyetDinhs
-                                               on cn.MaQuyetDinh equals qd.MaQuyetDinh
-                                             where qd.SoQuyetDinh != null
-                                             join d in db.Departments on
-                                             n.MaPhongBan equals d.department_id
-                                             into tb1
-                                             from tb2 in tb1.DefaultIfEmpty()
-                                             group tb2 by tb2.department_name into groupted
-                                             select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
+                    System.Collections.Generic.List<CountModel> arrChamDutCoDien = ((from cn in db.ChamDut_NhanVien
+                                                                                     join
+                                                                                     n in db.NhanViens on
+                                                                                     cn.MaNV equals n.MaNV
+                                                                                     join cv in db.CongViecs
+                                                                                     on n.MaCongViec equals cv.MaCongViec
+                                                                                     join cvncv in db.CongViec_NhomCongViec
+                                                                                     on cv.MaCongViec equals cvncv.MaCongViec
+                                                                                     join ncv in db.NhomCongViecs
+                                                                                     on cvncv.MaNhomCongViec equals ncv.MaNhomCongViec
+                                                                                     where ncv.MaNhomCongViec == 7
+                                                                                     join qd in db.QuyetDinhs
+                                                                                     on cn.MaQuyetDinh equals qd.MaQuyetDinh
+                                                                                     where qd.SoQuyetDinh != null
+                                                                                     join d in db.Departments on
+                                                                                     n.MaPhongBan equals d.department_id
+                                                                                     into tb1
+                                                                                     from tb2 in tb1.DefaultIfEmpty()
+                                                                                     group tb2 by tb2.department_name into groupted
+                                                                                     select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
                                               ).ToList();
-                    var arrChamDutKhaiThac = ((from cn in db.ChamDut_NhanVien
-                                               join
-                                               n in db.NhanViens on
-                                               cn.MaNV equals n.MaNV
-                                               join cv in db.CongViecs
-                                                on n.MaCongViec equals cv.MaCongViec
-                                               //join ncv in db.NhomCongViecs
-                                               //on cv.MaNhomCongViec equals ncv.MaNhomCongViec
-                                               //where ncv.MaNhomCongViec == 1
-                                               join qd in db.QuyetDinhs
-                                               on cn.MaQuyetDinh equals qd.MaQuyetDinh
-                                               where qd.SoQuyetDinh != null
-                                               join d in db.Departments on
-                                               n.MaPhongBan equals d.department_id
-                                               into tb1
-                                               from tb2 in tb1.DefaultIfEmpty()
-                                               group tb2 by tb2.department_name into groupted
-                                               select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
+                    System.Collections.Generic.List<CountModel> arrChamDutKhaiThac = ((from cn in db.ChamDut_NhanVien
+                                                                                       join
+                                                                                       n in db.NhanViens on
+                                                                                       cn.MaNV equals n.MaNV
+                                                                                       join cv in db.CongViecs
+                                                                                        on n.MaCongViec equals cv.MaCongViec
+                                                                                       join cvncv in db.CongViec_NhomCongViec
+                                                                                       on cv.MaCongViec equals cvncv.MaCongViec
+                                                                                       join ncv in db.NhomCongViecs
+                                                                                       on cvncv.MaNhomCongViec equals ncv.MaNhomCongViec
+                                                                                       where ncv.MaNhomCongViec == 6
+                                                                                       join qd in db.QuyetDinhs
+                                                                                       on cn.MaQuyetDinh equals qd.MaQuyetDinh
+                                                                                       where qd.SoQuyetDinh != null
+                                                                                       join d in db.Departments on
+                                                                                       n.MaPhongBan equals d.department_id
+                                                                                       into tb1
+                                                                                       from tb2 in tb1.DefaultIfEmpty()
+                                                                                       group tb2 by tb2.department_name into groupted
+                                                                                       select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
                                               ).ToList();
-                    var arrPhongBan = db.Departments.Where(p => !p.department_type.Contains("Điều hành")
+                    System.Collections.Generic.List<TDCDModel> arrPhongBan = db.Departments.Where(p => !p.department_type.Contains("Điều hành")
                                                                  && !p.department_type.Contains("Đoàn thể") &&
                                                                  !p.department_type.Contains("ngoài")).Select(p => new TDCDModel
-                    {
-                        TenPhongBan = p.department_name,
-                        Stt = 1,
-                        TongTuyenDungCoDien = 0,
-                        TongChamDutCoDien = 0,
-                        TongTuyenDungKhaiThac = 0,
-                        TongChamDutKhaiThac = 0,
-                        TongTuyenDung = 0,
-                        TongChamDut = 0,
-                        GhiChu = String.Empty,
-                        ChenhLech = 0,
-                    }).ToList();
+                                                                 {
+                                                                     TenPhongBan = p.department_name,
+                                                                     Stt = 1,
+                                                                     TongTuyenDungCoDien = 0,
+                                                                     TongChamDutCoDien = 0,
+                                                                     TongTuyenDungKhaiThac = 0,
+                                                                     TongChamDutKhaiThac = 0,
+                                                                     TongTuyenDung = 0,
+                                                                     TongChamDut = 0,
+                                                                     GhiChu = string.Empty,
+                                                                     ChenhLech = 0,
+                                                                 }).ToList();
                     int stt = 1;
                     int tongCD = 0, tongTD = 0, tongCDCD = 0, tongCDKT = 0, tongTDCD = 0, tongTDKT = 0;
-                    foreach (var phongBan in arrPhongBan)
+                    foreach (TDCDModel phongBan in arrPhongBan)
                     {
                         phongBan.Stt = stt++;
-                        foreach (var tdcd in arrTuyenDungCoDien)
+                        foreach (CountModel tdcd in arrTuyenDungCoDien)
                         {
                             if (tdcd.TenPhongBan.Equals(phongBan.TenPhongBan))
                             {
@@ -174,7 +182,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                 break;
                             }
                         }
-                        foreach (var tdkt in arrTuyenDungKhaiThac)
+                        foreach (CountModel tdkt in arrTuyenDungKhaiThac)
                         {
                             if (tdkt.TenPhongBan.Equals(phongBan.TenPhongBan))
                             {
@@ -183,7 +191,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                 break;
                             }
                         }
-                        foreach (var cdcd in arrChamDutCoDien)
+                        foreach (CountModel cdcd in arrChamDutCoDien)
                         {
                             if (cdcd.TenPhongBan.Equals(phongBan.TenPhongBan))
                             {
@@ -192,7 +200,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                 break;
                             }
                         }
-                        foreach (var cdkt in arrChamDutKhaiThac)
+                        foreach (CountModel cdkt in arrChamDutKhaiThac)
                         {
                             if (cdkt.TenPhongBan.Equals(phongBan.TenPhongBan))
                             {
@@ -239,108 +247,116 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
                     // them phan check nam vao day
-                    var arrTuyenDungCoDien = ((from cn in db.TuyenDung_NhanVien
-                                               join
-                                                 n in db.NhanViens on
-                                                 cn.MaNV equals n.MaNV
-                                               join cv in db.CongViecs
-                                               on n.MaCongViec equals cv.MaCongViec
-                                               //join ncv in db.NhomCongViecs
-                                               //on cv.MaNhomCongViec equals ncv.MaNhomCongViec
-                                               //where ncv.MaNhomCongViec == 2
-                                               join qd in db.QuyetDinhs
-                                               on cn.MaQuyetDinh equals qd.MaQuyetDinh
-                                               where qd.SoQuyetDinh != null
-                                               && cn.NgayTuyenDung.Year == year
-                                               join d in db.Departments on
-                                               n.MaPhongBan equals d.department_id
-                                               into tb1
-                                               from tb2 in tb1.DefaultIfEmpty()
-                                               group tb2 by tb2.department_name into groupted
-                                               select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
+                    System.Collections.Generic.List<CountModel> arrTuyenDungCoDien = ((from cn in db.TuyenDung_NhanVien
+                                                                                       join
+                                                                                         n in db.NhanViens on
+                                                                                         cn.MaNV equals n.MaNV
+                                                                                       join cv in db.CongViecs
+                                                                                       on n.MaCongViec equals cv.MaCongViec
+                                                                                       join cvncv in db.CongViec_NhomCongViec
+                                                                                       on cv.MaCongViec equals cvncv.MaCongViec
+                                                                                       join ncv in db.NhomCongViecs
+                                                                                       on cvncv.MaNhomCongViec equals ncv.MaNhomCongViec
+                                                                                       where ncv.MaNhomCongViec == 7
+                                                                                       join qd in db.QuyetDinhs
+                                                                                       on cn.MaQuyetDinh equals qd.MaQuyetDinh
+                                                                                       where qd.SoQuyetDinh != null
+                                                                                       && cn.NgayTuyenDung.Year == year
+                                                                                       join d in db.Departments on
+                                                                                       n.MaPhongBan equals d.department_id
+                                                                                       into tb1
+                                                                                       from tb2 in tb1.DefaultIfEmpty()
+                                                                                       group tb2 by tb2.department_name into groupted
+                                                                                       select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
                                               ).ToList();
-                    var arrTuyenDungKhaiThac = ((from cn in db.TuyenDung_NhanVien
-                                                 join
-                                               n in db.NhanViens on
-                                               cn.MaNV equals n.MaNV
-                                                 join cv in db.CongViecs
-                                               on n.MaCongViec equals cv.MaCongViec
-                                                 //join ncv in db.NhomCongViecs
-                                                 //on cv.MaNhomCongViec equals ncv.MaNhomCongViec
-                                                 //where ncv.MaNhomCongViec == 1
-                                                 join qd in db.QuyetDinhs
-                                               on cn.MaQuyetDinh equals qd.MaQuyetDinh
-                                                 where qd.SoQuyetDinh != null
-                                                   && cn.NgayTuyenDung.Year == year
-                                                 join d in db.Departments on
-                                                 n.MaPhongBan equals d.department_id
-                                                 into tb1
-                                                 from tb2 in tb1.DefaultIfEmpty()
-                                                 group tb2 by tb2.department_name into groupted
-                                                 select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
+                    System.Collections.Generic.List<CountModel> arrTuyenDungKhaiThac = ((from cn in db.TuyenDung_NhanVien
+                                                                                         join
+                                                                                         n in db.NhanViens on
+                                                                                         cn.MaNV equals n.MaNV
+                                                                                         join cv in db.CongViecs
+                                                                                         on n.MaCongViec equals cv.MaCongViec
+                                                                                         join cvncv in db.CongViec_NhomCongViec
+                                                                                         on cv.MaCongViec equals cvncv.MaCongViec
+                                                                                         join ncv in db.NhomCongViecs
+                                                                                         on cvncv.MaNhomCongViec equals ncv.MaNhomCongViec
+                                                                                         where ncv.MaNhomCongViec == 6
+                                                                                         join qd in db.QuyetDinhs
+                                                                                         on cn.MaQuyetDinh equals qd.MaQuyetDinh
+                                                                                         where qd.SoQuyetDinh != null
+                                                                                           && cn.NgayTuyenDung.Year == year
+                                                                                         join d in db.Departments on
+                                                                                         n.MaPhongBan equals d.department_id
+                                                                                         into tb1
+                                                                                         from tb2 in tb1.DefaultIfEmpty()
+                                                                                         group tb2 by tb2.department_name into groupted
+                                                                                         select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
                                               ).ToList();
-                    var arrChamDutCoDien = ((from cn in db.ChamDut_NhanVien
-                                             join
-                                             n in db.NhanViens on
-                                             cn.MaNV equals n.MaNV
-                                             join cv in db.CongViecs
-                                               on n.MaCongViec equals cv.MaCongViec
-                                             //join ncv in db.NhomCongViecs
-                                             //on cv.MaNhomCongViec equals ncv.MaNhomCongViec
-                                             //where ncv.MaNhomCongViec == 2
-                                             join qd in db.QuyetDinhs
-                                               on cn.MaQuyetDinh equals qd.MaQuyetDinh
-                                             where qd.SoQuyetDinh != null
-                                           && cn.NgayChamDut.Year == year
-                                             join d in db.Departments on
-                                             n.MaPhongBan equals d.department_id
-                                             into tb1
-                                             from tb2 in tb1.DefaultIfEmpty()
-                                             group tb2 by tb2.department_name into groupted
-                                             select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
+                    System.Collections.Generic.List<CountModel> arrChamDutCoDien = ((from cn in db.ChamDut_NhanVien
+                                                                                     join
+                                                                                     n in db.NhanViens on
+                                                                                     cn.MaNV equals n.MaNV
+                                                                                     join cv in db.CongViecs
+                                                                                     on n.MaCongViec equals cv.MaCongViec
+                                                                                     join cvncv in db.CongViec_NhomCongViec
+                                                                                     on cv.MaCongViec equals cvncv.MaCongViec
+                                                                                     join ncv in db.NhomCongViecs
+                                                                                     on cvncv.MaNhomCongViec equals ncv.MaNhomCongViec
+                                                                                     where ncv.MaNhomCongViec == 7
+                                                                                     join qd in db.QuyetDinhs
+                                                                                     on cn.MaQuyetDinh equals qd.MaQuyetDinh
+                                                                                     where qd.SoQuyetDinh != null
+                                                                                     && cn.NgayChamDut.Year == year
+                                                                                     join d in db.Departments on
+                                                                                     n.MaPhongBan equals d.department_id
+                                                                                     into tb1
+                                                                                     from tb2 in tb1.DefaultIfEmpty()
+                                                                                     group tb2 by tb2.department_name into groupted
+                                                                                     select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
                                               ).ToList();
-                    var arrChamDutKhaiThac = ((from cn in db.ChamDut_NhanVien
-                                               join
-                                               n in db.NhanViens on
-                                               cn.MaNV equals n.MaNV
-                                               join cv in db.CongViecs
-                                                on n.MaCongViec equals cv.MaCongViec
-                                               //join ncv in db.NhomCongViecs
-                                               //on cv.MaNhomCongViec equals ncv.MaNhomCongViec
-                                               //where ncv.MaNhomCongViec == 1
-                                               join qd in db.QuyetDinhs
-                                               on cn.MaQuyetDinh equals qd.MaQuyetDinh
-                                               where qd.SoQuyetDinh != null
-                                               && cn.NgayChamDut.Year == year
-                                               join d in db.Departments on
-                                               n.MaPhongBan equals d.department_id
-                                               into tb1
-                                               from tb2 in tb1.DefaultIfEmpty()
-                                               group tb2 by tb2.department_name into groupted
-                                               select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
+                    System.Collections.Generic.List<CountModel> arrChamDutKhaiThac = ((from cn in db.ChamDut_NhanVien
+                                                                                       join
+                                                                                       n in db.NhanViens on
+                                                                                       cn.MaNV equals n.MaNV
+                                                                                       join cv in db.CongViecs
+                                                                                        on n.MaCongViec equals cv.MaCongViec
+                                                                                       join cvncv in db.CongViec_NhomCongViec
+                                                                                       on cv.MaCongViec equals cvncv.MaCongViec
+                                                                                       join ncv in db.NhomCongViecs
+                                                                                       on cvncv.MaNhomCongViec equals ncv.MaNhomCongViec
+                                                                                       where ncv.MaNhomCongViec == 6
+                                                                                       join qd in db.QuyetDinhs
+                                                                                       on cn.MaQuyetDinh equals qd.MaQuyetDinh
+                                                                                       where qd.SoQuyetDinh != null
+                                                                                       && cn.NgayChamDut.Year == year
+                                                                                       join d in db.Departments on
+                                                                                       n.MaPhongBan equals d.department_id
+                                                                                       into tb1
+                                                                                       from tb2 in tb1.DefaultIfEmpty()
+                                                                                       group tb2 by tb2.department_name into groupted
+                                                                                       select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
                                               ).ToList();
 
-                    var arrPhongBan = db.Departments.Where(p => !p.department_type.Contains("Điều hành")
+                    System.Collections.Generic.List<TDCDModel> arrPhongBan = db.Departments.Where(p => !p.department_type.Contains("Điều hành")
                                                                  && !p.department_type.Contains("Đoàn thể") &&
                                                                  !p.department_type.Contains("ngoài")).Select(p => new TDCDModel
-                         {
-                        TenPhongBan = p.department_name,
-                        Stt = 1,
-                        TongTuyenDungCoDien = 0,
-                        TongChamDutCoDien = 0,
-                        TongTuyenDungKhaiThac = 0,
-                        TongChamDutKhaiThac = 0,
-                        TongTuyenDung = 0,
-                        TongChamDut = 0,
-                        GhiChu = String.Empty,
-                        ChenhLech = 0,
-                    }).ToList();
+                                                                 {
+                                                                     TenPhongBan = p.department_name,
+                                                                     Stt = 1,
+                                                                     TongTuyenDungCoDien = 0,
+                                                                     TongChamDutCoDien = 0,
+                                                                     TongTuyenDungKhaiThac = 0,
+                                                                     TongChamDutKhaiThac = 0,
+                                                                     TongTuyenDung = 0,
+                                                                     TongChamDut = 0,
+                                                                     GhiChu = string.Empty,
+                                                                     ChenhLech = 0,
+                                                                 }).ToList();
                     int stt = 1;
                     int tongCD = 0, tongTD = 0, tongCDCD = 0, tongCDKT = 0, tongTDCD = 0, tongTDKT = 0;
-                    foreach (var phongBan in arrPhongBan)
+                    foreach (TDCDModel phongBan in arrPhongBan)
                     {
                         phongBan.Stt = stt++;
-                        foreach (var tdcd in arrTuyenDungCoDien)
+                        foreach (CountModel tdcd in arrTuyenDungCoDien)
                         {
                             if (tdcd.TenPhongBan.Equals(phongBan.TenPhongBan))
                             {
@@ -349,7 +365,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                 break;
                             }
                         }
-                        foreach (var tdkt in arrTuyenDungKhaiThac)
+                        foreach (CountModel tdkt in arrTuyenDungKhaiThac)
                         {
                             if (tdkt.TenPhongBan.Equals(phongBan.TenPhongBan))
                             {
@@ -358,7 +374,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                 break;
                             }
                         }
-                        foreach (var cdcd in arrChamDutCoDien)
+                        foreach (CountModel cdcd in arrChamDutCoDien)
                         {
                             if (cdcd.TenPhongBan.Equals(phongBan.TenPhongBan))
                             {
@@ -367,7 +383,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                 break;
                             }
                         }
-                        foreach (var cdkt in arrChamDutKhaiThac)
+                        foreach (CountModel cdkt in arrChamDutKhaiThac)
                         {
                             if (cdkt.TenPhongBan.Equals(phongBan.TenPhongBan))
                             {
@@ -424,103 +440,111 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 {
                     if (year == 0)
                     {
-                        var arrTuyenDungCoDien = ((from cn in db.TuyenDung_NhanVien
-                                                   join
-                                                   n in db.NhanViens on
-                                                   cn.MaNV equals n.MaNV
-                                                   join cv in db.CongViecs
-                                                on n.MaCongViec equals cv.MaCongViec
-                                                   //join ncv in db.NhomCongViecs
-                                                   //on cv.MaNhomCongViec equals ncv.MaNhomCongViec
-                                                   //where ncv.MaNhomCongViec == 2
-                                                   join qd in db.QuyetDinhs
-                                               on cn.MaQuyetDinh equals qd.MaQuyetDinh
-                                                   where qd.SoQuyetDinh != null
-                                                   join d in db.Departments on
-                                                   n.MaPhongBan equals d.department_id
-                                                   into tb1
-                                                   from tb2 in tb1.DefaultIfEmpty()
-                                                   group tb2 by tb2.department_name into groupted
-                                                   select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
+                        System.Collections.Generic.List<CountModel> arrTuyenDungCoDien = ((from cn in db.TuyenDung_NhanVien
+                                                                                           join
+                                                                                           n in db.NhanViens on
+                                                                                           cn.MaNV equals n.MaNV
+                                                                                           join cv in db.CongViecs
+                                                                                           on n.MaCongViec equals cv.MaCongViec
+                                                                                           join cvncv in db.CongViec_NhomCongViec
+                                                                                           on cv.MaCongViec equals cvncv.MaCongViec
+                                                                                           join ncv in db.NhomCongViecs
+                                                                                           on cvncv.MaNhomCongViec equals ncv.MaNhomCongViec
+                                                                                           where ncv.MaNhomCongViec == 7
+                                                                                           join qd in db.QuyetDinhs
+                                                                                           on cn.MaQuyetDinh equals qd.MaQuyetDinh
+                                                                                           where qd.SoQuyetDinh != null
+                                                                                           join d in db.Departments on
+                                                                                           n.MaPhongBan equals d.department_id
+                                                                                           into tb1
+                                                                                           from tb2 in tb1.DefaultIfEmpty()
+                                                                                           group tb2 by tb2.department_name into groupted
+                                                                                           select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
                                                   ).ToList();
-                        var arrTuyenDungKhaiThac = ((from cn in db.TuyenDung_NhanVien
-                                                     join
-                                                   n in db.NhanViens on
-                                                   cn.MaNV equals n.MaNV
-                                                     join cv in db.CongViecs
-                                                on n.MaCongViec equals cv.MaCongViec
-                                                     //join ncv in db.NhomCongViecs
-                                                     //on cv.MaNhomCongViec equals ncv.MaNhomCongViec
-                                                     //where ncv.MaNhomCongViec == 1
-                                                     join qd in db.QuyetDinhs
-                                               on cn.MaQuyetDinh equals qd.MaQuyetDinh
-                                                     where qd.SoQuyetDinh != null
-                                                     join d in db.Departments on
-                                                     n.MaPhongBan equals d.department_id
-                                                     into tb1
-                                                     from tb2 in tb1.DefaultIfEmpty()
-                                                     group tb2 by tb2.department_name into groupted
-                                                     select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
+                        System.Collections.Generic.List<CountModel> arrTuyenDungKhaiThac = ((from cn in db.TuyenDung_NhanVien
+                                                                                             join
+                                                                                             n in db.NhanViens on
+                                                                                             cn.MaNV equals n.MaNV
+                                                                                             join cv in db.CongViecs
+                                                                                             on n.MaCongViec equals cv.MaCongViec
+                                                                                             join cvncv in db.CongViec_NhomCongViec
+                                                                                             on cv.MaCongViec equals cvncv.MaCongViec
+                                                                                             join ncv in db.NhomCongViecs
+                                                                                             on cvncv.MaNhomCongViec equals ncv.MaNhomCongViec
+                                                                                             where ncv.MaNhomCongViec == 6
+                                                                                             join qd in db.QuyetDinhs
+                                                                                             on cn.MaQuyetDinh equals qd.MaQuyetDinh
+                                                                                             where qd.SoQuyetDinh != null
+                                                                                             join d in db.Departments on
+                                                                                             n.MaPhongBan equals d.department_id
+                                                                                             into tb1
+                                                                                             from tb2 in tb1.DefaultIfEmpty()
+                                                                                             group tb2 by tb2.department_name into groupted
+                                                                                             select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
                                                   ).ToList();
-                        var arrChamDutCoDien = ((from cn in db.ChamDut_NhanVien
-                                                 join
-                                                 n in db.NhanViens on
-                                                 cn.MaNV equals n.MaNV
-                                                 join cv in db.CongViecs
-                                                on n.MaCongViec equals cv.MaCongViec
-                                                 //join ncv in db.NhomCongViecs
-                                                 //on cv.MaNhomCongViec equals ncv.MaNhomCongViec
-                                                 //where ncv.MaNhomCongViec == 2
-                                                 join qd in db.QuyetDinhs
-                                               on cn.MaQuyetDinh equals qd.MaQuyetDinh
-                                                 where qd.SoQuyetDinh != null
-                                                 join d in db.Departments on
-                                                 n.MaPhongBan equals d.department_id
-                                                 into tb1
-                                                 from tb2 in tb1.DefaultIfEmpty()
-                                                 group tb2 by tb2.department_name into groupted
-                                                 select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
+                        System.Collections.Generic.List<CountModel> arrChamDutCoDien = ((from cn in db.ChamDut_NhanVien
+                                                                                         join
+                                                                                         n in db.NhanViens on
+                                                                                         cn.MaNV equals n.MaNV
+                                                                                         join cv in db.CongViecs
+                                                                                         on n.MaCongViec equals cv.MaCongViec
+                                                                                         join cvncv in db.CongViec_NhomCongViec
+                                                                                         on cv.MaCongViec equals cvncv.MaCongViec
+                                                                                         join ncv in db.NhomCongViecs
+                                                                                         on cvncv.MaNhomCongViec equals ncv.MaNhomCongViec
+                                                                                         where ncv.MaNhomCongViec == 7
+                                                                                         join qd in db.QuyetDinhs
+                                                                                         on cn.MaQuyetDinh equals qd.MaQuyetDinh
+                                                                                         where qd.SoQuyetDinh != null
+                                                                                         join d in db.Departments on
+                                                                                         n.MaPhongBan equals d.department_id
+                                                                                         into tb1
+                                                                                         from tb2 in tb1.DefaultIfEmpty()
+                                                                                         group tb2 by tb2.department_name into groupted
+                                                                                         select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
                                                   ).ToList();
-                        var arrChamDutKhaiThac = ((from cn in db.ChamDut_NhanVien
-                                                   join
-                                                   n in db.NhanViens on
-                                                   cn.MaNV equals n.MaNV
-                                                   join cv in db.CongViecs
-                                               on n.MaCongViec equals cv.MaCongViec
-                                                   //join ncv in db.NhomCongViecs
-                                                   //on cv.MaNhomCongViec equals ncv.MaNhomCongViec
-                                                   //where ncv.MaNhomCongViec == 1
-                                                   join qd in db.QuyetDinhs
-                                               on cn.MaQuyetDinh equals qd.MaQuyetDinh
-                                                   where qd.SoQuyetDinh != null
-                                                   join d in db.Departments on
-                                                   n.MaPhongBan equals d.department_id
-                                                   into tb1
-                                                   from tb2 in tb1.DefaultIfEmpty()
-                                                   group tb2 by tb2.department_name into groupted
-                                                   select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
+                        System.Collections.Generic.List<CountModel> arrChamDutKhaiThac = ((from cn in db.ChamDut_NhanVien
+                                                                                           join
+                                                                                           n in db.NhanViens on
+                                                                                           cn.MaNV equals n.MaNV
+                                                                                           join cv in db.CongViecs
+                                                                                           on n.MaCongViec equals cv.MaCongViec
+                                                                                           join cvncv in db.CongViec_NhomCongViec
+                                                                                           on cv.MaCongViec equals cvncv.MaCongViec
+                                                                                           join ncv in db.NhomCongViecs
+                                                                                           on cvncv.MaNhomCongViec equals ncv.MaNhomCongViec
+                                                                                           where ncv.MaNhomCongViec == 6
+                                                                                           join qd in db.QuyetDinhs
+                                                                                           on cn.MaQuyetDinh equals qd.MaQuyetDinh
+                                                                                           where qd.SoQuyetDinh != null
+                                                                                           join d in db.Departments on
+                                                                                           n.MaPhongBan equals d.department_id
+                                                                                           into tb1
+                                                                                           from tb2 in tb1.DefaultIfEmpty()
+                                                                                           group tb2 by tb2.department_name into groupted
+                                                                                           select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
                                                   ).ToList();
-                        var arrPhongBan = db.Departments.Where(p => !p.department_type.Contains("Điều hành")
+                        System.Collections.Generic.List<TDCDModel> arrPhongBan = db.Departments.Where(p => !p.department_type.Contains("Điều hành")
                                                                  && !p.department_type.Contains("Đoàn thể") &&
                                                                  !p.department_type.Contains("ngoài")).Select(p => new TDCDModel
-                            {
-                            TenPhongBan = p.department_name,
-                            Stt = 1,
-                            TongTuyenDungCoDien = 0,
-                            TongChamDutCoDien = 0,
-                            TongTuyenDungKhaiThac = 0,
-                            TongChamDutKhaiThac = 0,
-                            TongTuyenDung = 0,
-                            TongChamDut = 0,
-                            GhiChu = String.Empty,
-                            ChenhLech = 0,
-                        }).ToList();
+                                                                 {
+                                                                     TenPhongBan = p.department_name,
+                                                                     Stt = 1,
+                                                                     TongTuyenDungCoDien = 0,
+                                                                     TongChamDutCoDien = 0,
+                                                                     TongTuyenDungKhaiThac = 0,
+                                                                     TongChamDutKhaiThac = 0,
+                                                                     TongTuyenDung = 0,
+                                                                     TongChamDut = 0,
+                                                                     GhiChu = string.Empty,
+                                                                     ChenhLech = 0,
+                                                                 }).ToList();
                         int stt = 1;
                         int tongCD = 0, tongTD = 0, tongCDCD = 0, tongCDKT = 0, tongTDCD = 0, tongTDKT = 0;
-                        foreach (var phongBan in arrPhongBan)
+                        foreach (TDCDModel phongBan in arrPhongBan)
                         {
                             phongBan.Stt = stt++;
-                            foreach (var tdcd in arrTuyenDungCoDien)
+                            foreach (CountModel tdcd in arrTuyenDungCoDien)
                             {
                                 if (tdcd.TenPhongBan.Equals(phongBan.TenPhongBan))
                                 {
@@ -529,7 +553,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                     break;
                                 }
                             }
-                            foreach (var tdkt in arrTuyenDungKhaiThac)
+                            foreach (CountModel tdkt in arrTuyenDungKhaiThac)
                             {
                                 if (tdkt.TenPhongBan.Equals(phongBan.TenPhongBan))
                                 {
@@ -538,7 +562,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                     break;
                                 }
                             }
-                            foreach (var cdcd in arrChamDutCoDien)
+                            foreach (CountModel cdcd in arrChamDutCoDien)
                             {
                                 if (cdcd.TenPhongBan.Equals(phongBan.TenPhongBan))
                                 {
@@ -547,7 +571,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                     break;
                                 }
                             }
-                            foreach (var cdkt in arrChamDutKhaiThac)
+                            foreach (CountModel cdkt in arrChamDutKhaiThac)
                             {
                                 if (cdkt.TenPhongBan.Equals(phongBan.TenPhongBan))
                                 {
@@ -602,107 +626,115 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     }
                     else
                     {
-                        var arrTuyenDungCoDien = ((from cn in db.TuyenDung_NhanVien
-                                                   join
-                                                   n in db.NhanViens on
-                                                   cn.MaNV equals n.MaNV
-                                                   join cv in db.CongViecs
-                                               on n.MaCongViec equals cv.MaCongViec
-                                                   //join ncv in db.NhomCongViecs
-                                                   //on cv.MaNhomCongViec equals ncv.MaNhomCongViec
-                                                   //where ncv.MaNhomCongViec == 2
-                                                   join qd in db.QuyetDinhs
-                                               on cn.MaQuyetDinh equals qd.MaQuyetDinh
-                                                   where qd.SoQuyetDinh != null
-                                                       && cn.NgayTuyenDung.Year == year
-                                                   join d in db.Departments on
-                                                   n.MaPhongBan equals d.department_id
-                                                   into tb1
-                                                   from tb2 in tb1.DefaultIfEmpty()
-                                                   group tb2 by tb2.department_name into groupted
-                                                   select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
+                        System.Collections.Generic.List<CountModel> arrTuyenDungCoDien = ((from cn in db.TuyenDung_NhanVien
+                                                                                           join
+                                                                                           n in db.NhanViens on
+                                                                                           cn.MaNV equals n.MaNV
+                                                                                           join cv in db.CongViecs
+                                                                                           on n.MaCongViec equals cv.MaCongViec
+                                                                                           join cvncv in db.CongViec_NhomCongViec
+                                                                                           on cv.MaCongViec equals cvncv.MaCongViec
+                                                                                           join ncv in db.NhomCongViecs
+                                                                                           on cvncv.MaNhomCongViec equals ncv.MaNhomCongViec
+                                                                                           where ncv.MaNhomCongViec == 7
+                                                                                           join qd in db.QuyetDinhs
+                                                                                           on cn.MaQuyetDinh equals qd.MaQuyetDinh
+                                                                                           where qd.SoQuyetDinh != null
+                                                                                               && cn.NgayTuyenDung.Year == year
+                                                                                           join d in db.Departments on
+                                                                                           n.MaPhongBan equals d.department_id
+                                                                                           into tb1
+                                                                                           from tb2 in tb1.DefaultIfEmpty()
+                                                                                           group tb2 by tb2.department_name into groupted
+                                                                                           select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
                                                   ).ToList();
-                        var arrTuyenDungKhaiThac = ((from cn in db.TuyenDung_NhanVien
-                                                     join
-                                                   n in db.NhanViens on
-                                                   cn.MaNV equals n.MaNV
-                                                     join cv in db.CongViecs
-                                               on n.MaCongViec equals cv.MaCongViec
-                                                     //join ncv in db.NhomCongViecs
-                                                     //on cv.MaNhomCongViec equals ncv.MaNhomCongViec
-                                                     //where ncv.MaNhomCongViec == 1
-                                                     join qd in db.QuyetDinhs
-                                               on cn.MaQuyetDinh equals qd.MaQuyetDinh
-                                                     where qd.SoQuyetDinh != null
-                                                           && cn.NgayTuyenDung.Year == year
-                                                     join d in db.Departments on
-                                                     n.MaPhongBan equals d.department_id
-                                                     into tb1
-                                                     from tb2 in tb1.DefaultIfEmpty()
-                                                     group tb2 by tb2.department_name into groupted
-                                                     select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
+                        System.Collections.Generic.List<CountModel> arrTuyenDungKhaiThac = ((from cn in db.TuyenDung_NhanVien
+                                                                                             join
+                                                                                           n in db.NhanViens on
+                                                                                           cn.MaNV equals n.MaNV
+                                                                                             join cv in db.CongViecs
+                                                                                             on n.MaCongViec equals cv.MaCongViec
+                                                                                             join cvncv in db.CongViec_NhomCongViec
+                                                                                             on cv.MaCongViec equals cvncv.MaCongViec
+                                                                                             join ncv in db.NhomCongViecs
+                                                                                             on cvncv.MaNhomCongViec equals ncv.MaNhomCongViec
+                                                                                             where ncv.MaNhomCongViec == 6
+                                                                                             join qd in db.QuyetDinhs
+                                                                                             on cn.MaQuyetDinh equals qd.MaQuyetDinh
+                                                                                             where qd.SoQuyetDinh != null
+                                                                                                   && cn.NgayTuyenDung.Year == year
+                                                                                             join d in db.Departments on
+                                                                                             n.MaPhongBan equals d.department_id
+                                                                                             into tb1
+                                                                                             from tb2 in tb1.DefaultIfEmpty()
+                                                                                             group tb2 by tb2.department_name into groupted
+                                                                                             select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
                                                   ).ToList();
-                        var arrChamDutCoDien = ((from cn in db.ChamDut_NhanVien
-                                                 join
-                                                 n in db.NhanViens on
-                                                 cn.MaNV equals n.MaNV
-                                                 join cv in db.CongViecs
-                                               on n.MaCongViec equals cv.MaCongViec
-                                                 //join ncv in db.NhomCongViecs
-                                                 //on cv.MaNhomCongViec equals ncv.MaNhomCongViec
-                                                 //where ncv.MaNhomCongViec == 2
-                                                 join qd in db.QuyetDinhs
-                                               on cn.MaQuyetDinh equals qd.MaQuyetDinh
-                                                 where qd.SoQuyetDinh != null
-                                                   && cn.NgayChamDut.Year == year
-                                                 join d in db.Departments on
-                                                 n.MaPhongBan equals d.department_id
-                                                 into tb1
-                                                 from tb2 in tb1.DefaultIfEmpty()
-                                                 group tb2 by tb2.department_name into groupted
-                                                 select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
+                        System.Collections.Generic.List<CountModel> arrChamDutCoDien = ((from cn in db.ChamDut_NhanVien
+                                                                                         join
+                                                                                         n in db.NhanViens on
+                                                                                         cn.MaNV equals n.MaNV
+                                                                                         join cv in db.CongViecs
+                                                                                         on n.MaCongViec equals cv.MaCongViec
+                                                                                         join cvncv in db.CongViec_NhomCongViec
+                                                                                         on cv.MaCongViec equals cvncv.MaCongViec
+                                                                                         join ncv in db.NhomCongViecs
+                                                                                         on cvncv.MaNhomCongViec equals ncv.MaNhomCongViec
+                                                                                         where ncv.MaNhomCongViec == 7
+                                                                                         join qd in db.QuyetDinhs
+                                                                                         on cn.MaQuyetDinh equals qd.MaQuyetDinh
+                                                                                         where qd.SoQuyetDinh != null
+                                                                                           && cn.NgayChamDut.Year == year
+                                                                                         join d in db.Departments on
+                                                                                         n.MaPhongBan equals d.department_id
+                                                                                         into tb1
+                                                                                         from tb2 in tb1.DefaultIfEmpty()
+                                                                                         group tb2 by tb2.department_name into groupted
+                                                                                         select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
                                                   ).ToList();
-                        var arrChamDutKhaiThac = ((from cn in db.ChamDut_NhanVien
-                                                   join
-                                                   n in db.NhanViens on
-                                                   cn.MaNV equals n.MaNV
-                                                   join cv in db.CongViecs
-                                               on n.MaCongViec equals cv.MaCongViec
-                                                   //join ncv in db.NhomCongViecs
-                                                   //on cv.MaNhomCongViec equals ncv.MaNhomCongViec
-                                                   //where ncv.MaNhomCongViec == 1
-                                                   join qd in db.QuyetDinhs
-                                                   on cn.MaQuyetDinh equals qd.MaQuyetDinh
-                                                   where qd.SoQuyetDinh != null
-                                                       && cn.NgayChamDut.Year == year
-                                                   join d in db.Departments on
-                                                   n.MaPhongBan equals d.department_id
-                                                   into tb1
-                                                   from tb2 in tb1.DefaultIfEmpty()
-                                                   group tb2 by tb2.department_name into groupted
-                                                   select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
+                        System.Collections.Generic.List<CountModel> arrChamDutKhaiThac = ((from cn in db.ChamDut_NhanVien
+                                                                                           join
+                                                                                           n in db.NhanViens on
+                                                                                           cn.MaNV equals n.MaNV
+                                                                                           join cv in db.CongViecs
+                                                                                           on n.MaCongViec equals cv.MaCongViec
+                                                                                           join cvncv in db.CongViec_NhomCongViec
+                                                                                           on cv.MaCongViec equals cvncv.MaCongViec
+                                                                                           join ncv in db.NhomCongViecs
+                                                                                           on cvncv.MaNhomCongViec equals ncv.MaNhomCongViec
+                                                                                           where ncv.MaNhomCongViec == 6
+                                                                                           join qd in db.QuyetDinhs
+                                                                                           on cn.MaQuyetDinh equals qd.MaQuyetDinh
+                                                                                           where qd.SoQuyetDinh != null
+                                                                                               && cn.NgayChamDut.Year == year
+                                                                                           join d in db.Departments on
+                                                                                           n.MaPhongBan equals d.department_id
+                                                                                           into tb1
+                                                                                           from tb2 in tb1.DefaultIfEmpty()
+                                                                                           group tb2 by tb2.department_name into groupted
+                                                                                           select new CountModel { TenPhongBan = groupted.Key, count = groupted.Count() })
                                                   ).ToList();
-                        var arrPhongBan = db.Departments.Where(p => !p.department_type.Contains("Điều hành")
+                        System.Collections.Generic.List<TDCDModel> arrPhongBan = db.Departments.Where(p => !p.department_type.Contains("Điều hành")
                                                                  && !p.department_type.Contains("Đoàn thể") &&
                                                                  !p.department_type.Contains("ngoài")).Select(p => new TDCDModel
-                            {
-                            TenPhongBan = p.department_name,
-                            Stt = 1,
-                            TongTuyenDungCoDien = 0,
-                            TongChamDutCoDien = 0,
-                            TongTuyenDungKhaiThac = 0,
-                            TongChamDutKhaiThac = 0,
-                            TongTuyenDung = 0,
-                            TongChamDut = 0,
-                            GhiChu = String.Empty,
-                            ChenhLech = 0,
-                        }).ToList();
+                                                                 {
+                                                                     TenPhongBan = p.department_name,
+                                                                     Stt = 1,
+                                                                     TongTuyenDungCoDien = 0,
+                                                                     TongChamDutCoDien = 0,
+                                                                     TongTuyenDungKhaiThac = 0,
+                                                                     TongChamDutKhaiThac = 0,
+                                                                     TongTuyenDung = 0,
+                                                                     TongChamDut = 0,
+                                                                     GhiChu = string.Empty,
+                                                                     ChenhLech = 0,
+                                                                 }).ToList();
                         int stt = 1;
                         int tongCD = 0, tongTD = 0, tongCDCD = 0, tongCDKT = 0, tongTDCD = 0, tongTDKT = 0;
-                        foreach (var phongBan in arrPhongBan)
+                        foreach (TDCDModel phongBan in arrPhongBan)
                         {
                             phongBan.Stt = stt++;
-                            foreach (var tdcd in arrTuyenDungCoDien)
+                            foreach (CountModel tdcd in arrTuyenDungCoDien)
                             {
                                 if (tdcd.TenPhongBan.Equals(phongBan.TenPhongBan))
                                 {
@@ -711,7 +743,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                     break;
                                 }
                             }
-                            foreach (var tdkt in arrTuyenDungKhaiThac)
+                            foreach (CountModel tdkt in arrTuyenDungKhaiThac)
                             {
                                 if (tdkt.TenPhongBan.Equals(phongBan.TenPhongBan))
                                 {
@@ -720,7 +752,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                     break;
                                 }
                             }
-                            foreach (var cdcd in arrChamDutCoDien)
+                            foreach (CountModel cdcd in arrChamDutCoDien)
                             {
                                 if (cdcd.TenPhongBan.Equals(phongBan.TenPhongBan))
                                 {
@@ -729,7 +761,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                     break;
                                 }
                             }
-                            foreach (var cdkt in arrChamDutKhaiThac)
+                            foreach (CountModel cdkt in arrChamDutKhaiThac)
                             {
                                 if (cdkt.TenPhongBan.Equals(phongBan.TenPhongBan))
                                 {

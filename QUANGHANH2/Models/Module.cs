@@ -14,7 +14,16 @@ namespace QUANGHANH2.Models
     
     public partial class Module
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Module()
+        {
+            this.Account_Right = new HashSet<Account_Right>();
+        }
+    
         public string ID { get; set; }
         public string Module1 { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Account_Right> Account_Right { get; set; }
     }
 }
