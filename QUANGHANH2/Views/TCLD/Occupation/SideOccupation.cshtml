@@ -9,13 +9,14 @@
         <div class="row">
             <h3 class="center"><b>DANH SÁCH DIỆN CÔNG VIỆC</b></h3>
             <div>
-                <a class="btn blue darken-2 btn-small input-field modal-trigger" href="#themDienCongViec">Thêm</a>
+                <a class="btn blue darken-2 btn-small input-field modal-trigger" href="#modal_themDienCongViec">Thêm</a>
             </div>
             <div>
                 <table id="diencongviec" class="table table-bordered center">
                     <thead>
                         <tr>
                             <th>Diện công việc</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -25,7 +26,7 @@
     </div>
 </div>
 <!--Modal themDienCongViec-->
-<div id="themDienCongViec" class="modal">
+<div id="modal_themDienCongViec" class="modal">
     <div class="card">
         <div class="card-content">
             <h4 class="center"><b>Thêm Diện Công Việc</b></h4>
@@ -40,6 +41,26 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <button id="xacNhanThemDienCongViec" class="btn blue darken-2 btn-small">Xác nhận</button>
+                <button id="dongThemDienCongViec" class="btn red darken-2 btn-small modal-close">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal suaDienCongViec-->
+<div id="modal_suaDienCongViec" class="modal">
+    <div class="card">
+        <div class="card-content">
+            <h4 class="center"><b>Sửa Diện Công Việc</b></h4>
+            <div class="modal-content">
+                <div class="col s1 m1 l1"></div>
+                <div class="col s12 m10 l10">
+                    <label>Tên diện công việc</label>
+                    <input type="text" class="form-control" value="" />
+                </div>
+                <div class="col s1 m1 l1"></div>
+            </div>
+            <div class="modal-footer">
                 <button class="btn blue darken-2 btn-small">Xác nhận</button>
                 <button class="btn red darken-2 btn-small modal-close">Đóng</button>
             </div>
@@ -48,9 +69,12 @@
 </div>
 <link href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
 <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<!-------------------LIST------------------->
 <script>
-    $(document).ready(function () {
-        $('#diencongviec').DataTable({
+    var table;
+    $(document).ready(function List() {
+        $('#pre-load').show();
+        table = $('#diencongviec').DataTable({
             "ajax": {
                 "url": "/phong-tcld/quan-ly-dien-cong-viec/danh-sach-dien-cong-viec",
                 "type": "GET",
@@ -61,9 +85,57 @@
                 }
             },
             "columns": [
-                { "data": "DienCongViec" }
-            ]
+                { "data": "TenDienCongViec" },
+                {
+                    "data": "", "render": function (data, type, row) {
+                        return "<a id=\"suaDienCongViec\" name=\"" + row["MaDienCongViec"] + "\" class=\"btn blue darken-2 btn-small modal-trigger\" href=\"#modal_suaDienCongViec\">Sửa</a>";
+                    }
+                }
+            ],
+            "language": {
+                "emptyTable": "Không tìm thấy dữ liệu"
+            },
+            "lengthChange": false,
+            "ordering": false,
+            "paging": false,
+            "searching": false,
+            "info": false,
+            "initComplete": function (settings, json) {
+                $('#pre-load').hide();
+            }
         });
-
+    });
+</script>
+<!---------------------ADD-------------------->
+<script>
+    $(document).ready(function () {
+        $("#xacNhanThemDienCongViec").click(function () {
+            $("pre-load").show(),
+                $.ajax({
+                    url: "/phong-tcld/quan-ly-dien-cong-viec/them-dien-cong-viec",
+                    type: "POST",
+                    datatype: "json",
+                    data: {
+                        "TenDienCongViec": $("#tenDienCongViec").val()
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            successAlert('Thành công', response.message);
+                            $("#dongThemDienCongViec").click();
+                            table.ajax.reload();
+                            $('#pre-load').hide();
+                        } else {
+                            errorAlert('Lỗi', response.message);
+                            $('#pre-load').hide();
+                        }
+                    }
+                });
+        });
+    });
+</script>
+<!---------------------UPDATE------------------------>
+<script>
+    $(document).ready(function () {
+        
     });
 </script>
