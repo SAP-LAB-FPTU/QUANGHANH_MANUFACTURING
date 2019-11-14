@@ -266,15 +266,17 @@
         //document.getElementById("edit_sk_abc").value = "abc";
         $("#equipmentTable").on('click', '.btnSelect2', function () {
             // get the current row
-            var currentRow = $(this).closest("tr");
-            var data = currentRow.find("td:eq(3)").text();
-            document.getElementById("edit_sk_abc").value = "abc";
+            if (ck.endsWith('1')) {
+                var currentRow = $(this).closest("tr");
+                var data = currentRow.find("td:eq(3)").text();
+                document.getElementById("edit_sk_abc").value = "abc";
 
-            data = currentRow.find("td:eq(4)").text();
-            document.getElementById("edit_sm").value = data;
+                data = currentRow.find("td:eq(4)").text();
+                document.getElementById("edit_sm").value = data;
 
-            data = currentRow.find("td:eq(5)").text();
-            document.getElementById("edit_gps").selectedIndex = 1;
+                data = currentRow.find("td:eq(5)").text();
+                document.getElementById("edit_gps").selectedIndex = 1;
+            }
         });
 
         var ck = $("#title").text();
