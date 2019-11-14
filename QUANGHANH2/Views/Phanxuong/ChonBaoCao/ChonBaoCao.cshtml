@@ -256,7 +256,7 @@
             </div>
 
             @{
-                if (ViewBag.phanxuong == "pxds")
+                if (ViewBag.phanxuong.ToLower() == "pxds")
                 {
                     <div class="col l12 m12 s12">
                         <hr />
@@ -298,7 +298,6 @@
                         </div>
                     </div>
                 }
-
             }
         </div>
     </div>
