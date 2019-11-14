@@ -10,9 +10,6 @@ namespace QUANGHANH2.Models
         public string equipment_name { get; set; }
         public string statusname { get; set; }
         public string stringExpectedTime { get; set; }
-        public string stringStartTime { get; set; }
-        public string stringEndTime { get; set; }
-        public string updateAble { get; set; }
 
         public string getStringtime(Nullable<DateTime> dateTime)
         {
