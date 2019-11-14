@@ -26,15 +26,45 @@ namespace QUANGHANH2.Controllers.TCLD.Occupation
                 try
                 {
                     var sqlList = (from x in db.DienCongViecs
-                                   select new { MaDienCongViec = x.MaDienCongViec, DienCongViec = x.TenDienCongViec }).ToList();
+                                   select new { MaDienCongViec = x.MaDienCongViec, TenDienCongViec = x.TenDienCongViec }).ToList();
                     return Json(new { sqlList = sqlList, success = true }, JsonRequestBehavior.AllowGet);
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
 
                 }
             }
             return null;
+        }
+
+        //////////////////////////////ADD////////////////////////////////
+        [Route("phong-tcld/quan-ly-dien-cong-viec/them-dien-cong-viec")]
+        [HttpPost]
+        public ActionResult Add()
+        {
+            try
+            {
+                var tenDienCongViec = Request["TenDienCongViec"];
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    DienCongViec dcv = db.DienCongViecs.Where(x => x.TenDienCongViec.Equals(tenDienCongViec)).FirstOrDefault();
+                    if (dcv == null)
+                    {
+                        dcv = new DienCongViec();
+                        dcv.TenDienCongViec = tenDienCongViec;
+                        db.DienCongViecs.Add(dcv);
+                        db.SaveChanges();
+                        return Json(new { success = true, message = "Thao tác thành công." });
+                    } else
+                    {
+                        return Json(new { success = false, message = "Đã có tên diện công việc." });
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, message = "Có lỗi xảy ra." });
+            }
         }
     }
 }
