@@ -33,16 +33,9 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
 
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
 
-            var supplies = (from a in DBContext.Supplies.Where(x => x.supply_id.Contains(supply_id) && x.supply_name.Contains(supply_name))
-                .OrderBy(sortColumnName + " " + sortDirection).Skip(start)
-                .Take(length)
-                            select new
-                            {
-                                supply_id = a.supply_id,
-                                supply_name = a.supply_name,
-                                unit = a.unit,
-                                price = a.price
-                            }).ToList();
+            List<Supply> supplies = DBContext.Database.SqlQuery<Supply>("select * from Supply where supply_id like @supply_id and supply_name like @supply_name order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
+                    new SqlParameter("supply_id", "%" + supply_id + "%"),
+                    new SqlParameter("supply_name", "%" + supply_name + "%")).ToList();
 
             int totalrows = DBContext.Supplies.Where(x => x.supply_id.Contains(supply_id) && x.supply_name.Contains(supply_name)).Count();
 
