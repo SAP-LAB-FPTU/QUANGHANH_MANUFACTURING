@@ -18,7 +18,7 @@ using Newtonsoft.Json;
 
 namespace QUANGHANHCORE.Controllers.DK
 {
-    public class DKController : Controller
+    public class QuickReportController : Controller
     {
         public class reportEntity
         {
@@ -53,11 +53,6 @@ namespace QUANGHANHCORE.Controllers.DK
             public double Luyke { get; set; }
             public double KehoachThang { get; set; }
             public double Ton { get; set; }
-            public string ThuchienDis { get; set; }
-            public string KehoachDis { get; set; }
-            public string LuykeDis { get; set; }
-            public string KehoachThangDis { get; set; }
-            public string TonDis { get; set; }
         }
         public class ThanLoThien
         {
@@ -68,6 +63,7 @@ namespace QUANGHANHCORE.Controllers.DK
             public string Ten { get; set; }
         }
         // GET: /<controller>/
+        [Auther(RightID = "192")]
         [Route("phong-dieu-khien")]
         [HttpPost]
         public ActionResult GetData(string date)
@@ -76,24 +72,7 @@ namespace QUANGHANHCORE.Controllers.DK
 
         }
 
-        public string Display(double calculateNumber)
-        {
-            string display = "";
-            if ((Math.Abs(calculateNumber) / 1000000000) >= 1)
-            {
-                display += Math.Round((calculateNumber / 1000000000), 2) + "Tỉ";
-            }
-            else if ((Math.Abs(calculateNumber) / 1000000) >= 1)
-            {
-                display += Math.Round((calculateNumber / 1000000), 2) +"Tr";
-            }
-            else
-            {
-                display += calculateNumber + "";
-            }
-            return display;
-        }
-
+        [Auther(RightID = "192")]
         [Route("phong-dieu-khien")]
         [HttpGet]
         public ActionResult Index(string date)
@@ -111,7 +90,7 @@ namespace QUANGHANHCORE.Controllers.DK
                 data = date.Split('/');
                 date = data[2] + "-" + data[1] + "-" + data[0];
             }
-
+            string[] data_tmp = data;
             DateTime timeEnd = Convert.ToDateTime(date);
             var timeStart = Convert.ToDateTime("" + timeEnd.Year + "-" + timeEnd.Month + "-1");
             var query = "  select b.MaTieuChi, (case when a.thuchien is null then 0 else a.thuchien end) as 'thuchien', b.LUYKE, c.KH, d.KHDC " +
@@ -228,13 +207,6 @@ namespace QUANGHANHCORE.Controllers.DK
             else Thandaolo.percentDay = 0;
             if (Thandaolo.KehoachThang != 0) Thandaolo.percentMonth = Convert.ToInt32(Thandaolo.Luyke / Thandaolo.KehoachThang * 100);
             else Thandaolo.percentMonth = 0;
-
-            Thandaolo.ThuchienDis = Display(Thandaolo.Thuchien);
-            Thandaolo.KehoachDis = Display(Thandaolo.Kehoach);
-            Thandaolo.LuykeDis = Display(Thandaolo.Luyke);
-            Thandaolo.KehoachThangDis = Display(Thandaolo.KehoachThang);
-            Thandaolo.TonDis = Display(Thandaolo.Ton);
-
             ViewBag.tdl = Thandaolo;
 
             //than lo thien
@@ -243,14 +215,6 @@ namespace QUANGHANHCORE.Controllers.DK
             else Thanlothien.percentDay = 0;
             if (Thanlothien.KehoachThang != 0) Thanlothien.percentMonth = Convert.ToInt32(Thanlothien.Luyke / Thanlothien.KehoachThang * 100);
             else Thanlothien.percentMonth = 0;
-            Thanlothien.ThuchienDis = Display(Thanlothien.Thuchien);
-            Thanlothien.KehoachDis = Display(Thanlothien.Kehoach);
-            Thanlothien.LuykeDis = Display(Thanlothien.Luyke);
-            Thanlothien.KehoachThangDis = Display(Thanlothien.KehoachThang);
-            Thanlothien.TonDis = Display(Thanlothien.Ton);
-
-
-
             ViewBag.tlt = Thanlothien;
 
             //met lo dao
@@ -259,7 +223,6 @@ namespace QUANGHANHCORE.Controllers.DK
             else Metlodao.percentDay = 0;
             if (Metlodao.KehoachThang != 0) Metlodao.percentMonth = Convert.ToInt32(Metlodao.Luyke / Metlodao.KehoachThang * 100);
             else Metlodao.percentMonth = 0;
-
             ViewBag.mld = Metlodao;
 
             //met lo neo
@@ -284,12 +247,6 @@ namespace QUANGHANHCORE.Controllers.DK
             else Thantieuthu.percentDay = 0;
             if (Thantieuthu.KehoachThang != 0) Thantieuthu.percentMonth = Convert.ToInt32(Thantieuthu.Luyke / Thantieuthu.KehoachThang * 100);
             else Thantieuthu.percentMonth = 0;
-
-            Thantieuthu.ThuchienDis = Display(Thantieuthu.Thuchien);
-            Thantieuthu.KehoachDis = Display(Thantieuthu.Kehoach);
-            Thantieuthu.LuykeDis = Display(Thantieuthu.Luyke);
-            Thantieuthu.KehoachThangDis = Display(Thantieuthu.KehoachThang);
-            Thantieuthu.TonDis = Display(Thantieuthu.Ton);
             ViewBag.ttt = Thantieuthu;
 
             //da xit kho
@@ -358,19 +315,22 @@ namespace QUANGHANHCORE.Controllers.DK
             string sql_chart = "select a.MaPhongBan " +
                         "	,(a.KT1 + a.KT2 + a.KT3 + a.CD1 + a.CD2 + a.CD3 + a.QL1 + a.QL2 + a.QL3) as 'dilam' " +
                         "	,(b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 + b.khac1 + b.khac2 + b.khac3) as 'nghi' " +
-                        "from (select n.MaPhongBan " +
-                        "	, sum(case when n.LoaiNhanVien like N'CNKT' and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'KT1' " +
-                        "	, SUM(case when n.LoaiNhanVien like N'CNCD' and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'CD1'    " +
-                        "	, SUM(case when n.LoaiNhanVien like N'CBQL' and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'QL1'    " +
-                        "	, sum(case when n.LoaiNhanVien like N'CNKT' and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'KT2'    " +
-                        "	, SUM(case when n.LoaiNhanVien like N'CNCD' and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'CD2'    " +
-                        "	, SUM(case when n.LoaiNhanVien like N'CBQL' and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'QL2'    " +
-                        "	, sum(case when n.LoaiNhanVien like N'CNKT' and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'KT3'    " +
-                        "	, SUM(case when n.LoaiNhanVien like N'CNCD' and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'CD3'    " +
-                        "	, SUM(case when n.LoaiNhanVien like N'CBQL' and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'QL3'    " +
-                        "	, count(n.MaNV) as 'tong_DS'   , sum(case when n.LoaiNhanVien like N'CBQL' then 1 else 0 end) as 'QL_CTy'  " +
-                        "	from NhanVien n left outer join DiemDanh_NangSuatLaoDong d on n.MaNV = d.MaNV left outer join Header_DiemDanh_NangSuat_LaoDong h on d.HeaderID = h.HeaderID  " +
-                        "	where h.NgayDiemDanh = @day group by n.MaPhongBan) a full join  " +
+                        "from (select n.MaPhongBan  " +
+                        ", sum(case when nc.MaNhomCongViec = 1 and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'KT1' " +
+                        ", SUM(case when nc.MaNhomCongViec = 2 and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'CD1' " +
+                        ", SUM(case when nc.MaNhomCongViec = 3 and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'QL1' " +
+                        ", sum(case when nc.MaNhomCongViec = 1 and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'KT2' " +
+                        ", SUM(case when nc.MaNhomCongViec = 2 and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'CD2' " +
+                        ", SUM(case when nc.MaNhomCongViec = 3 and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'QL2' " +
+                        ", sum(case when nc.MaNhomCongViec = 1 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'KT3' " +
+                        ", SUM(case when nc.MaNhomCongViec = 2 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'CD3' " +
+                        ", SUM(case when nc.MaNhomCongViec = 3 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'QL3' " +
+                        ", count(n.MaNV) as 'tong_DS'   , sum(case when nc.MaNhomCongViec = 3 then 1 else 0 end) as 'QL_CTy' " +
+                        "from NhanVien n left outer join DiemDanh_NangSuatLaoDong d on n.MaNV = d.MaNV left outer join Header_DiemDanh_NangSuat_LaoDong h on d.HeaderID = h.HeaderID " +
+                        "    inner join CongViec c on n.MaCongViec = c.MaCongViec " +
+                        "    inner join CongViec_NhomCongViec nc on c.MaCongViec = nc.MaCongViec" +
+                        "   inner join NhomCongViec ncv on nc.MaNhomCongViec = ncv.MaNhomCongViec " +
+                        "where h.NgayDiemDanh = @day group by n.MaPhongBan) a full join  " +
                         "	(select n.MaPhongBan " +
                         "	, SUM(case when d.LyDoVangMat like N'Vô lý do' and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'vld1'    " +
                         "	, sum(case when d.LyDoVangMat like N'Ốm'  and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'om1'    " +
@@ -389,8 +349,7 @@ namespace QUANGHANHCORE.Controllers.DK
                         "	where h.NgayDiemDanh = @day group by n.MaPhongBan) b on a.MaPhongBan = b.MaPhongBan " +
                         "	where a.MaPhongBan in ('PXDL3', 'PXDL5', 'PXDL7', 'PXDL8', 'PXKT1', 'PXKT2', 'PXKT3', 'PXKT4', 'PXKT5', 'PXKT6', 'PXKT7', 'PXKT8', 'PXKT9', 'PXKT10', 'PXKT11', 'PXVT1', 'PXVT2') " +
                         "	order by a.MaPhongBan ";
-            // List<chart> list_chart = db.Database.SqlQuery<chart>(sql_chart, new SqlParameter("day", date)).ToList();
-            var list_chart = new List<chart>();
+            List<chart> list_chart = db.Database.SqlQuery<chart>(sql_chart, new SqlParameter("day", date)).ToList();
             List<string> donvi = new List<string> { "PXDL3", "PXDL5", "PXDL7", "PXDL8", "PXKT1", "PXKT2", "PXKT3", "PXKT4", "PXKT5", "PXKT6", "PXKT7", "PXKT8", "PXKT9", "PXKT10", "PXKT11", "PXVT1", "PXVT2" };
             string result = JsonConvert.SerializeObject(donvi);
             ViewBag.donvi = result;
@@ -422,7 +381,7 @@ namespace QUANGHANHCORE.Controllers.DK
             ViewBag.dilam = dilam_result;
             ViewBag.nghi = nghi_result;
 
-            return View("/Views/DK/Index.cshtml");
+            return View("/Views/DK/QuickReport/QuickReport.cshtml");
         }
 
         public class chart

@@ -318,16 +318,16 @@ namespace QUANGHANHCORE.Controllers.BGD
                         "	,(a.KT1 + a.KT2 + a.KT3 + a.CD1 + a.CD2 + a.CD3 + a.QL1 + a.QL2 + a.QL3) as 'dilam' " +
                         "	,(b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 + b.khac1 + b.khac2 + b.khac3) as 'nghi' " +
                         "from (select n.MaPhongBan  "+
-                        ", sum(case when nc.MaNhomCongViec = 1 and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'KT1' "+
-                        ", SUM(case when nc.MaNhomCongViec = 2 and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'CD1' " +
-                        ", SUM(case when nc.MaNhomCongViec = 3 and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'QL1' " +
-                        ", sum(case when nc.MaNhomCongViec = 1 and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'KT2' " +
-                        ", SUM(case when nc.MaNhomCongViec = 2 and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'CD2' " +
-                        ", SUM(case when nc.MaNhomCongViec = 3 and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'QL2' " +
-                        ", sum(case when nc.MaNhomCongViec = 1 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'KT3' " +
-                        ", SUM(case when nc.MaNhomCongViec = 2 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'CD3' " +
-                        ", SUM(case when nc.MaNhomCongViec = 3 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'QL3' " +
-                        ", count(n.MaNV) as 'tong_DS'   , sum(case when nc.MaNhomCongViec = 3 then 1 else 0 end) as 'QL_CTy' " +
+                        ", sum(case when nc.MaNhomCongViec = 6 and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'KT1' "+
+                        ", SUM(case when nc.MaNhomCongViec = 7 and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'CD1' " +
+                        ", SUM(case when nc.MaNhomCongViec = 10 and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'QL1' " +
+                        ", sum(case when nc.MaNhomCongViec = 6 and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'KT2' " +
+                        ", SUM(case when nc.MaNhomCongViec = 7 and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'CD2' " +
+                        ", SUM(case when nc.MaNhomCongViec = 10 and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'QL2' " +
+                        ", sum(case when nc.MaNhomCongViec = 6 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'KT3' " +
+                        ", SUM(case when nc.MaNhomCongViec = 7 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'CD3' " +
+                        ", SUM(case when nc.MaNhomCongViec = 10 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'QL3' " +
+                        ", count(n.MaNV) as 'tong_DS', sum(case when nc.MaNhomCongViec = 3 then 1 else 0 end) as 'QL_CTy' " +
                         "from NhanVien n left outer join DiemDanh_NangSuatLaoDong d on n.MaNV = d.MaNV left outer join Header_DiemDanh_NangSuat_LaoDong h on d.HeaderID = h.HeaderID " +
                         "    inner join CongViec c on n.MaCongViec = c.MaCongViec " +
                         "    inner join CongViec_NhomCongViec nc on c.MaCongViec = nc.MaCongViec" +
@@ -350,7 +350,7 @@ namespace QUANGHANHCORE.Controllers.BGD
                         "	from NhanVien n left outer join DiemDanh_NangSuatLaoDong d on n.MaNV = d.MaNV left outer join Header_DiemDanh_NangSuat_LaoDong h on d.HeaderID = h.HeaderID  " +
                         "	where h.NgayDiemDanh = @day group by n.MaPhongBan) b on a.MaPhongBan = b.MaPhongBan " +
                         "	where a.MaPhongBan in ('PXDL3', 'PXDL5', 'PXDL7', 'PXDL8', 'PXKT1', 'PXKT2', 'PXKT3', 'PXKT4', 'PXKT5', 'PXKT6', 'PXKT7', 'PXKT8', 'PXKT9', 'PXKT10', 'PXKT11', 'PXVT1', 'PXVT2') " +
-                        "	order by a.MaPhongBan ";
+                        "	order by a.MaPhongBan";
             List<chart> list_chart = db.Database.SqlQuery<chart>(sql_chart, new SqlParameter("day", date)).ToList();
             List<string> donvi = new List<string> { "PXDL3", "PXDL5", "PXDL7", "PXDL8", "PXKT1", "PXKT2", "PXKT3", "PXKT4", "PXKT5", "PXKT6", "PXKT7", "PXKT8", "PXKT9", "PXKT10", "PXKT11", "PXVT1", "PXVT2" };
             string result = JsonConvert.SerializeObject(donvi);

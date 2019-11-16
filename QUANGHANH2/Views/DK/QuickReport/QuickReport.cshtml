@@ -5,26 +5,26 @@
 
 <link href="~/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
 <link href="~/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css" rel="stylesheet">
-<link href="~/dist/css/style.css" rel="stylesheet">
-<link type="text/css" rel="stylesheet" href="~/assets/libs/jsgrid/dist/jsgrid.min.css" />
-<link type="text/css" rel="stylesheet" href="~/assets/libs/jsgrid/dist/jsgrid-theme.min.css" />
-<link href="~/assets/extra-libs/css-chart/css-chart.css" rel="stylesheet">
-<link href="~/dist/dashboard_Tuan/customDashboard.css" rel="stylesheet">
-<link href="~/css/preloader/css.css" rel="stylesheet" />
-<link href="~/dist/css/pages/dashboard1.css" rel="stylesheet">
+@*<link href="~/dist/css/style.css" rel="stylesheet">*@
+@*<link type="text/css" rel="stylesheet" href="~/assets/libs/jsgrid/dist/jsgrid.min.css" />*@
+@*<link type="text/css" rel="stylesheet" href="~/assets/libs/jsgrid/dist/jsgrid-theme.min.css" />*@
+@*<link href="~/assets/extra-libs/css-chart/css-chart.css" rel="stylesheet">*@
+@*<link href="~/dist/dashboard_Tuan/customDashboard.css" rel="stylesheet">*@
 
-<link href="~/assets/extra-libs/prism/prism.css" rel="stylesheet" />
-<link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+@*<link href="~/dist/css/pages/dashboard1.css" rel="stylesheet">*@
+
+@*<link href="~/assets/extra-libs/prism/prism.css" rel="stylesheet" />*@
+@*<link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
 <link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
-<link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
+<link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">*@
 <link href="~/css/Custom css/BGD/dashboard.css" rel="stylesheet" type="text/css">
-<script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
-<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
-<script src="~/assets/extra-libs/prism/prism.js"></script>
-<script src="../../assets/extra-libs/sparkline/sparkline.js"></script>
-<script src="../../dist/js/pages/sparkline/jquery.charts-sparkline.js"></script>
+@*<script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
+<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>*@
+@*<script src="~/assets/extra-libs/prism/prism.js"></script>*@
+@*<script src="../../assets/extra-libs/sparkline/sparkline.js"></script>*@
+@*<script src="../../dist/js/pages/sparkline/jquery.charts-sparkline.js"></script>*@
 <form id="form" action="/phong-dieu-khien" method="post">
     <input type="text" id="date" name="date" style="display:none !important" />
 </form>
@@ -78,20 +78,20 @@
                     <div class="col s4 center detail-info row">
                         <span class="font-14 ">Thực hiện</span>
                         <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.tdl.ThuchienDis</span><br />
-                            <span class="font-medium" style="color: orange">@ViewBag.tdl.KehoachDis</span>
+                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.tdl.Thuchien </span><br />
+                            <span class="font-medium" style="color:orange">@ViewBag.tdl.Kehoach</span>
                         </div>
                     </div>
                     <div class="col s4 center detail-info">
                         <span class="font-14">Luỹ kế</span>
                         <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.tdl.LuykeDis</span><br />
-                            <span class="font-medium" style="color: orange">@ViewBag.tdl.KehoachThangDis</span>
+                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.tdl.Luyke </span><br />
+                            <span class="font-medium" style="color:orange">@ViewBag.tdl.KehoachThang</span>
                         </div>
                     </div>
                     <div class="col s4 center">
                         <span class="font-14">KH còn lại</span>
-                        <p class="font-medium">@ViewBag.tdl.TonDis</p>
+                        <p class="font-medium">@ViewBag.tdl.Ton</p>
                     </div>
                 </div>
             </div>
@@ -133,20 +133,20 @@
                     <div class="col s4 center detail-info row">
                         <span class="font-14 ">Thực hiện</span>
                         <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.tlt.ThuchienDis </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.tlt.KehoachDis</span>
+                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.tlt.Thuchien </span><br />
+                            <span class="font-medium" style="color:orange">@ViewBag.tlt.Kehoach</span>
                         </div>
                     </div>
                     <div class="col s4 center detail-info">
                         <span class="font-14">Luỹ kế</span>
                         <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.tlt.LuykeDis </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.tlt.KehoachThangDis</span>
+                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.tlt.Luyke </span><br />
+                            <span class="font-medium" style="color:orange">@ViewBag.tlt.KehoachThang</span>
                         </div>
                     </div>
                     <div class="col s4 center">
                         <span class="font-14">KH còn lại</span>
-                        <p class="font-medium">@ViewBag.tlt.TonDis</p>
+                        <p class="font-medium">@ViewBag.tlt.Ton</p>
                     </div>
                 </div>
             </div>
@@ -251,13 +251,13 @@
                     <div class="col s4 center detail-info">
                         <span class="font-14">Luỹ kế</span>
                         <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.mln.Luyke</span><br />
+                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.mln.Luyke </span><br />
                             <span class="font-medium" style="color:orange">@ViewBag.mln.KehoachThang</span>
                         </div>
                     </div>
                     <div class="col s4 center">
                         <span class="font-14">KH còn lại</span>
-                        <p class="font-medium">@ViewBag.mln.TonDis</p>
+                        <p class="font-medium">@ViewBag.mln.Ton</p>
                     </div>
                 </div>
             </div>
@@ -299,20 +299,20 @@
                     <div class="col s4 center detail-info row">
                         <span class="font-14 ">Thực hiện</span>
                         <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.mlx.Thuchien</span><br />
+                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.mlx.Thuchien </span><br />
                             <span class="font-medium" style="color:orange">@ViewBag.mlx.Kehoach</span>
                         </div>
                     </div>
                     <div class="col s4 center detail-info">
                         <span class="font-14">Luỹ kế</span>
                         <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.mlx.Luyke</span><br />
+                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.mlx.Luyke </span><br />
                             <span class="font-medium" style="color:orange">@ViewBag.mlx.KehoachThang</span>
                         </div>
                     </div>
                     <div class="col s4 center">
                         <span class="font-14">KH còn lại</span>
-                        <p class="font-medium">@ViewBag.mlx.TonDis</p>
+                        <p class="font-medium">@ViewBag.mlx.Ton</p>
                     </div>
                 </div>
             </div>
@@ -355,20 +355,20 @@
                     <div class="col s4 center detail-info row">
                         <span class="font-14 ">Thực hiện</span>
                         <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.ttt.ThuchienDis </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.ttt.KehoachDis</span>
+                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.ttt.Thuchien </span><br />
+                            <span class="font-medium" style="color:orange">@ViewBag.ttt.Kehoach</span>
                         </div>
                     </div>
                     <div class="col s4 center detail-info">
                         <span class="font-14">Luỹ kế</span>
                         <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.ttt.LuykeDis </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.ttt.KehoachThangDis</span>
+                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.ttt.Luyke </span><br />
+                            <span class="font-medium" style="color:orange">@ViewBag.ttt.KehoachThang</span>
                         </div>
                     </div>
                     <div class="col s4 center">
                         <span class="font-14">KH còn lại</span>
-                        <p class="font-medium">@ViewBag.ttt.TonDis</p>
+                        <p class="font-medium">@ViewBag.ttt.Ton</p>
                     </div>
                 </div>
             </div>
@@ -411,20 +411,20 @@
                     <div class="col s4 center detail-info row">
                         <span class="font-14 ">Thực hiện</span>
                         <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.dxk.ThuchienDis </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.dxk.KehoachDis</span>
+                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.dxk.Thuchien </span><br />
+                            <span class="font-medium" style="color:orange">@ViewBag.dxk.Kehoach</span>
                         </div>
                     </div>
                     <div class="col s4 center detail-info">
                         <span class="font-14">Luỹ kế</span>
                         <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.dxk.LuykeDis </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.dxk.KehoachThangDis</span>
+                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.dxk.Luyke </span><br />
+                            <span class="font-medium" style="color:orange">@ViewBag.dxk.KehoachThang</span>
                         </div>
                     </div>
                     <div class="col s4 center">
                         <span class="font-14">KH còn lại</span>
-                        <p class="font-medium">@ViewBag.dxk.TonDis</p>
+                        <p class="font-medium">@ViewBag.dxk.Ton</p>
                     </div>
                 </div>
             </div>
@@ -468,20 +468,20 @@
                     <div class="col s4 center detail-info row">
                         <span class="font-14 ">Thực hiện</span>
                         <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.lt.ThuchienDis </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.lt.KehoachDis</span>
+                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.lt.Thuchien </span><br />
+                            <span class="font-medium" style="color:orange">@ViewBag.lt.Kehoach</span>
                         </div>
                     </div>
                     <div class="col s4 center detail-info">
                         <span class="font-14">Luỹ kế</span>
                         <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.lt.LuykeDis </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.lt.KehoachThangDis</span>
+                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.lt.Luyke </span><br />
+                            <span class="font-medium" style="color:orange">@ViewBag.lt.KehoachThang</span>
                         </div>
                     </div>
                     <div class="col s4 center">
                         <span class="font-14">KH còn lại</span>
-                        <p class="font-medium">@ViewBag.lt.TonDis</p>
+                        <p class="font-medium">@ViewBag.lt.Ton</p>
                     </div>
                 </div>
             </div>
@@ -617,7 +617,7 @@
         temp = temp.split("]").join("");
         var nghilam = temp.split(",");
     </script>
-    <script src="~/dist/js/custom.min.js"></script>
+    @*<script src="~/dist/js/custom.min.js"></script>*@
     <!-- ============================================================== -->
     <!-- This page plugin js -->
     <!-- ============================================================== -->
@@ -628,13 +628,13 @@
     <script src="~/dist/dashboard_Tuan/dashBoardChart_tuan.js"></script>
     <script src="~/dist/dashboard_Tuan/dashBoardChart2_tuan.js"></script>
     <!-- Editable -->
-    <script src="~/dist/dashboard_Tuan/db_Tuan.js"></script>
-    <script type="text/javascript" src="~/assets/libs/jsgrid/dist/jsgrid.min.js"></script>
-    <script src="~/dist/dashboard_Tuan/jsgrid-init_Tuan.js"></script>
+    @*<script src="~/dist/dashboard_Tuan/db_Tuan.js"></script>*@
+    @*<script type="text/javascript" src="~/assets/libs/jsgrid/dist/jsgrid.min.js"></script>*@
+    @*<script src="~/dist/dashboard_Tuan/jsgrid-init_Tuan.js"></script>*@
     <!--chart-->
-    <script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
-    <script src="~/assets/libs/chart.js/dist/Chart.min.js"></script>
-    <script src="../../assets/extra-libs/sparkline/sparkline.js"></script>
+    @*<script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
+    <script src="~/assets/libs/chart.js/dist/Chart.min.js"></script>*@
+    @*<script src="../../assets/extra-libs/sparkline/sparkline.js"></script>*@
 
     <script>
     $(document).ready(function () {
