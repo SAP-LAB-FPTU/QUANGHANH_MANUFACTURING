@@ -120,7 +120,7 @@ namespace QUANGHANH2.Controllers.TCLD
                                  join p4 in db.NhomCongViecs on p3.MaNhomCongViec equals p4.MaNhomCongViec
                                  join p5 in db.DienCongViecs on p4.MaDienCongViec equals p5.MaDienCongViec
 
-                                 where p1.MaTrangThai == 1 & p.department_type != "Đơn vị sản xuất thuê ngoài"
+                                 where p1.MaTrangThai == 1 & p.isInside != false & p3.MaNhomCongViec >=1 & p3.MaNhomCongViec <=9
                                  select
                                  new
                                  {
@@ -137,7 +137,7 @@ namespace QUANGHANH2.Controllers.TCLD
 
                                 ).ToList();
                 var listDonVi = (from p in db.Departments
-                                 where p.department_type != "Đơn vị sản xuất thuê ngoài"
+                                 where p.isInside != false
                                  select new
                                  {
                                      tenPhongBan = p.department_name,
@@ -157,7 +157,7 @@ namespace QUANGHANH2.Controllers.TCLD
                     {
 
                         var tonglaodongphongban = recordAll.Where(x => x.maPhongBan == item.maPhongBan).Count();
-                        var tonglaodongphongbanNu = recordAll.Where(x => x.gioiTinh == false).Count();
+                        var tonglaodongphongbanNu = recordAll.Where(x => x.gioiTinh == false & x.maPhongBan == item.maPhongBan).Count();
                         var quandocNumber = recordAll.Where(x => x.maPhongBan == item.maPhongBan & x.idNhomCongViec == 1).Count();
                         var ppOrPgd = recordAll.Where(x => x.maPhongBan == item.maPhongBan & x.idNhomCongViec == 2).Count();
                         var pqdcdV = recordAll.Where(x => x.maPhongBan == item.maPhongBan & x.idNhomCongViec == 3).Count();
@@ -261,7 +261,7 @@ namespace QUANGHANH2.Controllers.TCLD
                     dv = "Tổng ",
                     ldts = tonglaodongAll,
                     nu = tonglaodongAllNu,
-                    tsgt = quandocNumberAll + pqdcdVAll + nvktVAll + cvVAll + pqdcdVAll,
+                    tsgt = quandocNumberAll + ppOrPgdAll + nvktVAll + cvVAll + pqdcdVAll,
                     qd = quandocNumberAll,
                     pppgd = ppOrPgdAll,
                     pqdcd = pqdcdVAll,
