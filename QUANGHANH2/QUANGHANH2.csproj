@@ -180,6 +180,9 @@
     <Compile Include="Controllers\BGD\CDVT\BGDWaterController.cs" />
     <Compile Include="Controllers\BGD\DK\CharcoalExploitingController.cs" />
     <Compile Include="Controllers\BGD\DK\HumanResourceController.cs" />
+    <Compile Include="Controllers\BGD\QuantityReport\FactoryController.cs" />
+    <Compile Include="Controllers\BGD\QuantityReport\CompanyController.cs" />
+    <Compile Include="Controllers\BGD\QuantityReport\MonthyQuarterController.cs" />
     <Compile Include="Controllers\BGD\SummaryReportController.cs" />
     <Compile Include="Controllers\BGD\TCLD\PeformanceAndSalaryReportController.cs" />
     <Compile Include="Controllers\Camera\ChitietSuachuaCamController.cs" />
@@ -287,7 +290,7 @@
     <Compile Include="Controllers\DK\AccidentController.cs" />
     <Compile Include="Controllers\DK\DepartmentDailyController.cs" />
     <Compile Include="Controllers\DK\Department_CriteriaController.cs" />
-    <Compile Include="Controllers\DK\DKController.cs" />
+    <Compile Include="Controllers\DK\QuickReport\QuickReportController.cs" />
     <Compile Include="Controllers\DK\InputPlan\InputPlan_MonthController.cs" />
     <Compile Include="Controllers\DK\PhanXuongReportController.cs" />
     <Compile Include="Controllers\DK\InputCharcoal\InputController.cs" />
@@ -7247,7 +7250,7 @@
     <Content Include="Views\CDVT\Vattu\Tieuhao.cshtml" />
     <Content Include="Views\CDVT\Vattu\Tonghopvattu.cshtml" />
     <Content Include="Views\CDVT\Vattu\Xincapvattu.cshtml" />
-    <Content Include="Views\DK\Index.cshtml" />
+    <Content Include="Views\DK\QuickReport\QuickReport.cshtml" />
     <Content Include="Views\DK\ReportHuman\Daily.cshtml" />
     <Content Include="Views\DK\ReportHuman\Monthly.cshtml" />
     <Content Include="Views\DK\ReportIncident.cshtml" />
@@ -7436,6 +7439,10 @@
     <Content Include="Views\Camera\Nghiemthu.cshtml" />
     <Content Include="Views\ManagementUser\Roles.cshtml" />
     <Content Include="Views\CDVT\Car\BaoHiemOto.cshtml" />
+    <Content Include="Views\BGD\QuantityReport\CompanyView.cshtml" />
+    <Content Include="Views\BGD\QuantityReport\CompanyReport.cshtml" />
+    <Content Include="Views\BGD\QuantityReport\MonthyQuarterly.cshtml" />
+    <Content Include="Views\BGD\QuantityReport\Factory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7443,12 +7450,14 @@
     <Folder Include="FileContainer\KCS\" />
     <Folder Include="FileContainer\PhanXuongLenDK\" />
     <Folder Include="Library\" />
+    <Folder Include="Views\A\" />
     <Folder Include="Views\BaoCaoLenPhongDK\" />
     <Folder Include="Views\BaoHiemOto\" />
     <Folder Include="Views\CameraManagement\" />
     <Folder Include="Views\Cam\" />
     <Folder Include="Views\ChitietSuachuaCam\" />
     <Folder Include="Views\ChiTietXuLyQD\" />
+    <Folder Include="Views\Company\" />
     <Folder Include="Views\DepartmentDaily\" />
     <Folder Include="Views\Department_Criteria\" />
     <Folder Include="Views\GPS\" />
@@ -7457,6 +7466,7 @@
     <Folder Include="Views\InputPlan_Month\" />
     <Folder Include="Views\Input\" />
     <Folder Include="Views\Laydanhsachvattu\" />
+    <Folder Include="Views\MonthyQuarter\" />
     <Folder Include="Views\NghiemThuCam\" />
     <Folder Include="Views\Notifi\" />
     <Folder Include="Views\Occupation\" />

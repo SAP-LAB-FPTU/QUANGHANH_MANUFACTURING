@@ -23,7 +23,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         {
             //return View("/Views/Phanxuong/phanxuong.cshtml");
             var username = Session["username"];
-            ViewBag.phanxuong = Session["departId"];
+            ViewBag.phanxuong = Session["departID"];
             return View("/Views/Phanxuong/ChonBaoCao/ChonBaoCao.cshtml");
         }
 
