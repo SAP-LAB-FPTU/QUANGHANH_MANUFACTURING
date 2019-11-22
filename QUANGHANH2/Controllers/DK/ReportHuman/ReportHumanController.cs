@@ -184,7 +184,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                                     "   , SUM(case when ncv.MaNhomCongViec = 7 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'CD3' " +
                                     "   , SUM(case when ncv.MaNhomCongViec = 10 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'QL3' " +
                                     "   , count(n.MaNV) as 'tong_DS' " +
-                                    "   , sum(case when ncv.MaNhomCongViec like N'CBQL' then 1 else 0 end) as 'QL_CTy' " +
+                                    "   , sum(case when ncv.MaNhomCongViec = 10 then 1 else 0 end) as 'QL_CTy' " +
                                     " from NhanVien n left outer join DiemDanh_NangSuatLaoDong d on n.MaNV = d.MaNV " +
                                     " left outer join Header_DiemDanh_NangSuat_LaoDong h on d.HeaderID = h.HeaderID " +
                                     " join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec " +
@@ -273,7 +273,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                                     "   , SUM(case when ncv.MaNhomCongViec = 7 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'CD3' " +
                                     "   , SUM(case when ncv.MaNhomCongViec = 10 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'QL3' " +
                                     "   , count(n.MaNV) as 'tong_DS' " +
-                                    "   , sum(case when ncv.MaNhomCongViec like N'CBQL' then 1 else 0 end) as 'QL_CTy' " +
+                                    "   , sum(case when ncv.MaNhomCongViec = 10 then 1 else 0 end) as 'QL_CTy' " +
                                     " from NhanVien n left outer join DiemDanh_NangSuatLaoDong d on n.MaNV = d.MaNV " +
                                     " left outer join Header_DiemDanh_NangSuat_LaoDong h on d.HeaderID = h.HeaderID " +
                                     " join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec " +
