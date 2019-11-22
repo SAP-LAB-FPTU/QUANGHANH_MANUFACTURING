@@ -15,7 +15,6 @@
                 <table id="congviec" class="table table-bordered responsive-table center">
                     <thead>
                         <tr>
-                            <th>Mã công việc</th>
                             <th>Tên công việc</th>
                             <th>Thang lương</th>
                             <th>Phụ cấp</th>
@@ -64,7 +63,60 @@
     $(document).ready(function () {
         $("#pre-load").show(),
             table = $("#congviec").DataTable({
-
+                "ajax": {
+                    "url": "/phong-tcld/quan-ly-cong-viec/danh-sach-cong-viec",
+                    "type": "GET",
+                    "datatype": "json",
+                    "cache": "false",
+                    "dataSrc": function (json) {
+                        return json["congviec_list"];
+                    }
+                },
+                "columns": [
+                    {
+                        "data": "TenCongViec", "name": "TenCongViec"
+                    },
+                    {
+                        "data": "ThangLuong", "name": "ThangLuong"
+                    },
+                    {
+                        "data": "PhuCap", "name": "PhuCap"
+                    },
+                    {
+                        "data": "", "render": function (data, type, row) {
+                            return "<a id=\"suaCongViec\" name=\"" + row["MaCongViec"] + "\" class=\"waves-effects waves-light btn blue darken-2 btn-small modal-trigger\">Sửa</a>";
+                        },
+                        "orderable": false,
+                        "searchable": false
+                    },
+                    {
+                        "data": "", "render": function (data, type, row) {
+                            return "aaa";
+                        },
+                        "orderable": false,
+                        "searchable": false
+                    }
+                ],
+                "serverSide": "true",
+                "order": [0, "desc"],
+                "searching": false,
+                "bLengthChange": false,
+                "autoWidth": false,
+                "bFilter": true,
+                "bInfo": false,
+                "language": {
+                    emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                    paginate:
+                    {
+                        previous: "Trang trước",
+                        next: "Trang sau",
+                        first: "|<",
+                        last: ">|"
+                    }
+                },
+                "initComplete": function (settings, json) {
+                    $("#pre-load").hide();
+                }
             });
     });
 </script>
