@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "SideOccupation";
     Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
 }
@@ -9,13 +8,14 @@
         <div class="row">
             <h3 class="center"><b>DANH SÁCH DIỆN CÔNG VIỆC</b></h3>
             <div>
-                <a class="btn blue darken-2 btn-small input-field modal-trigger" href="#modal_themDienCongViec">Thêm</a>
+                <a class="waves-effects waves-light btn blue darken-2 btn-small input-field modal-trigger" href="#modal_themDienCongViec">Thêm</a>
             </div>
             <div>
-                <table id="diencongviec" class="table table-bordered center">
+                <table id="diencongviec" class="table table-bordered responsive-table center">
                     <thead>
                         <tr>
                             <th>Diện công việc</th>
+                            <th></th>
                             <th></th>
                         </tr>
                     </thead>
@@ -35,14 +35,14 @@
                     <div class="col s1 m1 l1"></div>
                     <div class="col s12 m10 l10">
                         <label>Tên diện công việc</label>
-                        <input type="text" class="form-control" id="tenDienCongViec" />
+                        <input type="text" class="form-control" id="tenDienCongViec_them" />
                     </div>
                     <div class="col s1 m1 l1"></div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="xacNhanThemDienCongViec" class="btn blue darken-2 btn-small">Xác nhận</button>
-                <button id="dongThemDienCongViec" class="btn red darken-2 btn-small modal-close">Đóng</button>
+                <button id="xacNhanThemDienCongViec" class="waves-effects waves-light btn blue darken-2 btn-small">Xác nhận</button>
+                <button id="dongThemDienCongViec" class="waves-effects waves-light btn red darken-2 btn-small modal-close">Đóng</button>
             </div>
         </div>
     </div>
@@ -56,13 +56,13 @@
                 <div class="col s1 m1 l1"></div>
                 <div class="col s12 m10 l10">
                     <label>Tên diện công việc</label>
-                    <input type="text" class="form-control" value="" />
+                    <input type="text" class="form-control" id="tenDienCongViec_sua" />
                 </div>
                 <div class="col s1 m1 l1"></div>
             </div>
             <div class="modal-footer">
-                <button class="btn blue darken-2 btn-small">Xác nhận</button>
-                <button class="btn red darken-2 btn-small modal-close">Đóng</button>
+                <button class="waves-effects waves-light btn blue darken-2 btn-small" id="xacNhanSuaDienCongViec">Xác nhận</button>
+                <button class="waves-effects waves-light btn red darken-2 btn-small modal-close" id="dongSuaDienCongViec">Đóng</button>
             </div>
         </div>
     </div>
@@ -72,7 +72,7 @@
 <!-------------------LIST------------------->
 <script>
     var table;
-    $(document).ready(function List() {
+    $(document).ready(function () {
         $('#pre-load').show();
         table = $('#diencongviec').DataTable({
             "ajax": {
@@ -88,7 +88,12 @@
                 { "data": "TenDienCongViec" },
                 {
                     "data": "", "render": function (data, type, row) {
-                        return "<a id=\"suaDienCongViec\" name=\"" + row["MaDienCongViec"] + "\" class=\"btn blue darken-2 btn-small modal-trigger\" href=\"#modal_suaDienCongViec\">Sửa</a>";
+                        return "<a id=\"suaDienCongViec\" name=\"" + row["MaDienCongViec"] + "\" class=\"waves-effects waves-light btn blue darken-2 btn-small modal-trigger\" href=\"#modal_suaDienCongViec\">Sửa</a>";
+                    }
+                },
+                {
+                    "data": "", "render": function (data, type, row) {
+                        return "<a id=\"xoaDienCongViec\" name=\"" + row["MaDienCongViec"] + "\" class=\"waves-effects waves-light btn red darken-2 btn-small modal-trigger\">Xóa</a>";
                     }
                 }
             ],
@@ -116,26 +121,147 @@
                     type: "POST",
                     datatype: "json",
                     data: {
-                        "TenDienCongViec": $("#tenDienCongViec").val()
+                        "TenDienCongViec": $("#tenDienCongViec_them").val()
                     },
                     success: function (response) {
                         if (response.success) {
                             successAlert('Thành công', response.message);
+                            //close popup
                             $("#dongThemDienCongViec").click();
+                            //clear input
+                            $("#tenDienCongViec_them").val("");
+                            //reload table after add successfully
                             table.ajax.reload();
                             $('#pre-load').hide();
-                        } else {
-                            errorAlert('Lỗi', response.message);
+                        } else if (response.error) {
+                            errorAlert("Có lỗi", response.message);
                             $('#pre-load').hide();
                         }
+                    },
+                    error: function (response) {
+
                     }
                 });
         });
     });
 </script>
-<!---------------------UPDATE------------------------>
+<!---------------------EDIT------------------------>
 <script>
     $(document).ready(function () {
-        
+        var madiencongviec = "";
+        //get data
+        $("#diencongviec").on("click", "#suaDienCongViec", function () {
+            madiencongviec = $(this).attr("name");
+            //get data by MaDienCongViec and auto fill to popup input
+            getData(madiencongviec);
+        });
+
+        //update
+        $("#xacNhanSuaDienCongViec").click(function () {
+            var tendiencongviec = $("#tenDienCongViec_sua").val();
+            update(madiencongviec, tendiencongviec);
+        });
+
     });
+</script>
+<!-----Get TenDienCongViec by MaDienCongViec----->
+<script>
+    function getData(MaDienCongViec) {
+        $('#pre-load').show(),
+            $.ajax({
+                url: "/phong-tcld/quan-ly-dien-cong-viec/lay-tendiencongviec-theo-madiencongviec",
+                type: "POST",
+                datatype: "json",
+                data: {
+                    "MaDienCongViec": MaDienCongViec
+                },
+                success: function (response) {
+                    if (response.success) {
+                        //auto fill TenDienCongViec
+                        $(document).ready(function () {
+                            $("#tenDienCongViec_sua").val(response.TenDienCongViec);
+                            $('#pre-load').hide();
+                        });
+                    }
+                },
+                error: function (response) {
+
+                }
+            });
+    }
+</script>
+<!------------Update---------------->
+<script>
+    function update(MaDienCongViec, TenDienCongViec) {
+        $("#pre-load").show(),
+            $.ajax({
+                url: "/phong-tcld/quan-ly-dien-cong-viec/cap-nhat-tendiencongviec",
+                type: "POST",
+                datatype: "json",
+                data: {
+                    "MaDienCongViec": MaDienCongViec,
+                    "TenDienCongViec": TenDienCongViec
+                },
+                success: function (response) {
+                    if (response.success) {
+                        successAlert("Thành công", response.message);
+                        //clear input filed
+                        $("#tenDienCongViec_sua").val("");
+                        //close popup modal
+                        $("#dongSuaDienCongViec").click();
+                        //reload table after add successfully
+                        table.ajax.reload();
+                        $("#pre-load").hide();
+                    } else if (response.error) {
+                        errorAlert("Có lỗi", response.message);
+                        $("#pre-load").hide();
+                    }
+                },
+                error: function (response) {
+
+                }
+            });
+    }
+</script>
+<!---------DELETE---------->
+<script>
+    $(document).ready(function () {
+        var madiencongviec = "";
+        $("#diencongviec").on("click", "#xoaDienCongViec", function () {
+            madiencongviec = $(this).attr("name");
+            //popup confirm
+            confirmAlert("Xác nhận xóa?", "Xóa diện công việc",
+                function () {
+                    delete_DienCongViec(madiencongviec);
+                }
+            )
+        }); 
+    });
+</script>
+<script>
+    function delete_DienCongViec(MaDienCongViec) {
+        $("#pre-load").show(),
+            $.ajax({
+                url: "/phong-tcld/quan-ly-dien-cong-viec/xoa-diencongviec",
+                type: "POST",
+                datatype: "json",
+                data: {
+                    "MaDienCongViec": MaDienCongViec
+                },
+                success: function (response) {
+                    if (response.success) {
+                        successAlert("Thành công", response.message);
+                        //reload table
+                        table.ajax.reload();
+                        $("#pre-load").hide();
+                    } else if (response.error) {
+                        errorAlert("Có lỗi", response.message);
+                        $("#pre-load").hide();
+                    }
+                },
+                error: function (response) {
+
+                }
+            });
+    }
 </script>

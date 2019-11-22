@@ -90,8 +90,7 @@
                     <th style="width: 300px">Lý do điều động</th>
                 </tr>
             </thead>
-            <tbody id="detail-table">
-            </tbody>
+            <tbody id="detail-table"></tbody>
         </table>
     </div>
     <div class="modal-footer">
@@ -138,7 +137,7 @@
                     "columns": [
                         {
                             "render": function (data, type, full, meta) {
-                                return meta.row+1;
+                                return meta.row + 1;
                             }
                         },
                         {
@@ -245,7 +244,7 @@
             } else {
                 e.preventDefault();
             }
-            
+
         });
     </script>
 
@@ -277,7 +276,7 @@
                             $("#detail-table").append("<td>" + response.list[i].DonViMoi + "</td>");
                             $("#detail-table").append("<td>" + response.list[i].ChucVuMoi + "</td>");
                             $("#detail-table").append("<td>" + response.list[i].ThangLuong + "</td>");
-                            $("#detail-table").append("<td>" + AddComma(response.list[i].PhuCap==null?"0":response.list[i].PhuCap) + "</td>");
+                            $("#detail-table").append("<td>" + AddComma(response.list[i].PhuCap == null ? "0" : response.list[i].PhuCap) + "</td>");
                             $("#detail-table").append("<td>" + response.list[i].BacLuongMoi + "</td>");
                             $("#detail-table").append("<td>" + AddComma(response.list[i].MucLuongMoi) + "</td>");
                             $("#detail-table").append("<td>" + response.list[i].LyDoDieuDong + "</td>");
