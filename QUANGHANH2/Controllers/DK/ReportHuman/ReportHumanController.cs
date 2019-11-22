@@ -101,9 +101,9 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                             "   , SUM(case when ncv.MaNhomCongViec = 10 and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'QL2' " +
                             "   , sum(case when ncv.MaNhomCongViec = 6 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'KT3' " +
                             "   , SUM(case when ncv.MaNhomCongViec = 7 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'CD3' " +
-                            "   , SUM(case when ncv.MaNhomCongViec = 10 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'QL3' " +
+                            "   , SUM(case when ncv.MaNhomCongViec = 10 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'QL3'" +
                             "   , count(n.MaNV) as 'tong_DS' " +
-                            "   , sum(case when ncv.MaNhomCongViec like N'CBQL' then 1 else 0 end) as 'QL_CTy' " +
+                            "   , sum(case when ncv.MaNhomCongViec = 10 then 1 else 0 end) as 'QL_CTy' " +
                             " from NhanVien n left outer join DiemDanh_NangSuatLaoDong d on n.MaNV = d.MaNV " +
                             " left outer join Header_DiemDanh_NangSuat_LaoDong h on d.HeaderID = h.HeaderID " +
                             " join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec " +
@@ -157,7 +157,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                 //thong so chung
                 item.LDPX = item.tong + item.tong_vang;
                 item.tong_tru_nghidai = item.tong_DS - item.tong_nghidai;
-                item.tong_LDTT = item.tong_tru_nghidai - item.QL_CTy;
+                //item.tong_LDTT = item.tong_tru_nghidai - item.QL_CTy;
 
             }
             ViewBag.list = list;
@@ -184,7 +184,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                                     "   , SUM(case when ncv.MaNhomCongViec = 7 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'CD3' " +
                                     "   , SUM(case when ncv.MaNhomCongViec = 10 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'QL3' " +
                                     "   , count(n.MaNV) as 'tong_DS' " +
-                                    "   , sum(case when ncv.MaNhomCongViec like N'CBQL' then 1 else 0 end) as 'QL_CTy' " +
+                                    "   , sum(case when ncv.MaNhomCongViec = 10 then 1 else 0 end) as 'QL_CTy' " +
                                     " from NhanVien n left outer join DiemDanh_NangSuatLaoDong d on n.MaNV = d.MaNV " +
                                     " left outer join Header_DiemDanh_NangSuat_LaoDong h on d.HeaderID = h.HeaderID " +
                                     " join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec " +
@@ -238,7 +238,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                 //thong so chung
                 item.LDPX = item.tong + item.tong_vang;
                 item.tong_tru_nghidai = item.tong_DS - item.tong_nghidai;
-                item.tong_LDTT = item.tong_tru_nghidai - item.QL_CTy;
+                //item.tong_LDTT = item.tong_tru_nghidai - item.QL_CTy;
 
             }
             ViewBag.list = list;
@@ -273,7 +273,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                                     "   , SUM(case when ncv.MaNhomCongViec = 7 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'CD3' " +
                                     "   , SUM(case when ncv.MaNhomCongViec = 10 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'QL3' " +
                                     "   , count(n.MaNV) as 'tong_DS' " +
-                                    "   , sum(case when ncv.MaNhomCongViec like N'CBQL' then 1 else 0 end) as 'QL_CTy' " +
+                                    "   , sum(case when ncv.MaNhomCongViec = 10 then 1 else 0 end) as 'QL_CTy' " +
                                     " from NhanVien n left outer join DiemDanh_NangSuatLaoDong d on n.MaNV = d.MaNV " +
                                     " left outer join Header_DiemDanh_NangSuat_LaoDong h on d.HeaderID = h.HeaderID " +
                                     " join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec " +
@@ -326,7 +326,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                         //thong so chung
                         item.LDPX = item.tong + item.tong_vang;
                         item.tong_tru_nghidai = item.tong_DS - item.tong_nghidai;
-                        item.tong_LDTT = item.tong_tru_nghidai - item.QL_CTy;
+                        //item.tong_LDTT = item.tong_tru_nghidai - item.QL_CTy;
 
                     }
                     int k = 4;
@@ -498,7 +498,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                             " on h.HeaderID = d.HeaderID " +
                             " join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec " +
                             " join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec " +
-                            " group by n.MaPhongBan) as a) a", new SqlParameter("month", data[1]), new SqlParameter("year", data[0]),
+                            " group by n.MaPhongBan) as a) a", new SqlParameter("month", data[1]), new SqlParameter("year", data[2]),
                             new SqlParameter("start1", s + "-01"), new SqlParameter("end1", s + "-07"),
                             new SqlParameter("start2", s + "-08"), new SqlParameter("end2", s + "-14"),
                             new SqlParameter("start3", s + "-15"), new SqlParameter("end3", s + "-21"),
@@ -552,7 +552,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                             " on h.HeaderID = d.HeaderID " +
                             " join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec " +
                             " join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec " +
-                            " group by n.MaPhongBan) as a) a", new SqlParameter("month", data[1]), new SqlParameter("year", data[0]),
+                            " group by n.MaPhongBan) as a) a", new SqlParameter("month", data[1]), new SqlParameter("year", data[2]),
                             new SqlParameter("start1", s + "-01"), new SqlParameter("end1", s + "-07"),
                             new SqlParameter("start2", s + "-08"), new SqlParameter("end2", s + "-14"),
                             new SqlParameter("start3", s + "-15"), new SqlParameter("end3", s + "-21"),
