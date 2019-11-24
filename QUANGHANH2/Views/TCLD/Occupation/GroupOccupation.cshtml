@@ -9,15 +9,17 @@
         <div class="row">
             <h3 class="center"><b>DANH SÁCH NHÓM CÔNG VIỆC</b></h3>
             <div>
-                <a class="btn blue darken-2 btn-small input-field modal-trigger" href="#themNhomCongViec">Thêm</a>
+                <a class="btn blue darken-2 btn-small input-field modal-trigger" href="#modal_themNhomCongViec">Thêm</a>
             </div>
             <div>
                 <table id="nhomcongviec" class="table table-bordered center">
                     <thead>
                         <tr>
-                            <th>Loại nhóm công việc</th>
                             <th>Tên nhóm công việc</th>
+                            <th>Loại nhóm công việc</th>
                             <th>Tên diện công việc</th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -27,46 +29,112 @@
     </div>
 </div>
 <!--Modal themNhomCongViec-->
-<div id="themNhomCongViec" class="modal">
-    <div class="card">
-        <div class="card-content">
-            <h4 class="center"><b>Thêm Nhóm Công Việc</b></h4>
-            <div class="modal-content">
-                <div class="row">
-                    <div class="col s12 m6 l6">
-                        <label>Loại nhóm công việc</label>
-                        <input type="text" class="form-control" id="loaiNhomCongViec" />
-                    </div>
-                    <div class="col s12 m6 l6">
-                        <label>Tên nhóm công việc</label>
-                        <input type="text" class="form-control" id="tenNhomCongViec" />
-                    </div>
-                </div>
+<div id="modal_themNhomCongViec" class="modal">
+    <div class="modal-content">
+        <h4 class="center"><b>Thêm Nhóm Công Việc</b></h4>
+        <div class="row">
+            <div class="col s12 m6 l6">
+                <label>Loại nhóm công việc</label>
+                <input type="text" class="form-control" id="loaiNhomCongViec_them" />
             </div>
-            <div class="modal-footer">
-                <button class="btn blue darken-2 btn-small">Xác nhận</button>
-                <button class="btn red darken-2 btn-small modal-close">Đóng</button>
+            <div class="col s12 m6 l6">
+                <label>Tên nhóm công việc</label>
+                <input type="text" class="form-control" id="tenNhomCongViec_them" />
+            </div>
+            <div class="col s12 m12 l12">
+                <label>Tên diện công việc</label>
+                <select class="form-control" id="diencongviec_select">
+                    <option value="" disabled selected>Chọn diện công việc</option>
+                    @foreach (var listDienCongViec in ViewBag.listDienCongViec)
+                    {
+                        <option value="@listDienCongViec.MaDienCongViec">@listDienCongViec.TenDienCongViec</option>
+                    }
+                </select>
             </div>
         </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn blue darken-2 btn-small">Xác nhận</button>
+        <button class="btn red darken-2 btn-small modal-close">Đóng</button>
+    </div>
+</div>
+<!--Modal suaNhomCongViec-->
+<div id="modal_suaNhomCongViec" class="modal">
+    <div class="modal-content">
+        <h4 class="center"><b>Sửa Nhóm Công Việc</b></h4>
+        <div class="row">
+            <div class="col s12 m6 l6">
+                <label>Loại nhóm công việc</label>
+                <input type="text" class="form-control" id="loaiNhomCongViec" />
+            </div>
+            <div class="col s12 m6 l6">
+                <label>Tên nhóm công việc</label>
+                <input type="text" class="form-control" id="tenNhomCongViec" />
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn blue darken-2 btn-small">Xác nhận</button>
+        <button class="btn red darken-2 btn-small modal-close">Đóng</button>
     </div>
 </div>
 <link href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
 <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 <script>
+    var table;
     $(document).ready(function () {
-        $('#nhomcongviec').DataTable({
+        table = $('#nhomcongviec').DataTable({
             "ajax": {
                 "url": "/phong-tcld/quan-ly-nhom-cong-viec/danh-sach-nhom-cong-viec",
                 "type": "GET",
                 "datatype": "json",
                 "cache": "false",
                 "dataSrc": function (json) {
-                    return json["sqlList"];
+                    return json["listData"];
                 }
             },
-            "column": [
-                {}
-            ]
+            "columns": [
+                { "data": "TenNhomCongViec", "name": "TenNhomCongViec" },
+                { "data": "LoaiNhomCongViec", "name": "LoaiNhomCongViec" },
+                { "data": "TenDienCongViec", "name": "TenDienCongViec" },
+                {
+                    "data": "", "render": function (data, type, row) {
+                        return "<a id=\"suaNhomCongViec\" name=\"" + row["MaNhomCongViec"] + "\" class=\"waves-effects waves-light btn blue darken-2 btn-small modal-trigger\" href=\"#modal_suaNhomCongViec\">Sửa</a>";
+                    },
+                    "orderable": false,
+                    "searchable": false
+                },
+                {
+                    "data": "", "render": function (data, type, row) {
+                        return "<a id=\"xoaNhomCongViec\" name=\"" + row["MaNhomCongViec"] + "\" class=\"waves-effects waves-light btn red darken-2 btn-small modal-close\">Xóa</a>";
+                    },
+                    "orderable": false,
+                    "searchable": false
+                }
+            ],
+            "serverSide": "true",
+            "order": [0, "desc"],
+            "searching": false,
+            "lengthChange": false,
+            "autoWidth": false,
+            "filter": true,
+            "info": false,
+            "language": {
+                emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                paginate:
+                {
+                    previous: "Trang trước",
+                    next: "Trang sau",
+                    first: "|<",
+                    last: ">|"
+                }
+            },
+            "initComplete": function (settings, json) {
+                $("#pre-load").hide();
+            }
         });
     });
 </script>
+
+<!-------Disable select option of Materialzecss------->
+<script src="../../js/Custom JS/Disable_input_material.js"></script>

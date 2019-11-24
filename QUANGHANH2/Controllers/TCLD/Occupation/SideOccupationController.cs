@@ -126,6 +126,34 @@ namespace QUANGHANH2.Controllers.TCLD.Occupation
             }
         }
 
+        ////////////////////////////////////////CHECK EXSIT DATA IN SUB-TABLE/////////////////////////////////////
+        public Boolean checkExistData(int MaDienCongViec)
+        {
+            bool flag = false;
+            try
+            {
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    var sqlCheckExistData = @"select a.MaDienCongViec from DienCongViec a join NhomCongViec b on a.MaDienCongViec = b.MaDienCongViec
+                                        where a.MaDienCongViec = @madiencongviec";
+                    var exSql = db.Database.SqlQuery<int>(sqlCheckExistData, new SqlParameter("madiencongviec", MaDienCongViec)).Count();
+                    if (exSql == 0)
+                    {
+                        flag = true;
+                    }
+                    else
+                    {
+                        flag = false;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                
+            }
+            return flag;
+        }
+
         //////////////////////////////////DELETE/////////////////////////////////////////
         [Route("phong-tcld/quan-ly-dien-cong-viec/xoa-diencongviec")]
         [HttpPost]
@@ -133,13 +161,20 @@ namespace QUANGHANH2.Controllers.TCLD.Occupation
         {
             try
             {
-                var MaDienCongViec = Request["MaDienCongViec"];
+                int MaDienCongViec = Convert.ToInt32(Request["MaDienCongViec"]);
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    var sqlDelete = @"delete DienCongViec where MaDienCongViec = @madiencongviec";
-                    db.Database.ExecuteSqlCommand(sqlDelete, new SqlParameter("madiencongviec", MaDienCongViec));
-                    db.SaveChanges();
-                    return Json(new { success = true, message = "Xóa thành công." });
+                    //check exist data
+                    if (checkExistData(MaDienCongViec))
+                    {
+                        var sqlDelete = @"delete DienCongViec where MaDienCongViec = @madiencongviec";
+                        db.Database.ExecuteSqlCommand(sqlDelete, new SqlParameter("madiencongviec", MaDienCongViec));
+                        db.SaveChanges();
+                        return Json(new { success = true, message = "Xóa thành công." });
+                    } else
+                    {
+                        return Json(new { error = true, title = "Có lỗi", message = "Dữ liệu của Diện Công Việc hiện tại vẫn còn liên kết tới các dữ liệu khác." });
+                    }
                 }
             }
             catch (Exception e)

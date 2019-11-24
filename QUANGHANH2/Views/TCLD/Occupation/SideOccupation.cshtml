@@ -27,44 +27,37 @@
 </div>
 <!--Modal themDienCongViec-->
 <div id="modal_themDienCongViec" class="modal">
-    <div class="card">
-        <div class="card-content">
-            <h4 class="center"><b>Thêm Diện Công Việc</b></h4>
-            <div class="modal-content">
-                <div class="row">
-                    <div class="col s1 m1 l1"></div>
-                    <div class="col s12 m10 l10">
-                        <label>Tên diện công việc</label>
-                        <input type="text" class="form-control" id="tenDienCongViec_them" />
-                    </div>
-                    <div class="col s1 m1 l1"></div>
-                </div>
+    <div class="modal-content">
+        <h4 class="center"><b>Thêm Diện Công Việc</b></h4>
+        <div class="row">
+            <div class="col s1 m1 l1"></div>
+            <div class="col s12 m10 l10">
+                <label>Tên diện công việc</label>
+                <input type="text" class="form-control" id="tenDienCongViec_them" />
             </div>
-            <div class="modal-footer">
-                <button id="xacNhanThemDienCongViec" class="waves-effects waves-light btn blue darken-2 btn-small">Xác nhận</button>
-                <button id="dongThemDienCongViec" class="waves-effects waves-light btn red darken-2 btn-small modal-close">Đóng</button>
-            </div>
+            <div class="col s1 m1 l1"></div>
         </div>
     </div>
+    <div class="modal-footer">
+        <button id="xacNhanThemDienCongViec" class="waves-effects waves-light btn blue darken-2 btn-small">Xác nhận</button>
+        <button id="dongThemDienCongViec" class="waves-effects waves-light btn red darken-2 btn-small modal-close">Đóng</button>
+    </div>
 </div>
+
 <!--Modal suaDienCongViec-->
 <div id="modal_suaDienCongViec" class="modal">
-    <div class="card">
-        <div class="card-content">
-            <h4 class="center"><b>Sửa Diện Công Việc</b></h4>
-            <div class="modal-content">
-                <div class="col s1 m1 l1"></div>
-                <div class="col s12 m10 l10">
-                    <label>Tên diện công việc</label>
-                    <input type="text" class="form-control" id="tenDienCongViec_sua" />
-                </div>
-                <div class="col s1 m1 l1"></div>
-            </div>
-            <div class="modal-footer">
-                <button class="waves-effects waves-light btn blue darken-2 btn-small" id="xacNhanSuaDienCongViec">Xác nhận</button>
-                <button class="waves-effects waves-light btn red darken-2 btn-small modal-close" id="dongSuaDienCongViec">Đóng</button>
-            </div>
+    <div class="modal-content">
+        <h4 class="center"><b>Sửa Diện Công Việc</b></h4>
+        <div class="col s1 m1 l1"></div>
+        <div class="col s12 m10 l10">
+            <label>Tên diện công việc</label>
+            <input type="text" class="form-control" id="tenDienCongViec_sua" />
         </div>
+        <div class="col s1 m1 l1"></div>
+    </div>
+    <div class="modal-footer">
+        <button class="waves-effects waves-light btn blue darken-2 btn-small" id="xacNhanSuaDienCongViec">Xác nhận</button>
+        <button class="waves-effects waves-light btn red darken-2 btn-small modal-close" id="dongSuaDienCongViec">Đóng</button>
     </div>
 </div>
 <link href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
@@ -230,12 +223,8 @@
         $("#diencongviec").on("click", "#xoaDienCongViec", function () {
             madiencongviec = $(this).attr("name");
             //popup confirm
-            confirmAlert("Xác nhận xóa?", "Xóa diện công việc",
-                function () {
-                    delete_DienCongViec(madiencongviec);
-                }
-            )
-        }); 
+            confirmAlert("Xác nhận xóa?", "Xóa diện công việc", () => { delete_DienCongViec(madiencongviec); });
+        });
     });
 </script>
 <script>
