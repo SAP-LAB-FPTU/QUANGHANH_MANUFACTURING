@@ -1,0 +1,252 @@
+﻿
+@{
+    ViewBag.Title = "BaoHiemOto";
+    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+}
+
+<div class="card">
+    <div class="card-content">
+        <div class="row center">
+            <h3><b>DANH SÁCH BẢO HIỂM ÔTÔ</b></h3>
+            <hr>
+            <form action="" method="POST" id="mysearchform" role="form">
+                <div class="col l6 m6 s12">
+                    <div class="col l7 m7 s12 offset-l2 offset-m2 input-field">
+                        <input type="text" placeholder="Tìm kiếm theo mã thiết bị" class='form-control' id="equipmentId-search" />
+                    </div>
+                    <div class="col l7 m7 s12 offset-l2 offset-m2 input-field">
+                        <input type="text" placeholder="Tìm kiếm theo tên thiết bị" class='form-control' id="equipmentName-search" />
+                    </div>
+                </div>
+                <div class="col l6 m6 s12">
+                    <div class="col l10 m10 s12 input-field">
+                        <i class="fas fa-calendar-alt icon"></i>
+                        <input type='text' class='datepicker-here center' id="date-start-search" data-language='vi' placeholder="thời gian dự tính (từ)" style="height: 34px" />
+                    </div>
+                    <div class="col l10 m10 s12 input-field">
+                        <i class="fas fa-calendar-alt icon"></i>
+                        <input type='text' class='datepicker-here center' id="date-end-search" data-language='vi' placeholder="thời gian dự tính (đến)" style="height: 34px" />
+                    </div>
+                </div>
+                <div class="col l12 m12 s12">
+                    <div class="col l12 m12 s12 input-field center">
+                        <a class="waves-effect waves-light btn blue darken-2 modal-close modal-trigger" id="searchButton1">Tìm kiếm</a>
+                    </div>
+                </div>
+            </form>
+            <div class="col s12 table_container">
+                <table class="table-bordered striped table-responsive centered"
+                       style="margin-top:30px; text-align:center;" id="complex_header">
+                    <thead>
+                        <tr>
+                            <th>Mã thiết bị</th>
+                            <th>Tên thiết bị</th>
+                            <th>Tình trạng hiện tại</th>
+                            <th>Ngày đăng ký bảo hiểm</th>
+                            <th>Ngày hết hạn bảo hiểm</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form action="" method="POST" id="myeditform" role="form">
+    <div id="myedit" class="modal">
+        <div class="modal-content">
+            <div class="modal-header center">
+                <h3><b>Cập nhật bảo hiểm</b></h3>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="date">Thời gian hết hạn bảo hiểm: </label>
+                            <input required type='text' class='datepicker-here form-control minDate' data-language='vi' value="" id="date-temp-edit" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" readonly id="id-edit" />
+                <button class="waves-effect waves-light btn blue darken-2   ">Lưu</button>
+                <button type="button" class="btn light-blue modal-close darken-2" id="exit-edit-button">Đóng</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function () {
+        $('#date-temp-edit').datepicker({
+            language: 'vi',
+            minDate: new Date()
+        })
+
+        $('.datepicker-inline').remove();
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        var today = dd + '/' + mm + '/' + (yyyy + 30);
+        $(".minDate").each(function () {
+            $(this).val(today);
+        });
+        today = new Date("1/1/1900");
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        var today = dd + '/' + mm + '/' + yyyy;
+        $(".maxDate").val(today)
+    });
+
+    $(document).ready(function () {
+        $('input[required]').each(function myfunction() {
+            $(this).attr("oninvalid", "setCustomValidity('Không được bỏ trống ô này')");
+            $(this).attr("oninput", "this.setCustomValidity('')");
+        })
+    })
+</script>
+@section scripts{
+    <script>
+        var Popup, dataTable;
+        $("#pre-load").show();
+
+        $(document).ready(function () {
+            dataTable = $('#complex_header').DataTable({
+                "language": {
+                    "emptyTable": "Không tìm thấy dữ liệu",
+                    "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                    "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                    "paginate": {
+                        "first": "Trang đầu",
+                        "last": "Trang cuối",
+                        "next": "Trang sau",
+                        "previous": "Trang trước"
+                    }
+                },
+                "ajax": {
+                    "url": "/phong-cdvt/oto/bao-hiem",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": {
+                        "equipmentId": function () { return $('#equipmentId-search').val() },
+                        "equipmentName": function () { return $('#equipmentName-search').val() },
+                        "dateStart": function () { return $('#date-start-search').val() },
+                        "dateEnd": function () { return $('#date-end-search').val() }
+                    },
+                    "cache": false
+                },
+                "columns": [
+                    { "data": "equipmentId", "name": "equipmentId" },
+                    { "data": "equipment_name", "name": "equipment_name" },
+                    { "data": "statusname", "name": "statusname" },
+                    { "data": "stringStartDate", "name": "insurance_start_date" },
+                    { "data": "stringEndDate", "name": "insurance_end_date" },
+                    {
+                        "data": {}, "render": function (data) {
+                            return "<a href=\"#myedit\" data-toggle=\"modal\" class=\"open-EditModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-equipmentId=\"" + data.equipmentId + "\">Cập&nbsp;nhật</a>";
+                        },
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "150px"
+                    }
+                ],
+                "serverSide": "true",
+                "order": [3, "asc"],
+                "rowId": "incident_id",
+                "lengthChange": false,
+                "searching": false,
+                "initComplete": function (settings, json) {
+                    $("#pre-load").hide();
+                },
+                "preDrawCallback": function (settings) {
+                    $('#pre-load').show();
+                },
+                "drawCallback": function (settings) {
+                    $('#pre-load').hide();
+                }
+            });
+        });
+
+
+        $(document).ready(function () {
+            var dataTable = $('#complex_header').DataTable();
+
+            //ajax add
+            $("#myeditform").submit(function (e) {
+                $("#pre-load").show();
+                $.ajax({
+                    type: "POST",
+                    url: "/phong-cdvt/oto/bao-hiem/add",
+                    dataType: "json",
+                    success: function (data) {
+                        dataTable.ajax.reload();
+                        if (data.success == true)
+                            successAlert('Thành công', data.message);
+                        else
+                            errorAlert('Lỗi', data.message);
+                        $('#exit-edit-button').click();
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        $('#pre-load').hide();
+                        errorAlert('Lỗi', 'Có lỗi xảy ra');
+                    },
+                    data: {
+                        equipmentId: $('#id-edit').val(),
+                        dateTemp: $('#date-temp-edit').val()
+                    },
+                    cache: false
+                }).done(function () {
+                    $("#pre-load").hide();
+                    $("#exit-update-button").click();
+                })
+                return false;
+            });
+
+            //search
+            $("#searchButton1").click(function () {
+                $("#pre-load").show();
+                dataTable.ajax.reload(function () {
+                    $("#pre-load").hide();
+                })
+            });
+        });
+
+        //get data and push to modal edit
+        $(document).on("click", ".open-EditModal", function () {
+            $('#myedit h3').text("Cập nhật bảo hiểm cho thiết bị " + $(this).data('equipmentid'));
+            var inspect_id = $(this).data('equipmentid');
+            $('#id-edit').val(inspect_id);
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1; //January is 0!
+
+            var yyyy = today.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            var today = dd + '/' + mm + '/' + (yyyy + 1);
+            $('#myedit .minDate').val(today);
+        });
+    </script>
+}

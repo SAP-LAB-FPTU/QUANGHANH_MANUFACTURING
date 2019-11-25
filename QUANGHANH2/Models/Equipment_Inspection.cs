@@ -16,9 +16,7 @@ namespace QUANGHANH2.Models
     {
         public int inspect_id { get; set; }
         public string equipmentId { get; set; }
-        public System.DateTime inspect_expected_date { get; set; }
-        public Nullable<System.DateTime> inspect_start_date { get; set; }
-        public Nullable<System.DateTime> inspect_end_date { get; set; }
+        public System.DateTime inspect_date { get; set; }
     
         public virtual Equipment Equipment { get; set; }
     }

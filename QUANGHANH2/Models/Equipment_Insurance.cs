@@ -16,9 +16,8 @@ namespace QUANGHANH2.Models
     {
         public int insurance_id { get; set; }
         public string equipmentId { get; set; }
-        public System.DateTime insurance_expected_date { get; set; }
-        public Nullable<System.DateTime> insurance_start_date { get; set; }
-        public Nullable<System.DateTime> insurance_end_date { get; set; }
+        public System.DateTime insurance_start_date { get; set; }
+        public System.DateTime insurance_end_date { get; set; }
     
         public virtual Equipment Equipment { get; set; }
     }

@@ -439,7 +439,8 @@
 
 <div class="modal fade" id="myadd">
     <div class="modal-header center-align">
-        <h3>Thêm</h3>
+        <h3 id="title" style="display:none !important">1</h3>
+        <h3>Thêm ô tô</h3>
     </div>
 
     @Html.Action("Add", "Hoatdong")
@@ -517,7 +518,7 @@
     data_restUrl = Url.Action("Atri", "Hoatdong", new { id = "" })
 }))
 {
-    <input type="text" id="atri" name="name" style="display:none !important"/>
+    <input type="text" id="atri" name="name" style="display:none !important" />
 }
 
 <ul id='dropdown1' class='dropdown-content'>
@@ -618,6 +619,7 @@
 
 @section scripts{
     <script>
+
         //export fuction
         $("#export-button").click(function () {
             $("#pre-load").show();
@@ -639,6 +641,8 @@
         bol = @hihi.ToString().ToLower();
         bol2 = false;
         $(document).ready(function () {
+               
+
             dataTable = $('#equipmentTable')
                 .on('preXhr.dt', function (e, settings, data) {
                     ////////////////////////////////////HIỆN LÊN MỖI KHI CHẠY AJAX//////////////////////////////////
@@ -711,13 +715,13 @@
                     { "data": "statusname", "name" : "statusname"},
                     { "data": "depreciation_estimate", "name": "depreciation_estimate" },
                     { "data": "depreciation_present", "name": "depreciation_present" },
-                    
-                    
-                    
+
+
+
                     //
                     {
                         "data": "equipmentId", "visible":bol,"render": function (data) {
-                return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='myedit' onclick=Edit('@Url.Action("Edit","Hoatdong")/" + data + "')><i class='fa fa-pencil'></i>Chỉnh&nbsp;sửa</a>";
+                return "<a class='waves-effect waves-light btn-small blue modal-trigger btnSelect2' data-target='myedit' onclick=Edit('@Url.Action("Edit","Hoatdong")/" + data + "')><i class='fa fa-pencil'></i>Chỉnh&nbsp;sửa</a>";
             },
                         "orderable": false,
                         "searchable":false,
@@ -769,133 +773,6 @@
             dataTable.ajax.reload(function () {
                successAlert('Tìm kiếm thành công', '');
             });
-            // dataTable.destroy();
-            @*$("#pre-load").show();
-             dataTable = $('#equipmentTable')
-                  .on('preXhr.dt', function (e, settings, data) {
-                    ////////////////////////////////////HIỆN LÊN MỖI KHI CHẠY AJAX//////////////////////////////////
-                    $("#pre-load").show("slow", function () {
-                    });
-                    $("#pre-load").css("z-index", "99999");
-                    ////////////////////////////////////////////////////////////////////////
-                })
-                 .DataTable({
-
-                    "language": {
-                        "equipmentTable": "Không tìm thấy dữ liệu"
-                    },
-                    "ajax": {
-                        "url": "/phong-cdvt/oto/huy-dong/search",
-                        "type": "POST",
-                        "search": false,
-                        "datatype": "json",
-                        "data": {
-                            "equipmentId": $('#equipmentId-search').val(),
-                            "equipmentName": $('#equipmentName-search').val(),
-                            "department": $('#department-search').val(),
-                            "quality": $('#equipmentQuality-search').val(),
-                            "dateStart": $('#date-start-search').val(),
-                            "dateEnd": $('#date-end-search').val(),
-                            "category": $('#category-search').val(),
-                            "sup": $('#supplier-search').val()
-                        },
-                        "cache": false
-                    },
-                   "columns": [
-                    { "data": "Equipment_category_name", "name" : "Equipment_category_name"},
-                    {
-                        "data": "equipmentId", "name": "equipmentId", "render": function (data) {
-                            return ("<form action=\"thiet-bi\" method=\"post\"><input type=\"hidden\" name=\"id\" value=\"" + data + "\" class=\"form-control\"/><button class='btn' onclick='submit'>" + data + "</button></form>");
-                        }
-                    },
-                    { "data": "equipment_name", "name": "equipment_name" },
-                    { "data": "fabrication_number", "name": "fabrication_number" },
-                    { "data": "mark_code", "name" : "mark_code"},
-                    { "data": "supplier", "name": "supplier" },
-                    {
-                        "data": "date_import", "name": "date_import", "render": function (data) {
-                            return dateFormat2(data) + " ";
-                        },
-
-                    },
-                    {
-                        "data": "usedDay", "name": "usedDay", "render": function (data) {
-                            return dateFormat2(data) + " ";
-                        },
-                    },
-                    { "data": "total_operating_hours" , "name" : "total_operating_hours"},
-                    { "data": "quality_type" , "name" : "quality_type"},
-                    { "data": "input_channel", "name": "input_channel" },
-                    {
-                        "data": "durationOfInsurance", "name": "durationOfInsurance", "render": function (data) {
-                            return dateFormat2(data) + " ";
-                        },
-                    },
-                    {
-                        "data": "durationOfInspection_fix", "name": "durationOfInspection", "render": function (data) {
-                            return dateFormat2(data) + " ";
-                        },
-                    },
-                    {
-                        "data": "durationOfMaintainance", "name": "durationOfMaintainance", "render": function (data) {
-                            return dateFormat2(data) + " ";
-                        },
-                    },
-                    { "data": "department_name" , "name" : "department_name"},
-                    { "data": "statusname", "name" : "statusname"},
-                    { "data": "depreciation_estimate", "name": "depreciation_estimate" },
-                    { "data": "depreciation_present", "name": "depreciation_present" },
-                    
-                    
-                    
-                    //
-                    {
-                        "data": "equipmentId", "visible":bol,"render": function (data) {
-                return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='myedit' onclick=Edit('@Url.Action("Edit","Hoatdong")/" + data + "')><i class='fa fa-pencil'></i>Chỉnh&nbsp;sửa</a>";
-            },
-                        "orderable": false,
-                        "searchable":false,
-                        "width":"150px"
-                    },
-                    {
-                        "data": "equipmentId", "visible":bol2, "render": function (data) {
-                return "<a class='waves-effect waves-light btn-small blue' style='margin-left:5px' onclick=Delete('@Url.Action("Delete","Hoatdong")/" + data + "')><i class='fa fa-trash'></i>Xóa</a>";
-            },
-                        "orderable": false,
-                        "searchable":false,
-                        "width":"150px"
-                        }
-                    ],
-                     "drawCallback": function (settings) {
-                        ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
-                        $("#pre-load").hide("slow", function () {
-                        });
-                        ////////////////////////////////////////////////
-                    },
-                   "serverSide": "true",
-                "bLengthChange": false,
-                "bFilter": false,
-                "bInfo": false,
-                "bAutoWidth": false,
-                "order": [0, "asc"],
-                "language": {
-                        emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
-                        paginate:
-                        {
-                            previous: "Trang trước",
-                            next: "Trang sau",
-                            first: "|<",
-                            last: ">|"
-                        }
-                    },
-                "initComplete": function (settings, json) {
-                        ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
-                        $("#pre-load").hide("slow", function () {
-                        });
-                        //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
-                    },
-
-                });*@
             });
         function dateFormat2(d) {
                 var dateString = d.substr(6);

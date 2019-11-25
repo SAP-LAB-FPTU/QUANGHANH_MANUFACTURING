@@ -180,6 +180,9 @@
     <Compile Include="Controllers\BGD\CDVT\BGDWaterController.cs" />
     <Compile Include="Controllers\BGD\DK\CharcoalExploitingController.cs" />
     <Compile Include="Controllers\BGD\DK\HumanResourceController.cs" />
+    <Compile Include="Controllers\BGD\QuantityReport\FactoryController.cs" />
+    <Compile Include="Controllers\BGD\QuantityReport\CompanyController.cs" />
+    <Compile Include="Controllers\BGD\QuantityReport\MonthyQuarterController.cs" />
     <Compile Include="Controllers\BGD\SummaryReportController.cs" />
     <Compile Include="Controllers\BGD\TCLD\PeformanceAndSalaryReportController.cs" />
     <Compile Include="Controllers\Camera\ChitietSuachuaCamController.cs" />
@@ -217,6 +220,7 @@
     <Compile Include="Controllers\CDVT\Nghiemthu\DanghiemthuController.cs" />
     <Compile Include="Controllers\CDVT\Nghiemthu\nghiemthuController.cs" />
     <Compile Include="Controllers\CDVT\Nghiemthu\VattukemtheoController.cs" />
+    <Compile Include="Controllers\CDVT\Oto\BaoHiemOtoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\ChitietotoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\DanhsachController.cs" />
     <Compile Include="Controllers\CDVT\Oto\GPSController.cs" />
@@ -286,7 +290,7 @@
     <Compile Include="Controllers\DK\AccidentController.cs" />
     <Compile Include="Controllers\DK\DepartmentDailyController.cs" />
     <Compile Include="Controllers\DK\Department_CriteriaController.cs" />
-    <Compile Include="Controllers\DK\DKController.cs" />
+    <Compile Include="Controllers\DK\QuickReport\QuickReportController.cs" />
     <Compile Include="Controllers\DK\InputPlan\InputPlan_MonthController.cs" />
     <Compile Include="Controllers\DK\PhanXuongReportController.cs" />
     <Compile Include="Controllers\DK\InputCharcoal\InputController.cs" />
@@ -368,6 +372,7 @@
     <Compile Include="Models\Car.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CarDB.cs" />
     <Compile Include="Models\CarGP.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -484,6 +489,7 @@
     <Compile Include="Models\Equipment_Insurance.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Equipment_InsuranceDB.cs" />
     <Compile Include="Models\FakeAPI.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -7108,6 +7114,8 @@
     <Content Include="excel\DK\DailyDepartment\templateBaoCaoTheoPhanXuong.xlsx" />
     <Content Include="excel\Notifi\ThongbaoCDVT.xlsx" />
     <Content Include="js\Custom JS\CDVT\Capnhat\check.js" />
+    <Content Include="excel\Camera\camera-temp.xlsx" />
+    <Content Include="excel\Camera\Download\camera-temp-download.xlsx" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -7115,8 +7123,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="excel\Camera\camera-temp.xlsx" />
-    <Content Include="excel\Camera\Download\camera-temp-download.xlsx" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
@@ -7244,7 +7250,7 @@
     <Content Include="Views\CDVT\Vattu\Tieuhao.cshtml" />
     <Content Include="Views\CDVT\Vattu\Tonghopvattu.cshtml" />
     <Content Include="Views\CDVT\Vattu\Xincapvattu.cshtml" />
-    <Content Include="Views\DK\Index.cshtml" />
+    <Content Include="Views\DK\QuickReport\QuickReport.cshtml" />
     <Content Include="Views\DK\ReportHuman\Daily.cshtml" />
     <Content Include="Views\DK\ReportHuman\Monthly.cshtml" />
     <Content Include="Views\DK\ReportIncident.cshtml" />
@@ -7432,6 +7438,11 @@
     <Content Include="Views\CDVT\Vattu\Xincapvattulan1.cshtml" />
     <Content Include="Views\Camera\Nghiemthu.cshtml" />
     <Content Include="Views\ManagementUser\Roles.cshtml" />
+    <Content Include="Views\CDVT\Car\BaoHiemOto.cshtml" />
+    <Content Include="Views\BGD\QuantityReport\CompanyView.cshtml" />
+    <Content Include="Views\BGD\QuantityReport\CompanyReport.cshtml" />
+    <Content Include="Views\BGD\QuantityReport\MonthyQuarterly.cshtml" />
+    <Content Include="Views\BGD\QuantityReport\Factory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7439,11 +7450,14 @@
     <Folder Include="FileContainer\KCS\" />
     <Folder Include="FileContainer\PhanXuongLenDK\" />
     <Folder Include="Library\" />
+    <Folder Include="Views\A\" />
     <Folder Include="Views\BaoCaoLenPhongDK\" />
+    <Folder Include="Views\BaoHiemOto\" />
     <Folder Include="Views\CameraManagement\" />
     <Folder Include="Views\Cam\" />
     <Folder Include="Views\ChitietSuachuaCam\" />
     <Folder Include="Views\ChiTietXuLyQD\" />
+    <Folder Include="Views\Company\" />
     <Folder Include="Views\DepartmentDaily\" />
     <Folder Include="Views\Department_Criteria\" />
     <Folder Include="Views\GPS\" />
@@ -7452,18 +7466,13 @@
     <Folder Include="Views\InputPlan_Month\" />
     <Folder Include="Views\Input\" />
     <Folder Include="Views\Laydanhsachvattu\" />
+    <Folder Include="Views\MonthyQuarter\" />
     <Folder Include="Views\NghiemThuCam\" />
     <Folder Include="Views\Notifi\" />
     <Folder Include="Views\Occupation\" />
-    <Folder Include="Views\PhanXuongReport\" />
-    <Folder Include="Views\QDCaitien\" />
-    <Folder Include="Views\Quanlyvattu\" />
-    <Folder Include="Views\ReportMonthly\" />
-    <Folder Include="Views\SanLuongReport\" />
     <Folder Include="Views\SideOccupation\" />
     <Folder Include="Views\SuachuaCamera\" />
     <Folder Include="Views\SucoCam\" />
-    <Folder Include="Views\ThemCaiTien\" />
     <Folder Include="Views\ViewAccident\" />
     <Folder Include="Views\WorkHistory\" />
     <Folder Include="Views\XuLyQD\" />
