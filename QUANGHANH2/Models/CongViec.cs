@@ -23,11 +23,12 @@ namespace QUANGHANH2.Models
     
         public int MaCongViec { get; set; }
         public string TenCongViec { get; set; }
-        public string ThangLuong { get; set; }
         public Nullable<double> PhuCap { get; set; }
+        public Nullable<int> MaThangLuong { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CongViec_NhomCongViec> CongViec_NhomCongViec { get; set; }
+        public virtual ThangLuong ThangLuong { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<NhanVien> NhanViens { get; set; }
     }

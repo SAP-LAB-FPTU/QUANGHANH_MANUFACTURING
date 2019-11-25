@@ -14,6 +14,8 @@ namespace QUANGHANH2.Controllers.TCLD
         [Route("phong-tcld/quan-ly-cong-viec")]
         public ActionResult Index()
         {
+            //get data from ThangLuong table to fill to select > option
+            getData_ThangLuong();
             return View("/Views/TCLD/Occupation/Occupation.cshtml");
         }
 
@@ -35,13 +37,13 @@ namespace QUANGHANH2.Controllers.TCLD
 
                 try
                 {
-                    List<CongViec> congviec_list = new List<CongViec>();
-                    var sqlList = "select * from CongViec order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY";
-                    congviec_list = db.Database.SqlQuery<CongViec>(sqlList).ToList();
-                    int totalrows = db.CongViecs.Count();
+                    List<CongViec_ThangLuong> congviec_thangluong_list = new List<CongViec_ThangLuong>();
+                    var sqlList = @"select a.TenCongViec, a.PhuCap, b.MucThangLuong from CongViec a left outer join ThangLuong b on a.MaThangLuong = b.MaThangLuong order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY";
+                    congviec_thangluong_list = db.Database.SqlQuery<CongViec_ThangLuong>(sqlList).ToList();
 
+                    int totalrows = db.CongViecs.Count();
                     int totalrowsafterfiltering = totalrows;
-                    return Json(new { congviec_list = congviec_list, recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                    return Json(new { congviec_thangluong_list = congviec_thangluong_list, recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)
                 {
@@ -59,12 +61,12 @@ namespace QUANGHANH2.Controllers.TCLD
             try
             {
                 var tencongviec = Request["tencongviec"];
-                var thangluong = Request["thangluong"];
                 var phucap = Request["phucap"];
+                var mathangluong = Request["mathangluong"];
 
                 if (tencongviec == null || tencongviec == "")
                 {
-                    return Json(new { error = true, title = "Có lỗi", message = "Tên công việc không thể để trống." });
+                    return Json(new { error = true, title = "Có lỗi", message = "Tên công việc thể để trống." });
                 }
                 else if (!((Regex.Match(phucap, @"(^[0-9]*$)")).Success))
                 {
@@ -75,16 +77,16 @@ namespace QUANGHANH2.Controllers.TCLD
                     using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                     {
                         CongViec cv = db.CongViecs.Where(x => x.TenCongViec.Equals(tencongviec)).FirstOrDefault();
-                        if (cv == null)
+                        if (cv == null && (phucap != "" || mathangluong != ""))
                         {
                             cv = new CongViec();
                             cv.TenCongViec = tencongviec;
-                            cv.ThangLuong = thangluong;
+                            cv.MaThangLuong = Convert.ToInt32(mathangluong);
                             cv.PhuCap = float.Parse(phucap);
                             db.CongViecs.Add(cv);
                             db.SaveChanges();
                             return Json(new { success = true, title = "Thành công", message = "Thêm thành công." });
-                        }
+                        } 
                         else
                         {
                             return Json(new { error = true, title = "Có lỗi", message = "Đã có tên công việc." });
@@ -97,6 +99,25 @@ namespace QUANGHANH2.Controllers.TCLD
                 return Json(new { error = true, title = "Có lỗi", message = "Có lỗi xảy ra." });
             }
         }
+
+        //////////////////////////////////////GET DATA FROM THANGLUONG///////////////////////////////////////
+        public void getData_ThangLuong()
+        {
+            try
+            {
+                List<ThangLuong> listThangLuong = new List<ThangLuong>();
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    var sqlGetData_ThangLuong = @"select * from ThangLuong";
+                    listThangLuong = db.Database.SqlQuery<ThangLuong>(sqlGetData_ThangLuong).ToList();
+                    ViewBag.listThangLuong = listThangLuong;
+                }
+            } catch (Exception e)
+            {
+
+            }
+        }
+
 
         ///////////////////////////////////EDIT///////////////////////////////////
         ////////GET DATA BY MACONGVIEC////////
@@ -217,6 +238,11 @@ namespace QUANGHANH2.Controllers.TCLD
                 flag = (exSql == 0) ? true : false;
             }
             return flag;
+        }
+
+        public class CongViec_ThangLuong : CongViec
+        {
+            public string MucThangLuong { get; set; }
         }
     }
 }

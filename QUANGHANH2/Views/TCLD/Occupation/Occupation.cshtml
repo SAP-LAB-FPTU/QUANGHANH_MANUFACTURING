@@ -16,8 +16,8 @@
                     <thead>
                         <tr>
                             <th>Tên công việc</th>
-                            <th>Thang lương</th>
                             <th>Phụ cấp</th>
+                            <th>Thang lương</th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -37,12 +37,18 @@
             <input type="text" class="form-control" id="tenCongViec_them" />
         </div>
         <div class="col s12 m6 l6">
-            <label>Thang lương</label>
-            <input type="text" class="form-control" id="thangLuong_them" />
-        </div>
-        <div class="col s12 m6 l6">
             <label>Phụ cấp</label>
             <input type="text" class="form-control" id="phuCap_them" />
+        </div>
+        <div class="col s12 m6 l6">
+            <label>Thang lương</label>
+            <select class="form-control" id="thangLuong_them_select">
+                <option value="" disabled selected>Chọn thang lương</option>
+                @foreach (var listThangLuong in ViewBag.listThangLuong)
+                {
+                    <option value="@listThangLuong.MaThangLuong">@listThangLuong.MucThangLuong</option>
+                }
+            </select>
         </div>
     </div>
     <div class="modal-footer">
@@ -60,12 +66,18 @@
             <input type="text" class="form-control" id="tenCongViec_sua" />
         </div>
         <div class="col s12 m6 l6">
-            <label>Thang lương</label>
-            <input type="text" class="form-control" id="thangLuong_sua" />
-        </div>
-        <div class="col s12 m6 l6">
             <label>Phụ cấp</label>
             <input type="text" class="form-control" id="phuCap_sua" />
+        </div>
+        <div class="col s12 m6 l6">
+            <label>Thang lương</label>
+            <select class="form-control" id="thangLuong_sua_select">
+                <option value="" disabled selected>Chọn thang lương</option>
+                @foreach (var listThangLuong in ViewBag.listThangLuong)
+                {
+                    <option value="@listThangLuong.MaThangLuong">@listThangLuong.MucThangLuong</option>
+                }
+            </select>
         </div>
     </div>
     <div class="modal-footer">
@@ -87,7 +99,7 @@
                     "datatype": "json",
                     "cache": "false",
                     "dataSrc": function (json) {
-                        return json["congviec_list"];
+                        return json["congviec_thangluong_list"];
                     }
                 },
                 "columns": [
@@ -95,10 +107,10 @@
                         "data": "TenCongViec", "name": "TenCongViec"
                     },
                     {
-                        "data": "ThangLuong", "name": "ThangLuong"
+                        "data": "PhuCap", "name": "PhuCap"
                     },
                     {
-                        "data": "PhuCap", "name": "PhuCap"
+                        "data": "MucThangLuong", "name": "MucThangLuong"
                     },
                     {
                         "data": "", "render": function (data, type, row) {
@@ -141,8 +153,8 @@
 
 <!----------------------------ADD--------------------------->
 <script>
-    $(document).ready(function() {
-        $("#xacNhanThemCongViec").click(function() {
+    $(document).ready(function () {
+        $("#xacNhanThemCongViec").click(function () {
             $("#pre-load").show(),
                 $.ajax({
                     url: "/phong-tcld/quan-ly-cong-viec/them-cong-viec",
@@ -150,17 +162,19 @@
                     datatype: "json",
                     data: {
                         "tencongviec": $("#tenCongViec_them").val(),
-                        "thangluong": $("#thangLuong_them").val(),
-                        "phucap": $("#phuCap_them").val()
+                        "phucap": $("#phuCap_them").val(),
+                        "mathangluong": $("#thangLuong_them_select").val()
                     },
-                    success: function(response) {
+                    success: function (response) {
                         if (response.success) {
                             //close the modal themCongViec
                             $("#dongThemCongViec").click();
                             //clear all value input in modal themCongViec
                             $("#tenCongViec_them").val("");
-                            $("#thangLuong_them").val("");
                             $("#phuCap_them").val("");
+                            $("#thangLuong_them").prop("selected", function () {
+                                return this.defaultSelected;
+                            });
                             //alert successfully
                             successAlert(response.title, response.message);
                             //reload the table
@@ -174,7 +188,7 @@
                             $("#pre-load").hide();
                         }
                     },
-                    error: function(response) {
+                    error: function (response) {
 
                     }
                 });
@@ -183,19 +197,19 @@
 </script>
 <!----------------------------------EDIT--------------------------------->
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         var macongviec;
         var tencongviec;
         var thangluong;
         var phucap;
         //fill data to input
-        $("#congviec").on("click", "#suaCongViec", function() {
+        $("#congviec").on("click", "#suaCongViec", function () {
             macongviec = $(this).attr("name");
             getData(macongviec);
         });
 
         //update
-        $("#xacNhanSuaCongViec").click( function() {
+        $("#xacNhanSuaCongViec").click(function () {
             tencongviec = $("#tenCongViec_sua").val();
             thangluong = $("#thangLuong_sua").val();
             phucap = $("#phuCap_sua").val();
@@ -244,7 +258,7 @@
                     "thangluong": thangluong,
                     "phucap": phucap
                 },
-                success: function(response) {
+                success: function (response) {
                     if (response.success) {
                         //close modal suaCongViec
                         $("#dongSuaCongViec").click();
@@ -289,7 +303,7 @@
                 },
                 success: function (response) {
                     if (response.success) {
-                        //alert successfull deleting 
+                        //alert successfull deleting
                         successAlert(response.title, response.message);
                         //reload table
                         table.ajax.reload();
@@ -303,8 +317,11 @@
                     }
                 },
                 error: function (response) {
-                    
+
                 }
             })
     }
 </script>
+
+<!-------Disable select option of Materialzecss------->
+<script src="../../js/Custom JS/Disable_input_material.js"></script>
