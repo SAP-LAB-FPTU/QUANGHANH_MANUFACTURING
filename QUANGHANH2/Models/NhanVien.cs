@@ -94,9 +94,11 @@ namespace QUANGHANH2.Models
         public int MaTrangThai { get; set; }
         public string MaChuyenNganh { get; set; }
         public string MaPhongBan { get; set; }
+        public Nullable<int> MaBacLuong_ThangLuong_MucLuong { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Account> Accounts { get; set; }
+        public virtual BacLuong_ThangLuong_MucLuong BacLuong_ThangLuong_MucLuong { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChamDut_NhanVien> ChamDut_NhanVien { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

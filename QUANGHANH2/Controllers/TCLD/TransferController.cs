@@ -38,7 +38,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         {
             List<CongViec> listCongViec = new List<CongViec>();
             List<Department> listPhongBan = new List<Department>();
-            List<DoiChieu_Luong> listBacAndLuong = new List<DoiChieu_Luong>();
+            //List<DoiChieu_Luong> listBacAndLuong = new List<DoiChieu_Luong>();
 
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
@@ -50,12 +50,12 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 listPhongBan = db.Departments.SqlQuery(sql).ToList<Department>();
 
                 sql = "select * from DoiChieu_Luong";
-                listBacAndLuong = db.Database.SqlQuery<DoiChieu_Luong>(sql).ToList<DoiChieu_Luong>();
+                //listBacAndLuong = db.Database.SqlQuery<DoiChieu_Luong>(sql).ToList<DoiChieu_Luong>();
 
             }
             ViewBag.listCongViec = listCongViec;
             ViewBag.listPhongBan = listPhongBan;
-            ViewBag.doichieuluong = listBacAndLuong;
+            //ViewBag.doichieuluong = listBacAndLuong;
             ViewBag.nameDepartment = "dieuchuyen";
             return View("/Views/TCLD/Transfer/Process.cshtml");
         }

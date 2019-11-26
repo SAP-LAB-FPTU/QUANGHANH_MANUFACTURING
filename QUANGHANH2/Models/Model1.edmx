@@ -74,6 +74,22 @@
           <Property Name="hours_per_day" Type="float" Nullable="false" />
           <Property Name="quantity" Type="float" Nullable="false" />
         </EntityType>
+        <EntityType Name="BacLuong">
+          <Key>
+            <PropertyRef Name="MaBacLuong" />
+          </Key>
+          <Property Name="MaBacLuong" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MucBacLuong" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="BacLuong_ThangLuong_MucLuong">
+          <Key>
+            <PropertyRef Name="MaBacLuong_ThangLuong_MucLuong" />
+          </Key>
+          <Property Name="MaBacLuong_ThangLuong_MucLuong" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaBacLuong" Type="int" />
+          <Property Name="MaThangLuong" Type="int" />
+          <Property Name="MucLuong" Type="nvarchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="BangCap_GiayChungNhan">
           <Key>
             <PropertyRef Name="MaBangCap_GiayChungNhan" />
@@ -237,8 +253,8 @@
           </Key>
           <Property Name="MaCongViec" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TenCongViec" Type="nvarchar" MaxLength="500" />
-          <Property Name="ThangLuong" Type="nvarchar" MaxLength="100" />
           <Property Name="PhuCap" Type="float" />
+          <Property Name="MaThangLuong" Type="int" />
         </EntityType>
         <EntityType Name="CongViec_NhomCongViec">
           <Key>
@@ -431,16 +447,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="du_phong" Type="bit" Nullable="false" />
           <Property Name="di_kem" Type="bit" Nullable="false" />
           <Property Name="can" Type="bit" Nullable="false" />
-        </EntityType>
-        <EntityType Name="DoiChieu_Luong">
-          <Key>
-            <PropertyRef Name="BacLuong" />
-            <PropertyRef Name="ThangLuong" />
-            <PropertyRef Name="MucLuong" />
-          </Key>
-          <Property Name="BacLuong" Type="nvarchar" MaxLength="20" Nullable="false" />
-          <Property Name="ThangLuong" Type="nvarchar" MaxLength="30" Nullable="false" />
-          <Property Name="MucLuong" Type="float" Nullable="false" />
         </EntityType>
         <EntityType Name="Equipment">
           <Key>
@@ -783,6 +789,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="MaTrangThai" Type="int" Nullable="false" />
           <Property Name="MaChuyenNganh" Type="nvarchar" MaxLength="100" />
           <Property Name="MaPhongBan" Type="nvarchar" MaxLength="150" />
+          <Property Name="MaBacLuong_ThangLuong_MucLuong" Type="int" />
         </EntityType>
         <EntityType Name="NhiemVu">
           <Key>
@@ -955,6 +962,16 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="quantity" Type="int" Nullable="false" />
           <Property Name="status" Type="int" />
         </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
         <EntityType Name="TaiNan">
           <Key>
             <PropertyRef Name="MaTaiNan" />
@@ -966,6 +983,13 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="Ca" Type="int" />
           <Property Name="Loai" Type="nvarchar" MaxLength="50" />
           <Property Name="GhiChu" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="ThangLuong">
+          <Key>
+            <PropertyRef Name="MaThangLuong" />
+          </Key>
+          <Property Name="MaThangLuong" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MucThangLuong" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="ThucHien_TieuChi_TheoNgay">
           <Key>
@@ -1051,6 +1075,30 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Principal>
             <Dependent Role="Activity">
               <PropertyRef Name="equipmentid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__BacLuong___MaBac__3F9B6DFF">
+          <End Role="BacLuong" Type="Self.BacLuong" Multiplicity="0..1" />
+          <End Role="BacLuong_ThangLuong_MucLuong" Type="Self.BacLuong_ThangLuong_MucLuong" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BacLuong">
+              <PropertyRef Name="MaBacLuong" />
+            </Principal>
+            <Dependent Role="BacLuong_ThangLuong_MucLuong">
+              <PropertyRef Name="MaBacLuong" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__BacLuong___MaTha__408F9238">
+          <End Role="ThangLuong" Type="Self.ThangLuong" Multiplicity="0..1" />
+          <End Role="BacLuong_ThangLuong_MucLuong" Type="Self.BacLuong_ThangLuong_MucLuong" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ThangLuong">
+              <PropertyRef Name="MaThangLuong" />
+            </Principal>
+            <Dependent Role="BacLuong_ThangLuong_MucLuong">
+              <PropertyRef Name="MaThangLuong" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2004,6 +2052,18 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__NhanVien__MaBacL__4DE98D56">
+          <End Role="BacLuong_ThangLuong_MucLuong" Type="Self.BacLuong_ThangLuong_MucLuong" Multiplicity="0..1" />
+          <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BacLuong_ThangLuong_MucLuong">
+              <PropertyRef Name="MaBacLuong_ThangLuong_MucLuong" />
+            </Principal>
+            <Dependent Role="NhanVien">
+              <PropertyRef Name="MaBacLuong_ThangLuong_MucLuong" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__NhanVien__MaChuy__531856C7">
           <End Role="ChuyenNganh" Type="Self.ChuyenNganh" Multiplicity="0..1" />
           <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="*" />
@@ -2474,6 +2534,18 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CongViec_ThangLuong">
+          <End Role="ThangLuong" Type="Self.ThangLuong" Multiplicity="0..1" />
+          <End Role="CongViec" Type="Self.CongViec" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ThangLuong">
+              <PropertyRef Name="MaThangLuong" />
+            </Principal>
+            <Dependent Role="CongViec">
+              <PropertyRef Name="MaThangLuong" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DiemDanh_NangSuatLaoDong_NhanVien">
           <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="1" />
           <End Role="DiemDanh_NangSuatLaoDong" Type="Self.DiemDanh_NangSuatLaoDong" Multiplicity="*" />
@@ -2588,6 +2660,8 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <EntitySet Name="Account_Right" EntityType="Self.Account_Right" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Account_Right_Detail" EntityType="Self.Account_Right_Detail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Activity" EntityType="Self.Activity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BacLuong" EntityType="Self.BacLuong" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BacLuong_ThangLuong_MucLuong" EntityType="Self.BacLuong_ThangLuong_MucLuong" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BangCap_GiayChungNhan" EntityType="Self.BangCap_GiayChungNhan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BaoCaoFile" EntityType="Self.BaoCaoFile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Camera" EntityType="Self.Camera" Schema="dbo" store:Type="Tables" />
@@ -2619,7 +2693,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <EntitySet Name="Documentary_repair_details" EntityType="Self.Documentary_repair_details" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Documentary_revoke_details" EntityType="Self.Documentary_revoke_details" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocumentaryType" EntityType="Self.DocumentaryType" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="DoiChieu_Luong" EntityType="Self.DoiChieu_Luong" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Equipment" EntityType="Self.Equipment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Equipment_attribute" EntityType="Self.Equipment_attribute" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Equipment_category" EntityType="Self.Equipment_category" Schema="dbo" store:Type="Tables" />
@@ -2662,7 +2735,9 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <EntitySet Name="Supply_DuPhong" EntityType="Self.Supply_DuPhong" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Supply_tieuhao" EntityType="Self.Supply_tieuhao" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SupplyPlan" EntityType="Self.SupplyPlan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaiNan" EntityType="Self.TaiNan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ThangLuong" EntityType="Self.ThangLuong" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ThucHien_TieuChi_TheoNgay" EntityType="Self.ThucHien_TieuChi_TheoNgay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TieuChi" EntityType="Self.TieuChi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TrangThai" EntityType="Self.TrangThai" Schema="dbo" store:Type="Tables" />
@@ -2688,6 +2763,14 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <AssociationSet Name="FK__Activity__equipm__3CF40B7E" Association="Self.FK__Activity__equipm__3CF40B7E">
             <End Role="Equipment" EntitySet="Equipment" />
             <End Role="Activity" EntitySet="Activity" />
+          </AssociationSet>
+          <AssociationSet Name="FK__BacLuong___MaBac__3F9B6DFF" Association="Self.FK__BacLuong___MaBac__3F9B6DFF">
+            <End Role="BacLuong" EntitySet="BacLuong" />
+            <End Role="BacLuong_ThangLuong_MucLuong" EntitySet="BacLuong_ThangLuong_MucLuong" />
+          </AssociationSet>
+          <AssociationSet Name="FK__BacLuong___MaTha__408F9238" Association="Self.FK__BacLuong___MaTha__408F9238">
+            <End Role="ThangLuong" EntitySet="ThangLuong" />
+            <End Role="BacLuong_ThangLuong_MucLuong" EntitySet="BacLuong_ThangLuong_MucLuong" />
           </AssociationSet>
           <AssociationSet Name="FK__BangCap_G__MaChu__3DE82FB7" Association="Self.FK__BangCap_G__MaChu__3DE82FB7">
             <End Role="ChuyenNganh" EntitySet="ChuyenNganh" />
@@ -3001,6 +3084,10 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="Department" EntitySet="Department" />
             <End Role="MealRegistration" EntitySet="MealRegistration" />
           </AssociationSet>
+          <AssociationSet Name="FK__NhanVien__MaBacL__4DE98D56" Association="Self.FK__NhanVien__MaBacL__4DE98D56">
+            <End Role="BacLuong_ThangLuong_MucLuong" EntitySet="BacLuong_ThangLuong_MucLuong" />
+            <End Role="NhanVien" EntitySet="NhanVien" />
+          </AssociationSet>
           <AssociationSet Name="FK__NhanVien__MaChuy__531856C7" Association="Self.FK__NhanVien__MaChuy__531856C7">
             <End Role="ChuyenNganh" EntitySet="ChuyenNganh" />
             <End Role="NhanVien" EntitySet="NhanVien" />
@@ -3157,6 +3244,10 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="NhiemVu" EntitySet="NhiemVu" />
             <End Role="ChiTiet_NhiemVu_NhanVien" EntitySet="ChiTiet_NhiemVu_NhanVien" />
           </AssociationSet>
+          <AssociationSet Name="FK_CongViec_ThangLuong" Association="Self.FK_CongViec_ThangLuong">
+            <End Role="ThangLuong" EntitySet="ThangLuong" />
+            <End Role="CongViec" EntitySet="CongViec" />
+          </AssociationSet>
           <AssociationSet Name="FK_DiemDanh_NangSuatLaoDong_NhanVien" Association="Self.FK_DiemDanh_NangSuatLaoDong_NhanVien">
             <End Role="NhanVien" EntitySet="NhanVien" />
             <End Role="DiemDanh_NangSuatLaoDong" EntitySet="DiemDanh_NangSuatLaoDong" />
@@ -3273,6 +3364,26 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="hours_per_day" Type="Double" Nullable="false" />
           <Property Name="quantity" Type="Double" Nullable="false" />
           <NavigationProperty Name="Equipment" Relationship="Self.FK__Activity__equipm__3CF40B7E" FromRole="Activity" ToRole="Equipment" />
+        </EntityType>
+        <EntityType Name="BacLuong">
+          <Key>
+            <PropertyRef Name="MaBacLuong" />
+          </Key>
+          <Property Name="MaBacLuong" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MucBacLuong" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BacLuong_ThangLuong_MucLuong" Relationship="Self.FK__BacLuong___MaBac__3F9B6DFF" FromRole="BacLuong" ToRole="BacLuong_ThangLuong_MucLuong" />
+        </EntityType>
+        <EntityType Name="BacLuong_ThangLuong_MucLuong">
+          <Key>
+            <PropertyRef Name="MaBacLuong_ThangLuong_MucLuong" />
+          </Key>
+          <Property Name="MaBacLuong_ThangLuong_MucLuong" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaBacLuong" Type="Int32" />
+          <Property Name="MaThangLuong" Type="Int32" />
+          <Property Name="MucLuong" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BacLuong" Relationship="Self.FK__BacLuong___MaBac__3F9B6DFF" FromRole="BacLuong_ThangLuong_MucLuong" ToRole="BacLuong" />
+          <NavigationProperty Name="ThangLuong" Relationship="Self.FK__BacLuong___MaTha__408F9238" FromRole="BacLuong_ThangLuong_MucLuong" ToRole="ThangLuong" />
+          <NavigationProperty Name="NhanViens" Relationship="Self.FK__NhanVien__MaBacL__4DE98D56" FromRole="BacLuong_ThangLuong_MucLuong" ToRole="NhanVien" />
         </EntityType>
         <EntityType Name="BangCap_GiayChungNhan">
           <Key>
@@ -3470,9 +3581,10 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           </Key>
           <Property Name="MaCongViec" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TenCongViec" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="ThangLuong" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="PhuCap" Type="Double" />
+          <Property Name="MaThangLuong" Type="Int32" />
           <NavigationProperty Name="CongViec_NhomCongViec" Relationship="Self.FK__CongViec___MaCon__53D770D6" FromRole="CongViec" ToRole="CongViec_NhomCongViec" />
+          <NavigationProperty Name="ThangLuong" Relationship="Self.FK_CongViec_ThangLuong" FromRole="CongViec" ToRole="ThangLuong" />
           <NavigationProperty Name="NhanViens" Relationship="Self.FK_NhanVien_CongViec" FromRole="CongViec" ToRole="NhanVien" />
         </EntityType>
         <EntityType Name="CongViec_NhomCongViec">
@@ -3727,16 +3839,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="di_kem" Type="Boolean" Nullable="false" />
           <Property Name="can" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Documentaries" Relationship="Self.FK__Documenta__docum__5B78929E" FromRole="DocumentaryType" ToRole="Documentary" />
-        </EntityType>
-        <EntityType Name="DoiChieu_Luong">
-          <Key>
-            <PropertyRef Name="BacLuong" />
-            <PropertyRef Name="ThangLuong" />
-            <PropertyRef Name="MucLuong" />
-          </Key>
-          <Property Name="BacLuong" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ThangLuong" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="MucLuong" Type="Double" Nullable="false" />
         </EntityType>
         <EntityType Name="Equipment">
           <Key>
@@ -4141,7 +4243,9 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="MaTrangThai" Type="Int32" Nullable="false" />
           <Property Name="MaChuyenNganh" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="MaPhongBan" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="MaBacLuong_ThangLuong_MucLuong" Type="Int32" />
           <NavigationProperty Name="Accounts" Relationship="Self.FK_Account_NhanVien" FromRole="NhanVien" ToRole="Account" />
+          <NavigationProperty Name="BacLuong_ThangLuong_MucLuong" Relationship="Self.FK__NhanVien__MaBacL__4DE98D56" FromRole="NhanVien" ToRole="BacLuong_ThangLuong_MucLuong" />
           <NavigationProperty Name="ChamDut_NhanVien" Relationship="Self.FK_ChamDut_NhanVien_NhanVien" FromRole="NhanVien" ToRole="ChamDut_NhanVien" />
           <NavigationProperty Name="ChiTiet_BangCap_GiayChungNhan" Relationship="Self.FK_ChiTiet_BangCap_NhanVien" FromRole="NhanVien" ToRole="ChiTiet_BangCap_GiayChungNhan" />
           <NavigationProperty Name="ChiTiet_NhiemVu_NhanVien" Relationship="Self.FK__ChiTiet_Nh__MaNV__1CBC4616" FromRole="NhanVien" ToRole="ChiTiet_NhiemVu_NhanVien" />
@@ -4377,6 +4481,16 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <NavigationProperty Name="Supply" Relationship="Self.FK__SupplyPla__suppl__2C88998B" FromRole="SupplyPlan" ToRole="Supply" />
           <NavigationProperty Name="Supply1" Relationship="Self.FK__SupplyPla__suppl__2D7CBDC4" FromRole="SupplyPlan" ToRole="Supply" />
         </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
         <EntityType Name="TaiNan">
           <Key>
             <PropertyRef Name="MaTaiNan" />
@@ -4389,6 +4503,15 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="Loai" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="GhiChu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="NhanVien" Relationship="Self.FK__TaiNan__MaNV__662B2B3B" FromRole="TaiNan" ToRole="NhanVien" />
+        </EntityType>
+        <EntityType Name="ThangLuong">
+          <Key>
+            <PropertyRef Name="MaThangLuong" />
+          </Key>
+          <Property Name="MaThangLuong" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MucThangLuong" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BacLuong_ThangLuong_MucLuong" Relationship="Self.FK__BacLuong___MaTha__408F9238" FromRole="ThangLuong" ToRole="BacLuong_ThangLuong_MucLuong" />
+          <NavigationProperty Name="CongViecs" Relationship="Self.FK_CongViec_ThangLuong" FromRole="ThangLuong" ToRole="CongViec" />
         </EntityType>
         <EntityType Name="ThucHien_TieuChi_TheoNgay">
           <Key>
@@ -4537,6 +4660,42 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Principal>
             <Dependent Role="Activity">
               <PropertyRef Name="equipmentid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__BacLuong___MaBac__3F9B6DFF">
+          <End Role="BacLuong" Type="Self.BacLuong" Multiplicity="0..1" />
+          <End Role="BacLuong_ThangLuong_MucLuong" Type="Self.BacLuong_ThangLuong_MucLuong" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BacLuong">
+              <PropertyRef Name="MaBacLuong" />
+            </Principal>
+            <Dependent Role="BacLuong_ThangLuong_MucLuong">
+              <PropertyRef Name="MaBacLuong" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__BacLuong___MaTha__408F9238">
+          <End Role="ThangLuong" Type="Self.ThangLuong" Multiplicity="0..1" />
+          <End Role="BacLuong_ThangLuong_MucLuong" Type="Self.BacLuong_ThangLuong_MucLuong" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ThangLuong">
+              <PropertyRef Name="MaThangLuong" />
+            </Principal>
+            <Dependent Role="BacLuong_ThangLuong_MucLuong">
+              <PropertyRef Name="MaThangLuong" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__NhanVien__MaBacL__4DE98D56">
+          <End Role="BacLuong_ThangLuong_MucLuong" Type="Self.BacLuong_ThangLuong_MucLuong" Multiplicity="0..1" />
+          <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BacLuong_ThangLuong_MucLuong">
+              <PropertyRef Name="MaBacLuong_ThangLuong_MucLuong" />
+            </Principal>
+            <Dependent Role="NhanVien">
+              <PropertyRef Name="MaBacLuong_ThangLuong_MucLuong" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4897,6 +5056,18 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Principal>
             <Dependent Role="CongViec_NhomCongViec">
               <PropertyRef Name="MaCongViec" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CongViec_ThangLuong">
+          <End Role="ThangLuong" Type="Self.ThangLuong" Multiplicity="0..1" />
+          <End Role="CongViec" Type="Self.CongViec" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ThangLuong">
+              <PropertyRef Name="MaThangLuong" />
+            </Principal>
+            <Dependent Role="CongViec">
+              <PropertyRef Name="MaThangLuong" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6038,6 +6209,8 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <EntitySet Name="Account_Right" EntityType="Self.Account_Right" />
           <EntitySet Name="Account_Right_Detail" EntityType="Self.Account_Right_Detail" />
           <EntitySet Name="Activities" EntityType="Self.Activity" />
+          <EntitySet Name="BacLuongs" EntityType="Self.BacLuong" />
+          <EntitySet Name="BacLuong_ThangLuong_MucLuong" EntityType="Self.BacLuong_ThangLuong_MucLuong" />
           <EntitySet Name="BangCap_GiayChungNhan" EntityType="Self.BangCap_GiayChungNhan" />
           <EntitySet Name="BaoCaoFiles" EntityType="Self.BaoCaoFile" />
           <EntitySet Name="Cameras" EntityType="Self.Camera" />
@@ -6069,7 +6242,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <EntitySet Name="Documentary_repair_details" EntityType="Self.Documentary_repair_details" />
           <EntitySet Name="Documentary_revoke_details" EntityType="Self.Documentary_revoke_details" />
           <EntitySet Name="DocumentaryTypes" EntityType="Self.DocumentaryType" />
-          <EntitySet Name="DoiChieu_Luong" EntityType="Self.DoiChieu_Luong" />
           <EntitySet Name="Equipments" EntityType="Self.Equipment" />
           <EntitySet Name="Equipment_attribute" EntityType="Self.Equipment_attribute" />
           <EntitySet Name="Equipment_category" EntityType="Self.Equipment_category" />
@@ -6112,7 +6284,9 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <EntitySet Name="Supply_DuPhong" EntityType="Self.Supply_DuPhong" />
           <EntitySet Name="Supply_tieuhao" EntityType="Self.Supply_tieuhao" />
           <EntitySet Name="SupplyPlans" EntityType="Self.SupplyPlan" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="TaiNans" EntityType="Self.TaiNan" />
+          <EntitySet Name="ThangLuongs" EntityType="Self.ThangLuong" />
           <EntitySet Name="ThucHien_TieuChi_TheoNgay" EntityType="Self.ThucHien_TieuChi_TheoNgay" />
           <EntitySet Name="TieuChis" EntityType="Self.TieuChi" />
           <EntitySet Name="TrangThais" EntityType="Self.TrangThai" />
@@ -6143,6 +6317,18 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <AssociationSet Name="FK__Activity__equipm__3CF40B7E" Association="Self.FK__Activity__equipm__3CF40B7E">
             <End Role="Equipment" EntitySet="Equipments" />
             <End Role="Activity" EntitySet="Activities" />
+          </AssociationSet>
+          <AssociationSet Name="FK__BacLuong___MaBac__3F9B6DFF" Association="Self.FK__BacLuong___MaBac__3F9B6DFF">
+            <End Role="BacLuong" EntitySet="BacLuongs" />
+            <End Role="BacLuong_ThangLuong_MucLuong" EntitySet="BacLuong_ThangLuong_MucLuong" />
+          </AssociationSet>
+          <AssociationSet Name="FK__BacLuong___MaTha__408F9238" Association="Self.FK__BacLuong___MaTha__408F9238">
+            <End Role="ThangLuong" EntitySet="ThangLuongs" />
+            <End Role="BacLuong_ThangLuong_MucLuong" EntitySet="BacLuong_ThangLuong_MucLuong" />
+          </AssociationSet>
+          <AssociationSet Name="FK__NhanVien__MaBacL__4DE98D56" Association="Self.FK__NhanVien__MaBacL__4DE98D56">
+            <End Role="BacLuong_ThangLuong_MucLuong" EntitySet="BacLuong_ThangLuong_MucLuong" />
+            <End Role="NhanVien" EntitySet="NhanViens" />
           </AssociationSet>
           <AssociationSet Name="FK__BangCap_G__MaChu__3DE82FB7" Association="Self.FK__BangCap_G__MaChu__3DE82FB7">
             <End Role="ChuyenNganh" EntitySet="ChuyenNganhs" />
@@ -6263,6 +6449,10 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <AssociationSet Name="FK__CongViec___MaCon__53D770D6" Association="Self.FK__CongViec___MaCon__53D770D6">
             <End Role="CongViec" EntitySet="CongViecs" />
             <End Role="CongViec_NhomCongViec" EntitySet="CongViec_NhomCongViec" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CongViec_ThangLuong" Association="Self.FK_CongViec_ThangLuong">
+            <End Role="ThangLuong" EntitySet="ThangLuongs" />
+            <End Role="CongViec" EntitySet="CongViecs" />
           </AssociationSet>
           <AssociationSet Name="FK_NhanVien_CongViec" Association="Self.FK_NhanVien_CongViec">
             <End Role="CongViec" EntitySet="CongViecs" />
@@ -6715,6 +6905,24 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="BacLuongs">
+            <EntityTypeMapping TypeName="QUANGHANHABCModel.BacLuong">
+              <MappingFragment StoreEntitySet="BacLuong">
+                <ScalarProperty Name="MaBacLuong" ColumnName="MaBacLuong" />
+                <ScalarProperty Name="MucBacLuong" ColumnName="MucBacLuong" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BacLuong_ThangLuong_MucLuong">
+            <EntityTypeMapping TypeName="QUANGHANHABCModel.BacLuong_ThangLuong_MucLuong">
+              <MappingFragment StoreEntitySet="BacLuong_ThangLuong_MucLuong">
+                <ScalarProperty Name="MaBacLuong_ThangLuong_MucLuong" ColumnName="MaBacLuong_ThangLuong_MucLuong" />
+                <ScalarProperty Name="MaBacLuong" ColumnName="MaBacLuong" />
+                <ScalarProperty Name="MaThangLuong" ColumnName="MaThangLuong" />
+                <ScalarProperty Name="MucLuong" ColumnName="MucLuong" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="BangCap_GiayChungNhan">
             <EntityTypeMapping TypeName="QUANGHANHABCModel.BangCap_GiayChungNhan">
               <MappingFragment StoreEntitySet="BangCap_GiayChungNhan">
@@ -6886,8 +7094,8 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
               <MappingFragment StoreEntitySet="CongViec">
                 <ScalarProperty Name="MaCongViec" ColumnName="MaCongViec" />
                 <ScalarProperty Name="TenCongViec" ColumnName="TenCongViec" />
-                <ScalarProperty Name="ThangLuong" ColumnName="ThangLuong" />
                 <ScalarProperty Name="PhuCap" ColumnName="PhuCap" />
+                <ScalarProperty Name="MaThangLuong" ColumnName="MaThangLuong" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -7071,15 +7279,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
                 <ScalarProperty Name="du_phong" ColumnName="du_phong" />
                 <ScalarProperty Name="di_kem" ColumnName="di_kem" />
                 <ScalarProperty Name="can" ColumnName="can" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DoiChieu_Luong">
-            <EntityTypeMapping TypeName="QUANGHANHABCModel.DoiChieu_Luong">
-              <MappingFragment StoreEntitySet="DoiChieu_Luong">
-                <ScalarProperty Name="BacLuong" ColumnName="BacLuong" />
-                <ScalarProperty Name="ThangLuong" ColumnName="ThangLuong" />
-                <ScalarProperty Name="MucLuong" ColumnName="MucLuong" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -7441,6 +7640,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
                 <ScalarProperty Name="MaTrangThai" ColumnName="MaTrangThai" />
                 <ScalarProperty Name="MaChuyenNganh" ColumnName="MaChuyenNganh" />
                 <ScalarProperty Name="MaPhongBan" ColumnName="MaPhongBan" />
+                <ScalarProperty Name="MaBacLuong_ThangLuong_MucLuong" ColumnName="MaBacLuong_ThangLuong_MucLuong" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -7624,6 +7824,17 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="QUANGHANHABCModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="TaiNans">
             <EntityTypeMapping TypeName="QUANGHANHABCModel.TaiNan">
               <MappingFragment StoreEntitySet="TaiNan">
@@ -7634,6 +7845,14 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
                 <ScalarProperty Name="Ca" ColumnName="Ca" />
                 <ScalarProperty Name="Loai" ColumnName="Loai" />
                 <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ThangLuongs">
+            <EntityTypeMapping TypeName="QUANGHANHABCModel.ThangLuong">
+              <MappingFragment StoreEntitySet="ThangLuong">
+                <ScalarProperty Name="MaThangLuong" ColumnName="MaThangLuong" />
+                <ScalarProperty Name="MucThangLuong" ColumnName="MucThangLuong" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
