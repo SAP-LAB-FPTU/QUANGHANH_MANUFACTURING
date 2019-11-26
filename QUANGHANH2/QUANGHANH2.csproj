@@ -328,6 +328,9 @@
     <Compile Include="Controllers\TCLD\RecruitmentAndEndController.cs" />
     <Compile Include="Controllers\TCLD\RecruitmentController.cs" />
     <Compile Include="Controllers\TCLD\ReportController.cs" />
+    <Compile Include="Controllers\TCLD\Salary\Grade_Scale_SalaryController.cs" />
+    <Compile Include="Controllers\TCLD\Salary\SalaryGradeController.cs" />
+    <Compile Include="Controllers\TCLD\Salary\SalaryScaleController.cs" />
     <Compile Include="Controllers\TCLD\ShutDownController.cs" />
     <Compile Include="Controllers\TCLD\TaskController.cs" />
     <Compile Include="Controllers\TCLD\TCLDController.cs" />
@@ -7452,6 +7455,9 @@
     <Content Include="Views\BGD\QuantityReport\CompanyReport.cshtml" />
     <Content Include="Views\BGD\QuantityReport\MonthyQuarterly.cshtml" />
     <Content Include="Views\BGD\QuantityReport\Factory.cshtml" />
+    <Content Include="Views\TCLD\Salary\SalaryGrade.cshtml" />
+    <Content Include="Views\TCLD\Salary\SalaryScale.cshtml" />
+    <Content Include="Views\TCLD\Salary\Grade_Scale_Salary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7459,29 +7465,9 @@
     <Folder Include="FileContainer\KCS\" />
     <Folder Include="FileContainer\PhanXuongLenDK\" />
     <Folder Include="Library\" />
-    <Folder Include="Views\A\" />
-    <Folder Include="Views\BaoCaoLenPhongDK\" />
-    <Folder Include="Views\BaoHiemOto\" />
-    <Folder Include="Views\CameraManagement\" />
-    <Folder Include="Views\Cam\" />
-    <Folder Include="Views\ChitietSuachuaCam\" />
-    <Folder Include="Views\ChiTietXuLyQD\" />
-    <Folder Include="Views\Company\" />
-    <Folder Include="Views\DepartmentDaily\" />
-    <Folder Include="Views\Department_Criteria\" />
-    <Folder Include="Views\GPS\" />
-    <Folder Include="Views\GroupOccupation\" />
-    <Folder Include="Views\HuyDong\" />
-    <Folder Include="Views\InputPlan_Month\" />
-    <Folder Include="Views\Input\" />
-    <Folder Include="Views\Laydanhsachvattu\" />
-    <Folder Include="Views\MonthyQuarter\" />
-    <Folder Include="Views\NghiemThuCam\" />
-    <Folder Include="Views\Notifi\" />
-    <Folder Include="Views\Occupation\" />
-    <Folder Include="Views\SideOccupation\" />
-    <Folder Include="Views\SuachuaCamera\" />
-    <Folder Include="Views\SucoCam\" />
+    <Folder Include="Views\Grade_Scale_Salary\" />
+    <Folder Include="Views\SalaryGrade\" />
+    <Folder Include="Views\SalaryScale\" />
     <Folder Include="Views\ViewAccident\" />
     <Folder Include="Views\WorkHistory\" />
     <Folder Include="Views\XuLyQD\" />
