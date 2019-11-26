@@ -34,7 +34,7 @@ namespace QUANGHANH2.Controllers.TCLD.Occupation
                 string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
                 string sortDirection = Request["order[0][dir]"];
 
-                var sqlList = @"select a.TenNhomCongViec, a.LoaiNhomCongViec, b.TenDienCongViec from NhomCongViec a 
+                var sqlList = @"select a.MaNhomCongViec, a.TenNhomCongViec, a.LoaiNhomCongViec, b.TenDienCongViec from NhomCongViec a 
                             left outer join DienCongViec b on a.MaDienCongViec = b.MaDienCongViec
                             order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY";
                 listData = db.Database.SqlQuery<NhomCongViec_DienCongViec>(sqlList).ToList();
@@ -128,19 +128,108 @@ namespace QUANGHANH2.Controllers.TCLD.Occupation
                 var manhomcongviec = Request["manhomcongviec"];
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    var sqlGetData = @"select * from NhomCongViec where MaNhomCongViec = @manhomcongviec";
-                    var listData = db.Database.SqlQuery<NhomCongViec_DienCongViec>(sqlGetData, new SqlParameter("manhomcongviec", manhomcongviec));
-                    return Json(new { success = true ,listData = listData });
+                    var sqlGetData = @"select a.MaNhomCongViec, a.TenNhomCongViec, a.LoaiNhomCongViec, b.MaDienCongViec, b.TenDienCongViec from NhomCongViec a left outer join DienCongViec b on a.MaDienCongViec = b.MaDienCongViec where MaNhomCongViec = @manhomcongviec";
+                    var listData = db.Database.SqlQuery<NhomCongViec_DienCongViec>(sqlGetData, new SqlParameter("manhomcongviec", manhomcongviec)).FirstOrDefault();
+                    return Json(new { success = true, listData = listData });
                 }
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 return Json(new { error = true, title = "Có lỗi", message = "Có lỗi xảy ra." });
             }
+        }
+
+        //UPDATE
+        [Route("phong-tcld/quan-ly-nhom-cong-viec/cap-nhat-nhomcongviec")]
+        [HttpPost]
+        public ActionResult update()
+        {
+            try
+            {
+                int manhomcongviec = Convert.ToInt32(Request["manhomcongviec"]);
+                var tennhomcongviec = Request["tennhomcongviec"];
+                var loainhomcongviec = Request["loainhomcongviec"];
+                var madiencongviec = Request["madiencongviec"];
+
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    NhomCongViec ncv = db.NhomCongViecs.Where(x => !(x.MaNhomCongViec == manhomcongviec) && (x.TenNhomCongViec.Equals(tennhomcongviec) || x.LoaiNhomCongViec.Equals(loainhomcongviec))).FirstOrDefault();
+                    if (ncv == null)
+                    {
+                        var sqlUpdate = db.NhomCongViecs.Find(manhomcongviec);
+                        sqlUpdate.TenNhomCongViec = tennhomcongviec;
+                        sqlUpdate.LoaiNhomCongViec = loainhomcongviec;
+                        sqlUpdate.MaDienCongViec = (madiencongviec == "") ? null : (int?)Convert.ToInt32(madiencongviec);
+                        db.SaveChanges();
+                        return Json(new { success = true, title = "Thành công", message = "Cập nhật nhóm công việc thành công." });
+                    }
+                    else
+                    {
+                        return Json(new { error = true, title = "Có lỗi", message = "Tên nhóm công viêc hoặc Loại nhóm công việc đã có." });
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new { error = true, title = "Có lỗi", message = "Có lỗi xảy ra." });
+            }
+        }
+
+        //DELETE
+        [Route("phong-tcld/quan-ly-nhom-cong-viec/xoa-nhomcongviec")]
+        [HttpPost]
+        public ActionResult delete()
+        {
+            try
+            {
+                int manhomcongviec = Convert.ToInt32(Request["manhomcongviec"]);
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    if (check_Exist_Data(manhomcongviec))
+                    {
+                        var sqlDelete = @"delete NhomCongViec where MaNhomCongViec = @manhomcongviec";
+                        db.Database.ExecuteSqlCommand(sqlDelete, new SqlParameter("manhomcongviec", manhomcongviec));
+                        db.SaveChanges();
+                        return Json(new { success = true, title = "Thành công", message = "Xóa nhóm công việc thành công." });
+                    }
+                    else
+                    {
+                        return Json(new { error = true, title = "Có lỗi", message = "Dữ liệu về nhóm công việc hiện tại đang còn tồn tại ở các bản ghi khác." });
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new { error = true, title = "Có lỗi", message = "Có lỗi xảy ra." });
+            }
+        }
+
+        //CHECK EXIST DATA RELATED TO OTHER TABLE
+        public Boolean check_Exist_Data(int manhomcongviec)
+        {
+            bool flag = false;
+            try
+            {
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    var sqlCheck = @"select a.MaNhomCongViec from NhomCongViec a right outer join CongViec_NhomCongViec b on a.MaNhomCongViec = b.MaNhomCongViec
+                                where a.MaNhomCongViec = @manhomcongviec";
+                    var exSql = db.Database.SqlQuery<int>(sqlCheck, new SqlParameter("manhomcongviec", manhomcongviec)).Count();
+                    flag = (exSql == 0) ? true : false;
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+            return flag;
         }
 
         public class NhomCongViec_DienCongViec : NhomCongViec
         {
             public string TenDienCongViec { get; set; }
         }
+
     }
 }
