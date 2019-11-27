@@ -16,7 +16,7 @@ namespace QUANGHANH2.Controllers.PX.PXDS
         {
             _repository = repo;
         }
-
+        [Auther(RightID = "122")]
         [HttpGet]
         [Route("phan-xuong-doi-song/theo-doi-suat-an")]
         public ActionResult Index()
@@ -24,7 +24,7 @@ namespace QUANGHANH2.Controllers.PX.PXDS
             return View("/Views/PX/PXDS/View.cshtml");
         }
 
-        [Auther(RightID = "145")]
+        [Auther(RightID = "123")]
         [HttpGet]
         [Route("phan-xuong-doi-song/dang-ky-suat-an")]
         public ActionResult Input()
