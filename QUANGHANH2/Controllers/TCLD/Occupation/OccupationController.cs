@@ -38,7 +38,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 try
                 {
                     List<CongViec_ThangLuong> congviec_thangluong_list = new List<CongViec_ThangLuong>();
-                    var sqlList = @"select a.TenCongViec, a.PhuCap, b.MucThangLuong from CongViec a left outer join ThangLuong b on a.MaThangLuong = b.MaThangLuong order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY";
+                    var sqlList = @"select a.MaCongViec, a.TenCongViec, a.PhuCap, b.MucThangLuong from CongViec a left outer join ThangLuong b on a.MaThangLuong = b.MaThangLuong order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY";
                     congviec_thangluong_list = db.Database.SqlQuery<CongViec_ThangLuong>(sqlList).ToList();
 
                     int totalrows = db.CongViecs.Count();
@@ -77,16 +77,16 @@ namespace QUANGHANH2.Controllers.TCLD
                     using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                     {
                         CongViec cv = db.CongViecs.Where(x => x.TenCongViec.Equals(tencongviec)).FirstOrDefault();
-                        if (cv == null && (phucap != "" || mathangluong != ""))
+                        if (cv == null)
                         {
                             cv = new CongViec();
                             cv.TenCongViec = tencongviec;
-                            cv.MaThangLuong = Convert.ToInt32(mathangluong);
-                            cv.PhuCap = float.Parse(phucap);
+                            cv.MaThangLuong = (mathangluong == "") ? null : (int?)Convert.ToInt32(mathangluong);
+                            cv.PhuCap = (phucap == "") ? null : (double?)Convert.ToDouble(phucap);
                             db.CongViecs.Add(cv);
                             db.SaveChanges();
                             return Json(new { success = true, title = "Thành công", message = "Thêm thành công." });
-                        } 
+                        }
                         else
                         {
                             return Json(new { error = true, title = "Có lỗi", message = "Đã có tên công việc." });
@@ -112,7 +112,8 @@ namespace QUANGHANH2.Controllers.TCLD
                     listThangLuong = db.Database.SqlQuery<ThangLuong>(sqlGetData_ThangLuong).ToList();
                     ViewBag.listThangLuong = listThangLuong;
                 }
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
 
             }
@@ -127,12 +128,12 @@ namespace QUANGHANH2.Controllers.TCLD
         {
             try
             {
-                var macongviec = Request["macongviec"];
+                int macongviec = Convert.ToInt32(Request["macongviec"]);
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    var sqlGetData = @"select * from CongViec where MaCongViec = @macongviec";
-                    var congviec = db.Database.SqlQuery<CongViec>(sqlGetData, new SqlParameter("macongviec", macongviec)).FirstOrDefault();
-                    return Json(new { success = true, tencongviec = congviec.TenCongViec, thangluong = congviec.ThangLuong, phucap = congviec.PhuCap });
+                    var sqlGetData = @"select a.MaCongViec ,a.TenCongViec, a.PhuCap, a.MaThangLuong from CongViec a left outer join ThangLuong b on a.MaThangLuong = b.MaThangLuong where a.MaCongViec = @macongviec";
+                    var listCongViec_ThangLuong = db.Database.SqlQuery<CongViec_ThangLuong>(sqlGetData, new SqlParameter("macongviec", macongviec)).FirstOrDefault();
+                    return Json(new { success = true, listCongViec_ThangLuong = listCongViec_ThangLuong });
                 }
             }
             catch (Exception e)
@@ -147,9 +148,9 @@ namespace QUANGHANH2.Controllers.TCLD
         {
             try
             {
-                var macongviec = Request["macongviec"];
+                int macongviec = Convert.ToInt32(Request["macongviec"]);
                 var tencongviec = Request["tencongviec"];
-                var thangluong = Request["thangluong"];
+                var mathangluong = Request["mathangluong"];
                 var phucap = Request["phucap"];
 
                 if (tencongviec == null || tencongviec == "")
@@ -164,18 +165,13 @@ namespace QUANGHANH2.Controllers.TCLD
                 {
                     using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                     {
-                        CongViec cv = db.CongViecs.Where(x => x.TenCongViec.Equals(tencongviec)).FirstOrDefault();
+                        CongViec cv = db.CongViecs.Where(y => !y.MaCongViec.Equals(macongviec) && y.TenCongViec.Equals(tencongviec)).FirstOrDefault();
                         if (cv == null)
                         {
-                            var sqlUpdate = @"update CongViec
-                                            set TenCongViec = @tencongviec,
-                                                ThangLuong = @thangluong,
-                                                PhuCap = @phucap
-                                            where MaCongViec = @macongviec";
-                            db.Database.ExecuteSqlCommand(sqlUpdate, new SqlParameter("tencongviec", tencongviec),
-                                                                        new SqlParameter("thangluong", thangluong),
-                                                                        new SqlParameter("phucap", phucap),
-                                                                        new SqlParameter("macongviec", macongviec));
+                            var sqlUpdate = db.CongViecs.Find(macongviec);
+                            sqlUpdate.TenCongViec = tencongviec;
+                            sqlUpdate.PhuCap = (phucap == "") ? null : (double?)Convert.ToDouble(phucap);
+                            sqlUpdate.MaThangLuong = (mathangluong == "") ? null : (int?)Convert.ToInt32(mathangluong);
                             db.SaveChanges();
                             return Json(new { success = true, title = "Thành công", message = "Cập nhật công việc thành công." });
                         }
@@ -213,7 +209,7 @@ namespace QUANGHANH2.Controllers.TCLD
                     }
                     else
                     {
-                        return Json(new { error = true, title = "Có lỗi", message = "Dữ liệu về công việc hiện tại đang còn tồn tại trên các bảng khác." });
+                        return Json(new { error = true, title = "Có lỗi", message = "Dữ liệu về công việc hiện tại đang còn tồn tại trên các bản ghi khác." });
                     }
                 }
             }
