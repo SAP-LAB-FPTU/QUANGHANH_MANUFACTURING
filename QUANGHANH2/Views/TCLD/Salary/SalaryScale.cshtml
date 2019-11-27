@@ -4,80 +4,74 @@
     Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
 }
 
-<div class="container-fluid user_roll">
-    <div class="row">
-        <div class="center">
-            <h3><b>QUẢN LÝ MỨC THANG LƯƠNG  </b></h3>
-        </div>
-        <div>
-            <a class="waves-effect waves-light btn darken-2 btn-small input-field modal-trigger" href="#modal_themthangluong">Thêm</a>
-        </div>
-        <div>
-            <table id="tbthangluong" class="table table-bordered responsive-table center">
-                <thead>
-                    <tr role="row">
-                        <th class="sorting_asc_disabled" colspan="1" rowspan="1" style="width:70%">Thang Lương</th>
-                        <th class="sorting_asc_disabled" colspan="1" rowspan="1" style="width:15%"></th>
-                        <th class="sorting_asc_disabled" colspan="1" rowspan="1" style="width:15%"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <div class="center">
+                <h3><b>QUẢN LÝ MỨC THANG LƯƠNG  </b></h3>
+            </div>
+            <div>
+                <a class="waves-effect waves-light btn blue darken-2 btn-small input-field modal-trigger" href="#modal_themthangluong">Thêm</a>
+            </div>
+            <div>
+                <table id="tbthangluong" class="table table-bordered responsive-table center">
+                    <thead>
+                        <tr role="row">
+                            <th class="sorting_asc_disabled" colspan="1" rowspan="1" style="width:70%">Thang Lương</th>
+                            <th class="sorting_asc_disabled" colspan="1" rowspan="1" style="width:15%"></th>
+                            <th class="sorting_asc_disabled" colspan="1" rowspan="1" style="width:15%"></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
+
 <link href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
 <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 <!--Modal thêm Thang Lương-->
 
 <div id="modal_themthangluong" class="modal">
-    <div class="card">
-        <div class="card-content">
-            <h4>
-                <b>Thêm Mức Thang Lương Mới</b>
-            </h4>
-            <div class="modal-content">
-                <div class="row">
-                    <div class="col s1 m1 l1"></div>
-                    <div class="col s12 m10 l10">
-                        <label>Mức thang lương mới</label>
-                        <input type="text" class="form-control" id="ten_thang_luong" />
-                    </div>
-                    <div class="col s1 m1 l1"></div>
-                </div>
+    <div class="modal-content">
+        <h4 class="center">
+            <b>Thêm Mức Thang Lương Mới</b>
+        </h4>
+        <div class="row">
+            <div class="col s1 m1 l1"></div>
+            <div class="col s12 m10 l10">
+                <label>Mức thang lương mới</label>
+                <input type="text" class="form-control" id="ten_thang_luong" />
             </div>
-            <div class="modal-footer">
-                <button id="xacNhanThemThangLuong" class="waves-effects waves-light btn blue darken-2 btn-small">Xác nhận</button>
-                <button id="dongThemThangLuong" class="waves-effects waves-light btn red darken-2 btn-small modal-close">Đóng</button>
-            </div>
+            <div class="col s1 m1 l1"></div>
         </div>
+    </div>
+    <div class="modal-footer">
+        <button id="xacNhanThemThangLuong" class="waves-effects waves-light btn blue darken-2 btn-small">Xác nhận</button>
+        <button id="dongThemThangLuong" class="waves-effects waves-light btn red darken-2 btn-small modal-close">Đóng</button>
     </div>
 </div>
 
 <!--Modal sửa Thang Lương-->
 
 <div id="modal_suaThangLuong" class="modal">
-    <div class="card">
-        <div class="card-content">
-            <h4>
-                <b>Sửa Mức Thang Lương </b>
-            </h4>
-            <div class="modal-content">
-                <div class="row">
-                    <div class="col s1 m1 l1"></div>
-                    <div class="col s12 m10 l10">
-                        <label>Mức thang lương </label>
-                        <input type="text" class="form-control" id="thang_luong" />
-                    </div>
-                    <div class="col s1 m1 l1"></div>
-                </div>
+    <div class="modal-content">
+        <h4 class="center">
+            <b>Sửa Mức Thang Lương </b>
+        </h4>
+        <div class="row">
+            <div class="col s1 m1 l1"></div>
+            <div class="col s12 m10 l10">
+                <label>Mức thang lương </label>
+                <input type="text" class="form-control" id="thang_luong" />
             </div>
-            <div class="modal-footer">
-                <button id="xacNhanSuaThangLuong" class="waves-effects waves-light btn blue darken-2 btn-small">Xác nhận</button>
-                <button id="dongSuaThangLuong" class="waves-effects waves-light btn red darken-2 btn-small modal-close">Đóng</button>
-            </div>
+            <div class="col s1 m1 l1"></div>
         </div>
+    </div>
+    <div class="modal-footer">
+        <button id="xacNhanSuaThangLuong" class="waves-effects waves-light btn blue darken-2 btn-small">Xác nhận</button>
+        <button id="dongSuaThangLuong" class="waves-effects waves-light btn red darken-2 btn-small modal-close">Đóng</button>
     </div>
 </div>
 <!--List Thang Lương-->
@@ -98,12 +92,12 @@
             "columns": [
                 { "data": "MucThangLuong", "name": "MucThangLuong" },
                 {
-                    "data": "", "orderable": false,"searchable": false, "render": function (data, type, row) {
+                    "data": "", "orderable": false, "searchable": false, "render": function (data, type, row) {
                         return "<a id=\"suaThangLuong\" name=\"" + row["MaThangLuong"] + "\" class=\"waves-effects waves-light btn blue darken-2 btn-small modal-trigger\" href=\"#modal_suaThangLuong\">Sửa</a>";
                     }
                 },
                 {
-                    "data": "", "orderable": false,"searchable": false, "render": function (data, type, row) {
+                    "data": "", "orderable": false, "searchable": false, "render": function (data, type, row) {
                         return "<a id=\"xoaThangLuong\" name=\"" + row["MaThangLuong"] + "\" class=\"waves-effects waves-light btn red darken-2 btn-small modal-trigger\">Xóa</a>";
                     }
                 }
@@ -116,15 +110,15 @@
             "filter": true,
             "info": false,
             "language": {
-                    emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
-                    paginate:
-                    {
-                        previous: "Trang trước",
-                        next: "Trang sau",
-                        first: "|<",
-                        last: ">|"
-                    }
-                },
+                emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                paginate:
+                {
+                    previous: "Trang trước",
+                    next: "Trang sau",
+                    first: "|<",
+                    last: ">|"
+                }
+            },
             "initComplete": function (settings, json) {
                 $('#pre-load').hide();
             }

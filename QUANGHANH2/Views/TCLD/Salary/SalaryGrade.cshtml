@@ -7,9 +7,9 @@
 <div class="card">
     <div class="card-content">
         <div class="row">
-            <h3 class="center"><b>BẬC LƯƠNG</b></h3>
+            <h3 class="center"><b>QUẢN LÝ BẬC LƯƠNG</b></h3>
             <div>
-                <a class="waves-effects waves-light btn blue darken-2 btn-small input-field modal-trigger" href="#modal_themBL">+ Thêm</a>
+                <a class="waves-effects waves-light btn blue darken-2 btn-small input-field modal-trigger" href="#modal_themBL">Thêm</a>
             </div>
             <div>
                 <table id="tblBacLuong" class="table table-bordered responsive-table center">
@@ -20,8 +20,7 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody>
-                    </tbody>
+                    <tbody></tbody>
                 </table>
             </div>
         </div>
@@ -119,6 +118,16 @@
             "autoWidth": false,
             "filter": true,
             "info": false,
+            "language": {
+                emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                paginate:
+                {
+                    previous: "Trang trước",
+                    next: "Trang sau",
+                    first: "|<",
+                    last: ">|"
+                }
+            },
             "initComplete": function (settings, json) {
                 $('#pre-load').hide();
             }
@@ -170,9 +179,9 @@
 
         // getdata
         $("#tblBacLuong").on('click', "#suaBacLuong", function () {
-       
+
             maBacLuong = $(this).attr("name");
-            
+
             getMucBacLuong(maBacLuong);
         });
 
