@@ -324,6 +324,7 @@
     <Compile Include="Controllers\TCLD\MaterialProtectionController.cs" />
     <Compile Include="Controllers\TCLD\Occupation\GroupOccupationController.cs" />
     <Compile Include="Controllers\TCLD\Occupation\OccupationController.cs" />
+    <Compile Include="Controllers\TCLD\Occupation\Occupation_GroupOccupationController.cs" />
     <Compile Include="Controllers\TCLD\Occupation\SideOccupationController.cs" />
     <Compile Include="Controllers\TCLD\RecruitmentAndEndController.cs" />
     <Compile Include="Controllers\TCLD\RecruitmentController.cs" />
@@ -7458,6 +7459,7 @@
     <Content Include="Views\TCLD\Salary\SalaryGrade.cshtml" />
     <Content Include="Views\TCLD\Salary\SalaryScale.cshtml" />
     <Content Include="Views\TCLD\Salary\Grade_Scale_Salary.cshtml" />
+    <Content Include="Views\TCLD\Occupation\Occupation_GroupOccupation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7466,6 +7468,7 @@
     <Folder Include="FileContainer\PhanXuongLenDK\" />
     <Folder Include="Library\" />
     <Folder Include="Views\Grade_Scale_Salary\" />
+    <Folder Include="Views\Occupation_GroupOccupation\" />
     <Folder Include="Views\SalaryGrade\" />
     <Folder Include="Views\SalaryScale\" />
     <Folder Include="Views\ViewAccident\" />
