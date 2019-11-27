@@ -15,11 +15,11 @@ namespace QUANGHANH2.Controllers.TCLD
     public class EatingController : Controller
     {
         // GET: Eating
-        [Route("phong-tcld/dang-ky-suat-an")]
-        public ActionResult Index()
-        {
-            return View("/Views/TCLD/Eating/Register.cshtml");
-        }
+        //[Route("phan-xuong-doi-song/dang-ky-suat-an")]
+        //public ActionResult Index()
+        //{
+        //    return View("/Views/PX/PXDS/Input.cshtml");
+        //}
         [HttpGet]
         public ActionResult searchSuatAn(String data, DateTime time)
         {

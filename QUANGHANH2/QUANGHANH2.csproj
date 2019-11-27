@@ -7287,7 +7287,6 @@
     <Content Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
     <Content Include="Views\TCLD\bao-cao-nhanh.cshtml" />
     <Content Include="Views\TCLD\bao_cao_chi_tiet_theo_ca.cshtml" />
-    <Content Include="Views\TCLD\bao_cao_nhanh_tung_phan_xuong.cshtml" />
     <Content Include="Views\TCLD\BonusAndDiscipline\KhenThuong.cshtml" />
     <Content Include="Views\TCLD\BonusAndDiscipline\KyLuat.cshtml" />
     <Content Include="Views\TCLD\Brief\Add.cshtml" />
@@ -7319,7 +7318,6 @@
     <Content Include="Views\TCLD\Certificate\ViewJobByPX.cshtml" />
     <Content Include="Views\TCLD\Certificate\ViewJobRegister.cshtml" />
     <Content Include="Views\TCLD\ModifiedHistory\ModifiedHistory.cshtml" />
-    <Content Include="Views\TCLD\Eating\Register.cshtml" />
     <Content Include="Views\TCLD\ReportRecruitmentAndEnd\End.cshtml" />
     <Content Include="Views\TCLD\ReportRecruitmentAndEnd\Frequency.cshtml" />
     <Content Include="Views\TCLD\ReportRecruitmentAndEnd\ListFrequency.cshtml" />
@@ -7466,10 +7464,6 @@
     <Folder Include="FileContainer\KCS\" />
     <Folder Include="FileContainer\PhanXuongLenDK\" />
     <Folder Include="Library\" />
-    <Folder Include="Views\Grade_Scale_Salary\" />
-    <Folder Include="Views\Occupation_GroupOccupation\" />
-    <Folder Include="Views\SalaryGrade\" />
-    <Folder Include="Views\SalaryScale\" />
     <Folder Include="Views\ViewAccident\" />
     <Folder Include="Views\WorkHistory\" />
     <Folder Include="Views\XuLyQD\" />
