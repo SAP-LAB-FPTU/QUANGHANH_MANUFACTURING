@@ -34,13 +34,13 @@ namespace QUANGHANH2.Controllers.TCLD.Salary
             {
                 try
                 {
-                    thangluong_list = new List<ThangLuong>();
+                    List<ThangLuong> thangluong_list = new List<ThangLuong>();
                     var sqlList = @" select * from ThangLuong order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY";
                     thangluong_list = db.Database.SqlQuery<ThangLuong>(sqlList).ToList();
 
-                    int totalrows = db.CongViecs.Count();
+                    int totalrows = db.ThangLuongs.Count();
                     int totalrowsafterfiltering = totalrows;
-                    return Json(new { thangluong_list = thangluong_list }, JsonRequestBehavior.AllowGet);
+                    return Json(new { thangluong_list = thangluong_list, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering });
                 }
                 catch (Exception e)
                 {
