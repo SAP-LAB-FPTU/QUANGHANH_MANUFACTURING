@@ -93,7 +93,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             db.SaveChanges();
         }
         [Auther(RightID = "188")]
-        [Route("phong-cdvt/oto/bao-duong-hang-ngay/insertMaintainCar")]
+        [Route("phong-cdvt/oto/bao-duong-hang-ngay/insertMaintainCarPxlt")]
         [HttpPost]
         public JsonResult InsertMaintainCar(List<Maintain_Car_DetailDB> maintain, string equipmentId, string department_name, string date, string maintain_content, int hour, int minute, int year, int month, int day)
         {
@@ -138,11 +138,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                             db.Entry(s).State = EntityState.Modified;
                         }
 
-                        db.Database.ExecuteSqlCommand("insert Maintain_Car_Detail values((select top 1 maintainid from Maintain_Car order by maintainid desc), @supplyid, @quantity, @supplyType, @supplyStatus)",
+                        db.Database.ExecuteSqlCommand("insert into Maintain_Car_Detail(maintainid,supplyid,quantity,supplyStatus) values((select top 1 maintainid from Maintain_Car order by maintainid desc), @supplyid, @quantity, @supplyStatus)",
                            new SqlParameter("supplyid", item.supplyid),
                            new SqlParameter("quantity", item.quantity),
-                           new SqlParameter("supplyType", item.supplyType),
-                           new SqlParameter("supplyStatus", item.supplyStatus));
+                          new SqlParameter("supplyStatus", item.supplyStatus));
                         db.SaveChanges();
                     }
 
@@ -174,7 +173,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
 
             {
-                List<Maintain_Car_DetailDB> m = db.Database.SqlQuery<Maintain_Car_DetailDB>("select m.supplyid,s.supply_name,s.unit, m.quantity, m.supplyType, m.supplyStatus,m.maintaindetailid from Maintain_Car_Detail m inner " +
+                List<Maintain_Car_DetailDB> m = db.Database.SqlQuery<Maintain_Car_DetailDB>("select m.supplyid,s.supply_name,s.unit, m.quantity, m.supplyStatus,m.maintaindetailid from Maintain_Car_Detail m inner " +
                 "join Supply s on m.supplyid = s.supply_id " +
                 "where m.maintainid = @maintainId ", new SqlParameter("maintainId", maintainId)).ToList();
 
@@ -379,7 +378,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                             m.quantity = item.quantity;
                             m.supplyid = item.supplyid;
                             m.supplyStatus = item.supplyStatus;
-                            m.supplyType = item.supplyType;
+
                             db.Maintain_Car_Detail.Add(m);
                             db.SaveChanges();
                         }
@@ -429,22 +428,15 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
 
                             db.Entry(su).State = EntityState.Modified;
                             Supply s = db.Supplies.Find(item.supplyid);
-                            db.Database.ExecuteSqlCommand("update Maintain_Car_Detail set supplyid=@supplyid, quantity=@quantity,supplyType=@supplyType,supplyStatus=@supplyStatus where maintaindetailid=@maintaindetailid",
+                            db.Database.ExecuteSqlCommand("update Maintain_Car_Detail set supplyid=@supplyid, quantity=@quantity,supplyStatus=@supplyStatus where maintaindetailid=@maintaindetailid",
                            new SqlParameter("supplyid", item.supplyid),
                            new SqlParameter("quantity", item.quantity),
-                           new SqlParameter("supplyType", item.supplyType),
+
                            new SqlParameter("supplyStatus", item.supplyStatus),
                             new SqlParameter("maintaindetailid", item.maintaindetailid))
 
                         ;
 
-                            //m.quantity = item.quantity;
-                            //m.supplyid = item.supplyid;
-                            //m.supplyStatus = item.supplyStatus;
-                            //m.supplyType = item.supplyType;
-                            //m.maintaindetailid = item.maintaindetailid;
-
-                            //db.Entry(item).State = EntityState.Modified;
                             db.SaveChanges();
                         }
 
