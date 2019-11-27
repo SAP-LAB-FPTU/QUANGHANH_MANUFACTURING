@@ -192,19 +192,32 @@
 <!----------------------------------------------------EDIT----------------------------------------------------->
 <script>
     var manhomcongviec;
+    var tennhomcongviec;
+    var loainhomcongviec;
+    var madiencongviec;
     $(document).ready(function () {
+        //when click button "Sửa"
         $("#nhomcongviec").on("click", "#suaNhomCongViec", function () {
             manhomcongviec = $(this).attr("name");
             //fill data to input and select by maNhomCongViec
-            //getData(manhomcongviec);
-            alert(manhomcongviec);
+            getData_FillData(manhomcongviec);
+        });
+
+        //when click button "xác nhận" in modal suanhomcongviec
+        $("#xacNhanSuaNhomCongViec").click(function () {
+            tennhomcongviec = $("#tenNhomCongViec_sua").val();
+            loainhomcongviec = $("#loaiNhomCongViec_sua").val();
+            madiencongviec = $("#diencongviec_select_sua").val();
+            update(manhomcongviec, tennhomcongviec, loainhomcongviec, madiencongviec);
         });
     });
 </script>
 
+
+
 <!----------Get data by maNhomCongViec--------->
 <script>
-    function getData(manhomcongviec) {
+    function getData_FillData(manhomcongviec) {
         $("#pre-load").show(),
             $.ajax({
                 url: "/phong-tcld/quan-ly-nhom-cong-viec/lay-du-lieu-theo-manhomcongviec",
@@ -215,10 +228,94 @@
                 },
                 success: function (response) {
                     if (response.success) {
+                        //fill data to input and select>option
+                        $("#tenNhomCongViec_sua").val(response.listData.TenNhomCongViec);
+                        $("#loaiNhomCongViec_sua").val(response.listData.LoaiNhomCongViec);
+                        $("#diencongviec_select_sua option[value=\"" + response.listData.MaDienCongViec + "\"]").prop("selected", true);
                         $("#pre-load").hide();
-                        alert(reponse.listData.MaNhomCongViec);
                     } else if (response.error) {
                         errorAlert(response.title, response.message);
+                        $("#pre-load").hide();
+                    }
+                },
+                error: function (response) {
+
+                }
+            })
+    }
+</script>
+
+<!-------------------Update------------------->
+<script>
+    function update(manhomcongviec, tennhomcongviec, loainhomcongviec, madiencongviec) {
+        $("#pre-load").show(),
+            $.ajax({
+                url: "/phong-tcld/quan-ly-nhom-cong-viec/cap-nhat-nhomcongviec",
+                type: "POST",
+                datatype: "json",
+                data: {
+                    "manhomcongviec": manhomcongviec,
+                    "tennhomcongviec": tennhomcongviec,
+                    "loainhomcongviec": loainhomcongviec,
+                    "madiencongviec": madiencongviec
+                },
+                success: function (response) {
+                    if (response.success) {
+                        //close modal suaNhomCongViec
+                        $("#dongSuaNhomCongViec").click();
+                        //alert successful updating
+                        successAlert(response.title, response.message);
+                        //reload table
+                        table.ajax.reload();
+                        //hide pre-loader
+                        $("#pre-load").hide();
+                    } else if (response.error) {
+                        //alert fail updating
+                        errorAlert(response.title, response.message);
+                        $("#pre-load").hide();
+                    }
+                },
+                error: function (response) {
+
+                }
+            })
+    }
+</script>
+
+<!------------------Delete----------------->
+<script>
+    $(document).ready(function () {
+        var manhomcongviec;
+        $("#nhomcongviec").on("click", "#xoaNhomCongViec", function () {
+            manhomcongviec = $(this).attr("name");
+            //alert confirm
+            confirmAlert("Xác nhận xóa?", "Xác nhận xóa nhóm công viêc.", function () { delete_by_manhomcongviec(manhomcongviec); });
+        });
+    });
+</script>
+
+<script>
+    function delete_by_manhomcongviec(manhomcongviec) {
+        $("#pre-load").show(),
+            $.ajax({
+                url: "/phong-tcld/quan-ly-nhom-cong-viec/xoa-nhomcongviec",
+                type: "POST",
+                datatype: "json",
+                data: {
+                    "manhomcongviec": manhomcongviec
+                },
+                success: function (response) {
+                    if (response.success) {
+                        //alert successful deleting
+                        successAlert(response.title, response.message);
+                        //reload table
+                        table.ajax.reload();
+                        //hide the pre-loader
+                        $("#pre-load").hide();
+                    } else if (response.error) {
+                        //alert fail deleting
+                        errorAlert(response.title, response.message);
+                        //hide the pre-loader
                         $("#pre-load").hide();
                     }
                 },

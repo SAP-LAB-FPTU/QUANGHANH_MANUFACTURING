@@ -91,63 +91,63 @@
 <script>
     var table;
     $(document).ready(function () {
-        $("#pre-load").show(),
-            table = $("#congviec").DataTable({
-                "ajax": {
-                    "url": "/phong-tcld/quan-ly-cong-viec/danh-sach-cong-viec",
-                    "type": "GET",
-                    "datatype": "json",
-                    "cache": "false",
-                    "dataSrc": function (json) {
-                        return json["congviec_thangluong_list"];
-                    }
-                },
-                "columns": [
-                    {
-                        "data": "TenCongViec", "name": "TenCongViec"
-                    },
-                    {
-                        "data": "PhuCap", "name": "PhuCap"
-                    },
-                    {
-                        "data": "MucThangLuong", "name": "MucThangLuong"
-                    },
-                    {
-                        "data": "", "render": function (data, type, row) {
-                            return "<a id=\"suaCongViec\" name=\"" + row["MaCongViec"] + "\" class=\"waves-effects waves-light btn blue darken-2 btn-small modal-trigger\" href=\"#modal_suaCongViec\">Sửa</a>";
-                        },
-                        "orderable": false,
-                        "searchable": false
-                    },
-                    {
-                        "data": "", "render": function (data, type, row) {
-                            return "<a id=\"xoaCongViec\" name=\"" + row["MaCongViec"] + "\" class=\"waves-effects waves-light btn red darken-2 btn-small modal-trigger\">Xóa</a>";
-                        },
-                        "orderable": false,
-                        "searchable": false
-                    }
-                ],
-                "serverSide": "true",
-                "order": [0, "desc"],
-                "searching": false,
-                "lengthChange": false,
-                "autoWidth": false,
-                "filter": true,
-                "info": false,
-                "language": {
-                    emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
-                    paginate:
-                    {
-                        previous: "Trang trước",
-                        next: "Trang sau",
-                        first: "|<",
-                        last: ">|"
-                    }
-                },
-                "initComplete": function (settings, json) {
-                    $("#pre-load").hide();
+        $("#pre-load").show();
+        table = $("#congviec").DataTable({
+            "ajax": {
+                "url": "/phong-tcld/quan-ly-cong-viec/danh-sach-cong-viec",
+                "type": "GET",
+                "datatype": "json",
+                "cache": "false",
+                "dataSrc": function (json) {
+                    return json["congviec_thangluong_list"];
                 }
-            });
+            },
+            "columns": [
+                {
+                    "data": "TenCongViec", "name": "TenCongViec"
+                },
+                {
+                    "data": "PhuCap", "name": "PhuCap"
+                },
+                {
+                    "data": "MucThangLuong", "name": "MucThangLuong"
+                },
+                {
+                    "data": "", "render": function (data, type, row) {
+                        return "<a id=\"suaCongViec\" name=\"" + row["MaCongViec"] + "\" class=\"waves-effects waves-light btn blue darken-2 btn-small modal-trigger\" href=\"#modal_suaCongViec\">Sửa</a>";
+                    },
+                    "orderable": false,
+                    "searchable": false
+                },
+                {
+                    "data": "", "render": function (data, type, row) {
+                        return "<a id=\"xoaCongViec\" name=\"" + row["MaCongViec"] + "\" class=\"waves-effects waves-light btn red darken-2 btn-small modal-trigger\">Xóa</a>";
+                    },
+                    "orderable": false,
+                    "searchable": false
+                }
+            ],
+            "serverSide": "true",
+            "order": [0, "desc"],
+            "searching": false,
+            "lengthChange": false,
+            "autoWidth": false,
+            "filter": true,
+            "info": false,
+            "language": {
+                emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                paginate:
+                {
+                    previous: "Trang trước",
+                    next: "Trang sau",
+                    first: "|<",
+                    last: ">|"
+                }
+            },
+            "initComplete": function (settings, json) {
+                $("#pre-load").hide();
+            }
+        });
     });
 </script>
 
@@ -172,7 +172,7 @@
                             //clear all value input in modal themCongViec
                             $("#tenCongViec_them").val("");
                             $("#phuCap_them").val("");
-                            $("#thangLuong_them").prop("selected", function () {
+                            $("#thangLuong_them_select option").prop("selected", function () {
                                 return this.defaultSelected;
                             });
                             //alert successfully
@@ -200,8 +200,8 @@
     $(document).ready(function () {
         var macongviec;
         var tencongviec;
-        var thangluong;
         var phucap;
+        var mathangluong;
         //fill data to input
         $("#congviec").on("click", "#suaCongViec", function () {
             macongviec = $(this).attr("name");
@@ -211,9 +211,9 @@
         //update
         $("#xacNhanSuaCongViec").click(function () {
             tencongviec = $("#tenCongViec_sua").val();
-            thangluong = $("#thangLuong_sua").val();
+            mathangluong = $("#thangLuong_sua_select").val();
             phucap = $("#phuCap_sua").val();
-            update(macongviec, tencongviec, thangluong, phucap);
+            update(macongviec, tencongviec, mathangluong, phucap);
         });
     });
 </script>
@@ -231,9 +231,9 @@
                 success: function (response) {
                     if (response.success) {
                         //fill data to input in modal suaCongViec
-                        $("#tenCongViec_sua").val(response.tencongviec);
-                        $("#thangLuong_sua").val(response.thangluong);
-                        $("#phuCap_sua").val(response.phucap);
+                        $("#tenCongViec_sua").val(response.listCongViec_ThangLuong.TenCongViec);
+                        $("#phuCap_sua").val(response.listCongViec_ThangLuong.PhuCap);
+                        $("#thangLuong_sua_select option[value=\"" + response.listCongViec_ThangLuong.MaThangLuong + "\"]").prop("selected", true);
                         //hide the pre-loader
                         $("#pre-load").hide();
                     }
@@ -246,7 +246,7 @@
 </script>
 <!--------Update------------>
 <script>
-    function update(macongviec, tencongviec, thangluong, phucap) {
+    function update(macongviec, tencongviec, mathangluong, phucap) {
         $("pre-load").show(),
             $.ajax({
                 url: "/phong-tcld/quan-ly-cong-viec/cap-nhat-cong-viec",
@@ -255,7 +255,7 @@
                 data: {
                     "macongviec": macongviec,
                     "tencongviec": tencongviec,
-                    "thangluong": thangluong,
+                    "mathangluong": mathangluong,
                     "phucap": phucap
                 },
                 success: function (response) {
@@ -287,12 +287,12 @@
         $("#congviec").on("click", "#xoaCongViec", function () {
             macongviec = $(this).attr("name");
             //alert confirm
-            confirmAlert("Xác nhận xóa?", "Xác nhân xóa công việc", () => { delete_congviec(macongviec); });
+            confirmAlert("Xác nhận xóa?", "Xác nhân xóa công việc", function () { delete_Congviec(macongviec); });
         });
     });
 </script>
 <script>
-    function delete_congviec(macongviec) {
+    function delete_Congviec(macongviec) {
         $("#pre-load").show(),
             $.ajax({
                 url: "/phong-tcld/quan-ly-cong-viec/xoa-cong-viec",
