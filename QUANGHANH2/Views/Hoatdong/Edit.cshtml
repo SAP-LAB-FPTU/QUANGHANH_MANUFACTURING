@@ -125,7 +125,7 @@
                         @Html.ValidationMessageFor(model => model.usedDay, "", new { @class = "text-danger" })
                     </div>
                 </div>
-                <div id="plus2">
+                <div id="pluse2">
                     <div class="form-group">
                         <label class="control-label col-md-2">GPS</label>
                         <div class="col-md-10">
@@ -212,7 +212,7 @@
                         @Html.ValidationMessageFor(model => model.department_id, "", new { @class = "text-danger" })
                     </div>
                 </div>
-                <div id="plus">
+                <div id="pluse">
                     <div class="form-group">
                         <label class="control-label col-md-2">Số khung</label>
                         <div class="col-md-10">
@@ -281,11 +281,11 @@
 
         var ck = $("#title").text();
         if (ck.endsWith('1')) {
-            $('#plus').show();
-            $('#plus2').show();
+            $('#pluse').show();
+            $('#pluse2').show();
         } else {
-            $('#plus').hide();
-            $('#plus2').hide();
+            $('#pluse').hide();
+            $('#pluse2').hide();
         }
 
         var elms = document.querySelectorAll("[id='date_import']");
