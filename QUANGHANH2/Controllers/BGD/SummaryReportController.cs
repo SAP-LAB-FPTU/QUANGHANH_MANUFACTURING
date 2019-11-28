@@ -95,22 +95,36 @@ namespace QUANGHANHCORE.Controllers.BGD
             string[] data_tmp = data;
             DateTime timeEnd = Convert.ToDateTime(date);
             var timeStart = Convert.ToDateTime("" + timeEnd.Year + "-" + timeEnd.Month + "-1");
-            var query = "  select b.MaTieuChi, (case when a.thuchien is null then 0 else a.thuchien end) as 'thuchien', b.LUYKE, c.KH, d.KHDC " +
-                              "from(select MaTieuChi, sum(SanLuong) as 'thuchien' from ThucHien_TieuChi_TheoNgay as th " +
-                            "join (select *from header_ThucHienTheoNgay where Ngay = @date) as h on th.HeaderID = h.HeaderID " +
-                              "group by MaTieuChi) as a right outer join " +
-                             "(select MaTieuChi, sum(SanLuong) as 'LUYKE' from ThucHien_TieuChi_TheoNgay as th " +
-                            "join (select *from header_ThucHienTheoNgay where Ngay between @dateStart and @dateEnd) as h on th.HeaderID = h.HeaderID " +
-                              "group by MaTieuChi) as b on a.MaTieuChi = b.MaTieuChi " +
-                              "join  (select k.MaTieuChi, sum(k.KeHoach) as 'KH' " +
-                              "from header_KeHoach_TieuChi_TheoNgay h join KeHoach_TieuChi_TheoNgay k on h.HeaderID = k.HeaderID " +
-                              "where h.NgayNhapKH = @date " +
-                              "group by k.MaTieuChi) as c on a.MaTieuChi = c.MaTieuChi " +
-                              "join   (select k.MaTieuChi, sum(k.SanLuong) as 'KHDC' " +
-                              "from header_KeHoachTungThang h join KeHoach_TieuChi_TheoThang k on h.HeaderID = k.HeaderID " +
-                              "  where h.ThangKeHoach = @month and h.NamKeHoach = @year " +
-                              "group by k.MaTieuChi) as d on a.MaTieuChi = d.MaTieuChi " +
-                              "order by a.MaTieuChi";
+
+            string query = @"select b.MaTieuChi, (case when a.thuchien is null then 0 else a.thuchien end) as 'thuchien', b.LUYKE, c.KH, d.KHDC
+                            from(select MaTieuChi, sum(SanLuong) as 'thuchien' from ThucHien_TieuChi_TheoNgay as th
+
+                            join (select *from header_ThucHienTheoNgay where Ngay = @date) as h on th.HeaderID = h.HeaderID
+                            group by MaTieuChi) as a right outer join
+                             (select MaTieuChi, sum(SanLuong) as 'LUYKE' from ThucHien_TieuChi_TheoNgay as th
+
+                            join (select *from header_ThucHienTheoNgay where Ngay between @dateStart and @dateEnd) as h on th.HeaderID = h.HeaderID
+                            group by MaTieuChi) as b on a.MaTieuChi = b.MaTieuChi
+
+                            join  (select a.MaTieuChi, sum(kt.KeHoach) 'KH'
+                            from(select  kt.HeaderID, hkt.MaPhongBan, hkt.NgayNhapKH,kt.MaTieuChi,max(ThoiGianNhapCuoiCung) 'ThoiGianNhapCuoiCung'
+                            from KeHoach_TieuChi_TheoNgay kt inner join header_KeHoach_TieuChi_TheoNgay hkt
+                            on kt.HeaderID = hkt.HeaderID
+                            where convert(date,hkt.NgayNhapKH) = @date
+                            group by kt.HeaderID, hkt.MaPhongBan, hkt.NgayNhapKH, kt.MaTieuChi
+                            ) as a inner join KeHoach_TieuChi_TheoNgay kt on a.HeaderID = kt.HeaderID and a.ThoiGianNhapCuoiCung = kt.ThoiGianNhapCuoiCung and a.MaTieuChi = kt.MaTieuChi
+                            group by a.MaTieuChi) as c on a.MaTieuChi = c.MaTieuChi
+
+                            join (select a.MaTieuChi, sum(kt.SanLuong) 'KHDC'
+                            from(select  kt.HeaderID, hkt.MaPhongBan, hkt.ThangKeHoach,kt.MaTieuChi,max(ThoiGianNhapCuoiCung) 'ThoiGianNhapCuoiCung'
+                            from KeHoach_TieuChi_TheoThang kt inner join header_KeHoachTungThang hkt
+                            on kt.HeaderID = hkt.HeaderID
+                            where hkt.ThangKeHoach = @month and hkt.NamKeHoach = @year
+                            group by kt.HeaderID, hkt.MaPhongBan, hkt.ThangKeHoach, kt.MaTieuChi
+                            ) as a inner join KeHoach_TieuChi_TheoThang kt on a.HeaderID = kt.HeaderID and a.ThoiGianNhapCuoiCung = kt.ThoiGianNhapCuoiCung and a.MaTieuChi = kt.MaTieuChi
+                            group by a.MaTieuChi) as d on a.MaTieuChi = d.MaTieuChi
+
+                            order by a.MaTieuChi";
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             List<reportEntity> listReport = db.Database.SqlQuery<reportEntity>(query, new SqlParameter("date", date), new SqlParameter("dateStart", timeStart), new SqlParameter("dateEnd", timeEnd), new SqlParameter("month", data[1]), new SqlParameter("year", data[2]) ).ToList();
 
@@ -122,6 +136,7 @@ namespace QUANGHANHCORE.Controllers.BGD
             Than Thantieuthu = new Than();
             Than Daxitkho = new Than();
             Than Lothien = new Than();
+            Than Datdaboc = new Than();
             foreach (var item in listReport)
             {
                 //than dao lo
@@ -144,8 +159,18 @@ namespace QUANGHANHCORE.Controllers.BGD
                     Thanlothien.KehoachThang += item.KHDC;
                 }
 
+                //dat da boc
+                if (item.MaTieuChi == 5)
+                {
+                    Datdaboc.Thuchien += item.thuchien;
+                    Datdaboc.Kehoach += item.KH;
+
+                    Datdaboc.Luyke += item.luyke;
+                    Datdaboc.KehoachThang += item.KHDC;
+                }
+
                 //met lo dao
-                if(item.MaTieuChi == 7)
+                if (item.MaTieuChi == 7)
                 {
                     Metlodao.Thuchien += item.thuchien;
                     Metlodao.Kehoach += item.KH;
@@ -192,14 +217,6 @@ namespace QUANGHANHCORE.Controllers.BGD
 
                     Daxitkho.Luyke += item.luyke;
                     Daxitkho.KehoachThang += item.KHDC;
-                }
-                //lo thien
-                if (item.MaTieuChi == 3 || item.MaTieuChi == 4)
-                {
-                    Lothien.Thuchien += item.thuchien;
-                    Lothien.Kehoach += item.KH;
-                    Lothien.Luyke += item.luyke;
-                    Lothien.KehoachThang += item.KHDC;
                 }
             }
 
@@ -258,6 +275,14 @@ namespace QUANGHANHCORE.Controllers.BGD
             if (Daxitkho.KehoachThang != 0) Daxitkho.percentMonth = Convert.ToInt32(Daxitkho.Luyke / Daxitkho.KehoachThang * 100);
             else Daxitkho.percentMonth = 0;
             ViewBag.dxk = Daxitkho;
+            //dat da boc
+            Datdaboc.Ton = Datdaboc.KehoachThang - Datdaboc.Luyke;
+            if (Datdaboc.Kehoach != 0) Datdaboc.percentDay = Convert.ToInt32(Datdaboc.Thuchien / Datdaboc.Kehoach * 100);
+            else Datdaboc.percentDay = 0;
+            if (Datdaboc.KehoachThang != 0) Datdaboc.percentMonth = Convert.ToInt32(Datdaboc.Luyke / Datdaboc.KehoachThang * 100);
+            else Datdaboc.percentMonth = 0;
+            ViewBag.ddb = Datdaboc;
+
             //sự cố
             string[] data2 = date.Split('-');
             string sql = "SELECT e.equipment_name, d.department_name, i.*, DATEDIFF(HOUR, i.start_time, i.end_time) as time_different " +
@@ -312,7 +337,6 @@ namespace QUANGHANHCORE.Controllers.BGD
             else Lothien.percentDay = 0;
             if (Lothien.KehoachThang != 0) Lothien.percentMonth = Convert.ToInt32(Lothien.Luyke / Lothien.KehoachThang * 100);
             else Lothien.percentMonth = 0;
-            ViewBag.lt = Lothien;
 
             string sql_chart = "select a.MaPhongBan " +
                         "	,(a.KT1 + a.KT2 + a.KT3 + a.CD1 + a.CD2 + a.CD3 + a.QL1 + a.QL2 + a.QL3) as 'dilam' " +

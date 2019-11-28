@@ -105,25 +105,30 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                     }
                     else
                     {
-                        string query = "select a.MaTieuChi, a.GhiChu,case when a.NgaySanXuat is null then 0 else a.NgaySanXuat end 'NgaySanXuat', a.SanLuong, b.luyke, c.DonViDo, c.TenTieuChi from " +
-                                "(select thDay.MaTieuChi, thDay.GhiChu, headtH.NgaySanXuat, thDay.SanLuong from header_ThucHienTheoNgay headTH " +
-                                "inner " +
-                                "join ThucHien_TieuChi_TheoNgay thDay " +
-                                "on headTH.HeaderID = thDay.HeaderID " +
-                                "where headTH.MaPhongBan = @px and headTH.Ngay = @date and headTH.Ca = @ca) as a " +
-                                "inner join( " +
-                                "select a.MaPhongBan, a.MaTieuChi, sum(a.SanLuong) as 'luyke' " +
-                                "from(select t.SanLuong, t.MaTieuChi, h.MaPhongBan " +
-                                "from header_ThucHienTheoNgay h left " +
-                                "join ThucHien_TieuChi_TheoNgay t " +
-                                "on h.HeaderID = t.HeaderID " +
-                                "where h.MaPhongBan = @px and h.Ngay between @start and @date and h.Ca <= @ca) as a " +
-                                "group by a.MaPhongBan,a.MaTieuChi) as b " +
-                                "on a.MaTieuChi = b.MaTieuChi " +
-                                "inner join (select tc.MaTieuChi, pb.MaPhongBan, tc.TenTieuChi, tc.DonViDo from PhongBan_TieuChi pb left join TieuChi tc on pb.MaTieuChi = tc.MaTieuChi " +
-                                "where pb.MaPhongBan = @px and pb.Thang = @thang and pb.Nam = @nam) as c " +
-                                "on b.MaTieuChi = c.MaTieuChi " +
-                                "order by a.MaTieuChi";
+                        string query = @"select c.MaTieuChi, case when a.GhiChu is null then '' else a.GhiChu end 'GhiChu',
+                                        case when a.NgaySanXuat is null then 0 else a.NgaySanXuat end 'NgaySanXuat', 
+                                        case when a.SanLuong is null then 0 else a.SanLuong end 'SanLuong', 
+                                        case when b.luyke is null then 0 else a.SanLuong end 'LuyKe', c.DonViDo, c.TenTieuChi from
+                                        (select thDay.MaTieuChi, thDay.GhiChu, headtH.NgaySanXuat, thDay.SanLuong from header_ThucHienTheoNgay headTH
+                                        inner
+                                        join ThucHien_TieuChi_TheoNgay thDay
+                                        on headTH.HeaderID = thDay.HeaderID
+                                        where headTH.MaPhongBan = @px and headTH.Ngay = @date and headTH.Ca = @ca) as a
+                                        inner join(
+                                        select a.MaPhongBan, a.MaTieuChi, sum(a.SanLuong) as 'luyke'
+                                        from(select t.SanLuong, t.MaTieuChi, h.MaPhongBan
+                                        from header_ThucHienTheoNgay h 
+
+                                        left join ThucHien_TieuChi_TheoNgay t
+                                        on h.HeaderID = t.HeaderID
+                                        where h.MaPhongBan = @px and h.Ngay between @start and @date and h.Ca <= @ca) as a
+                                        group by a.MaPhongBan,a.MaTieuChi) as b
+                                        on a.MaTieuChi = b.MaTieuChi
+
+                                        right join (select pb.MaTieuChi, pb.MaPhongBan, tc.TenTieuChi, tc.DonViDo from PhongBan_TieuChi pb left join TieuChi tc on pb.MaTieuChi = tc.MaTieuChi
+                                        where pb.MaPhongBan = @px and pb.Thang = @thang and pb.Nam = @nam) as c
+                                        on b.MaTieuChi = c.MaTieuChi
+                                        order by a.MaTieuChi";
                         listSX = db.Database.SqlQuery<SanXuat>(query, new SqlParameter("px", px_value),
                                                                       new SqlParameter("start", year + "-" + month + "-1"),
                                                                       new SqlParameter("date", date_sql),

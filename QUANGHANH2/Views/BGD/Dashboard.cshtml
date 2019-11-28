@@ -446,20 +446,20 @@
                 <div class="l12">
                     <h6 class="">Tiến độ kế hoạch (tháng): </h6>
                     <div class="progress progress-striped active">
-                        <div id="ltMonth" role="progressbar progress-striped" style=" height:20px" class="progress-bar progress-bar-default center">
-                            <span class="progress-pecentage">@ViewBag.lt.percentMonth%</span>
+                        <div id="ddbMonth" role="progressbar progress-striped" style=" height:20px" class="progress-bar progress-bar-default center">
+                            <span class="progress-pecentage">@ViewBag.ddb.percentMonth%</span>
                         </div>
                     </div>
                 </div>
                 <div class="l12">
                     <h6 class="">
-                        Tiến độ kế hoạch (ngày): @{if (ViewBag.lt.percentDay < 100)
+                        Tiến độ kế hoạch (ngày): @{if (ViewBag.ddb.percentDay < 100)
                             { }
                         }
                     </h6>
                     <div class="progress progress-striped active">
-                        <div id="ltDay" role="progressbar progress-striped" style="height:20px" class="progress-bar progress-bar-default center">
-                            <span class="progress-pecentage">@ViewBag.lt.percentDay%</span>
+                        <div id="ddbDay" role="progressbar progress-striped" style="height:20px" class="progress-bar progress-bar-default center">
+                            <span class="progress-pecentage">@ViewBag.ddb.percentDay%</span>
                         </div>
                     </div>
                 </div>
@@ -468,20 +468,20 @@
                     <div class="col s4 center detail-info row">
                         <span class="font-14 ">Thực hiện</span>
                         <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.lt.Thuchien </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.lt.Kehoach</span>
+                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.ddb.Thuchien </span><br />
+                            <span class="font-medium" style="color:orange">@ViewBag.ddb.Kehoach</span>
                         </div>
                     </div>
                     <div class="col s4 center detail-info">
                         <span class="font-14">Luỹ kế</span>
                         <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.lt.Luyke </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.lt.KehoachThang</span>
+                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.ddb.Luyke </span><br />
+                            <span class="font-medium" style="color:orange">@ViewBag.ddb.KehoachThang</span>
                         </div>
                     </div>
                     <div class="col s4 center">
                         <span class="font-14">KH còn lại</span>
-                        <p class="font-medium">@ViewBag.lt.Ton</p>
+                        <p class="font-medium">@ViewBag.ddb.Ton</p>
                     </div>
                 </div>
             </div>
@@ -681,10 +681,10 @@
         $('#dxkMonth').width(x + '%');
 
          //da dat boc
-        x = @ViewBag.lt.percentDay; if (x > 100) x = 100;
-        $('#ltDay').width(x + '%');
-        x = @ViewBag.lt.percentMonth; if (x > 100) x = 100;
-        $('#ltMonth').width(x + '%');
+        x = @ViewBag.ddb.percentDay; if (x > 100) x = 100;
+        $('#ddbDay').width(x + '%');
+        x = @ViewBag.ddb.percentMonth; if (x > 100) x = 100;
+        $('#ddbMonth').width(x + '%');
 
         var h = $('#origin').height();
         h = h - 82;
