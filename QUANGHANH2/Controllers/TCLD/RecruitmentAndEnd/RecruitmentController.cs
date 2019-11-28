@@ -85,12 +85,18 @@ namespace QUANGHANH2.Controllers.TCLD
                         tdnv.NgayTuyenDung = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd"));
                         DBcontext.TuyenDung_NhanVien.Add(tdnv);
                         //add tabel nhanvien
+                        ThangLuong thangLuong = null;
                         if(salary.Trim() != "")
                         {
                             if (checkSalry(salary) == false)
                             {
                                 transaction.Rollback();
                                 return Json(new { message = "SalaryFaile", responseText = id }, JsonRequestBehavior.AllowGet);
+                            }
+
+                            else
+                            {
+                                thangLuong = DBcontext.ThangLuongs.Where(x => x.MucThangLuong.Equals(salary)).FirstOrDefault<ThangLuong>();
                             }
                         }
                       
@@ -107,7 +113,15 @@ namespace QUANGHANH2.Controllers.TCLD
                             }
                         }
 
-                        emp.BacLuong = leveWork;
+                        BacLuong bacLuong = null;
+                        bacLuong = DBcontext.BacLuongs.Where(x => x.MucBacLuong.Equals(leveWork)).FirstOrDefault<BacLuong>();
+                        if(bacLuong == null)
+                        {
+                            transaction.Rollback();
+                            return Json(new { message = "bacluong", responseText = id }, JsonRequestBehavior.AllowGet);
+                        }
+
+                        
                         if(gender.Equals("nam"))
                         {
                             emp.GioiTinh = true;
@@ -119,17 +133,21 @@ namespace QUANGHANH2.Controllers.TCLD
                         if(unit.Trim() != "")
                         {
                             emp.MaPhongBan = unit;
-                            if (checkPhongBan(unit) == true)
+                            if (getPhongBan(unit) == null)
                             {
                                 transaction.Rollback();
                                 return Json(new { message = "DonVi", responseText = id }, JsonRequestBehavior.AllowGet);
+                            }
+                            else
+                            {
+                                emp.MaPhongBan = getPhongBan(unit).department_id;
                             }
                         }
                         
                         
                         emp.NoiOHienTai = place;
                         if (working.Trim() != "") {
-                            emp.MaCongViec = getMaCongViec(salary, working);
+                            emp.MaCongViec = getMaCongViec(thangLuong, working);
                             if (emp.MaCongViec == -1) {
                                 transaction.Rollback();
                                 return Json(new { message = "CongViec", responseText = id }, JsonRequestBehavior.AllowGet);
@@ -142,16 +160,21 @@ namespace QUANGHANH2.Controllers.TCLD
                                 return Json(new { message = "ChuyenNganh", responseText = id }, JsonRequestBehavior.AllowGet);
                             }
                         }
-                        if (salaryMonth.Trim() != "")
+
+                        BacLuong_ThangLuong_MucLuong bacLuong_ThangLuong_MucLuong = null;
+                        bacLuong_ThangLuong_MucLuong = DBcontext.BacLuong_ThangLuong_MucLuong.Where(x => 
+                        x.MaBacLuong == bacLuong.MaBacLuong && x.MaThangLuong == thangLuong.MaThangLuong 
+                        ).FirstOrDefault<BacLuong_ThangLuong_MucLuong>();
+
+                        if(bacLuong_ThangLuong_MucLuong == null)
                         {
-                            emp.MucLuong = convertSalary(salaryMonth);
-                            if (emp.MucLuong == -1)
-                            {
-                                transaction.Rollback();
-                                return Json(new { message = "MucLuong", responseText = id }, JsonRequestBehavior.AllowGet);
-                            }
+                            transaction.Rollback();
+                            return Json(new { message = "SalaryFailed", responseText = id }, JsonRequestBehavior.AllowGet);
                         }
-                        
+                        else
+                        {
+                            emp.MaBacLuong_ThangLuong_MucLuong = bacLuong_ThangLuong_MucLuong.MaBacLuong_ThangLuong_MucLuong;
+                        }
                         emp.MaTrangThai = 1;
                         DBcontext.NhanViens.Add(emp);
                         HoSo document = new HoSo();
@@ -194,10 +217,10 @@ namespace QUANGHANH2.Controllers.TCLD
         }
         public Boolean checkSalry(string salaryInput) {
           
-                CongViec salary = null;
+                ThangLuong salary = null;
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    salary = db.CongViecs.Where(x => x.ThangLuong.Equals(salaryInput)).FirstOrDefault<CongViec>();
+                    salary = db.ThangLuongs.Where(x => x.MucThangLuong.Equals(salaryInput)).FirstOrDefault<ThangLuong>();
                 }
             if(salary == null)
             {
@@ -205,38 +228,27 @@ namespace QUANGHANH2.Controllers.TCLD
             }
             return true;
         }
-        public Boolean checkPhongBan(string phongban)
+        public Department getPhongBan(string unit)
         {
 
             Department dep = null;
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                dep = db.Departments.Where(x => x.department_id.ToLower().Trim().Equals(phongban.ToLower().Trim())).FirstOrDefault<Department>();
+                dep = db.Departments.Where(x => x.department_name.ToLower().Trim().Equals(unit.ToLower().Trim())).FirstOrDefault<Department>();
             }
-            if (dep == null)
-            {
-                return true;
-            }
-            return false;
+            return dep;
         }
-        public double convertSalary(string salary)
+        public string convertSalary(string salary)
         {
             if(salary != null)
             {
-                try
-                {
-                    salary = salary.Replace(".", string.Empty);
-                    return Double.Parse(salary);
-                }
-                catch (FormatException)
-                {
-                    return -1;
-                }
+                salary = salary.Replace("\r\n", "").Replace(",", "");
+                return salary.Trim();
             }
             else
             {
                 checkNull = false;
-                return 0;
+                return "0";
             }
         }
         public string getMaDonVi(string nameDonvi)
@@ -300,17 +312,17 @@ namespace QUANGHANH2.Controllers.TCLD
             }
             
         }
-        public int getMaCongViec(string thangLuong,string tenCongViec)
+        public int getMaCongViec(ThangLuong thangLuong,string working)
         {
          
-            CongViec working = null;
+            CongViec congViec = null;
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                working = db.CongViecs.Where(x => (x.TenCongViec.ToLower().Trim().Equals(tenCongViec.ToLower().Trim()))).FirstOrDefault<CongViec>();
+                congViec = db.CongViecs.Where(x => (x.TenCongViec.ToLower().Trim().Equals(working.ToLower().Trim()) && x.MaThangLuong == thangLuong.MaThangLuong)).FirstOrDefault<CongViec>();
             }
             if(working != null)
             {
-                return working.MaCongViec;
+                return congViec.MaCongViec;
             }
             else
             {
