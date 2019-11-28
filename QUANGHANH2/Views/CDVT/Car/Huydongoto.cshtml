@@ -641,7 +641,7 @@
         bol = @hihi.ToString().ToLower();
         bol2 = false;
         $(document).ready(function () {
-               
+
 
             dataTable = $('#equipmentTable')
                 .on('preXhr.dt', function (e, settings, data) {
@@ -942,14 +942,15 @@
                         } else {
                             successAlert('Thêm thành công', '');
                         }
+                        $("#pre-load").hide("slow", function () {
+                        });
+                        $("#pre-load").hide();
 
                     }
                 });
             }
 
-            $("#pre-load").hide("slow", function () {
-            });
-            $("#pre-load").hide();
+
             return false;
         }
         function Edit(url) {

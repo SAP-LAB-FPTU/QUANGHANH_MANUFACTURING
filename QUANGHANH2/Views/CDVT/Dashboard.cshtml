@@ -828,10 +828,8 @@
 </ul>
 <!-- Start Pie Chart -->
 <div class="row">
-    @{
-        if (ViewBag.suachua.Count != 0)
-        {
-            <div class="col l12">
+
+            <div class="col l12" id="suachuachart" hidden>
                 <div class="card">
                     <div class="card-content ">
                         <h5 class="card-title">Thiết bị sửa chữa</h5>
@@ -839,11 +837,8 @@
                     </div>
                 </div>
             </div>
-        }
 
-        if (ViewBag.baoduong.Count != 0)
-        {
-            <div class="col l12">
+            <div class="col l12" id="baoduongchart" hidden>
                 <div class="card">
                     <div class="card-content ">
                         <h5 class="card-title">Thiết bị bảo dưỡng</h5>
@@ -851,10 +846,8 @@
                     </div>
                 </div>
             </div>
-        }
-        if (ViewBag.thanhli.Count != 0)
-        {
-            <div class="col l12">
+
+            <div class="col l12" id="thanhlichart" hidden>
                 <div class="card">
                     <div class="card-content ">
                         <h5 class="card-title">Thiết bị thanh lí</h5>
@@ -862,10 +855,8 @@
                     </div>
                 </div>
             </div>
-        }
-        if (ViewBag.trungdaitu.Count != 0)
-        {
-            <div class="col l12">
+
+            <div class="col l12" id="trungdaituchart" hidden>
                 <div class="card">
                     <div class="card-content ">
                         <h5 class="card-title">Trung đại tu thiết bị</h5>
@@ -873,10 +864,8 @@
                     </div>
                 </div>
             </div>
-        }
-        if (ViewBag.kiemdinh.Count != 0)
-        {
-            <div class="col l12">
+
+            <div class="col l12" id="kiemdinhchart" hidden>
                 <div class="card">
                     <div class="card-content ">
                         <h5 class="card-title">Kiểm định thiết bị</h5>
@@ -884,9 +873,6 @@
                     </div>
                 </div>
             </div>
-        }
-
-    }
 
 </div>
 
@@ -1107,7 +1093,8 @@
     $(document).ready(function () {
 
 
-    var array = @Html.Raw(Json.Encode(ViewBag.trungdaitu));
+        var array = @Html.Raw(Json.Encode(ViewBag.trungdaitu));
+        if (array.length != 0) { $('#trungdaituchart').removeAttr('hidden'); }
         var a = JSON.stringify(array);
         var jsonData = JSON.parse(a);
         var soluong = [];
@@ -1166,6 +1153,7 @@
         myCharttdt.setOption(option);
 
         var array = @Html.Raw(Json.Encode(ViewBag.kiemdinh));
+        if (array.length != 0) { $('#kiemdinhchart').removeAttr('hidden'); }
         var a = JSON.stringify(array);
         var jsonData = JSON.parse(a);
         var soluong = [];
@@ -1225,6 +1213,7 @@
         myChartkd.setOption(option);
 
         var array = @Html.Raw(Json.Encode(ViewBag.suachua));
+        if (array.length != 0) { $('#suachuachart').removeAttr('hidden'); }
         var a = JSON.stringify(array);
         var jsonData = JSON.parse(a);
         var soluong = [];
@@ -1284,6 +1273,7 @@
         myChartsc.setOption(option);
 
         var array = @Html.Raw(Json.Encode(ViewBag.baoduong));
+        if (array.length != 0) { $('#baoduongchart').removeAttr('hidden'); }
         var a = JSON.stringify(array);
         var jsonData = JSON.parse(a);
         var soluong = [];
@@ -1342,6 +1332,7 @@
         myChartbd.setOption(option);
 
         var array = @Html.Raw(Json.Encode(ViewBag.thanhli));
+        if (array.length != 0) { $('#thanhlichart').removeAttr('hidden'); }
         var a = JSON.stringify(array);
         var jsonData = JSON.parse(a);
         var soluong = [];
