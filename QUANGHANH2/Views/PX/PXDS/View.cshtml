@@ -155,12 +155,13 @@
                         infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
                     },
                         "processing": false,
+						"serverSide": true,
                         "searching": false,
                         "info": false,
                         "bLengthChange": false,
                         "ajax": {
                             "url": "/Eating/getDataSuatAn?time="+new Date().toISOString(),
-                            "type": "GET",
+                            "type": "POST",
                            // "data": { 'time': JSON.stringify(new Date().toISOString()) },
                             "datatype": "json"
                         },
