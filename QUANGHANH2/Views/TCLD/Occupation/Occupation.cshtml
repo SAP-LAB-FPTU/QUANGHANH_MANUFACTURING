@@ -15,10 +15,9 @@
                 <table id="congviec" class="table table-bordered responsive-table center">
                     <thead>
                         <tr>
-                            <th>Mã công việc</th>
                             <th>Tên công việc</th>
-                            <th>Thang lương</th>
                             <th>Phụ cấp</th>
+                            <th>Thang lương</th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -31,40 +30,298 @@
 </div>
 <!----------------Modal themCongViec---------------->
 <div class="modal" id="modal_themCongViec">
-    <div class="card">
-        <div class="card-content">
-            <h4><b>Thêm Công Việc</b></h4>
-            <div class="modal-content">
-                <div class="col s12 m12 l12">
-                    <label>Tên công việc</label>
-                    <input type="text" class="form-control" id="tenCongViec_them" />
-                </div>
-                <div class="col s12 m6 l6">
-                    <label>Thang lương</label>
-                    <input type="text" class="form-control" id="thangLuong_them" />
-                </div>
-                <div class="col s12 m6 l6">
-                    <label>Phụ cấp</label>
-                    <input type="text" class="form-control" id="phuCap_them" />
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button id="xacNhanThemCongViec" class="waves-effects waves-light btn blue darken-2 btn-small">Xác nhận</button>
-                <button id="dongThemCongViec" class="waves-effects waves-light btn red darken-2 btn-small modal-close">Đóng</button>
-            </div>
+    <div class="modal-content">
+        <h4 class="center"><b>Thêm Công Việc</b></h4>
+        <div class="col s12 m12 l12">
+            <label>Tên công việc</label>
+            <input type="text" class="form-control" id="tenCongViec_them" />
+        </div>
+        <div class="col s12 m6 l6">
+            <label>Phụ cấp</label>
+            <input type="text" class="form-control" id="phuCap_them" />
+        </div>
+        <div class="col s12 m6 l6">
+            <label>Thang lương</label>
+            <select class="form-control" id="thangLuong_them_select">
+                <option value="" disabled selected>Chọn thang lương</option>
+                @foreach (var listThangLuong in ViewBag.listThangLuong)
+                {
+                    <option value="@listThangLuong.MaThangLuong">@listThangLuong.MucThangLuong</option>
+                }
+            </select>
         </div>
     </div>
+    <div class="modal-footer">
+        <button id="xacNhanThemCongViec" class="waves-effects waves-light btn blue darken-2 btn-small">Xác nhận</button>
+        <button id="dongThemCongViec" class="waves-effects waves-light btn red darken-2 btn-small modal-close">Đóng</button>
+    </div>
 </div>
+
 <!----------------Modal suaCongViec----------------->
+<div class="modal" id="modal_suaCongViec">
+    <div class="modal-content">
+        <h4 class="center"><b>Sửa Công Việc</b></h4>
+        <div class="col s12 m12 l12">
+            <label>Tên công việc</label>
+            <input type="text" class="form-control" id="tenCongViec_sua" />
+        </div>
+        <div class="col s12 m6 l6">
+            <label>Phụ cấp</label>
+            <input type="text" class="form-control" id="phuCap_sua" />
+        </div>
+        <div class="col s12 m6 l6">
+            <label>Thang lương</label>
+            <select class="form-control" id="thangLuong_sua_select">
+                <option value="" disabled selected>Chọn thang lương</option>
+                @foreach (var listThangLuong in ViewBag.listThangLuong)
+                {
+                    <option value="@listThangLuong.MaThangLuong">@listThangLuong.MucThangLuong</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="xacNhanSuaCongViec" class="waves-effects waves-light btn blue darken-2 btn-small">Xác nhận</button>
+        <button id="dongSuaCongViec" class="waves-effects waves-light btn red darken-2 btn-small modal-close">Đóng</button>
+    </div>
+</div>
 <link href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
 <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 <!----------------------LIST----------------------->
 <script>
     var table;
     $(document).ready(function () {
-        $("#pre-load").show(),
-            table = $("#congviec").DataTable({
-
-            });
+        $("#pre-load").show();
+        table = $("#congviec").DataTable({
+            "ajax": {
+                "url": "/phong-tcld/quan-ly-cong-viec/danh-sach-cong-viec",
+                "type": "GET",
+                "datatype": "json",
+                "cache": "false",
+                "dataSrc": function (json) {
+                    return json["congviec_thangluong_list"];
+                }
+            },
+            "columns": [
+                {
+                    "data": "TenCongViec", "name": "TenCongViec"
+                },
+                {
+                    "data": "PhuCap", "name": "PhuCap"
+                },
+                {
+                    "data": "MucThangLuong", "name": "MucThangLuong"
+                },
+                {
+                    "data": "", "render": function (data, type, row) {
+                        return "<a id=\"suaCongViec\" name=\"" + row["MaCongViec"] + "\" class=\"waves-effects waves-light btn blue darken-2 btn-small modal-trigger\" href=\"#modal_suaCongViec\">Sửa</a>";
+                    },
+                    "orderable": false,
+                    "searchable": false
+                },
+                {
+                    "data": "", "render": function (data, type, row) {
+                        return "<a id=\"xoaCongViec\" name=\"" + row["MaCongViec"] + "\" class=\"waves-effects waves-light btn red darken-2 btn-small modal-trigger\">Xóa</a>";
+                    },
+                    "orderable": false,
+                    "searchable": false
+                }
+            ],
+            "serverSide": "true",
+            "order": [0, "desc"],
+            "searching": false,
+            "lengthChange": false,
+            "autoWidth": false,
+            "filter": true,
+            "info": false,
+            "language": {
+                emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                paginate:
+                {
+                    previous: "Trang trước",
+                    next: "Trang sau",
+                    first: "|<",
+                    last: ">|"
+                }
+            },
+            "initComplete": function (settings, json) {
+                $("#pre-load").hide();
+            }
+        });
     });
 </script>
+
+<!----------------------------ADD--------------------------->
+<script>
+    $(document).ready(function () {
+        $("#xacNhanThemCongViec").click(function () {
+            $("#pre-load").show(),
+                $.ajax({
+                    url: "/phong-tcld/quan-ly-cong-viec/them-cong-viec",
+                    type: "POST",
+                    datatype: "json",
+                    data: {
+                        "tencongviec": $("#tenCongViec_them").val(),
+                        "phucap": $("#phuCap_them").val(),
+                        "mathangluong": $("#thangLuong_them_select").val()
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            //close the modal themCongViec
+                            $("#dongThemCongViec").click();
+                            //clear all value input in modal themCongViec
+                            $("#tenCongViec_them").val("");
+                            $("#phuCap_them").val("");
+                            $("#thangLuong_them_select option").prop("selected", function () {
+                                return this.defaultSelected;
+                            });
+                            //alert successfully
+                            successAlert(response.title, response.message);
+                            //reload the table
+                            table.ajax.reload();
+                            //hide the pre-loader
+                            $("#pre-load").hide();
+                        } else if (response.error) {
+                            //alert the failure
+                            errorAlert(response.title, response.message);
+                            //hide the pre-loader
+                            $("#pre-load").hide();
+                        }
+                    },
+                    error: function (response) {
+
+                    }
+                });
+        });
+    });
+</script>
+<!----------------------------------EDIT--------------------------------->
+<script>
+    $(document).ready(function () {
+        var macongviec;
+        var tencongviec;
+        var phucap;
+        var mathangluong;
+        //fill data to input
+        $("#congviec").on("click", "#suaCongViec", function () {
+            macongviec = $(this).attr("name");
+            getData(macongviec);
+        });
+
+        //update
+        $("#xacNhanSuaCongViec").click(function () {
+            tencongviec = $("#tenCongViec_sua").val();
+            mathangluong = $("#thangLuong_sua_select").val();
+            phucap = $("#phuCap_sua").val();
+            update(macongviec, tencongviec, mathangluong, phucap);
+        });
+    });
+</script>
+<!--------Get data by MaCongViec------->
+<script>
+    function getData(macongviec) {
+        $("#pre-load").show(),
+            $.ajax({
+                url: "/phong-tcld/quan-ly-cong-viec/lay-du-lieu-theo-macongviec",
+                type: "POST",
+                datatype: "json",
+                data: {
+                    "macongviec": macongviec
+                },
+                success: function (response) {
+                    if (response.success) {
+                        //fill data to input in modal suaCongViec
+                        $("#tenCongViec_sua").val(response.listCongViec_ThangLuong.TenCongViec);
+                        $("#phuCap_sua").val(response.listCongViec_ThangLuong.PhuCap);
+                        $("#thangLuong_sua_select option[value=\"" + response.listCongViec_ThangLuong.MaThangLuong + "\"]").prop("selected", true);
+                        //hide the pre-loader
+                        $("#pre-load").hide();
+                    }
+                },
+                error: function (response) {
+
+                }
+            });
+    }
+</script>
+<!--------Update------------>
+<script>
+    function update(macongviec, tencongviec, mathangluong, phucap) {
+        $("pre-load").show(),
+            $.ajax({
+                url: "/phong-tcld/quan-ly-cong-viec/cap-nhat-cong-viec",
+                type: "POST",
+                datatype: "json",
+                data: {
+                    "macongviec": macongviec,
+                    "tencongviec": tencongviec,
+                    "mathangluong": mathangluong,
+                    "phucap": phucap
+                },
+                success: function (response) {
+                    if (response.success) {
+                        //close modal suaCongViec
+                        $("#dongSuaCongViec").click();
+                        //alert successfull updating
+                        successAlert(response.title, response.message);
+                        //reload table
+                        table.ajax.reload();
+                        //hide the pre-load
+                        $("#pre-load").hide();
+                    } else if (response.error) {
+                        //alert fail updating
+                        errorAlert(response.title, response.message);
+                        $("#pre-load").hide();
+                    }
+                },
+                error: function (response) {
+
+                }
+            });
+    }
+</script>
+<!-----------------Delete------------------->
+<script>
+    $(document).ready(function () {
+        var macongviec;
+        $("#congviec").on("click", "#xoaCongViec", function () {
+            macongviec = $(this).attr("name");
+            //alert confirm
+            confirmAlert("Xác nhận xóa?", "Xác nhân xóa công việc", function () { delete_Congviec(macongviec); });
+        });
+    });
+</script>
+<script>
+    function delete_Congviec(macongviec) {
+        $("#pre-load").show(),
+            $.ajax({
+                url: "/phong-tcld/quan-ly-cong-viec/xoa-cong-viec",
+                type: "POST",
+                datatype: "json",
+                data: {
+                    "macongviec": macongviec
+                },
+                success: function (response) {
+                    if (response.success) {
+                        //alert successfull deleting
+                        successAlert(response.title, response.message);
+                        //reload table
+                        table.ajax.reload();
+                        //hide the pre-loader
+                        $("#pre-load").hide();
+                    } else if (response.error) {
+                        //alert fail deleting
+                        errorAlert(response.title, response.message);
+                        //hide the pre-loader
+                        $("#pre-load").hide();
+                    }
+                },
+                error: function (response) {
+
+                }
+            })
+    }
+</script>
+
+<!-------Disable select option of Materialzecss------->
+<script src="../../js/Custom JS/Disable_input_material.js"></script>

@@ -8,7 +8,6 @@
 <link href="~/dist/css/pages/data-table.css" rel="stylesheet">
 <link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
-<link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
@@ -49,6 +48,9 @@
                                             <th>Tên thiết bị</th>
                                             <th>Mã vật tư</th>
                                             <th>Tên vật tư</th>
+                                            <th>Định mức</th>
+                                            <th>Kế hoạch phân xưởng</th>
+                                            <th>CĐVT duyệt</th>
                                             <th>Đơn vị tính</th>
                                         </tr>
                                     </thead>
@@ -79,7 +81,8 @@
 
     <script src="~/assets/libs/jquery.rowspanizer.js"></script>
     <script>
-        var payload = [];
+        var lists = [];
+
         var datatable;
         $(document).ready(function () {
             setDepartments();
@@ -87,8 +90,11 @@
             $('#department_search').on('change', function () {
                 drawTable();
             });
-
             $("#submit").click(function () {
+                for (var i = 0; i < lists.length; i++) {
+                    lists[i].SupplyQuantity = $("#quantity-" + lists[i].Equipmentid + "-" + lists[i].SupplyId).val()
+                }
+
                 confirmAlert('Xác nhận', 'Duyệt đơn xin cấp mới cho đơn vị này?', function () {
                     $("#pre-load").show();
                     $.ajax({
@@ -96,7 +102,7 @@
                         contentType: "application/json, charset=utf-8",
                         type: 'POST',
                         url: '/phong-cdvt/xin-cap-vat-tu-sctx-summary/submit',
-                        data: JSON.stringify(payload),
+                        data: JSON.stringify(lists),
                         success: function (res) {
                             $("#pre-load").hide();
                             if (res.success) {
@@ -114,14 +120,11 @@
                         }
                     });
                 });
-
             });
         });
-
         function getCurrDepId() {
             return $("#department_search option:selected").val();
         }
-
         function setDepartments() {
             let departments = [];
             $("#pre-load").show();
@@ -131,7 +134,7 @@
                 contentType: "application/json, charset=utf-8",
                 type: 'GET',
                 url: '/phong-cdvt/xin-cap-vat-tu-sctx-summary/departments',
-                data: JSON.stringify(payload),
+                data: JSON.stringify(lists),
                 success: function (res) {
                     departments = res.data;
                 }
@@ -141,8 +144,6 @@
             }
             $("#pre-load").hide();
         }
-
-
         function drawTable() {
             $("#pre-load").show();
             $("#summary_tbl").find("tbody").empty();
@@ -157,10 +158,9 @@
                 cache: false,
                 success: function (response) {
                     resultArray = response.data;
-
                     var tbData = "";
                     if (resultArray.length == 0) {
-                         $("#summary_tbl").find("tbody").append("<tr><td colspan=\"6\"><i>Không có dữ liệu</i></td></tr>")
+                        $("#summary_tbl").find("tbody").append("<tr><td colspan=\"9\"><i>Không có dữ liệu</i></td></tr>")
                     } else {
                         for (var i = 0; i < resultArray.length; i++) {
                             tbData += "<tr>" +
@@ -169,12 +169,20 @@
                                 "<td>" + resultArray[i].equipment_name + "</td>" +
                                 "<td>" + resultArray[i].SupplyId + "</td>" +
                                 "<td>" + resultArray[i].SupplyName + "</td>" +
+                                "<td>" + resultArray[i].SupplyAverage + "</td>" +
+                                "<td>" + resultArray[i].SupplyPlan + "</td>" +
+                                "<td><input type='text' id='quantity-" + resultArray[i].Equipmentid + "-" + resultArray[i].SupplyId + "'class='form-control'><input type='hidden' id='Id-" + resultArray[i].Id + "' value='" + resultArray[i].Id + "' class='form-control'> </td>" +
                                 "<td>" + resultArray[i].SupplyUnit + "</td>" +
                                 "</tr>";
+                            lists.push({
+                                "id": resultArray[i].Id,
+                                "Equipmentid": resultArray[i].Equipmentid,
+                                "SupplyId": resultArray[i].SupplyId,
+                                "quantity": ""
+                            });
                         }
                         $("#summary_tbl").find("tbody").append(tbData);
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                         var indexOfColumnToRowSpan = 1;
                         var $table = $('#summary_tbl');
                         var rowSpanMap = {};
@@ -183,7 +191,6 @@
                             $($(this).children('td')[indexOfColumnToRowSpan]).attr('data-original-value', valueOfTheSpannableCell);
                             rowSpanMap[valueOfTheSpannableCell] = true;
                         });
-
                         for (var rowGroup in rowSpanMap) {
                             var $cellsToSpan = $('td[data-original-value="' + rowGroup + '"]');
                             var numberOfRowsToSpan = $cellsToSpan.length;
@@ -196,17 +203,11 @@
                             });
                         }
                     }
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
+                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                     $("#pre-load").hide();
                 }
             });
-
         }
-
         function handleSupplyQuantityChange(domId, id) {
             let value = 0;
             if (document.getElementById(domId) != null && document.getElementById(domId).value != '') {
@@ -218,7 +219,6 @@
                 }
             }
         }
-
         function parse2PosInt(value) {
             var value = parseInt(value);
             if (value < 0) {

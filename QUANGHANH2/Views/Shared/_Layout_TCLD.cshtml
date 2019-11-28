@@ -311,7 +311,7 @@
             <ul id="slide-out" class="sidenav">
                 <li>
                     <ul class="collapsible slidebar">
-                        <li><a href="/phong-tcld/lich-su-thay-doi" class="collapsible-header"><i class="material-icons">history</i><span class="hide-menu">Lịch Sử Thay Đổi</span></a></li>
+                        @*<li><a href="/phong-tcld/lich-su-thay-doi" class="collapsible-header"><i class="material-icons">history</i><span class="hide-menu">Lịch Sử Thay Đổi</span></a></li>*@
 
                         <li>
                             <a href="/phong-tcld" class="collapsible-header" id="dashboard"><i class="material-icons">home</i><span class="hide-menu">Phòng Tổ Chức Lao Động</span></a>
@@ -382,15 +382,38 @@
                             <div class="collapsible-body">
                                 <ul>
                                     <li>
-                                        <a href="@Url.Content("/phong-tcld/cham-dut-va-tuyen-dung/tong-hop-cac-don-vi-cham-dut-tuyen-dung")"><i class="material-icons">swap_vert</i><span class="hide-menu">Tổng hợp CD, TD</span></a>
+                                        <a href="/phong-tcld/cham-dut-va-tuyen-dung/tong-hop-cac-don-vi-cham-dut-tuyen-dung"><i class="material-icons">swap_vert</i><span class="hide-menu">Tổng hợp CD, TD</span></a>
                                     </li>
                                 </ul>
                             </div>
                         </li>
+
                         <li><a href="/phong-tcld/quan-ly-phong-ban" class="collapsible-header"><i class="material-icons">brightness_7</i><span class="hide-menu">Quản lý phòng ban</span></a></li>
-                        <li><a href="/phong-tcld/quan-ly-cong-viec" class="collapsible-header"><i class="material-icons">brightness_7</i><span class="hide-menu">Quản lý công việc</span></a></li>
-                        <li><a href="/phong-tcld/quan-ly-nhom-cong-viec" class="collapsible-header"><i class="material-icons">brightness_7</i><span class="hide-menu">Quản lý nhóm công việc</span></a></li>
-                        <li><a href="/phong-tcld/quan-ly-dien-cong-viec" class="collapsible-header"><i class="material-icons">brightness_7</i><span class="hide-menu">Quản lý diện công việc</span></a></li>
+
+
+                        <li>
+                            <a href="javascript:void(0);" class="collapsible-header has-arrow"><i class="material-icons">equalizer</i><span class="hide-menu">Công việc</span></a>
+                            <div class="collapsible-body">
+                                <ul>
+                                    <li><a href="/phong-tcld/quan-ly-cong-viec"><i class="material-icons">brightness_7</i><span class="hide-menu">Quản lý công việc</span></a></li>
+                                    <li><a href="/phong-tcld/quan-ly-nhom-cong-viec"><i class="material-icons">brightness_7</i><span class="hide-menu">Quản lý nhóm công việc</span></a></li>
+                                    <li><a href="/phong-tcld/quan-ly-dien-cong-viec"><i class="material-icons">brightness_7</i><span class="hide-menu">Quản lý diện công việc</span></a></li>
+                                    <li><a href="/phong-tcld/cong-viec-nhom-cong-viec"><i class="material-icons">brightness_7</i><span class="hide-menu">Công viêc - Nhóm công việc</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+
+                        <li>
+                            <a href="javascript:void(0);" class="collapsible-header has-arrow"><i class="material-icons">equalizer</i><span class="hide-menu">Bậc, Thang, Mức lương</span></a>
+                            <div class="collapsible-body">
+                                <ul>
+                                    <li><a href="/phong-tcld/quan-ly-bac-luong"><i class="material-icons">brightness_7</i><span class="hide-menu">Quản lý bậc lương</span></a></li>
+                                    <li><a href="/phong-tcld/quan-ly-thang-luong"><i class="material-icons">brightness_7</i><span class="hide-menu">Quản lý thang lương</span></a></li>
+                                    <li><a href="/phong-tcld/quan-ly-bacluong-thangluong-mucluong"><i class="material-icons">brightness_7</i><span class="hide-menu">QL bậc, thang, mức lương</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
                     </ul>
                 </li>
             </ul>
