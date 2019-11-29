@@ -77,31 +77,40 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
             if (type == null)
             {
                 var ngay = DateTime.Now.Date;
-                query = "select MONTH(a.date) as Thang, YEAR(a.date) as Nam,c.equipmentId as MaThietBi, " +
-                " equipment_name as TenThietBi,consumption_value as " +
-                " LuongTieuThu,ac.quantity as SanLuong,N'tấn' as DonVi from Fuel_activities_consumption a , Supply b, Equipment c , Activity ac " +
-                " where a.fuel_type = b.supply_id and a.equipmentId = c.equipmentId  and ac.equipmentId = c.equipmentId " +
-                " and fuel_type in ('DIEN') and a.date = '" + ngay + "' and a.date = ac.date";
+                query = @"select MONTH(a.date) as Thang, YEAR(a.date) as Nam,c.equipmentId as MaThietBi, 
+                            equipment_name as TenThietBi,consumption_value as 
+                            LuongTieuThu,ac.quantity as SanLuong,N'tấn' as DonVi 
+                            from Fuel_activities_consumption a 
+                            inner join Supply b on a.fuel_type = b.supply_id 
+                            inner join Equipment c on c.equipmentId = a.equipmentId 
+                            inner join Activity ac on ac.equipmentid = c.equipmentId 
+                            where fuel_type in ('DIEN') and a.date = '"+ngay+"' and a.date = ac.date";
             }
             if (type == "day")
             {
                 var ngay = DateTime.ParseExact(date,"dd/MM/yyyy",null).ToString("yyyy-MM-dd");
-                query = "select MONTH(a.date) as Thang, YEAR(a.date) as Nam,c.equipmentId as MaThietBi, " +
-                " equipment_name as TenThietBi,consumption_value as " +
-                " LuongTieuThu,ac.quantity as SanLuong,N'tấn' as DonVi from Fuel_activities_consumption a , Supply b, Equipment c , Activity ac " +
-                " where a.fuel_type = b.supply_id and a.equipmentId = c.equipmentId  and ac.equipmentId = c.equipmentId " +
-                " and fuel_type in ('DIEN') and a.date = '" + ngay + "' and a.date = ac.date";
+                query = @"select MONTH(a.date) as Thang, YEAR(a.date) as Nam,c.equipmentId as MaThietBi, 
+                            equipment_name as TenThietBi,consumption_value as 
+                            LuongTieuThu,ac.quantity as SanLuong,N'tấn' as DonVi 
+                            from Fuel_activities_consumption a 
+                            inner join Supply b on a.fuel_type = b.supply_id 
+                            inner join Equipment c on c.equipmentId = a.equipmentId 
+                            inner join Activity ac on ac.equipmentid = c.equipmentId 
+                            where fuel_type in ('DIEN') and a.date = '" + ngay + "' and a.date = ac.date";
                 ViewBag.now = date;
             }
             if (type == "month")
             {
                 int thang = Convert.ToInt32(month);
                 int nam = Convert.ToInt32(year);
-                query = "select MONTH(a.date) as Thang, YEAR(a.date) as Nam,c.equipmentId as MaThietBi, " +
-                " equipment_name as TenThietBi,consumption_value as " +
-                " LuongTieuThu,ac.quantity as SanLuong,N'tấn' as DonVi from Fuel_activities_consumption a , Supply b, Equipment c , Activity ac " +
-                " where a.fuel_type = b.supply_id and a.equipmentId = c.equipmentId  and ac.equipmentId = c.equipmentId " +
-                " and fuel_type in ('DIEN') and a.date = ac.date and YEAR(a.date) = " + nam + " and MONTH(a.date) = " + thang;
+                query = @"select MONTH(a.date) as Thang, YEAR(a.date) as Nam,c.equipmentId as MaThietBi, 
+                            equipment_name as TenThietBi,consumption_value as 
+                            LuongTieuThu,ac.quantity as SanLuong,N'tấn' as DonVi 
+                            from Fuel_activities_consumption a 
+                            inner join Supply b on a.fuel_type = b.supply_id 
+                            inner join Equipment c on c.equipmentId = a.equipmentId 
+                            inner join Activity ac on ac.equipmentid = c.equipmentId 
+                            where fuel_type in ('DIEN') and a.date = ac.date and YEAR(a.date) = " + nam + " and MONTH(a.date) = " + thang;
             }
             if (type == "quarter")
             {
@@ -123,20 +132,26 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                 {
                     quy = " (10,11,12) ";
                 }
-                query = "select MONTH(a.date) as Thang, YEAR(a.date) as Nam,c.equipmentId as MaThietBi, " +
-                " equipment_name as TenThietBi,consumption_value as " +
-                " LuongTieuThu,ac.quantity as SanLuong,N'tấn' as DonVi from Fuel_activities_consumption a , Supply b, Equipment c , Activity ac " +
-                " where a.fuel_type = b.supply_id and a.equipmentId = c.equipmentId  and ac.equipmentId = c.equipmentId " +
-                " and fuel_type in ('DIEN') and a.date = ac.date and YEAR(a.date) = " + nam + " and Month(a.date) in " + quy;
+                query = @"select MONTH(a.date) as Thang, YEAR(a.date) as Nam,c.equipmentId as MaThietBi, 
+                            equipment_name as TenThietBi,consumption_value as 
+                            LuongTieuThu,ac.quantity as SanLuong,N'tấn' as DonVi 
+                            from Fuel_activities_consumption a 
+                            inner join Supply b on a.fuel_type = b.supply_id 
+                            inner join Equipment c on c.equipmentId = a.equipmentId 
+                            inner join Activity ac on ac.equipmentid = c.equipmentId 
+                            where fuel_type in ('DIEN') and a.date = ac.date and YEAR(a.date) = " + nam + " and Month(a.date) in " + quy;
             }
             if (type == "year")
             {
                 int nam = Convert.ToInt32(year);
-                query = " select MONTH(a.date) as Thang, YEAR(a.date) as Nam,c.equipmentId as MaThietBi, " +
-                " equipment_name as TenThietBi,consumption_value as " +
-                " LuongTieuThu,ac.quantity as SanLuong,N'tấn' as DonVi from Fuel_activities_consumption a , Supply b, Equipment c , Activity ac " +
-                " where a.fuel_type = b.supply_id and a.equipmentId = c.equipmentId  and ac.equipmentId = c.equipmentId " +
-                " and fuel_type in ('DIEN') and a.date = ac.date and YEAR(a.date) = " + nam;
+                query = @"select MONTH(a.date) as Thang, YEAR(a.date) as Nam,c.equipmentId as MaThietBi, 
+                            equipment_name as TenThietBi,consumption_value as 
+                            LuongTieuThu,ac.quantity as SanLuong,N'tấn' as DonVi 
+                            from Fuel_activities_consumption a 
+                            inner join Supply b on a.fuel_type = b.supply_id 
+                            inner join Equipment c on c.equipmentId = a.equipmentId 
+                            inner join Activity ac on ac.equipmentid = c.equipmentId 
+                            where fuel_type in ('DIEN') and a.date = ac.date and YEAR(a.date) = " + nam;
             }
             return query;
         }
