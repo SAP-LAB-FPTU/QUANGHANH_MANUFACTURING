@@ -51,27 +51,27 @@ namespace QUANGHANH2.Controllers
         [HttpPost]
         public JsonResult Index(DataTableAjaxPostModel model)
         {
-            var users = db.Accounts;
-            var search = users.Where(a => true);
+            var users = db.Database.SqlQuery<Accountdb>("select  a.ID,a.Username,a.Name,d.department_name from Account a inner join NhanVien nv on a.NVID = nv.MaNV inner join Department d on d.department_id = nv.MaPhongBan").ToList();
+            var search = users.ToList();
             int CurrentUser = int.Parse(Session["UserID"].ToString());
             if (CurrentUser != 14)
             {
-                search = search.Where(a => a.ID != 14);
+                search = search.Where(a => a.ID != 14).ToList();
             }
             if (model.search.value != null)
             {
                 string searchValue = model.search.value;
-                search = search.Where(a => a.Username.Contains(searchValue) || a.Name.Contains(searchValue));
+                search = search.Where(a => a.Username.ToLower().Contains(searchValue.ToLower()) || a.Name.ToLower().Contains(searchValue.ToLower()) || a.department_name.ToLower().Contains(searchValue.ToLower())).ToList();
             }
             if (model.columns[1].search.value != null)
             {
                 string searchValue = model.columns[1].search.value;
-                search = search.Where(a => a.Username.Contains(searchValue));
+                search = search.Where(a => a.Username.Contains(searchValue)).ToList();
             }
             if (model.columns[2].search.value != null)
             {
                 string searchValue = model.columns[2].search.value;
-                search = search.Where(a => a.Name.Contains(searchValue));
+                search = search.Where(a => a.Name.Contains(searchValue)).ToList();
             }
 
             var sorting = search.OrderBy(a => a.ID);
@@ -100,14 +100,15 @@ namespace QUANGHANH2.Controllers
 
             }
             var paging = sorting.Skip(model.start).Take(model.length).ToList();
-            var result = new List<CustomUser>(paging.Count);
+            var result = new List<Accountdb>(paging.Count);
             foreach (var s in paging)
             {
-                result.Add(new CustomUser
+                result.Add(new Accountdb
                 {
-                    ID = s.ID + "",
+                    ID = s.ID,
                     Name = s.Name,
-                    Username = s.Username
+                    Username = s.Username,
+                    department_name = s.department_name
                 });
             };
             return Json(new
@@ -240,6 +241,7 @@ namespace QUANGHANH2.Controllers
                     Data = "Người dùng với tên đăng nhập <strong style='color:black; '>" + Username + "</strong> đã tồn tại!"
                 }, JsonRequestBehavior.AllowGet);
             }
+            string InvalidFields = "";
             if (!String.IsNullOrEmpty(NVID))
             {
                 if (db.NhanViens.Where(x => x.MaNV == NVID).Count() == 0)
@@ -250,12 +252,19 @@ namespace QUANGHANH2.Controllers
                         Data = "Mã nhân viên <strong style='color:black; '>" + NVID + "</strong> không tồn tại!"
                     }, JsonRequestBehavior.AllowGet);
                 }
+                if (db.Accounts.Where(x => x.NVID == NVID).Count() != 0)
+                {
+                    return Json(new Result()
+                    {
+                        CodeError = 2,
+                        Data = "Mã nhân viên <strong style='color:black; '>" + NVID + "</strong> đã được sử dụng!"
+                    }, JsonRequestBehavior.AllowGet);
+                }
             }
             else
             {
-                NVID = null;
+                InvalidFields += "Mã nhân viên -";
             }
-            string InvalidFields = "";
             if (String.IsNullOrEmpty(Name))
             {
                 InvalidFields += "Họ Tên -";
@@ -284,7 +293,7 @@ namespace QUANGHANH2.Controllers
             {
                 if (Password != RepeatPassword)
                 {
-                    InvalidFields += "<br />Mật khảu không khớp !!!";
+                    InvalidFields += "<br />Mật khẩu không khớp !!!";
                 }
             }
             if (InvalidFields != "")
@@ -475,6 +484,14 @@ namespace QUANGHANH2.Controllers
                     {
                         CodeError = 2,
                         Data = "Mã nhân viên <strong style='color:black; '>" + NVID + "</strong> không tồn tại!"
+                    }, JsonRequestBehavior.AllowGet);
+                }
+                if (db.Accounts.Where(x => x.NVID == NVID).Count() != 0)
+                {
+                    return Json(new Result()
+                    {
+                        CodeError = 2,
+                        Data = "Mã nhân viên <strong style='color:black; '>" + NVID + "</strong> đã được sử dụng!"
                     }, JsonRequestBehavior.AllowGet);
                 }
             }
@@ -778,6 +795,7 @@ namespace QUANGHANH2.Controllers
         public string ID { get; set; }
         public string Name { get; set; }
         public string Username { get; set; }
+        public string department_name { get; set; }
     }
     public class Rights
     {
@@ -816,5 +834,12 @@ namespace QUANGHANH2.Controllers
         public string id { get; set; }
         public string name { get; set; }
         public string pb { get; set; }
+    }
+    public class Accountdb
+    {
+        public int ID { get; set; }
+        public string Username { get; set; }
+        public string Name { get; set; }
+        public string department_name { get; set; }
     }
 }
