@@ -149,7 +149,7 @@
                         </div>
                         <div class="col s12">
                             <label for="number">Ngày xảy ra: </label>
-                            <input type="text" class=" datepicker-here form-control" placeholder="Ngày" name="date" id="date" />
+                            <input type="text" class=" datepicker-here form-control" placeholder="Ngày" name="date" id="dateaccident" />
                         </div>
                     </div>
                     <div class="col s12 m6">
@@ -485,7 +485,7 @@
             LyDo: document.getElementById("reason").value,
             Ca: document.getElementById("ca").value,
             Loai: document.getElementById("loaitainan").value,
-            stringDate: document.getElementById("date").value
+            stringDate: document.getElementById("dateaccident").value
         };
         $.ajax({
             url: "/phong-dieu-khien/bao-cao-tai-nan/insertaccident",

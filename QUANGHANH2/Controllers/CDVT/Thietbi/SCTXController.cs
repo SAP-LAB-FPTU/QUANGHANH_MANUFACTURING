@@ -110,7 +110,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                         db.Database.ExecuteSqlCommand("insert Maintain_Car_Detail values((select top 1 maintainid from Maintain_Car order by maintainid desc), @supplyid, @quantity, @supplyType, @supplyStatus)",
                            new SqlParameter("supplyid", item.supplyid),
                            new SqlParameter("quantity", item.quantity),
-                           new SqlParameter("supplyType", item.supplyType),
+                           //new SqlParameter("supplyType", item.supplyType),
                            new SqlParameter("supplyStatus", item.supplyStatus));
                         db.SaveChanges();
                     }
@@ -365,7 +365,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                             m.quantity = item.quantity;
                             m.supplyid = item.supplyid;
                             m.supplyStatus = item.supplyStatus;
-                            m.supplyType = item.supplyType;
+                            //m.supplyType = item.supplyType;
                             db.Maintain_Car_Detail.Add(m);
                             db.SaveChanges();
                         }
@@ -428,7 +428,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                             db.Database.ExecuteSqlCommand("update Maintain_Car_Detail set supplyid=@supplyid, quantity=@quantity,supplyType=@supplyType,supplyStatus=@supplyStatus where maintaindetailid=@maintaindetailid",
                            new SqlParameter("supplyid", item.supplyid),
                            new SqlParameter("quantity", item.quantity),
-                           new SqlParameter("supplyType", item.supplyType),
+                           //new SqlParameter("supplyType", item.supplyType),
                            new SqlParameter("supplyStatus", item.supplyStatus),
                             new SqlParameter("maintaindetailid", item.maintaindetailid))
 

@@ -168,14 +168,6 @@
                         </div>*@
                 </div>
 
-                <div class="row">
-                    <div class="col s12">
-                        <ul class="tabs" style="overflow-x:hidden;overflow-y:hidden">
-                            <li class="col s6 tab"><a href="#chitiet">Chi tiết huy động</a></li>
-                            <li class="col s6 tab"><a href="#thongke">Thống kê huy động</a></li>
-                        </ul>
-                    </div>
-                </div>
 
                 <div id="chitiet">
 
@@ -211,158 +203,6 @@
                         </table>
                     </div>
 
-                </div>
-                <div id="thongke">
-                    <div class="col s12 l2">
-                        <div class="card mymanu card-hover" style="height: 200px">
-                            <div class="card-content center-align table_container" style="overflow-x: auto !important">
-                                <div class="row">
-
-                                    <div class="col s12">
-                                        <h6 class="card-subtitle center-align m-b-0 white-text">Tổng</h6>
-                                        <h2 class="font-light font-medium m-b-0 white-text" style="padding-top: 10px"> @ViewBag.Thongke.total </h2>
-                                    </div>
-                                    <div class="col s12">
-                                        <div class="progress">
-                                            <div class="determinate amber darken+5" style="width: 100%"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col s6 center-align">
-                                        <h5 class="card-subtitle white-text">Đang hoạt động</h5>
-                                        <h5 class="white-text">7000</h5>
-                                    </div>
-                                    <div class="col s6 center-align">
-                                        <h6 class="card-subtitle white-text">Không hoạt động</h6>
-                                        <h5 class="white-text">3700</h5>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col s12 l2">
-                        <div class="card mymanu card-hover" style="height: 200px">
-                            <div class="card-content align-items-center table_container">
-                                <div class="row">
-                                    <div class="col s12">
-                                        <h6 class="card-subtitle center-align white-text">Sửa chữa</h6>
-                                        <h4 class=" center-align white-text"> @ViewBag.Thongke.total_repair </h4>
-                                    </div>
-
-                                    <div class="col s12">
-                                        <div class="progress">
-                                            <div class="determinate amber darken+5" style="width: 100%"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col s6 center-align white-text">
-                                        <h5 class="card-subtitle white-text">Đã sửa</h5>
-                                        <h5 class=" white-text">300</h5>
-                                    </div>
-                                    <div class="col s6 center-align white-text">
-                                        <h6 class="card-subtitle white-text">Đang sửa</h6>
-                                        <h5 class=" white-text">200</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col s12 l2">
-                        <div class="card mymanu card-hover" style="height: 200px">
-                            <div class="card-content align-items-center table_container">
-                                <div class="row">
-                                    <div class="col s12">
-                                        <h6 class="card-subtitle center-align white-text">Bảo dưỡng </h6>
-                                        <h4 class=" center-align white-text"> @ViewBag.Thongke.total_maintain</h4>
-                                    </div>
-
-                                    <div class="col s12">
-                                        <div class="progress">
-                                            <div class="determinate amber darken+5" style="width: 100%"></div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col s6 center-align white-text">
-                                        <h5 class="card-subtitle white-text">Đã bảo dưỡng</h5>
-                                        <h5 class=" white-text">700</h5>
-                                    </div>
-                                    <div class="col s6 center-align white-text">
-                                        <h6 class="card-subtitle white-text">Đang bảo dưỡng</h6>
-                                        <h5 class=" white-text">200</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col s12 l2">
-                        <div class="card mymanu card-hover" style="height: 200px">
-                            <div class="card-content align-items-center table_container">
-                                <div class="row">
-                                    <div class="col s12">
-                                        <h6 class="card-subtitle center-align white-text">Kiểm định</h6>
-                                        <h4 class=" center-align white-text"> @ViewBag.Thongke.total_KD</h4>
-                                    </div>
-
-                                    <div class="col s12">
-                                        <div class="progress">
-                                            <div class="determinate amber darken+5" style="width: 100%"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col s6 center-align white-text">
-                                        <h5 class="card-subtitle white-text">Hoàn thành</h5>
-                                        <h5 class=" white-text">700</h5>
-                                    </div>
-                                    <div class="col s6 center-align white-text">
-                                        <h6 class="card-subtitle white-text">Sắp đến hạn</h6>
-                                        <h5 class=" white-text">300</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col s12 l2">
-                        <div class="card mymanu card-hover" style="height: 200px">
-                            <div class="card-content align-items-center table_container">
-                                <div class="row">
-                                    <div class="col s12">
-                                        <h6 class="card-subtitle center-align white-text">Thanh lý</h6>
-                                        <h4 class=" center-align white-text"> @ViewBag.Thongke.total_TL </h4>
-                                    </div>
-
-                                    <div class="col s12">
-                                        <div class="progress">
-                                            <div class="determinate amber darken+5" style="width: 100%"></div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col s5 center-align white-text">
-                                        <h5 class="card-subtitle white-text">Đã thanh lý</h5>
-                                        <h5 class=" white-text">100</h5>
-                                    </div>
-                                    <div class="col s6 offset-s1 center-align white-text">
-                                        <h6 class="card-subtitle white-text">Đang thanh lý</h6>
-                                        <h5 class=" white-text">200</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col s12 l2">
-                        <div class="card mymanu card-hover" style="height: 200px">
-                            <div class="card-content align-items-center table_container">
-                                <div class="row">
-                                    <div class="col s12 center-align" style="padding-top: 45px">
-                                        <h6 class="card-subtitle white-text">Thu hồi</h6>
-                                        <h4 class="font-medium m-b-0 white-text"> @ViewBag.Thongke.total_TH </h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
 
@@ -510,16 +350,7 @@
     </div>
 </form>
 
-@using (Html.BeginForm("Atri", "Hoatdong", FormMethod.Post, new
-{
-    id = "myForm",
-    enctype = "multipart/form-data",
-    onSubmit = "return Atri(this);",
-    data_restUrl = Url.Action("Atri", "Hoatdong", new { id = "" })
-}))
-{
-    <input type="text" id="atri" name="name" style="display:none !important" />
-}
+
 
 <ul id='dropdown1' class='dropdown-content'>
     <li><a class="dropdown-child" href="#!" name="lothien">Danh sách thiết bị lộ thiên</a></li>
@@ -550,10 +381,7 @@
     $('supplier-search').change(function () {
         $(this).closest('form').submit();
     });
-    $('#Equipment_category_id').change(function () {
-        $('#atri').val($('#Equipment_category_id').val());
-        $('#myForm').submit();
-    });
+
 
     $(window).resize(function () {
         if ($(window).width() <= 600) {
@@ -609,12 +437,7 @@
 
 
 
-    $(document).ready(function () {
-        $('input[required]').each(function myfunction() {
-            $(this).attr("oninvalid", "setCustomValidity('Không được bỏ trống ô này')");
-            $(this).attr("oninput", "this.setCustomValidity('')");
-        })
-    })
+    
 </script>
 
 @section scripts{
@@ -641,7 +464,7 @@
         bol = @hihi.ToString().ToLower();
         bol2 = false;
         $(document).ready(function () {
-               
+
 
             dataTable = $('#equipmentTable')
                 .on('preXhr.dt', function (e, settings, data) {
@@ -813,29 +636,10 @@
 
             return false;
         }
-        function Atri(form) {
-
-            $.validator.unobtrusive.parse(form);
-
-            if ($(form).valid()) {
-                $.ajax({
-                    type: "POST",
-                    url: form.action,
-                    data: $(form).serialize(),
-                    success: function (data) {
-                        var options = '';
-                        options = JSON.stringify(data.data);
-                        options = options.substring(1, options.length - 1);
-                        $('#cateTB tbody').empty();
-                        $('#cateTB').append(options);
-
-                    }
-                });
-            }
+        
 
 
-            return false;
-        }
+          
         function PopupForm(url) {
             var formDiv = $('<div/>');
             $.get(url)
@@ -942,14 +746,15 @@
                         } else {
                             successAlert('Thêm thành công', '');
                         }
+                        $("#pre-load").hide("slow", function () {
+                        });
+                        $("#pre-load").hide();
 
                     }
                 });
             }
 
-            $("#pre-load").hide("slow", function () {
-            });
-            $("#pre-load").hide();
+
             return false;
         }
         function Edit(url) {

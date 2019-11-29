@@ -30,6 +30,8 @@ namespace QUANGHANH2.Models
         public virtual DbSet<Account_Right> Account_Right { get; set; }
         public virtual DbSet<Account_Right_Detail> Account_Right_Detail { get; set; }
         public virtual DbSet<Activity> Activities { get; set; }
+        public virtual DbSet<BacLuong> BacLuongs { get; set; }
+        public virtual DbSet<BacLuong_ThangLuong_MucLuong> BacLuong_ThangLuong_MucLuong { get; set; }
         public virtual DbSet<BangCap_GiayChungNhan> BangCap_GiayChungNhan { get; set; }
         public virtual DbSet<BaoCaoFile> BaoCaoFiles { get; set; }
         public virtual DbSet<Camera> Cameras { get; set; }
@@ -61,7 +63,6 @@ namespace QUANGHANH2.Models
         public virtual DbSet<Documentary_repair_details> Documentary_repair_details { get; set; }
         public virtual DbSet<Documentary_revoke_details> Documentary_revoke_details { get; set; }
         public virtual DbSet<DocumentaryType> DocumentaryTypes { get; set; }
-        public virtual DbSet<DoiChieu_Luong> DoiChieu_Luong { get; set; }
         public virtual DbSet<Equipment> Equipments { get; set; }
         public virtual DbSet<Equipment_attribute> Equipment_attribute { get; set; }
         public virtual DbSet<Equipment_category> Equipment_category { get; set; }
@@ -105,6 +106,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<Supply_tieuhao> Supply_tieuhao { get; set; }
         public virtual DbSet<SupplyPlan> SupplyPlans { get; set; }
         public virtual DbSet<TaiNan> TaiNans { get; set; }
+        public virtual DbSet<ThangLuong> ThangLuongs { get; set; }
         public virtual DbSet<ThucHien_TieuChi_TheoNgay> ThucHien_TieuChi_TheoNgay { get; set; }
         public virtual DbSet<TieuChi> TieuChis { get; set; }
         public virtual DbSet<TrangThai> TrangThais { get; set; }
