@@ -172,43 +172,43 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
             string[] temp = d.Split('/');
             d = temp[2] + "-" + temp[1] + "-" + temp[0];
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            string sql = "select a.MaPhongBan,a.KT1,a.CD1,a.QL1,b.om1,b.vld1,b.p1,b.khac1,a.KT2,a.CD2,a.QL2,b.om2,b.vld2,b.p2,b.khac2,a.KT3,a.CD3,a.QL3,b.om3,b.vld3,b.p3,b.khac3,b.tong_nghidai,a.tong_DS, " +
-                                    "(case when a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 != 0 then (a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3) / (a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3) * 100 else 0 end) as 'tile'" +
-                                    " from (select n.MaPhongBan, sum(case when ncv.MaNhomCongViec = 6 and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'KT1' " +
-                                    "   , SUM(case when ncv.MaNhomCongViec = 7 and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'CD1' " +
-                                    "   , SUM(case when ncv.MaNhomCongViec = 10 and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'QL1' " +
-                                    "   , sum(case when ncv.MaNhomCongViec = 6 and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'KT2' " +
-                                    "   , SUM(case when ncv.MaNhomCongViec = 7 and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'CD2' " +
-                                    "   , SUM(case when ncv.MaNhomCongViec = 10 and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'QL2' " +
-                                    "   , sum(case when ncv.MaNhomCongViec = 6 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'KT3' " +
-                                    "   , SUM(case when ncv.MaNhomCongViec = 7 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'CD3' " +
-                                    "   , SUM(case when ncv.MaNhomCongViec = 10 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'QL3' " +
-                                    "   , count(n.MaNV) as 'tong_DS' " +
-                                    "   , sum(case when ncv.MaNhomCongViec = 10 then 1 else 0 end) as 'QL_CTy' " +
-                                    " from NhanVien n left outer join DiemDanh_NangSuatLaoDong d on n.MaNV = d.MaNV " +
-                                    " left outer join Header_DiemDanh_NangSuat_LaoDong h on d.HeaderID = h.HeaderID " +
-                                    " join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec " +
-                                    "join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec " +
-                                    " where h.NgayDiemDanh = @date" +
-                                    " group by n.MaPhongBan) a full join" +
-                                    "	(select n.MaPhongBan, SUM(case when d.LyDoVangMat like N'Vô lý do' and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'vld1'" +
-                                    "   , sum(case when d.LyDoVangMat like N'Ốm'  and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'om1'" +
-                                    "   , SUM(case when d.LyDoVangMat like N'Nghỉ phép' and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'p1'" +
-                                    "   , SUM(case when d.LyDoVangMat like N'Khác' and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'khac1'" +
-                                    "   , SUM(case when d.LyDoVangMat like N'Vô lý do' and h.Ca = '2' and d.DiLam = '0' then 1 else 0 end) as 'vld2'" +
-                                    "   , sum(case when d.LyDoVangMat like N'Ốm'  and h.Ca = '2' and d.DiLam = '0' then 1 else 0 end) as 'om2'" +
-                                    "   , SUM(case when d.LyDoVangMat like N'Nghỉ phép' and h.Ca = '2' and d.DiLam = '0' then 1 else 0 end) as 'p2'" +
-                                    "   , SUM(case when d.LyDoVangMat like N'Khác' and h.Ca = '2' and d.DiLam = '0' then 1 else 0 end) as 'khac2'" +
-                                    "   , SUM(case when d.LyDoVangMat like N'Vô lý do' and h.Ca = '3' and d.DiLam = '0' then 1 else 0 end) as 'vld3'" +
-                                    "   , sum(case when d.LyDoVangMat like N'Ốm'  and h.Ca = '3' and d.DiLam = '0' then 1 else 0 end) as 'om3'" +
-                                    "   , SUM(case when d.LyDoVangMat like N'Nghỉ phép' and h.Ca = '3' and d.DiLam = '0' then 1 else 0 end) as 'p3'" +
-                                    "   , SUM(case when d.LyDoVangMat like N'Khác' and h.Ca = '3' and d.DiLam = '0' then 1 else 0 end) as 'khac3'" +
-                                    "   , SUM(case when d.LyDoVangMat in (N'Tai nạn lao động',N'Ốm dài',N'Thai sản',N'Tạm hoãn lao động',N'Vô lý do dài') then 1 else 0 end) as 'tong_nghidai'" +
-                                    " from NhanVien n left outer join DiemDanh_NangSuatLaoDong d on n.MaNV = d.MaNV" +
-                                    " left outer join Header_DiemDanh_NangSuat_LaoDong h on d.HeaderID = h.HeaderID" +
-                                    " where h.NgayDiemDanh = @date" +
-                                    " group by n.MaPhongBan) b on a.MaPhongBan = b.MaPhongBan";
-            List<report> list = db.Database.SqlQuery<report>(sql, new SqlParameter("date", d)).ToList();
+            string sql = "select a.MaPhongBan,a.KT1,a.CD1,a.QL1,b.om1,b.vld1,b.p1,b.khac1,a.KT2,a.CD2,a.QL2,b.om2,b.vld2,b.p2,b.khac2,a.KT3,a.CD3,a.QL3,b.om3,b.vld3,b.p3,b.khac3,b.tong_nghidai,a.tong_DS,a.QL_CTy, " +
+                            "(case when a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 != 0 then (a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3) / (a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3) * 100 else 0 end) as 'tile' " +
+                            " from (select n.MaPhongBan, sum(case when ncv.MaNhomCongViec = 6 and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'KT1' " +
+                            "   , SUM(case when ncv.MaNhomCongViec = 7 and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'CD1' " +
+                            "   , SUM(case when ncv.MaNhomCongViec = 10 and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'QL1' " +
+                            "   , sum(case when ncv.MaNhomCongViec = 6 and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'KT2' " +
+                            "   , SUM(case when ncv.MaNhomCongViec = 7 and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'CD2' " +
+                            "   , SUM(case when ncv.MaNhomCongViec = 10 and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'QL2' " +
+                            "   , sum(case when ncv.MaNhomCongViec = 6 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'KT3' " +
+                            "   , SUM(case when ncv.MaNhomCongViec = 7 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'CD3' " +
+                            "   , SUM(case when ncv.MaNhomCongViec = 10 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'QL3'" +
+                            "   , count(n.MaNV) as 'tong_DS' " +
+                            "   , sum(case when ncv.MaNhomCongViec = 10 then 1 else 0 end) as 'QL_CTy' " +
+                            " from NhanVien n left outer join DiemDanh_NangSuatLaoDong d on n.MaNV = d.MaNV " +
+                            " left outer join Header_DiemDanh_NangSuat_LaoDong h on d.HeaderID = h.HeaderID " +
+                            " join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec " +
+                            "join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec " +
+                            " where h.NgayDiemDanh = @day " +
+                            " group by n.MaPhongBan) a full join " +
+                            "	(select n.MaPhongBan, SUM(case when d.LyDoVangMat like N'Vô lý do' and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'vld1' " +
+                            "   , sum(case when d.LyDoVangMat like N'Ốm'  and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'om1' " +
+                            "   , SUM(case when d.LyDoVangMat like N'Nghỉ phép' and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'p1' " +
+                            "   , SUM(case when d.LyDoVangMat like N'Khác' and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'khac1' " +
+                            "   , SUM(case when d.LyDoVangMat like N'Vô lý do' and h.Ca = '2' and d.DiLam = '0' then 1 else 0 end) as 'vld2' " +
+                            "   , sum(case when d.LyDoVangMat like N'Ốm'  and h.Ca = '2' and d.DiLam = '0' then 1 else 0 end) as 'om2' " +
+                            "   , SUM(case when d.LyDoVangMat like N'Nghỉ phép' and h.Ca = '2' and d.DiLam = '0' then 1 else 0 end) as 'p2' " +
+                            "   , SUM(case when d.LyDoVangMat like N'Khác' and h.Ca = '2' and d.DiLam = '0' then 1 else 0 end) as 'khac2' " +
+                            "   , SUM(case when d.LyDoVangMat like N'Vô lý do' and h.Ca = '3' and d.DiLam = '0' then 1 else 0 end) as 'vld3' " +
+                            "   , sum(case when d.LyDoVangMat like N'Ốm'  and h.Ca = '3' and d.DiLam = '0' then 1 else 0 end) as 'om3' " +
+                            "   , SUM(case when d.LyDoVangMat like N'Nghỉ phép' and h.Ca = '3' and d.DiLam = '0' then 1 else 0 end) as 'p3' " +
+                            "   , SUM(case when d.LyDoVangMat like N'Khác' and h.Ca = '3' and d.DiLam = '0' then 1 else 0 end) as 'khac3' " +
+                            "   , SUM(case when d.LyDoVangMat in (N'Tai nạn lao động',N'Ốm dài',N'Thai sản',N'Tạm hoãn lao động',N'Vô lý do dài') then 1 else 0 end) as 'tong_nghidai' " +
+                            " from NhanVien n left outer join DiemDanh_NangSuatLaoDong d on n.MaNV = d.MaNV " +
+                            " left outer join Header_DiemDanh_NangSuat_LaoDong h on d.HeaderID = h.HeaderID " +
+                            " where h.NgayDiemDanh = @day " +
+                            " group by n.MaPhongBan) b on a.MaPhongBan = b.MaPhongBan";
+            List<report> list = db.Database.SqlQuery<report>(sql, new SqlParameter("day", d)).ToList();
             foreach (var item in list)
             {
 
@@ -260,43 +260,43 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                 date = temp[2] + "-" + temp[1] + "-" + temp[0];
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-
-                    List<report> list = db.Database.SqlQuery<report>("select a.MaPhongBan,a.KT1,a.CD1,a.QL1,b.om1,b.vld1,b.p1,b.khac1,a.KT2,a.CD2,a.QL2,b.om2,b.vld2,b.p2,b.khac2,a.KT3,a.CD3,a.QL3,b.om3,b.vld3,b.p3,b.khac3,b.tong_nghidai,a.tong_DS, " +
-                                    "(case when a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 != 0 then (a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3) / (a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3) * 100 else 0 end) as 'tile'" +
-                                    " from (select n.MaPhongBan, sum(case when ncv.MaNhomCongViec = 6 and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'KT1' " +
-                                    "   , SUM(case when ncv.MaNhomCongViec = 7 and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'CD1' " +
-                                    "   , SUM(case when ncv.MaNhomCongViec = 10 and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'QL1' " +
-                                    "   , sum(case when ncv.MaNhomCongViec = 6 and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'KT2' " +
-                                    "   , SUM(case when ncv.MaNhomCongViec = 7 and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'CD2' " +
-                                    "   , SUM(case when ncv.MaNhomCongViec = 10 and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'QL2' " +
-                                    "   , sum(case when ncv.MaNhomCongViec = 6 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'KT3' " +
-                                    "   , SUM(case when ncv.MaNhomCongViec = 7 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'CD3' " +
-                                    "   , SUM(case when ncv.MaNhomCongViec = 10 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'QL3' " +
-                                    "   , count(n.MaNV) as 'tong_DS' " +
-                                    "   , sum(case when ncv.MaNhomCongViec = 10 then 1 else 0 end) as 'QL_CTy' " +
-                                    " from NhanVien n left outer join DiemDanh_NangSuatLaoDong d on n.MaNV = d.MaNV " +
-                                    " left outer join Header_DiemDanh_NangSuat_LaoDong h on d.HeaderID = h.HeaderID " +
-                                    " join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec " +
-                                    "join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec " +
-                                    " where h.NgayDiemDanh = @date" +
-                                    " group by n.MaPhongBan) a full join" +
-                                    "	(select n.MaPhongBan, SUM(case when d.LyDoVangMat like N'Vô lý do' and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'vld1'" +
-                                    "   , sum(case when d.LyDoVangMat like N'Ốm'  and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'om1'" +
-                                    "   , SUM(case when d.LyDoVangMat like N'Nghỉ phép' and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'p1'" +
-                                    "   , SUM(case when d.LyDoVangMat like N'Khác' and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'khac1'" +
-                                    "   , SUM(case when d.LyDoVangMat like N'Vô lý do' and h.Ca = '2' and d.DiLam = '0' then 1 else 0 end) as 'vld2'" +
-                                    "   , sum(case when d.LyDoVangMat like N'Ốm'  and h.Ca = '2' and d.DiLam = '0' then 1 else 0 end) as 'om2'" +
-                                    "   , SUM(case when d.LyDoVangMat like N'Nghỉ phép' and h.Ca = '2' and d.DiLam = '0' then 1 else 0 end) as 'p2'" +
-                                    "   , SUM(case when d.LyDoVangMat like N'Khác' and h.Ca = '2' and d.DiLam = '0' then 1 else 0 end) as 'khac2'" +
-                                    "   , SUM(case when d.LyDoVangMat like N'Vô lý do' and h.Ca = '3' and d.DiLam = '0' then 1 else 0 end) as 'vld3'" +
-                                    "   , sum(case when d.LyDoVangMat like N'Ốm'  and h.Ca = '3' and d.DiLam = '0' then 1 else 0 end) as 'om3'" +
-                                    "   , SUM(case when d.LyDoVangMat like N'Nghỉ phép' and h.Ca = '3' and d.DiLam = '0' then 1 else 0 end) as 'p3'" +
-                                    "   , SUM(case when d.LyDoVangMat like N'Khác' and h.Ca = '3' and d.DiLam = '0' then 1 else 0 end) as 'khac3'" +
-                                    "   , SUM(case when d.LyDoVangMat in (N'Tai nạn lao động',N'Ốm dài',N'Thai sản',N'Tạm hoãn lao động',N'Vô lý do dài') then 1 else 0 end) as 'tong_nghidai'" +
-                                    " from NhanVien n left outer join DiemDanh_NangSuatLaoDong d on n.MaNV = d.MaNV" +
-                                    " left outer join Header_DiemDanh_NangSuat_LaoDong h on d.HeaderID = h.HeaderID" +
-                                    " where h.NgayDiemDanh = @date" +
-                                    " group by n.MaPhongBan) b on a.MaPhongBan = b.MaPhongBan", new SqlParameter("date", date)).ToList();
+                    string sql = "select a.MaPhongBan,a.KT1,a.CD1,a.QL1,b.om1,b.vld1,b.p1,b.khac1,a.KT2,a.CD2,a.QL2,b.om2,b.vld2,b.p2,b.khac2,a.KT3,a.CD3,a.QL3,b.om3,b.vld3,b.p3,b.khac3,b.tong_nghidai,a.tong_DS,a.QL_CTy, " +
+                            "(case when a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 != 0 then (a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3) / (a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3) * 100 else 0 end) as 'tile' " +
+                            " from (select n.MaPhongBan, sum(case when ncv.MaNhomCongViec = 6 and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'KT1' " +
+                            "   , SUM(case when ncv.MaNhomCongViec = 7 and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'CD1' " +
+                            "   , SUM(case when ncv.MaNhomCongViec = 10 and h.Ca = '1' and d.DiLam = '1' then 1 else 0 end) as 'QL1' " +
+                            "   , sum(case when ncv.MaNhomCongViec = 6 and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'KT2' " +
+                            "   , SUM(case when ncv.MaNhomCongViec = 7 and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'CD2' " +
+                            "   , SUM(case when ncv.MaNhomCongViec = 10 and h.Ca = '2' and d.DiLam = '1' then 1 else 0 end) as 'QL2' " +
+                            "   , sum(case when ncv.MaNhomCongViec = 6 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'KT3' " +
+                            "   , SUM(case when ncv.MaNhomCongViec = 7 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'CD3' " +
+                            "   , SUM(case when ncv.MaNhomCongViec = 10 and h.Ca = '3' and d.DiLam = '1' then 1 else 0 end) as 'QL3'" +
+                            "   , count(n.MaNV) as 'tong_DS' " +
+                            "   , sum(case when ncv.MaNhomCongViec = 10 then 1 else 0 end) as 'QL_CTy' " +
+                            " from NhanVien n left outer join DiemDanh_NangSuatLaoDong d on n.MaNV = d.MaNV " +
+                            " left outer join Header_DiemDanh_NangSuat_LaoDong h on d.HeaderID = h.HeaderID " +
+                            " join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec " +
+                            "join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec " +
+                            " where h.NgayDiemDanh = @day " +
+                            " group by n.MaPhongBan) a full join " +
+                            "	(select n.MaPhongBan, SUM(case when d.LyDoVangMat like N'Vô lý do' and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'vld1' " +
+                            "   , sum(case when d.LyDoVangMat like N'Ốm'  and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'om1' " +
+                            "   , SUM(case when d.LyDoVangMat like N'Nghỉ phép' and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'p1' " +
+                            "   , SUM(case when d.LyDoVangMat like N'Khác' and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'khac1' " +
+                            "   , SUM(case when d.LyDoVangMat like N'Vô lý do' and h.Ca = '2' and d.DiLam = '0' then 1 else 0 end) as 'vld2' " +
+                            "   , sum(case when d.LyDoVangMat like N'Ốm'  and h.Ca = '2' and d.DiLam = '0' then 1 else 0 end) as 'om2' " +
+                            "   , SUM(case when d.LyDoVangMat like N'Nghỉ phép' and h.Ca = '2' and d.DiLam = '0' then 1 else 0 end) as 'p2' " +
+                            "   , SUM(case when d.LyDoVangMat like N'Khác' and h.Ca = '2' and d.DiLam = '0' then 1 else 0 end) as 'khac2' " +
+                            "   , SUM(case when d.LyDoVangMat like N'Vô lý do' and h.Ca = '3' and d.DiLam = '0' then 1 else 0 end) as 'vld3' " +
+                            "   , sum(case when d.LyDoVangMat like N'Ốm'  and h.Ca = '3' and d.DiLam = '0' then 1 else 0 end) as 'om3' " +
+                            "   , SUM(case when d.LyDoVangMat like N'Nghỉ phép' and h.Ca = '3' and d.DiLam = '0' then 1 else 0 end) as 'p3' " +
+                            "   , SUM(case when d.LyDoVangMat like N'Khác' and h.Ca = '3' and d.DiLam = '0' then 1 else 0 end) as 'khac3' " +
+                            "   , SUM(case when d.LyDoVangMat in (N'Tai nạn lao động',N'Ốm dài',N'Thai sản',N'Tạm hoãn lao động',N'Vô lý do dài') then 1 else 0 end) as 'tong_nghidai' " +
+                            " from NhanVien n left outer join DiemDanh_NangSuatLaoDong d on n.MaNV = d.MaNV " +
+                            " left outer join Header_DiemDanh_NangSuat_LaoDong h on d.HeaderID = h.HeaderID " +
+                            " where h.NgayDiemDanh = @day " +
+                            " group by n.MaPhongBan) b on a.MaPhongBan = b.MaPhongBan";
+                    List<report> list = db.Database.SqlQuery<report>(sql, new SqlParameter("day", date)).ToList();
                     foreach (var item in list)
                     {
 
@@ -552,7 +552,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                             " on h.HeaderID = d.HeaderID " +
                             " join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec " +
                             " join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec " +
-                            " group by n.MaPhongBan) as a) a", new SqlParameter("month", data[1]), new SqlParameter("year", data[2]),
+                            " group by n.MaPhongBan) as a) a", new SqlParameter("month", data[0]), new SqlParameter("year", data[1]),
                             new SqlParameter("start1", s + "-01"), new SqlParameter("end1", s + "-07"),
                             new SqlParameter("start2", s + "-08"), new SqlParameter("end2", s + "-14"),
                             new SqlParameter("start3", s + "-15"), new SqlParameter("end3", s + "-21"),
