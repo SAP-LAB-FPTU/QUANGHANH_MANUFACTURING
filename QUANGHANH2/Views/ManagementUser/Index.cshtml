@@ -24,10 +24,10 @@
     }
 
     .right-part {
-        width: calc(100% - 600px) !important;
+        width: calc(100% - 700px) !important;
         min-height: calc(100vh - 64px);
         overflow: auto;
-        margin-left: 600px !important;
+        margin-left: 700px !important;
     }
 
     .left-part.fixed-left-part {
@@ -39,7 +39,7 @@
     .left-part {
         margin-top: 50px !important;
         height: 100%;
-        width: 600px !important;
+        width: 700px !important;
         position: absolute;
         border-right: 1px solid rgba(120, 130, 140, 0.13);
     }
@@ -142,12 +142,13 @@
                         "data": "Username",
                         "render": function (data, type, row, meta) {
                             if (type === 'display') {
-                                data = '<a href="/ManagementUser/Index?username=' + data + '" onclick="showLoading()">' + data + '</a>';
+                                data = '<a href="/ManagementUser/Index?username=' + data + '"  onclick="showLoading()">' + data + '</a>';
                             }
                             return data;
                         }
                     },
-                    { "data": "Name" },
+                    { "data": "Name", },
+                    { "data": "department_name", "name": "department_name" },
                 ],
                 order: [[1, 'asc']],
                 orderCellsTop: true,
@@ -160,12 +161,12 @@
                     $(".pagination").addClass("center");
                     $("#table_account_info").remove();
                     ///
-                    $(IDs).each(function (index, value) {
-                        if (value === 1) {
-                            $(table.row(index).node()).addClass('not-selectable');
-                            $(table.row(index).node()).children('td').children('input').remove();
-                        }
-                    });
+                    //$(IDs).each(function (index, value) {
+                    //    if (value === 1) {
+                    //        //$(table.row(index).node()).addClass('not-selectable');
+                    //        //$(table.row(index).node()).children('td').children('input').remove();
+                    //    }
+                    //});
 
                     // Deselect unselectable rows (that can still be selected by using the shift key)...
                     table.on('select', function (e, dt, type, indexes) {
@@ -266,6 +267,7 @@
                                     <th>ID</th>
                                     <th>Tài khoản người dùng</th>
                                     <th>Họ tên</th>
+                                    <th>Phòng ban</th>
                                 </tr>
                             </thead>
                         </table>
@@ -286,35 +288,35 @@
                             <div class="row">
                                 <h5 class="center"><b>Thông tin chi tiết</b></h5>
 
-                                <div class="row" style="padding-left : 3rem">
+                                <div class="row m-t-10" style="padding-left : 3rem">
                                     <label class="control-label text-right">Họ tên</label>
                                     <input type="text" class="form-control" value="@Model.Name" id="txtName">
                                 </div>
-                                <div class="row" style="padding-left : 3rem">
+                                <div class="row m-t-10" style="padding-left : 3rem">
                                     <label class="control-label col-3 align-self-center text-right">Tên đăng nhập</label>
                                     <input type="text" class="form-control col 12" value="@Model.Username" id="txtUsername">
                                 </div>
-                                <div class="row" style="padding-left : 3rem">
+                                <div class="row m-t-10" style="padding-left : 3rem">
                                     <label class="control-label col-3 align-self-center text-right">Chức vụ</label>
                                     <input type="text" class="form-control col 12" value="@Model.Position" id="txtPosition">
                                 </div>
-                                <div class="row" style="padding-left : 3rem">
+                                <div class="row m-t-10" style="padding-left : 3rem">
                                     <label class="control-label col-3 align-self-center text-right">Mã nhân viên</label>
                                     <div class="linedisplay">
                                         <input type="text" class="form-control col 12" value="@Model.NVID" id="txtNVID" list="eqID">
                                     </div>
                                 </div>
-                                <div class="row" style="padding-left : 3rem">
+                                <div class="row m-t-10" style="padding-left : 3rem">
                                     <label class="control-label col-3 align-self-center text-right">Phòng ban</label>
                                     <div class="linedisplay">
                                         <input type="text" class="form-control col 12" value="" id="txtPB" readonly>
                                     </div>
                                 </div>
-                                <div class="row" style="padding-left : 3rem">
+                                <div class="row m-t-10" style="padding-left : 3rem">
                                     <label class="control-label col-3 align-self-center text-right">Mật khẩu</label>
                                     <input type="password" class="form-control col" id="txtPassword">
                                 </div>
-                                <div class="row" style="padding-left : 3rem">
+                                <div class="row m-t-10" style="padding-left : 3rem">
                                     <label class="control-label col-3 align-self-center text-right">Nhập lại mật khẩu</label>
                                     <input type="password" class="form-control col" id="txtRepeatPassword">
                                 </div>
@@ -876,6 +878,11 @@
         //    document.getElementById("notifyMessage").innerHTML = "Vui lòng chờ!";
         //    $("#modalNotify").modal();
         //} else {
+        if (document.getElementById('MaPB').value == '') {
+            $("#modalNotify").modal('open');
+            document.getElementById("notifyMessage").innerHTML = 'Mã nhân viên không thể để trống';
+            return false;
+        }
         $('#pre-load').show();
         var module1 = $('#module1').val();
         var module2 = $('#module2').val();
@@ -1029,8 +1036,12 @@
         //    document.getElementById("notifyMessage").innerHTML = "Vui lòng chờ!";
         //    $("#modalNotify").modal('open');
         //} else {
+        if (document.getElementById("txtNVID").value == '') {
+            $("#modalNotify").modal('open');
+            document.getElementById("notifyMessage").innerHTML = 'Mã nhân viên không thể để trống';
+            return false;
+        }
         $('#pre-load').show();
-
         var module1 = $('#module1').val();
         var module2 = $('#module2').val();
         var module3 = $('#module3').val();
