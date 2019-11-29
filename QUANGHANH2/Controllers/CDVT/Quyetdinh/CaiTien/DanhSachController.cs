@@ -200,16 +200,20 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
             List<Documentary_Extend> documentaryList = new List<Documentary_Extend>();
-            DateTime dtEnd;
             DateTime dtStart;
+            DateTime dtEnd;
             try
             {
-                if (dateStart == "Nhập ngày bắt đầu (từ)") dateStart = "01/01/1900";
-                dtStart = DateTime.ParseExact(dateStart, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                if (dateEnd == "Nhập ngày kết thúc (đến)") dtEnd = DateTime.Now;
-                else dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                dtEnd = dtEnd.AddHours(23);
-                dtEnd = dtEnd.AddMinutes(59);
+                if (!DateTime.TryParseExact(dateStart, "dd/MM/yyyy", null, DateTimeStyles.None, out dtStart)) dtStart = DateTime.MinValue;
+                else dtStart = DateTime.ParseExact(dateStart, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                if (!DateTime.TryParseExact(dateEnd, "dd/MM/yyyy", null, DateTimeStyles.None, out dtEnd)) dtEnd = DateTime.MaxValue;
+                else
+                {
+                    dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    dtEnd = dtEnd.AddHours(23);
+                    dtEnd = dtEnd.AddMinutes(59);
+                    dtEnd = dtEnd.AddSeconds(59);
+                }
             }
             catch
             {
@@ -231,7 +235,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
                                    reason = document.reason,
                                    out_in_come = document.out_in_come,
                                    count = temporary.Select(x => new { x.equipmentId }).Count()
-                               }).ToList().Select(p => new Documentary_Extend
+                               }).OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList().Select(p => new Documentary_Extend
                                {
                                    documentary_id = p.documentary_id,
                                    documentary_code = p.documentary_code,
@@ -241,26 +245,22 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
                                    out_in_come = p.out_in_come,
                                    count = p.count
                                }).ToList();
-            foreach (var el in documentaryList)
-            {
-                if (el.documentary_code == null || el.documentary_code.Equals(""))
-                {
-                    el.tempId = el.documentary_id + "^false";
-                }
-                else
-                {
-                    el.tempId = el.documentary_id + "^true^" + el.documentary_code;
-                }
+            int totalrows = (from document in db.Documentaries
+                             where document.documentary_type.Equals(7) && document.person_created.Contains(person_created) && (document.date_created >= dtStart && document.date_created <= dtEnd) && document.documentary_code == null
+                             join detail in db.Documentary_Improve_Detail on document.documentary_id equals detail.documentary_id
+                             into temporary
+                             select new
+                             {
+                                 documentary_id = document.documentary_id,
+                                 documentary_code = document.documentary_code,
+                                 date_created = document.date_created,
+                                 person_created = document.person_created,
+                                 reason = document.reason,
+                                 out_in_come = document.out_in_come,
+                                 count = temporary.Select(x => new { x.equipmentId }).Count()
+                             }).Count();
 
-            }
-            int totalrows = documentaryList.Count;
-            int totalrowsafterfiltering = documentaryList.Count;
-            //sorting
-            documentaryList = documentaryList.OrderBy(sortColumnName + " " + sortDirection).ToList<Documentary_Extend>();
-            //paging
-            documentaryList = documentaryList.Skip(start).Take(length).ToList<Documentary_Extend>();
-
-            return Json(new { success = true, data = documentaryList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true, data = documentaryList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
         }
 
         public void ExportExcel()
