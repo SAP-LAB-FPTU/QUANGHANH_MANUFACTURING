@@ -195,7 +195,7 @@
     <Compile Include="Controllers\CDVT\Cap_nhat\CapnhathoatdongController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\CapnhatsucoController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\ChitietController.cs" />
-    <Compile Include="Controllers\CDVT\Cap_nhat\Chitiet\QDCaitienController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\CaiTien\XuLyQuyetDinhController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\Chitiet\VattucuaQDController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\Chitiet\QDBaoduongController.cs" />
     <Compile Include="Controllers\CDVT\Cap_nhat\Chitiet\QDDieudongController.cs" />
@@ -228,7 +228,7 @@
     <Compile Include="Controllers\CDVT\Oto\NhomotoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\SuachuahangngayController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\BaoduongController.cs" />
-    <Compile Include="Controllers\CDVT\Quyetdinh\CaitienController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\CaiTien\DanhSachController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ChitietBaoduongController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ChitietKiemdinhController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ChiTietQuyetDInhController.cs" />
@@ -275,8 +275,8 @@
     <Compile Include="Controllers\CDVT\Vattu\XincapvattuSummaryController.cs" />
     <Compile Include="Controllers\CDVT\Work\BaoduongchonController.cs" />
     <Compile Include="Controllers\CDVT\Work\baoduongController.cs" />
-    <Compile Include="Controllers\CDVT\Work\CaiTien\ChonThietBiController.cs" />
-    <Compile Include="Controllers\CDVT\Work\CaiTien\ThemCaiTienController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\CaiTien\ChonThietBiController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\CaiTien\ThemCaiTienController.cs" />
     <Compile Include="Controllers\CDVT\Work\DieudongchonController.cs" />
     <Compile Include="Controllers\CDVT\Work\dieudongController.cs" />
     <Compile Include="Controllers\CDVT\Work\suachuachonController.cs" />
@@ -623,9 +623,6 @@
     </Compile>
     <Compile Include="Models\Supply_Extend.cs" />
     <Compile Include="Models\Supply_tieuhao.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TaiNan.cs">
@@ -7135,6 +7132,8 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="excel\DK\DanhSachTaiNan.xlsx" />
+    <Content Include="excel\DK\DanhSachTaiNan-download.xlsx" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
@@ -7460,6 +7459,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Controllers\CDVT\Work\CaiTien\" />
     <Folder Include="excel\Notifi\download\" />
     <Folder Include="FileContainer\KCS\" />
     <Folder Include="FileContainer\PhanXuongLenDK\" />
