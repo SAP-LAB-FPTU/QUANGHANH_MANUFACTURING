@@ -129,32 +129,34 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
 
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    var equipList = db.Database.SqlQuery<EquipWithName>("SELECT e.[equipmentId],e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
-               "from Equipment e, Department d, Equipment_category ec,Status s, " +
-               "(select distinct e.equipmentId, e.equipment_name from Equipment e inner join Equipment_category_attribute ea on ea.Equipment_category_id = e.Equipment_category_id where ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') a" +
-               " where a.equipmentId = e.equipmentId and e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id AND e.current_Status = s.statusid").ToList();
-
+                    string sql = @"select e.*, c.sokhung, c.somay, c.GPS, ec.Equipment_category_name, d.Department_Name
+                            from Equipment e inner join Car c on e.equipmentId = c.equipmentId
+				            inner join Equipment_category ec on e.Equipment_category_id = ec.Equipment_category_id
+				            inner join Department d on e.department_id = d.department_id";
+                    var equipList = db.Database.SqlQuery<EquipWithName>(sql).ToList();
 
                     int k = 2;
                     for (int i = 0; i < equipList.Count; i++)
                     {
                         excelWorksheet.Cells[k, 1].Value = equipList.ElementAt(i).equipmentId;
                         excelWorksheet.Cells[k, 2].Value = equipList.ElementAt(i).equipment_name;
-                        excelWorksheet.Cells[k, 3].Value = equipList.ElementAt(i).supplier;
-                        excelWorksheet.Cells[k, 4].Value = equipList.ElementAt(i).date_import.ToString("dd/MM/yyyy");
-                        excelWorksheet.Cells[k, 5].Value = equipList.ElementAt(i).depreciation_estimate;
-                        excelWorksheet.Cells[k, 6].Value = equipList.ElementAt(i).depreciation_present;
-                        excelWorksheet.Cells[k, 7].Value = equipList.ElementAt(i).durationOfInspection_fix;
-                        excelWorksheet.Cells[k, 8].Value = equipList.ElementAt(i).durationOfInsurance.ToString("dd/MM/yyyy");
-                        excelWorksheet.Cells[k, 9].Value = equipList.ElementAt(i).usedDay.ToString("dd/MM/yyyy");
-                        excelWorksheet.Cells[k, 10].Value = equipList.ElementAt(i).total_operating_hours;
-                        excelWorksheet.Cells[k, 11].Value = equipList.ElementAt(i).current_Status;
-                        excelWorksheet.Cells[k, 12].Value = equipList.ElementAt(i).fabrication_number;
-                        excelWorksheet.Cells[k, 13].Value = equipList.ElementAt(i).mark_code;
-                        excelWorksheet.Cells[k, 14].Value = equipList.ElementAt(i).quality_type;
-                        excelWorksheet.Cells[k, 15].Value = equipList.ElementAt(i).input_channel;
-                        excelWorksheet.Cells[k, 16].Value = equipList.ElementAt(i).Equipment_category_name;
-                        excelWorksheet.Cells[k, 17].Value = equipList.ElementAt(i).department_name;
+                        excelWorksheet.Cells[k, 3].Value = equipList.ElementAt(i).sokhung;
+                        excelWorksheet.Cells[k, 4].Value = equipList.ElementAt(i).somay;
+                        excelWorksheet.Cells[k, 5].Value = equipList.ElementAt(i).supplier;
+                        excelWorksheet.Cells[k, 6].Value = equipList.ElementAt(i).date_import.ToString("dd/MM/yyyy");
+                        excelWorksheet.Cells[k, 7].Value = equipList.ElementAt(i).depreciation_estimate;
+                        excelWorksheet.Cells[k, 8].Value = equipList.ElementAt(i).depreciation_present;
+                        excelWorksheet.Cells[k, 9].Value = equipList.ElementAt(i).durationOfInspection_fix;
+                        excelWorksheet.Cells[k, 10].Value = equipList.ElementAt(i).durationOfInsurance.ToString("dd/MM/yyyy");
+                        excelWorksheet.Cells[k, 11].Value = equipList.ElementAt(i).usedDay.ToString("dd/MM/yyyy");
+                        excelWorksheet.Cells[k, 12].Value = equipList.ElementAt(i).total_operating_hours;
+                        excelWorksheet.Cells[k, 13].Value = equipList.ElementAt(i).current_Status;
+                        excelWorksheet.Cells[k, 14].Value = equipList.ElementAt(i).mark_code;
+                        excelWorksheet.Cells[k, 15].Value = equipList.ElementAt(i).fabrication_number;
+                        excelWorksheet.Cells[k, 16].Value = equipList.ElementAt(i).quality_type;
+                        excelWorksheet.Cells[k, 17].Value = equipList.ElementAt(i).input_channel;
+                        excelWorksheet.Cells[k, 18].Value = equipList.ElementAt(i).Equipment_category_name;
+                        excelWorksheet.Cells[k, 19].Value = equipList.ElementAt(i).department_name;
                         k++;
                     }
                     excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath("/excel/CDVT/download/baocaohoatdong.xlsx")));
