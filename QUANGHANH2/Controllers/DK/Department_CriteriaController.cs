@@ -89,7 +89,7 @@ namespace QUANGHANH2.Controllers.DK
                 var month = Int32.Parse(Request["month"]);
                 var year = Int32.Parse(Request["year"]);
                 var departmentID = Request["department"];
-                var criteria = Request["crỉteria"];
+                var criteria = Request["criteria"];
                 string sqlDelete = "Delete PhongBan_TieuChi where MaTieuChi = "+ criteria +" and MaPhongBan = '"+ departmentID +"' and Thang = "+ month +" and Nam = "+ year +"";
                 using (QUANGHANHABCEntities db =  new QUANGHANHABCEntities())
                 {
