@@ -229,7 +229,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                     {
                         for (int j = 0; j < listKH.Count; j++)
                         {
-                            if(listSX[i].TenTieuChi.Equals(listKH[j].TenTieuChi))
+                            if (listSX[i].TenTieuChi.Equals(listKH[j].TenTieuChi))
                             {
                                 listSX[i].KeHoach = listKH[j].KeHoach;
                                 break;
@@ -237,7 +237,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                         }
                         for (int k = 0; k < listKHDC.Count; k++)
                         {
-                            if(listSX[i].TenTieuChi.Equals(listKHDC[k].TenTieuChi))
+                            if (listSX[i].TenTieuChi.Equals(listKHDC[k].TenTieuChi))
                             {
                                 listSX[i].KHDC = listKHDC[k].KHDC;
                                 break;
@@ -267,44 +267,44 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                 try
                 {
                     ngay_SX_now = listSX.ElementAt(0).NgaySanXuat;
-                
 
-                foreach (var item in listSX)
-                {
-                    item.chenhlech = (Math.Round(Convert.ToDouble(item.SanLuong) - Convert.ToDouble(item.KeHoach), 2)).ToString();
-                    if (Convert.ToDouble(item.KeHoach) == 0)
+
+                    foreach (var item in listSX)
                     {
-                        item.percentDay = 0 + "";
+                        item.chenhlech = (Math.Round(Convert.ToDouble(item.SanLuong) - Convert.ToDouble(item.KeHoach), 2)).ToString();
+                        if (Convert.ToDouble(item.KeHoach) == 0)
+                        {
+                            item.percentDay = 0 + "";
+                        }
+                        else
+                        {
+                            item.percentDay = (Math.Round(Convert.ToDouble(item.SanLuong) / Convert.ToDouble(item.KeHoach) * 100, 2)).ToString();
+                        }
+                        if (Convert.ToDouble(item.KHDC) == 0)
+                        {
+                            item.percentMonth = 0 + "";
+                        }
+                        else
+                        {
+                            item.percentMonth = (Math.Round(Convert.ToDouble(item.LuyKe) / Convert.ToDouble(item.KHDC) * 100, 2)).ToString();
+                        }
+                        item.luyke_temp = (Math.Round(Convert.ToDouble(item.LuyKe), 2)).ToString();
+                        item.tong = (Math.Round(Convert.ToDouble(item.KHDC) - Convert.ToDouble(item.luyke_temp), 2)).ToString();
+                        if (Convert.ToDouble(ngaySX - item.NgaySanXuat) <= 0)
+                        {
+                            item.OneDay = 0 + "";
+                        }
+                        else
+                        {
+                            item.OneDay = (Math.Round(Convert.ToDouble(item.tong) / Convert.ToDouble(ngaySX - item.NgaySanXuat), 2)).ToString();
+                        }
+                        item.LuyKe = (Math.Round(Convert.ToDouble(item.LuyKe) - Convert.ToDouble(item.SanLuong), 2));
                     }
-                    else
-                    {
-                        item.percentDay = (Math.Round(Convert.ToDouble(item.SanLuong) / Convert.ToDouble(item.KeHoach) * 100, 2)).ToString();
-                    }
-                    if (Convert.ToDouble(item.KHDC) == 0)
-                    {
-                        item.percentMonth = 0 + "";
-                    }
-                    else
-                    {
-                        item.percentMonth = (Math.Round(Convert.ToDouble(item.LuyKe) / Convert.ToDouble(item.KHDC) * 100, 2)).ToString();
-                    }
-                    item.luyke_temp = (Math.Round(Convert.ToDouble(item.LuyKe), 2)).ToString();
-                    item.tong = (Math.Round(Convert.ToDouble(item.KHDC) - Convert.ToDouble(item.luyke_temp), 2)).ToString();
-                    if (Convert.ToDouble(ngaySX - item.NgaySanXuat) <= 0)
-                    {
-                        item.OneDay = 0 + "";
-                    }
-                    else
-                    {
-                        item.OneDay = (Math.Round(Convert.ToDouble(item.tong) / Convert.ToDouble(ngaySX - item.NgaySanXuat), 2)).ToString();
-                    }
-                    item.LuyKe = (Math.Round(Convert.ToDouble(item.LuyKe) - Convert.ToDouble(item.SanLuong), 2));
-                }
                 }
                 catch (Exception e)
                 {
                     e.Message.ToString();
-                    return Json(new { success = false, message = "Tháng chưa có kế hoạch cho tiêu chí"}, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = false, message = "Tháng chưa có kế hoạch cho tiêu chí" }, JsonRequestBehavior.AllowGet);
                 }
             }
             catch (Exception e)
@@ -316,6 +316,12 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
         public class MaxKHDate : KeHoach_TieuChi_TheoThang
         {
             public DateTime Max { get; set; }
+        }
+        public class Save_TH : header_ThucHienTheoNgay
+        {
+            public int MaTieuChi { get; set; }
+            public float SanLuong { get; set; }
+            public string GhiChu { get; set; }
         }
 
         public JsonResult SaveChange(string ngaySX, string ngayNhap, string px_value, string ca_value, string[] tenTieuChi,
@@ -338,12 +344,40 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                     DateTime ngaySXFix = Convert.ToDateTime(ngayNhap.Split('/')[1] + "/" + ngayNhap.Split('/')[0] + "/" + ngayNhap.Split('/')[2]);
                     List<TieuChi> list = db.TieuChis.ToList();
                     int[] maTieuChi = new int[tenTieuChi.Length];
+
                     ThucHien_TieuChi_TheoNgay thtctn = new ThucHien_TieuChi_TheoNgay();
                     if (!ngayNhap.Equals(""))
                     {
                         month = Convert.ToInt32(ngayNhap.Split('/')[1]);
                         year = Convert.ToInt32(ngayNhap.Split('/')[2]);
-                        List<header_ThucHienTheoNgay> checkList = db.header_ThucHienTheoNgay.Where(x => x.MaPhongBan == px_value && x.Ca == ca && x.Ngay == dateTime).ToList();
+                        string queryTH = @"select th.MaTieuChi from header_ThucHienTheoNgay he 
+                                        left join ThucHien_TieuChi_TheoNgay th 
+                                        on he.HeaderID = th.HeaderID where he.MaPhongBan = @maPhongBan 
+                                        and he.Ca = @ca and he.Ngay = @ngay";
+                        List<Save_TH> checkList = db.Database.SqlQuery<Save_TH>(queryTH, new SqlParameter("maPhongBan", px_value),
+                                                                                         new SqlParameter("ca", ca),
+                                                                                         new SqlParameter("ngay", ngayNhap)).ToList();
+                        bool flag = true;
+                        string tenTC = "";
+                        if (checkList.Count != tenTieuChi.Length)
+                        {
+                            for (int i = 0; i < checkList.Count; i++)
+                            {
+                                for (int j = 0; j < tenTieuChi.Length; j++)
+                                {
+                                    if (checkList[i].MaTieuChi.Equals(tenTieuChi[j]))
+                                    {
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        tenTC = tenTieuChi[j];
+                                        break;
+                                    }
+                                }
+                            }
+
+                        }
                         List<header_KeHoach_TieuChi_TheoNgay> checkList2 = db.header_KeHoach_TieuChi_TheoNgay.Where(x => x.MaPhongBan == px_value && x.Ca == ca && x.NgayNhapKH == dateTime).ToList();
                         int caSXConvert = Convert.ToInt32(ca_value);
                         KeHoach_TieuChi_TheoThang khMonth = new KeHoach_TieuChi_TheoThang();
