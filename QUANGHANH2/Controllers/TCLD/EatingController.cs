@@ -20,7 +20,7 @@ namespace QUANGHANH2.Controllers.TCLD
         //{
         //    return View("/Views/PX/PXDS/Input.cshtml");
         //}
-        [HttpGet]
+        [HttpPost]
         public ActionResult searchSuatAn(String data, DateTime time)
         {
             int start = Convert.ToInt32(Request["start"]);
@@ -172,13 +172,13 @@ namespace QUANGHANH2.Controllers.TCLD
             }
         }
         // display suat an
-        [HttpGet]
+        [HttpPost]
         public ActionResult getDataSuatAn(DateTime time)
         {
             int start = Convert.ToInt32(Request["start"]);
             int length = Convert.ToInt32(Request["length"]);
             DateTime now = time;
-            now = now.AddDays(1);
+            now = now.AddDays(0);
             DateTime dayStart;
             switch (now.DayOfWeek)
             {
@@ -323,12 +323,12 @@ namespace QUANGHANH2.Controllers.TCLD
         }
 
 
-        [HttpPost]
+        [HttpGet]
         public ActionResult ExportExcel(DateTime time)
         {
 
             DateTime now = time;
-            now = now.AddDays(1);
+            now = now.AddDays(0);
             DateTime dayStart;
             switch (now.DayOfWeek)
             {
