@@ -1,688 +1,204 @@
 ﻿
 @{
-    ViewBag.Title = "Factory";
+    ViewBag.Title = "MonthlyQuarterlyReport";
     Layout = "~/Views/Shared/_Layout_BGD2.cshtml";
+
 }
-
-<!--UPLOADER-->
-@*<link href="~/assets/uploader/style_uploader.css" rel="stylesheet" />*@
-<link href="~/assets/uploader/dropzone.min.css" rel="stylesheet" />
-<link href="~/assets/uploader/icons.min.css" rel="stylesheet" />
-<link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
-<link href="~/assets/libs/toastr/build/toastr.min.css" rel="stylesheet">
-
+<link href="~/assets/Custom css/TABLE_BORDERED.css" rel="stylesheet" />
+<link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
 <style>
-    .file-description1 {
-        width: 120px !important;
+    #table-container {
+        overflow: scroll;
     }
 
-    .file-description2 {
-        width: 120px !important;
+    #yearCalendar {
+        width: 20% !important;
+        float: right;
     }
 
-    .file-description3 {
-        width: 120px !important;
+    #view-btn {
+        width: 170px;
+        float: left;
     }
-
-    .dropzone .dz-preview .dz-progress .dz-upload {
-        background: #29bb22 !important;
-        background: linear-gradient(to bottom, #7ceb69, #29bb22) !important;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 0;
-        -webkit-transition: width 300ms ease-in-out;
-        -moz-transition: width 300ms ease-in-out;
-        -o-transition: width 300ms ease-in-out;
-        transition: width 300ms ease-in-out;
+    /*.sticky + .table-content {
+      padding-top: 102px;
     }
-
-    .files-container {
-        margin-left: 15px;
-    }
-
-    #files-table .file-td {
-        text-align: left !important;
-    }
+        .sticky {
+      position: fixed;
+      top: 0;
+      width: 100%;
+    }*/
 </style>
-@{
-    //var listFiles =@Html.Raw(Json.Encode(ViewBag.listFiles));
-    var listFiles = ViewBag.listFiles;
-    var listPX = ViewBag.listPX;
-    var ca1Number = 0;
-    var phanxuong = ViewBag.phanxuong;
-    var ca2Number = 0;
-    var isLock = ViewBag.isLock;
-    var ca3Number = 0;
-    if (listFiles != null && phanxuong.ToLower() != "kcs")
-    {
-        for (int i = 0; i < listFiles.Count; i++)
-        {
-            switch (listFiles[i].ca)
-            {
-                case 1:
-                    ca1Number++;
-                    break;
-                case 2:
-                    ca2Number++;
-                    break;
-                case 3:
-                    ca3Number++;
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-}
+
 <div class="card">
     <div class="card-content">
         <div class="row">
-            <div class="center black-text">
-                <h3><b>BÁO CÁO PHÂN XƯỞNG</b></h3>
-                <h5>
-                    <i class="fas fa-calendar-alt icon"></i>
-                    <input type='text' class='datepicker-here center' id="ngay-chon" data-language='vi' />
-                </h5>
-            </div>
+            <div class="center black-text row">
+                <h3>
+                    <b>
+                        BÁO CÁO CÁC PHÂN XƯỞNG THEO NGÀY
+                    </b>
+                </h3>
 
+                <div class="row">
+                    <h3>
+                        <div class="col l6 m6 s6">
+                            <input id="yearCalendar" class=" datepicker-here datepicker-add center"
+                                   data-language='vi'
+                                   data-date-format="dd-mm-yyyy"
+                                   required />
+                        </div>
+                    </h3>
+                    <div class="col l6 m6 s6">
+                        <a id="view-btn" class="waves-effect waves-light btn blue darken-2" onclick="getInformation()">XEM</a>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <hr>
+            <br />
         </div>
         <div class="row">
-            <div class="col l4 m4 s3 center"></div>
-            <div style="width:25%" class="col l5 m5 s5 left">
-                <select class="form-control" id="phongbanSearch">
-                    @{
-                        if (ViewBag.phanxuong == null)
-                        {
-                            <option value="all" selected>Tất cả phòng ban</option>
-                        }
-                        else
-                        {
-                            <option value="all">Tất cả phòng ban</option>
-                        }
-                        for (int i = 0; i < listPX.Count; i++)
-                        {
-                            if (listPX[i].department_id == ViewBag.phanxuong)
-                            {
-                                <option value="@(listPX[i].department_id)" selected>@(listPX[i].department_name)</option>
-                            }
-                            else
-                            {
-                                <option value="@(listPX[i].department_id)">@(listPX[i].department_name)</option>
-                            }
-                        }
-                    }
-
-                </select>
-            </div>
-            <div class="col l3 m3 s3 left">
-                <button style="width:25%" class="btn blue waves-effect waves-light" id="view-btn-trigger">Xem</button>
-            </div>
+            <a id="export-button" class="waves-effect waves-light btn blue">Xuất ra file excel</a>
         </div>
+        <br />
+        <div class="row" id="table-container">
+            <table class="centered highlight responsive-table striped responsive-table table-bordered" id="reportTable">
+                <thead id="tableHeader">
+                    <tr>
+                        <th rowspan="2">STT</th>
+                        <th rowspan="2">TOÀN CÔNG TY</th>
+                        <th rowspan="2">BQKHDC THÁNG</th>
+                        <th colspan="7" id="date-cell"></th>
+                        <th colspan="3" id="month-cell"></th>
+                        <th colspan="2">C.LẠI THEO KHĐC</th>
+                        <th rowspan="2">GHI CHÚ</th>
+                    </tr>
+                    <tr>
+                        <th>K1</th>
+                        <th>K2</th>
+                        <th>K3</th>
+                        <th><b>TH</b></th>
+                        <th><b>KH</b></th>
+                        <th>C.Lệch</th>
+                        <th>%</th>
+                        <th>Lũy kế</th>
+                        <th>KHĐC(Tăng 3-5%)</th>
+                        <th>% ĐC</th>
+                        <th>Tổng</th>
+                        <th>1 Ngày</th>
+                    </tr>
+                </thead>
+                <tbody class="table-content"></tbody>
+            </table>
+            <div id="bottom_anchor"></div>
+        </div>
+    </div>
+</div>
 
-        <hr />
-        <div class="row" id="main-content">
-            <div class="col s12">
+<span hidden value="hihi" id="createdHeader"></span>
+<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
+<script src="~/js/Custom JS/Disable_input_material.js"></script>
+<script src="~/js/Custom JS/form-input-border.js"></script>
+<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="/Scripts/jquery.validate.min.js"></script>
+<script src="/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="/Scripts/notify.min.js"></script>
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+<script>
+    $(document).ready(function () {
+        let count = 0;
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        let count = 0;
+    });
 
-                <div class="card-content">
-                    @if (phanxuong.ToLower() != "kcs" && phanxuong.ToLower() != "all")
-                    {
-                        <h5 class="">Báo cáo từng ca</h5>
+    function changeDateFormat(date) {
+        var x = date.split("-")
+        return x[2] + '-' + x[1] + '-' + x[0];
+    }
+
+    function getInformation() {
+        $("#pre-load").show("slow", function () { });
+        $.ajax({
+            type: 'post',
+            url: '/ban-giam-doc/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty-theo-phan-xuong',
+            data: {
+                'date': changeDateFormat($("#yearCalendar").val()),
+            },
+            success: function (response) {
+                data = JSON.parse(response.data);
+                content = "";
+                var ngay = $("#yearCalendar").val().split("-")[0];
+                var thang= $("#yearCalendar").val().split("-")[1];
+                var nam = $("#yearCalendar").val().split("-")[2];
+                $("#date-cell").text("Ngày "+ngay +" tháng "+thang+" năm "+nam);
+                $("#month-cell").text("Tháng "+thang);
+                tieuchiName = ["TenTieuChi", "BQQHDC", "Ca1", "Ca2", "Ca3", "TH", "KH", "chenhlech", "percentage", "luyke", "KHDC", "percentageDC", "SUM", "perday", "GhiChu"]
+                let count = 1;
+                for (let index = 0; index < data.length; index++) {
+                    content += "<tr>"
+                    if (data[index]["isHeader"]) {
+                        content += "<td colspan=\"16\"><b>" + data[index]["TenPhongBan"] + "</b></td>"
+                        count = 1;
                     }
-                    <br />
-                    <ul class="collapsible expandable">
-                        @{
-                            if (phanxuong.ToLower() != "kcs" && phanxuong.ToLower() != "all")
-                            {
-                                if (listFiles != null)
-                                {
-                                    <!--CA1-->
-                                    if (ca1Number == 0)
-                                    {
-                                        <li class=" not-collapse">
-                                            <div class="collapsible-header">
-                                                <i class="fas fa-paperclip"></i>Ca 1
-                                                <div class="switch" id="switch-ca1">
-                                                    <label>
-                                                        <input @(ViewBag.ca1IsLock == true ? "checked" : "") type="checkbox">
-                                                        <span class="lever"></span>
-                                                        Khóa
-                                                    </label>
-                                                </div>
-                                                <span id="ca1" class="badge">Không có tệp nào</span>
-                                            </div>
-                                            <div class="collapsible-body">
-                                                <div class="row">
-                                                    <div class="col s12">
-                                                        <i>Chưa có file nào</i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
+                    //
+                    if (!data[index]["isHeader"]) {
+                        content += "<td>" + count + "</td>";
+                        for (let i = 0; i < tieuchiName.length; i++) {
+                            if (data[index][tieuchiName[i]] != null) {
+                                if (tieuchiName[i] == "chenhlech") {
+                                    if (data[index][tieuchiName[i]] > 0) {
+                                        content += "<td><b><span class=\"green-text\">" + data[index][tieuchiName[i]] + "</span></b></td>"
+                                    } else {
+                                        content += "<td><b><span class=\"red-text\">" + data[index][tieuchiName[i]] + "</span></b></td>"
                                     }
-                                    else
-                                    {
-                                        <li class="active not-collapse">
-                                            <div class="collapsible-header">
-                                                <i class="fas fa-paperclip"></i>Ca 1
-                                                <div class="switch" id="switch-ca1">
-                                                    <label>
-                                                        <input @(ViewBag.ca1IsLock == true ? "checked" : "") type="checkbox">
-                                                        <span class="lever"></span>
-                                                        Khóa
-                                                    </label>
-                                                </div>
-                                                <span id="ca1" class="badge">
-                                                    @ca1Number tệp
-                                                </span>
-
-                                            </div>
-                                            <div class="collapsible-body">
-                                                @for (int i = 0; i < listFiles.Count; i++)
-                                                {
-                                                    if (listFiles[i].ca == 1)
-                                                    {
-                                                        <p>
-                                                            <img width="25" style="vertical-align:middle" src="~/assets/uploader/file-icon.png" />
-                                                            <a href="/phan-xuong/download-file?location=/phan-xuong/download-file?location=~/FileContainer/PhanXuongLenDK/@listFiles[i].fileName&fileName=@listFiles[i].fileNameDisplay&fileName=@listFiles[i].fileNameDisplay">@listFiles[i].fileNameDisplay</a>
-                                                            @if (listFiles[i].chuthich != "")
-                                                            {
-                                                                <i> (Ghi chú: @listFiles[i].chuthich )</i>
-                                                            }
-
-                                                        </p>
-                                                    }
-                                                }
-
-                                            </div>
-                                        </li>
-                                    }
-
-                                    <!--CA2-->
-                                    if (ca2Number == 0)
-                                    {
-                                        <li class="not-collapse">
-                                            <div class="collapsible-header">
-                                                <i class="fas fa-paperclip"></i>Ca 2
-                                                <div class="switch" id="switch-ca2">
-                                                    <label>
-
-                                                        <input @(ViewBag.ca2IsLock == true ? "checked" : "") type="checkbox">
-                                                        <span class="lever"></span>
-                                                        Khóa
-                                                    </label>
-                                                </div>
-                                                <span id="ca2" class="badge">Không có tệp nào</span>
-                                            </div>
-                                            <div class="collapsible-body">
-                                                <div class="row">
-                                                    <div class="col s12">
-                                                        <i>Chưa có file nào</i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    }
-                                    else
-                                    {
-                                        <li class="active not-collapse">
-                                            <div class="collapsible-header">
-                                                <i class="fas fa-paperclip"></i>Ca 2
-                                                <div class="switch" id="switch-ca2">
-                                                    <label>
-
-                                                        <input @(ViewBag.ca2IsLock == true ? "checked" : "") type="checkbox">
-                                                        <span class="lever"></span>
-                                                        Khóa
-                                                    </label>
-                                                </div>
-                                                <span id="ca2" class="badge">@ca2Number tệp</span>
-                                            </div>
-                                            <div class="collapsible-body" style="display: block;">
-                                                @for (int i = 0; i < listFiles.Count; i++)
-                                                {
-                                                    if (listFiles[i].ca == 2)
-                                                    {
-                                                        <p>
-                                                            <img width="25" style="vertical-align:middle" src="~/assets/uploader/file-icon.png" />
-                                                            <a href="/phan-xuong/download-file?location=~/FileContainer/PhanXuongLenDK/@listFiles[i].fileName&fileName=@listFiles[i].fileNameDisplay">@listFiles[i].fileNameDisplay</a>
-                                                            @if (listFiles[i].chuthich != "")
-                                                            {
-                                                                <i> (Ghi chú: @listFiles[i].chuthich )</i>
-                                                            }
-
-                                                        </p>
-                                                    }
-                                                }
-
-                                            </div>
-                                        </li>
-                                    }
-
-                                    <!--CA3-->
-
-                                    if (ca3Number == 0)
-                                    {
-                                        <li class="not-collapse">
-                                            <div class="collapsible-header">
-                                                <i class="fas fa-paperclip"></i>Ca 3
-                                                <div class="switch" id="switch-ca3">
-                                                    <label>
-
-                                                        <input @(ViewBag.ca3IsLock == true ? "checked" : "") type="checkbox">
-                                                        <span class="lever"></span>
-                                                        Khóa
-
-                                                    </label>
-                                                </div>
-                                                <span id="ca1" class="badge">Không có tệp nào</span>
-                                            </div>
-                                            <div class="collapsible-body">
-                                                <div class="row">
-                                                    <div class="col s12">
-                                                        <i>Chưa có file nào</i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    }
-                                    else
-                                    {
-                                        <li class="active not-collapse">
-                                            <div class="collapsible-header">
-                                                <i class="fas fa-paperclip"></i>Ca 3
-                                                <div class="switch" id="switch-ca3">
-                                                    <label>
-                                                        <input @(ViewBag.ca3IsLock == true ? "checked" : "") type="checkbox">
-                                                        <span class="lever"></span>
-                                                        Khóa
-                                                    </label>
-                                                </div>
-                                                <span id="ca1" class="badge">@ca3Number tệp</span>
-                                            </div>
-                                            <div class="collapsible-body" style="display: block;">
-                                                @for (int i = 0; i < listFiles.Count; i++)
-                                                {
-                                                    if (listFiles[i].ca == 3)
-                                                    {
-                                                        <p>
-                                                            <img width="25" style="vertical-align:middle" src="~/assets/uploader/file-icon.png" />
-                                                            <a href="/phan-xuong/download-file?location=~/FileContainer/PhanXuongLenDK/@listFiles[i].fileName&fileName=@listFiles[i].fileNameDisplay">@listFiles[i].fileNameDisplay</a>
-                                                            @if (listFiles[i].chuthich != "")
-                                                            {
-                                                                <i> (Ghi chú: @listFiles[i].chuthich )</i>
-                                                            }
-
-                                                        </p>
-                                                    }
-                                                }
-
-                                            </div>
-                                        </li>
-                                    }
+                                } else {
+                                    content += "<td>" + data[index][tieuchiName[i]] + "</td>"
+                                }
+                            } else {
+                                if (tieuchiName[i] != "GhiChu") {
+                                    content += "<td>" + 0 + "</td>"
+                                } else {
+                                    content += "<td></td>"
                                 }
                             }
-
                         }
-
-                        <!------------------------------------------------KCS------------------------------------------------>
-                        @{
-                            if (phanxuong.ToLower() == "kcs")
-                            {
-                                <br />
-                                <div class="switch" id="switch-kcs">
-                                    <label>
-                                        <input @(ViewBag.isLock == true ? "checked" : "") type="checkbox">
-                                        <span class="lever"></span>
-                                        Khóa
-                                    </label>
-                                </div>
-                                <br />
-                                <div class="files-container">
-                                    @if (listFiles.Count == 0)
-                                    {
-                                        <i>Không có tập tin nào</i>
-                                    }
-                                    @for (int i = 0; i < listFiles.Count; i++)
-                                    {
-                                        <p>
-                                            <img width="25" style="vertical-align:middle" src="~/assets/uploader/file-icon.png" />
-                                            <a href="/phan-xuong/download-file?location=~/FileContainer/KCS/@listFiles[i].fileName&fileName=@listFiles[i].fileNameDisplay">@listFiles[i].fileNameDisplay</a>
-                                            @if (listFiles[i].chuthich != "")
-                                            {
-                                                <i> (Ghi chú: @listFiles[i].chuthich)</i>
-                                            }
-                                        </p>
-                                    }
-                                    <br />
-                                </div>
-                            }
-                        }
-                        <!------------------------------------------------All------------------------------------------------>
-                        @{
-                            if (phanxuong == "all")
-                            {
-                                var allFilesList = ViewBag.allFilesList;
-                                <table class="table-bordered" id="files-table">
-                                    <thead>
-                                        <tr>
-                                            <th>STT</th>
-                                            <th>File</th>
-                                            <th>Ghi chú</th>
-                                            <th>Phân xưởng</th>
-                                            <th>Ca</th>
-                                            <th>Thời gian</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @if (allFilesList.Count == 0)
-                                        {
-                                            <tr>
-                                                <td colspan="6"><i>Không có tập tin nào</i></td>
-                                            </tr>
-                                        }
-                                        else
-                                        {
-                                            for (int i = 0; i < allFilesList.Count; i++)
-                                            {
-                                                <tr>
-                                                    <td>@(i + 1)</td>
-                                                    <td class="file-td">
-                                                        <img width="25" style="vertical-align:middle" src="~/assets/uploader/file-icon.png" />
-                                                        <a href="/phan-xuong/download-file?location=~/FileContainer/@(allFilesList[i].department_id!="KCS"?"PhanXuongLenDK":"KCS")/@allFilesList[i].fileName&fileName=@allFilesList[i].fileNameDisplay">@allFilesList[i].fileNameDisplay</a>
-                                                    </td>
-                                                    <td>@allFilesList[i].chuthich</td>
-                                                    <td>@allFilesList[i].department_name</td>
-                                                    <td>@allFilesList[i].ca</td>
-                                                    <td>@allFilesList[i].uploadTime.ToString("hh:mm:ss tt")</td>
-                                                </tr>
-                                            }
-                                        }
-
-                                    </tbody>
-                                </table>
-                            }
-                        }
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="modal1" class="modal">
-    <div class="modal-content">
-        <h4 class="modal_title"></h4>
-        <div>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col s12">
-                        <form action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzoneCa1">
-                            <div class="fallback">
-                                <input type="file" id="fUpload" name="file" class="form-control" multiple />
-                            </div>
-                            <div class="dz-message needsclick">
-                                <i class="medium material-icons dp48">cloud_upload</i>
-                                <h3 id="title_uploader">Kéo thả file hoặc click vào đây để tải lên</h3>
-                                <span class="text-muted font-13">(File hợp lệ: xls, xlsx)</span>
-                            </div>
-                        </form>
-                        <br />
-                        <div class="clearfix text-right mt-3">
-                            <button type="button"
-                                    class="btn-danger blue waves-effect waves-light btn"
-                                    id="btnUpload1">
-                                <i class="material-icons dp48">send</i>
-                                Tải lên
-                            </button>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="modal2" class="modal">
-    <div class="modal-content">
-        <h4 class="modal_title"></h4>
-        <div>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col s12">
-                        <form action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzoneCa2">
-                            <div class="fallback">
-                                <input type="file" id="fUpload" name="file" class="form-control" multiple />
-                            </div>
-                            <div class="dz-message needsclick">
-                                <i class="medium material-icons dp48">cloud_upload</i>
-                                <h3 id="title_uploader">Kéo thả file hoặc click vào đây để tải lên</h3>
-                                <span class="text-muted font-13">(File hợp lệ: xls, xlsx)</span>
-                            </div>
-                        </form>
-                        <br />
-                        <div class="clearfix text-right mt-3">
-                            <button type="button"
-                                    class="btn-danger blue waves-effect waves-light btn"
-                                    id="btnUpload2">
-                                <i class="material-icons dp48">send</i>
-                                Tải lên
-                            </button>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="modal3" class="modal">
-    <div class="modal-content">
-        <h4 class="modal_title"></h4>
-        <div>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col s12">
-                        <form action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzoneCa3">
-                            <div class="fallback">
-                                <input type="file" id="fUpload" name="file" class="form-control" multiple />
-                            </div>
-                            <div class="dz-message needsclick">
-                                <i class="medium material-icons dp48">cloud_upload</i>
-                                <h3 id="title_uploader">Kéo thả file hoặc click vào đây để tải lên</h3>
-                                <span class="text-muted font-13">(File hợp lệ: xls, xlsx)</span>
-                            </div>
-                        </form>
-                        <br />
-                        <div class="clearfix text-right mt-3">
-                            <button type="button"
-                                    class="btn-danger blue waves-effect waves-light btn"
-                                    id="btnUpload3">
-                                <i class="material-icons dp48">send</i>
-                                Tải lên
-                            </button>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--uPLOADER-->
-@*<script src="~/assets/uploader/dropzoneMultiple.js"></script>*@
-<script src="~/assets/extra-libs/prism/prism.js"></script>
-<script src="~/assets/libs/toastr/build/toastr.min.js"></script>
-<script src="~/assets/extra-libs/toastr/toastr-init.js"></script>
-<script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
-<script src="~/assets/sweetalert/sweetalert2.min.js"></script>
-<script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
-<script>
-    $(".not-collapse").on("click", function (e) { e.stopPropagation(); });
-    $("#switch-ca1").find("input").change(function () {
-        if ($(this).is(":checked")) {
-            lock(1);
-        }
-        else {
-            unLock(1);
-        }
-    });
-    $("#switch-ca2").find("input").change(function () {
-        if ($(this).is(":checked")) {
-            lock(2);
-        }
-        else {
-            unLock(2);
-        }
-    });
-    $("#switch-ca3").find("input").change(function () {
-        if ($(this).is(":checked")) {
-            lock(3);
-        }
-        else {
-            unLock(3);
-        }
-    });
-    $("#switch-kcs").find("input").change(function () {
-        if ($(this).is(":checked")) {
-            lockKCS();
-        }
-        else {
-            unLockKCS();
-        }
-    });
+                        count++;
+                    }
+                    content += "</tr>"
+                }
+                $("#reportTable").children("tbody").html(content);
+                $("#pre-load").hide("slow", function () { });
+            },
+            error: function (response) {
+            }
+        })
+    }
 </script>
 <script>
-    $(function () {
-        $(".select-dropdown").remove();
-        $(".caret").remove();
-        //////////////////////////////////////
-         $("#ngay-chon").datepicker({
-        toggleSelected: false,
-        language: 'vi'
-            });
-        var date = new Date();
-        var selectedDate = "";
-        selectedDate="@ViewBag.ngay";
-        if (selectedDate === "0") {
-            $("#ngay-chon").val(date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear());
-        } else {
-            $("#ngay-chon").val(selectedDate);
-        }
+    $("#export-button").click(function () {
+        $("#pre-load").show("slow", function () { });
+        $.ajax({
+            type: 'post',
+            url: '/ban-giam-doc/bao-cao-san-xuat-than/export-excel',
+            data: {
+                'date': changeDateFormat($("#yearCalendar").val()),
+            },
+            success: function (res) {
+                if (res.success) {
+                    var response = JSON.parse(JSON.stringify(res.data));
+                    window.location = '/ban-giam-doc/bao-cao-san-xuat-than/download?fileGuid=' + response.FileGuid
+                        + '&filename=' + response.FileName;
+                }
+                $("#pre-load").hide("slow", function () { });
+            },
+            error: function (response) {
 
-        $(".datepicker-inline").remove();
-    })
-</script>
-
-
-
-<script>
-
-    $('#ngay-chon').datepicker({
-        language: 'vi',
-        maxDate: new Date(new Date().setDate(new Date().getDate())), // Now can select only dates, which goes after today
-        onSelect: function (fd, d, picker) {
-             var ngay = $('#ngay-chon').val();
-            while (ngay.includes('/')) {
-                ngay = ngay.replace('/', '-');
             }
-            //window.location.href ='/phan-xuong/nhap-bao-cao-len-phong-dk?phanxuong=@ViewBag.phanxuong&ngay=' + ngay;
-        }
+        })
     });
-
-    $("#view-btn-trigger").click(function () {
-        var selectedOption = $('#phongbanSearch').find(":selected").val();
-             var ngay = $('#ngay-chon').val();
-        window.location.href ="/ban-giam-doc/bao-cao-phan-xuong-phong-ban?phanxuong="+selectedOption+"&ngay=" + ngay;
-
-    })
-</script>
-<script>
-    function lock(ca) {
-        $("#pre-load").show("slow", function () { });
-        $.ajax({
-            url: '/ban-giam-doc/lock-nhap-bao-cao',
-            type: 'post',
-            dataType: 'json',
-            data: {
-                'ngay': $('#ngay-chon').val(),
-                'ca': ca,
-                'phanxuong': "@ViewBag.phanxuong"
-            },
-            success: function (response) {
-                if (response.success) {
-                    $("#pre-load").hide("slow", function () { });
-                } else {
-                    $("#pre-load").hide("slow", function () { });
-                    errorAlert(response.message, "");
-                    $("#switch-ca" + ca).find("input").prop("checked", false);
-                }
-            }
-        })
-    }
-    function unLock(ca) {
-        $("#pre-load").show("slow", function () { });
-        $.ajax({
-            url: '/ban-giam-doc/unlock-nhap-bao-cao',
-            type: 'post',
-            dataType: 'json',
-            data: {
-                'ngay': $('#ngay-chon').val(),
-                'ca': ca,
-                'phanxuong': "@ViewBag.phanxuong"
-            },
-            success: function (response) {
-                if (response.success) {
-                    $("#pre-load").hide("slow", function () { });
-                } else {
-                    $("#pre-load").hide("slow", function () { });
-                    errorAlert(response.message, "");
-                    $("#switch-ca" + ca).find("input").prop("checked", true);
-                }
-            }
-        })
-    }
-    function lockKCS() {
-        $("#pre-load").show("slow", function () { });
-        $.ajax({
-            url: '/ban-giam-doc/lock-nhap-bao-cao-kcs',
-            type: 'post',
-            dataType: 'json',
-            data: {
-                'ngay': $('#ngay-chon').val(),
-                'phanxuong': "kcs"
-            },
-            success: function (response) {
-                if (response.success) {
-                    $("#pre-load").hide("slow", function () { });
-                } else {
-                    $("#pre-load").hide("slow", function () { });
-                    errorAlert(response.message, "");
-                    $("#switch-ca" + ca).find("input").prop("checked", false);
-                }
-            }
-        })
-    }
-    function unLockKCS() {
-        $("#pre-load").show("slow", function () { });
-        $.ajax({
-            url: '/ban-giam-doc/unlock-nhap-bao-cao-kcs',
-            type: 'post',
-            dataType: 'json',
-            data: {
-                'ngay': $('#ngay-chon').val(),
-                'phanxuong': "kcs"
-            },
-            success: function (response) {
-                if (response.success) {
-                    $("#pre-load").hide("slow", function () { });
-                } else {
-                    $("#pre-load").hide("slow", function () { });
-                    errorAlert(response.message, "");
-                    $("#switch-ca" + ca).find("input").prop("checked", true);
-                }
-            }
-        })
-    }
 </script>

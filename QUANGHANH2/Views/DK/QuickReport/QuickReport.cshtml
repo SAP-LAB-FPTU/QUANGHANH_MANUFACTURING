@@ -3,28 +3,28 @@
     Layout = "~/Views/Shared/_Layout_DK.cshtml";
 }
 
-<link href="~/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
+@*<link href="~/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
 <link href="~/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css" rel="stylesheet">
-@*<link href="~/dist/css/style.css" rel="stylesheet">*@
-@*<link type="text/css" rel="stylesheet" href="~/assets/libs/jsgrid/dist/jsgrid.min.css" />*@
-@*<link type="text/css" rel="stylesheet" href="~/assets/libs/jsgrid/dist/jsgrid-theme.min.css" />*@
-@*<link href="~/assets/extra-libs/css-chart/css-chart.css" rel="stylesheet">*@
-@*<link href="~/dist/dashboard_Tuan/customDashboard.css" rel="stylesheet">*@
+<link href="~/dist/css/style.css" rel="stylesheet">
+<link type="text/css" rel="stylesheet" href="~/assets/libs/jsgrid/dist/jsgrid.min.css" />
+<link type="text/css" rel="stylesheet" href="~/assets/libs/jsgrid/dist/jsgrid-theme.min.css" />
+<link href="~/assets/extra-libs/css-chart/css-chart.css" rel="stylesheet">
+<link href="~/dist/dashboard_Tuan/customDashboard.css" rel="stylesheet">*@
 
 @*<link href="~/dist/css/pages/dashboard1.css" rel="stylesheet">*@
 
-@*<link href="~/assets/extra-libs/prism/prism.css" rel="stylesheet" />*@
-@*<link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+<link href="~/assets/extra-libs/prism/prism.css" rel="stylesheet" />
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
 <link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
-<link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">*@
+<link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
 <link href="~/css/Custom css/BGD/dashboard.css" rel="stylesheet" type="text/css">
-@*<script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
-<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>*@
-@*<script src="~/assets/extra-libs/prism/prism.js"></script>*@
-@*<script src="../../assets/extra-libs/sparkline/sparkline.js"></script>*@
-@*<script src="../../dist/js/pages/sparkline/jquery.charts-sparkline.js"></script>*@
+<script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
+<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
+<script src="~/assets/extra-libs/prism/prism.js"></script>
+<script src="../../assets/extra-libs/sparkline/sparkline.js"></script>
+<script src="../../dist/js/pages/sparkline/jquery.charts-sparkline.js"></script>
 <form id="form" action="/phong-dieu-khien" method="post">
     <input type="text" id="date" name="date" style="display:none !important" />
 </form>
@@ -446,20 +446,20 @@
                 <div class="l12">
                     <h6 class="">Tiến độ kế hoạch (tháng): </h6>
                     <div class="progress progress-striped active">
-                        <div id="ltMonth" role="progressbar progress-striped" style=" height:20px" class="progress-bar progress-bar-default center">
-                            <span class="progress-pecentage">@ViewBag.lt.percentMonth%</span>
+                        <div id="ddbMonth" role="progressbar progress-striped" style=" height:20px" class="progress-bar progress-bar-default center">
+                            <span class="progress-pecentage">@ViewBag.ddb.percentMonth%</span>
                         </div>
                     </div>
                 </div>
                 <div class="l12">
                     <h6 class="">
-                        Tiến độ kế hoạch (ngày): @{if (ViewBag.lt.percentDay < 100)
+                        Tiến độ kế hoạch (ngày): @{if (ViewBag.ddb.percentDay < 100)
                             { }
                         }
                     </h6>
                     <div class="progress progress-striped active">
-                        <div id="ltDay" role="progressbar progress-striped" style="height:20px" class="progress-bar progress-bar-default center">
-                            <span class="progress-pecentage">@ViewBag.lt.percentDay%</span>
+                        <div id="ddbDay" role="progressbar progress-striped" style="height:20px" class="progress-bar progress-bar-default center">
+                            <span class="progress-pecentage">@ViewBag.ddb.percentDay%</span>
                         </div>
                     </div>
                 </div>
@@ -468,20 +468,20 @@
                     <div class="col s4 center detail-info row">
                         <span class="font-14 ">Thực hiện</span>
                         <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.lt.Thuchien </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.lt.Kehoach</span>
+                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.ddb.Thuchien </span><br />
+                            <span class="font-medium" style="color:orange">@ViewBag.ddb.Kehoach</span>
                         </div>
                     </div>
                     <div class="col s4 center detail-info">
                         <span class="font-14">Luỹ kế</span>
                         <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.lt.Luyke </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.lt.KehoachThang</span>
+                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.ddb.Luyke </span><br />
+                            <span class="font-medium" style="color:orange">@ViewBag.ddb.KehoachThang</span>
                         </div>
                     </div>
                     <div class="col s4 center">
                         <span class="font-14">KH còn lại</span>
-                        <p class="font-medium">@ViewBag.lt.Ton</p>
+                        <p class="font-medium">@ViewBag.ddb.Ton</p>
                     </div>
                 </div>
             </div>
@@ -611,13 +611,13 @@
         temp = temp.split("]").join("");
         var dilam = temp.split(",");
 
-        temp = "@ViewBag.dilam";
+        temp = "@ViewBag.nghi";
         temp = temp.split("&quot;").join("");
         temp = temp.split("[").join("");
         temp = temp.split("]").join("");
         var nghilam = temp.split(",");
     </script>
-    @*<script src="~/dist/js/custom.min.js"></script>*@
+    <script src="~/dist/js/custom.min.js"></script>
     <!-- ============================================================== -->
     <!-- This page plugin js -->
     <!-- ============================================================== -->
@@ -628,13 +628,13 @@
     <script src="~/dist/dashboard_Tuan/dashBoardChart_tuan.js"></script>
     <script src="~/dist/dashboard_Tuan/dashBoardChart2_tuan.js"></script>
     <!-- Editable -->
-    @*<script src="~/dist/dashboard_Tuan/db_Tuan.js"></script>*@
-    @*<script type="text/javascript" src="~/assets/libs/jsgrid/dist/jsgrid.min.js"></script>*@
-    @*<script src="~/dist/dashboard_Tuan/jsgrid-init_Tuan.js"></script>*@
+    <script src="~/dist/dashboard_Tuan/db_Tuan.js"></script>
+    <script type="text/javascript" src="~/assets/libs/jsgrid/dist/jsgrid.min.js"></script>
+    <script src="~/dist/dashboard_Tuan/jsgrid-init_Tuan.js"></script>
     <!--chart-->
-    @*<script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
-    <script src="~/assets/libs/chart.js/dist/Chart.min.js"></script>*@
-    @*<script src="../../assets/extra-libs/sparkline/sparkline.js"></script>*@
+    <script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
+    <script src="~/assets/libs/chart.js/dist/Chart.min.js"></script>
+    <script src="../../assets/extra-libs/sparkline/sparkline.js"></script>
 
     <script>
     $(document).ready(function () {
@@ -681,10 +681,10 @@
         $('#dxkMonth').width(x + '%');
 
          //da dat boc
-        x = @ViewBag.lt.percentDay; if (x > 100) x = 100;
-        $('#ltDay').width(x + '%');
-        x = @ViewBag.lt.percentMonth; if (x > 100) x = 100;
-        $('#ltMonth').width(x + '%');
+        x = @ViewBag.ddb.percentDay; if (x > 100) x = 100;
+        $('#ddbDay').width(x + '%');
+        x = @ViewBag.ddb.percentMonth; if (x > 100) x = 100;
+        $('#ddbMonth').width(x + '%');
 
         var h = $('#origin').height();
         h = h - 82;
