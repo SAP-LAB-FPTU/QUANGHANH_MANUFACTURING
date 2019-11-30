@@ -1243,10 +1243,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         y.NgayTra = Convert.ToDateTime(ngaytra);
 
                 }
-                if (z != null)
+                if (z != null & sohieu.Equals("") )
                 {
                     if (isValidateDateTime(ngaytra))
-                        y.NgayTra = Convert.ToDateTime(ngaytra);
+                        z.NgayTra = Convert.ToDateTime(ngaytra);
 
                 }
                 //if (z != null)
@@ -1257,6 +1257,36 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 //}
                 db.SaveChanges();
                 return Json(new { success = true, draw = Request["draw"] }, JsonRequestBehavior.AllowGet); ;
+            }
+
+        }
+
+
+        public ActionResult insertGiayTo(String json)
+        {
+            dynamic js = JObject.Parse(json);
+            String manv = js.manv;
+      
+            String kieu = js.kieu;
+            String ten = js.ten;
+            if ( kieu.Equals("") & ten.Equals("")  )
+                return Json(new { success = false, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                GiayTo giayTo;
+
+                    giayTo = new GiayTo();
+                    giayTo.TenGiayTo = ten;
+                    giayTo.MaNV = manv;
+                    giayTo.KieuGiayTo = kieu;
+                    giayTo.NgayTra = null;
+                    db.GiayToes.Add(giayTo);
+                    db.SaveChanges();
+                    return Json(new { success = true, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
+                
+               
+                 
+                
             }
 
         }
