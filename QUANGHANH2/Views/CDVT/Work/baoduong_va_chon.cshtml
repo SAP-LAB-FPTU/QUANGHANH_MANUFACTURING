@@ -308,28 +308,32 @@
         })
 
         $("#export-button").click(function () {
-            $("#pre-load").show();
-            $.ajax({
-                type: "POST",
-                url: "/phong-cdvt/bao-duong-chon/export",
-                data: {
-                    data: $('#json').val(),
-                    documentary_code: $('#documentary_code').val()
-                },
-                cache: false,
-                success: function (response) {
-                    if (response.success) {
-                        window.location.href = response.location;
-                        $("#pre-load").hide("slow", function () {
-                        });
-                    } else {
-                        $.notify("ối, có lỗi xảy ra", {
-                            globalPosition: "top center",
-                            className: "error"
-                        });
-                    }
-                }
-            });
+            window.location = '/phong-cdvt/quyet-dinh/export-word?data=' + $('#json').val()
+                + '&title=' + $('input[name = "reason"]').val() + '&department_id='
+                + $('#1 td:nth-child(4) input').val() + '&documentary_type=' + 2
+                + '&fileName=Quyết định bảo dưỡng.docx' + '&resource=' + $('input[name = "out_in_come"]').val()
+            //$("#pre-load").show();
+            //$.ajax({
+            //    type: "POST",
+            //    url: "/phong-cdvt/bao-duong-chon/export",
+            //    data: {
+            //        data: $('#json').val(),
+            //        documentary_code: $('#documentary_code').val()
+            //    },
+            //    cache: false,
+            //    success: function (response) {
+            //        if (response.success) {
+            //            window.location.href = response.location;
+            //            $("#pre-load").hide("slow", function () {
+            //            });
+            //        } else {
+            //            $.notify("ối, có lỗi xảy ra", {
+            //                globalPosition: "top center",
+            //                className: "error"
+            //            });
+            //        }
+            //    }
+            //});
         });
     </script>
 }
