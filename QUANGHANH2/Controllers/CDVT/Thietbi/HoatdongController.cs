@@ -359,7 +359,15 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         public ActionResult AddCategory(Equipment_category ec, string[] id, string[] name, string[] unit)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            db.Equipment_category.Add(ec);
+            try
+            {
+                db.Equipment_category.Add(ec);
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, message = e.Message }, JsonRequestBehavior.AllowGet);
+            }
             using (DbContextTransaction dbc = db.Database.BeginTransaction())
             {
                 try
@@ -387,6 +395,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 }
                 catch (Exception e)
                 {
+                    e.Message.ToString();
                     dbc.Rollback();
                     return Json(new { success = false, message = e.Message }, JsonRequestBehavior.AllowGet);
 
