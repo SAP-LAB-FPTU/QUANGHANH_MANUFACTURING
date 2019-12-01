@@ -78,7 +78,6 @@ namespace QUANGHANH2.Controllers.TCLD
         public ActionResult searchDepartment(string DepartmentSearchList)
         {
 
-
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;

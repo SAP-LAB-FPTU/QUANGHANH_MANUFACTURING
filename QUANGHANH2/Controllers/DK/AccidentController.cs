@@ -442,7 +442,7 @@ namespace QUANGHANH2.Controllers.DK
     }
     public class TaiNanDB : TaiNan
     {
-        public String stringDate { get; set; }
+        public string stringDate { get; set; }
         public string Ten { get; set; }
         public string Ca_Name { get; set; }
         public string department_name { get; set; }

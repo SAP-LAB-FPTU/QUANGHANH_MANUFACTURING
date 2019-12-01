@@ -191,7 +191,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             String d = "";
             string sql = "select * from Equipment_category_attribute where Equipment_category_id = @name";
-            List<Equipment_category_attribute> list = db.Database.SqlQuery<Equipment_category_attribute>(sql, new SqlParameter("name", "%" + name + "%")).ToList();
+            List<Equipment_category_attribute> list = db.Database.SqlQuery<Equipment_category_attribute>(sql, new SqlParameter("name", name)).ToList();
             foreach (var item in list)
             {
                 d += "<tr>";
@@ -359,7 +359,15 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         public ActionResult AddCategory(Equipment_category ec, string[] id, string[] name, string[] unit)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            db.Equipment_category.Add(ec);
+            try
+            {
+                db.Equipment_category.Add(ec);
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, message = e.Message }, JsonRequestBehavior.AllowGet);
+            }
             using (DbContextTransaction dbc = db.Database.BeginTransaction())
             {
                 try
@@ -387,6 +395,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 }
                 catch (Exception e)
                 {
+                    e.Message.ToString();
                     dbc.Rollback();
                     return Json(new { success = false, message = e.Message }, JsonRequestBehavior.AllowGet);
 
@@ -489,7 +498,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         ins.insurance_start_date = DateTime.Now;
                         ins.insurance_end_date = emp.durationOfInsurance;
                         db.Equipment_Insurance.Add(ins);
-                        //db.SaveChanges();
+                        db.SaveChanges();
 
                         if (nameSup != null)
                         {

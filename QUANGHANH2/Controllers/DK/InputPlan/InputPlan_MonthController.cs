@@ -35,7 +35,8 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
                     "a.HeaderID = b.HeaderID and a.MaTieuChi = b.MaTieuChi " +
                     "and a.ThoiGianNhapCuoiCung = b.ThoiGianNhapCuoiCung) as kehoach " +
                     "on header_kh.HeaderID = kehoach.HeaderID left join TieuChi " +
-                    "on kehoach.MaTieuChi = TieuChi.MaTieuChi) as table1 ";
+                    "on kehoach.MaTieuChi = TieuChi.MaTieuChi) as table1 right join (select * from PhongBan_TieuChi where MaPhongBan = @departmentID and Thang = @month and Nam = @year) as table2 " +
+                    "on table1.MaTieuChiNull = table2.MaTieuChi";
                 return db.Database.SqlQuery<ChiTietTieuChi>(sqlQuery, new SqlParameter("departmentID", departmentID), new SqlParameter("month", month), new SqlParameter("year", year)).ToList();
             }
         }

@@ -392,7 +392,7 @@
             stringArrayEmpSearch[1] = tenPhongBanTxt.replace(/\s+/g, " ").trim();
             stringArrayEmpSearch[2] = loaiTxt.replace(/\s+/g, " ").trim();
 
-            dataTableDepartment.ajax.url('@Url.Action("searchDepartment", "Department")?DepartmentSearchList=' + stringArrayEmpSearch).load(() => {
+            dataTable.ajax.url('@Url.Action("searchDepartment", "Department")?DepartmentSearchList=' + stringArrayEmpSearch).load(() => {
 
                 $("#pre-load").hide("slow", function () { })
                 $.notify("Tìm kiếm thành công", {

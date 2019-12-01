@@ -226,7 +226,23 @@
         <div class="card-content">
             <div class="row">
                 <h3 class="center">Danh sách giấy tờ</h3>
+                @{
 
+                    if (isAcess)
+                    {
+                        <div class="col m4">
+                            <a onclick="themGiayTo()" class='btn btn-small blue darken-2 modal-trigger input-field waves-effect' href='#modal2'  id="btnThemGiayTo">Thêm</a>
+                        </div>
+
+                    }
+                    else
+                    {
+                        <div class="col m4">
+                            <a disabled class='btn btn-small blue darken-2 modal-trigger input-field waves-effect' href='#modal2' id="btnThemGiayTo">Thêm</a>
+                        </div>
+                    }
+                }
+                
                 <div class="col m12">
                     <div id="form3" class="row">
 
@@ -300,6 +316,28 @@
     <div class="modal-footer">
         <a class="modal-action modal-close waves-effect waves-green btn blue" id="dongYChinhSua">Đồng ý</a>
         <a class="modal-action modal-close waves-effect waves-green btn red" id="huyBoChinhSua">Hủy bỏ</a>
+    </div>
+</div>
+
+
+
+<div id="modal2" class="modal">
+    <div class="modal-content">
+        <div class="input-field col m12"> 
+            <div class="col m4">
+                <label class='custom-label'>Kiểu giấy tờ</label>
+                <input type="text" id="suakieu2" class="inputEdit form-control" />
+            </div>
+            <div class="col m4">
+                <label class='custom-label'>Tên giấy tờ</label>
+                <input type="text" id="suaten2" class="inputEdit form-control" />
+            </div>
+          
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a class="modal-action modal-close waves-effect waves-green btn blue" id="dongYChinhSua2">Đồng ý</a>
+        <a class="modal-action modal-close waves-effect waves-green btn red" id="huyBoChinhSua2">Hủy bỏ</a>
     </div>
 </div>
 
@@ -877,12 +915,34 @@
         var year = currentTime.getFullYear();
         var date = day + "/" + month + "/" + year;
         return (date);
+        }
+
+    function themGiayTo() {
+        console.log('ThemGiayTo');
+        //xet gia tri cho div ve thong tin chinh sua
+        //console.log(sohieu + ',' + kieu + ',' + ngaytra);
+        //$('#suasohieu').val(sohieu);
+        //$('#suakieu').val(kieu);
+        //$('#suama').val(ma);
+        //if(ten!='null')
+        //$('#suaten').val(ten);
+        //if (ngaytra != 'null') {
+        //    $('#suangaytra').val(dateFormat(ngaytra));
+        //}
+        //if (ngaycap != 'null' ) {
+        //    $('#suangaycap').val(dateFormat(ngaycap));
+        //}
+        $('#suaten2').val("");
+        $('#suakieu2').val("");
+        $('#suaten2').prop('disabled', false);
+        $('#suakieu2').prop('disabled', false);
+
     }
 
     function getChinhSuaGiayTo(sohieu, kieu,ma,ten,ngaycap, ngaytra) {
         console.log('getChinhSuaGiayTo');
         //xet gia tri cho div ve thong tin chinh sua
-        console.log(sohieu + ',' + kieu + ',' + ngaytra);
+        console.log(sohieu + ',' + kieu + ',' + ngaycap);
         $('#suasohieu').val(sohieu);
         $('#suakieu').val(kieu);
         $('#suama').val(ma);
@@ -891,8 +951,10 @@
         if (ngaytra != 'null') {
             $('#suangaytra').val(dateFormat(ngaytra));
         }
-        if (ngaycap != 'null' ) {
+        if (ngaycap != 'null') {
             $('#suangaycap').val(dateFormat(ngaycap));
+        } else {
+            $('#suangaycap').val(null)
         }
         $('#suangaytra').prop('disabled', false);
 
@@ -939,6 +1001,46 @@
 
         }
 
+
+
+
+         function dongYThemGiayTo() {
+       
+            var object = {
+           
+            "manv": '@ViewBag.manv',
+            "kieu": $('#suakieu2').val(),
+              "ten": $('#suaten2').val()
+            };
+
+    $("#pre-load").show("slow", function () {
+    });
+    $("#pre-load").css("z-index", "99999"); $("#pre-load").show("slow", function () {
+    });
+    $.ajax({
+        type: "POST",
+        url: "/Brief/insertGiayTo",
+        data: { json: JSON.stringify(object) },
+        dataType: "json",
+        success: function (data) {        
+            //loadThongTinGiayTo();
+            //     setTimeout(() => {
+            table.ajax.reload(() => { successAlert('Thành công', 'Thêm giấy tờ thành công'); }, false);
+            //     },500)
+            
+        },
+         error: () => {
+                            $("#pre-load").hide()
+                         
+                            errorAlert('Thất bại', 'Đã xảy ra lỗi');
+                        }
+
+
+
+    });
+
+        }
+
     $('#dongYChinhSua').click(function (e) {
         dongYSuaGiayTo();
     });
@@ -946,6 +1048,14 @@
         e.preventDefault();
         huyBoSuaGiayTo();
 
+    });
+    $('#dongYChinhSua2').click(function (e) {
+        console.log('22220');
+        dongYThemGiayTo();
+    });
+    $('#huyBoChinhSua2').click(function (e) {
+        e.preventDefault();
+        console.log('111110');
     });
 
     function huyBoSuaGiayTo() {

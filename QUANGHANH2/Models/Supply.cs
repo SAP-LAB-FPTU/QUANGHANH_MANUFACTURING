@@ -17,6 +17,7 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Supply()
         {
+            this.Equipment_SCTX_Detail = new HashSet<Equipment_SCTX_Detail>();
             this.Fuel_activities_consumption = new HashSet<Fuel_activities_consumption>();
             this.Maintain_Car_Detail = new HashSet<Maintain_Car_Detail>();
             this.Supply_DiKem = new HashSet<Supply_DiKem>();
@@ -33,6 +34,8 @@ namespace QUANGHANH2.Models
         public string unit { get; set; }
         public Nullable<double> price { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Equipment_SCTX_Detail> Equipment_SCTX_Detail { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Fuel_activities_consumption> Fuel_activities_consumption { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

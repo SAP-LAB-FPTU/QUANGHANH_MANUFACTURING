@@ -17,15 +17,19 @@ namespace QUANGHANH2.Models
         public int MaQuyetDinh { get; set; }
         public string MaNV { get; set; }
         public string LyDoDieuDong { get; set; }
-        public string DonViMoi { get; set; }
-        public string ChucVuMoi { get; set; }
-        public string BacLuongMoi { get; set; }
-        public Nullable<double> MucLuongMoi { get; set; }
-        public string DonViCu { get; set; }
-        public string ChucVuCu { get; set; }
-        public string BacLuongCu { get; set; }
-        public Nullable<double> MucLuongCu { get; set; }
+        public string MaDonViMoi { get; set; }
+        public Nullable<int> MaChucVuMoi { get; set; }
+        public string MaDonViCu { get; set; }
+        public Nullable<int> MaChucVuCu { get; set; }
+        public Nullable<int> MaBacLuong_ThangLuong_MucLuongCu { get; set; }
+        public Nullable<int> MaBacLuong_ThangLuong_MucLuongMoi { get; set; }
     
+        public virtual BacLuong_ThangLuong_MucLuong BacLuong_ThangLuong_MucLuong { get; set; }
+        public virtual BacLuong_ThangLuong_MucLuong BacLuong_ThangLuong_MucLuong1 { get; set; }
+        public virtual CongViec CongViec { get; set; }
+        public virtual CongViec CongViec1 { get; set; }
+        public virtual Department Department { get; set; }
+        public virtual Department Department1 { get; set; }
         public virtual QuyetDinh QuyetDinh { get; set; }
         public virtual NhanVien NhanVien { get; set; }
     }
