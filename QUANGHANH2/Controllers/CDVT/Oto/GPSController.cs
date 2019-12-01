@@ -50,7 +50,7 @@ namespace QUANGHANH2.Controllers.CDVT.Oto
                 new SqlParameter("date", date)).ToList();
             if (!list.Any())
             {
-                list = DBContext.Database.SqlQuery<CarGPSDB>("SELECT e.equipmentId, e.equipment_name FROM Equipment e inner join Equipment_category c on e.Equipment_category_id = c.Equipment_category_id inner join Equipment_category_attribute a on c.Equipment_category_id = a.Equipment_category_id where a.Equipment_category_attribute_name = N'Số khung'").ToList();
+                list = DBContext.Database.SqlQuery<CarGPSDB>("SELECT e.equipmentId, e.equipment_name FROM Equipment e inner join Car c on e.equipmentId = c.equipmentId").ToList();
                 foreach (CarGPSDB item in list)
                 {
                     item.ca1 = true;
