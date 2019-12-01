@@ -146,7 +146,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     sql += chucVuSearch == "-1" ? "" : " A.MaCongViec = @maCongViec AND";
                     sql = sql.Substring(0, sql.Length - 4).Trim();
                 }
-                sql += sql.Contains("where") ? " AND A.MaTrangThai<>3" : " WHERE A.MaTrangThai<>2";
+                sql += sql.Contains("where") ? " AND A.MaTrangThai<>2" : " WHERE A.MaTrangThai<>2";
                 listNhanVien = db.Database.SqlQuery<NhanVienModel>(sql,
                     new SqlParameter("tenNV", "%" + searchTen + "%"),
                     new SqlParameter("maPhongBan", phongbanSearch),
@@ -748,6 +748,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             {
                 using (DbContextTransaction transaction = db.Database.BeginTransaction())
                 {
+                   
                     try
                     {
                         List<RecentQuyetDinhNhanVien> checkList = new List<RecentQuyetDinhNhanVien>();
@@ -756,36 +757,14 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         "DieuDong_NhanVien.MaNV in (select MaNV from DieuDong_NhanVien where MaQuyetDinh = @MaQuyetDinh)\n" +
                         "group by MaNV\n";
                         checkList = db.Database.SqlQuery<RecentQuyetDinhNhanVien>(query, new SqlParameter("MaQuyetDinh", MaQD)).ToList<RecentQuyetDinhNhanVien>();
-                        string sql = "select \n" +
-                       "tb1.MaQuyetDinh,tb1.SoQuyetDinh,tb1.NgayQuyetDinh,tb1.MaNV,tb1.Ten,tb1.MaDonViCu,\n" +
-                       "tb1.DonViCu,tb1.MaChucVuCu,tb1.ChucVuCu,tb2.MaDonViMoi,tb2.DonViMoi,\n" +
-                       "tb2.MaChucVuMoi,tb2.ChucVuMoi,tb2.ThangLuong,\n" +
-                       "tb2.PhuCap,tb1.BacLuongMoi,tb1.MucLuongMoi,tb1.BacLuongCu,tb1.MucLuongCu,tb1.LyDoDieuDong\n" +
-                       "from\n" +
-                       "(select qd.MaQuyetDinh,qd.SoQuyetDinh, dd.MaNV, nv.Ten, dp.department_id as MaDonViCu,\n" +
-                       "dp.department_name as DonViCu,cv.MaCongViec as MaChucVuCu, cv.TenCongViec as ChucVuCu,\n" +
-                       "qd.NgayQuyetDinh,\n" +
-                       "dd.BacLuongMoi, dd.MucLuongMoi,dd.BacLuongCu, dd.MucLuongCu, dd.LyDoDieuDong\n" +
-                       "from QuyetDinh qd, DieuDong_NhanVien dd, NhanVien nv,\n" +
-                       "CongViec cv, Department dp\n" +
-                       "where\n" +
-                       "nv.MaNv = dd.MaNV and\n" +
-                       "qd.MaQuyetDinh = dd.MaQuyetDinh\n" +
-                       "and qd.MaQuyetDinh = @MaQD1\n" +
-                       "and cv.MaCongViec = dd.ChucVuCu\n" +
-                       "and dp.department_id = dd.DonViCu) tb1,\n" +
-                       "(select dd.MaNV,dp.department_id as MaDonViMoi,dp.department_name as DonViMoi,\n" +
-                       "cv.MaCongViec as MaChucVuMoi, cv.TenCongViec as ChucVuMoi, cv.ThangLuong, cv.PhuCap\n" +
-                       "from Department dp, DieuDong_NhanVien dd, CongViec cv\n" +
-                       "where dp.department_id = dd.DonViMoi and\n" +
-                       "cv.MaCongViec = dd.ChucVuMoi\n" +
-                       "and dd.MaQuyetDinh = @MaQD2) tb2\n" +
-                       "where tb1.MaNV = tb2.MaNV";
+
+                        string sql = @"select a.*,b.NgayQuyetDinh from dieudong_nhanvien a,QuyetDinh b
+                                        where a.MaQuyetDinh=b.MaQuyetDinh and a.MaQuyetDinh=@MaQD";
                         List<DetailDieuDongClass> list = new List<DetailDieuDongClass>();
                         list = db.Database.SqlQuery<DetailDieuDongClass>(sql,
-                                new SqlParameter("MaQD1", MaQD),
-                                new SqlParameter("MaQD2", MaQD)
+                                new SqlParameter("MaQD", MaQD)
                                 ).ToList<DetailDieuDongClass>();
+                        
                         foreach (DetailDieuDongClass n in list)
                         {
                             foreach (RecentQuyetDinhNhanVien nv in checkList)
@@ -795,16 +774,27 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                     string sql1 = "update NhanVien set " +
                                           "MaPhongBan=@MaDonViCu," +
                                           "MaCongViec=@MaChucVuCu," +
-                                          "BacLuong=@BacLuongCu, " +
-                                          "MucLuong=@MucLuongCu " +
+                                          "MaBacLuong_ThangLuong_MucLuong=@MaBacLuong_ThangLuong_MucLuong " +
                                           "where MaNV=@MaNV";
-                                    db.Database.ExecuteSqlCommand(sql1,
-                                        new SqlParameter("MaDonViCu", n.MaDonViCu),
-                                        new SqlParameter("MaChucVuCu", n.MaChucVuCu == null ? 31 : n.MaChucVuCu),
-                                        new SqlParameter("BacLuongCu", n.BacLuongCu == null ? "" : n.BacLuongCu),
-                                        new SqlParameter("MucLuongCu", n.MucLuongCu == null ? 0 : n.MucLuongCu),
-                                        new SqlParameter("MaNV", n.MaNV)
-                                        );
+                                    if (n.MaBacLuong_ThangLuong_MucLuongCu == null) {
+                                        db.Database.ExecuteSqlCommand(sql1,
+                                            new SqlParameter("MaDonViCu", n.MaDonViCu),
+                                            new SqlParameter("MaChucVuCu", n.MaChucVuCu == null ? 31 : n.MaChucVuCu),
+                                            new SqlParameter("MaBacLuong_ThangLuong_MucLuong", DBNull.Value),
+                                            new SqlParameter("MaNV", n.MaNV)
+                                            );
+                                    }
+                                    else
+                                    {
+                                        db.Database.ExecuteSqlCommand(sql1,
+                                            new SqlParameter("MaDonViCu", n.MaDonViCu),
+                                            new SqlParameter("MaChucVuCu", n.MaChucVuCu == null ? 31 : n.MaChucVuCu),
+                                            new SqlParameter("MaBacLuong_ThangLuong_MucLuong", n.MaBacLuong_ThangLuong_MucLuongCu),
+                                            new SqlParameter("MaNV", n.MaNV)
+                                            );
+                                    }
+
+                                    
                                 }
                             }
                         }
@@ -922,7 +912,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         db.SaveChanges();
                         ////////////////////////////////////////////////////
                         transaction.Commit();
-                        return Json(new { success = true, message = "Tạo quyết định thành công" }, JsonRequestBehavior.AllowGet);
+                        return Json(new { success = true, message = "Xoá quyết định thành công" }, JsonRequestBehavior.AllowGet);
                     }
                     catch (Exception e)
                     {
@@ -954,50 +944,23 @@ namespace QUANGHANHCORE.Controllers.TCLD
                             new SqlParameter("SoQD", SoQDText),
                             new SqlParameter("MaQD", MaQD));
                         //////////////////////////////////////////////////////////////////////////////
-                        sql = "select \n" +
-                        "tb1.MaQuyetDinh,tb1.SoQuyetDinh,tb1.NgayQuyetDinh,tb1.MaNV,tb1.Ten,tb1.MaDonViCu,\n" +
-                        "tb1.DonViCu,tb1.MaChucVuCu,tb1.ChucVuCu,tb2.MaDonViMoi,tb2.DonViMoi,\n" +
-                        "tb2.MaChucVuMoi,tb2.ChucVuMoi,tb1.ThangLuong,\n" +
-                        "tb1.PhuCap,tb1.BacLuongMoi,tb1.MucLuongMoi,tb1.BacLuongCu,tb1.MucLuongCu,tb1.LyDoDieuDong\n" +
-                        "from\n" +
-                        "(select qd.MaQuyetDinh,qd.SoQuyetDinh, dd.MaNV, nv.Ten, dp.department_id as MaDonViCu,\n" +
-                        "dp.department_name as DonViCu,cv.MaCongViec as MaChucVuCu, cv.TenCongViec as ChucVuCu,\n" +
-                        "qd.NgayQuyetDinh, cv.ThangLuong, cv.PhuCap,\n" +
-                        "dd.BacLuongMoi, dd.MucLuongMoi,dd.BacLuongCu, dd.MucLuongCu, dd.LyDoDieuDong\n" +
-                        "from QuyetDinh qd, DieuDong_NhanVien dd, NhanVien nv,\n" +
-                        "CongViec cv, Department dp\n" +
-                        "where\n" +
-                        "nv.MaNv = dd.MaNV and\n" +
-                        "qd.MaQuyetDinh = dd.MaQuyetDinh\n" +
-                        "and qd.MaQuyetDinh = @MaQD1\n" +
-                        "and cv.MaCongViec = dd.ChucVuCu\n" +
-                        "and dp.department_id = dd.DonViCu) tb1,\n" +
-                        "(select dd.MaNV,dp.department_id as MaDonViMoi,dp.department_name as DonViMoi,\n" +
-                        "cv.MaCongViec as MaChucVuMoi, cv.TenCongViec as ChucVuMoi\n" +
-                        "from Department dp, DieuDong_NhanVien dd, CongViec cv\n" +
-                        "where dp.department_id = dd.DonViMoi and\n" +
-                        "cv.MaCongViec = dd.ChucVuMoi\n" +
-                        "and dd.MaQuyetDinh = @MaQD2) tb2\n" +
-                        "where tb1.MaNV = tb2.MaNV";
+                        sql = "select * from dieudong_nhanvien where MaQuyetDinh=@MaQD";
                         List<DetailDieuDongClass> list = new List<DetailDieuDongClass>();
                         list = db.Database.SqlQuery<DetailDieuDongClass>(sql,
-                                new SqlParameter("MaQD1", MaQD),
-                                new SqlParameter("MaQD2", MaQD)
+                                new SqlParameter("MaQD", MaQD)
                                 ).ToList<DetailDieuDongClass>();
                         foreach (DetailDieuDongClass n in list)
                         {
                             sql = "update NhanVien set " +
                                 "MaPhongBan=@MaDonViMoi," +
                                 "MaCongViec=@MaChucVuMoi," +
-                                " BacLuong=@BacLuongMoi, " +
-                                "MucLuong=@MucLuongMoi, " +
+                                "MaBacLuong_ThangLuong_MucLuong=@MaBacLuong_ThangLuong_MucLuong, " +
                                 "MaTrangThai=@MaTrangThai " +
                                 "where MaNV=@MaNV";
                             db.Database.ExecuteSqlCommand(sql,
                                 new SqlParameter("MaDonViMoi", n.MaDonViMoi),
                                 new SqlParameter("MaChucVuMoi", n.MaChucVuMoi),
-                                new SqlParameter("BacLuongMoi", n.BacLuongMoi),
-                                new SqlParameter("MucLuongMoi", n.MucLuongMoi),
+                                new SqlParameter("MaBacLuong_ThangLuong_MucLuong", n.MaBacLuong_ThangLuong_MucLuongMoi),
                                 new SqlParameter("MaTrangThai", 1),
                                 new SqlParameter("MaNV", n.MaNV)
                                 );
@@ -1191,6 +1154,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
             public string BacLuongCu { get; set; }
             public double? MucLuongCu { get; set; }
             public string LyDoDieuDong { get; set; }
+            public int? MaBacLuong_ThangLuong_MucLuongCu { get; set; }
+            public int? MaBacLuong_ThangLuong_MucLuongMoi { get; set; }
         }
 
         public class RecentQuyetDinhNhanVien
