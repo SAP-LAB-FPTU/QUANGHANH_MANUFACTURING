@@ -169,10 +169,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                 "b.than, b.metlo, b.xen,b.diemluong,a.tong_nghidai,a.nghidai_om,a.nghidai_thld,a.nghidai_vld " +
                                 "from " +
                                 "(select a.department_id, a.QL, a.KT, a.CD, sum(case when d.DiLam = 1 and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as dilam, " +
-                                "sum(case when d.DiLam = 0  and d.LyDoVangMat like N'%vô lý do%' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'vld', " +
-                                "sum(case when d.DiLam = 0  and d.LyDoVangMat like N'%Ốm%' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'om', " +
-                                "sum(case when d.DiLam = 0  and d.LyDoVangMat like N'%Nghỉ phép%' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'phep', " +
-                                "sum(case when d.DiLam = 0  and d.LyDoVangMat like N'%khác%' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'khac', " +
+                                "sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Vô lý do' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'vld', " +
+                                "sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Ốm' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'om', " +
+                                "sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Nghỉ phép' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'phep', " +
+                                "sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Khác' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'khac', " +
                                 "SUM(case when d.LyDoVangMat in (N'Tai nạn lao động',N'Ốm dài',N'Thai sản',N'Tạm hoãn lao động',N'Vô lý do dài') then 1 else 0 end) as 'tong_nghidai', " +
                                 "SUM(case when d.LyDoVangMat in (N'Vô lý do dài') then 1 else 0 end) as 'nghidai_vld', " +
                                 "SUM(case when d.LyDoVangMat in (N'Tạm hoãn lao động') then 1 else 0 end) as 'nghidai_thld', " +
@@ -329,7 +329,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
             {
                 month = DateTime.Now.Month + "";
                 year = DateTime.Now.Year + "";
-
             }
             String varname1 = ""
             + "select a.department_id, a.QL, (a.KT + a.CD + a.HSTT) as Tong, a.KT, a.CD, a.HSTT, "
@@ -339,10 +338,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
             +"b.than, b.metlo, b.xen,b.diemluong,a.tong_nghidai,a.nghidai_om,a.nghidai_thld,a.nghidai_vld " 
             + "from "
             + "(select a.department_id, a.QL, a.KT, a.CD, a.HSTT, sum(case when d.DiLam = 1 and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as dilam, "
-            + "sum(case when d.DiLam = 0  and d.LyDoVangMat like N'%vô lý do%' and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'vld', "
-            + "sum(case when d.DiLam = 0  and d.LyDoVangMat like N'%Ốm%' and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'om', "
-            + "sum(case when d.DiLam = 0  and d.LyDoVangMat like N'%Nghỉ phép%' and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'phep', "
-            + "sum(case when d.DiLam = 0  and d.LyDoVangMat like N'%khác%' and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'khac', "
+            + "sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Vô lý do' and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'vld', "
+            + "sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Ốm' and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'om', "
+            + "sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Nghỉ phép' and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'phep', "
+            + "sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Khác' and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'khac', "
             + "SUM(case when d.LyDoVangMat in (N'Tai nạn lao động',N'Ốm dài',N'Thai sản',N'Tạm hoãn lao động',N'Vô lý do dài') then 1 else 0 end) as 'tong_nghidai', "
             + "SUM(case when d.LyDoVangMat in (N'Vô lý do dài') then 1 else 0 end) as 'nghidai_vld', "
             + "SUM(case when d.LyDoVangMat in (N'Tạm hoãn lao động') then 1 else 0 end) as 'nghidai_thld', "
@@ -380,6 +379,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     item.tong_tru_nghidai = item.Tong - item.tong_nghidai;
                     if (item.tong_tru_nghidai < 0) item.tong_tru_nghidai = 0;
                 }
+                ViewBag.month = month;
+                ViewBag.year = year;
                 ViewBag.TatCaDonVi = all;
             }
             return View("/Views/TCLD/Report/Monthly.cshtml");

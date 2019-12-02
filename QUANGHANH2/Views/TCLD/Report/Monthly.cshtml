@@ -7,18 +7,6 @@
 <link href="~/assets/extra-libs/css-chart/css-chart.css" rel="stylesheet">
 <link href="~/dist/css/pages/easy-pie-chart.css" rel="stylesheet">
 
-<script>
-    $(function () {
-        $("#dateforsearch").datepicker({
-            onSelect: function (data) {
-                window.location = "/phong-tcld/nang-suat-lao-dong-va-tien-luong/nang-suat-lao-dong-va-tien-luong-theo-cac-px-trong-thang?month=" + data.split(" ")[1] + "&year=" + data.split(" ")[2];
-            }
-        })
-    });
-    $(document).ready(function () {
-        $("#dateforsearch").val("Tháng " + "@string.Format("{0:MM yyyy}", System.DateTime.Now)");
-    });
-</script>
 
 <div class="card">
     <div class="card-content">
@@ -33,118 +21,12 @@
                        data-min-view="months"
                        data-view="months"
                        id="dateforsearch"
-                       data-date-format="MM yyyy" value="Tháng 6 2019" />
+                       data-date-format="MM yyyy" value="" />
             </h3>
             <hr />
         </div>
-        @*<div class="col m12 l12 s12">
-                <ul class="tabs">
-                    <li class="tab col m6 l6 s6"><a class="active" href="#bieudo">BIỂU ĐỒ</a></li>
-                    <li class="tab col l6 m6 s6"><a href="#bangchitiet">BẢNG BÁO CÁO CHI TIẾT</a></li>
-                </ul>
-            </div>*@
-        @*<div id="bieudo" class="col s12">
-                <div class="chart_container">
-                    <div class="row">
-                        <div class="col l4 m12 s12 center">
-                            <div class="card">
-                                <div class="card-content analytics-info">
-                                    <h5 class="card-title">Tổng số lao động</h5>
-                                    <br> <br />
-                                    <div class="summary_number"><h3><b>1754</b></h3></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col l4 m12 s12  center">
-                            <div class="card">
-                                <div class="card-content analytics-info">
-                                    <h5 class="card-title">Tỉ lệ huy động trung bình</h5>
-                                    <div class="chart easy-pie-chart-1" data-percent="84.2"> <span class="percent">8/100</span> </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col l4 m12 s12 center">
-                            <div class="card">
-                                <div class="card-content analytics-info">
-                                    <h5 class="card-title">Tổng số lao động nghỉ ốm dài</h5>
-                                    <br> <br />
-                                    <div class="summary_number"><h3><b>45</b></h3></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col l12 s12">
-                            <div class="card">
-                                <div class="card-content analytics-info">
-                                    <h5 class="card-title center">Lao động theo danh sách và số lao động tham gia sản xuất theo từng đơn vị</h5>
-                                    <div id="bar-basic" style="height:600px;"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col l12">
-                            <div class="card">
-                                <div class="card-content analytics-info">
-                                    <h5 class="card-title center">Lao động bình quân theo từng đơn vị</h5>
-                                    <div id="basic-bar" style="height:400px;"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col l12">
-                            <div class="card">
-                                <div class="card-content analytics-info">
-                                    <h5 class="card-title center">Phần trăm huy động bình quân theo từng đơn vị</h5>
-                                    <div id="basic-bar2" style="height:400px;"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col l12">
-                            <div class="card">
-                                <div class="card-content analytics-info">
-                                    <h5 class="card-title center">Lao động nghỉ dài theo từng đơn vị</h5>
-                                    <div id="basic-bar3" style="height:400px;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>*@
-
         <div id="bangchitiet" class="col s12">
             <div class="report_container">
-                <div class="row">
-                    <div class="col l2 s12">
-                        <div class="sap_xep">
-                            <div>
-                                <!-- Dropdown Trigger -->
-                                @*<div class="filter_label">Sắp xếp theo: </div>*@
-                                @*<a class='dropdown-trigger btn' href='#' data-target='dropdown3'>
-                                    Chọn tiêu
-                                    chí
-                                </a>*@
-                                <!-- Dropdown Structure -->
-                                <ul id='dropdown_px' class='dropdown-content'>
-                                    <li><a class="dropdown-child-px" href="#!" name="All">Tất cả</a></li>
-                                    <li><a class="dropdown-child-px" href="#!" name="DL3">Đào lò 3</a></li>
-                                    <li><a class="dropdown-child-px" href="#!" name="DL5">Đào lò 5</a></li>
-                                    <li><a class="dropdown-child-px" href="#!" name="DL7">Đào lò 7</a></li>
-                                    <li><a class="dropdown-child-px" href="#!" name="DL8">Đào lò 8</a></li>
-                                    <li><a class="dropdown-child-px" href="#!" name="KT1">Khai Thác 1</a></li>
-                                    <li><a class="dropdown-child-px" href="#!" name="KT2">Khai Thác 2</a></li>
-                                    <li><a class="dropdown-child-px" href="#!" name="KT3">Khai Thác 3</a></li>
-                                    <li><a class="dropdown-child-px" href="#!" name="KT4">Khai Thác 4</a></li>
-                                    <li><a class="dropdown-child-px" href="#!" name="KT5">Khai Thác 5</a></li>
-                                    <li><a class="dropdown-child-px" href="#!" name="KT6">Khai Thác 6</a></li>
-                                    <li><a class="dropdown-child-px" href="#!" name="KT7">Khai Thác 7</a></li>
-                                    <li><a class="dropdown-child-px" href="#!" name="KT8">Khai Thác 8</a></li>
-                                    <li><a class="dropdown-child-px" href="#!" name="KT9">Khai Thác 9</a></li>
-                                    <li><a class="dropdown-child-px" href="#!" name="KT10">Khai Thác 10</a></li>
-                                    <li><a class="dropdown-child-px" href="#!" name="KT11">Khai Thác 11</a></li>
-                                    <li><a class="dropdown-child-px" href="@Url.Content("/phong-tcld/nang-suat-lao-dong-va-tien-luong/nang-suat-lao-dong-va-tien-luong-theo-cac-ngay-trong-thang")" name="VTL1">Vận tải 1</a></li>
-                                    <li><a class="dropdown-child-px" href="#!" name="VTL2">Vận tải 2</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="row table_container">
                     <div class="col l12">
                         <table class="table table-bordered striped table-responsive">
@@ -325,144 +207,8 @@
         </div>
     </div>
 </div>
-@*<div id="modal1" class="modal">
-        <div class="modal-content">
-            <h4 class="modal_title"></h4>
-            <div>
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col s12">
-                            <div class="card">
-                                <div class="card-content">
-                                    <div class="row">
-                                        <div class="col s12">
-                                            <table class="striped responsive-table" id="data">
-                                                <thead>
-                                                    <tr>
-                                                        <th style="text-align: center">Số thứ tự</th>
-                                                        <th style="text-align: center">Mã nhân viên</th>
-                                                        <th style="text-align: center">Tên</th>
-                                                        <th style="text-align: center">Năm sinh</th>
-                                                        <th style="text-align: center">Giới tính</th>
-                                                        <th style="text-align: center">Số điện thoại</th>
-                                                        <th style="text-align: center">Phân xưởng</th>
-                                                        <th style="text-align: center"></th>
-                                                        <th style="text-align: center"></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td style="text-align: center">1</td>
-                                                        <td style="text-align: center"><a href="/">2179</a></td>
-                                                        <td style="text-align: center">
-                                                            <a href="/">
-                                                                Nguyễn Xuân
-                                                                Thoàng
-                                                            </a>
-                                                        </td>
-                                                        <td style="text-align: center">19/07/1987</td>
-                                                        <td style="text-align: center">Nam</td>
-                                                        <td style="text-align: center">091346578</td>
-                                                        <td style="text-align: center">Phân xưởng cơ khí</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="text-align: center">2</td>
-                                                        <td style="text-align: center"><a href="/">7751</a></td>
-                                                        <td style="text-align: center">
-                                                            <a href="/">
-                                                                Nguyễn Văn
-                                                                Hùng
-                                                            </a>
-                                                        </td>
-                                                        <td style="text-align: center">19/05/1984</td>
-                                                        <td style="text-align: center">Nam</td>
-                                                        <td style="text-align: center">094234658</td>
-                                                        <td style="text-align: center">Phân xưởng cơ khí</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="text-align: center">3</td>
-                                                        <td style="text-align: center"><a href="/">3506</a></td>
-                                                        <td style="text-align: center">
-                                                            <a href="/">
-                                                                Nguyễn Văn
-                                                                Hùng
-                                                            </a>
-                                                        </td>
-                                                        <td style="text-align: center">19/07/1991</td>
-                                                        <td style="text-align: center">Nam</td>
-                                                        <td style="text-align: center">091758725</td>
-                                                        <td style="text-align: center">Phân xưởng cơ khí</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="text-align: center">4</td>
-                                                        <td style="text-align: center"><a href="/">2041</a></td>
-                                                        <td style="text-align: center">
-                                                            <a href="/">
-                                                                Nguyễn Văn
-                                                                Hưng
-                                                            </a>
-                                                        </td>
-                                                        <td style="text-align: center">19/07/1976</td>
-                                                        <td style="text-align: center">Nam</td>
-                                                        <td style="text-align: center">098765243</td>
-                                                        <td style="text-align: center">Phân xưởng xây dựng</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="text-align: center">5</td>
-                                                        <td style="text-align: center"><a href="/">4472</a></td>
-                                                        <td style="text-align: center">
-                                                            <a href="/">
-                                                                Nguyễn Văn
-                                                                Hoa
-                                                            </a>
-                                                        </td>
-                                                        <td style="text-align: center">19/07/1976</td>
-                                                        <td style="text-align: center">Nữ</td>
-                                                        <td style="text-align: center">091874526</td>
-                                                        <td style="text-align: center">Phân xưởng cơ khí</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="text-align: center">6</td>
-                                                        <td style="text-align: center"><a href="/">7430</a></td>
-                                                        <td style="text-align: center">
-                                                            <a href="/">Đông Văn Đai</a>
-                                                        </td>
-                                                        <td style="text-align: center">19/07/1985</td>
-                                                        <td style="text-align: center">Nam</td>
-                                                        <td style="text-align: center">098645724</td>
-                                                        <td style="text-align: center">Phân xưởng cơ khí</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Done</a>
-        </div>
-    </div>*@
-<!---------------------------------------------------------------------------------->
-@*<ul id='dropdown_time' class='dropdown-content'>
-        <li>
-            <a class="dropdown-child-time" href="javascript:void(0);" name="month">Xem theo tháng</a>
-        </li>
-        <li>
-            <a class="dropdown-child-time" href="javascript:void(0);" name="day">Xem theo ngày</a>
-        </li>
-    </ul>
-    <ul id='dropdown3' class='dropdown-content'>
-        <li><a class="dropdown-child" href="javascript:void(0);" name="month">Xem theo tháng</a></li>
-        <li><a class="dropdown-child" href="#!" name="day">Xem theo ngày</a></li>
-    </ul>*@
 <script src="~/js/exportToExcel/jquery.table2excel.js"></script>
 <script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
-@*<script src="~/dist/js/pages/echarts/bar/bar.js"></script>*@
 <script src="~/js/tuan_js/myChart.js"></script>
 <script>
     $('.clickable_cell').click(function () {
@@ -518,7 +264,20 @@
         }
     });
     var elem = document.querySelector('.modal');
-    var instance = M.Modal.init(elem, options);</script>
+    var instance = M.Modal.init(elem, options);
+</script>
+<script>
+    $(function () {
+        $("#dateforsearch").datepicker({
+            onSelect: function (data) {
+                window.location = "/phong-tcld/nang-suat-lao-dong-va-tien-luong/nang-suat-lao-dong-va-tien-luong-theo-cac-px-trong-thang?month=" + data.split(" ")[1] + "&year=" + data.split(" ")[2];
+            }
+        })
+    });
+    $(document).ready(function () {
+        $("#dateforsearch").val("Tháng " + "@string.Format("{0:MM yyyy}", Convert.ToDateTime(ViewBag.year + "/" + ViewBag.month))");
+    });
+</script>
 <script src="~/assets/libs/chart.js/dist/Chart.min.js"></script>
 <script src="~/assets/extra-libs/prism/prism.js"></script>
 <!-- This page plugin js -->
@@ -532,4 +291,3 @@
     $("#export-button").click(function () {
         window.location.href = '/excel/Báo cáo lao động Tháng 6 2019.xls';
     });</script>
-@*<script src="~/js/Custom JS/TCLD/dateAnddepartment.js"></script>*@
