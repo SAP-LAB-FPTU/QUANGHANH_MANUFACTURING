@@ -35,13 +35,13 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
                     Department department = DBContext.Departments.Find(department_id);
                     if (department == null)
                     {
-                        return Json(new { success = false, message = "Mã phòng ban không tồn tại" });
+                        return Json(new { success = false, message = "Mã phòng ban không tồn tại" }, JsonRequestBehavior.AllowGet);
                     }
 
                     DocumentaryType type = DBContext.DocumentaryTypes.Find(int.Parse(documentary_type));
                     if (type == null)
                     {
-                        return Json(new { success = true, message = "Loại quyết định không tồn tại" });
+                        return Json(new { success = true, message = "Loại quyết định không tồn tại" }, JsonRequestBehavior.AllowGet);
                     }
 
                     //string Flocation = "/doc/CDVT/QD/quyetdinh.docx";
@@ -152,8 +152,8 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
                 catch (Exception e)
                 {
                     if (e is FormatException)
-                        return Json(new { success = false, message = "Loại quyết định không tồn tại" });
-                    return Json(new { success = false, message = "Có lỗi xảy ra" });
+                        return Json(new { success = false, message = "Loại quyết định không tồn tại" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = false, message = "Có lỗi xảy ra" }, JsonRequestBehavior.AllowGet);
                 }
             }
         }

@@ -188,15 +188,19 @@ namespace QUANGHANHCORE.Controllers.TCLD
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
-                string sql = "SELECT  A.*,B.department_name,C.TenCongViec,C.PhuCap,C.MaThangLuong" +
-                " FROM" +
-                "(" +
-                "(SELECT * FROM NhanVien where MaNV in (" + selected + ")) A" +
-                " left OUTER JOIN" +
-                " (SELECT department_id, department_name FROM Department) B on A.MaPhongBan = B.department_id" +
-                " left OUTER JOIN" +
-                " (SELECT MaCongViec, TenCongViec,PhuCap,MaThangLuong FROM CongViec) C on A.MaCongViec = C.MaCongViec" +
-                " )";
+                string sql =
+                @"SELECT A.MaNV,A.Ten,B.department_name,C.TenCongViec,C.PhuCap, D.MucBacLuong as BacLuong, D.MucThangLuong as ThangLuong, D.MucLuong as Luong
+                 FROM(
+                (SELECT * FROM NhanVien where MaNV in (" + selected+@" )) A
+                 left OUTER JOIN
+                 (SELECT department_id, department_name FROM Department) B on A.MaPhongBan = B.department_id
+                 left OUTER JOIN
+                 (SELECT MaCongViec, TenCongViec,PhuCap,MaThangLuong FROM CongViec) C on A.MaCongViec = C.MaCongViec
+				 left OUTER JOIN
+				 (SELECT tl.MaThangLuong,bl.MaBacLuong, mtm.MaBacLuong_ThangLuong_MucLuong ,tl.MucThangLuong,bl.MucBacLuong,mtm.MucLuong 
+				 FROM BacLuong_ThangLuong_MucLuong mtm , BacLuong bl, ThangLuong tl WHERE mtm.MaBacLuong=bl.MaBacLuong AND mtm.MaThangLuong=tl.MaThangLuong) D
+				 on A.MaBacLuong_ThangLuong_MucLuong=D.MaBacLuong_ThangLuong_MucLuong
+				 ) ";
                 listNhanVien = db.Database.SqlQuery<NhanVienModel>(sql).ToList<NhanVienModel>();
             }
             return Json(new { success = true, data = listNhanVien, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
@@ -574,6 +578,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
             public string TenTrangThai { get; set; }
             public double? PhuCap { get; set; }
             public string ThangLuong { get; set; }
+
+            public string Luong { get; set; }
         }
 
         public class DieuDongModel
@@ -748,7 +754,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             {
                 using (DbContextTransaction transaction = db.Database.BeginTransaction())
                 {
-                   
+
                     try
                     {
                         List<RecentQuyetDinhNhanVien> checkList = new List<RecentQuyetDinhNhanVien>();
@@ -764,7 +770,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         list = db.Database.SqlQuery<DetailDieuDongClass>(sql,
                                 new SqlParameter("MaQD", MaQD)
                                 ).ToList<DetailDieuDongClass>();
-                        
+
                         foreach (DetailDieuDongClass n in list)
                         {
                             foreach (RecentQuyetDinhNhanVien nv in checkList)
@@ -776,7 +782,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                           "MaCongViec=@MaChucVuCu," +
                                           "MaBacLuong_ThangLuong_MucLuong=@MaBacLuong_ThangLuong_MucLuong " +
                                           "where MaNV=@MaNV";
-                                    if (n.MaBacLuong_ThangLuong_MucLuongCu == null) {
+                                    if (n.MaBacLuong_ThangLuong_MucLuongCu == null)
+                                    {
                                         db.Database.ExecuteSqlCommand(sql1,
                                             new SqlParameter("MaDonViCu", n.MaDonViCu),
                                             new SqlParameter("MaChucVuCu", n.MaChucVuCu == null ? 31 : n.MaChucVuCu),
@@ -794,7 +801,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                             );
                                     }
 
-                                    
+
                                 }
                             }
                         }

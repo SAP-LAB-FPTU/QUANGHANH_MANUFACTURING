@@ -38,7 +38,7 @@
                                         <th class="center-align">Mã thiết bị<span></span></th>
                                         <th class="center-align">Tên thiết bị<span></span></th>
                                         <th class="center-align">Tình trạng thiết bị<span></span></th>
-                                        <th class="center-align">Bảo dưỡng đến<span></span></th>
+                                        <th class="center-align">Bảo dưỡng tại<span></span></th>
                                         <th class="center-align">Loại bảo dưỡng<span></span></th>
                                         <th class="center-align">Lý do bảo dưỡng (không bắt buộc)<span></span></th>
                                         <th class="center-align">Ngày dự kiến xong<span></span></th>
@@ -310,7 +310,7 @@
         $("#export-button").click(function () {
             window.location = '/phong-cdvt/quyet-dinh/export-word?data=' + $('#json').val()
                 + '&title=' + $('input[name = "reason"]').val() + '&department_id='
-                + $('#1 td:nth-child(4) input').val() + '&documentary_type=' + 2
+                + $('#0 td:nth-child(4) input').val() + '&documentary_type=' + 2
                 + '&fileName=Quyết định bảo dưỡng.docx' + '&resource=' + $('input[name = "out_in_come"]').val()
             //$("#pre-load").show();
             //$.ajax({
