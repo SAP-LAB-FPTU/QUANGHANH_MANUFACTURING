@@ -95,6 +95,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
         [HttpPost]
         public ActionResult GetData(string documentary_code, string out_in_come, string data, string department_id, string reason)
         {
+            string department_id_to = Request["department_id_to"];
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
             {
@@ -104,6 +105,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                     documentary.documentary_code = documentary_code == "" ? null : documentary_code;
                     documentary.documentary_type = 3;
                     documentary.department_id = department_id;
+                    documentary.department_id_to = department_id_to;
                     documentary.date_created = DateTime.Now;
                     documentary.person_created = Session["Name"] + "";
                     documentary.reason = reason;
@@ -115,7 +117,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                     foreach (var item in json)
                     {
                         string equipmentId = (string)item.Value["id"];
-                        string department_id_to = (string)item.Value["department_id"];
                         string department_detail = (string)item.Value["department_detail"];
                         string equipment_moveline_reason = (string)item.Value["equipment_moveline_reason"];
                         string datestring = (string)item.Value["date_to"];
@@ -130,7 +131,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                         drd.department_detail = department_detail;
                         drd.date_to = date_to;
                         drd.equipment_moveline_reason = equipment_moveline_reason;
-                        drd.department_id = department_id_to;
                         drd.documentary_id = documentary.documentary_id;
                         drd.equipmentId = equipmentId;
                         DBContext.Documentary_moveline_details.Add(drd);

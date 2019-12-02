@@ -100,6 +100,7 @@ namespace QUANGHANH2.Controllers.CDVT.Work.CaiTien
         [HttpPost]
         public ActionResult GetData(string documentary_code, string out_in_come, string data, string department_id, string reason)
         {
+            string department_id_to = Request["department_id_to"];
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
             {
@@ -109,6 +110,7 @@ namespace QUANGHANH2.Controllers.CDVT.Work.CaiTien
                     documentary.documentary_code = documentary_code == "" ? null : documentary_code;
                     documentary.documentary_type = 7;
                     documentary.department_id = department_id;
+                    documentary.department_id_to = department_id_to;
                     documentary.date_created = DateTime.Now;
                     documentary.person_created = Session["Name"] + "";
                     documentary.reason = reason;
@@ -120,10 +122,8 @@ namespace QUANGHANH2.Controllers.CDVT.Work.CaiTien
                     foreach (var item in json)
                     {
                         string equipmentId = (string)item.Value["id"];
-                        string department_id_to = (string)item.Value["department_id"];
                         Documentary_Improve_Detail drd = new Documentary_Improve_Detail();
                         drd.equipment_Improve_status = 0;
-                        drd.department_id = department_id_to;
                         drd.documentary_id = documentary.documentary_id;
                         drd.equipmentId = equipmentId;
                         DBContext.Documentary_Improve_Detail.Add(drd);
