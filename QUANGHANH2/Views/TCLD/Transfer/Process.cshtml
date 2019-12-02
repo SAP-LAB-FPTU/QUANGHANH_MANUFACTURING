@@ -15,6 +15,9 @@
     #export-button {
         float: right !important;
     }
+    .current-data {
+    color: #a7a7a7;
+}
 </style>
 <div class="row" id="chondieuchuyen">
 
@@ -97,7 +100,7 @@
                                     <table class="striped table table-responsive table-bordered" style="width:150%">
                                         <thead>
                                             <tr>
-                                                <th>Số thứ tự</th>
+                                                <th>STT</th>
                                                 <th>Mã nhân viên</th>
                                                 <th>Họ và tên</th>
                                                 <th>Đơn vị hiện tại</th>
@@ -532,14 +535,14 @@
                             $("#selected-container").append("<td id=\"cvht-" + response.data[i].MaNV + "\">" + response.data[i].TenCongViec + "</td>\n");
                             $("#selected-container").append("<td><select id=\"" + "donvi" + "-" + response.data[i].MaNV + "\" class=\"donvi form-control\">" + selectPhongBan + "</select></td>\n");
                             $("#selected-container").append(" <td><select id=\"" + "chucvu" + "-" + response.data[i].MaNV + "\" class=\"chucvu form-control\">" + tagCV + "</select></td>\n");
-                            var thang = response.data[i].ThangLuong === null ? "" : response.data[i].ThangLuong;
-                            $("#selected-container").append("<td><input data-mathangluong=\"\" id=\"" + "thang" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"thang  form-control\" placeholder=\"Thang\" value=\"" + thang + "\" readonly /></td>\n");
-                            var phucap = response.data[i].PhuCap === null ? "" : response.data[i].PhuCap;
-                            $("#selected-container").append("<td><input id=\"" + "phucap" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"phucap numberInput form-control\" placeholder=\"Phụ cấp\" value=\"" + AddComma(phucap) + "\" readonly /></td>\n");
-                            var bac = response.data[i].BacLuong === null ? "" : response.data[i].BacLuong;
-                            $("#selected-container").append("<td><select id=\"" + "bac" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"bac form-control\" placeholder=\"Bậc\" value=\"" + bac + "\" /></select></td>\n");
-                            var luong = response.data[i].MucLuong === null ? "" : response.data[i].MucLuong;
-                            $("#selected-container").append("<td><input id=\"" + "luong" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"luong numberInput form-control\" placeholder=\"Lương\" value=\"" + AddComma(luong) + "\" readonly /></td>\n");
+                            var thang = response.data[i].ThangLuong === null ? "Chưa cập nhật" : response.data[i].ThangLuong;
+                            $("#selected-container").append("<td><input data-mathangluong=\"\" id=\"" + "thang" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"thang  form-control\" placeholder=\"Thang\" readonly /><div><i class=\"current-data\"> (Hiện tại:"+thang+")</i></div></td>\n");
+                            var phucap = response.data[i].PhuCap === null ? "0" : response.data[i].PhuCap;
+                            $("#selected-container").append("<td><input id=\"" + "phucap" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"phucap numberInput form-control\" placeholder=\"Phụ cấp\" readonly /><div><i class=\"current-data\"> (Hiện tại:"+AddComma(phucap)+")</i></div></td>\n");
+                            var bac = response.data[i].BacLuong === null ? "Chưa cập nhật" : response.data[i].BacLuong;
+                            $("#selected-container").append("<td><select id=\"" + "bac" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"bac form-control\" placeholder=\"Bậc\" /></select><div><i class=\"current-data\"> (Hiện tại:"+bac+")</i></div></td>\n");
+                            var luong = response.data[i].Luong === null ? "Chưa cập nhật" : response.data[i].Luong;
+                            $("#selected-container").append("<td><input id=\"" + "luong" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"luong numberInput form-control\" placeholder=\"Lương\" readonly /><div><i class=\"current-data\"> (Hiện tại:" + AddComma(luong) + ")</i></div></td>\n");
 
                             $("#selected-container").append("<td><input id=\"" + "lydo" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"lydo form-control\" placeholder=\"Lý do điều động\" /></td>\n");
                             $("#selected-container").append(" </tr>\n");
