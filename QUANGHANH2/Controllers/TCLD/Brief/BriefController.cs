@@ -374,7 +374,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
                                  quyetDinhTiepNhanDVC = hs.QuyetDinhTiepNhanDVC,
                                  ngayQDTiepNhan = hs.NgayQuyetDinhTuyenDung,
-                                 ngayDiLam = nv.NgayDiLam,
+                                 ngayDiLam = hs.NgayDiLam,
                                  donViKyQuyetDinhTiepNhan = hs.DonViKyQuyetDinhTiepNhan,
                                  quyetDinhChamDut = hs.QDChamDutHopDongDVC,
                                  ngayQDChamDut = hs.NgayQuyetDinhChamDut,
@@ -385,6 +385,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
                              };
             var dataJson = Json(new { success = true, data = HoSoByMaNV });
+
+
+
 
             string dataSerialize = new JavaScriptSerializer().Serialize(dataJson.Data);
 

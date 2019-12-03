@@ -55,7 +55,7 @@
                                 <th class="center">Người lập quyết định</th>
                                 <th class="center">Số lượng thiết bị</th>
                                 <th class="center">Lý do quyết định</th>
-                                <th class="center">Nguồn vốn</th>
+                                @*<th class="center">Nguồn vốn</th>*@
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -99,10 +99,6 @@
                                         <label for="date">Mã quyết định: </label>
                                         <input type="text" class="form-control" value="" id="documentary_code_edit" />
                                     </div>
-                                    <div class="form-group">
-                                        <label for="date">Người lập quyết định : </label>
-                                        <input type="text" class="form-control" value="" id="person_created_edit" />
-                                    </div>
 
                                 </div>
                                 <div class="col s12 m6">
@@ -111,10 +107,13 @@
                                         <input type="text" class="form-control" value="" id="reason_edit" />
                                     </div>
                                     <div class="form-group">
+                                        <label for="date">Người lập quyết định : </label>
+                                        <input type="text" class="form-control" value="" id="person_created_edit" />
+                                    </div>
+                                    @*<div class="form-group">
                                         <label for="date">Nguồn vốn : </label>
                                         <input type="text" class="form-control" value="" id="out_in_come_edit" />
-                                    </div>
-
+                                    </div>*@
                                 </div>
                             </div>
                         </div>
@@ -122,7 +121,7 @@
                     <div class="modal-footer">
                         <button type="submit" id="btnSave" class="btn blue darken-2 modal-close save-category">Lưu</button>
                         <button type="button" id="exit-update-button" class="btn light-blue lighten-1 modal-close">Thoát</button>
-                        <td style="text-align: center"><a href="#myaleart" class="waves-effect waves-light btn red modal-trigger">Xoá bản nháp này</a></td>
+                        <a href="#myaleart" class="waves-effect waves-light btn red modal-trigger">Xoá bản nháp này</a>
                     </div>
                 </div>
             </form>
@@ -258,7 +257,7 @@
                     { "data": "person_created", "name": "person_created" },
                     { "data": "count", "name": "count" },
                     { "data": "reason" , "name" : "reason"},
-                    { "data": "out_in_come" , "name" :"out_in_come" },
+                    //{ "data": "out_in_come", "name": "out_in_come" },
                     {
                         "data": "tempId", "render": function (data) {
                             return "<a href=\"#myupdate\" data-toggle=\"modal\" class=\"open-UpdateModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-incident-id=\"" + data.split("^")[0] + "\">Cập&nbsp;nhật</a>";
@@ -334,7 +333,7 @@
                     $('#documentary_code_edit').val(data.documentary_code);
                     $('#person_created_edit').val(data.person_created);
                     $('#reason_edit').val(data.reason);
-                    $('#out_in_come_edit').val(data.out_in_come);
+                    //$('#out_in_come_edit').val(data.out_in_come);
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     $.notify(XMLHttpRequest.responseText, {
@@ -396,9 +395,7 @@
                         date_created: $('#date_created_edit').val().split(/\//).reverse().join('/'),
                         person_created: $('#person_created_edit').val(),
                         reason: $('#reason_edit').val(),
-                        out_in_come: $('#out_in_come_edit').val()
-
-
+                        //out_in_come: $('#out_in_come_edit').val()
                     },
                     cache: false
                 }).done(function () {

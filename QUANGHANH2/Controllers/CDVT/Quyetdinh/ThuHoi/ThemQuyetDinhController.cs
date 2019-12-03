@@ -5,16 +5,9 @@ using System.Linq;
 using System.Linq.Dynamic;
 using System.Web.Mvc;
 using System.Web.Routing;
-using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Wordprocessing;
-using System.Web.Hosting;
-using System.IO;
 using Newtonsoft.Json.Linq;
-using System.Globalization;
 using System.Data.Entity;
 using QUANGHANH2.SupportClass;
-using System.Text.RegularExpressions;
 
 namespace QUANGHANHCORE.Controllers.CDVT.Work
 {
@@ -92,7 +85,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
         [Auther(RightID = "89")]
         [Route("phong-cdvt/thu-hoi-chon")]
         [HttpPost]
-        public ActionResult GetData(string documentary_code, string out_in_come, string data, string department_id, string reason)
+        public ActionResult GetData(string out_in_come, string data, string department_id, string reason)
         {
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
@@ -100,7 +93,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                 try
                 {
                     Documentary documentary = new Documentary();
-                    documentary.documentary_code = documentary_code == "" ? null : documentary_code;
                     documentary.documentary_type = 4;
                     documentary.department_id = department_id;
                     documentary.department_id_to = "CDVT";
@@ -116,12 +108,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                     {
                         string equipmentId = (string)item.Value["id"];
                         string equipment_revoke_reason = (string)item.Value["equipment_revoke_reason"];
-                        if (documentary_code != "")
-                        {
-                            Equipment e = DBContext.Equipments.Find(equipmentId);
-                            e.current_Status = 7;
-                        }
-
                         Documentary_revoke_details drd = new Documentary_revoke_details();
                         drd.equipment_revoke_status = 0;
                         drd.equipment_revoke_reason = equipment_revoke_reason;

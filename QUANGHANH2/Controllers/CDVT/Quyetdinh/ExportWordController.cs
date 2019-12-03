@@ -88,47 +88,20 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
                             JObject json = JObject.Parse(data);
                             Table table =
                             doc.MainDocumentPart.Document.Body.Elements<Table>().ElementAt(1);
-                            int i = 0;
                             foreach (var item in json)
                             {
                                 string equipmentId = (string)item.Value["id"];
-                                JArray vattu = (JArray)item.Value.SelectToken("vattu");
-                                foreach (JObject jObject in vattu)
+                                if (item.Value["vattu"] != null)
                                 {
-                                    string supply_id = (string)jObject["supply_id"];
-                                    int quantity = (int)jObject["quantity"];
-                                    Supply s = DBContext.Supplies.Find(supply_id);
-                                    TableRow tr = new TableRow();
-
-                                    TableCell tc1 = new TableCell();
-                                    tc1.Append(new Paragraph(new Run(new Text((i + 1).ToString()))));
-                                    tr.Append(tc1);
-
-                                    TableCell tc2 = new TableCell();
-                                    tc2.Append(new Paragraph(new Run(new Text(equipmentId))));
-                                    tr.Append(tc2);
-
-                                    TableCell tc3 = new TableCell();
-                                    tc3.Append(new Paragraph(new Run(new Text(s.supply_name))));
-                                    tr.Append(tc3);
-
-                                    TableCell tc4 = new TableCell();
-                                    tc4.Append(new Paragraph(new Run(new Text(s.unit))));
-                                    tr.Append(tc4);
-
-                                    TableCell tc5 = new TableCell();
-                                    tc5.Append(new Paragraph(new Run(new Text(quantity.ToString()))));
-                                    tr.Append(tc5);
-
-                                    TableCell tc6 = new TableCell();
-                                    tc6.Append(new Paragraph(new Run(new Text(""))));
-                                    tr.Append(tc6);
-
-                                    TableCell tc7 = new TableCell();
-                                    tc7.Append(new Paragraph(new Run(new Text(""))));
-                                    tr.Append(tc7);
-
-                                    table.Append(tr);
+                                    AppendRow((JArray)item.Value.SelectToken("vattu"), equipmentId, table);
+                                }
+                                if (item.Value["duphong"] != null)
+                                {
+                                    AppendRow((JArray)item.Value.SelectToken("duphong"), equipmentId, table);
+                                }
+                                if (item.Value["dikem"] != null)
+                                {
+                                    AppendRow((JArray)item.Value.SelectToken("dikem"), equipmentId, table);
                                 }
                                 doc.MainDocumentPart.Document.Save();
                             }
@@ -155,6 +128,48 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
                         return Json(new { success = false, message = "Loại quyết định không tồn tại" }, JsonRequestBehavior.AllowGet);
                     return Json(new { success = false, message = "Có lỗi xảy ra" }, JsonRequestBehavior.AllowGet);
                 }
+            }
+        }
+
+        private void AppendRow(JArray vattu, string equipmentId, Table table)
+        {
+            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            foreach (JObject jObject in vattu)
+            {
+                string supply_id = (string)jObject["supply_id"];
+                int quantity = (int)jObject["quantity"];
+                Supply s = DBContext.Supplies.Find(supply_id);
+                TableRow tr = new TableRow();
+
+                TableCell tc1 = new TableCell();
+                tc1.Append(new Paragraph(new Run(new Text("1"))));
+                tr.Append(tc1);
+
+                TableCell tc2 = new TableCell();
+                tc2.Append(new Paragraph(new Run(new Text(equipmentId))));
+                tr.Append(tc2);
+
+                TableCell tc3 = new TableCell();
+                tc3.Append(new Paragraph(new Run(new Text(s.supply_name))));
+                tr.Append(tc3);
+
+                TableCell tc4 = new TableCell();
+                tc4.Append(new Paragraph(new Run(new Text(s.unit))));
+                tr.Append(tc4);
+
+                TableCell tc5 = new TableCell();
+                tc5.Append(new Paragraph(new Run(new Text(quantity.ToString()))));
+                tr.Append(tc5);
+
+                TableCell tc6 = new TableCell();
+                tc6.Append(new Paragraph(new Run(new Text(""))));
+                tr.Append(tc6);
+
+                TableCell tc7 = new TableCell();
+                tc7.Append(new Paragraph(new Run(new Text(""))));
+                tr.Append(tc7);
+
+                table.Append(tr);
             }
         }
     }

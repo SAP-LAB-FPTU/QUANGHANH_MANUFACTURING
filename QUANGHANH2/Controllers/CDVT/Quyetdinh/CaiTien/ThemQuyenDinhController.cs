@@ -6,15 +6,8 @@ using System.Linq.Dynamic;
 using System.Web.Mvc;
 using System.Web.Routing;
 using QUANGHANH2.SupportClass;
-using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Wordprocessing;
-using System.Web.Hosting;
-using System.IO;
 using Newtonsoft.Json.Linq;
-using System.Globalization;
 using System.Data.Entity;
-using System.Text.RegularExpressions;
 
 namespace QUANGHANH2.Controllers.CDVT.Work.CaiTien
 {
@@ -98,7 +91,7 @@ namespace QUANGHANH2.Controllers.CDVT.Work.CaiTien
         [Auther(RightID = "85")]
         [Route("phong-cdvt/cai-tien-chon/add")]
         [HttpPost]
-        public ActionResult GetData(string documentary_code, string out_in_come, string data, string department_id, string reason)
+        public ActionResult GetData(string out_in_come, string data, string department_id, string reason)
         {
             string department_id_to = Request["department_id_to"];
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
@@ -107,7 +100,6 @@ namespace QUANGHANH2.Controllers.CDVT.Work.CaiTien
                 try
                 {
                     Documentary documentary = new Documentary();
-                    documentary.documentary_code = documentary_code == "" ? null : documentary_code;
                     documentary.documentary_type = 7;
                     documentary.department_id = department_id;
                     documentary.department_id_to = department_id_to;
