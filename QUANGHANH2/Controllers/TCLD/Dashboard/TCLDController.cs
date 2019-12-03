@@ -81,6 +81,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 try
                 {
                     temp = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
+                    hetHanChungChi = temp != null ? temp : 0;
                 }
                 catch (Exception e)
                 {

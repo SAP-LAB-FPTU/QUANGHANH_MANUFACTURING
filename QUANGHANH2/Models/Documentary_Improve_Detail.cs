@@ -17,9 +17,7 @@ namespace QUANGHANH2.Models
         public int equipment_Improve_status { get; set; }
         public string equipmentId { get; set; }
         public int documentary_id { get; set; }
-        public string department_id { get; set; }
     
-        public virtual Department Department { get; set; }
         public virtual Documentary Documentary { get; set; }
         public virtual Equipment Equipment { get; set; }
     }
