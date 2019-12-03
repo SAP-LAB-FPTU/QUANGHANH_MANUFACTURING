@@ -493,6 +493,14 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                 //listForSelect.Add(new SelectListItem { Text = "Your text", Value = "TRAI" });
                 ViewBag.listDepeartment = listDepeartment;
                 ViewBag.listCategory = listCategory;
+
+                List<SelectListItem> listGPS = new List<SelectListItem>();
+                bool t = true;
+                listGPS.Add(new SelectListItem { Text = t.ToString(), Value = "Có tín hiệu" });
+                t = false;
+                listGPS.Add(new SelectListItem { Text = t.ToString(), Value = "Mất tín hiệu" });
+                ViewBag.listGPS = listGPS;
+
                 return View(db.Equipments.Where(x => x.equipmentId == id).FirstOrDefault<Equipment>());
                 //return Json(new { success = true, message = "Cập nhật thành công" , data= db.Equipments.Where(x => x.equipmentId == id).FirstOrDefault<Equipment>()}, JsonRequestBehavior.AllowGet);
             }

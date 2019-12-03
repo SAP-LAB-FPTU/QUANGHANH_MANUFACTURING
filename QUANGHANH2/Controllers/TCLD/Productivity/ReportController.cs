@@ -163,7 +163,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 dateTime = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             }
             String varname1 = "select a.department_id, a.QL, (a.KT + a.CD) as Tong, a.KT, a.CD, 0 as 'HSTT', " +
-                                "a.dilam, (a.vld + a.om + a.khac + a.phep) as vang, " +
+                                "a.dilam, (a.vld + a.om + a.khac + a.phep + a.tong_nghidai) as vang, " +
                                 "a.vld,a.om,a.phep,a.khac, " +
                                 "(case when (a.KT+ a.CD) = 0 then 0 else round(((a.KT + a.CD -a.vld-a.om-a.khac-a.phep)/(a.KT + a.CD )*100),1)end) as tile, " +
                                 "b.than, b.metlo, b.xen,b.diemluong,a.tong_nghidai,a.nghidai_om,a.nghidai_thld,a.nghidai_vld " +
@@ -173,10 +173,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                 "sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Ốm' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'om', " +
                                 "sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Nghỉ phép' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'phep', " +
                                 "sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Khác' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'khac', " +
-                                "SUM(case when d.LyDoVangMat in (N'Tai nạn lao động',N'Ốm dài',N'Thai sản',N'Tạm hoãn lao động',N'Vô lý do dài') then 1 else 0 end) as 'tong_nghidai', " +
-                                "SUM(case when d.LyDoVangMat in (N'Vô lý do dài') then 1 else 0 end) as 'nghidai_vld', " +
-                                "SUM(case when d.LyDoVangMat in (N'Tạm hoãn lao động') then 1 else 0 end) as 'nghidai_thld', " +
-                                "SUM(case when d.LyDoVangMat in (N'Ốm dài') then 1 else 0 end) as 'nghidai_om' " +
+                                "SUM(case when d.LyDoVangMat in (N'Tai nạn lao động',N'Ốm dài',N'Thai sản',N'Tạm hoãn lao động',N'Vô lý do dài') and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'tong_nghidai', " +
+                                "SUM(case when d.LyDoVangMat in (N'Vô lý do dài') and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'nghidai_vld', " +
+                                "SUM(case when d.LyDoVangMat in (N'Tạm hoãn lao động') and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'nghidai_thld', " +
+                                "SUM(case when d.LyDoVangMat in (N'Ốm dài') and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'nghidai_om' " +
                                 " from(select a.department_id, " +
                                 "sum(case when ncv.MaNhomCongViec = 10 then  1 else 0 end) as QL, " +
                                 "sum(case when ncv.MaNhomCongViec = 6 then  1 else 0 end) as KT, " +
@@ -202,13 +202,32 @@ namespace QUANGHANHCORE.Controllers.TCLD
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 List<BaoCaoNgayDB> all = db.Database.SqlQuery<BaoCaoNgayDB>(varname1, new SqlParameter("NgayDiemDanh", dateTime)).ToList();
+                TatCaDonVI tatca = new TatCaDonVI();
 
                 foreach (var item in all)
                 {
                     item.tong_tru_nghidai = item.Tong - item.tong_nghidai;
                     if (item.tong_tru_nghidai < 0) item.tong_tru_nghidai = 0;
+                    item.dilam = item.tong_tru_nghidai - item.vang;
+                    item.tile_dis = Math.Round(item.Tong != 0 ? (double)item.dilam / item.Tong * 100 : 0, 2);
+
+                    tatca.TongLaoDong += item.Tong;
+                    tatca.CBQL += item.QL;
+                    tatca.KT += item.KT;
+                    tatca.CD += item.CD;
+                    tatca.HSTT += item.HSTT;
+                    tatca.TongNghi += item.tong_nghidai;
+                    tatca.VLD += item.nghidai_vld;
+                    tatca.LDTheoDS += item.tong_tru_nghidai;
+                    tatca.LDSX += item.dilam;
+                    tatca.TongNghi += item.vang;
+                    tatca.TyLe += item.tile_dis;
                 }
+                tatca.TyLe = tatca.TyLe / all.Count;
                 ViewBag.TatCaDonVi = all;
+                ViewBag.TatCaDonViFooter = tatca;
+
+
             }
             return View("/Views/TCLD/Report/DailyAll.cshtml");
         }
@@ -241,7 +260,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     int VLD = 0;
                     int Khac = 0;
                     int TongNghi = 0;
-                    decimal TyLe = 0;
+                    double TyLe = 0;
                     foreach (var item in ViewBag.TatCaDonVi)
                     {
                         CBQL += item.CBQL;
@@ -264,18 +283,18 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     ViewBag.TatCaDonViFooter = new TatCaDonVI
                     {
                         Name = "Tổng",
-                        //CBQL = CBQL,
-                        //KT = KT,
-                        //CD = CD,
-                        //HSTT = HSTT,
-                        //TongLaoDong = TongLaoDong,
-                        //LDTheoDS = LDTheoDS,
-                        //LDSX = LDSX,
-                        //Om = Om,
-                        //VLD = VLD,
-                        //Khac = Khac,
-                        //TongNghi = TongNghi,
-                        //TyLe = TyLe
+                        CBQL = CBQL,
+                        KT = KT,
+                        CD = CD,
+                        HSTT = HSTT,
+                        TongLaoDong = TongLaoDong,
+                        LDTheoDS = LDTheoDS,
+                        LDSX = LDSX,
+                        Om = Om,
+                        VLD = VLD,
+                        Khac = Khac,
+                        TongNghi = TongNghi,
+                        TyLe = TyLe
                     };
                     excelWorksheet.Cells[1, 1].Value = "BÁO CÁO THỰC HIỆN LAO ĐỘNG, TIỀN LƯƠNG CÔNG NHÂN TRỰC TIẾP NGÀY " + date;
 
@@ -567,11 +586,23 @@ namespace QUANGHANHCORE.Controllers.TCLD
     public class TatCaDonVI
     {
         public string Name { get; set; }
-        public decimal TyLe { get; set; }
+        public double TyLe { get; set; }
         public double TongSoDiem { get; set; }
         public double TongSoThan { get; set; }
         public double TongSoMetLo { get; set; }
         public double TongSoXen { get; set; }
+
+        public int CBQL { get; set; }
+        public int KT { get; set; }
+        public int CD { get; set; }
+        public int HSTT { get; set; }
+        public int TongLaoDong { get; set; }
+        public int LDTheoDS { get; set; }
+        public int LDSX { get; set; }
+        public int Om { get; set; }
+        public int VLD { get; set; }
+        public int Khac { get; set; }
+        public int TongNghi { get; set; }
     }
 
     public class Vang
