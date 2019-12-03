@@ -193,6 +193,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                         documentary.documentary_status = 3;
                     }
                     Equipment equipment = db.Equipments.Find(id);
+                    equipment.department_id = documentary.department_id;
 
                     switch (documentary.documentary_type)
                     {
@@ -200,14 +201,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                             Documentary_repair_details documentary_Repair_Details = db.Database.SqlQuery<Documentary_repair_details>("SELECT * FROM Documentary_repair_details WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId",
                                 new SqlParameter("equipmentId", id),
                                 new SqlParameter("documentary_id", documentary.documentary_id)).First();
-                            equipment.department_id = documentary_Repair_Details.department_id;
                             equipment.current_Status = 2;
                             break;
                         case 2:
                             Documentary_maintain_details Documentary_maintain_details = db.Database.SqlQuery<Documentary_maintain_details>("SELECT * FROM Documentary_maintain_details WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId",
                                 new SqlParameter("equipmentId", id),
                                 new SqlParameter("documentary_id", documentary.documentary_id)).First();
-                            equipment.department_id = Documentary_maintain_details.department_id;
                             equipment.current_Status = 2;
                             break;
                         case 3:
@@ -257,15 +256,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                 }
                                 db.SaveChanges();
                             }
-                            equipment.department_id = documentary_Moveline_Details.department_id;
                             equipment.current_Status = 2;
                             break;
                         case 4:
-                            equipment.department_id = "CDVT";
                             equipment.current_Status = 1;
                             break;
                         case 5:
-                            equipment.department_id = "KHO";
                             equipment.current_Status = 15;
                             db.Database.ExecuteSqlCommand("DELETE FROM Supply_DuPhong WHERE equipmentId = @equipmentId",
                                 new SqlParameter("equipmentId", id));
@@ -276,7 +272,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                             Documentary_big_maintain_details documentary_Big_Maintain_Details = db.Database.SqlQuery<Documentary_big_maintain_details>("SELECT * FROM Documentary_big_maintain_details WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId",
                                 new SqlParameter("equipmentId", id),
                                 new SqlParameter("documentary_id", documentary.documentary_id)).First();
-                            equipment.department_id = documentary_Big_Maintain_Details.department_id;
                             equipment.current_Status = 1;
                             break;
                         case 7:
@@ -303,7 +298,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                 }
                                 db.SaveChanges();
                             }
-                            equipment.department_id = documentary_Improve_Details.department_id;
                             equipment.current_Status = 1;
                             break;
                         default:
