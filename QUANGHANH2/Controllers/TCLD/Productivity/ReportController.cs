@@ -153,7 +153,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         }
 
 
-
+        List<int> tiLeHuyDong = new List<int>();
         [Route("phong-tcld/nang-suat-lao-dong-va-tien-luong/nang-suat-lao-dong-va-tien-luong-theo-cac-px-trong-ngay")]
         public ActionResult DailyAll(string date)
         {
@@ -163,7 +163,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 dateTime = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             }
             String varname1 = "select a.department_id, a.QL, (a.KT + a.CD) as Tong, a.KT, a.CD, 0 as 'HSTT', " +
-                                "a.dilam, (a.vld + a.om + a.khac + a.phep + a.tong_nghidai) as vang, " +
+                                "a.dilam, (a.vld + a.om + a.khac + a.phep) as vang, " +
                                 "a.vld,a.om,a.phep,a.khac, " +
                                 "(case when (a.KT+ a.CD) = 0 then 0 else round(((a.KT + a.CD -a.vld-a.om-a.khac-a.phep)/(a.KT + a.CD )*100),1)end) as tile, " +
                                 "b.than, b.metlo, b.xen,b.diemluong,a.tong_nghidai,a.nghidai_om,a.nghidai_thld,a.nghidai_vld " +
@@ -480,92 +480,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         public static string QueryForReportAlll(string date)
         {
             var ngay = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            string query = "SELECT DISTINCT department.department_id AS [Name], \n"
-            + "                Row_number() \n"
-            + "                  OVER ( \n"
-            + "                    ORDER BY department.department_id)    AS [STT], \n"
-            + "                Isnull(b.cbql, 0)                         AS CBQL, \n"
-            + "                Isnull(b.kt, 0)                           AS KT, \n"
-            + "                Isnull(b.cd, 0)                           AS CD, \n"
-            + "                Isnull(b.hstt, 0)                         AS HSTT, \n"
-            + "                Isnull(( b.kt + b.cd + b.hstt ), 0)       AS TongLaoDong, \n"
-            + "                Isnull(b.ldtheods, 0)                     AS LDTheoDS, \n"
-            + "                Isnull(b.ldsx, 0)                         AS LDSX, \n"
-            + "                Isnull(b.om, 0)                           AS Om, \n"
-            + "                Isnull(b.vld, 0)                          AS VLD, \n"
-            + "                Isnull(( b.phep + b.bu + b.tt + b.h ), 0) AS Khac, \n"
-            + "                Isnull(b.tongnghi, 0)                     AS TongNghi, \n"
-            + "                Cast(CASE \n"
-            + "                       WHEN ( b.ldtheods ) != 0 THEN \n"
-            + "                       ( b.ldsx ) * 1.0 / ( b.ldtheods ) * 100 \n"
-            + "                       ELSE 100 \n"
-            + "                     END AS NUMERIC(36, 2))               AS TyLe \n"
-            + "FROM   department \n"
-            + "       LEFT JOIN (SELECT *, \n"
-            + "                         ( phep + om + bu + tt + vld + h )AS TongNghi \n"
-            + "                  FROM   (SELECT de.department_id, \n"
-            + "                                 Count(d.manv)      AS LDTheoDS, \n"
-            + "                                 (Count(d.manv) \n"
-            + "								 -Sum(CASE WHEN lydovangmat LIKE N'Phép' THEN 1  ELSE 0  END)\n"
-            + "							     -Sum(CASE WHEN lydovangmat LIKE N'Ốm' THEN 1  ELSE 0 END) \n"
-            + "							     -Sum(CASE WHEN lydovangmat LIKE N'Bù' THEN 1 ELSE 0 END)  \n"
-            + "							     -Sum(CASE WHEN lydovangmat LIKE N'TT' THEN 1 ELSE 0 END)   \n"
-            + "							     -Sum(CASE  WHEN lydovangmat LIKE N'VLD' THEN 1 ELSE 0  END) \n"
-            + "							     -Sum(CASE  WHEN lydovangmat LIKE N'H' THEN 1  ELSE 0  END)   \n"
-            + "								 )  AS LDSX, \n"
-            + "                                 Sum(CASE \n"
-            + "                                       WHEN lydovangmat LIKE N'Phép' THEN 1 \n"
-            + "                                       ELSE 0 \n"
-            + "                                     END)             AS Phep, \n"
-            + "                                 Sum(CASE \n"
-            + "                                       WHEN lydovangmat LIKE N'Ốm' THEN 1 \n"
-            + "                                       ELSE 0 \n"
-            + "                                     END)             AS Om, \n"
-            + "                                 Sum(CASE \n"
-            + "                                       WHEN lydovangmat LIKE N'Bù' THEN 1 \n"
-            + "                                       ELSE 0 \n"
-            + "                                     END)             AS Bu, \n"
-            + "                                 Sum(CASE \n"
-            + "                                       WHEN lydovangmat LIKE N'TT' THEN 1 \n"
-            + "                                       ELSE 0 \n"
-            + "                                     END)             AS TT, \n"
-            + "                                 Sum(CASE \n"
-            + "                                       WHEN lydovangmat LIKE N'VLD' THEN 1 \n"
-            + "                                       ELSE 0 \n"
-            + "                                     END)             AS VLD, \n"
-            + "                                 Sum(CASE \n"
-            + "                                       WHEN lydovangmat LIKE N'H' THEN 1 \n"
-            + "                                       ELSE 0 \n"
-            + "                                     END)             AS H, \n"
-            + "                                 Sum(CASE \n"
-            + "                                       WHEN loainhanvien LIKE N'CBQL' THEN 1 \n"
-            + "                                       ELSE 0 \n"
-            + "                                     END)             AS CBQL, \n"
-            + "                                 Sum(CASE \n"
-            + "                                       WHEN loainhanvien LIKE N'CNKT' THEN 1 \n"
-            + "                                       ELSE 0 \n"
-            + "                                     END)             AS KT, \n"
-            + "                                 Sum(CASE \n"
-            + "                                       WHEN loainhanvien LIKE N'Cơ Điện' \n"
-            + "                                     THEN 1 \n"
-            + "                                       ELSE 0 \n"
-            + "                                     END)             AS CD, \n"
-            + "                                 Sum(CASE \n"
-            + "                                       WHEN loainhanvien LIKE N'HSTT' THEN 1 \n"
-            + "                                       ELSE 0 \n"
-            + "                                     END)             AS HSTT \n"
-            + "                          FROM   nhanvien n, \n"
-            + "                                 diemdanh_nangsuatlaodong d, \n"
-            + "                                 department de, \n"
-            + "                                 Header_DiemDanh_NangSuat_LaoDong h"
-            + "                          WHERE  n.manv = d.manv \n"
-            + "                                 AND de.department_id = h.MaPhongBan \n"
-            + "                                 AND h.HeaderID = d.HeaderID \n"
-            + "                                 AND h.NgayDiemDanh = '" + ngay + "' \n"
-            + "                          GROUP  BY de.department_id) a) b \n"
-            + "              ON department.department_id = b.department_id \n"
-            + "              WHERE  department.department_type = N'Phân xưởng sản xuất chính' \n"
-            + "                     AND department.department_id != 'PXLT' AND department.department_id != 'PXST' ";
+            string query = @"";
             return query;
         }
     }
