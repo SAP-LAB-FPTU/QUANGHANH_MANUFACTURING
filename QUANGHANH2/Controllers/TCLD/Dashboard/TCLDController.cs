@@ -88,10 +88,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
                 }
                 ////////////////////////////GET SO LUONG NGHI VLD///////////////////////////////////////////
-                sql = "select (case when Count(vld.MaNV)  is null then 0 else Count(vld.MaNV) end ) from \n" +
-                            "(select MaNV, ThoiGianThucTeDiemDanh from DiemDanh_NangSuatLaoDong\n" +
-                            "where ThoiGianThucTeDiemDanh = (SELECT CONVERT(VARCHAR(10), getdate() - 1, 101))\n" +
-                            "and DiLam=0 and LyDoVangMat=N'VLD') as vld";
+                sql = @"select case when Count(b.MaNV) is null then 0 else count(b.MaNV) end 'SoLuongNhanVien' from Header_DiemDanh_NangSuat_LaoDong a join DiemDanh_NangSuatLaoDong b on a.HeaderID = b.HeaderID
+                        where a.NgayDiemDanh = (SELECT CONVERT(VARCHAR(10), getdate() - 1, 101)) and b.LyDoVangMat = N'Vô lý do'
+                        group by a.NgayDiemDanh, b.LyDoVangMat";
 
                 try
                 {
@@ -105,14 +104,51 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 /////////////////////////////////////////////////////////////////////////////////////////////
 
                 //////////////////////////////////////GET TI LE HUY DONG////////////////////////////////////////
-                string currentDate = DateTime.Now.ToString("dd/MM/yyyy");
+                string currentDate = DateTime.Now.AddDays(-1).ToString("yyyy/MM/dd");
                 try
                 {
-                    sql = QUANGHANHCORE.Controllers.TCLD.ReportController.QueryForReportAlll(currentDate);
-                    List<TatCaDonVI> listTLHD = db.Database.SqlQuery<TatCaDonVI>(sql).ToList();
+                    sql = @"select a.department_id, a.QL, (a.KT + a.CD) as Tong, a.KT, a.CD, 0 as 'HSTT', 
+                                a.dilam, (a.vld + a.om + a.khac + a.phep) as vang, 
+                                a.vld,a.om,a.phep,a.khac, 
+                                (case when (a.KT+ a.CD) = 0 then 0 else round(Convert(float,(a.KT + a.CD - a.tong_nghidai)-(a.vld + a.om + a.khac + a.phep))/(a.KT + a.CD - a.tong_nghidai)*100,1) end) as tile, 
+                                b.than, b.metlo, b.xen,b.diemluong,a.tong_nghidai,a.nghidai_om,a.nghidai_thld,a.nghidai_vld 
+                                from 
+                                (select a.department_id, a.QL, a.KT, a.CD, 
+                                sum(case when d.DiLam = 1 and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as dilam, 
+                                sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Vô lý do' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'vld', 
+                                sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Ốm' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'om', 
+                                sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Nghỉ phép' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'phep', 
+                                sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Khác' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'khac', 
+                                SUM(case when d.LyDoVangMat in (N'Tai nạn lao động',N'Ốm dài',N'Thai sản',N'Tạm hoãn lao động',N'Vô lý do dài') and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'tong_nghidai', 
+                                SUM(case when d.LyDoVangMat in (N'Vô lý do dài') and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'nghidai_vld', 
+                                SUM(case when d.LyDoVangMat in (N'Tạm hoãn lao động') and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'nghidai_thld', 
+                                SUM(case when d.LyDoVangMat in (N'Ốm dài') and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'nghidai_om' 
+                                 from(select a.department_id, 
+                                sum(case when ncv.MaNhomCongViec = 10 then  1 else 0 end) as QL, 
+                                sum(case when ncv.MaNhomCongViec = 6 then  1 else 0 end) as KT, 
+                                sum(case when ncv.MaNhomCongViec = 7 then  1 else 0 end) as CD 
+                                from Department a left outer join NhanVien n on n.MaPhongBan = a.department_id 
+                                join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec 
+                                join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec 
+                                where a.department_type like N'%chính%' and a.department_id != 'PXST' and a.department_id != 'PXLT' 
+                                group by a.department_id) 
+                                 as a left outer join Header_DiemDanh_NangSuat_LaoDong h 
+                                on a.department_id = h.MaPhongBan left outer join DiemDanh_NangSuatLaoDong d 
+                                on h.HeaderID = d.HeaderID 
+                                group by a.department_id, a.QL, a.KT, a.CD) as a inner join 
+                                ( select a.department_id, 
+                                sum(case when h.ThanThucHien is not null and h.NgayDiemDanh = @NgayDiemDanh then h.ThanThucHien else 0 end) as 'than', 
+                                sum(case when h.MetLoThucHien is not null and h.NgayDiemDanh = @NgayDiemDanh then h.MetLoThucHien else 0 end) as 'metlo', 
+                                sum(case when h.XenThucHien is not null and h.NgayDiemDanh = @NgayDiemDanh then h.XenThucHien else 0 end) as 'xen', 
+                                sum(case when h.TotalEffort is not null and h.NgayDiemDanh = @NgayDiemDanh then h.TotalEffort else 0 end) as 'diemluong' 
+                                from Department a left outer join Header_DiemDanh_NangSuat_LaoDong h 
+                                on a.department_id = h.MaPhongBan 
+                                group by a.department_id 
+                                ) as b on a.department_id = b.department_id";
+                    List<BaoCaoNgayDB> listTLHD = db.Database.SqlQuery<BaoCaoNgayDB>(sql, new SqlParameter("NgayDiemDanh", currentDate)).ToList();
                     for (int i = 0; i < listTLHD.Count; i++)
                     {
-                        if (listTLHD[i].TyLe > 82)
+                        if (listTLHD[i].tile > 82)
                         {
                             tren82++;
                         }
@@ -126,14 +162,12 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 {
 
                 }
-
-
-                ////////////////////////////////////////////////////////////////////////////////////////////////
+                //////////////////////////////////////////////////////////////////////////////////////////////
 
                 //////////////////////////////////////GET NV NGHI VLD////////////////////////////////////////
                 sql = "select n.MaNV, n.Ten as HoTen,Department.department_name as TenDonVi\n" +
                 "from Department, Header_DiemDanh_NangSuat_LaoDong hd inner join DiemDanh_NangSuatLaoDong d\n" +
-                "on hd.HeaderID = d.HeaderID and hd.NgayDiemDanh = (SELECT CONVERT(VARCHAR(10), getdate() - 1, 101) and d.LyDoVangMat like N'Vô lý do' inner join NhanVien n\n" +
+                "on hd.HeaderID = d.HeaderID and hd.NgayDiemDanh = (SELECT CONVERT(VARCHAR(10), getdate() - 1, 101)) and d.LyDoVangMat like N'Vô lý do' inner join NhanVien n\n" +
                 "on d.MaNV = n.MaNV\n" +
                 "where Department.department_id = hd.MaPhongBan";
                 try
@@ -145,24 +179,23 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
                 }
 
-                //listNghiVLD.Add(new NghiVLD("7887", "aHIHI", "QuangHanh"));
                 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
                 ////////////////////////////////////////GET DATA NHAN LUC////////////////////////////////////////////////
                 sql = "select tb1.department_id as MaDonVi,\n" +
-"(case when tb2.soluong is null then 0 else tb2.soluong end) as SoLuong\n" +
-"from\n" +
-"(select * from Department where department_id in\n" +
-"('PXKT1', 'PXKT2', 'PXKT3', 'PXKT4', 'PXKT5', 'PXKT6', 'PXKT7', 'PXKT8', 'PXKT9', 'PXKT10', 'PXKT11',\n" +
-"'PXDL3', 'PXDL5', 'PXDL7', 'PXDL8', 'PXVT1', 'PXVT2')) tb1\n" +
-"left join\n" +
-"(select hd.MaPhongBan, count(d.MaNV) as soluong from Header_DiemDanh_NangSuat_LaoDong hd inner\n" +
- "                                               join DiemDanh_NangSuatLaoDong d\n" +
-"on hd.HeaderID = d.HeaderID\n" +
-"where hd.NgayDiemDanh = (SELECT CONVERT(VARCHAR(10), getdate() - 1, 101)) and DiLam = 1\n" +
-"group by hd.MaPhongBan) tb2\n" +
-"on tb1.department_id = tb2.MaPhongBan\n" +
-"group by tb1.department_id,tb2.soluong";
+                        "(case when tb2.soluong is null then 0 else tb2.soluong end) as SoLuong\n" +
+                        "from\n" +
+                        "(select * from Department where department_id in\n" +
+                        "('PXKT1', 'PXKT2', 'PXKT3', 'PXKT4', 'PXKT5', 'PXKT6', 'PXKT7', 'PXKT8', 'PXKT9', 'PXKT10', 'PXKT11',\n" +
+                        "'PXDL3', 'PXDL5', 'PXDL7', 'PXDL8', 'PXVT1', 'PXVT2')) tb1\n" +
+                        "left join\n" +
+                        "(select hd.MaPhongBan, count(d.MaNV) as soluong from Header_DiemDanh_NangSuat_LaoDong hd inner\n" +
+                         "                                               join DiemDanh_NangSuatLaoDong d\n" +
+                        "on hd.HeaderID = d.HeaderID\n" +
+                        "where hd.NgayDiemDanh = (SELECT CONVERT(VARCHAR(10), getdate() - 1, 101)) and DiLam = 1\n" +
+                        "group by hd.MaPhongBan) tb2\n" +
+                        "on tb1.department_id = tb2.MaPhongBan\n" +
+                        "group by tb1.department_id,tb2.soluong";
                 try
                 {
                     listNhanLuc = db.Database.SqlQuery<NhanLuc>(sql).ToList<NhanLuc>();
@@ -171,7 +204,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 {
 
                 }
-
 
                 ///////////////////////////////////////GET DATA SAN LUONG///////////////////////////////////////////////
                 sql = "select (select (case when sum(tc_kh.SanLuongKeHoach) is null then 0 else sum(tc_kh.SanLuongKeHoach) end) from (select tc.MaTieuChi, tc.DonViDo, kh.SanLuongKeHoach, kh.ThangKeHoach, kh.NamKeHoach from KeHoach_TieuChi kh join TieuChi tc on kh.MaTieuChi = tc.MaTieuChi) as tc_kh where tc_kh.MaTieuChi in (1,2,3,4) and  tc_kh.ThangKeHoach = (SELECT MONTH(CONVERT(VARCHAR(10), getdate() - 1, 101))) and tc_kh.NamKeHoach = (SELECT YEAR(CONVERT(VARCHAR(10), getdate() - 1, 101)))) 'SLKH', \n" +
@@ -201,22 +233,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
             return View("/Views/TCLD/bao-cao-nhanh.cshtml");
         }
 
-        //[Auther(RightID="57")]
-        //[Route("phong-tcld/bao-cao-chi-tiet-theo-ca")]
-        //public ActionResult Report1(string ca, string donvi, string date)
-        //{
-        //    if(ca == null)
-        //    {
-        //        ca = "1";
-        //    }
-        //    if (date == null)
-        //    {
-        //        date = string.Format("{0:dd/MM/yyyy}", DateTime.Now);
-        //    }
-        //    if (donvi == null) { }
-
-        //    return null;
-        //}
         /// <summary>
         /// The GetData
         /// </summary>
@@ -244,9 +260,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
                     db.Configuration.LazyLoadingEnabled = false;
                     string sql = "select (case when count(MaQuyetDinh) is null then 0 else count(MaQuyetDinh) end ) as SoLuotHuyDong from quyetdinh\n" +
-                    "where maquyetdinh in\n" +
-                    "(SELECT  distinct dd.MaQuyetDinh FROM DIEUDONG_NHANVIEN dd,QuyetDinh qd where dd.MaQuyetDinh=qd.MaQuyetDinh and qd.SoQuyetDinh<>'' )\n" +
-                    "AND NgayQuyetDinh = @NgayQuyetDinh";
+                                "where maquyetdinh in\n" +
+                                "(SELECT  distinct dd.MaQuyetDinh FROM DIEUDONG_NHANVIEN dd,QuyetDinh qd where dd.MaQuyetDinh=qd.MaQuyetDinh and qd.SoQuyetDinh<>'' )\n" +
+                                "AND NgayQuyetDinh = @NgayQuyetDinh";
                     try
                     {
                         soLuotHuyDong = db.Database.SqlQuery<int>(sql,
@@ -260,8 +276,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
                     ////////////////////////////GET SO LUONG TAI NAN//////////////////////////////
                     sql = "select (case when Count(tn.MaNV) is null then 0 else Count(tn.MaNV) end )  from \n" +
-                      "(select MaNV, Ngay from TaiNan where\n" +
-                      "Ngay = @NgayQuyetDinh) as tn";
+                          "(select MaNV, Ngay from TaiNan where\n" +
+                          "Ngay = @NgayQuyetDinh) as tn";
                     try
                     {
                         vuTaiNan = db.Database.SqlQuery<int>(sql,
@@ -276,10 +292,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
                     /// ////////////////////////////GET SO LUONG HET HAN CC//////////////////////////////
                     sql = "select (case when sum(th.st)  is null then 0 else sum(th.st) end ) \n" +
-                      "from(select cn.MaNV, cn.NgayCap, cc.ThoiHan, (case\n" +
-                      "when DATEADD(MONTH, cc.ThoiHan, cn.NgayCap) <= @NgayQuyetDinh\n" +
-                      "then 1 else 0 end) as st\n" +
-                      "from ChungChi_NhanVien cn join ChungChi cc on cn.MaChungChi = cc.MaChungChi) as th";
+                          "from(select cn.MaNV, cn.NgayCap, cc.ThoiHan, (case\n" +
+                          "when DATEADD(MONTH, cc.ThoiHan, cn.NgayCap) <= @NgayQuyetDinh\n" +
+                          "then 1 else 0 end) as st\n" +
+                          "from ChungChi_NhanVien cn join ChungChi cc on cn.MaChungChi = cc.MaChungChi) as th";
                     try
                     {
                         hetHanChungChi = db.Database.SqlQuery<int>(sql, new SqlParameter("NgayQuyetDinh", DateTime.Parse(date))).ToList<int>()[0];
@@ -293,11 +309,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     //////////////////////////////////////////////////////////////////////////////
 
                     /// ////////////////////////////GET SO LUONG NGHI VLD//////////////////////////////
-                    sql = "select (case when Count(n.MaNV)  is null then 0 else Count(n.MaNV) end )\n" +
-               "from Department, Header_DiemDanh_NangSuat_LaoDong hd inner join DiemDanh_NangSuatLaoDong d\n" +
-               "on hd.HeaderID = d.HeaderID and hd.NgayDiemDanh = @NgayDiemDanh and d.LyDoVangMat like N'Vô lý do' inner join NhanVien n\n" +
-               "on d.MaNV = n.MaNV\n" +
-               "where Department.department_id = hd.MaPhongBan";
+                    sql = @"select case when Count(b.MaNV) is null then 0 else count(b.MaNV) end 'SoLuongNhanVien' from Header_DiemDanh_NangSuat_LaoDong a join DiemDanh_NangSuatLaoDong b on a.HeaderID = b.HeaderID
+                            where a.NgayDiemDanh = (SELECT CONVERT(VARCHAR(10), @NgayDiemDanh, 101)) and b.LyDoVangMat = N'Vô lý do'
+                            group by a.NgayDiemDanh, b.LyDoVangMat";
                     try
                     {
                         nghiVLD = db.Database.SqlQuery<int>(sql,
@@ -312,37 +326,73 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     //////////////////////////////////////////////////////////////////////////////
 
                     //////////////////////////////////////GET TI LE HUY DONG////////////////////////////////////////
-                    string tempDate = date.Split('/')[2] + "/" + date.Split('/')[1] + "/" + date.Split('/')[0];
-                    List<TatCaDonVI> listTLHD = new List<TatCaDonVI>();
+                    string tempDate = date.Split('/')[0] + "/" + date.Split('/')[1] + "/" + date.Split('/')[2];
                     try
                     {
-                        sql = QUANGHANHCORE.Controllers.TCLD.ReportController.QueryForReportAlll(tempDate);
-                        listTLHD = db.Database.SqlQuery<TatCaDonVI>(sql).ToList();
+                        sql = @"select a.department_id, a.QL, (a.KT + a.CD) as Tong, a.KT, a.CD, 0 as 'HSTT', 
+                                a.dilam, (a.vld + a.om + a.khac + a.phep) as vang, 
+                                a.vld,a.om,a.phep,a.khac, 
+                                (case when (a.KT+ a.CD) = 0 then 0 else round(Convert(float,(a.KT + a.CD - a.tong_nghidai)-(a.vld + a.om + a.khac + a.phep))/(a.KT + a.CD - a.tong_nghidai)*100,1) end) as tile, 
+                                b.than, b.metlo, b.xen,b.diemluong,a.tong_nghidai,a.nghidai_om,a.nghidai_thld,a.nghidai_vld 
+                                from 
+                                (select a.department_id, a.QL, a.KT, a.CD, 
+                                sum(case when d.DiLam = 1 and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as dilam, 
+                                sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Vô lý do' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'vld', 
+                                sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Ốm' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'om', 
+                                sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Nghỉ phép' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'phep', 
+                                sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Khác' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'khac', 
+                                SUM(case when d.LyDoVangMat in (N'Tai nạn lao động',N'Ốm dài',N'Thai sản',N'Tạm hoãn lao động',N'Vô lý do dài') and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'tong_nghidai', 
+                                SUM(case when d.LyDoVangMat in (N'Vô lý do dài') and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'nghidai_vld', 
+                                SUM(case when d.LyDoVangMat in (N'Tạm hoãn lao động') and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'nghidai_thld', 
+                                SUM(case when d.LyDoVangMat in (N'Ốm dài') and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'nghidai_om' 
+                                 from(select a.department_id, 
+                                sum(case when ncv.MaNhomCongViec = 10 then  1 else 0 end) as QL, 
+                                sum(case when ncv.MaNhomCongViec = 6 then  1 else 0 end) as KT, 
+                                sum(case when ncv.MaNhomCongViec = 7 then  1 else 0 end) as CD 
+                                from Department a left outer join NhanVien n on n.MaPhongBan = a.department_id 
+                                join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec 
+                                join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec 
+                                where a.department_type like N'%chính%' and a.department_id != 'PXST' and a.department_id != 'PXLT' 
+                                group by a.department_id) 
+                                 as a left outer join Header_DiemDanh_NangSuat_LaoDong h 
+                                on a.department_id = h.MaPhongBan left outer join DiemDanh_NangSuatLaoDong d 
+                                on h.HeaderID = d.HeaderID 
+                                group by a.department_id, a.QL, a.KT, a.CD) as a inner join 
+                                ( select a.department_id, 
+                                sum(case when h.ThanThucHien is not null and h.NgayDiemDanh = @NgayDiemDanh then h.ThanThucHien else 0 end) as 'than', 
+                                sum(case when h.MetLoThucHien is not null and h.NgayDiemDanh = @NgayDiemDanh then h.MetLoThucHien else 0 end) as 'metlo', 
+                                sum(case when h.XenThucHien is not null and h.NgayDiemDanh = @NgayDiemDanh then h.XenThucHien else 0 end) as 'xen', 
+                                sum(case when h.TotalEffort is not null and h.NgayDiemDanh = @NgayDiemDanh then h.TotalEffort else 0 end) as 'diemluong' 
+                                from Department a left outer join Header_DiemDanh_NangSuat_LaoDong h 
+                                on a.department_id = h.MaPhongBan 
+                                group by a.department_id 
+                                ) as b on a.department_id = b.department_id";
+                        List<BaoCaoNgayDB> listTLHD = db.Database.SqlQuery<BaoCaoNgayDB>(sql, new SqlParameter("NgayDiemDanh", tempDate)).ToList();
+                        for (int i = 0; i < listTLHD.Count; i++)
+                         {
+                            if (listTLHD[i].tile >= 82)
+                            {
+                                tren82++;
+                            }
+                            else
+                            {
+                                duoi82++;
+                            }
+                        }
                     }
                     catch (Exception e)
                     {
 
                     }
 
-                    for (int i = 0; i < listTLHD.Count; i++)
-                    {
-                        if (listTLHD[i].TyLe > 82)
-                        {
-                            tren82++;
-                        }
-                        else
-                        {
-                            duoi82++;
-                        }
-                    }
                     ////////////////////////////////////////////////////////////////////////////////////////////////
 
                     //////////////////////////////////////GET NV NGHI VLD////////////////////////////////////////
                     sql = "select n.MaNV, n.Ten as HoTen,Department.department_name as TenDonVi\n" +
-               "from Department, Header_DiemDanh_NangSuat_LaoDong hd inner join DiemDanh_NangSuatLaoDong d\n" +
-               "on hd.HeaderID = d.HeaderID and hd.NgayDiemDanh = @NgayDiemDanh and d.LyDoVangMat like N'Vô lý do' inner join NhanVien n\n" +
-               "on d.MaNV = n.MaNV\n" +
-               "where Department.department_id = hd.MaPhongBan";
+                           "from Department, Header_DiemDanh_NangSuat_LaoDong hd inner join DiemDanh_NangSuatLaoDong d\n" +
+                           "on hd.HeaderID = d.HeaderID and hd.NgayDiemDanh = @NgayDiemDanh and d.LyDoVangMat like N'Vô lý do' inner join NhanVien n\n" +
+                           "on d.MaNV = n.MaNV\n" +
+                           "where Department.department_id = hd.MaPhongBan";
                     try
                     {
                         listNghiVLD = db.Database.SqlQuery<NghiVLD>(sql, new SqlParameter("NgayDiemDanh", date)).ToList<NghiVLD>();
@@ -352,22 +402,22 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
                     }
                     ///////////////////////////////////////////////////////////////////////////////////////////////////
-                    ///
+                    
                     ////////////////////////////////////////GET DATA NHAN LUC////////////////////////////////////////////////
                     sql = "select tb1.department_id as MaDonVi,\n" +
-"(case when tb2.soluong is null then 0 else tb2.soluong end) as SoLuong\n" +
-"from\n" +
-"(select * from Department where department_id in\n" +
-"('PXKT1', 'PXKT2', 'PXKT3', 'PXKT4', 'PXKT5', 'PXKT6', 'PXKT7', 'PXKT8', 'PXKT9', 'PXKT10', 'PXKT11',\n" +
-"'PXDL3', 'PXDL5', 'PXDL7', 'PXDL8', 'PXVT1', 'PXVT2')) tb1\n" +
-"left join\n" +
-"(select hd.MaPhongBan, count(d.MaNV) as soluong from Header_DiemDanh_NangSuat_LaoDong hd inner\n" +
- "                                               join DiemDanh_NangSuatLaoDong d\n" +
-"on hd.HeaderID = d.HeaderID\n" +
-"where hd.NgayDiemDanh = @NgayDiemDanh and DiLam = 1\n" +
-"group by hd.MaPhongBan) tb2\n" +
-"on tb1.department_id = tb2.MaPhongBan\n" +
-"group by tb1.department_id,tb2.soluong";
+                            "(case when tb2.soluong is null then 0 else tb2.soluong end) as SoLuong\n" +
+                            "from\n" +
+                            "(select * from Department where department_id in\n" +
+                            "('PXKT1', 'PXKT2', 'PXKT3', 'PXKT4', 'PXKT5', 'PXKT6', 'PXKT7', 'PXKT8', 'PXKT9', 'PXKT10', 'PXKT11',\n" +
+                            "'PXDL3', 'PXDL5', 'PXDL7', 'PXDL8', 'PXVT1', 'PXVT2')) tb1\n" +
+                            "left join\n" +
+                            "(select hd.MaPhongBan, count(d.MaNV) as soluong from Header_DiemDanh_NangSuat_LaoDong hd inner\n" +
+                             "                                               join DiemDanh_NangSuatLaoDong d\n" +
+                            "on hd.HeaderID = d.HeaderID\n" +
+                            "where hd.NgayDiemDanh = @NgayDiemDanh and DiLam = 1\n" +
+                            "group by hd.MaPhongBan) tb2\n" +
+                            "on tb1.department_id = tb2.MaPhongBan\n" +
+                            "group by tb1.department_id,tb2.soluong";
                     try
                     {
                         listNhanLuc = db.Database.SqlQuery<NhanLuc>(sql, new SqlParameter("NgayDiemDanh", date)).ToList<NhanLuc>();
@@ -378,9 +428,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     }
                     ///////////////////////////////////////GET DATA SAN LUONG///////////////////////////////////////////////
                     sql = "select (select (case when sum(tc_kh.SanLuongKeHoach) is null then 0 else sum(tc_kh.SanLuongKeHoach) end) from (select tc.MaTieuChi, tc.DonViDo, kh.SanLuongKeHoach, kh.ThangKeHoach, kh.NamKeHoach from KeHoach_TieuChi kh join TieuChi tc on kh.MaTieuChi = tc.MaTieuChi) as tc_kh where tc_kh.MaTieuChi in (1,2,3,4) and  tc_kh.ThangKeHoach = @Thang1 and tc_kh.NamKeHoach = @Nam1) 'SLKH',\n" +
-                    "(select(case when sum(tc_kh.SanLuongKeHoach) is null then 0 else sum(tc_kh.SanLuongKeHoach) end) from(select tc.MaTieuChi, tc.DonViDo, kh.SanLuongKeHoach, kh.ThangKeHoach, kh.NamKeHoach from KeHoach_TieuChi kh join TieuChi tc on kh.MaTieuChi = tc.MaTieuChi) as tc_kh where tc_kh.MaTieuChi in (7, 8) and tc_kh.ThangKeHoach = @Thang2 and tc_kh.NamKeHoach = @Nam2) 'MLKH',\n" +
-                    "(select(case when sum(tc_th.SanLuongThucHien) is null then 0 else sum(tc_th.SanLuongThucHien) end) from(select tc.MaTieuChi, tc.DonViDo, th.SanLuongThucHien, th.NgayThucHien from ThucHien_TieuChi th join TieuChi tc on th.MaTieuChi = tc.MaTieuChi) as tc_th where tc_th.MaTieuChi in (1, 2, 3, 4) and MONTH(tc_th.NgayThucHien) = @Thang3  and YEAR(tc_th.NgayThucHien) = @Nam3) 'LKSL',\n" +
-                    "(select(case when sum(tc_th.SanLuongThucHien) is null then 0 else sum(tc_th.SanLuongThucHien) end) from(select tc.MaTieuChi, tc.DonViDo, th.SanLuongThucHien, th.NgayThucHien from ThucHien_TieuChi th join TieuChi tc on th.MaTieuChi = tc.MaTieuChi) as tc_th where tc_th.MaTieuChi in (7, 8) and MONTH(tc_th.NgayThucHien) = @Thang4  and YEAR(tc_th.NgayThucHien) = @Nam4) 'LKML'";
+                        "(select(case when sum(tc_kh.SanLuongKeHoach) is null then 0 else sum(tc_kh.SanLuongKeHoach) end) from(select tc.MaTieuChi, tc.DonViDo, kh.SanLuongKeHoach, kh.ThangKeHoach, kh.NamKeHoach from KeHoach_TieuChi kh join TieuChi tc on kh.MaTieuChi = tc.MaTieuChi) as tc_kh where tc_kh.MaTieuChi in (7, 8) and tc_kh.ThangKeHoach = @Thang2 and tc_kh.NamKeHoach = @Nam2) 'MLKH',\n" +
+                        "(select(case when sum(tc_th.SanLuongThucHien) is null then 0 else sum(tc_th.SanLuongThucHien) end) from(select tc.MaTieuChi, tc.DonViDo, th.SanLuongThucHien, th.NgayThucHien from ThucHien_TieuChi th join TieuChi tc on th.MaTieuChi = tc.MaTieuChi) as tc_th where tc_th.MaTieuChi in (1, 2, 3, 4) and MONTH(tc_th.NgayThucHien) = @Thang3  and YEAR(tc_th.NgayThucHien) = @Nam3) 'LKSL',\n" +
+                        "(select(case when sum(tc_th.SanLuongThucHien) is null then 0 else sum(tc_th.SanLuongThucHien) end) from(select tc.MaTieuChi, tc.DonViDo, th.SanLuongThucHien, th.NgayThucHien from ThucHien_TieuChi th join TieuChi tc on th.MaTieuChi = tc.MaTieuChi) as tc_th where tc_th.MaTieuChi in (7, 8) and MONTH(tc_th.NgayThucHien) = @Thang4  and YEAR(tc_th.NgayThucHien) = @Nam4) 'LKML'";
 
                     try
                     {
@@ -479,9 +529,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
             var datesql = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                //List<DiemDanh_NangSuatLaoDong> list = db.Departments.Where(a => a.department_id == donvi).First().DiemDanh_NangSuatLaoDong
-                //    .Where(a => a.NgayDiemDanh == datesql)
-                //    .Where(a => a.CaDiemDanh == calamviec).ToList();
                 List<DiemDanh_NangSuatLaoDong> list = new List<DiemDanh_NangSuatLaoDong>();
                 List<BaoCaoTheoCa> customNSLDs = new List<BaoCaoTheoCa>();
                 BaoCaoTheoCa cus;
