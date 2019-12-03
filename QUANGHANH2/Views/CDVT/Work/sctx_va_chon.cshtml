@@ -7,9 +7,7 @@
     <div class="card-content">
         <div class="row">
             <div class="col m12">
-                <div class="center">
-                    <h3><b>CHI TIẾT TRUNG ĐẠI TU</b></h3>
-                </div>
+                <h3 class="center"><b>CHI TIẾT TRUNG ĐẠI TU</b></h3>
                 @if (ViewBag.validate == 0)
                 {
                     <h4>Bạn đã chọn 2 hoặc nhiều thiết bị khác vị trí, xin vui lòng <a href="/phong-cdvt/trung-dai-tu">quay lại</a></h4>
@@ -18,18 +16,22 @@
                 {
                     <form method="post" id="myform">
                         <div class="col s3 m3">
-                            <textarea name="data" hidden value="" id="json"></textarea>
-                            <input id="documentary_code" name="documentary_code" disabled class="form-control" type="text" placeholder="Nhập mã quyết định" />
-                        </div>
-                        <div class="col s3 m3">
-                            <input name="out_in_come" class="form-control" type="text" placeholder="Nhập nguồn vốn" />
-                        </div>
-                        <div class="col s3 m3">
-                            <input class="form-control" type="text" disabled value="@ViewBag.department_name" />
+                            <label for="department_id_from">Vị trí ban đầu</label>
+                            <input id="department_id_from" class="form-control" type="text" disabled value="@ViewBag.department_name" />
                             <input name="department_id" id="depa-id" type="hidden" readonly value="@ViewBag.department_id" />
                         </div>
                         <div class="col s3 m3">
-                            <input name="reason" class="form-control" type="text" required placeholder="Nội dung quyết định" />
+                            <textarea name="data" hidden value="" id="json"></textarea>
+                            <label for="department_id_to">Trung đại tu tại <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
+                            <input id="department_id_to" name="department_id_to" type="text" required class='form-control' list="departmentName" value="@ViewBag.department_id" />
+                        </div>
+                        <div class="col s3 m3">
+                            <label for="out_in_come">Nguồn vốn <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
+                            <input id="out_in_come" name="out_in_come" class="form-control" type="text" />
+                        </div>
+                        <div class="col s3 m3">
+                            <label for="reason">Nội dung <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
+                            <input id="reason" name="reason" class="form-control" type="text" required />
                         </div>
                         <div class="col s12 table_container">
                             <table id="mytablevattu" class="striped table-responsive center table-bordered">
@@ -38,7 +40,6 @@
                                         <th class="center-align">Mã thiết bị<span></span></th>
                                         <th class="center-align">Tên thiết bị<span></span></th>
                                         <th class="center-align">Tình trạng thiết bị<span></span></th>
-                                        <th class="center-align">Trung đại tu tại<span></span></th>
                                         <th class="center-align">Loại trung đại tu<span></span></th>
                                         <th class="center-align">Lý do (không bắt buộc)<span></span></th>
                                         <th class="center-align">Ngày dự kiến xong<span></span></th>
@@ -54,9 +55,6 @@
                                         <td>@ViewBag.DataThietBi[i].equipmentId</td>
                                         <td>@ViewBag.DataThietBi[i].equipment_name</td>
                                         <td>@ViewBag.DataThietBi[i].statusname</td>
-                                        <td>
-                                            <input type="text" required class='form-control' list="departmentName" value="@ViewBag.department_id" />
-                                        </td>
                                         <td>
                                             <select class='form-control'><option>Trung tu</option><option>Đại tu</option> </select>
                                         </td>
@@ -232,6 +230,15 @@
         }
         $('#json').val(JSON.stringify(output))
     })
+
+    function validateVattu() {
+        for (var key in output) {
+            if (output[key].vattu.length == 0)
+                return false;
+        }
+        return true;
+    }
+
 </script>
 @section scripts{
     <script>
@@ -290,29 +297,22 @@
                 }
             })
             if (validate == 1) {
-                if (Object.keys(output).length < $('#mytablevattu tbody tr').length)
-                    $.notify("phải điền đầy đủ vật tư vào thiết bị", {
-                        globalPosition: "top center",
-                        className: "error"
-                    });
+                if (!validateVattu())
+                    errorAlert("Phải điền đầy đủ vật tư vào thiết bị")
                 else {
                     for (var key in output) {
-                        output[key].department_id = $('#' + key + ' input').eq(0).val();//
                         output[key].remodel_type = $('#' + key + ' select').eq(0).val();
-                        output[key].equipment_big_maintain_reason = $('#' + key + ' input').eq(1).val();
-                        output[key].end_date = $('#' + key + ' input').eq(2).val();
+                        output[key].equipment_big_maintain_reason = $('#' + key + ' input').eq(0).val();
+                        output[key].end_date = $('#' + key + ' input').eq(1).val();
                         output[key].next_remodel_type = $('#' + key + ' select').eq(1).val();
-                        output[key].next_end_time = $('#' + key + ' input').eq(3).val();
+                        output[key].next_end_time = $('#' + key + ' input').eq(2).val();
                     }
                     $('#json').val(JSON.stringify(output))
                     $('#confirm').modal("open");
 
                 }
             } else
-                $.notify("không được bổ trống ô này", {
-                    globalPosition: "top center",
-                    className: "error"
-                });
+                errorAlert("Các ô đánh dấu * không được bỏ trống")
         })
 
         $('#create').click(function () {
@@ -323,30 +323,8 @@
         $("#export-button").click(function () {
             window.location = '/phong-cdvt/quyet-dinh/export-word?data=' + $('#json').val()
                 + '&title=' + $('input[name = "reason"]').val() + '&department_id='
-                + $('#0 td:nth-child(4) input').val() + '&documentary_type=' + 6
+                + $('#department_id_to').val() + '&documentary_type=' + 6
                 + '&fileName=Quyết định trung đại tu.docx' + '&resource=' + $('input[name = "out_in_come"]').val()
-            //$("#pre-load").show();
-            //$.ajax({
-            //    type: "POST",
-            //    url: "/phong-cdvt/dai-trung-tu-chon/export",
-            //    data: {
-            //        data: $('#json').val(),
-            //        documentary_code: $('#documentary_code').val()
-            //    },
-            //    cache: false,
-            //    success: function (response) {
-            //        if (response.success) {
-            //            window.location.href = response.location;
-            //            $("#pre-load").hide("slow", function () {
-            //            });
-            //        } else {
-            //            $.notify("ối, có lỗi xảy ra", {
-            //                globalPosition: "top center",
-            //                className: "error"
-            //            });
-            //        }
-            //    }
-            //});
         });
     </script>
 }

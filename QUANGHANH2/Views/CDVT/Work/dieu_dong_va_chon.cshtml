@@ -7,9 +7,7 @@
     <div class="card-content">
         <div class="row">
             <div class="col m12">
-                <div class="center">
-                    <h3><b>CHI TIẾT ĐIỀU ĐỘNG</b></h3>
-                </div>
+                <h3 class="center"><b>CHI TIẾT ĐIỀU ĐỘNG</b></h3>
                 @if (ViewBag.validate == 0)
                 {
                     <h4>Bạn đã chọn 2 hoặc nhiều thiết bị khác vị trí, xin vui lòng <a href="/phong-cdvt/dieu-dong">quay lại</a> </h4>
@@ -18,18 +16,22 @@
                 {
                     <form method="post" id="myform">
                         <div class="col s3 m3">
+                            <label for="department_id_from">Vị trí ban đầu</label>
+                            <input id="department_id_from" class="form-control" type="text" disabled value="@ViewBag.department_name" />
+                            <input name="department_id" id="depa-id" type="hidden" readonly value="@ViewBag.department_id" />
+                        </div>
+                        <div class="col s3 m3">
                             <textarea name="data" hidden value="" id="json"></textarea>
-                            <input  id="documentary_code" name="documentary_code" disabled class="form-control" type="text" placeholder="Nhập mã quyết định" />
+                            <label for="department_id_to">Điều động đến <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
+                            <input id="department_id_to" name="department_id_to" type="text" required class='form-control' list="departmentName" value="@ViewBag.department_id" />
                         </div>
                         <div class="col s3 m3">
-                            <input name="out_in_come" class="form-control" type="text" placeholder="Nhập nguồn vốn" />
+                            <label for="out_in_come">Nguồn vốn</label>
+                            <input readonly id="out_in_come" name="out_in_come" class="form-control" type="text" />
                         </div>
                         <div class="col s3 m3">
-                            <input class="form-control" type="text" disabled value="@ViewBag.department_name" />
-                            <input name="department_id" type="hidden" readonly value="@ViewBag.department_id" />
-                        </div>
-                        <div class="col s3 m3">
-                            <input name="reason" class="form-control" type="text" required placeholder="Nội dung quyết định" />
+                            <label for="reason">Nội dung <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
+                            <input id="reason" name="reason" class="form-control" type="text" required />
                         </div>
                         <div class="col s12 table_container">
                             <table id="mytablevattu" class="striped table-responsive centered table-bordered">
@@ -38,7 +40,6 @@
                                         <th class="center-align">Mã thiết bị<span></span></th>
                                         <th class="center-align">Tên thiết bị<span></span></th>
                                         <th class="center-align">Tình trạng thiết bị<span></span></th>
-                                        <th class="center-align">Phân xưởng điều động đến<span></span></th>
                                         <th class="center-align">Vị trí lắp đặt chi tiết<span></span></th>
                                         <th class="center-align">Đến ngày<span></span></th>
                                         <th class="center-align">Lý do điều động (không bắt buộc)<span></span></th>
@@ -53,9 +54,6 @@
                                         <td>@ViewBag.DataThietBi[i].equipmentId</td>
                                         <td>@ViewBag.DataThietBi[i].equipment_name</td>
                                         <td>@ViewBag.DataThietBi[i].statusname</td>
-                                        <td>
-                                            <input list='departmentName' type="text" required class="form-control" />
-                                        </td>
                                         <td>
                                             <input type='text' required class='form-control' />
                                         </td>
@@ -326,28 +324,15 @@
                 }
             })
             if (validate == 1) {
-                if (Object.keys(output).length < $('#mytablevattu tbody tr').length)
-                    $.notify("phải điền đầy đủ vật tư vào thiết bị", {
-                        globalPosition: "top center",
-                        className: "error"
-                    });
-
-                else {
-                    for (var key in output) {
-
-                        output[key].department_id = $('#' + key + ' input').eq(0).val();
-                        output[key].department_detail = $('#' + key + ' input').eq(1).val();
-                        output[key].date_to = $('#' + key + ' input').eq(2).val();
-                        output[key].equipment_moveline_reason = $('#' + key + ' input').eq(3).val();
-                    }
-                    $('#json').val(JSON.stringify(output))
-                    $('#confirm').modal("open");
+                for (var key in output) {
+                    output[key].department_detail = $('#' + key + ' input').eq(0).val();
+                    output[key].date_to = $('#' + key + ' input').eq(1).val();
+                    output[key].equipment_moveline_reason = $('#' + key + ' input').eq(2).val();
                 }
+                $('#json').val(JSON.stringify(output))
+                $('#confirm').modal("open");
             } else
-                $.notify("không được bổ trống ô này", {
-                    globalPosition: "top center",
-                    className: "error"
-                });
+                errorAlert("Các ô đánh dấu * không được bỏ trống")
         })
 
         $('#create').click(function () {
@@ -357,30 +342,8 @@
         $("#export-button").click(function () {
             window.location = '/phong-cdvt/quyet-dinh/export-word?data=' + $('#json').val()
                 + '&title=' + $('input[name = "reason"]').val() + '&department_id='
-                + $('#0 td:nth-child(4) input').val() + '&documentary_type=' + 3
+                + $('#department_id_to').val() + '&documentary_type=' + 3
                 + '&fileName=Quyết định điều động.docx' + '&resource=' + $('input[name = "out_in_come"]').val()
-            //$("#pre-load").show();
-            //$.ajax({
-            //    type: "POST",
-            //    url: "/phong-cdvt/dieu-dong-chon/export",
-            //    data: {
-            //        data: $('#json').val(),
-            //        documentary_code: $('#documentary_code').val()
-            //    },
-            //    cache: false,
-            //    success: function (response) {
-            //        if (response.success) {
-            //            window.location.href = response.location;
-            //            $("#pre-load").hide("slow", function () {
-            //            });
-            //        } else {
-            //            $.notify("ối, có lỗi xảy ra", {
-            //                globalPosition: "top center",
-            //                className: "error"
-            //            });
-            //        }
-            //    }
-            //});
         });
     </script>
 }
