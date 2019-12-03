@@ -1,9 +1,8 @@
 ﻿
 @{
-    ViewData["Title"] = "Chi_tiet_bao_duong";
+    ViewBag.Title = "Chi_tiet_cai_tien";
     Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
 }
-
 
 <div class="card">
     <div class="card-content">
@@ -15,17 +14,25 @@
                 <table class="striped centered table-bordered" id="DocumnetaryTable">
                     <thead>
                         <tr>
-                            <th>STT</th>
                             <th>Mã thiết bị</th>
                             <th>Tên thiết bị</th>
-                            <th>Vị trí điều động</th>
-                            <th>Phân xưởng chịu trách nhiệm</th>
-                            <th>Loại bảo dương</th>
-                            <th>Ngày dự kiến hoàn thành</th>
-                            <th>Trạng thái</th>
+                            <th>Vị trí ban đầu</th>
+                            <th>Cải tiến tại</th>
                             <th></th>
                         </tr>
                     </thead>
+                    <tbody>
+                        @foreach (QUANGHANH2.Models.Documentary_Improve_DetailDB item in ViewBag.list)
+                        {
+                            <tr>
+                                <td>@item.equipmentId</td>
+                                <td>@item.equipment_name</td>
+                                <td>@item.department_id</td>
+                                <td>@item.department_id_to</td>
+                                <td><a data-list="@item.documentary_id^@item.equipmentId" class="waves-effect waves-light btn-small blue modal-trigger open-Modal" href="#mylist">Vật tư đi kèm</a></td>
+                            </tr>
+                        }
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -61,69 +68,7 @@
 </div>
 @section scripts{
     <script>
-
-        $(document).ready(function () {
-        $("#pre-load").show();
-        $("#pre-load").css("z-index", "9999");
-            DocumnetaryTable1 = $('#DocumnetaryTable')
-                .on('preXhr.dt', function (e, settings, data) {
-                    $("#pre-load").show();
-                    $("#pre-load").css("z-index", "9999");
-                    data.sessionId = "@ViewBag.id";
-                }).DataTable({
-                         "language": {
-                "emptyTable": "Không tìm thấy dữ liệu",
-                "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
-                "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
-                "paginate": {
-                    "first": "Trang đầu",
-                    "last": "Trang cuối",
-                    "next": "Trang sau",
-                    "previous": "Trang trước"
-                }
-            },
-                "ajax": {
-                    "url": "@Url.Action("Detail","ChitietBaoduong")",
-                    "type": "POST",
-                    "datatype": "json",
-                    },
-                    "drawCallback": function () {
-                        $("#pre-load").hide();
-                    },
-                    "columns": [
-                        { "data": "order_number", "name": "order_number" },
-                        { "data": "equipmentId", "name": "equipmentId" },
-                        { "data": "equipment_name", "name": "equipment_name" },
-                        { "data": "department_id", "name": "department_id" },
-                        { "data": "department_name", "name": "department_name" },
-                        { "data": "maintain_type", "name": "maintain_type" },
-                           {
-                            "data": "finish_date_plan", "name": "finish_date_plan", "render": function (data) {
-                                return dateFormat2(data);
-                            },
-                        },
-                        { "data": "reason", "name": "reason" },
-
-                         {
-                            "data": "idAndEquip", "name": "idAndEquip", "render": function (data) {
-                            return "<a data-list=\"" + data + "\" class=\"waves-effect waves-light btn-small blue modal-trigger open-Modal\" href=\"#mylist\">Vật tư đi kèm</a>";
-                             },
-                        }
-
-                ],
-                    "serverSide": true,
-                    "order" : [0, "asc"],
-                    "lengthChange": false,
-                    "searching": false,
-                    "initComplete": function () {
-                    $("#pre-load").hide();
-                }
-
-            });
-        });
-
-
-              //get data and push to modal list
+        //get data and push to modal list
         $(document).on("click", ".open-Modal", function () {
             $("#pre-load").show();
             $("#test").find("tr:gt(0)").remove();
@@ -154,7 +99,7 @@
                     }
                     $("#pre-load").hide();
                 },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {             
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
                     $.notify(XMLHttpRequest.responseText, {
                         globalPosition: "top center",
                         className: "error"
@@ -168,16 +113,5 @@
                 cache: false
             })
         });
-
-        function dateFormat2(d) {
-            var dateString = d.substr(6);
-            var currentTime = new Date(parseInt(dateString));
-            var month = currentTime.getMonth() + 1;
-            var day = currentTime.getDate();
-            var year = currentTime.getFullYear();
-            var date = day + "/" + month + "/" + year;
-            return (date);
-        }
     </script>
 }
-

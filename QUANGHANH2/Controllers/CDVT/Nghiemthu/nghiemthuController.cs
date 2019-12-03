@@ -160,7 +160,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                var query = db.Documentaries.SqlQuery("Select doc.documentary_id,doc.documentary_code,doc.reason,doc.documentary_type,doc.department_id,doc.documentary_id, doc.date_created,doc.person_created,doc.[out/in_come] as out_in_come,doc.documentary_status from Documentary doc where documentary_id = @id",
+                var query = db.Documentaries.SqlQuery("Select doc.documentary_id,doc.documentary_code,doc.reason,doc.documentary_type,doc.department_id,doc.department_id_to,doc.documentary_id, doc.date_created,doc.person_created,doc.[out/in_come] as out_in_come,doc.documentary_status from Documentary doc where documentary_id = @id",
                      new SqlParameter("id", id)).FirstOrDefault<Documentary>();
                 return View(query);
             }
