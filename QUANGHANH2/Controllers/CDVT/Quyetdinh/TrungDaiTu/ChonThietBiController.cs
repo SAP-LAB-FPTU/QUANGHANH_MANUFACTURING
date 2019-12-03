@@ -16,7 +16,7 @@ using System.Data.SqlClient;
 namespace QUANGHANH2.Controllers.CDVT.Work
 {
     [SessionState(SessionStateBehavior.Default)]
-    public class TrungdaituController : Controller
+    public class ChonThietBiController : Controller
     {
       [Auther(RightID = "95")]
         [Route("phong-cdvt/trung-dai-tu")]
