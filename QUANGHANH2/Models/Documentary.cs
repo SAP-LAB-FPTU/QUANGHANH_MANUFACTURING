@@ -35,6 +35,7 @@ namespace QUANGHANH2.Models
         public string documentary_code { get; set; }
         public int documentary_type { get; set; }
         public string department_id { get; set; }
+        public string department_id_to { get; set; }
         public System.DateTime date_created { get; set; }
         public string person_created { get; set; }
         public string reason { get; set; }
