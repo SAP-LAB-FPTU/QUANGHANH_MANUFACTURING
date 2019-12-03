@@ -111,16 +111,6 @@ namespace QUANGHANHCORE.Controllers.CDVT
                     message = "Trường lý do quyết định là trường bắt buộc có"
                 }, JsonRequestBehavior.AllowGet);
             }
-
-            if (String.IsNullOrEmpty(out_in_come))
-            {
-                return Json(new
-                {
-                    success = false,
-                    message = "Trường nguồn vốn là trường bắt buộc có"
-                }, JsonRequestBehavior.AllowGet);
-            }
-
             else
             {
                 try

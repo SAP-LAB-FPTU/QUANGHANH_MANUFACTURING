@@ -2,19 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Threading.Tasks;
 using System.Linq.Dynamic;
 using System.Web.Mvc;
 using System.Web.Routing;
-using System.Web.Script.Serialization;
-using Newtonsoft.Json;
-using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Wordprocessing;
-using System.Web.Hosting;
-using System.IO;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
 using System.Data.Entity;
@@ -101,7 +91,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
         [Auther(RightID = "95")]
         [Route("phong-cdvt/trung-dai-tu-chon")]
         [HttpPost]
-        public ActionResult GetData(string documentary_code, string out_in_come, string data, string department_id, string reason)
+        public ActionResult GetData(string out_in_come, string data, string department_id, string reason)
         {
             string department_id_to = Request["department_id_to"];
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
@@ -110,7 +100,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                 try
                 {
                     Documentary documentary = new Documentary();
-                    documentary.documentary_code = documentary_code == "" ? null : documentary_code;
                     documentary.documentary_type = 6;
                     documentary.department_id = department_id;
                     documentary.department_id_to = department_id_to;
@@ -129,15 +118,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                         string equipment_big_maintain_reason = (string)item.Value["equipment_big_maintain_reason"];
                         string datestring = (string)item.Value["end_date"];
                         string next_remodel_type = (string)item.Value["next_remodel_type"];
-                        if (documentary_code != "")
-                        {
-                            Equipment e = DBContext.Equipments.Find(equipmentId);
-                            e.current_Status = 9;
-                        }
-
                         DateTime end_date = DateTime.ParseExact(datestring, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                         datestring = (string)item.Value["next_end_time"];
-                        //DateTime next_end_time = DateTime.ParseExact(datestring, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                         double next_end_time = 100;
                         Documentary_big_maintain_details drd = new Documentary_big_maintain_details();
                         drd.equipment_big_maintain_status = 0;
@@ -182,41 +164,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                     return Redirect("trung-dai-tu");
                     throw e;
                 }
-            }
-        }
-
-
-
-        [Auther(RightID = "95")]
-        [HttpGet]
-        public ActionResult AddOrEdit(string id = "")
-        {
-            List<SelectListItem> listDepeartment = new List<SelectListItem>();
-            List<SelectListItem> listCategory = new List<SelectListItem>();
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-            {
-                var departments = db.Departments.ToList<Department>();
-                foreach (Department items in departments)
-                {
-                    listDepeartment.Add(new SelectListItem { Text = items.department_id, Value = items.department_id });
-
-                }
-                //
-                var categories = db.Equipment_category.ToList<Equipment_category>();
-                foreach (Equipment_category items in categories)
-                {
-                    listCategory.Add(new SelectListItem { Text = items.Equipment_category_id, Value = items.Equipment_category_id });
-
-                }
-                //listForSelect.Add(new SelectListItem { Text = "Your text", Value = "TRAI" });
-                ViewBag.listDepeartment = listDepeartment;
-                ViewBag.listCategory = listCategory;
-                if (id == "" || id == null)
-                {
-                    return View(new Equipment());
-                }
-                else
-                    return View(db.Equipments.Where(x => x.equipmentId == id).FirstOrDefault<Equipment>());
             }
         }
     }

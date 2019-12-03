@@ -197,6 +197,7 @@
     <Compile Include="Controllers\CDVT\Quyetdinh\BaoDuong\DanhSachController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\BaoDuong\ThemQuyetDinhController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\BaoDuong\XuLyQuyetDinhController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\CaiTien\ChiTietController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\CaiTien\XuLyQuyetDinhController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\DieuDong\ChiTietController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\DieuDong\ChonThietBiController.cs" />
@@ -7452,6 +7453,7 @@
     <Content Include="Views\TCLD\Salary\SalaryScale.cshtml" />
     <Content Include="Views\TCLD\Salary\Grade_Scale_Salary.cshtml" />
     <Content Include="Views\TCLD\Occupation\Occupation_GroupOccupation.cshtml" />
+    <Content Include="Views\CDVT\Quyet_dinh\Chi_tiet_cai_tien.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7459,6 +7461,7 @@
     <Folder Include="FileContainer\KCS\" />
     <Folder Include="FileContainer\PhanXuongLenDK\" />
     <Folder Include="Library\" />
+    <Folder Include="Views\ChiTiet\" />
     <Folder Include="Views\ExportWord\" />
     <Folder Include="Views\ViewAccident\" />
     <Folder Include="Views\WorkHistory\" />
