@@ -38,7 +38,7 @@
                                         <th class="center-align">Mã thiết bị<span></span></th>
                                         <th class="center-align">Tên thiết bị<span></span></th>
                                         <th class="center-align">Tình trạng thiết bị<span></span></th>
-                                        <th class="center-align">Trung đại tu đến<span></span></th>
+                                        <th class="center-align">Trung đại tu tại<span></span></th>
                                         <th class="center-align">Loại trung đại tu<span></span></th>
                                         <th class="center-align">Lý do (không bắt buộc)<span></span></th>
                                         <th class="center-align">Ngày dự kiến xong<span></span></th>
@@ -321,28 +321,32 @@
 
 
         $("#export-button").click(function () {
-            $("#pre-load").show();
-            $.ajax({
-                type: "POST",
-                url: "/phong-cdvt/dai-trung-tu-chon/export",
-                data: {
-                    data: $('#json').val(),
-                    documentary_code: $('#documentary_code').val()
-                },
-                cache: false,
-                success: function (response) {
-                    if (response.success) {
-                        window.location.href = response.location;
-                        $("#pre-load").hide("slow", function () {
-                        });
-                    } else {
-                        $.notify("ối, có lỗi xảy ra", {
-                            globalPosition: "top center",
-                            className: "error"
-                        });
-                    }
-                }
-            });
+            window.location = '/phong-cdvt/quyet-dinh/export-word?data=' + $('#json').val()
+                + '&title=' + $('input[name = "reason"]').val() + '&department_id='
+                + $('#0 td:nth-child(4) input').val() + '&documentary_type=' + 6
+                + '&fileName=Quyết định trung đại tu.docx' + '&resource=' + $('input[name = "out_in_come"]').val()
+            //$("#pre-load").show();
+            //$.ajax({
+            //    type: "POST",
+            //    url: "/phong-cdvt/dai-trung-tu-chon/export",
+            //    data: {
+            //        data: $('#json').val(),
+            //        documentary_code: $('#documentary_code').val()
+            //    },
+            //    cache: false,
+            //    success: function (response) {
+            //        if (response.success) {
+            //            window.location.href = response.location;
+            //            $("#pre-load").hide("slow", function () {
+            //            });
+            //        } else {
+            //            $.notify("ối, có lỗi xảy ra", {
+            //                globalPosition: "top center",
+            //                className: "error"
+            //            });
+            //        }
+            //    }
+            //});
         });
     </script>
 }

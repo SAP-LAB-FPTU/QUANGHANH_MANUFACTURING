@@ -92,17 +92,19 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
         [Auther(RightID = "83")]
         [Route("phong-cdvt/sua-chua-chon")]
         [HttpPost]
-        public ActionResult GetData(string documentary_code, string out_in_come, string data, string department_id, string reason)
+        public ActionResult GetData(string out_in_come, string data, string department_id, string reason)
         {
+            string department_id_to = Request["department_id_to"];
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
             {
                 try
                 {
                     Documentary documentary = new Documentary();
-                    documentary.documentary_code = documentary_code == "" ? null: documentary_code;
+                    documentary.documentary_code = null;
                     documentary.documentary_type = 1;
                     documentary.department_id = department_id;
+                    documentary.department_id_to = department_id_to;
                     documentary.date_created = DateTime.Now;
                     documentary.person_created = Session["Name"]+"";
                     documentary.reason = reason;
@@ -115,20 +117,13 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                     {
                         string equipmentId = (string)item.Value["id"];
                         string repair_type = (string)item.Value["repair_type"];
-                        string department_id_to = (string)item.Value["department_id"];//
                         string repair_reason = (string)item.Value["repair_reason"];
                         string datestring = (string)item.Value["finish_date_plan"];
-                        if(documentary_code != "")
-                        {
-                            Equipment e = DBContext.Equipments.Find(equipmentId);
-                            e.current_Status = 3;
-                        }
                         DateTime finish_date_plan = DateTime.ParseExact(datestring, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                         Documentary_repair_details drd = new Documentary_repair_details();
                         drd.equipment_repair_status = 0;
                         drd.repair_type = repair_type;
                         drd.repair_reason = repair_reason;
-                        drd.department_id = department_id_to;//
                         drd.finish_date_plan = finish_date_plan;
                         drd.documentary_id = documentary.documentary_id;
                         drd.equipmentId = equipmentId;
@@ -154,10 +149,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                     }
                     DBContext.SaveChanges();
                     transaction.Commit();
-    
-                        return Redirect("quyet-dinh/sua-chua");
-                    
-                
+                    return Redirect("quyet-dinh/sua-chua");
                 }
                 catch (Exception e)
                 {
@@ -167,93 +159,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                     throw e;
                 }
             }
-        }
-        [Auther(RightID = "83")]
-        [Route("phong-cdvt/sua-chua-chon/export")]
-        [HttpPost]
-        public ActionResult ExportQuyetDinh(string data, string documentary_code)
-        {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            string Flocation = "/doc/CDVT/QD/quyetdinhsuachua.docx";
-            string fileName = HostingEnvironment.MapPath("/doc/CDVT/QD/quyetdinh-template.docx");
-            byte[] byteArray = System.IO.File.ReadAllBytes(fileName);
-            using (var stream = new MemoryStream())
-            {
-                stream.Write(byteArray, 0, byteArray.Length);
-                using (var doc = WordprocessingDocument.Open(stream, true))
-                {
-                    ////////////////////////////////////replace/////////////////////////////////
-                    string docText = null;
-                    using (StreamReader sr = new StreamReader(doc.MainDocumentPart.GetStream()))
-                    {
-                        docText = sr.ReadToEnd();
-                    }
-
-                    Regex regexText = new Regex("%soquyetdinh%");
-                    docText = regexText.Replace(docText, documentary_code);
-
-                    using (StreamWriter sw = new StreamWriter(doc.MainDocumentPart.GetStream(FileMode.Create)))
-                    {
-                        sw.Write(docText);
-                    }
-                    /////////////////////////////////////////////////////////////////////
-                    JObject json = JObject.Parse(data);
-
-                    Table table =
-                    doc.MainDocumentPart.Document.Body.Elements<Table>().ElementAt(1);
-                    int i = 0;
-                    foreach (var item in json)
-                    {
-                        string equipmentId = (string)item.Value["id"];
-                        JArray vattu = (JArray)item.Value.SelectToken("vattu");
-                        foreach (JObject jObject in vattu)
-                        {
-                            string supply_id = (string)jObject["supply_id"];
-                            int quantity = (int)jObject["quantity"];
-                            Supply s = DBContext.Supplies.Find(supply_id);
-                            TableRow tr = new TableRow();
-
-                            TableCell tc1 = new TableCell();
-                            tc1.Append(new Paragraph(new Run(new Text((i + 1).ToString()))));
-                            tr.Append(tc1);
-
-                            TableCell tc2 = new TableCell();
-                            tc2.Append(new Paragraph(new Run(new Text(equipmentId))));
-                            tr.Append(tc2);
-
-                            TableCell tc3 = new TableCell();
-                            tc3.Append(new Paragraph(new Run(new Text(s.supply_name))));
-                            tr.Append(tc3);
-
-                            TableCell tc4 = new TableCell();
-                            tc4.Append(new Paragraph(new Run(new Text(s.unit))));
-                            tr.Append(tc4);
-
-                            TableCell tc5 = new TableCell();
-                            tc5.Append(new Paragraph(new Run(new Text(quantity.ToString()))));
-                            tr.Append(tc5);
-
-                            TableCell tc6 = new TableCell();
-                            tc6.Append(new Paragraph(new Run(new Text(""))));
-                            tr.Append(tc6);
-
-                            TableCell tc7 = new TableCell();
-                            tc7.Append(new Paragraph(new Run(new Text(""))));
-                            tr.Append(tc7);
-
-                            table.Append(tr);
-                        }
-                        doc.MainDocumentPart.Document.Save();
-                    }
-                    // Save the file with the new name
-
-                    string savePath = HostingEnvironment.MapPath(Flocation);
-                    stream.Position = 0;
-                    System.IO.File.WriteAllBytes(savePath, stream.ToArray());
-                }
-
-            }
-            return Json(new { success = true, location = Flocation }, JsonRequestBehavior.AllowGet);
         }
     }
 }

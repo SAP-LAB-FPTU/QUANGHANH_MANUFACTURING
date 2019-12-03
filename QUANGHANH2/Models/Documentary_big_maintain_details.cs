@@ -19,13 +19,10 @@ namespace QUANGHANH2.Models
         public System.DateTime end_date { get; set; }
         public string next_remodel_type { get; set; }
         public double next_end_time { get; set; }
-        public string department_id { get; set; }
         public int documentary_id { get; set; }
         public string equipmentId { get; set; }
         public string equipment_big_maintain_reason { get; set; }
     
-        public virtual Department Department { get; set; }
-        public virtual Department Department1 { get; set; }
         public virtual Documentary Documentary { get; set; }
         public virtual Equipment Equipment { get; set; }
     }

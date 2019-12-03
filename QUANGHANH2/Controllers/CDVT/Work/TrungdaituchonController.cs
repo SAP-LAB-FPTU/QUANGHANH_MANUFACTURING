@@ -103,7 +103,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
         [HttpPost]
         public ActionResult GetData(string documentary_code, string out_in_come, string data, string department_id, string reason)
         {
-
+            string department_id_to = Request["department_id_to"];
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
             {
@@ -113,6 +113,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                     documentary.documentary_code = documentary_code == "" ? null : documentary_code;
                     documentary.documentary_type = 6;
                     documentary.department_id = department_id;
+                    documentary.department_id_to = department_id_to;
                     documentary.date_created = DateTime.Now;
                     documentary.person_created = Session["Name"]+"";
                     documentary.reason = reason;
@@ -125,7 +126,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                     {
                         string equipmentId = (string)item.Value["id"];
                         string remodel_type = (string)item.Value["remodel_type"];
-                        string department_id_to = (string)item.Value["department_id"];//
                         string equipment_big_maintain_reason = (string)item.Value["equipment_big_maintain_reason"];
                         string datestring = (string)item.Value["end_date"];
                         string next_remodel_type = (string)item.Value["next_remodel_type"];
@@ -143,7 +143,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                         drd.equipment_big_maintain_status = 0;
                         drd.remodel_type = remodel_type;
                         drd.equipment_big_maintain_reason = equipment_big_maintain_reason;
-                        drd.department_id = department_id_to;//
                         drd.end_date = end_date;
                         drd.next_remodel_type = next_remodel_type;
                         drd.next_end_time = next_end_time;
@@ -220,118 +219,5 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                     return View(db.Equipments.Where(x => x.equipmentId == id).FirstOrDefault<Equipment>());
             }
         }
-
-
-        //export file world
-        [Auther(RightID = "95")]
-        [Route("phong-cdvt/dai-trung-tu-chon/export")]
-        [HttpPost]
-        public ActionResult ExportQuyetDinh(string data, string documentary_code)
-        {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            string Flocation = "/doc/CDVT/QD/quyetdinhtrungdaitu.docx";
-            string fileName = HostingEnvironment.MapPath("/doc/CDVT/QD/quyetdinh-template.docx");
-            byte[] byteArray = System.IO.File.ReadAllBytes(fileName);
-            using (var stream = new MemoryStream())
-            {
-                stream.Write(byteArray, 0, byteArray.Length);
-                using (var doc = WordprocessingDocument.Open(stream, true))
-                {
-                    ////////////////////////////////////replace/////////////////////////////////
-                    string docText = null;
-                    using (StreamReader sr = new StreamReader(doc.MainDocumentPart.GetStream()))
-                    {
-                        docText = sr.ReadToEnd();
-                    }
-
-                    Regex regexText = new Regex("%soquyetdinh%");
-                    docText = regexText.Replace(docText, documentary_code);
-
-                    using (StreamWriter sw = new StreamWriter(doc.MainDocumentPart.GetStream(FileMode.Create)))
-                    {
-                        sw.Write(docText);
-                    }
-                    /////////////////////////////////////////////////////////////////////
-                    JObject json = JObject.Parse(data);
-
-                    Table table =
-                    doc.MainDocumentPart.Document.Body.Elements<Table>().ElementAt(1);
-                    int i = 0;
-                    foreach (var item in json)
-                    {
-                        string equipmentId = (string)item.Value["id"];
-                        JArray vattu = (JArray)item.Value.SelectToken("vattu");
-                        foreach (JObject jObject in vattu)
-                        {
-                            string supply_id = (string)jObject["supply_id"];
-                            int quantity = (int)jObject["quantity"];
-                            Supply s = DBContext.Supplies.Find(supply_id);
-                            TableRow tr = new TableRow();
-
-                            TableCell tc1 = new TableCell();
-                            tc1.Append(new Paragraph(new Run(new Text((i + 1).ToString()))));
-                            tr.Append(tc1);
-
-                            TableCell tc2 = new TableCell();
-                            tc2.Append(new Paragraph(new Run(new Text(equipmentId))));
-                            tr.Append(tc2);
-
-                            TableCell tc3 = new TableCell();
-                            tc3.Append(new Paragraph(new Run(new Text(s.supply_name))));
-                            tr.Append(tc3);
-
-                            TableCell tc4 = new TableCell();
-                            tc4.Append(new Paragraph(new Run(new Text(s.unit))));
-                            tr.Append(tc4);
-
-                            TableCell tc5 = new TableCell();
-                            tc5.Append(new Paragraph(new Run(new Text(quantity.ToString()))));
-                            tr.Append(tc5);
-
-                            TableCell tc6 = new TableCell();
-                            tc6.Append(new Paragraph(new Run(new Text(""))));
-                            tr.Append(tc6);
-
-                            TableCell tc7 = new TableCell();
-                            tc7.Append(new Paragraph(new Run(new Text(""))));
-                            tr.Append(tc7);
-
-                            table.Append(tr);
-                        }
-                        doc.MainDocumentPart.Document.Save();
-                    }
-                    // Save the file with the new name
-
-                    string savePath = HostingEnvironment.MapPath(Flocation);
-                    stream.Position = 0;
-                    System.IO.File.WriteAllBytes(savePath, stream.ToArray());
-                }
-
-            }
-            return Json(new { success = true, location = Flocation }, JsonRequestBehavior.AllowGet);
-        }
-
-
-        public class ListVatTu
-        {
-            public string thietbi { get; set; }
-            public string[] tenvattu { get; set; }
-            public string[] donvi { get; set; }
-            public string[] soluong { get; set; }
-            public string[] tinhtrang { get; set; }
-            public string[] noilinh { get; set; }
-        }
-
-        public class ListThietBi
-        {
-            public string documentary_code { get; set; }
-            public string lydoquyetdinh { get; set; }
-            public string[] equipmentIds { get; set; }
-            public string[] equipment_names { get; set; }
-            public string[] department_name { get; set; }
-            public string[] department_id { get; set; }
-            public string[] current_Status { get; set; }
-        }
-
     }
 }

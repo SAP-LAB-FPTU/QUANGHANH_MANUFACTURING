@@ -38,7 +38,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Cap_nhat
             if (departid.Contains("PX"))
             {
                 string query = "SELECT docu.*, docu.[out/in_come] as out_in_come, depa.department_name FROM Documentary docu inner join Department depa on docu.department_id = depa.department_id" +
-                    " where docu.documentary_code IS NOT NULL AND docu.documentary_status != 3 AND docu.department_id = @departid AND ";
+                    " where docu.documentary_code IS NOT NULL AND docu.documentary_status != 3 AND docu.department_id_to = @departid AND ";
                 if (!documentary_id.Equals("") || !type.Equals("0") || !department.Equals("") || !reason.Equals("") || !status.Equals("0") || !(dateStart.Equals("") || dateEnd.Equals("")))
                 {
                     if (!dateStart.Equals("") && !dateEnd.Equals(""))

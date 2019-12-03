@@ -237,6 +237,7 @@
     <Compile Include="Controllers\CDVT\Quyetdinh\ChitietThanhliController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ChitietThuhoiController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\DieudongController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\ExportWordController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ProcessDetailsController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\SuachuaController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ThanhlyController.cs" />
@@ -7055,11 +7056,8 @@
     <Content Include="excel\TCLD\Certificate\Chứng chỉ của nhân viên.xlsx" />
     <Content Include="excel\TCLD\Certificate\List\download\ListCertificate.xlsx" />
     <Content Include="excel\TCLD\Brief\Inside.xlsx" />
-    <Content Include="doc\CDVT\QD\quyetdinhsuachua.docx" />
     <Content Include="excel\TCLD\download\Danh-sách-nhân-viên.xlsx" />
-    <Content Include="doc\CDVT\QD\quyetdinhsuachua.docx" />
     <Content Include="excel\TCLD\Brief\Inside.xlsx" />
-    <Content Include="doc\CDVT\QD\quyetdinhsuachua.docx" />
     <Content Include="bin\QUANGHANH2.dll.config" />
     <Content Include="bin\roslyn\csc.exe.config" />
     <Content Include="bin\roslyn\csc.rsp" />
@@ -7106,14 +7104,11 @@
     <Content Include="obj\Release\QUANGHANH2.csproj.CoreCompileInputs.cache" />
     <Content Include="obj\Release\QUANGHANH2.csprojAssemblyReference.cache" />
     <Content Include="excel\TCLD\download\Danh-sách-nhân-viên.xlsx" />
-    <Content Include="doc\CDVT\QD\quyetdinhsuachua.docx" />
     <Content Include="excel\TCLD\TuyenDung\UploadContainer\temp.xlsx" />
     <Content Include="excel\TCLD\TuyenDung\Template\TuyenDungForm.xlsx" />
     <Content Include="excel\TCLD\download\Danh-sách-nhân-viên.xlsx" />
-    <Content Include="doc\CDVT\QD\quyetdinhsuachua.docx" />
     <Content Include="excel\TCLD\CD_TD_Report.xlsx" />
     <Content Include="excel\TCLD\download\Danh-sách-nhân-viên.xlsx" />
-    <Content Include="doc\CDVT\QD\quyetdinhsuachua.docx" />
     <Content Include="excel\TCLD\Diploma\Bằng cấp - giấy chứng nhận.xlsx" />
     <Content Include="excel\TCLD\Diploma\bằng cấp và giấy chứng nhận của nhân viên.xlsx" />
     <Content Include="excel\CDVT\thanhly.xlsx" />
@@ -7465,11 +7460,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Controllers\CDVT\Quyetdinh\SuaChua\" />
     <Folder Include="Controllers\CDVT\Work\CaiTien\" />
     <Folder Include="excel\Notifi\download\" />
     <Folder Include="FileContainer\KCS\" />
     <Folder Include="FileContainer\PhanXuongLenDK\" />
     <Folder Include="Library\" />
+    <Folder Include="Views\ExportWord\" />
     <Folder Include="Views\ViewAccident\" />
     <Folder Include="Views\WorkHistory\" />
     <Folder Include="Views\XuLyQD\" />
