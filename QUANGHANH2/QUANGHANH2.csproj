@@ -7460,6 +7460,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Controllers\CDVT\Quyetdinh\SuaChua\" />
     <Folder Include="Controllers\CDVT\Work\CaiTien\" />
     <Folder Include="excel\Notifi\download\" />
     <Folder Include="FileContainer\KCS\" />

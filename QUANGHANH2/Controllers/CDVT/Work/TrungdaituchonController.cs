@@ -103,7 +103,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
         [HttpPost]
         public ActionResult GetData(string documentary_code, string out_in_come, string data, string department_id, string reason)
         {
-
+            string department_id_to = Request["department_id_to"];
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
             {
@@ -113,6 +113,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                     documentary.documentary_code = documentary_code == "" ? null : documentary_code;
                     documentary.documentary_type = 6;
                     documentary.department_id = department_id;
+                    documentary.department_id_to = department_id_to;
                     documentary.date_created = DateTime.Now;
                     documentary.person_created = Session["Name"]+"";
                     documentary.reason = reason;
@@ -125,7 +126,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                     {
                         string equipmentId = (string)item.Value["id"];
                         string remodel_type = (string)item.Value["remodel_type"];
-                        string department_id_to = (string)item.Value["department_id"];//
                         string equipment_big_maintain_reason = (string)item.Value["equipment_big_maintain_reason"];
                         string datestring = (string)item.Value["end_date"];
                         string next_remodel_type = (string)item.Value["next_remodel_type"];
@@ -143,7 +143,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                         drd.equipment_big_maintain_status = 0;
                         drd.remodel_type = remodel_type;
                         drd.equipment_big_maintain_reason = equipment_big_maintain_reason;
-                        drd.department_id = department_id_to;//
                         drd.end_date = end_date;
                         drd.next_remodel_type = next_remodel_type;
                         drd.next_end_time = next_end_time;

@@ -25,12 +25,12 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
                 Documentary documentary;
                 if (departid.Contains("PX"))
                 {
-                    documentary = DBContext.Database.SqlQuery<Documentary>("SELECT docu.*, docu.[out/in_come] as out_in_come FROM Documentary_repair_details as detail inner join Documentary as docu on detail.documentary_id = docu.documentary_id WHERE docu.documentary_code IS NOT NULL AND detail.documentary_id = @documentary_id AND docu.department_id = @departid",
+                    documentary = DBContext.Database.SqlQuery<Documentary>("SELECT docu.*, docu.[out/in_come] as out_in_come FROM Documentary_repair_details as detail inner join Documentary as docu on detail.documentary_id = docu.documentary_id WHERE docu.documentary_code IS NOT NULL AND detail.documentary_id = @documentary_id AND docu.department_id_to = @departid",
                        new SqlParameter("documentary_id", id), new SqlParameter("departid", departid)).First();
                 }
                 else
                 {
-                    documentary = DBContext.Database.SqlQuery<Documentary>("SELECT docu.*, docu.[out/in_come] as out_in_come FROM Documentary_repair_details as detail inner join Documentary as docu on detail.documentary_id = docu.documentary_id WHERE docu.documentary_code IS NOT NULL AND detail.documentary_id = @documentary_id",
+                    documentary = DBContext.Database.SqlQuery<Documentary>("SELECT docu.*, docu.[out/in_come] as out_in_come FROM Documentary_repair_details as detail inner join Documentary as docu on detail.documentary_id = docu.documentary_id WHERE docu.documentary_code IS NOT NULL AND detail.documentary_id_to = @documentary_id",
                         new SqlParameter("documentary_id", id)).First();
                 }
                 List<Supply> supplies = DBContext.Supplies.ToList();
@@ -63,7 +63,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
             List<Documentary_repair_detailsDB> equips;
             if (departid.Contains("PX"))
             {
-                 equips = DBContext.Database.SqlQuery<Documentary_repair_detailsDB>("select e.equipmentId, e.equipment_name, depa.department_name, details.* from Department depa inner join Documentary docu on depa.department_id = docu.department_id inner join Documentary_repair_details details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 1 and details.documentary_id = @documentary_id and docu.department_id = @departid",
+                 equips = DBContext.Database.SqlQuery<Documentary_repair_detailsDB>("select e.equipmentId, e.equipment_name, depa.department_name, details.* from Department depa inner join Documentary docu on depa.department_id = docu.department_id inner join Documentary_repair_details details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 1 and details.documentary_id = @documentary_id and docu.department_id_to = @departid",
                     new SqlParameter("documentary_id", id), new SqlParameter("departid", departid)).ToList();
             }
             else

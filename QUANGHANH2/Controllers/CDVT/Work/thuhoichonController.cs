@@ -103,6 +103,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                     documentary.documentary_code = documentary_code == "" ? null : documentary_code;
                     documentary.documentary_type = 4;
                     documentary.department_id = department_id;
+                    documentary.department_id_to = "CDVT";
                     documentary.date_created = DateTime.Now;
                     documentary.person_created = Session["Name"] + "";
                     documentary.reason = reason;
