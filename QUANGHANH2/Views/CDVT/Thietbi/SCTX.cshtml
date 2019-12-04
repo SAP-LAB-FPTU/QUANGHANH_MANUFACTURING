@@ -42,17 +42,17 @@
                                     <div class="col l10 m10 s12 input-field">
                                         <input type="text" placeholder="Tìm kiếm theo tên thiết bị" class='form-control' id="equipmentName-search" />
                                     </div>
-                                    @{
+                                    @*@{
                                         foreach (var item in list)
                                         {
                                             if (item.Equals("17"))
-                                            {
+                                            {*@
                                                 <div class="col l10 m10 s12 input-field">
                                                     <a class="waves-effect waves-light btn-small blue modal-trigger" href="#myadd">Thêm sửa chữa thường xuyên thiết bị</a>
                                                 </div>
-                                            }
+                                            @*}
                                         }
-                                    }
+                                    }*@
 
                                 </div>
                             </div>
@@ -159,7 +159,7 @@
                         <th>Tên thiết bị vật tư (Mã hiệu - quy cách)</th>
                         <th>ĐVT</th>
                         <th>SL</th>
-                        <th>Tình trạng kỹ thuật</th>
+                        
                         <th>Loại</th>
                     </tr>
                 </thead>
@@ -170,13 +170,7 @@
                         <td><input type="text" class="form-control" placeholder="Tên thiết bị vật tư" id="supplyname_add1" readonly /></td>
                         <td><input type="text" class="form-control" placeholder="ĐVT" id="unit_add1" readonly /></td>
                         <td><input type="number" class="form-control" placeholder="SL" id="quantity_add1" /></td>
-                        <td>
-                            <select class="form-control" id="supplyType_add1">
-                                <option value="1">Mới 100%</option>
-                                <option value="2">Cũ qua sử dụng</option>
-                                <option value="3">Cũ qua sửa chữa</option>
-                            </select>
-                        </td>
+                        
                         <td>
                             <select class="form-control" id="supplyStatus_add1">
                                 <option value="1">Thay thế</option>
@@ -338,7 +332,7 @@
             });
             $("#them1").click(function () {
                 dem1++;
-                $("#addMaintain").append("<tr><td>" + dem1 + "</td><td><input  list='supplyID' type='text' class='form-control' id='supplyid_add" + dem1 + "' placeholder='Mã thiết bị vật tư' onchange='searchMaThietBiVatTuAdd(this)' /></td><td><input type='text' class='form-control' id='supplyname_add" + dem1 + "' placeholder='Tên thiết bị vật tư' readonly/></td><td><input type='text' class='form-control' id='unit_add" + dem1 + "' placeholder='ĐVT' readonly/></td><td><input type='number' class='form-control' id='quantity_add" + dem1 + "' placeholder='SL' /></td><td><select class='form-control' id='supplyType_add" + dem1 + "' ><option value='1'>Mới 100%</option><option value='2'>Cũ qua sử dụng</option><option value='3'>Cũ qua sửa chữa</option></select></td><td><select class='form-control' id='supplyStatus_add" + dem1 + "'><option value='1'>Thay thế</option><option value='2'>Thu hồi</option></select></td></tr>");
+                $("#addMaintain").append("<tr><td>" + dem1 + "</td><td><input  list='supplyID' type='text' class='form-control' id='supplyid_add" + dem1 + "' placeholder='Mã thiết bị vật tư' onchange='searchMaThietBiVatTuAdd(this)' /></td><td><input type='text' class='form-control' id='supplyname_add" + dem1 + "' placeholder='Tên thiết bị vật tư' readonly/></td><td><input type='text' class='form-control' id='unit_add" + dem1 + "' placeholder='ĐVT' readonly/></td><td><input type='number' class='form-control' id='quantity_add" + dem1 + "' placeholder='SL' /></td><td><select class='form-control' id='supplyStatus_add" + dem1 + "'><option value='1'>Thay thế</option><option value='2'>Thu hồi</option></select></td></tr>");
             });
 
             $("#exit").click(function () {
@@ -578,7 +572,7 @@
                 var maintainCar = {};
                 maintainCar.supplyid = document.getElementById("supplyid_add" + i).value;
                 maintainCar.quantity = document.getElementById("quantity_add" + i).value;
-                maintainCar.supplyType = document.getElementById("supplyType_add" + i).value;
+              
                 maintainCar.supplyStatus = document.getElementById("supplyStatus_add" + i).value;
                 maintain.push(maintainCar);
             });
@@ -608,7 +602,7 @@
 
                         document.getElementById("supplyid_add" + i).value = '';
                         document.getElementById("quantity_add" + i).value = '';
-                        document.getElementById("supplyType_add" + i).value = '';
+                        
                         document.getElementById("supplyStatus_add" + i).value = '';
                         document.getElementById("supplyname_add" + i).value = '';
                         document.getElementById("unit_add" + i).value = '';
@@ -631,6 +625,7 @@
 
             });
         }
+        var equipmentID;
         //danh sach vat tu
         $(document).on("click", ".open-EditModal", function () {
             $("#supplyMaintain_edit").find("tr:gt(0)").remove();
@@ -644,6 +639,7 @@
                     var i = 0;
 
                     $.each(data, function (i, item) {
+                        equipmentID = item.equipmentid;
                         //Danh sách vật tư.
                         i++;
                         var $tr = $('<tr>').append(
@@ -654,12 +650,7 @@
                             $('<td>').html('<input type="text" class="form-control" placeholder="Đơn vị" id="unit_edit' + i + '" value="' + item.unit + '" readonly/>'),
                             $('<td>').html('<input type="text" class="form-control" placeholder="SL" id="quantity_edit' + i + '" value="' + item.quantity + '"/>'),
                         );
-                        if (item.supplyType == 1)
-                            $tr.append($('<td>').html('<select class="form-control" id="supplytype_edit' + i + '"><option selected value="1">Mới 100%</option><option  value="2">Cũ qua sử dụng</option><option value="3">Cũ qua sửa chữa</option></select>'))
-                        else if (item.supplyType == 2)
-                            $tr.append($('<td>').html('<select class="form-control" id="supplytype_edit' + i + '"><option value="1">Mới 100%</option><option selected value="2">Cũ qua sử dụng</option><option value="3">Cũ qua sửa chữa</option></select>'))
-                        else if (item.supplyType == 3)
-                            $tr.append($('<td>').html('<select class="form-control" id="supplytype_edit' + i + '"><option value="1">Mới 100%</option><option selected value="2">Cũ qua sử dụng</option><option selected value="3">Cũ qua sửa chữa</option></select>'))
+                        
                         if (item.supplyStatus == 1)
                             $tr.append($('<td>').html('<select class="form-control"id="supplystatus_edit' + i + '"><option value="1" selected>Thay thế</option><option value="2">Thu hồi</option></select>'))
                         if (item.supplyStatus == 2)
@@ -748,8 +739,7 @@
                 var maintainCar = {};
                 maintainCar.supplyid = document.getElementById("supplyid_edit" + i).value;
                 maintainCar.quantity = document.getElementById("quantity_edit" + i).value;
-                var x = document.getElementById("supplytype_edit" + i);
-                maintainCar.supplyType = x.options[x.selectedIndex].value;
+              
                 var y = document.getElementById("supplystatus_edit" + i);
                 maintainCar.supplyStatus = y.options[y.selectedIndex].value;
                 maintainCar.maintaindetailid = document.getElementById("maintaindetailid_edit" + i).value;
