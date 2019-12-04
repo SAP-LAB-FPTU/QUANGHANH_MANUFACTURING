@@ -104,7 +104,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 /////////////////////////////////////////////////////////////////////////////////////////////
 
                 //////////////////////////////////////GET TI LE HUY DONG////////////////////////////////////////
-                string currentDate = DateTime.Now.AddDays(-1).ToString("yyyy/MM/dd");
+                String currentDate = DateTime.Now.Date.AddDays(-1).ToString("yyyy/MM/dd");
                 try
                 {
                     sql = @"select a.department_id, a.QL, (a.KT + a.CD) as Tong, a.KT, a.CD, 0 as 'HSTT', 

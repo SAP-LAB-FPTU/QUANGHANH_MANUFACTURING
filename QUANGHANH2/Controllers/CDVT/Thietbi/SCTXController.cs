@@ -309,6 +309,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                 catch (Exception)
                 {
                     transaction.Rollback();
+                    string output = "";
                     if (db.Equipments.Where(x => x.equipmentId == equipmentId).Count() == 0)
                         output += "Mã thiết bị không tồn tại\n";
 
