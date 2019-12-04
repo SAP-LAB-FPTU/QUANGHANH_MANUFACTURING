@@ -74,14 +74,21 @@ namespace QUANGHANH2.Controllers.CDVT.Oto
             DateTime date = DateTime.ParseExact((string)jObject["date"], "dd/MM/yyyy", CultureInfo.InvariantCulture);
             JArray jArray = (JArray)jObject["list"];
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            try
+            using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
             {
-                using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
+                try
                 {
                     foreach (JObject item in jArray)
                     {
+                        //Ca 1: 6h-14h
+                        //Ca 2: 14h-22h
+                        //Ca 3: 22h-6h
                         string equipmentId = (string)item["equipmentId"];
                         int ca = (int)item["ca"];
+                        int thisCa = 0;
+                        if (DateTime.Now.Hour >= 6 && DateTime.Now.Hour < 14) thisCa = 1;
+                        if (DateTime.Now.Hour >= 14 && DateTime.Now.Hour < 22) thisCa = 2;
+                        if (DateTime.Now.Hour >= 22) thisCa = 3;
                         bool available = (bool)item["available"];
                         CarGP car = DBContext.CarGPS.Find(equipmentId, date, ca);
                         if (car == null)
@@ -99,16 +106,22 @@ namespace QUANGHANH2.Controllers.CDVT.Oto
                             car.available = available ? true : false;
                             car.reason = (string)item["reason"];
                         }
+                        if (thisCa == ca)
+                        {
+                            Car c = DBContext.Cars.Find(equipmentId);
+                            c.GPS = available;
+                        }
                         DBContext.SaveChanges();
                     }
                     transaction.Commit();
                 }
-                return Json(new { success = true });
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                    return Json(new { success = false });
+                }
             }
-            catch (Exception)
-            {
-                return Json(new { success = false });
-            }
+            return Json(new { success = true });
         }
 
         [Route("phong-cdvt/oto/GPS/GetReason")]
