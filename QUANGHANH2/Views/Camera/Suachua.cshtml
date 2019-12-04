@@ -112,7 +112,7 @@
             $("#maquyetdinh").val(QDIdAndEquipId.split("^")[0])
             $.ajax({
                 type: "POST",
-                url: "/phong-cdvt/cap-nhat/quyet-dinh/GetSupply2",
+                url: "/cap-nhat/camera/quyet-dinh/GetSupply2",
                 dataType: "json",
                 success: function (data) {
                     $(function () {
@@ -278,7 +278,7 @@
             $("#pre-load").show();
             $.ajax({
                 type: "POST",
-                url: "/phong-cdvt/cap-nhat/quyet-dinh/AddSupply",
+                url: "/cap-nhat/camera/quyet-dinh/AddSupply",
                 dataType: "json",
                 success: function (data) {
                     if (data.success) {
