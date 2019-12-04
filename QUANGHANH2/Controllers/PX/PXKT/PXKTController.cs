@@ -124,12 +124,10 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                         JObject json = JObject.Parse(stringjson);
                         int calamviec = (int)json["ca"];
                         string Donvi = (string)json["phongban"];
-                        //DateTime date = DateTime.ParseExact((string)json["ngay"], "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                        DateTime date = Convert.ToDateTime(json["ngay"].ToString());
-                        Header_DiemDanh_NangSuat_LaoDong header = db.Header_DiemDanh_NangSuat_LaoDong.Where(a => a.MaPhongBan == Donvi && a.Ca == calamviec && a.NgayDiemDanh == date).FirstOrDefault();
-                        if (header == null)
+                        DateTime date = DateTime.ParseExact((string)json["ngay"], "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                        Header_DiemDanh_NangSuat_LaoDong header = db.Header_DiemDanh_NangSuat_LaoDong.Where(a => a.MaPhongBan.Equals(Donvi) && a.Ca == calamviec && a.NgayDiemDanh == date).FirstOrDefault();
+                        if (header != null)
                         {
-                            header = new Header_DiemDanh_NangSuat_LaoDong();
                             header.TotalEffort = (double)json["total_point"];
                             header.GhiChu = (string)json["note"];
                             header.ThanThucHien = (double)json["than"];
@@ -138,21 +136,22 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                             JArray temp = (JArray)json.SelectToken("list");
                             foreach (JObject item in temp)
                             {
-                                DiemDanh_NangSuatLaoDong NSLD = db.DiemDanh_NangSuatLaoDong.Find((string)item["MaNhanVien"], header.HeaderID);
-                                NSLD.HeSoChiaLuong = (double)item["HeSoChiaLuong"];
-                                NSLD.DiemLuong = (double)item["Luong"];
+                                DiemDanh_NangSuatLaoDong NSLD = db.DiemDanh_NangSuatLaoDong.Find((string)item["MaNhanVien"], (int)header.HeaderID);
+                                NSLD.HeSoChiaLuong = (double?)item["HeSoChiaLuong"];
+                                NSLD.DiemLuong = (double?)item["Luong"];
                                 NSLD.DuBaoNguyCo = (string)item["DuBaoNguyCo"];
                                 NSLD.GiaiPhapNguyCo = (string)item["YeuCauBPKTAT"];
+                                db.SaveChanges();
                             }
-                            db.SaveChanges();
                             transaction.Commit();
                             return Json(new { success = true, message = "Cập nhật thành công" });
-                        } else
+                        }
+                        else
                         {
                             return Json(new { success = false, message = "Cập nhật thất bại." });
                         }
 
-                        
+
                     }
                     catch (Exception e)
                     {
