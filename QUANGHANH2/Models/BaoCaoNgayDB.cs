@@ -19,7 +19,8 @@ namespace QUANGHANH2.Models
         public int om { get; set; }
         public int phep { get; set; }
         public int khac { get; set; }
-        public int tile { get; set; }
+        public double tile { get; set; }
+        public double tile_dis { get; set; }
         public double than { get; set; }
         public double metlo { get; set; }
         public double xen { get; set; }

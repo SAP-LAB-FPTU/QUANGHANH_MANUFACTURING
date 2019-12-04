@@ -20,13 +20,13 @@
                 <div class="col l4 m4 s12">
                     <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
                         <i class="fas fa-calendar-alt icon"></i>
-                        <input type='text' class='datepicker-here center maxDate' id="date-start-search" data-language='vi' value="Nhập ngày bắt đầu (từ)" style="height: 24px" />
+                        <input type='text' class='datepicker-here center maxDate' id="date-start-search" data-language='vi' placeholder="Nhập ngày bắt đầu (từ)" style="height: 24px" />
                     </div>
                 </div>
                 <div class="col l4 m4 s12">
                     <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
                         <i class="fas fa-calendar-alt icon"></i>
-                        <input type='text' class='datepicker-here center minDate' id="date-end-search" data-language='vi' value="Nhập ngày kết thúc (đến)" style="height: 24px" />
+                        <input type='text' class='datepicker-here center minDate' id="date-end-search" data-language='vi' placeholder="Nhập ngày kết thúc (đến)" style="height: 24px" />
                     </div>
                 </div>
                 <div class="col s12">
@@ -230,22 +230,19 @@
                     { data: "reason" , name : "reason"},
                     { data: "out_in_come" , name :"out_in_come" },
                     {
-                        data: "tempId", render: function (data) {
-                            return "<a href=\"#myupdate\" data-toggle=\"modal\" class=\"open-UpdateModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-incident-id=\"" + data.split("^")[0] + "\">Cập&nbsp;nhật</a>";
+                        data: {}, render: function (data) {
+                            return "<a href=\"#myupdate\" data-toggle=\"modal\" class=\"open-UpdateModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-incident-id=\"" + data.documentary_id + "\">Cập&nbsp;nhật</a>";
                                     },
                         orderable: false,
                         searchable:false,
-
                     },
                     {
-                        data: "tempId", render: function (data) {
-                            return " <a class=\"waves-effect waves-light btn blue darken-1 modal-trigger\" onclick=GetData('@Url.Action("LoadPage","ChitietBaoduong")?id=" + data.split("^")[0] + "')>Chi&nbsp;tiết</a>";
-                     },
+                        data: {}, render: function (data) {
+                            return " <a class=\"waves-effect waves-light btn blue darken-1 modal-trigger\" href='/phong-cdvt/quyet-dinh/cai-tien-chi-tiet?id=" + data.documentary_id + "')>Chi&nbsp;tiết</a>";
+                        },
                         orderable: false,
                         searchable:false,
-
                     }
-
                 ],
                 serverSide: "true",
                 order: [0, "desc"],

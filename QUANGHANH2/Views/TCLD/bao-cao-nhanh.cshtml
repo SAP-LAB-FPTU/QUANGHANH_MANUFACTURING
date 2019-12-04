@@ -25,16 +25,6 @@
                         </h5>
                     </div>
                     <hr />
-                    @*<div class="col s12">
-                            <ul class="tabs">
-                                <li class="tab col l6 s6">
-                                    <a class="active" href="#baocaonhanh">Báo cáo nhanh theo ngày</a>
-                                </li>
-                                <li class="tab col l6 s6">
-                                    <a href="#chitiet">Chi tiết báo cáo nhanh</a>
-                                </li>
-                            </ul>
-                        </div>*@
                 </div>
             </div>
         </div>
@@ -187,14 +177,6 @@
             </div>
         </div>
     </div>
-    @*<div class="col s12 l6 m6">
-            <div class="card">
-                <div class="card-content analytics-info">
-                    <h5 class="card-title">Biểu đồ năng suất lao động trong ngày </h5>
-                    <div id="basic-area" style="height:400px;"></div>
-                </div>
-            </div>
-        </div>*@
     <div class="row">
         <div class="col l6 s12">
             <div class="card">
@@ -255,74 +237,6 @@
     </div>
 </div>
 
-<!-- Chi tiet -->
-@*<div class="row" id="chitiet">
-        <div class="col s12 m12 l12">
-            <div class="card">
-                <div class="card-content">
-                    <div class="center">
-                        <h5 class="black-text m-b-5">Báo cáo nhanh theo ngày</h5>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table table-bordered centered">
-                            <thead>
-                                <tr>
-                                    <th>STT</th>
-                                    <th>Đơn vị</th>
-                                    <th>Lũy kế NSLĐ</th>
-                                    <th>Tổng nhân lực</th>
-                                    <th>Điểm lương phân phối cho người lao động</th>
-                                    <th>Điểm lương bình quân</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="black-text text-darken-4">
-                                    <td>1</td>
-                                    <td><a href="@Url.Content("/phong-tcld/bao-cao-nhanh-lao-dong-tien-luong-vtl1")">Vận tải lò 1</a></td>
-                                    <td>13,5</td>
-                                    <td>181</td>
-                                    <td>70768</td>
-                                    <td>463</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td><a href="@Url.Content("/phong-tcld/bao-cao-nhanh-lao-dong-tien-luong-vtl1")">Khai thác 1</a></td>
-                                    <td>15.5</td>
-                                    <td>194</td>
-                                    <td>74623</td>
-                                    <td>4533</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td><a href="@Url.Content("/phong-tcld/bao-cao-nhanh-lao-dong-tien-luong-vtl1")">Khai thác 2</a></td>
-                                    <td>17</td>
-                                    <td>121</td>
-                                    <td>70763</td>
-                                    <td>445</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td><a href="@Url.Content("/phong-tcld/bao-cao-nhanh-lao-dong-tien-luong-vtl1")">Khai thác 3</a></td>
-                                    <td>15</td>
-                                    <td>121</td>
-                                    <td>70763</td>
-                                    <td>445</td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td><a href="@Url.Content("/phong-tcld/bao-cao-nhanh-lao-dong-tien-luong-vtl1")">Khai thác 6</a></td>
-                                    <td>13</td>
-                                    <td>99</td>
-                                    <td>70763</td>
-                                    <td>445</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>*@
 <script>
     function AddComma(Num) { //function to add commas to textboxes
         Num += '';
@@ -368,11 +282,6 @@
 <script src="~/js/tcld_dashboard/QuickReport_barchart.js"></script>
 <script src="~/js/tcld_dashboard/QuickReport_piechart.js"></script>
 <script src="~/assets/extra-libs/prism/prism.js"></script>
-
-<!-- Table -->
-@*<script src="~/js/Custom JS/TCLD/db_issue.js"></script>*@
-@*<script src="~/js/Custom JS/TCLD/table_init.js"></script>*@
-<!--Auto -->
 
 <script>
     (function () {

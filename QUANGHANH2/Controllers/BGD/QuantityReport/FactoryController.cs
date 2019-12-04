@@ -1,461 +1,237 @@
-﻿using System;
+﻿using QUANGHANH2.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using QUANGHANH2.Models;
-
-
-using System.Data.Entity;
+using QUANGHANH2.Controllers.DK;
 using System.Data.SqlClient;
-using System.IO;
-
-using System.Threading;
-using System.Threading.Tasks;
-
+using Newtonsoft.Json;
 using System.Web.Hosting;
+using System.IO;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
+using System.Drawing;
 
-using System.Web.Routing;
-using System.Windows;
 
 namespace QUANGHANH2.Controllers.BGD.QuantityReport
 {
-    public class FactoryController : Controller
+    public class DepartmentDailyController : Controller
     {
-        // GET: PhanXuongReport
+        // GET: DepartmentDaily
+        [Route("ban-giam-doc/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty-theo-phan-xuong")]
         public ActionResult Index()
         {
-            return View();
+            return View("/Views/BGD/QuantityReport/Factory.cshtml");
         }
-        [Route("ban-giam-doc/bao-cao-phan-xuong-phong-ban")]
-        public ActionResult ReportIncident()
+        //
+        dynamic getListReport(DateTime timeStart, DateTime timeEnd)
         {
-
-            var phanxuong = this.Request.QueryString["phanxuong"];
-            phanxuong = phanxuong == null ? "all" : phanxuong;
-            string ngay = this.Request.QueryString["ngay"];
-            ngay = ngay == null ? System.DateTime.Now.Date.ToString("dd/MM/yyyy") : ngay;
-            List<Department> listPX = new List<Department>();
-            bool? ca1IsLock = false;
-            bool? ca2IsLock = false;
-            bool? ca3IsLock = false;
+            var query = "select PhongBan_TieuChi.MaPhongBan,PhongBan_TieuChi.MaTieuChi,department_name as TenPhongBan," +
+                "(case when b.Ca1 is null then 0 else b.Ca1 end) as Ca1,(case when b.Ca2 is null then 0 else b.Ca2 end) as Ca2," +
+                "(case when b.Ca3 is null then 0 else b.Ca3 end) as Ca3,(case when b.TH is null then 0 else b.TH end) as TH," +
+                "(case when b.LUYKE is null then 0 else b.LUYKE end) as LUYKE from(" +
+                "select MaPhongBan, MaTieuChi, SUM(Case when Ca = 1 and Ngay = @dateEnd then SanLuong else convert(float, 0) end) as [Ca1]," +
+                "SUM(Case when Ca = 2 and Ngay = @dateEnd then SanLuong else convert(float, 0) end) as [Ca2]," +
+                "SUM(Case when Ca = 3 and Ngay = @dateEnd  then SanLuong else convert(float, 0) end) as [Ca3]," +
+                "SUM(Case when Ngay = @dateEnd  then SanLuong else convert(float, 0) end) as [TH]," +
+                "SUM(SanLuong) as [LUYKE] from(" +
+                "select header.HeaderID, th.MaTieuChi, th.SanLuong, header.MaPhongBan, header.Ca, header.Ngay from ThucHien_TieuChi_TheoNgay as th " +
+                "inner join(select * from header_ThucHienTheoNgay where Ngay <= @dateEnd and Ngay >= @dateStart) as header on th.HeaderID = header.HeaderID) as a " +
+                "group by MaPhongBan,MaTieuChi ) as b " +
+                "right join(select* from PhongBan_TieuChi where PhongBan_TieuChi.Thang = 9) as PhongBan_TieuChi on b.MaPhongBan = PhongBan_TieuChi.MaPhongBan and PhongBan_TieuChi.MaTieuChi = b.MaTieuChi " +
+                "join Department on PhongBan_TieuChi.MaPhongBan = department_id " +
+                "order by MaPhongBan";
+            var queryKHDC = "select PhongBan_TieuChi.MaPhongBan, PhongBan_TieuChi.MaTieuChi," +
+                "(case when SanLuong is null then 0 else SanLuong end) as [SanLuong] from(select kh.MaTieuChi, kh.SanLuong, header.MaPhongBan from(" +
+                "select KeHoach_TieuChi_TheoThang.* from(" +
+                "select HeaderID, MaTieuChi, MAX(ThoiGianNhapCuoiCung) as ThoiGianNhapCuoiCung from KeHoach_TieuChi_TheoThang group by HeaderID, MaTieuChi) " +
+                "as a inner join KeHoach_TieuChi_TheoThang " +
+                "on a.HeaderID = KeHoach_TieuChi_TheoThang.HeaderID and a.MaTieuChi = KeHoach_TieuChi_TheoThang.MaTieuChi " +
+                "and a.ThoiGianNhapCuoiCung = KeHoach_TieuChi_TheoThang.ThoiGianNhapCuoiCung) as kh " +
+                "inner join(select * from header_KeHoachTungThang where ThangKeHoach = @month and NamKeHoach = @year) as header on kh.HeaderID = header.HeaderID) as table1 " +
+                "right join(select* from PhongBan_TieuChi where PhongBan_TieuChi.Thang = @month) as PhongBan_TieuChi on table1.MaPhongBan = PhongBan_TieuChi.MaPhongBan and PhongBan_TieuChi.MaTieuChi = table1.MaTieuChi " +
+                "order by PhongBan_TieuChi.MaPhongBan";
+            var querykHDaily = "select PhongBan_TieuChi.MaPhongBan, PhongBan_TieuChi.MaTieuChi," +
+                "(case when SanLuong is null then 0 else SanLuong end) as [SanLuong] from " +
+                "(select MaPhongBan, MaTieuChi, SUM(KeHoach) as SanLuong from( " +
+                "select khtc.* from(select HeaderID, MaTieuChi, MAX(ThoiGianNhapCuoiCung) as ThoiGianNhapCuoiCung  from KeHoach_TieuChi_TheoNgay " +
+                "group by HeaderID, MaTieuChi) as a " +
+                "inner join KeHoach_TieuChi_TheoNgay as khtc " +
+                "on a.HeaderID = khtc.HeaderID and a.MaTieuChi = khtc.MaTieuChi and a.ThoiGianNhapCuoiCung = khtc.ThoiGianNhapCuoiCung) as kh " +
+                "inner join(select * from header_KeHoach_TieuChi_TheoNgay where NgayNhapKH = @date) as header " +
+                "on kh.HeaderID = header.HeaderID " +
+                "group by MaPhongBan, MaTieuChi) as table1 " +
+                "right join(select* from PhongBan_TieuChi where PhongBan_TieuChi.Thang = @month) as PhongBan_TieuChi on table1.MaPhongBan = PhongBan_TieuChi.MaPhongBan and PhongBan_TieuChi.MaTieuChi = table1.MaTieuChi " +
+                "order by PhongBan_TieuChi.MaPhongBan";
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                using (DbContextTransaction transaction = db.Database.BeginTransaction())
+                var listReport = db.Database.SqlQuery<reportEntity>(query, new SqlParameter("dateStart", timeStart), new SqlParameter("dateEnd", timeEnd)).ToList();
+                // var listKHDC = db.Database.SqlQuery<KHDCDepartmentEntity>(queryKHDC, new SqlParameter("month", timeEnd.Month), new SqlParameter("year", timeEnd.Year)).ToList();
+                var listKHDC = db.Database.SqlQuery<KHDCDepartmentEntity>(queryKHDC, new SqlParameter("month", timeEnd.Month), new SqlParameter("year", timeEnd.Year)).ToList();
+                // var listKHDaily = db.Database.SqlQuery<KHDCDepartmentEntity>(querykHDaily, new SqlParameter("date", timeEnd), new SqlParameter("month", timeEnd.Month)).ToList();
+                var listKHDaily = db.Database.SqlQuery<KHDCDepartmentEntity>(querykHDaily, new SqlParameter("date", timeEnd), new SqlParameter("month", timeEnd.Month)).ToList();
+                for (var index = 0; index < listReport.Count; index++)
                 {
-                    try
+                    if (index < listKHDC.Count)
                     {
-                        string sql;
-                        List<fileObjectDisplay> list = new List<fileObjectDisplay>();
-                        List<BaoCaoFile> isLockList = new List<BaoCaoFile>();
-                        List<allFileObject> allFilesList = new List<allFileObject>();
-                        sql = "select * from department where department_id in\n" +
-                        "('PXKT1', 'PXKT2', 'PXKT3', 'PXKT4', 'PXKT5', 'PXKT6', 'PXKT7',\n" +
-                        "'PXKT8', 'PXKT9', 'PXKT10', 'PXKT11', 'PXDL3', 'PXDL5', 'PXDL7', 'PXDL8',\n" +
-                        "'PXVT1', 'PXVT2', 'PXTGQLKM', 'PXST', 'PXCDM', 'PXCKSC', 'PXPV', 'PXXD', 'PXDS','KCS', 'PXLT')\n" +
-                        "order by department_name";
-                        listPX = db.Database.SqlQuery<Department>(sql).ToList<Department>();
-                        String[] listPXId = {"PXKT1", "PXKT2", "PXKT3", "PXKT4", "PXKT5", "PXKT6", "PXKT7",
-                        "PXKT8", "PXKT9", "PXKT10", "PXKT11", "PXDL3", "PXDL5", "PXDL7", "PXDL8",
-                        "PXVT1", "PXVT2", "PXTGQLKM", "PXST", "PXCDM", "PXCKSC", "PXPV", "PXXD", "PXDS", "KCS", "PXLT"};
-                        ///////////////////////////////////////////FOR PHAN XUONG///////////////////////////////////////
-                        if (phanxuong != null
-                            && phanxuong.ToLower() != "kcs"
-                            && Array.IndexOf(listPXId, phanxuong) != -1
-                            && phanxuong != "all")
-                        {
-                            if (ngay == null || ngay == "")
-                            {
-                                sql = "select f.*,b.ca from filebaocao f,baocaofile b\n" +
-                                 "where f.baocaoid = b.id and b.ngay = (SELECT CONVERT(VARCHAR(10), getdate(), 101))\n" +
-                                 "and b.phanxuong_id = @phanxuong";
-                                list = db.Database.SqlQuery<fileObjectDisplay>(sql, new SqlParameter("phanxuong", phanxuong)).ToList<fileObjectDisplay>();
-                            }
-                            else
-                            {
-                                ngay = ngay.Split('/')[2] + "/" + ngay.Split('/')[1] + "/" + ngay.Split('/')[0];
-                                sql = "select f.*,b.ca from filebaocao f,baocaofile b\n" +
-                                "where f.baocaoid = b.id and b.ngay = @ngay\n" +
-                                "and b.phanxuong_id = @phanxuong";
-                                list = db.Database.SqlQuery<fileObjectDisplay>(sql,
-                                    new SqlParameter("phanxuong", phanxuong),
-                                    new SqlParameter("ngay", DateTime.Parse(ngay))
-                                    ).ToList<fileObjectDisplay>();
-                            }
-                            ViewBag.listFiles = list;
-                            sql = "select * from baocaofile\n" +
-                                "where ngay = @ngay\n" +
-                                "and phanxuong_id = @phanxuong order by ca asc";
-                            isLockList = db.BaoCaoFiles.SqlQuery(sql,
-                                new SqlParameter("ngay", DateTime.Parse(ngay)),
-                                new SqlParameter("phanxuong", phanxuong)).ToList<BaoCaoFile>();
-                            for (int i = 0; i < isLockList.Count; i++)
-                            {
-                                switch (isLockList[i].ca)
-                                {
-                                    case 1:
-                                        ca1IsLock = isLockList[i].@lock;
-                                        break;
-                                    case 2:
-                                        ca2IsLock = isLockList[i].@lock;
-                                        break;
-                                    case 3:
-                                        ca3IsLock = isLockList[i].@lock;
-                                        break;
-                                }
-                            }
-                            ViewBag.ca1IsLock = ca1IsLock;
-                            ViewBag.ca2IsLock = ca2IsLock;
-                            ViewBag.ca3IsLock = ca3IsLock;
-                        }
-                        else
-                        //////////////////////////////////////////FOR KCS///////////////////////////////////////////////
-                        if (phanxuong != null
-                            && phanxuong.ToLower() == "kcs"
-                            && phanxuong != "all")
-                        {
-                            List<FileBaoCao> listFileKCS = new List<FileBaoCao>();
-                            if (ngay == null || ngay == "")
-                            {
-                                sql = "select f.* from filebaocao f,baocaofile b\n" +
-                                 "where f.baocaoid = b.id and b.ngay = (SELECT CONVERT(VARCHAR(10), getdate(), 101))\n" +
-                                 "and b.phanxuong_id = @phanxuong";
-                                listFileKCS = db.Database.SqlQuery<FileBaoCao>(sql, new SqlParameter("phanxuong", phanxuong)).ToList<FileBaoCao>();
-                            }
-                            else
-                            {
-                                ngay = ngay.Split('/')[2] + "/" + ngay.Split('/')[1] + "/" + ngay.Split('/')[0];
-                                sql = "select f.* from filebaocao f,baocaofile b\n" +
-                                "where f.baocaoid = b.id and b.ngay = @ngay\n" +
-                                "and b.phanxuong_id = @phanxuong";
-                                listFileKCS = db.Database.SqlQuery<FileBaoCao>(sql,
-                                    new SqlParameter("phanxuong", phanxuong),
-                                    new SqlParameter("ngay", DateTime.Parse(ngay))
-                                    ).ToList<FileBaoCao>();
-                            }
-                            ViewBag.listFiles = listFileKCS;
-                            bool? isLock = false;
-                            if (ngay == null)
-                            {
-                                sql = "select * from baocaofile\n" +
-                                                               "where ngay = (SELECT CONVERT(VARCHAR(10), getdate(), 101))\n" +
-                                                               "and phanxuong_id = @phanxuong";
-                                isLockList = db.BaoCaoFiles.SqlQuery(sql,
-                                new SqlParameter("phanxuong", phanxuong)).ToList<BaoCaoFile>();
-                            }
-                            else
-                            {
-                                sql = "select * from baocaofile\n" +
-                                                                "where ngay = @ngay\n" +
-                                                                "and phanxuong_id = @phanxuong";
-                                isLockList = db.BaoCaoFiles.SqlQuery(sql,
-                                new SqlParameter("ngay", DateTime.Parse(ngay)),
-                                new SqlParameter("phanxuong", phanxuong)).ToList<BaoCaoFile>();
-                            }
-                            for (int i = 0; i < isLockList.Count; i++)
-                            {
-                                isLock = isLockList[i].@lock;
-                                break;
-                            }
-                            ViewBag.isLock = isLock;
-                        }
-                        else
-                        //////////////////////////////////////////FOR ALL///////////////////////////////////////////////
-                        {
-                            ngay = ngay.Split('/')[2] + "/" + ngay.Split('/')[1] + "/" + ngay.Split('/')[0];
-                            sql = "select f.*,b.ngay,b.ca,d.department_name,d.department_id from filebaocao f, baocaofile b, Department d\n" +
-                            "where b.id = f.baocaoid and b.phanxuong_id = d.department_id and b.ngay=@ngay\n" +
-                            "order by f.id desc";
-                            allFilesList = db.Database.SqlQuery<allFileObject>(sql,
-                                new SqlParameter("ngay", ngay)).ToList<allFileObject>();
-                            ViewBag.allFilesList = allFilesList;
-                        }
-
-                        phanxuong = phanxuong == null ? "" : phanxuong;
-                        db.SaveChanges();
-
-                        transaction.Commit();
+                        listReport[index].KHDC = listKHDC[index].SanLuong;
+                        listReport[index].BQQHDC = listReport[index].KHDC / 16;
                     }
-                    catch (Exception e)
+                    if (index < listKHDaily.Count)
                     {
-                        transaction.Rollback();
+                        listReport[index].KH = listKHDaily[index].SanLuong;
                     }
                 }
-
+                var departmentName = new string[] { "Phân xưởng khai thác 1", "Phân xưởng khai thác 2", "Phân xưởng khai thác 3", "Phân xưởng khai thác 4","Phân xưởng khai thác 5",
+                                                    "Phân xưởng khai thác 6", "Phân xưởng khai thác 7", "Phân xưởng khai thác 8", "Phân xưởng khai thác 9","Phân xưởng khai thác 10",
+                                                    "Phân xưởng khai thác 11", "Phân xưởng đào lò 3", "Phân xưởng đào lò 5", "Phân xưởng đào lò 7","Phân xưởng đào lò 7","Phân xưởng đào lò 8",
+                                                    "Công Ty Dương Huy","Phân xưởng sàng tuyển","Phân xưởng lộ thiên","Công ty Xây lắp mỏ - TKV","Liên doanh nhà thầu Công ty CP thương mại - công nghệ CT Thăng Long và Công ty tư vấn Công ty Thăng Long",
+                                                    "Công ty ASEAN"};
+                List<reportEntity> reports = new List<reportEntity>();
+                foreach (var name in departmentName)
+                {
+                    reportEntity rp = new reportEntity();
+                    rp.TenPhongBan = name;
+                    rp.isHeader = true;
+                    reports.Add(rp);
+                    foreach (var report in listReport)
+                    {
+                        if (report.TenPhongBan == name)
+                        {
+                            report.isHeader = false;
+                            reports.Add(report);
+                        }
+                    }
+                }
+                foreach (var item in reports)
+                {
+                    item.percentageDC = ((item.luyke / item.KHDC) * 100);
+                    item.SUM = item.KHDC - item.luyke;
+                    item.perday = item.SUM / 16;
+                    item.chenhlech = item.TH - item.KH;
+                    item.percentage = item.KH == 0 ? 0 : (item.TH / item.KH);
+                }
+                return reports;
             }
+        }
+        //
+        [Route("ban-giam-doc/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty-theo-phan-xuong")]
+        [HttpPost]
+        public ActionResult GetData()
+        {
+            DateTime timeEnd = Convert.ToDateTime(Request["date"]);
+            var timeStart = Convert.ToDateTime("" + timeEnd.Year + "-" + timeEnd.Month + "-1");
+            var reports = getListReport(timeStart, timeEnd);
+            JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            var result = JsonConvert.SerializeObject(reports, Formatting.Indented, jss);
+            return Json(new { success = true, data = result }, JsonRequestBehavior.AllowGet);
+        }
 
-            ViewBag.phanxuong = phanxuong;
-            ViewBag.listPX = listPX;
-            if (ngay != null && ngay.Split('/')[2].Length != 4)
+        [Route("ban-giam-doc/bao-cao-san-xuat-than/export-excel")]
+        [HttpPost]
+        public ActionResult ExportExcel()
+        {
+            DateTime timeEnd = Convert.ToDateTime(Request["date"]);
+            var timeStart = Convert.ToDateTime("" + timeEnd.Year + "-" + timeEnd.Month + "-1");
+            var reports = getListReport(timeStart, timeEnd);
+            var nam = Request["date"].Split('-')[0];
+            var thang = Request["date"].Split('-')[1];
+            var ngay = Request["date"].Split('-')[2];
+            //////////////////////////////////////////////////////////////////////////////////////
+
+            string path = HostingEnvironment.MapPath("/excel/DK/DailyDepartment/templateBaoCaoTheoPhanXuong.xlsx");
+            FileInfo file = new FileInfo(path);
+            using (ExcelPackage excelPackage = new ExcelPackage(file))
             {
-                ngay = ngay.Split('/')[2] + "/" + ngay.Split('/')[1] + "/" + ngay.Split('/')[0];
+                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
+                ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
+
+                int k = 0;
+                int count = 0;
+                excelWorksheet.Cells[1, 4].Value = "Ngày " + ngay + " tháng " + thang + " năm " + nam;
+                excelWorksheet.Cells[1, 11].Value = "Tháng " + thang;
+                for (int i = 3; i <= reports.Count + 2; i++)
+                {
+                    if (reports[k].isHeader)
+                    {
+                        excelWorksheet.Cells[i, 1].Value = reports[k].TenPhongBan;
+                        excelWorksheet.Cells[i, 1, i, 16].Merge = true;
+                        excelWorksheet.Cells[i, 1, i, 16].Style.Font.Bold = true;
+                        excelWorksheet.Cells[i, 1, i, 16].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                        excelWorksheet.Cells[i, 1, i, 16].Style.Font.Size = 13;
+
+                        count = 1;
+                    }
+                    else
+                    {
+                        excelWorksheet.Cells[i, 1].Value = count;
+                        excelWorksheet.Cells[i, 2].Value = reports[k].TenTieuChi;
+                        excelWorksheet.Cells[i, 3].Value = reports[k].BQQHDC;
+                        excelWorksheet.Cells[i, 4].Value = reports[k].Ca1;
+                        excelWorksheet.Cells[i, 5].Value = reports[k].Ca2;
+                        excelWorksheet.Cells[i, 6].Value = reports[k].Ca3;
+                        excelWorksheet.Cells[i, 7].Value = reports[k].TH;
+                        excelWorksheet.Cells[i, 8].Value = reports[k].KH;
+                        excelWorksheet.Cells[i, 9].Value = reports[k].chenhlech;
+                        if (reports[k].chenhlech > 0)
+                        {
+                            excelWorksheet.Cells[i, 9].Style.Font.Color.SetColor(Color.Green);
+                        }
+                        else
+                        {
+                            excelWorksheet.Cells[i, 9].Style.Font.Color.SetColor(Color.Red);
+                        }
+                        excelWorksheet.Cells[i, 10].Value = reports[k].percentage;
+                        excelWorksheet.Cells[i, 11].Value = reports[k].luyke;
+                        excelWorksheet.Cells[i, 12].Value = reports[k].KHDC;
+                        excelWorksheet.Cells[i, 13].Value = reports[k].percentageDC;
+                        excelWorksheet.Cells[i, 14].Value = reports[k].SUM;
+                        excelWorksheet.Cells[i, 15].Value = reports[k].perday;
+                        excelWorksheet.Cells[i, 16].Value = reports[k].GhiChu;
+                        count++;
+                    }
+                    k++;
+
+                }
+                ExcelRange Rng = excelWorksheet.Cells[3, 1, reports.Count + 2, 16];
+                Rng.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                Rng.Style.Border.Top.Color.SetColor(Color.Gray);
+                Rng.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                Rng.Style.Border.Left.Color.SetColor(Color.Gray);
+                Rng.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                Rng.Style.Border.Right.Color.SetColor(Color.Gray);
+                Rng.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                Rng.Style.Border.Bottom.Color.SetColor(Color.Gray);
+
+                string location = HostingEnvironment.MapPath("/excel/DK/DailyDepartment");
+                excelPackage.SaveAs(new FileInfo(location + "/BaoCao.xlsx"));
+                string handle = Guid.NewGuid().ToString();
+                string downloadFilename = "BaoCaoPhanXuong.xlsx";
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    excelPackage.SaveAs(memoryStream);
+                    memoryStream.Position = 0;
+                    TempData[handle] = memoryStream.ToArray();
+                }
+
+                return Json(new { success = true, data = new { FileGuid = handle, FileName = downloadFilename } }, JsonRequestBehavior.AllowGet);
+            }
+            return null;
+        }
+        [HttpGet]
+        [Route("ban-giam-doc/bao-cao-san-xuat-than/download")]
+        public virtual ActionResult Download(string fileGuid, string fileName)
+        {
+            if (TempData[fileGuid] != null)
+            {
+                byte[] data = TempData[fileGuid] as byte[];
+                return File(data, "application/vnd.ms-excel", fileName);
             }
             else
             {
-                ngay = "0";
+                return new EmptyResult();
             }
-            ViewBag.ngay = ngay;
-            return View("/Views/BGD/QuantityReport/Factory.cshtml");
         }
-
-        [Route("ban-giam-doc/lock-nhap-bao-cao")]
-        [HttpPost]
-        public ActionResult LockUpload()
-        {
-            var phanxuong = Request["phanxuong"];
-            string ngay = Request["ngay"];
-            string ca = Request["ca"];
-            DateTime date = DateTime.Parse(ngay.Split('/')[2] + "/" + ngay.Split('/')[1] + "/" + ngay.Split('/')[0]);
-            List<Department> listPX = new List<Department>();
-            if (phanxuong != null)
-            {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-                {
-                    using (DbContextTransaction transaction = db.Database.BeginTransaction())
-                    {
-                        try
-                        {
-                            int baoCaoID;
-                            string sql = "select * from BaoCaoFile where ngay=@ngay and ca=@ca and phanxuong_id=@phanxuong";
-                            List<BaoCaoFile> a = db.BaoCaoFiles.SqlQuery(sql,
-                                new SqlParameter("ngay", date),
-                                new SqlParameter("ca", Int32.Parse(ca)),
-                                new SqlParameter("phanxuong", phanxuong)).ToList<BaoCaoFile>();
-                            if (a.Count == 0)
-                            {
-                                sql = "insert into BaoCaoFile(ngay,ca,phanxuong_id,lock) values\n" +
-                                    "(@ngay,@ca,@phanxuong_id,@lock)";
-                                db.Database.ExecuteSqlCommand(sql,
-                                new SqlParameter("ngay", date),
-                                new SqlParameter("ca", Int32.Parse(ca)),
-                                new SqlParameter("phanxuong_id", phanxuong),
-                                new SqlParameter("lock", false));
-                                /////////////////////////////////////////////////
-                                sql = "select * from BaoCaoFile where ngay=@ngay and ca=@ca and phanxuong_id=@phanxuong";
-                                a = db.BaoCaoFiles.SqlQuery(sql,
-                                    new SqlParameter("ngay", date),
-                                    new SqlParameter("ca", Int32.Parse(ca)),
-                                    new SqlParameter("phanxuong", phanxuong)).ToList<BaoCaoFile>();
-                                baoCaoID = a[0].ID;
-                            }
-                            else
-                            {
-                                baoCaoID = a[0].ID;
-                            }
-                            sql = "update baocaofile set lock=1 where ID=@ID";
-                            db.Database.ExecuteSqlCommand(sql, new SqlParameter("ID", baoCaoID));
-
-                            db.SaveChanges();
-
-                            transaction.Commit();
-                            return Json(new { success = true });
-                        }
-                        catch (Exception e)
-                        {
-                            transaction.Rollback();
-                            return Json(new { success = false, message = "Lỗi" });
-                        }
-                    }
-
-                }
-            }
-            return Json(new { success = false });
-        }
-
-        [Route("ban-giam-doc/unlock-nhap-bao-cao")]
-        [HttpPost]
-        public ActionResult UnLockUpload()
-        {
-            var phanxuong = Request["phanxuong"];
-            string ngay = Request["ngay"];
-            string ca = Request["ca"];
-            DateTime date = DateTime.Parse(ngay.Split('/')[2] + "/" + ngay.Split('/')[1] + "/" + ngay.Split('/')[0]);
-            List<Department> listPX = new List<Department>();
-            if (phanxuong != null)
-            {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-                {
-                    using (DbContextTransaction transaction = db.Database.BeginTransaction())
-                    {
-                        try
-                        {
-                            int baoCaoID;
-                            string sql = "select * from BaoCaoFile where ngay=@ngay and ca=@ca and phanxuong_id=@phanxuong";
-                            List<BaoCaoFile> a = db.BaoCaoFiles.SqlQuery(sql,
-                                new SqlParameter("ngay", date),
-                                new SqlParameter("ca", Int32.Parse(ca)),
-                                new SqlParameter("phanxuong", phanxuong)).ToList<BaoCaoFile>();
-                            if (a.Count == 0)
-                            {
-                                sql = "insert into BaoCaoFile(ngay,ca,phanxuong_id,lock) values\n" +
-                                    "(@ngay,@ca,@phanxuong_id,@lock)";
-                                db.Database.ExecuteSqlCommand(sql,
-                                new SqlParameter("ngay", date),
-                                new SqlParameter("ca", Int32.Parse(ca)),
-                                new SqlParameter("phanxuong_id", phanxuong),
-                                new SqlParameter("lock", false));
-                                /////////////////////////////////////////////////
-                                sql = "select * from BaoCaoFile where ngay=@ngay and ca=@ca and phanxuong_id=@phanxuong";
-                                a = db.BaoCaoFiles.SqlQuery(sql,
-                                    new SqlParameter("ngay", date),
-                                    new SqlParameter("ca", Int32.Parse(ca)),
-                                    new SqlParameter("phanxuong", phanxuong)).ToList<BaoCaoFile>();
-                                baoCaoID = a[0].ID;
-                            }
-                            else
-                            {
-                                baoCaoID = a[0].ID;
-                            }
-                            sql = "update baocaofile set lock=0 where ID=@ID";
-                            db.Database.ExecuteSqlCommand(sql, new SqlParameter("ID", baoCaoID));
-
-                            db.SaveChanges();
-
-                            transaction.Commit();
-                            return Json(new { success = true });
-                        }
-                        catch (Exception e)
-                        {
-                            transaction.Rollback();
-                            return Json(new { success = false, message = "Lỗi" });
-                        }
-                    }
-
-                }
-            }
-            return Json(new { success = false });
-        }
-        [Route("ban-giam-doc/lock-nhap-bao-cao-kcs")]
-        [HttpPost]
-        public ActionResult LockUploadKCS()
-        {
-            var phanxuong = "kcs";
-            string ngay = Request["ngay"];
-            DateTime date = DateTime.Parse(ngay.Split('/')[2] + "/" + ngay.Split('/')[1] + "/" + ngay.Split('/')[0]);
-            List<Department> listPX = new List<Department>();
-            if (phanxuong != null)
-            {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-                {
-                    using (DbContextTransaction transaction = db.Database.BeginTransaction())
-                    {
-                        try
-                        {
-                            int baoCaoID;
-                            string sql = "select * from BaoCaoFile where ngay=@ngay and phanxuong_id=@phanxuong";
-                            List<BaoCaoFile> a = db.BaoCaoFiles.SqlQuery(sql,
-                                new SqlParameter("ngay", date),
-                                new SqlParameter("phanxuong", phanxuong)).ToList<BaoCaoFile>();
-                            if (a.Count == 0)
-                            {
-                                sql = "insert into BaoCaoFile(ngay,phanxuong_id,lock) values\n" +
-                                    "(@ngay,@ca,@phanxuong_id,@lock)";
-                                db.Database.ExecuteSqlCommand(sql,
-                                new SqlParameter("ngay", date),
-                                new SqlParameter("phanxuong_id", phanxuong),
-                                new SqlParameter("lock", false));
-                                /////////////////////////////////////////////////
-                                sql = "select * from BaoCaoFile where ngay=@ngay and phanxuong_id=@phanxuong";
-                                a = db.BaoCaoFiles.SqlQuery(sql,
-                                    new SqlParameter("ngay", date),
-                                    new SqlParameter("phanxuong", phanxuong)).ToList<BaoCaoFile>();
-                                baoCaoID = a[0].ID;
-                            }
-                            else
-                            {
-                                baoCaoID = a[0].ID;
-                            }
-                            sql = "update baocaofile set lock=1 where ID=@ID";
-                            db.Database.ExecuteSqlCommand(sql, new SqlParameter("ID", baoCaoID));
-
-                            db.SaveChanges();
-
-                            transaction.Commit();
-                            return Json(new { success = true });
-                        }
-                        catch (Exception e)
-                        {
-                            transaction.Rollback();
-                            return Json(new { success = false, message = "Lỗi" });
-                        }
-                    }
-
-                }
-            }
-            return Json(new { success = false });
-        }
-
-        [Route("ban-giam-doc/unlock-nhap-bao-cao-kcs")]
-        [HttpPost]
-        public ActionResult UnLockUploadKCS()
-        {
-            var phanxuong = "kcs";
-            string ngay = Request["ngay"];
-
-            DateTime date = DateTime.Parse(ngay.Split('/')[2] + "/" + ngay.Split('/')[1] + "/" + ngay.Split('/')[0]);
-            List<Department> listPX = new List<Department>();
-            if (phanxuong != null)
-            {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-                {
-                    using (DbContextTransaction transaction = db.Database.BeginTransaction())
-                    {
-                        try
-                        {
-                            int baoCaoID;
-                            string sql = "select * from BaoCaoFile where ngay=@ngay and phanxuong_id=@phanxuong";
-                            List<BaoCaoFile> a = db.BaoCaoFiles.SqlQuery(sql,
-                                new SqlParameter("ngay", date),
-                                new SqlParameter("phanxuong", phanxuong)).ToList<BaoCaoFile>();
-                            if (a.Count == 0)
-                            {
-                                sql = "insert into BaoCaoFile(ngay,phanxuong_id,lock) values\n" +
-                                    "(@ngay,@phanxuong_id,@lock)";
-                                db.Database.ExecuteSqlCommand(sql,
-                                new SqlParameter("ngay", date),
-                                new SqlParameter("phanxuong_id", phanxuong),
-                                new SqlParameter("lock", false));
-                                /////////////////////////////////////////////////
-                                sql = "select * from BaoCaoFile where ngay=@ngay and phanxuong_id=@phanxuong";
-                                a = db.BaoCaoFiles.SqlQuery(sql,
-                                    new SqlParameter("ngay", date),
-                                    new SqlParameter("phanxuong", phanxuong)).ToList<BaoCaoFile>();
-                                baoCaoID = a[0].ID;
-                            }
-                            else
-                            {
-                                baoCaoID = a[0].ID;
-                            }
-                            sql = "update baocaofile set lock=0 where ID=@ID";
-                            db.Database.ExecuteSqlCommand(sql, new SqlParameter("ID", baoCaoID));
-
-                            db.SaveChanges();
-
-                            transaction.Commit();
-                            return Json(new { success = true });
-                        }
-                        catch (Exception e)
-                        {
-                            transaction.Rollback();
-                            return Json(new { success = false, message = "Lỗi" });
-                        }
-                    }
-
-                }
-            }
-            return Json(new { success = false });
-        }
-    }
-
-    public class allFileObject : FileBaoCao
-    {
-        public DateTime ngay { get; set; }
-        public int? ca { get; set; }
-        public string department_id { get; set; }
-        public string department_name { get; set; }
-    }
-    public class fileObjectDisplay : FileBaoCao
-    {
-        public int ca { get; set; }
     }
 }

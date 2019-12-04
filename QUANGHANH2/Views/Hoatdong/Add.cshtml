@@ -307,9 +307,50 @@
         </div>
     </div>
 }
-
+@using (Html.BeginForm("Atri", "Hoatdong", FormMethod.Post, new
+{
+    id = "myForm",
+    enctype = "multipart/form-data",
+    onSubmit = "return Atri(this);",
+    data_restUrl = Url.Action("Atri", "Hoatdong", new { id = "" })
+}))
+{
+    <input type="hidden" id="atri" name="name" />
+}
 <script src="~/js/Custom JS/CDVT/Home/huydong.js"></script>
 <script>
+    $('#Equipment_category_id').change(function () {
+        $('#atri').val($('#Equipment_category_id').val());
+        $('#myForm').submit();
+    });
+    $(document).ready(function () {
+        $('input[required]').each(function myfunction() {
+            $(this).attr("oninvalid", "setCustomValidity('Không được bỏ trống ô này')");
+            $(this).attr("oninput", "this.setCustomValidity('')");
+        })
+    })
+    function Atri(form) {
+
+        $.validator.unobtrusive.parse(form);
+
+        if ($(form).valid()) {
+            $.ajax({
+                type: "POST",
+                url: form.action,
+                data: $(form).serialize(),
+                success: function (data) {
+                    var options = '';
+                    options = JSON.stringify(data.data);
+                    options = options.substring(1, options.length - 1);
+                    $('#cateTB tbody').empty();
+                    $('#cateTB').append(options);
+
+                }
+            });
+        }
+        return false;
+
+    }
 
     $(document).ready(function () {
 

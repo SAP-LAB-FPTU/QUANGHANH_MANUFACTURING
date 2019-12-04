@@ -435,7 +435,7 @@
                                         <div class="timeline">
                                             <div class="timeline-month" id="title-@x.year">
                                                 Năm @x.year
-                                                <span>@x.count lần bảo hiểm</span>
+                                                <span>@x.count lần đăng ký bảo hiểm</span>
                                             </div>
 
                                             @foreach (var y in x.equipment_Ins)
@@ -449,8 +449,7 @@
                                                     @Html.Raw("<div class=\"timeline-section " + x.year + "\">")
                                                 }
                                                 <div class="timeline-date">
-                                                    @y.getDateString(y.insurance_expected_date)
-                                                    @*Thứ @(y.insurance_expected_date.DayOfWeek + 1), ngày @y.insurance_expected_date.Day tháng @y.insurance_expected_date.Month*@
+                                                    @y.getDateString(y.insurance_start_date)
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-sm-12">
@@ -461,7 +460,7 @@
                                                                         <th>Thời hạn bảo hiểm</th>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>@y.getStringtime(y.insurance_expected_date)</td>
+                                                                        <td>@y.getStringtime(y.insurance_start_date)</td>
                                                                     </tr>
                                                                 </table>
                                                             </div>
@@ -484,7 +483,7 @@
                                         <div class="timeline">
                                             <div class="timeline-month" id="title-@x.year">
                                                 Năm @x.year
-                                                <span>@x.count lần gặp kiểm định</span>
+                                                <span>@x.count lần kiểm định</span>
                                             </div>
 
                                             @foreach (var y in x.equipment_Inspections)

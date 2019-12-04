@@ -46,7 +46,6 @@
                             <th>Mã vật tư</th>
                             <th>Tên vật tư</th>
                             <th>Số lượng</th>
-                            <th>Chất lượng</th>
                         </tr>
                     </thead>
                 </table>
@@ -156,8 +155,7 @@
                             var $tr = $('<tr>').append(
                                 $('<td>').text(item.MaVT),
                                 $('<td>').text(item.TenVT),
-                                $('<td>').text(item.SLVT),
-                                $('<td>').text(item.TLVT)
+                                $('<td>').text(item.SLVT)
                             );
                              $tr.appendTo('#test');
                         });

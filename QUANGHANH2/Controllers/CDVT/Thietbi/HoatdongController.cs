@@ -191,7 +191,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             String d = "";
             string sql = "select * from Equipment_category_attribute where Equipment_category_id = @name";
-            List<Equipment_category_attribute> list = db.Database.SqlQuery<Equipment_category_attribute>(sql, new SqlParameter("name", "%" + name + "%")).ToList();
+            List<Equipment_category_attribute> list = db.Database.SqlQuery<Equipment_category_attribute>(sql, new SqlParameter("name", name)).ToList();
             foreach (var item in list)
             {
                 d += "<tr>";
@@ -359,7 +359,15 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         public ActionResult AddCategory(Equipment_category ec, string[] id, string[] name, string[] unit)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            db.Equipment_category.Add(ec);
+            try
+            {
+                db.Equipment_category.Add(ec);
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, message = e.Message }, JsonRequestBehavior.AllowGet);
+            }
             using (DbContextTransaction dbc = db.Database.BeginTransaction())
             {
                 try
@@ -387,6 +395,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 }
                 catch (Exception e)
                 {
+                    e.Message.ToString();
                     dbc.Rollback();
                     return Json(new { success = false, message = e.Message }, JsonRequestBehavior.AllowGet);
 
@@ -454,7 +463,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                             ca.equipmentId = emp.equipmentId;
                             ca.sokhung = sk;
                             ca.somay = sm;
-                            if (gps.Equals(1))
+                            if (gps.Equals("1"))
                             {
                                 ca.GPS = true;
                             }
@@ -489,7 +498,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         ins.insurance_start_date = DateTime.Now;
                         ins.insurance_end_date = emp.durationOfInsurance;
                         db.Equipment_Insurance.Add(ins);
-                        //db.SaveChanges();
+                        db.SaveChanges();
 
                         if (nameSup != null)
                         {
@@ -537,7 +546,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         }
 
         [HttpPost]
-        public ActionResult Edit(Equipment emp, string import, string inspec, string insua, string used, string main, string sk, string sm)
+        public ActionResult Edit(Equipment emp, string import, string inspec, string insua, string used, string main, string sk, string sm, CarDB cdb)
         {
 
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
@@ -579,6 +588,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                             Car ca = db.Cars.Where(x => x.equipmentId == emp.equipmentId).FirstOrDefault();
                             ca.sokhung = sk;
                             ca.somay = sm;
+                            ca.GPS = cdb.GPS;
                             db.Entry(ca).State = EntityState.Modified;
                         }
 
@@ -649,6 +659,13 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 string query = "SELECT e.department_id,e.Equipment_category_id,e.[equipmentId],e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name,a.sokhung, a.somay, a.GPS " +
                 "from Equipment e left outer join Car a on a.equipmentId = e.equipmentId, Department d, Equipment_category ec,Status s " +
                 " where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id AND e.current_Status = s.statusid AND e.equipmentId LIKE @equipmentId";
+
+                List<SelectListItem> listGPS = new List<SelectListItem>();
+                bool t = true;
+                listGPS.Add(new SelectListItem { Text = t.ToString(), Value = "Có tín hiệu" });
+                t = false;
+                listGPS.Add(new SelectListItem { Text = t.ToString(), Value = "Mất tín hiệu" });
+                ViewBag.listGPS = listGPS;
 
                 Car ca = db.Database.SqlQuery<Car>("select * from Car where equipmentId = @id", new SqlParameter("id", id + "")).FirstOrDefault();
                 if (ca == null)

@@ -5,9 +5,9 @@
 
 <div class="card">
     <div class="card-content">
-        <div class="row center">
+        <div class="row">
             <div class="col m12">
-                <h3><b>CHI TIẾT THANH LÝ</b></h3>
+                <h3 class="center"><b>CHI TIẾT THANH LÝ</b></h3>
                 @if (ViewBag.validate == 0)
                 {
                     <h4>Bạn đã chọn 2 hoặc nhiều thiết bị khác vị trí, xin vui lòng <a href="/phong-cdvt/thanh-ly">quay lại</a></h4>
@@ -16,18 +16,22 @@
                 {
                     <form method="post" id="myform">
                         <div class="col s3 m3">
+                            <label for="department_id_from">Vị trí ban đầu</label>
+                            <input id="department_id_from" class="form-control" type="text" disabled value="@ViewBag.department_name" />
+                            <input name="department_id" id="depa-id" type="hidden" readonly value="@ViewBag.department_id" />
+                        </div>
+                        <div class="col s3 m3">
                             <textarea name="data" hidden value="" id="json"></textarea>
-                            <input id="documentary_code" name="documentary_code" disabled class="form-control" type="text" placeholder="Nhập mã quyết định" />
+                            <label for="department_id_to">Phòng ban chịu trách nhiệm thanh lý <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
+                            <input id="department_id_to" name="department_id_to" type="text" required class='form-control' list="departmentName" value="@ViewBag.department_id" />
                         </div>
                         <div class="col s3 m3">
-                            <input name="out_in_come" class="form-control" type="text" placeholder="Nhập nguồn thu" />
+                            <label for="out_in_come">Nguồn vốn <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
+                            <input id="out_in_come" name="out_in_come" class="form-control" type="text" />
                         </div>
                         <div class="col s3 m3">
-                            <input class="form-control" type="text" disabled value="@ViewBag.department_name" />
-                            <input name="department_id" type="hidden" readonly value="@ViewBag.department_id" />
-                        </div>
-                        <div class="col s3 m3">
-                            <input name="reason" class="form-control" type="text" required placeholder="nội dung quyết định" />
+                            <label for="reason">Nội dung <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
+                            <input id="reason" name="reason" class="form-control" type="text" required />
                         </div>
                         <div class="col s12 table_container">
                             <table id="mytablevattu" class="striped table-responsive centered table-bordered">
@@ -261,28 +265,10 @@
         })
 
         $("#export-button").click(function () {
-            $("#pre-load").show();
-            $.ajax({
-                type: "POST",
-                url: "/phong-cdvt/thanh-ly-chon/export",
-                data: {
-                    data: $('#json').val(),
-                    documentary_code: $('#documentary_code').val()
-                },
-                cache: false,
-                success: function (response) {
-                    if (response.success) {
-                        window.location.href = response.location;
-                        $("#pre-load").hide("slow", function () {
-                        });
-                    } else {
-                        $.notify("ối, có lỗi xảy ra", {
-                            globalPosition: "top center",
-                            className: "error"
-                        });
-                    }
-                }
-            });
+            window.location = '/phong-cdvt/quyet-dinh/export-word?data=' + $('#json').val()
+                + '&title=' + $('input[name = "reason"]').val() + '&department_id='
+                + $('#department_id_to').val() + '&documentary_type=' + 5
+                + '&fileName=Quyết định thanh lý.docx' + '&resource=' + $('input[name = "out_in_come"]').val()
         });
     </script>
 }
