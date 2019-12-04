@@ -223,11 +223,19 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 string date_fix = date[2] + "/" + date[1] + "/" + date[0];
                 dtStart = DateTime.ParseExact(date_fix, "yyyy/MM/dd", CultureInfo.InvariantCulture);
             }
+            else
+            {
+                dateStart = dtStart.ToString("yyyy-MM-dd");
+            }
             if (!dateEnd.Equals(""))
             {
                 string[] date = dateEnd.Split('/');
                 string date_fix = date[2] + "/" + date[1] + "/" + date[0];
                 dtEnd = DateTime.ParseExact(date_fix, "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            }
+            else
+            {
+                dateEnd = dtEnd.ToString("yyyy-MM-dd");
             }
             string query = "SELECT e.[equipmentId],[equipment_name],[supplier],[date_import],[durationOfMaintainance],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
                 "FROM [Equipment] e, Status s, Department d, Equipment_category ec " +
@@ -243,7 +251,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             }
             query = query.Substring(0, query.Length - 5);
             query += " except " +
-                    "select e.[equipmentId],[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present], (select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
+                    "select e.[equipmentId],[equipment_name],[supplier],[date_import],[durationOfMaintainance],[depreciation_estimate],[depreciation_present], (select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
                     "from Equipment e inner join Car c on e.equipmentId = c.equipmentId, Status s, Department d, Equipment_category ec " +
                     "where d.department_id != 'kho' and e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id and e.current_Status = s.statusid";
             List<EquipWithName> equiplist = DBContext.Database.SqlQuery<EquipWithName>(query,
@@ -251,8 +259,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 new SqlParameter("equipment_name", '%' + equipmentName + '%'),
                 new SqlParameter("department_name", department),
                 new SqlParameter("quality", '%' + quality + '%'),
-                new SqlParameter("start_time1", dtStart),
-                new SqlParameter("start_time2", dtEnd),
+                new SqlParameter("start_time1", dateStart),
+                new SqlParameter("start_time2", dateEnd),
                 new SqlParameter("cate", '%' + category + '%'),
                 new SqlParameter("sup", '%' + sup + '%')
                 ).ToList();
