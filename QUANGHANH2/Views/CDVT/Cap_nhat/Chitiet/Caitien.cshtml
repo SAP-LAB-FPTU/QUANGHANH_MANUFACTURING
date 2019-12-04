@@ -85,14 +85,6 @@
 </div>
 
 <script>
-    $("#complex_header").on("click", ".buttonChon", function () {
-        if ($(this).text() == "Chưa xử lý") {
-            $(this).text('Đã xử lý')
-        }
-        else {
-            $(this).text('Chưa xử lý')
-        }
-    });
 
     function getJsonArray() {
         var output = {};
@@ -114,6 +106,7 @@
         return JSON.stringify(output);
     }
 </script>
+<script src="~/js/Custom JS/CDVT/Capnhat/check.js"></script>
 
 @section scripts{
     <script src="~/js/jquery.dataTables.min.js"></script>

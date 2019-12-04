@@ -77,17 +77,25 @@ namespace QUANGHANH2.Controllers.CDVT.Oto
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             try
             {
+                Equipment e = DBContext.Equipments.Find(equipmentId);
+                if (e == null)
+                    return Json(new { success = false, message = "Mã thiết bị không tồn tại" });
                 Equipment_Insurance temp = new Equipment_Insurance();
                 temp.equipmentId = equipmentId;
                 temp.insurance_start_date = DateTime.Now;
                 temp.insurance_end_date = DateTime.ParseExact(dateTemp, "dd/MM/yyyy", null);
+                e.durationOfInsurance = temp.insurance_end_date;
                 DBContext.Equipment_Insurance.Add(temp);
                 DBContext.SaveChanges();
                 return Json(new { success = true, message = "Cập nhật thành công" }, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return Json(new { success = false, message = "Có lỗi xảy ra\nxin vui lòng thử lại" }, JsonRequestBehavior.AllowGet);
+                if (e.InnerException is ArgumentNullException || e.InnerException is FormatException)
+                {
+                    return Json(new { success = false, message = "Có lỗi xảy ra\nxin vui lòng thử lại" });
+                }
+                return Json(new { success = false, message = "Có lỗi xảy ra\nxin vui lòng thử lại" });
             }
         }
     }
