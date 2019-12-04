@@ -68,19 +68,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                 return Json(new { success = true, data = maintainCar, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
             }
         }
-        public void AddSupply_tieuhao(DateTime date, String supplyid, String department_id, int supplyStatus, int quantity)
-        {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            Supply_tieuhao supply_tieuhao = new Supply_tieuhao();
-            supply_tieuhao.date = date;
-            supply_tieuhao.supplyid = supplyid;
-            supply_tieuhao.departmentid = department_id;
-            supply_tieuhao.quantity = 0;
-            if (supplyStatus == 1) { supply_tieuhao.used = quantity; /*db.Entry(s).State = EntityState.Modified;*/ }
-            else { supply_tieuhao.thuhoi = quantity; /*db.Entry(s).State = EntityState.Modified;*/ }
-            db.Supply_tieuhao.Add(supply_tieuhao);
-            db.SaveChanges();
-        }
+        
         public void EditSupply_duphong(String supplyid, int quantity)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
@@ -120,32 +108,18 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                      new SqlParameter("date", startDate),
                      new SqlParameter("department_name", department_name),
                      new SqlParameter("maintain_content", maintain_content));
-
+                    string bulk_insert = string.Empty;
                     //Loop and insert records.
                     foreach (Maintain_Car_DetailDB item in maintain)
                     {
-                        EditSupply_duphong(item.supplyid, item.quantity);
-                        Supply_tieuhao s = db.Supply_tieuhao.Where(x => x.supplyid == item.supplyid && x.departmentid == e.department_id && x.date.Month == dateTime.Month && x.date.Year == dateTime.Year).FirstOrDefault();
-                        if (s == null)
-                        {
-
-                            AddSupply_tieuhao(DateTime.ParseExact(date, "dd/MM/yyyy", null), item.supplyid, e.department_id, item.supplyStatus, item.quantity);
-                        }
-                        else
-                        {
-                            if (item.supplyStatus == 1) { s.used = s.used + item.quantity; /*db.Entry(s).State = EntityState.Modified;*/ }
-                            else { s.thuhoi = s.thuhoi + item.quantity; /*db.Entry(s).State = EntityState.Modified;*/ }
-                            db.Entry(s).State = EntityState.Modified;
-                        }
-
-                        db.Database.ExecuteSqlCommand("insert into Maintain_Car_Detail(maintainid,supplyid,quantity,supplyStatus) values((select top 1 maintainid from Maintain_Car order by maintainid desc), @supplyid, @quantity, @supplyStatus)",
-                           new SqlParameter("supplyid", item.supplyid),
-                           new SqlParameter("quantity", item.quantity),
-                          new SqlParameter("supplyStatus", item.supplyStatus));
-                        db.SaveChanges();
+                        string sub_insert = $"insert into Maintain_Car_Detail(maintainid, supplyid, quantity, supplyStatus) " +
+                            $"VALUES((select top 1 maintainid from Maintain_Car order by maintainid desc), '{item.supplyid}', {item.quantity}, {item.supplyStatus});"+
+                            " update Supply_DuPhong "+
+                            $"set quantity = (select quantity from Supply_DuPhong where supply_id = '{item.supplyid}' and equipmentId='{equipmentId}')-{item.quantity} "+
+                            $" where supply_id = '{item.supplyid}' and equipmentId='{equipmentId}'";
+                        bulk_insert = string.Concat(bulk_insert, sub_insert);
                     }
-
-
+                    db.Database.ExecuteSqlCommand(bulk_insert);
                     transaction.Commit();
                     return Json("", JsonRequestBehavior.AllowGet);
                 }
@@ -173,9 +147,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
 
             {
-                List<Maintain_Car_DetailDB> m = db.Database.SqlQuery<Maintain_Car_DetailDB>("select m.supplyid,s.supply_name,s.unit, m.quantity, m.supplyStatus,m.maintaindetailid from Maintain_Car_Detail m inner " +
-                "join Supply s on m.supplyid = s.supply_id " +
-                "where m.maintainid = @maintainId ", new SqlParameter("maintainId", maintainId)).ToList();
+                List<Maintain_Car_DetailDB> m = db.Database.SqlQuery<Maintain_Car_DetailDB>("select m.supplyid,s.supply_name,s.unit,equipmentid ,m.quantity, m.supplyStatus,m.maintaindetailid" +
+                    " from Maintain_Car_Detail m inner join Maintain_Car ma on m.maintainid = ma.maintainid inner "+
+                 " join Supply s on m.supplyid = s.supply_id "+
+                "where m.maintainid  = @maintainId ", new SqlParameter("maintainId", maintainId)).ToList();
 
                 return Json(m);
             }
@@ -260,11 +235,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                 maintainCar = maintainCar.OrderBy(sortColumnName + " " + sortDirection).ToList<Maintain_CarDB>();
                 //paging
                 maintainCar = maintainCar.Skip(start).Take(length).ToList<Maintain_CarDB>();
-                foreach (Maintain_CarDB item in maintainCar)
-                {
-                    item.stringDate = item.date.ToString("dd/MM/yyyy HH:mm");
-                }
-
+              
                 return Json(new { success = true, data = maintainCar, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
@@ -340,109 +311,38 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
         [Auther(RightID = "188")]
         [Route("phong-cdvt/oto/bao-duong-hang-ngay/editMaintainDetail")]
         [HttpPost]
-        public ActionResult EditMaintainDetail(List<Maintain_Car_Detail> supplyDetail)
+        public ActionResult EditMaintainDetail(List<Maintain_Car_Detail> supplyDetail,string equipmentID)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             Maintain_Car_Detail m = new Maintain_Car_Detail();
-            Supply_tieuhao supply_tieuhao = new Supply_tieuhao();
+            
             using (DbContextTransaction transaction = db.Database.BeginTransaction())
             {
                 //note:  thiếu data db cho supply id
                 try
                 {
-                    //                
+                    // 
+                    string bulk_insert = string.Empty;
                     foreach (Maintain_Car_Detail item in supplyDetail)
                     {
-                        Maintain_Car e = db.Maintain_Car.Where(x => x.maintainid == item.maintainid).First();
-                        Equipment d = db.Equipments.Where(x => x.equipmentId == e.equipmentid).First();
-                        if (item.maintaindetailid == 0)
-                        {
-                            EditSupply_duphong(item.supplyid, item.quantity);
-                            Supply_tieuhao su = db.Supply_tieuhao.Where(x => x.supplyid == item.supplyid && x.departmentid == e.departmentid && x.date.Month == e.date.Month && x.date.Year == e.date.Year).FirstOrDefault();
-                            if (su == null)
-                            {
-                                String test = string.Format("{0:MM/dd/yyyy}", e.date);
-                                AddSupply_tieuhao(DateTime.ParseExact(test, "MM/dd/yyyy", null), item.supplyid, e.departmentid, item.supplyStatus, item.quantity);
-
-                            }
-                            else
-                            {
-
-                                if (item.supplyStatus == 1) { su.used = su.used + item.quantity; /*db.Entry(s).State = EntityState.Modified;*/ }
-                                else { su.thuhoi = su.thuhoi + item.quantity; /*db.Entry(s).State = EntityState.Modified;*/ }
-                                db.Entry(su).State = EntityState.Modified;
-                            }
-                            Supply s = db.Supplies.Find(item.supplyid);
-
-                            m.maintainid = item.maintainid;
-                            m.quantity = item.quantity;
-                            m.supplyid = item.supplyid;
-                            m.supplyStatus = item.supplyStatus;
-
-                            db.Maintain_Car_Detail.Add(m);
-                            db.SaveChanges();
-                        }
-                        else
-                        {
-
-                            Maintain_Car_Detail ma = db.Maintain_Car_Detail.Where(x => x.maintaindetailid == item.maintaindetailid).First();
-
-                            Supply_tieuhao su = db.Supply_tieuhao.Where(x => x.supplyid == item.supplyid && x.departmentid == d.department_id && x.date.Month == e.date.Month && x.date.Year == e.date.Year).FirstOrDefault();
-
-                            if (ma.supplyid != item.supplyid)
-                            {
-                                Supply_tieuhao sup = db.Supply_tieuhao.Where(x => x.supplyid == ma.supplyid && x.departmentid == e.departmentid && x.date.Month == e.date.Month && x.date.Year == e.date.Year).FirstOrDefault();
-                                EditSupply_duphong(item.supplyid, item.quantity);
-                                if (ma.supplyStatus == 1) { sup.used = sup.used - ma.quantity; /*db.Entry(s).State = EntityState.Modified;*/ }
-                                else { sup.thuhoi = sup.thuhoi - ma.quantity; /*db.Entry(s).State = EntityState.Modified;*/ }
-                                if (su == null)
-                                {
-
-                                    String test = string.Format("{0:MM/dd/yyyy}", e.date);
-                                    AddSupply_tieuhao(DateTime.ParseExact(test, "MM/dd/yyyy", null), item.supplyid, d.department_id, item.supplyStatus, item.quantity);
-                                }
-                                else
-                                {
-                                    if (item.supplyStatus == 1)
-                                    {
-                                        su.used = su.used + item.quantity;
-                                    }
-
-                                    else { su.thuhoi = su.thuhoi + item.quantity; }
-                                }
-
-                            }
-                            else
-                            {
-                                EditSupply_duphong(item.supplyid, item.quantity);
-                                int old_used = 0, old_thuhoi = 0, new_used = 0, new_thuhoi = 0;
-                                if (ma.supplyStatus == 1) old_used = ma.quantity;
-                                else old_thuhoi = ma.quantity;
-                                if (item.supplyStatus == 1) new_used = item.quantity;
-                                else new_thuhoi = item.quantity;
-                                su.thuhoi = su.thuhoi + (new_thuhoi - old_thuhoi);
-                                su.used = su.used + (new_used - old_used);
-
-                            }
-
-
-                            db.Entry(su).State = EntityState.Modified;
-                            Supply s = db.Supplies.Find(item.supplyid);
-                            db.Database.ExecuteSqlCommand("update Maintain_Car_Detail set supplyid=@supplyid, quantity=@quantity,supplyStatus=@supplyStatus where maintaindetailid=@maintaindetailid",
-                           new SqlParameter("supplyid", item.supplyid),
-                           new SqlParameter("quantity", item.quantity),
-
-                           new SqlParameter("supplyStatus", item.supplyStatus),
-                            new SqlParameter("maintaindetailid", item.maintaindetailid))
-
-                        ;
-
-                            db.SaveChanges();
-                        }
+                        string sub_insert = $"if exists (select * from Maintain_Car_Detail  where maintaindetailid={item.maintaindetailid} ) "+
+                      "begin "+
+                     "update Maintain_Car_Detail set "+
+                     $"supplyid = '{item.supplyid}',quantity = {item.quantity},supplyStatus = {item.supplyStatus} "+
+                    $" where maintaindetailid = {item.maintaindetailid}"+
+                     " end "+
+                     "else "+
+                      "begin "+
+                     $" insert into Maintain_Car_Detail(maintainid, supplyid, quantity, supplyStatus) VALUES({item.maintainid}, '{item.supplyid}', {item.quantity}, {item.supplyStatus}) "+
+                  "end;  "+
+                    " update Supply_DuPhong " +
+                            $"set quantity = (select quantity from Supply_DuPhong where supply_id = '{item.supplyid}' and equipmentId='{equipmentID}')-{item.quantity} " +
+                            $" where supply_id = '{item.supplyid}' and equipmentId='{equipmentID}'";
+                        bulk_insert = string.Concat(bulk_insert, sub_insert);
 
                     }
 
-
+                    db.Database.ExecuteSqlCommand(bulk_insert);
 
 
                     transaction.Commit();
@@ -493,6 +393,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
         public String equipment_name { get; set; }
 
         public String department_name { get; set; }
+       
+
 
     }
     public class Maintain_Car_DetailDB : Maintain_Car_Detail
@@ -500,6 +402,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
 
         public String supply_name { get; set; }
         public String unit { get; set; }
+       public string equipmentid { get; set; }
 
     }
 
