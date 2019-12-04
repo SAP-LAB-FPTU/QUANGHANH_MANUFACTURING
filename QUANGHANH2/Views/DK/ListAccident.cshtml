@@ -133,7 +133,7 @@
                     <div class="col s12 m6">
                         <div class="col s12">
                             <label for="number">Mã nhân viên: </label>
-                            <input list="EmployeeID" type="text" class="form-control" name="employeeid" placeholder="Mã nhân viên" id="employeeId" onclick=" searchMaNV(this)" />
+                            <input list="EmployeeID" type="text" class="form-control" name="employeeid" placeholder="Mã nhân viên" id="employeeId" onchange=" searchMaNV(this)" />
                         </div>
                         <div class="col s12">
                             <label for="number">Đơn vị: </label>
@@ -622,19 +622,6 @@
     }
 
 
-    //function ViewMode() {
-    //    $("#EditSaveBtn").html("<i class=\"material-icons right\">border_color</i>CẬP NHẬT");
-    //    $('#addRowsbtn').hide();
-    //    //
-    //    $("#totalDays").attr("disable", true)
-    //}
-
-    //function EditMode() {
-    //    $("#EditSaveBtn").html("<i  id=\"edit\"class=\"material-icons right\">border_color</i>LƯU");
-    //    $('#addRowsbtn').show();
-    //    //
-    //    $("#totalDays").removeAttr("disabled")
-    //}
     function getInformation() {
         if ($('#date').val() == "")
             return false;
