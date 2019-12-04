@@ -8,6 +8,7 @@ using System.Data.Entity;
 using System.Linq.Dynamic;
 using QUANGHANH2.SupportClass;
 using System.Data.SqlClient;
+using Newtonsoft.Json.Linq;
 
 namespace QUANGHANH2.Controllers.Camera
 {
@@ -120,6 +121,91 @@ namespace QUANGHANH2.Controllers.Camera
                 }
             }
             return Json(new { success = true, message = "Lưu thành công" }, JsonRequestBehavior.AllowGet);
+        }
+        [Route("cap-nhat/camera/quyet-dinh/GetSupply2")]
+        [HttpPost]
+        public ActionResult GetSupply2(string documentary_id, string equipmentId)
+        {
+            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            List<Supply_Documentary_CameraDB> supplies = DBContext.Database.SqlQuery<Supply_Documentary_CameraDB>("SELECT * FROM Supply_Documentary_Camera WHERE camera_id = @equipmentId AND documentary_id = @documentary_id",
+                new SqlParameter("equipmentId", equipmentId),
+                new SqlParameter("documentary_id", documentary_id)).ToList();
+            return Json(supplies);
+        }
+
+        [Route("cap-nhat/camera/quyet-dinh/AddSupply")]
+        [HttpPost]
+        public ActionResult AddSupply(string list, int documentary_id, string equipmentId, string type)
+        {
+            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    JObject json = JObject.Parse(list);
+                    JArray arr = (JArray)json.SelectToken("list");
+                    foreach (JObject item in arr)
+                    {
+                        string supply_id = (string)item["supply_id"];
+                        if (DBContext.Supplies.Find(supply_id) == null)
+                            return Json(new { success = false, message = "Mã vật tư không tồn tại" });
+                        Supply_Documentary_Camera temp;
+                        if (type == "2")
+                        {
+                            temp = DBContext.Supply_Documentary_Camera.Where(a => a.documentary_id == documentary_id && a.camera_id.Equals(equipmentId) && a.supply_id == supply_id && a.supply_documentary_status == 1).FirstOrDefault();
+                        }
+                        else
+                        {
+                            temp = DBContext.Supply_Documentary_Camera.Where(a => a.documentary_id == documentary_id && a.camera_id.Equals(equipmentId) && a.supply_id == supply_id && a.supply_documentary_status == 0).FirstOrDefault();
+                        }
+                        if (temp == null)
+                        {
+                            temp = new Supply_Documentary_Camera();
+                            temp.documentary_id = documentary_id;
+                            temp.camera_id = equipmentId;
+                            temp.quantity_in = (int)item["quantity_in"];
+                            temp.quantity_out = (int)item["quantity_out"];
+                            temp.quantity_plan = (int)item["quantity_plan"];
+                            temp.quantity_used = (int)item["quantity_used"];
+                            temp.supplyStatus = (string)item["supplyStatus"];
+                            temp.supply_id = (string)item["supply_id"];
+                            DBContext.Supply_Documentary_Camera.Add(temp);
+                        }
+                        else
+                        {
+                            temp.quantity_in = (int)item["quantity_in"];
+                            temp.quantity_out = item["quantity_out"] == null ? 0 : (int)item["quantity_out"];
+                            temp.quantity_used = item["quantity_used"] == null ? 0 : (int)item["quantity_used"];
+                            temp.supplyStatus = (string)item["supplyStatus"];
+                        }
+                        DBContext.SaveChanges();
+                    }
+                    DBContext.SaveChanges();
+                    transaction.Commit();
+                    return Json(new { success = true, message = "Cập nhật thành công" });
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                    return Json(new { success = false, message = "Có lỗi xảy ra" });
+                }
+            }
+        }
+
+        [Route("cap-nhat/camera/quyet-dinh/GetSupply")]
+        [HttpPost]
+        public ActionResult GetSupply(string documentary_id, string equipmentId)
+        {
+            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            List<Supply_Documentary_CameraDB> supplies = DBContext.Database.SqlQuery<Supply_Documentary_CameraDB>("SELECT * FROM Supply_Documentary_Camera doc INNER JOIN Supply s on doc.supply_id = s.supply_id WHERE doc.camera_id = @equipmentId AND doc.documentary_id = @documentary_id AND doc.supply_documentary_status = 0",
+                new SqlParameter("equipmentId", equipmentId),
+                new SqlParameter("documentary_id", documentary_id)).ToList();
+            return Json(supplies);
+        }
+
+        public class Supply_Documentary_CameraDB : Supply_Documentary_Camera
+        {
+            public string supply_name { get; set; }
         }
     }
 }
