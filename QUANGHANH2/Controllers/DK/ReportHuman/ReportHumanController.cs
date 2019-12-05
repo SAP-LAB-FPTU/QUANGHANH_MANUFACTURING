@@ -404,6 +404,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
             public int kt { get; set; }
             public int hstt { get; set; }
             public int vang { get; set; }
+            public int bq { get; set; }
             public int dilam { get; set; }
             public int tile { get; set; }
             public int tuan1 { get; set; }
@@ -421,41 +422,52 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
             ViewBag.dat = date.ToString("MM/yyyy");
             string[] data = s.Split('-');
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            List<reportMonth> list = db.Database.SqlQuery<reportMonth>("select a.*,cast(cast((tuan1+tuan2+tuan3+tuan4) as float)/4 as int) as tile " +
-                            " from ( " +
-                            " select a.MaPhongBan, (a.QL + a.KT + a.CD + a.HSTT) as ds, a.ql, a.kt, a.cd, a.hstt, a.vang, " +
-                            " (a.KT + a.CD + a.HSTT) as congnhan, " +
-                            " (a.KT + a.CD + a.HSTT - a.vang) as dilam,  " +
-                            " (case when tuan1 != 0 then cast(cast(dilamtuan1 as float) / cast(a.tuan1 as float)*100 as int) else 0 end) as tuan1, " +
-                            " (case when tuan2 != 0 then cast(cast(dilamtuan2 as float)/cast(a.tuan2 as float)*100 as int) else 0 end) as tuan2, " +
-                            " (case when tuan3 != 0 then cast(cast(dilamtuan3 as float)/cast(a.tuan3 as float)*100 as int) else 0 end) as tuan3, " +
-                            " (case when tuan4 != 0 then cast(cast(dilamtuan4 as float)/cast(a.tuan4 as float)*100 as int) else 0 end) as tuan4 " +
-                            " from " +
-                            " (select n.MaPhongBan, " +
-                            " sum(case when ncv.MaNhomCongViec = 10 and month(h.NgayDiemDanh) = @month and year(h.NgayDiemDanh) = @year then  1 else 0 end) as QL, " +
-                            " sum(case when ncv.MaNhomCongViec = 6 and month(h.NgayDiemDanh) = @month and year(h.NgayDiemDanh) = @year then  1 else 0 end) as KT, " +
-                            " sum(case when ncv.MaNhomCongViec = 7 and month(h.NgayDiemDanh) = @month and year(h.NgayDiemDanh) = @year then  1 else 0 end) as CD, " +
-                            " sum(case when ncv.LoaiNhomCongViec like '%HSTT%' and month(h.NgayDiemDanh) = @month and year(h.NgayDiemDanh) = @year then  1 else 0 end) as HSTT, " +
-                            " sum(case when d.DiLam = 0 then 1 else 0 end) as 'vang', " +
-                            " sum(case when (h.NgayDiemDanh between @start1 and @end1) then 1 else 0 end) as 'tuan1', " +
-                            " sum(case when (h.NgayDiemDanh between @start2 and @end2) then 1 else 0 end) as 'tuan2', " +
-                            " sum(case when (h.NgayDiemDanh between @start3 and @end3) then 1 else 0 end) as 'tuan3', " +
-                            " sum(case when (h.NgayDiemDanh between @start4 and @end4) then 1 else 0 end) as 'tuan4', " +
-                            " sum(case when d.DiLam =1 and (h.NgayDiemDanh between @start1 and @end1) then 1 else 0 end) as 'dilamtuan1', " +
-                            " sum(case when d.DiLam =1 and (h.NgayDiemDanh between @start2 and @end2) then 1 else 0 end) as 'dilamtuan2', " +
-                            " sum(case when d.DiLam =1 and (h.NgayDiemDanh between @start3 and @end3) then 1 else 0 end) as 'dilamtuan3', " +
-                            " sum(case when d.DiLam =1 and (h.NgayDiemDanh between @start4 and @end4) then 1 else 0 end) as 'dilamtuan4' " +
-                            " from NhanVien n left outer join DiemDanh_NangSuatLaoDong d " +
-                            " on n.MaNV = d.MaNV left outer join Header_DiemDanh_NangSuat_LaoDong h " +
-                            " on h.HeaderID = d.HeaderID " +
-                            " join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec " +
-                            " join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec " +
-                            " group by n.MaPhongBan) as a) a", new SqlParameter("month", data[1]), new SqlParameter("year", data[0]),
+            string sql = @"select a.department_id as 'MaPhongBan',(a.kt + a.cd + a.hstt + a.ql) as 'ds', a.ql,(a.kt + a.cd + a.hstt) as 'congnhan', a.cd, a.kt, a.hstt,
+	                        (case when b.vang is null then 0 else b.vang end) as 'vang',
+	                        (case when b.vang is null then a.kt + a.cd + a.hstt else a.kt + a.cd + a.hstt - b.vang end) as 'dilam',
+	                        (case when tuan1 != 0 then cast(cast(dilamtuan1 as float)/cast(b.tuan1 as float)*100 as int) else 0 end) as tuan1,
+	                        (case when tuan2 != 0 then cast(cast(dilamtuan2 as float)/cast(b.tuan2 as float)*100 as int) else 0 end) as tuan2,
+	                        (case when tuan3 != 0 then cast(cast(dilamtuan3 as float)/cast(b.tuan3 as float)*100 as int) else 0 end) as tuan3,
+	                        (case when tuan4 != 0 then cast(cast(dilamtuan4 as float)/cast(b.tuan4 as float)*100 as int) else 0 end) as tuan4
+                        from (select d.department_id,
+		                        sum(case when a.LoaiNhomCongViec like '%QL%' then 1 else 0 end) as 'ql',
+		                        sum(case when a.LoaiNhomCongViec like N'%CĐ%' then 1 else 0 end) as 'cd',
+		                        sum(case when a.LoaiNhomCongViec like '%KT%' then 1 else 0 end) as 'kt',
+		                        sum(case when a.LoaiNhomCongViec like '%HSTT%' then 1 else 0 end) as 'hstt'
+		                        from NhanVien n join Department d on n.MaPhongBan = d.department_id
+			                        join (select distinct n.MaNV,ncv.LoaiNhomCongViec, n.MaPhongBan
+				                        from NhanVien n join Department d on n.MaPhongBan = d.department_id
+				                        join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec
+				                        join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec) a on n.MaNV = a.MaNV
+		                        group by d.department_id) a
+	                        left outer join (select d.department_id,
+		                        sum(case when (h.NgayDiemDanh between @start1 and @end1) then 1 else 0 end) as 'tuan1',
+		                        sum(case when (h.NgayDiemDanh between @start2 and @end2) then 1 else 0 end) as 'tuan2',
+		                        sum(case when (h.NgayDiemDanh between @start3 and @end3) then 1 else 0 end) as 'tuan3',
+		                        sum(case when (h.NgayDiemDanh between @start4 and @end4) then 1 else 0 end) as 'tuan4',
+		                        sum(case when dn.DiLam =1 and (h.NgayDiemDanh between @start1 and @end1) then 1 else 0 end) as 'dilamtuan1',
+		                        sum(case when dn.DiLam =1 and (h.NgayDiemDanh between @start2 and @end2) then 1 else 0 end) as 'dilamtuan2',
+		                        sum(case when dn.DiLam =1 and (h.NgayDiemDanh between @start3 and @end3) then 1 else 0 end) as 'dilamtuan3',
+		                        sum(case when dn.DiLam =1 and (h.NgayDiemDanh between @start4 and @end4) then 1 else 0 end) as 'dilamtuan4',
+		                        sum(case when dn.LyDoVangMat in (N'Ốm dài',N'Vô lý do dài') and MONTH(h.NgayDiemDanh) = @month and year(h.NgayDiemDanh) = @year then 1 else 0 end) as 'vang'
+		                        from NhanVien n join Department d on n.MaPhongBan = d.department_id
+			                        join DiemDanh_NangSuatLaoDong dn on n.MaNV = dn.MaNV
+			                        join Header_DiemDanh_NangSuat_LaoDong h on h.HeaderID = dn.HeaderID
+		                        group by d.department_id) b on a.department_id = b.department_id";
+
+            List<reportMonth> list = db.Database.SqlQuery<reportMonth>(sql, new SqlParameter("month", data[1]), new SqlParameter("year", data[0]),
                             new SqlParameter("start1", s + "-01"), new SqlParameter("end1", s + "-07"),
                             new SqlParameter("start2", s + "-08"), new SqlParameter("end2", s + "-14"),
                             new SqlParameter("start3", s + "-15"), new SqlParameter("end3", s + "-21"),
                             new SqlParameter("start4", s + "-22"), new SqlParameter("end4", s + "-28")).ToList();
-
+            foreach(var item in list)
+            {
+                if(item.tuan1 + item.tuan2 + item.tuan3 + item.tuan4 != 0)
+                {
+                    item.tile = (item.tuan1 + item.tuan2 + item.tuan3 + item.tuan4) / 4;
+                }
+                item.bq = item.dilam / 3;
+            }
             ViewBag.list = list;
             return View("/Views/DK/ReportHuman/Monthly.cshtml");
         }
@@ -469,40 +481,52 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
             string s = data[2] + "-" + data[1];
             ViewBag.dat = st;
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            List<reportMonth> list = db.Database.SqlQuery<reportMonth>("select a.*,cast(cast((tuan1+tuan2+tuan3+tuan4) as float)/4 as int) as tile " +
-                            " from ( " +
-                            " select a.MaPhongBan, (a.QL + a.KT + a.CD + a.HSTT) as ds, a.ql, a.kt, a.cd, a.hstt, a.vang, " +
-                            " (a.KT + a.CD + a.HSTT) as congnhan, " +
-                            " (a.KT + a.CD + a.HSTT - a.vang) as dilam,  " +
-                            " (case when tuan1 != 0 then cast(cast(dilamtuan1 as float) / cast(a.tuan1 as float)*100 as int) else 0 end) as tuan1, " +
-                            " (case when tuan2 != 0 then cast(cast(dilamtuan2 as float)/cast(a.tuan2 as float)*100 as int) else 0 end) as tuan2, " +
-                            " (case when tuan3 != 0 then cast(cast(dilamtuan3 as float)/cast(a.tuan3 as float)*100 as int) else 0 end) as tuan3, " +
-                            " (case when tuan4 != 0 then cast(cast(dilamtuan4 as float)/cast(a.tuan4 as float)*100 as int) else 0 end) as tuan4 " +
-                            " from " +
-                            " (select n.MaPhongBan, " +
-                            " sum(case when ncv.MaNhomCongViec = 10 and month(h.NgayDiemDanh) = @month and year(h.NgayDiemDanh) = @year then  1 else 0 end) as QL, " +
-                            " sum(case when ncv.MaNhomCongViec = 6 and month(h.NgayDiemDanh) = @month and year(h.NgayDiemDanh) = @year then  1 else 0 end) as KT, " +
-                            " sum(case when ncv.MaNhomCongViec = 7 and month(h.NgayDiemDanh) = @month and year(h.NgayDiemDanh) = @year then  1 else 0 end) as CD, " +
-                            " sum(case when ncv.LoaiNhomCongViec like '%HSTT%' and month(h.NgayDiemDanh) = @month and year(h.NgayDiemDanh) = @year then  1 else 0 end) as HSTT, " +
-                            " sum(case when d.DiLam = 0 then 1 else 0 end) as 'vang', " +
-                            " sum(case when (h.NgayDiemDanh between @start1 and @end1) then 1 else 0 end) as 'tuan1', " +
-                            " sum(case when (h.NgayDiemDanh between @start2 and @end2) then 1 else 0 end) as 'tuan2', " +
-                            " sum(case when (h.NgayDiemDanh between @start3 and @end3) then 1 else 0 end) as 'tuan3', " +
-                            " sum(case when (h.NgayDiemDanh between @start4 and @end4) then 1 else 0 end) as 'tuan4', " +
-                            " sum(case when d.DiLam =1 and (h.NgayDiemDanh between @start1 and @end1) then 1 else 0 end) as 'dilamtuan1', " +
-                            " sum(case when d.DiLam =1 and (h.NgayDiemDanh between @start2 and @end2) then 1 else 0 end) as 'dilamtuan2', " +
-                            " sum(case when d.DiLam =1 and (h.NgayDiemDanh between @start3 and @end3) then 1 else 0 end) as 'dilamtuan3', " +
-                            " sum(case when d.DiLam =1 and (h.NgayDiemDanh between @start4 and @end4) then 1 else 0 end) as 'dilamtuan4' " +
-                            " from NhanVien n left outer join DiemDanh_NangSuatLaoDong d " +
-                            " on n.MaNV = d.MaNV left outer join Header_DiemDanh_NangSuat_LaoDong h " +
-                            " on h.HeaderID = d.HeaderID " +
-                            " join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec " +
-                            " join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec " +
-                            " group by n.MaPhongBan) as a) a", new SqlParameter("month", data[1]), new SqlParameter("year", data[2]),
+            string sql = @"select a.department_id as 'MaPhongBan',(a.kt + a.cd + a.hstt + a.ql) as 'ds', a.ql,(a.kt + a.cd + a.hstt) as 'congnhan', a.cd, a.kt, a.hstt,
+	                        (case when b.vang is null then 0 else b.vang end) as 'vang',
+	                        (case when b.vang is null then a.kt + a.cd + a.hstt else a.kt + a.cd + a.hstt - b.vang end) as 'dilam',
+	                        (case when tuan1 != 0 then cast(cast(dilamtuan1 as float)/cast(b.tuan1 as float)*100 as int) else 0 end) as tuan1,
+	                        (case when tuan2 != 0 then cast(cast(dilamtuan2 as float)/cast(b.tuan2 as float)*100 as int) else 0 end) as tuan2,
+	                        (case when tuan3 != 0 then cast(cast(dilamtuan3 as float)/cast(b.tuan3 as float)*100 as int) else 0 end) as tuan3,
+	                        (case when tuan4 != 0 then cast(cast(dilamtuan4 as float)/cast(b.tuan4 as float)*100 as int) else 0 end) as tuan4
+                        from (select d.department_id,
+		                        sum(case when a.LoaiNhomCongViec like '%QL%' then 1 else 0 end) as 'ql',
+		                        sum(case when a.LoaiNhomCongViec like N'%CĐ%' then 1 else 0 end) as 'cd',
+		                        sum(case when a.LoaiNhomCongViec like '%KT%' then 1 else 0 end) as 'kt',
+		                        sum(case when a.LoaiNhomCongViec like '%HSTT%' then 1 else 0 end) as 'hstt'
+		                        from NhanVien n join Department d on n.MaPhongBan = d.department_id
+			                        join (select distinct n.MaNV,ncv.LoaiNhomCongViec, n.MaPhongBan
+				                        from NhanVien n join Department d on n.MaPhongBan = d.department_id
+				                        join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec
+				                        join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec) a on n.MaNV = a.MaNV
+		                        group by d.department_id) a
+	                        left outer join (select d.department_id,
+		                        sum(case when (h.NgayDiemDanh between @start1 and @end1) then 1 else 0 end) as 'tuan1',
+		                        sum(case when (h.NgayDiemDanh between @start2 and @end2) then 1 else 0 end) as 'tuan2',
+		                        sum(case when (h.NgayDiemDanh between @start3 and @end3) then 1 else 0 end) as 'tuan3',
+		                        sum(case when (h.NgayDiemDanh between @start4 and @end4) then 1 else 0 end) as 'tuan4',
+		                        sum(case when dn.DiLam =1 and (h.NgayDiemDanh between @start1 and @end1) then 1 else 0 end) as 'dilamtuan1',
+		                        sum(case when dn.DiLam =1 and (h.NgayDiemDanh between @start2 and @end2) then 1 else 0 end) as 'dilamtuan2',
+		                        sum(case when dn.DiLam =1 and (h.NgayDiemDanh between @start3 and @end3) then 1 else 0 end) as 'dilamtuan3',
+		                        sum(case when dn.DiLam =1 and (h.NgayDiemDanh between @start4 and @end4) then 1 else 0 end) as 'dilamtuan4',
+		                        sum(case when dn.LyDoVangMat in (N'Ốm dài',N'Vô lý do dài') and MONTH(h.NgayDiemDanh) = @month and year(h.NgayDiemDanh) = @year then 1 else 0 end) as 'vang'
+		                        from NhanVien n join Department d on n.MaPhongBan = d.department_id
+			                        join DiemDanh_NangSuatLaoDong dn on n.MaNV = dn.MaNV
+			                        join Header_DiemDanh_NangSuat_LaoDong h on h.HeaderID = dn.HeaderID
+		                        group by d.department_id) b on a.department_id = b.department_id";
+
+            List<reportMonth> list = db.Database.SqlQuery<reportMonth>(sql, new SqlParameter("month", data[1]), new SqlParameter("year", data[2]),
                             new SqlParameter("start1", s + "-01"), new SqlParameter("end1", s + "-07"),
                             new SqlParameter("start2", s + "-08"), new SqlParameter("end2", s + "-14"),
                             new SqlParameter("start3", s + "-15"), new SqlParameter("end3", s + "-21"),
                             new SqlParameter("start4", s + "-22"), new SqlParameter("end4", s + "-28")).ToList();
+            foreach (var item in list)
+            {
+                if (item.tuan1 + item.tuan2 + item.tuan3 + item.tuan4 != 0)
+                {
+                    item.tile = (item.tuan1 + item.tuan2 + item.tuan3 + item.tuan4) / 4;
+                }
+                item.bq = item.dilam / 3;
+            }
             ViewBag.list = list;
             return View("/Views/DK/ReportHuman/Monthly.cshtml");
         }
@@ -523,40 +547,52 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
 
-                    List<reportMonth> list = db.Database.SqlQuery<reportMonth>("select a.*,cast(cast((tuan1+tuan2+tuan3+tuan4) as float)/4 as int) as tile " +
-                            " from ( " +
-                            " select a.MaPhongBan, (a.QL + a.KT + a.CD + a.HSTT) as ds, a.ql, a.kt, a.cd, a.hstt, a.vang, " +
-                            " (a.KT + a.CD + a.HSTT) as congnhan, " +
-                            " (a.KT + a.CD + a.HSTT - a.vang) as dilam,  " +
-                            " (case when tuan1 != 0 then cast(cast(dilamtuan1 as float) / cast(a.tuan1 as float)*100 as int) else 0 end) as tuan1, " +
-                            " (case when tuan2 != 0 then cast(cast(dilamtuan2 as float)/cast(a.tuan2 as float)*100 as int) else 0 end) as tuan2, " +
-                            " (case when tuan3 != 0 then cast(cast(dilamtuan3 as float)/cast(a.tuan3 as float)*100 as int) else 0 end) as tuan3, " +
-                            " (case when tuan4 != 0 then cast(cast(dilamtuan4 as float)/cast(a.tuan4 as float)*100 as int) else 0 end) as tuan4 " +
-                            " from " +
-                            " (select n.MaPhongBan, " +
-                            " sum(case when ncv.MaNhomCongViec = 10 and month(h.NgayDiemDanh) = @month and year(h.NgayDiemDanh) = @year then  1 else 0 end) as QL, " +
-                            " sum(case when ncv.MaNhomCongViec = 6 and month(h.NgayDiemDanh) = @month and year(h.NgayDiemDanh) = @year then  1 else 0 end) as KT, " +
-                            " sum(case when ncv.MaNhomCongViec = 7 and month(h.NgayDiemDanh) = @month and year(h.NgayDiemDanh) = @year then  1 else 0 end) as CD, " +
-                            " sum(case when ncv.LoaiNhomCongViec like '%HSTT%' and month(h.NgayDiemDanh) = @month and year(h.NgayDiemDanh) = @year then  1 else 0 end) as HSTT, " +
-                            " sum(case when d.DiLam = 0 then 1 else 0 end) as 'vang', " +
-                            " sum(case when (h.NgayDiemDanh between @start1 and @end1) then 1 else 0 end) as 'tuan1', " +
-                            " sum(case when (h.NgayDiemDanh between @start2 and @end2) then 1 else 0 end) as 'tuan2', " +
-                            " sum(case when (h.NgayDiemDanh between @start3 and @end3) then 1 else 0 end) as 'tuan3', " +
-                            " sum(case when (h.NgayDiemDanh between @start4 and @end4) then 1 else 0 end) as 'tuan4', " +
-                            " sum(case when d.DiLam =1 and (h.NgayDiemDanh between @start1 and @end1) then 1 else 0 end) as 'dilamtuan1', " +
-                            " sum(case when d.DiLam =1 and (h.NgayDiemDanh between @start2 and @end2) then 1 else 0 end) as 'dilamtuan2', " +
-                            " sum(case when d.DiLam =1 and (h.NgayDiemDanh between @start3 and @end3) then 1 else 0 end) as 'dilamtuan3', " +
-                            " sum(case when d.DiLam =1 and (h.NgayDiemDanh between @start4 and @end4) then 1 else 0 end) as 'dilamtuan4' " +
-                            " from NhanVien n left outer join DiemDanh_NangSuatLaoDong d " +
-                            " on n.MaNV = d.MaNV left outer join Header_DiemDanh_NangSuat_LaoDong h " +
-                            " on h.HeaderID = d.HeaderID " +
-                            " join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec " +
-                            " join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec " +
-                            " group by n.MaPhongBan) as a) a", new SqlParameter("month", data[1]), new SqlParameter("year", data[0]),
-                            new SqlParameter("start1", s + "-01"), new SqlParameter("end1", s + "-07"),
-                            new SqlParameter("start2", s + "-08"), new SqlParameter("end2", s + "-14"),
-                            new SqlParameter("start3", s + "-15"), new SqlParameter("end3", s + "-21"),
-                            new SqlParameter("start4", s + "-22"), new SqlParameter("end4", s + "-28")).ToList();
+                    string sql = @"select a.department_id as 'MaPhongBan',(a.kt + a.cd + a.hstt + a.ql) as 'ds', a.ql,(a.kt + a.cd + a.hstt) as 'congnhan', a.cd, a.kt, a.hstt,
+	                        (case when b.vang is null then 0 else b.vang end) as 'vang',
+	                        (case when b.vang is null then a.kt + a.cd + a.hstt else a.kt + a.cd + a.hstt - b.vang end) as 'dilam',
+	                        (case when tuan1 != 0 then cast(cast(dilamtuan1 as float)/cast(b.tuan1 as float)*100 as int) else 0 end) as tuan1,
+	                        (case when tuan2 != 0 then cast(cast(dilamtuan2 as float)/cast(b.tuan2 as float)*100 as int) else 0 end) as tuan2,
+	                        (case when tuan3 != 0 then cast(cast(dilamtuan3 as float)/cast(b.tuan3 as float)*100 as int) else 0 end) as tuan3,
+	                        (case when tuan4 != 0 then cast(cast(dilamtuan4 as float)/cast(b.tuan4 as float)*100 as int) else 0 end) as tuan4
+                        from (select d.department_id,
+		                        sum(case when a.LoaiNhomCongViec like '%QL%' then 1 else 0 end) as 'ql',
+		                        sum(case when a.LoaiNhomCongViec like N'%CĐ%' then 1 else 0 end) as 'cd',
+		                        sum(case when a.LoaiNhomCongViec like '%KT%' then 1 else 0 end) as 'kt',
+		                        sum(case when a.LoaiNhomCongViec like '%HSTT%' then 1 else 0 end) as 'hstt'
+		                        from NhanVien n join Department d on n.MaPhongBan = d.department_id
+			                        join (select distinct n.MaNV,ncv.LoaiNhomCongViec, n.MaPhongBan
+				                        from NhanVien n join Department d on n.MaPhongBan = d.department_id
+				                        join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec
+				                        join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec) a on n.MaNV = a.MaNV
+		                        group by d.department_id) a
+	                        left outer join (select d.department_id,
+		                        sum(case when (h.NgayDiemDanh between @start1 and @end1) then 1 else 0 end) as 'tuan1',
+		                        sum(case when (h.NgayDiemDanh between @start2 and @end2) then 1 else 0 end) as 'tuan2',
+		                        sum(case when (h.NgayDiemDanh between @start3 and @end3) then 1 else 0 end) as 'tuan3',
+		                        sum(case when (h.NgayDiemDanh between @start4 and @end4) then 1 else 0 end) as 'tuan4',
+		                        sum(case when dn.DiLam =1 and (h.NgayDiemDanh between @start1 and @end1) then 1 else 0 end) as 'dilamtuan1',
+		                        sum(case when dn.DiLam =1 and (h.NgayDiemDanh between @start2 and @end2) then 1 else 0 end) as 'dilamtuan2',
+		                        sum(case when dn.DiLam =1 and (h.NgayDiemDanh between @start3 and @end3) then 1 else 0 end) as 'dilamtuan3',
+		                        sum(case when dn.DiLam =1 and (h.NgayDiemDanh between @start4 and @end4) then 1 else 0 end) as 'dilamtuan4',
+		                        sum(case when dn.LyDoVangMat in (N'Ốm dài',N'Vô lý do dài') and MONTH(h.NgayDiemDanh) = @month and year(h.NgayDiemDanh) = @year then 1 else 0 end) as 'vang'
+		                        from NhanVien n join Department d on n.MaPhongBan = d.department_id
+			                        join DiemDanh_NangSuatLaoDong dn on n.MaNV = dn.MaNV
+			                        join Header_DiemDanh_NangSuat_LaoDong h on h.HeaderID = dn.HeaderID
+		                        group by d.department_id) b on a.department_id = b.department_id";
+
+                    List<reportMonth> list = db.Database.SqlQuery<reportMonth>(sql, new SqlParameter("month", data[1]), new SqlParameter("year", data[0]),
+                                    new SqlParameter("start1", s + "-01"), new SqlParameter("end1", s + "-07"),
+                                    new SqlParameter("start2", s + "-08"), new SqlParameter("end2", s + "-14"),
+                                    new SqlParameter("start3", s + "-15"), new SqlParameter("end3", s + "-21"),
+                                    new SqlParameter("start4", s + "-22"), new SqlParameter("end4", s + "-28")).ToList();
+                    foreach (var item in list)
+                    {
+                        if (item.tuan1 + item.tuan2 + item.tuan3 + item.tuan4 != 0)
+                        {
+                            item.tile = (item.tuan1 + item.tuan2 + item.tuan3 + item.tuan4) / 4;
+                        }
+                        item.bq = item.dilam / 3;
+                    }
 
                     int k = 3;
                     for (int i = 0; i < list.Count; i++)
@@ -571,7 +607,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                         excelWorksheet.Cells[k, 8].Value = list.ElementAt(i).hstt;
                         excelWorksheet.Cells[k, 9].Value = list.ElementAt(i).vang;
                         excelWorksheet.Cells[k, 10].Value = list.ElementAt(i).dilam;
-                        excelWorksheet.Cells[k, 11].Value = "";
+                        excelWorksheet.Cells[k, 11].Value = list.ElementAt(i).bq;
                         excelWorksheet.Cells[k, 12].Value = list.ElementAt(i).tuan1;
                         excelWorksheet.Cells[k, 13].Value = list.ElementAt(i).tuan2;
                         excelWorksheet.Cells[k, 14].Value = list.ElementAt(i).tuan3;

@@ -16,6 +16,7 @@ namespace QUANGHANH2.Controllers.Camera
 {
     public class XuLyQDController : Controller
     {
+        [Auther(RightID = "194")]
         [Route("camera/cap-nhat/quyet-dinh")]
         public ActionResult Index()
         {

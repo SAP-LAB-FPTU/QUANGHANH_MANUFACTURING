@@ -174,13 +174,8 @@ namespace QUANGHANHCORE.Controllers.CDVT
                 foreach (int doc in docID)
                 {
                     myRepair rp = DBContext.Database.SqlQuery<myRepair>("select dr.*,d.date_created from Documentary d, Documentary_repair_details dr, Supply s, Supply_Documentary_Equipment sd where sd.equipmentId = dr.equipmentId and dr.documentary_id = d.documentary_id and sd.supply_id = s.supply_id and sd.documentary_id = d.documentary_id and sd.equipmentId = @id and dr.documentary_id = @doc", new SqlParameter("id", id), new SqlParameter("year", year), new SqlParameter("doc", doc)).FirstOrDefault();
-                    List<mySup_Doc> listTT = DBContext.Database.SqlQuery<mySup_Doc>("select sd.*,s.unit,s.supply_name from Documentary d, Documentary_repair_details dr, Supply s, Supply_Documentary_Equipment sd where sd.equipmentId = dr.equipmentId and dr.documentary_id = d.documentary_id and sd.supply_id = s.supply_id and sd.documentary_id = d.documentary_id and sd.equipmentId = @id and dr.documentary_id = @doc and sd.supplyType = '0'  and YEAR(d.date_created) = @year", new SqlParameter("id", id), new SqlParameter("year", year), new SqlParameter("doc", doc)).ToList();
-                    List<mySup_Doc> listTH = DBContext.Database.SqlQuery<mySup_Doc>("select sd.*,s.unit,s.supply_name from Documentary d, Documentary_repair_details dr, Supply s, Supply_Documentary_Equipment sd where sd.equipmentId = dr.equipmentId and dr.documentary_id = d.documentary_id and sd.supply_id = s.supply_id and sd.documentary_id = d.documentary_id and sd.equipmentId = @id and dr.documentary_id = @doc and sd.supplyType = '1'  and YEAR(d.date_created) = @year", new SqlParameter("id", id), new SqlParameter("year", year), new SqlParameter("doc", doc)).ToList();
-                    rp.rowCount = listTH.Count();
-                    if (listTT.Count() > listTH.Count())
-                    {
-                        rp.rowCount = listTT.Count();
-                    }
+                    List<mySup_Doc> listTT = DBContext.Database.SqlQuery<mySup_Doc>("select sd.*,s.unit,s.supply_name from Documentary d, Documentary_repair_details dr, Supply s, Supply_Documentary_Equipment sd where sd.equipmentId = dr.equipmentId and dr.documentary_id = d.documentary_id and sd.supply_id = s.supply_id and sd.documentary_id = d.documentary_id and sd.equipmentId = @id and dr.documentary_id = @doc and YEAR(d.date_created) = @year", new SqlParameter("id", id), new SqlParameter("year", year), new SqlParameter("doc", doc)).ToList();
+                    rp.rowCount = listTT.Count();
                     List<mySupply> listsp = new List<mySupply>();
                     for (int i = 0; i < rp.rowCount; i++)
                     {
@@ -192,14 +187,6 @@ namespace QUANGHANHCORE.Controllers.CDVT
                         catch (Exception e)
                         {
                             mp.VTTT = new mySup_Doc();
-                        }
-                        try
-                        {
-                            mp.VTTH = listTH.ElementAt(i);
-                        }
-                        catch (Exception e)
-                        {
-                            mp.VTTH = new mySup_Doc();
                         }
                         if (i == 0)
                         {
@@ -260,7 +247,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                     DBContext.Database.ExecuteSqlCommand(sql, new SqlParameter("supid", supid), new SqlParameter("eid", id));
                     DBContext.SaveChanges();
                     dbc.Commit();
-                    var sup = DBContext.Database.SqlQuery<Supply_DK>("select e.*,s.supply_name from Supply_DiKem e join Supply s on e.supply_id = s.supply_id where e.equipmentId = @id", new SqlParameter("id", id)).ToList();
+                    var sup = DBContext.Database.SqlQuery<Supply_DK>("select e.*,s.supply_name,s.unit from Supply_DiKem e join Supply s on e.supply_id = s.supply_id where e.equipmentId = @id", new SqlParameter("id", id)).ToList();
                     return Json(new { success = true, data = sup }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)
@@ -308,7 +295,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             {
                 try
                 {
-                    if (nameSup != null)
+                    if (nameSup != null && quan != 0)
                     {
                         List<Supply> listSup = DBContext.Supplies.ToList();
 

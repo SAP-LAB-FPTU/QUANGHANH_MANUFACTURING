@@ -253,17 +253,17 @@
                                                                                 <td>@i.VTTT.supply_id</td>
                                                                                 <td>@i.VTTT.supply_name</td>
                                                                                 <td>@i.VTTT.unit</td>
-                                                                                <td>@i.VTTT.quantity</td>
+                                                                                <td>@i.VTTT.quantity_used</td>
                                                                                 <td>@i.VTTT.supplyStatus</td>
                                                                                 @if (i.flag == 0)
                                                                                 {
                                                                                     <td rowspan='@x.rowCount'>@x.afterStatus</td>
                                                                                 }
-                                                                                <td>@i.VTTH.supply_id</td>
-                                                                                <td>@i.VTTH.supply_name</td>
-                                                                                <td>@i.VTTH.unit</td>
-                                                                                <td>@i.VTTH.quantity</td>
-                                                                                <td>@i.VTTH.supplyStatus</td>
+                                                                                <td>@i.VTTT.supply_id</td>
+                                                                                <td>@i.VTTT.supply_name</td>
+                                                                                <td>@i.VTTT.unit</td>
+                                                                                <td>@i.VTTT.quantity_out</td>
+                                                                                <td>@i.VTTT.supplyStatus</td>
                                                                                 @if (i.flag == 0)
                                                                                 {
                                                                                     <td rowspan='@x.rowCount'>@x.repair_reason</td>
@@ -871,7 +871,7 @@
                             </div>
                             <div class="col s6">
                                 <label>Số lượng</label>
-                                <input type="number" name="quan" class="form-control" />
+                                <input value="0" min="0" type="number" name="quan" class="form-control" />
                             </div>
                             <div class="col s6">
                                 <label>Ghi chú</label>
