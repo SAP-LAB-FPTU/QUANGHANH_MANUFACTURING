@@ -209,7 +209,7 @@ namespace QUANGHANH2.Controllers.Camera
                                 success = true,
                             }, JsonRequestBehavior.AllowGet);
                         }
-                        catch (Exception)
+                        catch (Exception e)
                         {
                             transaction.Rollback();
                             return Json(new
