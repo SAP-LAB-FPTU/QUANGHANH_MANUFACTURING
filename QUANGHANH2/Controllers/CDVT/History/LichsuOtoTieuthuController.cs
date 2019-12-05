@@ -25,7 +25,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
 
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             List<Supply> listSupply = db.Supplies.ToList();
-            //List <Supply> listSupply = db.Supplies.Where(x => x.unit == "L" || x.unit == "kWh").ToList();
+
 
             List<FuelDB> listEQ = db.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from " +
                " (select distinct e.equipmentId, e.equipment_name ,e.department_id from Equipment e inner join Equipment_category_attribute ea " +
