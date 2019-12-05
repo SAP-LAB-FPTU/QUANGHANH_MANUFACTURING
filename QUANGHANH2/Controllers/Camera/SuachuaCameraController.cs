@@ -108,7 +108,7 @@ namespace QUANGHANH2.Controllers.Camera
             }
         }
 
-        [Auther(RightID = "194")]
+        //[Auther(RightID = "194")]
         [Route("camera/quyet-dinh-sua-chua")]
         public ActionResult Index()
         {
