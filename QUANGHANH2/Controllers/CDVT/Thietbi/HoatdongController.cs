@@ -367,19 +367,15 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         public ActionResult AddCategory(Equipment_category ec, string[] id, string[] name, string[] unit)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            try
-            {
-                db.Equipment_category.Add(ec);
-                db.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                return Json(new { success = false, message = e.Message }, JsonRequestBehavior.AllowGet);
-            }
+            Equipment_category category = db.Equipment_category.Find(ec.Equipment_category_id);
+            if (category != null)
+                return Json(new { success = false, message = "Mã loại thiết bị đã tồn tại" });
             using (DbContextTransaction dbc = db.Database.BeginTransaction())
             {
                 try
                 {
+                    db.Equipment_category.Add(ec);
+                    db.SaveChanges();
                     if (id != null)
                     {
                         for (int i = 0; i < id.Count(); i++)
@@ -396,7 +392,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
 
                         }
                     }
-
                     db.SaveChanges();
                     dbc.Commit();
                     return RedirectToAction("GetData");
@@ -405,13 +400,9 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 {
                     e.Message.ToString();
                     dbc.Rollback();
-                    return Json(new { success = false, message = e.Message }, JsonRequestBehavior.AllowGet);
-
+                    return Json(new { success = false, message = "Có lỗi xảy ra" });
                 }
             }
-
-
-
         }
 
         [HttpPost]

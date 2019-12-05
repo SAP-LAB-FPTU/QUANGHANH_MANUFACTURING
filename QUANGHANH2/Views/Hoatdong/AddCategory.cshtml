@@ -77,8 +77,8 @@
 
 
         <datalist id="Suplist">
-            @{ 
-                foreach(var item in ViewBag.listSup)
+            @{
+                foreach (var item in ViewBag.listSup)
                 {
                     <option value="@item.supply_name"></option>
                 }
@@ -86,7 +86,7 @@
         </datalist>
 
 
-        
+
         <div class="modal-footer">
 
             <div class="form-group">
@@ -117,7 +117,7 @@
             count2 = document.getElementById("myTableCate").rows.length;
         });
 
-       
+
     });
     var count2 = 2;
     function myFunction2() {
@@ -137,7 +137,9 @@
         count2++;
     }
 
-   
+    $(document).on("keydown", "form", function (event) {
+        return event.key != "Enter";
+    });
 </script>
 
 @section Scripts {
