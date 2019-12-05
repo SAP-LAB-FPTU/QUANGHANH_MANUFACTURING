@@ -82,7 +82,7 @@ $" and a.supply_id LIKE N'%{search.SupplyId}%' and a.supply_name LIKE N'%{search
 "join Equipment_SCTX_Detail esd "+
 "on s.supply_id = esd.supplyid left "+
 "join Equipment e on sp.departmentid = e.department_id left "+
-"join Fuel_activities_consumption fac on fac.fuelid = s.supply_id "+
+"join Fuel_activities_consumption fac on fac.fuel_type = s.supply_id " +
 $" where Month(sp.date) = {today.Year} AND YEAR(sp.[date]) = {today.Year} " +
 ")as a "+
 $" where a.supply_id LIKE N'%{search.SupplyId}%' and a.supply_name  LIKE N'%{search.SupplyName}%' "+
