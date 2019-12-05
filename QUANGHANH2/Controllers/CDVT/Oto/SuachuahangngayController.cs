@@ -115,7 +115,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                         string sub_insert = $"insert into Maintain_Car_Detail(maintainid, supplyid, quantity, supplyStatus) " +
                             $"VALUES((select top 1 maintainid from Maintain_Car order by maintainid desc), '{item.supplyid}', {item.quantity}, {item.supplyStatus});"+
                             " update Supply_DuPhong "+
-                            $"set quantity = (select quantity from Supply_DuPhong where supply_id = '{item.supplyid}' and equipmentId='{equipmentId}')-{item.quantity} "+
+                            $"set quantity = (select quantity from Supply_DuPhong where supply_id = '{item.supplyid}' and equipmentId='{equipmentId}')" + (item.supplyStatus == 1 ? "-" : "+") + $"{item.quantity} "+
                             $" where supply_id = '{item.supplyid}' and equipmentId='{equipmentId}'";
                         bulk_insert = string.Concat(bulk_insert, sub_insert);
                     }
