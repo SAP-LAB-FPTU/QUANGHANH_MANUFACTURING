@@ -78,39 +78,18 @@
 </div>
 
 <script>
-    $("#complex_header").on("click", ".buttonChon", function () {
-        if ($(this).text() == "Chưa xử lý") {
-            $(this).text('Đã xử lý')
-        }
-        else {
-            $(this).text('Chưa xử lý')
-        }
-    });
 
     function getJsonArray() {
         var output = {};
         var arr = [];
-        if ($('#type').val() == 1) {
-            var length = $("#test tr").length;
-            for (var i = 1; i < length; i++) {
-                var temp = {};
-                if ($("#test tbody tr:nth-child(" + i + ") input").eq(0).val() == "") break;
-                temp.supply_id = $("#test tbody tr:nth-child(" + i + ") td:nth-child(" + 1 + ") input").val();
-                temp.quantity_in = $("#test tbody tr:nth-child(" + i + ") td:nth-child(" + 4 + ") input").val();
-                temp.supplyStatus = $("#test tbody tr:nth-child(" + i + ") td:nth-child(" + 5 + ") input").val();
-                arr.push(temp);
-            }
-        }
-        else {
-            var length = $("#test2 tr").length;
-            for (var i = 1; i < length; i++) {
-                var temp = {};
-                if ($("#test2 tbody tr:nth-child(" + i + ") input").eq(0).val() == "") break;
-                temp.supply_id = $("#test2 tbody tr:nth-child(" + i + ") td:nth-child(" + 1 + ") input").val();
-                temp.quantity_in = $("#test2 tbody tr:nth-child(" + i + ") td:nth-child(" + 4 + ") input").val();
-                temp.supplyStatus = $("#test2 tbody tr:nth-child(" + i + ") td:nth-child(" + 5 + ") input").val();
-                arr.push(temp);
-            }
+        var length = $("#test tr").length;
+        for (var i = 1; i < length; i++) {
+            var temp = {};
+            if ($("#test tbody tr:nth-child(" + i + ") input").eq(0).val() == "") break;
+            temp.supply_id = $("#test tbody tr:nth-child(" + i + ") td:nth-child(" + 1 + ") input").val();
+            temp.quantity_in = $("#test tbody tr:nth-child(" + i + ") td:nth-child(" + 4 + ") input").val();
+            temp.supplyStatus = $("#test tbody tr:nth-child(" + i + ") td:nth-child(" + 5 + ") input").val();
+            arr.push(temp);
         }
         output.list = arr
         return JSON.stringify(output);
