@@ -2,6 +2,7 @@
 using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Web;
@@ -31,40 +32,58 @@ namespace QUANGHANH2.Controllers.CDVT.Oto
             string sortDirection = Request["order[0][dir]"];
 
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            DateTime dtStart = dateStart.Equals("") ? DateTime.MinValue : DateTime.ParseExact(dateStart, "dd/MM/yyyy", null);
-            DateTime dtEnd = dateStart.Equals("") ? DateTime.MaxValue : DateTime.ParseExact(dateEnd, "dd/MM/yyyy", null);
-            var list = (from ei in DBContext.Equipment_Insurance.GroupBy(x => x.equipmentId).Select(x => new
-            {
-                equipmentId = x.Key,
-                insurance_end_date = x.Max(row => row.insurance_end_date)
-            })
-                        where ei.insurance_end_date >= dtStart && ei.insurance_end_date <= dtEnd
-                        join ei2 in DBContext.Equipment_Insurance on ei.equipmentId equals ei2.equipmentId
-                        where ei2.insurance_end_date == ei.insurance_end_date
-                        join e in DBContext.Equipments.Where(e => e.equipmentId.Contains(equipmentId) && e.equipment_name.Contains(equipmentName)) on ei.equipmentId equals e.equipmentId
-                        join s in DBContext.Status on e.current_Status equals s.statusid
-                        select new
-                        {
-                            ei.equipmentId,
-                            ei2.insurance_start_date,
-                            ei.insurance_end_date,
-                            ei2.insurance_id,
-                            s.statusname,
-                            e.equipment_name
-                        }).OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList().Select(p => new Equipment_InsuranceDB
-                        {
-                            equipmentId = p.equipmentId,
-                            equipment_name = p.equipment_name,
-                            insurance_start_date = p.insurance_start_date,
-                            insurance_end_date = p.insurance_end_date,
-                            insurance_id = p.insurance_id,
-                            statusname = p.statusname
-                        }).ToList<Equipment_InsuranceDB>();
-            int totalrows = (from ei in DBContext.Equipment_Insurance.GroupBy(x => x.equipmentId).Select(x => x.FirstOrDefault())
-                             where ei.insurance_end_date >= dtStart && ei.insurance_end_date <= dtEnd
-                             join e in DBContext.Equipments.Where(e => e.equipmentId.Contains(equipmentId) && e.equipment_name.Contains(equipmentName)) on ei.equipmentId equals e.equipmentId
-                             join s in DBContext.Status on e.current_Status equals s.statusid
-                             select ei).Count();
+            DateTime dtStart = dateStart.Equals("") ? DateTime.Parse("1/1/1753 12:00:00 AM") : DateTime.ParseExact(dateStart, "dd/MM/yyyy", null);
+            DateTime dtEnd = dateEnd.Equals("") ? DateTime.Parse("12/31/9999 11:59:59 PM") : DateTime.ParseExact(dateEnd, "dd/MM/yyyy", null);
+            //var list = (from ei in DBContext.Equipment_Insurance.GroupBy(x => x.equipmentId).Select(x => new
+            //{
+            //    equipmentId = x.Key,
+            //    insurance_end_date = x.Max(row => row.insurance_end_date)
+            //})
+            //            where ei.insurance_end_date >= dtStart && ei.insurance_end_date <= dtEnd
+            //            join ei2 in DBContext.Equipment_Insurance on ei.equipmentId equals ei2.equipmentId
+            //            where ei2.insurance_end_date == ei.insurance_end_date
+            //            join e in DBContext.Equipments.Where(e => e.equipmentId.Contains(equipmentId) && e.equipment_name.Contains(equipmentName)) on ei.equipmentId equals e.equipmentId
+            //            join s in DBContext.Status on e.current_Status equals s.statusid
+            //            select new
+            //            {
+            //                ei.equipmentId,
+            //                ei2.insurance_start_date,
+            //                ei.insurance_end_date,
+            //                ei2.insurance_id,
+            //                s.statusname,
+            //                e.equipment_name
+            //            }).OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList().Select(p => new Equipment_InsuranceDB
+            //            {
+            //                equipmentId = p.equipmentId,
+            //                equipment_name = p.equipment_name,
+            //                insurance_start_date = p.insurance_start_date,
+            //                insurance_end_date = p.insurance_end_date,
+            //                insurance_id = p.insurance_id,
+            //                statusname = p.statusname
+            //            }).ToList<Equipment_InsuranceDB>();
+            List<Equipment_InsuranceDB> list = DBContext.Database.SqlQuery<Equipment_InsuranceDB>(@"select a.equipmentId, a.equipment_name, a.statusname, ei.insurance_start_date, a.insurance_end_date
+from
+(select c.equipmentId, e.equipment_name, s.statusname, max(ei.insurance_end_date) 'insurance_end_date'
+from Car c inner join Equipment e on c.equipmentId = e.equipmentId inner join Equipment_Insurance ei on
+e.equipmentId = ei.equipmentId inner join [Status] s on e.current_Status = s.statusid
+group by c.equipmentId, e.equipment_name, s.statusname) as a inner join Equipment_Insurance ei
+on a.equipmentId = ei.equipmentId and a.insurance_end_date = ei.insurance_end_date
+where ei.insurance_end_date between @dtStart and @dtEnd and a.equipmentId like @equipmentId and a.equipment_name like @equipment_name order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
+new SqlParameter("dtStart", dtStart),
+new SqlParameter("dtEnd", dtEnd),
+new SqlParameter("equipmentId", "%" + equipmentId + "%"),
+new SqlParameter("equipment_name", "%" + equipmentName + "%")).ToList();
+            int totalrows = DBContext.Database.SqlQuery<int>(@"select count(a.equipmentId) from
+(select c.equipmentId, e.equipment_name, s.statusname, max(ei.insurance_end_date) 'insurance_end_date'
+from Car c inner join Equipment e on c.equipmentId = e.equipmentId inner join Equipment_Insurance ei on
+e.equipmentId = ei.equipmentId inner join [Status] s on e.current_Status = s.statusid
+group by c.equipmentId, e.equipment_name, s.statusname) as a inner join Equipment_Insurance ei
+on a.equipmentId = ei.equipmentId and a.insurance_end_date = ei.insurance_end_date 
+where ei.insurance_end_date between @dtStart and @dtEnd and a.equipmentId like @equipmentId and a.equipment_name like @equipment_name",
+new SqlParameter("dtStart", dtStart),
+new SqlParameter("dtEnd", dtEnd),
+new SqlParameter("equipmentId", "%" + equipmentId + "%"),
+new SqlParameter("equipment_name", "%" + equipmentName + "%")).FirstOrDefault();
             int totalrowsafterfiltering = totalrows;
             return Json(new { success = true, data = list, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }

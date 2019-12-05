@@ -4,6 +4,10 @@
     {
         Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
     }
+    else if (Session["departID"].ToString().Contains("DK"))
+    {
+        Layout = "~/Views/Shared/_Layout_DK.cshtml";
+    }
     else
     {
         Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
@@ -705,10 +709,6 @@
                 $("#pre-load").show();
                 dataTable.ajax.reload(function () {
                     $("#pre-load").hide();
-                    $.notify("Tìm kiếm thành công", {
-                      globalPosition: "top center",
-                     className: "success"
-                    })
                 })
             });
         });
@@ -716,6 +716,7 @@
 
         $(document).on("click", ".open-UpdateModal", function () {
             var incidentId = $(this).data('incident-id');
+            $('#reason-update').val("")
             $("#incident-update").val(incidentId);
         });
 
