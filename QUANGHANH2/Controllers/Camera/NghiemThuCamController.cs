@@ -42,6 +42,7 @@ namespace QUANGHANH2.Controllers.Camera
         }
 
 
+        [Auther(RightID = "194")]
         [Route("camera/nghiem-thu")]
         public ActionResult Index()
         {
