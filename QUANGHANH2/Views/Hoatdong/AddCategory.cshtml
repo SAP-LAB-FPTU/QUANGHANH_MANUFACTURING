@@ -62,7 +62,7 @@
                     </tr>
                     <tr>
                         <td>1</td>
-                        <td><input type='text' name="id" class='form-control' placeholder='Mã đặc tính' /></td>
+                        <td><input type='text' id='Equipment_category_attribute_id' name="id" class='form-control' placeholder='Mã đặc tính' /></td>
                         <td><input type='text' name="name" class='form-control' placeholder='Tên đặc tính' /></td>
                         <td><input type='text' name="unit" class='form-control' placeholder='ĐVT' /></td>
                         <td><button type="button" class="btnSelect2 btn blue btn-small left"><i class="large material-icons">remove</i></button></td>
@@ -130,7 +130,7 @@
         var cell4 = row.insertCell(3);
         var cell5 = row.insertCell(4);
         cell1.innerHTML = "" + count2 + "";
-        cell2.innerHTML = "<input type='text' name='id' class='form-control' placeholder='Mã đặc tính' />";
+        cell2.innerHTML = "<input type='text' id='Equipment_category_attribute_id' name='id' class='form-control' placeholder='Mã đặc tính' />";
         cell3.innerHTML = "<input type='text' name='name' class='form-control' placeholder='Tên đặc tính' />";
         cell4.innerHTML = "<input type='text' name='unit' class='form-control' placeholder='ĐVT' />";
         cell5.innerHTML = "<button type='button' class='btnSelect2 btn blue btn-small left'><i class='large material-icons'>remove</i></button>";
@@ -139,6 +139,33 @@
 
     $(document).on("keydown", "form", function (event) {
         return event.key != "Enter";
+    });
+
+    $(document).on("keydown", "#Equipment_category_attribute_id", function (e) {
+        if (e.keyCode == 13 && $(this).val() != "") {
+            $('#pre-load').show();
+            var name = $(this).closest("tr").children("td:nth-child(3)").children();
+            var unit = $(this).closest("tr").children("td:nth-child(4)").children();
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/nhom-thiet-bi/dac-tinh/getByID",
+                dataType: "json",
+                success: function (data) {
+                    if (data.success == true) {
+                        name.val(data.name);
+                        unit.val(data.unit);
+                    }
+                    $('#pre-load').hide();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    errorAlert('Lỗi', 'Có lỗi xảy ra');
+                },
+                data: {
+                    Equipment_category_attribute_id: $(this).val()
+                },
+                cache: false
+            })
+        }
     });
 </script>
 

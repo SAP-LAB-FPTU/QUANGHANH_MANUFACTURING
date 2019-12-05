@@ -382,7 +382,9 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         {
                             if (!id[i].Equals(""))
                             {
-                                Equipment_category_attribute ea = new Equipment_category_attribute();
+                                Equipment_category_attribute ea = db.Equipment_category_attribute.Find(id[i]);
+                                if (ea != null) continue;
+                                ea = new Equipment_category_attribute();
                                 ea.Equipment_category_id = ec.Equipment_category_id;
                                 ea.Equipment_category_attribute_id = id[i];
                                 ea.unit = unit[i];
