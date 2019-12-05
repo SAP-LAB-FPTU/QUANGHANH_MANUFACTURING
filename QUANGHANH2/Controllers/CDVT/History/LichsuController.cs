@@ -292,6 +292,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     q.quantity = quantity;
                     q.activityname = activity_name;
                     q.activityid = activityid;
+                    DBContext.Entry(q).State = EntityState.Modified;
                     DBContext.SaveChanges();
 
                     //after update activity.
