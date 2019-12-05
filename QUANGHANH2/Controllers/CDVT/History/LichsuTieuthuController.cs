@@ -27,8 +27,8 @@ namespace QUANGHANH2.Controllers.CDVT.History
 
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             List<FuelDB> listEQ = db.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from Equipment where department_id = @department_id",new SqlParameter("department_id",department_id)).ToList();
-            List<Supply> listSupply = db.Supplies.Where(x => x.unit == "L" ).ToList();
-
+            //List<Supply> listSupply = db.Supplies.Where(x => x.unit == "L" ).ToList();
+            List<Supply> listSupply = db.Supplies.ToList(); 
             ViewBag.listSupply = listSupply;
             ViewBag.listEQ = listEQ;
             return View("/Views/CDVT/History/LichsuTieuthu.cshtml");
