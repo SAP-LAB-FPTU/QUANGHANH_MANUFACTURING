@@ -50,9 +50,9 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
 
-                List<Maintain_CarDB> maintainCar = db.Database.SqlQuery<Maintain_CarDB>("select m.[date], e.equipment_name, m.equipmentid, d.department_name, m.maintain_content, m.maintainid " +
-                                "from Maintain_Car m inner join Equipment e on m.equipmentid = e.equipmentId " +
-                                "inner join Department d on d.department_id = m.departmentid " +
+                List<MaintainDB> maintainCar = db.Database.SqlQuery<MaintainDB>("select m.[date], e.equipment_name, m.equipmentid, d.department_name, m.maintain_content, m.maintain_id " +
+                                "from Equipment_SCTX m inner join Equipment e on m.equipmentid = e.equipmentId " +
+                                "inner join Department d on d.department_id = m.department_id  " +
                                 "inner join (select e.equipmentId, e.equipment_name from Equipment e  " +
                                 "EXCEPT " +
                                 "select distinct e.equipmentId,e.equipment_name " +
@@ -61,10 +61,10 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                 int totalrows = maintainCar.Count;
                 int totalrowsafterfiltering = maintainCar.Count;
                 //sorting
-                maintainCar = maintainCar.OrderBy(sortColumnName + " " + sortDirection).ToList<Maintain_CarDB>();
+                maintainCar = maintainCar.OrderBy(sortColumnName + " " + sortDirection).ToList<MaintainDB>();
                 //paging
-                maintainCar = maintainCar.Skip(start).Take(length).ToList<Maintain_CarDB>();
-                foreach (Maintain_CarDB item in maintainCar)
+                maintainCar = maintainCar.Skip(start).Take(length).ToList<MaintainDB>();
+                foreach (MaintainDB item in maintainCar)
                 {
 
                     item.stringDate = item.date.ToString("dd/MM/yyyy");
@@ -75,7 +75,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
         [Auther(RightID = "179,180,181,182,183,184,185,186,187,189")]
         [Route("phong-cdvt/thiet-bi/sctx/insertMaintainCar")]
         [HttpPost]
-        public JsonResult InsertMaintainCar(List<Maintain_Car_DetailDB> maintain, string equipmentId, string department_name, string date, string maintain_content)
+        public JsonResult InsertMaintainCar(List<Maintain_DetailDB> maintain, string equipmentId, string department_name, string date, string maintain_content)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             using (DbContextTransaction transaction = db.Database.BeginTransaction())
@@ -93,7 +93,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                     DateTime dateTime = DateTime.ParseExact(date, "dd/MM/yyyy", null);
 
 
-                    db.Database.ExecuteSqlCommand("insert into Maintain_Car values(@equipmentId, @date, (select department_id from Department where department_name =@department_name),@maintain_content)",
+                    db.Database.ExecuteSqlCommand("insert into Equipment_SCTX values(@equipmentId, @date, (select department_id from Department where department_name =@department_name),@maintain_content)",
                      new SqlParameter("equipmentId", equipmentId),
                      new SqlParameter("date", DateTime.ParseExact(date, "dd/MM/yyyy", null)),
                      new SqlParameter("department_name", department_name),
@@ -102,10 +102,10 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                     //Loop and insert records.
                     string bulk_insert = string.Empty;
                     //Loop and insert records.
-                    foreach (Maintain_Car_DetailDB item in maintain)
+                    foreach (Maintain_DetailDB item in maintain)
                     {
-                        string sub_insert = $"insert into Maintain_Car_Detail(maintainid, supplyid, quantity, supplyStatus) " +
-                              $"VALUES((select top 1 maintainid from Maintain_Car order by maintainid desc), '{item.supplyid}', {item.quantity}, {item.supplyStatus});" +
+                        string sub_insert = $"insert into Equipment_SCTX_Detail(maintain_id, supplyid, quantity, supplyStatus) " +
+                              $"VALUES((select top 1 maintain_id from Equipment_SCTX order by maintain_id desc), '{item.supplyid}', {item.quantity}, {item.supplyStatus});" +
                               " update Supply_DuPhong " +
                               $"set quantity = (select quantity from Supply_DuPhong where supply_id = '{item.supplyid}' and equipmentId='{equipmentId}')-{item.quantity} " +
                               $" where supply_id = '{item.supplyid}' and equipmentId='{equipmentId}'";
@@ -141,10 +141,10 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
 
             {
-                List<Maintain_Car_DetailDB> m = db.Database.SqlQuery<Maintain_Car_DetailDB>("select m.supplyid,s.supply_name,s.unit,equipmentid ,m.quantity, m.supplyStatus,m.maintaindetailid" +
-                     " from Maintain_Car_Detail m inner join Maintain_Car ma on m.maintainid = ma.maintainid inner " +
+                List<Maintain_DetailDB> m = db.Database.SqlQuery<Maintain_DetailDB>("select m.supplyid,s.supply_name,s.unit,equipmentid ,m.quantity, m.supplyStatus,m.maintain_detail_id" +
+                     " from Equipment_SCTX_Detail m inner join Equipment_SCTX ma on m.maintain_id = ma.maintain_id inner " +
                   " join Supply s on m.supplyid = s.supply_id " +
-                 "where m.maintainid  = @maintainId ", new SqlParameter("maintainId", maintainId)).ToList();
+                 "where m.maintain_id  = @maintainId ", new SqlParameter("maintainId", maintainId)).ToList();
 
                 return Json(m);
             }
@@ -157,15 +157,15 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
 
             {
                 //Truncate Table to delete all old records.
-                Maintain_CarDB maintainCar = db.Database.SqlQuery<Maintain_CarDB>("select m.[date], e.equipment_name, m.equipmentid, d.department_name, m.maintain_content, m.maintainid " +
-                                "from Maintain_Car m inner join Equipment e on m.equipmentid = e.equipmentId " +
-                                "inner join Department d on d.department_id = m.departmentid " +
+                MaintainDB maintainCar = db.Database.SqlQuery<MaintainDB>("select m.[date], e.equipment_name, m.equipmentid, d.department_name, m.maintain_content, m.maintain_id  " +
+                                "from Equipment_SCTX m inner join Equipment e on m.equipmentid = e.equipmentId " +
+                                "inner join Department d on d.department_id = m.department_id " +
                                 "inner join (select e.equipmentId, e.equipment_name from Equipment e  " +
                                 "EXCEPT " +
                                 "select distinct e.equipmentId,e.equipment_name " +
                                 "from Equipment e inner join Equipment_category_attribute ea on e.Equipment_category_id = ea.Equipment_category_id " +
                                 "where ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') a on m.equipmentid = a.equipmentId " +
-                                " where m.maintainid = @maintainId ", new SqlParameter("maintainId", maintainId)).SingleOrDefault();
+                                " where m.maintain_id = @maintainId ", new SqlParameter("maintainId", maintainId)).SingleOrDefault();
                 //Check for NULL.
 
                 maintainCar.stringDate = maintainCar.date.ToString("dd/MM/yyyy");
@@ -210,9 +210,9 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                 string sortDirection = Request["order[0][dir]"];
 
                 QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-                string query = "select m.[date],  e.equipment_name, m.equipmentid,d.department_name,m.maintain_content,m.maintainid"
-                    + " from Maintain_Car m inner join Equipment e on m.equipmentid = e.equipmentId "
-                    + " inner join Department d on d.department_id = m.departmentid" +
+                string query = "select m.[date],  e.equipment_name, m.equipmentid,d.department_name,m.maintain_content,m.maintain_id"
+                    + " from Equipment_SCTX m inner join Equipment e on m.equipmentid = e.equipmentId "
+                    + " inner join Department d on d.department_id = m.department_id" +
                     " inner join (select e.equipmentId, e.equipment_name from Equipment e" +
                     " EXCEPT" +
                     " select distinct e.equipmentId,e.equipment_name" +
@@ -223,7 +223,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                     + " AND d.department_name LIKE @position AND m.maintain_content LIKE @content "
                     + " AND e.department_id = @department_id order by m.[date] desc";
 
-                List<Maintain_CarDB> maintainCar = DBContext.Database.SqlQuery<Maintain_CarDB>(query,
+                List<MaintainDB> maintainCar = DBContext.Database.SqlQuery<MaintainDB>(query,
                     new SqlParameter("equipmentId", '%' + equipmentId + '%'),
                     new SqlParameter("equipment_name", '%' + equipmentName + '%'),
                     new SqlParameter("timeFrom", timeF),
@@ -236,14 +236,10 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                 int totalrows = maintainCar.Count;
                 int totalrowsafterfiltering = maintainCar.Count;
                 //sorting
-                maintainCar = maintainCar.OrderBy(sortColumnName + " " + sortDirection).ToList<Maintain_CarDB>();
+                maintainCar = maintainCar.OrderBy(sortColumnName + " " + sortDirection).ToList<MaintainDB>();
                 //paging
-                maintainCar = maintainCar.Skip(start).Take(length).ToList<Maintain_CarDB>();
-                foreach (Maintain_CarDB item in maintainCar)
-                {
-                    item.stringDate = item.date.ToString("dd/MM/yyyy");
-                }
-
+                maintainCar = maintainCar.Skip(start).Take(length).ToList<MaintainDB>();
+               
                 return Json(new { success = true, data = maintainCar, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
@@ -282,7 +278,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
         public ActionResult EditMaintain(string date, String equipmentId, String department_name, String maintain_content, int maintainid)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            Maintain_Car m = new Maintain_Car();
+            Equipment_SCTX m = new Equipment_SCTX();
             using (DbContextTransaction transaction = db.Database.BeginTransaction())
             {
                 try
@@ -294,11 +290,11 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                     //"from Maintain_Car m inner join Equipment e on m.equipmentid = e.equipmentId " +
                     //  "inner join Department d on d.department_id = m.departmentid where m.maintainid = @maintainId ", new SqlParameter("maintainId", maintainid)).SingleOrDefault();
 
-                    m.equipmentid = equipmentId;
-                    m.departmentid = d.department_id;
+                    m.equipmentId = equipmentId;
+                    m.department_id = d.department_id;
                     m.maintain_content = maintain_content;
                     m.date = DateTime.Parse(DateTime.ParseExact(date, "dd/MM/yyyy", null).ToString("yyyy-MM-dd"));
-                    m.maintainid = maintainid;
+                    m.maintain_id = maintainid;
                     db.Entry(m).State = EntityState.Modified;
 
                     db.SaveChanges();
@@ -323,10 +319,10 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
         [Auther(RightID = "179,180,181,182,183,184,185,186,187,189")]
         [Route("phong-cdvt/thiet-bi/sctx/editMaintainDetail")]
         [HttpPost]
-        public ActionResult EditMaintainDetail(List<Maintain_Car_Detail> supplyDetail, string equipmentID)
+        public ActionResult EditMaintainDetail(List<Equipment_SCTX_Detail> supplyDetail, string equipmentID)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            Maintain_Car_Detail m = new Maintain_Car_Detail();
+            Equipment_SCTX_Detail m = new Equipment_SCTX_Detail();
 
             using (DbContextTransaction transaction = db.Database.BeginTransaction())
             {
@@ -335,17 +331,17 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                 {
                     // 
                     string bulk_insert = string.Empty;
-                    foreach (Maintain_Car_Detail item in supplyDetail)
+                    foreach (Equipment_SCTX_Detail item in supplyDetail)
                     {
-                        string sub_insert = $"if exists (select * from Maintain_Car_Detail  where maintaindetailid={item.maintaindetailid} ) " +
+                        string sub_insert = $"if exists (select * from Equipment_SCTX_Detail  where maintain_detail_id={item.maintain_detail_id} ) " +
                       "begin " +
-                     "update Maintain_Car_Detail set " +
+                     "update Equipment_SCTX_Detail set " +
                      $"supplyid = '{item.supplyid}',quantity = {item.quantity},supplyStatus = {item.supplyStatus} " +
-                    $" where maintaindetailid = {item.maintaindetailid}" +
+                    $" where maintain_detail_id = {item.maintain_detail_id}" +
                      " end " +
                      "else " +
                       "begin " +
-                     $" insert into Maintain_Car_Detail(maintainid, supplyid, quantity, supplyStatus) VALUES({item.maintainid}, '{item.supplyid}', {item.quantity}, {item.supplyStatus}) " +
+                     $" insert into Equipment_SCTX_Detail(maintain_id, supplyid, quantity, supplyStatus) VALUES({item.maintain_id}, '{item.supplyid}', {item.quantity}, {item.supplyStatus}) " +
                   "end;  " +
                     " update Supply_DuPhong " +
                             $"set quantity = (select quantity from Supply_DuPhong where supply_id = '{item.supplyid}' and equipmentId='{equipmentID}')-{item.quantity} " +
@@ -397,7 +393,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
 
         }
     }
-    public class Maintain_CarDB : Maintain_Car
+    public class MaintainDB : Equipment_SCTX
     {
 
         public String stringDate { get; set; }
@@ -407,7 +403,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
         public String department_name { get; set; }
 
     }
-    public class Maintain_Car_DetailDB : Maintain_Car_Detail
+    public class Maintain_DetailDB : Equipment_SCTX_Detail
     {
 
         public String supply_name { get; set; }
