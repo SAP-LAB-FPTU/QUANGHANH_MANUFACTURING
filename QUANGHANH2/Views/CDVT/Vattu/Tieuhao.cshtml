@@ -266,9 +266,17 @@
                         "type": "GET",
                         "datatype": "json",
                         "cache": "false",
-                        "data": {
+                         "data": {
+                            "DepartmentId": function () { return $('#departmentId').val() },
+                            "DeparmentName": function () { return $('#departmentName').val() },
                             "SupplyId": function () { return $('#supplyId').val() },
-                            "SupplyName": function () { return $('#supplyName').val() },
+                            "SupplyName": function () {  return $('#supplyName').val() },
+                            "type": function () { return document.getElementById('searchtype').value },
+                            "month": function () {
+                                var val = document.getElementById("txtmonth").value;
+                                return val
+                            },
+                            "year": function () { return $('#txtyear').val() },
                         },
                         "dataSrc": function (json) {
                             return json.data;
