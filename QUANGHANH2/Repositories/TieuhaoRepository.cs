@@ -43,7 +43,7 @@ namespace QUANGHANH2.Repositories
 "join Equipment_SCTX_Detail esd " +
 "on s.supply_id = esd.supplyid left " +
 "join Equipment e on sp.departmentid = e.department_id left " +
-"join Fuel_activities_consumption fac on fac.fuelid = s.supply_id " +
+"join Fuel_activities_consumption fac on fac.fuel_type = s.supply_id " +
 $" where Year(sp.date)= {today.Year} AND MONTH(sp.[date]) = {today.Month} " +
 ")as a " +
 $" where a.departmentid LIKE N'%{search.DepartmentId}%' and a.department_name LIKE N'%{search.DeparmentName}%' " +
