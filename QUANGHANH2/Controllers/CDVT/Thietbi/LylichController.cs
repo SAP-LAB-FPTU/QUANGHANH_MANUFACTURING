@@ -175,12 +175,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                 {
                     myRepair rp = DBContext.Database.SqlQuery<myRepair>("select dr.*,d.date_created from Documentary d, Documentary_repair_details dr, Supply s, Supply_Documentary_Equipment sd where sd.equipmentId = dr.equipmentId and dr.documentary_id = d.documentary_id and sd.supply_id = s.supply_id and sd.documentary_id = d.documentary_id and sd.equipmentId = @id and dr.documentary_id = @doc", new SqlParameter("id", id), new SqlParameter("year", year), new SqlParameter("doc", doc)).FirstOrDefault();
                     List<mySup_Doc> listTT = DBContext.Database.SqlQuery<mySup_Doc>("select sd.*,s.unit,s.supply_name from Documentary d, Documentary_repair_details dr, Supply s, Supply_Documentary_Equipment sd where sd.equipmentId = dr.equipmentId and dr.documentary_id = d.documentary_id and sd.supply_id = s.supply_id and sd.documentary_id = d.documentary_id and sd.equipmentId = @id and dr.documentary_id = @doc and YEAR(d.date_created) = @year", new SqlParameter("id", id), new SqlParameter("year", year), new SqlParameter("doc", doc)).ToList();
-                    List<mySup_Doc> listTH = DBContext.Database.SqlQuery<mySup_Doc>("select sd.*,s.unit,s.supply_name from Documentary d, Documentary_repair_details dr, Supply s, Supply_Documentary_Equipment sd where sd.equipmentId = dr.equipmentId and dr.documentary_id = d.documentary_id and sd.supply_id = s.supply_id and sd.documentary_id = d.documentary_id and sd.equipmentId = @id and dr.documentary_id = @doc and YEAR(d.date_created) = @year", new SqlParameter("id", id), new SqlParameter("year", year), new SqlParameter("doc", doc)).ToList();
-                    rp.rowCount = listTH.Count();
-                    if (listTT.Count() > listTH.Count())
-                    {
-                        rp.rowCount = listTT.Count();
-                    }
+                    rp.rowCount = listTT.Count();
                     List<mySupply> listsp = new List<mySupply>();
                     for (int i = 0; i < rp.rowCount; i++)
                     {
@@ -192,14 +187,6 @@ namespace QUANGHANHCORE.Controllers.CDVT
                         catch (Exception e)
                         {
                             mp.VTTT = new mySup_Doc();
-                        }
-                        try
-                        {
-                            mp.VTTH = listTH.ElementAt(i);
-                        }
-                        catch (Exception e)
-                        {
-                            mp.VTTH = new mySup_Doc();
                         }
                         if (i == 0)
                         {
