@@ -22,7 +22,7 @@
 
                             </div>
                             <div class="col l2 m12 s12 input-field">
-                                <input type="text" placeholder="Tìm kiếm theo mã quyết định" id="doccumentid" class='form-control' />
+                                <input type="text"  placeholder="Tìm kiếm theo mã quyết định" id="doccumentid" class='form-control' />
                             </div>
                             <div class="col l2 m12 s12 input-field">
                                 <input type="text" placeholder="Tìm kiếm theo mã tài sản cố định" id="equimentid" class='form-control' />
@@ -156,7 +156,12 @@
                     },
                     {
                         "data": "idAndid", "render": function (data) {
+                            if (data.split("^")[2] == 2) {
+                            return "<td><a class='btn blue darken-2 modal-trigger disabled open-UpdateModal' data-equip='" + data.split("^")[0] + "' data-code='" + data.split("^")[1] + "' >Đã&nbsp;nghiệm&nbsp;thu</a></td>";
+
+                            } else {
                             return "<td><a class='btn blue darken-2 modal-trigger open-UpdateModal' data-equip='" + data.split("^")[0] + "' data-code='" + data.split("^")[1] + "' >Nghiệm&nbsp;thu</a></td>";
+                            }
                         },
                         "orderable": false,
                         "searchable":false
