@@ -43,10 +43,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
             int recordsFiltered = details.Count;
             details = details.Skip(start).Take(length).ToList();
             // calc SupplyInventory
-            foreach(var detail in details)
-            {
-                detail.SupplyInventory = detail.SupplyQuantity - detail.SupplyUsed;
-            }
+            //foreach(var detail in details)
+            //{
+            //    detail.SupplyInventory = detail.SupplyQuantity - detail.SupplyUsed;
+            //}
             return Json(new
             {
                 success = true,
@@ -74,10 +74,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
             int recordsFiltered = details.Count;
             details = details.Skip(start).Take(length).ToList();
             // calc SupplyInventory
-            foreach (var detail in details)
-            {
-                detail.SupplyInventory = detail.SupplyQuantity - detail.SupplyUsed;
-            }
+            //foreach (var detail in details)
+            //{
+            //    detail.SupplyInventory = detail.SupplyQuantity - detail.SupplyUsed;
+            //}
             return Json(new
             {
                 success = true,

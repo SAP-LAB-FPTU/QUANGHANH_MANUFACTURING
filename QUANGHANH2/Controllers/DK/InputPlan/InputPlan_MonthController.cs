@@ -23,20 +23,36 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
 
-                var sqlQuery = " select table1.* from (select header_kh.HeaderID,TieuChi.TenTieuChi,kehoach.SanLuong," +
-                    "header_kh.SoNgayLamViec,[kehoach].MaTieuChi as MaTieuChiNull," +
-                    "TieuChi.DonViDo,[kehoach].GhiChu from " +
-                    "(select* from header_KeHoachTungThang as header " +
-                    "where header.MaPhongBan = @departmentID and header.ThangKeHoach = @month and " +
-                    "header.NamKeHoach = @year) as header_kh left join(" +
-                    "select b.*from(SELECT[HeaderID],[MaTieuChi],Max([ThoiGianNhapCuoiCung]) as [ThoiGianNhapCuoiCung] " +
-                    "FROM[QUANGHANHABC].[dbo].[KeHoach_TieuChi_TheoThang] " +
-                    "GROUP BY MaTieuChi, HeaderID) as a inner join [KeHoach_TieuChi_TheoThang] as b on " +
-                    "a.HeaderID = b.HeaderID and a.MaTieuChi = b.MaTieuChi " +
-                    "and a.ThoiGianNhapCuoiCung = b.ThoiGianNhapCuoiCung) as kehoach " +
-                    "on header_kh.HeaderID = kehoach.HeaderID left join TieuChi " +
-                    "on kehoach.MaTieuChi = TieuChi.MaTieuChi) as table1 right join (select * from PhongBan_TieuChi where MaPhongBan = @departmentID and Thang = @month and Nam = @year) as table2 " +
-                    "on table1.MaTieuChiNull = table2.MaTieuChi";
+                //var sqlQuery = " select table1.* from (select header_kh.HeaderID,TieuChi.TenTieuChi,kehoach.SanLuong," +
+                //    "header_kh.SoNgayLamViec,[kehoach].MaTieuChi as MaTieuChiNull," +
+                //    "TieuChi.DonViDo,[kehoach].GhiChu from " +
+                //    "(select* from header_KeHoachTungThang as header " +
+                //    "where header.MaPhongBan = @departmentID and header.ThangKeHoach = @month and " +
+                //    "header.NamKeHoach = @year) as header_kh left join(" +
+                //    "select b.*from(SELECT[HeaderID],[MaTieuChi],Max([ThoiGianNhapCuoiCung]) as [ThoiGianNhapCuoiCung] " +
+                //    "FROM[QUANGHANHABC].[dbo].[KeHoach_TieuChi_TheoThang] " +
+                //    "GROUP BY MaTieuChi, HeaderID) as a inner join [KeHoach_TieuChi_TheoThang] as b on " +
+                //    "a.HeaderID = b.HeaderID and a.MaTieuChi = b.MaTieuChi " +
+                //    "and a.ThoiGianNhapCuoiCung = b.ThoiGianNhapCuoiCung) as kehoach " +
+                //    "on header_kh.HeaderID = kehoach.HeaderID left join TieuChi " +
+                //    "on kehoach.MaTieuChi = TieuChi.MaTieuChi) as table1 right join (select * from PhongBan_TieuChi where MaPhongBan = @departmentID and Thang = @month and Nam = @year) as table2 " +
+                //    "on table1.MaTieuChiNull = table2.MaTieuChi";
+                var sqlQuery = @"select pb_tc.MaPhongBan, ISNULL(kh_th.SoNgayLamViec, 0) as SoNgayLamViec, pb_tc.MaTieuChi, pb_tc.TenTieuChi, pb_tc.DonViDo, ISNULL(kh_th.SanLuong, 0) as SanLuong, kh_th.GhiChu from
+                                ((select a.MaTieuChi, b.TenTieuChi, b.DonViDo, a.MaPhongBan from PhongBan_TieuChi a left outer join TieuChi b on a.MaTieuChi = b.MaTieuChi
+                                where a.Thang = @month and a.Nam = @year and a.MaPhongBan = @departmentID) as pb_tc
+                                left outer join
+                                (select kh_a.MaPhongBan, kh_b.SoNgayLamViec, kh_a.MaTieuChi, kh_b.SanLuong, kh_a.ThoiGianNhapCuoiCung, kh_b.GhiChu  
+                                from ((select a.MaPhongBan, b.MaTieuChi, Max(b.ThoiGianNhapCuoiCung) as ThoiGianNhapCuoiCung 
+                                from header_KeHoachTungThang a join KeHoach_TieuChi_TheoThang b 
+                                on a.HeaderID = b.HeaderID 
+                                where a.ThangKeHoach = @month and a.NamKeHoach = @year and a.MaPhongBan = @departmentID
+                                group by a.MaPhongBan, b.MaTieuChi) as kh_a 
+                                left outer join  
+                                (select a.MaPhongBan, b.MaTieuChi, a.SoNgayLamViec, b.SanLuong, b.ThoiGianNhapCuoiCung, b.GhiChu 
+                                from header_KeHoachTungThang a join KeHoach_TieuChi_TheoThang b 
+                                on a.HeaderID = b.HeaderID) as kh_b
+                                on kh_a.MaTieuChi = kh_b.MaTieuChi and kh_a.MaPhongBan = kh_b.MaPhongBan and kh_a.ThoiGianNhapCuoiCung = kh_b.ThoiGianNhapCuoiCung)) as kh_th
+                                on pb_tc.MaTieuChi = kh_th.MaTieuChi and pb_tc.MaPhongBan = kh_th.MaPhongBan)";
                 return db.Database.SqlQuery<ChiTietTieuChi>(sqlQuery, new SqlParameter("departmentID", departmentID), new SqlParameter("month", month), new SqlParameter("year", year)).ToList();
             }
         }
