@@ -193,7 +193,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                         documentary.documentary_status = 3;
                     }
                     Equipment equipment = db.Equipments.Find(id);
-                    equipment.department_id = documentary.department_id;
+                    equipment.department_id = documentary.department_id_to;
 
                     switch (documentary.documentary_type)
                     {

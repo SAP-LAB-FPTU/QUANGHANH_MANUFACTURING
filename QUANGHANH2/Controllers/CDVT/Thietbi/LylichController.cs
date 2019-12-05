@@ -260,7 +260,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                     DBContext.Database.ExecuteSqlCommand(sql, new SqlParameter("supid", supid), new SqlParameter("eid", id));
                     DBContext.SaveChanges();
                     dbc.Commit();
-                    var sup = DBContext.Database.SqlQuery<Supply_DK>("select e.*,s.supply_name from Supply_DiKem e join Supply s on e.supply_id = s.supply_id where e.equipmentId = @id", new SqlParameter("id", id)).ToList();
+                    var sup = DBContext.Database.SqlQuery<Supply_DK>("select e.*,s.supply_name,s.unit from Supply_DiKem e join Supply s on e.supply_id = s.supply_id where e.equipmentId = @id", new SqlParameter("id", id)).ToList();
                     return Json(new { success = true, data = sup }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)
@@ -308,7 +308,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             {
                 try
                 {
-                    if (nameSup != null)
+                    if (nameSup != null && quan != 0)
                     {
                         List<Supply> listSup = DBContext.Supplies.ToList();
 
