@@ -26,7 +26,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             List<Supply> listSupply; List<FuelDB> listEQ;
             if (department_id.Contains("PX"))
             {
-                 listSupply = db.Supplies.Where(x => x.unit == "L").ToList();
+                 listSupply = db.Supplies.ToList();
                  listEQ = db.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from " +
                    " (select distinct e.equipmentId, e.equipment_name ,e.department_id from Equipment e inner join Equipment_category_attribute ea " +
                    "  on ea.Equipment_category_id = e.Equipment_category_id where " +
@@ -36,7 +36,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             }
             else
             {
-                listSupply = db.Supplies.Where(x => x.unit == "L" ).ToList();
+                listSupply = db.Supplies.ToList();
                 listEQ = db.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from " +
                   " (select distinct e.equipmentId, e.equipment_name ,e.department_id from Equipment e inner join Equipment_category_attribute ea " +
                   "  on ea.Equipment_category_id = e.Equipment_category_id where " +
@@ -554,7 +554,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             try
             {
                 QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-                var equipment = db.Supplies.Where(x => (x.supply_id == fuel_type) && (x.unit == "L" || x.unit == "kWh")).SingleOrDefault();
+                var equipment = db.Supplies.Where(x => (x.supply_id == fuel_type)).SingleOrDefault();
                 String item = equipment.supply_name + "^" + equipment.unit;
                 return Json(item, JsonRequestBehavior.AllowGet);
             }
@@ -591,7 +591,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                         , new SqlParameter("equipmentId", equipmentId)
                     ).First();
 
-                    Supply s = DBContext.Database.SqlQuery<Supply>("select * from Supply where supply_id=@supply_id and (unit = 'L' or unit = 'kWh')", new SqlParameter("supply_id", fuel_type)).First();
+                    Supply s = DBContext.Database.SqlQuery<Supply>("select * from Supply where supply_id=@supply_id", new SqlParameter("supply_id", fuel_type)).First();
                     FuelDB f = DBContext.Database.SqlQuery<FuelDB>("select * from Fuel_activities_consumption where fuelid=" + fuelid + "").First();
                     string date = DateTime.ParseExact(date1, "dd/MM/yyyy", null).ToString("MM-dd-yyyy");
                     DBContext.Database.ExecuteSqlCommand("UPDATE Fuel_activities_consumption  set fuel_type =@fuel_type, [date] =@date1, consumption_value = @consumption_value, equipmentId = @equipmentId where fuelId= @fuelid",
@@ -611,7 +611,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     string output = "";
                     if (DBContext.Database.SqlQuery<Equipment>("SELECT * FROM Equipment WHERE equipmentId = N'" + equipmentId + "'").Count() == 0)
                         output += "Mã thiết bị không tồn tại\n";
-                    if (DBContext.Supplies.Where(x => (x.supply_id == fuel_type) && (x.unit == "L" || x.unit == "kWh")).Count() == 0)
+                    if (DBContext.Supplies.Where(x => (x.supply_id == fuel_type)).Count() == 0)
                         output += "Mã Nhiên Liệu không tồn tại\n";
                     if (output == "")
                         output += "Có lỗi xảy ra, xin vui lòng nhập lại";
