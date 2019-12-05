@@ -376,6 +376,17 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                         var PlanMonth = db.Database.SqlQuery<header_KeHoachTungThang>(queryHeaderIDMonth, new SqlParameter("px", px_value),
                                                                            new SqlParameter("month", ngaySXFix.Month),
                                                                            new SqlParameter("year", ngaySXFix.Year)).FirstOrDefault();
+                        if(PlanMonth == null)
+                        {
+                            string query = @"insert into header_KeHoachTungThang values (@pb,@thang,@nam,@ngayLamViec)";
+                            db.Database.ExecuteSqlCommand(query, new SqlParameter("pb",px_value),
+                                                                 new SqlParameter("thang", month),
+                                                                 new SqlParameter("nam", year),
+                                                                 new SqlParameter("ngayLamViec", ngaySX));
+                            PlanMonth = db.Database.SqlQuery<header_KeHoachTungThang>(queryHeaderIDMonth, new SqlParameter("px", px_value),
+                                                                           new SqlParameter("month", ngaySXFix.Month),
+                                                                           new SqlParameter("year", ngaySXFix.Year)).FirstOrDefault();
+                        }
                         if (tcList.Count == 0)
                         {
                             var headerIDDay = db.header_ThucHienTheoNgay.Where(x => x.MaPhongBan == px_value && x.Ngay == ngaySXFix && x.Ca == caSXConvert).Select(x => x.HeaderID).FirstOrDefault();
