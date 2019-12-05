@@ -13,7 +13,37 @@
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
-
+<script>
+    $(document).ready(function () {
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        var c = url.searchParams.get("type");
+        var month = url.searchParams.get("month");
+        var year = url.searchParams.get("year");
+        $("#txtmonth").val("Tháng @DateTime.Now.Month @DateTime.Now.Year");
+        $("#txtyear").val("@DateTime.Now.Year");
+        if (c == null) {
+            document.getElementById("typeview").innerText = "Xem Theo Tháng";
+            document.getElementById("visibleyear").style.display = "none";
+            document.getElementById("visiblemonth").style.display = "inline";
+            document.getElementById('searchtype').value = "month";
+        }
+        if (c == "month") {
+            document.getElementById("typeview").innerText = "Xem Theo Tháng";
+            document.getElementById("visibleyear").style.display = "none";
+            document.getElementById("visiblemonth").style.display = "inline";
+            $("#txtmonth").val("Tháng " + month + " " + year);
+            document.getElementById('searchtype').value = "month";
+        }
+        if (c == "year") {
+            document.getElementById("typeview").innerText = "Xem Theo Năm";
+            document.getElementById("visiblemonth").style.display = "none";
+            document.getElementById("visibleyear").style.display = "inline";
+            $("#txtyear").val(year);
+            document.getElementById('searchtype').value = "year";
+        }
+    });
+</script>
 <div class="card">
     <div class="card-content">
         <div class="container-fluid">
@@ -63,7 +93,42 @@
                                 <button class="btn blue darken-2 btn-small" id="searchBtn">Tìm kiếm</button>
                             </div>
                         </div>
+
+                        <div class="row center">
+                            <div class="month" id="visiblemonth" style="display: none">
+                                <h3>
+                                    <i class="fas fa-calendar-alt icon"></i>
+                                    <input type="text"
+                                           id="txtmonth"
+                                           class="datepicker-here center"
+                                           data-language='vi'
+                                           data-min-view="months"
+                                           data-view="months"
+                                           data-date-format="MM yyyy" />
+                                </h3>
+                            </div>
+                            <div class="year" id="visibleyear" style="display: none">
+                                <h3>
+                                    <i class="fas fa-calendar-alt icon"></i>
+                                    <input type="text"
+                                           id="txtyear"
+                                           class="datepicker-here center"
+                                           data-language='vi'
+                                           data-min-view="years"
+                                           data-view="years"
+                                           data-date-format="yyyy" />
+                                </h3>
+                            </div>
+                        </div>
+                        <ul id='dropdown1' class='dropdown-content'>
+                            <li onclick="ViewbyMonth();"><a id="month" href="#" ;>Xem Theo Tháng</a></li>
+                            <li onclick="ViewbyYear();"><a id="year" href="#" ;>Xem Theo Năm</a></li>
+                        </ul>
+
                         <div class="row">
+                            <div class="col s12">
+                                <a id="typeview" class='dropdown-trigger btn' href='#' data-target='dropdown1' style="width:250px;background-color:#273146;margin-bottom:20px">Xem Theo Tháng</a>
+                            </div>
                             <div class="col s12">
                                 <ul class="tabs" style="overflow-x:hidden;overflow-y:hidden">
                                     <li class="col s6 tab"><a id="tab_chitiet" class="active" href="#chitiet">Bảng chi tiết</a></li>
@@ -113,161 +178,193 @@
                         </div>
                     </div>
                 </div>
+            </div>
         </div>
+        <input type="hidden" id="searchtype"/>
     </div>
-</div>
 
-<script src="~/js/Custom JS/DK/DetailManu_Daily.js"></script>
-<script src="~/js/Briefs_List.js"></script>
-<script src="~/js/Custom JS/CDVT/Home/huydong.js"></script>
-<link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
-@section scripts{
-    <script>
-        var tbl_detail, tbl_summary, currTab = 0;
-        $(document).ready(function () {
-            $("#pre-load").show();
-            tbl_detail = $('#tbl_detail').DataTable({
-                "ajax": {
-                    "url": "/phong-cdvt/vat-tu/tieu-hao/details",
-                    "type": "GET",
-                    "datatype": "json",
-                    "cache": "false",
-                    "data": {
-                        "DepartmentId": function () { return $('#departmentId').val() },
-                        "DeparmentName": function () { return $('#departmentName').val() },
-                        "SupplyId": function () { return $('#supplyId').val() },
-                        "SupplyName": function () { return $('#supplyName').val() },
-                    },
-                    "dataSrc": function (json) {
-                        return json.data;
-                    }
-                },
-                "columns": [
-                    { "data": "SupplyId", "name": "SupplyId" },
-                    { "data": "SupplyName", "name": "SupplyName" },
-                    { "data": "DepartmentName", "name": "DepartmentName" },
-                    { "data": "SupplyQuantity", "name": "SupplyQuantity" },
-                    { "data": "SupplyUnit", "name": "SupplyUnit" },
-                    { "data": "SupplyUsed", "name": "SupplyUseds" },
-                    { "data": "SupplyEviction", "name": "SupplyEviction" },
-                ],
-                "serverSide": true,
-                "order": [0, "asc"],
-                "rowId": "SupplyId",
-                "lengthChange": false,
-                "searching": false,
-                "initComplete": function (settings, json) {
-                    $("#pre-load").hide();
-                },
-                "language": {
-                    "emptyTable": "Không tìm thấy dữ liệu",
-                    "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
-                    "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
-                    "paginate": {
-                        "first": "Trang đầu",
-                        "last": "Trang cuối",
-                        "next": "Trang sau",
-                        "previous": "Trang trước"
-                    }
-                }
-            });
-
-            tbl_summary = $('#tbl_summary').DataTable({
-                "ajax": {
-                    "url": "/phong-cdvt/vat-tu/tieu-hao/summary",
-                    "type": "GET",
-                    "datatype": "json",
-                    "cache": "false",
-                    "data": {
-                        "SupplyId": function () { return $('#supplyId').val() },
-                        "SupplyName": function () { return $('#supplyName').val() },
-                    },
-                    "dataSrc": function (json) {
-                        return json.data;
-                    }
-                },
-                "columns": [
-                    { "data": "SupplyId", "name": "SupplyId" },
-                    { "data": "SupplyName", "name": "SupplyName" },
-                    { "data": "SupplyQuantity", "name": "SupplyQuantity" },
-                    { "data": "SupplyUnit", "name": "SupplyUnit" },
-                    { "data": "SupplyUsed", "name": "SupplyUseds" },
-                    { "data": "SupplyEviction", "name": "SupplyEviction" },
-                ],
-                "serverSide": true,
-                "order": [0, "asc"],
-                "rowId": "SupplyId",
-                "lengthChange": false,
-                "searching": false,
-                "initComplete": function (settings, json) {
-                    $("#pre-load").hide();
-                },
-                "language": {
-                    "emptyTable": "Không tìm thấy dữ liệu",
-                    "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
-                    "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
-                    "paginate": {
-                        "first": "Trang đầu",
-                        "last": "Trang cuối",
-                        "next": "Trang sau",
-                        "previous": "Trang trước"
-                    }
-                }
-            });
-            $('#tab_chitiet').on("click", function (e) {
-                currTab = 0;
-                $("#departmentId").prop('disabled', false);
-                $("#departmentName").prop('disabled', false);
-            });
-            $('#tab_tonghop').on("click", function (e) {
-                currTab = 1;
-                $("#departmentId").prop('disabled', true);
-                $("#departmentName").prop('disabled', true);
-            });
-            $('#searchBtn').click(search);
-        });
-
-        function search() {
-            $("#pre-load").show();
-            if (currTab == 0) {
-                tbl_detail.ajax.reload(function () {
-                    successAlert('Tìm kiếm thành công', '');
-                });
-            } else {
-                tbl_summary.ajax.reload(function () {
-                    successAlert('Tìm kiếm thành công', '');
-                });
+    <script src="~/js/Custom JS/DK/DetailManu_Daily.js"></script>
+    <script src="~/js/Briefs_List.js"></script>
+    <script src="~/js/Custom JS/CDVT/Home/huydong.js"></script>
+    <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
+    @section scripts{
+        <script>
+            function ViewbyMonth() {
+            document.getElementById("typeview").innerText = "Xem Theo Tháng";
+            document.getElementById("visibleyear").style.display = "none";
+            document.getElementById("visiblemonth").style.display = "inline";
+                $("#txtmonth").val("Tháng @DateTime.Now.Month @DateTime.Now.Year");
+                $('#dropdown1').removeAttr('style');
+                document.getElementById('searchtype').value = "month";
             }
-            $("#pre-load").hide();
-        }
-
-        function getSumarryDataSrc(vattus) {
-            let result = [];
-            let vattuIds = new Set(vattus.map(vattu => vattu.SupplyId));
-            vattuIds = [...vattuIds];
-            for (let i = 0; i < vattuIds.length; i++) {
-                obj = {
-                    'SupplyId': '',
-                    'SupplyName': '',
-                    'SupplyQuantity': 0,
-                    'SupplyUnit': '',
-                    'SupplyUsed': 0,
-                    'SupplyInventory': 0,
-                    'SupplyEviction': 0
-                }
-                for (let j = 0; j < vattus.length; j++) {
-                    if (vattus[j].SupplyId == vattuIds[i]) {
-                        obj.SupplyId = vattus[j].SupplyId;
-                        obj.SupplyName = vattus[j].SupplyName;
-                        obj.SupplyUnit = vattus[j].SupplyUnit;
-                        obj.SupplyQuantity += vattus[j].SupplyQuantity;
-                        obj.SupplyUsed += vattus[j].SupplyUsed;
-                        obj.SupplyEviction += vattus[j].SupplyEviction;
-                    }
-                }
-                result.push(obj);
+            function ViewbyYear() {
+            document.getElementById("typeview").innerText = "Xem Theo Năm";
+            document.getElementById("visiblemonth").style.display = "none";
+            document.getElementById("visibleyear").style.display = "inline";
+                $("#txtyear").val("@DateTime.Now.Year");
+                $('#dropdown1').removeAttr('style');
+                document.getElementById('searchtype').value = "year";
             }
-            return result;
-        }
-    </script>
-}
+            var tbl_detail, tbl_summary, currTab = 0;
+            $(document).ready(function () {
+                $("#pre-load").show();
+                tbl_detail = $('#tbl_detail').DataTable({
+                    "ajax": {
+                        "url": "/phong-cdvt/vat-tu/tieu-hao/details",
+                        "type": "GET",
+                        "datatype": "json",
+                        "cache": "false",
+                        "data": {
+                            "DepartmentId": function () { return $('#departmentId').val() },
+                            "DeparmentName": function () { return $('#departmentName').val() },
+                            "SupplyId": function () { return $('#supplyId').val() },
+                            "SupplyName": function () {  return $('#supplyName').val() },
+                            "type": function () { return document.getElementById('searchtype').value },
+                            "month": function () {
+                                var val = document.getElementById("txtmonth").value;
+                                return val
+                            },
+                            "year": function () { return $('#txtyear').val() },
+                        },
+                        "dataSrc": function (json) {
+                            return json.data;
+                        }
+                    },
+                    "columns": [
+                        { "data": "SupplyId", "name": "SupplyId" },
+                        { "data": "SupplyName", "name": "SupplyName" },
+                        { "data": "DepartmentName", "name": "DepartmentName" },
+                        { "data": "SupplyQuantity", "name": "SupplyQuantity" },
+                        { "data": "SupplyUnit", "name": "SupplyUnit" },
+                        { "data": "SupplyUsed", "name": "SupplyUseds" },
+                        { "data": "SupplyEviction", "name": "SupplyEviction" },
+                    ],
+                    "serverSide": true,
+                    "order": [0, "asc"],
+                    "rowId": "SupplyId",
+                    "lengthChange": false,
+                    "searching": false,
+                    "initComplete": function (settings, json) {
+                        $("#pre-load").hide();
+                    },
+                    "language": {
+                        "emptyTable": "Không tìm thấy dữ liệu",
+                        "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                        "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                        "paginate": {
+                            "first": "Trang đầu",
+                            "last": "Trang cuối",
+                            "next": "Trang sau",
+                            "previous": "Trang trước"
+                        }
+                    }
+                });
+
+                tbl_summary = $('#tbl_summary').DataTable({
+                    "ajax": {
+                        "url": "/phong-cdvt/vat-tu/tieu-hao/summary",
+                        "type": "GET",
+                        "datatype": "json",
+                        "cache": "false",
+                        "data": {
+                            "SupplyId": function () { return $('#supplyId').val() },
+                            "SupplyName": function () { return $('#supplyName').val() },
+                        },
+                        "dataSrc": function (json) {
+                            return json.data;
+                        }
+                    },
+                    "columns": [
+                        { "data": "SupplyId", "name": "SupplyId" },
+                        { "data": "SupplyName", "name": "SupplyName" },
+                        { "data": "SupplyQuantity", "name": "SupplyQuantity" },
+                        { "data": "SupplyUnit", "name": "SupplyUnit" },
+                        { "data": "SupplyUsed", "name": "SupplyUseds" },
+                        { "data": "SupplyEviction", "name": "SupplyEviction" },
+                    ],
+                    "serverSide": true,
+                    "order": [0, "asc"],
+                    "rowId": "SupplyId",
+                    "lengthChange": false,
+                    "searching": false,
+                    "initComplete": function (settings, json) {
+                        $("#pre-load").hide();
+                    },
+                    "language": {
+                        "emptyTable": "Không tìm thấy dữ liệu",
+                        "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                        "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                        "paginate": {
+                            "first": "Trang đầu",
+                            "last": "Trang cuối",
+                            "next": "Trang sau",
+                            "previous": "Trang trước"
+                        }
+                    }
+                });
+                $('#tab_chitiet').on("click", function (e) {
+                    currTab = 0;
+                    $("#departmentId").prop('disabled', false);
+                    $("#departmentName").prop('disabled', false);
+                });
+                $('#tab_tonghop').on("click", function (e) {
+                    currTab = 1;
+                    $("#departmentId").prop('disabled', true);
+                    $("#departmentName").prop('disabled', true);
+                });
+                $('#searchBtn').click(search);
+            });
+
+            function search() {
+                $("#pre-load").show();
+                if (currTab == 0) {
+                    tbl_detail.ajax.reload(function () {
+                        successAlert('Tìm kiếm thành công', '');
+                    });
+                } else {
+                    tbl_summary.ajax.reload(function () {
+                        successAlert('Tìm kiếm thành công', '');
+                    });
+                }
+                $("#pre-load").hide();
+            }
+
+            function getSumarryDataSrc(vattus) {
+                let result = [];
+                let vattuIds = new Set(vattus.map(vattu => vattu.SupplyId));
+                vattuIds = [...vattuIds];
+                for (let i = 0; i < vattuIds.length; i++) {
+                    obj = {
+                        'SupplyId': '',
+                        'SupplyName': '',
+                        'SupplyQuantity': 0,
+                        'SupplyUnit': '',
+                        'SupplyUsed': 0,
+                        'SupplyInventory': 0,
+                        'SupplyEviction': 0
+                    }
+                    for (let j = 0; j < vattus.length; j++) {
+                        if (vattus[j].SupplyId == vattuIds[i]) {
+                            obj.SupplyId = vattus[j].SupplyId;
+                            obj.SupplyName = vattus[j].SupplyName;
+                            obj.SupplyUnit = vattus[j].SupplyUnit;
+                            obj.SupplyQuantity += vattus[j].SupplyQuantity;
+                            obj.SupplyUsed += vattus[j].SupplyUsed;
+                            obj.SupplyEviction += vattus[j].SupplyEviction;
+                        }
+                    }
+                    result.push(obj);
+                }
+                return result;
+            }
+        </script>
+        <script>
+            $('#minMaxDate').datepicker({
+                language: 'vi',
+                maxDate: new Date() // Now can select only dates, which goes after today
+            })
+            $(document).ready(function () {
+                $('.datepicker-inline').remove();
+            });
+        </script>
+    }
