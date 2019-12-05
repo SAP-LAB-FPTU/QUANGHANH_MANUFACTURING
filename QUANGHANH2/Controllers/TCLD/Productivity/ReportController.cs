@@ -223,7 +223,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     tatca.TongNghi += item.vang;
                     tatca.TyLe += item.tile_dis;
                 }
-                tatca.TyLe = tatca.TyLe / all.Count;
+                tatca.TyLe = Math.Round(((double)tatca.TyLe / all.Count), 2);
                 ViewBag.TatCaDonVi = all;
                 ViewBag.TatCaDonViFooter = tatca;
 
@@ -244,6 +244,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 if (date == null)
                 {
                     date = string.Format("{0:dd/MM/yyyy}", DateTime.Now);
+                } else
+                {
+                    //date = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                 }
                 string tatcadonvi = QueryForReportAlll(date);
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
