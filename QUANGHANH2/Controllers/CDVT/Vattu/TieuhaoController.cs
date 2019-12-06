@@ -187,39 +187,39 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
 (case when a.supply_name is null then b.supply_name else a.supply_name end) 'SupplyName',
 (case when b.quantity is null then 0 else b.quantity end) 'SupplyQuantity', 
 (case when a.unit is null then b.unit else a.unit end) 'SupplyUnit',
-sum(case when a.used is null then 0 else a.used end) 'SupplyUseds', 
+sum(case when a.used is null then 0 else a.used end) 'SupplyUsed', 
 sum(case when a.thuhoi is null then 0 else a.thuhoi end) 'SupplyEviction'
 from
-(select s.supply_id, s.supply_name, es.department_id, s.unit,
+(select s.supply_id, s.supply_name, s.unit,
 sum(case when esd.supplyStatus = 1 then esd.quantity else 0 end) 'used',
 sum(case when esd.supplyStatus = 2 then esd.quantity else 0 end) 'thuhoi'
 from Supply s inner join Equipment_SCTX_Detail esd
 on s.supply_id = esd.supplyid inner join Equipment_SCTX es on es.maintain_id = esd.maintain_id
 and MONTH(es.[date]) = @month AND YEAR(es.[date]) = @year
-group by s.supply_id, s.supply_name, es.department_id, s.unit
+group by s.supply_id, s.supply_name, s.unit
 union all
-select s.supply_id, s.supply_name, mc.departmentid, s.unit,
+select s.supply_id, s.supply_name,  s.unit,
 sum(case when mcd.supplyStatus = 1 then mcd.quantity else 0 end) 'used',
 sum(case when mcd.supplyStatus = 2 then mcd.quantity else 0 end) 'thuhoi'
 from Supply s inner join Maintain_Car_Detail mcd
 on s.supply_id = mcd.supplyid inner join Maintain_Car mc on mc.maintainid = mcd.maintainid
 and MONTH(mc.[date]) = @month AND YEAR(mc.[date]) = @year
-group by s.supply_id, s.supply_name, mc.departmentid, s.unit
+group by s.supply_id, s.supply_name,  s.unit
 union all
-select s.supply_id, s.supply_name, e.department_id, s.unit,
+select s.supply_id, s.supply_name, s.unit,
 sum(fac.consumption_value) 'used', 0 'thuhoi'
 from Supply s inner join Fuel_activities_consumption fac
 on s.supply_id = fac.fuel_type and MONTH(fac.[date]) = @month AND YEAR(fac.[date]) = @year
 inner join Equipment e on fac.equipmentId = e.equipmentId
-group by s.supply_id, s.supply_name, e.department_id, s.unit) as a full outer join 
-(select sp.supplyid, s.supply_name, sp.departmentid, sum(sp.quantity) 'quantity', s.unit
+group by s.supply_id, s.supply_name, s.unit) as a full outer join 
+(select sp.supplyid, s.supply_name,sum(sp.quantity) 'quantity', s.unit
 from Supply s inner join SupplyPlan sp
-on s.supply_id = sp.supplyid inner join Department d on sp.departmentid = d.department_id
+on s.supply_id = sp.supplyid 
 where MONTH(sp.[date]) = @month and year(sp.[date]) = @year
-group by sp.supplyid, s.supply_name, sp.departmentid, s.unit
+group by sp.supplyid, s.supply_name, s.unit
 ) as b
-on a.department_id = b.departmentid and a.supply_id = b.supplyid
-where (a.supply_id = @supplyid or b.supplyid = @supplyid) and (a.supply_name = @supplyname or b.supply_name = @supplyname)
+on a.supply_id = b.supplyid
+where (a.supply_id like @supplyid or b.supplyid like @supplyid) and (a.supply_name like @supplyname or b.supply_name like @supplyname)
 group by a.supply_id, b.supplyid, b.quantity, a.supply_name, b.supply_name, a.unit, b.unit"; 
                  var details = context.Database.SqlQuery<DataTieuHao>(sql, 
                                                                             new SqlParameter("month",val[1]),
@@ -233,43 +233,43 @@ group by a.supply_id, b.supplyid, b.quantity, a.supply_name, b.supply_name, a.un
             }
             if (search.type == "year")
             {
-                string sql = @"select (case when a.supply_id is null then b.supplyid else a.supply_id end) 'supply_id', 
-(case when a.supply_name is null then b.supply_name else a.supply_name end) 'supply_name',
-(case when b.quantity is null then 0 else b.quantity end) 'quantity', 
-(case when a.unit is null then b.unit else a.unit end) 'unit',
-sum(case when a.used is null then 0 else a.used end) 'used', 
-sum(case when a.thuhoi is null then 0 else a.thuhoi end) 'thuhoi'
+                string sql = @"select (case when a.supply_id is null then b.supplyid else a.supply_id end) 'SupplyId', 
+(case when a.supply_name is null then b.supply_name else a.supply_name end) 'SupplyName',
+(case when b.quantity is null then 0 else b.quantity end) 'SupplyQuantity', 
+(case when a.unit is null then b.unit else a.unit end) 'SupplyUnit',
+sum(case when a.used is null then 0 else a.used end) 'SupplyUsed', 
+sum(case when a.thuhoi is null then 0 else a.thuhoi end) 'SupplyEviction'
 from
-(select s.supply_id, s.supply_name, es.department_id, s.unit,
+(select s.supply_id, s.supply_name,s.unit,
 sum(case when esd.supplyStatus = 1 then esd.quantity else 0 end) 'used',
 sum(case when esd.supplyStatus = 2 then esd.quantity else 0 end) 'thuhoi'
 from Supply s inner join Equipment_SCTX_Detail esd
 on s.supply_id = esd.supplyid inner join Equipment_SCTX es on es.maintain_id = esd.maintain_id
 and  YEAR(es.[date]) = @year
-group by s.supply_id, s.supply_name, es.department_id, s.unit
+group by s.supply_id, s.supply_name, s.unit
 union all
-select s.supply_id, s.supply_name, mc.departmentid, s.unit,
+select s.supply_id, s.supply_name,  s.unit,
 sum(case when mcd.supplyStatus = 1 then mcd.quantity else 0 end) 'used',
 sum(case when mcd.supplyStatus = 2 then mcd.quantity else 0 end) 'thuhoi'
 from Supply s inner join Maintain_Car_Detail mcd
 on s.supply_id = mcd.supplyid inner join Maintain_Car mc on mc.maintainid = mcd.maintainid
 and  YEAR(mc.[date]) = @year
-group by s.supply_id, s.supply_name, mc.departmentid, s.unit
+group by s.supply_id, s.supply_name, s.unit
 union all
-select s.supply_id, s.supply_name, e.department_id, s.unit,
+select s.supply_id, s.supply_name, s.unit,
 sum(fac.consumption_value) 'used', 0 'thuhoi'
 from Supply s inner join Fuel_activities_consumption fac
 on s.supply_id = fac.fuel_type  AND YEAR(fac.[date]) = @year
 inner join Equipment e on fac.equipmentId = e.equipmentId
-group by s.supply_id, s.supply_name, e.department_id, s.unit) as a full outer join 
-(select sp.supplyid, s.supply_name, sp.departmentid, sum(sp.quantity) 'quantity', s.unit
+group by s.supply_id, s.supply_name, s.unit) as a full outer join 
+(select sp.supplyid, s.supply_name, sum(sp.quantity) 'quantity', s.unit
 from Supply s inner join SupplyPlan sp
-on s.supply_id = sp.supplyid inner join Department d on sp.departmentid = d.department_id
+on s.supply_id = sp.supplyid 
 where  year(sp.[date]) = @year
-group by sp.supplyid, s.supply_name, sp.departmentid, s.unit
+group by sp.supplyid, s.supply_name,  s.unit
 ) as b
-on a.department_id = b.departmentid and a.supply_id = b.supplyid
-where (a.supply_id = @supplyid or b.supplyid = @supplyid) and (a.supply_name = @supplyname or b.supply_name = @supplyname)
+on  a.supply_id = b.supplyid
+where (a.supply_id Like @supplyid or b.supplyid Like @supplyid) and (a.supply_name Like @supplyname or b.supply_name Like @supplyname)
 group by a.supply_id, b.supplyid, b.quantity, a.supply_name, b.supply_name, a.unit, b.unit";
                 var details = context.Database.SqlQuery<DataTieuHao>(sql,
                                                                            new SqlParameter("year", search.year),
@@ -278,6 +278,7 @@ group by a.supply_id, b.supplyid, b.quantity, a.supply_name, b.supply_name, a.un
                                                                            new SqlParameter("supplyname", "%" + search.SupplyName + "%")
 
                                                                            ).ToList();
+                return details;
             }
             return new List<DataTieuHao>();
         }
