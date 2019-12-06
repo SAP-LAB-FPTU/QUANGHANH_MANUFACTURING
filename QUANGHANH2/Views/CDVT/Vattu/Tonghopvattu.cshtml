@@ -46,8 +46,16 @@
                             </div>
                             <div class="col l3 m3 s10">
                                 <div class="col l10 m10 s10 offset-l1 input-field">
-                                    <i class="fas fa-calendar-alt icon"></i>
-                                    <input type='text' class='datepicker-here center' id="monthpicker" style="height: 24px" />
+                                    <h3>
+                                    <i class="fas fa-calendar-alt icon" style="margin-left: 50px !important"></i>
+                                    <input type="text"
+                                           id="txtmonth"
+                                           class="datepicker-here center"
+                                           data-language='vi'
+                                           data-min-view="months"
+                                           data-view="months"
+                                           data-date-format="MM yyyy" />
+                                        </h3>
                                 </div>
                             </div>
                         </div>
@@ -132,15 +140,15 @@
 <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
 @section scripts{
     <script>
-        $("#monthpicker").datepicker({
-            format: "mm-yyyy",
-            viewMode: "months",
-            minViewMode: "months",
-            autoclose: true,
-        });
-        let today = new Date();
-        $("#monthpicker").datepicker("setDate", new Date());
-        $("#monthpicker").val(("0" + (today.getMonth() + 1)).slice(-2) + '-' + today.getFullYear());
+        //$("#monthpicker").datepicker({
+        //    format: "mm-yyyy",
+        //    viewMode: "months",
+        //    minViewMode: "months",
+        //    autoclose: true,
+        //});
+        //let today = new Date();
+        //$("#monthpicker").datepicker("setDate", new Date());
+        //$("#monthpicker").val(("0" + (today.getMonth() + 1)).slice(-2) + '-' + today.getFullYear());
         var tbl_detail, tbl_summary, currTab = 0, exportPayload = [], isFirstInit = true;
         $(document).ready(function () {
             let index = 1;
