@@ -317,6 +317,7 @@
     <Compile Include="Controllers\TCLD\Diploma\DiplomaController.cs" />
     <Compile Include="Controllers\TCLD\EatingController.cs" />
     <Compile Include="Controllers\TCLD\Employees\EmployeesController.cs" />
+    <Compile Include="Controllers\TCLD\Employees\TransferHistoryController.cs" />
     <Compile Include="Controllers\TCLD\MaterialProtectionController.cs" />
     <Compile Include="Controllers\TCLD\Occupation\GroupOccupationController.cs" />
     <Compile Include="Controllers\TCLD\Occupation\OccupationController.cs" />
@@ -7467,6 +7468,7 @@
     <Folder Include="Library\" />
     <Folder Include="Views\ChiTiet\" />
     <Folder Include="Views\ExportWord\" />
+    <Folder Include="Views\TransferHistory\" />
     <Folder Include="Views\ViewAccident\" />
     <Folder Include="Views\WorkHistory\" />
     <Folder Include="Views\XuLyQD\" />
