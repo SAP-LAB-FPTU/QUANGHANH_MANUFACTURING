@@ -86,9 +86,9 @@ namespace QUANGHANH2.Controllers.CDVT.Oto
                         string equipmentId = (string)item["equipmentId"];
                         int ca = (int)item["ca"];
                         int thisCa = 0;
-                        if (DateTime.Now.Hour >= 6 && DateTime.Now.Hour < 14) thisCa = 1;
-                        if (DateTime.Now.Hour >= 14 && DateTime.Now.Hour < 22) thisCa = 2;
-                        if (DateTime.Now.Hour >= 22) thisCa = 3;
+                        if (DateTime.Now.Hour >= 6 && DateTime.Now.Hour < 14 && DateTime.Now.Date == date) thisCa = 1;
+                        if (DateTime.Now.Hour >= 14 && DateTime.Now.Hour < 22 && DateTime.Now.Date == date) thisCa = 2;
+                        if ((DateTime.Now.Hour >= 22 && DateTime.Now.Date == date) || (DateTime.Now.Hour < 6 && DateTime.Now.Date.AddDays(-1) == date)) thisCa = 3;
                         bool available = (bool)item["available"];
                         CarGP car = DBContext.CarGPS.Find(equipmentId, date, ca);
                         if (car == null)

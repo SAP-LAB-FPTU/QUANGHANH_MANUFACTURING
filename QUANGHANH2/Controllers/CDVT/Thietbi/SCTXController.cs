@@ -107,7 +107,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                         string sub_insert = $"insert into Equipment_SCTX_Detail(maintain_id, supplyid, quantity, supplyStatus) " +
                               $"VALUES((select top 1 maintain_id from Equipment_SCTX order by maintain_id desc), '{item.supplyid}', {item.quantity}, {item.supplyStatus});" +
                               " update Supply_DuPhong " +
-                              $"set quantity = (select quantity from Supply_DuPhong where supply_id = '{item.supplyid}' and equipmentId='{equipmentId}')-{item.quantity} " +
+                              $"set quantity = (select quantity from Supply_DuPhong where supply_id = '{item.supplyid}' and equipmentId='{equipmentId}')" + (item.supplyStatus == 1 ? "-" : "+") + $"{item.quantity} " +
                               $" where supply_id = '{item.supplyid}' and equipmentId='{equipmentId}'";
                         bulk_insert = string.Concat(bulk_insert, sub_insert);
                     }

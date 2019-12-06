@@ -24,7 +24,7 @@ namespace QUANGHANH2.Repositories
 
         public IList<TonghopvattuDetailModelView> GetDetails(TonghopVattuSearchModelView search)
         {
-            DateTime monthPicked = DateTime.Parse(search.MonthPicked);
+            DateTime monthPicked = DateTime.ParseExact(search.MonthPicked, "dd/MM/yyyy", null);
             //string query = $"SELECT tmp.SupplyId, s.supply_name SupplyName, s.unit SupplyUnit, tmp.SupplyAverage, st.quantity SupplyQuantity " +
             //    $"FROM (SELECT supplyid SupplyId, SUM(dinh_muc) AS SupplyAverage FROM SupplyPlan WHERE departmentid = '{search.DepartmentId}' AND YEAR([date]) = {monthPicked.Year} AND MONTH([date]) = {monthPicked.Month} AND [status] = 1 GROUP BY supplyid) tmp, Supply s, Supply_tieuhao st " +
             //    $"WHERE st.supplyid = tmp.SupplyId AND s.supply_id = tmp.SupplyId AND " +
@@ -32,21 +32,21 @@ namespace QUANGHANH2.Repositories
             //    $"s.supply_id LIKE N'%{search.SupplyId}%' AND " +
             //    $"s.supply_name LIKE N'%{search.SupplyName}%'";
 
-            string query = "select sp.supplyid SupplyId, s.supply_name SupplyName, s.unit SupplyUnit, sp.dinh_muc SupplyAverage, sum(sp.quantity) SupplyQuantity " +
-                           " from Supply s inner "+
-                           " join SupplyPlan sp on s.supply_id = sp.supplyid "+
-                           $" where sp.departmentid = '{search.DepartmentId}' AND sp.supplyid LIKE N'%{search.SupplyId}%' AND " +
-                           $" s.supply_name LIKE N'%{search.SupplyName}%' " +
-                           " group by sp.supplyid, s.supply_name, s.unit, sp.dinh_muc";
+            string query = "select  supplyplan.supplyid SupplyId, SUM(dinh_muc) AS SupplyAverage,SUM(quantity) SupplyQuantity,supply_name as SupplyName, unit as SupplyUnit " +
+                            "from SupplyPlan inner join Supply "+
+                          " on SupplyPlan.supplyid = supply.supply_id "+
+                          $"  where departmentid = '{search.DepartmentId}' AND [status] = 1  and YEAR([date]) = {monthPicked.Year} AND MONTH([date]) = {monthPicked.Month} " +
+                          $" and supplyplan.supplyid LIKE N'%{search.SupplyId}%'  and supply_name LIKE N'%{search.SupplyName}%'" +
+                          " group by supplyplan.supplyid,supply_name,unit";
             var details = context.Database.SqlQuery<TonghopvattuDetailModelView>(query).ToList();
             return details;
         }
 
         public IList<TonghopvattuSummaryModelView> GetSummary(TonghopVattuSearchModelView search)
         {
-            DateTime monthPicked = DateTime.Parse(search.MonthPicked);
+            DateTime monthPicked = DateTime.ParseExact(search.MonthPicked,"dd/MM/yyyy",null);
             string query = $"SELECT tmp.SupplyId, tmp.SupplyQuantity, s.supply_name SupplyName, s.unit SupplyUnit " +
-                $"FROM (SELECT st.supplyid SupplyId, SUM(st.quantity) SupplyQuantity FROM Supply_tieuhao st, Supply s WHERE st.supplyid = s.supply_id AND YEAR([date]) = {monthPicked.Year} AND MONTH([date]) = {monthPicked.Month} GROUP BY st.supplyid) tmp, Supply s " +
+                $"FROM (SELECT st.supplyid SupplyId, SUM(st.quantity) SupplyQuantity FROM SupplyPlan st, Supply s WHERE st.supplyid = s.supply_id AND YEAR([date]) = {monthPicked.Year} AND MONTH([date]) = {monthPicked.Month}  GROUP BY st.supplyid) tmp, Supply s " +
                 $"WHERE tmp.SupplyId = s.supply_id AND " +
                 $"s.supply_id LIKE N'%{search.SupplyId}%' AND " +
                 $"s.supply_name LIKE N'%{search.SupplyName}%'";
