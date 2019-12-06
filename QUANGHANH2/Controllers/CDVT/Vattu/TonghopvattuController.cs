@@ -44,7 +44,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
             int start = Convert.ToInt32(Request["start"]);
             int length = Convert.ToInt32(Request["length"]);
             search.DepartmentId = string.IsNullOrWhiteSpace(search.DepartmentId) ? string.Empty : search.DepartmentId;
-            search.MonthPicked = string.IsNullOrWhiteSpace(search.MonthPicked)? DateTime.Now.ToString("MM-yyyy") : search.MonthPicked;
+            search.MonthPicked = string.IsNullOrWhiteSpace(search.MonthPicked)? DateTime.Now.ToString("dd/MM/yyyy") : search.MonthPicked;
             search.SupplyId = string.IsNullOrWhiteSpace(search.SupplyId) ? string.Empty : search.SupplyId;
             search.SupplyName = string.IsNullOrWhiteSpace(search.SupplyName) ? string.Empty : search.SupplyName;
             IList<TonghopvattuDetailModelView> details = _repository.GetDetails(search);
@@ -84,7 +84,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
                 MonthPicked = MonthPicked.Trim()
             };
             search.DepartmentId = string.IsNullOrWhiteSpace(search.DepartmentId) ? string.Empty : search.DepartmentId;
-            search.MonthPicked = string.IsNullOrWhiteSpace(search.MonthPicked) ? DateTime.Now.ToString("MM-yyyy") : search.MonthPicked;
+            search.MonthPicked = string.IsNullOrWhiteSpace(search.MonthPicked) ? DateTime.Now.ToString("dd/MM/yyyy") : search.MonthPicked;
             search.SupplyId = string.IsNullOrWhiteSpace(search.SupplyId) ? string.Empty : search.SupplyId;
             search.SupplyName = string.IsNullOrWhiteSpace(search.SupplyName) ? string.Empty : search.SupplyName;
             IList<TonghopvattuSummaryModelView> details = _repository.GetSummary(search);
