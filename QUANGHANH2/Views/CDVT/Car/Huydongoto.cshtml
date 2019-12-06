@@ -285,7 +285,7 @@
 
     @Html.Action("Add", "Hoatdong")
 </div>
-<div class="modal fade" id="myadd3">
+<div class="modal fade" style="padding: 30px;" id="myadd3">
     <div class="modal-header center-align">
         <h3>Thêm nhóm thiết bị</h3>
     </div>
@@ -704,7 +704,7 @@
                     success: function (data) {
                         dataTable.ajax.reload();
                         if (data.success == false) {
-                             errorAlert('Lỗi', 'Có lỗi xảy ra');
+                             errorAlert(data.message);
                         } else {
                             successAlert('Thêm thành công', '');
                             window.location.reload(true);
