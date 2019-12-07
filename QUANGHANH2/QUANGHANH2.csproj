@@ -692,6 +692,8 @@
     <Content Include="assets\Custom css\TCLD\Brief\ManageBrief\Inside.css" />
     <Content Include="assets\Custom css\TCLD\Brief\ManageBrief\ListAll.css" />
     <Content Include="assets\Custom css\TCLD\Eating\Register.css" />
+    <Content Include="assets\images\logo-qh.jpg" />
+    <Content Include="assets\images\logo-tkv.png" />
     <Content Include="assets\sweetalert\alert-quanghanh-js.js" />
     <Content Include="assets\sweetalert\sweetalert2.all.min.js" />
     <Content Include="assets\sweetalert\sweetalert2.min.css" />
