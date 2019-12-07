@@ -4,11 +4,48 @@
     Layout = null;
 
 }
+<script src="~/assets/libs/jquery/dist/jquery.min.js"></script>
 <style>
-    th,td {
-        border : 1px solid;
+    th, td {
+        border: 1px solid;
+    }
+
+    thead {
+        background-color: white;
+        color: black;
+    }
+
+    thead th {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        font-weight: normal;
+        padding: 10px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+    }
+
+    td {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        padding: 10px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
     }
 </style>
+
+<script>
+    $(document).ready(function () {
+        var thead = document.querySelector("thead");
+        window.onscroll = function () {
+            thead.style["-webkit-transform"] = "translateY(" + window.scrollY + "px)";
+            thead.style.transform = "translateY(" + window.scrollY + "px)";
+        };
+    })
+</script>
 
 <table>
     <thead>
@@ -119,12 +156,12 @@
             <th colspan="2"> Than SX</th>
             <th colspan="2"> Than SX</th>
             <th colspan="2"> Than SX</th>
-            <th colspan="2"> Than SX</th>  
-            <th colspan="2"> Than SX</th>    
-            <th colspan="2"> Than SX</th>      
-            <th colspan="2"> Than SX</th>   
-            <th colspan="2"> Than SX</th>        
-            <th colspan="2"> Than SX</th>       
+            <th colspan="2"> Than SX</th>
+            <th colspan="2"> Than SX</th>
+            <th colspan="2"> Than SX</th>
+            <th colspan="2"> Than SX</th>
+            <th colspan="2"> Than SX</th>
+            <th colspan="2"> Than SX</th>
             <th colspan="2"> Than SX</th>
             <th colspan="2"> Thực Hiện</th>
             <th colspan="2"> Than Sản Xuất</th>
