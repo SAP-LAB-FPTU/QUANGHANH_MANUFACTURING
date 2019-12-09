@@ -10,30 +10,25 @@
         <div class="row">
             <div class="col s12 center">
                 <h3>
-                    <b>CHI TIẾT ĐIỀU ĐỘNG</b>
+                    <b>CHI TIẾT ĐIỀU ĐỘNG CỦA NHÂN VIÊN <a href="javascript:void(0);" class="text-blue">@ViewBag.name</a></b>
                     <br />
                 </h3>
             </div>
             <div class="col s12 m12 l12 table-responsive">
-                <h4>Họ và tên: @ViewBag.name</h4>
                 <table id="table-transfer" class="tcld table-bordered mytablr" style="width: 100%; margin-top: 20px; max-height: 600px !important">
                     <thead>
                         <tr>
                             <th rowspan="2">Số QĐ</th>
                             <th rowspan="2">Ngày QĐ</th>
 
-                            <th colspan="4">Trước</th>
-                            <th colspan="4">Sau</th>
+                            <th colspan="2">Trước</th>
+                            <th colspan="2">Sau</th>
                         </tr>
                         <tr>
                             <th>Đơn vị</th>
                             <th>Chức vụ</th>
-                            <th>Bậc lương</th>
-                            <th>Mức lương</th>
                             <th>Đơn vị</th>
                             <th>Chức vụ</th>
-                            <th>Bậc lương</th>
-                            <th>Mức lương</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -81,12 +76,8 @@
                         },
                         { "data": "DonViCu", "name": "DonViCu" },
                         { "data": "ChucVuCu", "name": "ChucVuCu" },
-                        { "data": "BacLuongCu", "name": "BacLuongCu" },
-                        { "data": "MucLuongCu", "name": "MucLuongCu" },
                         { "data": "DonViMoi", "name": "DonViMoi" },
-                        { "data": "ChucVuMoi", "name": "ChucVuMoi" },
-                        { "data": "BacLuongMoi", "name": "BacLuongMoi" },
-                        { "data": "MucLuongMoi", "name": "MucLuongMoi" }
+                        { "data": "ChucVuMoi", "name": "ChucVuMoi" }
                     ],
                     "drawCallback": function (settings) {
                         ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////

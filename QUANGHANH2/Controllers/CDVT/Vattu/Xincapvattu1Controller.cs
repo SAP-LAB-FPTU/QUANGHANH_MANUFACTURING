@@ -189,21 +189,25 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
             {
                 int quantity;
                 QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-                var supply = db.Supplies.Where(x => (x.supply_id == supplyid) && (x.unit != "L" && x.unit != "kWh")).SingleOrDefault();
+                var supply = db.Supplies.Where(x => x.supply_id == supplyid).First();
                 var supplyduphong = db.Supply_DuPhong.Where(x => (x.supply_id == supplyid)).SingleOrDefault();
                 if (supplyduphong == null) quantity = 0;
                 else quantity = supplyduphong.quantity;
+                
+                
 
                 return Json(new
                 {
-                    supply_name = supply.supply_name,
+                    supply_name = supply.supply_name ,
                     unit = supply.unit,
                     quantity = quantity
                 }, JsonRequestBehavior.AllowGet); ;
             }
             catch (Exception)
-            {
-                return Json("Mã nhiên liệu không tồn tại", JsonRequestBehavior.AllowGet);
+            { 
+                return Json( new {supply_name = "0",
+                    unit = "0",
+                    quantity = 0}, JsonRequestBehavior.AllowGet);
             }
 
         }
