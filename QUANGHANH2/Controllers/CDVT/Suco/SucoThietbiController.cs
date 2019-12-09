@@ -43,16 +43,15 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                 try
                 {
                     Equipment e = DBContext.Equipments.Find(equipment);
-                    if(e.current_Status == 4)
+                    if (e.current_Status == 4)
                     {
                         transaction.Rollback();
                         return Json(new { success = false, message = "Thiết bị đang có trạng thái hỏng\n không thể thêm sự cố" }, JsonRequestBehavior.AllowGet);
                     }
                     DateTime start = new DateTime(yearStart, monthStart, dayStart, hourStart, minuteStart, 0);
                     DateTime end = new DateTime(yearEnd, monthEnd, dayEnd, hourEnd, minuteEnd, 0);
-                    if (checkBox.Equals("no") && DateTime.Compare(start,end) >= 0)
+                    if (checkBox.Equals("no") && DateTime.Compare(start, end) >= 0)
                         return Json(new { success = false, message = "Bạn đã nhập ngày bắt đầu lớn hơn ngày kết thúc" }, JsonRequestBehavior.AllowGet);
-                    e.current_Status = 4;
                     i.department_id = e.department_id;
                     i.detail_location = detail;
                     i.equipmentId = equipment;
@@ -61,6 +60,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                     i.end_time = end;
                     if (checkBox == "yes")
                     {
+                        e.current_Status = 4;
                         i.reason = null;
                         i.end_time = null;
                     }
@@ -125,20 +125,33 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
         public ActionResult Update(int incident_id, string reason, int year, int month, int day, int hour, int minute)
         {
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            Incident i = DBContext.Incidents.Find(incident_id);
-            DateTime end = new DateTime(year, month, day, hour, minute, 0);
-            if (DateTime.Compare(i.start_time, end) >= 0)
-                return Json(new { success = false, message = "Bạn đã nhập ngày kết thúc nhỏ hơn ngày bắt đầu" }, JsonRequestBehavior.AllowGet);
-            if (i == null)
+            using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
             {
-                return Json(new { success = false, message = "Có lỗi xảy ra, xin vui lòng thử lại" }, JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                i.reason = reason;
-                i.end_time = new DateTime(year, month, day, hour, minute, 0);
-                DBContext.SaveChanges();
-                return Json(new { success = true, message = "Cập nhật thành công" }, JsonRequestBehavior.AllowGet);
+                try
+                {
+                    Incident i = DBContext.Incidents.Find(incident_id);
+                    DateTime end = new DateTime(year, month, day, hour, minute, 0);
+                    if (DateTime.Compare(i.start_time, end) >= 0)
+                        return Json(new { success = false, message = "Bạn đã nhập ngày kết thúc nhỏ hơn ngày bắt đầu" });
+                    if (i == null)
+                    {
+                        return Json(new { success = false, message = "Có lỗi xảy ra, xin vui lòng thử lại" });
+                    }
+                    else
+                    {
+                        i.reason = reason;
+                        i.end_time = new DateTime(year, month, day, hour, minute, 0);
+                        DBContext.Database.ExecuteSqlCommand("update Equipment set current_Status = 1 where equipmentId = @equipmentId", new SqlParameter("equipmentId", i.equipmentId));
+                        DBContext.SaveChanges();
+                        transaction.Commit();
+                        return Json(new { success = true, message = "Cập nhật thành công" });
+                    }
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                    return Json(new { success = false, message = "Có lỗi xảy ra, xin vui lòng thử lại" });
+                }
             }
         }
 
@@ -178,7 +191,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                 if (!reason.Equals("")) query += " i.reason LIKE @reason AND ";
             }
             query = query.Substring(0, query.Length - 5);
-            List<IncidentDB> incidents = DBContext.Database.SqlQuery<IncidentDB>(query, 
+            List<IncidentDB> incidents = DBContext.Database.SqlQuery<IncidentDB>(query,
                 new SqlParameter("equipmentId", '%' + equipmentId + '%'),
                 new SqlParameter("equipment_name", '%' + equipmentName + '%'),
                 new SqlParameter("department_name", '%' + department + '%'),
@@ -218,7 +231,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                     int k = 0;
                     for (int i = 5; i < incidents.Count + 5; i++)
                     {
-                        excelWorksheet.Cells[i, 1].Value = (k+1);
+                        excelWorksheet.Cells[i, 1].Value = (k + 1);
                         excelWorksheet.Cells[i, 2].Value = incidents.ElementAt(k).Equipment_category_id;
                         excelWorksheet.Cells[i, 3].Value = incidents.ElementAt(k).equipment_name;
                         excelWorksheet.Cells[i, 4].Value = incidents.ElementAt(k).mark_code;
