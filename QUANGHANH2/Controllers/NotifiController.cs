@@ -29,7 +29,7 @@ namespace QUANGHANH2.Controllers
                                         pb = "Cơ điện vận tải",
                                         title = "Mã thiết bị " + x.equipmentId,
                                         name = x.equipment_name,
-                                        date = x.durationOfInspection
+                                        date = x.durationOfInspection.Value
                                     }).FirstOrDefault();
             var hanBaohiem = (from equip in db.Equipments.Where(x => x.durationOfInsurance <= testTime && x.durationOfInsurance >= DateTime.Now)
                               join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
@@ -40,7 +40,7 @@ namespace QUANGHANH2.Controllers
                                   pb = "Cơ điện vận tải",
                                   title = "Mã thiết bị " + equip.equipmentId,
                                   name = equip.equipment_name,
-                                  date = equip.durationOfInsurance
+                                  date = equip.durationOfInsurance.Value
                               }).OrderBy(x => x.date).FirstOrDefault();
             if (hanBaohiem != null)
             {
@@ -77,7 +77,7 @@ namespace QUANGHANH2.Controllers
                                                     pb = "Cơ điện vận tải",
                                                     title = x.equipmentId,
                                                     name = x.equipment_name,
-                                                    date = x.durationOfInspection
+                                                    date = x.durationOfInspection.Value
                                                 }).ToList().Distinct();
                         foreach(main item in maintitle)
                         {
@@ -108,7 +108,7 @@ namespace QUANGHANH2.Controllers
                                                      pb = "Cơ điện vận tải",
                                                      title = equip.equipmentId,
                                                      name = equip.equipment_name,
-                                                     date = equip.durationOfInsurance
+                                                     date = equip.durationOfInsurance.Value
                                                  }).OrderBy(x => x.date).ToList();
                         foreach (main item in maintitle)
                         {

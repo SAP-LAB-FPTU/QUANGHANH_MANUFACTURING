@@ -483,7 +483,6 @@ namespace QUANGHANH2.Controllers.Camera
                     Documentary documentary = new Documentary();
                     documentary.documentary_code = documentary_code == "" ? null : documentary_code;
                     documentary.documentary_type = 8;
-                    documentary.department_id = department_id;
                     documentary.date_created = DateTime.Now;
                     documentary.person_created = "Long";
                     documentary.reason = reason;
