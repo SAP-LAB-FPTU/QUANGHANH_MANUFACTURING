@@ -24,11 +24,11 @@ namespace QUANGHANH2.Controllers.KCM
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
 
-                var sqlQuery = " select header_kh.HeaderID,TieuChi.TenTieuChi,kehoach.SanLuong,header_kh.SoNgayLamViec,[kehoach].MaTieuChi as MaTieuChiNull,TieuChi.DonViDo,[kehoach].GhiChu from (select * from header_KeHoachTungThang as header " +
+                var sqlQuery = " select header_kh.HeaderID,TieuChi.TenTieuChi,kehoach.SanLuong,header_kh.SoNgayLamViec,[kehoach].MaTieuChi as MaTieuChiNull,TieuChi.DonViDo,[kehoach].GhiChu from (select * from header_KeHoachSanXuatThang as header " +
                    "where header.MaPhongBan = @departmentID and header.ThangKeHoach = @month and header.NamKeHoach = @year) as header_kh " +
                    "left join (select b.*from(SELECT[HeaderID],[MaTieuChi], Max([ThoiGianNhapCuoiCung]) as [ThoiGianNhapCuoiCung] " +
-                   "FROM[QUANGHANHABC].[dbo].[KeHoach_TieuChi_TheoThang] GROUP BY MaTieuChi,HeaderID) as a " +
-                   "inner join[KeHoach_TieuChi_TheoThang] as b " +
+                   "FROM[QUANGHANHABC].[dbo].[KeHoachSanXuatThang] GROUP BY MaTieuChi,HeaderID) as a " +
+                   "inner join[KeHoachSanXuatThang] as b " +
                    "on a.HeaderID = b.HeaderID and a.MaTieuChi = b.MaTieuChi and a.ThoiGianNhapCuoiCung = b.ThoiGianNhapCuoiCung) as kehoach " +
                    "on header_kh.HeaderID = kehoach.HeaderID " +
                    "left join TieuChi on kehoach.MaTieuChi = TieuChi.MaTieuChi";
@@ -65,14 +65,14 @@ namespace QUANGHANH2.Controllers.KCM
                     }
                     else
                     {
-                        header_KeHoachTungThang header = new header_KeHoachTungThang();
+                        header_KeHoachSanXuatThang header = new header_KeHoachSanXuatThang();
                         header.MaPhongBan = departmentID;
                         header.ThangKeHoach = month;
                         header.NamKeHoach = year;
                         header.SoNgayLamViec = 26;
-                        db.header_KeHoachTungThang.Add(header);
+                        db.header_KeHoachSanXuatThang.Add(header);
                         db.SaveChanges();
-                        var HearderID = db.header_KeHoachTungThang.Where(x => x.MaPhongBan == departmentID && x.ThangKeHoach == month && x.NamKeHoach == year).Select(x => x.HeaderID).FirstOrDefault();
+                        var HearderID = db.header_KeHoachSanXuatThang.Where(x => x.MaPhongBan == departmentID && x.ThangKeHoach == month && x.NamKeHoach == year).Select(x => x.HeaderID).FirstOrDefault();
                         return Json(new { data = listAspect, aspects = listAspectDepartments, totalDays = (26), headerID = HearderID }, JsonRequestBehavior.AllowGet);
 
                     }
@@ -96,7 +96,7 @@ namespace QUANGHANH2.Controllers.KCM
             var totalDays = Int32.Parse(Request["totalDays"]);
             var data = Request["data"];
 
-            List<KeHoach_TieuChi_TheoThang> listUpdate = JsonConvert.DeserializeObject<List<KeHoach_TieuChi_TheoThang>>(data);
+            List<KeHoachSanXuatThang> listUpdate = JsonConvert.DeserializeObject<List<KeHoachSanXuatThang>>(data);
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 var listAspectDepartments = (from pbtc in db.PhongBan_TieuChi
@@ -114,9 +114,9 @@ namespace QUANGHANH2.Controllers.KCM
                 {
                     item.ThoiGianNhapCuoiCung = currentTime;
 
-                    db.KeHoach_TieuChi_TheoThang.Add(item);
+                    db.KeHoachSanXuatThang.Add(item);
                 }
-                //var header = db.header_KeHoachTungThang.Where(x => x.MaPhongBan == departmentID && x.ThangKeHoach == month && x.NamKeHoach == year).FirstOrDefault();
+                //var header = db.header_KeHoachSanXuatThang.Where(x => x.MaPhongBan == departmentID && x.ThangKeHoach == month && x.NamKeHoach == year).FirstOrDefault();
                 //header.SoNgayLamViec = totalDays;
                 //db.Entry(header).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
@@ -154,7 +154,7 @@ namespace QUANGHANH2.Controllers.KCM
 
         }
     }
-    public class ChiTietTieuChi : KeHoach_TieuChi_TheoThang
+    public class ChiTietTieuChi : KeHoachSanXuatThang
     {
         public Nullable<int> MaTieuChiNull { get; set; }
         public string DonViDo { get; set; }

@@ -22,7 +22,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             int month = DateTime.Now.Month;
             int year = DateTime.Now.Year;
-            var ngaySX = db.header_KeHoachTungThang.Where(x => x.ThangKeHoach == month && x.NamKeHoach == year).Select(x => x.SoNgayLamViec).FirstOrDefault();
+            var ngaySX = db.header_KeHoachSanXuatThang.Where(x => x.ThangKeHoach == month && x.NamKeHoach == year).Select(x => x.SoNgayLamViec).FirstOrDefault();
             ViewBag.SoNgaySX = ngaySX;
             ViewBag.NgayNhap = DateTime.Today.ToString("dd/MM/yyyy");
             return View("/Views/DK/InputCharcoal/InputCharcoal.cshtml");
@@ -75,9 +75,9 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                 {
                     month = Convert.ToInt32(date.Split('/')[1]);
                     year = Convert.ToInt32(date.Split('/')[2]);
-                    List<header_ThucHienTheoNgay> checkList = db.header_ThucHienTheoNgay.Where(x => x.MaPhongBan == px_value && x.Ca == ca && x.Ngay == dateTime).ToList();
-                    List<header_KeHoach_TieuChi_TheoNgay> checkList2 = db.header_KeHoach_TieuChi_TheoNgay.Where(x => x.MaPhongBan == px_value && x.Ca == ca && x.NgayNhapKH == dateTime).ToList();
-                    List<header_KeHoachTungThang> checkList3 = db.header_KeHoachTungThang.Where(x => x.MaPhongBan == px_value && x.ThangKeHoach == month && x.NamKeHoach == year).ToList();
+                    List<header_ThucHienSanXuatNgay> checkList = db.header_ThucHienSanXuatNgay.Where(x => x.MaPhongBan == px_value && x.Ca == ca && x.Ngay == dateTime).ToList();
+                    List<header_KeHoachSanXuatNgay> checkList2 = db.header_KeHoachSanXuatNgay.Where(x => x.MaPhongBan == px_value && x.Ca == ca && x.NgayNhapKH == dateTime).ToList();
+                    List<header_KeHoachSanXuatThang> checkList3 = db.header_KeHoachSanXuatThang.Where(x => x.MaPhongBan == px_value && x.ThangKeHoach == month && x.NamKeHoach == year).ToList();
 
                     if (checkList.Count <= 0)
                     {
@@ -89,8 +89,8 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                     "left join( " +
                                     "select a.MaPhongBan, a.MaTieuChi, sum(a.SanLuong) as 'luyke' " +
                                     "from(select t.SanLuong, t.MaTieuChi, h.MaPhongBan " +
-                                    "from header_ThucHienTheoNgay h left " +
-                                    "join ThucHien_TieuChi_TheoNgay t " +
+                                    "from header_ThucHienSanXuatNgay h left " +
+                                    "join ThucHienSanXuatNgay t " +
                                     "on h.HeaderID = t.HeaderID " +
                                     "where h.MaPhongBan = @px and h.Ngay between @start and @date and h.Ca <= @ca) as a " +
                                     "group by a.MaPhongBan,a.MaTieuChi) as b " +
@@ -109,17 +109,17 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                         case when a.NgaySanXuat is null then 0 else a.NgaySanXuat end 'NgaySanXuat', 
                                         case when a.SanLuong is null then 0 else a.SanLuong end 'SanLuong', 
                                         case when b.luyke is null then 0 else a.SanLuong end 'LuyKe', c.DonViDo, c.TenTieuChi from
-                                        (select thDay.MaTieuChi, thDay.GhiChu, headtH.NgaySanXuat, thDay.SanLuong from header_ThucHienTheoNgay headTH
+                                        (select thDay.MaTieuChi, thDay.GhiChu, headtH.NgaySanXuat, thDay.SanLuong from header_ThucHienSanXuatNgay headTH
                                         inner
-                                        join ThucHien_TieuChi_TheoNgay thDay
+                                        join ThucHienSanXuatNgay thDay
                                         on headTH.HeaderID = thDay.HeaderID
                                         where headTH.MaPhongBan = @px and headTH.Ngay = @date and headTH.Ca = @ca) as a
                                         inner join(
                                         select a.MaPhongBan, a.MaTieuChi, sum(a.SanLuong) as 'luyke'
                                         from(select t.SanLuong, t.MaTieuChi, h.MaPhongBan
-                                        from header_ThucHienTheoNgay h 
+                                        from header_ThucHienSanXuatNgay h 
 
-                                        left join ThucHien_TieuChi_TheoNgay t
+                                        left join ThucHienSanXuatNgay t
                                         on h.HeaderID = t.HeaderID
                                         where h.MaPhongBan = @px and h.Ngay between @start and @date and h.Ca <= @ca) as a
                                         group by a.MaPhongBan,a.MaTieuChi) as b
@@ -143,7 +143,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                             "from PhongBan_TieuChi pb left join TieuChi tc " +
                             "on pb.MaTieuChi = tc.MaTieuChi " +
                             "where pb.MaPhongBan = @px and pb.Thang = @thang and pb.Nam = @nam) as a " +
-                            "left join(select * from header_KeHoach_TieuChi_TheoNgay khDay " +
+                            "left join(select * from header_KeHoachSanXuatNgay khDay " +
                             "where khDay.NgayNhapKH = @date) as b " +
                             "on b.MaPhongBan = a.MaPhongBan " +
                             "order by a.MaTieuChi";
@@ -156,7 +156,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                     {
                         string sql = "select a.*, khDay2.KeHoach, c.DonViDo, c.TenTieuChi from " +
                                 "(select headKH.HeaderID, headKH.MaPhongBan, Headkh.Ca, headKH.NgayNhapKH, khDay.MaTieuChi, MAX(khDay.ThoiGianNhapCuoiCung) as 'MaxDate' " +
-                                "from header_KeHoach_TieuChi_TheoNgay headKH " +
+                                "from header_KeHoachSanXuatNgay headKH " +
                                 "left " +
                                 "join KeHoach_TieuChi_TheoNgay khDay " +
                                 "on headKH.HeaderID = khDay.HeaderID " +
@@ -185,15 +185,15 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                         "left join(select a.MaTieuChi, a.ThangKeHoach, a.NamKeHoach, b.SanLuong as 'KHDC',a.SoNgayLamViec from( " +
                                         "select headKH.MaPhongBan, headKH.ThangKeHoach, headKH.NamKeHoach, " +
                                         "headKH.SoNgayLamViec, khMonth.MaTieuChi, MAX(khMonth.ThoiGianNhapCuoiCung) as 'MaxDate' " +
-                                        "from header_KeHoachTungThang headKH " +
+                                        "from header_KeHoachSanXuatThang headKH " +
                                         "left " +
-                                        "join KeHoach_TieuChi_TheoThang khMonth " +
+                                        "join KeHoachSanXuatThang khMonth " +
                                         "on headKH.HeaderID = khMonth.HeaderID " +
                                         "where headKH.MaPhongBan = @px " +
                                         "and headKH.ThangKeHoach = @thang " +
                                         "group by headKH.MaPhongBan, headKH.ThangKeHoach, headKH.NamKeHoach,  " +
                                         "headKH.SoNgayLamViec, khMonth.MaTieuChi) as a " +
-                                        "left join(select * from KeHoach_TieuChi_TheoThang khMonth " +
+                                        "left join(select * from KeHoachSanXuatThang khMonth " +
                                         ") as b on a.MaTieuChi = b.MaTieuChi and a.MaxDate = b.ThoiGianNhapCuoiCung) as khdc " +
                                         "on pbtc.MaTieuChi = khdc.MaTieuChi";
                         listKHDC = db.Database.SqlQuery<SanXuat>(sql, new SqlParameter("px", px_value),
@@ -210,15 +210,15 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                         "left join(select a.MaTieuChi, a.ThangKeHoach, a.NamKeHoach, b.SanLuong as 'KHDC',a.SoNgayLamViec from( " +
                                         "select headKH.MaPhongBan, headKH.ThangKeHoach, headKH.NamKeHoach, " +
                                         "headKH.SoNgayLamViec, khMonth.MaTieuChi, MAX(khMonth.ThoiGianNhapCuoiCung) as 'MaxDate' " +
-                                        "from header_KeHoachTungThang headKH " +
+                                        "from header_KeHoachSanXuatThang headKH " +
                                         "left " +
-                                        "join KeHoach_TieuChi_TheoThang khMonth " +
+                                        "join KeHoachSanXuatThang khMonth " +
                                         "on headKH.HeaderID = khMonth.HeaderID " +
                                         "where headKH.MaPhongBan = @px " +
                                         "and headKH.ThangKeHoach = @thang " +
                                         "group by headKH.MaPhongBan, headKH.ThangKeHoach, headKH.NamKeHoach,  " +
                                         "headKH.SoNgayLamViec, khMonth.MaTieuChi) as a " +
-                                        "left join(select * from KeHoach_TieuChi_TheoThang khMonth " +
+                                        "left join(select * from KeHoachSanXuatThang khMonth " +
                                         ") as b on a.MaTieuChi = b.MaTieuChi and a.MaxDate = b.ThoiGianNhapCuoiCung) as khdc " +
                                         "on pbtc.MaTieuChi = khdc.MaTieuChi";
                         listKHDC = db.Database.SqlQuery<SanXuat>(sql, new SqlParameter("px", px_value),
@@ -256,7 +256,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                 e.Message.ToString();
                 return Json(new { success = false, message = "Có lỗi xảy ra" }, JsonRequestBehavior.AllowGet);
             }
-            var ngaySX = db.header_KeHoachTungThang.Where(x => x.ThangKeHoach == month && x.NamKeHoach == year && x.MaPhongBan.Equals(px_value)).Select(x => x.SoNgayLamViec).FirstOrDefault();
+            var ngaySX = db.header_KeHoachSanXuatThang.Where(x => x.ThangKeHoach == month && x.NamKeHoach == year && x.MaPhongBan.Equals(px_value)).Select(x => x.SoNgayLamViec).FirstOrDefault();
             ViewBag.SoNgaySX = ngaySX;
 
             if (listSX != null) ViewBag.dem = listSX.Count();
@@ -313,11 +313,11 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             }
             return Json(new { success = true, list = tcList, dateSX = ngaySX, luyKe = LK, listSXLoad = listSX, ngaySXnow = ngay_SX_now }, JsonRequestBehavior.AllowGet);
         }
-        public class MaxKHDate : KeHoach_TieuChi_TheoThang
+        public class MaxKHDate : KeHoachSanXuatThang
         {
             public DateTime Max { get; set; }
         }
-        public class Save_TH : header_ThucHienTheoNgay
+        public class Save_TH : header_ThucHienSanXuatNgay
         {
             public int MaTieuChi { get; set; }
         }
@@ -347,15 +347,15 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                     List<TieuChi> list = db.TieuChis.ToList();
                     int[] maTieuChi = new int[tenTieuChi.Length];
 
-                    ThucHien_TieuChi_TheoNgay thtctn = new ThucHien_TieuChi_TheoNgay();
+                    ThucHienSanXuatNgay thtctn = new ThucHienSanXuatNgay();
                     if (!ngayNhap.Equals(""))
                     {
                         month = Convert.ToInt32(ngayNhap.Split('/')[1]);
                         year = Convert.ToInt32(ngayNhap.Split('/')[2]);
                         string queryTH = @"select MaTieuChi from PhongBan_TieuChi where MaPhongBan = @maPhongBan and Nam = @year and Thang = @month
                                     except
-                                    select th.MaTieuChi from header_ThucHienTheoNgay he 
-                                                                            left join ThucHien_TieuChi_TheoNgay th 
+                                    select th.MaTieuChi from header_ThucHienSanXuatNgay he 
+                                                                            left join ThucHienSanXuatNgay th 
                                                                             on he.HeaderID = th.HeaderID where he.MaPhongBan = @maPhongBan 
                                                                             and he.Ca = @ca and he.Ngay = @ngay";
                         tcList = db.Database.SqlQuery<int>(queryTH, new SqlParameter("maPhongBan", px_value),
@@ -368,31 +368,31 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                         pbtcList = db.Database.SqlQuery<int>(queryChenhLech, new SqlParameter("year", year),
                                                                                         new SqlParameter("month", month),
                                                                                         new SqlParameter("maPhongBan", px_value)).ToList();
-                        List<header_KeHoach_TieuChi_TheoNgay> checkList2 = db.header_KeHoach_TieuChi_TheoNgay.Where(x => x.MaPhongBan == px_value && x.Ca == ca && x.NgayNhapKH == dateTime).ToList();
+                        List<header_KeHoachSanXuatNgay> checkList2 = db.header_KeHoachSanXuatNgay.Where(x => x.MaPhongBan == px_value && x.Ca == ca && x.NgayNhapKH == dateTime).ToList();
                         int caSXConvert = Convert.ToInt32(ca_value);
-                        KeHoach_TieuChi_TheoThang khMonth = new KeHoach_TieuChi_TheoThang();
+                        KeHoachSanXuatThang khMonth = new KeHoachSanXuatThang();
 
-                        string queryHeaderIDMonth = "select * from header_KeHoachTungThang where MaPhongBan = @px and ThangKeHoach = @month and NamKeHoach = @year";
-                        var PlanMonth = db.Database.SqlQuery<header_KeHoachTungThang>(queryHeaderIDMonth, new SqlParameter("px", px_value),
+                        string queryHeaderIDMonth = "select * from header_KeHoachSanXuatThang where MaPhongBan = @px and ThangKeHoach = @month and NamKeHoach = @year";
+                        var PlanMonth = db.Database.SqlQuery<header_KeHoachSanXuatThang>(queryHeaderIDMonth, new SqlParameter("px", px_value),
                                                                            new SqlParameter("month", ngaySXFix.Month),
                                                                            new SqlParameter("year", ngaySXFix.Year)).FirstOrDefault();
                         if(PlanMonth == null)
                         {
-                            string query = @"insert into header_KeHoachTungThang values (@pb,@thang,@nam,@ngayLamViec)";
+                            string query = @"insert into header_KeHoachSanXuatThang values (@pb,@thang,@nam,@ngayLamViec)";
                             db.Database.ExecuteSqlCommand(query, new SqlParameter("pb",px_value),
                                                                  new SqlParameter("thang", month),
                                                                  new SqlParameter("nam", year),
                                                                  new SqlParameter("ngayLamViec", ngaySX));
-                            PlanMonth = db.Database.SqlQuery<header_KeHoachTungThang>(queryHeaderIDMonth, new SqlParameter("px", px_value),
+                            PlanMonth = db.Database.SqlQuery<header_KeHoachSanXuatThang>(queryHeaderIDMonth, new SqlParameter("px", px_value),
                                                                            new SqlParameter("month", ngaySXFix.Month),
                                                                            new SqlParameter("year", ngaySXFix.Year)).FirstOrDefault();
                         }
                         if (tcList.Count == 0)
                         {
-                            var headerIDDay = db.header_ThucHienTheoNgay.Where(x => x.MaPhongBan == px_value && x.Ngay == ngaySXFix && x.Ca == caSXConvert).Select(x => x.HeaderID).FirstOrDefault();
+                            var headerIDDay = db.header_ThucHienSanXuatNgay.Where(x => x.MaPhongBan == px_value && x.Ngay == ngaySXFix && x.Ca == caSXConvert).Select(x => x.HeaderID).FirstOrDefault();
 
-                            string queryHeaderIDPlanDay = "select * from header_KeHoach_TieuChi_TheoNgay where MaPhongBan = @px and NgayNhapKH = @date and Ca = @ca ";
-                            var PlanDay = db.Database.SqlQuery<header_KeHoach_TieuChi_TheoNgay>(queryHeaderIDPlanDay, new SqlParameter("px", px_value),
+                            string queryHeaderIDPlanDay = "select * from header_KeHoachSanXuatNgay where MaPhongBan = @px and NgayNhapKH = @date and Ca = @ca ";
+                            var PlanDay = db.Database.SqlQuery<header_KeHoachSanXuatNgay>(queryHeaderIDPlanDay, new SqlParameter("px", px_value),
                                                                                 new SqlParameter("date", ngaySXFix),
                                                                                 new SqlParameter("ca", caSXConvert)).FirstOrDefault();
                             for (int i = 0; i < tenTieuChi.Length; i++)
@@ -421,12 +421,12 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                     KHDC[i] = "0";
                                 }
 
-                                string query = "update ThucHien_TieuChi_TheoNgay set SanLuong = @thucHien ,GhiChu = @ghiChu " +
+                                string query = "update ThucHienSanXuatNgay set SanLuong = @thucHien ,GhiChu = @ghiChu " +
                                 "  where HeaderID = @headerIDDay and MaTieuChi = @maTieuChi " +
-                                "  update header_ThucHienTheoNgay set NgaySanXuat = @ngaySX where MaPhongBan = @px and Ca = @ca and Ngay = @date " +
+                                "  update header_ThucHienSanXuatNgay set NgaySanXuat = @ngaySX where MaPhongBan = @px and Ca = @ca and Ngay = @date " +
                                 "  insert into KeHoach_TieuChi_TheoNgay (HeaderID, MaTieuChi, KeHoach, ThoiGianNhapCuoiCung) " +
                                 "  values( @headerIDPlanDay, @maTieuChi, @keHoach, GETDATE())  " +
-                                "  insert into KeHoach_TieuChi_TheoThang (HeaderID, MaTieuChi, SanLuong, ThoiGianNhapCuoiCung) " +
+                                "  insert into KeHoachSanXuatThang (HeaderID, MaTieuChi, SanLuong, ThoiGianNhapCuoiCung) " +
                                 "  values( @headerIDMonth, @maTieuChi, @KHDC, GETDATE())";
                                 db.Database.ExecuteSqlCommand(query, new SqlParameter("thucHien", thucHien[i]),
                                                                      new SqlParameter("ghiChu", ghiChu[i]),
@@ -444,22 +444,22 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                         }
                         else if (tcList.Count == pbtcList.Count)
                         {
-                            string queryKHDate = "insert into header_KeHoach_TieuChi_TheoNgay (MaPhongBan, Ca, NgayNhapKH) values(@px, @ca, @date)";
+                            string queryKHDate = "insert into header_KeHoachSanXuatNgay (MaPhongBan, Ca, NgayNhapKH) values(@px, @ca, @date)";
                             db.Database.ExecuteSqlCommand(queryKHDate, new SqlParameter("px", px_value),
                                                                        new SqlParameter("ca", ca_value),
                                                                        new SqlParameter("date", ngaySXFix));
 
-                            string queryHeaderIDPlanDay = "select * from header_KeHoach_TieuChi_TheoNgay where MaPhongBan = @px and NgayNhapKH = @date and Ca = @ca ";
-                            var PlanDay = db.Database.SqlQuery<header_KeHoach_TieuChi_TheoNgay>(queryHeaderIDPlanDay, new SqlParameter("px", px_value),
+                            string queryHeaderIDPlanDay = "select * from header_KeHoachSanXuatNgay where MaPhongBan = @px and NgayNhapKH = @date and Ca = @ca ";
+                            var PlanDay = db.Database.SqlQuery<header_KeHoachSanXuatNgay>(queryHeaderIDPlanDay, new SqlParameter("px", px_value),
                                                                                 new SqlParameter("date", ngaySXFix),
                                                                                 new SqlParameter("ca", caSXConvert)).FirstOrDefault();
 
-                            string queryTHDay = "insert into header_ThucHienTheoNgay (MaPhongBan, Ngay, Ca, NgaySanXuat) values(@px, @date, @ca, @ngaySX)";
+                            string queryTHDay = "insert into header_ThucHienSanXuatNgay (MaPhongBan, Ngay, Ca, NgaySanXuat) values(@px, @date, @ca, @ngaySX)";
                             db.Database.ExecuteSqlCommand(queryTHDay, new SqlParameter("px", px_value),
                                                                                        new SqlParameter("date", ngaySXFix),
                                                                                        new SqlParameter("ca", ca_value),
                                                                                        new SqlParameter("ngaySX", ngaySX));
-                            var headerIDDay = db.header_ThucHienTheoNgay.Where(x => x.MaPhongBan == px_value && x.Ngay == ngaySXFix && x.Ca == caSXConvert).Select(x => x.HeaderID).FirstOrDefault();
+                            var headerIDDay = db.header_ThucHienSanXuatNgay.Where(x => x.MaPhongBan == px_value && x.Ngay == ngaySXFix && x.Ca == caSXConvert).Select(x => x.HeaderID).FirstOrDefault();
 
                             for (int i = 0; i < tenTieuChi.Length; i++)
                             {
@@ -486,11 +486,11 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                 {
                                     KHDC[i] = "0";
                                 }
-                                string query = "insert ThucHien_TieuChi_TheoNgay (HeaderID, MaTieuChi, SanLuong, GhiChu) " +
+                                string query = "insert ThucHienSanXuatNgay (HeaderID, MaTieuChi, SanLuong, GhiChu) " +
                                "  values ( @headerIDDay, @maTieuChi, @thucHien, @ghiChu) " +
                                "  insert into KeHoach_TieuChi_TheoNgay (HeaderID, MaTieuChi, KeHoach, ThoiGianNhapCuoiCung) " +
                                "  values( @headerIDPlanDay, @maTieuChi, @keHoach, GETDATE())  " +
-                               "  insert into KeHoach_TieuChi_TheoThang (HeaderID, MaTieuChi, SanLuong, ThoiGianNhapCuoiCung) " +
+                               "  insert into KeHoachSanXuatThang (HeaderID, MaTieuChi, SanLuong, ThoiGianNhapCuoiCung) " +
                                "  values( @headerIDMonth, @maTieuChi, @KHDC, GETDATE())";
                                 db.Database.ExecuteSqlCommand(query, new SqlParameter("thucHien", thucHien[i]),
                                                                      new SqlParameter("ghiChu", ghiChu[i]),
@@ -505,12 +505,12 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                         else if (tcList.Count > 0 && tcList.Count < pbtcList.Count)
                         {
 
-                            string queryHeaderIDPlanDay = "select * from header_KeHoach_TieuChi_TheoNgay where MaPhongBan = @px and NgayNhapKH = @date and Ca = @ca ";
-                            var PlanDay = db.Database.SqlQuery<header_KeHoach_TieuChi_TheoNgay>(queryHeaderIDPlanDay, new SqlParameter("px", px_value),
+                            string queryHeaderIDPlanDay = "select * from header_KeHoachSanXuatNgay where MaPhongBan = @px and NgayNhapKH = @date and Ca = @ca ";
+                            var PlanDay = db.Database.SqlQuery<header_KeHoachSanXuatNgay>(queryHeaderIDPlanDay, new SqlParameter("px", px_value),
                                                                                 new SqlParameter("date", ngaySXFix),
                                                                                 new SqlParameter("ca", caSXConvert)).FirstOrDefault();
 
-                            var headerIDDay = db.header_ThucHienTheoNgay.Where(x => x.MaPhongBan == px_value && x.Ngay == ngaySXFix && x.Ca == caSXConvert).Select(x => x.HeaderID).FirstOrDefault();
+                            var headerIDDay = db.header_ThucHienSanXuatNgay.Where(x => x.MaPhongBan == px_value && x.Ngay == ngaySXFix && x.Ca == caSXConvert).Select(x => x.HeaderID).FirstOrDefault();
 
                             for (int i = 0; i < tenTieuChi.Length; i++)
                             {
@@ -529,11 +529,11 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                 {
                                     if (maTieuChi[i] == tcList[j])
                                     {
-                                        string query = "insert ThucHien_TieuChi_TheoNgay (HeaderID, MaTieuChi, SanLuong, GhiChu) " +
+                                        string query = "insert ThucHienSanXuatNgay (HeaderID, MaTieuChi, SanLuong, GhiChu) " +
                                        "  values ( @headerIDDay, @maTieuChi, @thucHien, @ghiChu) " +
                                        "  insert into KeHoach_TieuChi_TheoNgay (HeaderID, MaTieuChi, KeHoach, ThoiGianNhapCuoiCung) " +
                                        "  values( @headerIDPlanDay, @maTieuChi, @keHoach, GETDATE())  " +
-                                       "  insert into KeHoach_TieuChi_TheoThang (HeaderID, MaTieuChi, SanLuong, ThoiGianNhapCuoiCung) " +
+                                       "  insert into KeHoachSanXuatThang (HeaderID, MaTieuChi, SanLuong, ThoiGianNhapCuoiCung) " +
                                        "  values( @headerIDMonth, @maTieuChi, @KHDC, GETDATE())";
                                         db.Database.ExecuteSqlCommand(query, new SqlParameter("thucHien", thucHien[i]),
                                                                              new SqlParameter("ghiChu", ghiChu[i]),
@@ -550,12 +550,12 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                 }
                                 if (flag)
                                 {
-                                    string query = "update ThucHien_TieuChi_TheoNgay set SanLuong = @thucHien ,GhiChu = @ghiChu " +
+                                    string query = "update ThucHienSanXuatNgay set SanLuong = @thucHien ,GhiChu = @ghiChu " +
                                 "  where HeaderID = @headerIDDay and MaTieuChi = @maTieuChi " +
-                                "  update header_ThucHienTheoNgay set NgaySanXuat = @ngaySX where MaPhongBan = @px and Ca = @ca and Ngay = @date " +
+                                "  update header_ThucHienSanXuatNgay set NgaySanXuat = @ngaySX where MaPhongBan = @px and Ca = @ca and Ngay = @date " +
                                 "  insert into KeHoach_TieuChi_TheoNgay (HeaderID, MaTieuChi, KeHoach, ThoiGianNhapCuoiCung) " +
                                 "  values( @headerIDPlanDay, @maTieuChi, @keHoach, GETDATE())  " +
-                                "  insert into KeHoach_TieuChi_TheoThang (HeaderID, MaTieuChi, SanLuong, ThoiGianNhapCuoiCung) " +
+                                "  insert into KeHoachSanXuatThang (HeaderID, MaTieuChi, SanLuong, ThoiGianNhapCuoiCung) " +
                                 "  values( @headerIDMonth, @maTieuChi, @KHDC, GETDATE())";
                                     db.Database.ExecuteSqlCommand(query, new SqlParameter("thucHien", thucHien[i]),
                                                                          new SqlParameter("ghiChu", ghiChu[i]),
