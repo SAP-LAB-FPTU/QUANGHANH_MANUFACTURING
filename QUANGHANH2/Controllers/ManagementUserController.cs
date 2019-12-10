@@ -468,17 +468,8 @@ namespace QUANGHANH2.Controllers
             }
             if (!String.IsNullOrEmpty(NVID))
             {
-                bool isMaNV = false;
-                var MaNV = db.NhanViens.ToList();
-                foreach (var item in MaNV)
-                {
-                    if (NVID.Equals(item.MaNV))
-                    {
-                        isMaNV = true;
-                        break;
-                    }
-                }
-                if (!isMaNV)
+                var nv = db.NhanViens.Where(x => x.MaNV.Equals(NVID)).FirstOrDefault();
+                if (nv == null)
                 {
                     return Json(new Result()
                     {
@@ -486,7 +477,8 @@ namespace QUANGHANH2.Controllers
                         Data = "Mã nhân viên <strong style='color:black; '>" + NVID + "</strong> không tồn tại!"
                     }, JsonRequestBehavior.AllowGet);
                 }
-                if (db.Accounts.Where(x => x.NVID == NVID).Count() != 0)
+                var ac = db.Accounts.Where(x => x.NVID == NVID && x.ID != ID).FirstOrDefault();
+                if (ac != null)
                 {
                     return Json(new Result()
                     {
