@@ -37,23 +37,14 @@
                             <div class="col l4 m4 s12">
                                 <div class="row">
                                     <div class="col l10 m10 s12 input-field">
-                                        <input type="text" placeholder="Tìm kiếm theo biển kiểm soát" class='form-control' id="equipmentId-search" />
+                                        <input type="text" placeholder="Tìm kiếm theo biển kiểm soát" class='form-control' id="equipmentId-search" list="eqID-search"/>
                                     </div>
                                     <div class="col l10 m10 s12 input-field">
-                                        <input type="text" placeholder="Tìm kiếm theo tên thiết bị" class='form-control' id="equipmentName-search" />
+                                        <input type="text" placeholder="Tìm kiếm theo tên thiết bị" class='form-control' id="equipmentName-search" list="eqName-search"/>
                                     </div>
-                                    @*@{
-                                        foreach (var item in list)
-                                        {
-                                            if (item.Equals("17"))
-                                            {*@
-                                                <div class="col l10 m10 s12 input-field">
-                                                    <a class="waves-effect waves-light btn-small blue modal-trigger" href="#myadd">Thêm sửa chữa thường xuyên thiết bị</a>
-                                                </div>
-                                            @*}
-                                        }
-                                    }*@
-
+                                    <div class="col l10 m10 s12 input-field">
+                                        <a class="waves-effect waves-light btn-small blue modal-trigger" href="#myadd">Thêm sửa chữa thường xuyên thiết bị</a>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col l4 m4 s12">
@@ -71,7 +62,7 @@
                             <div class="col l4 m4 s12">
                                 <div class="row">
                                     <div class="col l10 m10 s12 input-field">
-                                        <input type="text" placeholder="Tìm kiếm theo vị trí sửa chữa" class='form-control' id="position-search" />
+                                        <input type="text" placeholder="Tìm kiếm theo vị trí sửa chữa" class='form-control' id="position-search" list="departmentID"/>
                                     </div>
                                     <div class="col l10 m10 s12 input-field">
                                         <input type="text" placeholder="Tìm kiếm theo nội dung sửa chữa" class='form-control' id="content-search" />
@@ -84,15 +75,6 @@
                         </div>
                     </div>
                 </div>
-                @*<div class="col s12" style="margin-bottom:20px">
-                        <div class="left" id="mywrap">
-                            <table id="Table2">
-                                <tr style="border-bottom:none">
-                                    <td><a class="waves-effect waves-light btn-small blue modal-trigger" href="#myadd">Thêm</a></td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>*@
                 <div id="table-wrapper2" class="col s12 table_container">
                     <table id="maintain" class="striped table-responsive centered table-bordered mytable">
                         <thead>
@@ -127,8 +109,8 @@
                 <div class="row">
                     <div class="col s12 m6">
                         <div class="form-group">
-                            <label for="id">Mã thiết bị : </label>
-                            <input type="text" class="form-control" id="equipmentID-add" list="eqID" />
+                            <label for="id"> Mã thiết bị : </label>
+                            <input type="text" class="form-control" readonly id="equipmentID-add"/>
                         </div>
                         <div class="form-group">
                             <label for="id">Vị trí sửa chữa : </label>
@@ -138,7 +120,7 @@
                     <div class="col s12 m6">
                         <div class="form-group">
                             <label for="id">Tên thiết bị : </label>
-                            <input type="text" class="form-control" readonly id="equipmentName" />
+                            <input type="text" class="form-control" id="equipmentName" list="eqName" />
                         </div>
                         <div class="form-group">
                             <label for="id">Nội dung sửa chữa : </label>
@@ -159,7 +141,7 @@
                         <th>Tên thiết bị vật tư (Mã hiệu - quy cách)</th>
                         <th>ĐVT</th>
                         <th>SL</th>
-                        
+
                         <th>Loại</th>
                     </tr>
                 </thead>
@@ -170,7 +152,7 @@
                         <td><input type="text" class="form-control" placeholder="Tên thiết bị vật tư" id="supplyname_add1" readonly /></td>
                         <td><input type="text" class="form-control" placeholder="ĐVT" id="unit_add1" readonly /></td>
                         <td><input type="number" class="form-control" placeholder="SL" id="quantity_add1" /></td>
-                        
+
                         <td>
                             <select class="form-control" id="supplyStatus_add1">
                                 <option value="1">Thay thế</option>
@@ -190,6 +172,7 @@
     </div>
 </div>
 
+@*note*@
 <div class="modal fade" id="myedit">
     <div class="modal-content">
         <div class="modal-header">
@@ -201,7 +184,7 @@
                     <div class="col s12 m6">
                         <div class="form-group">
                             <label for="date">Mã thiết bị : </label>
-                            <input type="text" class="form-control" id="equipmentedit" list="eqID" />
+                            <input type="text" class="form-control" id="equipmentedit" readonly/>
                             <input type="hidden" class="form-control" id="maintainid" />
                         </div>
                         <div class="form-group">
@@ -212,7 +195,7 @@
                     <div class="col s12 m6">
                         <div class="form-group">
                             <label for="id">Tên thiết bị : </label>
-                            <input type="text" class="form-control" id="equipmentname_edit" readonly />
+                            <input type="text" class="form-control" id="equipmentname_edit"  list="eqName"/>
                         </div>
                         <div class="form-group">
                             <label for="supplier">Nội dung sửa chữa: </label>
@@ -229,7 +212,6 @@
     </div>
 
     <div class="modal-footer">
-
         <a href="#myaleart" class="btn blue darken-2 save-category modal-trigger">Lưu</a>
         <button type="button" class="btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
     </div>
@@ -249,7 +231,6 @@
                     <th>Tên thiết bị vật tư (Mã hiệu - quy cách)</th>
                     <th>ĐVT</th>
                     <th>SL</th>
-                   
                     <th>Loại</th>
                 </tr>
             </thead>
@@ -279,6 +260,7 @@
         </div>
     </div>
 </div>
+
 <div id="myaleart1" class="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -294,10 +276,24 @@
     </div>
 </div>
 
-<datalist id="eqID">
+<datalist id="eqID-search">
     @foreach (var item in ViewBag.listEQ)
     {
-        <option value="@item.equipmentId">@item.equipment_name</option>
+        <option value="@item.equipmentId"></option>
+    }
+</datalist>
+
+<datalist id="eqName-search">
+    @foreach (var item in ViewBag.listEQ)
+    {
+        <option value="@item.equipment_name"></option>
+    }
+</datalist>
+
+<datalist id="eqName">
+    @foreach (var item in ViewBag.listEQ)
+    {
+    <option value="@item.equipment_name">@item.equipmentId</option>
     }
 </datalist>
 
@@ -391,18 +387,23 @@
             if (e.keyCode === 13)
                 e.preventDefault();
         });
-        $("#equipmentedit").keydown(function (e) {
+        $("#equipmentname_edit").keydown(function (e) {
             if (e.keyCode === 13)
                 getEquipmentnameEdit();
         });
-        $("#equipmentID-add").keydown(function (e) {
+        $("#equipmentname_edit").change(function (e) {
+            getEquipmentnameEdit();
+        });
+
+        $("#equipmentName").keydown(function (e) {
             if (e.keyCode === 13)
                 getEquipmentnameAdd();
         });
-        $("#equipmentID-add").change(function (e) {
 
+        $("#equipmentName").change(function (e) {
             getEquipmentnameAdd();
         });
+
         $('#myadd').keydown(function (e) {
             if (e.keyCode === 13)
                 e.preventDefault();
@@ -530,7 +531,7 @@
             var tmp = {
                 supplyid: txtMaThietBiVatTu.value
             };
-            
+
                 $.ajax({
                     type: "POST",
                     url: "/phong-cdvt/thiet-bi/sctx/returnsupplymaintainName",
@@ -547,7 +548,7 @@
 
                     }
                 });
-            
+
         }
         //get supply name and unit in add maintaindeatail
         function searchMaThietBiVatTuAdd(txtMaThietBiVatTuAdd) {
@@ -585,7 +586,7 @@
                 var maintainCar = {};
                 maintainCar.supplyid = document.getElementById("supplyid_add" + i).value;
                 maintainCar.quantity = document.getElementById("quantity_add" + i).value;
-              
+
                 maintainCar.supplyStatus = document.getElementById("supplyStatus_add" + i).value;
                 maintain.push(maintainCar);
             });
@@ -615,7 +616,7 @@
 
                         document.getElementById("supplyid_add" + i).value = '';
                         document.getElementById("quantity_add" + i).value = '';
-                        
+
                         document.getElementById("supplyStatus_add" + i).value = '';
                         document.getElementById("supplyname_add" + i).value = '';
                         document.getElementById("unit_add" + i).value = '';
@@ -663,7 +664,7 @@
                             $('<td>').html('<input type="text" class="form-control" placeholder="Đơn vị" id="unit_edit' + i + '" value="' + item.unit + '" readonly/>'),
                             $('<td>').html('<input type="text" class="form-control" placeholder="SL" id="quantity_edit' + i + '" value="' + item.quantity + '"/>'),
                         );
-                        
+
                         if (item.supplyStatus == 1)
                             $tr.append($('<td>').html('<select class="form-control"id="supplystatus_edit' + i + '"><option value="1" selected>Thay thế</option><option value="2">Thu hồi</option></select>'))
                         if (item.supplyStatus == 2)
@@ -752,7 +753,7 @@
                 var maintainCar = {};
                 maintainCar.supplyid = document.getElementById("supplyid_edit" + i).value;
                 maintainCar.quantity = document.getElementById("quantity_edit" + i).value;
-              
+
                 var y = document.getElementById("supplystatus_edit" + i);
                 maintainCar.supplyStatus = y.options[y.selectedIndex].value;
                 maintainCar.maintain_detail_id = document.getElementById("maintaindetailid_edit" + i).value;
@@ -790,7 +791,7 @@
             //ajax search
             $("#searchButton").click(function () {
                 dataTable.ajax.reload(function () {
-                    
+
                 });
             });
         });
@@ -821,7 +822,7 @@
         //get equipment name to edit
         //error :
         function getEquipmentnameEdit() {
-            var id = document.getElementById("equipmentedit").value;
+            var id = document.getElementById("equipmentname_edit").value;
             var em = { id: id };
             $.ajax({
                 url: "/phong-cdvt/thiet-bi/sctx/returnEquipmentName",
@@ -830,7 +831,7 @@
                 contentType: "application/json;charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    document.getElementById("equipmentname_edit").value = data;
+                    document.getElementById("equipmentedit").value = data;
                 },
                 error: function () {
                     //alert("fail");
@@ -841,7 +842,7 @@
         //get equipment name to add
         //error :
         function getEquipmentnameAdd() {
-            var id = document.getElementById("equipmentID-add").value;
+            var id = document.getElementById("equipmentName").value;
             var em = { id: id };
             $.ajax({
                 url: "/phong-cdvt/thiet-bi/sctx/returnEquipmentName",
@@ -850,11 +851,10 @@
                 contentType: "application/json;charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    document.getElementById("equipmentName").value = data;
+                    document.getElementById("equipmentID-add").value = data;
                 },
                 error: function () {
                     //alert("fail");
-
                 }
             });
         }
