@@ -394,9 +394,6 @@
 <script src="~/js/Custom JS/CDVT/Home/DetailManu_Daily.js"></script>
 <script>
     $(document).ready(function () {
-        var t1 = $("#list-test1").val();
-        var t2 = $("#list-test2").val();
-        alert(t1 == t2);
         setInterval(function () {
             waittime++;
             if (waittime > 2 && ck == true) {
@@ -412,7 +409,6 @@
     });
     var check = true;
     var waittime = 0;
-    var startTime = Date.now();
     $("#equipmentId-search").keyup(function (e) {
         if (e.which == 13) {
             $("#searchButton1").click();
@@ -423,9 +419,7 @@
             $("#ck").val("0");
             if (waittime > 1) {
                 $("#ChangeIDForm").submit();
-            } else {
-                waittime = 0;
-            }
+            } 
 
             
         }
@@ -470,8 +464,6 @@
             if (waittime > 1) {
                 $("#ChangeIDForm").submit();
                 waittime = 0;
-            } else {
-                waittime = 0;
             }
         }
     });
@@ -486,9 +478,7 @@
             if (waittime > 1) {
                 $("#ChangeIDForm").submit();
                 waittime = 0;
-            } else {
-                waittime = 0;
-            }
+            } 
         }
     });
     $("#supplier-search").keyup(function (e) {
@@ -502,9 +492,7 @@
             if (waittime > 1) {
                 $("#ChangeIDForm").submit();
                 waittime = 0;
-            } else {
-                waittime = 0;
-            }
+            } 
         }
     });
     $("#date-start-search").keyup(function (e) {
