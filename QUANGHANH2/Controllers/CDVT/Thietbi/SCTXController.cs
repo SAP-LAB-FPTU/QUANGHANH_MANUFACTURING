@@ -20,58 +20,63 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
         [HttpGet]
         public ActionResult Index()
         {
+            string departID = Session["departID"].ToString();
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            List<FuelDB> listEQ = db.Database.SqlQuery<FuelDB>("select e.equipmentId, e.equipment_name from Equipment e  " +
-                    "EXCEPT " +
-                    "select distinct e.equipmentId,e.equipment_name " +
-                    "from Equipment e inner join Equipment_category_attribute ea on e.Equipment_category_id = ea.Equipment_category_id " +
-                    "where ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy'").ToList();
+            //List<FuelDB> listEQ = db.Database.SqlQuery<FuelDB>("select e.equipmentId, e.equipment_name from Equipment e  " +
+            //        "EXCEPT " +
+            //        "select distinct e.equipmentId,e.equipment_name " +
+            //        "from Equipment e inner join Equipment_category_attribute ea on e.Equipment_category_id = ea.Equipment_category_id " +
+            //        "where ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy'").ToList();
             List<Supply> listSupply = db.Supplies.Where(x => x.unit != "L" && x.unit != "kWh").ToList();
             List<Department> listDepartment = db.Departments.ToList<Department>();
+            List<FuelDB> listEQ = db.Database.SqlQuery<FuelDB>("select e.equipmentId, e.equipment_name from Equipment e where e.department_id = @departID", new SqlParameter("departID", departID)).ToList();
 
+            ViewBag.
             ViewBag.listDepartment = listDepartment;
             ViewBag.listSupply = listSupply;
             ViewBag.listEQ = listEQ;
             return View("/Views/CDVT/Thietbi/SCTX.cshtml");
         }
 
-        [Route("phong-cdvt/thiet-bi/sctx")]
-        [HttpPost]
-        public ActionResult GetData()
-        {
-            //Server Side Parameter
-            int start = Convert.ToInt32(Request["start"]);
-            int length = Convert.ToInt32(Request["length"]);
-            string searchValue = Request["search[value]"];
-            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
-            string sortDirection = Request["order[0][dir]"];
+        //?
+        //[Route("phong-cdvt/thiet-bi/sctx")]
+        //[HttpPost]
+        //public ActionResult GetData()
+        //{
+        //    //Server Side Parameter
+        //    int start = Convert.ToInt32(Request["start"]);
+        //    int length = Convert.ToInt32(Request["length"]);
+        //    string searchValue = Request["search[value]"];
+        //    string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+        //    string sortDirection = Request["order[0][dir]"];
 
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-            {
+        //    using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+        //    {
 
-                List<MaintainDB> maintainCar = db.Database.SqlQuery<MaintainDB>("select m.[date], e.equipment_name, m.equipmentid, d.department_name, m.maintain_content, m.maintain_id " +
-                                "from Equipment_SCTX m inner join Equipment e on m.equipmentid = e.equipmentId " +
-                                "inner join Department d on d.department_id = m.department_id  " +
-                                "inner join (select e.equipmentId, e.equipment_name from Equipment e  " +
-                                "EXCEPT " +
-                                "select distinct e.equipmentId,e.equipment_name " +
-                                "from Equipment e inner join Equipment_category_attribute ea on e.Equipment_category_id = ea.Equipment_category_id " +
-                                "where ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') a on m.equipmentid = a.equipmentId ").ToList();
-                int totalrows = maintainCar.Count;
-                int totalrowsafterfiltering = maintainCar.Count;
-                //sorting
-                maintainCar = maintainCar.OrderBy(sortColumnName + " " + sortDirection).ToList<MaintainDB>();
-                //paging
-                maintainCar = maintainCar.Skip(start).Take(length).ToList<MaintainDB>();
-                foreach (MaintainDB item in maintainCar)
-                {
+        //        List<MaintainDB> maintainCar = db.Database.SqlQuery<MaintainDB>("select m.[date], e.equipment_name, m.equipmentid, d.department_name, m.maintain_content, m.maintain_id " +
+        //                        "from Equipment_SCTX m inner join Equipment e on m.equipmentid = e.equipmentId " +
+        //                        "inner join Department d on d.department_id = m.department_id  " +
+        //                        "inner join (select e.equipmentId, e.equipment_name from Equipment e  " +
+        //                        "EXCEPT " +
+        //                        "select distinct e.equipmentId,e.equipment_name " +
+        //                        "from Equipment e inner join Equipment_category_attribute ea on e.Equipment_category_id = ea.Equipment_category_id " +
+        //                        "where ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') a on m.equipmentid = a.equipmentId ").ToList();
+        //        int totalrows = maintainCar.Count;
+        //        int totalrowsafterfiltering = maintainCar.Count;
+        //        //sorting
+        //        maintainCar = maintainCar.OrderBy(sortColumnName + " " + sortDirection).ToList<MaintainDB>();
+        //        //paging
+        //        maintainCar = maintainCar.Skip(start).Take(length).ToList<MaintainDB>();
+        //        foreach (MaintainDB item in maintainCar)
+        //        {
 
-                    item.stringDate = item.date.ToString("dd/MM/yyyy");
-                }
-                return Json(new { success = true, data = maintainCar, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //            item.stringDate = item.date.ToString("dd/MM/yyyy");
+        //        }
+        //        return Json(new { success = true, data = maintainCar, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
+
         [Auther(RightID = "179,180,181,182,183,184,185,186,187,189")]
         [Route("phong-cdvt/thiet-bi/sctx/insertMaintainCar")]
         [HttpPost]
@@ -133,6 +138,8 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             }
 
         }
+
+
         [Auther(RightID = "179,180,181,182,183,184,185,186,187,189")]
         [Route("phong-cdvt/thiet-bi/sctx/getMaintainCarDetail")]
         [HttpPost]
@@ -256,13 +263,13 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             try
             {
                 QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-                var equipment = db.Database.SqlQuery<FuelDB>("select e.equipmentId, e.equipment_name from Equipment e  where  e.equipmentId = @id " +
+                var equipment = db.Database.SqlQuery<FuelDB>("select e.equipmentId, e.equipment_name from Equipment e  where  e.equipment_name = @id " +
                                 "EXCEPT " +
                                 "select distinct e.equipmentId,e.equipment_name " +
                                 "from Equipment e inner join Equipment_category_attribute ea on e.Equipment_category_id = ea.Equipment_category_id " +
                                 "where ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy' " +
                         "", new SqlParameter("id", id)).SingleOrDefault();
-                return Json(equipment.equipment_name, JsonRequestBehavior.AllowGet);
+                return Json(equipment.equipmentId, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -283,7 +290,6 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             {
                 try
                 {
-
 
                     Department d = db.Departments.Where(x => x.department_name == department_name).FirstOrDefault();
                     //          Maintain_CarDB maintainCar = db.Database.SqlQuery<Maintain_CarDB>("select m.[date],  e.equipment_name, m.equipmentid,d.department_name,m.maintain_content " +
