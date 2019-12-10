@@ -14,6 +14,7 @@ namespace QUANGHANH2.Controllers.Camera
 {
     public class ChiTietXuLyQDController : Controller
     {
+        [Auther(RightID = "193")]
         [Route("cap-nhat/camera/quyet-dinh/sua-chua")]
         [HttpGet]
         public ActionResult Index(string id)
@@ -73,7 +74,7 @@ namespace QUANGHANH2.Controllers.Camera
             equips = equips.Skip(start).Take(length).ToList<Documentary_cam_repair_detailsDB>();
             return Json(new { success = true, data = equips, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
-
+        [Auther(RightID = "193")]
         [Route("cap-nhat/camera/quyet-dinh/sua-chua/edit")]
         [HttpPost]
         public ActionResult editpost(string edit, string id)
@@ -132,7 +133,7 @@ namespace QUANGHANH2.Controllers.Camera
                 new SqlParameter("documentary_id", documentary_id)).ToList();
             return Json(supplies);
         }
-
+        [Auther(RightID = "193")]
         [Route("cap-nhat/camera/quyet-dinh/AddSupply")]
         [HttpPost]
         public ActionResult AddSupply(string list, int documentary_id, string equipmentId, string type)
