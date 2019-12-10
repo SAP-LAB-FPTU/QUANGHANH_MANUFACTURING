@@ -26,6 +26,7 @@
                         }
                     }
                 </datalist>
+                <datalist id="listid-s"></datalist>
                 <div class="advanded-search">
                     <div class="row">
                         <h3 class="center"><b>HUY ĐỘNG THIẾT BỊ CƠ GIỚI</b></h3>
@@ -41,7 +42,7 @@
                                             data_restUrl = Url.Action("Change", "Hoatdong")
                                         }))
                                         {
-                                            <input list="IDlist" type="text" placeholder="Tìm kiếm theo mã thiết bị" onchange="changeText()" name="id" class='form-control' id="equipmentId-search"
+                                            <input list="listid-s" type="text" placeholder="Tìm kiếm theo mã thiết bị" onchange="changeText()" name="id" class='form-control' id="equipmentId-search"
                                                    multiple />
                                         }
                                     </div>
@@ -53,7 +54,7 @@
                                             data_restUrl = Url.Action("ChangeName", "Hoatdong")
                                         }))
                                         {
-                                            <input list="IDlist" type="text" placeholder="Tìm kiếm theo tên thiết bị" name="name" class='form-control' id="equipmentName-search"
+                                            <input list="listid-s" type="text" placeholder="Tìm kiếm theo tên thiết bị" name="name" class='form-control' id="equipmentName-search"
                                                    multiple />
                                         }
                                     </div>
@@ -94,7 +95,7 @@
                                             data_restUrl = Url.Action("ChangeCateName", "Hoatdong")
                                         }))
                                         {
-                                            <input list="IDlist" type="text" placeholder="Tìm kiếm theo nhóm thiết bị" name="name" class='form-control' id="category-search"
+                                            <input list="listid-s" type="text" placeholder="Tìm kiếm theo nhóm thiết bị" name="name" class='form-control' id="category-search"
                                                    multiple />
                                         }
                                     </div>
@@ -115,7 +116,7 @@
                                             data_restUrl = Url.Action("ChangeSup", "Hoatdong")
                                         }))
                                         {
-                                            <input list="IDlist" type="text" placeholder="Tìm kiếm theo nhà cung cấp" name="name" class='form-control' id="supplier-search"
+                                            <input list="listid-s" type="text" placeholder="Tìm kiếm theo nhà cung cấp" name="name" class='form-control' id="supplier-search"
                                                    multiple />
                                         }
                                     </div>
@@ -181,21 +182,7 @@
                                     <th>Số khung</th>
                                     <th>Số máy</th>
                                     <th>GPS</th>
-                                    <th>Số hiệu</th>
-                                    <th>Số chế tạo</th>
-                                    <th>Nhà cung cấp</th>
-                                    <th>Ngày nhập</th>
-                                    <th>Ngày đưa vào sử dụng</th>
-                                    <th>Tổng thời gian hoạt động</th>
-                                    <th>Loại chất lượng</th>
-                                    <th>Đường nhập</th>
-                                    <th>Thời hạn bảo hiểm</th>
-                                    <th>Thời điểm kiểm định</th>
-                                    <th>Thời hạn bảo dưỡng</th>
                                     <th>Phân xưởng sử dụng</th>
-                                    <th>Tình trạng hiện tại</th>
-                                    <th>Khấu hao ước tính</th>
-                                    <th>Khấu hao hiện tại</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -349,7 +336,17 @@
         </div>
     </div>
 </form>
-
+@using (Html.BeginForm("ChangeID", "HuydongOto", FormMethod.Post, new
+{
+    id = "ChangeIDForm",
+    enctype = "multipart/form-data",
+    onSubmit = "return ChangeID(this);",
+    data_restUrl = Url.Action("ChangeID", "HuydongOto", new { id = "" })
+}))
+{
+    <input type="hidden" id="id-s" name="id" value=" " />
+    <input type="hidden" id="ck" name="ck" value="0" />
+}
 
 
 <ul id='dropdown1' class='dropdown-content'>
@@ -369,17 +366,140 @@
 <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
 <script src="~/js/Custom JS/CDVT/Home/DetailManu_Daily.js"></script>
 <script>
-    $('#equipmentId-search').change(function () {
-        $(this).closest('form').submit();
+    $(document).ready(function () {
+        setInterval(function () {
+            waittime++;
+            if (waittime > 2 && ck == true) {
+                $("#ChangeIDForm").submit();
+                waittime = 0;
+                ck = false;
+            }
+            if (waittime > 10) {
+                ck = true;
+            }
+        }, 1000);
+
     });
-    $('equipmentName-search').change(function () {
-        $(this).closest('form').submit();
+
+    var ck = true;
+    var waittime = 0;
+    $("#equipmentId-search").keyup(function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#documentary_code-search").blur();
+        } else {
+            var text = $("#equipmentId-search").val();
+            $("#id-s").val(text);
+            $("#ck").val("0");
+            if (waittime > 1) {
+                $("#ChangeIDForm").submit();
+            } else {
+                waittime = 0;
+            }
+
+
+        }
     });
-    $('category-search').change(function () {
-        $(this).closest('form').submit();
+
+    function ChangeID(form) {
+
+        $.validator.unobtrusive.parse(form);
+        if ($(form).valid()) {
+            $.ajax({
+                type: "POST",
+                url: form.action,
+                data: $(form).serialize(),
+                success: function (data) {
+                    $("#listid-s").empty();
+                    var option = "";
+                    for (var i = 0; i < data.id.length; i++) {
+                        var s = data.id[i].equipmentId;
+                        var a = "<option value='" + s + "'>" + s + "</option>";
+                        option += a;
+                    }
+                    $("#listid-s").append(option);
+                },
+                error: function () {
+                    alert(response.data.message);
+
+                }
+            });
+        }
+
+        return false;
+    }
+
+    $("#equipmentName-search").keyup(function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#person_created-search").blur();
+        } else {
+            var text = $("#equipmentName-search").val();
+            $("#id-s").val(text);
+            $("#ck").val("1");
+            if (waittime > 1) {
+                $("#ChangeIDForm").submit();
+                waittime = 0;
+            } else {
+                waittime = 0;
+            }
+        }
     });
-    $('supplier-search').change(function () {
-        $(this).closest('form').submit();
+    $("#category-search").keyup(function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#date-start-search").blur()
+        } else {
+            var text = $("#category-search").val();
+            $("#id-s").val(text);
+            $("#ck").val("2");
+            if (waittime > 1) {
+                $("#ChangeIDForm").submit();
+                waittime = 0;
+            } else {
+                waittime = 0;
+            }
+        }
+    });
+    $("#supplier-search").keyup(function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#date-end-search").blur();
+        } else {
+            var text = $("#supplier-search").val();
+            $("#id-s").val(text);
+            $("#ck").val("3");
+            if (waittime > 1) {
+                $("#ChangeIDForm").submit();
+                waittime = 0;
+            } else {
+                waittime = 0;
+            }
+        }
+    });
+    $("#date-start-search").keyup(function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#date-start-search").blur()
+        }
+    });
+    $("#date-end-search").keyup(function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#date-end-search").blur();
+        }
+    });
+    $("#department-search").keyup(function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#date-start-search").blur()
+        }
+    });
+    $("#equipmentQuality-search").keyup(function (e) {
+        if (e.which == 13) {
+            $("#searchButton1").click();
+            $("#date-end-search").blur();
+        }
     });
 
 
@@ -437,7 +557,7 @@
 
 
 
-    
+
 </script>
 
 @section scripts{
@@ -502,42 +622,7 @@
                     { "data": "sokhung", "name": "sokhung" },
                     { "data": "somay", "name": "somay" },
                     { "data": "GPSstring", "name": "GPSstring" },
-                    { "data": "fabrication_number", "name": "fabrication_number" },
-                    { "data": "mark_code", "name" : "mark_code"},
-                    { "data": "supplier", "name": "supplier" },
-                    {
-                        "data": "date_import", "name": "date_import", "render": function (data) {
-                            return dateFormat2(data) + " ";
-                        },
-
-                    },
-                    {
-                        "data": "usedDay", "name": "usedDay", "render": function (data) {
-                            return dateFormat2(data) + " ";
-                        },
-                    },
-                    { "data": "total_operating_hours" , "name" : "total_operating_hours"},
-                    { "data": "quality_type" , "name" : "quality_type"},
-                    { "data": "input_channel", "name": "input_channel" },
-                    {
-                        "data": "durationOfInsurance", "name": "durationOfInsurance", "render": function (data) {
-                            return dateFormat2(data) + " ";
-                        },
-                    },
-                    {
-                        "data": "durationOfInspection_fix", "name": "durationOfInspection", "render": function (data) {
-                            return dateFormat2(data) + " ";
-                        },
-                    },
-                    {
-                        "data": "durationOfMaintainance", "name": "durationOfMaintainance", "render": function (data) {
-                            return dateFormat2(data) + " ";
-                        },
-                    },
                     { "data": "department_name" , "name" : "department_name"},
-                    { "data": "statusname", "name" : "statusname"},
-                    { "data": "depreciation_estimate", "name": "depreciation_estimate" },
-                    { "data": "depreciation_present", "name": "depreciation_present" },
 
 
 
@@ -636,10 +721,10 @@
 
             return false;
         }
-        
 
 
-          
+
+
         function PopupForm(url) {
             var formDiv = $('<div/>');
             $.get(url)
