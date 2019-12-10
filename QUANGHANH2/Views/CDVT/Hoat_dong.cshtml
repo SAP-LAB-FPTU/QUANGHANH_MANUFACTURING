@@ -27,6 +27,13 @@
                         }
                     }
                 </datalist>
+                <datalist id="listid-s"></datalist>
+                <datalist id="list-test1">
+                    <option value="abcd">abcd</option>
+                </datalist>
+                <datalist id="list-test2">
+                    <option value="abc">abc</option>
+                </datalist>
                 <div class="advanded-search">
                     <div class="row">
                         <h3 class="center"><b>HUY ĐỘNG THIẾT BỊ</b></h3>
@@ -35,13 +42,13 @@
                             <div class="col l4 m4 s12">
                                 <div class="row">
                                     <div class="col l10 m10 s12 input-field">
-                                        <input type="text" placeholder="Tìm kiếm theo mã thiết bị" name="id" class='form-control' id="equipmentId-search"
+                                        <input type="text" list="listid-s" placeholder="Tìm kiếm theo mã thiết bị" name="id" class='form-control' id="equipmentId-search"
                                                multiple />
 
 
                                     </div>
                                     <div class="col l10 m10 s12 input-field">
-                                        <input type="text" placeholder="Tìm kiếm theo tên thiết bị" name="name" class='form-control' id="equipmentName-search"
+                                        <input type="text" list="listid-s" placeholder="Tìm kiếm theo tên thiết bị" name="name" class='form-control' id="equipmentName-search"
                                                multiple />
 
                                     </div>
@@ -77,7 +84,7 @@
                                 <div class="row">
                                     <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
 
-                                        <input type="text" placeholder="Tìm kiếm theo nhóm thiết bị" name="name" class='form-control' id="category-search"
+                                        <input list="listid-s" type="text" placeholder="Tìm kiếm theo nhóm thiết bị" name="name" class='form-control' id="category-search"
                                                multiple />
 
                                     </div>
@@ -94,7 +101,7 @@
                                     </div>
                                     <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
 
-                                        <input type="text" placeholder="Tìm kiếm theo nhà cung cấp" name="name" class='form-control' id="supplier-search"
+                                        <input list="listid-s" type="text" placeholder="Tìm kiếm theo nhà cung cấp" name="name" class='form-control' id="supplier-search"
                                                multiple />
 
                                     </div>
@@ -167,15 +174,6 @@
                                     <th>Tên thiết bị</th>
                                     <th>Số hiệu</th>
                                     <th>Số chế tạo</th>
-                                    <th>Nhà cung cấp</th>
-                                    <th>Ngày nhập</th>
-                                    <th>Ngày đưa vào sử dụng</th>
-                                    <th>Tổng thời gian hoạt động</th>
-                                    <th>Loại chất lượng</th>
-                                    <th>Đường nhập</th>
-                                    <th>Thời hạn bảo hiểm</th>
-                                    <th>Thời điểm kiểm định</th>
-                                    <th>Thời hạn bảo dưỡng</th>
                                     <th>Phân xưởng sử dụng</th>
                                     <th>Tình trạng hiện tại</th>
                                     <th>Khấu hao ước tính</th>
@@ -365,6 +363,17 @@
 {
     <input type="text" id="atri" name="name" style="display:none !important" />
 }
+@using (Html.BeginForm("ChangeID", "Hoatdong", FormMethod.Post, new
+{
+    id = "ChangeIDForm",
+    enctype = "multipart/form-data",
+    onSubmit = "return ChangeID(this);",
+    data_restUrl = Url.Action("ChangeID", "Hoatdong", new { id = "" })
+}))
+{
+    <input type="hidden" id="id-s" name="id" value=" " />
+    <input type="hidden" id="ck" name="ck" value="0"/>
+}
 
 
 <ul id='dropdown1' class='dropdown-content'>
@@ -384,30 +393,118 @@
 <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
 <script src="~/js/Custom JS/CDVT/Home/DetailManu_Daily.js"></script>
 <script>
-
+    $(document).ready(function () {
+        var t1 = $("#list-test1").val();
+        var t2 = $("#list-test2").val();
+        alert(t1 == t2);
+        setInterval(function () {
+            waittime++;
+            if (waittime > 2 && ck == true) {
+                $("#ChangeIDForm").submit();
+                waittime = 0;
+                ck = false;
+            }
+            if (waittime > 10) {
+                check = true;
+            }
+        }, 1000);
+        
+    });
+    var check = true;
+    var waittime = 0;
+    var startTime = Date.now();
     $("#equipmentId-search").keyup(function (e) {
         if (e.which == 13) {
             $("#searchButton1").click();
             $("#documentary_code-search").blur();
+        } else {
+            var text = $("#equipmentId-search").val();
+            $("#id-s").val(text);
+            $("#ck").val("0");
+            if (waittime > 1) {
+                $("#ChangeIDForm").submit();
+            } else {
+                waittime = 0;
+            }
+
+            
         }
     });
+
+    function ChangeID(form) {
+
+        $.validator.unobtrusive.parse(form);
+        if ($(form).valid()) {
+            $.ajax({
+                type: "POST",
+                url: form.action,
+                data: $(form).serialize(),
+                success: function (data) {
+                    $("#listid-s").empty();
+                    var option = "";
+                    for (var i = 0; i < data.id.length; i++) {
+                        var s = data.id[i].equipmentId;
+                        var a = "<option value='" + s + "'>" + s + "</option>";
+                        option += a;
+                    }
+                    $("#listid-s").append(option);
+                },
+                error: function () {
+                    alert(response.data.message);
+
+                }
+            });
+        }
+
+        return false;
+    }
 
     $("#equipmentName-search").keyup(function (e) {
         if (e.which == 13) {
             $("#searchButton1").click();
             $("#person_created-search").blur();
+        } else {
+            var text = $("#equipmentName-search").val();
+            $("#id-s").val(text);
+            $("#ck").val("1");
+            if (waittime > 1) {
+                $("#ChangeIDForm").submit();
+                waittime = 0;
+            } else {
+                waittime = 0;
+            }
         }
     });
     $("#category-search").keyup(function (e) {
         if (e.which == 13) {
             $("#searchButton1").click();
             $("#date-start-search").blur()
+        } else {
+            var text = $("#category-search").val();
+            $("#id-s").val(text);
+            $("#ck").val("2");
+            if (waittime > 1) {
+                $("#ChangeIDForm").submit();
+                waittime = 0;
+            } else {
+                waittime = 0;
+            }
         }
     });
     $("#supplier-search").keyup(function (e) {
         if (e.which == 13) {
             $("#searchButton1").click();
             $("#date-end-search").blur();
+        } else {
+            var text = $("#supplier-search").val();
+            $("#id-s").val(text);
+            $("#ck").val("3");
+            if (waittime > 1) {
+                $("#ChangeIDForm").submit();
+                waittime = 0;
+            } else {
+                waittime = 0;
+            }
         }
     });
     $("#date-start-search").keyup(function (e) {
@@ -547,36 +644,6 @@
                     { "data": "equipment_name", "name": "equipment_name" },
                     { "data": "fabrication_number", "name": "fabrication_number" },
                     { "data": "mark_code", "name" : "mark_code"},
-                    { "data": "supplier", "name": "supplier" },
-                    {
-                        "data": "date_import", "name": "date_import", "render": function (data) {
-                            return dateFormat2(data) + " ";
-                        },
-
-                    },
-                    {
-                        "data": "usedDay", "name": "usedDay", "render": function (data) {
-                            return dateFormat2(data) + " ";
-                        },
-                    },
-                    { "data": "total_operating_hours" , "name" : "total_operating_hours"},
-                    { "data": "quality_type" , "name" : "quality_type"},
-                    { "data": "input_channel", "name": "input_channel" },
-                    {
-                        "data": "durationOfInsurance", "name": "durationOfInsurance", "render": function (data) {
-                            return dateFormat2(data) + " ";
-                        },
-                    },
-                    {
-                        "data": "durationOfInspection_fix", "name": "durationOfInspection", "render": function (data) {
-                            return dateFormat2(data) + " ";
-                        },
-                    },
-                    {
-                        "data": "durationOfMaintainance", "name": "durationOfMaintainance", "render": function (data) {
-                            return dateFormat2(data) + " ";
-                        },
-                    },
                     { "data": "department_name" , "name" : "department_name"},
                     { "data": "statusname", "name" : "statusname"},
                     { "data": "depreciation_estimate", "name": "depreciation_estimate" },
@@ -788,15 +855,15 @@
                 });
         }
 
-     function UpdateEquipment(form) {
-             $("#pre-load").show();
+        function UpdateEquipment(form) {
+            $("#pre-load").show();
 
             $.validator.unobtrusive.parse(form);
-                if($(form).valid()){
+            if ($(form).valid()) {
                 $.ajax({
-                    type : "POST",
-                    url : form.action,
-                    data : $(form).serialize(),
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(),
                     success: function (data) {
                         dataTable.ajax.reload();
                         successAlert('Cập nhật thành công', '');
@@ -811,7 +878,7 @@
                 });
             }
 
-                return false;
+            return false;
         }
 
         function Change(form) {
@@ -836,15 +903,15 @@
 
 
                 return false;
-            }
+        }
 
-            function Atri(form) {
+        function Atri(form) {
 
             $.validator.unobtrusive.parse(form);
 
-                if($(form).valid()){
+            if ($(form).valid()) {
                 $.ajax({
-                    type : "POST",
+                    type: "POST",
                     url: form.action,
                     data: $(form).serialize(),
                     success: function (data) {
@@ -854,8 +921,8 @@
                         $('#cateTB tbody').empty();
                         $('#cateTB').append(options);
 
-                        }
-                    });
+                    }
+                });
             }
 
 
