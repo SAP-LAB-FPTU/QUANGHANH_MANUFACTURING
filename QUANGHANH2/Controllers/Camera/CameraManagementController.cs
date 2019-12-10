@@ -59,7 +59,7 @@ namespace QUANGHANH2.Controllers.Camera
             }
         }
 
-        //[Auther(RightID = "194")]
+        [Auther(RightID = "193")]
         [Route("camera")]
         [HttpGet]
         public ActionResult Index()
@@ -103,7 +103,7 @@ namespace QUANGHANH2.Controllers.Camera
                 return Json(new { success = true, data = equipList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
             }
         }
-
+        [Auther(RightID = "193")]
         [HttpPost]
         public ActionResult Add(string code, string name, string room, string note, string seri, int capacty, string disk_status, string cam_status)
         {
@@ -135,7 +135,7 @@ namespace QUANGHANH2.Controllers.Camera
                 }
             }
         }
-
+        [Auther(RightID = "193")]
         [HttpPost]
         public ActionResult Edit(string code, string name, string room, string note, string seri, int capacty, string disk_status, string cam_status)
         {
