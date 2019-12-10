@@ -146,7 +146,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                             sde.supply_id = supply_id;
                             sde.quantity_plan = quantity;
                             sde.supplyStatus = supplyStatus;
-                            sde.supply_documentary_status = 0;
                             DBContext.Supply_Documentary_Equipment.Add(sde);
                             DBContext.SaveChanges();
                         }

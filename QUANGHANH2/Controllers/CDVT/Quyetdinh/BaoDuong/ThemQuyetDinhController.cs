@@ -60,16 +60,19 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
         [Auther(RightID = "85")]
         [Route("phong-cdvt/bao-duong-chon/add")]
         [HttpPost]
-        public ActionResult GetData(string documentary_code, string out_in_come, string data, string department_id, string reason)
+        public ActionResult AddDocumentary()
         {
             string department_id_to = Request["department_id_to"];
+            string out_in_come = Request["out_in_come"];
+            string data = Request["data"];
+            string reason = Request["reason"];
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
             {
                 try
                 {
                     Documentary documentary = new Documentary();
-                    documentary.documentary_code = documentary_code == "" ? null : documentary_code;
+                    documentary.documentary_code = null;
                     documentary.documentary_type = 2;
                     documentary.department_id_to = department_id_to;
                     documentary.date_created = DateTime.Now;
@@ -103,15 +106,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                         {
                             string supply_id = (string)jObject["supply_id"];
                             int quantity = (int)jObject["quantity"];
-                            string supplyStatus = (string)jObject["supplyStatus"];
                             string department_id_temp = (string)jObject["department_id"];
                             Supply_Documentary_Equipment sde = new Supply_Documentary_Equipment();
                             sde.documentary_id = documentary.documentary_id;
                             sde.equipmentId = equipmentId;
                             sde.supply_id = supply_id;
                             sde.quantity_plan = quantity;
-                            sde.supplyStatus = supplyStatus;
-                            sde.supply_documentary_status = 0;
                             DBContext.Supply_Documentary_Equipment.Add(sde);
                             DBContext.SaveChanges();
                         }

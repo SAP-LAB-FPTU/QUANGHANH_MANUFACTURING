@@ -220,7 +220,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                             List<Supply_Documentary_Equipment> supplies_Moveline = db.Supply_Documentary_Equipment.Where(x => x.documentary_id == documentary.documentary_id && x.equipmentId == id).ToList();
                             foreach (Supply_Documentary_Equipment item in supplies_Moveline)
                             {
-                                if (item.supply_documentary_status == 0)
+                                if (item.equipmentId_dikem == null)
                                 {
                                     Supply_DiKem s = db.Supply_DiKem.Where(x => x.equipmentId == id && x.equipmentId_dikem == item.equipmentId_dikem).FirstOrDefault();
                                     if (s == null)

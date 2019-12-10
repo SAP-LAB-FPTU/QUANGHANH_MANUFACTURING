@@ -134,10 +134,9 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                             Supply_Documentary_Equipment sde = new Supply_Documentary_Equipment();
                             sde.documentary_id = documentary.documentary_id;
                             sde.equipmentId = equipmentId;
-                            sde.supply_id = supply_id;
+                            sde.equipmentId_dikem = supply_id;
                             sde.quantity_plan = quantity;
                             sde.supplyStatus = supplyStatus;
-                            sde.supply_documentary_status = 0;
                             DBContext.Supply_Documentary_Equipment.Add(sde);
                             DBContext.SaveChanges();
                         }
@@ -154,7 +153,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                             sde.supply_id = supply_id;
                             sde.quantity_plan = quantity;
                             sde.supplyStatus = supplyStatus;
-                            sde.supply_documentary_status = 1;
                             DBContext.Supply_Documentary_Equipment.Add(sde);
                             DBContext.SaveChanges();
                         }
