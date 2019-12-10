@@ -8,6 +8,7 @@ using System.Web.Routing;
 using QUANGHANH2.SupportClass;
 using Newtonsoft.Json.Linq;
 using System.Data.Entity;
+using System.Data.SqlClient;
 
 namespace QUANGHANH2.Controllers.CDVT.Work.CaiTien
 {
@@ -45,18 +46,14 @@ namespace QUANGHANH2.Controllers.CDVT.Work.CaiTien
 
                 List<Supply_DiKem> vatTuDiKem = (from s in db.Supply_DiKem
                                                  where listConvert.Contains(s.equipmentId)
-                                                 select new
+                                                 select s).ToList().Select(s => new Supply_DiKem
                                                  {
-                                                     supply_id = s.supply_id,
-                                                     equipmentId = s.equipmentId,
-                                                 }).ToList().Select(s => new Supply_DiKem
-                                                 {
-                                                     supply_id = s.supply_id,
+                                                     equipmentId_dikem = s.equipmentId_dikem,
                                                      equipmentId = s.equipmentId,
                                                  }).OrderBy(l => l.equipmentId).ToList();
 
-                List<Supply> supplies = db.Supplies.ToList();
-                List<Department> departments = db.Departments.ToList();
+                List<Equipment> supplies = db.Equipments.ToList();
+                List <Department> departments = db.Departments.ToList();
                 try
                 {
                     int validate = 1;
@@ -101,7 +98,6 @@ namespace QUANGHANH2.Controllers.CDVT.Work.CaiTien
                 {
                     Documentary documentary = new Documentary();
                     documentary.documentary_type = 7;
-                    documentary.department_id = department_id;
                     documentary.department_id_to = department_id_to;
                     documentary.date_created = DateTime.Now;
                     documentary.person_created = Session["Name"] + "";
@@ -115,6 +111,8 @@ namespace QUANGHANH2.Controllers.CDVT.Work.CaiTien
                     {
                         string equipmentId = (string)item.Value["id"];
                         Documentary_Improve_Detail drd = new Documentary_Improve_Detail();
+                        Equipment e = DBContext.Equipments.Find(equipmentId);
+                        drd.department_id_from = e.department_id;
                         drd.equipment_Improve_status = 0;
                         drd.documentary_id = documentary.documentary_id;
                         drd.equipmentId = equipmentId;

@@ -45,12 +45,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         excelWorksheet.Cells[k, 1].Value = equipList.ElementAt(i).equipmentId;
                         excelWorksheet.Cells[k, 2].Value = equipList.ElementAt(i).equipment_name;
                         excelWorksheet.Cells[k, 3].Value = equipList.ElementAt(i).supplier;
-                        excelWorksheet.Cells[k, 4].Value = equipList.ElementAt(i).date_import.ToString("dd/MM/yyyy");
+                        excelWorksheet.Cells[k, 4].Value = equipList.ElementAt(i).date_import.Value.ToString("dd/MM/yyyy");
                         excelWorksheet.Cells[k, 5].Value = equipList.ElementAt(i).depreciation_estimate;
                         excelWorksheet.Cells[k, 6].Value = equipList.ElementAt(i).depreciation_present;
                         excelWorksheet.Cells[k, 7].Value = equipList.ElementAt(i).durationOfInspection_fix;
-                        excelWorksheet.Cells[k, 8].Value = equipList.ElementAt(i).durationOfInsurance.ToString("dd/MM/yyyy");
-                        excelWorksheet.Cells[k, 9].Value = equipList.ElementAt(i).usedDay.ToString("dd/MM/yyyy");
+                        excelWorksheet.Cells[k, 8].Value = equipList.ElementAt(i).durationOfInsurance.Value.ToString("dd/MM/yyyy");
+                        excelWorksheet.Cells[k, 9].Value = equipList.ElementAt(i).usedDay.Value.ToString("dd/MM/yyyy");
                         excelWorksheet.Cells[k, 10].Value = equipList.ElementAt(i).total_operating_hours;
                         excelWorksheet.Cells[k, 11].Value = equipList.ElementAt(i).statusname;
                         excelWorksheet.Cells[k, 12].Value = equipList.ElementAt(i).fabrication_number;
@@ -492,12 +492,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
 
                         Equipment_Inspection ei = new Equipment_Inspection();
                         ei.equipmentId = emp.equipmentId;
-                        ei.inspect_date = emp.durationOfInspection;
+                        ei.inspect_date = emp.durationOfInspection.Value;
                         db.Equipment_Inspection.Add(ei);
                         Equipment_Insurance ins = new Equipment_Insurance();
                         ins.equipmentId = emp.equipmentId;
                         ins.insurance_start_date = DateTime.Now;
-                        ins.insurance_end_date = emp.durationOfInsurance;
+                        ins.insurance_end_date = emp.durationOfInsurance.Value;
                         db.Equipment_Insurance.Add(ins);
                         db.SaveChanges();
 
@@ -567,7 +567,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         //durationOfInsurance
                         date = insua.Split('/');
                         date_fix = date[1] + "/" + date[0] + "/" + date[2];
-                        if (emp.durationOfInsurance.CompareTo(Convert.ToDateTime(date_fix)) != 0)
+                        if (emp.durationOfInsurance.Value.CompareTo(Convert.ToDateTime(date_fix)) != 0)
                         {
                             Equipment_Insurance ins = new Equipment_Insurance();
                             ins.equipmentId = emp.equipmentId;
@@ -638,7 +638,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                     emp = new Equipment();
                 }
                 ViewBag.e = emp;
-                emp.date_import = DateTime.Parse(emp.date_import.ToString("dd-MMM-yyyy"));
+                emp.date_import = DateTime.Parse(emp.date_import.Value.ToString("dd-MMM-yyyy"));
                 List<SelectListItem> listStatus = new List<SelectListItem>();
                 var statsu = db.Status.ToList<Status>();
                 foreach (Status item in statsu)

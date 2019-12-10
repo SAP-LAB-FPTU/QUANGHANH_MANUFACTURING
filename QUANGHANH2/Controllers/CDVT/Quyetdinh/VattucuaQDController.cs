@@ -171,7 +171,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
                                 where s.equipmentId.Equals(equipmentId)
                                 select new
                                 {
-                                    supply_id = s.supply_id,
+                                    supply_id = s.equipmentId_dikem,
                                     quantity = s.quantity
                                 }).ToList();
             return Json(supply_DiKem);

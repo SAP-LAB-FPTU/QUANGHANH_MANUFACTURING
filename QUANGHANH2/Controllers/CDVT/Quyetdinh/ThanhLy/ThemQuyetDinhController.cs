@@ -95,7 +95,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                 {
                     Documentary documentary = new Documentary();
                     documentary.documentary_type = 5;
-                    documentary.department_id = department_id;
                     documentary.department_id_to = "CDVT";
                     documentary.date_created = DateTime.Now;
                     documentary.person_created = Session["Name"] + "";
@@ -111,6 +110,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                         string buyer = (string)item.Value["buyer"];
                         string equipment_liquidation_reason = (string)item.Value["equipment_liquidation_reason"];
                         Documentary_liquidation_details drd = new Documentary_liquidation_details();
+                        Equipment e = DBContext.Equipments.Find(equipmentId);
+                        drd.department_id_from = e.department_id;
                         drd.equipment_liquidation_status = 0;
                         drd.buyer = buyer;
                         drd.equipment_liquidation_reason = equipment_liquidation_reason;
@@ -124,9 +125,9 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                             Supply_Documentary_Equipment s = new Supply_Documentary_Equipment();
                             s.documentary_id = documentary.documentary_id;
                             s.equipmentId = equipmentId;
-                            s.quantity_plan = supply.quantity;
-                            s.supply_id = supply.supply_id;
+                            s.equipmentId_dikem = supply.equipmentId_dikem;
                             s.supplyStatus = supply.note;
+                            s.quantity_plan = supply.quantity;
                             DBContext.Supply_Documentary_Equipment.Add(s);
                             DBContext.SaveChanges();
                         }

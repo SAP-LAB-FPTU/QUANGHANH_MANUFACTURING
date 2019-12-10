@@ -8,63 +8,51 @@
         <div class="row">
             <div class="col m12">
                 <h3 class="center"><b>CHI TIẾT CẢI TIẾN</b></h3>
-                @if (ViewBag.validate == 0)
-                {
-                    <h4>Bạn đã chọn 2 hoặc nhiều thiết bị khác vị trí, xin vui lòng <a href="/phong-cdvt/cai-tien">quay lại</a> </h4>
-                }
-                else
-                {
-                    <form action="/phong-cdvt/cai-tien-chon/add" method="post" id="myform">
-                        <div class="col s3 m3">
-                            <label for="department_id_from">Vị trí ban đầu</label>
-                            <input id="department_id_from" class="form-control" type="text" disabled value="@ViewBag.department_name" />
-                            <input name="department_id" id="depa-id" type="hidden" readonly value="@ViewBag.department_id" />
-                        </div>
-                        <div class="col s3 m3">
-                            <textarea name="data" hidden value="" id="json"></textarea>
-                            <label for="department_id_to">Cải tiến tại <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
-                            <input id="department_id_to" name="department_id_to" type="text" required class='form-control' list="departmentName" value="@ViewBag.department_id" />
-                        </div>
-                        <div class="col s3 m3">
-                            <label for="out_in_come">Nguồn vốn <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
-                            <input id="out_in_come" name="out_in_come" class="form-control" type="text" />
-                        </div>
-                        <div class="col s3 m3">
-                            <label for="reason">Nội dung <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
-                            <input id="reason" name="reason" class="form-control" type="text" required />
-                        </div>
-                        <div class="col s12 table_container">
-                            <table id="mytablevattu" class="striped table-responsive centered table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th class="center-align">Mã thiết bị<span></span></th>
-                                        <th class="center-align">Tên thiết bị<span></span></th>
-                                        <th class="center-align">Tình trạng hiện tại</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @for (int i = 0; i < ViewBag.DataThietBi.Count; i++)
-                                    {
-                                        <tr id="@i">
-                                            <td>@ViewBag.DataThietBi[i].equipmentId</td>
-                                            <td>@ViewBag.DataThietBi[i].equipment_name</td>
-                                            <td>@ViewBag.DataThietBi[i].statusname</td>
-                                            <td>
-                                                <a class="btn blue darken-2 modal-trigger open-Modal" data-id="@i" href="#mylist">Vật tư cải tiến</a>
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </form>
-                    <div class="col l12 m12 s12 center">
-                        <a id="export-button" class="btn blue darken-2">Xuất quyết định</a>
-                        <a id="submit" class="btn blue darken-2 modal-trigger">Xác nhận cải tiến</a>
-                        <a href="cai-tien" class="btn blue darken-2 ">Quay lại</a>
+                <form action="/phong-cdvt/cai-tien-chon/add" method="post" id="myform">
+                    <div class="col s3 m3">
+                        <textarea name="data" hidden value="" id="json"></textarea>
+                        <label for="department_id_to">Cải tiến tại <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
+                        <input id="department_id_to" name="department_id_to" type="text" required class='form-control' list="departmentName" value="@ViewBag.department_id" />
                     </div>
-                }
+                    <div class="col s3 m3">
+                        <label for="out_in_come">Nguồn vốn <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
+                        <input id="out_in_come" name="out_in_come" class="form-control" type="text" />
+                    </div>
+                    <div class="col s3 m3">
+                        <label for="reason">Nội dung <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
+                        <input id="reason" name="reason" class="form-control" type="text" required />
+                    </div>
+                    <div class="col s12 table_container">
+                        <table id="mytablevattu" class="striped table-responsive centered table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="center-align">Mã thiết bị<span></span></th>
+                                    <th class="center-align">Tên thiết bị<span></span></th>
+                                    <th class="center-align">Tình trạng hiện tại</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < ViewBag.DataThietBi.Count; i++)
+                                {
+                                    <tr id="@i">
+                                        <td>@ViewBag.DataThietBi[i].equipmentId</td>
+                                        <td>@ViewBag.DataThietBi[i].equipment_name</td>
+                                        <td>@ViewBag.DataThietBi[i].statusname</td>
+                                        <td>
+                                            <a class="btn blue darken-2 modal-trigger open-Modal" data-id="@i" href="#mylist">Vật tư cải tiến</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+                <div class="col l12 m12 s12 center">
+                    <a id="export-button" class="btn blue darken-2">Xuất quyết định</a>
+                    <a id="submit" class="btn blue darken-2 modal-trigger">Xác nhận cải tiến</a>
+                    <a href="cai-tien" class="btn blue darken-2 ">Quay lại</a>
+                </div>
             </div>
         </div>
     </div>
@@ -117,9 +105,9 @@
 </div>
 
 <datalist id="supplyID">
-    @foreach (var item in ViewBag.Supplies)
+    @foreach (QUANGHANH2.Models.Equipment item in ViewBag.Supplies)
     {
-        <option value="@item.supply_id">@item.supply_name</option>
+        <option value="@item.equipmentId">@item.equipment_name</option>
     }
 </datalist>
 
@@ -222,7 +210,7 @@
             for (var j = 0; j < vatTuDiKem.length; j++) {
                 if (vatTuDiKem[j].equipmentId == thietbi.id) {
                     var temp = {};
-                    temp.supply_id = vatTuDiKem[j].supply_id;
+                    temp.supply_id = vatTuDiKem[j].equipmentId_dikem;
                     temp.quantity = 0;
                     temp.note = "";
                     temp.department_id = "@ViewBag.department_id";

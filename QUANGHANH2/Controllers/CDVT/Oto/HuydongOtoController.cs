@@ -143,12 +143,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                         excelWorksheet.Cells[k, 3].Value = equipList.ElementAt(i).sokhung;
                         excelWorksheet.Cells[k, 4].Value = equipList.ElementAt(i).somay;
                         excelWorksheet.Cells[k, 5].Value = equipList.ElementAt(i).supplier;
-                        excelWorksheet.Cells[k, 6].Value = equipList.ElementAt(i).date_import.ToString("dd/MM/yyyy");
+                        excelWorksheet.Cells[k, 6].Value = equipList.ElementAt(i).date_import.Value.ToString("dd/MM/yyyy");
                         excelWorksheet.Cells[k, 7].Value = equipList.ElementAt(i).depreciation_estimate;
                         excelWorksheet.Cells[k, 8].Value = equipList.ElementAt(i).depreciation_present;
                         excelWorksheet.Cells[k, 9].Value = equipList.ElementAt(i).durationOfInspection_fix;
-                        excelWorksheet.Cells[k, 10].Value = equipList.ElementAt(i).durationOfInsurance.ToString("dd/MM/yyyy");
-                        excelWorksheet.Cells[k, 11].Value = equipList.ElementAt(i).usedDay.ToString("dd/MM/yyyy");
+                        excelWorksheet.Cells[k, 10].Value = equipList.ElementAt(i).durationOfInsurance.Value.ToString("dd/MM/yyyy");
+                        excelWorksheet.Cells[k, 11].Value = equipList.ElementAt(i).usedDay.Value.ToString("dd/MM/yyyy");
                         excelWorksheet.Cells[k, 12].Value = equipList.ElementAt(i).total_operating_hours;
                         excelWorksheet.Cells[k, 13].Value = equipList.ElementAt(i).current_Status;
                         excelWorksheet.Cells[k, 14].Value = equipList.ElementAt(i).mark_code;
@@ -409,7 +409,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                         }
                         Equipment_Inspection ei = new Equipment_Inspection();
                         ei.equipmentId = emp.equipmentId;
-                        ei.inspect_date = emp.durationOfInspection;
+                        ei.inspect_date = emp.durationOfInspection.Value;
                         db.Equipment_Inspection.Add(ei);
                         db.SaveChanges();
                         dbc.Commit();

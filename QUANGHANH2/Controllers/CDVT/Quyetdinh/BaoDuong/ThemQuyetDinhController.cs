@@ -51,34 +51,9 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
 
                 List<Supply> supplies = db.Supplies.ToList();
                 List<Department> departments = db.Departments.ToList();
-                try
-                {
-                    int validate = 1;
-                    var department_id = result[0].department_id;
-                    foreach (var item in result)
-                    {
-                        if (!item.department_id.Equals(department_id))
-                        {
-                            validate = 0;
-                            break;
-                        }
-                    }
-                    Department department = db.Departments.Find(department_id);
-                    ViewBag.validate = validate;
-                    ViewBag.department_name = department.department_name;
-                    ViewBag.department_id = department.department_id;
-                    ViewBag.Supplies = supplies;
-                    ViewBag.Departments = departments;
-
-            } catch (Exception e)
-            {
-                ViewBag.alert = true;
-                TempData["shortMessage"] = true;
-                return Redirect("bao-duong");
-                throw e;
+                ViewBag.Supplies = supplies;
+                ViewBag.Departments = departments;
             }
-
-        }
             return View("/Views/CDVT/Work/baoduong_va_chon.cshtml");
         }
 
@@ -96,7 +71,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                     Documentary documentary = new Documentary();
                     documentary.documentary_code = documentary_code == "" ? null : documentary_code;
                     documentary.documentary_type = 2;
-                    documentary.department_id = department_id;
                     documentary.department_id_to = department_id_to;
                     documentary.date_created = DateTime.Now;
                     documentary.person_created = Session["Name"] + "";
@@ -114,6 +88,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                         string datestring = (string)item.Value["finish_date_plan"];
                         DateTime finish_date_plan = DateTime.ParseExact(datestring, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                         Documentary_maintain_details drd = new Documentary_maintain_details();
+                        Equipment e = DBContext.Equipments.Find(equipmentId);
+                        drd.department_id_from = e.department_id;
                         drd.equipment_maintain_status = 0;
                         drd.maintain_type = repair_type;
                         drd.equipment_maintain_reason = repair_reason;
@@ -142,9 +118,9 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                     }
                     DBContext.SaveChanges();
                     transaction.Commit();
-                        return Redirect("/phong-cdvt/quyet-dinh/bao-duong");
-                    
-                
+                    return Redirect("/phong-cdvt/quyet-dinh/bao-duong");
+
+
                 }
                 catch (Exception e)
                 {

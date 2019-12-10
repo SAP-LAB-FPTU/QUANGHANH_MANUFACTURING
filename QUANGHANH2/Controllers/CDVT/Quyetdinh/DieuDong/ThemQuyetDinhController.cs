@@ -97,7 +97,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                 {
                     Documentary documentary = new Documentary();
                     documentary.documentary_type = 3;
-                    documentary.department_id = department_id;
                     documentary.department_id_to = department_id_to;
                     documentary.date_created = DateTime.Now;
                     documentary.person_created = Session["Name"] + "";
@@ -115,6 +114,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                         string datestring = (string)item.Value["date_to"];
                         DateTime date_to = DateTime.ParseExact(datestring, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                         Documentary_moveline_details drd = new Documentary_moveline_details();
+                        Equipment e = DBContext.Equipments.Find(equipmentId);
+                        drd.department_id_from = e.department_id;
                         drd.equipment_moveline_status = 0;
                         drd.department_detail = department_detail;
                         drd.date_to = date_to;
