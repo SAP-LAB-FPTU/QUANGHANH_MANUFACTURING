@@ -17,7 +17,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
     public class Xincapvattu1Controller : Controller
     {
         // GET: Xincapvattu1
-        [Auther(RightID = "33,179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "33,27,179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phan-xuong/xin-cap-vat-tu-sctx")]
         public ActionResult Index()
         {
@@ -27,8 +27,6 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
             return View("/Views/CDVT/Vattu/Xincapvattulan1.cshtml");
         }
 
-
-        [Auther(RightID = "33,179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phan-xuong/xin-cap-vat-tu-sctx/getinformation")]
         [HttpPost]
         public ActionResult GetInformation()
@@ -73,7 +71,6 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
                 return new HttpStatusCodeResult(400);
             } 
         }
-        [Auther(RightID = "33,179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phan-xuong/xin-cap-vat-tu-sctx/getListSupply")]
         [HttpPost]
         public JsonResult getListSupply(String equipmentId)

@@ -43,7 +43,7 @@ namespace QUANGHANH2.Controllers.Camera
         }
 
 
-        //[Auther(RightID = "194")]
+        [Auther(RightID = "193")]
         [Route("camera/nghiem-thu")]
         public ActionResult Index()
         {
@@ -187,7 +187,7 @@ namespace QUANGHANH2.Controllers.Camera
                 return Json(new { success = true, data = docList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
             }
         }
-
+        [Auther(RightID = "193")]
         [HttpPost]
         [Route("camera/nghiem-thu/Edit")]
         public ActionResult Edit(string id, string documentary_code, string documentary_id)
