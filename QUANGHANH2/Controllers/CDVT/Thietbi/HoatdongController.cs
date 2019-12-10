@@ -183,6 +183,56 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
 
         }
 
+        public class EquipTempSearch
+        {
+            public string equipmentId { get; set; }
+        }
+
+        [HttpPost]
+        public ActionResult ChangeID(string id, string ck)
+        {
+            string sql = "";
+            if (ck.Equals("0"))
+            {
+                sql = @"select e.equipmentId
+                        from Equipment e
+                        where e.equipmentId like @id
+                        except
+                        select e.equipmentId
+                        from Equipment e join Car c on e.equipmentId = c.equipmentId";
+            } else if (ck.Equals("1"))
+            {
+                sql = @"select e.equipment_name as 'equipmentId'
+                        from Equipment e
+                        where e.equipment_name like @id
+                        except
+                        select e.equipment_name
+                        from Equipment e join Car c on e.equipmentId = c.equipmentId";
+            } else if (ck.Equals("2"))
+            {
+                sql = @"select ec.Equipment_category_name as 'equipmentId'
+                        from Equipment e join Equipment_category ec on e.Equipment_category_id = ec.Equipment_category_id
+                        where ec.Equipment_category_name like @id
+                        except
+                        select ec.Equipment_category_name
+                        from Equipment e join Car c on e.equipmentId = c.equipmentId
+	                        join Equipment_category ec on e.Equipment_category_id = ec.Equipment_category_id";
+            } else if(ck.Equals("3"))
+            {
+                sql = @"select e.supplier as 'equipmentId'
+                        from Equipment e
+                        where e.supplier like @id
+                        except
+                        select e.supplier
+                        from Equipment e join Car c on e.equipmentId = c.equipmentId";
+            }
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            List<EquipTempSearch> list = db.Database.SqlQuery<EquipTempSearch>(sql, new SqlParameter("id", "%" + id + "%")).Take(10).ToList();
+            return Json(new { success = true, id = list}, JsonRequestBehavior.AllowGet);
+        }
+
+        
+
 
         [HttpPost]
         public ActionResult Atri(string name)
