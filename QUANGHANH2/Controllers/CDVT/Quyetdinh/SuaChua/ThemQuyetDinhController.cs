@@ -96,7 +96,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                 {
                     Documentary documentary = new Documentary();
                     documentary.documentary_type = 1;
-                    documentary.department_id = department_id;
                     documentary.department_id_to = department_id_to;
                     documentary.date_created = DateTime.Now;
                     documentary.person_created = Session["Name"]+"";
@@ -114,6 +113,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                         string datestring = (string)item.Value["finish_date_plan"];
                         DateTime finish_date_plan = DateTime.ParseExact(datestring, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                         Documentary_repair_details drd = new Documentary_repair_details();
+                        Equipment e = DBContext.Equipments.Find(equipmentId);
+                        drd.department_id_from = e.department_id;
                         drd.equipment_repair_status = 0;
                         drd.repair_type = repair_type;
                         drd.repair_reason = repair_reason;
@@ -135,7 +136,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                             sde.supply_id = supply_id;
                             sde.quantity_plan = quantity;
                             sde.supplyStatus = supplyStatus;
-                            sde.supply_documentary_status = 0;
                             DBContext.Supply_Documentary_Equipment.Add(sde);
                             DBContext.SaveChanges();
                         }

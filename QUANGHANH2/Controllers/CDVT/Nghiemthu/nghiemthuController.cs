@@ -220,16 +220,16 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                             List<Supply_Documentary_Equipment> supplies_Moveline = db.Supply_Documentary_Equipment.Where(x => x.documentary_id == documentary.documentary_id && x.equipmentId == id).ToList();
                             foreach (Supply_Documentary_Equipment item in supplies_Moveline)
                             {
-                                if (item.supply_documentary_status == 0)
+                                if (item.equipmentId_dikem == null)
                                 {
-                                    Supply_DiKem s = db.Supply_DiKem.Where(x => x.equipmentId == id && x.supply_id == item.supply_id).FirstOrDefault();
+                                    Supply_DiKem s = db.Supply_DiKem.Where(x => x.equipmentId == id && x.equipmentId_dikem == item.equipmentId_dikem).FirstOrDefault();
                                     if (s == null)
                                     {
                                         s = new Supply_DiKem();
                                         s.equipmentId = id;
                                         s.note = item.supplyStatus;
                                         s.quantity = item.quantity_in;
-                                        s.supply_id = item.supply_id;
+                                        s.equipmentId_dikem = item.equipmentId_dikem;
                                         db.Supply_DiKem.Add(s);
                                     }
                                     else
@@ -281,14 +281,14 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                             List<Supply_Documentary_Equipment> supplies = db.Supply_Documentary_Equipment.Where(x => x.documentary_id == documentary.documentary_id && x.equipmentId == id).ToList();
                             foreach (Supply_Documentary_Equipment item in supplies)
                             {
-                                Supply_DiKem s = db.Supply_DiKem.Where(x => x.equipmentId == id && x.supply_id == item.supply_id).FirstOrDefault();
+                                Supply_DiKem s = db.Supply_DiKem.Where(x => x.equipmentId == id && x.equipmentId_dikem == item.equipmentId_dikem).FirstOrDefault();
                                 if (s == null)
                                 {
                                     s = new Supply_DiKem();
                                     s.equipmentId = id;
                                     s.note = item.supplyStatus;
                                     s.quantity = item.quantity_used;
-                                    s.supply_id = item.supply_id;
+                                    s.equipmentId_dikem = item.equipmentId_dikem;
                                     db.Supply_DiKem.Add(s);
                                 }
                                 else

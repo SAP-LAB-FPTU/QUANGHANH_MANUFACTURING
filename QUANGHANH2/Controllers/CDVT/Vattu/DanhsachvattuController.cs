@@ -7,11 +7,42 @@ using System.Linq.Dynamic;
 using System.Web.Mvc;
 using QUANGHANH2.SupportClass;
 using System.Data.Entity;
+using OfficeOpenXml;
+using System.Threading.Tasks;
+using System.Web.Hosting;
+using System.Web.Routing;
+using System.Globalization;
 
 namespace QUANGHANH2.Controllers.CDVT.Vattu
 {
     public class DanhsachvattuController : Controller
     {
+        public class EquipTempSearch
+        {
+            public string equipmentId { get; set; }
+        }
+
+        [HttpPost]
+        public ActionResult ChangeID(string id, string ck)
+        {
+            string sql = "";
+            if (ck.Equals("0"))
+            {
+                sql = @"select s.supply_id as 'equipmentId'
+                        from Supply s
+                        where s.supply_id like @id";
+            }
+            else if (ck.Equals("1"))
+            {
+                sql = @"select s.supply_name as 'equipmentId'
+                        from Supply s
+                        where s.supply_name like @id";
+            }
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            List<EquipTempSearch> list = db.Database.SqlQuery<EquipTempSearch>(sql, new SqlParameter("id", "%" + id + "%")).Take(10).ToList();
+            return Json(new { success = true, id = list }, JsonRequestBehavior.AllowGet);
+        }
+
         [Auther(RightID = "172")]
         [Route("phong-cdvt/danh-sach-vat-tu")]
         [HttpGet]

@@ -17,10 +17,9 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TieuChi()
         {
-            this.KeHoach_TieuChi_TheoNgay = new HashSet<KeHoach_TieuChi_TheoNgay>();
-            this.KeHoach_TieuChi_TheoThang = new HashSet<KeHoach_TieuChi_TheoThang>();
+            this.KeHoachSanXuatNams = new HashSet<KeHoachSanXuatNam>();
             this.PhongBan_TieuChi = new HashSet<PhongBan_TieuChi>();
-            this.ThucHien_TieuChi_TheoNgay = new HashSet<ThucHien_TieuChi_TheoNgay>();
+            this.TinhChat_TieuChi = new HashSet<TinhChat_TieuChi>();
         }
     
         public int MaTieuChi { get; set; }
@@ -29,13 +28,11 @@ namespace QUANGHANH2.Models
         public Nullable<int> MaNhomTieuChi { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<KeHoach_TieuChi_TheoNgay> KeHoach_TieuChi_TheoNgay { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<KeHoach_TieuChi_TheoThang> KeHoach_TieuChi_TheoThang { get; set; }
+        public virtual ICollection<KeHoachSanXuatNam> KeHoachSanXuatNams { get; set; }
         public virtual NhomTieuChi NhomTieuChi { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PhongBan_TieuChi> PhongBan_TieuChi { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ThucHien_TieuChi_TheoNgay> ThucHien_TieuChi_TheoNgay { get; set; }
+        public virtual ICollection<TinhChat_TieuChi> TinhChat_TieuChi { get; set; }
     }
 }

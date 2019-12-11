@@ -18,7 +18,7 @@ namespace QUANGHANH2.Controllers.Camera
 {
     public class SucoCamController : Controller
     {
-        //[Auther(RightID = "194")]
+        [Auther(RightID = "193")]
         [Route("camera/su-co")]
         [HttpGet]
         public ActionResult Index()
@@ -30,7 +30,7 @@ namespace QUANGHANH2.Controllers.Camera
             ViewBag.departments = departments;
             return View("/Views/Camera/SuCo.cshtml");
         }
-
+        [Auther(RightID = "193")]
         [Route("camera/su-co/add")]
         [HttpPost]
         public ActionResult Add(string equipment, string reason, int yearStart, int monthStart, int dayStart, int hourStart, int minuteStart, int yearEnd, int monthEnd, int dayEnd, int hourEnd, int minuteEnd, string checkBox)
@@ -78,7 +78,7 @@ namespace QUANGHANH2.Controllers.Camera
                 }
             }
         }
-
+        [Auther(RightID = "193")]
         [Route("camera/su-co/edit")]
         [HttpPost]
         public ActionResult Edit(int incident_id, string equipment, string department, string reason, string detail, int yearStart, int monthStart, int dayStart, int hourStart, int minuteStart, int yearEnd, int monthEnd, int dayEnd, int hourEnd, int minuteEnd)
@@ -114,7 +114,7 @@ namespace QUANGHANH2.Controllers.Camera
                 }
             }
         }
-
+        [Auther(RightID = "193")]
         [Route("camera/su-co/update")]
         [HttpPost]
         public ActionResult Update(int incident_id, string reason, int year, int month, int day, int hour, int minute)

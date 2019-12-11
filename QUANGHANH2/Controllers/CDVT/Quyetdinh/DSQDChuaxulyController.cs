@@ -43,8 +43,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Cap_nhat
 
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             List<DocumentaryDB> incidents;
-            string query = "SELECT docu.*, docu.[out/in_come] as out_in_come, depa.department_name FROM Documentary docu inner join Department depa on docu.department_id = depa.department_id" +
-                " where docu.documentary_code IS NOT NULL AND docu.documentary_status != 3 AND docu.department_id_to = @departid AND ";
+            string query = "SELECT docu.*, docu.[out/in_come] as out_in_come, depa.department_name FROM Documentary docu inner join Department depa on docu.department_id_to = depa.department_id" +
+                " where docu.documentary_code IS NOT NULL AND docu.documentary_type != 8 AND docu.documentary_status != 3 AND docu.department_id_to = @departid AND ";
             if (!documentary_id.Equals("") || !type.Equals("0") || !department.Equals("") || !reason.Equals("") || !status.Equals("0") || !(dateStart.Equals("") || dateEnd.Equals("")))
             {
                 if (!dateStart.Equals("") && !dateEnd.Equals(""))

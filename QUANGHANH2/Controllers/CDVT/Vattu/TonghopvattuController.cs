@@ -24,7 +24,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
             _repository = repo;
         }
 
-        [Auther(RightID = "35")]
+        [Auther(RightID = "28")]
         [Route("phong-cdvt/tong-hop-vat-tu")]
         public ActionResult Index()
         { using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
@@ -78,7 +78,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
             }, JsonRequestBehavior.AllowGet);
         }
 
-        [Auther(RightID = "35")]
+        [Auther(RightID = "28")]
         [HttpGet]
         [Route("phong-cdvt/tong-hop-vat-tu/summary")]
         public ActionResult Summary(string DepartmentId, string SupplyId, string SupplyName, string MonthPicked)
@@ -102,7 +102,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
             }, JsonRequestBehavior.AllowGet);
         }
 
-        [Auther(RightID = "35")]
+        [Auther(RightID = "28")]
         [HttpPost]
         [Route("phong-cdvt/tong-hop-vat-tu/export")]
         public ActionResult Export(List<TonghopvattuSummaryModelView> vattus)

@@ -51,7 +51,7 @@ namespace QUANGHANH2.Controllers
         [HttpPost]
         public JsonResult Index(DataTableAjaxPostModel model)
         {
-            var users = db.Database.SqlQuery<Accountdb>("select  a.ID,a.Username,a.Name,d.department_name from Account a inner join NhanVien nv on a.NVID = nv.MaNV inner join Department d on d.department_id = nv.MaPhongBan").ToList();
+            var users = db.Database.SqlQuery<Accountdb>("select  a.ID,a.Username,a.Name,d.department_name from Account a inner join NhanVien nv on a.NVID = nv.MaNV inner join Department d on d.department_id = nv.MaPhongBan order by d.department_name").ToList();
             var search = users.ToList();
             int CurrentUser = int.Parse(Session["UserID"].ToString());
             if (CurrentUser != 14)
@@ -74,7 +74,7 @@ namespace QUANGHANH2.Controllers
                 search = search.Where(a => a.Name.Contains(searchValue)).ToList();
             }
 
-            var sorting = search.OrderBy(a => a.ID);
+            var sorting = search.OrderBy(a => a.department_name);
             if (model.order[0].column == 2)
             {
                 if (model.order[0].dir.Equals("asc"))
@@ -468,17 +468,8 @@ namespace QUANGHANH2.Controllers
             }
             if (!String.IsNullOrEmpty(NVID))
             {
-                bool isMaNV = false;
-                var MaNV = db.NhanViens.ToList();
-                foreach (var item in MaNV)
-                {
-                    if (NVID.Equals(item.MaNV))
-                    {
-                        isMaNV = true;
-                        break;
-                    }
-                }
-                if (!isMaNV)
+                var nv = db.NhanViens.Where(x => x.MaNV.Equals(NVID)).FirstOrDefault();
+                if (nv == null)
                 {
                     return Json(new Result()
                     {
@@ -486,7 +477,8 @@ namespace QUANGHANH2.Controllers
                         Data = "Mã nhân viên <strong style='color:black; '>" + NVID + "</strong> không tồn tại!"
                     }, JsonRequestBehavior.AllowGet);
                 }
-                if (db.Accounts.Where(x => x.NVID == NVID).Count() != 0)
+                var ac = db.Accounts.Where(x => x.NVID == NVID && x.ID != ID).FirstOrDefault();
+                if (ac != null)
                 {
                     return Json(new Result()
                     {

@@ -18,6 +18,44 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
 {
     public class SucoThietbiController : Controller
     {
+        public class EquipTempSearch
+        {
+            public string equipmentId { get; set; }
+        }
+
+        [HttpPost]
+        public ActionResult ChangeID(string id, string ck)
+        {
+            string sql = "";
+            if (ck.Equals("0"))
+            {
+                sql = @"select s.equipmentId
+                        from Incident s
+                        where s.equipmentId like @id";
+            }
+            else if (ck.Equals("1"))
+            {
+                sql = @"select e.equipment_name as 'equipmentId'
+                        from Incident s join Equipment e on s.equipmentId = e.equipmentId
+                        where e.equipment_name like @id";
+            }
+            else if (ck.Equals("2"))
+            {
+                sql = @"select s.detail_location as 'equipmentId'
+                        from Incident s
+                        where s.detail_location like @id";
+            }
+            else if (ck.Equals("3"))
+            {
+                sql = @"select s.reason as 'equipmentId'
+                        from Incident s
+                        where s.reason like @id";
+            }
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            List<EquipTempSearch> list = db.Database.SqlQuery<EquipTempSearch>(sql, new SqlParameter("id", "%" + id + "%")).Take(10).ToList();
+            return Json(new { success = true, id = list }, JsonRequestBehavior.AllowGet);
+        }
+
         [Auther(RightID = "19,179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phong-cdvt/su-co")]
         [HttpGet]
