@@ -20,7 +20,9 @@ namespace QUANGHANH2.Models
         public int documentary_id { get; set; }
         public string equipmentId { get; set; }
         public string equipment_moveline_reason { get; set; }
+        public string department_id_from { get; set; }
     
+        public virtual Department Department { get; set; }
         public virtual Documentary Documentary { get; set; }
         public virtual Equipment Equipment { get; set; }
     }

@@ -23,10 +23,11 @@ namespace QUANGHANH2.Models
         public int quantity_used { get; set; }
         public int quantity_out { get; set; }
         public string supplyStatus { get; set; }
-        public int supply_documentary_status { get; set; }
+        public string equipmentId_dikem { get; set; }
     
         public virtual Documentary Documentary { get; set; }
         public virtual Equipment Equipment { get; set; }
+        public virtual Equipment Equipment1 { get; set; }
         public virtual Supply Supply { get; set; }
     }
 }
