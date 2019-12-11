@@ -30,32 +30,32 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col l3 m3 s10">
+                            @*<div class="col l3 m3 s10">
                                 <div class="row">
                                     <div class="col l10 m10 s10 input-field">
                                         <input type="text" placeholder="Tìm kiếm theo mã vật tư" class='form-control' id="supplyId"
                                                multiple />
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                             <div class="col l3 m3 s10">
                                 <div class="col l10 m10 s10 input-field">
-                                    <input type="text" placeholder="Tìm kiếm theo tên vật tư" class='form-control' id="supplyName"
+                                    <input list="supply_name" type="text" placeholder="Tìm kiếm theo tên vật tư" class='form-control' id="supplyName"
                                            multiple />
                                 </div>
                             </div>
                             <div class="col l3 m3 s10">
                                 <div class="col l10 m10 s10 offset-l1 input-field">
                                     <h3>
-                                    <i class="fas fa-calendar-alt icon" style="margin-left: 50px !important"></i>
-                                    <input type="text"
-                                           id="txtmonth"
-                                           class="datepicker-here center"
-                                           data-language='vi'
-                                           data-min-view="months"
-                                           data-view="months"
-                                           data-date-format="MM yyyy" />
-                                        </h3>
+                                        <i class="fas fa-calendar-alt icon" style="margin-left: 50px !important"></i>
+                                        <input type="text"
+                                               id="txtmonth"
+                                               class="datepicker-here center"
+                                               data-language='vi'
+                                               data-min-view="months"
+                                               data-view="months"
+                                               data-date-format="MM yyyy" />
+                                    </h3>
                                 </div>
                             </div>
                         </div>
@@ -78,15 +78,16 @@
                 <div id="chitiet">
                     <div class="row">
                         <div class="col s12 table_container" id="table-wrapper2">
+                            <br />
+                            <a id="export_exceldetail" class="btn blue col s2"> Xuất ra Excel</a>
                             <table id="tbl_detail" class="striped centered table-bordered mytable" width="100%">
                                 <thead>
                                     <tr>
                                         <th class="center-align">STT</th>
-                                        <th class="center-align">Mã vật tư</th>
+
                                         <th class="center-align">Tên vật tư</th>
                                         <th class="center-align">ĐVT</th>
-                                        <th class="center-align">Định mức chung</th>
-                                        <th class="center-align">Số lượng cấp</th>
+                                       <th class="center-align">Số lượng cấp</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -109,7 +110,7 @@
                                     <tbody>
                                         <tr>
                                             <td id="total_curr_price" style="color:purple; font-size:20px; text-align: center;">0 VNĐ</td>
-                                            <td id="total_esti_price"><input type="number" min="0"/></td>
+                                            <td id="total_esti_price"><input type="number" min="0" /></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -134,6 +135,20 @@
         </div>
     </div>
 </div>
+<datalist id="supply_name">
+</datalist>
+	@*@using (Html.BeginForm("Change", "Tonghopvattu", FormMethod.Post, new
+{
+    id = "ChangeNameForm",
+    enctype = "multipart/form-data",
+    onSubmit = "return ChangeID(this);",
+    data_restUrl = Url.Action("Change", "Tonghopvattu", new { id = "" })
+}))
+{
+    <input type="hidden" id="id-s" name="id" value=" " />
+    <input type="hidden" id="ck" name="ck" value="0" />
+}*@
+
 <script src="~/js/Briefs_List.js"></script>
 <script src="~/js/Custom JS/CDVT/Synthetic/Synthetic_Supplies.js"></script>
 <script src="~/js/Custom JS/CDVT/Home/huydong.js"></script>
@@ -149,7 +164,7 @@
         //let today = new Date();
         //$("#monthpicker").datepicker("setDate", new Date());
         //$("#monthpicker").val(("0" + (today.getMonth() + 1)).slice(-2) + '-' + today.getFullYear());
-        var tbl_detail, tbl_summary, currTab = 0, exportPayload = [], isFirstInit = true;
+        var tbl_detail, tbl_summary, currTab = 0, exportPayload = [], isFirstInit = true, exportSearch = [];
         $(document).ready(function () {
             let index = 1;
             $("#pre-load").show();
@@ -168,15 +183,22 @@
                     },
                     "dataSrc": function (json) {
                         index = 1;
+                        if (isFirstInit) {
+                            exportSearch = json.data;
+                            isFirstInit = false;
+                        } else {
+                            exportSearch = [];
+                            exportSearch = json.data;
+                        }
                         return json.data;
                     }
                 },
                 "columns": [
                     { "data": null, "name": "Index", "render": function (data) { return index++; } },
-                    { "data": "SupplyId", "name": "SupplyId" },
+
                     { "data": "SupplyName", "name": "SupplyName" },
                     { "data": "SupplyUnit", "name": "SupplyUnit" },
-                    { "data": "SupplyAverage", "name": "SupplyAverage" },
+
                     { "data": "SupplyQuantity", "name": "SupplyQuantity" },
                 ],
                 "serverSide": true,
@@ -217,6 +239,9 @@
                         if (isFirstInit) {
                             exportPayload = json.data;
                             isFirstInit = false;
+                        } else {
+                            exportPayload = [];
+                            exportPayload = json.data;
                         }
                         return json.data;
                     }
@@ -260,7 +285,7 @@
                     }
                 }
             });
-            
+
             $('#tab_chitiet').on("click", function (e) {
                 currTab = 0;
                 document.getElementById("departments_search").style.display = "none";
@@ -282,6 +307,26 @@
                         if (res.success) {
                             var response = JSON.parse(JSON.stringify(res.data));
                             window.location = '/phong-cdvt/tong-hop-vat-tu/download?fileGuid=' + response.FileGuid
+                                + '&filename=' + response.FileName;
+                        } else {
+                            errorAlert('Lỗi', 'Không xuất ra được EXCEL');
+                        }
+                    }
+                });
+                $("#pre-load").hide();
+            })
+            $("#export_exceldetail").click(function () {
+                $("#pre-load").show();
+                $.ajax({
+                    dataType: "json",
+                    contentType: "application/json, charset=utf-8",
+                    type: 'POST',
+                    url: '/phong-cdvt/tong-hop-vat-tu/exportdetail',
+                    data: JSON.stringify(exportSearch),
+                    success: function (res) {
+                        if (res.success) {
+                            var response = JSON.parse(JSON.stringify(res.data));
+                            window.location = '/phong-cdvt/tong-hop-vat-tu/downloaddetail?fileGuid=' + response.FileGuid
                                 + '&filename=' + response.FileName;
                         } else {
                             errorAlert('Lỗi', 'Không xuất ra được EXCEL');
@@ -343,8 +388,11 @@
                         if (document.getElementById('note_' + exportPayload[i].SupplyId)) {
                             $('#note_' + exportPayload[i].SupplyId).val(exportPayload[i].Note);
                         }
+
                     }
+
                 });
+
             }
             $("#pre-load").hide();
         }
@@ -386,7 +434,7 @@
                     let currPrice = parse2PosNum(document.getElementById("estimate_" + exportPayload[i].SupplyId).value);
                     value += exportPayload[i].SupplyQuantity * currPrice;
                 }
-                
+
             }
             updateCurrPrice(value);
         }
@@ -402,6 +450,69 @@
         function updateNoteInput(domId, value) {
             $('#note_' + domId).value = value;
         }
-        
+
+//  var ck = true;
+//  var waittime = 0;
+//$(document).ready(function () {
+//        setInterval(function () {
+//            waittime++;
+//            if (waittime > 2 && ck == true) {
+//                $("#ChangeNameForm").submit();
+//                waittime = 0;
+//                ck = false;
+//            }
+//            if (waittime > 10) {
+//                ck = true;
+//            }
+//        }, 1000); 
+//    	});
+//        $("#supplyName").keyup(function (e) {
+//        if (e.which == 13) {
+//            $("#search").click();
+          
+//        } else {
+//            var text = $("#supplyName").val();
+//            $("#id-s").val(text);
+//            $("#ck").val("0");
+//            if (waittime > 1) {
+//                $("#ChangeIDForm").submit();
+//   waittime = 0;
+//            } else {
+//                waittime = 0;
+//            }
+
+
+//        }
+// });
+
+//	function ChangeID(form) {
+
+//        $.validator.unobtrusive.parse(form);
+//        if ($(form).valid()) {
+//            $.ajax({
+//                type: "POST",
+//                url: form.action,
+//                data: $(form).serialize(),
+//                success: function (data) {
+//                    $("#supply_name").empty();
+//                    var option = "";
+//                    for (var i = 0; i < data.id.length; i++) {
+//                        var s = data.id[i].supply_name;
+//                        var a = "<option value='" + s + "'>" + s + "</option>";
+//                        option += a;
+//                    }
+//                    $("#supply_name").append(option);
+//                },
+//                error: function () {
+//                    alert(response.data.message);
+
+//                }
+//            });
+//        }
+
+//        return false;
+// }
+
+
     </script>
 }
