@@ -652,9 +652,6 @@
     <Compile Include="Models\TieuChi.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\TieuChiCon_Ngay.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\TieuChiCon_Thang.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
