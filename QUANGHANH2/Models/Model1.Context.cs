@@ -103,6 +103,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<Room> Rooms { get; set; }
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<Supply> Supplies { get; set; }
+        public virtual DbSet<Supply_DiKem> Supply_DiKem { get; set; }
         public virtual DbSet<Supply_Documentary_Camera> Supply_Documentary_Camera { get; set; }
         public virtual DbSet<Supply_Documentary_Equipment> Supply_Documentary_Equipment { get; set; }
         public virtual DbSet<Supply_DuPhong> Supply_DuPhong { get; set; }
@@ -113,7 +114,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<ThangLuong> ThangLuongs { get; set; }
         public virtual DbSet<ThucHienSanXuatNgay> ThucHienSanXuatNgays { get; set; }
         public virtual DbSet<TieuChi> TieuChis { get; set; }
-        public virtual DbSet<TieuChiCon_Thang> TieuChiCon_Thang { get; set; }
+        public virtual DbSet<TieuChiCon> TieuChiCons { get; set; }
         public virtual DbSet<TinhChat_TieuChi> TinhChat_TieuChi { get; set; }
         public virtual DbSet<To> Toes { get; set; }
         public virtual DbSet<TrangThai> TrangThais { get; set; }
@@ -122,6 +123,5 @@ namespace QUANGHANH2.Models
         public virtual DbSet<TuyenDung_NhanVien> TuyenDung_NhanVien { get; set; }
         public virtual DbSet<VatLieu> VatLieux { get; set; }
         public virtual DbSet<Disk> Disks { get; set; }
-        public virtual DbSet<Supply_DiKem> Supply_DiKem { get; set; }
     }
 }

@@ -17,6 +17,7 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public VatLieu()
         {
+            this.KeHoachSanXuatNgays = new HashSet<KeHoachSanXuatNgay>();
             this.KeHoachSanXuatThangs = new HashSet<KeHoachSanXuatThang>();
             this.ThucHienSanXuatNgays = new HashSet<ThucHienSanXuatNgay>();
         }
@@ -25,6 +26,8 @@ namespace QUANGHANH2.Models
         public string LoaiVatLieu { get; set; }
         public string TenVatLieu { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<KeHoachSanXuatNgay> KeHoachSanXuatNgays { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<KeHoachSanXuatThang> KeHoachSanXuatThangs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

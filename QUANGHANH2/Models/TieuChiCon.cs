@@ -12,10 +12,10 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class TieuChiCon_Thang
+    public partial class TieuChiCon
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TieuChiCon_Thang()
+        public TieuChiCon()
         {
             this.KeHoachSanXuatNgays = new HashSet<KeHoachSanXuatNgay>();
             this.KeHoachSanXuatThangs = new HashSet<KeHoachSanXuatThang>();
