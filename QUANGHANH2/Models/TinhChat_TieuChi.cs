@@ -17,8 +17,7 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TinhChat_TieuChi()
         {
-            this.TieuChiCon_Ngay = new HashSet<TieuChiCon_Ngay>();
-            this.TieuChiCon_Thang = new HashSet<TieuChiCon_Thang>();
+            this.TieuChiCons = new HashSet<TieuChiCon>();
         }
     
         public int MaTinhChat_TieuChi { get; set; }
@@ -27,8 +26,6 @@ namespace QUANGHANH2.Models
     
         public virtual TieuChi TieuChi { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TieuChiCon_Ngay> TieuChiCon_Ngay { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TieuChiCon_Thang> TieuChiCon_Thang { get; set; }
+        public virtual ICollection<TieuChiCon> TieuChiCons { get; set; }
     }
 }
