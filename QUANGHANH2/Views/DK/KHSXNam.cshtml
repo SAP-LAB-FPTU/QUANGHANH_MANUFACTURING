@@ -1,0 +1,105 @@
+﻿
+@{
+    ViewBag.Title = "KeHoachSanXuatNam";
+    Layout = "~/Views/Shared/_Layout_DK.cshtml";
+}
+
+<!DOCTYPE html>
+
+<div class="card">
+    <div class="card-content">
+        <div class="center">
+            <h3><b>KẾ HOẠCH SẢN XUẤT NĂM</b></h3>
+        </div>
+        <div class="row" style="margin-top:20px">
+            <div class="col l6">
+                <select id="department" class="custom-select">
+                    <option value="default-px" disabled selected>Phân xưởng</option>
+                    <option value="PXKT1">Khai thác 1</option>
+                    <option value="PXKT2">Khai thác 2</option>
+                    <option value="PXKT3">Khai thác 3</option>
+                    <option value="PXKT4">Khai thác 4</option>
+                    <option value="PXKT5">Khai thác 5</option>
+                    <option value="PXKT6">Khai thác 6</option>
+                    <option value="PXKT7">Khai thác 7</option>
+                    <option value="PXKT8">Khai thác 8</option>
+                    <option value="PXKT9">Khai thác 9</option>
+                    <option value="PXKT10">Khai thác 10</option>
+                    <option value="PXKT11">Khai thác 11</option>
+                    <option value="PXDL3">Đào lò 3</option>
+                    <option value="PXDL5">Đào lò 5</option>
+                    <option value="PXDL7">Đào lò 7</option>
+                    <option value="PXDL8">Đào lò 8</option>
+                    <option value="PXDL2">Thăng Long</option>
+                    <option value="CTA">Asean</option>
+                    <option value="PXDL1">Xây lắp mỏ</option>
+                    <option value="PXST">Sàng tuyển</option>
+                    <option value="PXLT">Lộ thiên</option>
+                    <option value="KCS">KCS</option>
+                </select>
+            </div>
+            <div class="col l6">
+                <select id="year" class="custom-select">
+                    <option selected disabled>Năm</option>
+                    <option value="1">CA 1</option>
+                    <option value="2">CA 2</option>
+                    <option value="3">CA 3</option>
+                </select>
+            </div>
+        </div>
+        <div class="row" style="margin-top:20px">
+            <div class="col s12 m12 l12">
+                <table class="table-bordered" id="aspectDetailTable">
+                    <thead>
+                        <tr>
+                            <th width="30%">Tiêu chí</th>
+                            <th width="20%">Kế hoạch sản xuất lúc sau</th>
+                            <th width="40%">Ghi chú</th>
+                            <th width="10%"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body"></tbody>
+                </table>
+            </div>
+            <div class="col s12 m12 l12 input-field right row">
+                <a class="btn blue darken-2" id="addRowsbtn">Thêm</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/Custom JS/Disable_input_material.js"></script>
+<script>
+     $(document).ready(function () {
+        mode = 0;
+        listAspectDepartments =  @Html.Raw(Json.Encode(@ViewBag.listTC));;
+    });
+    var dem = 0;
+     /////////////////////Button Thêm/////////////////////
+    $("#addRowsbtn").on("click", function () {
+        content = "";
+        selectContent = "<select id=\"MaTieuChi" + dem + "\" onchange=\"return checkDuplicate(this);\" class=\"browser-default\" skipped=\"0\"> <option value=\"-1\" selected disabled>Lựa chọn tiêu chí</option>";
+
+        for (let i = 0; i < listAspectDepartments.length; i++) {
+            selectContent += "<option id=\"" + listAspectDepartments[i].MaTieuChi + "\" value=\"" + listAspectDepartments[i].MaTieuChi + "\">" + listAspectDepartments[i].TenTieuChi + "</option>";
+        }
+        selectContent += "</select>";
+        content += "<tr id=\"MaTieuChi" + dem + "\"><td>" + selectContent + "</td><td contenteditable='true'></td><td contenteditable='true'></td><td><a id='delete-btn' name=\"MaTieuChi" + dem + "\" class='btn red darken-2'>Xóa</a></td></tr>";
+        dem++;
+        $("#table-body").append(content);
+    });
+
+    /////////////////////Button Xóa///////////////////////
+    $("#aspectDetailTable").on("click", "#delete-btn", function () {
+        $("tr#" + $(this).attr("name")).remove();
+        emptyArr();
+        $("#aspectDetailTable").find("select").each(function () {
+            var value = $(this).val();
+            if (value != null) {
+                if (value !== -1 || currentSelectedValue.indexOf(value) !== -1) {
+                    currentSelectedValue.push(value);
+                }
+            }
+        })
+        dem--;
+    })
+</script>
