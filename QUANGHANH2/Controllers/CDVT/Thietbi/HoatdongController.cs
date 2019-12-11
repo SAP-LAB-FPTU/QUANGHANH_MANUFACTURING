@@ -688,13 +688,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                     emp = new Equipment();
                 }
                 ViewBag.e = emp;
-                if(emp.date_import.HasValue == true)
-                {
-                    emp.date_import = DateTime.Parse(emp.date_import.Value.ToString("dd-MMM-yyyy"));
-                } else
-                {
-                    emp.date_import = null;
-                }
+                emp.date_import = DateTime.Parse(emp.date_import.Value.ToString("dd-MMM-yyyy"));
                 List<SelectListItem> listStatus = new List<SelectListItem>();
                 var statsu = db.Status.ToList<Status>();
                 foreach (Status item in statsu)

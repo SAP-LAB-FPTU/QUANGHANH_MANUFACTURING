@@ -26,8 +26,8 @@
                                 <li class="tab col s2"><a href="#dieuchuyen">NK ĐIỀU CHUYỂN</a></li>
                                 <li class="tab col s2"><a href="#suachua">NK SỬA CHỮA</a></li>
                                 <li class="tab col s1"><a href="#suco">NK SỰ CỐ</a></li>
-                                @*<li class="tab col s1"><a href="#baohiem">NK BẢO HIỂM</a></li>*@
-                                <li class="tab col s2"><a href="#kiemdinh">NK KIỂM ĐỊNH</a></li>
+                                <li class="tab col s1"><a href="#baohiem">NK BẢO HIỂM</a></li>
+                                <li class="tab col s1"><a href="#kiemdinh">NK KIỂM ĐỊNH</a></li>
                                 <li class="tab col s1"><a href="#lichsu">NK HOẠT ĐỘNG</a></li>
                                 <li class="tab col s2"><a href="#tieuthu">NK TIÊU THỤ NHIÊN LIỆU</a></li>
                             </ul>
@@ -143,9 +143,8 @@
 
                                 </table>
                                 <ul class="tabs" style="overflow-x:hidden;overflow-y:hidden">
-                                    <li class="tab col s4"><a class="active" href="#VT_DK">Vật tư đi kèm</a></li>
-                                    <li class="tab col s4"><a href="#VT_SCTX">Vật tư SCTX</a></li>
-                                    <li class="tab col s4"><a href="#VT_DP">Vật tư dự phòng</a></li>
+                                    <li class="tab col s6"><a class="active" href="#VT_DK">Vật tư đi kèm</a></li>
+                                    <li class="tab col s6"><a href="#VT_DP">Vật tư dự phòng</a></li>
                                 </ul>
 
                                 <div id="VT_DK" class="col s12 center" style="margin-top:45px">
@@ -156,6 +155,7 @@
                                                 <th>Mã vật tư</th>
                                                 <th>Tên vật tư</th>
                                                 <th>Số lượng</th>
+                                                <th>Đơn vị tính</th>
                                                 <th>Ghi chú</th>
                                                 <th></th>
                                                 <th></th>
@@ -166,9 +166,10 @@
                                                 foreach (var item in ViewBag.sup)
                                                 {
                                                     <tr>
-                                                        <td>@item.equipmentId_dikem</td>
-                                                        <td>@item.equipment_name</td>
+                                                        <td>@item.supply_id</td>
+                                                        <td>@item.supply_name</td>
                                                         <td>@item.quantity</td>
+                                                        <td>@item.unit</td>
                                                         <td>@item.note</td>
                                                         <td><button type="button" class="btnSelect btn blue btn-small center"><i class="large material-icons">remove</i></button></td>
                                                         <td><a class="btnSelect2 btn blue btn-small left modal-trigger" data-target="updateDK">Chỉnh sửa</a></td>
@@ -180,35 +181,6 @@
                                     <a data-target="addDK" id="add" class="btn blue btn-small center modal-trigger left" style="margin-top:10px"><i class="large material-icons">add</i></a>
 
                                 </div>
-                                <div id="VT_SCTX" class="col s12 center" style="margin-top:45px">
-                                    <h3>Vật tư SCTX</h3>
-                                    <table id="SCTX_table" class="striped table-bordered" style="margin-top:10px !important">
-                                        <thead>
-                                            <tr>
-                                                <th>Mã vật tư</th>
-                                                <th>Tên vật tư</th>
-                                                <th>Số lượng</th>
-                                                <th></th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="SCTX_table_body">
-                                            @{
-                                                foreach (var item in ViewBag.supSCTX)
-                                                {
-                                                    <tr>
-                                                        <td>@item.supply_id</td>
-                                                        <td>@item.supply_name</td>
-                                                        <td>@item.quantity</td>
-                                                        <td><button type="button" class="btnSelectSCTX btn blue btn-small center"><i class="large material-icons">remove</i></button></td>
-                                                        <td><a class="btnSelectSCTX2 btn blue btn-small left modal-trigger" data-target="updateSCTX">Chỉnh sửa</a></td>
-                                                    </tr>
-                                                }
-                                            }
-                                        </tbody>
-                                    </table>
-                                    <a data-target="addSCTX" id="add2" class="btn blue btn-small center modal-trigger left" style="margin-top:10px"><i class="large material-icons">add</i></a>
-                                </div>
                                 <div id="VT_DP" class="col s12 center" style="margin-top:45px">
                                     <h3>Vật tư dự phòng</h3>
                                     <table id="DP_table" class="striped table-bordered" style="margin-top:10px !important">
@@ -217,25 +189,28 @@
                                                 <th>Mã vật tư</th>
                                                 <th>Tên vật tư</th>
                                                 <th>Số lượng</th>
-                                                <th>Ghi chú</th>
+                                                <th>Đơn vị tính</th>
+                                                <th></th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody id="DP_table_body">
                                             @{
-                                                foreach (var item in ViewBag.sup)
+                                                foreach (var item in ViewBag.supDP)
                                                 {
                                                     <tr>
-                                                        <td>@item.equipmentId_dikem</td>
-                                                        <td>@item.equipment_name</td>
-                                                        <td>@item.quantity_duphong</td>
-                                                        <td>@item.note</td>
-                                                        <td><a class="btnSelectDP btn blue btn-small left modal-trigger" data-target="updateDP">Chỉnh sửa</a></td>
+                                                        <td>@item.supply_id</td>
+                                                        <td>@item.supply_name</td>
+                                                        <td>@item.quantity</td>
+                                                        <td>@item.unit</td>
+                                                        <td><button type="button" class="btnSelectDP btn blue btn-small center"><i class="large material-icons">remove</i></button></td>
+                                                        <td><a class="btnSelectDP2 btn blue btn-small left modal-trigger" data-target="updateDP">Chỉnh sửa</a></td>
                                                     </tr>
                                                 }
                                             }
                                         </tbody>
                                     </table>
+                                    <a data-target="addDP" id="add2" class="btn blue btn-small center modal-trigger left" style="margin-top:10px"><i class="large material-icons">add</i></a>
                                 </div>
                             </div>
                         </div>
@@ -263,10 +238,9 @@
                                                                 <div class="box-content table_container">
                                                                     <table id="myborder" class="table-bordered table-responsive centered" style="zoom:80%">
                                                                         <tr>
-                                                                            <th style="text-align:center" colspan="3">Vật tư</th>
-                                                                            <th style="text-align:center" colspan="2">Chi tiết vật tư thay thế, SC</th>
+                                                                            <th style="text-align:center" colspan="5">Chi tiết vật tư thay thế, SC</th>
                                                                             <th style="text-align:center" rowspan="2">KQ sau SC</th>
-                                                                            <th style="text-align:center" colspan="2">Chi tiết vật tư thu hồi sau SC</th>
+                                                                            <th style="text-align:center" colspan="5">Chi tiết vật tư thu hồi sau SC</th>
                                                                             <th style="text-align:center" rowspan="2">Lý do quyết định</th>
                                                                         </tr>
                                                                         <tr>
@@ -275,6 +249,9 @@
                                                                             <th>ĐVT</th>
                                                                             <th>Số lượng</th>
                                                                             <th>TTKT của vật tư</th>
+                                                                            <th>Mã VT</th>
+                                                                            <th>Tên vật tư</th>
+                                                                            <th>ĐVT</th>
                                                                             <th>Số lượng</th>
                                                                             <th>TTKT của vật tư</th>
                                                                         </tr>
@@ -458,53 +435,53 @@
                             </div>
                         </div>
 
-                        @*<div id="baohiem" class="col s12">
-                                <div class="wrapper-timeline">
-                                    <div class="container">
-                                        @foreach (var x in ViewBag.listBH)
-                                        {
-                                            <div class="timeline">
-                                                <div class="timeline-month" id="title-@x.year">
-                                                    Năm @x.year
-                                                    <span>@x.count lần đăng ký bảo hiểm</span>
-                                                </div>
+                        <div id="baohiem" class="col s12">
+                            <div class="wrapper-timeline">
+                                <div class="container">
+                                    @foreach (var x in ViewBag.listBH)
+                                    {
+                                        <div class="timeline">
+                                            <div class="timeline-month" id="title-@x.year">
+                                                Năm @x.year
+                                                <span>@x.count lần đăng ký bảo hiểm</span>
+                                            </div>
 
-                                                @foreach (var y in x.equipment_Ins)
+                                            @foreach (var y in x.equipment_Ins)
+                                            {
+                                                if (count == 0)
                                                 {
-                                                    if (count == 0)
-                                                    {
-                                                        @Html.Raw("<div class=\"timeline-section " + x.year + " lastest-year\">")
-                                                    }
-                                                    else
-                                                    {
-                                                        @Html.Raw("<div class=\"timeline-section " + x.year + "\">")
-                                                    }
-                                                    <div class="timeline-date">
-                                                        @y.getDateString(y.insurance_start_date)
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-sm-12">
-                                                            <div class="timeline-box">
-                                                                <div class="box-content table_container">
-                                                                    <table id="myborder" class="table-bordered striped table-responsive center">
-                                                                        <tr class="highlight">
-                                                                            <th>Thời hạn bảo hiểm</th>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>@y.getStringtime(y.insurance_start_date)</td>
-                                                                        </tr>
-                                                                    </table>
-                                                                </div>
+                                                    @Html.Raw("<div class=\"timeline-section " + x.year + " lastest-year\">")
+                                                }
+                                                else
+                                                {
+                                                    @Html.Raw("<div class=\"timeline-section " + x.year + "\">")
+                                                }
+                                                <div class="timeline-date">
+                                                    @y.getDateString(y.insurance_start_date)
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="timeline-box">
+                                                            <div class="box-content table_container">
+                                                                <table id="myborder" class="table-bordered striped table-responsive center">
+                                                                    <tr class="highlight">
+                                                                        <th>Thời hạn bảo hiểm</th>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>@y.getStringtime(y.insurance_start_date)</td>
+                                                                    </tr>
+                                                                </table>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    @Html.Raw("</div>")
-                                                }
-                                            </div>
-                                        }
-                                    </div>
+                                                </div>
+                                                @Html.Raw("</div>")
+                                            }
+                                        </div>
+                                    }
                                 </div>
-                            </div>*@
+                            </div>
+                        </div>
 
                         <div id="kiemdinh" class="col s12">
                             <div class="wrapper-timeline">
@@ -865,50 +842,8 @@
                 </div>
             </div>
         </div>
-    }
-
-    @using (Html.BeginForm("updateDP", "Lylich", FormMethod.Post, new
-    {
-        id = "DKform",
-        enctype = "multipart/form-data",
-        onSubmit = "return Change(this);",
-        data_restUrl = Url.Action("updateDP", "Lylich", new { id = "" })
-    }))
-    {
-        <div class="card">
-            <div class="card-content">
-                <div class="modal" id="updateDP">
-                    <div class="modal-header">
-                        <h3 class="center">Cập nhật vật tư dự phòng</h3>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col s6">
-                                <label>Mã vật tư</label>
-                                <input readonly="true" id="supDP_id_update" name="supid" class="form-control" />
-                            </div>
-                            <div class="col s6">
-                                <label>Mã thiết bị</label>
-                                <input readonly="true" id="idDP_update" name="id" class="form-control" />
-                            </div>
-                            <div class="col s6">
-                                <label>Số lượng</label>
-                                <input type="number" id="quanDP_update" name="quan" class="form-control" />
-                            </div>
-                            <div class="col s6">
-                                <label>Ghi chú</label>
-                                <input type="text" id="noteDP_update" name="note" class="form-control" />
-                            </div>
-                        </div>
 
 
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn blue modal-close">Lưu</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     }
 
     <datalist id="Suplist">
@@ -916,15 +851,6 @@
             foreach (var item in ViewBag.listSup)
             {
                 <option value="@item.supply_name"></option>
-            }
-
-        }
-    </datalist>
-    <datalist id="Supdk">
-        @{
-            foreach (var item in ViewBag.listsupdk)
-            {
-                <option value="@item.equipment_name"></option>
             }
         }
     </datalist>
@@ -937,127 +863,127 @@
         data_restUrl = Url.Action("addDK", "Lylich", new { id = "" })
     }))
     {
-        <div class="modal" id="addDK">
-            <div class="modal-header">
-                <h3 class="center">Thêm vật tư đi kèm</h3>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col s6">
-                        <label>Tên vật tư</label>
-                        <input list="Supdk" name="nameSup" class="form-control" />
+                <div class="modal" id="addDK">
+                    <div class="modal-header">
+                        <h3 class="center">Thêm vật tư đi kèm</h3>
                     </div>
-                    <div class="col s6">
-                        <label>Mã thiết bị</label>
-                        <input readonly="true" id="id_add" name="id" class="form-control" />
-                    </div>
-                    <div class="col s6">
-                        <label>Số lượng</label>
-                        <input value="0" min="0" type="number" name="quan" class="form-control" />
-                    </div>
-                    <div class="col s6">
-                        <label>Ghi chú</label>
-                        <input type="text" name="note" class="form-control" />
-                    </div>
-                </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col s6">
+                                <label>Tên vật tư</label>
+                                <input list="Suplist" name="nameSup" class="form-control" />
+                            </div>
+                            <div class="col s6">
+                                <label>Mã thiết bị</label>
+                                <input readonly="true" id="id_add" name="id" class="form-control" />
+                            </div>
+                            <div class="col s6">
+                                <label>Số lượng</label>
+                                <input value="0" min="0" type="number" name="quan" class="form-control" />
+                            </div>
+                            <div class="col s6">
+                                <label>Ghi chú</label>
+                                <input type="text" name="note" class="form-control" />
+                            </div>
+                        </div>
 
 
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn blue modal-close">Lưu</button>
-            </div>
-        </div>
-
-
-    }
-
-    @using (Html.BeginForm("addSCTX", "Lylich", FormMethod.Post, new
-    {
-        id = "DKform",
-        enctype = "multipart/form-data",
-        onSubmit = "return Change2(this);",
-        data_restUrl = Url.Action("addSCTX", "Lylich", new { id = "" })
-    }))
-    {
-        <div class="modal" id="addSCTX">
-            <div class="modal-header">
-                <h3 class="center">Thêm vật tư SCTX</h3>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col s4">
-                        <label>Tên vật tư</label>
-                        <input list="Suplist" name="nameSup" class="form-control" />
                     </div>
-                    <div class="col s4">
-                        <label>Mã thiết bị</label>
-                        <input readonly="true" id="idDP_add" name="id" class="form-control" />
-                    </div>
-                    <div class="col s4">
-                        <label>Số lượng</label>
-                        <input type="number" name="quan" class="form-control" />
+                    <div class="modal-footer">
+                        <button type="submit" class="btn blue modal-close">Lưu</button>
                     </div>
                 </div>
 
 
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn blue modal-close">Lưu</button>
-            </div>
-        </div>
-
-
     }
 
-    @using (Html.BeginForm("updateSCTX", "Lylich", FormMethod.Post, new
+    @using (Html.BeginForm("addDP", "Lylich", FormMethod.Post, new
     {
         id = "DKform",
         enctype = "multipart/form-data",
         onSubmit = "return Change2(this);",
-        data_restUrl = Url.Action("updateSCTX", "Lylich", new { id = "" })
+        data_restUrl = Url.Action("addDP", "Lylich", new { id = "" })
     }))
     {
+                <div class="modal" id="addDP">
+                    <div class="modal-header">
+                        <h3 class="center">Thêm vật tư dự phòng</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col s4">
+                                <label>Tên vật tư</label>
+                                <input list="Suplist" name="nameSup" class="form-control" />
+                            </div>
+                            <div class="col s4">
+                                <label>Mã thiết bị</label>
+                                <input readonly="true" id="idDP_add" name="id" class="form-control" />
+                            </div>
+                            <div class="col s4">
+                                <label>Số lượng</label>
+                                <input type="number" name="quan" class="form-control" />
+                            </div>
+                        </div>
 
-        <div class="modal" id="updateSCTX">
-            <div class="modal-header">
-                <h3 class="center">Cập nhật vật tư SCTX</h3>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col s4">
-                        <label>Mã vật tư</label>
-                        <input readonly="true" id="supSCTX_id_update" name="supid" class="form-control" />
+
                     </div>
-                    <div class="col s4">
-                        <label>Mã thiết bị</label>
-                        <input readonly="true" id="idSCTX_update" name="id" class="form-control" />
-                    </div>
-                    <div class="col s4">
-                        <label>Số lượng</label>
-                        <input type="number" id="quanSCTX_update" name="quan" class="form-control" />
+                    <div class="modal-footer">
+                        <button type="submit" class="btn blue modal-close">Lưu</button>
                     </div>
                 </div>
 
 
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn blue modal-close">Lưu</button>
-            </div>
-        </div>
-
-
     }
 
-    @using (Html.BeginForm("deleteSCTX", "Lylich", FormMethod.Post, new
+    @using (Html.BeginForm("updateDP", "Lylich", FormMethod.Post, new
     {
         id = "DKform",
         enctype = "multipart/form-data",
         onSubmit = "return Change2(this);",
-        data_restUrl = Url.Action("deleteSCTX", "Lylich", new { id = "" })
+        data_restUrl = Url.Action("updateDP", "Lylich", new { id = "" })
     }))
     {
-        <input type="hidden" id="supSCTX_id" name="supid" />
-        <input type="hidden" id="idSCTX" name="id" />
+ 
+                <div class="modal" id="updateDP">
+                    <div class="modal-header">
+                        <h3 class="center">Cập nhật vật tư dự phòng</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col s4">
+                                <label>Mã vật tư</label>
+                                <input readonly="true" id="supDP_id_update" name="supid" class="form-control" />
+                            </div>
+                            <div class="col s4">
+                                <label>Mã thiết bị</label>
+                                <input readonly="true" id="idDP_update" name="id" class="form-control" />
+                            </div>
+                            <div class="col s4">
+                                <label>Số lượng</label>
+                                <input type="number" id="quanDP_update" name="quan" class="form-control" />
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn blue modal-close">Lưu</button>
+                    </div>
+                </div>
+
+
+    }
+
+    @using (Html.BeginForm("deleteDP", "Lylich", FormMethod.Post, new
+    {
+        id = "DKform",
+        enctype = "multipart/form-data",
+        onSubmit = "return Change2(this);",
+        data_restUrl = Url.Action("deleteDP", "Lylich", new { id = "" })
+    }))
+    {
+        <input type="hidden" id="supDP_id" name="supid" />
+        <input type="hidden" id="idDP" name="id" />
     }
 
     <ul id='dropdown1' class='dropdown-content'>
@@ -1092,21 +1018,8 @@
                 document.getElementById("id_update").value = '@ViewBag.equipment.equipmentId';
                 data = currentRow.find("td:eq(2)").text();
                 document.getElementById("quan_update").value = data;
-                data = currentRow.find("td:eq(3)").text();
+                data = currentRow.find("td:eq(4)").text();
                 document.getElementById("note_update").value = data
-            });
-
-            // code to read selected table row cell data (values).
-            $("#DP_table").on('click', '.btnSelectDP', function () {
-                // get the current row
-                var currentRow = $(this).closest("tr");
-                var data = currentRow.find("td:eq(0)").text();
-                document.getElementById("supDP_id_update").value = data;
-                document.getElementById("idDP_update").value = '@ViewBag.equipment.equipmentId';
-                data = currentRow.find("td:eq(2)").text();
-                document.getElementById("quanDP_update").value = data;
-                data = currentRow.find("td:eq(3)").text();
-                document.getElementById("noteDP_update").value = data
             });
 
             $("#add").click(function () {
@@ -1118,24 +1031,24 @@
             });
 
             // code to read selected table row cell data (values).
-            $("#SCTX_table").on('click', '.btnSelectSCTX2', function () {
+            $("#DP_table").on('click', '.btnSelectDP2', function () {
                 // get the current row
                 var currentRow = $(this).closest("tr");
                 var data = currentRow.find("td:eq(0)").text();
-                document.getElementById("supSCTX_id_update").value = data;
-                document.getElementById("idSCTX_update").value = '@ViewBag.equipment.equipmentId';
+                document.getElementById("supDP_id_update").value = data;
+                document.getElementById("idDP_update").value = '@ViewBag.equipment.equipmentId';
                 data = currentRow.find("td:eq(2)").text();
-                document.getElementById("quanSCTX_update").value = data;
+                document.getElementById("quanDP_update").value = data;
             });
 
             // code to read selected table row cell data (values).
-            $("#SCTX_table").on('click', '.btnSelectSCTX', function () {
+            $("#DP_table").on('click', '.btnSelectDP', function () {
                 // get the current row
                 var currentRow = $(this).closest("tr");
                 var data = currentRow.find("td:eq(0)").text();
-                document.getElementById("supSCTX_id").value = data;
-                document.getElementById("idSCTX").value = '@ViewBag.equipment.equipmentId';
-                $("#supSCTX_id").closest('form').submit();
+                document.getElementById("supDP_id").value = data;
+                document.getElementById("idDP").value = '@ViewBag.equipment.equipmentId';
+                $("#supDP_id").closest('form').submit();
             });
 
 
@@ -1155,22 +1068,15 @@
                     data: $(form).serialize(),
                     success: function (response) {
                         $("#DK_table_body").empty();
-                        $("#DP_table_body").empty();
                         for (i = 0; i < response.data.length; i++) {
                             $("#DK_table_body").append("<tr>"+
-                                "<td>" + response.data[i].equipmentId_dikem + "</td>" +
-                                "<td>" + response.data[i].equipment_name + "</td>" +
+                                "<td>" + response.data[i].supply_id + "</td>" +
+                                "<td>" + response.data[i].supply_name + "</td>" +
                                 "<td>" + response.data[i].quantity + "</td>" +
+                                "<td>" + response.data[i].unit + "</td>" +
                                 "<td>" + response.data[i].note + "</td>" +
                                 "<td><button type='button' class='btnSelect btn blue btn-small center'><i class='large material-icons'>remove</i></button></td>" +
                                 "<td><a class='btnSelect2 btn blue btn-small center modal-trigger' data-target='updateDK'>Chỉnh sửa</a></td>" +
-                                "</tr> ");
-                            $("#DP_table_body").append("<tr>"+
-                                "<td>" + response.data[i].equipmentId_dikem + "</td>" +
-                                "<td>" + response.data[i].equipment_name + "</td>" +
-                                "<td>" + response.data[i].quantity_duphong + "</td>" +
-                                "<td>" + response.data[i].note + "</td>" +
-                                "<td><a class='btnSelectDP btn blue btn-small center modal-trigger' data-target='updateDP'>Chỉnh sửa</a></td>" +
                                 "</tr> ");
                         }
                         $("#pre-load").hide("slow", function () {
@@ -1198,14 +1104,14 @@
                     url: form.action,
                     data: $(form).serialize(),
                     success: function (response) {
-                        $("#SCTX_table_body").empty();
+                        $("#DP_table_body").empty();
                         for (i = 0; i < response.data.length; i++) {
-                            $("#SCTX_table_body").append("<tr>"+
+                            $("#DP_table_body").append("<tr>"+
                                 "<td>" + response.data[i].supply_id + "</td>" +
                                 "<td>" + response.data[i].supply_name + "</td>" +
                                 "<td>" + response.data[i].quantity + "</td>" +
-                                "<td><button type='button' class='btnSelectSCTX btn blue btn-small center'><i class='large material-icons'>remove</i></button></td>" +
-                                "<td><a class='btnSelectSCTX2 btn blue btn-small center modal-trigger' data-target='updateDP'>Chỉnh sửa</a></td>" +
+                                "<td><button type='button' class='btnSelectDP btn blue btn-small center'><i class='large material-icons'>remove</i></button></td>" +
+                                "<td><a class='btnSelectDP2 btn blue btn-small center modal-trigger' data-target='updateDP'>Chỉnh sửa</a></td>" +
                                 "</tr> ");
                         }
                         $("#pre-load").hide("slow", function () {
