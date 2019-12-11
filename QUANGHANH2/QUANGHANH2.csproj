@@ -517,16 +517,16 @@
     <Compile Include="Models\Header_DiemDanh_NangSuat_LaoDong.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\header_KeHoachSanXuatNam.cs">
+    <Compile Include="Models\header_KeHoachTungThang.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\header_KeHoachSanXuatNgay.cs">
+    <Compile Include="Models\header_KeHoach_TieuChi_TheoNam.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\header_KeHoachSanXuatThang.cs">
+    <Compile Include="Models\header_KeHoach_TieuChi_TheoNgay.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\header_ThucHienSanXuatNgay.cs">
+    <Compile Include="Models\header_ThucHienTheoNgay.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\HistoryWork.cs" />
@@ -538,13 +538,13 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\InsideExcel.cs" />
-    <Compile Include="Models\KeHoachSanXuatNam.cs">
+    <Compile Include="Models\KeHoach_TieuChi_TheoNam.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\KeHoachSanXuatNgay.cs">
+    <Compile Include="Models\KeHoach_TieuChi_TheoNgay.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\KeHoachSanXuatThang.cs">
+    <Compile Include="Models\KeHoach_TieuChi_TheoThang.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\LichSuBoSungSYLL.cs">
@@ -646,19 +646,10 @@
     <Compile Include="Models\ThangLuong.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ThucHienSanXuatNgay.cs">
+    <Compile Include="Models\ThucHien_TieuChi_TheoNgay.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TieuChi.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TieuChiCon.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TinhChat_TieuChi.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\To.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TrangThai.cs">
@@ -671,9 +662,6 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TuyenDung_NhanVien.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\VatLieu.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="ModelViews\PxdsModelView.cs" />
@@ -7153,14 +7141,6 @@
     <Content Include="excel\DK\DanhSachTaiNan.xlsx" />
     <Content Include="excel\DK\DanhSachTaiNan-download.xlsx" />
     <Content Include="excel\TCLD\Report\Báo cáo năng suất lao động và tiền lương theo các phân xưởng theo tháng.xlsx" />
-    <EntityDeploy Include="Models\Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Content>
-
     <Content Include="excel\TCLD\Report\Báo cáo năng suất lao động và tiền lương theo các phân xưởng theo tháng.xlsx" />
     <Content Include="excel\CDVT\download\tong-hop-vat-tu-chi-tiet-download.xlsx" />
     <Content Include="excel\CDVT\download\tong-hop-vat-tu-chi-tiet.xlsx" />
@@ -7168,7 +7148,13 @@
     <Content Include="excel\CDVT\download\tieu-hao-vat-tu-chi-tiet-download.xlsx" />
     <Content Include="excel\CDVT\download\tieu-hao-vat-tu-tong-hop-download.xlsx" />
     <Content Include="excel\CDVT\download\tieu-hao-vat-tu-tong-hop.xlsx" />
-
+    <EntityDeploy Include="Models\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
