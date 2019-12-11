@@ -32,7 +32,7 @@ namespace QUANGHANH2.Repositories
             //    $"s.supply_id LIKE N'%{search.SupplyId}%' AND " +
             //    $"s.supply_name LIKE N'%{search.SupplyName}%'";
 
-            string query = "select  supplyplan.supplyid SupplyId, SUM(dinh_muc) AS SupplyAverage,SUM(quantity) SupplyQuantity,supply_name as SupplyName, unit as SupplyUnit " +
+            string query = "select  SUM(quantity) SupplyQuantity,supply_name as SupplyName, unit as SupplyUnit " +
                             "from SupplyPlan inner join Supply "+
                           " on SupplyPlan.supplyid = supply.supply_id "+
                           $"  where departmentid = '{search.DepartmentId}' AND [status] = 1  and YEAR([date]) = {monthPicked.Year} AND MONTH([date]) = {monthPicked.Month} " +
