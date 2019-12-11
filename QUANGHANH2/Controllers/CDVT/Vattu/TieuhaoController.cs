@@ -295,7 +295,7 @@ select s.supply_id, s.supply_name, s.unit,
 sum(sde.quantity_used) 'used', sum(sde.quantity_out) 'thuhoi'
 from Supply s inner join Supply_Documentary_Equipment sde
 on s.supply_id = sde.supply_id inner join Documentary d
-on d.documentary_id = sde.documentary_id and MONTH(d.date_created) = @month AND YEAR(d.date_created) = @year
+on d.documentary_id = sde.documentary_id and  YEAR(d.date_created) = @year
 group by s.supply_id, s.supply_name, s.unit) as a full outer join 
 (select sp.supplyid, s.supply_name,sum(sp.quantity) 'quantity', s.unit
 from Supply s inner join SupplyPlan sp
@@ -492,6 +492,126 @@ group by a.supply_id, b.supplyid, b.quantity, a.supply_name, b.supply_name, a.un
                 return new EmptyResult();
             }
         }
+        [Route("phong-cdvt/vat-tu/tieu-hao/getsupplydetail")]
+        [HttpPost]
+        public JsonResult getMaintainCar(string supplyid,string departmentname, string type, string month, string year)
+        {
+
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+
+            {
+                var val = month.Split(' ');
+                var vattudetail = new List<Vattu>();
+
+                if (type == null || type == "month")
+                {
+                    Department dep = db.Departments.Where(x => x.department_name == departmentname).First();
+                    String sql = @"select 
+sum(case when esd.supplyStatus = 1 then esd.quantity else 0 end) 'used',
+sum(case when esd.supplyStatus = 2 then esd.quantity else 0 end) 'thuhoi', es.[date], 'Sửa chữa thường xuyên' as 'purposed'
+from Supply s inner
+join Equipment_SCTX_Detail esd
+on s.supply_id = esd.supplyid and s.supply_id = @supplyid inner join Equipment_SCTX es on es.maintain_id = esd.maintain_id
+inner join Department d on es.department_id = d.department_id where es.department_id = @departmentid
+and MONTH(es.[date]) = @month AND YEAR(es.[date]) = @year
+group by s.supply_id, es.department_id, es.[date], s.supply_name, d.department_name, s.unit
+union all
+select
+sum(case when mcd.supplyStatus = 1 then mcd.quantity else 0 end) 'used',
+sum(case when mcd.supplyStatus = 2 then mcd.quantity else 0 end) 'thuhoi', mc.[date], N'Bảo dưỡng hàng ngày' as 'purposed'
+from Supply s inner
+join Maintain_Car_Detail mcd
+on s.supply_id = mcd.supplyid and s.supply_id = @supplyid inner join Maintain_Car mc on mc.maintainid = mcd.maintainid
+inner join Department d on d.department_id = mc.departmentid where mc.departmentid = @departmentid
+and MONTH(mc.[date]) = @month AND YEAR(mc.[date]) = @year
+group by s.supply_id, mc.departmentid, mc.[date]
+union all
+select
+sum(fac.consumption_value) 'used',
+0 'thuhoi', fac.[date], 'Tiêu hao nhiên liệu' as 'purposed'
+from Supply s inner
+join Fuel_activities_consumption fac
+on s.supply_id = fac.fuel_type and s.supply_id = @supplyid inner join Equipment e on fac.equipmentId = e.equipmentId
+and MONTH(fac.[date]) = @month AND YEAR(fac.[date]) = @year
+inner join Department d on d.department_id = e.department_id where e.department_id = @departmentid
+group by s.supply_id, d.department_id, fac.[date]
+union all
+select
+sum(sde.quantity_used) 'used',
+sum(sde.quantity_out) 'thuhoi', d.[date_created], d.documentary_code as 'purposed'
+from Supply s inner
+join Supply_Documentary_Equipment sde
+on s.supply_id = sde.supply_id and s.supply_id =@supplyid  inner
+join Documentary d
+on d.documentary_id = sde.documentary_id and MONTH(d.[date_created]) = @month AND YEAR(d.[date_created]) = @year inner
+join Department de
+on de.department_id = de.department_id where de.department_id = @departmentid
+group by s.supply_id, de.department_id, d.date_created, d.documentary_code";
+                    //Truncate Table to delete all old records.
+                   vattudetail = db.Database.SqlQuery<Vattu>(sql, new SqlParameter("supplyid", supplyid), new SqlParameter("departmentid", dep.department_id),
+                        new SqlParameter("month", val[1]), new SqlParameter("year", val[2])).ToList();
+                    foreach(var item in vattudetail)
+                    {
+                        item.stringDate = item.date.ToString("dd/MM/yyyy");
+                    }
+                }
+                if (type == "year")
+
+                {
+                    Department dep = db.Departments.Where(x => x.department_name == departmentname).First();
+                    String sql = @"select 
+sum(case when esd.supplyStatus = 1 then esd.quantity else 0 end) 'used',
+sum(case when esd.supplyStatus = 2 then esd.quantity else 0 end) 'thuhoi', es.[date], 'Sửa chữa thường xuyên' as 'purposed'
+from Supply s inner
+join Equipment_SCTX_Detail esd
+on s.supply_id = esd.supplyid and s.supply_id = @supplyid inner join Equipment_SCTX es on es.maintain_id = esd.maintain_id
+inner join Department d on es.department_id = d.department_id where es.department_id = @departmentid
+and MONTH(es.[date]) = @month AND YEAR(es.[date]) = @year
+group by s.supply_id, es.department_id, es.[date], s.supply_name, d.department_name, s.unit
+union all
+select
+sum(case when mcd.supplyStatus = 1 then mcd.quantity else 0 end) 'used',
+sum(case when mcd.supplyStatus = 2 then mcd.quantity else 0 end) 'thuhoi', mc.[date], N'Bảo dưỡng hàng ngày' as 'purposed'
+from Supply s inner
+join Maintain_Car_Detail mcd
+on s.supply_id = mcd.supplyid and s.supply_id = @supplyid inner join Maintain_Car mc on mc.maintainid = mcd.maintainid
+inner join Department d on d.department_id = mc.departmentid where mc.departmentid = @departmentid
+and MONTH(mc.[date]) = @month AND YEAR(mc.[date]) = @year
+group by s.supply_id, mc.departmentid, mc.[date]
+union all
+select
+sum(fac.consumption_value) 'used',
+0 'thuhoi', fac.[date], 'Tiêu hao nhiên liệu' as 'purposed'
+from Supply s inner
+join Fuel_activities_consumption fac
+on s.supply_id = fac.fuel_type and s.supply_id = @supplyid inner join Equipment e on fac.equipmentId = e.equipmentId
+and MONTH(fac.[date]) = @month AND YEAR(fac.[date]) = @year
+inner join Department d on d.department_id = e.department_id where e.department_id = @departmentid
+group by s.supply_id, d.department_id, fac.[date]
+union all
+select
+sum(sde.quantity_used) 'used',
+sum(sde.quantity_out) 'thuhoi', d.[date_created], d.documentary_code as 'purposed'
+from Supply s inner
+join Supply_Documentary_Equipment sde
+on s.supply_id = sde.supply_id and s.supply_id =@supplyid inner
+join Documentary d
+on d.documentary_id = sde.documentary_id and MONTH(d.[date_created]) = 4 AND YEAR(d.[date_created]) = 2019 inner
+join Department de
+on de.department_id = de.department_id where de.department_id = @departmentid
+group by s.supply_id, de.department_id, d.date_created, d.documentary_code";
+                    //Truncate Table to delete all old records.
+                  vattudetail = db.Database.SqlQuery<Vattu>(sql, new SqlParameter("supplyid", supplyid), new SqlParameter("departmentid", dep.department_id),
+                       new SqlParameter("month", month), new SqlParameter("year", year)).ToList();
+                    foreach (var item in vattudetail)
+                    {
+                        item.stringDate = item.date.ToString("dd/MM/yyyy");
+                    }
+                }
+
+                return Json(vattudetail);
+            }
+        }
     }
     public class Detail
     {
@@ -503,6 +623,16 @@ group by a.supply_id, b.supplyid, b.quantity, a.supply_name, b.supply_name, a.un
         public string type { get; set; }
         public string month { get; set; }
         public string year { get; set; }
+    }
+
+    public class Vattu
+    {
+        public int used { get; set; }
+        public int thuhoi { get; set; }
+        public string purposed { get; set; }
+        public string stringDate { get; set; }
+        public DateTime date { get; set; }
+        
     }
     public class Summary
     {
