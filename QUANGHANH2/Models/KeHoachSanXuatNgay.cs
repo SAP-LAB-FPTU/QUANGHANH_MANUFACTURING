@@ -15,11 +15,11 @@ namespace QUANGHANH2.Models
     public partial class KeHoachSanXuatNgay
     {
         public int HeaderID { get; set; }
-        public int MaTieuChiCon_Ngay { get; set; }
+        public int MaTieuChiCon { get; set; }
         public Nullable<double> SanLuong { get; set; }
         public System.DateTime ThoiGianNhapCuoiCung { get; set; }
     
         public virtual header_KeHoachSanXuatNgay header_KeHoachSanXuatNgay { get; set; }
-        public virtual TieuChiCon_Ngay TieuChiCon_Ngay { get; set; }
+        public virtual TieuChiCon_Thang TieuChiCon_Thang { get; set; }
     }
 }
