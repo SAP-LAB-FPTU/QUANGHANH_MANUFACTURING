@@ -22,6 +22,6 @@ namespace QUANGHANH2.Models
     
         public virtual header_ThucHienSanXuatNgay header_ThucHienSanXuatNgay { get; set; }
         public virtual VatLieu VatLieu { get; set; }
-        public virtual TieuChiCon_Thang TieuChiCon_Thang { get; set; }
+        public virtual TieuChiCon TieuChiCon { get; set; }
     }
 }

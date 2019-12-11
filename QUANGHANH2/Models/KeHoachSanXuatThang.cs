@@ -23,7 +23,7 @@ namespace QUANGHANH2.Models
         public Nullable<int> MaVatLieu { get; set; }
     
         public virtual header_KeHoachSanXuatThang header_KeHoachSanXuatThang { get; set; }
-        public virtual TieuChiCon_Thang TieuChiCon_Thang { get; set; }
+        public virtual TieuChiCon TieuChiCon { get; set; }
         public virtual VatLieu VatLieu { get; set; }
     }
 }

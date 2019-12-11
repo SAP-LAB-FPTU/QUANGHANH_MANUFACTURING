@@ -22,7 +22,6 @@ namespace QUANGHANH2.Models
     
         public int HeaderID { get; set; }
         public Nullable<int> MaPhongBan_To { get; set; }
-        public Nullable<int> Ca { get; set; }
         public Nullable<System.DateTime> NgayNhapKH { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
