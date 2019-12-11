@@ -160,7 +160,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             List<moveLineByYear> listDD = new List<moveLineByYear>();
             foreach (int year in yearDD)
             {
-                List<myMoveline> listMML = DBContext.Database.SqlQuery<myMoveline>("select dm.equipmentId, dm.date_to,dm.department_detail,d.department_id_to,d.person_created,dm.documentary_id,d.reason,d.date_created from Equipment e, Documentary_moveline_details dm, Documentary d where e.equipmentId = dm.equipmentId and d.documentary_id = dm.documentary_id and dm.equipmentId = @id and YEAR(d.date_created) = @year ", new SqlParameter("id", id), new SqlParameter("year", year)).ToList();
+                List<myMoveline> listMML = DBContext.Database.SqlQuery<myMoveline>("select dm.equipmentId, dm.date_to,dm.department_detail,d.department_id,d.person_created,dm.documentary_id,d.reason,d.date_created from Equipment e, Documentary_moveline_details dm, Documentary d where e.equipmentId = dm.equipmentId and d.documentary_id = dm.documentary_id and dm.equipmentId = @id and YEAR(d.date_created) = @year ", new SqlParameter("id", id), new SqlParameter("year", year)).ToList();
                 moveLineByYear MLY = new moveLineByYear();
                 foreach (var x in listMML)
                 {
