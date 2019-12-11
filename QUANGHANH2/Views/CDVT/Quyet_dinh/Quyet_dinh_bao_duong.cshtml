@@ -1,14 +1,6 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Quyet_dinh_bao_duong";
-    if (Session["departID"].ToString().Contains("PX"))
-    {
-        Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
-    }
-    else
-    {
-        Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
-    }
+    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
 }
 @{
     List<string> right = (List<string>)Session["RightIDs"];
@@ -20,8 +12,7 @@
                 <h3><b>DANH SÁCH QUYẾT ĐỊNH BẢO DƯỠNG</b></h3>
                 <div class="col l4 m4 s12">
                     <div class="col l8 m8 s12 offset-l1 offset-m1 input-field">
-                        <input type="text" placeholder="Tìm kiếm theo tên người lập quyết định" class='form-control' id="person_created-search"
-                               multiple />
+                        <input type="text" placeholder="Tìm kiếm theo tên người lập quyết định" class='form-control' id="person_created-search" />
                     </div>
                 </div>
                 <div class="col l4 m4 s12">
