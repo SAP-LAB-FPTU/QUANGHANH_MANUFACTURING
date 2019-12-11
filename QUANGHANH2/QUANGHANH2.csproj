@@ -517,13 +517,16 @@
     <Compile Include="Models\Header_DiemDanh_NangSuat_LaoDong.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\header_KeHoachTungThang.cs">
+    <Compile Include="Models\header_KeHoachSanXuatNam.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\header_KeHoach_TieuChi_TheoNgay.cs">
+    <Compile Include="Models\header_KeHoachSanXuatNgay.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\header_ThucHienTheoNgay.cs">
+    <Compile Include="Models\header_KeHoachSanXuatThang.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\header_ThucHienSanXuatNgay.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\HistoryWork.cs" />
@@ -535,10 +538,13 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\InsideExcel.cs" />
-    <Compile Include="Models\KeHoach_TieuChi_TheoNgay.cs">
+    <Compile Include="Models\KeHoachSanXuatNam.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\KeHoach_TieuChi_TheoThang.cs">
+    <Compile Include="Models\KeHoachSanXuatNgay.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KeHoachSanXuatThang.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\LichSuBoSungSYLL.cs">
@@ -631,16 +637,31 @@
     <Compile Include="Models\Supply_tieuhao.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TaiNan.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ThangLuong.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ThucHien_TieuChi_TheoNgay.cs">
+    <Compile Include="Models\ThucHienSanXuatNgay.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TieuChi.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TieuChiCon_Ngay.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TieuChiCon_Thang.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TinhChat_TieuChi.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\To.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TrangThai.cs">
@@ -653,6 +674,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TuyenDung_NhanVien.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VatLieu.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="ModelViews\PxdsModelView.cs" />
@@ -7301,7 +7325,6 @@
     <Content Include="Views\TCLD\Certificate\List.cshtml" />
     <Content Include="Views\TCLD\Certificate\ListBriefByCertificate.cshtml" />
     <Content Include="Views\TCLD\MaterialProtection\List.cshtml" />
-    <Content Include="Views\TCLD\Report\Daily.cshtml" />
     <Content Include="Views\TCLD\Report\DailyAll.cshtml" />
     <Content Include="Views\TCLD\Report\DepartmentMonthly.cshtml" />
     <Content Include="Views\TCLD\Report\Monthly.cshtml" />
