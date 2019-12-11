@@ -19,7 +19,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
         public ActionResult GetSupply(string documentary_id, string equipmentId)
         {
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            List<Supply_Documentary_EquipmentDB> supplies = DBContext.Database.SqlQuery<Supply_Documentary_EquipmentDB>("SELECT * FROM Supply_Documentary_Equipment doc INNER JOIN Supply s on doc.supply_id = s.supply_id WHERE doc.equipmentId = @equipmentId AND doc.documentary_id = @documentary_id AND doc.supply_documentary_status = 0",
+            List<Supply_Documentary_EquipmentDB> supplies = DBContext.Database.SqlQuery<Supply_Documentary_EquipmentDB>("SELECT * FROM Supply_Documentary_Equipment doc INNER JOIN Supply s on doc.supply_id = s.supply_id WHERE doc.equipmentId = @equipmentId AND doc.documentary_id = @documentary_id",
                 new SqlParameter("equipmentId", equipmentId),
                 new SqlParameter("documentary_id", documentary_id)).ToList();
             return Json(supplies);
@@ -104,28 +104,27 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
 
         [Route("phong-cdvt/cap-nhat/quyet-dinh/AddSupply")]
         [HttpPost]
-        public ActionResult AddSupply(string list, int documentary_id, string equipmentId, string type)
+        public ActionResult AddSupply(string list, int documentary_id, string equipmentId)
         {
+            //string type = Request["type"];  //0 là vật tư, 1 là thiết bị con
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
             {
                 try
                 {
                     JObject json = JObject.Parse(list);
-                    JArray arr = (JArray)json.SelectToken("list");
+                    JArray arr = (JArray)json.SelectToken("list");  //list của thiết bị con đi kèm và vật tư dự phòng
                     foreach (JObject item in arr)
                     {
                         string supply_id = (string)item["supply_id"];
-                        if (DBContext.Supplies.Find(supply_id) == null)
-                            return Json(new { success = false, message = "Mã vật tư không tồn tại" });
                         Supply_Documentary_Equipment temp;
-                        if (type == "2")
+                        if (DBContext.Supplies.Find(supply_id) == null)
                         {
-                            temp = DBContext.Supply_Documentary_Equipment.Where(a => a.documentary_id == documentary_id && a.equipmentId == equipmentId && a.supply_id == supply_id && a.supply_documentary_status == 1).FirstOrDefault();
+                            temp = DBContext.Supply_Documentary_Equipment.Where(a => a.documentary_id == documentary_id && a.equipmentId == equipmentId && a.equipmentId_dikem == supply_id).FirstOrDefault();
                         }
                         else
                         {
-                            temp = DBContext.Supply_Documentary_Equipment.Where(a => a.documentary_id == documentary_id && a.equipmentId == equipmentId && a.supply_id == supply_id && a.supply_documentary_status == 0).FirstOrDefault();
+                            temp = DBContext.Supply_Documentary_Equipment.Where(a => a.documentary_id == documentary_id && a.equipmentId == equipmentId && a.supply_id == supply_id).FirstOrDefault();
                         }
                         if (temp == null)
                         {
@@ -171,7 +170,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
                                 where s.equipmentId.Equals(equipmentId)
                                 select new
                                 {
-                                    supply_id = s.supply_id,
+                                    supply_id = s.equipmentId_dikem,
                                     quantity = s.quantity
                                 }).ToList();
             return Json(supply_DiKem);

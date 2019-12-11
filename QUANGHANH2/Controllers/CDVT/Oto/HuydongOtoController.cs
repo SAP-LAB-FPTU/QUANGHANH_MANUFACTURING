@@ -18,6 +18,45 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
 {
     public class HuydongOtoController : Controller
     {
+        public class EquipTempSearch
+        {
+            public string equipmentId { get; set; }
+        }
+
+        [HttpPost]
+        public ActionResult ChangeID(string id, string ck)
+        {
+            string sql = "";
+            if (ck.Equals("0"))
+            {
+                sql = @"select e.equipmentId
+                        from Equipment e join Car c on e.equipmentId = c.equipmentId
+                        where e.equipmentId like @id";
+            }
+            else if (ck.Equals("1"))
+            {
+                sql = @"select e.equipment_name as 'equipmentId'
+                        from Equipment e join Car c on e.equipmentId = c.equipmentId
+                        where e.equipment_name like @id";
+            }
+            else if (ck.Equals("2"))
+            {
+                sql = @"select ec.Equipment_category_name as 'equipmentId'
+                        from Equipment e join Equipment_category ec on e.Equipment_category_id = ec.Equipment_category_id
+                             join Car c on e.equipmentId = c.equipmentId
+                        where ec.Equipment_category_name like @id";
+            }
+            else if (ck.Equals("3"))
+            {
+                sql = @"select e.supplier as 'equipmentId'
+                        from Equipment e join Car c on e.equipmentId = c.equipmentId
+                        where e.supplier like @id";
+            }
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            List<EquipTempSearch> list = db.Database.SqlQuery<EquipTempSearch>(sql, new SqlParameter("id", "%" + id + "%")).Take(10).ToList();
+            return Json(new { success = true, id = list }, JsonRequestBehavior.AllowGet);
+        }
+
         public class Temp
         {
             public string abc { get; set; }
@@ -143,12 +182,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                         excelWorksheet.Cells[k, 3].Value = equipList.ElementAt(i).sokhung;
                         excelWorksheet.Cells[k, 4].Value = equipList.ElementAt(i).somay;
                         excelWorksheet.Cells[k, 5].Value = equipList.ElementAt(i).supplier;
-                        excelWorksheet.Cells[k, 6].Value = equipList.ElementAt(i).date_import.ToString("dd/MM/yyyy");
+                        excelWorksheet.Cells[k, 6].Value = equipList.ElementAt(i).date_import.Value.ToString("dd/MM/yyyy");
                         excelWorksheet.Cells[k, 7].Value = equipList.ElementAt(i).depreciation_estimate;
                         excelWorksheet.Cells[k, 8].Value = equipList.ElementAt(i).depreciation_present;
                         excelWorksheet.Cells[k, 9].Value = equipList.ElementAt(i).durationOfInspection_fix;
-                        excelWorksheet.Cells[k, 10].Value = equipList.ElementAt(i).durationOfInsurance.ToString("dd/MM/yyyy");
-                        excelWorksheet.Cells[k, 11].Value = equipList.ElementAt(i).usedDay.ToString("dd/MM/yyyy");
+                        excelWorksheet.Cells[k, 10].Value = equipList.ElementAt(i).durationOfInsurance.Value.ToString("dd/MM/yyyy");
+                        excelWorksheet.Cells[k, 11].Value = equipList.ElementAt(i).usedDay.Value.ToString("dd/MM/yyyy");
                         excelWorksheet.Cells[k, 12].Value = equipList.ElementAt(i).total_operating_hours;
                         excelWorksheet.Cells[k, 13].Value = equipList.ElementAt(i).current_Status;
                         excelWorksheet.Cells[k, 14].Value = equipList.ElementAt(i).mark_code;
@@ -409,7 +448,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                         }
                         Equipment_Inspection ei = new Equipment_Inspection();
                         ei.equipmentId = emp.equipmentId;
-                        ei.inspect_date = emp.durationOfInspection;
+                        ei.inspect_date = emp.durationOfInspection.Value;
                         db.Equipment_Inspection.Add(ei);
                         db.SaveChanges();
                         dbc.Commit();

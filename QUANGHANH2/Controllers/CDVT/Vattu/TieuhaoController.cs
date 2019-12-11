@@ -21,7 +21,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
             _repository = repo;
         }
 
-        [Auther(RightID = "35")]
+        [Auther(RightID = "29")]
         [Route("phong-cdvt/vat-tu/tieu-hao")]
         public ActionResult Index()
         {
@@ -283,7 +283,7 @@ group by a.supply_id, b.supplyid, b.quantity, a.supply_name, b.supply_name, a.un
             return new List<DataTieuHao>();
         }
 
-        [Auther(RightID = "35")]
+        [Auther(RightID = "29")]
         [HttpGet]
         [Route("phong-cdvt/vat-tu/tieu-hao/summary")]
         public ActionResult Summary(string SupplyId, string SupplyName,  string type, string month, string year)

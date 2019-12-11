@@ -34,7 +34,6 @@ namespace QUANGHANH2.Models
         public int documentary_id { get; set; }
         public string documentary_code { get; set; }
         public int documentary_type { get; set; }
-        public string department_id { get; set; }
         public string department_id_to { get; set; }
         public System.DateTime date_created { get; set; }
         public string person_created { get; set; }
@@ -46,7 +45,6 @@ namespace QUANGHANH2.Models
         public virtual ICollection<Acceptance> Acceptances { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Camera_Acceptance> Camera_Acceptance { get; set; }
-        public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Documentary_big_maintain_details> Documentary_big_maintain_details { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -66,9 +66,9 @@ namespace QUANGHANHCORE.Controllers.CDVT
                                     {
                                         equipment_name = x.equipment_name,
                                         equipmentId = x.equipmentId,
-                                        ngay = x.durationOfInspection.Day,
-                                        thang = x.durationOfInspection.Month,
-                                        nam = x.durationOfInspection.Year
+                                        ngay = x.durationOfInspection.Value.Day,
+                                        thang = x.durationOfInspection.Value.Month,
+                                        nam = x.durationOfInspection.Value.Year
                                     }).Take(10).ToList().Distinct();
             ViewBag.kiemdinhtag = hanDangKiem.Count();
             ViewBag.handangkiem = hanDangKiem;
@@ -77,9 +77,9 @@ namespace QUANGHANHCORE.Controllers.CDVT
                                     {
                                         equipment_name = x.equipment_name,
                                         equipmentId = x.equipmentId,
-                                        ngay = x.durationOfMaintainance.Day,
-                                        thang = x.durationOfMaintainance.Month,
-                                        nam = x.durationOfMaintainance.Year
+                                        ngay = x.durationOfMaintainance.Value.Day,
+                                        thang = x.durationOfMaintainance.Value.Month,
+                                        nam = x.durationOfMaintainance.Value.Year
                                     }).Take(10).ToList().Distinct();
             ViewBag.baoduongtag = hanBaoduong.Count();
             ViewBag.hanbaoduong = hanBaoduong;
@@ -168,10 +168,10 @@ namespace QUANGHANHCORE.Controllers.CDVT
                                      {
                                          equipment_name = equip.equipment_name,
                                          equipmentId = equip.equipmentId,
-                                         day = equip.durationOfInspection,
-                                         ngay = equip.durationOfInspection.Day,
-                                         thang = equip.durationOfInspection.Month,
-                                         nam = equip.durationOfInspection.Year
+                                         day = equip.durationOfInspection.Value,
+                                         ngay = equip.durationOfInspection.Value.Day,
+                                         thang = equip.durationOfInspection.Value.Month,
+                                         nam = equip.durationOfInspection.Value.Year
                                      }).Take(10).GroupBy(x=>x.equipment_name + x.equipmentId + x.ngay+x.thang+x.nam).Select(x=>x.FirstOrDefault()).OrderBy(x => x.day);
             ViewBag.kiemdinhcogioitag = hanDangKiemcogioi.Count();
             ViewBag.hanDangKiemcogioi = hanDangKiemcogioi;
@@ -183,9 +183,9 @@ namespace QUANGHANHCORE.Controllers.CDVT
                                      {
                                          equipment_name = equip.equipment_name,
                                          equipmentId = equip.equipmentId,
-                                         ngay = equip.durationOfMaintainance.Day,
-                                         thang = equip.durationOfMaintainance.Month,
-                                         nam = equip.durationOfMaintainance.Year
+                                         ngay = equip.durationOfMaintainance.Value.Day,
+                                         thang = equip.durationOfMaintainance.Value.Month,
+                                         nam = equip.durationOfMaintainance.Value.Year
                                      }).Take(10).GroupBy(x => x.equipment_name + x.equipmentId + x.ngay + x.thang + x.nam).Select(x => x.FirstOrDefault());
             ViewBag.baoduongcogioitag = hanBaoduongcogioi.Count();
             ViewBag.hanBaoduongcogioi = hanBaoduongcogioi;

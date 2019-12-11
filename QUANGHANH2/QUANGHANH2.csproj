@@ -199,6 +199,7 @@
     <Compile Include="Controllers\CDVT\Quyetdinh\BaoDuong\XuLyQuyetDinhController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\CaiTien\ChiTietController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\CaiTien\XuLyQuyetDinhController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\CapNhatQuyetDinhController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\DieuDong\ChiTietController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\DieuDong\ChonThietBiController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\DieuDong\DanhSachController.cs" />
@@ -516,13 +517,16 @@
     <Compile Include="Models\Header_DiemDanh_NangSuat_LaoDong.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\header_KeHoachTungThang.cs">
+    <Compile Include="Models\header_KeHoachSanXuatNam.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\header_KeHoach_TieuChi_TheoNgay.cs">
+    <Compile Include="Models\header_KeHoachSanXuatNgay.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\header_ThucHienTheoNgay.cs">
+    <Compile Include="Models\header_KeHoachSanXuatThang.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\header_ThucHienSanXuatNgay.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\HistoryWork.cs" />
@@ -534,10 +538,13 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\InsideExcel.cs" />
-    <Compile Include="Models\KeHoach_TieuChi_TheoNgay.cs">
+    <Compile Include="Models\KeHoachSanXuatNam.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\KeHoach_TieuChi_TheoThang.cs">
+    <Compile Include="Models\KeHoachSanXuatNgay.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KeHoachSanXuatThang.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\LichSuBoSungSYLL.cs">
@@ -639,10 +646,22 @@
     <Compile Include="Models\ThangLuong.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ThucHien_TieuChi_TheoNgay.cs">
+    <Compile Include="Models\ThucHienSanXuatNgay.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TieuChi.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TieuChiCon_Ngay.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TieuChiCon_Thang.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TinhChat_TieuChi.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\To.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TrangThai.cs">
@@ -655,6 +674,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TuyenDung_NhanVien.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VatLieu.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="ModelViews\PxdsModelView.cs" />
@@ -6478,6 +6500,7 @@
     <Content Include="js\Custom JS\CDVT\Dashboard\PUDashboard.js" />
     <Content Include="js\Custom JS\CDVT\Home\DetailManu_Daily.js" />
     <Content Include="js\Custom JS\CDVT\Home\huydong.js" />
+    <Content Include="js\Custom JS\CDVT\QuyetDinh\DanhSach.js" />
     <Content Include="js\Custom JS\CDVT\Report\ChangeDateType.js" />
     <Content Include="js\Custom JS\CDVT\Report\custom-pie2.js" />
     <Content Include="js\Custom JS\CDVT\Report\DetailManu.js" />
@@ -7131,6 +7154,7 @@
     <Content Include="excel\Camera\Download\camera-temp-download.xlsx" />
     <Content Include="excel\DK\DanhSachTaiNan.xlsx" />
     <Content Include="excel\DK\DanhSachTaiNan-download.xlsx" />
+    <Content Include="excel\TCLD\Report\Báo cáo năng suất lao động và tiền lương theo các phân xưởng theo tháng.xlsx" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -7138,7 +7162,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="excel\TCLD\Report\Báo cáo năng suất lao động và tiền lương theo các phân xưởng theo tháng.xlsx" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
@@ -7302,7 +7325,6 @@
     <Content Include="Views\TCLD\Certificate\List.cshtml" />
     <Content Include="Views\TCLD\Certificate\ListBriefByCertificate.cshtml" />
     <Content Include="Views\TCLD\MaterialProtection\List.cshtml" />
-    <Content Include="Views\TCLD\Report\Daily.cshtml" />
     <Content Include="Views\TCLD\Report\DailyAll.cshtml" />
     <Content Include="Views\TCLD\Report\DepartmentMonthly.cshtml" />
     <Content Include="Views\TCLD\Report\Monthly.cshtml" />
@@ -7471,6 +7493,7 @@
     <Folder Include="FileContainer\PhanXuongLenDK\" />
     <Folder Include="Library\" />
     <Folder Include="Views\BaoCaoDemo\" />
+    <Folder Include="Views\CapNhatQuyetDinh\" />
     <Folder Include="Views\ChiTiet\" />
     <Folder Include="Views\ExportWord\" />
     <Folder Include="Views\TransferHistory\" />

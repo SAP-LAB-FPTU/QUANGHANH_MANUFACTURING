@@ -8,48 +8,37 @@
         <div class="row">
             <div class="col m12">
                 <h3 class="center"><b>CHI TIẾT ĐIỀU ĐỘNG</b></h3>
-                @if (ViewBag.validate == 0)
-                {
-                    <h4>Bạn đã chọn 2 hoặc nhiều thiết bị khác vị trí, xin vui lòng <a href="/phong-cdvt/dieu-dong">quay lại</a> </h4>
-                }
-                else
-                {
-                    <form method="post" id="myform">
-                        <div class="col s3 m3">
-                            <label for="department_id_from">Vị trí ban đầu</label>
-                            <input id="department_id_from" class="form-control" type="text" disabled value="@ViewBag.department_name" />
-                            <input name="department_id" id="depa-id" type="hidden" readonly value="@ViewBag.department_id" />
-                        </div>
-                        <div class="col s3 m3">
-                            <textarea name="data" hidden value="" id="json"></textarea>
-                            <label for="department_id_to">Điều động đến <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
-                            <input id="department_id_to" name="department_id_to" type="text" required class='form-control' list="departmentName" value="@ViewBag.department_id" />
-                        </div>
-                        <div class="col s3 m3">
-                            <label for="out_in_come">Nguồn vốn</label>
-                            <input readonly id="out_in_come" name="out_in_come" class="form-control" type="text" />
-                        </div>
-                        <div class="col s3 m3">
-                            <label for="reason">Nội dung <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
-                            <input id="reason" name="reason" class="form-control" type="text" required />
-                        </div>
-                        <div class="col s12 table_container">
-                            <table id="mytablevattu" class="striped table-responsive centered table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th class="center-align">Mã thiết bị<span></span></th>
-                                        <th class="center-align">Tên thiết bị<span></span></th>
-                                        <th class="center-align">Tình trạng thiết bị<span></span></th>
-                                        <th class="center-align">Vị trí lắp đặt chi tiết<span></span></th>
-                                        <th class="center-align">Đến ngày<span></span></th>
-                                        <th class="center-align">Lý do điều động (không bắt buộc)<span></span></th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @for (int i = 0; i < ViewBag.DataThietBi.Count; i++)
-                                    {
+                <form method="post" id="myform">
+                    <div class="col s3 m3">
+                        <textarea name="data" hidden value="" id="json"></textarea>
+                        <label for="department_id_to">Điều động đến <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
+                        <input id="department_id_to" name="department_id_to" type="text" required class='form-control' list="departmentName" value="@ViewBag.department_id" />
+                    </div>
+                    <div class="col s3 m3">
+                        <label for="out_in_come">Nguồn vốn</label>
+                        <input readonly id="out_in_come" name="out_in_come" class="form-control" type="text" />
+                    </div>
+                    <div class="col s3 m3">
+                        <label for="reason">Nội dung <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
+                        <input id="reason" name="reason" class="form-control" type="text" required />
+                    </div>
+                    <div class="col s12 table_container">
+                        <table id="mytablevattu" class="striped table-responsive centered table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="center-align">Mã thiết bị<span></span></th>
+                                    <th class="center-align">Tên thiết bị<span></span></th>
+                                    <th class="center-align">Tình trạng thiết bị<span></span></th>
+                                    <th class="center-align">Vị trí lắp đặt chi tiết<span></span></th>
+                                    <th class="center-align">Đến ngày<span></span></th>
+                                    <th class="center-align">Lý do điều động (không bắt buộc)<span></span></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < ViewBag.DataThietBi.Count; i++)
+                                {
                                     <tr id="@i">
                                         <td>@ViewBag.DataThietBi[i].equipmentId</td>
                                         <td>@ViewBag.DataThietBi[i].equipment_name</td>
@@ -70,18 +59,17 @@
                                             <a class="btn blue darken-2 modal-trigger open-Modal-DuPhong" data-id="@i" href="#mylist">VT dự phòng</a>
                                         </td>
                                     </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </form>
-                    <input hidden readonly id="type" />
-                    <div class="col l12 m12 s12 center">
-                        <a id="export-button" class="btn blue darken-2">Xuất quyết định</a>
-                        <a id="submit" class="btn blue darken-2 modal-trigger">Xác nhận điều động thiết bị</a>
-                        <a href="dieu-dong" class="btn blue darken-2 ">Quay lại</a>
+                                }
+                            </tbody>
+                        </table>
                     </div>
-                }
+                </form>
+                <input hidden readonly id="type" />
+                <div class="col l12 m12 s12 center">
+                    <a id="export-button" class="btn blue darken-2">Xuất quyết định</a>
+                    <a id="submit" class="btn blue darken-2 modal-trigger">Xác nhận điều động thiết bị</a>
+                    <a href="dieu-dong" class="btn blue darken-2 ">Quay lại</a>
+                </div>
             </div>
         </div>
     </div>

@@ -36,7 +36,9 @@ namespace QUANGHANH2.Models
             this.Incidents = new HashSet<Incident>();
             this.Maintain_Car = new HashSet<Maintain_Car>();
             this.Supply_DiKem = new HashSet<Supply_DiKem>();
+            this.Supply_DiKem1 = new HashSet<Supply_DiKem>();
             this.Supply_Documentary_Equipment = new HashSet<Supply_Documentary_Equipment>();
+            this.Supply_Documentary_Equipment1 = new HashSet<Supply_Documentary_Equipment>();
             this.Supply_DuPhong = new HashSet<Supply_DuPhong>();
             this.SupplyPlans = new HashSet<SupplyPlan>();
         }
@@ -44,21 +46,22 @@ namespace QUANGHANH2.Models
         public string equipmentId { get; set; }
         public string equipment_name { get; set; }
         public string supplier { get; set; }
-        public System.DateTime date_import { get; set; }
-        public double depreciation_estimate { get; set; }
-        public double depreciation_present { get; set; }
-        public System.DateTime durationOfInspection { get; set; }
-        public System.DateTime durationOfInsurance { get; set; }
-        public System.DateTime usedDay { get; set; }
-        public System.DateTime durationOfMaintainance { get; set; }
-        public int total_operating_hours { get; set; }
-        public int current_Status { get; set; }
+        public Nullable<System.DateTime> date_import { get; set; }
+        public Nullable<double> depreciation_estimate { get; set; }
+        public Nullable<double> depreciation_present { get; set; }
+        public Nullable<System.DateTime> durationOfInspection { get; set; }
+        public Nullable<System.DateTime> durationOfInsurance { get; set; }
+        public Nullable<System.DateTime> usedDay { get; set; }
+        public Nullable<System.DateTime> durationOfMaintainance { get; set; }
+        public Nullable<int> total_operating_hours { get; set; }
+        public Nullable<int> current_Status { get; set; }
         public Nullable<double> fabrication_number { get; set; }
         public string mark_code { get; set; }
         public string quality_type { get; set; }
         public string input_channel { get; set; }
         public string Equipment_category_id { get; set; }
         public string department_id { get; set; }
+        public bool isAttach { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Acceptance> Acceptances { get; set; }
@@ -103,7 +106,11 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Supply_DiKem> Supply_DiKem { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Supply_DiKem> Supply_DiKem1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Supply_Documentary_Equipment> Supply_Documentary_Equipment { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Supply_Documentary_Equipment> Supply_Documentary_Equipment1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Supply_DuPhong> Supply_DuPhong { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
