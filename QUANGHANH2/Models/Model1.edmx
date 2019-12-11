@@ -681,22 +681,22 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
         <EntityType Name="KeHoachSanXuatNgay">
           <Key>
             <PropertyRef Name="HeaderID" />
-            <PropertyRef Name="MaTieuChiCon_Ngay" />
+            <PropertyRef Name="MaTieuChiCon" />
             <PropertyRef Name="ThoiGianNhapCuoiCung" />
           </Key>
           <Property Name="HeaderID" Type="int" Nullable="false" />
-          <Property Name="MaTieuChiCon_Ngay" Type="int" Nullable="false" />
+          <Property Name="MaTieuChiCon" Type="int" Nullable="false" />
           <Property Name="SanLuong" Type="float" />
           <Property Name="ThoiGianNhapCuoiCung" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="KeHoachSanXuatThang">
           <Key>
             <PropertyRef Name="HeaderID" />
-            <PropertyRef Name="MaTieuChiCon_Thang" />
+            <PropertyRef Name="MaTieuChiCon" />
             <PropertyRef Name="ThoiGianNhapCuoiCung" />
           </Key>
           <Property Name="HeaderID" Type="int" Nullable="false" />
-          <Property Name="MaTieuChiCon_Thang" Type="int" Nullable="false" />
+          <Property Name="MaTieuChiCon" Type="int" Nullable="false" />
           <Property Name="SanLuong" Type="float" />
           <Property Name="ThoiGianNhapCuoiCung" Type="datetime" Nullable="false" />
           <Property Name="SoNgayLamViec" Type="int" />
@@ -1045,7 +1045,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
           <Property Name="MaTieuChiCon" Type="int" Nullable="false" />
           <Property Name="SanLuong" Type="float" />
           <Property Name="GhiChu" Type="nvarchar(max)" />
-          <Property Name="MaTieuChiCon_Ngay" Type="int" />
           <Property Name="MaVatLieu" Type="int" />
         </EntityType>
         <EntityType Name="TieuChi">
@@ -1057,23 +1056,15 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
           <Property Name="DonViDo" Type="nvarchar" MaxLength="100" />
           <Property Name="MaNhomTieuChi" Type="int" />
         </EntityType>
-        <EntityType Name="TieuChiCon_Ngay">
-          <Key>
-            <PropertyRef Name="MaTieuChiCon_Ngay" />
-          </Key>
-          <Property Name="MaTieuChiCon_Ngay" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TenTieuChiCon_Ngay" Type="nvarchar" MaxLength="1000" />
-          <Property Name="IsEnabled" Type="bit" />
-          <Property Name="MaTinhChat_TieuChi" Type="int" />
-        </EntityType>
         <EntityType Name="TieuChiCon_Thang">
           <Key>
-            <PropertyRef Name="MaTieuChiCon_Thang" />
+            <PropertyRef Name="MaTieuChiCon" />
           </Key>
-          <Property Name="MaTieuChiCon_Thang" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TenTieuChiCon_Thang" Type="nvarchar" MaxLength="1000" />
+          <Property Name="MaTieuChiCon" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenTieuChiCon" Type="nvarchar" MaxLength="1000" />
           <Property Name="IsEnabled" Type="bit" />
           <Property Name="MaTinhChat_TieuChi" Type="int" />
+          <Property Name="ManThem" Type="nchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="TinhChat_TieuChi">
           <Key>
@@ -2586,18 +2577,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TieuChiCo__MaTin__1EF99443">
-          <End Role="TinhChat_TieuChi" Type="Self.TinhChat_TieuChi" Multiplicity="0..1" />
-          <End Role="TieuChiCon_Ngay" Type="Self.TieuChiCon_Ngay" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TinhChat_TieuChi">
-              <PropertyRef Name="MaTinhChat_TieuChi" />
-            </Principal>
-            <Dependent Role="TieuChiCon_Ngay">
-              <PropertyRef Name="MaTinhChat_TieuChi" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__TinhChat___MaTie__20E1DCB5">
           <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="0..1" />
           <End Role="TinhChat_TieuChi" Type="Self.TinhChat_TieuChi" Multiplicity="*" />
@@ -2814,18 +2793,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_KeHoach_TieuChi_TheoNgay_TieuChiCon_Ngay">
-          <End Role="TieuChiCon_Ngay" Type="Self.TieuChiCon_Ngay" Multiplicity="1" />
-          <End Role="KeHoachSanXuatNgay" Type="Self.KeHoachSanXuatNgay" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TieuChiCon_Ngay">
-              <PropertyRef Name="MaTieuChiCon_Ngay" />
-            </Principal>
-            <Dependent Role="KeHoachSanXuatNgay">
-              <PropertyRef Name="MaTieuChiCon_Ngay" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_KeHoach_TieuChi_TheoThang_header_KeHoachTungThang">
           <End Role="header_KeHoachSanXuatThang" Type="Self.header_KeHoachSanXuatThang" Multiplicity="1" />
           <End Role="KeHoachSanXuatThang" Type="Self.KeHoachSanXuatThang" Multiplicity="*" />
@@ -2843,10 +2810,10 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
           <End Role="KeHoachSanXuatThang" Type="Self.KeHoachSanXuatThang" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TieuChiCon_Thang">
-              <PropertyRef Name="MaTieuChiCon_Thang" />
+              <PropertyRef Name="MaTieuChiCon" />
             </Principal>
             <Dependent Role="KeHoachSanXuatThang">
-              <PropertyRef Name="MaTieuChiCon_Thang" />
+              <PropertyRef Name="MaTieuChiCon" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2859,6 +2826,18 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
             </Principal>
             <Dependent Role="KeHoachSanXuatThang">
               <PropertyRef Name="MaVatLieu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KeHoachSanXuatNgay_TieuChiCon_Thang">
+          <End Role="TieuChiCon_Thang" Type="Self.TieuChiCon_Thang" Multiplicity="1" />
+          <End Role="KeHoachSanXuatNgay" Type="Self.KeHoachSanXuatNgay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TieuChiCon_Thang">
+              <PropertyRef Name="MaTieuChiCon" />
+            </Principal>
+            <Dependent Role="KeHoachSanXuatNgay">
+              <PropertyRef Name="MaTieuChiCon" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2898,18 +2877,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ThucHien_TieuChi_TheoNgay_TieuChiCon_Ngay">
-          <End Role="TieuChiCon_Ngay" Type="Self.TieuChiCon_Ngay" Multiplicity="0..1" />
-          <End Role="ThucHienSanXuatNgay" Type="Self.ThucHienSanXuatNgay" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TieuChiCon_Ngay">
-              <PropertyRef Name="MaTieuChiCon_Ngay" />
-            </Principal>
-            <Dependent Role="ThucHienSanXuatNgay">
-              <PropertyRef Name="MaTieuChiCon_Ngay" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ThucHien_TieuChi_TheoNgay_VatLieu">
           <End Role="VatLieu" Type="Self.VatLieu" Multiplicity="0..1" />
           <End Role="ThucHienSanXuatNgay" Type="Self.ThucHienSanXuatNgay" Multiplicity="*" />
@@ -2919,6 +2886,18 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
             </Principal>
             <Dependent Role="ThucHienSanXuatNgay">
               <PropertyRef Name="MaVatLieu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ThucHienSanXuatNgay_TieuChiCon_Thang">
+          <End Role="TieuChiCon_Thang" Type="Self.TieuChiCon_Thang" Multiplicity="1" />
+          <End Role="ThucHienSanXuatNgay" Type="Self.ThucHienSanXuatNgay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TieuChiCon_Thang">
+              <PropertyRef Name="MaTieuChiCon" />
+            </Principal>
+            <Dependent Role="ThucHienSanXuatNgay">
+              <PropertyRef Name="MaTieuChiCon" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3047,7 +3026,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
           <EntitySet Name="ThangLuong" EntityType="Self.ThangLuong" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ThucHienSanXuatNgay" EntityType="Self.ThucHienSanXuatNgay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TieuChi" EntityType="Self.TieuChi" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TieuChiCon_Ngay" EntityType="Self.TieuChiCon_Ngay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TieuChiCon_Thang" EntityType="Self.TieuChiCon_Thang" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TinhChat_TieuChi" EntityType="Self.TinhChat_TieuChi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="To" EntityType="Self.To" Schema="dbo" store:Type="Tables" />
@@ -3552,10 +3530,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
             <End Role="NhanVien" EntitySet="NhanVien" />
             <End Role="TaiNan" EntitySet="TaiNan" />
           </AssociationSet>
-          <AssociationSet Name="FK__TieuChiCo__MaTin__1EF99443" Association="Self.FK__TieuChiCo__MaTin__1EF99443">
-            <End Role="TinhChat_TieuChi" EntitySet="TinhChat_TieuChi" />
-            <End Role="TieuChiCon_Ngay" EntitySet="TieuChiCon_Ngay" />
-          </AssociationSet>
           <AssociationSet Name="FK__TinhChat___MaTie__20E1DCB5" Association="Self.FK__TinhChat___MaTie__20E1DCB5">
             <End Role="TieuChi" EntitySet="TieuChi" />
             <End Role="TinhChat_TieuChi" EntitySet="TinhChat_TieuChi" />
@@ -3628,10 +3602,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
             <End Role="TieuChi" EntitySet="TieuChi" />
             <End Role="KeHoachSanXuatNam" EntitySet="KeHoachSanXuatNam" />
           </AssociationSet>
-          <AssociationSet Name="FK_KeHoach_TieuChi_TheoNgay_TieuChiCon_Ngay" Association="Self.FK_KeHoach_TieuChi_TheoNgay_TieuChiCon_Ngay">
-            <End Role="TieuChiCon_Ngay" EntitySet="TieuChiCon_Ngay" />
-            <End Role="KeHoachSanXuatNgay" EntitySet="KeHoachSanXuatNgay" />
-          </AssociationSet>
           <AssociationSet Name="FK_KeHoach_TieuChi_TheoThang_header_KeHoachTungThang" Association="Self.FK_KeHoach_TieuChi_TheoThang_header_KeHoachTungThang">
             <End Role="header_KeHoachSanXuatThang" EntitySet="header_KeHoachSanXuatThang" />
             <End Role="KeHoachSanXuatThang" EntitySet="KeHoachSanXuatThang" />
@@ -3643,6 +3613,10 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
           <AssociationSet Name="FK_KeHoach_TieuChi_TheoThang_VatLieu" Association="Self.FK_KeHoach_TieuChi_TheoThang_VatLieu">
             <End Role="VatLieu" EntitySet="VatLieu" />
             <End Role="KeHoachSanXuatThang" EntitySet="KeHoachSanXuatThang" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KeHoachSanXuatNgay_TieuChiCon_Thang" Association="Self.FK_KeHoachSanXuatNgay_TieuChiCon_Thang">
+            <End Role="TieuChiCon_Thang" EntitySet="TieuChiCon_Thang" />
+            <End Role="KeHoachSanXuatNgay" EntitySet="KeHoachSanXuatNgay" />
           </AssociationSet>
           <AssociationSet Name="FK_NhanVien_CongViec" Association="Self.FK_NhanVien_CongViec">
             <End Role="CongViec" EntitySet="CongViec" />
@@ -3656,12 +3630,12 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
             <End Role="header_ThucHienSanXuatNgay" EntitySet="header_ThucHienSanXuatNgay" />
             <End Role="ThucHienSanXuatNgay" EntitySet="ThucHienSanXuatNgay" />
           </AssociationSet>
-          <AssociationSet Name="FK_ThucHien_TieuChi_TheoNgay_TieuChiCon_Ngay" Association="Self.FK_ThucHien_TieuChi_TheoNgay_TieuChiCon_Ngay">
-            <End Role="TieuChiCon_Ngay" EntitySet="TieuChiCon_Ngay" />
-            <End Role="ThucHienSanXuatNgay" EntitySet="ThucHienSanXuatNgay" />
-          </AssociationSet>
           <AssociationSet Name="FK_ThucHien_TieuChi_TheoNgay_VatLieu" Association="Self.FK_ThucHien_TieuChi_TheoNgay_VatLieu">
             <End Role="VatLieu" EntitySet="VatLieu" />
+            <End Role="ThucHienSanXuatNgay" EntitySet="ThucHienSanXuatNgay" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ThucHienSanXuatNgay_TieuChiCon_Thang" Association="Self.FK_ThucHienSanXuatNgay_TieuChiCon_Thang">
+            <End Role="TieuChiCon_Thang" EntitySet="TieuChiCon_Thang" />
             <End Role="ThucHienSanXuatNgay" EntitySet="ThucHienSanXuatNgay" />
           </AssociationSet>
           <AssociationSet Name="FK_TieuChi_NhomTieuChi" Association="Self.FK_TieuChi_NhomTieuChi">
@@ -4533,24 +4507,24 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
         <EntityType Name="KeHoachSanXuatNgay">
           <Key>
             <PropertyRef Name="HeaderID" />
-            <PropertyRef Name="MaTieuChiCon_Ngay" />
+            <PropertyRef Name="MaTieuChiCon" />
             <PropertyRef Name="ThoiGianNhapCuoiCung" />
           </Key>
           <Property Name="HeaderID" Type="Int32" Nullable="false" />
-          <Property Name="MaTieuChiCon_Ngay" Type="Int32" Nullable="false" />
+          <Property Name="MaTieuChiCon" Type="Int32" Nullable="false" />
           <Property Name="SanLuong" Type="Double" />
           <Property Name="ThoiGianNhapCuoiCung" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="header_KeHoachSanXuatNgay" Relationship="Self.FK__KeHoach_T__Heade__1D4655FB" FromRole="KeHoachSanXuatNgay" ToRole="header_KeHoachSanXuatNgay" />
-          <NavigationProperty Name="TieuChiCon_Ngay" Relationship="Self.FK_KeHoach_TieuChi_TheoNgay_TieuChiCon_Ngay" FromRole="KeHoachSanXuatNgay" ToRole="TieuChiCon_Ngay" />
+          <NavigationProperty Name="TieuChiCon_Thang" Relationship="Self.FK_KeHoachSanXuatNgay_TieuChiCon_Thang" FromRole="KeHoachSanXuatNgay" ToRole="TieuChiCon_Thang" />
         </EntityType>
         <EntityType Name="KeHoachSanXuatThang">
           <Key>
             <PropertyRef Name="HeaderID" />
-            <PropertyRef Name="MaTieuChiCon_Thang" />
+            <PropertyRef Name="MaTieuChiCon" />
             <PropertyRef Name="ThoiGianNhapCuoiCung" />
           </Key>
           <Property Name="HeaderID" Type="Int32" Nullable="false" />
-          <Property Name="MaTieuChiCon_Thang" Type="Int32" Nullable="false" />
+          <Property Name="MaTieuChiCon" Type="Int32" Nullable="false" />
           <Property Name="SanLuong" Type="Double" />
           <Property Name="ThoiGianNhapCuoiCung" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="SoNgayLamViec" Type="Int32" />
@@ -4966,11 +4940,10 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
           <Property Name="MaTieuChiCon" Type="Int32" Nullable="false" />
           <Property Name="SanLuong" Type="Double" />
           <Property Name="GhiChu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="MaTieuChiCon_Ngay" Type="Int32" />
           <Property Name="MaVatLieu" Type="Int32" />
           <NavigationProperty Name="header_ThucHienSanXuatNgay" Relationship="Self.FK_ThucHien_TieuChi_TheoNgay_header_ThucHienTheoNgay" FromRole="ThucHienSanXuatNgay" ToRole="header_ThucHienSanXuatNgay" />
-          <NavigationProperty Name="TieuChiCon_Ngay" Relationship="Self.FK_ThucHien_TieuChi_TheoNgay_TieuChiCon_Ngay" FromRole="ThucHienSanXuatNgay" ToRole="TieuChiCon_Ngay" />
           <NavigationProperty Name="VatLieu" Relationship="Self.FK_ThucHien_TieuChi_TheoNgay_VatLieu" FromRole="ThucHienSanXuatNgay" ToRole="VatLieu" />
+          <NavigationProperty Name="TieuChiCon_Thang" Relationship="Self.FK_ThucHienSanXuatNgay_TieuChiCon_Thang" FromRole="ThucHienSanXuatNgay" ToRole="TieuChiCon_Thang" />
         </EntityType>
         <EntityType Name="TieuChi">
           <Key>
@@ -4985,27 +4958,18 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
           <NavigationProperty Name="PhongBan_TieuChi" Relationship="Self.FK__PhongBan___MaTie__1A34DF26" FromRole="TieuChi" ToRole="PhongBan_TieuChi" />
           <NavigationProperty Name="TinhChat_TieuChi" Relationship="Self.FK__TinhChat___MaTie__20E1DCB5" FromRole="TieuChi" ToRole="TinhChat_TieuChi" />
         </EntityType>
-        <EntityType Name="TieuChiCon_Ngay">
-          <Key>
-            <PropertyRef Name="MaTieuChiCon_Ngay" />
-          </Key>
-          <Property Name="MaTieuChiCon_Ngay" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TenTieuChiCon_Ngay" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="IsEnabled" Type="Boolean" />
-          <Property Name="MaTinhChat_TieuChi" Type="Int32" />
-          <NavigationProperty Name="KeHoachSanXuatNgays" Relationship="Self.FK_KeHoach_TieuChi_TheoNgay_TieuChiCon_Ngay" FromRole="TieuChiCon_Ngay" ToRole="KeHoachSanXuatNgay" />
-          <NavigationProperty Name="ThucHienSanXuatNgays" Relationship="Self.FK_ThucHien_TieuChi_TheoNgay_TieuChiCon_Ngay" FromRole="TieuChiCon_Ngay" ToRole="ThucHienSanXuatNgay" />
-          <NavigationProperty Name="TinhChat_TieuChi" Relationship="Self.FK__TieuChiCo__MaTin__1EF99443" FromRole="TieuChiCon_Ngay" ToRole="TinhChat_TieuChi" />
-        </EntityType>
         <EntityType Name="TieuChiCon_Thang">
           <Key>
-            <PropertyRef Name="MaTieuChiCon_Thang" />
+            <PropertyRef Name="MaTieuChiCon" />
           </Key>
-          <Property Name="MaTieuChiCon_Thang" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TenTieuChiCon_Thang" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="MaTieuChiCon" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenTieuChiCon" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="IsEnabled" Type="Boolean" />
           <Property Name="MaTinhChat_TieuChi" Type="Int32" />
+          <Property Name="ManThem" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="KeHoachSanXuatNgays" Relationship="Self.FK_KeHoachSanXuatNgay_TieuChiCon_Thang" FromRole="TieuChiCon_Thang" ToRole="KeHoachSanXuatNgay" />
           <NavigationProperty Name="KeHoachSanXuatThangs" Relationship="Self.FK_KeHoach_TieuChi_TheoThang_TieuChiCon" FromRole="TieuChiCon_Thang" ToRole="KeHoachSanXuatThang" />
+          <NavigationProperty Name="ThucHienSanXuatNgays" Relationship="Self.FK_ThucHienSanXuatNgay_TieuChiCon_Thang" FromRole="TieuChiCon_Thang" ToRole="ThucHienSanXuatNgay" />
           <NavigationProperty Name="TinhChat_TieuChi" Relationship="Self.FK_TieuChiCon_TinhChat_TieuChi" FromRole="TieuChiCon_Thang" ToRole="TinhChat_TieuChi" />
         </EntityType>
         <EntityType Name="TinhChat_TieuChi">
@@ -5016,7 +4980,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
           <Property Name="TenTinhChat_TieuChi" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="MaTieuChi" Type="Int32" />
           <NavigationProperty Name="TieuChi" Relationship="Self.FK__TinhChat___MaTie__20E1DCB5" FromRole="TinhChat_TieuChi" ToRole="TieuChi" />
-          <NavigationProperty Name="TieuChiCon_Ngay" Relationship="Self.FK__TieuChiCo__MaTin__1EF99443" FromRole="TinhChat_TieuChi" ToRole="TieuChiCon_Ngay" />
           <NavigationProperty Name="TieuChiCon_Thang" Relationship="Self.FK_TieuChiCon_TinhChat_TieuChi" FromRole="TinhChat_TieuChi" ToRole="TieuChiCon_Thang" />
         </EntityType>
         <EntityType Name="To">
@@ -6597,15 +6560,15 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_KeHoach_TieuChi_TheoNgay_TieuChiCon_Ngay">
-          <End Role="TieuChiCon_Ngay" Type="Self.TieuChiCon_Ngay" Multiplicity="1" />
+        <Association Name="FK_KeHoachSanXuatNgay_TieuChiCon_Thang">
+          <End Role="TieuChiCon_Thang" Type="Self.TieuChiCon_Thang" Multiplicity="1" />
           <End Role="KeHoachSanXuatNgay" Type="Self.KeHoachSanXuatNgay" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TieuChiCon_Ngay">
-              <PropertyRef Name="MaTieuChiCon_Ngay" />
+            <Principal Role="TieuChiCon_Thang">
+              <PropertyRef Name="MaTieuChiCon" />
             </Principal>
             <Dependent Role="KeHoachSanXuatNgay">
-              <PropertyRef Name="MaTieuChiCon_Ngay" />
+              <PropertyRef Name="MaTieuChiCon" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6614,10 +6577,10 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
           <End Role="KeHoachSanXuatThang" Type="Self.KeHoachSanXuatThang" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TieuChiCon_Thang">
-              <PropertyRef Name="MaTieuChiCon_Thang" />
+              <PropertyRef Name="MaTieuChiCon" />
             </Principal>
             <Dependent Role="KeHoachSanXuatThang">
-              <PropertyRef Name="MaTieuChiCon_Thang" />
+              <PropertyRef Name="MaTieuChiCon" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6873,18 +6836,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ThucHien_TieuChi_TheoNgay_TieuChiCon_Ngay">
-          <End Role="TieuChiCon_Ngay" Type="Self.TieuChiCon_Ngay" Multiplicity="0..1" />
-          <End Role="ThucHienSanXuatNgay" Type="Self.ThucHienSanXuatNgay" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TieuChiCon_Ngay">
-              <PropertyRef Name="MaTieuChiCon_Ngay" />
-            </Principal>
-            <Dependent Role="ThucHienSanXuatNgay">
-              <PropertyRef Name="MaTieuChiCon_Ngay" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ThucHien_TieuChi_TheoNgay_VatLieu">
           <End Role="VatLieu" Type="Self.VatLieu" Multiplicity="0..1" />
           <End Role="ThucHienSanXuatNgay" Type="Self.ThucHienSanXuatNgay" Multiplicity="*" />
@@ -6897,6 +6848,18 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ThucHienSanXuatNgay_TieuChiCon_Thang">
+          <End Role="TieuChiCon_Thang" Type="Self.TieuChiCon_Thang" Multiplicity="1" />
+          <End Role="ThucHienSanXuatNgay" Type="Self.ThucHienSanXuatNgay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TieuChiCon_Thang">
+              <PropertyRef Name="MaTieuChiCon" />
+            </Principal>
+            <Dependent Role="ThucHienSanXuatNgay">
+              <PropertyRef Name="MaTieuChiCon" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__TinhChat___MaTie__20E1DCB5">
           <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="0..1" />
           <End Role="TinhChat_TieuChi" Type="Self.TinhChat_TieuChi" Multiplicity="*" />
@@ -6906,18 +6869,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
             </Principal>
             <Dependent Role="TinhChat_TieuChi">
               <PropertyRef Name="MaTieuChi" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__TieuChiCo__MaTin__1EF99443">
-          <End Role="TinhChat_TieuChi" Type="Self.TinhChat_TieuChi" Multiplicity="0..1" />
-          <End Role="TieuChiCon_Ngay" Type="Self.TieuChiCon_Ngay" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TinhChat_TieuChi">
-              <PropertyRef Name="MaTinhChat_TieuChi" />
-            </Principal>
-            <Dependent Role="TieuChiCon_Ngay">
-              <PropertyRef Name="MaTinhChat_TieuChi" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -7022,7 +6973,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
           <EntitySet Name="ThangLuongs" EntityType="Self.ThangLuong" />
           <EntitySet Name="ThucHienSanXuatNgays" EntityType="Self.ThucHienSanXuatNgay" />
           <EntitySet Name="TieuChis" EntityType="Self.TieuChi" />
-          <EntitySet Name="TieuChiCon_Ngay" EntityType="Self.TieuChiCon_Ngay" />
           <EntitySet Name="TieuChiCon_Thang" EntityType="Self.TieuChiCon_Thang" />
           <EntitySet Name="TinhChat_TieuChi" EntityType="Self.TinhChat_TieuChi" />
           <EntitySet Name="Toes" EntityType="Self.To" />
@@ -7525,8 +7475,8 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
             <End Role="TieuChi" EntitySet="TieuChis" />
             <End Role="KeHoachSanXuatNam" EntitySet="KeHoachSanXuatNams" />
           </AssociationSet>
-          <AssociationSet Name="FK_KeHoach_TieuChi_TheoNgay_TieuChiCon_Ngay" Association="Self.FK_KeHoach_TieuChi_TheoNgay_TieuChiCon_Ngay">
-            <End Role="TieuChiCon_Ngay" EntitySet="TieuChiCon_Ngay" />
+          <AssociationSet Name="FK_KeHoachSanXuatNgay_TieuChiCon_Thang" Association="Self.FK_KeHoachSanXuatNgay_TieuChiCon_Thang">
+            <End Role="TieuChiCon_Thang" EntitySet="TieuChiCon_Thang" />
             <End Role="KeHoachSanXuatNgay" EntitySet="KeHoachSanXuatNgays" />
           </AssociationSet>
           <AssociationSet Name="FK_KeHoach_TieuChi_TheoThang_TieuChiCon" Association="Self.FK_KeHoach_TieuChi_TheoThang_TieuChiCon">
@@ -7617,21 +7567,17 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
             <End Role="Supply" EntitySet="Supplies" />
             <End Role="SupplyPlan" EntitySet="SupplyPlans" />
           </AssociationSet>
-          <AssociationSet Name="FK_ThucHien_TieuChi_TheoNgay_TieuChiCon_Ngay" Association="Self.FK_ThucHien_TieuChi_TheoNgay_TieuChiCon_Ngay">
-            <End Role="TieuChiCon_Ngay" EntitySet="TieuChiCon_Ngay" />
-            <End Role="ThucHienSanXuatNgay" EntitySet="ThucHienSanXuatNgays" />
-          </AssociationSet>
           <AssociationSet Name="FK_ThucHien_TieuChi_TheoNgay_VatLieu" Association="Self.FK_ThucHien_TieuChi_TheoNgay_VatLieu">
             <End Role="VatLieu" EntitySet="VatLieux" />
+            <End Role="ThucHienSanXuatNgay" EntitySet="ThucHienSanXuatNgays" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ThucHienSanXuatNgay_TieuChiCon_Thang" Association="Self.FK_ThucHienSanXuatNgay_TieuChiCon_Thang">
+            <End Role="TieuChiCon_Thang" EntitySet="TieuChiCon_Thang" />
             <End Role="ThucHienSanXuatNgay" EntitySet="ThucHienSanXuatNgays" />
           </AssociationSet>
           <AssociationSet Name="FK__TinhChat___MaTie__20E1DCB5" Association="Self.FK__TinhChat___MaTie__20E1DCB5">
             <End Role="TieuChi" EntitySet="TieuChis" />
             <End Role="TinhChat_TieuChi" EntitySet="TinhChat_TieuChi" />
-          </AssociationSet>
-          <AssociationSet Name="FK__TieuChiCo__MaTin__1EF99443" Association="Self.FK__TieuChiCo__MaTin__1EF99443">
-            <End Role="TinhChat_TieuChi" EntitySet="TinhChat_TieuChi" />
-            <End Role="TieuChiCon_Ngay" EntitySet="TieuChiCon_Ngay" />
           </AssociationSet>
           <AssociationSet Name="FK_TieuChiCon_TinhChat_TieuChi" Association="Self.FK_TieuChiCon_TinhChat_TieuChi">
             <End Role="TinhChat_TieuChi" EntitySet="TinhChat_TieuChi" />
@@ -8342,7 +8288,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
             <EntityTypeMapping TypeName="QUANGHANHABCModel.KeHoachSanXuatNgay">
               <MappingFragment StoreEntitySet="KeHoachSanXuatNgay">
                 <ScalarProperty Name="HeaderID" ColumnName="HeaderID" />
-                <ScalarProperty Name="MaTieuChiCon_Ngay" ColumnName="MaTieuChiCon_Ngay" />
+                <ScalarProperty Name="MaTieuChiCon" ColumnName="MaTieuChiCon" />
                 <ScalarProperty Name="SanLuong" ColumnName="SanLuong" />
                 <ScalarProperty Name="ThoiGianNhapCuoiCung" ColumnName="ThoiGianNhapCuoiCung" />
               </MappingFragment>
@@ -8352,7 +8298,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
             <EntityTypeMapping TypeName="QUANGHANHABCModel.KeHoachSanXuatThang">
               <MappingFragment StoreEntitySet="KeHoachSanXuatThang">
                 <ScalarProperty Name="HeaderID" ColumnName="HeaderID" />
-                <ScalarProperty Name="MaTieuChiCon_Thang" ColumnName="MaTieuChiCon_Thang" />
+                <ScalarProperty Name="MaTieuChiCon" ColumnName="MaTieuChiCon" />
                 <ScalarProperty Name="SanLuong" ColumnName="SanLuong" />
                 <ScalarProperty Name="ThoiGianNhapCuoiCung" ColumnName="ThoiGianNhapCuoiCung" />
                 <ScalarProperty Name="SoNgayLamViec" ColumnName="SoNgayLamViec" />
@@ -8708,7 +8654,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
                 <ScalarProperty Name="MaTieuChiCon" ColumnName="MaTieuChiCon" />
                 <ScalarProperty Name="SanLuong" ColumnName="SanLuong" />
                 <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
-                <ScalarProperty Name="MaTieuChiCon_Ngay" ColumnName="MaTieuChiCon_Ngay" />
                 <ScalarProperty Name="MaVatLieu" ColumnName="MaVatLieu" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -8723,23 +8668,14 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TieuChiCon_Ngay">
-            <EntityTypeMapping TypeName="QUANGHANHABCModel.TieuChiCon_Ngay">
-              <MappingFragment StoreEntitySet="TieuChiCon_Ngay">
-                <ScalarProperty Name="MaTieuChiCon_Ngay" ColumnName="MaTieuChiCon_Ngay" />
-                <ScalarProperty Name="TenTieuChiCon_Ngay" ColumnName="TenTieuChiCon_Ngay" />
-                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
-                <ScalarProperty Name="MaTinhChat_TieuChi" ColumnName="MaTinhChat_TieuChi" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TieuChiCon_Thang">
             <EntityTypeMapping TypeName="QUANGHANHABCModel.TieuChiCon_Thang">
               <MappingFragment StoreEntitySet="TieuChiCon_Thang">
-                <ScalarProperty Name="MaTieuChiCon_Thang" ColumnName="MaTieuChiCon_Thang" />
-                <ScalarProperty Name="TenTieuChiCon_Thang" ColumnName="TenTieuChiCon_Thang" />
+                <ScalarProperty Name="MaTieuChiCon" ColumnName="MaTieuChiCon" />
+                <ScalarProperty Name="TenTieuChiCon" ColumnName="TenTieuChiCon" />
                 <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
                 <ScalarProperty Name="MaTinhChat_TieuChi" ColumnName="MaTinhChat_TieuChi" />
+                <ScalarProperty Name="ManThem" ColumnName="ManThem" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
