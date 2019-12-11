@@ -940,6 +940,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
           <Property Name="equipmentId_dikem" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="quantity" Type="int" Nullable="false" />
           <Property Name="note" Type="nvarchar" MaxLength="150" />
+          <Property Name="quantity_duphong" Type="int" />
         </EntityType>
         <EntityType Name="Supply_Documentary_Camera">
           <Key>
@@ -3047,7 +3048,8 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
     [Supply_DiKem].[equipmentId] AS [equipmentId], 
     [Supply_DiKem].[equipmentId_dikem] AS [equipmentId_dikem], 
     [Supply_DiKem].[quantity] AS [quantity], 
-    [Supply_DiKem].[note] AS [note]
+    [Supply_DiKem].[note] AS [note], 
+    [Supply_DiKem].[quantity_duphong] AS [quantity_duphong]
     FROM [dbo].[Supply_DiKem] AS [Supply_DiKem]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK__Acceptanc__docum__2A164134" Association="Self.FK__Acceptanc__docum__2A164134">
@@ -5065,6 +5067,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
           <Property Name="equipmentId_dikem" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="quantity" Type="Int32" Nullable="false" />
           <Property Name="note" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="quantity_duphong" Type="Int32" />
           <NavigationProperty Name="Equipment" Relationship="Self.FK__Supply_Di__equip__37FA4C37" FromRole="Supply_DiKem" ToRole="Equipment" />
           <NavigationProperty Name="Equipment1" Relationship="Self.FK__Supply_Di__equip__38EE7070" FromRole="Supply_DiKem" ToRole="Equipment" />
         </EntityType>
@@ -8757,6 +8760,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Supply_DiKem' does not have a pri
                 <ScalarProperty Name="equipmentId_dikem" ColumnName="equipmentId_dikem" />
                 <ScalarProperty Name="quantity" ColumnName="quantity" />
                 <ScalarProperty Name="note" ColumnName="note" />
+                <ScalarProperty Name="quantity_duphong" ColumnName="quantity_duphong" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
