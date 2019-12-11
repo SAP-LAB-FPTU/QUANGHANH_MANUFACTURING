@@ -89,22 +89,23 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Thời hạn bảo hiểm</label>
-                        @*@Html.LabelFor(model => model.durationOfInsurance, htmlAttributes: new { @class = "control-label col-md-2" })*@
-                        <div class="col-md-10">
-                            <input name="duraInsura" type="text" class="form-control datepicker-here maxDate" />
-                            @Html.EditorFor(model => model.durationOfInsurance, new { htmlAttributes = new { @style = "display: none !important" } })
-                            @Html.ValidationMessageFor(model => model.durationOfInsurance, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
                         <label>Thời hạn bảo dưỡng</label>
                         @*@Html.LabelFor(model => model.durationOfInsurance, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             <input name="duramain" type="text" class="form-control datepicker-here maxDate" />
                             @Html.EditorFor(model => model.durationOfMaintainance, new { htmlAttributes = new { @style = "display: none !important" } })
                             @Html.ValidationMessageFor(model => model.durationOfMaintainance, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Loại thiết bị</label>
+                            <div class="col-md-10">
+                                <select class="form-control" name="attype">
+                                    <option value="0">Thiết bị thường</option>
+                                    <option value="1">Thiết bị đính kèm</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div id="plus2">
@@ -285,7 +286,7 @@
                     </tr>
                     <tr>
                         <td>1</td>
-                        <td><input list="Suplist" type='text' name="nameSup" class='form-control' placeholder='Tên vật ưu' /></td>
+                        <td><input list="supDK" type='text' name="nameSup" class='form-control' placeholder='Tên vật ưu' /></td>
                         <td><input type="number" name="quantity" class="form-control" placeholder="Số lượng" /></td>
                         <td><button type="button" class="btnSelect3 btn blue btn-small left"><i class="large material-icons">remove</i></button></td>
                     </tr>
@@ -307,6 +308,14 @@
         </div>
     </div>
 }
+<datalist id="supDK">
+    @{ 
+        foreach(var item in ViewBag.listsupdk)
+        {
+        <option value="@item.equipmentId">@item.equipment_name</option>
+        }
+    }
+</datalist>
 @using (Html.BeginForm("Atri", "Hoatdong", FormMethod.Post, new
 {
     id = "myForm",
@@ -425,7 +434,7 @@
         var cell3 = row.insertCell(2);
         var cell4 = row.insertCell(3);
         cell1.innerHTML = "" + count3 + "";
-        cell2.innerHTML = "<input list='Suplist' type='text' name='nameSup' class='form-control' placeholder='Tên vật ưu' />";
+        cell2.innerHTML = "<input list='supDK' type='text' name='nameSup' class='form-control' placeholder='Tên vật ưu' />";
         cell3.innerHTML = "<input type='number' name='quantity' class='form-control' placeholder='Số lượng' />";
         cell4.innerHTML = "<button type='button' class='btnSelect3 btn blue btn-small left'><i class='large material-icons'>remove</i></button>";
         count3++;
