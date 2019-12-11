@@ -199,6 +199,7 @@
     <Compile Include="Controllers\CDVT\Quyetdinh\BaoDuong\XuLyQuyetDinhController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\CaiTien\ChiTietController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\CaiTien\XuLyQuyetDinhController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\CapNhatQuyetDinhController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\DieuDong\ChiTietController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\DieuDong\ChonThietBiController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\DieuDong\DanhSachController.cs" />
@@ -628,9 +629,6 @@
     </Compile>
     <Compile Include="Models\Supply_Extend.cs" />
     <Compile Include="Models\Supply_tieuhao.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TaiNan.cs">
@@ -6478,6 +6476,7 @@
     <Content Include="js\Custom JS\CDVT\Dashboard\PUDashboard.js" />
     <Content Include="js\Custom JS\CDVT\Home\DetailManu_Daily.js" />
     <Content Include="js\Custom JS\CDVT\Home\huydong.js" />
+    <Content Include="js\Custom JS\CDVT\QuyetDinh\DanhSach.js" />
     <Content Include="js\Custom JS\CDVT\Report\ChangeDateType.js" />
     <Content Include="js\Custom JS\CDVT\Report\custom-pie2.js" />
     <Content Include="js\Custom JS\CDVT\Report\DetailManu.js" />
@@ -7131,6 +7130,7 @@
     <Content Include="excel\Camera\Download\camera-temp-download.xlsx" />
     <Content Include="excel\DK\DanhSachTaiNan.xlsx" />
     <Content Include="excel\DK\DanhSachTaiNan-download.xlsx" />
+    <Content Include="excel\TCLD\Report\Báo cáo năng suất lao động và tiền lương theo các phân xưởng theo tháng.xlsx" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -7138,7 +7138,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="excel\TCLD\Report\Báo cáo năng suất lao động và tiền lương theo các phân xưởng theo tháng.xlsx" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
@@ -7471,6 +7470,7 @@
     <Folder Include="FileContainer\PhanXuongLenDK\" />
     <Folder Include="Library\" />
     <Folder Include="Views\BaoCaoDemo\" />
+    <Folder Include="Views\CapNhatQuyetDinh\" />
     <Folder Include="Views\ChiTiet\" />
     <Folder Include="Views\ExportWord\" />
     <Folder Include="Views\TransferHistory\" />

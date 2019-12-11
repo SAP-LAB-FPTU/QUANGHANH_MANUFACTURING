@@ -11,7 +11,7 @@
                 <form action="/phong-cdvt/bao-duong-chon/add" method="post" id="myform">
                     <div class="col s3 m3">
                         <textarea name="data" hidden value="" id="json"></textarea>
-                        <label for="department_id_to">Cải tiến tại <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
+                        <label for="department_id_to">Bảo dưỡng tại <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
                         <input id="department_id_to" name="department_id_to" type="text" required class='form-control' list="departmentName" value="@ViewBag.department_id" />
                     </div>
                     <div class="col s3 m3">
@@ -184,7 +184,6 @@
                     var vattu = {};
                     vattu.supply_id = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(0).val();
                     vattu.quantity = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(1).val();
-                    vattu.supplyStatus = null;
                     vattu.department_id = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(2).val();
                     arr.push(vattu);
                 }

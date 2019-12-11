@@ -453,6 +453,8 @@
         </div>
     </div>
 }
+else
+{
 <div id="chung">
 
     <div class="row center-align">
@@ -791,6 +793,8 @@
 
     </div>
 </div>
+}
+
 
 <div class="card">
     <div class="card-content">
@@ -841,46 +845,61 @@
 <!-- Start Pie Chart -->
 <div class="row">
 
-    <div class="col l12" id="suachuachart" hidden>
+    <div class="col l12" id="suachuachart">
         <div class="card">
             <div class="card-content ">
                 <h5 class="card-title">Thiết bị sửa chữa</h5>
+                <div class="row">
+                    <p id="notiSC" class="center" style="font-size: 20px !important" hidden>Không có dữ liệu</p>
+                </div>
                 <div id="basic-barsc" style="height:400px;"></div>
             </div>
         </div>
     </div>
 
-    <div class="col l12" id="baoduongchart" hidden>
+    <div class="col l12" id="baoduongchart">
         <div class="card">
             <div class="card-content ">
                 <h5 class="card-title">Thiết bị bảo dưỡng</h5>
+                <div class="row">
+                    <p id="notiBD" class="center" style="font-size: 20px !important" hidden>Không có dữ liệu</p>
+                </div>
                 <div id="basic-barbd" style="height:400px;"></div>
             </div>
         </div>
     </div>
 
-    <div class="col l12" id="thanhlichart" hidden>
+    <div class="col l12" id="thanhlichart">
         <div class="card">
             <div class="card-content ">
                 <h5 class="card-title">Thiết bị thanh lí</h5>
+                <div class="row">
+                    <p id="notiTL" class="center" style="font-size: 20px !important" hidden>Không có dữ liệu</p>
+                </div>
                 <div id="basic-bartl" style="height:400px;"></div>
             </div>
         </div>
     </div>
 
-    <div class="col l12" id="trungdaituchart" hidden>
+    <div class="col l12" id="trungdaituchart">
         <div class="card">
             <div class="card-content ">
                 <h5 class="card-title">Trung đại tu thiết bị</h5>
+                <div class="row">
+                    <p id="notiTDT" class="center" style="font-size: 20px !important" hidden>Không có dữ liệu</p>
+                </div>
                 <div id="basic-bartdt" style="height:400px;"></div>
             </div>
         </div>
     </div>
 
-    <div class="col l12" id="kiemdinhchart" hidden>
+    <div class="col l12" id="kiemdinhchart">
         <div class="card">
             <div class="card-content ">
                 <h5 class="card-title">Kiểm định thiết bị</h5>
+                <div class="row">
+                    <p id="notiKD" class="center" style="font-size: 20px !important" hidden>Không có dữ liệu</p>
+                </div>
                 <div id="basic-barkd" style="height:400px;"></div>
             </div>
         </div>
@@ -1106,7 +1125,10 @@
 
 
         var array = @Html.Raw(Json.Encode(ViewBag.trungdaitu));
-        if (array.length != 0) { $('#trungdaituchart').removeAttr('hidden'); }
+        if (array.length == 0) {
+            $('#basic-bartdt').attr('hidden', true);
+            $('#notiTDT').removeAttr('hidden');
+        }
         var a = JSON.stringify(array);
         var jsonData = JSON.parse(a);
         var soluong = [];
@@ -1165,7 +1187,10 @@
         myCharttdt.setOption(option);
 
         var array = @Html.Raw(Json.Encode(ViewBag.kiemdinh));
-        if (array.length != 0) { $('#kiemdinhchart').removeAttr('hidden'); }
+        if (array.length == 0) {
+            $('#basic-barkd').attr('hidden', true);
+            $('#notiKD').removeAttr('hidden');
+        }
         var a = JSON.stringify(array);
         var jsonData = JSON.parse(a);
         var soluong = [];
@@ -1225,7 +1250,10 @@
         myChartkd.setOption(option);
 
         var array = @Html.Raw(Json.Encode(ViewBag.suachua));
-        if (array.length != 0) { $('#suachuachart').removeAttr('hidden'); }
+        if (array.length == 0) {
+            $('#basic-barsc').attr('hidden', true);
+            $('#notiSC').removeAttr('hidden');
+        }
         var a = JSON.stringify(array);
         var jsonData = JSON.parse(a);
         var soluong = [];
@@ -1285,7 +1313,10 @@
         myChartsc.setOption(option);
 
         var array = @Html.Raw(Json.Encode(ViewBag.baoduong));
-        if (array.length != 0) { $('#baoduongchart').removeAttr('hidden'); }
+        if (array.length == 0) {
+            $('#basic-barbd').attr('hidden', true);
+            $('#notiBD').removeAttr('hidden');
+        }
         var a = JSON.stringify(array);
         var jsonData = JSON.parse(a);
         var soluong = [];
@@ -1344,7 +1375,10 @@
         myChartbd.setOption(option);
 
         var array = @Html.Raw(Json.Encode(ViewBag.thanhli));
-        if (array.length != 0) { $('#thanhlichart').removeAttr('hidden'); }
+        if (array.length == 0) {
+            $('#basic-bartl').attr('hidden',true);
+            $('#notiTL').removeAttr('hidden');
+        }
         var a = JSON.stringify(array);
         var jsonData = JSON.parse(a);
         var soluong = [];

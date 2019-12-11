@@ -51,7 +51,7 @@ namespace QUANGHANH2.Controllers
         [HttpPost]
         public JsonResult Index(DataTableAjaxPostModel model)
         {
-            var users = db.Database.SqlQuery<Accountdb>("select  a.ID,a.Username,a.Name,d.department_name from Account a inner join NhanVien nv on a.NVID = nv.MaNV inner join Department d on d.department_id = nv.MaPhongBan").ToList();
+            var users = db.Database.SqlQuery<Accountdb>("select  a.ID,a.Username,a.Name,d.department_name from Account a inner join NhanVien nv on a.NVID = nv.MaNV inner join Department d on d.department_id = nv.MaPhongBan order by d.department_name").ToList();
             var search = users.ToList();
             int CurrentUser = int.Parse(Session["UserID"].ToString());
             if (CurrentUser != 14)
@@ -74,7 +74,7 @@ namespace QUANGHANH2.Controllers
                 search = search.Where(a => a.Name.Contains(searchValue)).ToList();
             }
 
-            var sorting = search.OrderBy(a => a.ID);
+            var sorting = search.OrderBy(a => a.department_name);
             if (model.order[0].column == 2)
             {
                 if (model.order[0].dir.Equals("asc"))

@@ -21,6 +21,7 @@ namespace QUANGHANH2.Controllers.Camera
 {
     public class SuachuaCameraController : Controller
     {
+        [Auther(RightID = "193")]
         [Route("camera/sua-chua")]
         public ActionResult AddSuaChua()
         {
@@ -108,7 +109,7 @@ namespace QUANGHANH2.Controllers.Camera
             }
         }
 
-        //[Auther(RightID = "194")]
+        [Auther(RightID = "193")]
         [Route("camera/quyet-dinh-sua-chua")]
         public ActionResult Index()
         {
@@ -247,7 +248,7 @@ namespace QUANGHANH2.Controllers.Camera
                 return new HttpStatusCodeResult(400);
             }
         }
-
+        [Auther(RightID = "193")]
         [HttpPost]
         public ActionResult DeleteDoc(int docID)
         {
@@ -399,7 +400,7 @@ namespace QUANGHANH2.Controllers.Camera
             }
 
         }
-
+        [Auther(RightID = "193")]
         [Route("camera/sua-chua-chon")]
         [HttpGet]
         public ActionResult Index(String selectListJson)

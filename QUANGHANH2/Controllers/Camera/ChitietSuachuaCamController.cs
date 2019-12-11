@@ -14,11 +14,13 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Script.Serialization;
 using DocumentFormat.OpenXml.Wordprocessing;
+using QUANGHANH2.SupportClass;
 
 namespace QUANGHANH2.Controllers.Camera
 {
     public class ChitietSuachuaCamController : Controller
     {
+        [Auther(RightID = "193")]
         [HttpGet]
         public ActionResult LoadPage(String id)
         {

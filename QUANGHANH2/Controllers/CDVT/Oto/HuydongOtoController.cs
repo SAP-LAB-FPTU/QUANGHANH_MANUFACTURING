@@ -18,6 +18,45 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
 {
     public class HuydongOtoController : Controller
     {
+        public class EquipTempSearch
+        {
+            public string equipmentId { get; set; }
+        }
+
+        [HttpPost]
+        public ActionResult ChangeID(string id, string ck)
+        {
+            string sql = "";
+            if (ck.Equals("0"))
+            {
+                sql = @"select e.equipmentId
+                        from Equipment e join Car c on e.equipmentId = c.equipmentId
+                        where e.equipmentId like @id";
+            }
+            else if (ck.Equals("1"))
+            {
+                sql = @"select e.equipment_name as 'equipmentId'
+                        from Equipment e join Car c on e.equipmentId = c.equipmentId
+                        where e.equipment_name like @id";
+            }
+            else if (ck.Equals("2"))
+            {
+                sql = @"select ec.Equipment_category_name as 'equipmentId'
+                        from Equipment e join Equipment_category ec on e.Equipment_category_id = ec.Equipment_category_id
+                             join Car c on e.equipmentId = c.equipmentId
+                        where ec.Equipment_category_name like @id";
+            }
+            else if (ck.Equals("3"))
+            {
+                sql = @"select e.supplier as 'equipmentId'
+                        from Equipment e join Car c on e.equipmentId = c.equipmentId
+                        where e.supplier like @id";
+            }
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            List<EquipTempSearch> list = db.Database.SqlQuery<EquipTempSearch>(sql, new SqlParameter("id", "%" + id + "%")).Take(10).ToList();
+            return Json(new { success = true, id = list }, JsonRequestBehavior.AllowGet);
+        }
+
         public class Temp
         {
             public string abc { get; set; }
