@@ -12,20 +12,23 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class header_KeHoachSanXuatNgay
+    public partial class header_KeHoachTungThang
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public header_KeHoachSanXuatNgay()
+        public header_KeHoachTungThang()
         {
-            this.KeHoachSanXuatNgays = new HashSet<KeHoachSanXuatNgay>();
+            this.KeHoach_TieuChi_TheoThang = new HashSet<KeHoach_TieuChi_TheoThang>();
         }
     
         public int HeaderID { get; set; }
-        public Nullable<int> MaPhongBan_To { get; set; }
-        public Nullable<System.DateTime> NgayNhapKH { get; set; }
+        public string MaPhongBan { get; set; }
+        public Nullable<int> Thang { get; set; }
+        public Nullable<int> Nam { get; set; }
+        public Nullable<int> SoNgayLamViec { get; set; }
+        public string GhiChu { get; set; }
     
+        public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<KeHoachSanXuatNgay> KeHoachSanXuatNgays { get; set; }
-        public virtual To To { get; set; }
+        public virtual ICollection<KeHoach_TieuChi_TheoThang> KeHoach_TieuChi_TheoThang { get; set; }
     }
 }
