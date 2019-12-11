@@ -14,12 +14,13 @@ namespace QUANGHANH2.Models
     
     public partial class Supply_DiKem
     {
-        public string supply_id { get; set; }
         public string equipmentId { get; set; }
+        public string equipmentId_dikem { get; set; }
         public int quantity { get; set; }
         public string note { get; set; }
+        public Nullable<int> quantity_duphong { get; set; }
     
         public virtual Equipment Equipment { get; set; }
-        public virtual Supply Supply { get; set; }
+        public virtual Equipment Equipment1 { get; set; }
     }
 }

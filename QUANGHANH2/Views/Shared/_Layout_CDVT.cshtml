@@ -303,7 +303,7 @@
                                         <ul>
                                             <li><a href="/phong-cdvt/huy-dong"><i class="material-icons">adjust</i><span class="hide-menu">Huy động thiết bị</span></a></li>
                                             @*<li><a href="/phong-cdvt/cap-nhat-hoat-dong"><i class="material-icons">adjust</i><span class="hide-menu">Hoạt động hằng ngày</span></a></li>
-                            <li><a href="/phong-cdvt/cap-nhat-tieu-thu"><i class="material-icons">adjust</i><span class="hide-menu">Tiêu thụ hằng ngày</span></a></li>*@
+                                                <li><a href="/phong-cdvt/cap-nhat-tieu-thu"><i class="material-icons">adjust</i><span class="hide-menu">Tiêu thụ hằng ngày</span></a></li>*@
                                             @*<li><a href="/phong-cdvt/thiet-bi/sctx"><i class="material-icons">adjust</i><span class="hide-menu">Sửa chữa thường xuyên</span></a></li>*@
                                         </ul>
                                     </div>
@@ -317,7 +317,7 @@
                                         <ul>
                                             <li><a href="/phong-cdvt/oto/huy-dong"><i class="material-icons">adjust</i><span class="hide-menu">Huy động</span></a></li>
                                             @*<li><a href="/phong-cdvt/oto/cap-nhat-hoat-dong"><i class="material-icons">adjust</i><span class="hide-menu">Hoạt động hằng ngày</span></a></li>
-                            <li><a href="/phong-cdvt/oto/cap-nhat-tieu-thu"><i class="material-icons">adjust</i><span class="hide-menu">Tiêu thụ hằng ngày</span></a></li>*@
+                                                <li><a href="/phong-cdvt/oto/cap-nhat-tieu-thu"><i class="material-icons">adjust</i><span class="hide-menu">Tiêu thụ hằng ngày</span></a></li>*@
                                             @*<li><a href="/phong-cdvt/oto/bao-duong-hang-ngay"><i class="material-icons">adjust</i><span class="hide-menu">Bảo dưỡng hằng ngày</span></a></li>*@
                                             <li><a href="/phong-cdvt/oto/GPS"><i class="material-icons">adjust</i><span class="hide-menu">GPS</span></a></li>
                                             <li><a href="/phong-cdvt/oto/bao-hiem"><i class="material-icons">adjust</i><span class="hide-menu">Cập nhật bảo hiểm</span></a></li>
@@ -349,7 +349,7 @@
                                     <a href="/phong-cdvt/kiem-dinh" class="collapsible-header"><i class="material-icons">assignment_turned_in</i><span class="hide-menu">Kiểm định</span></a>
                                 </li>
                             }
-                            if (rights.Contains("25"))
+                            if (rights.Contains("25") && rights.Contains("26"))
                             {
                                 <li>
                                     <a href="javascript: void(0);" class="collapsible-header has-arrow"><i class="material-icons">event_available</i><span class="hide-menu">Nghiệm thu</span></a>
@@ -361,16 +361,23 @@
                                     </div>
                                 </li>
                             }
-                            if (rights.Contains("27"))
+                            if (rights.Contains("27") || rights.Contains("28") || rights.Contains("29"))
                             {
                                 <li>
                                     <a href="javascript: void(0);" class="collapsible-header has-arrow"><i class="material-icons">apps</i><span class="hide-menu">Vật tư SCTX</span></a>
                                     <div class="collapsible-body">
                                         <ul>
+                                            @if (rights.Contains("27"))
+                                            {
+                                                <li><a href="/phong-cdvt/xin-cap-vat-tu-sctx-summary"><i class="material-icons">adjust</i><span class="hide-menu">Xin cấp vật tư tổng hợp</span></a></li>
+                                                <li><a href="/phong-cdvt/tong-hop-vat-tu"><i class="material-icons">adjust</i><span class="hide-menu">Tổng hợp vật tư</span></a></li>
+                                            }
                                             @*<li><a href="/phong-cdvt/xin-cap-vat-tu-sctx"><i class="material-icons">adjust</i><span class="hide-menu">Xin cấp vật tư</span></a></li>*@
-                                            <li><a href="/phong-cdvt/xin-cap-vat-tu-sctx-summary"><i class="material-icons">adjust</i><span class="hide-menu">Xin cấp vật tư tổng hợp</span></a></li>
-                                            <li><a href="/phong-cdvt/tong-hop-vat-tu"><i class="material-icons">adjust</i><span class="hide-menu">Tổng hợp vật tư</span></a></li>
-                                            <li><a href="/phong-cdvt/vat-tu/tieu-hao"><i class="material-icons">adjust</i><span class="hide-menu">Tiêu hao vật tư</span></a></li>
+
+                                            @if (rights.Contains("29"))
+                                            {
+                                                <li><a href="/phong-cdvt/vat-tu/tieu-hao"><i class="material-icons">adjust</i><span class="hide-menu">Tiêu hao vật tư</span></a></li>
+                                            }
                                         </ul>
                                     </div>
                                 </li>
