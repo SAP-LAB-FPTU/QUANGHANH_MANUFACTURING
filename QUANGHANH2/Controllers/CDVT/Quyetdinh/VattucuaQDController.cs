@@ -30,7 +30,18 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
         public ActionResult GetSupplyDuPhong(string documentary_id, string equipmentId)
         {
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            List<Supply_Documentary_EquipmentDB> supplies = DBContext.Database.SqlQuery<Supply_Documentary_EquipmentDB>("SELECT * FROM Supply_Documentary_Equipment doc INNER JOIN Supply s on doc.supply_id = s.supply_id WHERE doc.equipmentId = @equipmentId AND doc.documentary_id = @documentary_id AND doc.supply_documentary_status = 1",
+            List<Supply_Documentary_EquipmentDB> supplies = DBContext.Database.SqlQuery<Supply_Documentary_EquipmentDB>("SELECT * FROM Supply_Documentary_Equipment doc INNER JOIN Supply s on doc.supply_id = s.supply_id WHERE doc.equipmentId = @equipmentId AND doc.documentary_id = @documentary_id",
+                new SqlParameter("equipmentId", equipmentId),
+                new SqlParameter("documentary_id", documentary_id)).ToList();
+            return Json(supplies);
+        }
+
+        [Route("phong-cdvt/cap-nhat/quyet-dinh/GetEquipAttached")]
+        [HttpPost]
+        public ActionResult GetEquipAttached(string documentary_id, string equipmentId)
+        {
+            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            List<Supply_Documentary_EquipmentDB> supplies = DBContext.Database.SqlQuery<Supply_Documentary_EquipmentDB>("SELECT * FROM Supply_Documentary_Equipment doc INNER JOIN Equipment e on doc.equipmentId_dikem = e.equipmentId WHERE doc.equipmentId = @equipmentId AND doc.documentary_id = @documentary_id",
                 new SqlParameter("equipmentId", equipmentId),
                 new SqlParameter("documentary_id", documentary_id)).ToList();
             return Json(supplies);
@@ -190,6 +201,25 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
                                     quantity = s.quantity
                                 }).ToList();
             return Json(supply_DiKem);
+        }
+
+        [Route("phong-cdvt/thiet-bi/get-attached-equipment")]
+        [HttpPost]
+        public ActionResult GetAttachedEquip(string equipmentId)
+        {
+            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            List<AttachedEquip> supply_DiKem = DBContext.Database.SqlQuery<AttachedEquip>(@"select a.equipmentId_dikem, e.equipment_name, a.quantity as quantity_dikem
+from (select sdk.equipmentId_dikem, sdk.quantity
+from Supply_DiKem sdk
+where sdk.equipmentId = @equipmentId) as a inner join Equipment e on e.equipmentId = a.equipmentId_dikem", new SqlParameter("equipmentId", equipmentId)).ToList();
+            return Json(supply_DiKem);
+        }
+
+        private class AttachedEquip
+        {
+            public string equipmentId_dikem { get; set; }
+            public string equipment_name { get; set; }
+            public int quantity_dikem { get; set; }
         }
     }
 }

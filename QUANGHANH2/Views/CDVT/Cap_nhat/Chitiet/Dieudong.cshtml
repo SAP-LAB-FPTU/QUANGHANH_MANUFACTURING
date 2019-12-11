@@ -244,7 +244,7 @@
             $("#type").val(1);
             $.ajax({
                 type: "POST",
-                url: "/phong-cdvt/cap-nhat/quyet-dinh/GetSupply",
+                url: "/phong-cdvt/cap-nhat/quyet-dinh/GetEquipAttached",
                 dataType: "json",
                 success: function (data) {
                     var header = $('<tr>').html("<th>Mã vật tư</th><th>Tên vật tư</th><th>Số lượng trong quyết định</th><th>Số lượng đã nhận</th><th>Ghi chú</th>");
@@ -252,8 +252,8 @@
                     $.each(data, function (i, item) {
                         var temp = item.supplyStatus == null ? "" : item.supplyStatus;
                         var $tr = $('<tr>').append(
-                            $('<td>').html("<input readonly class='form-control' type='text' value='" + item.supply_id + "' />"),
-                            $('<td>').text(item.supply_name),
+                            $('<td>').html("<input readonly class='form-control' type='text' value='" + item.equipmentId_dikem + "' />"),
+                            $('<td>').text(item.equipment_name),
                             $('<td>').text(item.quantity_plan),
                             $('<td>').html("<input class='form-control' type='number' min='" + item.quantity_in + "' max='" + item.quantity_plan + "' value='" + item.quantity_in + "' />"),
                             $('<td>').html("<input class='form-control' type='text' value='" + temp + "' />")
