@@ -4,105 +4,105 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="a56017fe8ab3449791a8dbf3313be4e0" Name="Diagram1">
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Acceptance" Width="1.5" PointX="17.25" PointY="91.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Account" Width="1.5" PointX="17.25" PointY="71.875" IsExpanded="true" />
+      <Diagram DiagramId="9fed4e732b544188876d50d5a31dc962" Name="Diagram1">
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Acceptance" Width="1.5" PointX="17.25" PointY="91.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Account" Width="1.5" PointX="17.25" PointY="72" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Account_Right" Width="1.5" PointX="3" PointY="4.875" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Account_Right_Detail" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Activity" Width="1.5" PointX="14.25" PointY="100" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.BacLuong" Width="1.5" PointX="10.5" PointY="75.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.BacLuong_ThangLuong_MucLuong" Width="1.5" PointX="12.75" PointY="76.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.BangCap_GiayChungNhan" Width="1.5" PointX="15" PointY="73" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.BaoCaoFile" Width="1.5" PointX="3" PointY="84" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Camera" Width="1.5" PointX="5.25" PointY="189.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Camera_Acceptance" Width="1.5" PointX="7.5" PointY="189.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.BacLuong" Width="1.5" PointX="10.5" PointY="76" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.BacLuong_ThangLuong_MucLuong" Width="1.5" PointX="12.75" PointY="76.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.BangCap_GiayChungNhan" Width="1.5" PointX="15" PointY="73.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.BaoCaoFile" Width="1.5" PointX="3" PointY="84.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Camera" Width="1.5" PointX="5.25" PointY="189.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Camera_Acceptance" Width="1.5" PointX="7.5" PointY="190" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.CameraIncident" Width="1.5" PointX="5.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Car" Width="1.5" PointX="14.25" PointY="103.125" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.CarGP" Width="1.5" PointX="14.25" PointY="105.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Category_attribute_value" Width="1.5" PointX="20.25" PointY="92.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.ChamDut_NhanVien" Width="1.5" PointX="17.25" PointY="85.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.ChiTiet_BangCap_GiayChungNhan" Width="1.5" PointX="17.25" PointY="82.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.ChiTiet_NhiemVu_NhanVien" Width="1.5" PointX="20.25" PointY="85.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.ChungChi" Width="1.5" PointX="15.75" PointY="65.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.ChungChi_NhanVien" Width="1.5" PointX="17.25" PointY="88.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.ChuyenNganh" Width="1.5" PointX="12.75" PointY="80.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.CongTacAnToan" Width="1.5" PointX="3" PointY="87.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.CongViec" Width="1.5" PointX="12.75" PointY="84.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.CongViec_NhomCongViec" Width="1.5" PointX="15" PointY="42.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Department" Width="1.5" PointX="0.75" PointY="94.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.DiemDanh_NangSuatLaoDong" Width="1.5" PointX="20.25" PointY="114.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Category_attribute_value" Width="1.5" PointX="20.25" PointY="92.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.ChamDut_NhanVien" Width="1.5" PointX="17.25" PointY="85.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.ChiTiet_BangCap_GiayChungNhan" Width="1.5" PointX="17.25" PointY="82.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.ChiTiet_NhiemVu_NhanVien" Width="1.5" PointX="20.25" PointY="85.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.ChungChi" Width="1.5" PointX="15.75" PointY="65.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.ChungChi_NhanVien" Width="1.5" PointX="17.25" PointY="88.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.ChuyenNganh" Width="1.5" PointX="12.75" PointY="80.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.CongTacAnToan" Width="1.5" PointX="3" PointY="87.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.CongViec" Width="1.5" PointX="12.75" PointY="84.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.CongViec_NhomCongViec" Width="1.5" PointX="15" PointY="43" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Department" Width="1.5" PointX="0.75" PointY="94.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.DiemDanh_NangSuatLaoDong" Width="1.5" PointX="20.25" PointY="114.625" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.DienCongViec" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.DieuDong_NhanVien" Width="1.5" PointX="3" PointY="95.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Documentary" Width="1.5" PointX="0.75" PointY="87.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Documentary_big_maintain_details" Width="1.5" PointX="6" PointY="96" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Documentary_camera_repair_details" Width="1.5" PointX="6" PointY="92.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Documentary_Improve_Detail" Width="1.5" PointX="6" PointY="100.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Documentary_liquidation_details" Width="1.5" PointX="3" PointY="91.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Documentary_maintain_details" Width="1.5" PointX="3" PointY="101.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Documentary_moveline_details" Width="1.5" PointX="9" PointY="96.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Documentary_repair_details" Width="1.5" PointX="9" PointY="92.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Documentary_revoke_details" Width="1.5" PointX="9" PointY="100.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.DieuDong_NhanVien" Width="1.5" PointX="3" PointY="95.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Documentary" Width="1.5" PointX="0.75" PointY="87.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Documentary_big_maintain_details" Width="1.5" PointX="6" PointY="96.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Documentary_camera_repair_details" Width="1.5" PointX="6" PointY="92.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Documentary_Improve_Detail" Width="1.5" PointX="6" PointY="100.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Documentary_liquidation_details" Width="1.5" PointX="3" PointY="91.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Documentary_maintain_details" Width="1.5" PointX="3" PointY="101.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Documentary_moveline_details" Width="1.5" PointX="9" PointY="96.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Documentary_repair_details" Width="1.5" PointX="9" PointY="92.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Documentary_revoke_details" Width="1.5" PointX="9" PointY="100.5" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.DocumentaryType" Width="1.5" PointX="1.5" PointY="80.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Equipment" Width="1.5" PointX="12" PointY="92.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Equipment" Width="1.5" PointX="12" PointY="92.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Equipment_attribute" Width="1.5" PointX="14.25" PointY="108.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Equipment_category" Width="1.5" PointX="9.75" PointY="88.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Equipment_category_attribute" Width="1.5" PointX="18" PointY="119.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Equipment_Inspection" Width="1.5" PointX="14.25" PointY="111.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Equipment_category" Width="1.5" PointX="9.75" PointY="88.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Equipment_category_attribute" Width="1.5" PointX="18" PointY="119.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Equipment_Inspection" Width="1.5" PointX="14.25" PointY="111.875" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Equipment_Insurance" Width="1.5" PointX="14.25" PointY="114.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Equipment_SCTX" Width="1.5" PointX="14.25" PointY="96.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Equipment_SCTX_Detail" Width="1.5" PointX="19.5" PointY="96.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.FakeAPI" Width="1.5" PointX="17.25" PointY="95.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.FileBaoCao" Width="1.5" PointX="5.25" PointY="83.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Fuel_activities_consumption" Width="1.5" PointX="20.25" PointY="100.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.GiayTo" Width="1.5" PointX="17.25" PointY="98.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Header_DiemDanh_NangSuat_LaoDong" Width="1.5" PointX="3" PointY="146.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.header_KeHoachSanXuatNam" Width="1.5" PointX="3" PointY="150.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.header_KeHoachSanXuatNgay" Width="1.5" PointX="5.25" PointY="195.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.header_KeHoachSanXuatThang" Width="1.5" PointX="5.25" PointY="198.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.header_ThucHienSanXuatNgay" Width="1.5" PointX="5.25" PointY="202" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.HoSo" Width="1.5" PointX="17.25" PointY="101" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Incident" Width="1.5" PointX="22.25" PointY="96.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.KeHoachSanXuatNam" Width="1.5" PointX="5.25" PointY="150.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.KeHoachSanXuatNgay" Width="1.5" PointX="7.5" PointY="195.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.KeHoachSanXuatThang" Width="1.5" PointX="7.5" PointY="199.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.LichSuBoSungSYLL" Width="1.5" PointX="17.25" PointY="106" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Maintain_Car" Width="1.5" PointX="20.25" PointY="104.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Maintain_Car_Detail" Width="1.5" PointX="22.5" PointY="104.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.MealRegistration" Width="1.5" PointX="3" PointY="153.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Equipment_SCTX" Width="1.5" PointX="14.25" PointY="96.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Equipment_SCTX_Detail" Width="1.5" PointX="19.5" PointY="96.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.FakeAPI" Width="1.5" PointX="17.25" PointY="95.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.FileBaoCao" Width="1.5" PointX="5.25" PointY="83.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Fuel_activities_consumption" Width="1.5" PointX="20.25" PointY="100.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.GiayTo" Width="1.5" PointX="17.25" PointY="98.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Header_DiemDanh_NangSuat_LaoDong" Width="1.5" PointX="3" PointY="147.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.header_KeHoachSanXuatNam" Width="1.5" PointX="3" PointY="151.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.header_KeHoachSanXuatNgay" Width="1.5" PointX="5.25" PointY="196.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.header_KeHoachSanXuatThang" Width="1.5" PointX="5.25" PointY="199" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.header_ThucHienSanXuatNgay" Width="1.5" PointX="5.25" PointY="202.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.HoSo" Width="1.5" PointX="17.25" PointY="101.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Incident" Width="1.5" PointX="22.25" PointY="96.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.KeHoachSanXuatNam" Width="1.5" PointX="5.25" PointY="151.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.KeHoachSanXuatNgay" Width="1.5" PointX="7.5" PointY="196.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.KeHoachSanXuatThang" Width="1.5" PointX="7.5" PointY="199.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.LichSuBoSungSYLL" Width="1.5" PointX="17.25" PointY="106.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Maintain_Car" Width="1.5" PointX="20.25" PointY="104.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Maintain_Car_Detail" Width="1.5" PointX="22.5" PointY="104.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.MealRegistration" Width="1.5" PointX="3" PointY="154" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Module" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Nganh" Width="1.5" PointX="10.5" PointY="81.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.NguoiUyQuyenLayHoSo_BaoHiem" Width="1.5" PointX="12.75" PointY="87.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.NhanVien" Width="1.5" PointX="15" PointY="78" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.NhiemVu" Width="1.5" PointX="18" PointY="65.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Nganh" Width="1.5" PointX="10.5" PointY="81.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.NguoiUyQuyenLayHoSo_BaoHiem" Width="1.5" PointX="12.75" PointY="87.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.NhanVien" Width="1.5" PointX="15" PointY="78.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.NhiemVu" Width="1.5" PointX="18" PointY="65.625" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.NhomCongViec" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.NhomTieuChi" Width="1.5" PointX="1.5" PointY="105.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.PhongBan_TieuChi" Width="1.5" PointX="6" PointY="103.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.QuanHeGiaDinh" Width="1.5" PointX="17.25" PointY="108.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.QuaTrinhCongTac" Width="1.5" PointX="17.25" PointY="112.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.QuyetDinh" Width="1.5" PointX="18" PointY="68.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Room" Width="1.5" PointX="3" PointY="189.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Status" Width="1.5" PointX="9.75" PointY="104.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Supply" Width="1.5" PointX="3.75" PointY="78.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Supply_Documentary_Camera" Width="1.5" PointX="10.5" PointY="189" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Supply_Documentary_Equipment" Width="1.5" PointX="23.25" PointY="91.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Supply_DuPhong" Width="1.5" PointX="20.25" PointY="89.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Supply_tieuhao" Width="1.5" PointX="6" PointY="88.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.SupplyPlan" Width="1.5" PointX="23.25" PointY="99.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.NhomTieuChi" Width="1.5" PointX="1.5" PointY="106" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.PhongBan_TieuChi" Width="1.5" PointX="6" PointY="103.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.QuanHeGiaDinh" Width="1.5" PointX="17.25" PointY="108.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.QuaTrinhCongTac" Width="1.5" PointX="17.25" PointY="112.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.QuyetDinh" Width="1.5" PointX="18" PointY="68.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Room" Width="1.5" PointX="3" PointY="190.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Status" Width="1.5" PointX="9.75" PointY="104.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Supply" Width="1.5" PointX="3.75" PointY="79" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Supply_Documentary_Camera" Width="1.5" PointX="10.5" PointY="189.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Supply_Documentary_Equipment" Width="1.5" PointX="23.25" PointY="91.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Supply_DuPhong" Width="1.5" PointX="20.25" PointY="89.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Supply_tieuhao" Width="1.5" PointX="6" PointY="88.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.SupplyPlan" Width="1.5" PointX="23.25" PointY="99.875" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.sysdiagram" Width="1.5" PointX="5.75" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.TaiNan" Width="1.5" PointX="17.25" PointY="115.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.ThangLuong" Width="1.5" PointX="10.5" PointY="78.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.ThucHienSanXuatNgay" Width="1.5" PointX="7.5" PointY="204" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.TieuChi" Width="1.5" PointX="3.75" PointY="105.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.TieuChiCon_Ngay" Width="1.5" PointX="5.25" PointY="185.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.TieuChiCon_Thang" Width="1.5" PointX="5.25" PointY="205.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.TinhChat_TieuChi" Width="1.5" PointX="3" PointY="185.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.To" Width="1.5" PointX="3" PointY="199" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.TrangThai" Width="1.5" PointX="12.75" PointY="73.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.TrinhDo" Width="1.5" PointX="12.75" PointY="71" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Truong" Width="1.5" PointX="12.75" PointY="117.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.TuyenDung_NhanVien" Width="1.5" PointX="20.25" PointY="81.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.VatLieu" Width="1.5" PointX="5.25" PointY="208.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.Disk" Width="1.5" PointX="7.5" PointY="193" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.TaiNan" Width="1.5" PointX="17.25" PointY="115.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.ThangLuong" Width="1.5" PointX="10.5" PointY="78.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.ThucHienSanXuatNgay" Width="1.5" PointX="7.5" PointY="204.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.TieuChi" Width="1.5" PointX="3.75" PointY="105.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.TieuChiCon_Ngay" Width="1.5" PointX="5.25" PointY="186" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.TieuChiCon_Thang" Width="1.5" PointX="5.25" PointY="205.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.TinhChat_TieuChi" Width="1.5" PointX="3" PointY="186.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.To" Width="1.5" PointX="3" PointY="199.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.TrangThai" Width="1.5" PointX="12.75" PointY="73.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.TrinhDo" Width="1.5" PointX="12.75" PointY="71.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Truong" Width="1.5" PointX="12.75" PointY="117.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.TuyenDung_NhanVien" Width="1.5" PointX="20.25" PointY="81.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.VatLieu" Width="1.5" PointX="5.25" PointY="208.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.Disk" Width="1.5" PointX="7.5" PointY="193.25" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Supply_DiKem" Width="1.5" PointX="14.25" PointY="132.625" IsExpanded="true" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__Acceptanc__docum__2A164134" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__Acceptanc__equip__4865BE2A" ManuallyRouted="false" />
