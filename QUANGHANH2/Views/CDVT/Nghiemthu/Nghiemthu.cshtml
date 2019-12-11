@@ -152,8 +152,10 @@
                     { "data": "equipment_name", "name": "equipment_name" },
                     {
                         "data": {}, "render": function (data) {
+                            if (data.documentary_type == '3')
+                                return "<td><a class='btn blue modal-trigger open-DiKem' data-equip='" + data.equipmentId + "' data-code='" + data.documentary_id + "' href='#mylist'>VT đi kèm</a></td>";
                             if (data.di_kem || data.can)
-                                return "<td><a class='btn blue modal-trigger open-DiKem' data-equip='" + data.equipmentId + "' data-code='" + data.documentary_id + "' href='#mylist'>Chi tiết VT</a></td>";
+                                return "<td><a class='btn blue modal-trigger open-DuPhong' data-equip='" + data.equipmentId + "' data-code='" + data.documentary_id + "' href='#mylist'>Chi tiết VT</a></td>";
                             else
                                 return "";
                         },
@@ -211,20 +213,19 @@
             $("#maquyetdinh").val(documentary_id)
             $.ajax({
                 type: "POST",
-                url: "/phong-cdvt/cap-nhat/quyet-dinh/GetSupply",
+                url: "/phong-cdvt/cap-nhat/quyet-dinh/GetEquipAttached",
                 dataType: "json",
                 success: function (data) {
                     $(function () {
-                        var header = $('<tr>').html('<th>Mã vật tư</th><th>Số lượng xin cấp</th><th>Số lượng đã nhận</th><th>Số lượng sử dụng</th><th>Số lượng lấy ra</th><th>Ghi chú</th>');
+                        var header = $('<tr>').html('<th>Mã vật tư</th><th>Tên vật tư</th><th>Số lượng đi kèm</th><th>Số lượng đã nhận</th><th>Ghi chú</th>');
                         header.appendTo('#test thead');
                         $.each(data, function (i, item) {
                             var temp = item.supplyStatus == null ? "" : item.supplyStatus;
                             var $tr = $('<tr>').append(
-                                $('<td>').html('<input type="text" value="' + item.supply_id + '" readonly class="form-control" />'),
+                                $('<td>').html('<input type="text" value="' + item.equipmentId_dikem + '" readonly class="form-control" />'),
+                                $('<td>').html('<input type="text" value="' + item.equipment_name + '" readonly class="form-control" />'),
                                 $('<td>').html('<input type="text" value="' + item.quantity_plan + '" readonly class="form-control" />'),
                                 $('<td>').html("<input readonly class='form-control' type='number' min='" + item.quantity_in + "' max='" + item.quantity_plan + "' value='" + item.quantity_in + "' />"),
-                                $('<td>').html("<input readonly class='form-control' type='number' min='" + item.quantity_used + "' max='" + item.quantity_plan + "' value='" + item.quantity_used + "' />"),
-                                $('<td>').html("<input readonly class='form-control' type='number' min='" + item.quantity_out + "' max='" + item.quantity_plan + "' value='" + item.quantity_out + "' />"),
                                 $('<td>').html("<input readonly class='form-control' type='text' value='" + temp + "' />")
                             );
                             $tr.appendTo('#test tbody');
