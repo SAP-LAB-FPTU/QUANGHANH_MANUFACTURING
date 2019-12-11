@@ -113,7 +113,6 @@ namespace QUANGHANH2.Models
         public virtual DbSet<ThangLuong> ThangLuongs { get; set; }
         public virtual DbSet<ThucHienSanXuatNgay> ThucHienSanXuatNgays { get; set; }
         public virtual DbSet<TieuChi> TieuChis { get; set; }
-        public virtual DbSet<TieuChiCon_Ngay> TieuChiCon_Ngay { get; set; }
         public virtual DbSet<TieuChiCon_Thang> TieuChiCon_Thang { get; set; }
         public virtual DbSet<TinhChat_TieuChi> TinhChat_TieuChi { get; set; }
         public virtual DbSet<To> Toes { get; set; }
