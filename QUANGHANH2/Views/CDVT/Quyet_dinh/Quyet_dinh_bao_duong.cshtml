@@ -1,12 +1,18 @@
 ﻿
 @{
     ViewData["Title"] = "Quyet_dinh_bao_duong";
-    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    if (Session["departID"].ToString().Contains("PX"))
+    {
+        Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    }
 }
 @{
     List<string> right = (List<string>)Session["RightIDs"];
 }
-
 <div class="card">
     <div class="card-content">
         <div class="row center">
@@ -62,7 +68,6 @@
                         </thead>
                     </table>
                 </div>
-
             </div>
         </div>
     </div>
@@ -80,22 +85,20 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="row">
-                                <div class="col s12 m6">
-                                    <div class="form-group">
-                                        <label for="date">Số quyết định: </label>
-                                        <input type="text" class="form-control" value="" id="documentary_code_edit" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="id">Lý do quyết định : </label>
-                                        <input type="text" class="form-control" value="" id="reason_edit" />
-                                    </div>
+                            <div class="col s12 m6">
+                                <div class="form-group">
+                                    <label for="date">Số quyết định: </label>
+                                    <input type="text" class="form-control" value="" id="documentary_code_edit" />
                                 </div>
-                                <div class="col s12 m6">
-                                    <div class="form-group">
-                                        <label for="date">Nguồn vốn : </label>
-                                        <input type="text" class="form-control" value="" id="out_in_come_edit" />
-                                    </div>
+                                <div class="form-group">
+                                    <label for="id">Lý do quyết định : </label>
+                                    <input type="text" class="form-control" value="" id="reason_edit" />
+                                </div>
+                            </div>
+                            <div class="col s12 m6">
+                                <div class="form-group">
+                                    <label for="date">Nguồn vốn : </label>
+                                    <input type="text" class="form-control" value="" id="out_in_come_edit" />
                                 </div>
                             </div>
                         </div>
