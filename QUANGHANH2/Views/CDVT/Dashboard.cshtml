@@ -81,7 +81,7 @@
                     List<string> rights = (List<string>)Session["RightIDs"];
                     if (rights.Contains("10"))
                     {
-                        <h3 class="col s12"><a href="#cogioi">THÔNG TIN THIẾT BỊ CƠ GIỚI</a></h3>
+                        <h3 class="col s12">THÔNG TIN THIẾT BỊ CƠ GIỚI</h3>
                     }
                     else
                     {
@@ -98,14 +98,13 @@
         {
             <div id="cogioi">
                 <div id="chung">
-
                     <div class="row center-align">
-                        <div class="col s12 l4 m4">
-                            <div class="card mymanu card-hover total-gadget" >
+                        <div class="col l4 m12 s12">
+                            <div class="card mymanu card-hover total-gadget">
                                 <div class="card-content center-align table_container" style="overflow-x: auto !important">
                                     <div class="row">
                                         <div class="col s12">
-                                            <h6 class="card-subtitle center-align m-b-0 white-text">Tổng</h6>
+                                            <h4 class="card-subtitle center-align m-b-0 white-text">Tổng</h4>
                                             <h2 class="font-light font-medium m-b-0 white-text" style="padding-top: 10px"> @ViewBag.tongcogioi </h2>
                                         </div>
                                         <div class="col s12">
@@ -126,315 +125,288 @@
                             </div>
                         </div>
 
-                        <div class="col s12 l2">
-                            <div class="info-card card card-hover" style="height: 200px">
-                                <a href="#suachuasc" class="modal-trigger">
-                                    <div class="card-content align-items-center table_container">
-                                        <div class="row">
-                                            <div class="col s12" style="padding-top: 45px">
-                                                <h6 class="card-subtitle">Sửa chữa</h6>
-                                                <h4> @ViewBag.slSC </h4>
+                        <div class="summary-container col l8 m8 s12">
+                            <div class="gadget col l2 m12 s12">
+                                <div class="info-card card card-hover" style="height: 200px">
+                                    <a href="#suachuasc" class="modal-trigger">
+                                        <div class="card-content align-items-center table_container">
+                                            <div class="row">
+                                                <div class="col s12" style="padding-top: 45px">
+                                                    <h6 class="card-subtitle">Sửa chữa</h6>
+                                                    <h4> @ViewBag.slSC </h4>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div id="suachuasc" class="modal fade">
-                            <div class="info-card card">
-                                <div class="card-content">
-                                    <div class="modal-header">
-                                        <h3>Thiết bị đang sửa chữa</h3>
-                                    </div>
-                                    <div>
-                                        <table class="table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>STT</th>
-                                                    <th>Tên thiết bị</th>
-                                                    <th>Mã thiết bị</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @{
-                                                    int cgSC = 1;
-                                                    foreach (var item in ViewBag.cogioiSC)
-                                                    {
-                                                        <tr>
-                                                            <td>@cgSC</td>
-                                                            <td>@item.equipment_name</td>
-                                                            <td>@item.equipmentId</td>
-                                                        </tr>
-                                                        cgSC++;
-                                                    }
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                    </a>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="col s12 l2">
-                            <div class="info-card card card-hover" style="height: 200px">
-                                <a href="#baoduongsc" class="modal-trigger">
-                                    <div class="card-content align-items-center table_container">
-                                        <div class="row">
-                                            <div class="col s12" style="padding-top: 45px">
-                                                <h6 class="card-subtitle">Bảo dưỡng</h6>
-                                                <h4> @ViewBag.slBD </h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div id="baoduongsc" class="modal fade">
-                            <div class="info-card card">
-                                <div class="card-content">
-                                    <div class="modal-header">
-                                        <h3>Thiết bị đang bảo dưỡng</h3>
-                                    </div>
-                                    <div>
-                                        <table class="table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>STT</th>
-                                                    <th>Tên thiết bị</th>
-                                                    <th>Mã thiết bị</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @{
-                                                    int cgBD = 1;
-                                                    foreach (var item in ViewBag.cogioiBD)
-                                                    {
-                                                        <tr>
-                                                            <td>@cgBD</td>
-                                                            <td>@item.equipment_name</td>
-                                                            <td>@item.equipmentId</td>
-                                                        </tr>
-                                                        cgBD++;
-                                                    }
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col s12 l2">
-                            <div class="info-card card card-hover" style="height: 200px">
-                                <a href="#kiemdinhsc" class="modal-trigger">
-                                    <div class="card-content align-items-center table_container">
-                                        <div class="row">
-                                            <div class="col s12" style="padding-top: 45px">
-                                                <h6 class="card-subtitle">Kiểm định</h6>
-                                                <h4> @ViewBag.slKD </h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div id="kiemdinhsc" class="modal fade">
-                            <div class="info-card card">
-                                <div class="card-content">
-                                    <div class="modal-header">
-                                        <h3>Thiết bị đang kiểm định</h3>
-                                    </div>
-                                    <div>
-                                        <table class="table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>STT</th>
-                                                    <th>Tên thiết bị</th>
-                                                    <th>Mã thiết bị</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @{
-                                                    int cgKD = 1;
-                                                    foreach (var item in ViewBag.cogioiKD)
-                                                    {
-                                                        <tr>
-                                                            <td>@cgKD</td>
-                                                            <td>@item.equipment_name</td>
-                                                            <td>@item.equipmentId</td>
-                                                        </tr>
-                                                        cgKD++;
-                                                    }
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col s12 l2">
-                            <div class="info-card card card-hover" style="height: 200px">
-                                <a href="#thanhlisc" class="modal-trigger">
-                                    <div class="card-content align-items-center table_container">
-                                        <div class="row">
-                                            <div class="col s12" style="padding-top: 45px">
-                                                <h6 class="card-subtitle">Thanh lý</h6>
-                                                <h4> @ViewBag.slTL </h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div id="thanhlisc" class="modal fade">
-                            <div class="info-card card">
-                                <div class="card-content">
-                                    <div class="modal-header">
-                                        <h3>Thiết bị đang thanh lí</h3>
-                                    </div>
-                                    <div>
-                                        <table class="table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>STT</th>
-                                                    <th>Tên thiết bị</th>
-                                                    <th>Mã thiết bị</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @{
-                                                    int cgTL = 1;
-                                                    foreach (var item in ViewBag.cogioiTL)
-                                                    {
-                                                        <tr>
-                                                            <td>@cgTL</td>
-                                                            <td>@item.equipment_name</td>
-                                                            <td>@item.equipmentId</td>
-                                                        </tr>
-                                                        cgTL++;
-                                                    }
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col s12 l2">
-                            <div class="info-card card card-hover" style="height: 200px">
-                                <a href="#thuhoisc" class="modal-trigger">
-                                    <div class="card-content align-items-center table_container">
-                                        <div class="row">
-                                            <div class="col s12" style="padding-top: 45px">
-                                                <h6 class="card-subtitle">Thu hồi</h6>
-                                                <h4> @ViewBag.slTH </h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div id="thuhoisc" class="modal fade">
-                            <div class="info-card card">
-                                <div class="card-content">
-                                    <div class="modal-header">
-                                        <h3>Thiết bị đang thu hồi</h3>
-                                    </div>
-                                    <div>
-                                        <table class="table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>STT</th>
-                                                    <th>Tên thiết bị</th>
-                                                    <th>Mã thiết bị</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @{
-                                                    int cgTH = 1;
-                                                    foreach (var item in ViewBag.cogioiTH)
-                                                    {
-                                                        <tr>
-                                                            <td>@cgTH</td>
-                                                            <td>@item.equipment_name</td>
-                                                            <td>@item.equipmentId</td>
-                                                        </tr>
-                                                        cgTH++;
-                                                    }
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-
-                    <div class="row center">
-
-                        <div class="col l4 offset-l2">
-                            <div class="card warning-gradient card-hover">
-                                <a href="#kiemdinhcogioi" class="modal-trigger">
+                            <div id="suachuasc" class="modal fade">
+                                <div class="info-card card">
                                     <div class="card-content">
-                                        <div class="d-flex no-block align-items-center">
-                                            <div>
-                                                <h6 class="white-text op-1">Sắp hết hạn đăng kiểm (chiếc)</h6>
-                                                <h3 class="white-text m-b-5">@ViewBag.kiemdinhcogioitag</h3>
-                                                <h6 class="white-text op-1"></h6>
-                                                <br />
-                                            </div>
-                                            <div class="ml-auto">
-                                                <span class="white-text display-6">
-                                                    <i class="material-icons dp48">report_problem</i>
-                                                </span>
+                                        <div class="modal-header">
+                                            <h3>Thiết bị đang sửa chữa</h3>
+                                        </div>
+                                        <div>
+                                            <table class="table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>STT</th>
+                                                        <th>Tên thiết bị</th>
+                                                        <th>Mã thiết bị</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @{
+                                                        int cgSC = 1;
+                                                        foreach (var item in ViewBag.cogioiSC)
+                                                        {
+                                                            <tr>
+                                                                <td>@cgSC</td>
+                                                                <td>@item.equipment_name</td>
+                                                                <td>@item.equipmentId</td>
+                                                            </tr>
+                                                            cgSC++;
+                                                        }
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gadget col l2 m12 s12">
+                                <div class="info-card card card-hover" style="height: 200px">
+                                    <a href="#baoduongsc" class="modal-trigger">
+                                        <div class="card-content align-items-center table_container">
+                                            <div class="row">
+                                                <div class="col s12" style="padding-top: 45px">
+                                                    <h6 class="card-subtitle">Bảo dưỡng</h6>
+                                                    <h4> @ViewBag.slBD </h4>
+                                                </div>
                                             </div>
                                         </div>
-
-                                    </div>
-                                </a>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="col s12 l4">
-                            <div class="card warning-gradient card-hover">
-                                <a href="#baoduongcogioi" class="modal-trigger">
+                            <div id="baoduongsc" class="modal fade">
+                                <div class="info-card card">
                                     <div class="card-content">
-                                        <div class="d-flex no-block align-items-center">
-                                            <div>
-                                                <h6 class="white-text op-1">Sắp đến hạn bảo dưỡng (chiếc)</h6>
-                                                <h3 class="white-text m-b-5">@ViewBag.baoduongcogioitag</h3>
-                                                <h6 class="white-text op-1"></h6>
-                                                <br />
-                                            </div>
-                                            <div class="ml-auto">
-                                                <span class="white-text display-6">
-                                                    <i class="material-icons dp48">report_problem</i>
-                                                </span>
-                                            </div>
+                                        <div class="modal-header">
+                                            <h3>Thiết bị đang bảo dưỡng</h3>
+                                        </div>
+                                        <div>
+                                            <table class="table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>STT</th>
+                                                        <th>Tên thiết bị</th>
+                                                        <th>Mã thiết bị</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @{
+                                                        int cgBD = 1;
+                                                        foreach (var item in ViewBag.cogioiBD)
+                                                        {
+                                                            <tr>
+                                                                <td>@cgBD</td>
+                                                                <td>@item.equipment_name</td>
+                                                                <td>@item.equipmentId</td>
+                                                            </tr>
+                                                            cgBD++;
+                                                        }
+                                                    }
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
-                                </a>
-
+                                </div>
                             </div>
-                        </div>
 
-                        @*<div class="col s12 l4">
+                            <div class="gadget col l2 m12 s12">
+                                <div class="info-card card card-hover" style="height: 200px">
+                                    <a href="#kiemdinhsc" class="modal-trigger">
+                                        <div class="card-content align-items-center table_container">
+                                            <div class="row">
+                                                <div class="col s12" style="padding-top: 45px">
+                                                    <h6 class="card-subtitle">Kiểm định</h6>
+                                                    <h4> @ViewBag.slKD </h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div id="kiemdinhsc" class="modal fade">
+                                <div class="info-card card">
+                                    <div class="card-content">
+                                        <div class="modal-header">
+                                            <h3>Thiết bị đang kiểm định</h3>
+                                        </div>
+                                        <div>
+                                            <table class="table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>STT</th>
+                                                        <th>Tên thiết bị</th>
+                                                        <th>Mã thiết bị</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @{
+                                                        int cgKD = 1;
+                                                        foreach (var item in ViewBag.cogioiKD)
+                                                        {
+                                                            <tr>
+                                                                <td>@cgKD</td>
+                                                                <td>@item.equipment_name</td>
+                                                                <td>@item.equipmentId</td>
+                                                            </tr>
+                                                            cgKD++;
+                                                        }
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gadget col l2 m12 s12">
+                                <div class="info-card card card-hover" style="height: 200px">
+                                    <a href="#thanhlisc" class="modal-trigger">
+                                        <div class="card-content align-items-center table_container">
+                                            <div class="row">
+                                                <div class="col s12" style="padding-top: 45px">
+                                                    <h6 class="card-subtitle">Thanh lý</h6>
+                                                    <h4> @ViewBag.slTL </h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div id="thanhlisc" class="modal fade">
+                                <div class="info-card card">
+                                    <div class="card-content">
+                                        <div class="modal-header">
+                                            <h3>Thiết bị đang thanh lí</h3>
+                                        </div>
+                                        <div>
+                                            <table class="table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>STT</th>
+                                                        <th>Tên thiết bị</th>
+                                                        <th>Mã thiết bị</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @{
+                                                        int cgTL = 1;
+                                                        foreach (var item in ViewBag.cogioiTL)
+                                                        {
+                                                            <tr>
+                                                                <td>@cgTL</td>
+                                                                <td>@item.equipment_name</td>
+                                                                <td>@item.equipmentId</td>
+                                                            </tr>
+                                                            cgTL++;
+                                                        }
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gadget col l2 m12 s12">
+                                <div class="info-card card card-hover" style="height: 200px">
+                                    <a href="#thuhoisc" class="modal-trigger">
+                                        <div class="card-content align-items-center table_container">
+                                            <div class="row">
+                                                <div class="col s12" style="padding-top: 45px">
+                                                    <h6 class="card-subtitle">Thu hồi</h6>
+                                                    <h4> @ViewBag.slTH </h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div id="thuhoisc" class="modal fade">
+                                <div class="info-card card">
+                                    <div class="card-content">
+                                        <div class="modal-header">
+                                            <h3>Thiết bị đang thu hồi</h3>
+                                        </div>
+                                        <div>
+                                            <table class="table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>STT</th>
+                                                        <th>Tên thiết bị</th>
+                                                        <th>Mã thiết bị</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @{
+                                                        int cgTH = 1;
+                                                        foreach (var item in ViewBag.cogioiTH)
+                                                        {
+                                                            <tr>
+                                                                <td>@cgTH</td>
+                                                                <td>@item.equipment_name</td>
+                                                                <td>@item.equipmentId</td>
+                                                            </tr>
+                                                            cgTH++;
+                                                        }
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col l6 s12 m12">
                                 <div class="card warning-gradient card-hover">
-                                    <a href="#suachuacogioi" class="modal-trigger">
+                                    <a href="#kiemdinhcogioi" class="modal-trigger">
                                         <div class="card-content">
                                             <div class="d-flex no-block align-items-center">
                                                 <div>
-                                                    <h6 class="white-text op-1">Thiết bị đang sửa chữa (chiếc)</h6>
-                                                    <h3 class="white-text m-b-5">@ViewBag.suachuacogioitag</h3>
+                                                    <h6 class="white-text op-1">Sắp hết hạn đăng kiểm (chiếc)</h6>
+                                                    <h3 class="white-text m-b-5">@ViewBag.kiemdinhcogioitag</h3>
+                                                    <h6 class="white-text op-1"></h6>
+                                                    <br />
+                                                </div>
+                                                <div class="ml-auto">
+                                                    <span class="white-text display-6">
+                                                        <i class="material-icons dp48">report_problem</i>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="col l6 s12 m12">
+                                <div class="card warning-gradient card-hover">
+                                    <a href="#baoduongcogioi" class="modal-trigger">
+                                        <div class="card-content">
+                                            <div class="d-flex no-block align-items-center">
+                                                <div>
+                                                    <h6 class="white-text op-1">Sắp đến hạn bảo dưỡng (chiếc)</h6>
+                                                    <h3 class="white-text m-b-5">@ViewBag.baoduongcogioitag</h3>
                                                     <h6 class="white-text op-1"></h6>
                                                     <br />
                                                 </div>
@@ -448,8 +420,8 @@
                                     </a>
 
                                 </div>
-                            </div>*@
-
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -457,14 +429,13 @@
         else
         {
             <div id="chung">
-
                 <div class="row center-align">
-                    <div class="col l4 m4 s12">
+                    <div class="col l4 m12 s12">
                         <div class="card mymanu card-hover total-gadget">
                             <div class="card-content center-align table_container" style="overflow-x: auto !important">
                                 <div class="row">
                                     <div class="col s12">
-                                        <h6 class="card-subtitle center-align m-b-0 white-text">Tổng</h6>
+                                        <h3 class="card-subtitle center-align m-b-0 white-text">Tổng</h3>
                                         <h2 class="font-light font-medium m-b-0 white-text" style="padding-top: 10px"> @ViewBag.Thongke.total </h2>
                                     </div>
                                     <div class="col s12">
@@ -521,13 +492,16 @@
                             </div>
                         </div>
 
-                        <div class="gadget col l2 m2 s12">
+                        <div class="gadget col l2 m12 s12">
                             <div class="info-card card card-hover" style="height: 200px">
                                 <a href="#suachua" class="modal-trigger">
                                     <div class="card-content align-items-center table_container">
                                         <div class="row">
-                                            <div class="col s12" style="padding-top: 45px">
-                                                <h6 class="card-subtitle">Sửa chữa</h6>
+                                            <div class="col s12 m12" style="padding-top: 30px">
+                                                <h3><i class="material-icons dp48">build</i></h3>
+                                                <h6 class="card-subtitle">
+                                                    Sửa chữa
+                                                </h6>
                                                 <h4> @ViewBag.Thongke.total_repair </h4>
                                             </div>
                                         </div>
@@ -572,12 +546,13 @@
 
                         </div>
 
-                        <div class="gadget col l2 m2 s12">
+                        <div class="gadget col l2 m12 s12">
                             <div class="info-card card card-hover" style="height: 200px">
                                 <a href="#baoduong2" class="modal-trigger">
                                     <div class="card-content align-items-center table_container">
                                         <div class="row">
-                                            <div class="col s12" style="padding-top: 45px">
+                                            <div class="col s12" style="padding-top: 30px">
+                                                <h3><i class="material-icons dp48">cached</i></h3>
                                                 <h6 class="card-subtitle">Bảo dưỡng </h6>
                                                 <h4> @ViewBag.Thongke.total_maintain</h4>
                                             </div>
@@ -623,12 +598,14 @@
 
                         </div>
 
-                        <div class="gadget col l2 m2 s12">
+                        <div class="gadget col l2 m12 s12">
                             <div class="info-card card card-hover" style="height: 200px">
                                 <a href="#kiemdinh2" class="modal-trigger">
                                     <div class="card-content align-items-center table_container">
                                         <div class="row">
-                                            <div class="col s12" style="padding-top: 45px">
+
+                                            <div class="col s12" style="padding-top: 30px">
+                                                <h3><i class="material-icons dp48">done_all</i></h3>
                                                 <h6 class="card-subtitle">Kiểm định</h6>
                                                 <h4> @ViewBag.totalKD</h4>
                                             </div>
@@ -674,12 +651,14 @@
 
                         </div>
 
-                        <div class="gadget col l2 m2 s12">
+                        <div class="gadget col l2 m12 s12">
                             <div class="info-card card card-hover" style="height: 200px">
                                 <a href="#thanhly2" class="modal-trigger">
                                     <div class="card-content align-items-center table_container">
                                         <div class="row">
-                                            <div class="col s12 center-align" style="padding-top: 45px">
+
+                                            <div class="col s12 center-align" style="padding-top: 30px">
+                                                <h3><i class="material-icons dp48">undo</i></h3>
                                                 <h6 class="card-subtitle">Thanh lý</h6>
                                                 <h4> @ViewBag.Thongke.total_TL </h4>
                                             </div>
@@ -724,12 +703,13 @@
                             </div>
                         </div>
 
-                        <div class="gadget col l2 m2 s12">
+                        <div class="gadget col l2 m12 s12">
                             <div class="card card-hover" style="height: 200px">
                                 <a href="#thuhoi" class="modal-trigger">
                                     <div class="card-content align-items-center table_container">
                                         <div class="row">
-                                            <div class="col s12 center-align" style="padding-top: 45px">
+                                            <div class="col s12 center-align" style="padding-top: 30px">
+                                                <h3><i class="material-icons dp48">keyboard_return</i></h3>
                                                 <h6 class="card-subtitle">Thu hồi</h6>
                                                 <h4> @ViewBag.Thongke.total_TH </h4>
                                             </div>
@@ -741,53 +721,53 @@
 
                         @*<div class="col l12 m12 s12 center-align">*@
 
-                            <div class="col l6 s12 m6">
-                                <div class="card warning-gradient card-hover">
-                                    <a href="#kiemdinh" class="modal-trigger">
-                                        <div class="card-content">
-                                            <div class="d-flex no-block align-items-center">
-                                                <div>
-                                                    <h6 class="white-text op-1">Sắp hết hạn đăng kiểm (chiếc)</h6>
-                                                    <h3 class="white-text m-b-5">@ViewBag.kiemdinhtag</h3>
-                                                    <h6 class="white-text op-1"></h6>
-                                                    <br />
-                                                </div>
-
-
-                                                <div class="ml-auto">
-                                                    <span class="white-text display-6">
-                                                        <i class="material-icons dp48">report_problem</i>
-                                                    </span>
-                                                </div>
+                        <div class="col l6 s12 m12">
+                            <div class="card warning-gradient card-hover">
+                                <a href="#kiemdinh" class="modal-trigger">
+                                    <div class="card-content">
+                                        <div class="d-flex no-block align-items-center">
+                                            <div>
+                                                <h6 class="white-text op-1">Sắp hết hạn đăng kiểm (chiếc)</h6>
+                                                <h3 class="white-text m-b-5">@ViewBag.kiemdinhtag</h3>
+                                                <h6 class="white-text op-1"></h6>
+                                                <br />
                                             </div>
 
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
 
-                            <div class="col l6 s12 m6">
-                                <div class="card warning-gradient card-hover">
-                                    <a href="#baoduong" class="modal-trigger">
-                                        <div class="card-content">
-                                            <div class="d-flex no-block align-items-center">
-                                                <div>
-                                                    <h6 class="white-text op-1">Sắp đến hạn bảo dưỡng (chiếc)</h6>
-                                                    <h3 class="white-text m-b-5">@ViewBag.baoduongtag</h3>
-                                                    <h6 class="white-text op-1"></h6>
-                                                    <br />
-                                                </div>
-                                                <div class="ml-auto">
-                                                    <span class="white-text display-6">
-                                                        <i class="material-icons dp48">report_problem</i>
-                                                    </span>
-                                                </div>
+                                            <div class="ml-auto">
+                                                <span class="white-text display-6">
+                                                    <i class="material-icons dp48">report_problem</i>
+                                                </span>
                                             </div>
                                         </div>
-                                    </a>
 
-                                </div>
+                                    </div>
+                                </a>
                             </div>
+                        </div>
+
+                        <div class="col l6 s12 m12">
+                            <div class="card warning-gradient card-hover">
+                                <a href="#baoduong" class="modal-trigger">
+                                    <div class="card-content">
+                                        <div class="d-flex no-block align-items-center">
+                                            <div>
+                                                <h6 class="white-text op-1">Sắp đến hạn bảo dưỡng (chiếc)</h6>
+                                                <h3 class="white-text m-b-5">@ViewBag.baoduongtag</h3>
+                                                <h6 class="white-text op-1"></h6>
+                                                <br />
+                                            </div>
+                                            <div class="ml-auto">
+                                                <span class="white-text display-6">
+                                                    <i class="material-icons dp48">report_problem</i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                            </div>
+                        </div>
 
                         @*</div>*@
                     </div>
@@ -848,7 +828,7 @@
     <!-- Start Pie Chart -->
     <div class="row">
 
-        <div class="col l12" id="suachuachart">
+        <div class="col l12 m12 s12" id="suachuachart">
             <div class="chart-container">
                 <div class="chart-content ">
                     <h5 class="chart-title">Thiết bị sửa chữa</h5>
@@ -860,7 +840,7 @@
             </div>
         </div>
 
-        <div class="col l12" id="baoduongchart">
+        <div class="col l12 m12 s12" id="baoduongchart">
             <div class="chart-container">
                 <div class="chart-content ">
                     <h5 class="chart-title">Thiết bị bảo dưỡng</h5>
@@ -872,7 +852,7 @@
             </div>
         </div>
 
-        <div class="col l12" id="thanhlichart">
+        <div class="col l12 m12 s12" id="thanhlichart">
             <div class="chart-container">
                 <div class="chart-content ">
                     <h5 class="chart-title">Thiết bị thanh lí</h5>
@@ -884,7 +864,7 @@
             </div>
         </div>
 
-        <div class="col l12" id="trungdaituchart">
+        <div class="col l12 m12 s12" id="trungdaituchart">
             <div class="chart-container">
                 <div class="chart-content ">
                     <h5 class="chart-title">Trung đại tu thiết bị</h5>
@@ -896,7 +876,7 @@
             </div>
         </div>
 
-        <div class="col l12" id="kiemdinhchart">
+        <div class="col l12 m12 s12" id="kiemdinhchart">
             <div class="chart-container">
                 <div class="chart-content ">
                     <h5 class="chart-title">Kiểm định thiết bị</h5>
