@@ -289,6 +289,8 @@
     <Compile Include="Controllers\DK\BaoCaoDemoController.cs" />
     <Compile Include="Controllers\DK\DepartmentDailyController.cs" />
     <Compile Include="Controllers\DK\Department_CriteriaController.cs" />
+    <Compile Include="Controllers\DK\KHSXNamController.cs" />
+    <Compile Include="Controllers\DK\QuickReport\QuickReportController.cs" />
     <Compile Include="Controllers\DK\InputPlan\InputPlan_MonthController.cs" />
     <Compile Include="Controllers\DK\QuickReport\QuickReportController.cs" />
     <Compile Include="Controllers\DK\InputPlan\InputPlan_Month_ByMrs_DuyController.cs" />
@@ -7480,6 +7482,7 @@
     <Content Include="Views\CDVT\Quyet_dinh\Chi_tiet_cai_tien.cshtml" />
     <Content Include="Views\DK\BaoCaoDemo.cshtml" />
     <Content Include="Views\DK\InputPlan\InputPlan_Month.cshtml" />
+    <Content Include="Views\DK\KHSXNam.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7492,6 +7495,7 @@
     <Folder Include="Views\ChiTiet\" />
     <Folder Include="Views\ExportWord\" />
     <Folder Include="Views\InputPlan_Month\" />
+    <Folder Include="Views\KHSXNam\" />
     <Folder Include="Views\TransferHistory\" />
     <Folder Include="Views\ViewAccident\" />
     <Folder Include="Views\WorkHistory\" />
