@@ -19,21 +19,18 @@
                 <h3 class="center">NHẬP LIỆU SẢN XUẤT</h3>
                 <div class="row">
                     <div class="input-field col s3 m3 l3"></div>
-                    <div class="input-field col l2 m2 s2">
+                    <div class="input-field col l3 m2 s2">
                         <input id="ngaySanXuat" name="ngaySX" required autocomplete="off" class="form-control center" placeholder="Ngày sản xuất" onchange="onChangeAll()" />
                     </div>
-                    <div class="input-field col l2 m2 s2">
+                    <div class="input-field col l3 m2 s2">
                         <input id="SoNgaySX" class="form-control center" value="@ViewBag.SoNgaySX" readonly />
-                    </div>
-                    <div class="input-field col l2 m2 s2">
-                        <input id="phanTramHoanThanh" class="form-control center" value="" readonly />
                     </div>
                     <div class="input-field col s3 m3 l3"></div>
                 </div>
-                <div class="input-field col l4 m12 s12">
+                <div class="input-field col l3 m12 s12">
                     <input type="text" placeholder="Ngày" value="@ViewBag.NgayNhap" autocomplete="off" class='form-control date-click center' id="dateInput" name="ngayNhap" multiple />
                 </div>
-                <div class="input-field col l4 m12 s12">
+                <div class="input-field col l3 m12 s12">
                     <select class="form-control" id="cbx-px" name="px_value">
                         <option value="" disabled selected>Phân xưởng</option>
                         <option value="PXKT1">Khai thác 1</option>
@@ -59,14 +56,14 @@
                         <option value="KCS">KCS</option>
                     </select>
                 </div>
-                @*<div class="input-field col l3 m12 s12">
+                <div class="input-field col l3 m12 s12">
                         <select class="form-control" id="cbx-group" name="ca_value">
                             <option value="1">Ca 1</option>
                             <option value="2">Ca 2</option>
                             <option value="3">Ca 3</option>
                         </select>
-                    </div>*@
-                <div class="input-field col l4 m12 s12">
+                    </div>
+                <div class="input-field col l3 m12 s12">
                     <a id="changeButton" disabled class="btn btn-small darken-2 blue" style="width:100%!important" onclick="change()">Đổi</a>
                 </div>
                 <div class="row">
@@ -75,12 +72,12 @@
                             <thead>
                                 <tr>
                                     <th class="tieu-chi" rowspan="2">Tiêu chí</th>
-                                    <th class="moi-them" rowspan="2">BQKH<br />tháng</th>
+                                    @*<th class="moi-them" rowspan="2">BQKH<br />tháng</th>
                                     <th class="moi-them" rowspan="2">Tiết<br />diện<br />đào</th>
                                     <th class="moi-them" rowspan="2">Bước<br />chống</th>
-                                    <th class="moi-them" rowspan="2">Công nghệ<br />khai thác</th>
+                                    <th class="moi-them" rowspan="2">Công nghệ<br />khai thác</th>*@
                                     <th class="moi-them" rowspan="2">Đơn<br />vị<br />đo</th>
-                                    <th class="nhap-lieu" id="dayMonthDis" colspan="4">
+                                    <th class="nhap-lieu" id="dayMonthDis" colspan="5">
                                         Ngày @if (ViewBag.day != null)
                                         {@ViewBag.day;
                                     }
@@ -92,7 +89,7 @@
                                     else
                                     { @DateTime.Now.Month}
                                     </th>
-                                    <th class="nhap-lieu" id="monthDis" colspan="4">
+                                    <th class="nhap-lieu" id="monthDis" colspan="2">
                                         Tháng
                                         @if (ViewBag.month != null)
                                         {@ViewBag.month;
@@ -109,7 +106,7 @@
                                     <th>Chênh lệch</th>
                                     <th>Phần trăm<br />hoàn thành</th>
                                     <th>Lũy kế</th>
-                                    <th>Ké hoạch<br />ban đầu</th>
+                                    @*<th>Ké hoạch<br />ban đầu</th>*@
                                     <th>Ké hoạch<br />điều chỉnh</th>
                                     <th>Phần trăm<br />tiến độ</th>
                                     <th>Tổng</th>
