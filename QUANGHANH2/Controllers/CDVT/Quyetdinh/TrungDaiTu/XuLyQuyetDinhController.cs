@@ -51,7 +51,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
             string sortDirection = Request["order[0][dir]"];
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             string departid = Session["departID"].ToString();
-            List<Documentary_big_maintain_detailsDB> equips = DBContext.Database.SqlQuery<Documentary_big_maintain_detailsDB>("select e.equipmentId, e.equipment_name, depa.department_name, details.* from Department depa inner join Documentary docu on depa.department_id = docu.department_id inner join Documentary_big_maintain_details details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 6 and details.documentary_id = @documentary_id and docu.department_id_to = @departid",
+            List<Documentary_big_maintain_detailsDB> equips = DBContext.Database.SqlQuery<Documentary_big_maintain_detailsDB>("select e.equipmentId, e.equipment_name, depa.department_name, details.* from Department depa inner join Documentary docu on depa.department_id = docu.department_id_to inner join Documentary_big_maintain_details details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 6 and details.documentary_id = @documentary_id and docu.department_id_to = @departid",
                 new SqlParameter("documentary_id", id),new SqlParameter("departid",departid)).ToList();
             foreach (Documentary_big_maintain_detailsDB item in equips)
             {
@@ -98,7 +98,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
                             DBContext.Acceptances.Add(a);
                             DBContext.SaveChanges();
                         }
-                        if (DBContext.Database.SqlQuery<Documentary_big_maintain_detailsDB>("select details.equipment_big_maintain_status from Department depa inner join Documentary docu on depa.department_id = docu.department_id inner join Documentary_big_maintain_details details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 6 and details.documentary_id = @documentary_id and equipment_big_maintain_status = '0'",new SqlParameter("documentary_id", id)).Count() == 0)
+                        if (DBContext.Database.SqlQuery<Documentary_big_maintain_detailsDB>("select details.equipment_big_maintain_status from Department depa inner join Documentary docu on depa.department_id = docu.department_id_to inner join Documentary_big_maintain_details details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 6 and details.documentary_id = @documentary_id and equipment_big_maintain_status = '0'",new SqlParameter("documentary_id", id)).Count() == 0)
                         {
                             Documentary docu = DBContext.Documentaries.Find(idnumber);
                             docu.documentary_status = 2;
