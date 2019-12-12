@@ -1,0 +1,249 @@
+﻿
+@{
+    ViewBag.Title = "KeHoachSanXuatNam";
+    Layout = "~/Views/Shared/_Layout_DK.cshtml";
+}
+
+<!DOCTYPE html>
+
+<div class="card">
+    <div class="card-content">
+        @using (Html.BeginForm("Add", "KHSXNam", FormMethod.Post, new
+        {
+            enctype = "multipart/form-data",
+            onSubmit = "return SubmitForm(this);",
+            data_restUrl = Url.Action("Add", "KHSXNam")
+        }
+       ))
+        {
+            <div class="center">
+                <h3><b>KẾ HOẠCH SẢN XUẤT NĂM</b></h3>
+            </div>
+            <div class="row" style="margin-top:20px">
+                <div class="col l5">
+                    <select id="department" name="department" class="custom-select">
+                        <option value="default-px" disabled selected>Phân xưởng</option>
+                        <option value="PXKT1">Khai thác 1</option>
+                        <option value="PXKT2">Khai thác 2</option>
+                        <option value="PXKT3">Khai thác 3</option>
+                        <option value="PXKT4">Khai thác 4</option>
+                        <option value="PXKT5">Khai thác 5</option>
+                        <option value="PXKT6">Khai thác 6</option>
+                        <option value="PXKT7">Khai thác 7</option>
+                        <option value="PXKT8">Khai thác 8</option>
+                        <option value="PXKT9">Khai thác 9</option>
+                        <option value="PXKT10">Khai thác 10</option>
+                        <option value="PXKT11">Khai thác 11</option>
+                        <option value="PXDL3">Đào lò 3</option>
+                        <option value="PXDL5">Đào lò 5</option>
+                        <option value="PXDL7">Đào lò 7</option>
+                        <option value="PXDL8">Đào lò 8</option>
+                        <option value="PXDL2">Thăng Long</option>
+                        <option value="CTA">Asean</option>
+                        <option value="PXDL1">Xây lắp mỏ</option>
+                        <option value="PXST">Sàng tuyển</option>
+                        <option value="PXLT">Lộ thiên</option>
+                        <option value="KCS">KCS</option>
+                    </select>
+                </div>
+                <div class="col l5">
+                    <input type="text" id="yearCalendar" class="form-control datepicker-here datepicker-add center"
+                           autocomplete="off"
+                           name="year"
+                           data-language='vi'
+                           data-min-view="years"
+                           data-view="years"
+                           data-date-format="Năm yyyy"
+                           required placeholder="Năm" />
+                </div>
+                <div class="col l2">
+                    <a class="btn blue darken-2" onclick="getInformation()">XEM</a>
+                </div>
+            </div>
+            <div class="row" style="margin-top:20px">
+                <div class="col s12 m12 l12">
+                    <table class="table-bordered" id="KHNamTable">
+                        <thead>
+                            <tr>
+                                <th width="30%">Tiêu chí</th>
+                                <th width="20%">Kế hoạch sản xuất lúc sau</th>
+                                <th width="40">Ghi chú</th>
+                                <th width="10%"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body"></tbody>
+                    </table>
+                    <textarea readonly name="jsonname" hidden id="jsonid"></textarea>
+                </div>
+                <div class="col s12 m12 l12 input-field center row">
+                    <a class="btn blue darken-2" id="addRowsbtn">Thêm</a>
+                </div>
+                <div class="col s12 m12 l12 input-field center row">
+                    <textarea style="width:50%;height:150px" name="noteNam" id="noteNam" placeholder="Ghi chú"></textarea>
+                </div>
+                <div class="col s12 m12 l12 input-field center row">
+                    <button class="btn btn-small blue darken-2 modal-trigger input-field" type="submit" id="btn_Save">Lưu</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<script src="~/js/Custom JS/Disable_input_material.js"></script>
+<script>
+    var currentSelectedValue = [];
+    var selectedValueTD = [];
+
+    function emptyArr() {
+        currentSelectedValue = [];
+        selectedValueTD = [];
+    }
+
+    var listAspectDepartments;
+     $(document).ready(function () {
+        mode = 0;
+        listAspectDepartments =  @Html.Raw(Json.Encode(@ViewBag.listTC));;
+    });
+    var dem = 0;
+     /////////////////////Button Thêm/////////////////////
+    $("#addRowsbtn").on("click", function () {
+        content = "";
+        selectContent = "<select id=\"MaTieuChi" + "\" class=\"browser-default\" skipped=\"0\"> <option value=\"-1\" selected disabled>Lựa chọn tiêu chí</option>";
+
+        for (let i = 0; i < listAspectDepartments.length; i++) {
+            selectContent += "<option id=\"" + listAspectDepartments[i].MaTieuChi + "\" value=\"" + listAspectDepartments[i].MaTieuChi + "\">" + listAspectDepartments[i].TenTieuChi + "</option>";
+        }
+        selectContent += "</select>";
+        content += "<tr id=\"MaTieuChi" + dem + "\"><td>" + selectContent + "</td></td><td contenteditable='true'></td><td  contenteditable='true'></td><td><a id='delete-btn' name=\"MaTieuChi" + dem + "\" class='btn red darken-2'>Xóa</a></td></tr>";
+        dem++;
+        $("#table-body").append(content);
+    });
+
+    /////////////////////Button Xóa///////////////////////
+    $("#KHNamTable").on("click", "#delete-btn", function () {
+        $("tr#" + $(this).attr("name")).remove();
+        emptyArr();
+        $("#KHNamTable").find("select").each(function () {
+            var value = $(this).val();
+            if (value != null) {
+                if (value !== -1 || currentSelectedValue.indexOf(value) !== -1) {
+                    currentSelectedValue.push(value);
+                }
+            }
+        })
+
+    })
+</script>
+<script>
+    $('#btn_Save').click(function () {
+        var output = {};
+        var abc = [];
+        for (var i = 1; i < $('#KHNamTable tr').length; i++) {
+            var temp = {};
+            for (var j = 0; j < $('#KHNamTable thead tr:nth-child(1) th').length; j++) {
+                if (j == 0) {
+                    temp[j] = $('#table-body tr:nth-child(' + i + ') td #MaTieuChi option:selected').val();
+                } else {
+                    temp[j] = $('#table-body tr:nth-child(' + i + ') td').eq(j).text();
+                }
+            }
+            abc.push(temp);
+        }
+        output.data = abc;
+        $('#jsonid').val(JSON.stringify(output));
+    })
+    function SubmitForm(form) {
+        $.validator.unobtrusive.parse(form);
+        if ($(form).valid()) {
+            $.ajax({
+                type: "POST",
+                url: form.action,
+                data: $(form).serialize(),
+                success: function (result) {
+                    if (result.message == "ErrorNumber") {
+                        errorAlert('Lỗi', 'Kế hoạch sản xuất phải là số');
+                    } else if (result.message == "ErrorDepart") {
+                        errorAlert('Lỗi', 'Hãy chọn phân xưởng trước khi lưu');
+                    }else if (result.message == "DupliTieuChi") {
+                        errorAlert('Lỗi', 'Tồn tại 2 tiêu chí trùng nhau');
+                    }else if (result.message == "ErrorTieuChi") {
+                        errorAlert('Lỗi', 'Hãy chọn tiêu chí trước khi lưu');
+                    } else if (result.message == "ErrorYear") {
+                        errorAlert('Lỗi', 'Hãy chọn năm trước khi lưu');
+                    } else {
+                        successAlert('Thành công','Thêm thành công');
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+
+                }
+            });
+        }
+        return false;
+    }
+</script>
+<script>
+    function getInformation() {
+        if ( $('#department').val() == null) {
+            errorAlert('Lỗi', 'Hãy chọn phân xưởng trước khi xem');
+        } else if ($('#yearCalendar').val() == '' )
+        {
+            errorAlert('Lỗi', 'Hãy chọn năm trước khi xem');
+        }
+        else {
+               dem = 0;
+        $('#pre-load').show();
+        $.ajax({
+            type: 'POST',
+            url: '/phong-dieu-khien/ke-hoach-san-xuat-nam/lay-thong-tin',
+            data: {
+                'department': $('#department').val(),
+                'year': $('#yearCalendar').val().split(" ")[1],
+            },
+            success: function (response) {
+                var tableBody = $("#KHNamTable").children("tbody");
+                tableBody.empty();
+                content = "";
+                let tieuChiCuList = response.tieuChiCuList;
+                for (let i = 0; i < tieuChiCuList.length; i++) {
+                    content += "<tr id=\"MaTieuChi" + dem + "\"><td>" + setSelect(tieuChiCuList[i].MaTieuChi) + "</td><td contenteditable='true'>" + tieuChiCuList[i].SanLuongKeHoach + "</td><td contenteditable='true'>" + parseNote(tieuChiCuList[i].GhiChu)  + "</td><td><a id='delete-btn' name=\"MaTieuChi" + dem + "\" class='btn red darken-2'>Xóa</a></td></tr>";
+                    dem++;
+                }
+                tableBody.html(content);
+               $("#noteNam").text(response.note) ;
+               $('#pre-load').hide();
+            },
+             error: function (response) {
+
+            }
+        })
+        }
+    }
+    function getTenTieuChi(MaTieuChi) {
+        var tenTieuChi;
+
+        for (var i = 0; i < listAspectDepartments.length; i++) {
+            if (listAspectDepartments[i].MaTieuChi == MaTieuChi)
+                return listAspectDepartments[i].TenTieuChi;
+        }
+        return null;
+    }
+    function setSelect(MaTieuChi)
+    {
+        selectContent = "<select id='MaTieuChi'  class='browser-default' skipped='0'>";
+        for (let i = 0; i < listAspectDepartments.length; i++) {
+            var selected = (listAspectDepartments[i].MaTieuChi == MaTieuChi) ? 'selected' : '';
+            selectContent += "<option value='" + listAspectDepartments[i].MaTieuChi + "'" + selected + ">" + listAspectDepartments[i].TenTieuChi + "</option>";
+        }
+        selectContent += "</select>";
+        return selectContent;
+    }
+
+    function parseNote(note)
+    {
+        if (note == null) {
+            return '';
+        } else {
+            return note;
+        }
+    }
+</script>
