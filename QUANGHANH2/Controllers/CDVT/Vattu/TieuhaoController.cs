@@ -171,7 +171,7 @@ select s.supply_id, s.supply_name, de.department_id, de.department_name, s.unit,
 sum(sde.quantity_used) 'used', sum(sde.quantity_out) 'thuhoi'
 from Supply s inner join Supply_Documentary_Equipment sde
 on s.supply_id = sde.supply_id inner join Documentary d
-on d.documentary_id = sde.documentary_id and MONTH(d.date_created) = @month AND YEAR(d.date_created) = @year inner join Department de
+on d.documentary_id = sde.documentary_id and YEAR(d.date_created) = @year inner join Department de
 on de.department_id = de.department_id
 group by s.supply_id, s.supply_name, de.department_id, de.department_name, s.unit
 ) as a 
