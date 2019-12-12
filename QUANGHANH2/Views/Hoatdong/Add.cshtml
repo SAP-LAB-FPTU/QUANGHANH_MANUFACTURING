@@ -180,14 +180,13 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    @*<div class="form-group">
                         <label>Đường nhập</label>
-                        @*@Html.LabelFor(model => model.input_channel, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             @Html.DropDownList("input_channel", new SelectList(ViewBag.listDN, "Text", "Value"), htmlAttributes: new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.input_channel, "", new { @class = "text-danger" })
                         </div>
-                    </div>
+                    </div>*@
 
                     <div class="form-group">
                         <label class="control-label col-md-2">Tên nhóm thiết bị</label>
