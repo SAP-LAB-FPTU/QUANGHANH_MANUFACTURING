@@ -610,8 +610,8 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           </Key>
           <Property Name="HeaderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MaPhongBan" Type="nvarchar" MaxLength="150" />
-          <Property Name="Ngay" Type="date" />
           <Property Name="Ca" Type="int" />
+          <Property Name="NgayNhapKH" Type="date" />
         </EntityType>
         <EntityType Name="header_KeHoachTungThang">
           <Key>
@@ -619,21 +619,19 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           </Key>
           <Property Name="HeaderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MaPhongBan" Type="nvarchar" MaxLength="150" />
-          <Property Name="Thang" Type="int" />
-          <Property Name="Nam" Type="int" />
+          <Property Name="ThangKeHoach" Type="int" />
+          <Property Name="NamKeHoach" Type="int" />
           <Property Name="SoNgayLamViec" Type="int" />
-          <Property Name="GhiChu" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="header_ThucHienTheoNgay">
           <Key>
             <PropertyRef Name="HeaderID" />
           </Key>
+          <Property Name="MaPhongBan" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Ngay" Type="date" Nullable="false" />
           <Property Name="HeaderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="MaPhongBan" Type="nvarchar" MaxLength="150" />
-          <Property Name="Ngay" Type="date" />
-          <Property Name="Ca" Type="int" />
+          <Property Name="Ca" Type="int" Nullable="false" />
           <Property Name="NgaySanXuat" Type="int" />
-          <Property Name="GhiChu" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="HoSo">
           <Key>
@@ -688,8 +686,9 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           </Key>
           <Property Name="HeaderID" Type="int" Nullable="false" />
           <Property Name="MaTieuChi" Type="int" Nullable="false" />
-          <Property Name="SanLuongKeHoach" Type="float" />
+          <Property Name="KeHoach" Type="float" />
           <Property Name="ThoiGianNhapCuoiCung" Type="datetime" Nullable="false" />
+          <Property Name="GhiChu" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="KeHoach_TieuChi_TheoThang">
           <Key>
@@ -699,9 +698,9 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           </Key>
           <Property Name="HeaderID" Type="int" Nullable="false" />
           <Property Name="MaTieuChi" Type="int" Nullable="false" />
-          <Property Name="SanLuongKeHoach" Type="float" />
+          <Property Name="SanLuong" Type="float" />
           <Property Name="ThoiGianNhapCuoiCung" Type="datetime" Nullable="false" />
-          <Property Name="GhiChi" Type="nvarchar(max)" />
+          <Property Name="GhiChu" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="LichSuBoSungSYLL">
           <Key>
@@ -2021,19 +2020,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__header_Ke__MaPho__025D5595">
-          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
-          <End Role="header_KeHoachTungThang" Type="Self.header_KeHoachTungThang" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Department">
-              <PropertyRef Name="department_id" />
-            </Principal>
-            <Dependent Role="header_KeHoachTungThang">
-              <PropertyRef Name="MaPhongBan" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__header_Ke__MaPho__0CDAE408">
+        <Association Name="FK__header_Ke__MaPho__34E8D562">
           <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
           <End Role="header_KeHoach_TieuChi_TheoNgay" Type="Self.header_KeHoach_TieuChi_TheoNgay" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2041,6 +2028,18 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
               <PropertyRef Name="department_id" />
             </Principal>
             <Dependent Role="header_KeHoach_TieuChi_TheoNgay">
+              <PropertyRef Name="MaPhongBan" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__header_Ke__MaPho__35DCF99B">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="header_KeHoachTungThang" Type="Self.header_KeHoachTungThang" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="department_id" />
+            </Principal>
+            <Dependent Role="header_KeHoachTungThang">
               <PropertyRef Name="MaPhongBan" />
             </Dependent>
           </ReferentialConstraint>
@@ -2053,18 +2052,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
               <PropertyRef Name="department_id" />
             </Principal>
             <Dependent Role="header_KeHoach_TieuChi_TheoNam">
-              <PropertyRef Name="MaPhongBan" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__header_Th__MaPho__1758727B">
-          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
-          <End Role="header_ThucHienTheoNgay" Type="Self.header_ThucHienTheoNgay" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Department">
-              <PropertyRef Name="department_id" />
-            </Principal>
-            <Dependent Role="header_ThucHienTheoNgay">
               <PropertyRef Name="MaPhongBan" />
             </Dependent>
           </ReferentialConstraint>
@@ -2105,19 +2092,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__KeHoach_T__Heade__07220AB2">
-          <End Role="header_KeHoachTungThang" Type="Self.header_KeHoachTungThang" Multiplicity="1" />
-          <End Role="KeHoach_TieuChi_TheoThang" Type="Self.KeHoach_TieuChi_TheoThang" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="header_KeHoachTungThang">
-              <PropertyRef Name="HeaderID" />
-            </Principal>
-            <Dependent Role="KeHoach_TieuChi_TheoThang">
-              <PropertyRef Name="HeaderID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__KeHoach_T__Heade__119F9925">
+        <Association Name="FK__KeHoach_T__Heade__37C5420D">
           <End Role="header_KeHoach_TieuChi_TheoNgay" Type="Self.header_KeHoach_TieuChi_TheoNgay" Multiplicity="1" />
           <End Role="KeHoach_TieuChi_TheoNgay" Type="Self.KeHoach_TieuChi_TheoNgay" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2141,19 +2116,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__KeHoach_T__MaTie__08162EEB">
-          <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="1" />
-          <End Role="KeHoach_TieuChi_TheoThang" Type="Self.KeHoach_TieuChi_TheoThang" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TieuChi">
-              <PropertyRef Name="MaTieuChi" />
-            </Principal>
-            <Dependent Role="KeHoach_TieuChi_TheoThang">
-              <PropertyRef Name="MaTieuChi" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__KeHoach_T__MaTie__1293BD5E">
+        <Association Name="FK__KeHoach_T__MaTie__38B96646">
           <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="1" />
           <End Role="KeHoach_TieuChi_TheoNgay" Type="Self.KeHoach_TieuChi_TheoNgay" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2635,19 +2598,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ThucHien___Heade__1C1D2798">
-          <End Role="header_ThucHienTheoNgay" Type="Self.header_ThucHienTheoNgay" Multiplicity="1" />
-          <End Role="ThucHien_TieuChi_TheoNgay" Type="Self.ThucHien_TieuChi_TheoNgay" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="header_ThucHienTheoNgay">
-              <PropertyRef Name="HeaderID" />
-            </Principal>
-            <Dependent Role="ThucHien_TieuChi_TheoNgay">
-              <PropertyRef Name="HeaderID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__ThucHien___MaTie__1D114BD1">
+        <Association Name="FK__ThucHien___MaTie__3B95D2F1">
           <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="1" />
           <End Role="ThucHien_TieuChi_TheoNgay" Type="Self.ThucHien_TieuChi_TheoNgay" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2791,6 +2742,42 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_header_ThucHienTheoNgay_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="header_ThucHienTheoNgay" Type="Self.header_ThucHienTheoNgay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="department_id" />
+            </Principal>
+            <Dependent Role="header_ThucHienTheoNgay">
+              <PropertyRef Name="MaPhongBan" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KeHoach_TieuChi_TheoThang_header_KeHoachTungThang">
+          <End Role="header_KeHoachTungThang" Type="Self.header_KeHoachTungThang" Multiplicity="1" />
+          <End Role="KeHoach_TieuChi_TheoThang" Type="Self.KeHoach_TieuChi_TheoThang" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="header_KeHoachTungThang">
+              <PropertyRef Name="HeaderID" />
+            </Principal>
+            <Dependent Role="KeHoach_TieuChi_TheoThang">
+              <PropertyRef Name="HeaderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KeHoach_TieuChi_TheoThang_TieuChi">
+          <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="1" />
+          <End Role="KeHoach_TieuChi_TheoThang" Type="Self.KeHoach_TieuChi_TheoThang" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TieuChi">
+              <PropertyRef Name="MaTieuChi" />
+            </Principal>
+            <Dependent Role="KeHoach_TieuChi_TheoThang">
+              <PropertyRef Name="MaTieuChi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_NhanVien_CongViec">
           <End Role="CongViec" Type="Self.CongViec" Multiplicity="0..1" />
           <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="*" />
@@ -2812,6 +2799,18 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Principal>
             <Dependent Role="NhiemVu">
               <PropertyRef Name="MaChungChi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ThucHien_TieuChi_TheoNgay_header_ThucHienTheoNgay">
+          <End Role="header_ThucHienTheoNgay" Type="Self.header_ThucHienTheoNgay" Multiplicity="1" />
+          <End Role="ThucHien_TieuChi_TheoNgay" Type="Self.ThucHien_TieuChi_TheoNgay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="header_ThucHienTheoNgay">
+              <PropertyRef Name="HeaderID" />
+            </Principal>
+            <Dependent Role="ThucHien_TieuChi_TheoNgay">
+              <PropertyRef Name="HeaderID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3249,21 +3248,17 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="NhanVien" EntitySet="NhanVien" />
             <End Role="GiayTo" EntitySet="GiayTo" />
           </AssociationSet>
-          <AssociationSet Name="FK__header_Ke__MaPho__025D5595" Association="Self.FK__header_Ke__MaPho__025D5595">
-            <End Role="Department" EntitySet="Department" />
-            <End Role="header_KeHoachTungThang" EntitySet="header_KeHoachTungThang" />
-          </AssociationSet>
-          <AssociationSet Name="FK__header_Ke__MaPho__0CDAE408" Association="Self.FK__header_Ke__MaPho__0CDAE408">
+          <AssociationSet Name="FK__header_Ke__MaPho__34E8D562" Association="Self.FK__header_Ke__MaPho__34E8D562">
             <End Role="Department" EntitySet="Department" />
             <End Role="header_KeHoach_TieuChi_TheoNgay" EntitySet="header_KeHoach_TieuChi_TheoNgay" />
+          </AssociationSet>
+          <AssociationSet Name="FK__header_Ke__MaPho__35DCF99B" Association="Self.FK__header_Ke__MaPho__35DCF99B">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="header_KeHoachTungThang" EntitySet="header_KeHoachTungThang" />
           </AssociationSet>
           <AssociationSet Name="FK__header_Ke__MaPho__77DFC722" Association="Self.FK__header_Ke__MaPho__77DFC722">
             <End Role="Department" EntitySet="Department" />
             <End Role="header_KeHoach_TieuChi_TheoNam" EntitySet="header_KeHoach_TieuChi_TheoNam" />
-          </AssociationSet>
-          <AssociationSet Name="FK__header_Th__MaPho__1758727B" Association="Self.FK__header_Th__MaPho__1758727B">
-            <End Role="Department" EntitySet="Department" />
-            <End Role="header_ThucHienTheoNgay" EntitySet="header_ThucHienTheoNgay" />
           </AssociationSet>
           <AssociationSet Name="FK__HoSo__MaNV__46B27FE2" Association="Self.FK__HoSo__MaNV__46B27FE2">
             <End Role="NhanVien" EntitySet="NhanVien" />
@@ -3277,11 +3272,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="Equipment" EntitySet="Equipment" />
             <End Role="Incident" EntitySet="Incident" />
           </AssociationSet>
-          <AssociationSet Name="FK__KeHoach_T__Heade__07220AB2" Association="Self.FK__KeHoach_T__Heade__07220AB2">
-            <End Role="header_KeHoachTungThang" EntitySet="header_KeHoachTungThang" />
-            <End Role="KeHoach_TieuChi_TheoThang" EntitySet="KeHoach_TieuChi_TheoThang" />
-          </AssociationSet>
-          <AssociationSet Name="FK__KeHoach_T__Heade__119F9925" Association="Self.FK__KeHoach_T__Heade__119F9925">
+          <AssociationSet Name="FK__KeHoach_T__Heade__37C5420D" Association="Self.FK__KeHoach_T__Heade__37C5420D">
             <End Role="header_KeHoach_TieuChi_TheoNgay" EntitySet="header_KeHoach_TieuChi_TheoNgay" />
             <End Role="KeHoach_TieuChi_TheoNgay" EntitySet="KeHoach_TieuChi_TheoNgay" />
           </AssociationSet>
@@ -3289,11 +3280,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="header_KeHoach_TieuChi_TheoNam" EntitySet="header_KeHoach_TieuChi_TheoNam" />
             <End Role="KeHoach_TieuChi_TheoNam" EntitySet="KeHoach_TieuChi_TheoNam" />
           </AssociationSet>
-          <AssociationSet Name="FK__KeHoach_T__MaTie__08162EEB" Association="Self.FK__KeHoach_T__MaTie__08162EEB">
-            <End Role="TieuChi" EntitySet="TieuChi" />
-            <End Role="KeHoach_TieuChi_TheoThang" EntitySet="KeHoach_TieuChi_TheoThang" />
-          </AssociationSet>
-          <AssociationSet Name="FK__KeHoach_T__MaTie__1293BD5E" Association="Self.FK__KeHoach_T__MaTie__1293BD5E">
+          <AssociationSet Name="FK__KeHoach_T__MaTie__38B96646" Association="Self.FK__KeHoach_T__MaTie__38B96646">
             <End Role="TieuChi" EntitySet="TieuChi" />
             <End Role="KeHoach_TieuChi_TheoNgay" EntitySet="KeHoach_TieuChi_TheoNgay" />
           </AssociationSet>
@@ -3453,11 +3440,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="NhanVien" EntitySet="NhanVien" />
             <End Role="TaiNan" EntitySet="TaiNan" />
           </AssociationSet>
-          <AssociationSet Name="FK__ThucHien___Heade__1C1D2798" Association="Self.FK__ThucHien___Heade__1C1D2798">
-            <End Role="header_ThucHienTheoNgay" EntitySet="header_ThucHienTheoNgay" />
-            <End Role="ThucHien_TieuChi_TheoNgay" EntitySet="ThucHien_TieuChi_TheoNgay" />
-          </AssociationSet>
-          <AssociationSet Name="FK__ThucHien___MaTie__1D114BD1" Association="Self.FK__ThucHien___MaTie__1D114BD1">
+          <AssociationSet Name="FK__ThucHien___MaTie__3B95D2F1" Association="Self.FK__ThucHien___MaTie__3B95D2F1">
             <End Role="TieuChi" EntitySet="TieuChi" />
             <End Role="ThucHien_TieuChi_TheoNgay" EntitySet="ThucHien_TieuChi_TheoNgay" />
           </AssociationSet>
@@ -3505,6 +3488,18 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="Department" EntitySet="Department" />
             <End Role="Header_DiemDanh_NangSuat_LaoDong" EntitySet="Header_DiemDanh_NangSuat_LaoDong" />
           </AssociationSet>
+          <AssociationSet Name="FK_header_ThucHienTheoNgay_Department" Association="Self.FK_header_ThucHienTheoNgay_Department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="header_ThucHienTheoNgay" EntitySet="header_ThucHienTheoNgay" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KeHoach_TieuChi_TheoThang_header_KeHoachTungThang" Association="Self.FK_KeHoach_TieuChi_TheoThang_header_KeHoachTungThang">
+            <End Role="header_KeHoachTungThang" EntitySet="header_KeHoachTungThang" />
+            <End Role="KeHoach_TieuChi_TheoThang" EntitySet="KeHoach_TieuChi_TheoThang" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KeHoach_TieuChi_TheoThang_TieuChi" Association="Self.FK_KeHoach_TieuChi_TheoThang_TieuChi">
+            <End Role="TieuChi" EntitySet="TieuChi" />
+            <End Role="KeHoach_TieuChi_TheoThang" EntitySet="KeHoach_TieuChi_TheoThang" />
+          </AssociationSet>
           <AssociationSet Name="FK_NhanVien_CongViec" Association="Self.FK_NhanVien_CongViec">
             <End Role="CongViec" EntitySet="CongViec" />
             <End Role="NhanVien" EntitySet="NhanVien" />
@@ -3512,6 +3507,10 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <AssociationSet Name="FK_NhiemVu_ChungChi" Association="Self.FK_NhiemVu_ChungChi">
             <End Role="ChungChi" EntitySet="ChungChi" />
             <End Role="NhiemVu" EntitySet="NhiemVu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ThucHien_TieuChi_TheoNgay_header_ThucHienTheoNgay" Association="Self.FK_ThucHien_TieuChi_TheoNgay_header_ThucHienTheoNgay">
+            <End Role="header_ThucHienTheoNgay" EntitySet="header_ThucHienTheoNgay" />
+            <End Role="ThucHien_TieuChi_TheoNgay" EntitySet="ThucHien_TieuChi_TheoNgay" />
           </AssociationSet>
           <AssociationSet Name="FK_TieuChi_NhomTieuChi" Association="Self.FK_TieuChi_NhomTieuChi">
             <End Role="NhomTieuChi" EntitySet="NhomTieuChi" />
@@ -3860,10 +3859,9 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <NavigationProperty Name="Documentary_revoke_details" Relationship="Self.FK__Documenta__depar__1699586C" FromRole="Department" ToRole="Documentary_revoke_details" />
           <NavigationProperty Name="Equipment_SCTX" Relationship="Self.FK__Equipment__depar__2022C2A6" FromRole="Department" ToRole="Equipment_SCTX" />
           <NavigationProperty Name="Equipments" Relationship="Self.FK__Equipment__depar__625A9A57" FromRole="Department" ToRole="Equipment" />
-          <NavigationProperty Name="header_KeHoachTungThang" Relationship="Self.FK__header_Ke__MaPho__025D5595" FromRole="Department" ToRole="header_KeHoachTungThang" />
-          <NavigationProperty Name="header_KeHoach_TieuChi_TheoNgay" Relationship="Self.FK__header_Ke__MaPho__0CDAE408" FromRole="Department" ToRole="header_KeHoach_TieuChi_TheoNgay" />
+          <NavigationProperty Name="header_KeHoach_TieuChi_TheoNgay" Relationship="Self.FK__header_Ke__MaPho__34E8D562" FromRole="Department" ToRole="header_KeHoach_TieuChi_TheoNgay" />
+          <NavigationProperty Name="header_KeHoachTungThang" Relationship="Self.FK__header_Ke__MaPho__35DCF99B" FromRole="Department" ToRole="header_KeHoachTungThang" />
           <NavigationProperty Name="header_KeHoach_TieuChi_TheoNam" Relationship="Self.FK__header_Ke__MaPho__77DFC722" FromRole="Department" ToRole="header_KeHoach_TieuChi_TheoNam" />
-          <NavigationProperty Name="header_ThucHienTheoNgay" Relationship="Self.FK__header_Th__MaPho__1758727B" FromRole="Department" ToRole="header_ThucHienTheoNgay" />
           <NavigationProperty Name="Incidents" Relationship="Self.FK__Incident__depart__6FB49575" FromRole="Department" ToRole="Incident" />
           <NavigationProperty Name="Maintain_Car" Relationship="Self.FK__Maintain___depar__76619304" FromRole="Department" ToRole="Maintain_Car" />
           <NavigationProperty Name="MealRegistrations" Relationship="Self.FK__MealRegis__depar__7A3223E8" FromRole="Department" ToRole="MealRegistration" />
@@ -3874,6 +3872,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <NavigationProperty Name="SupplyPlans" Relationship="Self.FK__SupplyPla__depar__09746778" FromRole="Department" ToRole="SupplyPlan" />
           <NavigationProperty Name="SupplyPlans1" Relationship="Self.FK__SupplyPla__depar__0A688BB1" FromRole="Department" ToRole="SupplyPlan" />
           <NavigationProperty Name="Header_DiemDanh_NangSuat_LaoDong" Relationship="Self.FK_Header_DiemDanh_NangSuat_LaoDong_Department" FromRole="Department" ToRole="Header_DiemDanh_NangSuat_LaoDong" />
+          <NavigationProperty Name="header_ThucHienTheoNgay" Relationship="Self.FK_header_ThucHienTheoNgay_Department" FromRole="Department" ToRole="header_ThucHienTheoNgay" />
         </EntityType>
         <EntityType Name="DiemDanh_NangSuatLaoDong">
           <Key>
@@ -4298,10 +4297,10 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           </Key>
           <Property Name="HeaderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MaPhongBan" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="Ngay" Type="DateTime" Precision="0" />
           <Property Name="Ca" Type="Int32" />
-          <NavigationProperty Name="Department" Relationship="Self.FK__header_Ke__MaPho__0CDAE408" FromRole="header_KeHoach_TieuChi_TheoNgay" ToRole="Department" />
-          <NavigationProperty Name="KeHoach_TieuChi_TheoNgay" Relationship="Self.FK__KeHoach_T__Heade__119F9925" FromRole="header_KeHoach_TieuChi_TheoNgay" ToRole="KeHoach_TieuChi_TheoNgay" />
+          <Property Name="NgayNhapKH" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Department" Relationship="Self.FK__header_Ke__MaPho__34E8D562" FromRole="header_KeHoach_TieuChi_TheoNgay" ToRole="Department" />
+          <NavigationProperty Name="KeHoach_TieuChi_TheoNgay" Relationship="Self.FK__KeHoach_T__Heade__37C5420D" FromRole="header_KeHoach_TieuChi_TheoNgay" ToRole="KeHoach_TieuChi_TheoNgay" />
         </EntityType>
         <EntityType Name="header_KeHoachTungThang">
           <Key>
@@ -4309,25 +4308,23 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           </Key>
           <Property Name="HeaderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MaPhongBan" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="Thang" Type="Int32" />
-          <Property Name="Nam" Type="Int32" />
+          <Property Name="ThangKeHoach" Type="Int32" />
+          <Property Name="NamKeHoach" Type="Int32" />
           <Property Name="SoNgayLamViec" Type="Int32" />
-          <Property Name="GhiChu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Department" Relationship="Self.FK__header_Ke__MaPho__025D5595" FromRole="header_KeHoachTungThang" ToRole="Department" />
-          <NavigationProperty Name="KeHoach_TieuChi_TheoThang" Relationship="Self.FK__KeHoach_T__Heade__07220AB2" FromRole="header_KeHoachTungThang" ToRole="KeHoach_TieuChi_TheoThang" />
+          <NavigationProperty Name="Department" Relationship="Self.FK__header_Ke__MaPho__35DCF99B" FromRole="header_KeHoachTungThang" ToRole="Department" />
+          <NavigationProperty Name="KeHoach_TieuChi_TheoThang" Relationship="Self.FK_KeHoach_TieuChi_TheoThang_header_KeHoachTungThang" FromRole="header_KeHoachTungThang" ToRole="KeHoach_TieuChi_TheoThang" />
         </EntityType>
         <EntityType Name="header_ThucHienTheoNgay">
           <Key>
             <PropertyRef Name="HeaderID" />
           </Key>
+          <Property Name="MaPhongBan" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Ngay" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="HeaderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MaPhongBan" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="Ngay" Type="DateTime" Precision="0" />
-          <Property Name="Ca" Type="Int32" />
+          <Property Name="Ca" Type="Int32" Nullable="false" />
           <Property Name="NgaySanXuat" Type="Int32" />
-          <Property Name="GhiChu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Department" Relationship="Self.FK__header_Th__MaPho__1758727B" FromRole="header_ThucHienTheoNgay" ToRole="Department" />
-          <NavigationProperty Name="ThucHien_TieuChi_TheoNgay" Relationship="Self.FK__ThucHien___Heade__1C1D2798" FromRole="header_ThucHienTheoNgay" ToRole="ThucHien_TieuChi_TheoNgay" />
+          <NavigationProperty Name="Department" Relationship="Self.FK_header_ThucHienTheoNgay_Department" FromRole="header_ThucHienTheoNgay" ToRole="Department" />
+          <NavigationProperty Name="ThucHien_TieuChi_TheoNgay" Relationship="Self.FK_ThucHien_TieuChi_TheoNgay_header_ThucHienTheoNgay" FromRole="header_ThucHienTheoNgay" ToRole="ThucHien_TieuChi_TheoNgay" />
         </EntityType>
         <EntityType Name="HoSo">
           <Key>
@@ -4387,10 +4384,11 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           </Key>
           <Property Name="HeaderID" Type="Int32" Nullable="false" />
           <Property Name="MaTieuChi" Type="Int32" Nullable="false" />
-          <Property Name="SanLuongKeHoach" Type="Double" />
+          <Property Name="KeHoach" Type="Double" />
           <Property Name="ThoiGianNhapCuoiCung" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="header_KeHoach_TieuChi_TheoNgay" Relationship="Self.FK__KeHoach_T__Heade__119F9925" FromRole="KeHoach_TieuChi_TheoNgay" ToRole="header_KeHoach_TieuChi_TheoNgay" />
-          <NavigationProperty Name="TieuChi" Relationship="Self.FK__KeHoach_T__MaTie__1293BD5E" FromRole="KeHoach_TieuChi_TheoNgay" ToRole="TieuChi" />
+          <Property Name="GhiChu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="header_KeHoach_TieuChi_TheoNgay" Relationship="Self.FK__KeHoach_T__Heade__37C5420D" FromRole="KeHoach_TieuChi_TheoNgay" ToRole="header_KeHoach_TieuChi_TheoNgay" />
+          <NavigationProperty Name="TieuChi" Relationship="Self.FK__KeHoach_T__MaTie__38B96646" FromRole="KeHoach_TieuChi_TheoNgay" ToRole="TieuChi" />
         </EntityType>
         <EntityType Name="KeHoach_TieuChi_TheoThang">
           <Key>
@@ -4400,11 +4398,11 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           </Key>
           <Property Name="HeaderID" Type="Int32" Nullable="false" />
           <Property Name="MaTieuChi" Type="Int32" Nullable="false" />
-          <Property Name="SanLuongKeHoach" Type="Double" />
+          <Property Name="SanLuong" Type="Double" />
           <Property Name="ThoiGianNhapCuoiCung" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="GhiChi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="header_KeHoachTungThang" Relationship="Self.FK__KeHoach_T__Heade__07220AB2" FromRole="KeHoach_TieuChi_TheoThang" ToRole="header_KeHoachTungThang" />
-          <NavigationProperty Name="TieuChi" Relationship="Self.FK__KeHoach_T__MaTie__08162EEB" FromRole="KeHoach_TieuChi_TheoThang" ToRole="TieuChi" />
+          <Property Name="GhiChu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="header_KeHoachTungThang" Relationship="Self.FK_KeHoach_TieuChi_TheoThang_header_KeHoachTungThang" FromRole="KeHoach_TieuChi_TheoThang" ToRole="header_KeHoachTungThang" />
+          <NavigationProperty Name="TieuChi" Relationship="Self.FK_KeHoach_TieuChi_TheoThang_TieuChi" FromRole="KeHoach_TieuChi_TheoThang" ToRole="TieuChi" />
         </EntityType>
         <EntityType Name="LichSuBoSungSYLL">
           <Key>
@@ -4825,8 +4823,8 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="MaTieuChi" Type="Int32" Nullable="false" />
           <Property Name="SanLuong" Type="Double" />
           <Property Name="GhiChu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="header_ThucHienTheoNgay" Relationship="Self.FK__ThucHien___Heade__1C1D2798" FromRole="ThucHien_TieuChi_TheoNgay" ToRole="header_ThucHienTheoNgay" />
-          <NavigationProperty Name="TieuChi" Relationship="Self.FK__ThucHien___MaTie__1D114BD1" FromRole="ThucHien_TieuChi_TheoNgay" ToRole="TieuChi" />
+          <NavigationProperty Name="header_ThucHienTheoNgay" Relationship="Self.FK_ThucHien_TieuChi_TheoNgay_header_ThucHienTheoNgay" FromRole="ThucHien_TieuChi_TheoNgay" ToRole="header_ThucHienTheoNgay" />
+          <NavigationProperty Name="TieuChi" Relationship="Self.FK__ThucHien___MaTie__3B95D2F1" FromRole="ThucHien_TieuChi_TheoNgay" ToRole="TieuChi" />
         </EntityType>
         <EntityType Name="TieuChi">
           <Key>
@@ -4837,11 +4835,11 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="DonViDo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="MaNhomTieuChi" Type="Int32" />
           <NavigationProperty Name="KeHoach_TieuChi_TheoNam" Relationship="Self.FK__KeHoach_T__MaTie__7D98A078" FromRole="TieuChi" ToRole="KeHoach_TieuChi_TheoNam" />
-          <NavigationProperty Name="KeHoach_TieuChi_TheoNgay" Relationship="Self.FK__KeHoach_T__MaTie__1293BD5E" FromRole="TieuChi" ToRole="KeHoach_TieuChi_TheoNgay" />
-          <NavigationProperty Name="KeHoach_TieuChi_TheoThang" Relationship="Self.FK__KeHoach_T__MaTie__08162EEB" FromRole="TieuChi" ToRole="KeHoach_TieuChi_TheoThang" />
+          <NavigationProperty Name="KeHoach_TieuChi_TheoNgay" Relationship="Self.FK__KeHoach_T__MaTie__38B96646" FromRole="TieuChi" ToRole="KeHoach_TieuChi_TheoNgay" />
+          <NavigationProperty Name="KeHoach_TieuChi_TheoThang" Relationship="Self.FK_KeHoach_TieuChi_TheoThang_TieuChi" FromRole="TieuChi" ToRole="KeHoach_TieuChi_TheoThang" />
           <NavigationProperty Name="NhomTieuChi" Relationship="Self.FK_TieuChi_NhomTieuChi" FromRole="TieuChi" ToRole="NhomTieuChi" />
           <NavigationProperty Name="PhongBan_TieuChi" Relationship="Self.FK__PhongBan___MaTie__4830B400" FromRole="TieuChi" ToRole="PhongBan_TieuChi" />
-          <NavigationProperty Name="ThucHien_TieuChi_TheoNgay" Relationship="Self.FK__ThucHien___MaTie__1D114BD1" FromRole="TieuChi" ToRole="ThucHien_TieuChi_TheoNgay" />
+          <NavigationProperty Name="ThucHien_TieuChi_TheoNgay" Relationship="Self.FK__ThucHien___MaTie__3B95D2F1" FromRole="TieuChi" ToRole="ThucHien_TieuChi_TheoNgay" />
         </EntityType>
         <EntityType Name="TrangThai">
           <Key>
@@ -5591,19 +5589,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__header_Ke__MaPho__025D5595">
-          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
-          <End Role="header_KeHoachTungThang" Type="Self.header_KeHoachTungThang" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Department">
-              <PropertyRef Name="department_id" />
-            </Principal>
-            <Dependent Role="header_KeHoachTungThang">
-              <PropertyRef Name="MaPhongBan" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__header_Ke__MaPho__0CDAE408">
+        <Association Name="FK__header_Ke__MaPho__34E8D562">
           <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
           <End Role="header_KeHoach_TieuChi_TheoNgay" Type="Self.header_KeHoach_TieuChi_TheoNgay" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5611,6 +5597,18 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
               <PropertyRef Name="department_id" />
             </Principal>
             <Dependent Role="header_KeHoach_TieuChi_TheoNgay">
+              <PropertyRef Name="MaPhongBan" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__header_Ke__MaPho__35DCF99B">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="header_KeHoachTungThang" Type="Self.header_KeHoachTungThang" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="department_id" />
+            </Principal>
+            <Dependent Role="header_KeHoachTungThang">
               <PropertyRef Name="MaPhongBan" />
             </Dependent>
           </ReferentialConstraint>
@@ -5623,18 +5621,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
               <PropertyRef Name="department_id" />
             </Principal>
             <Dependent Role="header_KeHoach_TieuChi_TheoNam">
-              <PropertyRef Name="MaPhongBan" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__header_Th__MaPho__1758727B">
-          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
-          <End Role="header_ThucHienTheoNgay" Type="Self.header_ThucHienTheoNgay" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Department">
-              <PropertyRef Name="department_id" />
-            </Principal>
-            <Dependent Role="header_ThucHienTheoNgay">
               <PropertyRef Name="MaPhongBan" />
             </Dependent>
           </ReferentialConstraint>
@@ -5755,6 +5741,18 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
               <PropertyRef Name="department_id" />
             </Principal>
             <Dependent Role="Header_DiemDanh_NangSuat_LaoDong">
+              <PropertyRef Name="MaPhongBan" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_header_ThucHienTheoNgay_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="header_ThucHienTheoNgay" Type="Self.header_ThucHienTheoNgay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="department_id" />
+            </Principal>
+            <Dependent Role="header_ThucHienTheoNgay">
               <PropertyRef Name="MaPhongBan" />
             </Dependent>
           </ReferentialConstraint>
@@ -6313,7 +6311,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__KeHoach_T__Heade__119F9925">
+        <Association Name="FK__KeHoach_T__Heade__37C5420D">
           <End Role="header_KeHoach_TieuChi_TheoNgay" Type="Self.header_KeHoach_TieuChi_TheoNgay" Multiplicity="1" />
           <End Role="KeHoach_TieuChi_TheoNgay" Type="Self.KeHoach_TieuChi_TheoNgay" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6325,7 +6323,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__KeHoach_T__Heade__07220AB2">
+        <Association Name="FK_KeHoach_TieuChi_TheoThang_header_KeHoachTungThang">
           <End Role="header_KeHoachTungThang" Type="Self.header_KeHoachTungThang" Multiplicity="1" />
           <End Role="KeHoach_TieuChi_TheoThang" Type="Self.KeHoach_TieuChi_TheoThang" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6337,7 +6335,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ThucHien___Heade__1C1D2798">
+        <Association Name="FK_ThucHien_TieuChi_TheoNgay_header_ThucHienTheoNgay">
           <End Role="header_ThucHienTheoNgay" Type="Self.header_ThucHienTheoNgay" Multiplicity="1" />
           <End Role="ThucHien_TieuChi_TheoNgay" Type="Self.ThucHien_TieuChi_TheoNgay" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6373,7 +6371,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__KeHoach_T__MaTie__1293BD5E">
+        <Association Name="FK__KeHoach_T__MaTie__38B96646">
           <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="1" />
           <End Role="KeHoach_TieuChi_TheoNgay" Type="Self.KeHoach_TieuChi_TheoNgay" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6385,7 +6383,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__KeHoach_T__MaTie__08162EEB">
+        <Association Name="FK_KeHoach_TieuChi_TheoThang_TieuChi">
           <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="1" />
           <End Role="KeHoach_TieuChi_TheoThang" Type="Self.KeHoach_TieuChi_TheoThang" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6637,7 +6635,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ThucHien___MaTie__1D114BD1">
+        <Association Name="FK__ThucHien___MaTie__3B95D2F1">
           <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="1" />
           <End Role="ThucHien_TieuChi_TheoNgay" Type="Self.ThucHien_TieuChi_TheoNgay" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6976,21 +6974,17 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="Department" EntitySet="Departments" />
             <End Role="Equipment" EntitySet="Equipments" />
           </AssociationSet>
-          <AssociationSet Name="FK__header_Ke__MaPho__025D5595" Association="Self.FK__header_Ke__MaPho__025D5595">
-            <End Role="Department" EntitySet="Departments" />
-            <End Role="header_KeHoachTungThang" EntitySet="header_KeHoachTungThang" />
-          </AssociationSet>
-          <AssociationSet Name="FK__header_Ke__MaPho__0CDAE408" Association="Self.FK__header_Ke__MaPho__0CDAE408">
+          <AssociationSet Name="FK__header_Ke__MaPho__34E8D562" Association="Self.FK__header_Ke__MaPho__34E8D562">
             <End Role="Department" EntitySet="Departments" />
             <End Role="header_KeHoach_TieuChi_TheoNgay" EntitySet="header_KeHoach_TieuChi_TheoNgay" />
+          </AssociationSet>
+          <AssociationSet Name="FK__header_Ke__MaPho__35DCF99B" Association="Self.FK__header_Ke__MaPho__35DCF99B">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="header_KeHoachTungThang" EntitySet="header_KeHoachTungThang" />
           </AssociationSet>
           <AssociationSet Name="FK__header_Ke__MaPho__77DFC722" Association="Self.FK__header_Ke__MaPho__77DFC722">
             <End Role="Department" EntitySet="Departments" />
             <End Role="header_KeHoach_TieuChi_TheoNam" EntitySet="header_KeHoach_TieuChi_TheoNam" />
-          </AssociationSet>
-          <AssociationSet Name="FK__header_Th__MaPho__1758727B" Association="Self.FK__header_Th__MaPho__1758727B">
-            <End Role="Department" EntitySet="Departments" />
-            <End Role="header_ThucHienTheoNgay" EntitySet="header_ThucHienTheoNgay" />
           </AssociationSet>
           <AssociationSet Name="FK__Incident__depart__6FB49575" Association="Self.FK__Incident__depart__6FB49575">
             <End Role="Department" EntitySet="Departments" />
@@ -7031,6 +7025,10 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <AssociationSet Name="FK_Header_DiemDanh_NangSuat_LaoDong_Department" Association="Self.FK_Header_DiemDanh_NangSuat_LaoDong_Department">
             <End Role="Department" EntitySet="Departments" />
             <End Role="Header_DiemDanh_NangSuat_LaoDong" EntitySet="Header_DiemDanh_NangSuat_LaoDong" />
+          </AssociationSet>
+          <AssociationSet Name="FK_header_ThucHienTheoNgay_Department" Association="Self.FK_header_ThucHienTheoNgay_Department">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="header_ThucHienTheoNgay" EntitySet="header_ThucHienTheoNgay" />
           </AssociationSet>
           <AssociationSet Name="FK__DiemDanh___Heade__7720AD13" Association="Self.FK__DiemDanh___Heade__7720AD13">
             <End Role="Header_DiemDanh_NangSuat_LaoDong" EntitySet="Header_DiemDanh_NangSuat_LaoDong" />
@@ -7212,15 +7210,15 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="header_KeHoach_TieuChi_TheoNam" EntitySet="header_KeHoach_TieuChi_TheoNam" />
             <End Role="KeHoach_TieuChi_TheoNam" EntitySet="KeHoach_TieuChi_TheoNam" />
           </AssociationSet>
-          <AssociationSet Name="FK__KeHoach_T__Heade__119F9925" Association="Self.FK__KeHoach_T__Heade__119F9925">
+          <AssociationSet Name="FK__KeHoach_T__Heade__37C5420D" Association="Self.FK__KeHoach_T__Heade__37C5420D">
             <End Role="header_KeHoach_TieuChi_TheoNgay" EntitySet="header_KeHoach_TieuChi_TheoNgay" />
             <End Role="KeHoach_TieuChi_TheoNgay" EntitySet="KeHoach_TieuChi_TheoNgay" />
           </AssociationSet>
-          <AssociationSet Name="FK__KeHoach_T__Heade__07220AB2" Association="Self.FK__KeHoach_T__Heade__07220AB2">
+          <AssociationSet Name="FK_KeHoach_TieuChi_TheoThang_header_KeHoachTungThang" Association="Self.FK_KeHoach_TieuChi_TheoThang_header_KeHoachTungThang">
             <End Role="header_KeHoachTungThang" EntitySet="header_KeHoachTungThang" />
             <End Role="KeHoach_TieuChi_TheoThang" EntitySet="KeHoach_TieuChi_TheoThang" />
           </AssociationSet>
-          <AssociationSet Name="FK__ThucHien___Heade__1C1D2798" Association="Self.FK__ThucHien___Heade__1C1D2798">
+          <AssociationSet Name="FK_ThucHien_TieuChi_TheoNgay_header_ThucHienTheoNgay" Association="Self.FK_ThucHien_TieuChi_TheoNgay_header_ThucHienTheoNgay">
             <End Role="header_ThucHienTheoNgay" EntitySet="header_ThucHienTheoNgay" />
             <End Role="ThucHien_TieuChi_TheoNgay" EntitySet="ThucHien_TieuChi_TheoNgay" />
           </AssociationSet>
@@ -7232,11 +7230,11 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="TieuChi" EntitySet="TieuChis" />
             <End Role="KeHoach_TieuChi_TheoNam" EntitySet="KeHoach_TieuChi_TheoNam" />
           </AssociationSet>
-          <AssociationSet Name="FK__KeHoach_T__MaTie__1293BD5E" Association="Self.FK__KeHoach_T__MaTie__1293BD5E">
+          <AssociationSet Name="FK__KeHoach_T__MaTie__38B96646" Association="Self.FK__KeHoach_T__MaTie__38B96646">
             <End Role="TieuChi" EntitySet="TieuChis" />
             <End Role="KeHoach_TieuChi_TheoNgay" EntitySet="KeHoach_TieuChi_TheoNgay" />
           </AssociationSet>
-          <AssociationSet Name="FK__KeHoach_T__MaTie__08162EEB" Association="Self.FK__KeHoach_T__MaTie__08162EEB">
+          <AssociationSet Name="FK_KeHoach_TieuChi_TheoThang_TieuChi" Association="Self.FK_KeHoach_TieuChi_TheoThang_TieuChi">
             <End Role="TieuChi" EntitySet="TieuChis" />
             <End Role="KeHoach_TieuChi_TheoThang" EntitySet="KeHoach_TieuChi_TheoThang" />
           </AssociationSet>
@@ -7320,7 +7318,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="Supply" EntitySet="Supplies" />
             <End Role="SupplyPlan" EntitySet="SupplyPlans" />
           </AssociationSet>
-          <AssociationSet Name="FK__ThucHien___MaTie__1D114BD1" Association="Self.FK__ThucHien___MaTie__1D114BD1">
+          <AssociationSet Name="FK__ThucHien___MaTie__3B95D2F1" Association="Self.FK__ThucHien___MaTie__3B95D2F1">
             <End Role="TieuChi" EntitySet="TieuChis" />
             <End Role="ThucHien_TieuChi_TheoNgay" EntitySet="ThucHien_TieuChi_TheoNgay" />
           </AssociationSet>
@@ -7952,8 +7950,8 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
               <MappingFragment StoreEntitySet="header_KeHoach_TieuChi_TheoNgay">
                 <ScalarProperty Name="HeaderID" ColumnName="HeaderID" />
                 <ScalarProperty Name="MaPhongBan" ColumnName="MaPhongBan" />
-                <ScalarProperty Name="Ngay" ColumnName="Ngay" />
                 <ScalarProperty Name="Ca" ColumnName="Ca" />
+                <ScalarProperty Name="NgayNhapKH" ColumnName="NgayNhapKH" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -7962,22 +7960,20 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
               <MappingFragment StoreEntitySet="header_KeHoachTungThang">
                 <ScalarProperty Name="HeaderID" ColumnName="HeaderID" />
                 <ScalarProperty Name="MaPhongBan" ColumnName="MaPhongBan" />
-                <ScalarProperty Name="Thang" ColumnName="Thang" />
-                <ScalarProperty Name="Nam" ColumnName="Nam" />
+                <ScalarProperty Name="ThangKeHoach" ColumnName="ThangKeHoach" />
+                <ScalarProperty Name="NamKeHoach" ColumnName="NamKeHoach" />
                 <ScalarProperty Name="SoNgayLamViec" ColumnName="SoNgayLamViec" />
-                <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="header_ThucHienTheoNgay">
             <EntityTypeMapping TypeName="QUANGHANHABCModel.header_ThucHienTheoNgay">
               <MappingFragment StoreEntitySet="header_ThucHienTheoNgay">
-                <ScalarProperty Name="HeaderID" ColumnName="HeaderID" />
                 <ScalarProperty Name="MaPhongBan" ColumnName="MaPhongBan" />
                 <ScalarProperty Name="Ngay" ColumnName="Ngay" />
+                <ScalarProperty Name="HeaderID" ColumnName="HeaderID" />
                 <ScalarProperty Name="Ca" ColumnName="Ca" />
                 <ScalarProperty Name="NgaySanXuat" ColumnName="NgaySanXuat" />
-                <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -8032,8 +8028,9 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
               <MappingFragment StoreEntitySet="KeHoach_TieuChi_TheoNgay">
                 <ScalarProperty Name="HeaderID" ColumnName="HeaderID" />
                 <ScalarProperty Name="MaTieuChi" ColumnName="MaTieuChi" />
-                <ScalarProperty Name="SanLuongKeHoach" ColumnName="SanLuongKeHoach" />
+                <ScalarProperty Name="KeHoach" ColumnName="KeHoach" />
                 <ScalarProperty Name="ThoiGianNhapCuoiCung" ColumnName="ThoiGianNhapCuoiCung" />
+                <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -8042,9 +8039,9 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
               <MappingFragment StoreEntitySet="KeHoach_TieuChi_TheoThang">
                 <ScalarProperty Name="HeaderID" ColumnName="HeaderID" />
                 <ScalarProperty Name="MaTieuChi" ColumnName="MaTieuChi" />
-                <ScalarProperty Name="SanLuongKeHoach" ColumnName="SanLuongKeHoach" />
+                <ScalarProperty Name="SanLuong" ColumnName="SanLuong" />
                 <ScalarProperty Name="ThoiGianNhapCuoiCung" ColumnName="ThoiGianNhapCuoiCung" />
-                <ScalarProperty Name="GhiChi" ColumnName="GhiChi" />
+                <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
