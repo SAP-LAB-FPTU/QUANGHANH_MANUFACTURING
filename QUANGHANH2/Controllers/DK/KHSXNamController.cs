@@ -98,7 +98,7 @@ namespace QUANGHANH2.Controllers.DK
                             "from header_KeHoach_TieuChi_TheoNam hks inner "+
                             "join KeHoach_TieuChi_TheoNam kh "+
                             "on hks.HeaderID = kh.HeaderID "+
-                            "where hks.Nam = '2019' and hks.MaPhongBan = 'PXKT3' "+
+                            "where hks.Nam = @Nam and hks.MaPhongBan = @maphongban "+
                             "group by hks.MaPhongBan, kh.MaTieuChi) as a inner join KeHoach_TieuChi_TheoNam kh on a.ThoiGianNhapCuoiCung = kh.ThoiGianNhapCuoiCung "+
                             "and a.MaTieuChi = kh.MaTieuChi";
             List<TieuChiCu> tieuChiCuList = dbContext.Database.SqlQuery<TieuChiCu>(query, new SqlParameter("Nam", year),
@@ -106,10 +106,18 @@ namespace QUANGHANH2.Controllers.DK
 
             string quertNote = "select top 1 * " +
                                "from header_KeHoach_TieuChi_TheoNam a " +
+                               "where a.MaPhongBan = @maphongban " +
                                "order by a.HeaderID DESC ";
-            header_KeHoach_TieuChi_TheoNam GhiChu = dbContext.Database.SqlQuery<header_KeHoach_TieuChi_TheoNam>(quertNote).FirstOrDefault<header_KeHoach_TieuChi_TheoNam>();
-          
-            return Json(new { tieuChiCuList = tieuChiCuList,note = GhiChu.GhiChu }) ;
+            header_KeHoach_TieuChi_TheoNam GhiChu = dbContext.Database.SqlQuery<header_KeHoach_TieuChi_TheoNam>(quertNote,new SqlParameter("maphongban",department)).FirstOrDefault<header_KeHoach_TieuChi_TheoNam>();
+            if(GhiChu == null)
+            {
+                return Json(new { tieuChiCuList = tieuChiCuList, note = "" });
+            }
+            else
+            {
+                return Json(new { tieuChiCuList = tieuChiCuList, note = GhiChu.GhiChu });
+            }
+           
         }
        
     }
