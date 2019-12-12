@@ -290,7 +290,6 @@
     <Compile Include="Controllers\DK\DepartmentDailyController.cs" />
     <Compile Include="Controllers\DK\Department_CriteriaController.cs" />
     <Compile Include="Controllers\DK\KHSXNamController.cs" />
-    <Compile Include="Controllers\DK\QuickReport\QuickReportController.cs" />
     <Compile Include="Controllers\DK\InputPlan\InputPlan_MonthController.cs" />
     <Compile Include="Controllers\DK\QuickReport\QuickReportController.cs" />
     <Compile Include="Controllers\DK\InputPlan\InputPlan_Month_ByMrs_DuyController.cs" />
