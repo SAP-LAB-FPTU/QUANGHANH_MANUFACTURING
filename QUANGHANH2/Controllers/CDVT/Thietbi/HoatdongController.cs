@@ -493,6 +493,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         date = duramain.Split('/');
                         date_fix = date[1] + "/" + date[0] + "/" + date[2];
                         emp.durationOfMaintainance = Convert.ToDateTime(date_fix);
+                        emp.input_channel = "Đường kế toán";
                         db.Equipments.Add(emp);
                         string sql = "select * from Equipment_category_attribute where Equipment_category_id = @cateid";
                         List<Equipment_category_attribute> list = db.Database.SqlQuery<Equipment_category_attribute>(sql, new SqlParameter("cateid", emp.Equipment_category_id)).ToList();
@@ -655,7 +656,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             }
         }
 
-        [Auther(RightID = "4")]
+        //[Auther(RightID = "4")] 
         [HttpGet]
         public ActionResult Edit(string id)
         {
