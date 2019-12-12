@@ -215,12 +215,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                 new SqlParameter("documentary_id", documentary.documentary_id)).First();
                             db.Database.ExecuteSqlCommand("DELETE FROM Supply_DuPhong WHERE equipmentId = @equipmentId",
                                 new SqlParameter("equipmentId", id));
-                            db.Database.ExecuteSqlCommand("DELETE FROM Supply_DiKem WHERE equipmentId = @equipmentId",
+                            db.Database.ExecuteSqlCommand("update Supply_DiKem set quantity = 0 where equipmentId = @equipmentId",
                                 new SqlParameter("equipmentId", id));
                             List<Supply_Documentary_Equipment> supplies_Moveline = db.Supply_Documentary_Equipment.Where(x => x.documentary_id == documentary.documentary_id && x.equipmentId == id).ToList();
                             foreach (Supply_Documentary_Equipment item in supplies_Moveline)
                             {
-                                if (item.equipmentId_dikem == null)
+                                if (item.equipmentId_dikem != null)
                                 {
                                     Supply_DiKem s = db.Supply_DiKem.Where(x => x.equipmentId == id && x.equipmentId_dikem == item.equipmentId_dikem).FirstOrDefault();
                                     if (s == null)
@@ -325,7 +325,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                     transaction.Commit();
                     return Json(new { success = true, message = "Nghiệm thu thành công" }, JsonRequestBehavior.AllowGet);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     transaction.Rollback();
                     return Json(new { success = false, message = "Nghiệm thu thất bại" }, JsonRequestBehavior.AllowGet);

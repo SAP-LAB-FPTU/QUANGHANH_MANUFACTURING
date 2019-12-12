@@ -1,14 +1,6 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Quyet_dinh_bao_duong";
-    if (Session["departID"].ToString().Contains("PX"))
-    {
-        Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
-    }
-    else
-    {
-        Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
-    }
+    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
 }
 @{
     List<string> right = (List<string>)Session["RightIDs"];
@@ -20,8 +12,7 @@
                 <h3><b>DANH SÁCH QUYẾT ĐỊNH BẢO DƯỠNG</b></h3>
                 <div class="col l4 m4 s12">
                     <div class="col l8 m8 s12 offset-l1 offset-m1 input-field">
-                        <input type="text" placeholder="Tìm kiếm theo tên người lập quyết định" class='form-control' id="person_created-search"
-                               multiple />
+                        <input type="text" placeholder="Tìm kiếm theo tên người lập quyết định" class='form-control' id="person_created-search" />
                     </div>
                 </div>
                 <div class="col l4 m4 s12">
@@ -53,7 +44,7 @@
                     <a href="javascript:void(0);" id="ExportExcel" class="waves-effect waves-light btn blue darken-1 blue">Xuất Excel</a>
                 </div>
                 <div class="col s12 table_container">
-                    <table class="striped centered responsive-table mytable table-bordered" id="DocumnetaryTable">
+                    <table class="striped centered table-responsive mytable table-bordered" id="DocumnetaryTable">
                         <thead>
                             <tr>
                                 <th class="center">Ngày</th>
@@ -128,8 +119,8 @@
         }
     }
 }
-<script src="~/js/Custom JS/CDVT/QuyetDinh/DanhSach.js"></script>
 <script>
+    var DocumentaryType = 2
     $("#documentary_code-search").keyup(function (e) {
         if (e.which == 13) {
             $("#searchButton1").click();
@@ -157,6 +148,7 @@
     });
 
 </script>
+<script src="~/js/Custom JS/CDVT/QuyetDinh/DanhSach.js"></script>
 @section scripts{
     <script>
      	$("#pre-load").show();

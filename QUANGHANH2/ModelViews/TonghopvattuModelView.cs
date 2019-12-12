@@ -7,11 +7,11 @@ namespace QUANGHANH2.ModelViews
 {
     public class TonghopvattuDetailModelView
     {
-        public string Id { get; set; }
-        public string SupplyId { get; set; }
+      
+        
         public string SupplyName { get; set; }
         public string SupplyUnit { get; set; }
-        public double SupplyAverage { get; set; }
+       
         public int SupplyQuantity { get; set; }
     }
 

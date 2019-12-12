@@ -47,37 +47,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
 
                               }).ToList();
                 ViewBag.DataThietBi = result;
-
-                List<Supply> supplies = db.Supplies.ToList();
-                List<Department> departments = db.Departments.ToList();
-
-                try
-                {
-                    int validate = 1;
-                    var department_id = result[0].department_id;
-                    foreach (var item in result)
-                    {
-                        if (!item.department_id.Equals(department_id))
-                        {
-                            validate = 0;
-                            break;
-                        }
-                    }
-                    Department department = db.Departments.Find(department_id);
-                    ViewBag.validate = validate;
-                    ViewBag.department_name = department.department_name;
-                    ViewBag.department_id = department.department_id;
-                    ViewBag.Supplies = supplies;
-                    ViewBag.Departments = departments;
-                }
-                catch(Exception e)
-                {
-                    ViewBag.alert = true;
-                    TempData["shortMessage"] = true;
-                    return Redirect("thu-hoi");
-                    throw e;
-                }
-                
             }
             return View("/Views/CDVT/Work/thuhoichon.cshtml");
         }
