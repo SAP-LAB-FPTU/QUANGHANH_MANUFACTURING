@@ -120,8 +120,8 @@
         }
     }
 }
-<script src="~/js/Custom JS/CDVT/QuyetDinh/DanhSach.js"></script>
 <script>
+    var DocumentaryType = 7
     $("#documentary_code-search").keyup(function (e) {
         if (e.which == 13) {
             $("#searchButton1").click();
@@ -149,6 +149,7 @@
     });
 
 </script>
+<script src="~/js/Custom JS/CDVT/QuyetDinh/DanhSach.js"></script>
 @section scripts{
     <script>
      	$("#pre-load").show();

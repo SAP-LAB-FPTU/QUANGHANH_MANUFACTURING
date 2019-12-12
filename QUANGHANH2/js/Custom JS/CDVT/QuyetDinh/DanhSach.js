@@ -29,7 +29,8 @@ $("#myupdateform").submit(function (e) {
             documentary_id: id,
             documentary_code: $('#documentary_code_edit').val(),
             reason: $('#reason_edit').val(),
-            out_in_come: $('#out_in_come_edit').val()
+            out_in_come: $('#out_in_come_edit').val(),
+            DocumentaryType: DocumentaryType
         },
         cache: false
     }).done(function () {

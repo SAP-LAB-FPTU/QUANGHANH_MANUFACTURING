@@ -110,20 +110,6 @@
     </div>
 </div>
 
-<datalist id="supplyID">
-    @foreach (var item in ViewBag.Supplies)
-    {
-        <option value="@item.supply_id">@item.supply_name</option>
-    }
-</datalist>
-
-<datalist id="departmentName">
-    @foreach (var item in ViewBag.Departments)
-    {
-        <option value="@item.department_id">@item.department_name</option>
-    }
-</datalist>
-
 <script>
     var output = {};
 

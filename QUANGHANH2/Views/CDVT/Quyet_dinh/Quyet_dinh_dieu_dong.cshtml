@@ -130,8 +130,8 @@
         }
     }
 }
-<script src="~/js/Custom JS/CDVT/QuyetDinh/DanhSach.js"></script>
 <script>
+    var DocumentaryType = 3
     $("#documentary_code-search").keyup(function (e) {
         if (e.which == 13) {
             $("#searchButton1").click();
@@ -158,6 +158,7 @@
         }
     });
 </script>
+<script src="~/js/Custom JS/CDVT/QuyetDinh/DanhSach.js"></script>
 @section scripts{
     <script>
      	$("#pre-load").show();
@@ -268,7 +269,7 @@
             var date = day + "/" + month + "/" + year;
             return (date);
             }
-   
+
 
 //---------------Search Data -----------------
         $("#searchButton1").click(function () {
