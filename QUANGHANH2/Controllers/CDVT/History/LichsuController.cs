@@ -302,8 +302,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
 
                     //update old:
                     double hoursOld = DBContext.Database.SqlQuery<double>("" +
-                        " select sum(hours_per_day) as total  from Activity " +
-                        " where equipmentid = @equipmentId"
+                       @" select case when sum(hours_per_day) is null then 0 else sum(hours_per_day) end as total  from Activity 
+                        where equipmentid = @equipmentId"
                         , new SqlParameter("equipmentId", oldEq)).First();
                     int totalHourOld = (int) hoursOld;
                     DBContext.Database.ExecuteSqlCommand("update Equipment set total_operating_hours = @hour where equipmentId = @equipmentId",
