@@ -110,20 +110,6 @@
     </div>
 </div>
 
-<datalist id="supplyID">
-    @foreach (var item in ViewBag.Supplies)
-    {
-        <option value="@item.supply_id">@item.supply_name</option>
-    }
-</datalist>
-
-<datalist id="departmentName">
-    @foreach (var item in ViewBag.Departments)
-    {
-        <option value="@item.department_id">@item.department_name</option>
-    }
-</datalist>
-
 <script>
     var output = {};
 
@@ -167,13 +153,13 @@
         $('#listId').text("Danh sách vật tư đi kèm của thiết bị " + equipmentId)
         $.ajax({
             type: "POST",
-            url: "/phong-cdvt/thiet-bi/get-supply",
+            url: "/phong-cdvt/thiet-bi/get-attached-equipment",
             dataType: "json",
             success: function (data) {
                 $.each(data, function (i, item) {
                     var $tr = $('<tr>').append(
-                        $('<td>').text(item.supply_id),
-                        $('<td>').text(item.quantity)
+                        $('<td>').text(item.equipmentId_dikem),
+                        $('<td>').text(item.quantity_dikem)
                     );
                     $tr.appendTo('#test tbody');
                 });

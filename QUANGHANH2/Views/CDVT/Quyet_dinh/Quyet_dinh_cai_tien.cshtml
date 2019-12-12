@@ -6,7 +6,6 @@
 @{
     List<string> right = (List<string>)Session["RightIDs"];
 }
-
 <div class="card">
     <div class="card-content">
         <div class="row center">
@@ -30,9 +29,7 @@
                     </div>
                 </div>
                 <div class="col s12">
-                    <div class="input-field">
-                        <button class="btn blue darken-2 btn-small" id="searchButton1">Tìm kiếm</button>
-                    </div>
+                    <button class="btn blue darken-2 btn-small" id="searchButton1">Tìm kiếm</button>
                 </div>
                 <div class="col left" style="margin-bottom:20px">
                     @{
@@ -73,48 +70,27 @@
     {
         if (item.Equals("84"))
         {
-
             <form action="" method="POST" id="myupdateform" role="form">
                 <div id="myupdate" class="modal">
                     <div class="modal-header center-align">
                         <h3>Cập nhật mã quyết định</h3>
                     </div>
                     <div class="modal-body">
-
                         <div class="row">
-                            <div class="row">
-                                <div class="form-group" hidden>
-                                    <input type="text" class="form-control" value="" id="documentary_id_update" />
+                            <div class="col s12 m6">
+                                <div class="form-group">
+                                    <label for="date">Số quyết định: </label>
+                                    <input type="text" class="form-control" value="" id="documentary_code_edit" />
                                 </div>
-                                <div class="col s12 m6">
-                                    <div class="form-group">
-                                        <label for="date">Ngày : </label>
-                                        <input type="text" class="form-control datepicker-here" style="width: 100% !important;" id="date_created_edit" />
-                                    </div>
-                                    <div class="form-group" hidden>
-                                        <label for="date">Mã quyết định: </label>
-                                        <input type="text" class="form-control" disabled="disabled" value="" id="documentary_id_edit" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="date">Mã quyết định: </label>
-                                        <input type="text" class="form-control" value="" id="documentary_code_edit" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="date">Người lập quyết định : </label>
-                                        <input type="text" class="form-control" value="" id="person_created_edit" />
-                                    </div>
-
+                                <div class="form-group">
+                                    <label for="id">Lý do quyết định : </label>
+                                    <input type="text" class="form-control" value="" id="reason_edit" />
                                 </div>
-                                <div class="col s12 m6">
-                                    <div class="form-group">
-                                        <label for="id">Lý do quyết định : </label>
-                                        <input type="text" class="form-control" value="" id="reason_edit" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="date">Nguồn vốn : </label>
-                                        <input type="text" class="form-control" value="" id="out_in_come_edit" />
-                                    </div>
-
+                            </div>
+                            <div class="col s12 m6">
+                                <div class="form-group">
+                                    <label for="date">Nguồn vốn : </label>
+                                    <input type="text" class="form-control" value="" id="out_in_come_edit" />
                                 </div>
                             </div>
                         </div>
@@ -145,6 +121,7 @@
     }
 }
 <script>
+    var DocumentaryType = 7
     $("#documentary_code-search").keyup(function (e) {
         if (e.which == 13) {
             $("#searchButton1").click();
@@ -172,9 +149,7 @@
     });
 
 </script>
-
-<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/js/Custom JS/CDVT/QuyetDinh/DanhSach.js"></script>
 @section scripts{
     <script>
      	$("#pre-load").show();
@@ -231,7 +206,7 @@
                     { data: "out_in_come" , name :"out_in_come" },
                     {
                         data: {}, render: function (data) {
-                            return "<a href=\"#myupdate\" data-toggle=\"modal\" class=\"open-UpdateModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-incident-id=\"" + data.documentary_id + "\">Cập&nbsp;nhật</a>";
+                            return "<a href=\"#myupdate\" data-toggle=\"modal\" class=\"open-UpdateModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-documentary-id=\"" + data.documentary_id + "\">Cập&nbsp;nhật</a>";
                                     },
                         orderable: false,
                         searchable:false,
@@ -275,37 +250,6 @@
             $("#pre-load").show();
             dataTable.ajax.reload();
         });
-
- //--------------Get Data--------------------
-        $(document).on("click", ".open-UpdateModal", function () {
-            $('#pre-load').show();
-            var id = $(this).data('incident-id').toString();
-            var ListId = [id];
-            $.ajax({
-                type: "POST",
-                url: "/suaChuaQD/GetById",
-                contentType: "application/json",
-                dataType: "json",
-                data: '{docID: ' + JSON.stringify(ListId) + '}',
-                success: function (data) {
-                    $("#documentary_id_update").val(data.documentary_id);
-                    $("#documentary_id_edit").val(data.documentary_id);
-                    $("#date_created_edit").val(dateFormat2(data.date_created));
-                    $('#documentary_code_edit').val(data.documentary_code);
-                    $('#person_created_edit').val(data.person_created);
-                    $('#reason_edit').val(data.reason);
-                    $('#out_in_come_edit').val(data.out_in_come);
-                    $('#pre-load').hide();
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    $.notify(XMLHttpRequest.responseText, {
-                        globalPosition: "top center",
-                        className: "error"
-                    });
-                },
-                cache: false
-            })
-        });
 //------------------------Export Excel------------------------
 
         $("#ExportExcel").click(function () {
@@ -319,69 +263,6 @@
                 window.location.href = "/excel/CDVT/download/BaoDuongThietBi.xlsx";
                  $("#pre-load").hide();
             })
-        });
-
-//------------Update------------------------------------------
-        $("#myupdateform").submit(function (e) {
-            $("#pre-load").show();
-            $.ajax({
-                type: "POST",
-                url: "/phong-cdvt/quyet-dinh/cai-tien/update",
-                dataType: "json",
-                success: function (data) {
-                    if (data.success == true) {
-                        dataTable.ajax.reload();
-                        successAlert('Cập nhật thông tin thành công', '');
-                    }
-                    else {
-                        errorAlert('Lỗi',data.message);
-                    }
-
-
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    $('#pre-load').hide();
-
-                    errorAlert('Lỗi',XMLHttpRequest.responseText);
-                },
-                data: {
-
-                    documentary_id: $('#documentary_id_update').val(),
-                    documentary_code: $('#documentary_code_edit').val(),
-                    date_created: $('#date_created_edit').val().split(/\//).reverse().join('/'),
-                    person_created: $('#person_created_edit').val(),
-                    reason: $('#reason_edit').val(),
-                    out_in_come: $('#out_in_come_edit').val()
-
-
-                },
-                cache: false
-            }).done(function () {
-                $('#pre-load').hide();
-                $('#exit-update-button').click();
-            })
-            return false;
-        });
-
-
- //--------------Delete--------------------
-        $("#Delete").click(function () {
-            $("#pre-load").show();
-            $("#pre-load").css("z-index", "9999");
-            var docID = $('#documentary_id_update').val();
-            $.ajax({
-                type: "POST",
-                url: '@Url.Action("DeleteDoc","Caitien")',
-                data: '{docID: ' + docID + '}',
-                contentType: "application/json",
-                dataType: "script",
-                success: function () {
-                    dataTable.ajax.reload();
-                    successAlert('Xóa quyết định thành công','');
-                    $("#pre-load").hide();
-                    $('#exit-update-button').click();
-                }
-            });
         });
     </script>
 }
