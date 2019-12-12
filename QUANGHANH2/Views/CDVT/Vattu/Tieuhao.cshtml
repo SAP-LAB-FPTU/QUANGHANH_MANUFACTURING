@@ -273,9 +273,9 @@
                         { "data": "SupplyUnit", "name": "SupplyUnit" },
                         { "data": "SupplyUsed", "name": "SupplyUseds" },
                         { "data": "SupplyEviction", "name": "SupplyEviction" },
-                        {//Danh sách vật tư
+                        {
                             "data": {}, "render": function (data) {
-                            return "<a href=\"#mysupplydetail\" data-toggle=\"modal\" class=\"open-EditModal waves-effect waves-light btn blue darken-1 modal-trigger\"  data-maintainid=\"" + data+ "\">Chi&nbsp;Tiết&nbsp;Tiêu&nbsp;Hao</a>";
+                            return "<a href=\"#mysupplydetail\" data-toggle=\"modal\" class=\"open-EditModal waves-effect waves-light btn blue darken-1 modal-trigger\"  data-supply=\"" + data.SupplyId+"-"+data.DepartmentName+ "\">Chi&nbsp;Tiết&nbsp;Tiêu&nbsp;Hao</a>";
                         },
                         "orderable": false,
                         "searchable": false,
@@ -456,6 +456,53 @@
                 }
                 return result;
             }
+             $(document).on("click", ".open-EditModal", function () {
+            $("#supplyDetail").find("tr:gt(0)").remove();
+            var maintainid = $(this).data('supply');
+                 var words = [];
+                 words = maintainid.split("-");
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/vat-tu/tieu-hao/getsupplydetail",
+                dataType: "json",
+                success: function (data) {
+                    var i = 0;
+
+                    $.each(data, function (i, item) {
+                        //Danh sách vật tư
+                        equipmentID = item.equipmentid;
+                        i++;
+                        var $tr = $('<tr>').append(
+                            
+                            $('<td>').html(  item.used  ),
+                            $('<td>').html( item.thuhoi  ),
+                            $('<td>').html(item.purposed ),
+                             $('<td>').html(item.stringDate),
+                        );
+
+                        
+                        $tr.appendTo('#supplyDetail TBODY ');
+                    }
+
+                    );
+
+                   
+
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    errorAlert('Lỗi', 'Có lỗi xảy ra');
+                },
+                data: {
+                    supplyid: words[0],
+                    departmentname:words[1],
+                    year: $('#txtyear').val(),
+                    month:$("#txtmonth").val(),
+                    type:$('#searchtype').val(),
+                },
+                cache: false
+            })
+        });
         </script>
         <script>
             $('#minMaxDate').datepicker({

@@ -354,15 +354,24 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             }
         }
 
+        public class Supply_DK : Supply_DiKem
+        {
+            public string equipment_name { get; set; }
+
+        }
 
         [HttpGet]
         public ActionResult Add()
         {
+            
             List<SelectListItem> listDepeartment = new List<SelectListItem>();
             List<SelectListItem> listCategory = new List<SelectListItem>();
             List<SelectListItem> listStatus = new List<SelectListItem>();
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
+                List<Supply_DK> listsupdk = db.Database.SqlQuery<Supply_DK>("select equipment_name,equipmentId from Equipment where isAttach = 1").ToList();
+                ViewBag.listsupdk = listsupdk;
+
                 var departments = db.Departments.ToList<Department>();
                 foreach (Department items in departments)
                 {
@@ -458,7 +467,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         }
 
         [HttpPost]
-        public ActionResult Add(Equipment emp, string import, string duraInspec, string duraInsura, string used, string duramain, string[] id, string[] name, int[] value, string[] unit, int[] attri, string[] nameSup, int[] quantity, string sk, string sm, string gps)
+        public ActionResult Add(Equipment emp, string import, string duraInspec, string duraInsura, string used, string duramain, string[] id, string[] name, int[] value, string[] unit, int[] attri, string[] nameSup, int[] quantity, string sk, string sm, string gps, string attype)
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
@@ -476,10 +485,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         date = duraInspec.Split('/');
                         date_fix = date[1] + "/" + date[0] + "/" + date[2];
                         emp.durationOfInspection = Convert.ToDateTime(date_fix);
-                        //durationOfInsurance
-                        date = duraInsura.Split('/');
-                        date_fix = date[1] + "/" + date[0] + "/" + date[2];
-                        emp.durationOfInsurance = Convert.ToDateTime(date_fix);
                         //usedDay
                         date = used.Split('/');
                         date_fix = date[1] + "/" + date[0] + "/" + date[2];
@@ -544,36 +549,27 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         ei.equipmentId = emp.equipmentId;
                         ei.inspect_date = emp.durationOfInspection.Value;
                         db.Equipment_Inspection.Add(ei);
-                        Equipment_Insurance ins = new Equipment_Insurance();
-                        ins.equipmentId = emp.equipmentId;
-                        ins.insurance_start_date = DateTime.Now;
-                        ins.insurance_end_date = emp.durationOfInsurance.Value;
-                        db.Equipment_Insurance.Add(ins);
+                        bool isAc = true;
+                        if (attype.Equals("0"))
+                        {
+                            isAc = false;
+                        }
+                        emp.isAttach = isAc;
                         db.SaveChanges();
 
                         if (nameSup != null)
                         {
-                            List<Supply> listSup = db.Supplies.ToList();
                             for (int i = 0; i < nameSup.Count(); i++)
                             {
                                 if (!nameSup[i].Equals(""))
                                 {
-                                    Supply s = new Supply();
-                                    for (int j = 0; j < listSup.Count(); j++)
-                                    {
-                                        if (listSup.ElementAt(j).supply_name.Equals(nameSup[i]))
-                                        {
-                                            s.supply_id = listSup.ElementAt(j).supply_id;
-                                            break;
-                                        }
-                                    }
-                                    string note = "";
-                                    string sql_sup = "insert into Supply_DiKem values (@supid, @eid, @quan, @note)";
+
+                                    string sql_sup = "insert into Supply_DiKem values (@eid, @supid, @quan, @note, 0)";
                                     db.Database.ExecuteSqlCommand(sql_sup
-                                        , new SqlParameter("supid", s.supply_id)
-                                        , new SqlParameter("eid", emp.equipmentId)
-                                        , new SqlParameter("quan", quantity[i])
-                                        , new SqlParameter("note", note));
+                                        , new SqlParameter("@supid", nameSup[i])
+                                        , new SqlParameter("@eid", emp.equipmentId)
+                                        , new SqlParameter("@quan", quantity[i])
+                                        , new SqlParameter("@note", ""));
                                 }
 
                             }
