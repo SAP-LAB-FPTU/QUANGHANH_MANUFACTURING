@@ -7,49 +7,30 @@
     List<string> right = (List<string>)Session["RightIDs"];
 }
 
-<link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
-<link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
-<link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
-<link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
-<link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
-<link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
-<script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
-<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
-
 <div class="card">
     <div class="card-content">
-        <div class="row">
+        <div class="row center">
             <div class="col s12">
-                <div class="center">
-                    <h3><b>DANH SÁCH QUYẾT ĐỊNH TRUNG ĐẠI TU</b></h3>
-                    <div class="col l6 m6 s12">
-                        <div class="row">
-                     
-                            <div class="col l8 m8 s12 offset-l1 offset-m1 input-field">
-                                <input type="text" placeholder="Tìm kiếm theo tên người lập quyết định" class='form-control' id="person_created-search"
-                                       multiple />
-                            </div>
-
-                        </div>
+                <h3><b>DANH SÁCH QUYẾT ĐỊNH TRUNG ĐẠI TU</b></h3>
+                <div class="col l4 m4 s12">
+                    <div class="col l8 m8 s12 offset-l1 offset-m1 input-field">
+                        <input type="text" placeholder="Tìm kiếm theo tên người lập quyết định" class='form-control' id="person_created-search" />
                     </div>
-                    <div class="col l6 m6 s12">
-                        <div class="row center">
-                            <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
-                                <i class="fas fa-calendar-alt icon"></i>
-                                <input type='text' class='datepicker-here center maxDate' id="date-start-search" data-language='vi' placeholder="Nhập ngày bắt đầu (từ)" style="height: 24px" />
-                            </div>
-                            <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
-                                <i class="fas fa-calendar-alt icon"></i>
-                                <input type='text' class='datepicker-here center minDate' id="date-end-search" data-language='vi' placeholder="Nhập ngày kết thúc (đến)" style="height: 24px" />
-                            </div>
-                            <div class="col l8 m8 s6 offset-l2 offset-m2 input-field">
-                                <button class="btn blue darken-2 btn-small" id="searchButton1">Tìm kiếm</button>
-                            </div>
-                        </div>
+                </div>
+                <div class="col l4 m4 s12">
+                    <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
+                        <i class="fas fa-calendar-alt icon"></i>
+                        <input type='text' class='datepicker-here center maxDate' id="date-start-search" data-language='vi' placeholder="Nhập ngày bắt đầu (từ)" style="height: 24px" />
                     </div>
-                    <div class="col l12 m12 s6">
-                        <button class="btn blue darken-2 btn-small" id="searchButton2">Tìm kiếm</button>
+                </div>
+                <div class="col l4 m4 s12">
+                    <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
+                        <i class="fas fa-calendar-alt icon"></i>
+                        <input type='text' class='datepicker-here center minDate' id="date-end-search" data-language='vi' placeholder="Nhập ngày kết thúc (đến)" style="height: 24px" />
                     </div>
+                </div>
+                <div class="col s12">
+                    <button class="btn blue darken-2 btn-small" id="searchButton1">Tìm kiếm</button>
                 </div>
                 <div class="col s12 left" style="margin-bottom:20px">
                     @{
@@ -62,11 +43,7 @@
                             }
                         }
                     }
-
-
-
                     <a href="javascript:void(0);" id="ExportExcel" class="waves-effect waves-light btn blue darken-1 blue">Xuất Excel</a>
-
                 </div>
                 <div class="col s12">
                     <table class="striped centered responsive-table mytable table-bordered" id="DocumnetaryTable">
@@ -84,7 +61,6 @@
                         </thead>
                     </table>
                 </div>
-
             </div>
         </div>
     </div>
@@ -95,49 +71,27 @@
     {
         if (item.Equals("84"))
         {
-
             <form action="" method="POST" id="myupdateform" role="form">
                 <div id="myupdate" class="modal">
                     <div class="modal-header center-align">
                         <h3>Cập nhật mã quyết định</h3>
                     </div>
                     <div class="modal-body">
-
                         <div class="row">
-                            <div class="row">
-                                <div class="form-group" hidden>
-                                    <input type="text" class="form-control" value="" id="documentary_id_update" />
+                            <div class="col s12 m6">
+                                <div class="form-group">
+                                    <label for="date">Số quyết định: </label>
+                                    <input type="text" class="form-control" value="" id="documentary_code_edit" />
                                 </div>
-                                <div class="col s12 m6">
-                                    <div class="form-group">
-                                        <label for="date">Ngày : </label>
-                                        <input type="text" class="form-control datepicker-here" style="width: 100% !important;" id="date_created_edit" />
-
-                                    </div>
-                                    <div class="form-group" hidden>
-                                        <label for="date">Mã quyết định: </label>
-                                        <input type="text" class="form-control" disabled="disabled" value="" id="documentary_id_edit" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="date">Mã quyết định: </label>
-                                        <input type="text" class="form-control" value="" id="documentary_code_edit" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="date">Người lập quyết định : </label>
-                                        <input type="text" class="form-control" value="" id="person_created_edit" />
-                                    </div>
-
+                                <div class="form-group">
+                                    <label for="id">Lý do quyết định : </label>
+                                    <input type="text" class="form-control" value="" id="reason_edit" />
                                 </div>
-                                <div class="col s12 m6">
-                                    <div class="form-group">
-                                        <label for="id">Lý do quyết định : </label>
-                                        <input type="text" class="form-control" value="" id="reason_edit" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="date">Nguồn vốn : </label>
-                                        <input type="text" class="form-control" value="" id="out_in_come_edit" />
-                                    </div>
-
+                            </div>
+                            <div class="col s12 m6">
+                                <div class="form-group">
+                                    <label for="date">Nguồn vốn : </label>
+                                    <input type="text" class="form-control" value="" id="out_in_come_edit" />
                                 </div>
                             </div>
                         </div>
@@ -145,7 +99,7 @@
                     <div class="modal-footer">
                         <button type="submit" id="btnSave" class="btn blue darken-2 modal-close save-category">Lưu</button>
                         <button type="button" id="exit-update-button" class="btn light-blue lighten-1 modal-close">Thoát</button>
-                        <td style="text-align: center"><a href="#myaleart" class="waves-effect waves-light btn red modal-trigger">Xoá bản nháp này</a></td>
+                        <a href="#myaleart" class="waves-effect waves-light btn red modal-trigger">Xoá bản nháp này</a>
                     </div>
                 </div>
             </form>
@@ -168,15 +122,7 @@
     }
 }
 <script>
-    $(window).resize(function () {
-        if ($(window).width() <= 600) {
-            $("#searchButton1").hide();
-            $("#searchButton2").show();
-        } else {
-            $("#searchButton1").show();
-            $("#searchButton2").hide();
-        }
-    });
+    var DocumentaryType = 6
     $("#documentary_code-search").keyup(function (e) {
         if (e.which == 13) {
             $("#searchButton1").click();
@@ -203,18 +149,8 @@
         }
     });
 </script>
-
-<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="~/js/Custom JS/CDVT/QuyetDinh/DanhSach.js"></script>
 @section scripts{
-    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    @*<script>
-
-            $(".datepicker-here").keydown(function (e) {
-                e.preventDefault();
-            });
-        </script>*@
     <script>
      	$("#pre-load").show();
         $("#pre-load").css("z-index", "9999");
@@ -284,7 +220,7 @@
                     { "data": "out_in_come" , "name" :"out_in_come" },
                     {
                         "data": "tempId", "render": function (data) {
-                            return "<a href=\"#myupdate\" data-toggle=\"modal\" class=\"open-UpdateModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-incident-id=\"" + data.split("^")[0] + "\">Cập&nbsp;nhật</a>";
+                            return "<a href=\"#myupdate\" data-toggle=\"modal\" class=\"open-UpdateModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-documentary-id=\"" + data.split("^")[0] + "\">Cập&nbsp;nhật</a>";
                                     },
                         "orderable": false,
                         "searchable":false,
@@ -323,51 +259,13 @@
             var date = day + "/" + month + "/" + year;
             return (date);
             }
-  
+
 
 //---------------Search Data -----------------
-
-
-    $("#searchButton1").click(function () {
-
+        $("#searchButton1").click(function () {
             $("#pre-load").show();
-            dataTable.ajax.reload(function () {
-               $.notify("Tìm kiếm thành công", {
-                      globalPosition: "top center",
-                     className: "success"
-                    })
-            });
-            });
-
-
- //--------------Get Data--------------------
-         $(document).on("click", ".open-UpdateModal", function () {
-             var id = $(this).data('incident-id').toString();
-             var ListId = [id];
-            $.ajax({
-                type: "POST",
-                url: "/suaChuaQD/GetById",
-                contentType: "application/json",
-                dataType: "json",
-                data: '{docID: ' + JSON.stringify(ListId) + '}',
-                success: function (data) {
-                    $("#documentary_id_update").val(data.documentary_id);
-                    $("#documentary_id_edit").val(data.documentary_id);
-                    $("#date_created_edit").val(dateFormat2(data.date_created));
-                    $('#documentary_code_edit').val(data.documentary_code);
-                    $('#person_created_edit').val(data.person_created);
-                    $('#reason_edit').val(data.reason);
-                    $('#out_in_come_edit').val(data.out_in_come);
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    $.notify(XMLHttpRequest.responseText, {
-                        globalPosition: "top center",
-                        className: "error"
-                    });
-                },
-                cache: false
-            })
-     });
+            dataTable.ajax.reload();
+        });
 //------------------------Export Excel------------------------
 
             $("#ExportExcel").click(function () {
@@ -382,81 +280,5 @@
                  $("#pre-load").hide();
             })
         });
-
-
-//------------Update---------------------
-
-         $("#myupdateform").submit(function (e) {
-           $("#pre-load").show();
-                $.ajax({
-                    type: "POST",
-                    url: "/phong-cdvt/quyet-dinh/trung-dai-tu/update",
-                    dataType: "json",
-                        success: function (data) {
-                        if (data.success == true) {
-                            dataTable.ajax.reload();
-                            successAlert('Cập nhật quyết định thành công','');
-                        }
-                        else {
-                            errorAlert('Lỗi',data.message);
-                        }
-                       
-
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        $('#pre-load').hide();
-                        $.notify(XMLHttpRequest.responseText, {
-                            globalPosition: "top center",
-                            className: "error"
-                        });
-                    },
-                    data: {
-
-                        documentary_id: $('#documentary_id_update').val(),
-                        documentary_code: $('#documentary_code_edit').val(),
-                        date_created: $('#date_created_edit').val().split(/\//).reverse().join('/'),
-                        person_created: $('#person_created_edit').val(),
-                        reason: $('#reason_edit').val(),
-                        out_in_come: $('#out_in_come_edit').val()
-
-
-                    },
-                    cache: false
-                }).done(function () {
-                    $('#pre-load').hide();
-                    $('#exit-update-button').click();
-                })
-                return false;
-            });
-
-
- //--------------Delete--------------------
-
-
-            $("#Delete").click(function () {
-                  $("#pre-load").show();
-                    $("#pre-load").css("z-index", "9999");
-                    var docID = $('#documentary_id_update').val();
-                    $.ajax({
-                        type: "POST",
-                        url: '@Url.Action("DeleteDoc","danhsachtrungdaitu")',
-                        data: '{docID: ' + docID + '}',
-                        contentType: "application/json",
-                        dataType: "script",
-                    success: function () {
-                             dataTable.ajax.reload();
-                             successAlert('Xóa quyết định thành công','');
-                           
-                             $("#pre-load").hide();
-                         $('#exit-update-button').click();
-                        }
-                    });
-
-        });
-
     </script>
 }
-
-
-
-

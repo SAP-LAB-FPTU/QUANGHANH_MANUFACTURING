@@ -1,14 +1,6 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "danhsachquyetdinhdieudong";
-    if (Session["departID"].ToString().Contains("PX"))
-    {
-        Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
-    }
-    else
-    {
-        Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
-    }
+    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
 }
 @{
     List<string> right = (List<string>)Session["RightIDs"];
@@ -20,8 +12,7 @@
                 <h3><b>DANH SÁCH QUYẾT ĐỊNH ĐIỀU ĐỘNG</b></h3>
                 <div class="col l4 m4 s12">
                     <div class="col l8 m8 s12 offset-l1 offset-m1 input-field">
-                        <input type="text" placeholder="Tên người lập quyết định" class='form-control' id="person_created-search"
-                               multiple />
+                        <input type="text" placeholder="Tên người lập quyết định" class='form-control' id="person_created-search" />
                     </div>
                 </div>
                 <div class="col l4 m4 s12">
@@ -130,8 +121,8 @@
         }
     }
 }
-<script src="~/js/Custom JS/CDVT/QuyetDinh/DanhSach.js"></script>
 <script>
+    var DocumentaryType = 3
     $("#documentary_code-search").keyup(function (e) {
         if (e.which == 13) {
             $("#searchButton1").click();
@@ -158,6 +149,7 @@
         }
     });
 </script>
+<script src="~/js/Custom JS/CDVT/QuyetDinh/DanhSach.js"></script>
 @section scripts{
     <script>
      	$("#pre-load").show();
@@ -225,7 +217,6 @@
                     { "data": "person_created", "name": "person_created" },
                     { "data": "count", "name": "count" },
                     { "data": "reason" , "name" : "reason"},
-                    //{ "data": "out_in_come", "name": "out_in_come" },
                     {
                         "data": "tempId", "render": function (data) {
                             return "<a href=\"#myupdate\" data-toggle=\"modal\" class=\"open-UpdateModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-documentary-id=\"" + data.split("^")[0] + "\">Cập&nbsp;nhật</a>";
@@ -268,7 +259,7 @@
             var date = day + "/" + month + "/" + year;
             return (date);
             }
-   
+
 
 //---------------Search Data -----------------
         $("#searchButton1").click(function () {
