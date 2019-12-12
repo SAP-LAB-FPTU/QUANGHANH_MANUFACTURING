@@ -16,9 +16,9 @@ namespace QUANGHANH2.Models
     {
         public int HeaderID { get; set; }
         public int MaTieuChi { get; set; }
-        public Nullable<double> SanLuongKeHoach { get; set; }
+        public Nullable<double> SanLuong { get; set; }
         public System.DateTime ThoiGianNhapCuoiCung { get; set; }
-        public string GhiChi { get; set; }
+        public string GhiChu { get; set; }
     
         public virtual header_KeHoachTungThang header_KeHoachTungThang { get; set; }
         public virtual TieuChi TieuChi { get; set; }

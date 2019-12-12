@@ -22,10 +22,9 @@ namespace QUANGHANH2.Models
     
         public int HeaderID { get; set; }
         public string MaPhongBan { get; set; }
-        public Nullable<int> Thang { get; set; }
-        public Nullable<int> Nam { get; set; }
+        public Nullable<int> ThangKeHoach { get; set; }
+        public Nullable<int> NamKeHoach { get; set; }
         public Nullable<int> SoNgayLamViec { get; set; }
-        public string GhiChu { get; set; }
     
         public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
