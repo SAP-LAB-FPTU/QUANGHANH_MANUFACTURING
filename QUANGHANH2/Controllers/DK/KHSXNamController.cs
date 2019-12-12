@@ -22,11 +22,15 @@ namespace QUANGHANH2.Controllers.DK
         }
         [Route("phong-dieu-khien/ke-hoach-san-xuat-nam")]
         [HttpPost]
-        public ActionResult Add(string department, string year, string jsonname)
+        public ActionResult Add(string department, string year, string jsonname,string noteNam)
         {
             if (department == null)
             {
                 return Json(new { message = "ErrorDepart" }, JsonRequestBehavior.AllowGet);
+            }
+            if (noteNam == null)
+            {
+                return Json(new { message = "ErrorYear" }, JsonRequestBehavior.AllowGet);
             }
 
             JObject input = JObject.Parse(jsonname);
@@ -34,18 +38,19 @@ namespace QUANGHANH2.Controllers.DK
 
             using (DbContextTransaction transaction = dbContext.Database.BeginTransaction())
             {
-                header_KeHoachSanXuatNam header_KHSXNam = new header_KeHoachSanXuatNam();
+                header_KeHoach_TieuChi_TheoNam header_KHSXNam = new header_KeHoach_TieuChi_TheoNam();
                 header_KHSXNam.MaPhongBan = department;
                 header_KHSXNam.Nam = parseYear(year);
-                dbContext.header_KeHoachSanXuatNam.Add(header_KHSXNam);
+                header_KHSXNam.GhiChu = noteNam;
+                dbContext.header_KeHoach_TieuChi_TheoNam.Add(header_KHSXNam);
 
                 List<string> listCheck = new List<string>();
                 foreach (var item in kehoach)
                 {
                     string tieuchiId = (string)item["0"];
                     string after = (string)item["1"];
-
-                    KeHoachSanXuatNam KHSXNam = new KeHoachSanXuatNam();
+                    string note = (string)item["2"];
+                    KeHoach_TieuChi_TheoNam KHSXNam = new KeHoach_TieuChi_TheoNam();
                     KHSXNam.HeaderID = header_KHSXNam.HeaderID;
 
                     if (tieuchiId == "-1")
@@ -60,14 +65,15 @@ namespace QUANGHANH2.Controllers.DK
                     KHSXNam.ThoiGianNhapCuoiCung = DateTime.Now;
                     try
                     {
-                        KHSXNam.KeHoach = Double.Parse(after);
+                        KHSXNam.SanLuongKeHoach = Double.Parse(after);
                     }
                     catch
                     {
                         return Json(new { message = "ErrorNumber" }, JsonRequestBehavior.AllowGet);
                     }
+                    KHSXNam.GhiChu = note;
                     listCheck.Add(tieuchiId);
-                    dbContext.KeHoachSanXuatNams.Add(KHSXNam);
+                    dbContext.KeHoach_TieuChi_TheoNam.Add(KHSXNam);
                 }
                 transaction.Commit();
                 dbContext.SaveChanges();
@@ -87,23 +93,30 @@ namespace QUANGHANH2.Controllers.DK
         {
             var year = Int32.Parse(Request["year"]);
             var department = Request["department"];
-            string query = "select kh.MaTieuChi, kh.KeHoach "+
-                           "from(select hks.MaPhongBan, kh.MaTieuChi, max(kh.ThoiGianNhapCuoiCung) 'ThoiGianNhapCuoiCung' "+
-                           "from header_KeHoachSanXuatNam hks inner join KeHoachSanXuatNam kh " +
-                           "on hks.HeaderID = kh.HeaderID "+
-                           "where hks.Nam = @Nam and hks.MaPhongBan = @maphongban "+
-                           "group by hks.MaPhongBan, kh.MaTieuChi) as a inner join KeHoachSanXuatNam kh "+
-                           "on a.ThoiGianNhapCuoiCung = kh.ThoiGianNhapCuoiCung";
+            string query = "select kh.MaTieuChi, kh.SanLuongKeHoach, kh.GhiChu "+
+                            "from(select hks.MaPhongBan, kh.MaTieuChi, max(kh.ThoiGianNhapCuoiCung) 'ThoiGianNhapCuoiCung' "+
+                            "from header_KeHoach_TieuChi_TheoNam hks inner "+
+                            "join KeHoach_TieuChi_TheoNam kh "+
+                            "on hks.HeaderID = kh.HeaderID "+
+                            "where hks.Nam = '2019' and hks.MaPhongBan = 'PXKT3' "+
+                            "group by hks.MaPhongBan, kh.MaTieuChi) as a inner join KeHoach_TieuChi_TheoNam kh on a.ThoiGianNhapCuoiCung = kh.ThoiGianNhapCuoiCung "+
+                            "and a.MaTieuChi = kh.MaTieuChi";
             List<TieuChiCu> tieuChiCuList = dbContext.Database.SqlQuery<TieuChiCu>(query, new SqlParameter("Nam", year),
                                                                                          new SqlParameter("maphongban", department)).ToList<TieuChiCu>();
+
+            string quertNote = "select top 1 * " +
+                               "from header_KeHoach_TieuChi_TheoNam a " +
+                               "order by a.HeaderID DESC ";
+            header_KeHoach_TieuChi_TheoNam GhiChu = dbContext.Database.SqlQuery<header_KeHoach_TieuChi_TheoNam>(quertNote).FirstOrDefault<header_KeHoach_TieuChi_TheoNam>();
           
-            return Json(new { tieuChiCuList = tieuChiCuList});
+            return Json(new { tieuChiCuList = tieuChiCuList,note = GhiChu.GhiChu }) ;
         }
        
     }
     public class TieuChiCu
     {
         public int MaTieuChi { get; set; }
-        public double KeHoach { get; set; }
+        public double SanLuongKeHoach { get; set; }
+        public string GhiChu { get; set; }
     }
 }

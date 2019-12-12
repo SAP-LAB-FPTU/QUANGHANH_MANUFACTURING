@@ -67,6 +67,7 @@
                             <tr>
                                 <th width="30%">Tiêu chí</th>
                                 <th width="20%">Kế hoạch sản xuất lúc sau</th>
+                                <th width="40">Ghi chú</th>
                                 <th width="10%"></th>
                             </tr>
                         </thead>
@@ -74,8 +75,11 @@
                     </table>
                     <textarea readonly name="jsonname" hidden id="jsonid"></textarea>
                 </div>
-                <div class="col s12 m12 l12 input-field right row">
+                <div class="col s12 m12 l12 input-field center row">
                     <a class="btn blue darken-2" id="addRowsbtn">Thêm</a>
+                </div>
+                <div class="col s12 m12 l12 input-field center row">
+                    <textarea style="width:50%;height:150px" name="noteNam" id="noteNam" placeholder="Ghi chú"></textarea>
                 </div>
                 <div class="col s12 m12 l12 input-field center row">
                     <button class="btn btn-small blue darken-2 modal-trigger input-field" type="submit" id="btn_Save">Lưu</button>
@@ -86,7 +90,15 @@
 </div>
 <script src="~/js/Custom JS/Disable_input_material.js"></script>
 <script>
-    var listAspectDepartments
+    var currentSelectedValue = [];
+    var selectedValueTD = [];
+
+    function emptyArr() {
+        currentSelectedValue = [];
+        selectedValueTD = [];
+    }
+
+    var listAspectDepartments;
      $(document).ready(function () {
         mode = 0;
         listAspectDepartments =  @Html.Raw(Json.Encode(@ViewBag.listTC));;
@@ -95,22 +107,22 @@
      /////////////////////Button Thêm/////////////////////
     $("#addRowsbtn").on("click", function () {
         content = "";
-        selectContent = "<select id=\"MaTieuChi" + "\" onchange=\"return checkDuplicate(this);\" class=\"browser-default\" skipped=\"0\"> <option value=\"-1\" selected disabled>Lựa chọn tiêu chí</option>";
+        selectContent = "<select id=\"MaTieuChi" + "\" class=\"browser-default\" skipped=\"0\"> <option value=\"-1\" selected disabled>Lựa chọn tiêu chí</option>";
 
         for (let i = 0; i < listAspectDepartments.length; i++) {
             selectContent += "<option id=\"" + listAspectDepartments[i].MaTieuChi + "\" value=\"" + listAspectDepartments[i].MaTieuChi + "\">" + listAspectDepartments[i].TenTieuChi + "</option>";
         }
         selectContent += "</select>";
-        content += "<tr id=\"MaTieuChi" + dem + "\"><td>" + selectContent + "</td></td><td contenteditable='true'></td><td><a id='delete-btn' name=\"MaTieuChi" + dem + "\" class='btn red darken-2'>Xóa</a></td></tr>";
+        content += "<tr id=\"MaTieuChi" + dem + "\"><td>" + selectContent + "</td></td><td contenteditable='true'></td><td  contenteditable='true'></td><td><a id='delete-btn' name=\"MaTieuChi" + dem + "\" class='btn red darken-2'>Xóa</a></td></tr>";
         dem++;
         $("#table-body").append(content);
     });
 
     /////////////////////Button Xóa///////////////////////
-    $("#aspectDetailTable").on("click", "#delete-btn", function () {
+    $("#KHNamTable").on("click", "#delete-btn", function () {
         $("tr#" + $(this).attr("name")).remove();
         emptyArr();
-        $("#aspectDetailTable").find("select").each(function () {
+        $("#KHNamTable").find("select").each(function () {
             var value = $(this).val();
             if (value != null) {
                 if (value !== -1 || currentSelectedValue.indexOf(value) !== -1) {
@@ -118,7 +130,7 @@
                 }
             }
         })
-        dem--;
+
     })
 </script>
 <script>
@@ -155,6 +167,8 @@
                         errorAlert('Lỗi', 'Tồn tại 2 tiêu chí trùng nhau');
                     }else if (result.message == "ErrorTieuChi") {
                         errorAlert('Lỗi', 'Hãy chọn tiêu chí trước khi lưu');
+                    } else if (result.message == "ErrorYear") {
+                        errorAlert('Lỗi', 'Hãy chọn năm trước khi lưu');
                     } else {
                         successAlert('Thành công','Thêm thành công');
                     }
@@ -169,8 +183,14 @@
 </script>
 <script>
     function getInformation() {
-        dem = 0;
-
+        if ( $('#department').val() == null) {
+            errorAlert('Lỗi', 'Hãy chọn phân xưởng trước khi xem');
+        } else if ($('#yearCalendar').val() == '' )
+        {
+            errorAlert('Lỗi', 'Hãy chọn năm trước khi xem');
+        }
+        else {
+               dem = 0;
         $('#pre-load').show();
         $.ajax({
             type: 'POST',
@@ -185,16 +205,18 @@
                 content = "";
                 let tieuChiCuList = response.tieuChiCuList;
                 for (let i = 0; i < tieuChiCuList.length; i++) {
-                    content += "<tr><td>" + setSelect(tieuChiCuList[i].MaTieuChi) + "</td><td contenteditable='true'>" + tieuChiCuList[i].KeHoach + "</td><td><a class='btn red darken-2' onclick='deleteInformation(" + tieuChiCuList[i].MaTieuChi + ")'>Xóa</a></td></tr>";
+                    content += "<tr id=\"MaTieuChi" + dem + "\"><td>" + setSelect(tieuChiCuList[i].MaTieuChi) + "</td><td contenteditable='true'>" + tieuChiCuList[i].SanLuongKeHoach + "</td><td contenteditable='true'>" + parseNote(tieuChiCuList[i].GhiChu)  + "</td><td><a id='delete-btn' name=\"MaTieuChi" + dem + "\" class='btn red darken-2'>Xóa</a></td></tr>";
+                    dem++;
                 }
                 tableBody.html(content);
-                mode = 0;
-                $('#pre-load').hide();
+               $("#noteNam").text(response.note) ;
+               $('#pre-load').hide();
             },
              error: function (response) {
 
             }
         })
+        }
     }
     function getTenTieuChi(MaTieuChi) {
         var tenTieuChi;
@@ -214,5 +236,14 @@
         }
         selectContent += "</select>";
         return selectContent;
+    }
+
+    function parseNote(note)
+    {
+        if (note == null) {
+            return '';
+        } else {
+            return note;
+        }
     }
 </script>
