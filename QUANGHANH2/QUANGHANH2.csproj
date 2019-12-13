@@ -6490,6 +6490,7 @@
     <Content Include="js\Custom JS\CDVT\Home\DetailManu_Daily.js" />
     <Content Include="js\Custom JS\CDVT\Home\huydong.js" />
     <Content Include="js\Custom JS\CDVT\QuyetDinh\DanhSach.js" />
+    <Content Include="js\Custom JS\CDVT\QuyetDinh\datePicker.js" />
     <Content Include="js\Custom JS\CDVT\Report\ChangeDateType.js" />
     <Content Include="js\Custom JS\CDVT\Report\custom-pie2.js" />
     <Content Include="js\Custom JS\CDVT\Report\DetailManu.js" />
