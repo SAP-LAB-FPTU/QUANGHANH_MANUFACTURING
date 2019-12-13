@@ -81,12 +81,19 @@
 
                 <div class="col m6 l6 s12">
                     <strong>Loại phòng ban</strong><span hidden id="tm-in-lpb-warning" class="orange-text text-justify">     không được để trống</span>
-                    <select id="tm-sl-lpb" class="form-control">
+                    <datalist id="datalist">
                         @foreach (var dt in arrDepartmentType)
                         {
                             <option value="@dt.department_type">@dt.department_type</option>
                         }
-                    </select>
+                    </datalist>
+                    <input class="form-control" id="tm-sl-lpb" list="datalist" />
+                    @*<select id="tm-sl-lpb" class="form-control">
+                            @foreach (var dt in arrDepartmentType)
+                            {
+                                <option value="@dt.department_type">@dt.department_type</option>
+                            }
+                        </select>*@
                 </div>
 
                 <div class="col m6 l6 s12">
@@ -348,7 +355,7 @@
 
         }
 
-        
+
         function getEditIdDepartment(data) {
             editId = data;
             $.ajax({
@@ -362,9 +369,9 @@
                     $("#ed-in-tpb").val(response.data.department_name);
                     $('#ed-sl-lpb').val(response.data.department_type).trigger('change');
                     if (response.data.isInside) {
-                        $('#ed-sl-IsInside').val("true").trigger('change'); 
+                        $('#ed-sl-IsInside').val("true").trigger('change');
                     } else {
-                        $('#ed-sl-IsInside').val("false").trigger('change'); 
+                        $('#ed-sl-IsInside').val("false").trigger('change');
                     }
                 },
                 error: (response) => {
