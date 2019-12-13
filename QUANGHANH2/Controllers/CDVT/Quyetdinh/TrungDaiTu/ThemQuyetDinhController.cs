@@ -100,19 +100,29 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                         drd.equipmentId = equipmentId;
                         DBContext.Documentary_big_maintain_details.Add(drd);
                         DBContext.SaveChanges();
-                        JArray vattu = (JArray)item.Value.SelectToken("vattu");
-                        foreach (JObject jObject in vattu)
+                        JArray dikem = (JArray)item.Value.SelectToken("dikem");
+                        foreach (JObject jObject in dikem)
                         {
                             string supply_id = (string)jObject["supply_id"];
                             int quantity = (int)jObject["quantity"];
-                            string supplyStatus = (string)jObject["supplyStatus"];
-                            string department_id_temp = (string)jObject["department_id"];
+                            Supply_Documentary_Equipment sde = new Supply_Documentary_Equipment();
+                            sde.documentary_id = documentary.documentary_id;
+                            sde.equipmentId = equipmentId;
+                            sde.equipmentId_dikem = supply_id;
+                            sde.quantity_plan = quantity;
+                            DBContext.Supply_Documentary_Equipment.Add(sde);
+                            DBContext.SaveChanges();
+                        }
+                        JArray duphong = (JArray)item.Value.SelectToken("duphong");
+                        foreach (JObject jObject in duphong)
+                        {
+                            string supply_id = (string)jObject["supply_id"];
+                            int quantity = (int)jObject["quantity"];
                             Supply_Documentary_Equipment sde = new Supply_Documentary_Equipment();
                             sde.documentary_id = documentary.documentary_id;
                             sde.equipmentId = equipmentId;
                             sde.supply_id = supply_id;
                             sde.quantity_plan = quantity;
-                            sde.supplyStatus = supplyStatus;
                             DBContext.Supply_Documentary_Equipment.Add(sde);
                             DBContext.SaveChanges();
                         }
