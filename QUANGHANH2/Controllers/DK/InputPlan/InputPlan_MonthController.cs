@@ -58,7 +58,7 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
                     int totalrows = db.NhomCongViecs.Count();
                     int totalrowsafterfiltering = totalrows;
                     List<KeHoachSanXuatTheoThang> listKH = db.Database.SqlQuery<KeHoachSanXuatTheoThang>(sqlGetInfor, new SqlParameter("month", Thang), new SqlParameter("year", Nam), new SqlParameter("departmentID", MaPhongBan)).ToList();
-                    return Json(new { listKH = listKH, recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                    return Json(new { SoNgayLamViec = listKH.Count == 0 ? 0 : listKH[0].SoNgayLamViec, listKH = listKH, recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
                 }
             }
             catch (Exception e)
@@ -75,6 +75,7 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
             try
             {
                 var SoNgaySanXuat = Request["SoNgaySanXuat"];
+                SoNgaySanXuat = SoNgaySanXuat.Equals("") ? "0" : SoNgaySanXuat;
                 var Thang = Convert.ToInt32(Request["Thang"].Split()[1]);
                 var Nam = Convert.ToInt32(Request["Nam"].Split()[1]);
                 var MaPhongBan = Request["MaPhongBan"];
@@ -89,7 +90,7 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
                     {
                         var checkHeaderNull = @"select * from header_KeHoachTungThang 
                                             where MaPhongBan = @maphongban and ThangKeHoach = @thang and NamKeHoach = @nam";
-                        var listHeader = db.Database.SqlQuery<header_KeHoachTungThang>(checkHeaderNull, new SqlParameter("maphongban", MaPhongBan), new SqlParameter("thang", Thang), new SqlParameter("nam", Nam), new SqlParameter("songaylamviec", SoNgaySanXuat.Equals('0') ? null : SoNgaySanXuat)).FirstOrDefault();
+                        var listHeader = db.Database.SqlQuery<header_KeHoachTungThang>(checkHeaderNull, new SqlParameter("maphongban", MaPhongBan), new SqlParameter("thang", Thang), new SqlParameter("nam", Nam)).FirstOrDefault();
                         //header null -> insert
                         if (listHeader == null)
                         {
@@ -101,7 +102,8 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
                             listHeader.SoNgayLamViec = Convert.ToInt32(SoNgaySanXuat);
                             db.header_KeHoachTungThang.Add(listHeader);
                             db.SaveChanges();
-                        } else
+                        }
+                        else
                         {
                             //update header_KeHoachTungThang
                             var update = db.header_KeHoachTungThang.Find(listHeader.HeaderID);
