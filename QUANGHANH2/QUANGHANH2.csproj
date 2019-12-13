@@ -1214,6 +1214,7 @@
     <Content Include="assets\images\logo-icon.png" />
     <Content Include="assets\images\logo-light-icon.png" />
     <Content Include="assets\images\logo-light-text.png" />
+    <Content Include="assets\images\logo-dark-text.png" />
     <Content Include="assets\images\logo-text.png" />
     <Content Include="assets\images\office.jpg" />
     <Content Include="assets\images\parallax1.jpg" />
