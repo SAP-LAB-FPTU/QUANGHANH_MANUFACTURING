@@ -289,8 +289,10 @@
     <Compile Include="Controllers\DK\BaoCaoDemoController.cs" />
     <Compile Include="Controllers\DK\DepartmentDailyController.cs" />
     <Compile Include="Controllers\DK\Department_CriteriaController.cs" />
-    <Compile Include="Controllers\DK\QuickReport\QuickReportController.cs" />
+    <Compile Include="Controllers\DK\KHSXNamController.cs" />
     <Compile Include="Controllers\DK\InputPlan\InputPlan_MonthController.cs" />
+    <Compile Include="Controllers\DK\QuickReport\QuickReportController.cs" />
+    <Compile Include="Controllers\DK\InputPlan\InputPlan_Month_ByMrs_DuyController.cs" />
     <Compile Include="Controllers\DK\PhanXuongReportController.cs" />
     <Compile Include="Controllers\DK\InputCharcoal\InputController.cs" />
     <Compile Include="Controllers\DK\ReportHuman\ReportHumanController.cs" />
@@ -1212,6 +1214,7 @@
     <Content Include="assets\images\logo-icon.png" />
     <Content Include="assets\images\logo-light-icon.png" />
     <Content Include="assets\images\logo-light-text.png" />
+    <Content Include="assets\images\logo-dark-text.png" />
     <Content Include="assets\images\logo-text.png" />
     <Content Include="assets\images\office.jpg" />
     <Content Include="assets\images\parallax1.jpg" />
@@ -7433,7 +7436,7 @@
     <Content Include="Views\DK\PhanXuongReport.cshtml" />
     <Content Include="Views\DK\SanLuongReport.cshtml" />
     <Content Include="Views\DK\SucoThietbi.cshtml" />
-    <Content Include="Views\DK\InputPlan\InputPlan_Month.cshtml" />
+    <Content Include="Views\DK\InputPlan\InputPlan_Month_ByMrs_Duy.cshtml" />
     <Content Include="Views\DK\MonthlyQuarterlyReport.cshtml" />
     <Content Include="Views\CDVT\History\LichsuOtoTieuthu.cshtml" />
     <Content Include="Views\CDVT\History\LichsuTieuthu.cshtml" />
@@ -7478,6 +7481,8 @@
     <Content Include="Views\TCLD\Occupation\Occupation_GroupOccupation.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Chi_tiet_cai_tien.cshtml" />
     <Content Include="Views\DK\BaoCaoDemo.cshtml" />
+    <Content Include="Views\DK\InputPlan\InputPlan_Month.cshtml" />
+    <Content Include="Views\DK\KHSXNam.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7489,6 +7494,8 @@
     <Folder Include="Views\CapNhatQuyetDinh\" />
     <Folder Include="Views\ChiTiet\" />
     <Folder Include="Views\ExportWord\" />
+    <Folder Include="Views\InputPlan_Month\" />
+    <Folder Include="Views\KHSXNam\" />
     <Folder Include="Views\TransferHistory\" />
     <Folder Include="Views\ViewAccident\" />
     <Folder Include="Views\WorkHistory\" />

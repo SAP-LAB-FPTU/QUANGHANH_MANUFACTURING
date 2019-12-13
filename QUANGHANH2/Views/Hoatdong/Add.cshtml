@@ -61,7 +61,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Khấu hao ước tính</label>
+                        <label>Khấu hao ước tính (tháng)</label>
                         @*@Html.LabelFor(model => model.depreciation_estimate, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.depreciation_estimate, new { htmlAttributes = new { @class = "form-control" } })
@@ -70,7 +70,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Khấu hao thực tại</label>
+                        <label>Khấu hao thực tại (tháng)</label>
                         @*@Html.LabelFor(model => model.depreciation_present, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.depreciation_present, new { htmlAttributes = new { @class = "form-control" } })
@@ -79,7 +79,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Thời hạn đăng kiểm</label>
+                        <label>Thời hạn đăng kiểm tiếp theo</label>
                         @*@Html.LabelFor(model => model.durationOfInspection, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             <input name="duraInspec" type="text" class="form-control datepicker-here maxDate" />
@@ -88,15 +88,6 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>Thời hạn bảo dưỡng</label>
-                        @*@Html.LabelFor(model => model.durationOfInsurance, htmlAttributes: new { @class = "control-label col-md-2" })*@
-                        <div class="col-md-10">
-                            <input name="duramain" type="text" class="form-control datepicker-here maxDate" />
-                            @Html.EditorFor(model => model.durationOfMaintainance, new { htmlAttributes = new { @style = "display: none !important" } })
-                            @Html.ValidationMessageFor(model => model.durationOfMaintainance, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
                     <div>
                         <div class="form-group">
                             <label class="control-label col-md-2">Loại thiết bị</label>
@@ -132,14 +123,6 @@
                             <input name="used" type="text" class="form-control datepicker-here maxDate" />
                             @Html.EditorFor(model => model.usedDay, new { htmlAttributes = new { @style = "display: none !important" } })
                             @Html.ValidationMessageFor(model => model.usedDay, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Tổng thời gian hoạt động</label>
-                        @*@Html.LabelFor(model => model.total_operating_hours, htmlAttributes: new { @class = "control-label col-md-2" })*@
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.total_operating_hours, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.total_operating_hours, "Tổng thời gian hoạt động phải là số", new { @class = "text-danger" })
                         </div>
                     </div>
 
@@ -196,13 +179,6 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="control-label col-md-2">Phòng ban</label>
-                        <div class="col-md-10">
-                            @Html.DropDownList("department_id", new SelectList(ViewBag.listDepeartment, "Text", "Value"), htmlAttributes: new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.department_id, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
                     <div id="plus">
                         <div class="form-group">
                             <label class="control-label col-md-2">Số khung</label>
