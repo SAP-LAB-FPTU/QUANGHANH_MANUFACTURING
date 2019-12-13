@@ -24,7 +24,8 @@
                             <th>Vị trí ban đầu</th>
                             <th>Loại bảo dưỡng</th>
                             <th>Ngày hoàn thành dự kiến</th>
-                            <th>Danh sách vật tư thay thế</th>
+                            <th></th>
+                            <th></th>
                             <th>Đã xử lý</th>
                         </tr>
                     </thead>
@@ -93,6 +94,13 @@
         <option value="@item.supply_id">@item.supply_name</option>
     }
 </datalist>
+
+<datalist id="equipAttached">
+    @foreach (var item in ViewBag.equipAttached)
+    {
+        <option value="@item.equipmentId">@item.equipment_name</option>
+    }
+</datalist>
 <script src="~/js/Custom JS/CDVT/Capnhat/check.js"></script>
 
 @section scripts{
@@ -120,7 +128,46 @@
             $("#maquyetdinh").val(QDIdAndEquipId.split("^")[0])
             $.ajax({
                 type: "POST",
-                url: "/phong-cdvt/cap-nhat/quyet-dinh/GetSupply2",
+                url: "/phong-cdvt/cap-nhat/quyet-dinh/GetEquipAttached",
+                dataType: "json",
+                success: function (data) {
+                    $(function () {
+                        $.each(data, function (i, item) {
+                            var temp = item.supplyStatus == null ? "" : item.supplyStatus;
+                            var $tr = $('<tr>').append(
+                                $('<td>').html('<input type="text" value="' + item.equipmentId_dikem + '" readonly class="form-control" />'),
+                                $('<td>').html('<input type="text" value="' + item.quantity_plan + '" readonly class="form-control" />'),
+                                $('<td>').html("<input class='form-control' type='number' min='" + item.quantity_in + "' max='" + item.quantity_plan + "' value='" + item.quantity_in + "' />"),
+                                $('<td>').html("<input class='form-control' type='number' min='" + item.quantity_used + "' max='" + item.quantity_plan + "' value='" + item.quantity_used + "' />"),
+                                $('<td>').html("<input class='form-control' type='number' min='" + item.quantity_out + "' max='" + item.quantity_plan + "' value='" + item.quantity_out + "' />"),
+                                $('<td>').html("<input class='form-control' type='text' value='" + temp + "' />")
+                            );
+                            $tr.appendTo('#test');
+                        });
+                    });
+                    $("#pre-load").hide();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    errorAlert('Lỗi');
+                },
+                data: {
+                    documentary_id: QDIdAndEquipId.split("^")[0],
+                    equipmentId: QDIdAndEquipId.split("^")[1]
+                },
+                cache: false
+            })
+        })
+
+        $(document).on("click", ".open-Modal-DuPhong", function () {
+            $('#pre-load').show();
+            $("#test").find("tr:gt(0)").remove();
+            var QDIdAndEquipId = $(this).data('list');
+            $('#mylist h3').text("Danh sách vật tư thay thế của thiết bị " + QDIdAndEquipId.split("^")[1])
+            $("#mathietbi").val(QDIdAndEquipId.split("^")[1])
+            $("#maquyetdinh").val(QDIdAndEquipId.split("^")[0])
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/cap-nhat/quyet-dinh/GetSupplyDuPhong",
                 dataType: "json",
                 success: function (data) {
                     $(function () {
@@ -214,7 +261,12 @@
                 { "data": "stringDate", "name": "stringDate" },
                 {
                     "data": "idAndEquip", "name": "person_created", "render": function (data) {
-                        return "<a data-list=\"" + data + "\" class=\"waves-effect waves-light btn-small blue modal-trigger open-Modal\" href=\"#mylist\">Vật tư thay thế</a>";
+                        return "<a data-list=\"" + data + "\" class=\"waves-effect waves-light btn-small blue modal-trigger open-Modal\" href=\"#mylist\">Chi tiết VT to</a>";
+                    }
+                },
+                {
+                    "data": "idAndEquip", "name": "person_created", "render": function (data) {
+                        return "<a data-list=\"" + data + "\" class=\"waves-effect waves-light btn-small blue modal-trigger open-Modal-DuPhong\" href=\"#mylist\">Chi tiết VT nhỏ</a>";
                     }
                 },
                 {
