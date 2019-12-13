@@ -64,7 +64,6 @@
                         </table>
                     </div>
                 </form>
-                <input hidden readonly id="type" />
                 <div class="col l12 m12 s12 center">
                     <a id="export-button" class="btn blue darken-2">Xuất quyết định</a>
                     <a id="submit" class="btn blue darken-2 modal-trigger">Tạo điều động thiết bị</a>
@@ -99,10 +98,9 @@
                     </table>
                 </form>
             </div>
-            <input type="hidden" id="rownumber" disabled />
         </div>
         <div class="modal-footer">
-            <a id="addcolumn" class="waves-effect waves-light btn blue darken-2 left">Thêm</a>
+            <a id="addrow" class="waves-effect waves-light btn blue darken-2 left">Thêm</a>
             <a id="submitvattu" class="waves-effect waves-light btn blue darken-2 modal-close">Lưu</a>
             <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-button">Thoát</button>
         </div>
@@ -142,20 +140,11 @@
     }
 </datalist>
 
+<script src="~/js/Custom JS/CDVT/QuyetDinh/datePicker.js"></script>
 <script>
     var output = {};
     var equipAttached = 0;
-
-    $(document).ready(function () {
-        for (var i = 0; i < $('#mytablevattu tbody tr').length; i++) {
-            var thietbi = {};
-            thietbi.id = $('#mytablevattu tbody tr:nth-child(' + (i + 1) + ') td').eq(0).text();
-            thietbi.dikem = [];
-            thietbi.duphong = [];
-            output[i] = thietbi;
-        }
-        $('#json').val(JSON.stringify(output))
-    })
+    var equipId;
 
     $(document).ready(function () {
         $('input[required]').each(function myfunction() {
@@ -164,123 +153,7 @@
         })
     })
 
-    $('.minDate').datepicker({
-        language: 'vi',
-        minDate: new Date() // Now can select only dates, which goes after today
-    })
-
-    $(document).ready(function () {
-        $('.datepicker-inline').remove();
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1; //January is 0!
-
-        var yyyy = today.getFullYear();
-        if (dd < 10) {
-            dd = '0' + dd;
-        }
-        if (mm < 10) {
-            mm = '0' + mm;
-        }
-        var today = dd + '/' + mm + '/' + yyyy;
-        $(".minDate").each(function () {
-            $(this).val(today);
-        });
-    })
-    //đọc lại json rồi apply vào modal
-    $(document).on("click", ".open-Modal", function () {
-        equipAttached = 1;
-        $('#pre-load').show();
-        var id = $(this).data('id');
-        $('#rownumber').val(id);
-        $("#test").find("tr:gt(0)").remove();
-        var equipmentId = $('#' + id + ' td:first-child').text();
-        $('#listId').text("Danh sách vật tư đi kèm của thiết bị " + equipmentId)
-        $('#type').val(0);
-        if (output[id].dikem.length == 0) {
-            $.ajax({
-                type: "POST",
-                url: "/phong-cdvt/thiet-bi/get-attached-equipment",
-                dataType: "json",
-                success: function (data) {
-                    $.each(data, function (i, item) {
-                        var $tr = $('<tr>').append(
-                            $('<td>').html("<input type='text' list='equipAttached' class='form-control required' value='" + item.equipmentId_dikem + "' /> "),
-                            $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity_dikem + "' /> ")
-                        );
-                        $tr.appendTo('#test tbody');
-                    });
-                    $('#pre-load').hide();
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    $('#pre-load').hide();
-                },
-                data: {
-                    equipmentId: equipmentId
-                },
-                cache: false
-            })
-        }
-        else {
-            for (var i = 0; i < output[id].dikem.length; i++) {
-                var item = output[id].dikem[i];
-                var $tr = $('<tr>').append(
-                    $('<td>').html("<input type='text' list='equipAttached' class='form-control required' value='" + item.supply_id + "' /> "),
-                    $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> ")
-                );
-                $tr.appendTo('#test tbody');
-            }
-            $('#pre-load').hide();
-        }
-    })
-
-    $(document).on("click", ".open-Modal-DuPhong", function () {
-        equipAttached = 0;
-        $('#pre-load').show();
-        var id = $(this).data('id');
-        $('#rownumber').val(id);
-        $("#test").find("tr:gt(0)").remove();
-        var equipmentId = $('#' + id + ' td:first-child').text();
-        $('#listId').text("Danh sách vật tư dự phòng của thiết bị " + equipmentId)
-        $('#type').val(1);
-        if (output[id].duphong.length == 0) {
-            $.ajax({
-                type: "POST",
-                url: "/phong-cdvt/thiet-bi/get-supply2",
-                dataType: "json",
-                success: function (data) {
-                    $.each(data, function (i, item) {
-                        var $tr = $('<tr>').append(
-                            $('<td>').html("<input type='text' list='supplyID' class='form-control required' value='" + item.supply_id + "' /> "),
-                            $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> ")
-                        );
-                        $tr.appendTo('#test tbody');
-                    });
-                    $('#pre-load').hide();
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    $('#pre-load').hide();
-                },
-                data: {
-                    equipmentId: equipmentId
-                },
-                cache: false
-            })
-        }
-        else {
-            for (var i = 0; i < output[id].duphong.length; i++) {
-                var item = output[id].duphong[i];
-                var $tr = $('<tr>').append(
-                    $('<td>').html("<input type='text' list='supplyID' class='form-control required' value='" + item.supply_id + "' /> "),
-                    $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> ")
-                );
-                $tr.appendTo('#test tbody');
-            }
-            $('#pre-load').hide();
-        }
-    })
-
-    $("#addcolumn").click(function () {
+    $("#addrow").click(function () {
         if (equipAttached == 0)
             var $tr = $('<tr>').append(
                 $('<td>').html("<input type='text' list='supplyID' class='form-control required' />"),
@@ -296,7 +169,6 @@
     //tạo json cho thiết bị khi nhập submit vật tư
     $("#submitvattu").click(function () {
         var arr = [];
-        var rownumber = $('#rownumber').val();
         for (var i = 1; i < $('#test tbody tr').length + 1; i++) {
             if ($('#mylist #test tbody tr:nth-child(' + i + ') input').eq(0).val() != "" &&
                 $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(2).val() != "") {
@@ -307,17 +179,116 @@
                 arr.push(dikem);
             }
         }
-        if ($('#type').val() == 0) {
-            output[rownumber].dikem = arr;
+        if (equipAttached == 1) {
+            output[equipId].dikem = arr;
         }
         else {
-            output[rownumber].duphong = arr;
+            output[equipId].duphong = arr;
+        }
+        $('#json').val(JSON.stringify(output))
+    })
+
+    $(document).ready(function () {
+        for (var i = 0; i < $('#mytablevattu tbody tr').length; i++) {
+            var thietbi = {};
+            thietbi.id = $('#mytablevattu tbody tr:nth-child(' + (i + 1) + ') td').eq(0).text();
+            thietbi.dikem = [];
+            thietbi.duphong = [];
+            output[i] = thietbi;
         }
         $('#json').val(JSON.stringify(output))
     })
 </script>
 @section scripts{
     <script>
+        $(document).on("click", ".open-Modal", function () {
+            equipAttached = 1;
+            $('#pre-load').show();
+            equipId = $(this).data('id');
+            $("#test").find("tr:gt(0)").remove();
+            var equipmentId = $('#' + equipId + ' td:first-child').text();
+            $('#listId').text("Danh sách vật tư đi kèm của thiết bị " + equipmentId)
+            if (output[equipId].dikem.length == 0) {
+                $.ajax({
+                    type: "POST",
+                    url: "/phong-cdvt/thiet-bi/get-attached-equipment",
+                    dataType: "json",
+                    success: function (data) {
+                        $.each(data, function (i, item) {
+                            var $tr = $('<tr>').append(
+                                $('<td>').html("<input type='text' list='equipAttached' class='form-control required' value='" + item.equipmentId_dikem + "' /> "),
+                                $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity_dikem + "' /> ")
+                            );
+                            $tr.appendTo('#test tbody');
+                        });
+                        $('#pre-load').hide();
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        $('#pre-load').hide();
+                    },
+                    data: {
+                        equipmentId: equipmentId
+                    },
+                    cache: false
+                })
+            }
+            else {
+                for (var i = 0; i < output[equipId].dikem.length; i++) {
+                    var item = output[equipId].dikem[i];
+                    var $tr = $('<tr>').append(
+                        $('<td>').html("<input type='text' list='equipAttached' class='form-control required' value='" + item.supply_id + "' /> "),
+                        $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> ")
+                    );
+                    $tr.appendTo('#test tbody');
+                }
+                $('#pre-load').hide();
+            }
+        })
+
+        $(document).on("click", ".open-Modal-DuPhong", function () {
+            equipAttached = 0;
+            $('#pre-load').show();
+            equipId = $(this).data('id');
+            $("#test").find("tr:gt(0)").remove();
+            var equipmentId = $('#' + equipId + ' td:first-child').text();
+            $('#listId').text("Danh sách vật tư dự phòng của thiết bị " + equipmentId)
+            if (output[equipId].duphong.length == 0) {
+                $.ajax({
+                    type: "POST",
+                    url: "/phong-cdvt/thiet-bi/get-supply2",
+                    dataType: "json",
+                    success: function (data) {
+                        $.each(data, function (i, item) {
+                            var $tr = $('<tr>').append(
+                                $('<td>').html("<input type='text' list='supplyID' class='form-control required' value='" + item.supply_id + "' /> "),
+                                $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> ")
+                            );
+                            $tr.appendTo('#test tbody');
+                        });
+                        $('#pre-load').hide();
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        $('#pre-load').hide();
+                    },
+                    data: {
+                        equipmentId: equipmentId
+                    },
+                    cache: false
+                })
+            }
+            else {
+                for (var i = 0; i < output[equipId].duphong.length; i++) {
+                    var item = output[equipId].duphong[i];
+                    var $tr = $('<tr>').append(
+                        $('<td>').html("<input type='text' list='supplyID' class='form-control required' value='" + item.supply_id + "' /> "),
+                        $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> ")
+                    );
+                    $tr.appendTo('#test tbody');
+                }
+                $('#pre-load').hide();
+            }
+        })
+
         //validate
         $('#submit').click(function () {
             var validate = 1;
