@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="input-field col s5 m5 l5"></div>
                 <div class="input-field col l2 m2 s2">
-                    <input class="form-control center" autocomplete="off" placeholder="Số ngày sản xuất" id="totalDays" />
+                    <input type="number" class="form-control center" autocomplete="off" placeholder="Số ngày sản xuất" id="totalDays" />
                 </div>
                 <div class="input-field col s5 m5 l5"></div>
             </div>
@@ -91,9 +91,10 @@
 <!------------------------------------GET THE INFOR---------------------------------->
 <script>
     var table;
+    var listKH;
     $("#view").click(function () {
         $("#pre-load").show();
-        if ($("#aspectDetailTable tbody tr").length < 1) {
+        if ($("#aspectDetailTable tbody tr").length == 0) {
             table = $("#aspectDetailTable").DataTable({
                 "ajax": {
                     "url": "/phong-dieu-khien/ke-hoach-san-xuat-thang/lay-thong-tin",
@@ -106,8 +107,8 @@
                         "MaPhongBan": function () { return $("#px").val() }
                     },
                     "dataSrc": function (json) {
-                        return json["listKH"]
-                    }
+                        return listKH = json["listKH"]
+                    },
                 },
                 "columns": [
                     {
