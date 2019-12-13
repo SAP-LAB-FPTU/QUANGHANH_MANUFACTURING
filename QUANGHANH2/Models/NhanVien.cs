@@ -31,6 +31,7 @@ namespace QUANGHANH2.Models
             this.QuaTrinhCongTacs = new HashSet<QuaTrinhCongTac>();
             this.TaiNans = new HashSet<TaiNan>();
             this.TuyenDung_NhanVien = new HashSet<TuyenDung_NhanVien>();
+            this.Documentaries = new HashSet<Documentary>();
         }
     
         public string MaNV { get; set; }
@@ -133,5 +134,7 @@ namespace QUANGHANH2.Models
         public virtual ICollection<TaiNan> TaiNans { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TuyenDung_NhanVien> TuyenDung_NhanVien { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Documentary> Documentaries { get; set; }
     }
 }
