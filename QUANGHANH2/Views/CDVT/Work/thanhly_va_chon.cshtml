@@ -128,6 +128,7 @@
     }
 </datalist>
 
+<script src="~/js/Custom JS/CDVT/QuyetDinh/datePicker.js"></script>
 <script>
     var output = {};
 
@@ -135,92 +136,6 @@
         $('input[required]').each(function myfunction() {
             $(this).attr("oninvalid", "setCustomValidity('Không được bỏ trống ô này')");
             $(this).attr("oninput", "this.setCustomValidity('')");
-        })
-    })
-
-    $('.minDate').datepicker({
-        language: 'vi',
-        minDate: new Date() // Now can select only dates, which goes after today
-    })
-
-    $(document).ready(function () {
-        $('.datepicker-inline').remove();
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1; //January is 0!
-
-        var yyyy = today.getFullYear();
-        if (dd < 10) {
-            dd = '0' + dd;
-        }
-        if (mm < 10) {
-            mm = '0' + mm;
-        }
-        var today = dd + '/' + mm + '/' + yyyy;
-        $(".minDate").each(function () {
-            $(this).val(today);
-        });
-    })
-    //đọc lại json rồi apply vào modal
-    $(document).on("click", ".open-Modal", function () {
-        $('#pre-load').show();
-        var id = $(this).data('id');
-        $('#rownumber').val(id);
-        $("#test").find("tr:gt(0)").remove();
-        var equipmentId = $('#' + id + ' td:first-child').text();
-        $('#listId').text("Danh sách vật tư đi kèm của thiết bị " + equipmentId)
-        $.ajax({
-            type: "POST",
-            url: "/phong-cdvt/thiet-bi/get-attached-equipment",
-            dataType: "json",
-            success: function (data) {
-                $.each(data, function (i, item) {
-                    var $tr = $('<tr>').append(
-                        $('<td>').text(item.equipmentId_dikem),
-                        $('<td>').text(item.quantity_dikem)
-                    );
-                    $tr.appendTo('#test tbody');
-                });
-                $('#pre-load').hide();
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                $('#pre-load').hide();
-            },
-            data: {
-                equipmentId: equipmentId
-            },
-            cache: false
-        })
-    })
-
-    $(document).on("click", ".open-Modal2", function () {
-        $('#pre-load').show();
-        var id = $(this).data('id');
-        $('#rownumber').val(id);
-        $("#test").find("tr:gt(0)").remove();
-        var equipmentId = $('#' + id + ' td:first-child').text();
-        $('#listId').text("Danh sách vật tư đi kèm của thiết bị " + equipmentId)
-        $.ajax({
-            type: "POST",
-            url: "/phong-cdvt/thiet-bi/get-supply2",
-            dataType: "json",
-            success: function (data) {
-                $.each(data, function (i, item) {
-                    var $tr = $('<tr>').append(
-                        $('<td>').text(item.supply_id),
-                        $('<td>').text(item.quantity)
-                    );
-                    $tr.appendTo('#test tbody');
-                });
-                $('#pre-load').hide();
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                $('#pre-load').hide();
-            },
-            data: {
-                equipmentId: equipmentId
-            },
-            cache: false
         })
     })
 
@@ -236,8 +151,70 @@
     })
 </script>
 @section scripts{
-
     <script>
+        //đọc lại json rồi apply vào modal
+        $(document).on("click", ".open-Modal", function () {
+            $('#pre-load').show();
+            var id = $(this).data('id');
+            $('#rownumber').val(id);
+            $("#test").find("tr:gt(0)").remove();
+            var equipmentId = $('#' + id + ' td:first-child').text();
+            $('#listId').text("Danh sách vật tư đi kèm của thiết bị " + equipmentId)
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/thiet-bi/get-attached-equipment",
+                dataType: "json",
+                success: function (data) {
+                    $.each(data, function (i, item) {
+                        var $tr = $('<tr>').append(
+                            $('<td>').text(item.equipmentId_dikem),
+                            $('<td>').text(item.quantity_dikem)
+                        );
+                        $tr.appendTo('#test tbody');
+                    });
+                    $('#pre-load').hide();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#pre-load').hide();
+                },
+                data: {
+                    equipmentId: equipmentId
+                },
+                cache: false
+            })
+        })
+
+        $(document).on("click", ".open-Modal2", function () {
+            $('#pre-load').show();
+            var id = $(this).data('id');
+            $('#rownumber').val(id);
+            $("#test").find("tr:gt(0)").remove();
+            var equipmentId = $('#' + id + ' td:first-child').text();
+            $('#listId').text("Danh sách vật tư đi kèm của thiết bị " + equipmentId)
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/thiet-bi/get-supply2",
+                dataType: "json",
+                success: function (data) {
+                    $.each(data, function (i, item) {
+                        var $tr = $('<tr>').append(
+                            $('<td>').text(item.supply_id),
+                            $('<td>').text(item.quantity)
+                        );
+                        $tr.appendTo('#test tbody');
+                    });
+                    $('#pre-load').hide();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#pre-load').hide();
+                },
+                data: {
+                    equipmentId: equipmentId
+                },
+                cache: false
+            })
+        })
+
         //validate
         $('#submit').click(function () {
             for (var key in output) {
