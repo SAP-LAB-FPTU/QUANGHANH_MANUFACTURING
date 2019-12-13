@@ -287,6 +287,8 @@
     <Compile Include="Controllers\CDVT\Quyetdinh\SuaChua\ChonThietBiController.cs" />
     <Compile Include="Controllers\DK\AccidentController.cs" />
     <Compile Include="Controllers\DK\BaoCaoDemoController.cs" />
+    <Compile Include="Controllers\DK\Criteria\CriteriaController.cs" />
+    <Compile Include="Controllers\DK\Criteria\GroupCriteriaController.cs" />
     <Compile Include="Controllers\DK\QuantityReport\DepartmentDailyController.cs" />
     <Compile Include="Controllers\DK\Department_Criteria\Department_CriteriaController.cs" />
     <Compile Include="Controllers\DK\InputPlan\InputPlan_YearController.cs" />
@@ -317,7 +319,7 @@
     <Compile Include="Controllers\TCLD\Brief\BriefController.cs" />
     <Compile Include="Controllers\TCLD\Brief\BriefRegulationController.cs" />
     <Compile Include="Controllers\TCLD\Certificates\CertificateController.cs" />
-    <Compile Include="Controllers\TCLD\Department\DepartmentController.cs" />
+    <Compile Include="Controllers\DK\Department\DepartmentController.cs" />
     <Compile Include="Controllers\TCLD\Diploma\DiplomaController.cs" />
     <Compile Include="Controllers\TCLD\EatingController.cs" />
     <Compile Include="Controllers\TCLD\Employees\EmployeesController.cs" />
@@ -7425,7 +7427,7 @@
     <Content Include="Views\TCLD\Brief\ManageBrief\OutSideDetail.cshtml" />
     <Content Include="Views\TCLD\Recruitment\Input.cshtml" />
     <Content Include="Views\CDVT\Vattu\Danhsachvattu.cshtml" />
-    <Content Include="Views\TCLD\Department\List.cshtml" />
+    <Content Include="Views\DK\Department\List.cshtml" />
     <Content Include="Views\Department\AddDepartment.cshtml" />
     <Content Include="Views\CDVT\Nghiemthu\Vattuditheo.cshtml" />
     <Content Include="Views\PX\PXKT\BaoCaoLenPhongDK.cshtml" />
@@ -7484,15 +7486,16 @@
     <Content Include="Views\DK\BaoCaoDemo.cshtml" />
     <Content Include="Views\DK\InputPlan\InputPlan_Month.cshtml" />
     <Content Include="Views\DK\InputPlan\InputPlan_Year.cshtml" />
+    <Content Include="Views\DK\Criteria\GroupCriteria.cshtml" />
+    <Content Include="Views\DK\Criteria\Criteria.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\DK\Criteria\" />
     <Folder Include="excel\Notifi\download\" />
     <Folder Include="FileContainer\KCS\" />
     <Folder Include="FileContainer\PhanXuongLenDK\" />
     <Folder Include="Library\" />
-    <Folder Include="Views\DK\Criteria\" />
+    <Folder Include="Views\GroupCriteria\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

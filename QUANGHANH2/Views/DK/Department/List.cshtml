@@ -1,7 +1,7 @@
 ﻿@using QUANGHANH2.Models
 @{
     ViewBag.Title = "List";
-    Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
+    Layout = "~/Views/Shared/_Layout_DK.cshtml";
     List<Department> arrDepartmentType = (List<Department>)ViewBag.arr_department_type;
 }
 
@@ -88,12 +88,6 @@
                         }
                     </datalist>
                     <input class="form-control" id="tm-sl-lpb" list="datalist" />
-                    @*<select id="tm-sl-lpb" class="form-control">
-                            @foreach (var dt in arrDepartmentType)
-                            {
-                                <option value="@dt.department_type">@dt.department_type</option>
-                            }
-                        </select>*@
                 </div>
 
                 <div class="col m6 l6 s12">
@@ -183,7 +177,7 @@
                 })
                 .DataTable({
                 "ajax": {
-                    "url": "/phong-tcld/quan-ly-phong-ban",
+                    "url": "/phong-dieu-khien/quan-ly-phong-ban",
                     "type": "POST",
                     "datatype": "json",
 
