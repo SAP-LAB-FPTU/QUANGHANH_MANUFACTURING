@@ -84,11 +84,11 @@
                 @{
                     foreach (var item in rights)
                     {
-                        if (item.Equals("20"))
+                        if (item.Equals("20") || item.Equals("79"))
                         {
                             <a class="waves-effect waves-light btn-small blue modal-trigger" href="#myadd">Thêm</a>
                         }
-                        if (item.Equals("21"))
+                        if (item.Equals("21") || item.Equals("79"))
                         {
                             <form action="" method="POST" id="myeditform" role="form">
                                 <div class="modal" id="myedit">
@@ -216,7 +216,7 @@
                                 </div>
                             </form>
                         }
-                        if (item.Equals("170"))
+                        if (item.Equals("170") || item.Equals("79"))
                         {
                             <a class="waves-effect waves-light btn-small blue modal-trigger" id="export-button">Xuất ra Excel</a>
                         }

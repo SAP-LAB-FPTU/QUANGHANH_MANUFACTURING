@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 using QUANGHANH2.Models;
 namespace QUANGHANH2.Controllers.DK
 {
-    public class KHSXNamController : Controller
+    public class InputPlan_YearController : Controller
     {
         QUANGHANHABCEntities dbContext = new QUANGHANHABCEntities();
         // GET: KHSXNam
