@@ -15,8 +15,8 @@ namespace QUANGHANH2.Controllers.TCLD
     public class DepartmentController : Controller
     {
         // GET: Department
-        [Auther(RightID = "175")]
-        [Route("phong-tcld/quan-ly-phong-ban")]
+        //[Auther(RightID = "175")]
+        [Route("phong-dieu-khien/quan-ly-phong-ban")]
         public ActionResult Index()
         {
             using(QUANGHANHABCEntities db = new QUANGHANHABCEntities())
@@ -24,13 +24,13 @@ namespace QUANGHANH2.Controllers.TCLD
                 var arr_department_type = db.Departments.DistinctBy(d => d.department_type).ToList();
 
                 ViewBag.arr_department_type = arr_department_type;
-                return View("/Views/TCLD/Department/List.cshtml");
+                return View("/Views/DK/Department/List.cshtml");
             }
 
         }
 
-        [Auther(RightID = "175")]
-        [Route("phong-tcld/quan-ly-phong-ban")]
+        //[Auther(RightID = "175")]
+        [Route("phong-dieu-khien/quan-ly-phong-ban")]
         [HttpPost]
         public ActionResult listDepartment()
         {
@@ -73,11 +73,10 @@ namespace QUANGHANH2.Controllers.TCLD
 
         }
 
-        [Auther(RightID = "175")]
+        //[Auther(RightID = "175")]
         [HttpPost]
         public ActionResult searchDepartment(string DepartmentSearchList)
         {
-
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
@@ -128,7 +127,7 @@ namespace QUANGHANH2.Controllers.TCLD
         }
 
         //Add Diploma
-        [Auther(RightID = "176")]
+        //[Auther(RightID = "176")]
         [HttpGet]
         public ActionResult AddNewDepartment()
         {
@@ -141,7 +140,7 @@ namespace QUANGHANH2.Controllers.TCLD
             return View();
 
         }
-        [Auther(RightID = "176")]
+        //[Auther(RightID = "176")]
         [HttpPost]
         public ActionResult AddNewDepartment(string departmentJson)
         {
@@ -170,7 +169,7 @@ namespace QUANGHANH2.Controllers.TCLD
 
         }
 
-        [Auther(RightID = "176")]
+        //[Auther(RightID = "176")]
         [HttpPost]
         public ActionResult GetEditDepartment(string did)
         {
@@ -184,7 +183,7 @@ namespace QUANGHANH2.Controllers.TCLD
             }
         }
 
-        [Auther(RightID = "176")]
+        //[Auther(RightID = "176")]
         [HttpPost]
         public ActionResult EditDepartment(string departmentJson, string did)
         {
