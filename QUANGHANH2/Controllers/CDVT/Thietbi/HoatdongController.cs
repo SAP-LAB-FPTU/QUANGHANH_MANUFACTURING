@@ -610,17 +610,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         date = inspec.Split('/');
                         date_fix = date[1] + "/" + date[0] + "/" + date[2];
                         emp.durationOfInspection = Convert.ToDateTime(date_fix);
-                        //durationOfInsurance
-                        date = insua.Split('/');
-                        date_fix = date[1] + "/" + date[0] + "/" + date[2];
-                        if (emp.durationOfInsurance.Value.CompareTo(Convert.ToDateTime(date_fix)) != 0)
-                        {
-                            Equipment_Insurance ins = new Equipment_Insurance();
-                            ins.equipmentId = emp.equipmentId;
-                            ins.insurance_end_date = Convert.ToDateTime(date_fix);
-                            db.Equipment_Insurance.Add(ins);
-                        }
-                        emp.durationOfInsurance = Convert.ToDateTime(date_fix);
                         //usedDay
                         date = used.Split('/');
                         date_fix = date[1] + "/" + date[0] + "/" + date[2];
@@ -723,7 +712,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 Car ca = db.Database.SqlQuery<Car>("select * from Car where equipmentId = @id", new SqlParameter("id", id + "")).FirstOrDefault();
                 if (ca == null)
                 {
-                    query = "SELECT e.department_id,e.Equipment_category_id,e.[equipmentId],e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
+                    query = "SELECT e.department_id,e.Equipment_category_id,e.[equipmentId],e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],[durationOfInspection],[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
                         "from Equipment e, Department d, Equipment_category ec,Status s " +
                         " where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id AND e.current_Status = s.statusid AND e.equipmentId LIKE @equipmentId";
                     Equipment e = db.Database.SqlQuery<CarDB>(query, new SqlParameter("equipmentId", '%' + id + '%')).FirstOrDefault();
