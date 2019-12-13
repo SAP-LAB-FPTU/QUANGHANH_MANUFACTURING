@@ -51,7 +51,7 @@ namespace QUANGHANH2.Controllers
         [HttpPost]
         public JsonResult Index(DataTableAjaxPostModel model)
         {
-            var users = db.Database.SqlQuery<Accountdb>("select  a.ID,a.Username,a.Name,d.department_name from Account a inner join NhanVien nv on a.NVID = nv.MaNV inner join Department d on d.department_id = nv.MaPhongBan order by d.department_name").ToList();
+            var users = db.Database.SqlQuery<Accountdb>("select  a.ID,a.Username,a.Name,d.department_name,d.department_id from Account a inner join NhanVien nv on a.NVID = nv.MaNV inner join Department d on d.department_id = nv.MaPhongBan order by d.department_name").ToList();
             var search = users.ToList();
             int CurrentUser = int.Parse(Session["UserID"].ToString());
             if (CurrentUser != 14)
@@ -61,7 +61,7 @@ namespace QUANGHANH2.Controllers
             if (model.search.value != null)
             {
                 string searchValue = model.search.value;
-                search = search.Where(a => a.Username.ToLower().Contains(searchValue.ToLower()) || a.Name.ToLower().Contains(searchValue.ToLower()) || a.department_name.ToLower().Contains(searchValue.ToLower())).ToList();
+                search = search.Where(a => a.Username.ToLower().Contains(searchValue.ToLower()) || a.Name.ToLower().Contains(searchValue.ToLower()) || a.department_name.ToLower().Contains(searchValue.ToLower()) || a.department_id.ToLower().Contains(searchValue.ToLower())).ToList();
             }
             if (model.columns[1].search.value != null)
             {
@@ -231,7 +231,7 @@ namespace QUANGHANH2.Controllers
         public JsonResult AddNewUser(string Name, string Username, string Position, string Password, string RepeatPassword, string NVID,
                 int module1, int module2, int module3, int module4, int module5, int module6, int module7,
                 int module8, int module9, int module10, int module11, int module12, int module13, int module14,
-                int module15, int module16, int module19, string rights)
+                int module15, int module16,int module17, int module19, string rights)
         {
             if (db.Accounts.Where(x => x.Username == Username).Count() > 0)
             {
@@ -368,6 +368,7 @@ namespace QUANGHANH2.Controllers
                         addModule(module14, acc.ID, 14);
                         addModule(module15, acc.ID, 15);
                         addModule(module16, acc.ID, 16);
+                        addModule(module17, acc.ID, 17);
                         addModule(module19, acc.ID, 19);
                         if (module7 == 1)
                         {
@@ -456,7 +457,7 @@ namespace QUANGHANH2.Controllers
         public JsonResult UpdateUser(int ID, string Name, string Username, string Position, string Password, string RepeatPassword, string NVID,
                 int module1, int module2, int module3, int module4, int module5, int module6, int module7,
                 int module8, int module9, int module10, int module11, int module12, int module13, int module14,
-                int module15, int module16, int module19, string rights)
+                int module15, int module16,int module17, int module19, string rights)
         {
             if (db.Accounts.Where(x => x.Username == Username).Where(y => y.ID != ID).Count() > 0)
             {
@@ -607,7 +608,7 @@ namespace QUANGHANH2.Controllers
                     user.PXTGQLM = Convert.ToBoolean(module14);
                     user.PXXD = Convert.ToBoolean(module15);
                     user.PXLT = Convert.ToBoolean(module16);
-                    user.AT = Convert.ToBoolean(module19);
+                    user.AT = Convert.ToBoolean(module17);
                     user.KCM = false;
                     db.Entry(user).State = EntityState.Modified;
                     db.SaveChanges();
@@ -833,5 +834,6 @@ namespace QUANGHANH2.Controllers
         public string Username { get; set; }
         public string Name { get; set; }
         public string department_name { get; set; }
+        public string department_id { get; set; }
     }
 }

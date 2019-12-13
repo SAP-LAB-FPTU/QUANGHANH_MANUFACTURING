@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="input-field col s5 m5 l5"></div>
                 <div class="input-field col l2 m2 s2">
-                    <input class="form-control center" autocomplete="off" placeholder="Số ngày sản xuất" id="totalDays" />
+                    <input type="number" class="form-control center" autocomplete="off" placeholder="Số ngày làm việc" id="totalDays" />
                 </div>
                 <div class="input-field col s5 m5 l5"></div>
             </div>
@@ -93,7 +93,7 @@
     var table;
     $("#view").click(function () {
         $("#pre-load").show();
-        if ($("#aspectDetailTable tbody tr").length < 1) {
+        if ($("#aspectDetailTable tbody tr").length == 0) {
             table = $("#aspectDetailTable").DataTable({
                 "ajax": {
                     "url": "/phong-dieu-khien/ke-hoach-san-xuat-thang/lay-thong-tin",
@@ -106,6 +106,7 @@
                         "MaPhongBan": function () { return $("#px").val() }
                     },
                     "dataSrc": function (json) {
+                        $("#totalDays").val(json.SoNgayLamViec);
                         return json["listKH"]
                     }
                 },
@@ -143,12 +144,15 @@
                         last: ">|"
                     }
                 },
-                "initComplete": function (settings, json) {
+                "initComplete": function (response) {
+                    //$("#totalDays").val(response.SoNgayLamViec);
                     $("#pre-load").hide();
                 },
-                "drawCallback": function (settings, json) {
+                "drawCallback": function (response) {
+                    //$("#totalDays").val(response.SoNgayLamViec);
                     $("#pre-load").hide();
-                },
+                }
+
             })
         } else {
             table.ajax.reload();

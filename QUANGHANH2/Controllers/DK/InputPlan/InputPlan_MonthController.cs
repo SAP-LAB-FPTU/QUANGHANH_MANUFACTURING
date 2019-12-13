@@ -37,7 +37,7 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
                     string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
                     string sortDirection = Request["order[0][dir]"];
 
-                    var sqlGetInfor = @"select pb_tc.MaPhongBan, ISNULL(kh_th.SoNgayLamViec, 0) as SoNgayLamViec, pb_tc.MaTieuChi, pb_tc.TenTieuChi, pb_tc.DonViDo, ISNULL(kh_th.SanLuong, 0) as SanLuong, kh_th.GhiChu from
+                    var sqlGetInfor = @"select pb_tc.MaPhongBan, (case when kh_th.SoNgayLamViec is null then 0 else kh_th.SoNgayLamViec end) as SoNgayLamViec, pb_tc.MaTieuChi, pb_tc.TenTieuChi, pb_tc.DonViDo, ISNULL(kh_th.SanLuong, 0) as SanLuong, kh_th.GhiChu from
                                         ((select a.MaTieuChi, b.TenTieuChi, b.DonViDo, a.MaPhongBan from PhongBan_TieuChi a left outer join TieuChi b on a.MaTieuChi = b.MaTieuChi
                                         where a.Thang = @month and a.Nam = @year and a.MaPhongBan = @departmentID) as pb_tc
                                         left outer join
@@ -57,8 +57,8 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
 
                     int totalrows = db.NhomCongViecs.Count();
                     int totalrowsafterfiltering = totalrows;
-                    var listKH = db.Database.SqlQuery<KeHoachSanXuatTheoThang>(sqlGetInfor, new SqlParameter("month", Thang), new SqlParameter("year", Nam), new SqlParameter("departmentID", MaPhongBan)).ToList();
-                    return Json(new { listKH = listKH, recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                    List<KeHoachSanXuatTheoThang> listKH = db.Database.SqlQuery<KeHoachSanXuatTheoThang>(sqlGetInfor, new SqlParameter("month", Thang), new SqlParameter("year", Nam), new SqlParameter("departmentID", MaPhongBan)).ToList();
+                    return Json(new { SoNgayLamViec = listKH.Count == 0 ? 0 : listKH[0].SoNgayLamViec, listKH = listKH, recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
                 }
             }
             catch (Exception e)
@@ -75,6 +75,7 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
             try
             {
                 var SoNgaySanXuat = Request["SoNgaySanXuat"];
+                SoNgaySanXuat = SoNgaySanXuat.Equals("") ? "0" : SoNgaySanXuat;
                 var Thang = Convert.ToInt32(Request["Thang"].Split()[1]);
                 var Nam = Convert.ToInt32(Request["Nam"].Split()[1]);
                 var MaPhongBan = Request["MaPhongBan"];
@@ -98,7 +99,18 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
                             listHeader.MaPhongBan = MaPhongBan;
                             listHeader.ThangKeHoach = Thang;
                             listHeader.NamKeHoach = Nam;
+                            listHeader.SoNgayLamViec = Convert.ToInt32(SoNgaySanXuat);
                             db.header_KeHoachTungThang.Add(listHeader);
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            //update header_KeHoachTungThang
+                            var update = db.header_KeHoachTungThang.Find(listHeader.HeaderID);
+                            update.MaPhongBan = MaPhongBan;
+                            update.ThangKeHoach = Thang;
+                            update.NamKeHoach = Nam;
+                            update.SoNgayLamViec = Convert.ToInt32(SoNgaySanXuat);
                             db.SaveChanges();
                         }
                         //insert to KeHoachTungThang
@@ -130,6 +142,7 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
     public class KeHoachSanXuatTheoThang
     {
         public int MaTieuChi { get; set; }
+        public int SoNgayLamViec { get; set; }
         public string TenTieuChi { get; set; }
         public string DonViDo { get; set; }
         public double SanLuong { get; set; }
