@@ -94,6 +94,62 @@
                 <hr />
             </div>
         </div>
+        <div class="modal fade" id="hdorkhd">
+            <div class="info-card card">
+                <div class="card-content">
+                    <div class="modal-header">
+                        <ul class="tabs" style="overflow-x:hidden;overflow-y:hidden">
+                            <li class="tab col s2"><a class="active" href="#hd">Thiết bị hoạt động</a></li>
+                            <li class="tab col s2"><a href="#khd">Thiết bị không hoạt động</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div id="hd">
+                            <table class="table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Tên thiết bị</th>
+                                        <th>Mã thiết bị</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        foreach (var item in ViewBag.hd)
+                                        {
+                                            <tr>
+                                                <td>@item.equipment_name</td>
+                                                <td>@item.equipmentId</td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="khd">
+                            <table class="table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Tên thiết bị</th>
+                                        <th>Mã thiết bị</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        foreach (var item in ViewBag.khd)
+                                        {
+                                            <tr>
+                                                <td>@item.equipment_name</td>
+                                                <td>@item.equipmentId</td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         @if (rights.Contains("10"))
         {
             <div id="cogioi">
@@ -101,27 +157,29 @@
                     <div class="row center-align">
                         <div class="col l4 m12 s12">
                             <div class="card mymanu card-hover total-gadget">
-                                <div class="card-content center-align table_container" style="overflow-x: auto !important">
-                                    <div class="row">
-                                        <div class="col s12">
-                                            <h4 class="card-subtitle center-align m-b-0 white-text">Tổng</h4>
-                                            <h2 class="font-light font-medium m-b-0 white-text" style="padding-top: 10px"> @ViewBag.tongcogioi </h2>
-                                        </div>
-                                        <div class="col s12">
-                                            <div class="progress">
-                                                <div class="determinate amber darken+5" style="width: 100%"></div>
+                                <a href="#hdorkhd" class="modal-trigger">
+                                    <div class="card-content center-align table_container" style="overflow-x: auto !important">
+                                        <div class="row">
+                                            <div class="col s12">
+                                                <h4 class="card-subtitle center-align m-b-0 white-text">Tổng</h4>
+                                                <h2 class="font-light font-medium m-b-0 white-text" style="padding-top: 10px"> @ViewBag.tongcogioi </h2>
+                                            </div>
+                                            <div class="col s12">
+                                                <div class="progress">
+                                                    <div class="determinate amber darken+5" style="width: 100%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col s6 center-align">
+                                                <h5 class="card-subtitle white-text">Đang hoạt động</h5>
+                                                <h5 class="white-text">@ViewBag.cogioihd</h5>
+                                            </div>
+                                            <div class="col s6 center-align">
+                                                <h6 class="card-subtitle white-text">Không hoạt động</h6>
+                                                <h5 class="white-text">@ViewBag.cogioikhd</h5>
                                             </div>
                                         </div>
-                                        <div class="col s6 center-align">
-                                            <h5 class="card-subtitle white-text">Đang hoạt động</h5>
-                                            <h5 class="white-text">@ViewBag.cogioihd</h5>
-                                        </div>
-                                        <div class="col s6 center-align">
-                                            <h6 class="card-subtitle white-text">Không hoạt động</h6>
-                                            <h5 class="white-text">@ViewBag.cogioikhd</h5>
-                                        </div>
                                     </div>
-                                </div>
+                                </a>
                             </div>
                         </div>
 
@@ -432,27 +490,29 @@
                 <div class="row center-align">
                     <div class="col l4 m12 s12">
                         <div class="card mymanu card-hover total-gadget">
-                            <div class="card-content center-align table_container" style="overflow-x: auto !important">
-                                <div class="row">
-                                    <div class="col s12">
-                                        <h3 class="card-subtitle center-align m-b-0 white-text">Tổng</h3>
-                                        <h2 class="font-light font-medium m-b-0 white-text" style="padding-top: 10px"> @ViewBag.Thongke.total </h2>
-                                    </div>
-                                    <div class="col s12">
-                                        <div class="progress">
-                                            <div class="determinate amber darken+5" style="width: 100%"></div>
+                            <a href="#hdorkhd" class="modal-trigger">
+                                <div class="card-content center-align table_container" style="overflow-x: auto !important">
+                                    <div class="row">
+                                        <div class="col s12">
+                                            <h3 class="card-subtitle center-align m-b-0 white-text">Tổng</h3>
+                                            <h2 class="font-light font-medium m-b-0 white-text" style="padding-top: 10px"> @ViewBag.Thongke.total </h2>
+                                        </div>
+                                        <div class="col s12">
+                                            <div class="progress">
+                                                <div class="determinate amber darken+5" style="width: 100%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col s6 center-align">
+                                            <h5 class="card-subtitle white-text">Đang hoạt động</h5>
+                                            <h5 class="white-text">@ViewBag.Thongke.total_HD</h5>
+                                        </div>
+                                        <div class="col s6 center-align">
+                                            <h6 class="card-subtitle white-text">Không hoạt động</h6>
+                                            <h5 class="white-text">@ViewBag.Thongke.total_KHD</h5>
                                         </div>
                                     </div>
-                                    <div class="col s6 center-align">
-                                        <h5 class="card-subtitle white-text">Đang hoạt động</h5>
-                                        <h5 class="white-text">@ViewBag.Thongke.total_HD</h5>
-                                    </div>
-                                    <div class="col s6 center-align">
-                                        <h6 class="card-subtitle white-text">Không hoạt động</h6>
-                                        <h5 class="white-text">@ViewBag.Thongke.total_KHD</h5>
-                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                     </div>
 
