@@ -31,7 +31,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             List<Department> listDepartment = db.Departments.ToList<Department>();
             List<FuelDB> listEQ = db.Database.SqlQuery<FuelDB>("select e.equipmentId, e.equipment_name from Equipment e where e.department_id = @departID", new SqlParameter("departID", departID)).ToList();
 
-            ViewBag.
+          
             ViewBag.listDepartment = listDepartment;
             ViewBag.listSupply = listSupply;
             ViewBag.listEQ = listEQ;
@@ -109,10 +109,10 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                     //Loop and insert records.
                     foreach (Maintain_DetailDB item in maintain)
                     {
-                        string sub_insert = $"insert into Equipment_SCTX_Detail(maintain_id, supplyid, quantity, supplyStatus) " +
-                              $"VALUES((select top 1 maintain_id from Equipment_SCTX order by maintain_id desc), '{item.supplyid}', {item.quantity}, {item.supplyStatus});" +
+                        string sub_insert = $"insert into Equipment_SCTX_Detail(maintain_id, supplyid, used, thuhoi) " +
+                              $"VALUES((select top 1 maintain_id from Equipment_SCTX order by maintain_id desc), '{item.supplyid}', {item.used}, {item.thuhoi});" +
                               " update Supply_DuPhong " +
-                              $"set quantity = (select quantity from Supply_DuPhong where supply_id = '{item.supplyid}' and equipmentId='{equipmentId}')" + (item.supplyStatus == 1 ? "-" : "+") + $"{item.quantity} " +
+                              $"set quantity = (select quantity from Supply_DuPhong where supply_id = '{item.supplyid}' and equipmentId='{equipmentId}') - {item.used} " +
                               $" where supply_id = '{item.supplyid}' and equipmentId='{equipmentId}'";
                         bulk_insert = string.Concat(bulk_insert, sub_insert);
                     }
@@ -148,7 +148,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
 
             {
-                List<Maintain_DetailDB> m = db.Database.SqlQuery<Maintain_DetailDB>("select m.supplyid,s.supply_name,s.unit,equipmentid ,m.quantity, m.supplyStatus,m.maintain_detail_id" +
+                List<Maintain_DetailDB> m = db.Database.SqlQuery<Maintain_DetailDB>("select m.supplyid,s.supply_name,s.unit,equipmentid ,m.thuhoi, m.used,m.maintain_detail_id" +
                      " from Equipment_SCTX_Detail m inner join Equipment_SCTX ma on m.maintain_id = ma.maintain_id inner " +
                   " join Supply s on m.supplyid = s.supply_id " +
                  "where m.maintain_id  = @maintainId ", new SqlParameter("maintainId", maintainId)).ToList();
@@ -342,15 +342,15 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                         string sub_insert = $"if exists (select * from Equipment_SCTX_Detail  where maintain_detail_id={item.maintain_detail_id} ) " +
                       "begin " +
                      "update Equipment_SCTX_Detail set " +
-                     $"supplyid = '{item.supplyid}',quantity = {item.quantity},supplyStatus = {item.supplyStatus} " +
+                     $"supplyid = '{item.supplyid}',used = {item.used},thuhoi = {item.thuhoi} " +
                     $" where maintain_detail_id = {item.maintain_detail_id}" +
                      " end " +
                      "else " +
                       "begin " +
-                     $" insert into Equipment_SCTX_Detail(maintain_id, supplyid, quantity, supplyStatus) VALUES({item.maintain_id}, '{item.supplyid}', {item.quantity}, {item.supplyStatus}) " +
+                     $" insert into Equipment_SCTX_Detail(maintain_id, supplyid, used, thuhoi) VALUES({item.maintain_id}, '{item.supplyid}', {item.used}, {item.thuhoi}) " +
                   "end;  " +
                     " update Supply_DuPhong " +
-                            $"set quantity = (select quantity from Supply_DuPhong where supply_id = '{item.supplyid}' and equipmentId='{equipmentID}')-{item.quantity} " +
+                            $"set quantity = (select quantity from Supply_DuPhong where supply_id = '{item.supplyid}' and equipmentId='{equipmentID}')-{item.used} " +
                             $" where supply_id = '{item.supplyid}' and equipmentId='{equipmentID}'";
                         bulk_insert = string.Concat(bulk_insert, sub_insert);
 
