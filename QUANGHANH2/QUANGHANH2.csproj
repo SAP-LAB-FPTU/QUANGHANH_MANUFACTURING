@@ -7433,17 +7433,17 @@
     <Content Include="Views\Phanxuong\ChonBaoCao\ChonBaoCao.cshtml" />
     <Content Include="Views\Shared\_Layout_NhapBaoCaoLenDK.cshtml" />
     <Content Include="Views\Phanxuong\NhapBaoCao\BaoCaoLenDK.cshtml" />
-    <Content Include="Views\DK\PhanXuongReport.cshtml" />
-    <Content Include="Views\DK\SanLuongReport.cshtml" />
+    <Content Include="Views\DK\QuantityReport\PhanXuongReport.cshtml" />
+    <Content Include="Views\DK\QuantityReport\SanLuongReport.cshtml" />
     <Content Include="Views\DK\SucoThietbi.cshtml" />
     <Content Include="Views\DK\InputPlan\InputPlan_Month_ByMrs_Duy.cshtml" />
-    <Content Include="Views\DK\MonthlyQuarterlyReport.cshtml" />
+    <Content Include="Views\DK\QuantityReport\MonthlyQuarterlyReport.cshtml" />
     <Content Include="Views\CDVT\History\LichsuOtoTieuthu.cshtml" />
     <Content Include="Views\CDVT\History\LichsuTieuthu.cshtml" />
-    <Content Include="Views\DK\DepartmentDaily.cshtml" />
+    <Content Include="Views\DK\QuantityReport\DepartmentDaily.cshtml" />
     <Content Include="Views\PX\PXKT\DangKiNhiemVu.cshtml" />
     <Content Include="Views\CDVT\Car\GPS.cshtml" />
-    <Content Include="Views\DK\SanLuongView.cshtml" />
+    <Content Include="Views\DK\QuantityReport\SanLuongView.cshtml" />
     <Content Include="Views\CDVT\Thietbi\SCTX.cshtml" />
     <Content Include="Views\Shared\_Layout_AT.cshtml" />
     <Content Include="Views\AT\ViewAccident.cshtml" />
@@ -7451,7 +7451,7 @@
     <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_cai_tien.cshtml" />
     <Content Include="Views\CDVT\Work\CaiTien\ChonThietBi.cshtml" />
     <Content Include="Views\CDVT\Work\CaiTien\ThemCaiTien.cshtml" />
-    <Content Include="Views\DK\Department_Criteria.cshtml" />
+    <Content Include="Views\DK\Department_Criteria\Department_Criteria.cshtml" />
     <Content Include="Views\Shared\_Layout_KCM.cshtml" />
     <Content Include="Views\Shared\_Layout_Cam.cshtml" />
     <Content Include="Views\Camera\View.cshtml" />
@@ -7482,24 +7482,16 @@
     <Content Include="Views\CDVT\Quyet_dinh\Chi_tiet_cai_tien.cshtml" />
     <Content Include="Views\DK\BaoCaoDemo.cshtml" />
     <Content Include="Views\DK\InputPlan\InputPlan_Month.cshtml" />
-    <Content Include="Views\DK\KHSXNam.cshtml" />
+    <Content Include="Views\DK\InputPlan\InputPlan_Year.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Controllers\DK\Criteria\" />
     <Folder Include="excel\Notifi\download\" />
     <Folder Include="FileContainer\KCS\" />
     <Folder Include="FileContainer\PhanXuongLenDK\" />
     <Folder Include="Library\" />
-    <Folder Include="Views\BaoCaoDemo\" />
-    <Folder Include="Views\CapNhatQuyetDinh\" />
-    <Folder Include="Views\ChiTiet\" />
-    <Folder Include="Views\ExportWord\" />
-    <Folder Include="Views\InputPlan_Month\" />
-    <Folder Include="Views\KHSXNam\" />
-    <Folder Include="Views\TransferHistory\" />
-    <Folder Include="Views\ViewAccident\" />
-    <Folder Include="Views\WorkHistory\" />
-    <Folder Include="Views\XuLyQD\" />
+    <Folder Include="Views\DK\Criteria\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
